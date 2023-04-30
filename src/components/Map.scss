@@ -1,0 +1,229 @@
+@keyframes active-path-1 {
+  from {
+  }
+
+  to {
+    fill: #ea4335;
+    stroke: #c6211d;
+  }
+}
+
+@keyframes active-path-2 {
+  from {
+  }
+
+  to {
+    fill: #b21511;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+  }
+
+  to {
+    transform: scale3d(1.3333, 1.3333, 1.3333);
+  }
+}
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -30px, 0) scaleY(1.1);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -15px, 0) scaleY(1.05);
+  }
+
+  80% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(0, 0, 0) scaleY(0.95);
+  }
+
+  90% {
+    transform: translate3d(0, -4px, 0) scaleY(1.02);
+  }
+}
+
+:root {
+  --ctrl-group-margin-mobile: 16px;
+}
+
+.component-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.search-bar {
+  --background: #fff;
+  --border-radius: 50vh;
+
+  position: absolute;
+  top: 1rem;
+  z-index: 1;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+
+  .searchbar-input {
+    box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+  }
+}
+
+.mapboxgl-map {
+  font-size: 13px;
+}
+
+.mapboxgl-ctrl-group {
+  background-color: transparent;
+
+  &:not(:empty) {
+    box-shadow: none;
+  }
+
+  .plt-mobile .mapboxgl-ctrl-bottom-right & {
+    margin: 0 var(--ctrl-group-margin-mobile) var(--ctrl-group-margin-mobile) 0;
+  }
+
+  button {
+    background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+    &.mapboxgl-ctrl-geolocate {
+      border-radius: 50vh;
+      width: 50px;
+      height: 50px;
+
+      .mapboxgl-ctrl-icon {
+        background-color: var(--ion-color-primary);
+        mask-image: url('../../assets/crosshair-minimized.svg');
+        mask-repeat: no-repeat;
+        mask-position: 50%;
+        mask-size: 60%;
+        background-image: none;
+      }
+
+      &:disabled {
+        display: none;
+
+        .mapboxgl-ctrl-icon {
+          mask-image: url('../../assets/crosshair-off-minimized.svg');
+        }
+      }
+    }
+
+    .plt-mobile & {
+    }
+  }
+}
+
+.mapboxgl-ctrl:has(.mapboxgl-ctrl-logo) {
+  display: none !important;
+}
+
+.marker {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &-label {
+    color: rgb(240, 240, 240);
+    // -webkit-text-stroke: 0.5px #f00;
+    text-shadow: rgb(45, 45, 45) 1px 0px 0px, rgb(45, 45, 45) 0.540302px 0.841471px 0px, rgb(45, 45, 45) -0.416147px 0.909297px 0px, rgb(45, 45, 45) -0.989992px 0.14112px 0px, rgb(45, 45, 45) -0.653644px -0.756802px 0px, rgb(45, 45, 45) 0.283662px -0.958924px 0px, rgb(45, 45, 45) 0.96017px -0.279416px 0px;
+    letter-spacing: 0.3px;
+    letter-spacing: 0.05em;
+    font-family: 'Open Sans', 'Arial Unicode MS Regular';
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(97, 156, 242);
+    }
+  }
+
+  .marker-icon {
+    cursor: pointer;
+    transition: 5s;
+
+    &:hover + .marker-label {
+      color: rgb(97, 156, 242);
+    }
+  }
+}
+
+.mapboxgl-marker.active {
+  z-index: 1;
+
+  .marker-icon {
+    --oc-animation-duration: 0.68s;
+    // transform: scale(1.5);
+    transform-origin: center bottom;
+    animation: var(--oc-animation-duration) bounceIn, var(--oc-animation-duration) bounce, calc(var(--oc-animation-duration) * 0.25) calc(var(--oc-animation-duration) * 0.75) forwards zoomIn;
+
+    > path:first-child {
+      // fill: #ea4335;
+      // stroke: #c6211d;
+      animation: 0.125s forwards active-path-1;
+    }
+
+    > path:nth-child(2) {
+      // fill: #b21511;
+      animation: 0.125s forwards active-path-2;
+    }
+  }
+
+  .marker-label {
+    color: rgb(97, 156, 242);
+  }
+}

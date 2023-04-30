@@ -1,0 +1,43 @@
+.oc-search-bar {
+  --oc-border-radius: 50vh;
+
+  background-color: #fff;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 1rem;
+  z-index: 1;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+  padding-right: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+  border-radius: var(--oc-border-radius);
+  max-width: 400px;
+
+  .sc-ion-searchbar-md-h {
+    --box-shadow: none;
+    border-radius: var(--oc-border-radius);
+  }
+
+  &--input {
+    --background: transparent;
+
+    padding: 0;
+  }
+
+  ion-menu-button {
+    --color: #666666;
+  }
+}
+
+.searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
+  padding-inline-start: 54px;
+}
+
+.searchbar-search-icon.sc-ion-searchbar-ios {
+  left: 16px;
+}
+
+.searchbar-input.sc-ion-searchbar-md {
+  font-size: var(--font-size);
+}

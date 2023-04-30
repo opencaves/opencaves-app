@@ -1,0 +1,21 @@
+:root {
+  --font-size: 15px;
+
+  font-size: var(--font-size);
+}
+
+// Checkbox
+ion-checkbox {
+  --checkbox-background: transparent;
+  --checkbox-background-checked: transparent;
+  --border-width: 0;
+}
+
+ion-button {
+  text-transform: none;
+
+  .MuiSvgIcon-root {
+    margin-inline: -0.3em 0.3em;
+    font-size: 1.4em;
+  }
+}

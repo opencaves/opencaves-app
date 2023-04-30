@@ -1,0 +1,41 @@
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
+import localforage from 'localforage'
+import storageSession from 'redux-persist/lib/storage/session'
+import { persistReducer, persistStore } from 'redux-persist'
+import thunk from 'redux-thunk'
+import navigationSlice from './slices/navigationSlice'
+import dataReducer from './slices/dataSlice'
+import userReducer from "./slices/userSlice"
+import searchReducer from './slices/searchSlice'
+import mapReducer from './slices/mapSlice'
+
+const rootPersistConfig = {
+  key: 'root',
+  storage: localforage.createInstance({
+    name: 'OpenCaves'
+  }),
+  blacklist: ['navigation']
+}
+
+const sessionPersistConfig = {
+  key: 'session',
+  storage: storageSession,
+}
+
+const rootReducer = combineReducers({
+  session: persistReducer(sessionPersistConfig, userReducer),
+  navigation: navigationSlice,
+  search: searchReducer,
+  map: mapReducer,
+  data: dataReducer
+})
+
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== 'production',
+  middleware: [thunk]
+})
+
+export const persistor = persistStore(store)

@@ -1,0 +1,15 @@
+.oc-result-pane-sm {
+  --padding-start: 0;
+  --padding-end: 0;
+
+  z-index: 100 !important;
+
+  .oc-result-pane--card {
+    box-shadow: none;
+    margin: 0;
+  }
+
+  .oc-result-pane--header {
+    padding-inline: var(--oc-padding-inline);
+  }
+}
