@@ -1,8 +1,10 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { Fragment, useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import { CssVarsProvider, extendTheme } from "@mui/material-next/styles"
 import { getData } from './services/data-service.js'
 import Nav from './components/Nav'
-import { CssVarsProvider, extendTheme } from "@mui/material-next/styles"
 
 import '@fontsource/open-sans/600.css'
 
@@ -26,37 +28,35 @@ import '@ionic/react/css/display.css'
 import './theme/variables.scss'
 
 import './App.scss'
-import { Fragment } from 'react'
-import { useSelector } from 'react-redux'
 
 setupIonicReact()
 
 getData()
-
-const theme = extendTheme({
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: '#1b4859',
-        },
-      },
-    },
-    dark: {
-      palette: {
-        primary: {
-          main: '#1b4859',
-        },
-      },
-    },
-  },
-})
 
 // console.log('theme: %o', theme)
 
 const App = () => {
 
   const title = useSelector(state => state.navigation.title)
+
+  const theme = extendTheme({
+    colorSchemes: {
+      light: {
+        palette: {
+          primary: {
+            main: '#1b4859',
+          },
+        },
+      },
+      dark: {
+        palette: {
+          primary: {
+            main: '#1b4859',
+          },
+        },
+      },
+    },
+  })
 
   return (
     <Fragment>

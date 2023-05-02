@@ -245,26 +245,13 @@ function arrMapUrls(str) {
 }
 
 function html(str) {
-  var links = str.match(/\[[^\]]+\]/g)
-  if (links) {
-    linksInTxt.push(...links)
-  }
-  str = replaceIdsInHtmlForLink(str)
+  // var links = str.match(/\[[^\]]+\]/g)
+  // if (links) {
+  //   linksInTxt.push(...links)
+  // }
+  // str = replaceIdsInHtmlForLink(str)
 
   return str
-  // if (isEmpty(str)) {
-  //     return;
-  // }
-  // //console.log(str)
-  // str = str.trim().replace(/(\[)([^\]]+)(\])/g, (match, p1, p2) => {
-  //     p2 = p2.split('|');
-  //     if (p2.length === 2) {
-  //         const id = getIdRef(p2[1]) || '';
-  //         return `<a href="oc:${id}">${p2[0]}</a>`;
-  //     }
-  //     return p2;
-  // });
-  // return '<p>' + str.replace(/\n/g, '</p><p>') + '</p>';
 }
 
 function bol(str) {

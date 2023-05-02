@@ -1,12 +1,11 @@
 {
-  "name": "opencaves-app-pwa",
+  "name": "opencaves-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "craco  start",
     "serve": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "craco  build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -79,6 +78,12 @@
     "workbox-streams": "^6.5.4"
   },
   "devDependencies": {
-    "serve": "^14.2.0"
+    "@craco/craco": "^7.1.0",
+    "dotenv-webpack": "^8.0.1",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-markdown": "^8.0.7",
+    "remark-gfm": "^3.0.1",
+    "serve": "^14.2.0",
+    "swr": "^2.1.5"
   }
 }

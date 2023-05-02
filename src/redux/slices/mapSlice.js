@@ -12,10 +12,11 @@ const initialState = {
       zoom: 10
     }
   },
-  currentMarker: null,
   viewState: {},
   showPopup: false,
   popupData: {},
+  currentCaveId: null,
+  currentCave: null,
   data: [],
   dataStats: {},
   filteredData: [],
@@ -30,9 +31,6 @@ export const mapSlice = createSlice({
     // doesn't actually mutate the state because it uses the Immer library,
     // which detects changes to a "draft state" and produces a brand new
     // immutable state based off those changes
-    setCurrentMarker: (state, action) => {
-      state.currentMarker = action.payload
-    },
     setViewState: (state, action) => {
       state.viewState = action.payload
     },
@@ -41,6 +39,12 @@ export const mapSlice = createSlice({
     },
     setPopupData: (state, action) => {
       state.popupData = action.payload
+    },
+    setCurrentCaveId: (state, action) => {
+      state.currentCaveId = action.payload
+    },
+    setCurrentCave: (state, action) => {
+      state.currentCave = action.payload
     },
     setData: (state, action) => {
       state.data = action.payload
@@ -91,6 +95,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, setShowPopup, setPopupData, setData, setFilteredData, setCurrentMarker } = mapSlice.actions
+export const { setViewState, setShowPopup, setPopupData, setCurrentCaveId, setCurrentCave, setData, setFilteredData } = mapSlice.actions
 
 export default mapSlice.reducer

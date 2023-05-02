@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react'
+import { IonButton, IonCol, IonGrid, IonRow } from '@ionic/react'
 import { useMediaQuery } from 'react-responsive'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'

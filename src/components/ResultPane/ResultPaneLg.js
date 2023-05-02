@@ -5,7 +5,7 @@ import QuickActions from './QuickActions.js'
 import Rating from '../Rating/Rating'
 import './ResultPaneLg.scss'
 
-export default function ResultPaneLg({ cave }) {
+export default function ResultPaneLg({ cave, children }) {
   const modal = useRef(null)
   const [count, setCount] = useState(0)
   const { t } = useTranslation()
@@ -13,7 +13,8 @@ export default function ResultPaneLg({ cave }) {
   return (
     <IonCard className='oc-result-pane oc-result-pane-lg'>
       <img alt="" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      <IonCardHeader className='oc-result-pane--header'>
+      {children}
+      {/* <IonCardHeader className='oc-result-pane--header'>
         <IonCardTitle>{cave.name}</IonCardTitle>
         {
           cave.aka && cave.aka.length && <IonCardSubtitle>{cave.aka.join(', ')}</IonCardSubtitle>
@@ -24,7 +25,8 @@ export default function ResultPaneLg({ cave }) {
 
       <IonCardContent className='oc-result-pane--content'>
         <QuickActions cave={cave}></QuickActions>
-      </IonCardContent>
+        {children}
+      </IonCardContent> */}
     </IonCard>
   )
 }

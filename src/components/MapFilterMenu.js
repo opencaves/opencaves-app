@@ -83,8 +83,6 @@ export default function MapFilterMenu() {
   const accessibilities = t('filter.accessibility.items', { returnObjects: true })
   const accesses = t('filter.access.items', { returnObjects: true })
 
-  console.log('ici: ', t('title'))
-
   return (
     <>
       <IonMenu contentId="main-content" side="end" className='map-filter-menu'>

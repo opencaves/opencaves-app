@@ -1,9 +1,14 @@
 import Tooltip from "@mui/material/Tooltip"
 import { styled } from "@mui/material/styles"
+import { forwardRef, useRef } from 'react'
 
-const OCTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} componentsProps={{ tooltip: { className: className } }} />
-))(`
+const OCTooltip = styled(forwardRef(({ className, ...props }) => {
+  const ref = useRef()
+
+  return (
+    <Tooltip {...props} ref={ref} componentsProps={{ tooltip: { className: className } }} />
+  )
+}))(`
     background-color: #000;
     color: #fff;
     padding-start: 8px;

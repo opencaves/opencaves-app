@@ -38,7 +38,7 @@ export default function Nav() {
             <IonLabel>{t('nav.home')}</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab="home" href="/">
+          <IonTabButton tab="map" href="/map">
             <IonIcon icon={map} aria-hidden="true" />
             <IonLabel>{t('nav.map')}</IonLabel>
           </IonTabButton>
@@ -57,8 +57,10 @@ export default function Nav() {
 
         <IonRouterOutlet>
           {/* <Route path="/" component={HomePage} /> */}
-          <Route path='/' render={() => <Redirect to='/map' />} />
+          <Route path='/' exact render={() => <Redirect to='/map' />} />
           <Route path="/map" component={MapPage} />
+          {/* <Route path='/map/:id' component={MapPage} /> */}
+          <Route path='/map/:id' render={props => <MapPage {...props} />} />
           <Route path="/settings" component={SettingsPage} />
           <Route path="/signin" render={props => {
             return isLoggedIn ? <Redirect to='/' /> : <SignInPage />

@@ -102,7 +102,9 @@
       }
     },
     "resultPane": {
-      "cenote": "Cenote"
+      "cenote": "Cenote",
+      "copyAddress": "Copy address",
+      "copyCoordinates": "Copy coordinates"
     }
   }
 }
