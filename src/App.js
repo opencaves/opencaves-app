@@ -1,9 +1,10 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { Fragment, useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { Fragment } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { CssVarsProvider, extendTheme } from "@mui/material-next/styles"
 import { getData } from './services/data-service.js'
+import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 
 import '@fontsource/open-sans/600.css'
@@ -31,8 +32,6 @@ import './App.scss'
 
 setupIonicReact()
 
-getData()
-
 // console.log('theme: %o', theme)
 
 const App = () => {
@@ -58,6 +57,16 @@ const App = () => {
     },
   })
 
+  const dispatch = useDispatch()
+
+  getData()
+    .then(() => {
+      dispatch(setDataLoadingState({ state: 'loaded' }))
+    })
+    .catch(error => {
+      dispatch(setDataLoadingState({ state: 'error', error }))
+    })
+
   return (
     <Fragment>
       <CssVarsProvider theme={theme} />
@@ -65,7 +74,7 @@ const App = () => {
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <IonApp>
+        <IonApp className='t'>
           <Nav></Nav>
         </IonApp>
       </HelmetProvider>

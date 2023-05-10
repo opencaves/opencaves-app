@@ -1,32 +1,13 @@
-import React, { useRef, useState } from 'react'
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react'
-import { useTranslation } from 'react-i18next'
-import QuickActions from './QuickActions.js'
-import Rating from '../Rating/Rating'
+import React from 'react'
+import { IonCard } from '@ionic/react'
 import './ResultPaneLg.scss'
 
-export default function ResultPaneLg({ cave, children }) {
-  const modal = useRef(null)
-  const [count, setCount] = useState(0)
-  const { t } = useTranslation()
+export default function ResultPaneLg({ children }) {
 
   return (
     <IonCard className='oc-result-pane oc-result-pane-lg'>
       <img alt="" src="https://ionicframework.com/docs/img/demos/card-media.png" />
       {children}
-      {/* <IonCardHeader className='oc-result-pane--header'>
-        <IonCardTitle>{cave.name}</IonCardTitle>
-        {
-          cave.aka && cave.aka.length && <IonCardSubtitle>{cave.aka.join(', ')}</IonCardSubtitle>
-        }
-        <Rating value={cave.rating}></Rating>
-        <p>{cave.color}</p>
-      </IonCardHeader>
-
-      <IonCardContent className='oc-result-pane--content'>
-        <QuickActions cave={cave}></QuickActions>
-        {children}
-      </IonCardContent> */}
     </IonCard>
   )
 }

@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import localforage from 'localforage'
 import storageSession from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from 'redux-persist'
@@ -9,11 +9,13 @@ import userReducer from "./slices/userSlice"
 import searchReducer from './slices/searchSlice'
 import mapReducer from './slices/mapSlice'
 
+const persistStorage = localforage.createInstance({
+  name: 'OpenCaves'
+})
+
 const rootPersistConfig = {
   key: 'root',
-  storage: localforage.createInstance({
-    name: 'OpenCaves'
-  }),
+  storage: persistStorage,
   blacklist: ['navigation']
 }
 
@@ -22,11 +24,17 @@ const sessionPersistConfig = {
   storage: storageSession,
 }
 
+const mapPersistConfig = {
+  key: 'map',
+  storage: persistStorage,
+  blacklist: ['currentMarker']
+}
+
 const rootReducer = combineReducers({
   session: persistReducer(sessionPersistConfig, userReducer),
   navigation: navigationSlice,
   search: searchReducer,
-  map: mapReducer,
+  map: persistReducer(mapPersistConfig, mapReducer),
   data: dataReducer
 })
 

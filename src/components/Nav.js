@@ -1,6 +1,5 @@
 import React from 'react'
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react'
-import { home, settings, map, logInOutline } from 'ionicons/icons'
+import { IonRouterOutlet } from '@ionic/react'
 import { Route, Redirect } from 'react-router-dom'
 import { IonReactRouter } from '@ionic/react-router'
 import { useSelector } from 'react-redux'
@@ -21,17 +20,8 @@ export default function Nav() {
 
   return (
     <IonReactRouter>
-      <IonTabs>
+      {/* <IonTabs>
         <IonTabBar slot="bottom">
-          {/* <IonTabButton tab="home" href="/">
-          <IonIcon icon={home} />
-          <IonLabel>home</IonLabel>
-        </IonTabButton> */}
-
-          {/* <IonTabButton tab="leaflet" href="/leaflet">
-          <IonIcon icon={map} />
-          <IonLabel>Leaflet</IonLabel>
-        </IonTabButton> */}
 
           <IonTabButton tab="home" href="/">
             <IonIcon icon={home} aria-hidden="true" />
@@ -54,20 +44,21 @@ export default function Nav() {
           </IonTabButton>
 
         </IonTabBar>
+      </IonTabs> */}
 
-        <IonRouterOutlet>
-          {/* <Route path="/" component={HomePage} /> */}
-          <Route path='/' exact render={() => <Redirect to='/map' />} />
-          <Route path="/map" component={MapPage} />
-          {/* <Route path='/map/:id' component={MapPage} /> */}
-          <Route path='/map/:id' render={props => <MapPage {...props} />} />
-          <Route path="/settings" component={SettingsPage} />
-          <Route path="/signin" render={props => {
-            return isLoggedIn ? <Redirect to='/' /> : <SignInPage />
-          }
-          } />
-        </IonRouterOutlet>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route path='/' exact render={() => <Redirect to='/map' />} />
+        {/* <Route path="/" exact={true} component={MapPage} /> */}
+        <Route path="/settings" component={SettingsPage} />
+        <Route path="/signin" render={props => {
+          return isLoggedIn ? <Redirect to='/' /> : <SignInPage />
+          // {/* <Route path='/:id' render={props => <MapPage {...props} />} /> */}
+        }
+        } />
+        <Route path="/map" component={MapPage} />
+        <Route path='/map/:id' render={props => <MapPage {...props} />} />
+
+      </IonRouterOutlet>
     </IonReactRouter>
   )
 }

@@ -10,7 +10,10 @@ function generateId() {
 //     return uuid();
 // }
 
-const colorIdxMapping = {}
+const sistemasMap = new Map()
+const sistemasColorMap = new Map()
+
+const colorIdxMapping = new Map()
 
 const defaultColorId = generateId()
 
@@ -23,8 +26,10 @@ function setColorIdx() {
   Object.keys(newColorsMap).forEach((color) => {
     color = color.toLowerCase()
     const id = (color === '#ff0000') ? defaultColorId : generateId()
-    colorIdxMapping[color] = id
+    colorIdxMapping.set(color, id)
   })
+
+  console.log('[setColorIdx] mapping: %o', Object.fromEntries(colorIdxMapping))
 }
 
 /*
@@ -86,6 +91,52 @@ var linksInTxt = []
 
 const notes = []
 
+function initSistemaMap(sistemas) {
+  sistemas.forEach(sistema => {
+    sistemasMap.set(sistema['Sistema ID'], { id: sistema['New name ID'], date: sistema['Date'] })
+    sistemasColorMap.set(sistema['SistemaID'], sistema['Sistemacolor'])
+  })
+}
+
+function initIds(data) {
+
+  data.caves.forEach(c => setId(c.id))
+
+  data.sistemas.forEach(c => setId(c.id))
+
+  data['old-sistemas'].forEach(c => setId(c.id))
+
+  data.access.forEach(c => setId(c.id))
+
+  data.accessibility.forEach(c => setId(c.id))
+
+  // data.accessibility.forEach(c => {
+  //   if (accessMap.has(c.Accessibility)) {
+  //     setId(c.id)
+  //   }
+  //   if (accessibilityMap.has(c.Accessibility)) {
+  //     setId(c.id)
+  //   }
+  // })
+
+  data.sources.forEach(c => setId(c.id))
+
+  data.areas.forEach(c => {
+    //console.log(`[initIds#areas] ${JSON.stringify(c.Area)}`);
+    setId(c.Area)
+  })
+
+  idsRegEx = new RegExp(Object.keys(_objectIdMap).join('|'), 'g')
+
+  //console.log(_objectIdMap)
+}
+
+function initLabels(data) {
+  data.sistemas.forEach(s => {
+    sistemaNamesFromId.set(getIdRef(s.id), s.Sistema)
+  })
+}
+
 function setNote(data) {
   const note = {
     id: generateId(),
@@ -97,7 +148,7 @@ function setNote(data) {
 
 const _objectIdMap = {}
 
-const namesFromId = new Map()
+const sistemaNamesFromId = new Map()
 
 let idsRegEx
 
@@ -164,45 +215,6 @@ function getIdRef(oldId) {
 
   //return newId.$oid;
   return newId
-}
-
-function initIds(data) {
-
-  data.caves.forEach(c => setId(c.id))
-
-  data.sistemas.forEach(c => setId(c.id))
-
-  data['old-sistemas'].forEach(c => setId(c.id))
-
-  data.access.forEach(c => setId(c.id))
-
-  data.accessibility.forEach(c => setId(c.id))
-
-  // data.accessibility.forEach(c => {
-  //   if (accessMap.has(c.Accessibility)) {
-  //     setId(c.id)
-  //   }
-  //   if (accessibilityMap.has(c.Accessibility)) {
-  //     setId(c.id)
-  //   }
-  // })
-
-  data.sources.forEach(c => setId(c.id))
-
-  data.areas.forEach(c => {
-    //console.log(`[initIds#areas] ${JSON.stringify(c.Area)}`);
-    setId(c.Area)
-  })
-
-  idsRegEx = new RegExp(Object.keys(_objectIdMap).join('|'), 'g')
-
-  //console.log(_objectIdMap)
-}
-
-function initLabels(data) {
-  data.sistemas.forEach(s => {
-    namesFromId.set(getIdRef(s.id), s.Sistema)
-  })
 }
 
 // function replaceIdsInString(string) {
@@ -302,24 +314,50 @@ function loc(obj, lngProp, latProp, validProp = null) {
   return location
 }
 
-function caveSis(c) {
-  const sis = {}
-  if (c['Sistema ID'] && c['Sistema ID'] !== '#N/A' && c['Sistema ID'] !== 'Loading...' && c['Sistema ID'] !== '#ERROR!') {
-    const newId = getIdRef(c['Sistema ID'])
-    sis.sistemaId = newId
-    if (namesFromId.has(newId)) {
-      sis.sistemaName = namesFromId.get(newId)
-    }
-  }
-  if (c['Original Sistema ID'] && c['Original Sistema ID'] !== '#N/A' && c['Original Sistema ID'] !== 'Loading...' && c['Original Sistema ID'] !== '#ERROR!') {
-    const newId = getIdRef(c['Original Sistema ID'])
-    sis.originalSistemaId = newId
-    if (namesFromId.has(newId)) {
-      sis.originalSistemaName = namesFromId.get(newId)
+// function getCaveSistemas_OLD(c) {
+//   const sis = {}
+
+//   if (c['Sistema ID'] && c['Sistema ID'] !== '#N/A' && c['Sistema ID'] !== 'Loading...' && c['Sistema ID'] !== '#ERROR!') {
+//     const newId = getIdRef(c['Sistema ID'])
+//     sis.sistemaId = newId
+//     if (sistemaNamesFromId.has(newId)) {
+//       sis.sistemaName = sistemaNamesFromId.get(newId)
+//     }
+//   }
+
+//   if (c['Original Sistema ID'] && c['Original Sistema ID'] !== '#N/A' && c['Original Sistema ID'] !== 'Loading...' && c['Original Sistema ID'] !== '#ERROR!') {
+//     const newId = getIdRef(c['Original Sistema ID'])
+//     sis.originalSistemaId = newId
+//     if (sistemaNamesFromId.has(newId)) {
+//       sis.originalSistemaName = sistemaNamesFromId.get(newId)
+//     }
+//   }
+
+//   return sis
+// }
+
+function getCaveSistemas(cave) {
+
+  function getSistemaAncestry(sistemas) {
+    const currentSistemaId = sistemas.at(-1).id
+
+    if (sistemasMap.has(currentSistemaId)) {
+      const parentSistema = sistemasMap.get(currentSistemaId)
+      sistemas.push({ name: sistemaNamesFromId.get(parentSistema.id) || 'n. d.', id: parentSistema.id, date: parentSistema.date })
+      getSistemaAncestry(sistemas)
     }
   }
 
-  return sis
+  const sistemas = []
+
+  if (cave['Original Sistema ID'] && cave['Original Sistema ID'] !== '#N/A' && cave['Original Sistema ID'] !== 'Loading...' && cave['Original Sistema ID'] !== '#ERROR!') {
+    const originalSistemaId = getIdRef(cave['Original Sistema ID'])
+    sistemas.push({ name: sistemaNamesFromId.get(originalSistemaId) || 'n. d.', id: originalSistemaId })
+
+    getSistemaAncestry(sistemas)
+  }
+
+  return sistemas
 }
 
 function nameTrans(old) {
@@ -360,7 +398,7 @@ function getCaves(data) {
       const caveLoc = loc(old, 'long-final', 'lat-final', 'GPS valid')
       const keyLoc = loc(old, 'Key lng', 'Key lat')
       const entranceLoc = loc(old, 'Entrance lng', 'Entrance lat')
-      const caveSistemas = caveSis(old)
+      const sistemas = getCaveSistemas(old)
       const nameTranslations = nameTrans(old)
 
       optional.call(newItem, old, [
@@ -472,8 +510,12 @@ function getCaves(data) {
         newItem.entrance = entranceLoc
       }
 
-      if (caveSistemas && Object.keys(caveSistemas).length) {
-        Object.keys(caveSistemas).forEach(key => newItem[key] = caveSistemas[key])
+      // if (caveSistemas && Object.keys(caveSistemas).length) {
+      //   Object.keys(caveSistemas).forEach(key => newItem[key] = caveSistemas[key])
+      // }
+
+      if (sistemas) {
+        newItem.sistemas = sistemas
       }
 
       caves.push(newItem)
@@ -832,23 +874,21 @@ export function processData(data) {
 
   initIds(data)
   setColorIdx()
+  initSistemaMap(data['old-sistemas'])
 
   initLabels(data)
 
   const colors = []
 
-  for (var key in colorIdxMapping) {
-    const color = {
-      id: colorIdxMapping[key],
-      hex: key
-    }
+  for (const [id, hex] in colorIdxMapping.entries()) {
+    const color = { id, hex }
     if (color.id === defaultColorId) {
       color.default = true
     }
     colors.push(color)
   }
 
-  //console.info(colors);
+  console.info('[processData] colors: %o', colors)
 
   const result = {
     caves: getCaves(data),
@@ -862,6 +902,20 @@ export function processData(data) {
   }
   //console.log('ids in text: %s', idsInTxt)
   //console.log(linksInTxt)
+
+  // const t = new Map()
+  // let found = false
+
+  // for (const cave of result.caves) {
+  //   if (t.has(cave.id)) {
+  //     console.log('We have double ids: %o / %o', t.get(cave.id), cave)
+  //     found = true
+  //   }
+  // }
+
+  // if (!found) {
+  //   console.log('Did not find any double ids')
+  // }
 
   return result
 }

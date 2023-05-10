@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonMenu, IonTitle, IonToolbar, IonToggle, IonLis
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnknownCoordinates, setShowAccesses, setShowAccessibilities } from '../redux/slices/searchSlice'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnknownCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
 import './MapFilterMenu.scss'
 
 export default function MapFilterMenu() {
@@ -17,7 +17,7 @@ export default function MapFilterMenu() {
   const dataStats = useSelector(state => state.map.dataStats)
 
   const dispatch = useDispatch()
-  const { t } = useTranslation()
+  const { t } = useTranslation('filter')
 
   const handleShowValidCoordinates = (event) => {
     dispatch(setShowValidCoordinates(event.target.checked))
@@ -80,15 +80,15 @@ export default function MapFilterMenu() {
     return dataStats?.[prop]?.[value] || 0
   }
 
-  const accessibilities = t('filter.accessibility.items', { returnObjects: true })
-  const accesses = t('filter.access.items', { returnObjects: true })
+  const accessibilities = t('accessibility.items', { returnObjects: true })
+  const accesses = t('access.items', { returnObjects: true })
 
   return (
     <>
       <IonMenu contentId="main-content" side="end" className='map-filter-menu'>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>{t('filter.windowTitle')}</IonTitle>
+            <IonTitle>{t('windowTitle')}</IonTitle>
             <IonButtons slot="start">
               <IonMenuToggle>
                 <IonButton aria-label={t('close')}>
@@ -101,12 +101,12 @@ export default function MapFilterMenu() {
         <IonContent className="map-filter-menu--panel ion-padding">
           <IonList className='list'>
             <IonListHeader>
-              <ion-label>{t('filter.coordinate.heading')}</ion-label>
+              <ion-label>{t('coordinate.heading')}</ion-label>
             </IonListHeader>
             <IonItem className='oc-filter-coordinate-item'>
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowValidCoordinates} checked={showValidCoordinates}>
-                  {t('filter.coordinate.showValidCoordinates')}
+                  {t('coordinate.showValidCoordinates')}
                   <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', true)})</IonNote>
                 </IonToggle>
               </IonLabel>
@@ -114,7 +114,7 @@ export default function MapFilterMenu() {
             <IonItem className='oc-filter-coordinate-item'>
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowInvalidCoordinates} checked={showInvalidCoordinates}>
-                  {t('filter.coordinate.showInvalidCoordinates')}
+                  {t('coordinate.showInvalidCoordinates')}
                   <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', false)})</IonNote>
                 </IonToggle>
               </IonLabel>
@@ -122,7 +122,7 @@ export default function MapFilterMenu() {
             <IonItem lines="none" className='oc-filter-coordinate-item'>
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowUnknownCoordinates} checked={showUnconfirmedCoordinates}>
-                  {t('filter.coordinate.showUnconfirmedCoordinates')}
+                  {t('coordinate.showUnconfirmedCoordinates')}
                   <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', '_unknown')})</IonNote>
                 </IonToggle>
               </IonLabel>
@@ -130,14 +130,14 @@ export default function MapFilterMenu() {
           </IonList>
           <IonList className='list'>
             <IonListHeader>
-              <ion-label>{t('filter.access.heading')}</ion-label>
+              <ion-label>{t('access.heading')}</ion-label>
             </IonListHeader>
             {/* <IonListHeader>
               <ion-label>
                 <IonGrid className='ion-no-padding'>
                   <IonRow>
                     <IonCol size='auto'><IonCheckbox></IonCheckbox></IonCol>
-                    <IonCol>{t('filter.access.heading')}</IonCol>
+                    <IonCol>{t('access.heading')}</IonCol>
                   </IonRow>
                 </IonGrid>
               </ion-label>
@@ -162,7 +162,7 @@ export default function MapFilterMenu() {
           </IonList>
           <IonList className='list'>
             <IonListHeader>
-              <ion-label>{t('filter.accessibility.heading')}</ion-label>
+              <ion-label>{t('accessibility.heading')}</ion-label>
             </IonListHeader>
             {
               showAccessibilities.map(({ key, checked }, index) => {

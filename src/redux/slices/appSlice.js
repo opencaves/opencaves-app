@@ -1,17 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  dataLoadingState: {
-    state: 'loading'
-  },
-  accesses: [],
-  accessibilities: [],
-  areas: [],
-  caves: [],
-  colors: [],
-  connections: [],
-  sistemas: [],
-  sources: []
+  isSmall: null
 }
 
 export const dataSlice = createSlice({
@@ -27,10 +17,6 @@ export const dataSlice = createSlice({
     //   console.log('action: %o', action)
     //   state[action.payload.name] = action.payload.data
     // },
-    setDataLoadingState: (state, action) => {
-      console.log('[setDataLoadingState: %o', action.payload)
-      state.dataLoadingState = action.payload
-    },
     setAccesses: (state, action) => {
       state.accesses = action.payload
     },
@@ -54,12 +40,12 @@ export const dataSlice = createSlice({
     },
     setSources: (state, action) => {
       state.sources = action.payload
-    },
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
 // export const { setCoordinateValid } = filterSlice.actions
-export const { setDataLoadingState, setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } = dataSlice.actions
+export const { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } = dataSlice.actions
 
 export default dataSlice.reducer

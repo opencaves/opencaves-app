@@ -6,11 +6,11 @@ const initialState = {
     hash: false,
     mapStyle: 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e',
     // reuseMaps: true,
-    initialViewState: {
-      latitude: 20.196112,
-      longitude: -87.4868895,
-      zoom: 10
-    }
+  },
+  initialViewState: {
+    latitude: 20.196112,
+    longitude: -87.4868895,
+    zoom: 10
   },
   viewState: {},
   showPopup: false,
@@ -31,6 +31,9 @@ export const mapSlice = createSlice({
     // doesn't actually mutate the state because it uses the Immer library,
     // which detects changes to a "draft state" and produces a brand new
     // immutable state based off those changes
+    setInitialViewState: (state, action) => {
+      state.initialViewState = action.payload
+    },
     setViewState: (state, action) => {
       state.viewState = action.payload
     },
@@ -95,6 +98,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, setShowPopup, setPopupData, setCurrentCaveId, setCurrentCave, setData, setFilteredData } = mapSlice.actions
+export const { setInitialViewState, setViewState, setShowPopup, setPopupData, setCurrentCaveId, setCurrentCave, setData, setFilteredData } = mapSlice.actions
 
 export default mapSlice.reducer

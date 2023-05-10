@@ -4,31 +4,6 @@ import { store } from '../redux/store'
 import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } from '../redux/slices/dataSlice'
 import { setData } from '../redux/slices/mapSlice'
 
-// export const db = {
-//   caves: new PouchDB('caves')
-// };
-// console.log('###');
-// db.caves
-//   .info()
-//   .then(async (details) => {
-//     console.log('then...');
-//     if (details.doc_count == 0 && details.update_seq == 0) {
-//       console.log('database does not exist');
-//       try {
-//         const data = await fetchCaveData();
-//         console.log(data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//   })
-//   .catch(function (err) {
-//     console.log('error: ' + err);
-//     return;
-//   });
-
-// export const db = await fetchCaveData();
-
 
 function handleSetCaves(data) {
   store.dispatch(setAccesses(data.accesses))
@@ -43,21 +18,29 @@ function handleSetCaves(data) {
 }
 
 export function getData() {
-  if (store.getState().data.caves.length === 0) {
-    fetchCaveData()
-      .then(data => {
-        console.log(data)
-        // setCaves(toGeojson(data.caves))
-        handleSetCaves(data)
+  return new Promise((resolve, reject) => {
+    if (store.getState().data.caves.length === 0) {
+      fetchCaveData()
+        .then(data => {
+          console.log('[getData] fetched data: %o', data)
+          // setCaves(toGeojson(data.caves))
+          handleSetCaves(data)
+          console.log('[getData] returning data from fetch')
+          resolve()
 
-        // setgeoJson(toGeojson(data.caves))
-      })
-  }
+          // setgeoJson(toGeojson(data.caves))
+        })
+        .catch(reject)
+    } else {
+      console.log('[getData] returning data from store')
+      resolve()
+    }
+  })
 }
 
 async function fetchCaveData() {
   return getCaveData().then((data) => {
-    console.log(data)
+    console.log('[fetchCaveData] raw data: %o', data)
     data = processData(data)
 
     const bounds = {
@@ -66,7 +49,7 @@ async function fetchCaveData() {
       minLatitude: 90,
       maxLatitude: -90
     }
-    console.log('data: %o', data)
+    console.log('[fetchCaveData] processed data: %o', data)
     data.caves.filter(c => c.location).forEach(cave => {
       // console.log('cave: %o', cave)
       const lng = cave.location.longitude

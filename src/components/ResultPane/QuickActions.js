@@ -24,7 +24,7 @@ function openDirections(cave) {
 }
 
 export default function QuickActions({ cave }) {
-  const { t } = useTranslation()
+  const { t } = useTranslation('quickActions')
   const isSmall = useMediaQuery({
     query: '(max-width: 767px)'
   })

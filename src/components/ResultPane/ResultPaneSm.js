@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonModal, IonContent, IonCardContent } from '@ionic/react'
+import React, { useRef } from 'react'
+import { IonCard, IonModal, IonContent } from '@ionic/react'
 import './ResultPaneSm.scss'
 
-export default function ResultPaneSm({ cave, children }) {
+export default function ResultPaneSm({ children }) {
   const modal = useRef(null)
 
   return (
@@ -19,15 +19,6 @@ export default function ResultPaneSm({ cave, children }) {
       <IonContent>
         <IonCard className='oc-result-pane--card'>
           {children}
-          {/* <IonCardHeader className='oc-result-pane--header'>
-            <IonCardTitle>{cave.name}</IonCardTitle>
-            {
-              cave.aka && cave.aka.length && <IonCardSubtitle>{cave.aka.join(', ')}</IonCardSubtitle>
-            }
-          </IonCardHeader>
-          <IonCardContent className='oc-result-pane--content'>
-            <QuickActions cave={cave}></QuickActions>
-          </IonCardContent> */}
         </IonCard>
       </IonContent>
     </IonModal>

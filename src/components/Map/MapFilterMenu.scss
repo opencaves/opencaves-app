@@ -1,7 +1,7 @@
 .map-filter-menu {
   --width: 500px;
   --max-width: 100%;
-  --border-radius: var(--radius) 0 0 var(--radius);
+  --border-radius: var(--oc-radius) 0 0 var(--oc-radius);
 
   // width: var(--width);
   // max-width: var(--max-width);
@@ -43,11 +43,11 @@
 
   .item {
     &:first-of-type {
-      border-radius: var(--radius) var(--radius) 0 0;
+      border-radius: var(--oc-radius) var(--oc-radius) 0 0;
     }
 
     &:last-of-type {
-      border-radius: 0 0 var(--radius) var(--radius);
+      border-radius: 0 0 var(--oc-radius) var(--oc-radius);
     }
   }
 }

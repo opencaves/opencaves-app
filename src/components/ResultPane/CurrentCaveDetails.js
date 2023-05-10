@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonItem, IonAvatar, IonImg, IonLabel } from '@ionic/react'
+import { IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonItem, IonAvatar, IonImg, IonLabel, IonToast, IonAccordionGroup, IonAccordion, IonIcon, IonNote } from '@ionic/react'
+import { useMediaQuery } from 'react-responsive'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { close, returnDownForward } from 'ionicons/icons'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
 import Markdown from '../Markdown/Markdown'
@@ -10,10 +12,11 @@ import Tooltip from '../Tooltip'
 import Address from './Address'
 import QuickActions from './QuickActions'
 import Rating from '../Rating/Rating'
+import { ReactComponent as CaveSystemIcon } from '../../images/cave-system.svg'
 import './CurrentCaveDetails.scss'
 
 export function CurrentCaveDetailsHeader({ cave }) {
-  const { t } = useTranslation()
+  const { t } = useTranslation('resultPane')
   const [rating, setRating] = useState(-1)
 
   useEffect(() => setRating(Reflect.has(cave, 'rating') ? cave.rating : -1), [cave])
@@ -31,9 +34,11 @@ export function CurrentCaveDetailsHeader({ cave }) {
 }
 
 export function CurrentCaveDetailsContent({ cave }) {
-  const { t } = useTranslation()
+  const { t } = useTranslation('resultPane')
 
   const addressTooltip = useRef()
+  const [toastIsOpen, setToastIsOpen] = useState(false)
+  const [toastMessage, setToastMessage] = useState()
 
   const address = <Address longitude={cave.location.longitude} latitude={cave.location.latitude} />
   const addressText = `${cave.location.longitude}, ${cave.location.latitude}`
@@ -41,6 +46,24 @@ export function CurrentCaveDetailsContent({ cave }) {
   const coordinatesText = `${cave.location.longitude}, ${cave.location.latitude}`
 
   const [addressTooltipOpen, setAddressTooltipOpen] = useState(false)
+  const [coordinatesTooltipOpen, setCoordinatesTooltipOpen] = useState(false)
+  const [toastButtons, setToastButtons] = useState([])
+
+  const isSmall = useMediaQuery({
+    query: '(max-width: 767px)'
+  })
+
+  useEffect(() => {
+    if (isSmall) {
+      setToastButtons([])
+    } else {
+      setToastButtons([{
+        role: 'cancel',
+        side: 'end',
+        icon: close
+      }])
+    }
+  }, [isSmall])
 
   function handleAddressTooltipOpen() {
     setAddressTooltipOpen(true)
@@ -50,8 +73,29 @@ export function CurrentCaveDetailsContent({ cave }) {
     setAddressTooltipOpen(false)
   }
 
-  function handleAddressCopy() {
-    console.log('addressTooltip: %o', addressTooltip)
+  function handleAddressCopy(text, success) {
+    setAddressTooltipOpen(false)
+    setToastMessage(t('copiedToClipboard'))
+    setToastIsOpen(true)
+  }
+
+  function onToastDidDismiss() {
+    setToastIsOpen(false)
+    setToastMessage('')
+  }
+
+  function handleCoordinatesTooltipOpen() {
+    setCoordinatesTooltipOpen(true)
+  }
+
+  function handleCoordinatesTooltipClose() {
+    setCoordinatesTooltipOpen(false)
+  }
+
+  function handleCoordinatesCopy(text, success) {
+    setCoordinatesTooltipOpen(false)
+    setToastMessage(t('copiedToClipboard'))
+    setToastIsOpen(true)
   }
 
   return (
@@ -63,11 +107,11 @@ export function CurrentCaveDetailsContent({ cave }) {
 
       <hr />
 
-      <IonList lines="none">
+      <IonList lines="none" className='oc-results-copy-items'>
         {
           address &&
           <CopyToClipboard text={addressText} placement='bottom-end' onCopy={handleAddressCopy}>
-            <Tooltip ref={addressTooltip} title={t('resultPane.copyAddress')} className='oc-results-tooltip' open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+            <Tooltip ref={addressTooltip} title={t('copyAddress')} className='oc-results-tooltip' open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
               <IonItem button detail={false}>
                 <LocationOnOutlinedIcon slot='start' color='primary' />
                 <IonLabel>{address}</IonLabel>
@@ -76,8 +120,8 @@ export function CurrentCaveDetailsContent({ cave }) {
             </Tooltip>
           </CopyToClipboard>
         }
-        <CopyToClipboard text={coordinatesText} placement='bottom-end'>
-          <Tooltip title={t('resultPane.copyCoordinates')} className='oc-results-tooltip'>
+        <CopyToClipboard text={coordinatesText} placement='bottom-end' onCopy={handleCoordinatesCopy}>
+          <Tooltip title={t('copyCoordinates')} className='oc-results-tooltip' open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
             <IonItem button detail={false}>
               <MyLocationOutlinedIcon slot='start' color='primary' />
               <IonLabel>{coordinatesText}</IonLabel>
@@ -90,10 +134,13 @@ export function CurrentCaveDetailsContent({ cave }) {
       <hr />
 
       {
-        cave.description && <div className='details-container'><Markdown>{cave.description}</Markdown></div>
+        cave.description && <>
+          <div className='details-container'><Markdown>{cave.description}</Markdown></div>
+          <hr />
+        </>
       }
 
-      <hr />
+      <Sistema cave={cave} />
 
       <IonList>
         <IonItem>
@@ -133,6 +180,47 @@ export function CurrentCaveDetailsContent({ cave }) {
           </IonLabel>
         </IonItem>
       </IonList>
+
+      <IonToast className='toast' duration={700000} isOpen={toastIsOpen} message={toastMessage} onDidDismiss={onToastDidDismiss} buttons={toastButtons} />
     </IonCardContent>
+  )
+}
+
+function Sistema({ cave }) {
+  const { t } = useTranslation('resultPane')
+
+  const hasSistemaAncestry = cave.sistemas.length > 1
+
+  if (hasSistemaAncestry) {
+    return (
+      // <IonItem button detail={true} detailIcon={chevronDown}>
+      //   <IonLabel>{t('sistema')} {cave.sistemas.at(-1).name}</IonLabel>
+      // </IonItem>
+      <IonAccordionGroup className='oc-results-sistemas'>
+        <IonAccordion>
+          <IonItem slot='header'>
+            <IonLabel>{t('sistema', { system: cave.sistemas.at(-1).name })}</IonLabel>
+            {/* <IonIcon slot='start' src='' /> */}
+            <CaveSystemIcon slot='start' className='cave-system-icon' />
+          </IonItem>
+          <IonItem slot='content' className='oc-results-sistemas--sistemas' color='light'>
+            <div>
+              {
+                cave.sistemas.map((sistema, i) => {
+                  const sistemaName = i === 0 ? `${t('sistema', { system: sistema.name })}` : <><IonIcon icon={returnDownForward} /> {t('sistema', { system: sistema.name })} {sistema.date && <IonNote className='oc-results-sistemas--item-note'>{sistema.date}</IonNote>}</>
+                  return <div key={i} className='oc-results-sistemas--item' style={{ paddingInlineStart: `calc(var(--oc-results-sistemas--item-padding) * ${i})` }}>{sistemaName}</div>
+                })
+              }
+            </div>
+          </IonItem>
+        </IonAccordion>
+      </IonAccordionGroup>
+    )
+  }
+
+  return (
+    <IonItem>
+      <IonLabel>{t('sistema')} {cave.sistemas[0].name}</IonLabel>
+    </IonItem>
   )
 }

@@ -19,3 +19,18 @@ ion-button {
     font-size: 1.4em;
   }
 }
+
+.toast {
+  --max-width: 290px;
+
+  @media (max-width: 767px) {
+    --max-width: 100%;
+    --start: 0;
+    --end: 0;
+    --border-radius: 0;
+  }
+}
+
+.oc-progress-bar {
+  z-index: 100;
+}

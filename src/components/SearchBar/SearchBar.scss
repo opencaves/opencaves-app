@@ -1,22 +1,47 @@
 .oc-search-bar {
-  --oc-border-radius: 50vh;
+  --oc-border-radius: 24px;
 
-  background-color: #fff;
   position: absolute;
-  display: flex;
-  align-items: center;
-  top: 1rem;
+  top: 0;
+  left: 0;
+  margin: 0.5rem 0.5rem 0 0.5rem;
+  width: 400px;
   z-index: 20;
-  width: calc(100% - 2rem);
-  margin: 0 1rem;
-  padding-right: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-  border-radius: var(--oc-border-radius);
-  max-width: 400px;
 
-  .sc-ion-searchbar-md-h {
-    --box-shadow: none;
+  &--container {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
     border-radius: var(--oc-border-radius);
+  }
+
+  &--omnibox {
+    --oc-icon-size: 24px;
+
+    display: flex;
+    align-items: center;
+    // width: calc(100% - 2rem);
+    // margin: 0 1rem;
+    // padding-right: 8px;
+
+    ion-icon {
+      width: var(--oc-icon-size);
+      height: var(--oc-icon-size);
+    }
+
+    .searchbar-clear-icon.sc-ion-searchbar-md {
+      width: var(--oc-icon-size);
+    }
+
+    .sc-ion-searchbar-md-h {
+      --box-shadow: none;
+      border-radius: var(--oc-border-radius);
+    }
+
+    ion-menu-button {
+      --color: var(--oc-icon-color-secondary);
+
+      padding-right: 8px;
+    }
   }
 
   &--input {
@@ -25,7 +50,7 @@
     padding: 0;
 
     .searchbar-clear-button {
-      --clear-button-color: #666666;
+      --clear-button-color: var(--oc-icon-color-secondary);
       width: 48px;
       inset-inline-end: 0;
 
@@ -40,8 +65,47 @@
     }
   }
 
-  ion-menu-button {
-    --color: #666666;
+  &--results {
+    --font-size: 13px;
+
+    border-top: 1px solid #e1e1e1;
+
+    mark {
+      background-color: transparent;
+      color: inherit;
+      font-weight: bold;
+    }
+
+    &-list {
+      background-color: transparent;
+      padding-bottom: var(--oc-border-radius);
+    }
+
+    &-item {
+      --min-height: 38px;
+
+      font-size: var(--font-size);
+
+      > [slot='start'] {
+        color: var(--oc-icon-color-secondary);
+        margin-inline-end: 19px;
+      }
+
+      ion-note {
+        color: #70757a;
+        font-size: 12px;
+      }
+
+      &-extra {
+        display: block;
+        margin-top: 1px;
+      }
+
+      .g {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 }
 

@@ -1,11 +1,7 @@
 {
   "app": {
     "title": "Open Caves",
-    "close": "Close",
     "back": "Back",
-    "directions": "Directions",
-    "save": "Save",
-    "share": "Share",
     "item_zero": "{{count}} item",
     "item_one": "{{count}} item",
     "item_other": "{{count}} items",
@@ -14,97 +10,112 @@
       "map": "Map",
       "settings": "Settings",
       "signIn": "Sign In"
-    },
-    "searchBar": {
-      "placeholder": "Search",
-      "filter": {
-        "ariaLabel": "Filter Cenotes",
-        "tip": "Filter Cenotes"
+    }
+  },
+  "quickActions": {
+    "directions": "Directions",
+    "save": "Save",
+    "share": "Share"
+  },
+  "searchBar": {
+    "placeholder": "Search",
+    "snippet": {
+      "aka": "aka",
+      "nameTranslations": {
+        "en": "english",
+        "es": "spanish"
       }
     },
     "filter": {
-      "windowTitle": "Filter Cenotes",
-      "coordinate": {
-        "heading": "GPS Coordinate",
-        "showValidCoordinates": "Show valid coordinates",
-        "showInvalidCoordinates": "Show invalid coordinates",
-        "showUnconfirmedCoordinates": "Show unknown coordinates"
-      },
-      "access": {
-        "heading": "Access",
-        "items": [
-          {
-            "key": "_unknown",
-            "label": "Unknown",
-            "desc": "The access is unknown."
-          },
-          {
-            "key": "-NTAPlXUWDAFUBCEskCj",
-            "label": "Access allowed",
-            "desc": "The site is accessible to anyone."
-          },
-          {
-            "key": "-NTAPlaC0ALlCGVYHu4t",
-            "label": "No access",
-            "desc": "No access for the general public."
-          },
-          {
-            "key": "-NTAPlaG7kSC0OCjMNVu",
-            "label": "Permission required",
-            "desc": "Only with permission of the owner on an individual basis."
-          },
-          {
-            "key": "-NTAPlaK4HY3T8MAAuLI",
-            "label": "Customers only",
-            "desc": "Only for customers."
-          }
-        ]
-      },
-      "accessibility": {
-        "heading": "Accessibility",
-        "items": [
-          {
-            "key": "_unknown",
-            "label": "Unknown",
-            "desc": "The accessibility is unknown."
-          },
-          {
-            "key": "-KPZfQEm2QJUXCM1t8zL",
-            "label": "Jungle",
-            "desc": "There is no path leading to the cenote."
-          },
-          {
-            "key": "-KPZfQErMD6m1DQcOsYw",
-            "label": "Not safe",
-            "desc": "The site is considered not safe to dive for various reasons."
-          },
-          {
-            "key": "-KPZfQF0JsBsYp5lvplz",
-            "label": "Sidemount certification",
-            "desc": "A sidemount certification card is required to access the site."
-          },
-          {
-            "key": "-KPZfQF1l7GK-Am4tL04",
-            "label": "Variable",
-            "desc": "Access to this area varies depending on the entry point."
-          },
-          {
-            "key": "-NTAZGjJQWc7S39n7s65",
-            "label": "Inaccessible",
-            "desc": "The site is inaccessible."
-          },
-          {
-            "key": "-NTAaHO_TyB5uc3AigA4",
-            "label": "Ocean",
-            "desc": "This cave is accessible by ocean."
-          }
-        ]
-      }
-    },
-    "resultPane": {
-      "cenote": "Cenote",
-      "copyAddress": "Copy address",
-      "copyCoordinates": "Copy coordinates"
+      "ariaLabel": "Filter Cenotes",
+      "tip": "Filter Cenotes"
     }
+  },
+  "filter": {
+    "windowTitle": "Filter Cenotes",
+    "close": "Close",
+    "coordinate": {
+      "heading": "GPS Coordinate",
+      "showValidCoordinates": "Show valid coordinates",
+      "showInvalidCoordinates": "Show invalid coordinates",
+      "showUnconfirmedCoordinates": "Show unknown coordinates"
+    },
+    "access": {
+      "heading": "Access",
+      "items": [
+        {
+          "key": "_unknown",
+          "label": "Unknown",
+          "desc": "The access is unknown."
+        },
+        {
+          "key": "-NTAPlXUWDAFUBCEskCj",
+          "label": "Access allowed",
+          "desc": "The site is accessible to anyone."
+        },
+        {
+          "key": "-NTAPlaC0ALlCGVYHu4t",
+          "label": "No access",
+          "desc": "No access for the general public."
+        },
+        {
+          "key": "-NTAPlaG7kSC0OCjMNVu",
+          "label": "Permission required",
+          "desc": "Only with permission of the owner on an individual basis."
+        },
+        {
+          "key": "-NTAPlaK4HY3T8MAAuLI",
+          "label": "Customers only",
+          "desc": "Only for customers."
+        }
+      ]
+    },
+    "accessibility": {
+      "heading": "Accessibility",
+      "items": [
+        {
+          "key": "_unknown",
+          "label": "Unknown",
+          "desc": "The accessibility is unknown."
+        },
+        {
+          "key": "-KPZfQEm2QJUXCM1t8zL",
+          "label": "Jungle",
+          "desc": "There is no path leading to the cenote."
+        },
+        {
+          "key": "-KPZfQErMD6m1DQcOsYw",
+          "label": "Not safe",
+          "desc": "The site is considered not safe to dive for various reasons."
+        },
+        {
+          "key": "-KPZfQF0JsBsYp5lvplz",
+          "label": "Sidemount certification",
+          "desc": "A sidemount certification card is required to access the site."
+        },
+        {
+          "key": "-KPZfQF1l7GK-Am4tL04",
+          "label": "Variable",
+          "desc": "Access to this area varies depending on the entry point."
+        },
+        {
+          "key": "-NTAZGjJQWc7S39n7s65",
+          "label": "Inaccessible",
+          "desc": "The site is inaccessible."
+        },
+        {
+          "key": "-NTAaHO_TyB5uc3AigA4",
+          "label": "Ocean",
+          "desc": "This cave is accessible by ocean."
+        }
+      ]
+    }
+  },
+  "resultPane": {
+    "cenote": "Cenote",
+    "sistema": "{{ system }} system",
+    "copiedToClipboard": "Copied to clipboard",
+    "copyAddress": "Copy address",
+    "copyCoordinates": "Copy coordinates"
   }
 }

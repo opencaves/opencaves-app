@@ -1,0 +1,76 @@
+:root {
+  --ctrl-group-margin-mobile: 16px;
+}
+
+.component-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--oc-surface);
+}
+
+.search-bar {
+  --background: #fff;
+  --border-radius: 50vh;
+
+  position: absolute;
+  top: 1rem;
+  z-index: 1;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+
+  .searchbar-input {
+    box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+  }
+}
+
+.mapboxgl-map {
+  font-size: 12px;
+}
+
+.mapboxgl-ctrl-group {
+  background-color: transparent;
+
+  &:not(:empty) {
+    box-shadow: none;
+  }
+
+  .plt-mobile .mapboxgl-ctrl-bottom-right & {
+    margin: 0 var(--ctrl-group-margin-mobile) var(--ctrl-group-margin-mobile) 0;
+  }
+
+  button {
+    background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+    &.mapboxgl-ctrl-geolocate {
+      border-radius: 50vh;
+      width: 50px;
+      height: 50px;
+
+      .mapboxgl-ctrl-icon {
+        background-color: var(--ion-color-primary);
+        mask-image: url('../../../assets/crosshair-minimized.svg');
+        mask-repeat: no-repeat;
+        mask-position: 50%;
+        mask-size: 60%;
+        background-image: none;
+      }
+
+      &:disabled {
+        display: none;
+
+        .mapboxgl-ctrl-icon {
+          mask-image: url('../../../assets/crosshair-off-minimized.svg');
+        }
+      }
+    }
+
+    .plt-mobile & {
+    }
+  }
+}
+
+.mapboxgl-ctrl:has(.mapboxgl-ctrl-logo) {
+  display: none !important;
+}

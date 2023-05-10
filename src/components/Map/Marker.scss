@@ -94,82 +94,6 @@
   }
 }
 
-:root {
-  --ctrl-group-margin-mobile: 16px;
-}
-
-.component-wrapper {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.search-bar {
-  --background: #fff;
-  --border-radius: 50vh;
-
-  position: absolute;
-  top: 1rem;
-  z-index: 1;
-  width: calc(100% - 2rem);
-  margin: 0 1rem;
-
-  .searchbar-input {
-    box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
-  }
-}
-
-.mapboxgl-map {
-  font-size: 13px;
-}
-
-.mapboxgl-ctrl-group {
-  background-color: transparent;
-
-  &:not(:empty) {
-    box-shadow: none;
-  }
-
-  .plt-mobile .mapboxgl-ctrl-bottom-right & {
-    margin: 0 var(--ctrl-group-margin-mobile) var(--ctrl-group-margin-mobile) 0;
-  }
-
-  button {
-    background-color: #fff;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-
-    &.mapboxgl-ctrl-geolocate {
-      border-radius: 50vh;
-      width: 50px;
-      height: 50px;
-
-      .mapboxgl-ctrl-icon {
-        background-color: var(--ion-color-primary);
-        mask-image: url('../../assets/crosshair-minimized.svg');
-        mask-repeat: no-repeat;
-        mask-position: 50%;
-        mask-size: 60%;
-        background-image: none;
-      }
-
-      &:disabled {
-        display: none;
-
-        .mapboxgl-ctrl-icon {
-          mask-image: url('../../assets/crosshair-off-minimized.svg');
-        }
-      }
-    }
-
-    .plt-mobile & {
-    }
-  }
-}
-
-.mapboxgl-ctrl:has(.mapboxgl-ctrl-logo) {
-  display: none !important;
-}
-
 .marker {
   text-align: center;
   display: flex;
@@ -202,7 +126,7 @@
   }
 }
 
-.mapboxgl-marker.active {
+.mapboxgl-marker.active-animated {
   z-index: 1;
 
   .marker-icon {
@@ -220,6 +144,29 @@
     > path:nth-child(2) {
       // fill: #b21511;
       animation: 0.125s forwards active-path-2;
+    }
+  }
+
+  .marker-label {
+    color: rgb(97, 156, 242);
+    display: none;
+  }
+}
+
+.mapboxgl-marker.active {
+  z-index: 1;
+
+  .marker-icon {
+    transform: scale3d(1.3333, 1.3333, 1.3333);
+    transform-origin: center bottom;
+
+    > path:first-child {
+      fill: #ea4335;
+      stroke: #c6211d;
+    }
+
+    > path:nth-child(2) {
+      fill: #b21511;
     }
   }
 
