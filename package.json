@@ -44,7 +44,7 @@
     "bson-objectid": "^2.0.4",
     "i18next": "^22.5.0",
     "i18next-browser-languagedetector": "^7.0.1",
-    "ionicons": "^7.1.0",
+    "ionicons": "^7.1.2",
     "localforage": "^1.10.0",
     "mapbox-gl": "^2.13.0",
     "minisearch": "^6.1.0",
