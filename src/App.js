@@ -2,10 +2,13 @@ import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { CssVarsProvider, extendTheme } from "@mui/material-next/styles"
+import { CssVarsProvider } from "@mui/material-next/styles"
+import { ThemeProvider } from '@mui/material/styles'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
+import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
+import { theme, nextTheme } from './Theme.js'
 
 import '@fontsource/open-sans/600.css'
 
@@ -30,32 +33,19 @@ import './theme/variables.scss'
 
 import './App.scss'
 
-setupIonicReact()
+setupIonicReact({
+  mode: 'md'
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
+})
 
 // console.log('theme: %o', theme)
 
 const App = () => {
 
   const title = useSelector(state => state.navigation.title)
-
-  const theme = extendTheme({
-    colorSchemes: {
-      light: {
-        palette: {
-          primary: {
-            main: '#1b4859',
-          },
-        },
-      },
-      dark: {
-        palette: {
-          primary: {
-            main: '#1b4859',
-          },
-        },
-      },
-    },
-  })
 
   const dispatch = useDispatch()
 
@@ -69,15 +59,19 @@ const App = () => {
 
   return (
     <Fragment>
-      <CssVarsProvider theme={theme} />
-      <HelmetProvider>
-        <Helmet>
-          <title>{title}</title>
-        </Helmet>
-        <IonApp className='t'>
-          <Nav></Nav>
-        </IonApp>
-      </HelmetProvider>
+      <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={nextTheme}> */}
+        <CssVarsProvider theme={theme} />
+        <HelmetProvider>
+          <Helmet>
+            <title>{title}</title>
+          </Helmet>
+          <IonApp>
+            <Nav></Nav>
+          </IonApp>
+        </HelmetProvider>
+        {/* </ThemeProvider> */}
+      </ThemeProvider>
     </Fragment>
   )
 }

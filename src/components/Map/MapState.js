@@ -1,7 +1,5 @@
 import { ReactComponent as OcLogo } from '../../logo.svg'
-import { ReactComponent as Spinner } from '../../images/3-dots-scale.svg'
 import './MapState.scss'
-import { IonSpinner } from '@ionic/react'
 
 export function MapLoading() {
 

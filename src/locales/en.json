@@ -15,7 +15,9 @@
   "quickActions": {
     "directions": "Directions",
     "save": "Save",
-    "share": "Share"
+    "share": "Share",
+    "shareTitle": "Cenote {{name}} / OpenCaves.org",
+    "shareText": "Cenote {{name}}\n"
   },
   "searchBar": {
     "placeholder": "Search",
@@ -38,35 +40,40 @@
       "heading": "GPS Coordinate",
       "showValidCoordinates": "Show valid coordinates",
       "showInvalidCoordinates": "Show invalid coordinates",
-      "showUnconfirmedCoordinates": "Show unknown coordinates"
+      "showUnconfirmedCoordinates": "Show unconfirmed coordinates"
     },
     "access": {
       "heading": "Access",
       "items": [
         {
-          "key": "_unknown",
+          "key": "unknown",
           "label": "Unknown",
           "desc": "The access is unknown."
         },
         {
-          "key": "-NTAPlXUWDAFUBCEskCj",
-          "label": "Access allowed",
-          "desc": "The site is accessible to anyone."
+          "key": "customers",
+          "label": "Customers only",
+          "desc": "Only for customers."
         },
         {
-          "key": "-NTAPlaC0ALlCGVYHu4t",
-          "label": "No access",
-          "desc": "No access for the general public."
+          "key": "key",
+          "label": "Key needed",
+          "desc": "A key must be obtained to get access to the site."
         },
         {
-          "key": "-NTAPlaG7kSC0OCjMNVu",
+          "key": "no",
+          "label": "Access forbiden",
+          "desc": "Cave diving is forbidden in this place."
+        },
+        {
+          "key": "permission",
           "label": "Permission required",
           "desc": "Only with permission of the owner on an individual basis."
         },
         {
-          "key": "-NTAPlaK4HY3T8MAAuLI",
-          "label": "Customers only",
-          "desc": "Only for customers."
+          "key": "yes",
+          "label": "Authorized access",
+          "desc": "Cave diving is permitted in this place."
         }
       ]
     },
@@ -74,48 +81,103 @@
       "heading": "Accessibility",
       "items": [
         {
-          "key": "_unknown",
+          "key": "unknown",
           "label": "Unknown",
           "desc": "The accessibility is unknown."
         },
         {
-          "key": "-KPZfQEm2QJUXCM1t8zL",
-          "label": "Jungle",
-          "desc": "There is no path leading to the cenote."
-        },
-        {
-          "key": "-KPZfQErMD6m1DQcOsYw",
-          "label": "Not safe",
-          "desc": "The site is considered not safe to dive for various reasons."
-        },
-        {
-          "key": "-KPZfQF0JsBsYp5lvplz",
-          "label": "Sidemount certification",
-          "desc": "A sidemount certification card is required to access the site."
-        },
-        {
-          "key": "-KPZfQF1l7GK-Am4tL04",
-          "label": "Variable",
-          "desc": "Access to this area varies depending on the entry point."
-        },
-        {
-          "key": "-NTAZGjJQWc7S39n7s65",
+          "key": "inaccessible",
           "label": "Inaccessible",
           "desc": "The site is inaccessible."
         },
         {
-          "key": "-NTAaHO_TyB5uc3AigA4",
-          "label": "Ocean",
-          "desc": "This cave is accessible by ocean."
+          "key": "jungle",
+          "label": "Jungle",
+          "desc": "There is no path leading to the cenote."
+        },
+        {
+          "key": "not-safe",
+          "label": "Not safe",
+          "desc": "The site is considered not safe to dive for various reasons."
+        },
+        {
+          "key": "sea",
+          "label": "Sea",
+          "desc": "This cave is accessible only from the sea."
+        },
+        {
+          "key": "sidemount-only",
+          "label": "Sidemount certification",
+          "desc": "A sidemount certification card is required to access the site."
+        },
+        {
+          "key": "variable",
+          "label": "Variable access",
+          "desc": "Access to this area varies depending on time or entry point."
         }
       ]
     }
   },
   "resultPane": {
+    "accessHeader": "Access",
+    "directionsHeader": "Getting there",
     "cenote": "Cenote",
     "sistema": "{{ system }} system",
     "copiedToClipboard": "Copied to clipboard",
     "copyAddress": "Copy address",
-    "copyCoordinates": "Copy coordinates"
+    "copyCoordinates": "Copy coordinates",
+    "locationNotAvailable": "Location not available"
+  },
+  "accesses": {
+    "key": {
+      "label": "A key is needed",
+      "description": "A key must be obtained to get access to the site."
+    },
+    "yes": {
+      "label": "Authorized access",
+      "description": "Cave diving is permitted in this place."
+    },
+    "no": {
+      "label": "Access forbiden",
+      "description": "Cave diving is forbidden in this place."
+    },
+    "permission": {
+      "label": "Permission needed",
+      "description": "The site is accessible only with permission of the owner on an individual basis."
+    },
+    "customers": {
+      "label": "Customers only",
+      "description": "The site is accessible only for customers."
+    },
+    "unknown": {
+      "label": "Access unknown",
+      "description": "Access details to the site are unknown."
+    }
+  },
+  "accessibilities": {
+    "jungle": {
+      "label": "Into the jungle",
+      "description": "There is no path leading to the cenote."
+    },
+    "not-safe": {
+      "label": "Not safe",
+      "description": "The site is considered not safe to dive for various reasons."
+    },
+    "sidemount-only": {
+      "label": "Sidemount only",
+      "description": "A sidemount certification card is required to access the site."
+    },
+    "variable": {
+      "label": "Variable entries",
+      "description": "Access to this area varies depending on the entry point."
+    },
+    "inaccessible": {
+      "label": "Inaccessible",
+      "description": "The site is inaccessible."
+    },
+    "sea": {
+      "label": "From the sea",
+      "description": "This cave is accessible only from the sea."
+    }
   }
 }

@@ -1,9 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  marker: {
+    label: {
+      minZoomLevel: 11,
+    },
+    current: {
+      label: {
+        maxZoomLevel: 14
+      }
+    }
+  },
   mapProps: {
     attributionControl: false,
-    hash: false,
+    hash: true,
     mapStyle: 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e',
     // reuseMaps: true,
   },
@@ -15,8 +25,8 @@ const initialState = {
   viewState: {},
   showPopup: false,
   popupData: {},
-  currentCaveId: null,
   currentCave: null,
+  currentZoomLevel: 14,
   data: [],
   dataStats: {},
   filteredData: [],
@@ -43,17 +53,14 @@ export const mapSlice = createSlice({
     setPopupData: (state, action) => {
       state.popupData = action.payload
     },
-    setCurrentCaveId: (state, action) => {
-      state.currentCaveId = action.payload
-    },
     setCurrentCave: (state, action) => {
       state.currentCave = action.payload
     },
-    setData: (state, action) => {
+    setMapData: (state, action) => {
       state.data = action.payload
 
       const props = [
-        'location.valid',
+        'location.validity',
         'access',
         'accessibility'
       ]
@@ -75,7 +82,7 @@ export const mapSlice = createSlice({
             prop = propPathB
           }
 
-          const value = Reflect.has(obj, prop) ? obj[prop] : '_unknown'
+          const value = Reflect.has(obj, prop) ? obj[prop] : 'unknown'
 
           if (!Reflect.has(r, value)) {
             r[value] = 0
@@ -98,6 +105,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setInitialViewState, setViewState, setShowPopup, setPopupData, setCurrentCaveId, setCurrentCave, setData, setFilteredData } = mapSlice.actions
+export const { setInitialViewState, setViewState, setShowPopup, setPopupData, setCurrentCave, setMapData, setFilteredData } = mapSlice.actions
 
 export default mapSlice.reducer

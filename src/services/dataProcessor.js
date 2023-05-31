@@ -1,5 +1,6 @@
 import ObjectID from 'bson-objectid'
 import { colorMap } from './color-map'
+import { findPhoneNumbersInText } from 'libphonenumber-js'
 
 
 function generateId() {
@@ -10,12 +11,19 @@ function generateId() {
 //     return uuid();
 // }
 
+const sistemas = new Map()
 const sistemasMap = new Map()
 const sistemasColorMap = new Map()
 
 const colorIdxMapping = new Map()
 
 const defaultColorId = generateId()
+
+function setSistemaIdx(sis) {
+  for (const sistema of sis) {
+    sistemas.set(sistema.id, sistema)
+  }
+}
 
 function setColorIdx() {
   const newColorsMap = {}
@@ -70,7 +78,7 @@ const accessibilityMap = new Map([
   ['jungle', 'jungle'],
   ['not safe', 'unsafe'],
   ['open - key', 'key'],
-  ['sidemount only', 'sidemount'],
+  ['sidemount only', 'sidemount-only'],
   ['open - sea', 'sea']
 ])
 
@@ -87,14 +95,35 @@ const accessDescs = new Map([
   ['sea', 'The access is made from sea.']
 ])
 
-var linksInTxt = []
+const locationValidityValueMap = new Map([
+  ['yes', 'valid'],
+  ['no', 'invalid'],
+  ['', 'unknown']
+])
 
 const notes = []
 
-function initSistemaMap(sistemas) {
-  sistemas.forEach(sistema => {
-    sistemasMap.set(sistema['Sistema ID'], { id: sistema['New name ID'], date: sistema['Date'] })
-    sistemasColorMap.set(sistema['SistemaID'], sistema['Sistemacolor'])
+function initSistemaMap(sistemasMapping) {
+  sistemasMapping.forEach(sistemaMapping => {
+    const id = sistemaMapping['New name ID']
+    const date = sistemaMapping['Date']
+    const sistemaData = sistemasMap.get(id)
+
+    const sistemaMap = { id, date }
+    if (sistemaData) {
+      sistemaMap.color = colorId(sistemaData.id)
+    }
+
+    if (Reflect.has(sistemaMapping, 'AKA')) {
+      sistemaMap.aka = sistemaMapping['AKA'].split('|')
+    }
+
+    // if (Reflect.has(sistema, 'Area')) {
+    //   sistema.area = id(sistema['Area'])
+    // }
+
+    sistemasMap.set(sistemaMapping['Sistema ID'], sistemaMap)
+    sistemasColorMap.set(sistemaMapping['SistemaID'], sistemaMapping['Sistema color'])
   })
 }
 
@@ -104,7 +133,7 @@ function initIds(data) {
 
   data.sistemas.forEach(c => setId(c.id))
 
-  data['old-sistemas'].forEach(c => setId(c.id))
+  data.connections.forEach(c => setId(c.id))
 
   data.access.forEach(c => setId(c.id))
 
@@ -217,13 +246,6 @@ function getIdRef(oldId) {
   return newId
 }
 
-// function replaceIdsInString(string) {
-//   return string.replace(idsRegEx, function (k) {
-//     idsInTxt++;
-//     return getIdRef(k);
-//   })
-// }
-
 function replaceIdsInHtmlForLink(string) {
   return string.replace(idsRegEx, function (k) {
     return `<a href="/${getIdRef(k)}">${k}</a>`
@@ -245,6 +267,21 @@ function colorId(color) {
   return ret
 }
 
+function dashedId(str) {
+  if (isEmpty(str)) {
+    return
+  }
+  return str.trim().toLowerCase().replace(/\s+/g, '-')
+}
+
+function locationValidityValue(oldValue) {
+  if (!locationValidityValueMap.has(oldValue)) {
+    throw new Error(`'${oldValue}' is not a proper location.valid value`)
+  }
+
+  return locationValidityValueMap.get(oldValue)
+}
+
 function str(str) {
   if (isEmpty(str)) {
     return
@@ -256,7 +293,26 @@ function arrMapUrls(str) {
   return (str || '').split('|')
 }
 
-function html(str) {
+function markdown(str) {
+  const country = 'MX'
+  const slices = []
+  let position = 0
+  const matches = findPhoneNumbersInText(str, country)
+
+  for (const match of matches) {
+    const original = str.slice(match.startsAt, match.endsAt)
+    const formattedNumber = `[${original}](${match.number.getURI()})`
+    // const formattedNumber = `${match.number.getURI()}`
+    slices.push(str.slice(position, match.startsAt))
+    slices.push(formattedNumber)
+    position = match.endsAt
+  }
+
+  if (slices.length > 0) {
+    slices.push(str.slice(position))
+    str = slices.join('')
+  }
+
   // var links = str.match(/\[[^\]]+\]/g)
   // if (links) {
   //   linksInTxt.push(...links)
@@ -307,8 +363,8 @@ function loc(obj, lngProp, latProp, validProp = null) {
     latitude: num(obj[latProp])
   }
 
-  if (validProp && Reflect.has(obj, validProp) && obj[validProp] !== '') {
-    location.valid = bol(obj[validProp])
+  if (validProp && Reflect.has(obj, validProp)) {
+    location.validity = locationValidityValue(obj[validProp])
   }
 
   return location
@@ -343,7 +399,7 @@ function getCaveSistemas(cave) {
 
     if (sistemasMap.has(currentSistemaId)) {
       const parentSistema = sistemasMap.get(currentSistemaId)
-      sistemas.push({ name: sistemaNamesFromId.get(parentSistema.id) || 'n. d.', id: parentSistema.id, date: parentSistema.date })
+      sistemas.push({ name: sistemaNamesFromId.get(parentSistema.id) || 'n. d.', id: parentSistema.id, date: parentSistema.date, color: parentSistema.color })
       getSistemaAncestry(sistemas)
     }
   }
@@ -352,7 +408,7 @@ function getCaveSistemas(cave) {
 
   if (cave['Original Sistema ID'] && cave['Original Sistema ID'] !== '#N/A' && cave['Original Sistema ID'] !== 'Loading...' && cave['Original Sistema ID'] !== '#ERROR!') {
     const originalSistemaId = getIdRef(cave['Original Sistema ID'])
-    sistemas.push({ name: sistemaNamesFromId.get(originalSistemaId) || 'n. d.', id: originalSistemaId })
+    sistemas.push({ name: sistemaNamesFromId.get(originalSistemaId) || 'n. d.', id: originalSistemaId, color: colorId(cave['Sistema color']) })
 
     getSistemaAncestry(sistemas)
   }
@@ -365,7 +421,8 @@ function nameTrans(old) {
     found = false;
   [
     ['Spanish', 'es'],
-    ['English', 'en']
+    ['English', 'en'],
+    ['Mayan', 'myn']
   ].forEach(n => {
     if (old[n[0]]) {
       found = true
@@ -395,7 +452,7 @@ function getCaves(data) {
         keys: []
       }
 
-      const caveLoc = loc(old, 'long-final', 'lat-final', 'GPS valid')
+      const caveLoc = loc(old, 'Longitude', 'Latitude', 'GPS valid')
       const keyLoc = loc(old, 'Key lng', 'Key lat')
       const entranceLoc = loc(old, 'Entrance lng', 'Entrance lat')
       const sistemas = getCaveSistemas(old)
@@ -404,23 +461,23 @@ function getCaves(data) {
       optional.call(newItem, old, [
         {
           new: 'access',
-          old: 'Access ID',
-          fn: str
+          old: 'Access',
+          fn: dashedId
         },
         {
           new: 'accessDetails',
           old: 'Access details',
-          fn: html
+          fn: markdown
         },
         {
           new: 'accessibility',
-          old: 'Accessibility ID',
-          fn: str
+          old: 'Accessibility',
+          fn: dashedId
         },
         {
-          new: 'accessDetails',
+          new: 'accessibilityDetails',
           old: 'Accessibility details',
-          fn: html
+          fn: markdown
         },
         {
           new: 'aka',
@@ -435,12 +492,12 @@ function getCaves(data) {
         {
           new: 'description',
           old: 'Description',
-          fn: html
+          fn: markdown
         },
         {
           new: 'direction',
           old: 'Getting there',
-          fn: html
+          fn: markdown
         },
         {
           new: 'fees',
@@ -562,12 +619,12 @@ function getSistemas(data) {
       {
         new: 'description',
         old: 'Description',
-        fn: html
+        fn: markdown
       },
       {
         new: 'direction',
         old: 'Getting there',
-        fn: html
+        fn: markdown
       },
       {
         new: 'length',
@@ -635,7 +692,7 @@ function getConnections(data) {
   let connections = []
   const connectionsIdx = {}
 
-  data['old-sistemas'].forEach((old) => {
+  data.connections.forEach((old) => {
     if (old.id !== '' && old['Sistema ID'] !== '#N/A') {
       let newItem = {
         id: getId(old.id)
@@ -704,7 +761,7 @@ function getAccesses(data) {
   data.access.forEach((old) => {
     if (old.id !== '') {
       var newItem = {
-        id: getId(old.id),
+        id: dashedId(old.Access),
         name: str(old.Access),
         description: str(old.Description),
         note: str(old.Note)
@@ -717,28 +774,6 @@ function getAccesses(data) {
   return accesses
 }
 
-// function getAccesses(data) {
-
-//   let access = [],
-//     done = {}
-
-//   data['accessibility'].forEach((old) => {
-//     //console.log(old)
-//     if (old.Accessibility.toLowerCase() in accessMap && !Object.prototype.hasOwnProperty.call(done, accessMap[old.Accessibility])) {
-//       done[accessMap.get(old.Accessibility)] = true
-//       let newItem = {
-//         id: getId(old.id),
-//         key: accessMap.get(old.Accessibility),
-//         description: accessDescs.get(accessMap.get(old.Accessibility))
-//       }
-
-//       access.push(newItem)
-//     }
-//   })
-
-//   return access
-// }
-
 /*
  * Accessibility
  */
@@ -750,7 +785,7 @@ function getAccessibilities(data) {
   data.accessibility.forEach((old) => {
     if (old.id !== '') {
       var newItem = {
-        id: getId(old.id),
+        id: dashedId(old.Accessibility),
         name: str(old.Accessibility),
         description: str(old.Description),
         note: str(old.Note)
@@ -874,7 +909,8 @@ export function processData(data) {
 
   initIds(data)
   setColorIdx()
-  initSistemaMap(data['old-sistemas'])
+  setSistemaIdx(data.sistemas)
+  initSistemaMap(data.connections)
 
   initLabels(data)
 

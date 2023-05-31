@@ -64,18 +64,6 @@ export default function MapFilterMenu() {
     console.log(event)
   }
 
-  // function countProp(data, key, value) {
-  //   const [propPathA, propPathB] = key.split('.')
-
-  //   return data.filter(obj => {
-  //     if (propPathB) {
-  //       obj = obj[propPathA]
-  //       key = propPathB
-  //     }
-  //     return !Reflect.has(obj, key) ? value === '_unknown' : obj[key] === value
-  //   }).length
-  // }
-
   function getDataStat(prop, value) {
     return dataStats?.[prop]?.[value] || 0
   }
@@ -107,7 +95,7 @@ export default function MapFilterMenu() {
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowValidCoordinates} checked={showValidCoordinates}>
                   {t('coordinate.showValidCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', true)})</IonNote>
+                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'valid')})</IonNote>
                 </IonToggle>
               </IonLabel>
             </IonItem>
@@ -115,7 +103,7 @@ export default function MapFilterMenu() {
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowInvalidCoordinates} checked={showInvalidCoordinates}>
                   {t('coordinate.showInvalidCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', false)})</IonNote>
+                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'invalid')})</IonNote>
                 </IonToggle>
               </IonLabel>
             </IonItem>
@@ -123,7 +111,7 @@ export default function MapFilterMenu() {
               <IonLabel className='oc-filter-coordinate-item--label'>
                 <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowUnknownCoordinates} checked={showUnconfirmedCoordinates}>
                   {t('coordinate.showUnconfirmedCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.valid', '_unknown')})</IonNote>
+                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'unknown')})</IonNote>
                 </IonToggle>
               </IonLabel>
             </IonItem>
@@ -132,22 +120,12 @@ export default function MapFilterMenu() {
             <IonListHeader>
               <ion-label>{t('access.heading')}</ion-label>
             </IonListHeader>
-            {/* <IonListHeader>
-              <ion-label>
-                <IonGrid className='ion-no-padding'>
-                  <IonRow>
-                    <IonCol size='auto'><IonCheckbox></IonCheckbox></IonCol>
-                    <IonCol>{t('access.heading')}</IonCol>
-                  </IonRow>
-                </IonGrid>
-              </ion-label>
-            </IonListHeader> */}
             {
               showAccesses.map(({ key, checked }, index) => {
                 return (
                   <IonItem button detail="false" key={key} lines={index === accesses.length - 1 ? 'none' : null} className='oc-filter-accessibility-item'>
                     <IonLabel className="ion-text-wrap oc-filter-accessibility-item--inner">
-                      <IonToggle className='oc-filter-accessibility-item--checkbox' labelPlacement="start" justify='space-between' checked={checked} onIonChange={(e) => handleShowAccesses(!checked, key)}>
+                      <IonToggle className='oc-filter-accessibility-item--checkbox' labelPlacement="start" justify='space-between' checked={checked} onIonChange={() => handleShowAccesses(!checked, key)}>
                         <div className="oc-filter-accessibility-item--label">
                           {accesses.find(a => a.key === key).label}
                           <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('access', key)})</IonNote>

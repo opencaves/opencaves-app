@@ -1,15 +1,29 @@
 .oc-result-pane-sm {
   --padding-start: 0;
   --padding-end: 0;
+  --ion-safe-area-top: -10px;
 
   z-index: 100 !important;
+
+  .oc-back-btn {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+  }
 
   .oc-result-pane--card {
     box-shadow: none;
     margin: 0;
+    padding-top: 0;
+    transition: 0.125s padding-top;
+
+    &.oc-full-height {
+      padding-top: calc(56px - 16px);
+    }
   }
 
   .oc-result-pane--header {
     padding-inline: var(--oc-details-padding-inline);
+    padding-block-end: 0;
   }
 }

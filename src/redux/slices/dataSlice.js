@@ -28,7 +28,6 @@ export const dataSlice = createSlice({
     //   state[action.payload.name] = action.payload.data
     // },
     setDataLoadingState: (state, action) => {
-      console.log('[setDataLoadingState: %o', action.payload)
       state.dataLoadingState = action.payload
     },
     setAccesses: (state, action) => {

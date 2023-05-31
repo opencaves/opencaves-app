@@ -34,3 +34,16 @@ ion-button {
 .oc-progress-bar {
   z-index: 100;
 }
+
+.oc-dialog {
+  // ionic
+  .alert-message {
+    color: #49454e;
+    padding-bottom: 0;
+  }
+
+  // ionic
+  .alert-button-group {
+    padding: 16px 23px 20px;
+  }
+}

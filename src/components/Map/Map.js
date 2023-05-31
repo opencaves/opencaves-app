@@ -1,45 +1,28 @@
-import { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Map, { Marker, Popup, GeolocateControl } from 'react-map-gl'
 import { useMediaQuery } from 'react-responsive'
-import { chain, debounce, throttle } from 'underscore'
-import { setShowPopup, setPopupData, /* setInitialViewState,*/ setViewState, setCurrentCaveId, setCurrentCave } from '../../redux/slices/mapSlice'
+import { chain, debounce } from 'underscore'
+import { setShowPopup, setPopupData, /* setInitialViewState,*/ setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
 import { MapLoading, MapError } from './MapState'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
 import { useIonRouter } from '@ionic/react'
-/// app.js
-
-const defaultDetailedViewZoom = 15
-
-function toGeojson(data) {
-  return {
-    type: 'FeatureCollection',
-    features: data.filter(c => c.location).map(c => {
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [c.location.lng, c.location.lat]
-        },
-        properties: c
-      }
-    })
-  }
-}
 
 export default function OCMap() {
 
   const dataLoadingState = useSelector(state => state.data.dataLoadingState)
   const mapProps = useSelector(state => state.map.mapProps)
   const defaultViewState = useSelector(state => state.map.initialViewState)
-  // const initialViewState = useSelector(state => state.map.initialViewState)
+  const markerConfig = useSelector(state => state.map.marker)
   const showPopup = useSelector(state => state.map.showPopup)
   const popupData = useSelector(state => state.map.popupData)
   const searchOptions = useSelector(state => state.search)
   const currentCave = useSelector(state => state.map.currentCave)
-  const data = useSelector(state => state.map.data)
+  const currentZoomLevel = useSelector(state => state.map.currentZoomLevel)
+  const mapData = useSelector(state => state.map.data)
+  const caveData = useSelector(state => state.data.caves)
 
   const [mapReady, setMapReady] = useState(false)
   const [currentMarkerElem, doSetCurrentMarkerElem] = useState()
@@ -57,33 +40,37 @@ export default function OCMap() {
     query: '(max-width: 767px)'
   })
 
-  const caves = useMemo(() => {
+  const filteredCaves = useMemo(() => {
+    console.log('========== filtering %s caves', mapData.length)
 
     const filters = {
       coordinates: [
-        cave => searchOptions.showValidCoordinates && Reflect.has(cave.location, 'valid') && cave.location.valid,
-        cave => searchOptions.showInvalidCoordinates && Reflect.has(cave.location, 'valid') && !cave.location.valid,
-        cave => searchOptions.showUnknownCoordinates && !Reflect.has(cave.location, 'valid'),
+        cave => searchOptions.showValidCoordinates && cave.location.validity === 'valid',
+        cave => searchOptions.showInvalidCoordinates && cave.location.validity === 'invalid',
+        cave => searchOptions.showUnknownCoordinates && cave.location.validity === 'unknown',
       ],
       accesses: [
         cave => {
           return searchOptions.showAccesses.some(access => {
-            return (access.key === '_unknown' ? !Reflect.has(cave, 'access') : access.key === cave.access) && access.checked
+            return (access.key === 'unknown' ? !Reflect.has(cave, 'access') : access.key === cave.access) && access.checked
           })
         },
       ],
       accessibilities: [
         cave => {
           return searchOptions.showAccessibilities.some(accessibility => {
-            return (accessibility.key === '_unknown' ? Reflect.has(cave, 'accessibility') : accessibility.key === cave.accessibility) && accessibility.checked
+            return (accessibility.key === 'unknown' ? Reflect.has(cave, 'accessibility') : accessibility.key === cave.accessibility) && accessibility.checked
           })
         }
       ]
     }
 
-    return filterCaves(data, filters)
+    const result = filterCaves(mapData, filters)
+    console.log('========== found %s caves', result.length)
+    return result
 
-  }, [data, searchOptions])
+
+  }, [mapData, searchOptions])
 
   function filterCaves(caves, filters) {
 
@@ -103,18 +90,12 @@ export default function OCMap() {
   }
 
   function handleMarkerOnClick(event, cave) {
-    // console.log('[handleMarkerOnClick] cave: %o, event: %o', cave, event)
 
-    dispatch(setCurrentCaveId(cave.id))
     dispatch(setCurrentCave(cave))
 
-    const action = router.routeInfo.pathname === '/map' ? 'push' : 'replace'
-    console.log('action: %o', action)
-    // router[action](`/map/${cave.id}`)
-    router.push(`/map/${cave.id}`, 'none', action)
-    console.log('target: %o', event.target)
-
     setCurrentMarkerElem(event.target.getElement())
+
+    router.push(`/map/${cave.id}`, 'none', 'replace')
 
     if (isSmall) {
       // Center around selected marker
@@ -125,32 +106,58 @@ export default function OCMap() {
 
   }
 
+  useEffect(() => {
+    if (!currentCave) {
+      setCurrentMarkerElem()
+    } else {
+      showCurrentCave()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCave])
+
   function setCurrentMarkerElem(markerElem, animated = false) {
     if (currentMarkerElem) {
-      console.log('currentMarkerElem: %o', currentMarkerElem)
       currentMarkerElem.classList.remove(currentMarkerElem.dataset.activeClass)
       delete currentMarkerElem.dataset.activeClass
     }
 
-    const activeClass = animated ? 'active' : 'active-animated'
+    if (markerElem) {
 
-    markerElem.classList.add(activeClass)
-    markerElem.dataset.activeClass = activeClass
+      const activeClass = animated ? 'active' : 'active-animated'
+
+      markerElem.classList.add(activeClass)
+      markerElem.dataset.activeClass = activeClass
+    }
+
     doSetCurrentMarkerElem(markerElem)
+  }
+
+  function showCurrentCave() {
+    if (currentCave && currentCave.location) {
+      const { longitude: lng, latitude: lat } = currentCave.location
+      const currentMarker = mapRef.current?.getMap()._markers.find(marker => {
+        const markerLngLat = marker.getLngLat()
+        return markerLngLat.lng === lng && markerLngLat.lat === lat
+      })
+
+      if (currentMarker) {
+        setCurrentMarkerElem(currentMarker.getElement(), true)
+        mapRef.current && mapRef.current.flyTo({
+          center: [lng, lat],
+          zoom: currentZoomLevel
+        })
+      }
+
+    }
   }
 
   function onMouseEnter(event) {
     console.log('[onMouseEnter] %o', event)
   }
 
-  // const onMove = useCallback(event => {
-  //   console.log('[onMove] event: %o', event)
-  //   dispatch(setViewState(event.viewState))
-  // }, [])
-
   const onMove = debounce(function (event) {
-    // dispatch({ type: 'setViewState', payload: event.viewState })
-    console.log('[onMove] event: %o', event)
+    // console.log('[onMove] event: %o', event)
     dispatch(setViewState(event.viewState))
   }, 300)
 
@@ -159,23 +166,8 @@ export default function OCMap() {
   }
 
   function onLoad() {
-    if (currentCave) {
-      console.log('[onLoad] oui: mapRef %o', mapRef)
-      const currentMarkerElem = mapRef.current?.getMap()._markers.find(marker => {
-        const markerLngLat = marker.getLngLat()
-        const { longitude: lng, latitude: lat } = currentCave.location
-        return markerLngLat.lng === lng && markerLngLat.lat === lat
-      }).getElement()
-      console.log('[onLoad] currentMarkerElem: %o', currentMarkerElem)
-      setCurrentMarkerElem(currentMarkerElem, true)
-    }
+    showCurrentCave()
   }
-
-  useEffect(() => {
-    console.log('========================================================== loading state: %s', dataLoadingState.state)
-  }, [dataLoadingState.state])
-
-  useEffect(() => console.log('========================================================== map ready: %s', mapReady), [mapReady])
 
   function onGeolocateError(error) {
     console.error('[onGeolocateError] %o', error)
@@ -184,31 +176,37 @@ export default function OCMap() {
   // initialisation
   useEffect(() => {
     console.log('fire once: %o', router)
-    const pathname = router.routeInfo.pathname
-    if (pathname !== '/map') {
-      const id = pathname.split('/').pop()
-      const newCurrentCave = data.find(cave => cave.id === id)
-      if (newCurrentCave) {
-        console.log('new current cave: %o', newCurrentCave)
-        console.log('mapRef: %o', mapRef.current)
 
-        // const currentMarkerElem = markersRef.current.find(marker => marker.key === `m-${currentCave.id}`)
-        // console.log('[useEffect] currentMarkerElem: %o', currentMarkerElem)
+    dispatch(setMapData(caveData.filter(c => c.location)))
+
+    const pathname = router.routeInfo.pathname
+    if (pathname === '/map') {
+      setMapReady(true)
+      return
+    }
+
+    // route: /map/:id
+    const id = pathname.split('/').pop()
+    const newCurrentCave = caveData.find(cave => cave.id === id)
+    if (newCurrentCave) {
+
+      dispatch(setCurrentCave(newCurrentCave))
+
+      if (newCurrentCave.location) {
 
         const newInitialViewState = {
           longitude: newCurrentCave.location.longitude,
           latitude: newCurrentCave.location.latitude,
-          zoom: defaultDetailedViewZoom
+          // zoom: defaultDetailedViewZoom
+          zoom: currentZoomLevel
         }
-        console.log('--- newInitialViewState: %o', newInitialViewState)
-        dispatch(setCurrentCaveId(id))
-        dispatch(setCurrentCave(newCurrentCave))
         setInitialViewState(newInitialViewState)
         setZoomLevel(newInitialViewState.zoom)
-        setMapReady(true)
       }
     }
-  }, [data])
+
+    setMapReady(true)
+  }, [caveData])
 
   if (dataLoadingState.state === 'error') {
     return (
@@ -252,20 +250,20 @@ export default function OCMap() {
               </Popup>)}
 
             {
-              caves?.map((cave, i) => {
+              filteredCaves?.map((cave, i) => {
                 // console.log('cave: %o', cave)
                 const isCurrentCave = currentCave && currentCave.id === cave.id
                 markersRef.current.push(createRef())
 
                 let markerLabel = null
-
                 if (isCurrentCave) {
-                  if (zoomLevel < 14) {
-                    markerLabel = <div className='marker-label'>{cave.name}</div>
+                  if (zoomLevel < markerConfig.current.label.maxZoomLevel) {
+                    markerLabel = <div key={`marker-${cave.id}`} className='marker-label'>{cave.name}</div>
                   }
                 } else {
-                  if (zoomLevel > 12) {
-                    markerLabel = <div className='marker-label'>{cave.name}</div>
+                  // console.log('[%s] zoomLevel: %s, minZoomLevel: %s', zoomLevel < markerConfig.label.minZoomLevel, zoomLevel, markerConfig.label.minZoomLevel)
+                  if (zoomLevel > markerConfig.label.minZoomLevel) {
+                    markerLabel = <div key={`marker-${cave.id}`} className='marker-label'>{cave.name}</div>
                   }
                 }
 
@@ -278,7 +276,6 @@ export default function OCMap() {
                     onClick={(event) => handleMarkerOnClick(event, cave)}>
                     <div className='marker'>
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="37.534" preserveAspectRatio="xMidYMid" version="1.0" viewBox="0 0 20 28.15" className='marker-icon'><path fill={cave.color} stroke="#23272b" strokeWidth=".6" d="M11.3 25.75c.85-2.475 1.725-3.9 4.576-7.4 1.15-1.426 2.375-3.151 2.7-3.801 2.876-5.726.05-12.202-6.076-13.977C12.163.472 10.527.3 10 .3c-.527 0-2.163.171-2.5.271-6.126 1.776-8.952 8.252-6.076 13.977.325.65 1.55 2.376 2.7 3.801 2.85 3.5 3.726 4.926 4.576 7.401.625 1.875.764 2.097 1.3 2.1.536.003.675-.225 1.3-2.1z" /><path fill="#fff" fillRule="evenodd" d="M5.263 12.689c0-1.184 2.368-4.737 4.709-4.737 2.396 0 4.765 3.553 4.765 4.737H10ZM10 4.399c-3.553 0-8.29 4.737-8.29 8.29h1.184c0-3.553 4.737-7.106 7.106-7.106 2.368 0 7.105 3.553 7.105 7.106h1.185c0-3.553-4.737-8.29-8.29-8.29z" /></svg>
-                      {/* {(zoomLevel > 11 || isCurrentCave) && <div className='marker-label'>{cave.name}</div>} */}
                       {markerLabel && markerLabel}
                     </div>
                   </Marker>

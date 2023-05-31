@@ -2,7 +2,7 @@ import { getCaveData } from './dataImporter'
 import { processData } from './dataProcessor'
 import { store } from '../redux/store'
 import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } from '../redux/slices/dataSlice'
-import { setData } from '../redux/slices/mapSlice'
+import { setMapData } from '../redux/slices/mapSlice'
 
 
 function handleSetCaves(data) {
@@ -14,7 +14,9 @@ function handleSetCaves(data) {
   store.dispatch(setConnections(data.connections))
   store.dispatch(setSistemas(data.sistemas))
   store.dispatch(setSources(data.sources))
-  store.dispatch(setData(data.caves?.filter(c => c.location)))
+  // console.log('---------------------------------------')
+  // console.log(data.caves)
+  // store.dispatch(setMapData(data.caves?.filter(c => c.location)))
 }
 
 export function getData() {

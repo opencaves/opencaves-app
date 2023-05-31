@@ -5,20 +5,21 @@ const initialState = {
   showInvalidCoordinates: false,
   showUnknownCoordinates: false,
   showAccesses: [
-    { key: '_unknown', checked: true },
-    { key: "-NTAPlXUWDAFUBCEskCj", checked: true },
-    { key: "-NTAPlaC0ALlCGVYHu4t", checked: true },
-    { key: "-NTAPlaG7kSC0OCjMNVu", checked: true },
-    { key: "-NTAPlaK4HY3T8MAAuLI", checked: true }
+    { key: 'unknown', checked: true },
+    { key: "customers", checked: true },
+    { key: "key", checked: true },
+    { key: "no", checked: true },
+    { key: "permission", checked: true },
+    { key: "yes", checked: true }
   ],
   showAccessibilities: [
-    { key: '_unknown', checked: true },
-    { key: "-KPZfQEm2QJUXCM1t8zL", checked: true },
-    { key: "-KPZfQErMD6m1DQcOsYw", checked: true },
-    { key: "-KPZfQF0JsBsYp5lvplz", checked: true },
-    { key: "-KPZfQF1l7GK-Am4tL04", checked: true },
-    { key: "-NTAZGjJQWc7S39n7s65", checked: true },
-    { key: "-NTAaHO_TyB5uc3AigA4", checked: true }
+    { key: 'unknown', checked: true },
+    { key: "jungle", checked: true },
+    { key: "not-safe", checked: true },
+    { key: "sea", checked: true },
+    { key: "sidemount-only", checked: true },
+    { key: "variable", checked: true },
+    { key: "inaccessible", checked: true }
   ]
 }
 

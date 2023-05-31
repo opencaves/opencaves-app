@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import localforage from 'localforage'
-import storageSession from 'redux-persist/lib/storage/session'
+import sessionStorage from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
 import navigationSlice from './slices/navigationSlice'
@@ -8,6 +8,7 @@ import dataReducer from './slices/dataSlice'
 import userReducer from "./slices/userSlice"
 import searchReducer from './slices/searchSlice'
 import mapReducer from './slices/mapSlice'
+import mapSlice from './slices/mapSlice'
 
 const persistStorage = localforage.createInstance({
   name: 'OpenCaves'
@@ -16,12 +17,12 @@ const persistStorage = localforage.createInstance({
 const rootPersistConfig = {
   key: 'root',
   storage: persistStorage,
-  blacklist: ['navigation']
+  blacklist: ['navigation', 'map']
 }
 
 const sessionPersistConfig = {
   key: 'session',
-  storage: storageSession,
+  storage: sessionStorage,
 }
 
 const mapPersistConfig = {
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   session: persistReducer(sessionPersistConfig, userReducer),
   navigation: navigationSlice,
   search: searchReducer,
-  map: persistReducer(mapPersistConfig, mapReducer),
+  // map: persistReducer(mapPersistConfig, mapReducer),
+  map: mapSlice,
   data: dataReducer
 })
 

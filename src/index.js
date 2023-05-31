@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
 import { setupIonicReact } from '@ionic/react'
 import { PersistGate } from 'redux-persist/integration/react'
+import TagManager from 'react-gtm-module'
 import { store, persistor } from './redux/store'
 import App from './App'
 import './i18n'
@@ -13,6 +14,8 @@ import reportWebVitals from './reportWebVitals'
 setupIonicReact({
   // mode: 'ios'
 })
+
+TagManager.initialize({ gtmId: 'GTM-WBL7VM3' })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
