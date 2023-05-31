@@ -30,7 +30,7 @@
     "@bencevans/xyz-intersect": "^1.0.0",
     "@capacitor/share": "^4.1.1",
     "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/styled": "^11.11.0",
     "@fontsource/open-sans": "^4.5.14",
     "@ionic/react": "^7.0.1",
     "@ionic/react-router": "^7.0.1",
