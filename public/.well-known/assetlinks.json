@@ -1,0 +1,15 @@
+[
+      {
+            "relation": [
+                  "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+                  "namespace": "android_app",
+                  "package_name": "org.opencaves.app",
+                  "sha256_cert_fingerprints": [
+                        "BC:0C:F1:37:D3:DB:27:E0:DA:92:31:79:EB:9E:EE:EF:14:31:55:0B:6F:20:31:50:6A:45:C7:E2:00:80:03:17",
+                        "BE:88:8E:76:47:67:34:58:94:7E:B7:15:24:F2:47:80:34:D7:88:31:F3:BA:F8:13:92:AC:B4:C5:11:71:41:B8"
+                  ]
+            }
+      }
+]

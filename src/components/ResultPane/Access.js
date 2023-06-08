@@ -1,9 +1,9 @@
-import { IonList, IonItem, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/react'
 import { useTranslation } from 'react-i18next'
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded'
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded'
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded'
-import DoNotDisturbRoundedIcon from '@mui/icons-material/DoNotDisturbRounded'
+import { useSelector } from 'react-redux'
+import { SvgIcon } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+import { styled } from '@mui/material'
+import { PaidOutlined, HelpOutlineRounded } from '@mui/icons-material'
 import Markdown from '../Markdown/Markdown'
 import { ReactComponent as KeyIcon } from '../../images/accesses/key.svg'
 import { ReactComponent as NoIcon } from '../../images/accesses/no.svg'
@@ -17,8 +17,9 @@ import { ReactComponent as NotSafeIcon } from '../../images/accessibilities/not-
 import { ReactComponent as InaccessibleIcon } from '../../images/accessibilities/inaccessible.svg'
 import { ReactComponent as JungleIcon } from '../../images/accessibilities/jungle.svg'
 import { ReactComponent as VariableIcon } from '../../images/accessibilities/variable.svg'
+import { ReactComponent as FeesYesIcon } from '../../images/fees/fees-yes.svg'
+import { ReactComponent as FeesNoIcon } from '../../images/fees/fees-no.svg'
 import './CurrentCaveDetails.scss'
-import { useSelector } from 'react-redux'
 import './Access.scss'
 
 
@@ -28,73 +29,84 @@ export default function Access({ cave }) {
   const accesses = useSelector(state => state.data.accesses)
   const accessibilities = useSelector(state => state.data.accessibilities)
 
-  function getAccess(accessId) {
-    const access = accesses.find(a => a.id === accessId) || { name: 'unknown' }
+  function getAccessIcon() {
+    const access = accesses.find(a => a.id === cave.access) || { name: 'unknown' }
     let icon
     switch (access.name) {
       case 'key':
-        icon = <KeyIcon className='oc-icon' aria-label={t('key.label', { ns: 'accesses' })} />
+        icon = KeyIcon
         break
       case 'yes':
-        icon = <YesIcon className='oc-icon' aria-label={t('yes.label', { ns: 'accesses' })} />
+        icon = YesIcon
         break
       case 'no':
-        icon = <NoIcon className='oc-icon' role='image' aria-label={t('no.label', { ns: 'accesses' })} />
+        icon = NoIcon
         break
       case 'permission':
-        icon = <PermissionIcon className='oc-icon' aria-label={t('permission.label', { ns: 'accesses' })} />
+        icon = PermissionIcon
         break
       case 'customers':
-        icon = <CustomersIcon className='oc-icon' aria-label={t('customers.label', { ns: 'accesses' })} />
+        icon = CustomersIcon
         break
       default:
-        icon = <UnknownIcon className='oc-icon' aria-label={t('unknown.label', { ns: 'accesses' })} />
+        icon = UnknownIcon
     }
 
-    return <div className='oc-access-grid'>
-      <div>{icon}</div>
-      <div className='oc-access-grid--label'>{t(`${access.name}.label`, { ns: 'accesses' })}</div>
-    </div>
+    return <SvgIcon component={icon} fontSize='large' inheritViewBox aria-label={t(`${access.name}.label`, { ns: 'accesses' })} color='primary' className='oc-icon' />
   }
 
-  function getAccessibility(accessibilityId) {
-    const accessibility = accessibilities.find(a => a.id === accessibilityId) || { name: '_' }
+  function getAccessibilityIcon() {
+    const accessibility = accessibilities.find(a => a.id === cave.accessibility) || { name: '_' }
     let icon
     switch (accessibility.id) {
       case 'jungle':
-        icon = <JungleIcon className='oc-icon' aria-label={t('jungle.label', { ns: 'accessibilities' })} />
+        icon = JungleIcon
         break
       case 'not-safe':
-        icon = <NotSafeIcon className='oc-icon' aria-label={t('not safe.label', { ns: 'accessibilities' })} />
+        icon = NotSafeIcon
         break
       case 'sidemount-only':
-        icon = <SidemountIcon className='oc-icon' aria-label={t('sidemount-only.label', { ns: 'accessibilities' })} />
+        icon = SidemountIcon
         break
       case 'variable':
-        icon = <VariableIcon className='oc-icon' aria-label={t('variable.label', { ns: 'accessibilities' })} />
+        icon = VariableIcon
         break
       case 'inaccessible':
-        icon = <InaccessibleIcon className='oc-icon' aria-label={t('inaccessible.label', { ns: 'accessibilities' })} />
+        icon = InaccessibleIcon
         break
       case 'sea':
-        icon = <SeaIcon className='oc-icon' aria-label={t('sea.label', { ns: 'accessibilities' })} />
+        icon = SeaIcon
         break
       default:
-        icon = <HelpOutlineRoundedIcon className='oc-icon' aria-label={t('sidemount-only.label', { ns: 'accessibilities' })} />
+        icon = HelpOutlineRounded
     }
-    return <div className='oc-access-grid'>
-      <div>{icon}</div>
-      <div className='oc-access-grid--label'>{t(`${accessibility.id}.label`, { ns: 'accessibilities' })}</div>
-    </div>
+
+    return <SvgIcon component={icon} fontSize='large' inheritViewBox aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} color='primary' className='oc-icon' />
   }
 
-  function getAccessDetailsDefault(accessId) {
-    return accessId ? t(`${accessId}.description`, { ns: 'accesses' }) : t('unknown.description', { ns: 'accesses' })
+  function getFeesIcon() {
+    return <SvgIcon component={cave.fees ? FeesYesIcon : FeesNoIcon} fontSize='large' inheritViewBox aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} color='primary' className='oc-icon' />
   }
 
-  function getAccessibilityDetailsDefault(accessibilityId) {
-    return t(`${accessibilityId}.description`, { ns: 'accessibilities' })
+  function getFeesLabel() {
+    return cave.fees ? t('yes.label', { ns: 'fees' }) : t('no.label', { ns: 'fees' })
   }
+
+  function getAccessLabel() {
+    return Reflect.has(cave, 'access') ? t(`${cave.access}.label`, { ns: 'accesses' }) : t('unknown.label', { ns: 'accesses' })
+  }
+
+  function getAccessibilityLabel() {
+    return Reflect.has(cave, 'accessibility') ? t(`${cave.accessibility}.label`, { ns: 'accessibilities' }) : t('unknown.label', { ns: 'accessibilities' })
+  }
+
+  const IconText = styled('span')(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    // ...theme.typography.body2,
+    // padding: theme.spacing(1),
+    // textAlign: 'center',
+    color: theme.palette.primary.main,
+  }))
 
   return (
     <>
@@ -102,49 +114,74 @@ export default function Access({ cave }) {
         <h2>{t('accessHeader')}</h2>
       </div>
 
-      <IonGrid className='oc-accesses-grid'>
-        <IonRow className='ion-justify-content-center'>
-          <IonCol size='auto'>
-            {getAccess(cave.access)}
-          </IonCol>
-          {
-            cave.accessibility &&
-            <IonCol size='auto'>
-              {getAccessibility(cave.accessibility)}
-            </IonCol>
-          }
-        </IonRow>
-      </IonGrid >
-
       <div className='details-container'>
-        {
-          Reflect.has(cave, 'accessDetails') &&
-          <Markdown>{cave.accessDetails}</Markdown>
-        }
-        {
-          !Reflect.has(cave, 'accessDetails') &&
-          <Markdown>{getAccessDetailsDefault(cave.access)}</Markdown>
-        }
-        {
-          Reflect.has(cave, 'accessibilityDetails') &&
-          <Markdown>{cave.accessibilityDetails}</Markdown>
-        }
-        {
-          Reflect.has(cave, 'accessibility') && !Reflect.has(cave, 'accessibilityDetails') &&
-          <Markdown>{getAccessibilityDetailsDefault(cave.accessibility)}</Markdown>
-        }
+        <Grid container spacing={0} xs='auto' display="flex" justifyContent="center" alignItems="center">
+          <div className='oc-fees-grid'>
+            <Grid xs='auto' display="flex" justifyContent="center" alignItems="center">
+              <Grid container direction='column' spacing={1}>
+                <Grid xs='auto' display='flex' justifyContent="center">
+                  {
+                    getAccessIcon()
+                  }
+                </Grid>
+                <Grid xs='auto'>
+                  <IconText className='oc-access--icon-text'>
+                    {
+                      getAccessLabel()
+                    }
+                  </IconText>
+                </Grid>
+              </Grid>
+            </Grid>
+            {
+              cave.accessibility &&
+              <Grid display="flex" justifyContent="center" alignItems="center">
+                <Grid container direction='column' spacing={1}>
+                  <Grid xs='auto' display='flex' justifyContent="center">
+                    {
+                      getAccessibilityIcon()
+                    }
+                  </Grid>
+                  <Grid xs='auto'>
+                    <IconText className='oc-access--icon-text'>
+                      {
+                        getAccessibilityLabel()
+                      }
+                    </IconText>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
+            {
+              Reflect.has(cave, 'fees') && cave.fees &&
+              <Grid display="flex" justifyContent="center" alignItems="center">
+                <Grid container direction='column' spacing={1}>
+                  <Grid xs='auto' display='flex' justifyContent="center">
+                    {
+                      getFeesIcon()
+                    }
+                  </Grid>
+                  <Grid xs='auto'>
+                    <IconText className='oc-access--icon-text'>
+                      {
+                        getFeesLabel()
+                      }
+                    </IconText>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
+          </div>
+        </Grid>
       </div>
 
-      {/* <hr />
-
-      <IonList lines='none'>
-        <IonItem>
-          {
-            getAccessIcon(cave.access)
-          }
-          <IonLabel className='ion-text-wrap'><Markdown>{accessDetails}</Markdown></IonLabel>
-        </IonItem>
-      </IonList> */}
+      {
+        (cave.accessDetails || cave.accessibilityDetails) &&
+        <div className='details-container details-text'>
+          <Markdown>{cave.accessDetails}</Markdown>
+          <Markdown>{cave.accessibilityDetails}</Markdown>
+        </div>
+      }
     </>
   )
 }

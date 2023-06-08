@@ -1,7 +1,8 @@
 import { createTheme } from '@mui/material/styles'
 import { extendTheme } from "@mui/material-next/styles"
+import { merge } from 'lodash'
 
-const themeOptions = {
+const lightThemeOptions = {
   palette: {
     mode: 'light',
     primary: {
@@ -21,6 +22,18 @@ const themeOptions = {
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '36px',
+          letterSpacing: '0.06em'
+        },
+        // outlinedPrimary: {
+        //   color: 'black'
+        // },
+      }
+    },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
@@ -39,29 +52,78 @@ const themeOptions = {
           fontSize: '0.75rem'
         }
       }
+    },
+    MuiRating: {
+      styleOverrides: {
+        iconEmpty: {
+          color: 'rgb(218, 220, 224)'
+        }
+      }
     }
   }
 }
 
-const nextThemeOptions = {
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: '#1b4859',
-        },
-      },
+const darkThemeOptions = {
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#1cb9f2',
     },
-    dark: {
-      palette: {
-        primary: {
-          main: '#1b4859',
-        },
-      },
+    secondary: {
+      main: '#d9b504',
+    },
+    error: {
+      main: '#EE495C',
+    },
+    warning: {
+      main: '#eacc01',
+    },
+    success: {
+      main: '#6CBE2D',
     },
   },
+  components: {
+    // MuiTooltip: {
+    //   styleOverrides: {
+    //     tooltip: {
+    //       backgroundColor: '#000',
+    //       color: '#fff',
+    //     }
+    //   }
+    // },
+    MuiRating: {
+      styleOverrides: {
+        iconEmpty: {
+          color: 'rgb(218, 220, 224)'
+        }
+      }
+    }
+  }
 }
 
-export const theme = createTheme(themeOptions)
+// const nextThemeOptions = {
+//   colorSchemes: {
+//     light: {
+//       palette: {
+//         primary: {
+//           main: '#1b4859',
+//         },
+//       },
+//     },
+//     dark: {
+//       palette: {
+//         primary: {
+//           main: '#1b4859',
+//         },
+//       },
+//     },
+//   },
+// }
 
-export const nextTheme = extendTheme(nextThemeOptions)
+export function getTheme(mode) {
+  return mode === 'light' ? createTheme(lightThemeOptions) : createTheme(merge({}, lightThemeOptions, darkThemeOptions))
+}
+
+// export const theme = createTheme(themeOptions)
+
+// export const nextTheme = extendTheme(nextThemeOptions)

@@ -93,7 +93,7 @@
         {
           "key": "jungle",
           "label": "Jungle",
-          "desc": "There is no path leading to the cenote."
+          "desc": "There is no path leading to the site."
         },
         {
           "key": "not-safe",
@@ -126,6 +126,8 @@
     "copiedToClipboard": "Copied to clipboard",
     "copyAddress": "Copy address",
     "copyCoordinates": "Copy coordinates",
+    "copyKeyCoordinates": "Copy key coordinates",
+    "copyEntranceCoordinates": "Copy entrance coordinates",
     "locationNotAvailable": "Location not available"
   },
   "accesses": {
@@ -134,7 +136,7 @@
       "description": "A key must be obtained to get access to the site."
     },
     "yes": {
-      "label": "Authorized access",
+      "label": "Access allowed",
       "description": "Cave diving is permitted in this place."
     },
     "no": {
@@ -178,6 +180,14 @@
     "sea": {
       "label": "From the sea",
       "description": "This cave is accessible only from the sea."
+    }
+  },
+  "fees": {
+    "yes": {
+      "label": "Has fees"
+    },
+    "no": {
+      "label": "No fees"
     }
   }
 }

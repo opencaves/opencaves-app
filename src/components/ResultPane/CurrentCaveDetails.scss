@@ -31,15 +31,6 @@
       margin: 0;
     }
 
-    p {
-      font-size: inherit;
-      margin-block-end: 1em;
-
-      &:last-child {
-        margin-block-end: 0;
-      }
-    }
-
     hr {
       margin: 0;
       height: 0;
@@ -60,6 +51,17 @@
 
       & + .details-container {
         padding-block-start: 0;
+      }
+    }
+
+    .details-text {
+      p {
+        font-size: inherit;
+        margin-block-end: 1em;
+
+        &:last-child {
+          margin-block-end: 0;
+        }
       }
     }
 
@@ -118,16 +120,6 @@
       &-note {
         font-size: 12px;
       }
-    }
-
-    .cave-system-icon {
-      width: 24px;
-      height: 24px;
-
-      color: red;
-      // path {
-      //   stroke: var(--ion-color-primary);
-      // }
     }
   }
 }

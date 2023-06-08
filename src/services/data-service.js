@@ -1,8 +1,7 @@
 import { getCaveData } from './dataImporter'
 import { processData } from './dataProcessor'
 import { store } from '../redux/store'
-import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } from '../redux/slices/dataSlice'
-import { setMapData } from '../redux/slices/mapSlice'
+import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires } from '../redux/slices/dataSlice'
 
 
 function handleSetCaves(data) {
@@ -14,17 +13,16 @@ function handleSetCaves(data) {
   store.dispatch(setConnections(data.connections))
   store.dispatch(setSistemas(data.sistemas))
   store.dispatch(setSources(data.sources))
-  // console.log('---------------------------------------')
-  // console.log(data.caves)
-  // store.dispatch(setMapData(data.caves?.filter(c => c.location)))
+  store.dispatch(setExpires())
 }
 
 export function getData() {
   return new Promise((resolve, reject) => {
-    if (store.getState().data.caves.length === 0) {
+    console.log('[getData] getting data...')
+    function doGetData() {
       fetchCaveData()
         .then(data => {
-          console.log('[getData] fetched data: %o', data)
+          // console.log('[getData] fetched data: %o', data)
           // setCaves(toGeojson(data.caves))
           handleSetCaves(data)
           console.log('[getData] returning data from fetch')
@@ -32,9 +30,22 @@ export function getData() {
 
           // setgeoJson(toGeojson(data.caves))
         })
-        .catch(reject)
+        .catch(error => {
+          console.error('[getData] %o', error)
+          reject(error)
+        })
+    }
+
+    if (store.getState().data.caves.length === 0) {
+      doGetData()
     } else {
-      console.log('[getData] returning data from store')
+      console.log('[getData] returning data from store: %o', store.getState().data)
+      const expires = store.getState().data.expires
+      const now = Date.now()
+      if (expires && expires < now) {
+        console.log('[getData] data expired. Fetching again...')
+        doGetData()
+      }
       resolve()
     }
   })

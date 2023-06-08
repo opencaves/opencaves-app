@@ -22,7 +22,7 @@ export function MapError({ error }) {
   return (
     <div className='oc-map-loading'>
       <div className='oc-map-loading--box'>
-        <h1>Something went wrong :-(</h1>
+        <h1>:-(<br />Something went wrong</h1>
         <pre>{error.stack}</pre>
       </div>
     </div>

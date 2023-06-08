@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 import en from './locales/en'
+import fr from './locales/fr'
 
 i18n
   // load translation using http -> see /public/locales
@@ -17,7 +18,7 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    resources: { en },
+    resources: { en, fr },
     nonExplicitSupportedLngs: true,
     // fallbackLng: code => {
     //   if (!code || code === 'en') {

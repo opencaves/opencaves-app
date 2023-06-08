@@ -37,8 +37,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 20vh;
-    min-height: 200px;
+    max-width: 100%;
   }
 
   h1 {
@@ -48,6 +47,7 @@
     margin: 0;
     padding: 0;
     line-height: 1;
+    text-align: center;
 
     @media (min-width: 768px) {
       & {
@@ -60,6 +60,12 @@
         font-size: 6rem;
       }
     }
+  }
+
+  pre {
+    max-width: 100%;
+    padding-inline: 1em !important;
+    padding-block-end: 1em;
   }
 
   &--logo {

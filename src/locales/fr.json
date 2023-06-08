@@ -1,0 +1,185 @@
+{
+  "app": {
+    "title": "Open Caves",
+    "back": "Retour",
+    "item_zero": "{{count}} item",
+    "item_one": "{{count}} item",
+    "item_other": "{{count}} items",
+    "nav": {
+      "home": "Accueil",
+      "map": "Carte",
+      "settings": "Paramètres",
+      "signIn": "S'identifier"
+    }
+  },
+  "quickActions": {
+    "directions": "Directions",
+    "save": "Sauvegarder",
+    "share": "Partager",
+    "shareTitle": "Cenote {{name}} / OpenCaves.org",
+    "shareText": "Cenote {{name}}\n"
+  },
+  "searchBar": {
+    "placeholder": "Recherche",
+    "snippet": {
+      "aka": "alias",
+      "nameTranslations": {
+        "en": "Anglais",
+        "es": "Espagnol"
+      }
+    },
+    "filter": {
+      "ariaLabel": "Filtrer les cenotes",
+      "tip": "Filtrer les cenotes"
+    }
+  },
+  "filter": {
+    "windowTitle": "Filtrer les cenotes",
+    "close": "Fermer",
+    "coordinate": {
+      "heading": "Coordonnées GPS",
+      "showValidCoordinates": "Afficher les coordonnées valides",
+      "showInvalidCoordinates": "Afficher les coordonnées invalides",
+      "showUnconfirmedCoordinates": "Afficher les coordonnées non confirmées"
+    },
+    "access": {
+      "heading": "Accès",
+      "items": [
+        {
+          "key": "unknown",
+          "label": "Inconnu",
+          "desc": "L'accès est inconnu."
+        },
+        {
+          "key": "customers",
+          "label": "Clients uniquement",
+          "desc": "Uniquement pour les clients."
+        },
+        {
+          "key": "key",
+          "label": "Clé nécessaire",
+          "desc": "Une clé doit être obtenue pour accéder au site."
+        },
+        {
+          "key": "no",
+          "label": "Accès interdit",
+          "desc": "La plongée souterraine est interdite dans ce lieu."
+        },
+        {
+          "key": "permission",
+          "label": "Autorisation requise",
+          "desc": "Uniquement avec l'autorisation du propriétaire sur une base individuelle."
+        },
+        {
+          "key": "yes",
+          "label": "Accès autorisé",
+          "desc": "La plongée souterraine est autorisée à cet endroit."
+        }
+      ]
+    },
+    "accessibility": {
+      "heading": "Accessibilité",
+      "items": [
+        {
+          "key": "unknown",
+          "label": "Inconnu",
+          "desc": "L'accessibilité est inconnue."
+        },
+        {
+          "key": "inaccessible",
+          "label": "Inaccessible",
+          "desc": "Le site est inaccessible."
+        },
+        {
+          "key": "jungle",
+          "label": "Jungle",
+          "desc": "Il n'y a pas de chemin menant au site."
+        },
+        {
+          "key": "not-safe",
+          "label": "Pas sécuritaire",
+          "desc": "Le site est considéré comme dangereux pour la plongée pour diverses raisons."
+        },
+        {
+          "key": "sea",
+          "label": "Mer",
+          "desc": "Cette grotte est accessible uniquement depuis la mer."
+        },
+        {
+          "key": "sidemount-only",
+          "label": "Certification Sidemount",
+          "desc": "Une carte de certification de plongée en configuration latérale (sidemount) est requise pour accéder au site."
+        },
+        {
+          "key": "variable",
+          "label": "Accès variable",
+          "desc": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
+        }
+      ]
+    }
+  },
+  "resultPane": {
+    "accessHeader": "Accès",
+    "directionsHeader": "S'y rendre",
+    "cenote": "Cenote",
+    "sistema": "{{ system }} système",
+    "copiedToClipboard": "Copié dans le presse-papier",
+    "copyAddress": "Copier l'adresse",
+    "copyCoordinates": "Copier les coordonnées",
+    "copyKeyCoordinates": "Copier les coordonnées de la clé",
+    "copyEntranceCoordinates": "Copier les coordonnées de l'entrée'",
+    "locationNotAvailable": "Lieu non disponible"
+  },
+  "accesses": {
+    "key": {
+      "label": "Une clé est nécessaire",
+      "description": "Une clé doit être obtenue pour accéder au site."
+    },
+    "yes": {
+      "label": "Accès autorisé",
+      "description": "La plongée souterraine est autorisée à cet endroit."
+    },
+    "no": {
+      "label": "Accès interdit",
+      "description": "La plongée souterraine est interdite dans ce lieu."
+    },
+    "permission": {
+      "label": "Autorisation nécessaire",
+      "description": "Le site n'est accessible qu'avec l'autorisation du propriétaire à titre individuel."
+    },
+    "customers": {
+      "label": "Clients uniquement",
+      "description": "Le site est accessible uniquement aux clients."
+    },
+    "unknown": {
+      "label": "Accès inconnu",
+      "description": "Les détails d'accès au site sont inconnus."
+    }
+  },
+  "accessibilities": {
+    "jungle": {
+      "label": "Dans la jungle",
+      "description": "Il n'y a pas de chemin menant au cenote."
+    },
+    "not-safe": {
+      "label": "Pas sécurisé",
+      "description": "Le site est considéré comme dangereux pour la plongée pour diverses raisons."
+    },
+    "sidemount-only": {
+      "label": "Configuration latérale uniquement",
+      "description": "Une carte de certification de plongée en configuration latérale (sidemount) est requise pour accéder au site."
+    },
+    "variable": {
+      "label": "Entrées variables",
+      "description": "L'accès à cette zone varie en fonction du point d'entrée."
+    },
+    "inaccessible": {
+      "label": "Inaccessible",
+      "description": "Le site est inaccessible."
+    },
+    "sea": {
+      "label": "De la mer",
+      "description": "Cette grotte est accessible uniquement depuis la mer."
+    }
+  }
+}

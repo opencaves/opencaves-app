@@ -1,14 +1,15 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CssVarsProvider } from "@mui/material-next/styles"
+import { useMediaQuery } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
-import { theme, nextTheme } from './Theme.js'
+import { getTheme } from './Theme.js'
 
 import '@fontsource/open-sans/600.css'
 
@@ -32,6 +33,7 @@ import '@ionic/react/css/display.css'
 import './theme/variables.scss'
 
 import './App.scss'
+import { useTranslation } from 'react-i18next'
 
 setupIonicReact({
   mode: 'md'
@@ -48,6 +50,15 @@ const App = () => {
   const title = useSelector(state => state.navigation.title)
 
   const dispatch = useDispatch()
+  const { i18n } = useTranslation()
+  console.log('resolved language: %s', i18n.resolvedLanguage)
+
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+  const theme = useMemo(
+    () => getTheme(prefersDarkMode ? 'dark' : 'light'),
+    [prefersDarkMode],
+  )
 
   getData()
     .then(() => {
@@ -65,6 +76,17 @@ const App = () => {
         <HelmetProvider>
           <Helmet>
             <title>{title}</title>
+            <link rel="apple-touch-icon" sizes="180x180" href="/pwa/icons/apple-touch-icon.png" />
+            <link rel="icon" type="image/png" sizes="32x32" href="/pwa/icons/favicon-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/pwa/icons/favicon-16x16.png" />
+            <link rel="manifest" href="/pwa/icons/site.webmanifest" />
+            <link rel="mask-icon" href="/pwa/icons/safari-pinned-tab.svg" color="#1b4859" />
+            <link rel="shortcut icon" href="/favicon.ico" />
+            <meta name="apple-mobile-web-app-title" content="Open Caves" />
+            <meta name="application-name" content="Open Caves" />
+            <meta name="msapplication-TileColor" content="#da532c" />
+            <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
+            <meta name="theme-color" content="#1b4859" />
           </Helmet>
           <IonApp>
             <Nav></Nav>

@@ -1,31 +1,44 @@
-.oc-accesses-grid {
-  padding-block: 0;
-  padding-inline: var(--oc-details-padding-inline);
-  row-gap: 1em;
+// .oc-accesses-grid {
+//   padding-block: 0;
+//   padding-inline: var(--oc-details-padding-inline);
+//   row-gap: 1em;
 
-  ion-col {
-    --ion-grid-column-padding: 0;
+//   ion-col {
+//     --ion-grid-column-padding: 0;
 
-    &:not(:last-child) {
-      margin-inline-end: 2em;
-    }
-  }
+//     &:not(:last-child) {
+//       margin-inline-end: 2em;
+//     }
+//   }
 
-  .oc-icon {
-    font-size: 2.25rem;
-    width: auto;
-    height: 1em;
-    color: var(--ion-color-primary);
+//   .oc-icon {
+//     font-size: 2.25rem;
+//     width: auto;
+//     height: 1em;
+//     color: var(--ion-color-primary);
+//   }
+// }
+
+// .oc-access-grid {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+
+//   &--label {
+//     font-size: smaller;
+//     color: var(--oc-text-color-secondary);
+//   }
+// }
+
+.oc-access {
+  &--icon-text {
+    font-size: 0.75rem;
   }
 }
 
-.oc-access-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &--label {
-    font-size: smaller;
-    color: var(--oc-text-color-secondary);
-  }
+.oc-fees-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 0 1rem;
 }

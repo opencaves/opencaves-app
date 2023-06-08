@@ -1,4 +1,5 @@
-import { IonAlert, IonButton, IonCol, IonGrid, IonRow, IonToast } from '@ionic/react'
+import { IonAlert, IonCol, IonGrid, IonRow, IonToast } from '@ionic/react'
+import { Button } from '@mui/material'
 import { useMediaQuery } from 'react-responsive'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
@@ -54,23 +55,20 @@ export default function QuickActions({ cave }) {
             {
               cave.location &&
               <IonCol className='oc-quick-actions--col'>
-                <IonButton aria-label={t('directions')} shape="round" className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
-                  <DirectionsIcon slot='start'></DirectionsIcon>
+                <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
                   {t('directions')}
-                </IonButton>
+                </Button>
               </IonCol>
             }
             <IonCol className='oc-quick-actions--col'>
-              <IonButton id='save-btn' aria-label={t('save')} shape="round" fill="outline" className='oc-quick-actions--btn'>
-                <BookmarkBorderIcon slot='start'></BookmarkBorderIcon>
+              <Button id='save-btn' aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn'>
                 {t('save')}
-              </IonButton>
+              </Button>
             </IonCol>
             <IonCol className='oc-quick-actions--col'>
-              <IonButton aria-label={t('share')} shape="round" fill="outline" className='oc-quick-actions--btn' onClick={onShareClick}>
-                <ShareIcon slot='start'></ShareIcon>
+              <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={onShareClick}>
                 {t('share')}
-              </IonButton>
+              </Button>
             </IonCol>
           </IonRow>
         ) : (

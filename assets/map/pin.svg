@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="19.999842"
+   height="28.150248"
+   preserveAspectRatio="xMidYMid"
+   version="1.0"
+   viewBox="0 0 19.999841 28.150247"
+   id="svg8"
+   sodipodi:docname="pin.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="33.329781"
+     inkscape:cx="6.7807227"
+     inkscape:cy="18.751999"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <path
+     d="M 11.300118,25.749918 C 12.15018,23.274626 13.025346,21.849257 15.87567,18.34887 17.026006,16.923639 18.2511,15.198549 18.576063,14.548347 21.45149,8.8225973 18.626132,2.3467838 12.500247,0.57148675 12.162732,0.4714875 10.52702,0.30059223 9.9999895,0.30004051 c -0.5271684,0 -2.1627424,0.17130906 -2.500395,0.27130831 C 1.3737094,2.346508 -1.4516487,8.8224594 1.423778,14.548209 c 0.3249631,0.650202 1.5501953,2.37543 2.7003935,3.800523 2.8503235,3.500525 3.7254893,4.925756 4.5755519,7.401048 0.6250988,1.875296 0.7637184,2.097363 1.3002661,2.100398 0.5364095,0.003 0.6750295,-0.224964 1.3001285,-2.10026 z"
+     style="fill:#ea4335;fill-opacity:1;stroke:#23272b;stroke-width:0.600081;stroke-dasharray:none;stroke-opacity:1"
+     id="path2"
+     inkscape:label="pin" />
+  <path
+     d="m 2.867,10.116 c 0,-1.033 2.067,-4.133 4.109,-4.132 2.09,0 4.157,3.099 4.157,4.132 H 7 Z M 7,2.884 c -3.1,0 -7.232,4.133 -7.232,7.232 h 1.033 c 0,-3.1 4.133,-6.199 6.199,-6.199 2.066,0 6.199,3.1 6.199,6.199 h 1.033 C 14.232,7.016 10.099,2.884 7,2.884 Z"
+     style="display:inline;fill:#ffffff;fill-opacity:1;enable-background:new;fill-rule:evenodd;stroke:none;stroke-width:1.03313;stroke-opacity:1"
+     transform="matrix(1.01337,0,0,1.01337,2.9046648,1.9567509)"
+     id="path4"
+     inkscape:label="cave icon" />
+</svg>

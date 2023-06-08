@@ -7,7 +7,6 @@ import navigationSlice from './slices/navigationSlice'
 import dataReducer from './slices/dataSlice'
 import userReducer from "./slices/userSlice"
 import searchReducer from './slices/searchSlice'
-import mapReducer from './slices/mapSlice'
 import mapSlice from './slices/mapSlice'
 
 const persistStorage = localforage.createInstance({

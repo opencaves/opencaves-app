@@ -22,7 +22,11 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "not safari < 10",
+      "not chrome < 51",
+      "not android < 5",
+      "not ie < 12"
     ],
     "development": [
       "last 1 chrome version",
@@ -50,6 +54,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "ionicons": "^7.1.2",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "mapbox-gl": "^2.13.0",
     "minisearch": "^6.1.0",
     "react": "^18.2.0",

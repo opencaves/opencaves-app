@@ -1,10 +1,11 @@
 import { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Map, { Marker, Popup, GeolocateControl } from 'react-map-gl'
+import Map, { Marker, Popup, GeolocateControl, Source, Layer } from 'react-map-gl'
 import { useMediaQuery } from 'react-responsive'
 import { chain, debounce } from 'underscore'
-import { setShowPopup, setPopupData, /* setInitialViewState,*/ setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
+import { setShowPopup, setPopupData, setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
 import { MapLoading, MapError } from './MapState'
+import { hasViewState } from './location-view-state'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -41,7 +42,7 @@ export default function OCMap() {
   })
 
   const filteredCaves = useMemo(() => {
-    console.log('========== filtering %s caves', mapData.length)
+    console.log('filtering %s caves', mapData.length)
 
     const filters = {
       coordinates: [
@@ -66,7 +67,7 @@ export default function OCMap() {
     }
 
     const result = filterCaves(mapData, filters)
-    console.log('========== found %s caves', result.length)
+    console.log('found %s caves', result.length)
     return result
 
 
@@ -133,7 +134,7 @@ export default function OCMap() {
     doSetCurrentMarkerElem(markerElem)
   }
 
-  function showCurrentCave() {
+  function showCurrentCave(flyTo = true) {
     if (currentCave && currentCave.location) {
       const { longitude: lng, latitude: lat } = currentCave.location
       const currentMarker = mapRef.current?.getMap()._markers.find(marker => {
@@ -143,6 +144,9 @@ export default function OCMap() {
 
       if (currentMarker) {
         setCurrentMarkerElem(currentMarker.getElement(), true)
+      }
+
+      if (flyTo) {
         mapRef.current && mapRef.current.flyTo({
           center: [lng, lat],
           zoom: currentZoomLevel
@@ -166,7 +170,12 @@ export default function OCMap() {
   }
 
   function onLoad() {
-    showCurrentCave()
+    // Disable touch rotation
+    mapRef.current?.getMap().touchZoomRotate.disableRotation()
+
+    // Fly to marker if no view state in the URL
+    const flyTo = !hasViewState()
+    showCurrentCave(flyTo)
   }
 
   function onGeolocateError(error) {
@@ -234,6 +243,7 @@ export default function OCMap() {
             onZoom={onZoom}
             onLoad={onLoad}
           >
+
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
               // trackUserLocation={true}
@@ -275,7 +285,7 @@ export default function OCMap() {
                     anchor='center'
                     onClick={(event) => handleMarkerOnClick(event, cave)}>
                     <div className='marker'>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="37.534" preserveAspectRatio="xMidYMid" version="1.0" viewBox="0 0 20 28.15" className='marker-icon'><path fill={cave.color} stroke="#23272b" strokeWidth=".6" d="M11.3 25.75c.85-2.475 1.725-3.9 4.576-7.4 1.15-1.426 2.375-3.151 2.7-3.801 2.876-5.726.05-12.202-6.076-13.977C12.163.472 10.527.3 10 .3c-.527 0-2.163.171-2.5.271-6.126 1.776-8.952 8.252-6.076 13.977.325.65 1.55 2.376 2.7 3.801 2.85 3.5 3.726 4.926 4.576 7.401.625 1.875.764 2.097 1.3 2.1.536.003.675-.225 1.3-2.1z" /><path fill="#fff" fillRule="evenodd" d="M5.263 12.689c0-1.184 2.368-4.737 4.709-4.737 2.396 0 4.765 3.553 4.765 4.737H10ZM10 4.399c-3.553 0-8.29 4.737-8.29 8.29h1.184c0-3.553 4.737-7.106 7.106-7.106 2.368 0 7.105 3.553 7.105 7.106h1.185c0-3.553-4.737-8.29-8.29-8.29z" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="28.15" preserveAspectRatio="xMidYMid" version="1.0" className="marker-icon"><path fill={cave.color} stroke="#23272b" strokeWidth=".6" d="M11.3 25.75c.85-2.475 1.725-3.9 4.576-7.401 1.15-1.425 2.375-3.15 2.7-3.8 2.875-5.726.05-12.202-6.076-13.977C12.163.472 10.527.3 10 .3c-.527 0-2.163.171-2.5.271-6.126 1.776-8.952 8.251-6.076 13.977.325.65 1.55 2.376 2.7 3.8C6.974 21.85 7.85 23.276 8.7 25.75c.625 1.875.763 2.097 1.3 2.1.536.003.675-.225 1.3-2.1z"/><path fill="#fff" fillRule="evenodd" d="M5.81 12.208c0-1.046 2.095-4.188 4.164-4.187 2.118 0 4.213 3.14 4.213 4.187H9.998zM10 4.88c-3.142 0-7.33 4.189-7.33 7.33h1.047c0-3.142 4.189-6.283 6.282-6.283s6.283 3.142 6.283 6.282h1.046c0-3.141-4.188-7.329-7.329-7.329z"/></svg>
                       {markerLabel && markerLabel}
                     </div>
                   </Marker>

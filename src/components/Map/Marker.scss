@@ -94,6 +94,60 @@
   }
 }
 
+.mapboxgl-marker {
+  --oc-marker-animation-duration: 0.68s;
+
+  &.active-animated {
+    z-index: 1;
+
+    .marker-icon {
+      // transform: scale(1.5);
+      transform-origin: center bottom;
+      animation: var(--oc-marker-animation-duration) bounceIn, var(--oc-marker-animation-duration) bounce, calc(var(--oc-marker-animation-duration) * 0.25) calc(var(--oc-marker-animation-duration) * 0.75) forwards zoomIn;
+
+      > path:first-child {
+        // fill: #ea4335;
+        // stroke: #c6211d;
+        animation: 0.125s forwards active-path-1;
+      }
+
+      > path:nth-child(2) {
+        // fill: #b21511;
+        animation: 0.125s forwards active-path-2;
+      }
+    }
+
+    .marker-label {
+      color: rgb(97, 156, 242);
+      display: none;
+    }
+  }
+
+  &.active {
+    z-index: 1;
+
+    .marker-icon {
+      transform: scale3d(1.3333, 1.3333, 1.3333);
+      transform-origin: center bottom;
+      filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+
+      > path:first-child {
+        // fill: #ea4335;
+        // stroke: #c6211d;
+        stroke: rgba(255, 255, 255, 0.8);
+      }
+
+      // > path:nth-child(2) {
+      //   fill: #b21511;
+      // }
+    }
+
+    .marker-label {
+      color: rgb(97, 156, 242);
+    }
+  }
+}
+
 .marker {
   text-align: center;
   display: flex;
@@ -118,59 +172,10 @@
 
   .marker-icon {
     cursor: pointer;
-    transition: 5s;
+    transition: var(--oc-marker-animation-duration);
 
     &:hover + .marker-label {
       color: rgb(97, 156, 242);
     }
-  }
-}
-
-.mapboxgl-marker.active-animated {
-  z-index: 1;
-
-  .marker-icon {
-    --oc-animation-duration: 0.68s;
-    // transform: scale(1.5);
-    transform-origin: center bottom;
-    animation: var(--oc-animation-duration) bounceIn, var(--oc-animation-duration) bounce, calc(var(--oc-animation-duration) * 0.25) calc(var(--oc-animation-duration) * 0.75) forwards zoomIn;
-
-    > path:first-child {
-      // fill: #ea4335;
-      // stroke: #c6211d;
-      animation: 0.125s forwards active-path-1;
-    }
-
-    > path:nth-child(2) {
-      // fill: #b21511;
-      animation: 0.125s forwards active-path-2;
-    }
-  }
-
-  .marker-label {
-    color: rgb(97, 156, 242);
-    display: none;
-  }
-}
-
-.mapboxgl-marker.active {
-  z-index: 1;
-
-  .marker-icon {
-    transform: scale3d(1.3333, 1.3333, 1.3333);
-    transform-origin: center bottom;
-
-    > path:first-child {
-      fill: #ea4335;
-      stroke: #c6211d;
-    }
-
-    > path:nth-child(2) {
-      fill: #b21511;
-    }
-  }
-
-  .marker-label {
-    color: rgb(97, 156, 242);
   }
 }

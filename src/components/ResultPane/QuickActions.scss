@@ -15,6 +15,15 @@
     // outline: 1px solid rgb(255, 187, 0);
   }
 
+  &--btn {
+    .MuiSvgIcon-root {
+      &[slot='start'] {
+        margin-right: 8px;
+        margin-left: -4px;
+      }
+    }
+  }
+
   button,
   ion-button {
     margin: 0;
@@ -85,23 +94,29 @@
 }
 
 .oc-quick-actions-sm {
-  .oc-quick-actions--row {
-    gap: 10px;
+  .oc-quick-actions {
+    &--row {
+      gap: 10px;
 
-    &:first-child {
-      margin-inline-start: 0;
+      &:first-child {
+        margin-inline-start: 0;
+      }
     }
-  }
 
-  .oc-quick-actions--btn {
-    // min-width: 80px;
-    width: 100%;
-    margin-inline: 0;
-  }
+    &--col {
+      flex-grow: 0;
+    }
 
-  .oc-quick-actions--row:first {
-    .oc-quick-actions--btn:first-child {
-      margin-inline-start: 0;
+    &--btn {
+      // min-width: 80px;
+      // width: 100%;
+      // margin-inline: 0;
+    }
+
+    &--row:first {
+      .oc-quick-actions--btn:first-child {
+        margin-inline-start: 0;
+      }
     }
   }
 }

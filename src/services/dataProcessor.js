@@ -329,9 +329,15 @@ function bol(str) {
   return (str === 'yes') ? true : (str === 'no') ? false : undefined
 }
 
-function num(num) {
+function num(num, digits) {
   //return isEmpty(num) ? undefined : new Number(('' + num).replace(/\s/, ''));
-  return Number(('' + num).replace(/\s/, ''))
+  const ret = Number(('' + num).replace(/\s/, ''))
+
+  if (digits) {
+    return parseFloat(ret.toFixed(digits))
+  }
+
+  return ret
 }
 
 function arr(str) {
@@ -359,8 +365,8 @@ function loc(obj, lngProp, latProp, validProp = null) {
   }
 
   const location = {
-    longitude: num(obj[lngProp]),
-    latitude: num(obj[latProp])
+    longitude: num(obj[lngProp], 5),
+    latitude: num(obj[latProp], 5)
   }
 
   if (validProp && Reflect.has(obj, validProp)) {
@@ -520,8 +526,8 @@ function getCaves(data) {
           fn: getIdRef
         },
         {
-          new: 'created',
-          old: 'Creation Date',
+          new: 'explorationDate',
+          old: 'Exploration Date',
           fn: str
         },
         {
@@ -642,8 +648,8 @@ function getSistemas(data) {
         fn: getIdRef
       },
       {
-        new: 'created',
-        old: 'Creation Date',
+        new: 'explorationDate',
+        old: 'Exploration Date',
         fn: str
       },
       {
