@@ -131,7 +131,7 @@ export default function MapFilterMenu() {
                           <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('access', key)})</IonNote>
                         </div>
                       </IonToggle>
-                      <IonNote className='oc-filter-accessibility-item--note' onClick={(e) => handleShowAccesses(!checked, key)}>{accesses.find(a => a.key === key).desc}</IonNote>
+                      <IonNote className='oc-filter-accessibility-item--note' onClick={(e) => handleShowAccesses(!checked, key)}>{accesses.find(a => a.key === key).description}</IonNote>
                     </IonLabel>
                   </IonItem>
                 )
@@ -153,7 +153,7 @@ export default function MapFilterMenu() {
                           <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('accessibility', key)})</IonNote>
                         </div>
                       </IonToggle>
-                      <IonNote className='oc-filter-accessibility-item--note' onClick={accessibilitiesNoteOnClick}>{accessibilities.find(a => a.key === key).desc}</IonNote>
+                      <IonNote className='oc-filter-accessibility-item--note' onClick={accessibilitiesNoteOnClick}>{accessibilities.find(a => a.key === key).description}</IonNote>
                     </IonLabel>
                   </IonItem>
                 )

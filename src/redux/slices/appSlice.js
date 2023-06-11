@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  isSmall: null
+  resultPaneSmFirstBreakpoint: .25,
+  resultPaneSmRestBreakpoints: [.5, 1]
 }
 
-export const dataSlice = createSlice({
-  name: 'data',
+export const appSlice = createSlice({
+  name: 'app',
   initialState,
   reducers: {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -17,35 +18,13 @@ export const dataSlice = createSlice({
     //   console.log('action: %o', action)
     //   state[action.payload.name] = action.payload.data
     // },
-    setAccesses: (state, action) => {
-      state.accesses = action.payload
+    setResultPaneSmFirstBreakpoint: (state, action) => {
+      state.resultPaneSmFirstBreakpoint = action.payload
     },
-    setAccessibilities: (state, action) => {
-      state.accessibilities = action.payload
-    },
-    setAreas: (state, action) => {
-      state.areas = action.payload
-    },
-    setCaves: (state, action) => {
-      state.caves = action.payload
-    },
-    setColors: (state, action) => {
-      state.colors = action.payload
-    },
-    setConnections: (state, action) => {
-      state.connections = action.payload
-    },
-    setSistemas: (state, action) => {
-      state.sistemas = action.payload
-    },
-    setSources: (state, action) => {
-      state.sources = action.payload
-    }
   },
 })
 
 // Action creators are generated for each case reducer function
-// export const { setCoordinateValid } = filterSlice.actions
-export const { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources } = dataSlice.actions
+export const { setResultPaneSmFirstBreakpoint } = appSlice.actions
 
-export default dataSlice.reducer
+export default appSlice.reducer

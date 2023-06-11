@@ -46,34 +46,39 @@
       "heading": "Accès",
       "items": [
         {
-          "key": "unknown",
-          "label": "Inconnu",
-          "desc": "L'accès est inconnu."
-        },
-        {
           "key": "customers",
           "label": "Clients uniquement",
-          "desc": "Uniquement pour les clients."
+          "description": "Uniquement pour les clients."
+        },
+        {
+        "key": "guide",
+        "label": "Un guide est nécessaire",
+        "description": "Un guide doit être embauché pour accéder au site."
         },
         {
           "key": "key",
           "label": "Clé nécessaire",
-          "desc": "Une clé doit être obtenue pour accéder au site."
+          "description": "Une clé doit être obtenue pour accéder au site."
         },
         {
           "key": "no",
           "label": "Accès interdit",
-          "desc": "La plongée souterraine est interdite dans ce lieu."
+          "description": "La plongée souterraine est interdite dans ce lieu."
         },
         {
           "key": "permission",
           "label": "Autorisation requise",
-          "desc": "Uniquement avec l'autorisation du propriétaire sur une base individuelle."
+          "description": "Uniquement avec l'autorisation du propriétaire sur une base individuelle."
         },
         {
           "key": "yes",
           "label": "Accès autorisé",
-          "desc": "La plongée souterraine est autorisée à cet endroit."
+          "description": "La plongée souterraine est autorisée à cet endroit."
+        },
+        {
+          "key": "unknown",
+          "label": "Inconnu",
+          "description": "L'accès est inconnu."
         }
       ]
     },
@@ -83,37 +88,37 @@
         {
           "key": "unknown",
           "label": "Inconnu",
-          "desc": "L'accessibilité est inconnue."
+          "description": "Aucune information n'a été rapportée concernant l'accessibilité du site."
         },
         {
           "key": "inaccessible",
           "label": "Inaccessible",
-          "desc": "Le site est inaccessible."
+          "description": "Le site est inaccessible."
         },
         {
           "key": "jungle",
           "label": "Jungle",
-          "desc": "Il n'y a pas de chemin menant au site."
+          "description": "Il n'y a pas de chemin menant au site."
         },
         {
           "key": "not-safe",
           "label": "Pas sécuritaire",
-          "desc": "Le site est considéré comme dangereux pour la plongée pour diverses raisons."
+          "description": "Le site est considéré comme dangereux pour la plongée pour diverses raisons."
         },
         {
           "key": "sea",
           "label": "Mer",
-          "desc": "Cette grotte est accessible uniquement depuis la mer."
+          "description": "Cette grotte est accessible uniquement depuis la mer."
         },
         {
           "key": "sidemount-only",
           "label": "Certification Sidemount",
-          "desc": "Une carte de certification de plongée en configuration latérale (sidemount) est requise pour accéder au site."
+          "description": "Une carte de certification de plongée en configuration latérale (sidemount) est requise pour accéder au site."
         },
         {
           "key": "variable",
           "label": "Accès variable",
-          "desc": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
+          "description": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
         }
       ]
     }
@@ -131,13 +136,17 @@
     "locationNotAvailable": "Lieu non disponible"
   },
   "accesses": {
+    "customers": {
+      "label": "Clients uniquement",
+      "description": "Le site est accessible uniquement aux clients."
+    },
+    "guide": {
+      "label": "Un guide est nécessaire",
+      "description": "Un guide doit être embauché pour accéder au site."
+    },
     "key": {
       "label": "Une clé est nécessaire",
       "description": "Une clé doit être obtenue pour accéder au site."
-    },
-    "yes": {
-      "label": "Accès autorisé",
-      "description": "La plongée souterraine est autorisée à cet endroit."
     },
     "no": {
       "label": "Accès interdit",
@@ -147,9 +156,9 @@
       "label": "Autorisation nécessaire",
       "description": "Le site n'est accessible qu'avec l'autorisation du propriétaire à titre individuel."
     },
-    "customers": {
-      "label": "Clients uniquement",
-      "description": "Le site est accessible uniquement aux clients."
+    "yes": {
+      "label": "Accès autorisé",
+      "description": "La plongée souterraine est autorisée à cet endroit."
     },
     "unknown": {
       "label": "Accès inconnu",

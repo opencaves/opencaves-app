@@ -4,6 +4,7 @@ import sessionStorage from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
 import navigationSlice from './slices/navigationSlice'
+import appReducer from './slices/appSlice'
 import dataReducer from './slices/dataSlice'
 import userReducer from "./slices/userSlice"
 import searchReducer from './slices/searchSlice'
@@ -19,6 +20,11 @@ const rootPersistConfig = {
   blacklist: ['navigation', 'map']
 }
 
+const appPersistConfig = {
+  key: 'app',
+  storage: sessionStorage
+}
+
 const sessionPersistConfig = {
   key: 'session',
   storage: sessionStorage,
@@ -31,6 +37,7 @@ const mapPersistConfig = {
 }
 
 const rootReducer = combineReducers({
+  app: persistReducer(appPersistConfig, appReducer),
   session: persistReducer(sessionPersistConfig, userReducer),
   navigation: navigationSlice,
   search: searchReducer,

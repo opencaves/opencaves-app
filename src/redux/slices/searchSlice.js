@@ -5,21 +5,22 @@ const initialState = {
   showInvalidCoordinates: false,
   showUnknownCoordinates: false,
   showAccesses: [
-    { key: 'unknown', checked: true },
-    { key: "customers", checked: true },
-    { key: "key", checked: true },
+    { key: "yes", checked: true },
     { key: "no", checked: true },
+    { key: "customers", checked: true },
+    { key: "guide", checked: true },
+    { key: "key", checked: true },
     { key: "permission", checked: true },
-    { key: "yes", checked: true }
+    { key: 'unknown', checked: true }
   ],
   showAccessibilities: [
-    { key: 'unknown', checked: true },
     { key: "jungle", checked: true },
     { key: "not-safe", checked: true },
     { key: "sea", checked: true },
     { key: "sidemount-only", checked: true },
     { key: "variable", checked: true },
-    { key: "inaccessible", checked: true }
+    { key: "inaccessible", checked: true },
+    { key: 'unknown', checked: true }
   ]
 }
 

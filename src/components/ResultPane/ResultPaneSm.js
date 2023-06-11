@@ -1,11 +1,15 @@
 import React, { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { IonCard, IonModal, IonContent, IonButton } from '@ionic/react'
 import IconButton from '@mui/material/IconButton'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
+import {setResultPaneSmFirstBreakpoint} from '../../redux/slices/appSlice'
 import './ResultPaneSm.scss'
 
 export default function ResultPaneSm({ children }) {
   const modal = useRef(null)
+  const firstBreakpoint = useSelector(state => state.app.resultPaneSmFirstBreakpoint)
+  const restBreakpoints = useSelector(state => state.app.resultPaneSmRestBreakpoints)
   const [breakpoint, setBreakpoint] = useState(0)
 
   function onModalBreakpointDidChange(event) {
@@ -13,7 +17,7 @@ export default function ResultPaneSm({ children }) {
   }
 
   function onBackBtnClick(event) {
-    modal.current.setCurrentBreakpoint(.25)
+    modal.current.setCurrentBreakpoint(firstBreakpoint)
   }
 
   return (
@@ -22,7 +26,7 @@ export default function ResultPaneSm({ children }) {
       ref={modal}
       isOpen={true}
       handleBehavior='cycle'
-      initialBreakpoint={0.25}
+      initialBreakpoint={firstBreakpoint}
       breakpoints={[0.25, .5, 1]}
       backdropDismiss={false}
       backdropBreakpoint={0.5}

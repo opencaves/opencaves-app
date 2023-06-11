@@ -46,34 +46,39 @@
       "heading": "Access",
       "items": [
         {
-          "key": "unknown",
-          "label": "Unknown",
-          "desc": "The access is unknown."
-        },
-        {
           "key": "customers",
           "label": "Customers only",
-          "desc": "Only for customers."
+          "description": "Only for customers."
+        },
+        {
+        "key": "guide",
+        "label": "A guide is needed",
+        "description": "A guide must be hired to get access to the site."
         },
         {
           "key": "key",
           "label": "Key needed",
-          "desc": "A key must be obtained to get access to the site."
+          "description": "A key must be obtained to get access to the site."
         },
         {
           "key": "no",
           "label": "Access forbiden",
-          "desc": "Cave diving is forbidden in this place."
+          "description": "Cave diving is forbidden in this place."
         },
         {
           "key": "permission",
           "label": "Permission required",
-          "desc": "Only with permission of the owner on an individual basis."
+          "description": "Only with permission of the owner on an individual basis."
         },
         {
           "key": "yes",
           "label": "Authorized access",
-          "desc": "Cave diving is permitted in this place."
+          "description": "Cave diving is permitted in this place."
+        },
+        {
+          "key": "unknown",
+          "label": "Unknown",
+          "description": "The access is unknown."
         }
       ]
     },
@@ -83,37 +88,37 @@
         {
           "key": "unknown",
           "label": "Unknown",
-          "desc": "The accessibility is unknown."
+          "description": "No information has been reported regarding the accessibility of the site."
         },
         {
           "key": "inaccessible",
           "label": "Inaccessible",
-          "desc": "The site is inaccessible."
+          "description": "The site is inaccessible."
         },
         {
           "key": "jungle",
           "label": "Jungle",
-          "desc": "There is no path leading to the site."
+          "description": "There is no path leading to the site."
         },
         {
           "key": "not-safe",
           "label": "Not safe",
-          "desc": "The site is considered not safe to dive for various reasons."
+          "description": "The site is considered not safe to dive for various reasons."
         },
         {
           "key": "sea",
           "label": "Sea",
-          "desc": "This cave is accessible only from the sea."
+          "description": "This cave is accessible only from the sea."
         },
         {
           "key": "sidemount-only",
           "label": "Sidemount certification",
-          "desc": "A sidemount certification card is required to access the site."
+          "description": "A sidemount certification card is required to access the site."
         },
         {
           "key": "variable",
           "label": "Variable access",
-          "desc": "Access to this area varies depending on time or entry point."
+          "description": "Access to this area varies depending on time or entry point."
         }
       ]
     }
@@ -131,13 +136,17 @@
     "locationNotAvailable": "Location not available"
   },
   "accesses": {
+    "customers": {
+      "label": "Customers only",
+      "description": "The site is accessible only for customers."
+    },
+    "guide": {
+      "label": "A guide is needed",
+      "description": "A guide must be hired to get access to the site."
+    },
     "key": {
       "label": "A key is needed",
       "description": "A key must be obtained to get access to the site."
-    },
-    "yes": {
-      "label": "Access allowed",
-      "description": "Cave diving is permitted in this place."
     },
     "no": {
       "label": "Access forbiden",
@@ -147,9 +156,9 @@
       "label": "Permission needed",
       "description": "The site is accessible only with permission of the owner on an individual basis."
     },
-    "customers": {
-      "label": "Customers only",
-      "description": "The site is accessible only for customers."
+    "yes": {
+      "label": "Access allowed",
+      "description": "Cave diving is permitted in this place."
     },
     "unknown": {
       "label": "Access unknown",
