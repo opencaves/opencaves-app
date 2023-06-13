@@ -3,7 +3,7 @@ import { IonSearchbar, IonMenuButton, IonList, IonItem, IonLabel, IonNote, IonBu
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
-import { Box } from '@mui/system'
+import { Box, styled } from '@mui/system'
 import { Tooltip, Collapse, Fade } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -79,6 +79,10 @@ function markHints(result, searchTerm) {
 
   return hints
 }
+
+const SearchBar = styled(IonSearchbar)({
+  
+})
 
 export default function SearchBar() {
 
