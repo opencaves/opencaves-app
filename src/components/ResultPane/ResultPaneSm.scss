@@ -23,7 +23,8 @@
   }
 
   .oc-result-pane--header {
-    padding-inline: var(--oc-details-padding-inline);
-    padding-block-end: 0;
+    padding-left: var(--oc-details-padding-inline);
+    padding-right: var(--oc-details-padding-inline);
+    padding-bottom: 0;
   }
 }

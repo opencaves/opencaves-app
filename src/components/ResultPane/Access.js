@@ -116,7 +116,7 @@ export default function Access({ cave }) {
 
       <div className='details-container'>
         <Grid container spacing={0} xs='auto' display="flex" justifyContent="center" alignItems="center">
-          <div className='oc-fees-grid'>
+          <div className='oc-access--grid'>
             <Grid xs='auto' display="flex" justifyContent="center" alignItems="center">
               <Grid container direction='column' spacing={1}>
                 <Grid xs='auto' display='flex' justifyContent="center">

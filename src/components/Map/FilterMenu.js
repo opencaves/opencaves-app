@@ -1,10 +1,13 @@
 import React from 'react'
 import { IonContent, IonHeader, IonMenu, IonTitle, IonToolbar, IonToggle, IonList, IonItem, IonButtons, IonButton, IonMenuToggle, IonLabel, IonListHeader, IonNote } from '@ionic/react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
+import {setResultPaneSmOpen} from '../../redux/slices/appSlice'
 import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnknownCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
-import './MapFilterMenu.scss'
+import './FilterMenu.scss'
 
 export default function MapFilterMenu() {
 
@@ -15,6 +18,10 @@ export default function MapFilterMenu() {
   const showAccessibilities = useSelector(state => state.search.showAccessibilities)
 
   const dataStats = useSelector(state => state.map.dataStats)
+  const theme = useTheme()
+  
+    // query: '(max-width: 767px)'
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const dispatch = useDispatch()
   const { t } = useTranslation('filter')
@@ -68,12 +75,20 @@ export default function MapFilterMenu() {
     return dataStats?.[prop]?.[value] || 0
   }
 
+  function handleMenuWillOpen(){
+    dispatch(setResultPaneSmOpen(false))
+  }
+
+  function handleMenuDidClose(){
+    dispatch(setResultPaneSmOpen(true))
+  }
+
   const accessibilities = t('accessibility.items', { returnObjects: true })
   const accesses = t('access.items', { returnObjects: true })
 
   return (
     <>
-      <IonMenu contentId="main-content" side="end" className='map-filter-menu'>
+      <IonMenu contentId="main-content" side="end" className={`oc-filter-menu${isSmall ? ` sm` : ``}`} onIonWillOpen={handleMenuWillOpen} onIonDidClose={handleMenuDidClose}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>{t('windowTitle')}</IonTitle>
@@ -86,7 +101,7 @@ export default function MapFilterMenu() {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="map-filter-menu--panel ion-padding">
+        <IonContent className="oc-filter-menu--panel ion-padding">
           <IonList className='list'>
             <IonListHeader>
               <ion-label>{t('coordinate.heading')}</ion-label>

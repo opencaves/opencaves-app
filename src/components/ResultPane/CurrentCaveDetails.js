@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonItem, IonLabel, IonToast } from '@ionic/react'
-import { useMediaQuery } from 'react-responsive'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Tooltip } from '@mui/material'
+import { Tooltip, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { close } from 'ionicons/icons'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -23,10 +23,9 @@ import './CurrentCaveDetails.scss'
 export function CurrentCaveDetailsHeader({ cave }) {
   const { t, i18n } = useTranslation('resultPane')
   const [rating, setRating] = useState(-1)
+  const theme = useTheme()
 
-  const isSmall = useMediaQuery({
-    query: '(max-width: 767px)'
-  })
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => setRating(Reflect.has(cave, 'rating') ? cave.rating : -1), [cave])
 
@@ -51,6 +50,7 @@ export function CurrentCaveDetailsHeader({ cave }) {
 
 export function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
+  const theme = useTheme()
 
   const addressTooltip = useRef()
   const [toastIsOpen, setToastIsOpen] = useState(false)
@@ -81,9 +81,7 @@ export function CurrentCaveDetailsContent({ cave }) {
     entranceText = `${cave.entrance.latitude}, ${cave.entrance.longitude}`
   }
 
-  const isSmall = useMediaQuery({
-    query: '(max-width: 767px)'
-  })
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
     if (isSmall) {

@@ -2,7 +2,8 @@
   --oc-results-sistemas--item-padding: 1em;
 
   &--header {
-    padding-inline: var(--oc-details-padding-inline);
+    padding-left: var(--oc-details-padding-inline);
+    padding-right: var(--oc-details-padding-inline);
 
     h1 {
       margin: 0;
@@ -42,25 +43,25 @@
     }
 
     .oc-quick-actions {
-      padding-block: var(--oc-details-padding-block);
+      padding-top: var(--oc-details-padding-block);
+      padding-bottom: var(--oc-details-padding-block);
     }
 
     .details-container {
-      padding-inline: var(--oc-details-padding-inline);
-      padding-block: var(--oc-details-padding-block);
+      padding: var(--oc-details-padding-block) var(--oc-details-padding-inline);
 
       & + .details-container {
-        padding-block-start: 0;
+        padding-top: 0;
       }
     }
 
     .details-text {
       p {
         font-size: inherit;
-        margin-block-end: 1em;
+        margin-bottom: 1em;
 
         &:last-child {
-          margin-block-end: 0;
+          margin-bottom: 0;
         }
       }
     }
@@ -73,12 +74,13 @@
       line-height: 1.25rem;
 
       > svg[slot='start'] {
-        margin-inline-end: 24px;
+        margin-right: 24px;
       }
     }
 
     .oc-results-copy-items {
-      padding-block: var(--oc-details-padding-block);
+      padding-top: var(--oc-details-padding-block);
+      padding-bottom: var(--oc-details-padding-block);
 
       ion-item {
         > [slot='end'] {
@@ -111,10 +113,10 @@
 
     &--item {
       // outline: 1px solid red;
-      margin-block-end: 0.5em;
+      margin-bottom: 0.5em;
 
       &:last-child {
-        margin-block-end: 0;
+        margin-bottom: 0;
       }
 
       &-note {

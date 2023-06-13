@@ -10,6 +10,8 @@ export default function ResultPaneSm({ children }) {
   const modal = useRef(null)
   const firstBreakpoint = useSelector(state => state.app.resultPaneSmFirstBreakpoint)
   const restBreakpoints = useSelector(state => state.app.resultPaneSmRestBreakpoints)
+  const resultPaneOpen = useSelector(state => state.app.resultPaneSmOpen)
+
   const [breakpoint, setBreakpoint] = useState(0)
 
   function onModalBreakpointDidChange(event) {
@@ -20,16 +22,18 @@ export default function ResultPaneSm({ children }) {
     modal.current.setCurrentBreakpoint(firstBreakpoint)
   }
 
-  return (
+  return resultPaneOpen && (
 
     <IonModal
       ref={modal}
       isOpen={true}
       handleBehavior='cycle'
       initialBreakpoint={firstBreakpoint}
-      breakpoints={[0.25, .5, 1]}
+      breakpoints={[firstBreakpoint, ...restBreakpoints]}
+      showBackdrop={false}
       backdropDismiss={false}
-      backdropBreakpoint={0.5}
+      backdropBreakpoint={0.25}
+      mode='md'
       className='oc-result-pane oc-result-pane-sm'
       onIonBreakpointDidChange={onModalBreakpointDidChange}
     >

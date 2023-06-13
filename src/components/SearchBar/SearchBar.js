@@ -3,6 +3,7 @@ import { IonSearchbar, IonMenuButton, IonList, IonItem, IonLabel, IonNote, IonBu
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
+import { Box } from '@mui/system'
 import { Tooltip, Collapse, Fade } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -192,7 +193,20 @@ export default function SearchBar() {
   }, [searchResults, searchBarHasFocus])
 
   return (
-    <div className="oc-search-bar" onFocus={_onOCSearchbarFocus}>
+    <Box 
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        p: '0.5rem 0.5rem 0 0.5rem',
+        maxWidth: '100%',
+        width: {
+          xs: '100%',
+          sm: '400px'
+        },
+        zIndex: 'var(--oc-searchbar-z-index)'
+      }}
+      className="oc-search-bar" onFocus={_onOCSearchbarFocus}>
       <div className='oc-search-bar--container'>
         <div className='oc-search-bar--omnibox'>
           <div className='oc-search-bar--actions'>
@@ -232,7 +246,7 @@ export default function SearchBar() {
           </Collapse>
         }
       </div>
-    </div>
+    </Box>
   )
 }
 

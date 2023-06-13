@@ -34,11 +34,11 @@
   &--icon-text {
     font-size: 0.75rem;
   }
-}
 
-.oc-fees-grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 0 1rem;
+  &--grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0 1rem;
+  }
 }

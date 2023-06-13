@@ -49,20 +49,12 @@
       height: 50px;
 
       .mapboxgl-ctrl-icon {
-        background-color: var(--ion-color-primary);
-        mask-image: url('../../../assets/crosshair-minimized.svg');
-        mask-repeat: no-repeat;
-        mask-position: 50%;
-        mask-size: 60%;
-        background-image: none;
+        background-image: url('../../../assets/map/crosshair.svg');
+        background-size: 55%;
       }
 
       &:disabled {
         display: none;
-
-        .mapboxgl-ctrl-icon {
-          mask-image: url('../../../assets/crosshair-off-minimized.svg');
-        }
       }
     }
 

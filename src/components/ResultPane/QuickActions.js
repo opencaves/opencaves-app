@@ -1,6 +1,7 @@
 import { IonAlert, IonCol, IonGrid, IonRow, IonToast } from '@ionic/react'
 import { Button } from '@mui/material'
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -26,9 +27,9 @@ function openDirections(cave) {
 
 export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
-  const isSmall = useMediaQuery({
-    query: '(max-width: 767px)'
-  })
+  const theme = useTheme()
+  
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   async function onShareClick() {
     console.log('can share: %o', await Share.canShare())
@@ -49,6 +50,7 @@ export default function QuickActions({ cave }) {
       {
         !isSmall && <hr />
       }
+      
       <IonGrid className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}>
         {isSmall ? (
           <IonRow className='oc-quick-actions--row'>

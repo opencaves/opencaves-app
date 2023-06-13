@@ -64,8 +64,9 @@
 
   pre {
     max-width: 100%;
-    padding-inline: 1em !important;
-    padding-block-end: 1em;
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+    padding-bottom: 1em;
   }
 
   &--logo {

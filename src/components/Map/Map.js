@@ -1,7 +1,8 @@
 import { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Map, { Marker, Popup, GeolocateControl, Source, Layer } from 'react-map-gl'
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import { setShowPopup, setPopupData, setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
 import { MapLoading, MapError } from './MapState'
@@ -25,6 +26,8 @@ export default function OCMap() {
   const mapData = useSelector(state => state.map.data)
   const caveData = useSelector(state => state.data.caves)
 
+  const theme = useTheme()
+
   const [mapReady, setMapReady] = useState(false)
   const [currentMarkerElem, doSetCurrentMarkerElem] = useState()
   const [zoomLevel, setZoomLevel] = useState(defaultViewState.zoom)
@@ -37,9 +40,8 @@ export default function OCMap() {
 
   const dispatch = useDispatch()
 
-  const isSmall = useMediaQuery({
-    query: '(max-width: 767px)'
-  })
+    // query: '(max-width: 767px)'
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const filteredCaves = useMemo(() => {
     console.log('filtering %s caves', mapData.length)
@@ -267,7 +269,8 @@ export default function OCMap() {
 
                 let markerLabel = null
                 if (isCurrentCave) {
-                  if (zoomLevel < markerConfig.current.label.maxZoomLevel) {
+                  // if (zoomLevel < markerConfig.current.label.maxZoomLevel) {
+                  if (zoomLevel > markerConfig.label.minZoomLevel) {
                     markerLabel = <div key={`marker-${cave.id}`} className='marker-label'>{cave.name}</div>
                   }
                 } else {
@@ -298,7 +301,7 @@ export default function OCMap() {
         )
 
       }
-      <div style={{ position: 'absolute', bottom: '1em', right: '80px', color: '#fff' }}>{Math.round(zoomLevel * 100) / 100}</div>
+      {/* <div style={{ position: 'absolute', bottom: '1em', right: '80px', color: '#fff' }}>{Math.round(zoomLevel * 100) / 100}</div> */}
     </div >
   )
 }

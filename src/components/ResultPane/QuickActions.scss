@@ -7,7 +7,8 @@
   // outline: 1px solid red;
 
   &--row {
-    padding-inline: var(--oc-details-padding-inline);
+    padding-left: var(--oc-details-padding-inline);
+    padding-right: var(--oc-details-padding-inline);
   }
 
   &--col {
@@ -54,7 +55,8 @@
       font-size: 0.75rem;
       transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 15ms linear, color 15ms linear;
       width: 100%;
-      margin-inline: 0;
+      margin-left: 0;
+      margin-right: 0;
 
       &:hover {
         .oc-quick-actions--btn-icon {
@@ -96,15 +98,18 @@
 .oc-quick-actions-sm {
   .oc-quick-actions {
     &--row {
-      gap: 10px;
-
       &:first-child {
-        margin-inline-start: 0;
+        margin-left: 0;
       }
     }
 
     &--col {
       flex-grow: 0;
+      padding-right: 10px;
+
+      &:last-child {
+        padding-right: 0;
+      }
     }
 
     &--btn {
@@ -115,7 +120,7 @@
 
     &--row:first {
       .oc-quick-actions--btn:first-child {
-        margin-inline-start: 0;
+        margin-left: 0;
       }
     }
   }

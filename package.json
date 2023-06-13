@@ -31,7 +31,8 @@
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "safari >= 14"
     ]
   },
   "dependencies": {
@@ -64,7 +65,6 @@
     "react-map-gl": "^7.0.21",
     "react-minisearch": "^6.0.2",
     "react-redux": "^8.0.7",
-    "react-responsive": "^9.0.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",

@@ -401,7 +401,7 @@ function loc(obj, lngProp, latProp, validProp = null) {
 function getCaveSistemas(cave) {
 
   function getSistemaAncestry(sistemas) {
-    const currentSistemaId = sistemas.at(-1).id
+    const currentSistemaId = sistemas[sistemas.length - 1].id
 
     if (sistemasMap.has(currentSistemaId)) {
       const parentSistema = sistemasMap.get(currentSistemaId)

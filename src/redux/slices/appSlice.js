@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  resultPaneSmOpen: true,
   resultPaneSmFirstBreakpoint: .25,
   resultPaneSmRestBreakpoints: [.5, 1]
 }
@@ -18,6 +19,9 @@ export const appSlice = createSlice({
     //   console.log('action: %o', action)
     //   state[action.payload.name] = action.payload.data
     // },
+    setResultPaneSmOpen: (state, action) => {
+      state.resultPaneSmOpen = action.payload
+    },
     setResultPaneSmFirstBreakpoint: (state, action) => {
       state.resultPaneSmFirstBreakpoint = action.payload
     },
@@ -25,6 +29,6 @@ export const appSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setResultPaneSmFirstBreakpoint } = appSlice.actions
+export const { setResultPaneSmOpen, setResultPaneSmFirstBreakpoint } = appSlice.actions
 
 export default appSlice.reducer
