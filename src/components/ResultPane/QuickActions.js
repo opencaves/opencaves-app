@@ -7,6 +7,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
 import { useTranslation } from 'react-i18next'
+import Divider from './Divider'
 import './QuickActions.scss'
 
 function openDirections(cave) {
@@ -28,7 +29,7 @@ function openDirections(cave) {
 export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
   const theme = useTheme()
-  
+
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   async function onShareClick() {
@@ -48,9 +49,9 @@ export default function QuickActions({ cave }) {
   return (
     <>
       {
-        !isSmall && <hr />
+        !isSmall && <Divider />
       }
-      
+
       <IonGrid className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}>
         {isSmall ? (
           <IonRow className='oc-quick-actions--row'>

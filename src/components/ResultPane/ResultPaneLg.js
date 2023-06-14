@@ -1,12 +1,24 @@
 import React from 'react'
-import { IonCard } from '@ionic/react'
+import { Card, CardContent } from '@mui/material'
 import './ResultPaneLg.scss'
 
 export default function ResultPaneLg({ children }) {
 
   return (
-    <IonCard className='oc-result-pane oc-result-pane-lg'>
-      {children}
-    </IonCard>
+    <Card
+      className='oc-result-pane oc-result-pane-lg'
+      sx={{
+        position: 'relative',
+        boxShadow: 5
+      }}
+    >
+      <CardContent
+        sx={{
+          p: 0
+        }}
+      >
+        {children}
+      </CardContent>
+    </Card>
   )
 }

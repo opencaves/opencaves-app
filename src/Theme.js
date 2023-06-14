@@ -20,7 +20,25 @@ const lightThemeOptions = {
       main: '#5da426',
     },
   },
+  typography: {
+    caveDetailsHeader: {
+      fontSize: '1.125rem',
+      lineHeight: '1.5rem',
+      fontWeight: 400
+    },
+    caveDetailsSubHeader: {
+      color: 'theme.text.secondary'
+    }
+  },
   components: {
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          caveDetailsHeader: 'h1',
+          caveDetailsSubHeader: 'p'
+        }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -79,6 +97,10 @@ const darkThemeOptions = {
     success: {
       main: '#6CBE2D',
     },
+    text: {
+      primary: '#d3cfc9',
+      secondary: '#B2A9A4'
+    }
   },
   components: {
     // MuiTooltip: {

@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { IonCard, IonModal, IonContent, IonButton } from '@ionic/react'
+import { useSelector } from 'react-redux'
+import { IonModal, IonContent } from '@ionic/react'
+import { Card, CardContent } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
-import {setResultPaneSmFirstBreakpoint} from '../../redux/slices/appSlice'
+// import { setResultPaneSmFirstBreakpoint } from '../../redux/slices/appSlice'
 import './ResultPaneSm.scss'
 
 export default function ResultPaneSm({ children }) {
@@ -38,15 +39,23 @@ export default function ResultPaneSm({ children }) {
       onIonBreakpointDidChange={onModalBreakpointDidChange}
     >
       <IonContent>
-        <IonCard className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`}>
-          {
-            breakpoint === 1 &&
-            <IconButton aria-label='Back' className='oc-back-btn' onClick={onBackBtnClick}>
-              <ArrowBackRoundedIcon />
-            </IconButton>
-          }
-          {children}
-        </IonCard>
+        <Card
+          className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`}
+        >
+          <CardContent
+            sx={{
+              p: 0
+            }}
+          >
+            {
+              breakpoint === 1 &&
+              <IconButton aria-label='Back' className='oc-back-btn' onClick={onBackBtnClick}>
+                <ArrowBackRoundedIcon />
+              </IconButton>
+            }
+            {children}
+          </CardContent>
+        </Card>
       </IonContent>
     </IonModal>
   )

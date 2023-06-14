@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonItem, IonLabel, IonToast } from '@ionic/react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Tooltip, useMediaQuery } from '@mui/material'
+import { Box, CardContent, CardHeader, Tooltip, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { close } from 'ionicons/icons'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
 import LocationDisabledOutlinedIcon from '@mui/icons-material/LocationDisabledOutlined'
@@ -13,6 +13,7 @@ import FenceRoundedIcon from '@mui/icons-material/FenceRounded'
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded'
 import Markdown from '../Markdown/Markdown'
 import Address from './Address'
+import Divider from './Divider'
 import QuickActions from './QuickActions'
 import Rating from '../Rating/Rating'
 import Access from './Access'
@@ -34,16 +35,16 @@ export function CurrentCaveDetailsHeader({ cave }) {
       {
         !isSmall && <img alt="" src={mediaCardImage} />
       }
-      <IonCardHeader className='oc-result-pane--header'>
-        <IonCardTitle><h1>{cave.name}</h1></IonCardTitle>
+      <Box className='oc-result-pane--header'>
+        <Typography variant='caveDetailsHeader'>{cave.name}</Typography>
         {
-          cave.nameTranslations?.[i18n.resolvedLanguage] && <IonCardSubtitle className='oc-result-pane--header-subtitle'>{cave.nameTranslations[i18n.resolvedLanguage]}</IonCardSubtitle>
+          cave.nameTranslations?.[i18n.resolvedLanguage] && <Typography variant='body2' className='oc-result-pane--header-subtitle'>{cave.nameTranslations[i18n.resolvedLanguage]}</Typography>
         }
         {
-          cave.aka && cave.aka.length && <IonCardSubtitle className='oc-result-pane--header-subtitle'>{cave.aka.join(', ')}</IonCardSubtitle>
+          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader' className='oc-result-pane--header-subtitle'>{cave.aka.join(', ')}</Typography>
         }
         <Rating value={rating}></Rating>
-      </IonCardHeader>
+      </Box>
     </>
   )
 }
@@ -161,7 +162,7 @@ export function CurrentCaveDetailsContent({ cave }) {
 
       <QuickActions cave={cave}></QuickActions>
 
-      <hr />
+      <Divider />
 
       <IonList lines="none" className='oc-results-copy-items'>
 
@@ -238,18 +239,18 @@ export function CurrentCaveDetailsContent({ cave }) {
 
       {
         cave.sistemas && cave.sistemas.length > 0 && <>
-          <hr />
+          <Divider />
           <SistemaHistory sistemaHistory={cave.sistemas} />
         </>
       }
 
-      <hr />
+      <Divider />
 
       <Access cave={cave} />
 
       {
         cave.description && <>
-          <hr />
+          <Divider />
           <div className='details-container details-text'>
             <Markdown>{cave.description}</Markdown>
           </div>
@@ -258,7 +259,7 @@ export function CurrentCaveDetailsContent({ cave }) {
 
       {
         cave.direction && <>
-          <hr />
+          <Divider />
           <div className='details-container'>
             <h2>{t('directionsHeader')}</h2>
           </div>

@@ -2,16 +2,17 @@
   --oc-results-sistemas--item-padding: 1em;
 
   &--header {
+    padding-top: var(--oc-details-padding-block);
     padding-left: var(--oc-details-padding-inline);
     padding-right: var(--oc-details-padding-inline);
 
-    h1 {
-      margin: 0;
-      padding: 0;
-      line-height: 1.5rem;
-      font-weight: 400;
-      font-size: 1.125rem;
-    }
+    // h1 {
+    //   margin: 0;
+    //   padding: 0;
+    //   line-height: 1.5rem;
+    //   font-weight: 400;
+    //   font-size: 1.125rem;
+    // }
 
     ion-card-subtitle {
       margin-top: 0;
