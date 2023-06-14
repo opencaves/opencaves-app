@@ -80,10 +80,6 @@ function markHints(result, searchTerm) {
   return hints
 }
 
-const SearchBar = styled(IonSearchbar)({
-  
-})
-
 export default function SearchBar() {
 
   const [value, setValue] = useState()

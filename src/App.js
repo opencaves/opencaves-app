@@ -2,14 +2,15 @@ import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { CssVarsProvider } from "@mui/material-next/styles"
+// import { CssVarsProvider } from "@mui/material-next/styles"
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import { useMediaQuery } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
-import { getTheme } from './Theme.js'
+import { getTheme, theme } from './Theme.js'
 
 import '@fontsource/open-sans/600.css'
 
@@ -53,12 +54,12 @@ const App = () => {
   const { i18n } = useTranslation()
   console.log('resolved language: %s', i18n.resolvedLanguage)
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
-  const theme = useMemo(
-    () => getTheme(prefersDarkMode ? 'dark' : 'light'),
-    [prefersDarkMode],
-  )
+  // const theme = useMemo(
+  //   () => getTheme(prefersDarkMode ? 'dark' : 'light'),
+  //   [prefersDarkMode],
+  // )
 
   getData()
     .then(() => {
@@ -70,9 +71,9 @@ const App = () => {
 
   return (
     <Fragment>
-      <ThemeProvider theme={theme}>
+      <CssVarsProvider theme={theme}>
         {/* <ThemeProvider theme={nextTheme}> */}
-        <CssVarsProvider theme={theme} />
+        {/* <CssVarsProvider theme={theme} /> */}
         <HelmetProvider>
           <Helmet>
             <title>{title}</title>
@@ -93,7 +94,7 @@ const App = () => {
           </IonApp>
         </HelmetProvider>
         {/* </ThemeProvider> */}
-      </ThemeProvider>
+      </CssVarsProvider>
     </Fragment>
   )
 }

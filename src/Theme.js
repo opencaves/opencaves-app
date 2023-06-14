@@ -4,7 +4,6 @@ import { merge } from 'lodash'
 
 const lightThemeOptions = {
   palette: {
-    mode: 'light',
     primary: {
       main: '#1b4859',
     },
@@ -65,9 +64,8 @@ const lightThemeOptions = {
 
 const darkThemeOptions = {
   palette: {
-    mode: 'dark',
     primary: {
-      main: '#1cb9f2',
+      main: '#30a4b5',
     },
     secondary: {
       main: '#d9b504',
@@ -124,6 +122,11 @@ export function getTheme(mode) {
   return mode === 'light' ? createTheme(lightThemeOptions) : createTheme(merge({}, lightThemeOptions, darkThemeOptions))
 }
 
-// export const theme = createTheme(themeOptions)
+export const theme = extendTheme({
+  colorSchemes: {
+    light: lightThemeOptions,
+    dark: merge({}, lightThemeOptions, darkThemeOptions)
+  }
+})
 
 // export const nextTheme = extendTheme(nextThemeOptions)

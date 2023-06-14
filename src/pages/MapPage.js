@@ -5,6 +5,7 @@ import Map from '../components/Map/Map'
 import SearchBar from '../components/SearchBar/SearchBar'
 import FilterMenu from '../components/Map/FilterMenu'
 import ResultPane from '../components/ResultPane/ResultPane'
+import ModeSwitcher from '../components/ModeSwitcher'
 import './MapPage.scss'
 
 export default function MapPage(props) {
@@ -26,6 +27,7 @@ export default function MapPage(props) {
         </IonContent>
       </IonPage>
       <FilterMenu />
+      <ModeSwitcher />
       {
         dev && <div style={{
           position: 'absolute',

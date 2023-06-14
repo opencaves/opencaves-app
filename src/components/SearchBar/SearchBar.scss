@@ -27,7 +27,6 @@
 
     .sc-ion-searchbar-md-h {
       --box-shadow: none;
-      border-radius: var(--oc-border-radius);
     }
 
     ion-menu-button {
@@ -68,12 +67,12 @@
   }
 
   &--input {
-    --background: transparent;
+    --background: transparent; // ion
 
-    padding: 0;
+    padding: 0; // ion
 
     .searchbar-search-icon {
-      display: none !important;
+      display: none !important; // ion
     }
 
     .searchbar-input {
