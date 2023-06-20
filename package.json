@@ -42,7 +42,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/open-sans": "^4.5.14",
     "@fontsource/roboto": "^5.0.3",
-    "@ionic/react": "^7.0.1",
+    "@ionic/react": "^7.0.14",
     "@ionic/react-router": "^7.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
