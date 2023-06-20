@@ -26,19 +26,19 @@ function openDirections(cave) {
   window.open(url)
 }
 
-function ButtonLg(props) {
-  return <ButtonBase sx={{
+function ButtonLg({ children, ...props }) {
+  return <ButtonBase {...props} disableRipple sx={{
     '&:hover': {
       '--_shadow': '0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
       '--_background-color': 'rgba(26,115,232,0.04)'
     }
-  }}>{props.children}</ButtonBase>
+  }}>{children}</ButtonBase>
 }
 
-function IconLg(props) {
-  return <Box sx={{
-    backgroundColor: () => props.primary ? 'primary.main' : 'var(--_background-color)',
-    color: () => props.primary ? '#fff' : null,
+function IconLg({ primary, children, ...props }) {
+  return <Box {...props} sx={{
+    backgroundColor: () => primary ? 'primary.main' : 'var(--_background-color)',
+    color: () => primary ? '#fff' : null,
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: 'primary.main',
@@ -49,12 +49,12 @@ function IconLg(props) {
     height: '36px',
     borderRadius: '36px',
     m: '6px',
-    boxShadow: () => props.primary ? 'var(--_shadow)' : null,
+    boxShadow: () => primary ? 'var(--_shadow)' : null,
     '& .MuiSvgIcon-root': {
       fontSize: '1.25rem'
     }
   }}>
-    {props.children}
+    {children}
   </Box>
 }
 
