@@ -46,7 +46,7 @@
     "@ionic/react-router": "^7.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
-    "@mui/material-next": "^6.0.0-alpha.82",
+    "@mui/material-next": "^6.0.0-alpha.89",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
