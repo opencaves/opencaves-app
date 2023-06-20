@@ -103,7 +103,8 @@ const lightThemeOptions = {
 const darkThemeOptions = {
   palette: {
     primary: {
-      main: '#30a4b5',
+      // main: '#30a4b5',
+      main: '#087e91'
     },
     secondary: {
       main: '#d9b504',

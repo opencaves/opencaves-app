@@ -1,12 +1,12 @@
-import { IonAlert, IonCol, IonGrid, IonRow, IonToast } from '@ionic/react'
-import { Button } from '@mui/material'
-import { useMediaQuery } from '@mui/material'
+import { IonAlert, IonCol, IonGrid, IonRow } from '@ionic/react'
+import { useTranslation } from 'react-i18next'
+import { Box, Button, ButtonBase, Typography, useMediaQuery, styled } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
-import { useTranslation } from 'react-i18next'
 import Divider from './Divider'
 import './QuickActions.scss'
 
@@ -24,6 +24,47 @@ function openDirections(cave) {
     // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=")
   }
   window.open(url)
+}
+
+function ButtonLg(props) {
+  return <ButtonBase sx={{
+    '&:hover': {
+      '--_shadow': '0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
+      '--_background-color': 'rgba(26,115,232,0.04)'
+    }
+  }}>{props.children}</ButtonBase>
+}
+
+function IconLg(props) {
+  return <Box sx={{
+    backgroundColor: () => props.primary ? 'primary.main' : 'var(--_background-color)',
+    color: () => props.primary ? '#fff' : null,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'primary.main',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '36px',
+    height: '36px',
+    borderRadius: '36px',
+    m: '6px',
+    boxShadow: () => props.primary ? 'var(--_shadow)' : null,
+    '& .MuiSvgIcon-root': {
+      fontSize: '1.25rem'
+    }
+  }}>
+    {props.children}
+  </Box>
+}
+
+function LabelLg(props) {
+  return <Typography sx={{
+    color: 'primary.main',
+    fontSize: '0.75rem'
+  }}>
+    {props.children}
+  </Typography>
 }
 
 export default function QuickActions({ cave }) {
@@ -53,8 +94,60 @@ export default function QuickActions({ cave }) {
         !isSmall && <Divider />
       }
 
-      <IonGrid className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}>
-        {isSmall ? (
+      <Box
+        className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
+        sx={{
+          pl: 'var(--oc-details-padding-inline)',
+          pr: 'var(--oc-details-padding-inline)',
+          pt: 'var(--oc-details-padding-block)',
+          pb: 'var(--oc-details-padding-block)'
+        }}>
+        <Grid container>
+          {isSmall ? (
+            <div>temp</div>
+          ) : (
+            <>
+              {
+                cave.location &&
+                <Grid xs display="flex" justifyContent="center">
+                  <Grid container>
+                    <ButtonLg aria-label={t('directions')} onClick={() => openDirections(cave)}>
+                      <Grid container direction='column'>
+                        <Grid><IconLg primary><DirectionsIcon /></IconLg></Grid>
+                        <Grid><LabelLg>{t('directions')}</LabelLg></Grid>
+                      </Grid>
+                    </ButtonLg>
+                  </Grid>
+                </Grid>
+              }
+              <Grid xs display="flex" justifyContent="center">
+                <Grid container>
+                  <ButtonLg id='save-btn' aria-label={t('save')}>
+                    <Grid container direction='column'>
+                      <Grid><IconLg><BookmarkBorderIcon color='primary' /></IconLg></Grid>
+                      <Grid><LabelLg>{t('save')}</LabelLg></Grid>
+                    </Grid>
+                  </ButtonLg>
+                </Grid>
+              </Grid>
+
+              <Grid xs display="flex" justifyContent="center">
+                <Grid container>
+                  <ButtonLg id='save-btn' aria-label={t('share')} onClick={onShareClick}>
+                    <Grid container direction='column'>
+                      <Grid><IconLg><ShareIcon color='primary' /></IconLg></Grid>
+                      <Grid><LabelLg>{t('share')}</LabelLg></Grid>
+                    </Grid>
+                  </ButtonLg>
+                </Grid>
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </Box>
+
+      {isSmall && (
+        <IonGrid className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}>
           <IonRow className='oc-quick-actions--row'>
             {
               cave.location &&
@@ -75,44 +168,8 @@ export default function QuickActions({ cave }) {
               </Button>
             </IonCol>
           </IonRow>
-        ) : (
-          <IonRow>
-            {
-              cave.location &&
-              <IonCol className='oc-quick-actions--col'>
-                <button aria-label={t('directions')} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
-                  <span className='oc-quick-actions--btn-icon'>
-                    <DirectionsIcon></DirectionsIcon>
-                  </span>
-                  <span className='oc-quick-actions--btn-label'>
-                    {t('directions')}
-                  </span>
-                </button>
-              </IonCol>
-            }
-            <IonCol className='oc-quick-actions--col'>
-              <button id='save-btn' aria-label={t('save')} className='oc-quick-actions--btn' onClick={onSaveClick}>
-                <span className='oc-quick-actions--btn-icon'>
-                  <BookmarkBorderIcon></BookmarkBorderIcon>
-                </span>
-                <span className='oc-quick-actions--btn-label'>
-                  {t('save')}
-                </span>
-              </button>
-            </IonCol>
-            <IonCol className='oc-quick-actions--col'>
-              <button aria-label={t('share')} className='oc-quick-actions--btn' onClick={onShareClick}>
-                <span className='oc-quick-actions--btn-icon'>
-                  <ShareIcon></ShareIcon>
-                </span>
-                <span className='oc-quick-actions--btn-label'>
-                  {t('share')}
-                </span>
-              </button>
-            </IonCol>
-          </IonRow>
-        )}
-      </IonGrid>
+        </IonGrid>
+      )}
       {/* <IonToast className='toast' duration={7000} trigger='save-btn' message="To be implemented..."></IonToast> */}
       <IonAlert trigger='save-btn' header='Argh!' message='To be implemented...' buttons={['OK']} className='oc-dialog'></IonAlert>
     </>
