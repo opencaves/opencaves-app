@@ -9,7 +9,10 @@ export default function ResultPaneLg({ children }) {
       className='oc-result-pane oc-result-pane-lg'
       sx={{
         position: 'relative',
-        boxShadow: 5
+        boxShadow: 5,
+        '.MuiCardContent-root': {
+          p: 0
+        }
       }}
     >
       <CardContent
@@ -19,6 +22,6 @@ export default function ResultPaneLg({ children }) {
       >
         {children}
       </CardContent>
-    </Card>
+    </Card >
   )
 }

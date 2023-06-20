@@ -1,7 +1,19 @@
 import ObjectID from 'bson-objectid'
-import { colorMap } from './color-map'
+import { colorMap, defaultColor } from './color-map'
 import { findPhoneNumbersInText } from 'libphonenumber-js'
 
+
+const languagesMap = new Map([
+  ['Spanish', 'es'],
+  ['English', 'en'],
+  ['Mayan', 'myn']
+])
+
+const locationValidityValueMap = new Map([
+  ['yes', 'valid'],
+  ['no', 'invalid'],
+  ['', 'unknown']
+])
 
 function generateId() {
   return ObjectID().toHexString()
@@ -12,12 +24,8 @@ function generateId() {
 // }
 
 const sistemas = new Map()
-const sistemasMap = new Map()
+const connectionsMap = new Map()
 const sistemasColorMap = new Map()
-
-const colorIdxMapping = new Map()
-
-const defaultColorId = generateId()
 
 function setSistemaIdx(sis) {
   for (const sistema of sis) {
@@ -25,105 +33,25 @@ function setSistemaIdx(sis) {
   }
 }
 
-function setColorIdx() {
-  const newColorsMap = {}
-  Object.keys(colorMap).forEach(k => {
-    newColorsMap[colorMap[k]] = 1
-  })
-
-  Object.keys(newColorsMap).forEach((color) => {
-    color = color.toLowerCase()
-    const id = (color === '#ff0000') ? defaultColorId : generateId()
-    colorIdxMapping.set(color, id)
-  })
-
-  console.log('[setColorIdx] mapping: %o', Object.fromEntries(colorIdxMapping))
-}
-
-/*
-  access[]
-     . yes			open, 'open - key', 'open - sea'
-     . no			closed, forbidden, private
-     . private		'permission needed'
-     . permissive
-     . customers	'member only', restricted
-
-  fee
-     . no
-     . yes
-
-  accessibility[]
-     . jungle
-     . unsafe		'not safe'
-     . key			'open - key'
-     . sidemount	sidemount
-     . variable
-     .
-*/
-
-const accessMap = new Map([
-  ['closed', 'no'],
-  ['forbidden', 'no'],
-  ['member only', 'customers'],
-  ['open', 'yes'],
-  ['open - key', 'yes'],
-  ['permission needed', 'permission'],
-  ['private', 'no'],
-  ['restricted', 'customers'],
-  ['open - sea', 'yes']
-])
-
-
-const accessibilityMap = new Map([
-  ['jungle', 'jungle'],
-  ['not safe', 'unsafe'],
-  ['open - key', 'key'],
-  ['sidemount only', 'sidemount-only'],
-  ['open - sea', 'sea']
-])
-
-const accessDescs = new Map([
-  ['yes', 'The site is accessible to anyone.'],
-  ['no', 'No access for the general public.'],
-  ['permission', 'Only with permission of the owner on an individual basis.'],
-  ['customers', 'Only for customers.'],
-
-  ['jungle', 'There is no path leading to the cave.'],
-  ['unsafe', 'The site is considered not safe to dive for various reasons.'],
-  ['key', 'A key must be obtained to access the site.'],
-  ['sidemount', 'A sidemount certification card is required to access the site.'],
-  ['sea', 'The access is made from sea.']
-])
-
-const locationValidityValueMap = new Map([
-  ['yes', 'valid'],
-  ['no', 'invalid'],
-  ['', 'unknown']
-])
-
 const notes = []
 
-function initSistemaMap(sistemasMapping) {
-  sistemasMapping.forEach(sistemaMapping => {
-    const id = sistemaMapping['New name ID']
-    const date = sistemaMapping['Date']
-    const sistemaData = sistemasMap.get(id)
+function initConnectionsMap(connections) {
+  connections.forEach(connection => {
+    const id = connection['New name ID']
+    const date = connection['Date']
+    const sistemaData = connectionsMap.get(id)
 
-    const sistemaMap = { id, date }
+    const connectionMap = { id, date }
     if (sistemaData) {
-      sistemaMap.color = colorId(sistemaData.id)
+      connectionMap.color = getSistemaColor(sistemaData.id)
     }
 
-    if (Reflect.has(sistemaMapping, 'AKA')) {
-      sistemaMap.aka = sistemaMapping['AKA'].split('|')
+    if (Reflect.has(connection, 'AKA')) {
+      connectionMap.aka = connection['AKA'].split('|')
     }
 
-    // if (Reflect.has(sistema, 'Area')) {
-    //   sistema.area = id(sistema['Area'])
-    // }
-
-    sistemasMap.set(sistemaMapping['Sistema ID'], sistemaMap)
-    sistemasColorMap.set(sistemaMapping['SistemaID'], sistemaMapping['Sistema color'])
+    connectionsMap.set(connection['Sistema ID'], connectionMap)
+    sistemasColorMap.set(connection['SistemaID'], connection['Sistema color'])
   })
 }
 
@@ -260,12 +188,16 @@ function isEmpty(val) {
   return typeof val === 'string' && val.trim() === ''
 }
 
-function colorId(color) {
+function getSistemaColor(color) {
   color = color.toLowerCase()
-  const ret = typeof colorMap[color] === 'undefined' || colorMap[color] === '' ? defaultColorId : colorMap[color]
+  const ret = typeof colorMap[color] === 'undefined' || colorMap[color] === '' ? defaultColor : colorMap[color]
 
   return ret
 }
+
+/*
+ * Types functions
+ */
 
 function dashedId(str) {
   if (isEmpty(str)) {
@@ -359,6 +291,22 @@ function optional(o, props) {
   })
 }
 
+function getCaveName(data) {
+  if (!data['Cenote']) {
+    return null
+  }
+
+  const name = {
+    value: str(data['Cenote'])
+  }
+
+  if (data['Language Code (ISO-639-2)']) {
+    name.ISO6392LanguageCode = languagesMap.get(data['Language Code (ISO-639-2)'])
+  }
+
+  return name
+}
+
 function loc(obj, lngProp, latProp, validProp = null) {
   if (typeof obj[lngProp] === 'undefined' || obj[lngProp] === '' || obj[latProp] === '') {
     return
@@ -376,35 +324,13 @@ function loc(obj, lngProp, latProp, validProp = null) {
   return location
 }
 
-// function getCaveSistemas_OLD(c) {
-//   const sis = {}
-
-//   if (c['Sistema ID'] && c['Sistema ID'] !== '#N/A' && c['Sistema ID'] !== 'Loading...' && c['Sistema ID'] !== '#ERROR!') {
-//     const newId = getIdRef(c['Sistema ID'])
-//     sis.sistemaId = newId
-//     if (sistemaNamesFromId.has(newId)) {
-//       sis.sistemaName = sistemaNamesFromId.get(newId)
-//     }
-//   }
-
-//   if (c['Original Sistema ID'] && c['Original Sistema ID'] !== '#N/A' && c['Original Sistema ID'] !== 'Loading...' && c['Original Sistema ID'] !== '#ERROR!') {
-//     const newId = getIdRef(c['Original Sistema ID'])
-//     sis.originalSistemaId = newId
-//     if (sistemaNamesFromId.has(newId)) {
-//       sis.originalSistemaName = sistemaNamesFromId.get(newId)
-//     }
-//   }
-
-//   return sis
-// }
-
 function getCaveSistemas(cave) {
 
   function getSistemaAncestry(sistemas) {
     const currentSistemaId = sistemas[sistemas.length - 1].id
 
-    if (sistemasMap.has(currentSistemaId)) {
-      const parentSistema = sistemasMap.get(currentSistemaId)
+    if (connectionsMap.has(currentSistemaId)) {
+      const parentSistema = connectionsMap.get(currentSistemaId)
       sistemas.push({ name: sistemaNamesFromId.get(parentSistema.id) || 'n. d.', id: parentSistema.id, date: parentSistema.date, color: parentSistema.color })
       getSistemaAncestry(sistemas)
     }
@@ -414,7 +340,7 @@ function getCaveSistemas(cave) {
 
   if (cave['Original Sistema ID'] && cave['Original Sistema ID'] !== '#N/A' && cave['Original Sistema ID'] !== 'Loading...' && cave['Original Sistema ID'] !== '#ERROR!') {
     const originalSistemaId = getIdRef(cave['Original Sistema ID'])
-    sistemas.push({ name: sistemaNamesFromId.get(originalSistemaId) || 'n. d.', id: originalSistemaId, color: colorId(cave['Sistema color']) })
+    sistemas.push({ name: sistemaNamesFromId.get(originalSistemaId) || 'n. d.', id: originalSistemaId, color: cave['Sistema color'] })
 
     getSistemaAncestry(sistemas)
   }
@@ -423,19 +349,13 @@ function getCaveSistemas(cave) {
 }
 
 function nameTrans(old) {
-  let names = {},
-    found = false;
-  [
-    ['Spanish', 'es'],
-    ['English', 'en'],
-    ['Mayan', 'myn']
-  ].forEach(n => {
-    if (old[n[0]]) {
-      found = true
-      names[n[1]] = old[n[0]]
+  const names = {}
+  languagesMap.forEach((value, key) => {
+    if (old[key]) {
+      names[value] = old[key]
     }
   })
-  if (found) {
+  if (Object.keys(names).length > 0) {
     return names
   }
   return
@@ -454,7 +374,7 @@ function getCaves(data) {
 
       const newItem = {
         id: getId(old.id),
-        color: colorId(old['Sistema color']),
+        name: getCaveName(old),
         keys: []
       }
 
@@ -516,8 +436,8 @@ function getCaves(data) {
           fn: bol
         },
         {
-          new: 'name',
-          old: 'Cenote',
+          new: 'color',
+          old: 'Sistema color',
           fn: str
         },
         {
@@ -604,8 +524,7 @@ function getSistemas(data) {
         nameTranslations = nameTrans(old),
         newItem = {
           id: getId(old.id),
-          public: true,
-          color: colorId(old['Sistema color'])
+          public: true
         }
 
       optional.call(newItem, old, [{
@@ -617,9 +536,15 @@ function getSistemas(data) {
         new: 'area',
         old: 'Area',
         fn: getIdRef
-      }, {
+      },
+      {
         new: 'name',
         old: 'Sistema',
+        fn: str
+      },
+      {
+        new: 'color',
+        old: 'Sistema color',
         fn: str
       },
       {
@@ -876,6 +801,15 @@ function getAreas(data) {
 }
 
 /*
+ * Colors
+ */
+
+function getColors(data) {
+
+  return [{ hex: '#ff0000', default: true }, ...data.colors.map(color => ({ hex: color.Color }))]
+}
+
+/*
  * QRSS classification
  */
 /*
@@ -914,23 +848,10 @@ function getClassification(data) {
 export function processData(data) {
 
   initIds(data)
-  setColorIdx()
   setSistemaIdx(data.sistemas)
-  initSistemaMap(data.connections)
+  initConnectionsMap(data.connections)
 
   initLabels(data)
-
-  const colors = []
-
-  for (const [id, hex] in colorIdxMapping.entries()) {
-    const color = { id, hex }
-    if (color.id === defaultColorId) {
-      color.default = true
-    }
-    colors.push(color)
-  }
-
-  console.info('[processData] colors: %o', colors)
 
   const result = {
     caves: getCaves(data),
@@ -940,7 +861,7 @@ export function processData(data) {
     accessibilities: getAccessibilities(data),
     sources: getSources(data),
     areas: getAreas(data),
-    colors
+    colors: getColors(data)
   }
   //console.log('ids in text: %s', idsInTxt)
   //console.log(linksInTxt)

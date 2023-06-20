@@ -17,7 +17,8 @@
     "save": "Sauvegarder",
     "share": "Partager",
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n"
+    "shareText": "Cenote {{name}}\n",
+    "shareDialogTitle": "Partager"
   },
   "searchBar": {
     "placeholder": "Recherche",
@@ -51,9 +52,9 @@
           "description": "Uniquement pour les clients."
         },
         {
-        "key": "guide",
-        "label": "Un guide est nécessaire",
-        "description": "Un guide doit être embauché pour accéder au site."
+          "key": "guide",
+          "label": "Un guide est nécessaire",
+          "description": "Un guide doit être embauché pour accéder au site."
         },
         {
           "key": "key",
@@ -190,5 +191,19 @@
       "label": "De la mer",
       "description": "Cette grotte est accessible uniquement depuis la mer."
     }
+  },
+  "sistemaHistory": {
+    "header": "Historique du système"
+  },
+  "fees": {
+    "yes": {
+      "label": "A des frais"
+    },
+    "no": {
+      "label": "Pas de frais"
+    }
+  },
+  "map": {
+    "caveNameUnknown": "[nom inconnu]"
   }
 }

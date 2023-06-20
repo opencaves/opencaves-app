@@ -1,5 +1,5 @@
 import csv from 'csvtojson'
-const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas']
+const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas', 'Sistema colors']
 
 const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
 
@@ -7,7 +7,7 @@ const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
 //https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv&sheet={sheet_name}
 
 
-const RANGES_NAMES = ['caves', 'sistemas', 'connections', 'access', 'accessibility', 'sources', 'areas']
+const RANGES_NAMES = ['caves', 'sistemas', 'connections', 'access', 'accessibility', 'sources', 'areas', 'colors']
 
 export function getCaveData() {
 

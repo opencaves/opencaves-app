@@ -30,6 +30,10 @@ const indexOptions = {
       return document.location?.validity
     }
 
+    if (fieldName === 'name') {
+      return document.name?.value
+    }
+
     return fieldName.split('.').reduce((doc, key) => doc && doc[key], document)
   },
   tokenize: (text, fieldName) => {
@@ -86,6 +90,7 @@ export default function SearchBar() {
   const searchBarRef = useRef()
   const resultItemsRef = useRef([])
   const { t } = useTranslation('searchBar')
+  const { t: tMap } = useTranslation('map')
   const data = useSelector(state => state.data.caves)
 
   const currentCave = useSelector(state => state.map.currentCave)
@@ -101,9 +106,13 @@ export default function SearchBar() {
     return data.find(cave => cave.id === id)
   }
 
+  function getCaveName(name) {
+    return name ? name.value : tMap('caveNameUnknown')
+  }
+
   function restoreSearchState() {
     if (currentCave) {
-      setValue(currentCave.name)
+      setValue(getCaveName(currentCave.name))
     }
 
     setBackBtnOn(false)
@@ -114,7 +123,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (currentCave) {
-      setValue(currentCave.name)
+      setValue(getCaveName(currentCave.name))
     }
   }, [currentCave])
 
@@ -131,13 +140,8 @@ export default function SearchBar() {
   }
 
   function _onOCSearchbarFocus(event) {
-    console.log('[_onOCSearchbarFocus] %o', event)
     const hasFocus = event.type === 'focus'
     setSearchBarHasFocus(hasFocus)
-    // console.log('[_onOCSearchbarFocus] %o, %o', currentCave.name, value)
-    // if (hasFocus && currentCave && currentCave.name !== value) {
-    //   setBackBtnOn(hasFocus)
-    // }
   }
 
   function _onIonSearchbarFocus(event) { }
@@ -145,10 +149,7 @@ export default function SearchBar() {
   async function _onIonSearchbarKeyUp(event) {
 
     // Set proper searchbar icon
-    console.log(searchBarRef)
-    const actualValue = (await searchBarRef.current.getInputElement()).value
-    console.log('[_onIonSearchbarKeyDown] %o, %o', currentCave.name, actualValue)
-    if (currentCave && currentCave.name !== value && !backBtnOn) {
+    if (!backBtnOn && currentCave && getCaveName(currentCave.name) !== value) {
       setBackBtnOn(true)
     }
   }
@@ -193,7 +194,7 @@ export default function SearchBar() {
   }, [searchResults, searchBarHasFocus])
 
   return (
-    <Box 
+    <Box
       sx={{
         position: 'absolute',
         top: 0,
@@ -254,15 +255,25 @@ function Snippet({ result }) {
   const { t } = useTranslation('searchBar')
 
   if (result.hints.name) {
-    return <div className='g'><div dangerouslySetInnerHTML={{ __html: result.hints.name }}></div><div><IonNote>{result.area}</IonNote></div></div>
+    return <div className='g'>
+      <div dangerouslySetInnerHTML={{ __html: result.hints.name }}></div>
+      <div><IonNote>{result.area}</IonNote></div>
+    </div>
   }
 
   const prop = Object.keys(result.hints)[0]
   if (prop) {
     const value = result.hints[prop]
     return <>
-      <div className='g'><div>{result.name}</div><div><IonNote>{result.area}</IonNote></div></div>
-      <IonNote className='oc-search-bar--results-item-extra'><span dangerouslySetInnerHTML={{ __html: Array.isArray(value) ? value[0] : value }}></span> ({t(`snippet.${prop}`)})</IonNote>
+      <div className='g'>
+        <div>{result.name}</div>
+        <div><IonNote>{result.area}</IonNote></div>
+      </div>
+      <IonNote className='oc-search-bar--results-item-extra'>
+        <span dangerouslySetInnerHTML={{ __html: Array.isArray(value) ? value[0] : value }}></span>
+        <span> </span>
+        <span>({t(`snippet.${prop}`)})</span>
+      </IonNote>
     </>
   }
   return <div className='g'><div>{result.name}</div><div><IonNote>{result.area}</IonNote></div></div>

@@ -171,6 +171,7 @@
 
   .marker-icon {
     cursor: pointer;
+    width: 20px;
     transition: var(--oc-marker-animation-duration);
 
     &:hover + .marker-label {

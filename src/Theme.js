@@ -1,4 +1,3 @@
-import { createTheme } from '@mui/material/styles'
 import { extendTheme } from "@mui/material-next/styles"
 import { merge } from 'lodash'
 
@@ -18,16 +17,36 @@ const lightThemeOptions = {
     },
     success: {
       main: '#5da426',
-    },
+    }
   },
   typography: {
     caveDetailsHeader: {
-      fontSize: '1.125rem',
-      lineHeight: '1.5rem',
+      fontSize: '1.375rem',
+      lineHeight: '1.75rem',
       fontWeight: 400
     },
     caveDetailsSubHeader: {
       color: 'theme.text.secondary'
+    },
+    caveDetailsBodySecondary: {
+      fontSize: '0.875rem',
+      fontWeight: 400,
+      lineHeight: '1.25rem',
+      color: '#70757a'
+    },
+    caveDetailsItemText: {
+      fontSize: '0.875rem',
+      flex: '1 1 auto',
+      marginTop: '4px',
+      marginBottom: '4px'
+    },
+    sistemaHistoryHeader: {
+      color: 'theme.text.secondary',
+      fontSize: '.9em',
+      fontWeight: '400',
+      lineHeight: '1.5',
+      paddingTop: 'var(--oc-details-padding-block)',
+      paddingBottom: 'var(--oc-details-padding-block)'
     }
   },
   components: {
@@ -35,7 +54,8 @@ const lightThemeOptions = {
       defaultProps: {
         variantMapping: {
           caveDetailsHeader: 'h1',
-          caveDetailsSubHeader: 'p'
+          caveDetailsSubHeader: 'p',
+          sistemaHistoryHeader: 'h2'
         }
       }
     },
@@ -89,28 +109,20 @@ const darkThemeOptions = {
       main: '#d9b504',
     },
     error: {
-      main: '#EE495C',
+      main: '#ee495c',
     },
     warning: {
       main: '#eacc01',
     },
     success: {
-      main: '#6CBE2D',
+      main: '#6Cbe2d',
     },
     text: {
-      primary: '#d3cfc9',
-      secondary: '#B2A9A4'
+      primary: '#dedbd7',
+      secondary: '#989da1'
     }
   },
   components: {
-    // MuiTooltip: {
-    //   styleOverrides: {
-    //     tooltip: {
-    //       backgroundColor: '#000',
-    //       color: '#fff',
-    //     }
-    //   }
-    // },
     MuiRating: {
       styleOverrides: {
         iconEmpty: {
@@ -121,34 +133,9 @@ const darkThemeOptions = {
   }
 }
 
-// const nextThemeOptions = {
-//   colorSchemes: {
-//     light: {
-//       palette: {
-//         primary: {
-//           main: '#1b4859',
-//         },
-//       },
-//     },
-//     dark: {
-//       palette: {
-//         primary: {
-//           main: '#1b4859',
-//         },
-//       },
-//     },
-//   },
-// }
-
-export function getTheme(mode) {
-  return mode === 'light' ? createTheme(lightThemeOptions) : createTheme(merge({}, lightThemeOptions, darkThemeOptions))
-}
-
 export const theme = extendTheme({
   colorSchemes: {
     light: lightThemeOptions,
     dark: merge({}, lightThemeOptions, darkThemeOptions)
   }
 })
-
-// export const nextTheme = extendTheme(nextThemeOptions)

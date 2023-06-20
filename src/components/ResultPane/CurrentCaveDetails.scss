@@ -1,42 +1,27 @@
 .oc-result-pane {
   --oc-results-sistemas--item-padding: 1em;
+  --oc-details-font-size: 0.875rem;
+  --oc-details-icon-min-width: 40px;
 
   &--header {
     padding-top: var(--oc-details-padding-block);
     padding-left: var(--oc-details-padding-inline);
     padding-right: var(--oc-details-padding-inline);
 
-    // h1 {
-    //   margin: 0;
-    //   padding: 0;
-    //   line-height: 1.5rem;
-    //   font-weight: 400;
-    //   font-size: 1.125rem;
+    // &-subtitle {
+    //   line-height: 1.25rem;
     // }
-
-    ion-card-subtitle {
-      margin-top: 0;
-    }
-
-    &-subtitle {
-      line-height: 1.25rem;
-    }
   }
 
   &--content {
-    font-size: 0.875rem;
+    font-size: var(--oc-details-font-size);
+    padding-top: var(--oc-details-padding-block);
 
-    h2 {
+    .h2 {
       font-size: 1rem;
       font-weight: 500;
       margin: 10px var(--oc-details-padding-inline) 10px var(--oc-details-padding-inline);
       margin: 0;
-    }
-
-    hr {
-      margin: 0;
-      height: 0;
-      border-bottom: 1px solid #dadce0;
     }
 
     ion-list {
@@ -57,13 +42,22 @@
     }
 
     .details-text {
+      > *:first-child {
+        margin-top: 0;
+      }
+
+      > *:last-child {
+        margin-bottom: 0;
+      }
+
       p {
         font-size: inherit;
         margin-bottom: 1em;
+      }
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+      ul,
+      ol {
+        padding-left: 2em;
       }
     }
 
@@ -79,9 +73,32 @@
       }
     }
 
-    .oc-results-copy-items {
+    .oc-results-copy-list {
       padding-top: var(--oc-details-padding-block);
       padding-bottom: var(--oc-details-padding-block);
+
+      .MuiListItemButton-root {
+        padding: 6px var(--oc-details-padding-inline);
+
+        .oc-icon-copy {
+          display: none;
+        }
+
+        &:hover {
+          .oc-icon-copy {
+            display: inline-block;
+          }
+        }
+      }
+
+      .MuiListItemIcon-root {
+        min-width: var(--oc-details-icon-min-width);
+      }
+
+      .oc-icon-copy-container {
+        justify-content: flex-end;
+        min-width: 18px;
+      }
 
       ion-item {
         > [slot='end'] {

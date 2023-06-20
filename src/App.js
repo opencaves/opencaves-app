@@ -10,9 +10,13 @@ import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
-import { getTheme, theme } from './Theme.js'
+import { theme } from './Theme.js'
 
 import '@fontsource/open-sans/600.css'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'

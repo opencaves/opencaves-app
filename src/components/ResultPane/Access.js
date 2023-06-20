@@ -101,7 +101,7 @@ export default function Access({ cave }) {
   }
 
   const IconText = styled('span')(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     // ...theme.typography.body2,
     // padding: theme.spacing(1),
     // textAlign: 'center',
@@ -111,7 +111,7 @@ export default function Access({ cave }) {
   return (
     <>
       <div className='details-container'>
-        <h2>{t('accessHeader')}</h2>
+        <h2 className='h2'>{t('accessHeader')}</h2>
       </div>
 
       <div className='details-container'>

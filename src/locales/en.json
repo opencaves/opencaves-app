@@ -17,7 +17,8 @@
     "save": "Save",
     "share": "Share",
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n"
+    "shareText": "Cenote {{name}}\n",
+    "shareDialogTitle": "Share"
   },
   "searchBar": {
     "placeholder": "Search",
@@ -51,9 +52,9 @@
           "description": "Only for customers."
         },
         {
-        "key": "guide",
-        "label": "A guide is needed",
-        "description": "A guide must be hired to get access to the site."
+          "key": "guide",
+          "label": "A guide is needed",
+          "description": "A guide must be hired to get access to the site."
         },
         {
           "key": "key",
@@ -191,6 +192,9 @@
       "description": "This cave is accessible only from the sea."
     }
   },
+  "sistemaHistory": {
+    "header": "Sistema history"
+  },
   "fees": {
     "yes": {
       "label": "Has fees"
@@ -198,5 +202,8 @@
     "no": {
       "label": "No fees"
     }
+  },
+  "map": {
+    "caveNameUnknown": "[unknown name]"
   }
 }

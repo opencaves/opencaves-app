@@ -28,19 +28,20 @@ function openDirections(cave) {
 
 export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
+  const { t: tMap } = useTranslation('map')
   const theme = useTheme()
 
+  const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   async function onShareClick() {
-    console.log('can share: %o', await Share.canShare())
     const shareURL = new URL(window.location)
     shareURL.hash = ''
     await Share.share({
-      title: t('shareTitle', { name: cave.name }),
-      text: t('shareText', { name: cave.name }),
+      title: t('shareTitle', { name: caveName }),
+      text: t('shareText', { name: caveName }),
       url: shareURL.href,
-      dialogTitle: 'Share with buddies',
+      dialogTitle: t('shareDialogTitle'),
     })
   }
 

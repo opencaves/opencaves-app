@@ -1,3 +1,5 @@
+export const defaultColor = '#ff0000'
+
 export const colorMap = {
   'small_red': '#FF0000',
   '1_blue': '#a30000',
