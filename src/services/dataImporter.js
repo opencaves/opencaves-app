@@ -1,5 +1,6 @@
 import csv from 'csvtojson'
-const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas', 'Sistema colors']
+import { language } from 'ionicons/icons'
+const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas', 'Sistema colors', 'Language Codes']
 
 const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
 
@@ -7,7 +8,7 @@ const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
 //https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv&sheet={sheet_name}
 
 
-const RANGES_NAMES = ['caves', 'sistemas', 'connections', 'access', 'accessibility', 'sources', 'areas', 'colors']
+const RANGES_NAMES = ['caves', 'sistemas', 'connections', 'access', 'accessibility', 'sources', 'areas', 'colors', 'languageCodes']
 
 export function getCaveData() {
 

@@ -13,6 +13,7 @@
     }
   },
   "quickActions": {
+    "ariaLabel": "Actions for cenote {{name}}",
     "directions": "Directions",
     "save": "Save",
     "share": "Share",
@@ -21,17 +22,31 @@
     "shareDialogTitle": "Share"
   },
   "searchBar": {
+    "actionButton": {
+      "search": {
+        "ariaLabel": "Search"
+      },
+      "back": {
+        "ariaLabel": "Back"
+      },
+      "clear": {
+        "ariaLabel": "Clear",
+        "tip": "Clear"
+      },
+      "filter": {
+        "ariaLabel": "Filter Cenotes",
+        "tip": "Filter Cenotes"
+      }
+    },
     "placeholder": "Search",
+    "ariaLabel": "Search",
     "snippet": {
       "aka": "aka",
       "nameTranslations": {
-        "en": "english",
-        "es": "spanish"
+        "eng": "english",
+        "spa": "spanish",
+        "myn": "mayan"
       }
-    },
-    "filter": {
-      "ariaLabel": "Filter Cenotes",
-      "tip": "Filter Cenotes"
     }
   },
   "filter": {
@@ -126,6 +141,7 @@
   },
   "resultPane": {
     "accessHeader": "Access",
+    "aka": "aka",
     "directionsHeader": "Getting there",
     "cenote": "Cenote",
     "sistema": "{{ system }} system",

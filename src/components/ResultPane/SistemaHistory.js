@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonIcon, IonNote } from '@ionic/react'
 import { returnDownForward } from 'ionicons/icons'
 import { Accordion, AccordionDetails, AccordionSummary, Box, SvgIcon, Typography } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 import { getSistemaById } from '../../models/Sistema.js'
 import { ReactComponent as CaveSystemIcon } from '../../images/cave-system.svg'
 import { ExpandMore } from '@mui/icons-material'
@@ -45,9 +46,22 @@ export default function Sistema({ sistemaHistory }) {
   }
 
   return (
-    <IonItem className='oc-results-sistemas'>
-      <IonLabel>{t2('sistema', { system: sistemaHistory[0].name })}</IonLabel>
-      <SvgIcon component={CaveSystemIcon} inheritViewBox slot='start' className='cave-system-icon' htmlColor={currentSistema.color ?? 'red'} />
-    </IonItem>
+    <Grid container
+      sx={{
+        px: 'var(--oc-details-padding-inline)',
+        py: 'var(--oc-details-padding-block)'
+      }}>
+      <Grid xs="auto">
+        <Box className='oc-sistema-history--icon'>
+          <SvgIcon component={CaveSystemIcon} inheritViewBox slot='start' className='cave-system-icon' htmlColor={currentSistema.color ?? 'red'}
+          />
+        </Box>
+      </Grid>
+      <Grid
+        xs
+      >
+        <Typography variant='caveDetailsItemText'>{t2('sistema', { system: currentSistema.name })}</Typography>
+      </Grid>
+    </Grid>
   )
 }

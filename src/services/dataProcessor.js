@@ -3,11 +3,13 @@ import { colorMap, defaultColor } from './color-map'
 import { findPhoneNumbersInText } from 'libphonenumber-js'
 
 
-const languagesMap = new Map([
-  ['Spanish', 'es'],
-  ['English', 'en'],
-  ['Mayan', 'myn']
-])
+// const languagesMap = new Map([
+//   ['Spanish', 'es'],
+//   ['English', 'en'],
+//   ['Mayan', 'myn']
+// ])
+
+const languagesMap = new Map()
 
 const locationValidityValueMap = new Map([
   ['yes', 'valid'],
@@ -86,6 +88,10 @@ function initIds(data) {
   idsRegEx = new RegExp(Object.keys(_objectIdMap).join('|'), 'g')
 
   //console.log(_objectIdMap)
+}
+
+function initLangs(languageCodes) {
+  languageCodes.forEach(l => languagesMap.set(l['English'], l['Code']))
 }
 
 function initLabels(data) {
@@ -301,7 +307,7 @@ function getCaveName(data) {
   }
 
   if (data['Language Code (ISO-639-2)']) {
-    name.ISO6392LanguageCode = languagesMap.get(data['Language Code (ISO-639-2)'])
+    name.languageCode = languagesMap.get(data['Language Code (ISO-639-2)'])
   }
 
   return name
@@ -352,10 +358,14 @@ function nameTrans(old) {
   const names = {}
   languagesMap.forEach((value, key) => {
     if (old[key]) {
-      names[value] = old[key]
+      const newNameTrans = arr(old[key])
+      if (newNameTrans) {
+        names[value] = newNameTrans
+      }
     }
   })
   if (Object.keys(names).length > 0) {
+    console.log(names)
     return names
   }
   return
@@ -809,6 +819,18 @@ function getColors(data) {
   return [{ hex: '#ff0000', default: true }, ...data.colors.map(color => ({ hex: color.Color }))]
 }
 
+/* Languages
+ *
+ */
+
+function getLanguages(data) {
+  return data.languageCodes.map(l => ({
+    code: l['Code'],
+    eng: l['English'],
+    fra: l['French']
+  }))
+}
+
 /*
  * QRSS classification
  */
@@ -848,6 +870,7 @@ function getClassification(data) {
 export function processData(data) {
 
   initIds(data)
+  initLangs(data.languageCodes)
   setSistemaIdx(data.sistemas)
   initConnectionsMap(data.connections)
 
@@ -861,7 +884,8 @@ export function processData(data) {
     accessibilities: getAccessibilities(data),
     sources: getSources(data),
     areas: getAreas(data),
-    colors: getColors(data)
+    colors: getColors(data),
+    languages: getLanguages(data)
   }
   //console.log('ids in text: %s', idsInTxt)
   //console.log(linksInTxt)

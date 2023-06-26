@@ -1,39 +1,17 @@
 .oc-search-bar {
-  --oc-border-radius: 24px;
+  --oc-search-bar-border-radius: 24px;
 
   &--container {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-    border-radius: var(--oc-border-radius);
+    border-radius: var(--oc-search-bar-border-radius);
   }
 
   &--omnibox {
     --oc-icon-size: 24px;
 
     display: flex;
-    align-items: center;
-    // width: calc(100% - 2rem);
-    // margin: 0 1rem;
-    // padding-right: 8px;
-
-    ion-icon {
-      width: var(--oc-icon-size);
-      height: var(--oc-icon-size);
-    }
-
-    .searchbar-clear-icon.sc-ion-searchbar-md {
-      width: var(--oc-icon-size);
-    }
-
-    .sc-ion-searchbar-md-h {
-      --box-shadow: none;
-    }
-
-    ion-menu-button {
-      --color: var(--oc-icon-color-secondary);
-
-      padding-right: 8px;
-    }
+    align-items: stretch;
   }
 
   &--actions {
@@ -45,76 +23,21 @@
     overflow: hidden;
   }
 
-  &--back-btn,
-  &--search-btn {
-    --padding-start: 0;
-    --padding-end: 0;
-    --border-radius: 24px;
-
-    color: var(--oc-icon-color-secondary);
-    width: 48px;
-    height: 48px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0 !important;
-
-    .MuiSvgIcon-root {
-      margin-left: 0;
-      margin-right: 0;
-      font-size: 24px;
-    }
-  }
-
-  &--input {
-    --background: transparent; // ion
-
-    padding: 0; // ion
-
-    .searchbar-search-icon {
-      display: none !important; // ion
-    }
-
-    .searchbar-input {
-      padding-left: 0;
-      color: #70757a;
-
-      &:focus {
-        color: inherit;
-      }
-    }
-
-    .searchbar-clear-button {
-      --clear-button-color: var(--oc-icon-color-secondary);
-
-      width: 48px;
-      right: 0;
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 8px;
-        border-left: 1px solid #dadce0;
-        height: 28px;
-      }
-    }
-  }
-
   &--results {
-    --font-size: 13px;
-
-    border-top: 1px solid #e1e1e1;
-
     mark {
       background-color: transparent;
       color: inherit;
       font-weight: bold;
+
+      [data-mui-color-scheme='dark'] & {
+        font-weight: inherit;
+        color: var(--md-palette-primary-contrastText);
+      }
     }
 
     &-list {
       background-color: transparent;
-      padding-bottom: var(--oc-border-radius);
+      padding-bottom: var(--oc-search-bar-border-radius);
     }
 
     &-item {
@@ -132,39 +55,11 @@
         width: 1em;
         height: 1em;
         display: inline-block;
-        fill: currentColor;
+        // fill: currentColor;
         flex-shrink: 0;
         transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
         font-size: 1.25rem !important;
-        // font-size: 20px;
-      }
-
-      ion-note {
-        color: #70757a;
-        font-size: 12px;
-      }
-
-      &-extra {
-        display: block;
-        margin-top: 1px;
-      }
-
-      .g {
-        display: flex;
-        justify-content: space-between;
       }
     }
   }
-}
-
-.searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
-  padding-left: 54px;
-}
-
-.searchbar-search-icon.sc-ion-searchbar-ios {
-  left: 16px;
-}
-
-.searchbar-input.sc-ion-searchbar-md {
-  font-size: var(--font-size);
 }

@@ -7,7 +7,6 @@ import TagManager from 'react-gtm-module'
 import { store, persistor } from './redux/store'
 import App from './App'
 import './i18n'
-import './index.css'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 

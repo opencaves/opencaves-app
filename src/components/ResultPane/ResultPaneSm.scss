@@ -1,7 +1,6 @@
 .oc-result-pane-sm {
-  --padding-start: 0;
-  --padding-end: 0;
-  --ion-safe-area-top: -10px;
+  --height: 100%; // ion-modal
+  --background: transparent;
 
   z-index: 100 !important;
 

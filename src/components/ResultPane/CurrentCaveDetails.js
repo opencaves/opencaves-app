@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Snackbar, Tooltip, Typography, useMediaQuery } from '@mui/material'
-import Slide, { SlideProps } from '@mui/material/Slide'
+import Slide from '@mui/material/Slide'
 import { useTheme } from '@mui/material/styles'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -20,7 +20,7 @@ import SistemaHistory from './SistemaHistory.js'
 import mediaCardImage from '../../images/card-media.png'
 import './CurrentCaveDetails.scss'
 import { Close } from '@mui/icons-material'
-import { TextSecondary } from './Typography.js'
+import { ISO6391ToISO6392 } from '../../utils/lang.js'
 
 function SlideUp(props) {
   return <Slide {...props} direction='up' />
@@ -32,19 +32,18 @@ export function CurrentCaveDetailsHeader({ cave }) {
   const [rating, setRating] = useState(-1)
   const theme = useTheme()
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
+  const resolvedLanguage = ISO6391ToISO6392(i18n.resolvedLanguage)
   const caveNameTranslation = (langCode => {
     if (langCode) {
-      console.log('yes, langCode: %s, resolved lang: %s', langCode, i18n.resolvedLanguage)
-      if (langCode !== i18n.resolvedLanguage) {
-        return cave.nameTranslations[i18n.resolvedLanguage]
+      if (langCode !== resolvedLanguage) {
+        return cave.nameTranslations?.[resolvedLanguage]?.join(', ')
       }
 
       return null
     }
 
-    console.log('no, langCode: %s, resolved lang: %s', langCode, i18n.resolvedLanguage)
-    return cave.nameTranslations[i18n.resolvedLanguage] || null
-  })(cave.name?.ISO6392LanguageCode)
+    return cave.nameTranslations[resolvedLanguage]?.join(', ') || null
+  })(cave.name?.languageCode)
 
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
@@ -53,15 +52,20 @@ export function CurrentCaveDetailsHeader({ cave }) {
   return (
     <>
       {
-        !isSmall && <img alt="" src={mediaCardImage} />
+        !isSmall && (
+          <img
+            alt=""
+            src={mediaCardImage}
+          />
+        )
       }
       <Box className='oc-result-pane--header'>
         <Typography variant='caveDetailsHeader'>{caveName}</Typography>
         {
-          caveNameTranslation && <TextSecondary>{caveNameTranslation}</TextSecondary>
+          caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
         }
         {
-          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader' className='oc-result-pane--header-subtitle'>{cave.aka.join(', ')}</Typography>
+          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
         }
         <Rating value={rating} sx={{ pt: '0.5rem' }} ></Rating>
       </Box >
@@ -237,7 +241,7 @@ export function CurrentCaveDetailsContent({ cave }) {
         {
           keysTexts && keysTexts.map(keyText =>
             <CopyToClipboard key={keyText} text={keyText} placement='bottom-end' onCopy={handleKeyCoordinatesCopy}>
-              <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
+              <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>

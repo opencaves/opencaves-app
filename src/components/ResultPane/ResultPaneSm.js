@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IonModal, IonContent } from '@ionic/react'
-import { Card, CardContent } from '@mui/material'
+import { IonModal } from '@ionic/react'
+import { Box, Card, CardContent } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
-// import { setResultPaneSmFirstBreakpoint } from '../../redux/slices/appSlice'
 import './ResultPaneSm.scss'
 
 export default function ResultPaneSm({ children }) {
@@ -38,9 +37,18 @@ export default function ResultPaneSm({ children }) {
       className='oc-result-pane oc-result-pane-sm'
       onIonBreakpointDidChange={onModalBreakpointDidChange}
     >
-      <IonContent>
-        <Card
+      <Box id='box'
+        sx={{
+          height: () => breakpoint === 1 ? '100%' : null,
+        }}
+      >
+        <Card id='card'
           className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`}
+          sx={{
+            borderRadius: () => breakpoint === 1 ? '0' : '1rem 1rem 0 0',
+            height: '100%'
+          }}
+          component='main'
         >
           <CardContent
             sx={{
@@ -56,7 +64,7 @@ export default function ResultPaneSm({ children }) {
             {children}
           </CardContent>
         </Card>
-      </IonContent>
+      </Box>
     </IonModal>
   )
 }

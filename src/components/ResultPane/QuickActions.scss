@@ -1,45 +1,4 @@
 .oc-quick-actions {
-  --ion-grid-padding: 0;
-
-  &-sm {
-  }
-
-  // outline: 1px solid red;
-
-  &--row {
-    padding-left: var(--oc-details-padding-inline);
-    padding-right: var(--oc-details-padding-inline);
-  }
-
-  &--col {
-    --ion-grid-column-padding: 0;
-    // outline: 1px solid rgb(255, 187, 0);
-  }
-
-  &--btn {
-    .MuiSvgIcon-root {
-      &[slot='start'] {
-        margin-right: 8px;
-        margin-left: -4px;
-      }
-    }
-  }
-
-  button,
-  ion-button {
-    margin: 0;
-  }
-}
-
-.oc-quick-actions--row {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-
-  -ms-overflow-style: none; // Edge / Opera
-  scrollbar-width: none; // Firefox
-  &::-webkit-scrollbar {
-    display: none; // Chrome
-  }
 }
 
 .oc-quick-actions-lg {

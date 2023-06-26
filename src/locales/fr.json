@@ -13,25 +13,39 @@
     }
   },
   "quickActions": {
+    "ariaLabel": "Actions pour la cénote {{name}}",
     "directions": "Directions",
     "save": "Sauvegarder",
     "share": "Partager",
-    "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n",
+    "shareTitle": "Cénote {{name}} / OpenCaves.org",
+    "shareText": "Cénote {{name}}\n",
     "shareDialogTitle": "Partager"
   },
   "searchBar": {
+    "actionButton": {
+      "search": {
+        "ariaLabel": "Recherche"
+      },
+      "back": {
+        "ariaLabel": "Retour"
+      },
+      "clear": {
+        "ariaLabel": "Effacer",
+        "tip": "Effacer"
+      },
+      "filter": {
+        "ariaLabel": "Filtrer les cenotes",
+        "tip": "Filtrer les cenotes"
+      }
+    },
     "placeholder": "Recherche",
+    "ariaLabel": "Recherche",
     "snippet": {
       "aka": "alias",
       "nameTranslations": {
         "en": "Anglais",
         "es": "Espagnol"
       }
-    },
-    "filter": {
-      "ariaLabel": "Filtrer les cenotes",
-      "tip": "Filtrer les cenotes"
     }
   },
   "filter": {
@@ -126,9 +140,10 @@
   },
   "resultPane": {
     "accessHeader": "Accès",
+    "aka": "alias",
     "directionsHeader": "S'y rendre",
     "cenote": "Cenote",
-    "sistema": "{{ system }} système",
+    "sistema": "Système {{ system }}",
     "copiedToClipboard": "Copié dans le presse-papier",
     "copyAddress": "Copier l'adresse",
     "copyCoordinates": "Copier les coordonnées",

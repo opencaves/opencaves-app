@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   resultPaneSmOpen: true,
   resultPaneSmFirstBreakpoint: .25,
-  resultPaneSmRestBreakpoints: [.5, 1]
+  resultPaneSmRestBreakpoints: [.5, 1],
+  languages: []
 }
 
 export const appSlice = createSlice({

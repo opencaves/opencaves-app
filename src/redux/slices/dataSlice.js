@@ -14,7 +14,8 @@ const initialState = {
   colors: [],
   connections: [],
   sistemas: [],
-  sources: []
+  sources: [],
+  languages: []
 }
 
 export const dataSlice = createSlice({
@@ -59,12 +60,15 @@ export const dataSlice = createSlice({
     },
     setExpires: (state) => {
       state.expires = Date.now() + state.maxAge
+    },
+    setLanguages: (state, action) => {
+      state.languages = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
 // export const { setCoordinateValid } = filterSlice.actions
-export const { setDataLoadingState, setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires } = dataSlice.actions
+export const { setDataLoadingState, setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, setLanguages } = dataSlice.actions
 
 export default dataSlice.reducer

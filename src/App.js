@@ -4,7 +4,7 @@ import { Fragment, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 // import { CssVarsProvider } from "@mui/material-next/styles"
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import { useMediaQuery } from '@mui/material'
+import { CssBaseline, useMediaQuery } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
@@ -22,19 +22,19 @@ import '@fontsource/roboto/700.css'
 import '@ionic/react/css/core.css'
 
 /* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css'
+// import '@ionic/react/css/normalize.css'
 import '@ionic/react/css/structure.css'
-import '@ionic/react/css/typography.css'
+// import '@ionic/react/css/typography.css'
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css'
-import '@ionic/react/css/float-elements.css'
-import '@ionic/react/css/text-alignment.css'
-import '@ionic/react/css/text-transformation.css'
-import '@ionic/react/css/flex-utils.css'
-import '@ionic/react/css/display.css'
+// import '@ionic/react/css/padding.css'
+// import '@ionic/react/css/float-elements.css'
+// import '@ionic/react/css/text-alignment.css'
+// import '@ionic/react/css/text-transformation.css'
+// import '@ionic/react/css/flex-utils.css'
+// import '@ionic/react/css/display.css'
 
-/* Theme variables */
+// /* Theme variables */
 import './theme/variables.scss'
 
 import './App.scss'
@@ -55,15 +55,6 @@ const App = () => {
   const title = useSelector(state => state.navigation.title)
 
   const dispatch = useDispatch()
-  const { i18n } = useTranslation()
-  console.log('resolved language: %s', i18n.resolvedLanguage)
-
-  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-
-  // const theme = useMemo(
-  //   () => getTheme(prefersDarkMode ? 'dark' : 'light'),
-  //   [prefersDarkMode],
-  // )
 
   getData()
     .then(() => {
@@ -76,8 +67,7 @@ const App = () => {
   return (
     <Fragment>
       <CssVarsProvider theme={theme}>
-        {/* <ThemeProvider theme={nextTheme}> */}
-        {/* <CssVarsProvider theme={theme} /> */}
+        <CssBaseline />
         <HelmetProvider>
           <Helmet>
             <title>{title}</title>
@@ -97,7 +87,6 @@ const App = () => {
             <Nav></Nav>
           </IonApp>
         </HelmetProvider>
-        {/* </ThemeProvider> */}
       </CssVarsProvider>
     </Fragment>
   )

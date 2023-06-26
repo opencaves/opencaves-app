@@ -1,5 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react'
-import { useMediaQuery } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import Map from '../components/Map/Map'
 import SearchBar from '../components/SearchBar/SearchBar'
@@ -27,7 +27,9 @@ export default function MapPage(props) {
         </IonContent>
       </IonPage>
       <FilterMenu />
-      <ModeSwitcher />
+      {
+        dev && <ModeSwitcher />
+      }
       {
         dev && <div style={{
           position: 'absolute',

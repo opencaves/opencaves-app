@@ -1,24 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
-import { IonSearchbar, IonMenuButton, IonList, IonItem, IonLabel, IonNote, IonButton, useIonRouter } from '@ionic/react'
+import { useIonRouter } from '@ionic/react'
+import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
+import { store } from '../../redux/store.js'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
 import { Box, styled } from '@mui/system'
-import { Tooltip, Collapse, Fade } from '@mui/material'
+import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import LocationOffOutlinedIcon from '@mui/icons-material/LocationOffOutlined'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
 import { setCurrentCave } from '../../redux/slices/mapSlice.js'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes.js'
 import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/location-validity-unknown.svg'
 import './SearchBar.scss'
 
+const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
+
+console.log('[nameTranslationFields] %o', nameTranslationFields)
 
 const indexOptions = {
-  fields: ['name', 'nameTranslations.en', 'aka', 'location'],
-  storeFields: ['name', 'nameTranslations.en', 'aka', 'area', 'location'],
+  fields: ['name', ...nameTranslationFields, 'aka', 'location'],
+  storeFields: ['name', ...nameTranslationFields, 'aka', 'area', 'location'],
   encode: 'advanced',
   searchOptions: {
     boost: { name: 2 },
@@ -84,10 +91,29 @@ function markHints(result, searchTerm) {
   return hints
 }
 
+const ActionButton = styled(IconButton)({
+  width: '48px',
+  height: '48px',
+  position: 'absolute',
+  left: 0,
+  top: 0
+})
+
+const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
+  fontSize: '0.875rem',
+  color: theme.vars.palette.text.secondary
+}
+))
+
+const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
+  fontSize: '0.75rem',
+  color: theme.vars.palette.text.secondary
+}
+))
+
 export default function SearchBar() {
 
-  const [value, setValue] = useState()
-  const searchBarRef = useRef()
+  const [value, doSetValue] = useState('')
   const resultItemsRef = useRef([])
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
@@ -96,11 +122,18 @@ export default function SearchBar() {
   const currentCave = useSelector(state => state.map.currentCave)
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
+  const [showClearBtn, setShowClearBtn] = useState(false)
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
   const [backBtnOn, setBackBtnOn] = useState(false)
   const searchIndex = new MiniSearch(indexOptions)
   const router = useIonRouter()
   const dispatch = useDispatch()
+
+  const resultsItemIconStyle = {
+    color: 'text.secondary',
+    mr: '19px',
+    fontSize: '1.25rem'
+  }
 
   function selectCaveById(id) {
     return data.find(cave => cave.id === id)
@@ -108,6 +141,11 @@ export default function SearchBar() {
 
   function getCaveName(name) {
     return name ? name.value : tMap('caveNameUnknown')
+  }
+
+  function setValue(value) {
+    setShowClearBtn(!!value)
+    doSetValue(value)
   }
 
   function restoreSearchState() {
@@ -127,26 +165,30 @@ export default function SearchBar() {
     }
   }, [currentCave])
 
-  function _onIonSearchbarInput(event) {
-    // console.log('[_onIonSearchbarInput¸%o', event)
+  function onSearchbarInputChange(event) {
+    // console.log('[onSearchbarInputChange¸%o', event)
     const searchTerm = event.target.value
     setValue(searchTerm)
     const searchResults = searchIndex.search(searchTerm, { enrich: true }).slice(0, 10).map(result => {
       result.hints = markHints(result, searchTerm)
       return result
     })
+    console.log('[searchResults] %o', searchResults)
 
     setSearchResults(searchResults)
   }
 
   function _onOCSearchbarFocus(event) {
+    // console.log('[_onOCSearchbarFocus] %o', event)
     const hasFocus = event.type === 'focus'
     setSearchBarHasFocus(hasFocus)
   }
 
-  function _onIonSearchbarFocus(event) { }
+  function onSearchbarInputFocus(event) {
+    // console.log('[onSearchbarInputFocus] %o', event)
+  }
 
-  async function _onIonSearchbarKeyUp(event) {
+  async function onSearchbarInputKeyUp(event) {
 
     // Set proper searchbar icon
     if (!backBtnOn && currentCave && getCaveName(currentCave.name) !== value) {
@@ -154,8 +196,8 @@ export default function SearchBar() {
     }
   }
 
-  async function _onIonSearchbarKeyDown(event) {
-    console.log('[_onIonSearchbarKeyDown] %o', event)
+  async function onSearchbarInputKeyDown(event) {
+    console.log('[onSearchbarInputKeyDown] %o', event)
 
     // Handle various keyboard events
     if (event.key === 'ArrowDown') {
@@ -171,9 +213,10 @@ export default function SearchBar() {
     }
   }
 
-  function _onIonSearchbarClear() {
+  function onSearchbarInputClear() {
 
     dispatch(setCurrentCave(null))
+    setValue('')
     router.push(`/map`, 'none', 'replace')
   }
 
@@ -189,6 +232,10 @@ export default function SearchBar() {
     restoreSearchState()
   }
 
+  function handleFilterBtnClick() {
+    menuController.toggle()
+  }
+
   useEffect(() => {
     setShowSearchResults(searchResults.length > 0 && searchBarHasFocus)
   }, [searchResults, searchBarHasFocus])
@@ -199,7 +246,6 @@ export default function SearchBar() {
         position: 'absolute',
         top: 0,
         left: 0,
-        p: '0.5rem 0.5rem 0 0.5rem',
         maxWidth: '100%',
         width: {
           xs: '100%',
@@ -207,46 +253,144 @@ export default function SearchBar() {
         },
         zIndex: 'var(--oc-searchbar-z-index)'
       }}
-      className="oc-search-bar" onFocus={_onOCSearchbarFocus}>
-      <div className='oc-search-bar--container'>
+      role='search'
+      className="oc-search-bar"
+      onFocus={_onOCSearchbarFocus}
+    >
+      <Box
+        sx={{
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)',
+          borderRadius: '24px',
+          bgcolor: 'background.paper',
+          borderColor: theme => theme.palette.mode === 'light' ? 'background.paper' : 'divider',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          m: '0.5rem 0.5rem 0 0.5rem',
+        }}
+      >
         <div className='oc-search-bar--omnibox'>
           <div className='oc-search-bar--actions'>
             <Fade in={!backBtnOn}>
-              <IonButton shape='round' fill='clear' className='oc-search-bar--search-btn'>
-                <SearchIcon slot='icon-only'></SearchIcon>
-              </IonButton>
+              <ActionButton disableRipple aria-label={t('actionButton.search.ariaLabel')}>
+                <SearchIcon />
+              </ActionButton>
             </Fade>
             <Fade in={backBtnOn}>
-              <IonButton shape='round' fill='clear' className='oc-search-bar--back-btn' onClick={handleBackBtnClick}>
-                <ArrowBackIcon slot='icon-only'></ArrowBackIcon>
-              </IonButton>
+              <ActionButton disableRipple aria-label={t('actionButton.back.ariaLabel')} onClick={handleBackBtnClick}>
+                <ArrowBackIcon />
+              </ActionButton>
             </Fade>
           </div>
-          <IonSearchbar ref={searchBarRef} class="oc-search-bar--input" value={value} placeholder={t('placeholder')} show-clear-button={currentCave ? 'always' : 'focus'} onIonInput={_onIonSearchbarInput} onIonFocus={_onIonSearchbarFocus} onIonBlur={_onIonSearchbarFocus} onIonClear={_onIonSearchbarClear} onKeyDown={_onIonSearchbarKeyDown} onKeyUp={_onIonSearchbarKeyUp} />
-          <Tooltip title={t('filter.tip')}>
-            <IonMenuButton id="oc-search-filter-btn" aria-label={t('filter.ariaLabel')}><TuneIcon /></IonMenuButton>
+          <InputBase
+            value={value}
+            sx={{ flex: 1 }}
+            placeholder={t('placeholder')}
+            fullWidth
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={onSearchbarInputChange}
+            onFocus={onSearchbarInputFocus}
+            onBlur={onSearchbarInputFocus}
+            onKeyDown={onSearchbarInputKeyDown}
+            onKeyUp={onSearchbarInputKeyUp}
+          />
+
+          <Box
+            sx={{
+              width: '48px'
+            }}
+          >
+            {
+              showClearBtn && (
+                <Tooltip title={t('actionButton.clear.tip')}>
+                  <IconButton
+                    disableRipple
+                    aria-label={t('actionButton.clear.ariaLabel')}
+                    sx={{
+                      width: '48px',
+                      height: '48px',
+                    }}
+                    onClick={onSearchbarInputClear}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </Tooltip>
+              )
+            }
+          </Box>
+
+          {
+            showClearBtn && (
+              <Box
+              >
+                <Divider
+                  sx={{
+                    height: 'calc(100% - 16px)'
+                  }}
+                  variant='middle'
+                  orientation='vertical' />
+              </Box>
+            )
+          }
+
+          <Tooltip title={t('actionButton.filter.tip')}>
+            <IconButton
+              disableRipple
+              id="oc-search-filter-btn"
+              aria-label={t('actionButton.filter.ariaLabel')}
+              sx={{
+                width: '48px',
+                height: '48px',
+              }}
+              onClick={handleFilterBtnClick}
+            >
+              <TuneIcon />
+            </IconButton>
+            {/* <IonMenuButton id="oc-search-filter-btn" aria-label={t('filter.ariaLabel')}><TuneIcon /></IonMenuButton> */}
           </Tooltip>
         </div>
         {
           <Collapse in={showSearchResults}>
-            <div className='oc-search-bar--results'>
-              <IonList lines='none' className='oc-search-bar--results-list'>
+            <div
+              className='oc-search-bar--results'
+            >
+              <List
+                sx={{
+                  fontSize: '0.8125rem'
+                }}
+              >
                 {
                   searchResults.map((result) => {
-                    return <IonItem key={result.id} button detail={false} ref={element => resultItemsRef.current.push(element)} onClick={() => _onResultsItemClick(result.id)} className='oc-search-bar--results-item'>
-                      {
-                        result.location === 'valid' ? <LocationOnOutlinedIcon slot='start' className='oc-search-bar--results-item-icon' /> : result.location === 'unknown' ? <LocationUnknownOutlinedIcon slot='start' className='oc-search-bar--results-item-icon' /> : <LocationOffOutlinedIcon slot='start' className='oc-search-bar--results-item-icon' />
-                      }
-
-                      <IonLabel><Snippet result={result} /></IonLabel>
-                    </IonItem>
+                    return (
+                      <ListItem
+                        disablePadding
+                        key={result.id}
+                        sx={{
+                          '&:last-child > .MuiListItemButton-root': {
+                            borderRadius: '0 0 12px 12px;'
+                          }
+                        }}
+                      >
+                        <ListItemButton ref={element => resultItemsRef.current.push(element)} onClick={() => _onResultsItemClick(result.id)}>
+                          {
+                            result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : result.location === 'unknown' ? <SvgIcon component={LocationUnknownOutlinedIcon} className='test' sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />
+                          }
+                          <Box
+                            sx={{
+                              width: '100%'
+                            }}
+                          >
+                            <Snippet result={result} />
+                          </Box>
+                        </ListItemButton>
+                      </ListItem>
+                    )
                   })
                 }
-              </IonList>
+              </List>
             </div>
           </Collapse>
         }
-      </div>
+      </Box>
     </Box>
   )
 }
@@ -255,26 +399,54 @@ function Snippet({ result }) {
   const { t } = useTranslation('searchBar')
 
   if (result.hints.name) {
-    return <div className='g'>
-      <div dangerouslySetInnerHTML={{ __html: result.hints.name }}></div>
-      <div><IonNote>{result.area}</IonNote></div>
-    </div>
+    return (
+      <Grid container>
+        <Grid xs>
+          <SnippetTextPrimary dangerouslySetInnerHTML={{ __html: result.hints.name }} />
+        </Grid>
+        <Grid>
+          <SnippetTextSecondary>{result.area}</SnippetTextSecondary>
+        </Grid>
+      </Grid>
+    )
   }
 
   const prop = Object.keys(result.hints)[0]
   if (prop) {
     const value = result.hints[prop]
     return <>
-      <div className='g'>
-        <div>{result.name}</div>
-        <div><IonNote>{result.area}</IonNote></div>
-      </div>
-      <IonNote className='oc-search-bar--results-item-extra'>
+      <Grid container>
+        <Grid xs>
+          <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
+        </Grid>
+        <Grid>
+          <SnippetTextSecondary
+            component='span'
+          >{result.area}</SnippetTextSecondary>
+        </Grid>
+      </Grid>
+      <SnippetTextSecondary
+        component='div'
+        sx={{
+          mt: '1px'
+        }}
+        className='oc-search-bar--results-item-extra'>
         <span dangerouslySetInnerHTML={{ __html: Array.isArray(value) ? value[0] : value }}></span>
         <span> </span>
         <span>({t(`snippet.${prop}`)})</span>
-      </IonNote>
+      </SnippetTextSecondary>
     </>
   }
-  return <div className='g'><div>{result.name}</div><div><IonNote>{result.area}</IonNote></div></div>
+  return (
+    <Grid container>
+      <Grid xs>
+        <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
+      </Grid>
+      <Grid>
+        <SnippetTextSecondary
+          component='span'
+        >{result.area}</SnippetTextSecondary>
+      </Grid>
+    </Grid>
+  )
 }

@@ -7,30 +7,17 @@
     padding-top: var(--oc-details-padding-block);
     padding-left: var(--oc-details-padding-inline);
     padding-right: var(--oc-details-padding-inline);
-
-    // &-subtitle {
-    //   line-height: 1.25rem;
-    // }
   }
 
   &--content {
-    font-size: var(--oc-details-font-size);
-    padding-top: var(--oc-details-padding-block);
+    // font-size: var(--oc-details-font-size);
+    // padding-top: var(--oc-details-padding-block);
 
     .h2 {
       font-size: 1rem;
       font-weight: 500;
       margin: 10px var(--oc-details-padding-inline) 10px var(--oc-details-padding-inline);
       margin: 0;
-    }
-
-    ion-list {
-      padding: 0;
-    }
-
-    .oc-quick-actions {
-      padding-top: var(--oc-details-padding-block);
-      padding-bottom: var(--oc-details-padding-block);
     }
 
     .details-container {
@@ -61,17 +48,17 @@
       }
     }
 
-    ion-item {
-      --min-height: 40px;
-      --padding-start: var(--oc-details-padding-inline);
+    // ion-item {
+    //   --min-height: 40px;
+    //   --padding-start: var(--oc-details-padding-inline);
 
-      font-size: inherit;
-      line-height: 1.25rem;
+    //   font-size: inherit;
+    //   line-height: 1.25rem;
 
-      > svg[slot='start'] {
-        margin-right: 24px;
-      }
-    }
+    //   > svg[slot='start'] {
+    //     margin-right: 24px;
+    //   }
+    // }
 
     .oc-results-copy-list {
       padding-top: var(--oc-details-padding-block);
@@ -98,19 +85,6 @@
       .oc-icon-copy-container {
         justify-content: flex-end;
         min-width: 18px;
-      }
-
-      ion-item {
-        > [slot='end'] {
-          display: none;
-          font-size: 1.125rem;
-        }
-
-        &:hover {
-          > [slot='end'] {
-            display: inline-block;
-          }
-        }
       }
     }
   }

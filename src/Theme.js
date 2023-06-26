@@ -17,6 +17,9 @@ const lightThemeOptions = {
     },
     success: {
       main: '#5da426',
+    },
+    text: {
+      // secondary: '#f00'
     }
   },
   typography: {
@@ -26,7 +29,12 @@ const lightThemeOptions = {
       fontWeight: 400
     },
     caveDetailsSubHeader: {
-      color: 'theme.text.secondary'
+      // color: 'theme.text.secondary'
+      color: 'var(--md-palette-text-secondary)',
+      fontSize: '0.875rem',
+      fontWeight: 400,
+      lineHeight: '1.25rem',
+      letterSpacing: 0
     },
     caveDetailsBodySecondary: {
       fontSize: '0.875rem',
