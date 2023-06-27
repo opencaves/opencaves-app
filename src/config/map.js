@@ -1,0 +1,1 @@
+export const SISTEMA_DEFAULT_COLOR = '#ff0000'

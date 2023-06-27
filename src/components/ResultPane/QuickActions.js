@@ -1,6 +1,6 @@
-import { IonAlert, IonCol, IonGrid, IonRow } from '@ionic/react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, ButtonBase, Typography, useMediaQuery, styled } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography, useMediaQuery } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
@@ -76,12 +76,13 @@ function QuickActionsItem({ children, ...props }) {
 export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
   const { t: tMap } = useTranslation('map')
+  const [dialogOpen, setDialogOpen] = useState(false)
   const theme = useTheme()
 
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
-  async function onShareClick() {
+  async function handleShareOpen() {
     const shareURL = new URL(window.location)
     shareURL.hash = ''
     await Share.share({
@@ -93,6 +94,15 @@ export default function QuickActions({ cave }) {
   }
 
   function onSaveClick() { }
+
+  function handleDialogOpen() {
+    console.log('[handleDialogOpen]')
+    setDialogOpen(true)
+  }
+
+  function handleDialogClose() {
+    setDialogOpen(false)
+  }
 
   return (
     <>
@@ -134,12 +144,12 @@ export default function QuickActions({ cave }) {
               </QuickActionsItem>
             }
             <QuickActionsItem>
-              <Button id='save-btn' aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn'>
+              <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
                 {t('save')}
               </Button>
             </QuickActionsItem>
             <QuickActionsItem>
-              <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={onShareClick}>
+              <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
                 {t('share')}
               </Button>
             </QuickActionsItem>
@@ -173,7 +183,7 @@ export default function QuickActions({ cave }) {
             }
             <Grid xs display="flex" justifyContent="center">
               <Grid container>
-                <ButtonLg id='save-btn' aria-label={t('save')}>
+                <ButtonLg id='save-btn' aria-label={t('save')} onClick={handleDialogOpen}>
                   <Grid container direction='column'>
                     <Grid><IconLg><BookmarkBorderIcon color='primary' /></IconLg></Grid>
                     <Grid><LabelLg>{t('save')}</LabelLg></Grid>
@@ -184,7 +194,7 @@ export default function QuickActions({ cave }) {
 
             <Grid xs display="flex" justifyContent="center">
               <Grid container>
-                <ButtonLg id='save-btn' aria-label={t('share')} onClick={onShareClick}>
+                <ButtonLg id='save-btn' aria-label={t('share')} onClick={handleShareOpen}>
                   <Grid container direction='column'>
                     <Grid><IconLg><ShareIcon color='primary' /></IconLg></Grid>
                     <Grid><LabelLg>{t('share')}</LabelLg></Grid>
@@ -196,7 +206,26 @@ export default function QuickActions({ cave }) {
         </Box>
       )}
 
-      <IonAlert trigger='save-btn' header='Argh!' message='To be implemented...' buttons={['OK']} className='oc-dialog'></IonAlert>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Argh!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">To be implemented...</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleDialogClose}
+            autoFocus
+          >
+            OK
+          </Button>
+
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

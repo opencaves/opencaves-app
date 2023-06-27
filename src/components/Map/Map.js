@@ -12,6 +12,7 @@ import { hasViewState } from './location-view-state'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
+import { SISTEMA_DEFAULT_COLOR } from '../../config/map.js'
 
 export default function OCMap() {
 
@@ -269,6 +270,9 @@ export default function OCMap() {
                 // console.log('cave: %o', cave)
                 const isCurrentCave = currentCave && currentCave.id === cave.id
                 const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
+                const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
+                // const markerColor = SISTEMA_DEFAULT_COLOR
+
                 markersRef.current.push(createRef())
 
                 let markerLabel = null
@@ -292,7 +296,7 @@ export default function OCMap() {
                     anchor='center'
                     onClick={(event) => handleMarkerOnClick(event, cave)}>
                     <div className='marker'>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="28.15" preserveAspectRatio="xMidYMid" version="1.0" className="marker-icon"><path fill={cave.color} stroke="#23272b" strokeWidth=".6" d="M11.3 25.75c.85-2.475 1.725-3.9 4.576-7.401 1.15-1.425 2.375-3.15 2.7-3.8C21.451 8.822 18.626 2.345 12.5.57c-.337-.1-1.973-.27-2.5-.271C9.473.3 7.837.47 7.5.57 1.373 2.346-1.453 8.822 1.423 14.548c.324.65 1.55 2.376 2.7 3.8 2.85 3.501 3.725 4.927 4.576 7.402.625 1.875.763 2.097 1.3 2.1.536.003.675-.225 1.3-2.1z" /><path fill="#fff" fillRule="evenodd" d="M5.81 12.208c0-1.047 2.095-4.188 4.164-4.187 2.118 0 4.213 3.14 4.213 4.187H9.998zm4.188-7.329c-3.141 0-7.328 4.189-7.328 7.329h1.046c0-3.142 4.189-6.282 6.282-6.282 2.094 0 6.282 3.142 6.282 6.282h1.047c0-3.142-4.188-7.329-7.329-7.329z" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="28.15" preserveAspectRatio="xMidYMid" version="1.0" className="marker-icon"><path fill={markerColor} stroke="#23272b" strokeWidth=".6" d="M11.3 25.75c.85-2.475 1.725-3.9 4.576-7.401 1.15-1.425 2.375-3.15 2.7-3.8C21.451 8.822 18.626 2.345 12.5.57c-.337-.1-1.973-.27-2.5-.271C9.473.3 7.837.47 7.5.57 1.373 2.346-1.453 8.822 1.423 14.548c.324.65 1.55 2.376 2.7 3.8 2.85 3.501 3.725 4.927 4.576 7.402.625 1.875.763 2.097 1.3 2.1.536.003.675-.225 1.3-2.1z" /><path fill="#fff" fillRule="evenodd" d="M5.81 12.208c0-1.047 2.095-4.188 4.164-4.187 2.118 0 4.213 3.14 4.213 4.187H9.998zm4.188-7.329c-3.141 0-7.328 4.189-7.328 7.329h1.046c0-3.142 4.189-6.282 6.282-6.282 2.094 0 6.282 3.142 6.282 6.282h1.047c0-3.142-4.188-7.329-7.329-7.329z" /></svg>
                       {markerLabel && markerLabel}
                     </div>
                   </Marker>

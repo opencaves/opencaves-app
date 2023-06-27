@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store.js'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
-import { Box, styled } from '@mui/system'
-import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon } from '@mui/material'
+import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -21,15 +20,12 @@ import './SearchBar.scss'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
 
-console.log('[nameTranslationFields] %o', nameTranslationFields)
-
 const indexOptions = {
   fields: ['name', ...nameTranslationFields, 'aka', 'location'],
   storeFields: ['name', ...nameTranslationFields, 'aka', 'area', 'location'],
   encode: 'advanced',
   searchOptions: {
     boost: { name: 2 },
-    // fuzzy: .1,
     prefix: true
   },
   extractField: (document, fieldName) => {

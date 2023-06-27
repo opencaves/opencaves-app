@@ -105,8 +105,6 @@ export function CurrentCaveDetailsContent({ cave }) {
     entranceText = `${cave.entrance.latitude}, ${cave.entrance.longitude}`
   }
 
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
-
   function handleAddressTooltipOpen() {
     setAddressTooltipOpen(true)
   }

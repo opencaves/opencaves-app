@@ -208,8 +208,8 @@
       "description": "This cave is accessible only from the sea."
     }
   },
-  "sistemaHistory": {
-    "header": "Sistema history"
+  "sistema": {
+    "header": "System"
   },
   "fees": {
     "yes": {

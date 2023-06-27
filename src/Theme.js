@@ -31,30 +31,30 @@ const lightThemeOptions = {
     caveDetailsSubHeader: {
       // color: 'theme.text.secondary'
       color: 'var(--md-palette-text-secondary)',
-      fontSize: '0.875rem',
+      fontSize: 'var(--oc-cave-details-details-font-size)',
       fontWeight: 400,
       lineHeight: '1.25rem',
       letterSpacing: 0
     },
+    caveDetailsSectionHeader: {
+      fontSize: '1rem',
+      fontWeight: '500',
+      lineHeight: '1.5',
+      padding: 'var(--oc-details-padding-block) var(--oc-details-padding-inline)',
+    },
     caveDetailsBodySecondary: {
-      fontSize: '0.875rem',
+      fontSize: 'var(--oc-cave-details-details-font-size)',
       fontWeight: 400,
       lineHeight: '1.25rem',
       color: '#70757a'
     },
     caveDetailsItemText: {
-      fontSize: '0.875rem',
+      fontSize: 'var(--oc-cave-details-details-font-size)',
       flex: '1 1 auto',
-      marginTop: '4px',
-      marginBottom: '4px'
     },
-    sistemaHistoryHeader: {
-      color: 'theme.text.secondary',
-      fontSize: '.9em',
-      fontWeight: '400',
-      lineHeight: '1.5',
-      paddingTop: 'var(--oc-details-padding-block)',
-      paddingBottom: 'var(--oc-details-padding-block)'
+    sistemaHistoryTextSecondary: {
+      fontSize: '0.75rem',
+      color: 'var(--md-palette-text-secondary)',
     }
   },
   components: {
@@ -63,7 +63,7 @@ const lightThemeOptions = {
         variantMapping: {
           caveDetailsHeader: 'h1',
           caveDetailsSubHeader: 'p',
-          sistemaHistoryHeader: 'h2'
+          caveDetailsSectionHeader: 'h2'
         }
       }
     },
@@ -78,6 +78,48 @@ const lightThemeOptions = {
         //   color: 'black'
         // },
       }
+    },
+    MuiAccordion: {
+      variants: [
+        {
+          props: { variant: 'sistemaHistory' },
+          style: {
+            backgroundColor: 'transparent',
+            padding: '6px 0',
+            '&:before': {
+              content: 'none'
+            },
+            '&:after': {
+              content: 'none'
+            }
+          }
+        }
+      ]
+    },
+    MuiAccordionSummary: {
+      variants: [
+        {
+          props: { variant: 'sistemaHistory' },
+          style: {
+            padding: '0 var(--oc-details-padding-inline)',
+            minHeight: '40px',
+            '& > .MuiAccordionSummary-content': {
+              margin: '6px 0'
+            }
+          }
+        }
+      ]
+    },
+    MuiAccordionDetails: {
+      variants: [
+        {
+          props: { variant: 'sistemaHistory' },
+          style: {
+            fontSize: 'var(--oc-cave-details-details-font-size)',
+            padding: '0 var(--oc-details-padding-inline) var(--oc-details-padding-block) calc(var(--oc-details-icon-min-width) + 20px)'
+          }
+        }
+      ]
     },
     MuiTooltip: {
       styleOverrides: {

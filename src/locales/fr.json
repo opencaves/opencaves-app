@@ -207,8 +207,8 @@
       "description": "Cette grotte est accessible uniquement depuis la mer."
     }
   },
-  "sistemaHistory": {
-    "header": "Historique du système"
+  "sistema": {
+    "header": "Système"
   },
   "fees": {
     "yes": {
