@@ -150,6 +150,9 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
+    "addressLoading": "Loading address...",
+    "addressLoadingError": "Failed to load address: {{errMessage}}",
+    "addressNotAvailable": "Address not available",
     "locationNotAvailable": "Location not available"
   },
   "accesses": {

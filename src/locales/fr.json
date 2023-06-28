@@ -149,6 +149,9 @@
     "copyCoordinates": "Copier les coordonnées",
     "copyKeyCoordinates": "Copier les coordonnées de la clé",
     "copyEntranceCoordinates": "Copier les coordonnées de l'entrée'",
+    "addressLoading": "Chargement de l'adresse...",
+    "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
+    "addressNotAvailable": "Adresse non disponible",
     "locationNotAvailable": "Lieu non disponible"
   },
   "accesses": {

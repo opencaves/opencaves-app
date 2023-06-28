@@ -1,15 +1,158 @@
 import React from 'react'
 import { IonContent, IonHeader, IonMenu, IonTitle, IonToolbar, IonToggle, IonList, IonItem, IonButtons, IonButton, IonMenuToggle, IonLabel, IonListHeader, IonNote } from '@ionic/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useMediaQuery } from '@mui/material'
+import Scrollbars from 'react-custom-scrollbars-2'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, SwipeableDrawer, Switch, Typography, useMediaQuery } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+import { Close } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
-import {setResultPaneSmOpen} from '../../redux/slices/appSlice'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnknownCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
+import { toggleFilterMenu, setResultPaneSmOpen } from '../../redux/slices/appSlice'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
 import './FilterMenu.scss'
 
-export default function MapFilterMenu() {
+function FilterMenuHead({ title, children, ...props }) {
+
+  return (
+    <Box>
+      <Grid
+        container
+        alignItems='center'
+        gap={1}
+        sx={{
+          boxShadow: 'var(--md-shadows-2)',
+          position: 'relative',
+          zIndex: '1',
+          py: 1.5,
+          px: 1
+        }}
+        {...props}
+      >
+        <Grid>
+          <IconButton>
+            <Close />
+          </IconButton>
+        </Grid>
+        <Grid xs>
+          <Typography
+            component='h2'
+            sx={{
+              fontSize: 20,
+              fontWeight: 500,
+              letterSpacing: '0.0125em'
+            }}
+          >{title}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}
+
+function FilterMenuContent({ children, ...props }) {
+
+  const theme = useTheme()
+
+  return (
+    <Grid
+      {...props}
+      xs
+    >
+      <Scrollbars
+        autoHide
+        autoHeight
+        autoHeightMax='100vh'
+        renderThumbVertical={({ style, ...props }) =>
+          <div
+            {...props}
+            style={{
+              ...style,
+              cursor: 'pointer',
+              borderRadius: 'inherit',
+              backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)'
+            }}
+          />
+        }
+      >
+        {children}
+      </Scrollbars>
+    </Grid>
+  )
+}
+
+function FilterMenuSectionHeader({ children, ...props }) {
+  return (
+    <Box
+      display='flex'
+      alignItems='end'
+      sx={{
+        minHeight: '48px',
+      }}
+    >
+      <Typography
+        component='h3'
+        sx={{
+          lineHeight: 1,
+          color: 'var(--md-palette-text-secondary)',
+          fontWeight: 500,
+          fontSize: '0.875rem',
+          px: '1rem',
+          bgcolor: 'var(--md-palette-background-paper)'
+        }}
+      >
+        {children}
+      </Typography>
+    </Box>
+  )
+}
+
+function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
+
+  return (
+    <ListItem
+      disablePadding
+    >
+      <ListItemButton
+        onClick={onClick}
+        divider
+      >
+        <ListItemText
+          primary={
+            <>
+              {primary}
+              <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(1) })}>({nb})</Typography>
+              <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(1) })}>{`${checked}`}</Typography>
+            </>
+          }
+          secondary={secondary && (
+            <Typography variant='mapTextSecondary'>{secondary}</Typography>
+          )}
+        />
+        <ListItemIcon>
+          <Switch
+            edge='end'
+            disableRipple={true}
+            checked={checked}
+            onChange={() => { }}
+            sx={{
+              userSelect: 'none',
+              '& > .MuiSwitch-switchBase:hover': {
+                bgcolor: 'transparent'
+              },
+              '& > .MuiSwitch-switchBase.Mui-checked:hover': {
+                bgcolor: 'transparent'
+              }
+            }}
+          />
+        </ListItemIcon>
+      </ListItemButton>
+    </ListItem>
+  )
+}
+
+export default function MapFilterMenu({ props }) {
+
+  const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
   const showValidCoordinates = useSelector(state => state.search.showValidCoordinates)
   const showInvalidCoordinates = useSelector(state => state.search.showInvalidCoordinates)
@@ -18,24 +161,36 @@ export default function MapFilterMenu() {
   const showAccessibilities = useSelector(state => state.search.showAccessibilities)
 
   const dataStats = useSelector(state => state.map.dataStats)
-  const theme = useTheme()
-  
-    // query: '(max-width: 767px)'
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const dispatch = useDispatch()
   const { t } = useTranslation('filter')
 
-  const handleShowValidCoordinates = (event) => {
-    dispatch(setShowValidCoordinates(event.target.checked))
+  const handleShowValidCoordinates = () => {
+    dispatch(setShowValidCoordinates(!showValidCoordinates))
   }
 
-  const handleShowInvalidCoordinates = (event) => {
-    dispatch(setShowInvalidCoordinates(event.target.checked))
+  const handleShowInvalidCoordinates = () => {
+    dispatch(setShowInvalidCoordinates(!showInvalidCoordinates))
   }
 
-  const handleShowUnknownCoordinates = (event) => {
-    dispatch(setShowUnknownCoordinates(event.target.checked))
+  const handleShowUnconfirmedCoordinates = () => {
+    dispatch(setShowUnconfirmedCoordinates(!showUnconfirmedCoordinates))
+  }
+
+  function handleToggleFilterMenu(open) {
+    console.log('[handleToggleFilterMenu] %o', open)
+    return function doToggleFilterMenu(event) {
+      if (
+        event &&
+        event.type === 'keydown' &&
+        (event.key === 'Tab' || event.key === 'Shift')
+      ) {
+        return
+      }
+
+      toggleFilterMenu(open)
+      dispatch(setResultPaneSmOpen(!open))
+    }
   }
 
   function handleShowAccesses(checked, accessKey) {
@@ -49,11 +204,6 @@ export default function MapFilterMenu() {
     dispatch(setShowAccesses(newAccesses))
   }
 
-  // function accessesNoteOnClick(accessKey, checked) {
-  //   console.log('[accessesNoteOnClick¸%o', event)
-  //   dispatch(setShowAccesses(!showAccesses))
-  // }
-
   function handleShowAccessibilities(checked, accessKey) {
     console.log('checked: %s', checked)
     // const newAccessibilities = checked ? [...showAccessibilities, accessKey] : showAccessibilities.filter(key => key !== accessKey)
@@ -63,23 +213,19 @@ export default function MapFilterMenu() {
       }
       return access
     })
-    console.log('newAccessibilities: %o', newAccessibilities)
-    dispatch(setShowAccessibilities(newAccessibilities))
-  }
 
-  function accessibilitiesNoteOnClick(event) {
-    console.log(event)
+    dispatch(setShowAccessibilities(newAccessibilities))
   }
 
   function getDataStat(prop, value) {
     return dataStats?.[prop]?.[value] || 0
   }
 
-  function handleMenuWillOpen(){
+  function handleMenuWillOpen() {
     dispatch(setResultPaneSmOpen(false))
   }
 
-  function handleMenuDidClose(){
+  function handleMenuDidClose() {
     dispatch(setResultPaneSmOpen(true))
   }
 
@@ -87,99 +233,106 @@ export default function MapFilterMenu() {
   const accesses = t('access.items', { returnObjects: true })
 
   return (
-    <>
-      <IonMenu contentId="main-content" side="end" className={`oc-filter-menu${isSmall ? ` sm` : ``}`} onIonWillOpen={handleMenuWillOpen} onIonDidClose={handleMenuDidClose}>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>{t('windowTitle')}</IonTitle>
-            <IonButtons slot="start">
-              <IonMenuToggle>
-                <IonButton aria-label={t('close')}>
-                  <CloseIcon slot='icon-only'></CloseIcon>
-                </IonButton>
-              </IonMenuToggle>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="oc-filter-menu--panel ion-padding">
-          <IonList className='list'>
-            <IonListHeader>
-              <ion-label>{t('coordinate.heading')}</ion-label>
-            </IonListHeader>
-            <IonItem className='oc-filter-coordinate-item'>
-              <IonLabel className='oc-filter-coordinate-item--label'>
-                <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowValidCoordinates} checked={showValidCoordinates}>
-                  {t('coordinate.showValidCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'valid')})</IonNote>
-                </IonToggle>
-              </IonLabel>
-            </IonItem>
-            <IonItem className='oc-filter-coordinate-item'>
-              <IonLabel className='oc-filter-coordinate-item--label'>
-                <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowInvalidCoordinates} checked={showInvalidCoordinates}>
-                  {t('coordinate.showInvalidCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'invalid')})</IonNote>
-                </IonToggle>
-              </IonLabel>
-            </IonItem>
-            <IonItem lines="none" className='oc-filter-coordinate-item'>
-              <IonLabel className='oc-filter-coordinate-item--label'>
-                <IonToggle labelPlacement="start" justify="space-between" onClick={handleShowUnknownCoordinates} checked={showUnconfirmedCoordinates}>
-                  {t('coordinate.showUnconfirmedCoordinates')}
-                  <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('location.validity', 'unknown')})</IonNote>
-                </IonToggle>
-              </IonLabel>
-            </IonItem>
-          </IonList>
-          <IonList className='list'>
-            <IonListHeader>
-              <ion-label>{t('access.heading')}</ion-label>
-            </IonListHeader>
-            {
-              showAccesses.map(({ key, checked }, index) => {
-                return (
-                  <IonItem button detail="false" key={key} lines={index === accesses.length - 1 ? 'none' : null} className='oc-filter-accessibility-item'>
-                    <IonLabel className="ion-text-wrap oc-filter-accessibility-item--inner">
-                      <IonToggle className='oc-filter-accessibility-item--checkbox' labelPlacement="start" justify='space-between' checked={checked} onIonChange={() => handleShowAccesses(!checked, key)}>
-                        <div className="oc-filter-accessibility-item--label">
-                          {accesses.find(a => a.key === key).label}
-                          <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('access', key)})</IonNote>
-                        </div>
-                      </IonToggle>
-                      <IonNote className='oc-filter-accessibility-item--note' onClick={(e) => handleShowAccesses(!checked, key)}>{accesses.find(a => a.key === key).description}</IonNote>
-                    </IonLabel>
-                  </IonItem>
-                )
-              })
-            }
-          </IonList>
-          <IonList className='list'>
-            <IonListHeader>
-              <ion-label>{t('accessibility.heading')}</ion-label>
-            </IonListHeader>
-            {
-              showAccessibilities.map(({ key, checked }, index) => {
-                return (
-                  <IonItem button detail="false" key={key} lines={index === accessibilities.length - 1 ? 'none' : null} className='oc-filter-accessibility-item'>
-                    <IonLabel className="ion-text-wrap oc-filter-accessibility-item--inner">
-                      <IonToggle className='oc-filter-accessibility-item--checkbox' labelPlacement="start" justify='space-between' checked={checked} onIonChange={(e) => handleShowAccessibilities(e.target.checked, key)}>
-                        <div className="oc-filter-accessibility-item--label">
-                          {accessibilities.find(a => a.key === key).label}
-                          <IonNote className='oc-filter-accessibility-item--nb'>({getDataStat('accessibility', key)})</IonNote>
-                        </div>
-                      </IonToggle>
-                      <IonNote className='oc-filter-accessibility-item--note' onClick={accessibilitiesNoteOnClick}>{accessibilities.find(a => a.key === key).description}</IonNote>
-                    </IonLabel>
-                  </IonItem>
-                )
-              })
-            }
-          </IonList>
-        </IonContent>
-        <IonMenuToggle>
-          <IonButton fill="clear" className='handle' ariaLabel={t('close')} mode='ios'></IonButton>
-        </IonMenuToggle>
-      </IonMenu>
-    </>
+    <SwipeableDrawer
+      {...props}
+      anchor='right'
+      hideBackdrop={true}
+      variant='persistent'
+      PaperProps={{
+        square: false,
+        sx: {
+          borderRadius: '8px 0 0 8px'
+        }
+      }}
+      sx={{
+        '& > .MuiDrawer-paper': {
+          width: '500px',
+          maxWidth: '100%',
+          // boxShadow: 'var(--md-shadows-18)',
+          overflow: 'hidden'
+        }
+      }}
+      open={filterMenuOpen}
+      onOpen={handleToggleFilterMenu(true)}
+      onClose={handleToggleFilterMenu(false)}
+    >
+      <FilterMenuHead
+        title={t('windowTitle')}
+      />
+
+      <FilterMenuContent>
+
+        <FilterMenuSectionHeader>{t('coordinate.heading')}</FilterMenuSectionHeader>
+
+        <List disablePadding>
+          <FilterMenuItem
+            primary={t('coordinate.showValidCoordinates')}
+            nb={getDataStat('location.validity', 'valid')}
+            onClick={handleShowValidCoordinates}
+            checked={showValidCoordinates}
+          />
+          <FilterMenuItem
+            primary={t('coordinate.showInvalidCoordinates')}
+            nb={getDataStat('location.validity', 'invalid')}
+            onClick={handleShowInvalidCoordinates}
+            checked={showInvalidCoordinates}
+          />
+          <FilterMenuItem
+            primary={t('coordinate.showUnconfirmedCoordinates')}
+            nb={getDataStat('location.validity', 'unknown')}
+            onClick={handleShowUnconfirmedCoordinates}
+            checked={showUnconfirmedCoordinates}
+          />
+        </List>
+
+        <FilterMenuSectionHeader>{t('access.heading')}</FilterMenuSectionHeader>
+        <List disablePadding>
+          {
+            showAccesses.map(({ key, checked }, index) => {
+              const primary = accesses.find(a => a.key === key).label
+              const secondary = accesses.find(a => a.key === key).description
+              const nb = getDataStat('access', key)
+              const onClick = (e) => handleShowAccesses(!checked, key)
+              const k = `access.${key}.${index}`
+
+              return (
+                <FilterMenuItem
+                  key={k}
+                  primary={primary}
+                  secondary={secondary}
+                  nb={nb}
+                  checked={checked}
+                  onClick={onClick}
+                />
+              )
+            })
+          }
+        </List>
+
+        <FilterMenuSectionHeader>{t('accessibility.heading')}</FilterMenuSectionHeader>
+        <List disablePadding>
+          {
+            showAccessibilities.map(({ key, checked }, index) => {
+              const primary = accessibilities.find(a => a.key === key).label
+              const secondary = accessibilities.find(a => a.key === key).description
+              const nb = getDataStat('accessibility', key)
+              const onClick = (e) => handleShowAccessibilities(e.target.checked, key)
+              const k = `accessibility.${key}.${index}`
+
+              return (
+                <FilterMenuItem
+                  key={k}
+                  primary={primary}
+                  secondary={secondary}
+                  nb={nb}
+                  checked={checked}
+                  onClick={onClick}
+                />
+              )
+            })
+          }
+        </List>
+      </FilterMenuContent>
+    </SwipeableDrawer>
   )
 }

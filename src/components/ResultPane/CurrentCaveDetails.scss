@@ -1,6 +1,5 @@
 .oc-result-pane {
   --oc-results-sistemas--item-padding: 1em;
-  --oc-details-font-size: 0.875rem;
   --oc-details-icon-min-width: 40px;
 
   &--header {
@@ -10,9 +9,6 @@
   }
 
   &--content {
-    // font-size: var(--oc-details-font-size);
-    // padding-top: var(--oc-details-padding-block);
-
     .h2 {
       font-size: 1rem;
       font-weight: 500;

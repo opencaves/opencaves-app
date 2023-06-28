@@ -53,7 +53,7 @@ export default function Sistema({ sistemaHistory }) {
                 const sistemaName = i === 0 ? `${t2('sistema', { system: sistema.name })}` : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
-                    {t2('sistema', { system: sistema.name })} {sistema.date && <Typography variant='sistemaHistoryTextSecondary'>{sistema.date}</Typography>}
+                    {t2('sistema', { system: sistema.name })} {sistema.date && <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(.5) })}>{sistema.date}</Typography>}
                   </Box>
                 )
                 return <div key={sistema.id} className='oc-results-sistemas--item' style={{ paddingInlineStart: `calc(var(--oc-results-sistemas--item-padding) * ${i})` }}>{sistemaName}</div>
@@ -72,7 +72,7 @@ export default function Sistema({ sistemaHistory }) {
         py: 'var(--oc-details-padding-block)'
       }}>
       <Grid xs="auto">
-        <Box className='oc-sistema-history--icon'>
+        <Box sx={{ minWidth: 'var(--oc-details-icon-min-width)' }}>
           <SvgIcon component={CaveSystemIcon} inheritViewBox slot='start' className='cave-system-icon' htmlColor={currentSistema.color ?? 'red'}
           />
         </Box>

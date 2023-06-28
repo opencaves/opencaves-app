@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   showValidCoordinates: true,
   showInvalidCoordinates: false,
-  showUnknownCoordinates: false,
+  showUnconfirmedCoordinates: false,
   showAccesses: [
     { key: "yes", checked: true },
     { key: "no", checked: true },
@@ -38,8 +38,8 @@ export const searchSlice = createSlice({
     setShowInvalidCoordinates: (state, action) => {
       state.showInvalidCoordinates = action.payload
     },
-    setShowUnknownCoordinates: (state, action) => {
-      state.showUnknownCoordinates = action.payload
+    setShowUnconfirmedCoordinates: (state, action) => {
+      state.showUnconfirmedCoordinates = action.payload
     },
     setShowAccesses: (state, action) => {
       state.showAccesses = action.payload
@@ -51,6 +51,6 @@ export const searchSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnknownCoordinates, setShowAccesses, setShowAccessibilities } = searchSlice.actions
+export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } = searchSlice.actions
 
 export default searchSlice.reducer

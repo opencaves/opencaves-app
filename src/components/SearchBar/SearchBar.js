@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useIonRouter } from '@ionic/react'
 import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
-import { store } from '../../redux/store.js'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
 import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled } from '@mui/material'
@@ -13,12 +12,16 @@ import LocationOffOutlinedIcon from '@mui/icons-material/LocationOffOutlined'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
-import { setCurrentCave } from '../../redux/slices/mapSlice.js'
-import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes.js'
+import { store } from '../../redux/store.js'
+import { setCurrentCave } from '../../redux/slices/mapSlice'
+import { toggleFilterMenu } from '../../redux/slices/appSlice'
+import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes'
 import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/location-validity-unknown.svg'
 import './SearchBar.scss'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
+
+console.log('[menuController] %o', menuController)
 
 const indexOptions = {
   fields: ['name', ...nameTranslationFields, 'aka', 'location'],
@@ -230,6 +233,7 @@ export default function SearchBar() {
 
   function handleFilterBtnClick() {
     menuController.toggle()
+    dispatch(toggleFilterMenu(true))
   }
 
   useEffect(() => {

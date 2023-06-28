@@ -23,6 +23,18 @@ const lightThemeOptions = {
     }
   },
   typography: {
+    mapTextSecondary: {
+      fontSize: 'var(--oc-map-text-secondary-font-size)',
+      fontWeight: 400,
+      lineHeight: '1.25rem',
+      color: '#70757a'
+    },
+    mapTextSmall: {
+      fontSize: 'var(--oc-map-text-small-font-size)',
+      fontWeight: 400,
+      lineHeight: '1.25rem',
+      color: '#70757a'
+    },
     caveDetailsHeader: {
       fontSize: '1.375rem',
       lineHeight: '1.75rem',
@@ -31,7 +43,7 @@ const lightThemeOptions = {
     caveDetailsSubHeader: {
       // color: 'theme.text.secondary'
       color: 'var(--md-palette-text-secondary)',
-      fontSize: 'var(--oc-cave-details-details-font-size)',
+      fontSize: 'var(--oc-map-text-secondary-font-size)',
       fontWeight: 400,
       lineHeight: '1.25rem',
       letterSpacing: 0
@@ -43,17 +55,17 @@ const lightThemeOptions = {
       padding: 'var(--oc-details-padding-block) var(--oc-details-padding-inline)',
     },
     caveDetailsBodySecondary: {
-      fontSize: 'var(--oc-cave-details-details-font-size)',
+      fontSize: 'var(--oc-map-text-primary-font-size)',
       fontWeight: 400,
       lineHeight: '1.25rem',
       color: '#70757a'
     },
     caveDetailsItemText: {
-      fontSize: 'var(--oc-cave-details-details-font-size)',
+      fontSize: 'var(--oc-map-text-secondary-font-size)',
       flex: '1 1 auto',
     },
     sistemaHistoryTextSecondary: {
-      fontSize: '0.75rem',
+      fontSize: 'var(--oc-map-text-secondary-font-size)',
       color: 'var(--md-palette-text-secondary)',
     }
   },
@@ -115,7 +127,7 @@ const lightThemeOptions = {
         {
           props: { variant: 'sistemaHistory' },
           style: {
-            fontSize: 'var(--oc-cave-details-details-font-size)',
+            fontSize: 'var(--oc-map-text-primary-font-size)',
             padding: '0 var(--oc-details-padding-inline) var(--oc-details-padding-block) calc(var(--oc-details-icon-min-width) + 20px)'
           }
         }
@@ -136,7 +148,7 @@ const lightThemeOptions = {
           lineHeight: '1.25rem',
           fontWeight: '400',
           letterSpacing: '0.01428571em',
-          fontSize: '0.75rem'
+          fontSize: 'var(--oc-map-text-secondary-font-size)'
         }
       }
     },

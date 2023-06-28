@@ -9,10 +9,10 @@ import { chain, debounce } from 'underscore'
 import { setShowPopup, setPopupData, setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
 import { MapLoading, MapError } from './MapState'
 import { hasViewState } from './location-view-state'
+import { SISTEMA_DEFAULT_COLOR } from '../../config/map'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
-import { SISTEMA_DEFAULT_COLOR } from '../../config/map.js'
 
 export default function OCMap() {
 
@@ -73,7 +73,7 @@ export default function OCMap() {
     }
 
     const result = filterCaves(mapData, filters)
-    console.log('found %s caves', result.length)
+
     return result
 
 

@@ -42,7 +42,7 @@ export function CurrentCaveDetailsHeader({ cave }) {
       return null
     }
 
-    return cave.nameTranslations[resolvedLanguage]?.join(', ') || null
+    return cave.nameTranslations?.[resolvedLanguage]?.join(', ') || null
   })(cave.name?.languageCode)
 
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
@@ -95,6 +95,7 @@ export function CurrentCaveDetailsContent({ cave }) {
     addressText = `${cave.location.latitude}, ${cave.location.longitude}`
     coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}`
     hasAddressOrCoordinates = true
+
   }
 
   if (cave.keys) {

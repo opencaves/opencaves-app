@@ -40,8 +40,12 @@
   }
 
   button {
-    background-color: #fff;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+    &:not(:disabled),
+    &:not(:disabled):hover {
+      background-color: var(--md-palette-background-paper);
+    }
 
     &.mapboxgl-ctrl-geolocate {
       border-radius: 50vh;
@@ -49,8 +53,15 @@
       height: 50px;
 
       .mapboxgl-ctrl-icon {
-        background-image: url('../../../assets/map/crosshair.svg');
         background-size: 55%;
+
+        [data-mui-color-scheme='light'] & {
+          background-image: url('../../images/map/crosshair.light.svg');
+        }
+
+        [data-mui-color-scheme='dark'] & {
+          background-image: url('../../images/map/crosshair.dark.svg');
+        }
       }
 
       &:disabled {
