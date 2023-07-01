@@ -2,10 +2,8 @@ import { IonApp, setupIonicReact } from '@ionic/react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-// import { CssVarsProvider } from "@mui/material-next/styles"
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import { CssBaseline, useMediaQuery } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
+import { CssBaseline, useMediaQuery, Box, GlobalStyles } from '@mui/material'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
@@ -47,9 +45,7 @@ setupIonicReact({
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
 })
-
-// console.log('theme: %o', theme)
-
+console.log('theme: %o', theme)
 const App = () => {
 
   const title = useSelector(state => state.navigation.title)
@@ -67,6 +63,16 @@ const App = () => {
   return (
     <Fragment>
       <CssVarsProvider theme={theme}>
+        <GlobalStyles
+          styles={theme => ({
+            ':root': {
+              ...Object.entries(theme.transitions.duration).reduce((styles, style) => ({
+                ...styles, [`--${theme.cssVarPrefix
+                  }-transition-duration-${style[0]}`]: `${style[1]}ms`
+              }), {})
+            }
+          })}
+        />
         <CssBaseline />
         <HelmetProvider>
           <Helmet>
@@ -82,6 +88,11 @@ const App = () => {
             <meta name="msapplication-TileColor" content="#da532c" />
             <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
             <meta name="theme-color" content="#1b4859" />
+            {/* <style>`
+              :root {
+                ${theme.transitions.duration}
+              }
+              `</style> */}
           </Helmet>
           <IonApp>
             <Nav></Nav>

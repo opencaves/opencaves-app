@@ -128,7 +128,7 @@ const lightThemeOptions = {
           props: { variant: 'sistemaHistory' },
           style: {
             fontSize: 'var(--oc-map-text-primary-font-size)',
-            padding: '0 var(--oc-details-padding-inline) var(--oc-details-padding-block) calc(var(--oc-details-icon-min-width) + 20px)'
+            padding: '0 var(--oc-details-padding-inline) var(--oc-details-padding-block) calc(var(--oc-details-icon-min-width) + 24px)'
           }
         }
       ]

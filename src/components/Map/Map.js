@@ -54,7 +54,7 @@ export default function OCMap() {
       coordinates: [
         cave => searchOptions.showValidCoordinates && cave.location.validity === 'valid',
         cave => searchOptions.showInvalidCoordinates && cave.location.validity === 'invalid',
-        cave => searchOptions.showUnknownCoordinates && cave.location.validity === 'unknown',
+        cave => searchOptions.showUnconfirmedCoordinates && cave.location.validity === 'unknown',
       ],
       accesses: [
         cave => {

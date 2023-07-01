@@ -10,7 +10,6 @@ import { SISTEMA_DEFAULT_COLOR } from '../../config/map.js'
 
 export default function Sistema({ sistemaHistory }) {
 
-  const { t } = useTranslation('sistema')
   const { t: t2 } = useTranslation('resultPane')
 
   const hasSistemaAncestry = sistemaHistory.length > 1
@@ -19,7 +18,6 @@ export default function Sistema({ sistemaHistory }) {
   if (hasSistemaAncestry) {
     return (
       <>
-        {/* <Typography variant='caveDetailsSectionHeader'>{t('header')}</Typography> */}
         <Accordion
           variant='sistemaHistory'
           disableGutters
@@ -50,10 +48,12 @@ export default function Sistema({ sistemaHistory }) {
           >
             {
               sistemaHistory.map((sistema, i) => {
-                const sistemaName = i === 0 ? `${t2('sistema', { system: sistema.name })}` : (
+                const sistemaName = i === 0 ? (
+                  <Typography variant='caveDetailsItemText'>{t2('sistema', { system: sistema.name })}</Typography>
+                ) : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
-                    {t2('sistema', { system: sistema.name })} {sistema.date && <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(.5) })}>{sistema.date}</Typography>}
+                    <Typography variant='caveDetailsItemText'>{t2('sistema', { system: sistema.name })}</Typography> {sistema.date && <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(.5) })}>{sistema.date}</Typography>}
                   </Box>
                 )
                 return <div key={sistema.id} className='oc-results-sistemas--item' style={{ paddingInlineStart: `calc(var(--oc-results-sistemas--item-padding) * ${i})` }}>{sistemaName}</div>

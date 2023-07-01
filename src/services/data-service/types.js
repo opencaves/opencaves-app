@@ -36,6 +36,39 @@ export function str(str) {
   return str.trim()
 }
 
+export function Markdown({ makeOCLinksFromCenoteNames }) {
+  return function markdown(str) {
+    const country = 'MX'
+    const slices = []
+    let position = 0
+    const matches = findPhoneNumbersInText(str, country)
+
+    for (const match of matches) {
+      const original = str.slice(match.startsAt, match.endsAt)
+      const formattedNumber = `[${original}](${match.number.getURI()})`
+      // const formattedNumber = `${match.number.getURI()}`
+      slices.push(str.slice(position, match.startsAt))
+      slices.push(formattedNumber)
+      position = match.endsAt
+    }
+
+    if (slices.length > 0) {
+      slices.push(str.slice(position))
+      str = slices.join('')
+    }
+
+    str = makeOCLinksFromCenoteNames(str)
+
+    // var links = str.match(/\[[^\]]+\]/g)
+    // if (links) {
+    //   linksInTxt.push(...links)
+    // }
+    // str = replaceIdsInHtmlForLink(str)
+
+    return str
+  }
+}
+
 export function markdown(str) {
   const country = 'MX'
   const slices = []

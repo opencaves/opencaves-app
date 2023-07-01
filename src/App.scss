@@ -1,13 +1,21 @@
-:root {
-  --font-size: 16px;
-
-  font-size: var(--font-size);
-}
-
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a:link,
+a:visited {
+  color: inherit;
+  text-decoration-color: var(--md-palette-secondary-main);
+  text-decoration-thickness: 2px;
+  transition: all var(--md-transition-duration-shortest) ease-in-out;
+}
+
+a:link:hover,
+a:visited:hover {
+  color: var(--md-palette-secondary-dark);
+  text-decoration-color: var(--md-palette-secondary-dark);
 }
 
 code {

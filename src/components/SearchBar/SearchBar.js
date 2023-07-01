@@ -172,13 +172,11 @@ export default function SearchBar() {
       result.hints = markHints(result, searchTerm)
       return result
     })
-    console.log('[searchResults] %o', searchResults)
 
     setSearchResults(searchResults)
   }
 
   function _onOCSearchbarFocus(event) {
-    // console.log('[_onOCSearchbarFocus] %o', event)
     const hasFocus = event.type === 'focus'
     setSearchBarHasFocus(hasFocus)
   }
@@ -196,7 +194,6 @@ export default function SearchBar() {
   }
 
   async function onSearchbarInputKeyDown(event) {
-    console.log('[onSearchbarInputKeyDown] %o', event)
 
     // Handle various keyboard events
     if (event.key === 'ArrowDown') {
@@ -219,19 +216,20 @@ export default function SearchBar() {
     router.push(`/map`, 'none', 'replace')
   }
 
-  function _onResultsItemClick(id) {
+  function onResultsItemClick(id) {
     const selectedCave = selectCaveById(id)
     dispatch(setCurrentCave(selectedCave))
+    setValue(selectedCave.name.value)
     setSearchResults([])
     setBackBtnOn(false)
     router.push(`/map/${id}`, 'none', 'replace')
   }
 
-  function handleBackBtnClick() {
+  function onBackBtnClick() {
     restoreSearchState()
   }
 
-  function handleFilterBtnClick() {
+  function onFilterBtnClick() {
     menuController.toggle()
     dispatch(toggleFilterMenu(true))
   }
@@ -268,19 +266,29 @@ export default function SearchBar() {
           m: '0.5rem 0.5rem 0 0.5rem',
         }}
       >
-        <div className='oc-search-bar--omnibox'>
-          <div className='oc-search-bar--actions'>
+
+        <Grid
+          container
+          alignItems='stretch'
+        >
+          <Grid
+            width='48px'
+            height='48px'
+            position='relative'
+            overflow='hidden'
+            className='oc-search-bar--actions'
+          >
             <Fade in={!backBtnOn}>
               <ActionButton disableRipple aria-label={t('actionButton.search.ariaLabel')}>
                 <SearchIcon />
               </ActionButton>
             </Fade>
             <Fade in={backBtnOn}>
-              <ActionButton disableRipple aria-label={t('actionButton.back.ariaLabel')} onClick={handleBackBtnClick}>
+              <ActionButton disableRipple aria-label={t('actionButton.back.ariaLabel')} onClick={onBackBtnClick}>
                 <ArrowBackIcon />
               </ActionButton>
             </Fade>
-          </div>
+          </Grid>
           <InputBase
             value={value}
             sx={{ flex: 1 }}
@@ -341,13 +349,13 @@ export default function SearchBar() {
                 width: '48px',
                 height: '48px',
               }}
-              onClick={handleFilterBtnClick}
+              onClick={onFilterBtnClick}
             >
               <TuneIcon />
             </IconButton>
             {/* <IonMenuButton id="oc-search-filter-btn" aria-label={t('filter.ariaLabel')}><TuneIcon /></IonMenuButton> */}
           </Tooltip>
-        </div>
+        </Grid>
         {
           <Collapse in={showSearchResults}>
             <div
@@ -370,7 +378,7 @@ export default function SearchBar() {
                           }
                         }}
                       >
-                        <ListItemButton ref={element => resultItemsRef.current.push(element)} onClick={() => _onResultsItemClick(result.id)}>
+                        <ListItemButton ref={element => resultItemsRef.current.push(element)} onClick={() => onResultsItemClick(result.id)}>
                           {
                             result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : result.location === 'unknown' ? <SvgIcon component={LocationUnknownOutlinedIcon} className='test' sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />
                           }

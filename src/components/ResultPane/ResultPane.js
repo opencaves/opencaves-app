@@ -8,14 +8,11 @@ import ResultPaneLg from './ResultPaneLg'
 import './ResultPane.scss'
 import { CurrentCaveDetailsHeader, CurrentCaveDetailsContent } from './CurrentCaveDetails'
 
-export default function ResultPane({ caveId }) {
-  // console.log('[ResultPane] caveId: %o', caveId)
+export default function ResultPane() {
 
   const currentCave = useSelector(state => state.map.currentCave)
   const theme = useTheme()
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
-
-  // const currentCave = useMemo(() => caveId && data.find(cave => cave.id === caveId), [data, caveId])
 
   return currentCave && (isSmall ? (
     <TransitionGroup>

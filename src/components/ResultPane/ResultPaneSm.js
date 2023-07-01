@@ -11,6 +11,7 @@ export default function ResultPaneSm({ children }) {
   const firstBreakpoint = useSelector(state => state.app.resultPaneSmFirstBreakpoint)
   const restBreakpoints = useSelector(state => state.app.resultPaneSmRestBreakpoints)
   const resultPaneOpen = useSelector(state => state.app.resultPaneSmOpen)
+  const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
   const [breakpoint, setBreakpoint] = useState(0)
 
@@ -22,7 +23,7 @@ export default function ResultPaneSm({ children }) {
     modal.current.setCurrentBreakpoint(firstBreakpoint)
   }
 
-  return resultPaneOpen && (
+  return resultPaneOpen && !filterMenuOpen && (
 
     <IonModal
       ref={modal}

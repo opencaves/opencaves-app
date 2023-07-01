@@ -1,8 +1,14 @@
 import pushId from 'unique-push-id'
-import { dashedId, str, markdown, bol, num, arrStr, loc } from './types.js'
+import { dashedId, str, Markdown, bol, num, arrStr, loc } from './types.js'
 import { SISTEMA_DEFAULT_COLOR } from '../../config/map'
 
 const languagesMap = new Map()
+
+const _objectIdMap = {}
+
+const sistemaNamesFromId = new Map()
+
+let markdown
 
 function generateId() {
   return pushId()
@@ -10,6 +16,26 @@ function generateId() {
 
 const sistemas = new Map()
 const connectionsMap = new Map()
+
+function setCaveIdx(cenotes) {
+  const cenoteIdFromNameMap = new Map()
+
+  for (const cenote of cenotes) {
+    if (cenote['Cenote']) {
+      cenoteIdFromNameMap.set(cenote['Cenote'].toLowerCase().trim(), cenote.id)
+    }
+  }
+  const cenoteNames = [...cenoteIdFromNameMap.keys()].sort().reverse()
+  const cenoteNamesRegEx = new RegExp(`(^|[^\\[])(cenote\\s+)(${cenoteNames.join('|')})`, 'igu')
+
+  function makeOCLinksFromCenoteNames(str) {
+    return str.replaceAll(cenoteNamesRegEx, function replacer(match, prefix, cenote, cenoteName) {
+      return `${prefix}${cenote}[${cenoteName}](oc:${cenoteIdFromNameMap.get(cenoteName.toLowerCase())})`
+    })
+  }
+
+  markdown = new Markdown({ makeOCLinksFromCenoteNames })
+}
 
 function setSistemaIdx(sis) {
   for (const sistema of sis) {
@@ -59,10 +85,6 @@ function initIds(data) {
     //console.log(`[initIds#areas] ${JSON.stringify(c.Area)}`);
     setId(c.Area)
   })
-
-  idsRegEx = new RegExp(Object.keys(_objectIdMap).join('|'), 'g')
-
-  //console.log(_objectIdMap)
 }
 
 function initLangs(languageCodes) {
@@ -74,12 +96,6 @@ function initLabels(data) {
     sistemaNamesFromId.set(getIdRef(s.id), s.Sistema)
   })
 }
-
-const _objectIdMap = {}
-
-const sistemaNamesFromId = new Map()
-
-let idsRegEx
 
 function setId(oldId) {
 
@@ -675,6 +691,7 @@ export function processData(data) {
 
   initIds(data)
   initLangs(data.languageCodes)
+  setCaveIdx(data.caves)
   setSistemaIdx(data.sistemas)
   initConnectionsMap(data.connections)
 

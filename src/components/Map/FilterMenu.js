@@ -1,18 +1,23 @@
 import React from 'react'
-import { IonContent, IonHeader, IonMenu, IonTitle, IonToolbar, IonToggle, IonList, IonItem, IonButtons, IonButton, IonMenuToggle, IonLabel, IonListHeader, IonNote } from '@ionic/react'
 import { useDispatch, useSelector } from 'react-redux'
-import Scrollbars from 'react-custom-scrollbars-2'
-import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, SwipeableDrawer, Switch, Typography, useMediaQuery } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
-import { Close } from '@mui/icons-material'
-import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
-import CloseIcon from '@mui/icons-material/Close'
+import Scrollbars from 'react-custom-scrollbars-2'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Switch, Typography, useMediaQuery } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+import { useTheme } from '@mui/material/styles'
+import { Close } from '@mui/icons-material'
 import { toggleFilterMenu, setResultPaneSmOpen } from '../../redux/slices/appSlice'
 import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
 import './FilterMenu.scss'
 
 function FilterMenuHead({ title, children, ...props }) {
+
+  const dispatch = useDispatch()
+  const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
+
+  function onFilterMenuCloseBtnClick() {
+    dispatch(toggleFilterMenu(!filterMenuOpen))
+  }
 
   return (
     <Box>
@@ -30,7 +35,9 @@ function FilterMenuHead({ title, children, ...props }) {
         {...props}
       >
         <Grid>
-          <IconButton>
+          <IconButton
+            onClick={onFilterMenuCloseBtnClick}
+          >
             <Close />
           </IconButton>
         </Grid>
@@ -81,6 +88,7 @@ function FilterMenuContent({ children, ...props }) {
 }
 
 function FilterMenuSectionHeader({ children, ...props }) {
+
   return (
     <Box
       display='flex'
@@ -120,8 +128,7 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
           primary={
             <>
               {primary}
-              <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(1) })}>({nb})</Typography>
-              <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(1) })}>{`${checked}`}</Typography>
+              <Typography variant='mapTextSmall' sx={theme => ({ ml: theme.spacing(1) })}>{nb}</Typography>
             </>
           }
           secondary={secondary && (
@@ -151,6 +158,8 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
 }
 
 export default function MapFilterMenu({ props }) {
+
+  const theme = useTheme()
 
   const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
@@ -189,7 +198,7 @@ export default function MapFilterMenu({ props }) {
       }
 
       toggleFilterMenu(open)
-      dispatch(setResultPaneSmOpen(!open))
+      dispatch(setResultPaneSmOpen(open))
     }
   }
 
@@ -200,13 +209,10 @@ export default function MapFilterMenu({ props }) {
       }
       return access
     })
-    // console.log('newAccessibilities: %o', newAccessibilities)
     dispatch(setShowAccesses(newAccesses))
   }
 
   function handleShowAccessibilities(checked, accessKey) {
-    console.log('checked: %s', checked)
-    // const newAccessibilities = checked ? [...showAccessibilities, accessKey] : showAccessibilities.filter(key => key !== accessKey)
     const newAccessibilities = showAccessibilities.map(access => {
       if (access.key === accessKey) {
         return { ...access, checked }
@@ -231,6 +237,7 @@ export default function MapFilterMenu({ props }) {
 
   const accessibilities = t('accessibility.items', { returnObjects: true })
   const accesses = t('access.items', { returnObjects: true })
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <SwipeableDrawer
@@ -240,15 +247,14 @@ export default function MapFilterMenu({ props }) {
       variant='persistent'
       PaperProps={{
         square: false,
-        sx: {
-          borderRadius: '8px 0 0 8px'
-        }
+        sx: theme => ({
+          borderRadius: isSmall ? 'none' : '8px 0 0 8px'
+        })
       }}
       sx={{
         '& > .MuiDrawer-paper': {
           width: '500px',
           maxWidth: '100%',
-          // boxShadow: 'var(--md-shadows-18)',
           overflow: 'hidden'
         }
       }}
