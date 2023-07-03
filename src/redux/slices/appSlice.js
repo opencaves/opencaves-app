@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   filterMenuOpen: false,
   resultPaneSmOpen: true,
+  resultPaneSmOpenThreshold: .9,
   resultPaneSmFirstBreakpoint: .25,
   resultPaneSmRestBreakpoints: [.5, 1],
   languages: []

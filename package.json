@@ -57,6 +57,7 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.13.0",
     "minisearch": "^6.1.0",
+    "p-wait-for": "^5.0.2",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-custom-scrollbars-2": "^4.5.0",
@@ -90,6 +91,7 @@
     "workbox-streams": "^6.5.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.2.0",
     "swr": "^2.1.5"

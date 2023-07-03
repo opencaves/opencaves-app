@@ -171,8 +171,6 @@ function getSistemaAncestry(cave) {
     if (connectionsMap.has(currentSistemaId)) {
       const parentSistema = connectionsMap.get(currentSistemaId)
 
-      cave.id === '-KPZkVKWYFuKF3wawGw0' && console.log('ici: %o', parentSistema)
-
       sistemas.push({ name: sistemaNamesFromId.get(parentSistema.id) || 'n. d.', id: parentSistema.id, date: parentSistema.date, color: getSistemaColor(parentSistema.id), u: false })
       getSistemaParent(sistemas)
     }

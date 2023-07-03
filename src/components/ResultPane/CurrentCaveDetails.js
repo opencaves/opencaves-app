@@ -10,6 +10,7 @@ import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
 import LocationDisabledOutlinedIcon from '@mui/icons-material/LocationDisabledOutlined'
 import FenceRoundedIcon from '@mui/icons-material/FenceRounded'
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded'
+import ConditionalWrapper from '../ConditionalWrapper'
 import Markdown from '../Markdown/Markdown'
 import Address from './Address'
 import Divider from './Divider'
@@ -77,6 +78,8 @@ export function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
   const theme = useTheme()
 
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+
   const addressTooltip = useRef()
   const [snackbarMessage, setSnackbarMessage] = useState()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -115,6 +118,7 @@ export function CurrentCaveDetailsContent({ cave }) {
   }
 
   function handleAddressCopy() {
+    console.log('copié')
     setAddressTooltipOpen(false)
     setSnackbarMessage(t('copiedToClipboard'))
     setSnackbarOpen(true)
@@ -185,63 +189,77 @@ export function CurrentCaveDetailsContent({ cave }) {
 
           <>
             {
-              address &&
-              <CopyToClipboard text={addressText} placement='bottom-end' onCopy={handleAddressCopy}>
-                <Tooltip title={t('copyAddress')} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+              address && (
+                <CopyToClipboard text={addressText} placement='bottom-end' onCopy={handleAddressCopy}>
                   <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <LocationOnOutlinedIcon color='primary' />
-                      </ListItemIcon>
-                      <ListItemText primary={address} />
-                      <ListItemIcon className='oc-icon-copy-container'>
-                        <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                      </ListItemIcon>
-                    </ListItemButton>
+                    <ConditionalWrapper
+                      condition={!isSmall}
+                      wrapper={children =>
+                        <Tooltip title={t('copyAddress')} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>{children}</Tooltip>}
+                    >
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <LocationOnOutlinedIcon color='primary' />
+                        </ListItemIcon>
+                        <ListItemText primary={address} />
+                        <ListItemIcon className='oc-icon-copy-container'>
+                          <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
+                        </ListItemIcon>
+                      </ListItemButton>
+                    </ConditionalWrapper>
                   </ListItem>
-                </Tooltip>
-              </CopyToClipboard>
+                </CopyToClipboard>
+              )
             }
 
             {
-              coordinatesText &&
-              <CopyToClipboard text={coordinatesText} placement='bottom-end' onCopy={handleCoordinatesCopy}>
-                <Tooltip title={t('copyCoordinates')} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
+              coordinatesText && (
+                <CopyToClipboard text={coordinatesText} placement='bottom-end' onCopy={handleCoordinatesCopy}>
                   <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <MyLocationOutlinedIcon color='primary' />
-                      </ListItemIcon>
-                      <ListItemText primary={coordinatesText} />
-                      <ListItemIcon className='oc-icon-copy-container'>
-                        <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                      </ListItemIcon>
-                    </ListItemButton>
+                    <ConditionalWrapper
+                      condition={!isSmall}
+                      wrapper={children => <Tooltip title={t('copyCoordinates')} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>{children}</Tooltip>}
+                    >
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <MyLocationOutlinedIcon color='primary' />
+                        </ListItemIcon>
+                        <ListItemText primary={coordinatesText} />
+                        <ListItemIcon className='oc-icon-copy-container'>
+                          <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
+                        </ListItemIcon>
+                      </ListItemButton>
+
+                    </ConditionalWrapper>
                   </ListItem>
-                </Tooltip>
-              </CopyToClipboard>
+                </CopyToClipboard>
+              )
             }
           </>
         }
 
         {
 
-          !hasAddressOrCoordinates &&
-          <ListItem disablePadding>
-            <ListItemButton disabled>
-              <ListItemIcon>
-                <LocationDisabledOutlinedIcon color='primary' />
-              </ListItemIcon>
-              <ListItemText primary={t('locationNotAvailable')} />
-            </ListItemButton>
-          </ListItem>
+          !hasAddressOrCoordinates && (
+            <ListItem disablePadding>
+              <ListItemButton disabled>
+                <ListItemIcon>
+                  <LocationDisabledOutlinedIcon color='primary' />
+                </ListItemIcon>
+                <ListItemText primary={t('locationNotAvailable')} />
+              </ListItemButton>
+            </ListItem>
+          )
         }
 
         {
           keysTexts && keysTexts.map(keyText =>
             <CopyToClipboard key={keyText} text={keyText} placement='bottom-end' onCopy={handleKeyCoordinatesCopy}>
-              <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
-                <ListItem disablePadding>
+              <ListItem disablePadding>
+                <ConditionalWrapper
+                  condition={!isSmall}
+                  wrapper={children => <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>{children}</Tooltip>}
+                >
                   <ListItemButton>
                     <ListItemIcon>
                       <KeyRoundedIcon color='primary' />
@@ -251,29 +269,33 @@ export function CurrentCaveDetailsContent({ cave }) {
                       <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
                     </ListItemIcon>
                   </ListItemButton>
-                </ListItem>
-              </Tooltip>
+                </ConditionalWrapper>
+              </ListItem>
             </CopyToClipboard>
           )
         }
 
         {
-          entranceText &&
-          <CopyToClipboard text={entranceText} placement='bottom-end' onCopy={handleEntranceCoordinatesCopy}>
-            <Tooltip title={t('copyEntranceCoordinates')} open={entranceCoordinatesTooltipOpen} onOpen={handleEntranceCoordinatesTooltipOpen} onClose={handleEntranceCoordinatesTooltipClose}>
+          entranceText && (
+            <CopyToClipboard text={entranceText} placement='bottom-end' onCopy={handleEntranceCoordinatesCopy}>
               <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <FenceRoundedIcon color='primary' />
-                  </ListItemIcon>
-                  <ListItemText primary={entranceText} />
-                  <ListItemIcon className='oc-icon-copy-container'>
-                    <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                  </ListItemIcon>
-                </ListItemButton>
+                <ConditionalWrapper
+                  condition={!isSmall}
+                  wrapper={children => <Tooltip title={t('copyEntranceCoordinates')} open={entranceCoordinatesTooltipOpen} onOpen={handleEntranceCoordinatesTooltipOpen} onClose={handleEntranceCoordinatesTooltipClose}>{children}</Tooltip>}
+                >
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <FenceRoundedIcon color='primary' />
+                    </ListItemIcon>
+                    <ListItemText primary={entranceText} />
+                    <ListItemIcon className='oc-icon-copy-container'>
+                      <ContentCopyIcon className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </ConditionalWrapper>
               </ListItem>
-            </Tooltip>
-          </CopyToClipboard>
+            </CopyToClipboard>
+          )
         }
 
       </List>

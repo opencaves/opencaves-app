@@ -3,12 +3,13 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import { CssBaseline, useMediaQuery, Box, GlobalStyles } from '@mui/material'
+import { CssBaseline, GlobalStyles } from '@mui/material'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
 import { theme } from './Theme.js'
+import pkg from '../package.json'
 
 import '@fontsource/open-sans/600.css'
 import '@fontsource/roboto/300.css'
@@ -36,7 +37,6 @@ import '@ionic/react/css/structure.css'
 import './theme/variables.scss'
 
 import './App.scss'
-import { useTranslation } from 'react-i18next'
 
 setupIonicReact({
   mode: 'md'
@@ -45,8 +45,18 @@ setupIonicReact({
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
 })
-console.log('theme: %o', theme)
+
 const App = () => {
+
+  console.log(`
+ ██████╗ ██████╗ ███████╗███╗   ██╗ ██████╗ █████╗ ██╗   ██╗███████╗███████╗    ██████╗ ██████╗  ██████╗ 
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔════╝██╔══██╗██║   ██║██╔════╝██╔════╝   ██╔═══██╗██╔══██╗██╔════╝ 
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║██║     ███████║██║   ██║█████╗  ███████╗   ██║   ██║██████╔╝██║  ███╗
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║     ██╔══██║╚██╗ ██╔╝██╔══╝  ╚════██║   ██║   ██║██╔══██╗██║   ██║
+╚██████╔╝██║     ███████╗██║ ╚████║╚██████╗██║  ██║ ╚████╔╝ ███████╗███████║██╗╚██████╔╝██║  ██║╚██████╔╝
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ 
+                                            v${pkg.version}                                                             
+`)
 
   const title = useSelector(state => state.navigation.title)
 

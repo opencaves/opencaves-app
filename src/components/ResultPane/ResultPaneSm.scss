@@ -1,8 +1,14 @@
 .oc-result-pane-sm {
-  --height: 100%; // ion-modal
+  --oc-result-pane-sm-upper-height: 48px;
+  --height: calc(100% + var(--oc-details-padding-block)); // ion-modal
   --background: transparent;
 
+  top: var(--oc-result-pane-sm-upper-height);
   z-index: 100 !important;
+
+  &::part(backdrop) {
+    display: none;
+  }
 
   .oc-back-btn {
     position: absolute;
@@ -16,9 +22,9 @@
     padding-top: 0;
     transition: 0.125s padding-top;
 
-    &.oc-full-height {
-      padding-top: calc(56px - 16px);
-    }
+    // &.oc-full-height {
+    //   padding-top: calc(56px - 16px);
+    // }
   }
 
   .oc-result-pane--header {
