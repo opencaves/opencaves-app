@@ -9,13 +9,12 @@ import { setDataLoadingState } from './redux/slices/dataSlice.js'
 import Nav from './components/Nav'
 import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
 import { theme } from './Theme.js'
-import pkg from '../package.json'
+import './utils/splash'
 
-import '@fontsource/open-sans/600.css'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
+import '@fontsource/roboto/latin-300.css'
+import '@fontsource/roboto/latin-400.css'
+import '@fontsource/roboto/latin-500.css'
+import '@fontsource/roboto/latin-700.css'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -47,16 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const App = () => {
-
-  console.log(`
- ██████╗ ██████╗ ███████╗███╗   ██╗ ██████╗ █████╗ ██╗   ██╗███████╗███████╗    ██████╗ ██████╗  ██████╗ 
-██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔════╝██╔══██╗██║   ██║██╔════╝██╔════╝   ██╔═══██╗██╔══██╗██╔════╝ 
-██║   ██║██████╔╝█████╗  ██╔██╗ ██║██║     ███████║██║   ██║█████╗  ███████╗   ██║   ██║██████╔╝██║  ███╗
-██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║     ██╔══██║╚██╗ ██╔╝██╔══╝  ╚════██║   ██║   ██║██╔══██╗██║   ██║
-╚██████╔╝██║     ███████╗██║ ╚████║╚██████╗██║  ██║ ╚████╔╝ ███████╗███████║██╗╚██████╔╝██║  ██║╚██████╔╝
- ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ 
-                                            v${pkg.version}                                                             
-`)
 
   const title = useSelector(state => state.navigation.title)
 

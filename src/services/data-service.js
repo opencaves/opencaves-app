@@ -13,7 +13,6 @@ function handleSetCaves(data) {
   store.dispatch(setConnections(data.connections))
   store.dispatch(setSistemas(data.sistemas))
   store.dispatch(setSources(data.sources))
-  console.log(data.languages)
   store.dispatch(setLanguages(data.languages))
   store.dispatch(setExpires())
 }
@@ -55,7 +54,7 @@ export function getData() {
 
 async function fetchCaveData() {
   return getCaveData().then((data) => {
-    console.log('[fetchCaveData] raw data: %o', data)
+    // console.log('[fetchCaveData] raw data: %o', data)
     data = processData(data)
 
     const bounds = {
@@ -64,7 +63,7 @@ async function fetchCaveData() {
       minLatitude: 90,
       maxLatitude: -90
     }
-    console.log('[fetchCaveData] processed data: %o', data)
+    // console.log('[fetchCaveData] processed data: %o', data)
     data.caves.filter(c => c.location).forEach(cave => {
       // console.log('cave: %o', cave)
       const lng = cave.location.longitude
@@ -85,7 +84,6 @@ async function fetchCaveData() {
         }
       }
     })
-    console.log('bounds: ', bounds)
 
     data.bounds = bounds
 

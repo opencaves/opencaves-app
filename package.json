@@ -1,6 +1,6 @@
 {
   "name": "opencaves-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "react-scripts  start",
@@ -39,7 +39,6 @@
     "@capacitor/share": "^5.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/open-sans": "^4.5.14",
     "@fontsource/roboto": "^5.0.3",
     "@ionic/core": "^7.1.1",
     "@ionic/react": "^7.0.1",

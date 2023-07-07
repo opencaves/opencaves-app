@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -18,7 +18,7 @@ export default function ResultPaneSm({ children }) {
   const paneHead = useRef({})
 
   const theme = useTheme()
-  console.log('theme: %o', theme)
+
   const firstBreakpoint = useSelector(state => state.app.resultPaneSmFirstBreakpoint)
   const restBreakpoints = useSelector(state => state.app.resultPaneSmRestBreakpoints)
   const resultPaneOpen = useSelector(state => state.app.resultPaneSmOpen)
@@ -63,7 +63,9 @@ export default function ResultPaneSm({ children }) {
 
   useEffect(() => {
     (async () => {
-      await waitFor(() => modal.current.shadowRoot.querySelectorAll('.modal-wrapper').length > 0)
+
+      await waitFor(() => modal.current?.shadowRoot?.querySelectorAll('.modal-wrapper').length > 0)
+
       const modalContent = modal.current.shadowRoot.querySelector('.modal-wrapper')
       // console.log('modalContent: %o', modalContent)
       let actualModalPosition = null

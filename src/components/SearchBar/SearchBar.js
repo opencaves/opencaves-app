@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useIonRouter } from '@ionic/react'
 import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,8 +20,6 @@ import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/loca
 import './SearchBar.scss'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
-
-console.log('[menuController] %o', menuController)
 
 const indexOptions = {
   fields: ['name', ...nameTranslationFields, 'aka', 'location'],
@@ -138,9 +136,13 @@ export default function SearchBar() {
     return data.find(cave => cave.id === id)
   }
 
-  function getCaveName(name) {
+  // function getCaveName(name) {
+  //   return name ? name.value : tMap('caveNameUnknown')
+  // }
+
+  const getCaveName = useCallback(name => {
     return name ? name.value : tMap('caveNameUnknown')
-  }
+  }, [tMap])
 
   function setValue(value) {
     setShowClearBtn(!!value)
@@ -162,7 +164,7 @@ export default function SearchBar() {
     if (currentCave) {
       setValue(getCaveName(currentCave.name))
     }
-  }, [currentCave])
+  }, [currentCave, getCaveName])
 
   function onSearchbarInputChange(event) {
     // console.log('[onSearchbarInputChange¸%o', event)

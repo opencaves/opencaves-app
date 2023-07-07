@@ -48,7 +48,6 @@ export default function OCMap() {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const filteredCaves = useMemo(() => {
-    console.log('filtering %s caves', mapData.length)
 
     const filters = {
       coordinates: [
