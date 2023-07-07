@@ -6,7 +6,7 @@
     "dev": "react-scripts  start",
     "serve": "serve -s build",
     "build": "react-scripts  build",
-    "publish": "firebase deploy --only hosting",
+    "deploy": "firebase deploy --only hosting",
     "eject": "react-scripts eject"
   },
   "engines": {

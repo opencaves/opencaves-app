@@ -118,7 +118,7 @@
     }
 
     .marker-label {
-      color: rgb(97, 156, 242);
+      color: var(--oc-marker-selected-color);
     }
   }
 
@@ -131,18 +131,13 @@
       filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
 
       > path:first-child {
-        // fill: #ea4335;
-        // stroke: #c6211d;
         stroke: rgba(255, 255, 255, 0.8);
       }
-
-      // > path:nth-child(2) {
-      //   fill: #b21511;
-      // }
     }
 
     .marker-label {
-      color: rgb(97, 156, 242);
+      color: var(--oc-marker-selected-color);
+      font-size: var(--oc-marker-selected-font-size);
     }
   }
 }
@@ -163,7 +158,7 @@
     cursor: pointer;
 
     &:hover {
-      color: rgb(97, 156, 242);
+      color: var(--oc-marker-selected-color);
     }
   }
 
@@ -173,7 +168,7 @@
     transition: var(--oc-marker-animation-duration);
 
     &:hover + .marker-label {
-      color: rgb(97, 156, 242);
+      color: var(--oc-marker-selected-color);
     }
   }
 }
