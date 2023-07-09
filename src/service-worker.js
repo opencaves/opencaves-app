@@ -8,10 +8,9 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from 'workbox-core'
-import { ExpirationPlugin } from 'workbox-expiration'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, CacheFirst, NetworkFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate, NetworkFirst, CacheFirst } from 'workbox-strategies'
 import * as googleAnalytics from 'workbox-google-analytics'
 
 clientsClaim()
@@ -90,7 +89,14 @@ registerRoute(
   ({ url }) => url.origin === 'https://docs.google.com',
   new NetworkFirst({
     cacheName: 'data',
-    networkTimeoutSeconds: 10
+    networkTimeoutSeconds: 8
+  })
+)
+
+registerRoute(
+  ({ url }) => url === 'https://unpkg.com/web-vitals/dist/web-vitals.iife.js',
+  new CacheFirst({
+    cacheName: 'vendors'
   })
 )
 

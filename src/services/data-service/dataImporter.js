@@ -1,5 +1,5 @@
 import csv from 'csvtojson'
-import { language } from 'ionicons/icons'
+
 const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas', 'Sistema colors', 'Language Codes']
 
 const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'

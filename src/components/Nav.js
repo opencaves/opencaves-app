@@ -11,6 +11,7 @@ import MapPage from '../pages/MapPage'
 import ProfilePage from '../pages/ProfilePage'
 import SignInPage from '../pages/SignInPage'
 import SettingsPage from '../pages/SettingsPage'
+import LoadingPage from '../pages/LoadingPage'
 import NoMatch from '../pages/NoMatch'
 
 export default function Nav() {
@@ -32,7 +33,8 @@ export default function Nav() {
         <Route path="/map" component={MapPage} />
         {/* <Route path='/map/:id' render={props => <MapPage {...props} />} /> */}
 
-        {/* <Route path="*" component={NoMatch} /> */}
+        <Route path="/loading" component={LoadingPage} />
+        <Route path="*" component={NoMatch} />
 
       </IonRouterOutlet>
     </IonReactRouter>
