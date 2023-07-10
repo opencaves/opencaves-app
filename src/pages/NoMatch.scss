@@ -1,0 +1,23 @@
+.no-match {
+  &--container {
+    background-color: #000;
+    background-image: url('../images/404/bg.webp');
+    background-size: cover;
+
+    .no-match {
+      &--box {
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        text-align: center;
+        border: 1rem solid #fff;
+        border-radius: 4px;
+      }
+
+      &--header {
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 3rem;
+      }
+    }
+  }
+}

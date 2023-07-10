@@ -1,11 +1,7 @@
 import React from 'react'
-import { IonRouterOutlet } from '@ionic/react'
-import { Route, Redirect } from 'react-router-dom'
-import { IonReactRouter } from '@ionic/react-router'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-// import HomePage from '../pages/Home'
-// import HomePageLeaflet from '../pages/HomeLeaflet'
 import HomePage from '../pages/HomePage'
 import MapPage from '../pages/MapPage'
 import ProfilePage from '../pages/ProfilePage'
@@ -19,24 +15,22 @@ export default function Nav() {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
 
   return (
-    <IonReactRouter>
-
-      <IonRouterOutlet>
-        <Route path='/' exact render={() => <Redirect to='/map' />} />
-        {/* <Route path="/" exact={true} component={MapPage} /> */}
-        <Route path="/settings" component={SettingsPage} />
-        <Route path="/signin" render={props => {
-          return isLoggedIn ? <Redirect to='/' /> : <SignInPage />
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Navigate to='/map' />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/signin" element={props => {
+          return isLoggedIn ? <Navigate to='/' /> : <SignInPage />
           // {/* <Route path='/:id' render={props => <MapPage {...props} />} /> */}
         }
         } />
-        <Route path="/map" component={MapPage} />
+        <Route path="/map/:id?" element={<MapPage />} />
         {/* <Route path='/map/:id' render={props => <MapPage {...props} />} /> */}
 
-        <Route path="/loading" component={LoadingPage} />
-        <Route path="*" component={NoMatch} />
+        <Route path="/loading" element={<LoadingPage />} />
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
 
-      </IonRouterOutlet>
-    </IonReactRouter>
+    </BrowserRouter >
   )
 }

@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from '@ionic/react'
+import { useParams } from 'react-router-dom'
 import { Box, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import Map from '../components/Map/Map'
@@ -8,7 +8,8 @@ import ResultPane from '../components/ResultPane/ResultPane'
 import ModeSwitcher from '../components/ModeSwitcher'
 import './MapPage.scss'
 
-export default function MapPage(props) {
+export default function MapPage() {
+  const params = useParams()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only('xs'))
   const isSm = useMediaQuery(theme.breakpoints.only('sm'))
@@ -18,14 +19,10 @@ export default function MapPage(props) {
   const breakpoint = isXs ? 'xs' : isSm ? 'sm' : isMd ? 'md' : isLg ? 'lg' : 'xl'
 
   return (
-    <>
-      <IonPage id="main-content">
-        <IonContent>
-          <SearchBar />
-          <Map />
-          <ResultPane caveId={props.match.params.id} />
-        </IonContent>
-      </IonPage>
+    <div>
+      <SearchBar />
+      <Map />
+      <ResultPane caveId={params.id} />
       <FilterMenu />
       {
         dev && <ModeSwitcher />
@@ -44,6 +41,6 @@ export default function MapPage(props) {
           zIndex: 1000000
         }}>{breakpoint}</div>
       }
-    </>
+    </div>
   )
 }

@@ -1,8 +1,8 @@
 import { createRef, useEffect, useMemo, useRef, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Map, { Marker, Popup, GeolocateControl, Source, Layer } from 'react-map-gl'
-import { useIonRouter } from '@ionic/react'
 import { useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
@@ -30,6 +30,9 @@ export default function OCMap() {
 
   const theme = useTheme()
 
+  const params = useParams()
+  const navigate = useNavigate()
+
   const [mapReady, setMapReady] = useState(false)
   const [currentMarkerElem, doSetCurrentMarkerElem] = useState()
   const [zoomLevel, setZoomLevel] = useState(defaultViewState.zoom)
@@ -37,8 +40,6 @@ export default function OCMap() {
 
   const mapRef = useRef()
   const markersRef = useRef([])
-
-  const router = useIonRouter()
 
   const dispatch = useDispatch()
 
@@ -101,7 +102,7 @@ export default function OCMap() {
 
     setCurrentMarkerElem(event.target.getElement())
 
-    router.push(`/map/${cave.id}`, 'none', 'replace')
+    navigate(`/map/${cave.id}`, { replace: true })
 
     if (isSmall) {
       // Center around selected marker
@@ -189,19 +190,20 @@ export default function OCMap() {
 
   // initialisation
   useEffect(() => {
-    console.log('fire once: %o', router)
+    console.log('[fire once] params: %o', params)
 
     dispatch(setMapData(caveData.filter(c => c.location)))
 
-    const pathname = router.routeInfo.pathname
-    if (pathname === '/map') {
+    // const pathname = router.routeInfo.pathname
+
+    if (!Reflect.has(params, 'id')) {
       setMapReady(true)
       return
     }
 
     // route: /map/:id
-    const id = pathname.split('/').pop()
-    const newCurrentCave = caveData.find(cave => cave.id === id)
+    // const id = pathname.split('/').pop()
+    const newCurrentCave = caveData.find(cave => cave.id === params.id)
     if (newCurrentCave) {
 
       dispatch(setCurrentCave(newCurrentCave))

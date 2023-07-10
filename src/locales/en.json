@@ -12,6 +12,15 @@
       "signIn": "Sign In"
     }
   },
+  "404": {
+    "header": "Oops!",
+    "description": "Sorry but the page you are looking for doesn not exist.",
+    "backBtn": "Go to homepage",
+    "search": {
+      "placeHolder": "Search...",
+      "btn": "Search"
+    }
+  },
   "quickActions": {
     "ariaLabel": "Actions for cenote {{name}}",
     "directions": "Directions",

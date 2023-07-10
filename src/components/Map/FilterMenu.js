@@ -63,12 +63,14 @@ function FilterMenuContent({ children, ...props }) {
   return (
     <Grid
       {...props}
+      flex={1}
+      overflow='hidden'
       xs
     >
       <Scrollbars
         autoHide
-        autoHeight
-        autoHeightMax='100vh'
+        // autoHeight
+        // autoHeightMax='100%'
         renderThumbVertical={({ style, ...props }) =>
           <div
             {...props}
@@ -227,14 +229,6 @@ export default function MapFilterMenu({ props }) {
     return dataStats?.[prop]?.[value] || 0
   }
 
-  function handleMenuWillOpen() {
-    dispatch(setResultPaneSmOpen(false))
-  }
-
-  function handleMenuDidClose() {
-    dispatch(setResultPaneSmOpen(true))
-  }
-
   const accessibilities = t('accessibility.items', { returnObjects: true })
   const accesses = t('access.items', { returnObjects: true })
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
@@ -247,7 +241,7 @@ export default function MapFilterMenu({ props }) {
       variant='persistent'
       PaperProps={{
         square: false,
-        sx: theme => ({
+        sx: () => ({
           borderRadius: isSmall ? 'none' : '8px 0 0 8px'
         })
       }}
@@ -255,6 +249,8 @@ export default function MapFilterMenu({ props }) {
         '& > .MuiDrawer-paper': {
           width: '500px',
           maxWidth: '100%',
+          height: '100%',
+          maxHeight: '100%',
           overflow: 'hidden'
         }
       }}

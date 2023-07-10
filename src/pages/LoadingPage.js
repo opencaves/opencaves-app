@@ -1,14 +1,11 @@
-import { IonPage } from '@ionic/react'
 import { ReactComponent as Logo } from '../images/logo.1.svg'
 import './LoadingPage.scss'
 
 export default function LoadingPage() {
   return (
-    <>
-      <IonPage id="main-content">
-        <MapLoading />
-      </IonPage>
-    </>
+    <div>
+      <MapLoading />
+    </div>
   )
 }
 

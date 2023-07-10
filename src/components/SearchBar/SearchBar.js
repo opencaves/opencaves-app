@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useIonRouter } from '@ionic/react'
 import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +17,7 @@ import { toggleFilterMenu } from '../../redux/slices/appSlice'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes'
 import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/location-validity-unknown.svg'
 import './SearchBar.scss'
+import { useNavigate } from 'react-router-dom'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
 
@@ -123,7 +123,9 @@ export default function SearchBar() {
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
   const [backBtnOn, setBackBtnOn] = useState(false)
   const searchIndex = new MiniSearch(indexOptions)
-  const router = useIonRouter()
+
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
 
   const resultsItemIconStyle = {
@@ -215,7 +217,7 @@ export default function SearchBar() {
 
     dispatch(setCurrentCave(null))
     setValue('')
-    router.push(`/map`, 'none', 'replace')
+    navigate(`/map`, { replace: true })
   }
 
   function onResultsItemClick(id) {
@@ -224,7 +226,7 @@ export default function SearchBar() {
     setValue(selectedCave.name.value)
     setSearchResults([])
     setBackBtnOn(false)
-    router.push(`/map/${id}`, 'none', 'replace')
+    navigate(`/map/${id}`, { replace: true })
   }
 
   function onBackBtnClick() {

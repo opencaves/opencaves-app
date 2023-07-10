@@ -12,6 +12,15 @@
       "signIn": "S'identifier"
     }
   },
+  "404": {
+    "header": "Oups !",
+    "description": "Désolé mais la page que vous recherchez n'existe pas.",
+    "back": "Aller à la page d'accueil",
+    "search": {
+      "placeHolder": "Rechercher...",
+      "btn": "Rechercher"
+    }
+  },
   "quickActions": {
     "ariaLabel": "Actions pour la cénote {{name}}",
     "directions": "Directions",
