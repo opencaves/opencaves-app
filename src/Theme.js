@@ -23,6 +23,7 @@ const lightThemeOptions = {
     }
   },
   typography: {
+
     mapTextSecondary: {
       fontSize: 'var(--oc-map-text-secondary-font-size)',
       fontWeight: 400,
@@ -83,8 +84,16 @@ const lightThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: '36px',
-          letterSpacing: '0.06em'
+          borderRadius: '20px',
+          letterSpacing: '0.06em',
+          lineHeight: '40px',
+          paddingTop: 0,
+          paddingBottom: 0,
+          paddingLeft: 24,
+          paddingRight: 24,
+          '.MuiButton-startIcon': {
+            marginLeft: -8
+          }
         },
         // outlinedPrimary: {
         //   color: 'black'

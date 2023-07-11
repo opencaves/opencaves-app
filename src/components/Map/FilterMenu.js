@@ -69,8 +69,6 @@ function FilterMenuContent({ children, ...props }) {
     >
       <Scrollbars
         autoHide
-        // autoHeight
-        // autoHeightMax='100%'
         renderThumbVertical={({ style, ...props }) =>
           <div
             {...props}
