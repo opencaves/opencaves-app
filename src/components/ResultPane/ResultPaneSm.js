@@ -40,7 +40,7 @@ export default function ResultPaneSm({ children }) {
     target,
     property,
     callback,
-    initialValue = ''
+    initialValue = null
   ) {
     let frameId, value
 

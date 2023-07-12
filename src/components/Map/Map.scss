@@ -78,3 +78,8 @@
 .mapboxgl-ctrl:has(.mapboxgl-ctrl-logo) {
   display: none !important;
 }
+
+// Safari < 10.16
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}

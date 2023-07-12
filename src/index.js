@@ -32,6 +32,17 @@ root.render(
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register()
 
+if ('BroadcastChannel' in window) {
+  const updateChannel = new BroadcastChannel('precache-channel')
+  updateChannel.addEventListener('message', event => {
+    if (window.confirm(`New content is available!. Click OK to refresh`)) {
+      window.location.reload()
+    }
+  })
+}
+
+console.log('------------------------- test 2')
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

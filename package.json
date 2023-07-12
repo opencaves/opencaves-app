@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "react-scripts  start",
-    "prod": "cross-env NODE_ENV=production react-scripts start",
-    "serve": "serve -s build",
+    "serve": "serve -p 4000 -s build",
     "build": "react-scripts  build",
     "deploy": "firebase deploy --only hosting",
     "eject": "react-scripts eject"
@@ -43,7 +42,6 @@
     "@fontsource/roboto": "^5.0.3",
     "@ionic/core": "^7.1.1",
     "@ionic/react": "^7.0.1",
-    "@ionic/react-router": "^7.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
     "@mui/material-next": "^6.0.0-alpha.82",
@@ -89,11 +87,11 @@
     "workbox-range-requests": "^6.5.4",
     "workbox-routing": "^7.0.0",
     "workbox-strategies": "^7.0.0",
-    "workbox-streams": "^6.5.4"
+    "workbox-streams": "^6.5.4",
+    "workbox-window": "^7.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "cross-env": "^7.0.3",
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.2.0",
     "swr": "^2.1.5"

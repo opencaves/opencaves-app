@@ -26,7 +26,7 @@ export default function ResultPaneLg({ children }) {
         autoHeight
         autoHeightMax='100vh'
         renderThumbVertical={({ style, ...props }) =>
-          <div {...props} className='awef' style={{
+          <div {...props} style={{
             ...style,
             cursor: 'pointer',
             borderRadius: 'inherit',

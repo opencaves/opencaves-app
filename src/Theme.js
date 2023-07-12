@@ -1,10 +1,19 @@
 import { extendTheme } from "@mui/material-next/styles"
 import { merge } from 'lodash'
 
+// old
+// 1b4859
+// d9b504
+
+// new
+// 144579
+// ac2929
+
+// secondary: b49d2b
 const lightThemeOptions = {
   palette: {
     primary: {
-      main: '#1b4859',
+      main: '#145e79',
     },
     secondary: {
       main: '#d9b504',
