@@ -6,9 +6,9 @@ import waitFor from 'p-wait-for'
 import { Box, Card, CardContent } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
+import { ExpandMoreRounded } from '@mui/icons-material'
 import IconButton from '@mui/material/IconButton'
 import './ResultPaneSm.scss'
-import { ExpandMoreRounded } from '@mui/icons-material'
 
 export default function ResultPaneSm({ children }) {
   const PANE_OPEN_THRESHOLD = useSelector(state => state.app.resultPaneSmOpenThreshold)
@@ -88,7 +88,6 @@ export default function ResultPaneSm({ children }) {
   })
 
   useEffect(() => {
-    // console.log('========= modal position : %s', modalPosition)
     if (modalPosition < PANE_OPEN_THRESHOLD) {
       // setPaneHeadOpacity()
       return
@@ -97,7 +96,7 @@ export default function ResultPaneSm({ children }) {
     const paneThreshold = PANE_OPEN_THRESHOLD * 100
     const openFactor = ((modalPosition * 100) - paneThreshold) / (100 - paneThreshold)
     setPaneOpenFactor(openFactor)
-    console.log('========= open factor: %s', openFactor)
+    // console.log('========= open factor: %s', openFactor)
   }, [modalPosition, PANE_OPEN_THRESHOLD])
 
   useEffect(() => {
@@ -116,22 +115,10 @@ export default function ResultPaneSm({ children }) {
       {
         modalPosition > restBreakpoints[0] && (
           <Grid
-            className='pane-head'
+            className='oc-result-pane--head'
             container
             alignItems='center'
             ref={paneHead}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '49px',
-              bgcolor: 'background.paper',
-              px: 'var(--oc-details-padding-inline)',
-              zIndex: 1000,
-              // transition: 'opacity',
-              opacity: 0
-            }}
           >
             <Grid>
               <IconButton
