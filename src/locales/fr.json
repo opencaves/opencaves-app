@@ -157,6 +157,7 @@
     "directionsHeader": "S'y rendre",
     "cenote": "Cenote",
     "sistema": "Système {{ system }}",
+    "coordinateValidityUnknown": "non confirmé",
     "copiedToClipboard": "Copié dans le presse-papier",
     "copyAddress": "Copier l'adresse",
     "copyCoordinates": "Copier les coordonnées",

@@ -80,7 +80,6 @@ export function CurrentCaveDetailsContent({ cave }) {
 
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
-  const addressTooltip = useRef()
   const [snackbarMessage, setSnackbarMessage] = useState()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
 
@@ -90,13 +89,14 @@ export function CurrentCaveDetailsContent({ cave }) {
   const [entranceCoordinatesTooltipOpen, setEntranceCoordinatesTooltipOpen] = useState(false)
 
   let hasAddressOrCoordinates = false
-  let address, addressText, coordinatesText, keysTexts, entranceText
+  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
 
   if (cave.location) {
 
     address = <Address longitude={cave.location.longitude} latitude={cave.location.latitude} />
     addressText = `${cave.location.latitude}, ${cave.location.longitude}`
-    coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}`
+    coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}${cave.location.validity === 'unknown' ? ` (${t('coordinateValidityUnknown')})` : ``}`
+    coordinatesTextCopy = `${cave.location.latitude}, ${cave.location.longitude}`
     hasAddressOrCoordinates = true
 
   }
@@ -214,7 +214,7 @@ export function CurrentCaveDetailsContent({ cave }) {
 
             {
               coordinatesText && (
-                <CopyToClipboard text={coordinatesText} placement='bottom-end' onCopy={handleCoordinatesCopy}>
+                <CopyToClipboard text={coordinatesTextCopy} placement='bottom-end' onCopy={handleCoordinatesCopy}>
                   <ListItem disablePadding>
                     <ConditionalWrapper
                       condition={!isSmall}

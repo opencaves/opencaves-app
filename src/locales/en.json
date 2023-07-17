@@ -158,6 +158,7 @@
     "directionsHeader": "Getting there",
     "cenote": "Cenote",
     "sistema": "{{ system }} system",
+    "coordinateValidityUnknown": "unconfirmed",
     "copiedToClipboard": "Copied to clipboard",
     "copyAddress": "Copy address",
     "copyCoordinates": "Copy coordinates",
