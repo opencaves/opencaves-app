@@ -40,7 +40,7 @@ export function getData() {
     if (store.getState().data.caves.length === 0) {
       doGetData()
     } else {
-      console.log('[getData] returning data from store: %o', store.getState().data)
+      console.log('[getData] returning data from store')
       const expires = store.getState().data.expires
       const now = Date.now()
       if (expires && expires < now) {

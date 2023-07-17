@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles } from '@mui/material'
 import { getData } from './services/data-service.js'
-import { setDataLoadingState } from './redux/slices/dataSlice.js'
+import { setDataLoadingState } from './redux/slices/dataSlice'
 import Nav from './components/Nav'
-import getDevicePixelRatio from './utils/getDevicePixelRatio.js'
+import ManageAppReload from './components/ManageAppReload'
+import getDevicePixelRatio from './utils/getDevicePixelRatio'
 import { theme } from './Theme.js'
 import './utils/splash'
 
@@ -68,6 +69,7 @@ const App = () => {
             <meta name="theme-color" content="#1b4859" />
           </Helmet>
           <Nav></Nav>
+          <ManageAppReload />
         </HelmetProvider>
       </CssVarsProvider>
     </Fragment>

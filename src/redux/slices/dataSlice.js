@@ -22,15 +22,6 @@ export const dataSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-    // Redux Toolkit allows us to write "mutating" logic in reducers. It
-    // doesn't actually mutate the state because it uses the Immer library,
-    // which detects changes to a "draft state" and produces a brand new
-    // immutable state based off those changes
-    // setData: (state, action) => {
-    //   console.log('state: %o', state)
-    //   console.log('action: %o', action)
-    //   state[action.payload.name] = action.payload.data
-    // },
     setDataLoadingState: (state, action) => {
       state.dataLoadingState = action.payload
     },

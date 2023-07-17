@@ -29,7 +29,7 @@ export default function OCMap() {
   const caveData = useSelector(state => state.data.caves)
 
   const theme = useTheme()
-  console.log('theme: %o', theme)
+  // console.log('theme: %o', theme)
 
   const params = useParams()
   const navigate = useNavigate()

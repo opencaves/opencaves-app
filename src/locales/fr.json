@@ -10,6 +10,10 @@
       "map": "Carte",
       "settings": "Paramètres",
       "signIn": "S'identifier"
+    },
+    "updateAvailable": {
+      "message": "Une nouvelle version de cette application est disponible",
+      "btn": "Actualiser"
     }
   },
   "404": {

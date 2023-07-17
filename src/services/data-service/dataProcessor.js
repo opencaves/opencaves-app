@@ -180,7 +180,7 @@ function getSistemaAncestry(cave) {
 
   if (cave['Original Sistema ID'] && cave['Original Sistema ID'] !== '#N/A' && cave['Original Sistema ID'] !== 'Loading...' && cave['Original Sistema ID'] !== '#ERROR!') {
     const id = getIdRef(cave['Original Sistema ID'])
-    sistemas.push({ name: sistemaNamesFromId.get(id) || 'n. d.', id, color: cave['Sistema color'], t: true })
+    sistemas.push({ name: sistemaNamesFromId.get(id) || 'n. d.', id, color: cave['Sistema color'] })
 
     getSistemaParent(sistemas)
   }
