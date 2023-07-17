@@ -44,7 +44,7 @@
     "@ionic/react": "^7.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
-    "@mui/material-next": "^6.0.0-alpha.82",
+    "@mui/material-next": "^6.0.0-alpha.92",
     "@reduxjs/toolkit": "^1.9.3",
     "csvtojson": "^2.0.10",
     "i18next": "^22.5.0",
