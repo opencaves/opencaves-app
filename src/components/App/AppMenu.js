@@ -10,12 +10,12 @@ import { useTheme } from '@emotion/react'
 
 
 export default function AppMenu({ component: Component = IconButton, ...props }) {
-  console.log('component: %o', Component)
   const dispatch = useDispatch()
   const theme = useTheme()
   const { t } = useTranslation('app')
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  console.log('theme: %o', theme)
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
@@ -54,32 +54,18 @@ export default function AppMenu({ component: Component = IconButton, ...props })
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
+        slotProps={{
+          paper: {
+            elevation: 2,
+            sx: {
+              mt: 1,
             },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
+          }
         }}
+        MenuListProps={{
+          sx: { py: .5 }
+        }}
+
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
@@ -122,7 +108,16 @@ export default function AppMenu({ component: Component = IconButton, ...props })
             About
           </ListItem>
         </MenuItem> */}
-        <MenuItem onClick={onAboutMenuClick}>
+        <MenuItem
+          sx={{
+            fontSize: 'var(--md-sys-typescale-label-large-size)',
+            fontWeight: 'var(--md-sys-typescale-label-large-weight)',
+            lineHeight: 'var(--md-sys-typescale-label-large-height)',
+            color: 'var(--md-sys-color-onSurface)',
+            px: 1.5
+          }}
+          onClick={onAboutMenuClick}
+        >
           {t('menu.about')}
         </MenuItem>
       </Menu>
