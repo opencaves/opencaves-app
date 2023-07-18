@@ -1,22 +1,20 @@
 import { useParams } from 'react-router-dom'
-import { Box, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Fab, useMediaQuery, useTheme } from '@mui/material'
 import Map from '../components/Map/Map'
 import SearchBar from '../components/SearchBar/SearchBar'
 import FilterMenu from '../components/Map/FilterMenu'
 import ResultPane from '../components/ResultPane/ResultPane'
+import AppMenu from '../components/App/AppMenu'
+import About from '../components/App/About'
 import ModeSwitcher from '../components/ModeSwitcher'
+import DebugBreakpoints from '../components/DebugBreakpoints'
 import './MapPage.scss'
 
 export default function MapPage() {
   const params = useParams()
-  const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.only('xs'))
-  const isSm = useMediaQuery(theme.breakpoints.only('sm'))
-  const isMd = useMediaQuery(theme.breakpoints.only('md'))
-  const isLg = useMediaQuery(theme.breakpoints.only('lg'))
   const dev = process.env.NODE_ENV === 'development'
-  const breakpoint = isXs ? 'xs' : isSm ? 'sm' : isMd ? 'md' : isLg ? 'lg' : 'xl'
+  const theme = useTheme()
+  const isLarge = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
     <div>
@@ -25,21 +23,28 @@ export default function MapPage() {
       <ResultPane caveId={params.id} />
       <FilterMenu />
       {
+        isLarge && (
+          <AppMenu
+            component={Fab}
+            sx={{
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
+              width: '50px',
+              height: '50px',
+              '> .MuiSvgIcon-root': {
+                fontSize: '1.719rem'
+              }
+            }}
+          />
+        )
+      }
+      <About />
+      {
         dev && <ModeSwitcher />
       }
       {
-        dev && <div style={{
-          position: 'absolute',
-          left: '.5em',
-          top: '.5em',
-          fontSize: '.75rem',
-          color: '#fff',
-          backgroundColor: 'red',
-          lineHeight: 1,
-          padding: '.2em',
-          opacity: .75,
-          zIndex: 1000000
-        }}>{breakpoint}</div>
+        dev && <DebugBreakpoints />
       }
     </div>
   )

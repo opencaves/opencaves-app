@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  aboutDialogOpen: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
   resultPaneSmOpenThreshold: .8,
@@ -13,6 +14,10 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    toggleAboutDialog: (state, action) => {
+      console.log('state.aboutDialogOpen: %o', state.aboutDialogOpen)
+      state.aboutDialogOpen = !state.aboutDialogOpen
+    },
     toggleFilterMenu: (state, action) => {
       state.filterMenuOpen = action.payload
     },
@@ -26,6 +31,6 @@ export const appSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmFirstBreakpoint } = appSlice.actions
+export const { toggleAboutDialog, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmFirstBreakpoint } = appSlice.actions
 
 export default appSlice.reducer

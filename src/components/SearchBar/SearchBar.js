@@ -3,7 +3,7 @@ import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
-import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled } from '@mui/material'
+import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled, useMediaQuery, useTheme } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -18,6 +18,7 @@ import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes'
 import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/location-validity-unknown.svg'
 import './SearchBar.scss'
 import { useNavigate } from 'react-router-dom'
+import AppMenu from '../App/AppMenu.js'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
 
@@ -127,6 +128,9 @@ export default function SearchBar() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+
+  const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const resultsItemIconStyle = {
     color: 'text.secondary',
@@ -359,6 +363,16 @@ export default function SearchBar() {
             </IconButton>
             {/* <IonMenuButton id="oc-search-filter-btn" aria-label={t('filter.ariaLabel')}><TuneIcon /></IonMenuButton> */}
           </Tooltip>
+          {
+            isSmall && (
+              <AppMenu
+                sx={{
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+            )
+          }
         </Grid>
         {
           <Collapse in={showSearchResults}>

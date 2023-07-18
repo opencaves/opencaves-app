@@ -1,14 +1,15 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import { CssBaseline, GlobalStyles } from '@mui/material'
+import { Box, CssBaseline, GlobalStyles, useMediaQuery } from '@mui/material'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice'
 import Nav from './components/Nav'
+import AppMenu from './components/App/AppMenu'
 import ManageAppReload from './components/ManageAppReload'
 import getDevicePixelRatio from './utils/getDevicePixelRatio'
-import { theme } from './Theme.js'
+import { theme } from './theme/Theme.js'
 import './utils/splash'
 
 import '@fontsource/roboto/latin-300.css'
@@ -27,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const App = () => {
 
-  const title = useSelector(state => state.navigation.title)
-
   const dispatch = useDispatch()
+  const title = useSelector(state => state.navigation.title)
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   getData()
     .then(() => {
@@ -68,6 +69,18 @@ const App = () => {
             <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
             <meta name="theme-color" content="#1b4859" />
           </Helmet>
+          {
+            !isSmall && (
+              <Box
+                position='absolute'
+                right='1rem'
+                top='1rem'
+                zIndex='var(--oc-app-menu-z-index)'
+              >
+                <AppMenu />
+              </Box>
+            )
+          }
           <Nav></Nav>
           <ManageAppReload />
         </HelmetProvider>

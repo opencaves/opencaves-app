@@ -31,7 +31,7 @@ export default function ModeSwitcher() {
       style={{
         position: 'absolute',
         right: '.5em',
-        top: '6.5em',
+        top: '11.5em',
         fontSize: '.75rem',
         opacity: .75,
         zIndex: 1000000

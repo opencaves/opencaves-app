@@ -41,7 +41,7 @@
      inkscape:label="pin" />
   <path
      d="m 5.8100432,12.2081 c 0,-1.04682 2.0946526,-4.1882921 4.1639707,-4.1872787 2.1179601,0 4.2126131,3.1404587 4.2126131,4.1872787 H 9.998335 Z M 9.998335,4.8793491 c -3.1414723,0 -7.3287507,4.1882918 -7.3287507,7.3287509 H 3.716404 c 0,-3.1414726 4.1882918,-6.2819314 6.281931,-6.2819314 2.093639,0 6.281931,3.1414723 6.281931,6.2819314 h 1.04682 c 0,-3.1414726 -4.188293,-7.3287509 -7.328751,-7.3287509 z"
-     style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.04695;stroke-opacity:1;enable-background:new"
+     style="display:none;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.04695;stroke-opacity:1;enable-background:new"
      id="path4"
      inkscape:label="cave icon" />
   <path

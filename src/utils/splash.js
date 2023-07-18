@@ -1,6 +1,4 @@
-import pkg from '../../package.json'
-
-const v = `v${pkg.version}`
+const v = `v${process.env.REACT_APP_VERSION}`
 
 console.log(`
  ██████╗ ██████╗ ███████╗███╗   ██╗ ██████╗ █████╗ ██╗   ██╗███████╗███████╗    ██████╗ ██████╗  ██████╗ 

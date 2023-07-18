@@ -17,7 +17,7 @@ const persistStorage = localforage.createInstance({
 const rootPersistConfig = {
   key: 'root',
   storage: persistStorage,
-  blacklist: ['navigation', 'map']
+  blacklist: ['navigation', 'map', 'app', 'session']
 }
 
 const appPersistConfig = {

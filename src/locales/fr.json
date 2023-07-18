@@ -14,7 +14,17 @@
     "updateAvailable": {
       "message": "Une nouvelle version de cette application est disponible",
       "btn": "Actualiser"
+    },
+    "menu": {
+      "ariaLabel": "Plus",
+      "about": "À propos"
     }
+  },
+  "aboutDialog": {
+    "ariaLabel": "À propos",
+    "close": "fermer",
+    "version": "Version {{version}}",
+    "whatsNew": "Nouveautés"
   },
   "404": {
     "header": "Oups !",
