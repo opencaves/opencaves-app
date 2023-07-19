@@ -160,7 +160,7 @@ export default function ResultPaneSm({ children }) {
             ref={pane}
             sx={{
               borderRadius: `1rem 1rem 0 0`,
-              height: '100%'
+              height: '100vh'
             }}
           >
             {
