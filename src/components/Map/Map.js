@@ -234,7 +234,7 @@ export default function OCMap() {
   }
 
   return (
-    <div className="component-wrapper" data-zoom-level={zoomLevel} >
+    <div className="oc-map-container" data-zoom-level={zoomLevel} >
       {
         (!mapReady || dataLoadingState.state === 'loading') && (
           // true && (
