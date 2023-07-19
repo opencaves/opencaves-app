@@ -61,11 +61,11 @@
         background-size: 55%;
 
         [data-mui-color-scheme='light'] & {
-          background-image: url('../../images/map/crosshair.light.svg');
+          background-image: url('../../images/map/crosshair.dark.svg');
         }
 
         [data-mui-color-scheme='dark'] & {
-          background-image: url('../../images/map/crosshair.dark.svg');
+          background-image: url('../../images/map/crosshair.light.svg');
         }
       }
 
