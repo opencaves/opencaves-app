@@ -63,13 +63,15 @@
       .MuiListItemButton-root {
         padding: 6px var(--oc-details-padding-inline);
 
-        .oc-icon-copy {
-          display: none;
-        }
-
-        &:hover {
+        .oc-result-pane:not(.oc-result-pane-sm) & {
           .oc-icon-copy {
-            display: inline-block;
+            display: none;
+          }
+
+          &:hover {
+            .oc-icon-copy {
+              display: inline-block;
+            }
           }
         }
       }

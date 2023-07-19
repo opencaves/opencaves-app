@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Snackbar, Tooltip, Typography, useMediaQuery } from '@mui/material'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Snackbar, Tooltip, Typography, useMediaQuery } from '@mui/material'
 import Slide from '@mui/material/Slide'
 import { useTheme } from '@mui/material/styles'
+import { Close } from '@mui/icons-material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
@@ -17,11 +18,11 @@ import Divider from './Divider'
 import QuickActions from './QuickActions'
 import Rating from '../Rating/Rating'
 import Access from './Access'
-import SistemaHistory from './SistemaHistory.js'
+import SistemaHistory from './SistemaHistory'
+import { ISO6391ToISO6392 } from '../../utils/lang'
+import { getOS } from '../../utils/getOS'
 import mediaCardImage from '../../images/card-media.png'
 import './CurrentCaveDetails.scss'
-import { Close } from '@mui/icons-material'
-import { ISO6391ToISO6392 } from '../../utils/lang.js'
 
 function SlideUp(props) {
   return <Slide {...props} direction='up' />
@@ -88,6 +89,8 @@ export function CurrentCaveDetailsContent({ cave }) {
   const [keyCoordinatesTooltipOpen, setKeyCoordinatesTooltipOpen] = useState(false)
   const [entranceCoordinatesTooltipOpen, setEntranceCoordinatesTooltipOpen] = useState(false)
 
+  const isAndroid = getOS() === 'Android'
+
   let hasAddressOrCoordinates = false
   let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
 
@@ -118,7 +121,6 @@ export function CurrentCaveDetailsContent({ cave }) {
   }
 
   function handleAddressCopy() {
-    console.log('copié')
     setAddressTooltipOpen(false)
     setSnackbarMessage(t('copiedToClipboard'))
     setSnackbarOpen(true)
@@ -332,23 +334,29 @@ export function CurrentCaveDetailsContent({ cave }) {
         </>
       }
 
-      <Snackbar
-        autoHideDuration={6000}
-        message={snackbarMessage}
-        open={snackbarOpen}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        action={
-          <IconButton
-            size='small'
-            color='inherit'
-            onClick={handleSnackbarClose}
-          >
-            <Close />
-          </IconButton>
-        }
-        TransitionComponent={SlideUp}
-        onClose={() => { setSnackbarOpen(false) }}
-      />
+      {
+        !isAndroid && (
+          <Portal>
+            <Snackbar
+              autoHideDuration={6000}
+              message={snackbarMessage}
+              open={snackbarOpen}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              action={
+                <IconButton
+                  size='small'
+                  color='inherit'
+                  onClick={handleSnackbarClose}
+                >
+                  <Close />
+                </IconButton>
+              }
+              TransitionComponent={SlideUp}
+              onClose={() => { setSnackbarOpen(false) }}
+            />
+          </Portal>
+        )
+      }
     </Box>
   )
 }
