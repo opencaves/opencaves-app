@@ -15,7 +15,6 @@ export default function AppMenu({ component: Component = IconButton, ...props })
   const { t } = useTranslation('app')
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  console.log('theme: %o', theme)
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
