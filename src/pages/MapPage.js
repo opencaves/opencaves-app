@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { Fab, useMediaQuery, useTheme } from '@mui/material'
+import { IonApp } from '@ionic/react'
 import Map from '../components/Map/Map'
 import SearchBar from '../components/SearchBar/SearchBar'
 import FilterMenu from '../components/Map/FilterMenu'
@@ -17,7 +18,7 @@ export default function MapPage() {
   const isLarge = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
-    <div>
+    <IonApp>
       <SearchBar />
       <Map />
       <ResultPane caveId={params.id} />
@@ -46,6 +47,6 @@ export default function MapPage() {
       {
         dev && <DebugBreakpoints />
       }
-    </div>
+    </IonApp>
   )
 }
