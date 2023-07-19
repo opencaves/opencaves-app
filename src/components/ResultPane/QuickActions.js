@@ -167,7 +167,7 @@ export default function QuickActions({ cave }) {
                 }
               }}
             >
-              {/* <Scrollbars
+              <Scrollbars
                 autoHeight
                 hideTracksWhenNotNeeded={true}
                 renderThumbHorizontal={({ style, ...props }) =>
@@ -178,37 +178,37 @@ export default function QuickActions({ cave }) {
                     backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)'
                   }} />
                 }
-              > */}
-              <Box
-                display='flex'
-                gap={1.5}
-                sx={{
-                  pl: 'var(--oc-details-padding-inline)',
-                  pr: 'var(--oc-details-padding-inline)',
-                  pb: '11px',
-                  overflow: 'visible',
-                }}
               >
-                {
-                  cave.location &&
+                <Box
+                  display='flex'
+                  gap={1.5}
+                  sx={{
+                    pl: 'var(--oc-details-padding-inline)',
+                    pr: 'var(--oc-details-padding-inline)',
+                    pb: '11px',
+                    overflow: 'visible',
+                  }}
+                >
+                  {
+                    cave.location &&
+                    <QuickActionsItem>
+                      <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
+                        {t('directions')}
+                      </Button>
+                    </QuickActionsItem>
+                  }
                   <QuickActionsItem>
-                    <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
-                      {t('directions')}
+                    <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
+                      {t('save')}
                     </Button>
                   </QuickActionsItem>
-                }
-                <QuickActionsItem>
-                  <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
-                    {t('save')}
-                  </Button>
-                </QuickActionsItem>
-                <QuickActionsItem>
-                  <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
-                    {t('share')}
-                  </Button>
-                </QuickActionsItem>
-              </Box>
-              {/* </Scrollbars> */}
+                  <QuickActionsItem>
+                    <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
+                      {t('share')}
+                    </Button>
+                  </QuickActionsItem>
+                </Box>
+              </Scrollbars>
             </Box>
           </Box>
         ) : (
