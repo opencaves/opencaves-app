@@ -110,101 +110,103 @@ export default function QuickActions({ cave }) {
         !isSmall && <Divider />
       }
 
-      {isSmall ? (
-        <Box
-          className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
-          sx={{
-            pt: 'var(--oc-details-padding-block)',
-            pb: 'var(--oc-details-padding-block)',
-          }}
-          role='region'
-          aria-label={t('ariaLabel', { name: cave.name })}
-        >
+      {
+        isSmall ? (
           <Box
-            display='flex'
-            gap={1.5}
+            className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
+            sx={{
+              pt: 'var(--oc-details-padding-block)',
+              pb: 'var(--oc-details-padding-block)',
+            }}
+            role='region'
+            aria-label={t('ariaLabel', { name: cave.name })}
+          >
+            <Box
+              display='flex'
+              gap={1.5}
+              sx={{
+                pl: 'var(--oc-details-padding-inline)',
+                pr: 'var(--oc-details-padding-inline)',
+                overflowX: 'auto',
+
+                msOverflowStyle: 'none', // Edge / Opera
+                scrollbarWidth: 'none', // Firefox
+                '&::-webkit-scrollbar': {
+                  display: 'none' // Chrome
+                }
+              }}
+            >
+              {
+                cave.location &&
+                <QuickActionsItem>
+                  <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
+                    {t('directions')}
+                  </Button>
+                </QuickActionsItem>
+              }
+              <QuickActionsItem>
+                <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
+                  {t('save')}
+                </Button>
+              </QuickActionsItem>
+              <QuickActionsItem>
+                <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
+                  {t('share')}
+                </Button>
+              </QuickActionsItem>
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
             sx={{
               pl: 'var(--oc-details-padding-inline)',
               pr: 'var(--oc-details-padding-inline)',
-              overflowX: 'auto',
-
-              msOverflowStyle: 'none', // Edge / Opera
-              scrollbarWidth: 'none', // Firefox
-              '&::-webkit-scrollbar': {
-                display: 'none' // Chrome
-              }
+              pt: 'var(--oc-details-padding-block)',
+              pb: 'var(--oc-details-padding-block)'
             }}
+            role='region'
+            aria-label={t('ariaLabel', { name: cave.name.value })}
           >
-            {
-              cave.location &&
-              <QuickActionsItem>
-                <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
-                  {t('directions')}
-                </Button>
-              </QuickActionsItem>
-            }
-            <QuickActionsItem>
-              <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
-                {t('save')}
-              </Button>
-            </QuickActionsItem>
-            <QuickActionsItem>
-              <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
-                {t('share')}
-              </Button>
-            </QuickActionsItem>
-          </Box>
-        </Box>
-      ) : (
-        <Box
-          className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
-          sx={{
-            pl: 'var(--oc-details-padding-inline)',
-            pr: 'var(--oc-details-padding-inline)',
-            pt: 'var(--oc-details-padding-block)',
-            pb: 'var(--oc-details-padding-block)'
-          }}
-          role='region'
-          aria-label={t('ariaLabel', { name: cave.name.value })}
-        >
-          <Grid container>
-            {
-              cave.location &&
+            <Grid container>
+              {
+                cave.location &&
+                <Grid xs display="flex" justifyContent="center">
+                  <Grid container>
+                    <ButtonLg aria-label={t('directions')} onClick={() => openDirections(cave)}>
+                      <Grid container direction='column'>
+                        <Grid><IconLg primary><DirectionsIcon /></IconLg></Grid>
+                        <Grid><LabelLg>{t('directions')}</LabelLg></Grid>
+                      </Grid>
+                    </ButtonLg>
+                  </Grid>
+                </Grid>
+              }
               <Grid xs display="flex" justifyContent="center">
                 <Grid container>
-                  <ButtonLg aria-label={t('directions')} onClick={() => openDirections(cave)}>
+                  <ButtonLg id='save-btn' aria-label={t('save')} onClick={handleDialogOpen}>
                     <Grid container direction='column'>
-                      <Grid><IconLg primary><DirectionsIcon /></IconLg></Grid>
-                      <Grid><LabelLg>{t('directions')}</LabelLg></Grid>
+                      <Grid><IconLg><BookmarkBorderIcon color='primary' /></IconLg></Grid>
+                      <Grid><LabelLg>{t('save')}</LabelLg></Grid>
                     </Grid>
                   </ButtonLg>
                 </Grid>
               </Grid>
-            }
-            <Grid xs display="flex" justifyContent="center">
-              <Grid container>
-                <ButtonLg id='save-btn' aria-label={t('save')} onClick={handleDialogOpen}>
-                  <Grid container direction='column'>
-                    <Grid><IconLg><BookmarkBorderIcon color='primary' /></IconLg></Grid>
-                    <Grid><LabelLg>{t('save')}</LabelLg></Grid>
-                  </Grid>
-                </ButtonLg>
-              </Grid>
-            </Grid>
 
-            <Grid xs display="flex" justifyContent="center">
-              <Grid container>
-                <ButtonLg id='save-btn' aria-label={t('share')} onClick={handleShareOpen}>
-                  <Grid container direction='column'>
-                    <Grid><IconLg><ShareIcon color='primary' /></IconLg></Grid>
-                    <Grid><LabelLg>{t('share')}</LabelLg></Grid>
-                  </Grid>
-                </ButtonLg>
+              <Grid xs display="flex" justifyContent="center">
+                <Grid container>
+                  <ButtonLg id='save-btn' aria-label={t('share')} onClick={handleShareOpen}>
+                    <Grid container direction='column'>
+                      <Grid><IconLg><ShareIcon color='primary' /></IconLg></Grid>
+                      <Grid><LabelLg>{t('share')}</LabelLg></Grid>
+                    </Grid>
+                  </ButtonLg>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      )}
+          </Box>
+        )
+      }
 
       <Dialog
         open={dialogOpen}
