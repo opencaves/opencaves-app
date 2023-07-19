@@ -9,8 +9,10 @@ import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
 import Divider from './Divider'
 import './QuickActions.scss'
+import Scrollbars from 'react-custom-scrollbars-2'
 
 function openDirections(cave) {
+  console.log('[onClick] cave: %o',)
   const url = new URL('https://www.google.com/maps/dir/?api=1&travelmode=driving')
   url.searchParams.append('destination', `${cave.location.latitude},${cave.location.longitude}`)
   if (cave.entranceCoordinates) {
@@ -26,41 +28,74 @@ function openDirections(cave) {
   window.open(url)
 }
 
-function ButtonLg({ children, ...props }) {
-  return <ButtonBase {...props} disableRipple sx={{
-    '&:hover': {
-      '--_shadow': '0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
-      '--_background-color': 'rgba(26,115,232,0.04)'
-    }
-  }}>{children}</ButtonBase>
+function ButtonLg({ primary, children, ...props }) {
+  return (
+    <ButtonBase
+      {...props}
+      disableRipple
+      sx={{
+        '--_color': theme => theme.palette.primary.main,
+        '--_icon-color': theme => primary ? '#fff' : theme.palette.primary.main,
+        '--_icon-background-color': primary ? '#fff' : null,
+        '--_border-color': theme => theme.palette.primary.main,
+        '--_background-color': theme => primary ? theme.palette.primary.main : null,
+        '&:hover': {
+          '--_color': theme => theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light,
+          '--_icon-color': theme => {
+            if (primary) {
+              return '#fff'
+            }
+
+            return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
+          },
+          '--_border-color': theme => theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light,
+          '--_shadow': primary ? 'var(--md-shadows-1)' : null,
+          '--_background-color': theme => {
+            if (primary) {
+              return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
+            }
+
+            // return 'rgba(26,115,232,0.04)'
+            const onColorChannel = theme.palette.mode === 'light' ? theme.palette.primary.darkChannel : theme.palette.primary.lightChannel
+            return `rgba(${onColorChannel} / 0.06)`
+          }
+        }
+      }}>
+      {children}
+    </ButtonBase>
+  )
 }
 
-function IconLg({ primary, children, ...props }) {
-  return <Box {...props} sx={{
-    backgroundColor: () => primary ? 'primary.main' : 'var(--_background-color)',
-    color: () => primary ? '#fff' : null,
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'primary.main',
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '36px',
-    height: '36px',
-    borderRadius: '36px',
-    m: '6px',
-    boxShadow: () => primary ? 'var(--_shadow)' : null,
-    '& .MuiSvgIcon-root': {
-      fontSize: '1.25rem'
-    }
-  }}>
-    {children}
-  </Box>
+function IconLg({ children, ...props }) {
+  return (
+    <Box
+      {...props}
+      sx={{
+        backgroundColor: 'var(--_background-color)',
+        color: 'var(--_icon-color)',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'var(--_border-color)',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '36px',
+        height: '36px',
+        borderRadius: '36px',
+        m: '6px',
+        boxShadow: 'var(--_shadow)',
+        '& .MuiSvgIcon-root': {
+          fontSize: '1.25rem'
+        }
+      }}>
+      {children}
+    </Box>
+  )
 }
 
 function LabelLg(props) {
   return <Typography sx={{
-    color: 'primary.main',
+    color: 'var(--_color)',
     fontSize: '0.75rem'
   }}>
     {props.children}
@@ -116,44 +151,64 @@ export default function QuickActions({ cave }) {
             className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
             sx={{
               pt: 'var(--oc-details-padding-block)',
-              pb: 'var(--oc-details-padding-block)',
+              pb: 'calc(var(--oc-details-padding-block) - 11px)',
             }}
             role='region'
-            aria-label={t('ariaLabel', { name: cave.name })}
+            aria-label={t('ariaLabel', { name: cave.name.value })}
           >
             <Box
-              display='flex'
-              gap={1.5}
               sx={{
-                pl: 'var(--oc-details-padding-inline)',
-                pr: 'var(--oc-details-padding-inline)',
-                overflowX: 'auto',
+                overflow: 'visible',
 
-                msOverflowStyle: 'none', // Edge / Opera
-                scrollbarWidth: 'none', // Firefox
-                '&::-webkit-scrollbar': {
-                  display: 'none' // Chrome
-                }
+                // msOverflowStyle: 'none', // Edge / Opera
+                // scrollbarWidth: 'none', // Firefox
+                // '&::-webkit-scrollbar': {
+                //   display: 'none' // Chrome
+                // }
               }}
             >
-              {
-                cave.location &&
-                <QuickActionsItem>
-                  <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
-                    {t('directions')}
-                  </Button>
-                </QuickActionsItem>
-              }
-              <QuickActionsItem>
-                <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
-                  {t('save')}
-                </Button>
-              </QuickActionsItem>
-              <QuickActionsItem>
-                <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
-                  {t('share')}
-                </Button>
-              </QuickActionsItem>
+              <Scrollbars
+                autoHeight
+                hideTracksWhenNotNeeded={true}
+                renderThumbHorizontal={({ style, ...props }) =>
+                  <div {...props} style={{
+                    ...style,
+                    cursor: 'pointer',
+                    borderRadius: 'inherit',
+                    backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)'
+                  }} />
+                }
+              >
+                <Box
+                  display='flex'
+                  gap={1.5}
+                  sx={{
+                    pl: 'var(--oc-details-padding-inline)',
+                    pr: 'var(--oc-details-padding-inline)',
+                    pb: '11px',
+                    overflow: 'visible',
+                  }}
+                >
+                  {
+                    cave.location &&
+                    <QuickActionsItem>
+                      <Button aria-label={t('directions')} color='primary' variant="contained" startIcon={<DirectionsIcon />} className='oc-quick-actions--btn primary' onClick={() => openDirections(cave)}>
+                        {t('directions')}
+                      </Button>
+                    </QuickActionsItem>
+                  }
+                  <QuickActionsItem>
+                    <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className='oc-quick-actions--btn' onClick={handleDialogOpen}>
+                      {t('save')}
+                    </Button>
+                  </QuickActionsItem>
+                  <QuickActionsItem>
+                    <Button aria-label={t('share')} color="primary" variant="outlined" startIcon={<ShareIcon />} className='oc-quick-actions--btn' onClick={handleShareOpen}>
+                      {t('share')}
+                    </Button>
+                  </QuickActionsItem>
+                </Box>
+              </Scrollbars>
             </Box>
           </Box>
         ) : (
@@ -173,9 +228,9 @@ export default function QuickActions({ cave }) {
                 cave.location &&
                 <Grid xs display="flex" justifyContent="center">
                   <Grid container>
-                    <ButtonLg aria-label={t('directions')} onClick={() => openDirections(cave)}>
+                    <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave)}>
                       <Grid container direction='column'>
-                        <Grid><IconLg primary><DirectionsIcon /></IconLg></Grid>
+                        <Grid><IconLg><DirectionsIcon /></IconLg></Grid>
                         <Grid><LabelLg>{t('directions')}</LabelLg></Grid>
                       </Grid>
                     </ButtonLg>
@@ -186,7 +241,7 @@ export default function QuickActions({ cave }) {
                 <Grid container>
                   <ButtonLg id='save-btn' aria-label={t('save')} onClick={handleDialogOpen}>
                     <Grid container direction='column'>
-                      <Grid><IconLg><BookmarkBorderIcon color='primary' /></IconLg></Grid>
+                      <Grid><IconLg><BookmarkBorderIcon /></IconLg></Grid>
                       <Grid><LabelLg>{t('save')}</LabelLg></Grid>
                     </Grid>
                   </ButtonLg>
@@ -197,7 +252,7 @@ export default function QuickActions({ cave }) {
                 <Grid container>
                   <ButtonLg id='save-btn' aria-label={t('share')} onClick={handleShareOpen}>
                     <Grid container direction='column'>
-                      <Grid><IconLg><ShareIcon color='primary' /></IconLg></Grid>
+                      <Grid><IconLg><ShareIcon /></IconLg></Grid>
                       <Grid><LabelLg>{t('share')}</LabelLg></Grid>
                     </Grid>
                   </ButtonLg>
