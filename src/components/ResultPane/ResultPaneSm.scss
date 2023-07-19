@@ -1,11 +1,15 @@
 .oc-result-pane-sm {
   --oc-result-pane-z-index: var(--oc-result-pane-sm-z-index);
   --oc-result-pane-sm-upper-height: 48px;
+  --oc-result-pane-border-radius: 1rem 1rem 0 0;
+
   --height: calc(100% + var(--oc-details-padding-block)); // ion-modal
-  --background: transparent;
+  --border-radius: var(--oc-result-pane-border-radius); // ion-modal
+  --background: var(--md-palette-background-paper); // ion-modal
 
   top: var(--oc-result-pane-sm-upper-height);
 
+  // ion-modal
   &::part(backdrop) {
     display: none;
   }
@@ -21,10 +25,6 @@
     margin: 0;
     padding-top: 0;
     transition: 0.125s padding-top;
-
-    // &.oc-full-height {
-    //   padding-top: calc(56px - 16px);
-    // }
   }
 
   .oc-result-pane--header {

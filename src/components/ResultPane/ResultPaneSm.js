@@ -3,18 +3,16 @@ import { useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import waitFor from 'p-wait-for'
-import { Box, Card, CardContent } from '@mui/material'
+import { Box, Card, CardContent, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
-import IconButton from '@mui/material/IconButton'
 import './ResultPaneSm.scss'
 
 export default function ResultPaneSm({ children }) {
   const PANE_OPEN_THRESHOLD = useSelector(state => state.app.resultPaneSmOpenThreshold)
 
   const modal = useRef({})
-  const pane = useRef(null)
   const paneHead = useRef({})
 
   const theme = useTheme()
@@ -105,8 +103,7 @@ export default function ResultPaneSm({ children }) {
 
   useEffect(() => {
     const borderRadius = `${1 - paneOpenFactor}rem`
-    // console.log('========= pane: %o', pane)
-    pane.current?.style?.setProperty('border-radius', `${borderRadius} ${borderRadius} 0 0`)
+    modal.current?.style?.setProperty('--oc-result-pane-border-radius', `${borderRadius} ${borderRadius} 0 0`)
   }, [paneOpenFactor])
 
 
@@ -157,11 +154,6 @@ export default function ResultPaneSm({ children }) {
           <Card
             className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`}
             component='main'
-            ref={pane}
-            sx={{
-              borderRadius: `1rem 1rem 0 0`,
-              height: '100vh'
-            }}
           >
             {
               breakpoint === 1 ? (
