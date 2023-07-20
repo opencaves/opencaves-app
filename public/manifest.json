@@ -1,6 +1,27 @@
 {
   "short_name": "Open Caves",
   "name": "Open Caves",
+  "start_url": "https://opencaves.org",
+  "theme_color": "#145e79",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "dir": "auto",
+  "lang": "en",
+  "orientation": "natural",
+  "shortcuts": [
+    {
+      "name": "Map",
+      "url": "/map",
+      "description": "Map"
+    }
+  ],
+  "categories": [
+    "navigation",
+    "sports"
+  ],
   "icons": [
     {
       "src": "/pwa/icons/android-chrome-192x192.png",
@@ -62,24 +83,6 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "start_url": "https://opencaves.org",
-  "display": "standalone",
-  "theme_color": "#145e79",
-  "background_color": "#ffffff",
-  "dir": "auto",
-  "lang": "en",
-  "orientation": "natural",
-  "shortcuts": [
-    {
-      "name": "Map",
-      "url": "/map",
-      "description": "Map"
-    }
-  ],
-  "categories": [
-    "navigation",
-    "sports"
   ],
   "screenshots": [
     {
