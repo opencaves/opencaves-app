@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.1...v1.1.0) (2023-07-20)
+
+
+### Features
+
+* **app:** New custom window title bar ([529ac6c](https://github.com/opencaves/opencaves-app/commit/529ac6c44a0a0878f5365198261eebfff3d41341))
+
 ## [1.0.1](https://github.com/opencaves/opencaves-app/compare/v1.0.0...v1.0.1) (2023-07-19)
 
 
