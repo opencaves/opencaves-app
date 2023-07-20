@@ -239,13 +239,14 @@ export default function MapFilterMenu({ props }) {
       variant='persistent'
       PaperProps={{
         square: false,
-        sx: () => ({
-          borderRadius: isSmall ? 'none' : '8px 0 0 8px'
-        })
+        sx: {
+          borderRadius: isSmall ? 'none' : '0.5rem 0 0 0.5rem',
+          top: 'var(--oc-filter-menu-top)'
+        }
       }}
       sx={{
         '& > .MuiDrawer-paper': {
-          width: '500px',
+          width: 'var(--oc-filter-menu-width)',
           maxWidth: '100%',
           height: '100%',
           maxHeight: '100%',

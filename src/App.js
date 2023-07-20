@@ -1,15 +1,16 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Experimental_CssVarsProvider as CssVarsProvider, useTheme } from '@mui/material/styles'
-import { Box, CssBaseline, GlobalStyles, useMediaQuery } from '@mui/material'
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
+import { CssBaseline, GlobalStyles } from '@mui/material'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice'
 import Nav from './components/Nav'
 import TitleBar from './components/App/TitleBar'
 import ManageAppReload from './components/ManageAppReload'
 import getDevicePixelRatio from './utils/getDevicePixelRatio'
-import { theme as themeProps } from './theme/Theme.js'
+import { useTitle } from './hooks/useTitle'
+import { theme as themeProps } from './theme/Theme'
 import './utils/splash'
 
 import '@fontsource/roboto/latin-300.css'
@@ -29,9 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const App = () => {
 
   const dispatch = useDispatch()
-  const title = useSelector(state => state.navigation.title)
-  const theme = useTheme()
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const { title } = useTitle()
 
   getData()
     .then(() => {

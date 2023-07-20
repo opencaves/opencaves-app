@@ -32,7 +32,12 @@ const lightThemeOptions = {
     }
   },
   typography: {
-
+    titlebarTitle: {
+      fontSize: '14px',
+      fontWeight: 400,
+      lineHeight: 1,
+      color: 'hsl(0 0% 96% / 1)'
+    },
     mapTextSecondary: {
       fontSize: 'var(--oc-map-text-secondary-font-size)',
       fontWeight: 400,

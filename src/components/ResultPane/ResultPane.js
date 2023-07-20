@@ -1,18 +1,24 @@
-import { useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { Collapse, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { TransitionGroup } from 'react-transition-group'
-import { Collapse } from '@mui/material'
 import ResultPaneSm from './ResultPaneSm'
 import ResultPaneLg from './ResultPaneLg'
-import './ResultPane.scss'
 import { CurrentCaveDetailsHeader, CurrentCaveDetailsContent } from './CurrentCaveDetails'
+import { useTitle } from '../../hooks/useTitle'
+import './ResultPane.scss'
 
 export default function ResultPane() {
 
   const currentCave = useSelector(state => state.map.currentCave)
   const theme = useTheme()
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const { setTitle } = useTitle()
+
+  useEffect(() => {
+    setTitle(currentCave?.name.value)
+  }, [currentCave, setTitle])
 
   return currentCave && (isSmall ? (
     <TransitionGroup>

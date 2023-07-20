@@ -12,6 +12,12 @@ http://ionicframework.com/docs/theming/ */
 // end ionic
 
 :root {
+  --oc-titlebar-default-height: 33px;
+
+  --oc-filter-menu-top: env(titlebar-area-height, 0);
+  --oc-filter-menu-width: 500px;
+  --oc-filter-menu-border-radius: 0.5rem 0 0 0.5rem;
+
   --oc-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --oc-radius: 8px;
   --oc-surface: #ebebeb;

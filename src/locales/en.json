@@ -1,6 +1,5 @@
 {
   "app": {
-    "title": "Open Caves",
     "back": "Back",
     "item_zero": "{{count}} item",
     "item_one": "{{count}} item",

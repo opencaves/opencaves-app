@@ -3,7 +3,6 @@ import localforage from 'localforage'
 import sessionStorage from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
-import navigationSlice from './slices/navigationSlice'
 import appReducer from './slices/appSlice'
 import dataReducer from './slices/dataSlice'
 import userReducer from "./slices/userSlice"
@@ -39,7 +38,6 @@ const mapPersistConfig = {
 const rootReducer = combineReducers({
   app: persistReducer(appPersistConfig, appReducer),
   session: persistReducer(sessionPersistConfig, userReducer),
-  navigation: navigationSlice,
   search: searchReducer,
   // map: persistReducer(mapPersistConfig, mapReducer),
   map: mapSlice,

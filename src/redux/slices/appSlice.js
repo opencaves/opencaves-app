@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  name: "Open Caves",
+  title: 'Open Caves',
   aboutDialogOpen: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
@@ -14,6 +16,9 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setTitle: (state, action) => {
+      state.title = action.payload
+    },
     toggleAboutDialog: (state, action) => {
       console.log('state.aboutDialogOpen: %o', state.aboutDialogOpen)
       state.aboutDialogOpen = !state.aboutDialogOpen
@@ -31,6 +36,6 @@ export const appSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { toggleAboutDialog, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmFirstBreakpoint } = appSlice.actions
+export const { setTitle, toggleAboutDialog, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmFirstBreakpoint } = appSlice.actions
 
 export default appSlice.reducer
