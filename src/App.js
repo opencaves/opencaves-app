@@ -1,13 +1,13 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles } from '@mui/material'
 import { getData } from './services/data-service.js'
 import { setDataLoadingState } from './redux/slices/dataSlice'
 import Nav from './components/Nav'
 import TitleBar from './components/App/TitleBar'
-import ManageAppReload from './components/ManageAppReload'
+import ManageAppUpdate from './components/App/ManageAppUpdate'
 import getDevicePixelRatio from './utils/getDevicePixelRatio'
 import { useTitle } from './hooks/useTitle'
 import { theme as themeProps } from './theme/Theme'
@@ -60,7 +60,7 @@ const App = () => {
           </Helmet>
           <TitleBar />
           <Nav></Nav>
-          <ManageAppReload />
+          <ManageAppUpdate />
         </HelmetProvider>
       </CssVarsProvider>
     </Fragment>
