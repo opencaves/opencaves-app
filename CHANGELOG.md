@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2023-07-23)
+
+
+### Features
+
+* Detection of updates appening while the app is open ([1af8c61](https://github.com/opencaves/opencaves-app/commit/1af8c61cfa684598965295bfc4f8ac1be9223da6))
+
+
+### Bug Fixes
+
+* Long URLs in result details don't break layout ([4855b10](https://github.com/opencaves/opencaves-app/commit/4855b1039516a5de46534f2b2694bdd94b0ef854))
+
 ## [1.1.0](https://github.com/opencaves/opencaves-app/compare/v1.0.1...v1.1.0) (2023-07-20)
 
 
