@@ -48,7 +48,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "csvtojson": "^2.0.10",
     "i18next": "^22.5.0",
-    "i18next-browser-languagedetector": "^7.0.1",
+    "i18next-browser-languagedetector": "^7.1.0",
     "libphonenumber-js": "^1.10.37",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
