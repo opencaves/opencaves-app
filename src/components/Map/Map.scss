@@ -9,21 +9,6 @@
   background: var(--oc-surface);
 }
 
-.search-bar {
-  --background: #fff;
-  --border-radius: 50vh;
-
-  position: absolute;
-  top: 1rem;
-  z-index: 1;
-  width: calc(100% - 2rem);
-  margin: 0 1rem;
-
-  .searchbar-input {
-    box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
-  }
-}
-
 .mapboxgl-map {
   font-size: 12px;
   font-family: var(--oc-font-family);
@@ -86,4 +71,10 @@
 // Safari < 10.16
 .mapboxgl-ctrl-logo {
   display: none !important;
+}
+
+.marker-icon-default {
+  > :nth-child(2) {
+    fill: #000;
+  }
 }

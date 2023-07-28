@@ -120,7 +120,7 @@ export default function OCMap() {
     if (!currentCave) {
       setCurrentMarkerElem()
     } else {
-      showCurrentCave()
+      goToCurrentMarker()
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,7 +143,7 @@ export default function OCMap() {
     doSetCurrentMarkerElem(markerElem)
   }
 
-  function showCurrentCave(flyTo = true) {
+  function goToCurrentMarker(flyTo = true) {
     if (currentCave && currentCave.location) {
       const { longitude: lng, latitude: lat } = currentCave.location
       const currentMarker = mapRef.current?.getMap()._markers.find(marker => {
@@ -184,7 +184,7 @@ export default function OCMap() {
 
     // Fly to marker if no view state in the URL
     const flyTo = !hasViewState()
-    showCurrentCave(flyTo)
+    goToCurrentMarker(flyTo)
   }
 
   function onGeolocateError(error) {
@@ -204,18 +204,13 @@ export default function OCMap() {
       return
     }
 
-    // route: /map/:id
-    // const id = pathname.split('/').pop()
-    const newCurrentCave = caveData.find(cave => cave.id === params.id)
-    if (newCurrentCave) {
+    if (currentCave) {
 
-      dispatch(setCurrentCave(newCurrentCave))
-
-      if (newCurrentCave.location) {
+      if (currentCave.location) {
 
         const newInitialViewState = {
-          longitude: newCurrentCave.location.longitude,
-          latitude: newCurrentCave.location.latitude,
+          longitude: currentCave.location.longitude,
+          latitude: currentCave.location.latitude,
           // zoom: defaultDetailedViewZoom
           zoom: currentZoomLevel
         }
@@ -225,7 +220,7 @@ export default function OCMap() {
     }
 
     setMapReady(true)
-  }, [caveData])
+  }, [caveData, currentCave])
 
   if (dataLoadingState.state === 'error') {
     return (
@@ -302,7 +297,7 @@ export default function OCMap() {
                     onClick={(event) => handleMarkerOnClick(event, cave)}
                   >
                     <div className='marker'>
-                      <SvgIcon component={pinIcon} inheritViewBox className='marker-icon' htmlColor={markerColor} />
+                      <SvgIcon component={pinIcon} inheritViewBox className={markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : null} htmlColor={markerColor} />
                       {markerLabel && markerLabel}
                     </div>
                   </Marker>
