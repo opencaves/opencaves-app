@@ -2,6 +2,7 @@ import { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { LngLat } from 'mapbox-gl'
 import Map, { Marker, Popup, GeolocateControl, Source, Layer } from 'react-map-gl'
 import { SvgIcon, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -31,7 +32,6 @@ export default function OCMap() {
   const caveData = useSelector(state => state.data.caves)
 
   const theme = useTheme()
-  // console.log('theme: %o', theme)
 
   const params = useParams()
   const navigate = useNavigate()
@@ -40,6 +40,7 @@ export default function OCMap() {
   const [currentMarkerElem, doSetCurrentMarkerElem] = useState()
   const [zoomLevel, setZoomLevel] = useState(defaultViewState.zoom)
   const [initialViewState, setInitialViewState] = useState(defaultViewState)
+  const [mapBounds, setMapBounds] = useState()
 
   const mapRef = useRef()
   const markersRef = useRef([])
@@ -169,18 +170,42 @@ export default function OCMap() {
     console.log('[onMouseEnter] %o', event)
   }
 
+  function updateMapBounds() {
+    if (mapRef.current) {
+      const bounds = mapRef.current.getBounds()
+      setMapBounds(bounds)
+    }
+  }
+
+  function onDragEnd() {
+    // Set current map bounds
+    updateMapBounds()
+  }
+
   const onMove = debounce(function (event) {
-    // console.log('[onMove] event: %o', event)
     dispatch(setViewState(event.viewState))
   }, 300)
+
+  function onMoveEnd() {
+    // Set current map bounds
+    updateMapBounds()
+  }
 
   function onZoom(event) {
     setZoomLevel(event.viewState.zoom)
   }
 
+  function onZoomEnd() {
+    // Set current map bounds
+    updateMapBounds()
+  }
+
   function onLoad() {
     // Disable touch rotation
     mapRef.current?.getMap().touchZoomRotate.disableRotation()
+
+    // Set initial map bounds
+    setMapBounds()
 
     // Fly to marker if no view state in the URL
     const flyTo = !hasViewState()
@@ -244,8 +269,11 @@ export default function OCMap() {
             ref={mapRef}
             {...mapProps}
             initialViewState={initialViewState}
+            onDragEnd={onDragEnd}
             onMove={onMove}
+            onMoveEnd={onMoveEnd}
             onZoom={onZoom}
+            onZoomEnd={onZoomEnd}
             onLoad={onLoad}
           >
 
@@ -265,13 +293,15 @@ export default function OCMap() {
               </Popup>)}
 
             {
-              filteredCaves?.map((cave, i) => {
+              filteredCaves?.filter(({ location }) => {
+                const lngLat = new LngLat(location.longitude, location.latitude)
+                return mapBounds ? mapBounds.contains(lngLat) : true
+              }).map((cave, i) => {
                 // console.log('cave: %o', cave)
                 const isCurrentCave = currentCave && currentCave.id === cave.id
                 const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
                 const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
                 const pinIcon = cave.location.validity === 'valid' ? PinIcon : PinLocationUnknownIcon
-                // const markerColor = SISTEMA_DEFAULT_COLOR
 
                 markersRef.current.push(createRef())
 
