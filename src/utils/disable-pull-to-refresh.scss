@@ -1,0 +1,15 @@
+// Source: https://w3bits.com/prevent-chrome-pull-to-refresh-css
+
+body,
+#root {
+  /* Break the flow */
+  position: absolute;
+  top: 0px;
+
+  /* Give them all the available space */
+  width: 100%;
+  height: 100%;
+
+  /* Allow them to scroll down the document */
+  overflow-y: hidden;
+}
