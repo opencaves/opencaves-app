@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "opencaves"
-  }
+  },
+  "targets": {
+    "opencaves": {
+      "hosting": {
+        "opencaves": [
+          "opencaves"
+        ],
+        "opencaves-api": [
+          "opencaves-api"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
