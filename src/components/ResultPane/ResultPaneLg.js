@@ -1,7 +1,8 @@
 import React from 'react'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import { Card, CardContent } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { Scrollbars } from 'react-custom-scrollbars-2'
+import { resultPaneMinHeight } from '@/config/app'
 import './ResultPaneLg.scss'
 
 export default function ResultPaneLg({ children }) {
@@ -17,7 +18,7 @@ export default function ResultPaneLg({ children }) {
         '.MuiCardContent-root': {
           p: 0
         },
-        minHeight: '300px'
+        minHeight: `${resultPaneMinHeight}px`
       }}
       component='main'
     >

@@ -1,7 +1,7 @@
 import { getCaveData } from './data-service/dataImporter'
 import { processData } from './data-service/dataProcessor'
-import { store } from '../redux/store'
-import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, setLanguages } from '../redux/slices/dataSlice'
+import { store } from '@/redux/store'
+import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, setLanguages } from '@/redux/slices/dataSlice'
 
 
 function handleSetCaves(data) {

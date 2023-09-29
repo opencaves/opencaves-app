@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
-import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled, useMediaQuery, useTheme } from '@mui/material'
+import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import TuneIcon from '@mui/icons-material/Tune'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -11,14 +12,14 @@ import LocationOffOutlinedIcon from '@mui/icons-material/LocationOffOutlined'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
-import { store } from '../../redux/store.js'
-import { setCurrentCave } from '../../redux/slices/mapSlice'
-import { toggleFilterMenu } from '../../redux/slices/appSlice'
-import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '../../utils/regexes'
-import { ReactComponent as LocationUnknownOutlinedIcon } from '../../images/location-validity-unknown.svg'
+import AppMenu from '@/components/App/AppMenu'
+import { store } from '@/redux/store'
+import { useSmall } from '@/hooks/useSmall'
+import { setCurrentCave } from '@/redux/slices/mapSlice'
+import { toggleFilterMenu } from '@/redux/slices/appSlice'
+import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes'
+import { ReactComponent as LocationUnknownOutlinedIcon } from '@/images/location-validity-unknown.svg'
 import './SearchBar.scss'
-import { useNavigate } from 'react-router-dom'
-import AppMenu from '../App/AppMenu.js'
 
 const nameTranslationFields = store.getState().data.languages.map(l => `nameTranslations.${l.code}`)
 
@@ -111,26 +112,29 @@ const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
 
 export default function SearchBar() {
 
-  const [value, doSetValue] = useState('')
+  const searchBarRef = useRef()
   const resultItemsRef = useRef([])
+  const [value, doSetValue] = useState('')
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
-  const data = useSelector(state => state.data.caves)
 
+  const data = useSelector(state => state.data.caves)
   const currentCave = useSelector(state => state.map.currentCave)
+  const searchBarOff = useSelector(state => state.app.searchBarOff)
+
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [showClearBtn, setShowClearBtn] = useState(false)
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
   const [backBtnOn, setBackBtnOn] = useState(false)
+
   const searchIndex = new MiniSearch(indexOptions)
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  const theme = useTheme()
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useSmall()
 
   const resultsItemIconStyle = {
     color: 'text.secondary',
@@ -141,10 +145,6 @@ export default function SearchBar() {
   function selectCaveById(id) {
     return data.find(cave => cave.id === id)
   }
-
-  // function getCaveName(name) {
-  //   return name ? name.value : tMap('caveNameUnknown')
-  // }
 
   const getCaveName = useCallback(name => {
     return name ? name.value : tMap('caveNameUnknown')
@@ -171,6 +171,12 @@ export default function SearchBar() {
       setValue(getCaveName(currentCave.name))
     }
   }, [currentCave, getCaveName])
+
+  useEffect(() => {
+    if (searchBarRef) {
+      searchBarRef.current.classList.toggle('off', searchBarOff)
+    }
+  }, [searchBarOff])
 
   function onSearchbarInputChange(event) {
     // console.log('[onSearchbarInputChange¸%o', event)
@@ -246,8 +252,16 @@ export default function SearchBar() {
     setShowSearchResults(searchResults.length > 0 && searchBarHasFocus)
   }, [searchResults, searchBarHasFocus])
 
+  // Exposing the search bar height as a css custom property
+  useEffect(() => {
+    if (searchBarRef) {
+      searchBarRef.current.style.setProperty('--oc-searchbar-height', searchBarRef.current.getBoundingClientRect().height)
+    }
+  }, [searchBarRef])
+
   return (
     <Box
+      ref={searchBarRef}
       sx={{
         position: 'absolute',
         top: 0,
@@ -257,10 +271,19 @@ export default function SearchBar() {
           xs: '100%',
           sm: '400px'
         },
-        zIndex: 'var(--oc-searchbar-z-index)'
+        zIndex: `var(--oc-searchbar-${isSmall ? 'sm-' : ''}z-index)`,
+        transform: 'translate3d(0, 0, 0)',
+        transitionProperty: 'transform',
+        transitionDuration: theme => `${theme.oc.sys.motion.duration.emphasizedDecelerate}ms`,
+        transitionTimingFunction: theme => theme.sys.motion.easing.emphasizedDecelerate,
+        '&.off': {
+          transitionDuration: theme => `${theme.oc.sys.motion.duration.emphasizedAccelerate}ms`,
+          transitionTimingFunction: theme => theme.sys.motion.easing.emphasizedAccelerate,
+          transform: 'translate3d(0, calc(calc(var(--oc-searchbar-height) + 10) * -1px), 0)'
+        }
       }}
       role='search'
-      className="oc-search-bar"
+      className='oc-search-bar'
       onFocus={_onOCSearchbarFocus}
     >
       <Box
@@ -317,7 +340,7 @@ export default function SearchBar() {
           >
             {
               showClearBtn && (
-                <Tooltip title={t('actionButton.clear.tip')}>
+                <Tooltip title={t('actionButton.clear.tooltip')}>
                   <IconButton
                     disableRipple
                     aria-label={t('actionButton.clear.ariaLabel')}
@@ -348,7 +371,7 @@ export default function SearchBar() {
             )
           }
 
-          <Tooltip title={t('actionButton.filter.tip')}>
+          <Tooltip title={t('actionButton.filter.tooltip')}>
             <IconButton
               disableRipple
               id="oc-search-filter-btn"
@@ -369,6 +392,10 @@ export default function SearchBar() {
                 sx={{
                   width: '48px',
                   height: '48px',
+                  bgcolor: 'transparent',
+                  ':hover': {
+                    bgcolor: 'transparent'
+                  }
                 }}
               />
             )
@@ -398,7 +425,11 @@ export default function SearchBar() {
                       >
                         <ListItemButton ref={element => resultItemsRef.current.push(element)} onClick={() => onResultsItemClick(result.id)}>
                           {
-                            result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : result.location === 'unknown' ? <SvgIcon component={LocationUnknownOutlinedIcon} className='test' sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />
+                            result.location === 'valid' ? (
+                              <LocationOnOutlinedIcon sx={resultsItemIconStyle} />
+                            ) : result.location === 'unknown' ? (
+                              <SvgIcon component={LocationUnknownOutlinedIcon} sx={resultsItemIconStyle} />
+                            ) : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />
                           }
                           <Box
                             sx={{

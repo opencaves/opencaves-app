@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
-import Divider from './Divider'
 import './QuickActions.scss'
 import Scrollbars from 'react-custom-scrollbars-2'
+import { useSmall } from '@/hooks/useSmall.js'
 
 function openDirections(cave) {
   console.log('[onClick] cave: %o',)
@@ -117,7 +117,7 @@ export default function QuickActions({ cave }) {
   const theme = useTheme()
 
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useSmall()
 
   async function handleShareOpen() {
     const shareURL = new URL(window.location)
@@ -150,8 +150,8 @@ export default function QuickActions({ cave }) {
           <Box
             className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
             sx={{
-              pt: 'var(--oc-details-padding-block)',
-              pb: 'calc(var(--oc-details-padding-block) - 11px)',
+              pt: 'var(--oc-pane-padding-block)',
+              pb: 'calc(var(--oc-pane-padding-block) - 11px)',
             }}
             role='region'
             aria-label={t('ariaLabel', { name: cave.name.value })}
@@ -183,8 +183,8 @@ export default function QuickActions({ cave }) {
                   display='flex'
                   gap={1.5}
                   sx={{
-                    pl: 'var(--oc-details-padding-inline)',
-                    pr: 'var(--oc-details-padding-inline)',
+                    pl: 'var(--oc-pane-padding-inline)',
+                    pr: 'var(--oc-pane-padding-inline)',
                     pb: '11px',
                     overflow: 'visible',
                   }}
@@ -215,10 +215,10 @@ export default function QuickActions({ cave }) {
           <Box
             className={`oc-quick-actions oc-quick-actions-${isSmall ? `sm` : `lg`}`}
             sx={{
-              pl: 'var(--oc-details-padding-inline)',
-              pr: 'var(--oc-details-padding-inline)',
-              pt: 'var(--oc-details-padding-block)',
-              pb: 'var(--oc-details-padding-block)'
+              pl: 'var(--oc-pane-padding-inline)',
+              pr: 'var(--oc-pane-padding-inline)',
+              pt: 'var(--oc-pane-padding-block)',
+              pb: 'var(--oc-pane-padding-block)'
             }}
             role='region'
             aria-label={t('ariaLabel', { name: cave.name.value })}

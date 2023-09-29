@@ -5,8 +5,8 @@ import { ExpandMore } from '@mui/icons-material'
 import Grid from '@mui/material/Unstable_Grid2'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '../../models/Sistema.js'
-import { ReactComponent as CaveSystemIcon } from '../../images/cave-system.svg'
-import { SISTEMA_DEFAULT_COLOR } from '../../config/map.js'
+import { ReactComponent as CaveSystemIcon } from '@/images/cave-system.svg'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 export default function Sistema({ sistemaHistory }) {
 
@@ -68,8 +68,8 @@ export default function Sistema({ sistemaHistory }) {
   return (
     <Grid container
       sx={{
-        px: 'var(--oc-details-padding-inline)',
-        py: 'var(--oc-details-padding-block)'
+        px: 'var(--oc-pane-padding-inline)',
+        py: 'var(--oc-pane-padding-block)'
       }}>
       <Grid xs="auto">
         <Box sx={{ minWidth: 'var(--oc-details-icon-min-width)' }}>

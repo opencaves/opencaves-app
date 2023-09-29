@@ -1,8 +1,8 @@
 // import { useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { SvgIcon, Typography, useMediaQuery } from '@mui/material'
-import { useTitle } from '../../hooks/useTitle'
-import { ReactComponent as Logo } from '../../images/logo/logo-dark.svg'
+import { Typography, useMediaQuery } from '@mui/material'
+import LogoIcon from './LogoIcon'
+import { useTitle } from '@/hooks/useTitle'
 
 export default function TitleBar() {
 
@@ -40,9 +40,8 @@ export default function TitleBar() {
         container
         alignItems='center'
       >
-        <SvgIcon
-          component={Logo}
-          inheritViewBox
+        <LogoIcon
+          colorScheme='dark'
           sx={{
             ml: 1
           }}

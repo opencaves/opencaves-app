@@ -13,18 +13,17 @@
 
 # misc
 .DS_Store
+*OLD*
+* - Copie*
+* copy.*
+npm-debug.log*
+
+# OpenCaves related
+/.firebase
+/cenotes
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.env
-.firebase
-*OLD*
-* - Copie*
-* copy.*
-/cenotes
 *.log*

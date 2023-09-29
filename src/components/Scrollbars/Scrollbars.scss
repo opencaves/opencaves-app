@@ -1,0 +1,15 @@
+.oc-scrollbar {
+  &--autohide {
+    .oc-scrollbar--track {
+      opacity: 0;
+      transition: opacity 150ms var(--md-sys-motion-easing-standardDecelerate) 0.75s;
+    }
+  }
+
+  &--autohide:hover {
+    .oc-scrollbar--track {
+      opacity: 1;
+      transition: opacity 250ms var(--md-sys-motion-easing-standardAccelerate);
+    }
+  }
+}

@@ -2,5 +2,10 @@
   "svg.preview.background": "editor",
   "conventionalCommits.scopes": [
     "app"
-  ]
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
 import appReducer from './slices/appSlice'
 import dataReducer from './slices/dataSlice'
-import userReducer from "./slices/userSlice"
+import sessionReducer from "./slices/sessionSlice"
 import searchReducer from './slices/searchSlice'
 import mapSlice from './slices/mapSlice'
 
@@ -37,7 +37,7 @@ const mapPersistConfig = {
 
 const rootReducer = combineReducers({
   app: persistReducer(appPersistConfig, appReducer),
-  session: persistReducer(sessionPersistConfig, userReducer),
+  session: persistReducer(sessionPersistConfig, sessionReducer),
   search: searchReducer,
   // map: persistReducer(mapPersistConfig, mapReducer),
   map: mapSlice,

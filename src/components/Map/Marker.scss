@@ -148,6 +148,14 @@
   flex-direction: column;
   align-items: center;
 
+  &-icon {
+    cursor: pointer;
+
+    &:hover + .marker-label {
+      color: var(--oc-marker-selected-color);
+    }
+  }
+
   &-label {
     color: rgb(240, 240, 240);
     // -webkit-text-stroke: 0.5px #f00;
@@ -158,16 +166,6 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--oc-marker-selected-color);
-    }
-  }
-
-  .marker-icon {
-    cursor: pointer;
-    width: 20px;
-    transition: var(--oc-marker-animation-duration);
-
-    &:hover + .marker-label {
       color: var(--oc-marker-selected-color);
     }
   }

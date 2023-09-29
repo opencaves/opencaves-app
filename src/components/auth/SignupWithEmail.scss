@@ -1,0 +1,5 @@
+::part(wrapper) {
+  // transition-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15); // MD3 Emphasized accelerate
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1); // MD3 Standard
+  padding-bottom: 24px;
+}

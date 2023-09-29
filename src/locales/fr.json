@@ -1,37 +1,178 @@
 {
+  "404": {
+    "header": "Oups !",
+    "description": "Désolé mais la page que vous recherchez n'existe pas.",
+    "backBtn": "Aller à la page d'accueil",
+    "search": {
+      "placeHolder": "Rechercher...",
+      "btn": "Rechercher"
+    }
+  },
   "app": {
     "back": "Retour",
     "item_zero": "{{count}} item",
     "item_one": "{{count}} item",
     "item_other": "{{count}} items",
-    "nav": {
+    "menu": {
+      "tooltip": "Menu",
+      "ariaLabel": "Plus",
       "home": "Accueil",
-      "map": "Carte",
-      "settings": "Paramètres",
-      "signIn": "S'identifier"
+      "myAccount": "Mon compte",
+      "signup": "S'inscrire",
+      "login": "Se connecter",
+      "logout": "Se déconnecter",
+      "addPictures": "Ajouter des images",
+      "about": "À propos",
+      "about_withName": "À propos d'{{name}}",
+      "drawer": {
+        "ariaLabel": "ouvrir le menu"
+      }
+    },
+    "snackbar": {
+      "close": {
+        "ariaLabel": "fermer"
+      }
     },
     "updateAvailable": {
       "message": "Une nouvelle version de cette application est disponible",
       "btn": "Actualiser"
-    },
-    "menu": {
-      "ariaLabel": "Plus",
-      "about": "À propos"
     }
   },
-  "aboutDialog": {
-    "ariaLabel": "À propos",
-    "close": "fermer",
-    "version": "Version {{version}}",
-    "whatsNew": "Nouveautés"
+  "auth": {
+    "dialog": {
+      "closeBtn": {
+        "ariaLabel": "retour"
+      },
+      "closeBtnSm": {
+        "ariaLabel": "ferner"
+      }
+    },
+    "login": {
+      "title": "Se connecter",
+      "withGoogle": "Se connecter avec Google",
+      "withFacebook": "Se connecter avec Facebook",
+      "or": "ou",
+      "goToSignup": {
+        "invite": "Vous n'avez pas de compte ?",
+        "btn": "S'inscrire"
+      }
+    },
+    "loginWithEmailPrompt": {
+      "header": "Se connecter"
+    },
+    "loginWithEmail": {
+      "emailLabel": "Courriel",
+      "passwordLabel": "Mot de passe",
+      "loginBtn": {
+        "label": "Se connecter"
+      },
+      "forgotPassword": "Mot de passe oublié ?"
+    },
+    "signup": {
+      "title": "S'inscrire",
+      "withGoogle": "S'inscrire avec Google",
+      "withFacebook": "Inscrivez-vous avec Facebook",
+      "or": "ou",
+      "withEmail": "Créez un compte",
+      "withEmailDialog": {
+        "title": "Créez un compte",
+        "header": "Créez un compte",
+        "closeBtn": {
+          "ariaLabel": "retour"
+        },
+        "closeBtnSm": {
+          "ariaLabel": "fermer"
+        },
+        "steps": {
+          "email": {
+            "header": "Entrez votre courriel",
+            "label": "Courriel",
+            "loginInvite": "Vous avez déjà un compte?",
+            "loginBtn": "Connectez-vous",
+            "continueBtn": "Suivant"
+          },
+          "emailSentAndEmailVerification": {
+            "emailInUse": {
+              "header": "Ce courriel est déjà utilisé",
+              "details": "Un compte utilise déjà le courriel <strong>{{email}}</strong>.<br /> Vous pouvez choisir de vous connecter avec Google ou d'essayer un autre courriel.",
+              "previousBtn": "Essayez un autre courriel",
+              "loginWithGoogle": "Connectez-vous avec Google"
+            },
+            "emailSentNotification": {
+              "header": "Vérifiez vos courriels",
+              "details": "Un courriel de connexion contenant des instructions a été envoyé à <strong>{{email}}</strong>.<br /> Vérifiez votre courriel pour terminer l'inscription."
+            }
+          },
+          "emailCallback": {
+            "header": "\u00a0",
+            "invalidActionCode": {
+              "header": "Lien email expiré",
+              "details": "Le lien de validation par courriel que vous avez utilisé a expiré.",
+              "previousBtn": "Réessayez"
+            },
+            "retypeEmail": {
+              "header": "Saisissez à nouveau votre courriel",
+              "email2Label": "Courriel",
+              "continueBtn": "Suivant"
+            }
+          },
+          "name": {
+            "header": "Entrez votre nom",
+            "firstNameLabel": "Prénom",
+            "lastNameLabel": "Nom de famille (facultatif)",
+            "continueBtn": "Suivant"
+          },
+          "password": {
+            "header": "Créez un mot de passe",
+            "details": "Créez un mot de passe fort avec un mélange de lettres, de chiffres et de symboles",
+            "passwordLabel": "Mot de passe",
+            "continueBtn": "S'inscrire"
+          },
+          "emailFailed": {
+            "header": "Vérification du courriel",
+            "details": {
+              "tryAgain": "Essayez de vous inscrire à nouveau"
+            }
+          },
+          "created": {
+            "header": "Compte créé",
+            "closeBtn": "Fermer",
+            "accountLink": "Aller à mon compte"
+          }
+        }
+      },
+      "goToLogin": {
+        "invite": "Vous avez déjà un compte?",
+        "btn": "Connectez-vous"
+      }
+    }
   },
-  "404": {
-    "header": "Oups !",
-    "description": "Désolé mais la page que vous recherchez n'existe pas.",
-    "back": "Aller à la page d'accueil",
-    "search": {
-      "placeHolder": "Rechercher...",
-      "btn": "Rechercher"
+  "about": {
+    "title": "À propos",
+    "version": "Version {{version}}",
+    "whatsNew": "Nouveautés",
+    "dialog": {
+      "ariaLabel": "À propos d'{{name}}",
+      "close": "fermer"
+    }
+  },
+  "errors": {
+    "auth": {
+      "actionCodeExpired": "Le lien de vérification dans le courriel a expiré",
+      "emailInvalid": "Veuillez entrer un courriel valide",
+      "emailMismatch": "Le courriel fourni ne correspond pas à l'adresse courriel de connexion",
+      "emailMissing": "Veuillez saisir un courriel",
+      "firstNameMissing": "Veuillez saisir un prénom",
+      "firstNameTooShort": "Le prénom doit faire au moins {{minLength}} caractères",
+      "passwordMissing": "Please enter your password",
+      "passwordWrong": "Mauvais mot de passe",
+      "default": "Une erreur s'est produite. Veuillez réessayer plus tard."
+    },
+    "firebaseErrors": {
+      "auth/expired-action-code": "$t(auth.actionCodeExpired)",
+      "auth/invalid-email": "$t(auth.emailInvalid)",
+      "auth/missing-password": "$t(auth.passwordMissing)",
+      "auth/wrong-password": "$t(auth.passwordWrong)"
     }
   },
   "quickActions": {
@@ -43,6 +184,18 @@
     "shareText": "Cénote {{name}}\n",
     "shareDialogTitle": "Partager"
   },
+  "passwordInput": {
+    "passwordIcon": {
+      "ariaLabel": "basculer la visibilité du mot de passe"
+    },
+    "scoreWords": [
+      "faible",
+      "passable",
+      "bien",
+      "fort"
+    ],
+    "shortScoreWord": "trop court"
+  },
   "searchBar": {
     "actionButton": {
       "search": {
@@ -53,11 +206,11 @@
       },
       "clear": {
         "ariaLabel": "Effacer",
-        "tip": "Effacer"
+        "tooltip": "Effacer"
       },
       "filter": {
         "ariaLabel": "Filtrer les cenotes",
-        "tip": "Filtrer les cenotes"
+        "tooltip": "Filtrer les cenotes"
       }
     },
     "placeholder": "Recherche",
@@ -161,6 +314,7 @@
     }
   },
   "resultPane": {
+    "title": "Cenote {{name}}",
     "accessHeader": "Accès",
     "aka": "alias",
     "directionsHeader": "S'y rendre",
@@ -175,7 +329,69 @@
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
     "addressNotAvailable": "Adresse non disponible",
-    "locationNotAvailable": "Lieu non disponible"
+    "locationNotAvailable": "Lieu non disponible",
+    "coverImage": {
+      "addImages": {
+        "tooltip": "Ajouter des images"
+      },
+      "seeImages": {
+        "tooltip": "Voir les images"
+      }
+    },
+    "addPictureBtn": {
+      "btn": "Ajouter des images"
+    },
+    "menu": {
+      "ariaLabel": "Plus",
+      "myAccount": "Mon compte",
+      "edit": "Modifier",
+      "about": "À propos d'{{name}}"
+    }
+  },
+  "mediaPane": {
+    "header": "Cenote {{name}}",
+    "backBtn": {
+      "tooltip": "Retour",
+      "ariaLabel": "Retour"
+    },
+    "addPictureBtn": {
+      "tooltip": "Ajouter des images",
+      "ariaLabel": "ajouter des images"
+    },
+    "empty": {
+      "header": "Aucune image pour le moment !",
+      "btn": "Ajouter des images"
+    },
+    "images": "images",
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "Afficher l'image"
+      },
+      "useAsCoverAction": "Utiliser comme image de couverture",
+      "useAsCoverSuccess": "Image de couverture modifiée.",
+      "useAsCoverFail": "La modification de l'image de couverture à échoué.",
+      "viewOriginalImageAction": "Afficher l'image originale",
+      "deleteAction": "Supprimer",
+      "deleteSuccess": "Fichier supprimé.",
+      "deleteFail": "La suppression du fichier a échoué."
+    },
+    "addMedia": {
+      "header": "Téléchargez des photos de la cénote {{name}}",
+      "dragHere": "Faites glisser les photos ici",
+      "dropHere": "Déposez les fichiers ici…",
+      "or": "ou",
+      "btn": "Cliquez pour sélectionner des fichiers",
+      "closeBtn": {
+        "ariaLabel": "fermer"
+      },
+      "success_one": "1 photo ajoutée",
+      "success_other": "{{count}} photos ajoutées",
+      "wrongMediaType": "Impossible d'importer une photo, essayez un autre format.",
+      "unknownError": "Quelque chose s'est mal passé. Veuillez réessayer.",
+      "unknownErrorBtn": "OK",
+      "uploadingTo": "Téléchargement vers",
+      "countMedias": "{{index}} de {{total}}"
+    }
   },
   "accesses": {
     "customers": {
@@ -245,6 +461,7 @@
     }
   },
   "map": {
+    "title": "Carte",
     "caveNameUnknown": "[nom inconnu]"
   }
 }

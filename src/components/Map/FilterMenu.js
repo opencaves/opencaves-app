@@ -2,12 +2,13 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from 'react-custom-scrollbars-2'
-import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Switch, Typography, useMediaQuery } from '@mui/material'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Switch, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import { Close } from '@mui/icons-material'
-import { toggleFilterMenu, setResultPaneSmOpen } from '../../redux/slices/appSlice'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } from '../../redux/slices/searchSlice'
+import { toggleFilterMenu, setResultPaneSmOpen } from '@/redux/slices/appSlice'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice'
+import { useSmall } from '@/hooks/useSmall'
 import './FilterMenu.scss'
 
 function FilterMenuHead({ title, children, ...props }) {
@@ -159,8 +160,6 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
 
 export default function MapFilterMenu({ props }) {
 
-  const theme = useTheme()
-
   const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
   const showValidCoordinates = useSelector(state => state.search.showValidCoordinates)
@@ -187,7 +186,7 @@ export default function MapFilterMenu({ props }) {
   }
 
   function handleToggleFilterMenu(open) {
-    console.log('[handleToggleFilterMenu] %o', open)
+    // console.log('[handleToggleFilterMenu] %o', open)
     return function doToggleFilterMenu(event) {
       if (
         event &&
@@ -229,7 +228,7 @@ export default function MapFilterMenu({ props }) {
 
   const accessibilities = t('accessibility.items', { returnObjects: true })
   const accesses = t('access.items', { returnObjects: true })
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useSmall()
 
   return (
     <SwipeableDrawer

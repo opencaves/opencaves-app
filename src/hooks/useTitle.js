@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setTitle } from '../redux/slices/appSlice'
+import { setTitle } from '@/redux/slices/appSlice'
+import { appTitle } from '@/config/app'
 
 export function useTitle() {
 
-  const defaultTitle = useSelector(state => state.app.name)
-  const title = useSelector(state => state.app.title)
   const dispatch = useDispatch()
+  const title = useSelector(state => state.app.title)
 
   return {
     title,
     setTitle: (title) => {
-      dispatch(setTitle(title ? `Cenote ${title} / ${defaultTitle}` : defaultTitle))
+      dispatch(setTitle(title ? `${title} / ${appTitle}` : appTitle))
     }
   }
 }

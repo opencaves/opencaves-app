@@ -77,6 +77,13 @@ registerRoute(
     cacheName: cacheName('images')
   })
 )
+registerRoute(
+  // Asset files
+  ({ url }) => url.origin === 'https://firebasestorage.googleapis.com/' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
+  new StaleWhileRevalidate({
+    cacheName: cacheName('images')
+  })
+)
 
 registerRoute(
   ({ url }) => url.origin === 'https://maps.googleapis.com',

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import waitFor from 'p-wait-for'
@@ -7,27 +7,47 @@ import { Box, Card, CardContent, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
+import { setResultPaneSmInitialBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
+import ResultPaneMenu from './ResultPaneMenu'
+import { paneBreakpoints, paneOpenThreshold } from '@/config/resultPane'
 import './ResultPaneSm.scss'
+import { useMatches } from 'react-router-dom'
+
+// function easeInQuad(t, b = 0, c = 1, d = 1) {
+//   return c * (t /= d) * t + b
+// }
+
+function easeOutQuad(t, b = 0, c = 1, d = 1) {
+  return -c * (t /= d) * (t - 2) + b
+}
 
 export default function ResultPaneSm({ children }) {
-  const PANE_OPEN_THRESHOLD = useSelector(state => state.app.resultPaneSmOpenThreshold)
 
   const modal = useRef({})
   const paneHead = useRef({})
 
   const theme = useTheme()
+  const dispatch = useDispatch()
+  const matches = useMatches()
 
-  const firstBreakpoint = useSelector(state => state.app.resultPaneSmFirstBreakpoint)
-  const restBreakpoints = useSelector(state => state.app.resultPaneSmRestBreakpoints)
+  const firstBreakpoint = paneBreakpoints[0]
+  const initialBreakpoint = useSelector(state => state.app.resultPaneSmInitialBreakpoint)
   const resultPaneOpen = useSelector(state => state.app.resultPaneSmOpen)
   const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
   const [breakpoint, setBreakpoint] = useState(0)
   const [modalPosition, setModalPosition] = useState(breakpoint)
   const [paneOpenFactor, setPaneOpenFactor] = useState(modalPosition)
+  const [paneTransitionDirection, setPaneTransitionDirection] = useState('out')
+  const searchBarOff = useSelector(state => state.app.searchBarOff)
+
+  const paneBreakpointsThreshold = paneBreakpoints[paneBreakpoints.length - 2]
 
   function onModalBreakpointDidChange(event) {
-    setBreakpoint(event.detail.breakpoint)
+    const actualBreakpoint = event.detail.breakpoint
+    setBreakpoint(actualBreakpoint)
+    dispatch(setResultPaneSmInitialBreakpoint(actualBreakpoint))
+    console.log('[onModalBreakpointDidChange] actualBreakpoint: %o', actualBreakpoint)
   }
 
   function onBackBtnClick() {
@@ -65,8 +85,8 @@ export default function ResultPaneSm({ children }) {
       await waitFor(() => modal.current?.shadowRoot?.querySelectorAll('.modal-wrapper').length > 0)
 
       const modalContent = modal.current.shadowRoot.querySelector('.modal-wrapper')
-      // console.log('modalContent: %o', modalContent)
       let actualModalPosition = null
+
       observeStyle(modalContent, 'transform', function (matrix) {
         if (matrix.trim().startsWith('matrix')) {
           const modalContainerHeight = modalContent.getBoundingClientRect().height
@@ -74,31 +94,44 @@ export default function ResultPaneSm({ children }) {
           const newModalPosition = Math.round(ty * 100) / 100
 
           if (newModalPosition !== actualModalPosition) {
-            // console.log('ty: %s', ty)
-            // console.log('newModalPosition: %s', newModalPosition)
+            // console.log('actualModalPosition: %o, newModalPosition: %o', actualModalPosition, newModalPosition)
             setModalPosition(newModalPosition)
+
+            const newPaneTransitionDirection = newModalPosition < actualModalPosition ? 'in' : 'out'
+            if (paneTransitionDirection !== newPaneTransitionDirection) {
+              setPaneTransitionDirection(newPaneTransitionDirection)
+              // console.log('[paneTransitionDirection] old : %s, new: %s', paneTransitionDirection, newPaneTransitionDirection)
+            }
+
             actualModalPosition = newModalPosition
           }
         }
 
       })
     })()
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
-    if (modalPosition < PANE_OPEN_THRESHOLD) {
-      // setPaneHeadOpacity()
+    if (modalPosition < paneOpenThreshold) {
+      if (paneOpenFactor > 0) {
+        setPaneOpenFactor(0)
+      }
       return
     }
 
-    const paneThreshold = PANE_OPEN_THRESHOLD * 100
+    const paneThreshold = paneOpenThreshold * 100
     const openFactor = ((modalPosition * 100) - paneThreshold) / (100 - paneThreshold)
-    setPaneOpenFactor(openFactor)
+    setPaneOpenFactor(easeOutQuad(openFactor))
     // console.log('========= open factor: %s', openFactor)
-  }, [modalPosition, PANE_OPEN_THRESHOLD])
+    // console.log('========= easeOutQuad: %s', easeOutQuad(openFactor))
+  }, [modalPosition])
 
   useEffect(() => {
+    const dY = .5
+    const y = (1 - paneOpenFactor) * dY * 50
     paneHead.current?.style?.setProperty('opacity', paneOpenFactor)
+    paneHead.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
   }, [paneOpenFactor])
 
   useEffect(() => {
@@ -106,11 +139,24 @@ export default function ResultPaneSm({ children }) {
     modal.current?.style?.setProperty('--oc-result-pane-border-radius', `${borderRadius} ${borderRadius} 0 0`)
   }, [paneOpenFactor])
 
+  useEffect(() => {
+    // if (modalPosition > paneBreakpointsThreshold) {
+    if (paneOpenFactor > 0) {
+      if (!searchBarOff) {
+        dispatch(setSearchBarOff(true))
+      }
+    } else {
+      if (searchBarOff) {
+        dispatch(setSearchBarOff(false))
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalPosition])
 
   return resultPaneOpen && !filterMenuOpen && (
     <>
       {
-        modalPosition > restBreakpoints[0] && (
+        modalPosition > paneBreakpointsThreshold && (
           <Grid
             className='oc-result-pane--head'
             container
@@ -129,6 +175,13 @@ export default function ResultPaneSm({ children }) {
                 <ExpandMoreRounded fontSize='large' />
               </IconButton>
             </Grid>
+            <Grid xs></Grid>
+            <Grid>
+              <ResultPaneMenu
+                sx={{
+                  p: 0
+                }} />
+            </Grid>
           </Grid>
         )
       }
@@ -136,11 +189,12 @@ export default function ResultPaneSm({ children }) {
         ref={modal}
         isOpen={true}
         handleBehavior='cycle'
-        initialBreakpoint={firstBreakpoint}
-        breakpoints={[firstBreakpoint, ...restBreakpoints]}
+        initialBreakpoint={initialBreakpoint}
+        animated={false}
+        breakpoints={paneBreakpoints}
         showBackdrop={false}
         backdropDismiss={false}
-        backdropBreakpoint={0.5}
+        backdropBreakpoint={1}
         // handle={breakpoint !== 1}
         mode='md'
         className='oc-result-pane oc-result-pane-sm'

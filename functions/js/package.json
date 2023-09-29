@@ -1,0 +1,31 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Cloud Functions for OpenCaves",
+  "scripts": {
+    "lint": "eslint .",
+    "dev": "firebase --debug emulators:start --import=./.emulator-data",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "type": "module",
+  "dependencies": {
+    "@googleapis/sheets": "^4.0.2",
+    "firebase-admin": "^11.10.1",
+    "firebase-functions": "^4.4.1",
+    "mkdirp": "^3.0.1",
+    "sharp": "^0.32.6",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}

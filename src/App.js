@@ -1,17 +1,21 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment } from 'react'
 import { useDispatch } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles } from '@mui/material'
-import { getData } from './services/data-service.js'
-import { setDataLoadingState } from './redux/slices/dataSlice'
-import Nav from './components/Nav'
-import TitleBar from './components/App/TitleBar'
-import ManageAppUpdate from './components/App/ManageAppUpdate'
-import getDevicePixelRatio from './utils/getDevicePixelRatio'
-import { useTitle } from './hooks/useTitle'
-import { theme as themeProps } from './theme/Theme'
-import './utils/splash'
+import router from './router'
+import SnackbarProvider from '@/components/Snackbar/SnackbarProvider'
+import { getData } from '@/services/data-service'
+import { setDataLoadingState } from '@/redux/slices/dataSlice'
+import TitleBar from '@/components/App/TitleBar'
+import ManageAppUpdate from '@/components/App/ManageAppUpdate'
+import ManageAuth from '@/components/auth/ManageAuth'
+import Splash from '@/components/utils/Splash'
+import getDevicePixelRatio from '@/utils/getDevicePixelRatio'
+import { useTitle } from '@/hooks/useTitle'
+import { theme } from '@/theme/Theme'
+import { appTitle } from '@/config/app'
 
 import '@fontsource/roboto/latin-300.css'
 import '@fontsource/roboto/latin-400.css'
@@ -42,7 +46,8 @@ const App = () => {
 
   return (
     <Fragment>
-      <CssVarsProvider theme={themeProps}>
+      <CssVarsProvider theme={theme}>
+        <Splash />
         <GlobalStyles
           styles={theme => ({
             ':root': {
@@ -55,12 +60,17 @@ const App = () => {
         />
         <CssBaseline />
         <HelmetProvider>
-          <Helmet>
+          <Helmet
+            defaultTitle={appTitle}
+          >
             <title>{title}</title>
           </Helmet>
           <TitleBar />
-          <Nav></Nav>
+          <SnackbarProvider>
+            <RouterProvider router={router} />
+          </SnackbarProvider>
           <ManageAppUpdate />
+          <ManageAuth />
         </HelmetProvider>
       </CssVarsProvider>
     </Fragment>

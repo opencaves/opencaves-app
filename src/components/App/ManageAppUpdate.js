@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Snackbar, Slide } from '@mui/material'
-import { useServiceWorker } from '../../hooks/useServiceWorker'
-import { useCheckForAppUpdates } from '../../hooks/useCheckForAppUpdates'
+import { useServiceWorker } from '@/hooks/useServiceWorker'
+import { useCheckForAppUpdates } from '@/hooks/useCheckForAppUpdates'
 
 function TransitionTop(props) {
   return <Slide {...props} direction="up" />
@@ -15,7 +15,7 @@ export default function ManageAppUpdate() {
 
   const appHasUpdate = useCheckForAppUpdates()
 
-  function onShackbarBtnClick() {
+  function onSnackbarBtnClick() {
     reloadPage()
   }
 
@@ -40,7 +40,7 @@ export default function ManageAppUpdate() {
       action={
         <Button
           color='secondary'
-          onClick={onShackbarBtnClick}
+          onClick={onSnackbarBtnClick}
         >
           {t('updateAvailable.btn')
           }</Button>}

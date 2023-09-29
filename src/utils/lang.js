@@ -1,4 +1,4 @@
-import supportedLangs from '../config/supportedLangs'
+import supportedLangs from '@/config/supportedLangs'
 
 export function ISO6391ToISO6392(code) {
   const lang = supportedLangs.find(l => l.ISO6391 === code)

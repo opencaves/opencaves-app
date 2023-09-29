@@ -1,6 +1,6 @@
 import pushId from 'unique-push-id'
 import { dashedId, str, Markdown, bol, num, arrStr, loc } from './types.js'
-import { SISTEMA_DEFAULT_COLOR } from '../../config/map'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map'
 
 const languagesMap = new Map()
 

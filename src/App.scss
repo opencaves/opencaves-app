@@ -7,14 +7,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+a:not(.MuiButtonBase-root) {
   color: inherit;
   text-decoration-color: var(--md-palette-secondary-main);
   text-decoration-thickness: 2px;
   transition: all var(--md-transition-duration-shortest) ease-in-out;
 }
 
-a:hover {
+a:not(.MuiButtonBase-root):hover {
   color: var(--md-palette-secondary-dark);
   text-decoration-color: var(--md-palette-secondary-dark);
 }

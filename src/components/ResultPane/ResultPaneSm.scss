@@ -3,8 +3,8 @@
   --oc-result-pane-sm-upper-height: 48px;
   --oc-result-pane-border-radius: 1rem 1rem 0 0;
 
-  --height: calc(100% + var(--oc-details-padding-block)); // ion-modal
-  --border-radius: var(--oc-result-pane-border-radius); // ion-modal
+  --height: calc(100% + var(--oc-pane-padding-block)); // ion-modal
+  --border-radius: var(--oc-result-pane-border-radius); // ion-modal20.27736, -87.43314
   --background: var(--md-palette-background-paper); // ion-modal
 
   top: var(--oc-result-pane-sm-upper-height);
@@ -28,8 +28,8 @@
   }
 
   .oc-result-pane--header {
-    padding-left: var(--oc-details-padding-inline);
-    padding-right: var(--oc-details-padding-inline);
+    padding-left: var(--oc-pane-padding-inline);
+    padding-right: var(--oc-pane-padding-inline);
     padding-bottom: 0;
   }
 }
@@ -41,8 +41,8 @@
   width: 100%;
   height: 49px;
   background-color: var(--md-palette-background-paper);
-  padding-left: var(--oc-details-padding-inline);
-  padding-right: var(--oc-details-padding-inline);
+  padding-left: calc(var(--oc-pane-padding-inline) - 5px);
+  padding-right: calc(var(--oc-pane-padding-inline) - 5px);
   z-index: var(--oc-result-pane-sm-z-index);
   opacity: 0;
 }

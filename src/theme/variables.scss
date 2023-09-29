@@ -29,15 +29,16 @@ http://ionicframework.com/docs/theming/ */
   // z-indexes
   --oc-app-menu-z-index: 1;
   --oc-filter-menu-z-index: 10000;
-  --oc-searchbar-z-index: 1000;
-  --oc-result-pane-z-index: 100;
-  --oc-result-pane-sm-z-index: var(--md-zIndex-drawer);
+  --oc-searchbar-z-index: calc(var(--md-zIndex-drawer) - 1);
+  --oc-searchbar-sm-z-index: calc(var(--md-zIndex-drawer) - 1);
+  --oc-result-pane-z-index: calc(var(--md-zIndex-drawer) - 2);
+  --oc-result-pane-sm-z-index: calc(var(--md-zIndex-drawer) - 1);
 
   // font sizes
   --oc-map-text-primary-font-size: 1rem;
   --oc-map-text-secondary-font-size: 0.875rem;
   --oc-map-text-small-font-size: 0.75rem;
 
-  --oc-details-padding-inline: 22px;
-  --oc-details-padding-block: 16px;
+  --oc-pane-padding-inline: 22px;
+  --oc-pane-padding-block: 16px;
 }

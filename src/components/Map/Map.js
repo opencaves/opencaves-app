@@ -4,15 +4,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { LngLat } from 'mapbox-gl'
 import Map, { Marker, Popup, GeolocateControl, Source, Layer } from 'react-map-gl'
-import { SvgIcon, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Box, SvgIcon } from '@mui/material'
 import { chain, debounce } from 'underscore'
-import { setShowPopup, setPopupData, setViewState, setCurrentCave, setMapData } from '../../redux/slices/mapSlice'
+import { setShowPopup, setPopupData, setViewState, setCurrentCave, setMapData } from '@/redux/slices/mapSlice'
+import { setTitle } from '@/redux/slices/appSlice'
 import { MapLoading, MapError } from './MapState'
 import { hasViewState } from './location-view-state'
-import { SISTEMA_DEFAULT_COLOR } from '../../config/map'
-import { ReactComponent as PinIcon } from '../../images/map/pin.svg'
-import { ReactComponent as PinLocationUnknownIcon } from '../../images/map/pin-location-unknown.svg'
+import { useSmall } from '@/hooks/useSmall'
+import useCurrentRoute from '@/hooks/useCurrentRoute'
+import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState } from '@/config/map'
+import { ReactComponent as PinIcon } from '@/images/map/pin.svg'
+import { ReactComponent as PinLocationUnknownIcon } from '@/images/map/pin-location-unknown.svg'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -21,7 +23,6 @@ export default function OCMap() {
 
   const dataLoadingState = useSelector(state => state.data.dataLoadingState)
   const mapProps = useSelector(state => state.map.mapProps)
-  const defaultViewState = useSelector(state => state.map.initialViewState)
   const markerConfig = useSelector(state => state.map.marker)
   const showPopup = useSelector(state => state.map.showPopup)
   const popupData = useSelector(state => state.map.popupData)
@@ -31,10 +32,9 @@ export default function OCMap() {
   const mapData = useSelector(state => state.map.data)
   const caveData = useSelector(state => state.data.caves)
 
-  const theme = useTheme()
-
-  const params = useParams()
+  const { caveId } = useParams()
   const navigate = useNavigate()
+  const currentRoute = useCurrentRoute()
 
   const [mapReady, setMapReady] = useState(false)
   const [currentMarkerElem, doSetCurrentMarkerElem] = useState()
@@ -50,7 +50,7 @@ export default function OCMap() {
   const { t } = useTranslation('map')
 
   // query: '(max-width: 767px)'
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useSmall()
 
   const filteredCaves = useMemo(() => {
 
@@ -100,13 +100,13 @@ export default function OCMap() {
       .value()
   }
 
-  function handleMarkerOnClick(event, cave) {
+  function markerOnClick(event, cave) {
 
     dispatch(setCurrentCave(cave))
 
     setCurrentMarkerElem(event.target.getElement())
 
-    navigate(`/map/${cave.id}`, { replace: true })
+    navigate(`/map/${cave.id}`, { replace: currentRoute.id === 'result-pane' })
 
     if (isSmall) {
       // Center around selected marker
@@ -216,15 +216,22 @@ export default function OCMap() {
     console.error('[onGeolocateError] %o', error)
   }
 
+  //
   // initialisation
+  //
+
   useEffect(() => {
-    console.log('[fire once] params: %o', params)
+    setTitle(t('title'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
 
     dispatch(setMapData(caveData.filter(c => c.location)))
 
     // const pathname = router.routeInfo.pathname
 
-    if (!Reflect.has(params, 'id')) {
+    if (!caveId) {
       setMapReady(true)
       return
     }
@@ -236,7 +243,6 @@ export default function OCMap() {
         const newInitialViewState = {
           longitude: currentCave.location.longitude,
           latitude: currentCave.location.latitude,
-          // zoom: defaultDetailedViewZoom
           zoom: currentZoomLevel
         }
         setInitialViewState(newInitialViewState)
@@ -254,7 +260,7 @@ export default function OCMap() {
   }
 
   return (
-    <div className="oc-map-container" data-zoom-level={zoomLevel} >
+    <Box className='oc-map-container'>
       {
         (!mapReady || dataLoadingState.state === 'loading') && (
           // true && (
@@ -284,13 +290,16 @@ export default function OCMap() {
               onError={onGeolocateError}
             />
 
-            {showPopup && (
-              <Popup longitude={popupData.location?.longitude} latitude={popupData.location?.latitude}
-                anchor="bottom"
-              // onClose={() => setShowPopup(false)}
-              >
-                You are here
-              </Popup>)}
+            {
+              showPopup && (
+                <Popup longitude={popupData.location?.longitude} latitude={popupData.location?.latitude}
+                  anchor='bottom'
+                // onClose={() => setShowPopup(false)}
+                >
+                  You are here
+                </Popup>
+              )
+            }
 
             {
               filteredCaves?.filter(({ location }) => {
@@ -324,10 +333,10 @@ export default function OCMap() {
                     longitude={cave.location.longitude}
                     latitude={cave.location.latitude}
                     anchor='center'
-                    onClick={(event) => handleMarkerOnClick(event, cave)}
+                    onClick={(event) => markerOnClick(event, cave)}
                   >
                     <div className='marker'>
-                      <SvgIcon component={pinIcon} inheritViewBox className={markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : null} htmlColor={markerColor} />
+                      <SvgIcon component={pinIcon} inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} />
                       {markerLabel && markerLabel}
                     </div>
                   </Marker>
@@ -336,11 +345,8 @@ export default function OCMap() {
               )
             }
           </Map>
-
         )
-
       }
-      {/* <div style={{ position: 'absolute', bottom: '1em', right: '80px', color: '#fff' }}>{Math.round(zoomLevel * 100) / 100}</div> */}
-    </div >
+    </Box>
   )
 }

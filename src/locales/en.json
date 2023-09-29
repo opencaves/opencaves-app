@@ -1,30 +1,4 @@
 {
-  "app": {
-    "back": "Back",
-    "item_zero": "{{count}} item",
-    "item_one": "{{count}} item",
-    "item_other": "{{count}} items",
-    "nav": {
-      "home": "Home",
-      "map": "Map",
-      "settings": "Settings",
-      "signIn": "Sign In"
-    },
-    "updateAvailable": {
-      "message": "A new version of this app is available",
-      "btn": "Refresh"
-    },
-    "menu": {
-      "ariaLabel": "Plus",
-      "about": "About"
-    }
-  },
-  "aboutDialog": {
-    "ariaLabel": "About",
-    "close": "close",
-    "version": "Version {{version}}",
-    "whatsNew": "What's new"
-  },
   "404": {
     "header": "Oops!",
     "description": "Sorry but the page you are looking for doesn not exist.",
@@ -32,6 +6,174 @@
     "search": {
       "placeHolder": "Search...",
       "btn": "Search"
+    }
+  },
+  "app": {
+    "back": "Back",
+    "item_zero": "{{count}} item",
+    "item_one": "{{count}} item",
+    "item_other": "{{count}} items",
+    "menu": {
+      "tooltip": "Menu",
+      "ariaLabel": "Plus",
+      "home": "Home",
+      "myAccount": "My account",
+      "signup": "Signup",
+      "login": "Login",
+      "addPictures": "Add Pictures",
+      "logout": "Logout",
+      "about": "About",
+      "about_withName": "About {{name}}",
+      "drawer": {
+        "ariaLabel": "open menu"
+      }
+    },
+    "snackbar": {
+      "close": {
+        "ariaLabel": "close"
+      }
+    },
+    "updateAvailable": {
+      "message": "A new version of this app is available",
+      "btn": "Refresh"
+    }
+  },
+  "auth": {
+    "dialog": {
+      "closeBtn": {
+        "ariaLabel": "back"
+      },
+      "closeBtnSm": {
+        "ariaLabel": "close"
+      }
+    },
+    "login": {
+      "title": "Log in",
+      "withGoogle": "Log in with Google",
+      "withEmail": "Log in with email",
+      "or": "or",
+      "goToSignup": {
+        "invite": "Don't have an account?",
+        "btn": "Sign up"
+      }
+    },
+    "loginWithEmailPrompt": {
+      "header": "Log in"
+    },
+    "loginWithEmail": {
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "loginBtn": {
+        "label": "Log in"
+      },
+      "forgotPassword": "Forgot password?"
+    },
+    "signup": {
+      "title": "Sign up",
+      "withGoogle": "Sign up with Google",
+      "withFacebook": "Sign up with Facebook",
+      "or": "or",
+      "withEmail": "Create an account",
+      "withEmailDialog": {
+        "title": "Create an account",
+        "header": "Create an account",
+        "closeBtn": {
+          "ariaLabel": "back"
+        },
+        "closeBtnSm": {
+          "ariaLabel": "close"
+        },
+        "steps": {
+          "email": {
+            "header": "Enter your email",
+            "label": "Email",
+            "loginInvite": "Already have an account?",
+            "loginBtn": "Log in",
+            "continueBtn": "Next"
+          },
+          "emailSentAndEmailVerification": {
+            "emailInUse": {
+              "header": "This email is already in use",
+              "details": "An account is already using the email <strong>{{email}}</strong>.<br /> Try another email or log in with Google.",
+              "previousBtn": "Try another email",
+              "loginWithGoogle": "Login with Google"
+            },
+            "emailSentNotification": {
+              "header": "Check your emails",
+              "details": "A sign in email with instructions was sent to <strong>{{email}}</strong>.<br /> Check your email to complete registration."
+            }
+          },
+          "emailCallback": {
+            "header": "\u00a0",
+            "invalidActionCode": {
+              "header": "Expired email link",
+              "details": "The email validation link you used has expired.",
+              "previousBtn": "Try again"
+            },
+            "retypeEmail": {
+              "header": "Confirm email",
+              "email2Label": "Email",
+              "continueBtn": "Next"
+            }
+          },
+          "name": {
+            "header": "Enter your name",
+            "firstNameLabel": "First name",
+            "lastNameLabel": "Last name (optional)",
+            "continueBtn": "Next"
+          },
+          "password": {
+            "header": "Create a password",
+            "details": "Create a strong password with a mix of letters, numbers and symbols",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "continueBtn": "Sign up"
+          },
+          "emailFailed": {
+            "header": "Email verification",
+            "details": {
+              "tryAgain": "Try to sign up again"
+            }
+          },
+          "created": {
+            "header": "Account created",
+            "closeBtn": "Close",
+            "accountLink": "Go to my account"
+          }
+        }
+      },
+      "goToLogin": {
+        "invite": "Already have an account?",
+        "btn": "Log in"
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "version": "Version {{version}}",
+    "whatsNew": "What's new",
+    "dialog": {
+      "ariaLabel": "About {{name}}",
+      "close": "close"
+    }
+  },
+  "errors": {
+    "auth": {
+      "actionCodeExpired": "The verification link in the email has expired",
+      "emailInvalid": "Please enter a valid email",
+      "emailMismatch": "The email provided does not match the sign-in email address",
+      "emailMissing": "Please enter an email",
+      "firstNameMissing": "Please enter a first name",
+      "firstNameTooShort": "The first name must be at least {{minLength}} characters",
+      "passwordMissing": "Please enter your password",
+      "passwordWrong": "Wrong password",
+      "default": "An error occured. Please try again later."
+    },
+    "firebaseErrors": {
+      "auth/expired-action-code": "$t(auth.actionCodeExpired)",
+      "auth/invalid-email": "$t(auth.emailInvalid)",
+      "auth/missing-password": "$t(auth.passwordMissing)",
+      "auth/wrong-password": "$t(auth.passwordWrong)"
     }
   },
   "quickActions": {
@@ -43,6 +185,18 @@
     "shareText": "Cenote {{name}}\n",
     "shareDialogTitle": "Share"
   },
+  "passwordInput": {
+    "passwordIcon": {
+      "ariaLabel": "toggle password visibility"
+    },
+    "scoreWords": [
+      "weak",
+      "fair",
+      "good",
+      "strong"
+    ],
+    "shortScoreWord": "too short"
+  },
   "searchBar": {
     "actionButton": {
       "search": {
@@ -53,11 +207,11 @@
       },
       "clear": {
         "ariaLabel": "Clear",
-        "tip": "Clear"
+        "tooltip": "Clear"
       },
       "filter": {
         "ariaLabel": "Filter Cenotes",
-        "tip": "Filter Cenotes"
+        "tooltip": "Filter Cenotes"
       }
     },
     "placeholder": "Search",
@@ -162,6 +316,7 @@
     }
   },
   "resultPane": {
+    "title": "Cenote {{name}}",
     "accessHeader": "Access",
     "aka": "aka",
     "directionsHeader": "Getting there",
@@ -173,10 +328,72 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
-    "addressLoading": "Loading address...",
+    "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
     "addressNotAvailable": "Address not available",
-    "locationNotAvailable": "Location not available"
+    "locationNotAvailable": "Location not available",
+    "coverImage": {
+      "addImages": {
+        "tooltip": "Add pictures"
+      },
+      "seeImages": {
+        "tooltip": "See pictures"
+      }
+    },
+    "addPictureBtn": {
+      "btn": "Add pictures"
+    },
+    "menu": {
+      "ariaLabel": "More",
+      "myAccount": "My Account",
+      "edit": "Edit",
+      "about": "About {{name}}"
+    }
+  },
+  "mediaPane": {
+    "header": "Cenote {{name}}",
+    "backBtn": {
+      "tooltip": "Back",
+      "ariaLabel": "Back"
+    },
+    "addPictureBtn": {
+      "tooltip": "Add pictures",
+      "ariaLabel": "add pictures"
+    },
+    "empty": {
+      "header": "No images yet!",
+      "btn": "Add images"
+    },
+    "images": "images",
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "Show image"
+      },
+      "useAsCoverAction": "Use as cover image",
+      "useAsCoverSuccess": "Cover image changed.",
+      "useAsCoverFail": "Failed to change cover image.",
+      "viewOriginalImageAction": "View original image",
+      "deleteAction": "Delete",
+      "deleteSuccess": "File deleted.",
+      "deleteFail": "Failed to delete file."
+    },
+    "addMedia": {
+      "header": "Upload photos of Cenote {{name}}",
+      "dragHere": "Drag photos here",
+      "dropHere": "Drop the files here …",
+      "or": "or",
+      "btn": "Click to select files",
+      "closeBtn": {
+        "ariaLabel": "close"
+      },
+      "success_one": "1 photo added",
+      "success_other": "{{count}} photos added",
+      "wrongMediaType": "Can't upload photo, try a different format.",
+      "unknownError": "Something went wrong. Please try again.",
+      "unknownErrorBtn": "Dismiss",
+      "uploadingTo": "Uploading to",
+      "countMedias": "{{index}} of {{total}}"
+    }
   },
   "accesses": {
     "customers": {
@@ -246,6 +463,7 @@
     }
   },
   "map": {
+    "title": "Map",
     "caveNameUnknown": "[unknown name]"
   }
 }

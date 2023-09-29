@@ -1,6 +1,12 @@
 .oc-result-pane {
   z-index: var(--oc-result-pane-z-index) !important;
 
+  .oc-scrollbar--horizontal-track {
+    > * {
+      background-color: var(--md-palette-Scrollbar-bg) !important;
+    }
+  }
+
   &--content {
     padding-left: 0;
     padding-right: 0;

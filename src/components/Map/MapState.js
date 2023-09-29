@@ -1,4 +1,4 @@
-import { ReactComponent as Logo } from '../../images/logo/logo-white.svg'
+import { ReactComponent as Logo } from '@/images/logo/logo-white.svg'
 import './MapState.scss'
 
 export function MapLoading() {

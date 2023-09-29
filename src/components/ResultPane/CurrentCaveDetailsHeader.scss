@@ -1,0 +1,7 @@
+.oc-result-pane {
+  &--header {
+    padding-top: var(--oc-pane-padding-block);
+    padding-left: var(--oc-pane-padding-inline);
+    padding-right: var(--oc-pane-padding-inline);
+  }
+}
