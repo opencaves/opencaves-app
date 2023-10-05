@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
-import { Close, ContentCopy, LocationOnOutlined, MyLocationOutlined, LocationDisabledOutlined, FenceRounded, KeyRounded } from '@mui/icons-material'
-import Markdown from '../Markdown/Markdown'
+import { Box, Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
+import { Close, ContentCopy, LocationOnOutlined, MyLocationOutlined, LocationDisabledOutlined, FenceRounded, KeyRounded, AddAPhotoOutlined } from '@mui/icons-material'
+import Markdown from '@/components/Markdown/Markdown'
+import ConditionalWrapper from '@/components/utils/ConditionalWrapper'
 import Address from './Address'
 import QuickActions from './QuickActions'
 import Access from './Access'
 import SistemaHistory from './SistemaHistory'
 import MediaList from './MediaList'
 import { useSmall } from '@/hooks/useSmall'
-import ConditionalWrapper from '../utils/ConditionalWrapper'
 import { getOS } from '@/utils/getOS'
 import { snackbarAutoHideDuration } from '@/config/app'
 import './CurrentCaveDetailsContent.scss'
+import AddMediasButton from '../MediaPane/AddMediasButton.js'
 
 function SlideUp(props) {
   return <Slide {...props} direction='up' />
@@ -127,6 +128,20 @@ export default function CurrentCaveDetailsContent({ cave }) {
       <Divider />
 
       <MediaList caveId={cave.id} />
+
+      <Box
+        my='var(--oc-pane-padding-block)'
+        textAlign='center'
+      >
+        <AddMediasButton
+          color='inherit'
+          variant='outlined'
+          size='small'
+          startIcon={<AddAPhotoOutlined color='primary' />}
+        />
+      </Box>
+
+      <Divider />
 
       <List dense className='oc-results-copy-list'>
 

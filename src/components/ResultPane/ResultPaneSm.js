@@ -9,9 +9,8 @@ import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { setResultPaneSmInitialBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import ResultPaneMenu from './ResultPaneMenu'
-import { paneBreakpoints, paneOpenThreshold } from '@/config/resultPane'
+import { paneBreakpoints, paneOpenThreshold } from '@/config/app'
 import './ResultPaneSm.scss'
-import { useMatches } from 'react-router-dom'
 
 // function easeInQuad(t, b = 0, c = 1, d = 1) {
 //   return c * (t /= d) * t + b
@@ -28,7 +27,6 @@ export default function ResultPaneSm({ children }) {
 
   const theme = useTheme()
   const dispatch = useDispatch()
-  const matches = useMatches()
 
   const firstBreakpoint = paneBreakpoints[0]
   const initialBreakpoint = useSelector(state => state.app.resultPaneSmInitialBreakpoint)

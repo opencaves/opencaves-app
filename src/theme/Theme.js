@@ -12,13 +12,13 @@ import { merge } from 'lodash'
 // secondary: b49d2b
 
 // // MUI default breakpoints
-// export const breakpoints = {
-//   xs: 0,
-//   sm: 600,
-//   md: 900,
-//   lg: 1200,
-//   xl: 1536,
-// }
+export const breakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
+}
 
 const DIVIDER_ALPHA = 0.18
 
@@ -189,22 +189,47 @@ const lightThemeOptions = {
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          textTransform: 'none',
-          borderRadius: '20px',
-          letterSpacing: '0.06em',
-          lineHeight: '40px',
-          paddingTop: 0,
-          paddingBottom: 0,
-          paddingLeft: 24,
-          paddingRight: 24,
-          '.MuiButton-startIcon': {
-            marginLeft: -8
-          }
-        },
-        // outlinedPrimary: {
-        //   color: 'black'
+        // root: {
+        //   textTransform: 'none',
+        //   borderRadius: '20px',
+        //   letterSpacing: '0.06em',
+        //   lineHeight: '40px',
+        //   paddingTop: 0,
+        //   paddingBottom: 0,
+        //   paddingLeft: 24,
+        //   paddingRight: 24,
+        //   '.MuiButton-startIcon': {
+        //     marginLeft: -8
+        //   }
         // },
+        root: ({ theme, ownerState }) => ({
+          // Default styles
+          ...{
+            textTransform: 'none',
+            borderRadius: '1.25rem',
+            letterSpacing: '0.06em',
+            lineHeight: '2.5rem',
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 24,
+            paddingRight: 24,
+            '.MuiButton-startIcon': {
+              marginLeft: -8
+            },
+            // ':hover': {
+            //   boxShadow: theme.shadows[1]
+            // }
+          },
+          ...(ownerState.size === 'small' && {
+            lineHeight: '2.25rem',
+            borderRadius: '1.125rem',
+            paddingLeft: 22,
+            paddingRight: 22,
+          }),
+          ...(ownerState.color === 'inherit' && ownerState.variant === 'outlined' && {
+            borderColor: '#dadce0'
+          })
+        }),
       }
     },
     MuiTooltip: {

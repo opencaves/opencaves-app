@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import exifr from 'exifr/dist/lite.esm.mjs'
@@ -8,7 +8,8 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import { db, storage, storageResizeImagesExtensionFixed } from '@/config/firebase'
 import { firebaseConfig } from '@/config/firebase.config'
 import { acceptedMimeTypes } from '@/config/mediaPane'
-import { caveAssetsSizes, thumbnailFolder, thumbnailFormats } from '@/config/app'
+import { caveAssetsSizes, imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app'
+import { breakpoints } from '@/theme/Theme.js'
 
 const xmpSupportedMediaTypes = acceptedMimeTypes.filter(media => ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(media))
 
@@ -70,6 +71,13 @@ export default class CaveAsset {
     })
   }
 
+  static async countAssets(caveId) {
+    const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'))
+    const snapshot = await getCountFromServer(q)
+    console.log('snapshot: %o', snapshot)
+    return snapshot.data().count
+  }
+
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
@@ -77,9 +85,6 @@ export default class CaveAsset {
 
     if (useSnapshot) {
       const unsubscribe = onSnapshot(q, ({ docs, empty, size }) => {
-        // const data = []
-        // querySnapshot.forEach(doc => data.push(doc.data()))
-        // result.data = data
         assetList.docs = docs
         assetList.empty = empty
         assetList.size = size
@@ -161,33 +166,44 @@ export default class CaveAsset {
    * @returns 
    */
 
-  getSources(sizes) {
-    if (!Array.isArray(sizes)) {
-      sizes = [sizes]
+  getSources(dimensions, { sizes = false } = {}) {
+    if (!Array.isArray(dimensions)) {
+      dimensions = [dimensions]
     }
 
     const sources = []
     const isProd = window.location.hostname !== 'localhost'
     const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${firebaseConfig.storageBucket}/o/?alt=media`
-    for (const size of sizes) {
-      console.log('thumbnailFormats: %o', thumbnailFormats)
-      for (const format of thumbnailFormats) {
-        console.log('format: %o', format)
+    const { matches: isSmall } = window.matchMedia(`(max-width: ${breakpoints.sm})`)
+
+    for (const format of thumbnailFormats) {
+      const srcSet = dimensions.map((dimension, i) => {
+        const imageSize = imageSizes[dimension]
         const url = new URL(baseUrl)
-        const thumbnailPath = `caves/${this.caveId}/${thumbnailFolder}/${this.id}_${size}.${format}`
+        const thumbnailPath = `caves/${this.caveId}/${thumbnailFolder}/${this.id}_${dimension}.${format}`
+
         if (isProd) {
           url.pathname += thumbnailPath
+          //
         } else {
           url.pathname += encodeURIComponent(thumbnailPath)
         }
 
-        sources.push({
-          srcSet: url.href,
-          type: `image/${format}`
-        })
-      }
-    }
+        return `${url.href}${i === dimensions.length - 1 ? `` : ` ${imageSize.width}w`}`
+      }).join(', ')
 
+
+      const source = {
+        srcSet,
+        type: `image/${format}`
+      }
+
+      if (sizes) {
+        source.sizes = `(min-width: ${breakpoints.md}px) calc(100vw - ${paneWidth}px), 100vw`
+      }
+      sources.push(source)
+    }
+    console.log('sources: %o', sources)
     return sources
   }
 
@@ -224,7 +240,7 @@ export default class CaveAsset {
         },
 
         //
-        // SError handler
+        // Error handler
         //
         error => {
           reject(error)
@@ -313,7 +329,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', 'created', 'updated', 'fullPath', 'width', 'height']
+    const props = ['id', 'isCover', 'isPanorama', 'originalName', 'type', 'created', 'updated', 'fullPath', 'width', 'height']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]
@@ -327,3 +343,4 @@ export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
 export const getCoverImage = CaveAsset.getCoverImage
 export const getAssetList = CaveAsset.getAssetList
+export const countAssets = CaveAsset.countAssets

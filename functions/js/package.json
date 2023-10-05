@@ -1,10 +1,10 @@
 {
-  "name": "functions",
+  "name": "@opencaves/firebase-js-functions",
   "version": "1.0.0",
-  "description": "Cloud Functions for OpenCaves",
+  "description": "Cloud js Functions for OpenCaves",
   "scripts": {
     "lint": "eslint .",
-    "dev": "firebase --debug emulators:start --import=./.emulator-data",
+    "dev": "firebase --debug emulators:start --import=../.emulator-data",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",

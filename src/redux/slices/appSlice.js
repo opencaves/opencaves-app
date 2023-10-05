@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { appTitle } from '@/config/app'
-import { paneBreakpoints } from '@/config/resultPane'
+import { paneBreakpoints } from '@/config/app'
 
 const initialState = {
   // name: "Open Caves",

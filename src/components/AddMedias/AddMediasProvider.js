@@ -16,6 +16,7 @@ export default function AddMediasProvider({ children }) {
   const { t: tPicker } = useTranslation('mediaPane')
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [uploadComplete, setUploadComplete] = useState(false)
 
   const pickerOpts = {
     description: tPicker('images'),
@@ -54,9 +55,17 @@ export default function AddMediasProvider({ children }) {
 
   useEffect(() => {
     if (done) {
-      setSnackbarOpen(false)
+      setTimeout(() => {
+        setUploadComplete(true)
+      }, 400)
     }
   }, [done])
+
+  useEffect(() => {
+    if (uploadComplete) {
+      setSnackbarOpen(false)
+    }
+  }, [uploadComplete])
 
 
   return (
@@ -69,7 +78,7 @@ export default function AddMediasProvider({ children }) {
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
       {
-        done && (
+        uploadComplete && (
           <Snackbar
             open
           >

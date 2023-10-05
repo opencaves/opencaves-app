@@ -1,25 +1,24 @@
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuItem from '@/components/App/MenuItem'
+import { useAddMedias } from '@/components/AddMedias/useAddMedias'
+import { Button } from '@mui/material'
 
-function DefaultMenuItemComponent({ onClick }) {
+function DefaultMenuItemComponent(props) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
 
   return (
-    <MenuItem onClick={onClick}>
+    <Button {...props}>
       {t('addPictures')}
-    </MenuItem>
+    </Button>
   )
 }
 
-export default function AddMediasButton({ component }) {
-
-  async function onAddMediasBtnClick() {
-
-  }
-
+export default function AddMediasButton({ component = <DefaultMenuItemComponent />, ...props }) {
+  const { promptForMedias } = useAddMedias()
+  // const button = component ? <component {...props} /> : <DefaultMenuItemComponent {...props} />
 
   return (
-    cloneElement(component, { onClick: onAddMediasBtnClick })
+    cloneElement(component, { ...props, onClick: promptForMedias })
   )
 }

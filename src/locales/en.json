@@ -10,6 +10,7 @@
   },
   "app": {
     "back": "Back",
+    "previous": "Previous",
     "item_zero": "{{count}} item",
     "item_one": "{{count}} item",
     "item_other": "{{count}} items",
@@ -340,9 +341,7 @@
         "tooltip": "See pictures"
       }
     },
-    "addPictureBtn": {
-      "btn": "Add pictures"
-    },
+    "morePicturesBtn": "More pictures",
     "menu": {
       "ariaLabel": "More",
       "myAccount": "My Account",
@@ -364,18 +363,25 @@
       "header": "No images yet!",
       "btn": "Add images"
     },
+    "share": {
+      "title": "View « {{title}} » on OpenCaves.org",
+      "text": "View « {{title}}"
+    },
     "images": "images",
-    "mediaThumbnailItem": {
-      "openBtn": {
-        "ariaLabel": "Show image"
-      },
-      "useAsCoverAction": "Use as cover image",
+    "menu": {
+      "ariaLabel": "More",
+      "useAsCoverImage": "Use as cover image",
       "useAsCoverSuccess": "Cover image changed.",
       "useAsCoverFail": "Failed to change cover image.",
-      "viewOriginalImageAction": "View original image",
+      "viewOriginalImage": "View original image",
       "deleteAction": "Delete",
       "deleteSuccess": "File deleted.",
       "deleteFail": "Failed to delete file."
+    },
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "Show image"
+      }
     },
     "addMedia": {
       "header": "Upload photos of Cenote {{name}}",

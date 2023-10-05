@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import Scrollbars2 from 'react-custom-scrollbars-2'
-import { useTheme } from '@mui/material'
 import { scrollbarTrackHeight } from '@/config/app'
 import './Scrollbars.scss'
 

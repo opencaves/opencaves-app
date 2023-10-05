@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
 import { AddPhotoAlternateRounded } from '@mui/icons-material'
 
-import { useAddMedias } from '@/components/MediaPane/AddMedias/useAddMedias'
+import { useAddMedias } from '@/components/AddMedias/useAddMedias'
 import UnstyledLink from '@/components/UnstyledLink'
 import Tooltip from '@/components/Tooltip'
 import Picture from '@/components/Picture'
@@ -13,6 +13,7 @@ import ConditionalWrapper from '@/components/utils/ConditionalWrapper'
 import { getCoverImage, getImageAssetUrl, useCoverImage } from '@/models/CaveAsset'
 import useSession from '@/hooks/useSession'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
+import pixel from '@/images/pixel.gif'
 
 export async function loadCoverImage(caveId) {
   return getCoverImage(caveId, false)
@@ -22,33 +23,39 @@ export default function CoverImage({ caveId, width, height }) {
   const start = Date.now()
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
   const hasSession = useSession()
-  const [coverImageUrl, setCoverImageUrl] = useState(null)
   const [sources, setSources] = useState(null)
-  const [fallbackImage, setFallbackImage] = useState()
+  const [fallbackImage, setFallbackImage] = useState(pixel)
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
   // const { coverImage: initialCoverImage } = useLoaderData()
   // const coverImage = useLoaderData()
-  const [coverImage] = useCoverImage(caveId)
+  const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
 
   // useEffect(() => {
   //   console.log('##### [CoverImage] loading time from useLoaderData: %s, %o', Date.now() - start, initialCoverImage)
   // }, [initialCoverImage])
 
   useEffect(() => {
+    console.log('##### [CoverImage] loading time from useCoverImage: %s, %o', Date.now() - start, coverImage)
+    console.log('##### [CoverImage] coverImage: %o, loading: %o, error: %o', coverImage, coverImageLoading, coverImageError)
+
+    if (coverImageError) {
+      setFallbackImage(defaultMediaCardImage)
+      return
+    }
+
+    if (coverImageLoading) {
+      setFallbackImage(pixel)
+      return
+    }
     setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
 
-    console.log('##### [CoverImage] loading time from useCoverImage: %s, %o', Date.now() - start, coverImage)
     if (coverImage) {
-      // const coverImageUrl = getImageAssetUrl(coverImage.fullPath, { width, height })
-      setCoverImageUrl(coverImage.data().url)
       setHasCoverImage(true)
     } else {
-
       setFallbackImage(defaultMediaCardImage)
-      setCoverImageUrl(defaultMediaCardImage)
     }
-  }, [coverImage])
+  }, [coverImage, coverImageLoading, coverImageError])
 
   return (
     <Box
@@ -89,15 +96,6 @@ export default function CoverImage({ caveId, width, height }) {
             src={fallbackImage}
             sources={sources}
             alt=''
-            style={{
-              width,
-              height,
-              objectFit: 'cover'
-            }}
-          />
-          <img
-            alt=''
-            src={coverImageUrl}
             style={{
               width,
               height,

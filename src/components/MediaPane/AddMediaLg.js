@@ -9,7 +9,7 @@ import { Close, PhotoOutlined } from '@mui/icons-material'
 import Or from '@/components/utils/Or'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import Message from '../App/Message'
-import { useUploadCaveImages } from '@/components/MediaPane/AddMedias/useUploadCaveImages'
+import { useUploadCaveImages } from '@/components/AddMedias/useUploadCaveImages'
 import { acceptedMimeTypes } from '@/config/mediaPane'
 
 export default function AddMediaLg() {

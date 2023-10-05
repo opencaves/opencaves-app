@@ -11,7 +11,7 @@ import NoMatch from '@/routes/NoMatch'
 import Layout from '@/components/App/Layout'
 import SignupWithEmail from '@/components/auth/SignupWithEmail'
 import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane'
-import MediaPane from '@/routes/MediaPane/MediaPane'
+import MediaPane, { mediaPaneLoader } from '@/routes/MediaPane/MediaPane'
 import LoginWithEmailPrompt from '@/components/auth/LoginWithEmailPrompt'
 import AppRoot from '@/components/App/AppRoot'
 import CaveAsset from '@/models/CaveAsset'
@@ -96,22 +96,12 @@ const routes = [
             path: ':caveId',
             id: 'result-pane',
             element: <ResultPane />,
-            // loader: async ({ params }) => {
-            //   console.log('params.id: %s', params.id)
-            //   return CaveAsset.getCoverImage(params.id)
-            // },
-            // loader: coverImageLoader,
             loader: resultPaneLoader,
             children: [
               {
                 path: 'medias/:mediaId?',
                 element: <MediaPane />,
-                // children: [
-                //   {
-                //     path: ':mediaId',
-                //     element: <MediaPaneDetails />
-                //   }
-                // ]
+                loader: mediaPaneLoader
               }
             ]
           }

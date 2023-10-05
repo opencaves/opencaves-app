@@ -4,11 +4,14 @@ import { Box, Typography } from '@mui/material'
 import Rating from '../Rating/Rating'
 import CoverImage from './CoverImage'
 import { useSmall } from '@/hooks/useSmall'
-import { ISO6391ToISO6392 } from '../../utils/lang'
-import { coverImageHeight, coverImageWidth } from '@/config/resultPane'
+import { ISO6391ToISO6392 } from '@/utils/lang'
+import { paneWidth } from '@/config/app'
+import { coverImageHeightRatio } from '@/config/resultPane'
 import './CurrentCaveDetailsHeader.scss'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
+  const coverImageWidth = paneWidth
+  const coverImageHeight = Math.round(coverImageWidth * coverImageHeightRatio)
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
   const [rating, setRating] = useState(-1)

@@ -5,7 +5,7 @@ import Map from '@/components/Map/Map'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import FilterMenu from '@/components/Map/FilterMenu'
 import AppMenu from '@/components/App/AppMenu'
-import AddMediasProvider from '@/components/MediaPane/AddMedias/AddMediasProvider'
+import AddMediasProvider from '@/components/AddMedias/AddMediasProvider'
 import Dev from '@/components/utils/Dev'
 import './Map.scss'
 

@@ -68,16 +68,24 @@ const config = {
       // height: 225,
       fit: 'cover'
     },
-    resultPaneThumbnail: {
+    resultThumbnail: {
+      width: Math.round(240 * magnificationFactor),
+      height: Math.round(300 * magnificationFactor),
+      fit: 'outside'
+    },
+    mediaThumbnail: {
       width: 400,
       height: 800,
       fit: 'inside'
     },
-    mediaPaneThumbnail: {
-      width: 400,
-      height: 800,
-      fit: 'inside'
+    '1024': {
+      width: 1024,
+      fit: 'outside'
     },
+    '1536': {
+      width: 1536,
+      fit: 'outside'
+    }
   },
   makePublic: true,
   resizedImagesPath: '../thumbnails',

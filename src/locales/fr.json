@@ -10,6 +10,7 @@
   },
   "app": {
     "back": "Retour",
+    "previous": "Précédent",
     "item_zero": "{{count}} item",
     "item_one": "{{count}} item",
     "item_other": "{{count}} items",
@@ -338,9 +339,7 @@
         "tooltip": "Voir les images"
       }
     },
-    "addPictureBtn": {
-      "btn": "Ajouter des images"
-    },
+    "morePicturesBtn": "Plus d'images",
     "menu": {
       "ariaLabel": "Plus",
       "myAccount": "Mon compte",
@@ -362,18 +361,25 @@
       "header": "Aucune image pour le moment !",
       "btn": "Ajouter des images"
     },
+    "share": {
+      "title": "Voir « {{title}} » sur OpenCaves.org",
+      "text": "Voir « {{title}}"
+    },
     "images": "images",
-    "mediaThumbnailItem": {
-      "openBtn": {
-        "ariaLabel": "Afficher l'image"
-      },
-      "useAsCoverAction": "Utiliser comme image de couverture",
+    "menu": {
+      "ariaLabel": "Plus",
+      "useAsCoverImage": "Utiliser comme image de couverture",
       "useAsCoverSuccess": "Image de couverture modifiée.",
       "useAsCoverFail": "La modification de l'image de couverture à échoué.",
-      "viewOriginalImageAction": "Afficher l'image originale",
+      "viewOriginalImage": "Afficher l'image originale",
       "deleteAction": "Supprimer",
       "deleteSuccess": "Fichier supprimé.",
       "deleteFail": "La suppression du fichier a échoué."
+    },
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "Afficher l'image"
+      }
     },
     "addMedia": {
       "header": "Téléchargez des photos de la cénote {{name}}",

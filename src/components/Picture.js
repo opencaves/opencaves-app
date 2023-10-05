@@ -43,7 +43,7 @@ export default function Picture({ sources, ...props }) {
 
   if (sources) {
     return (
-      <picture>
+      <picture style={{ display: 'flex' }}>
         {renderSources()}
         {renderImage(true)}
       </picture>

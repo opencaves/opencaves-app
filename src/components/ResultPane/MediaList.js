@@ -1,28 +1,37 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLoaderData } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Box, ButtonBase, Divider, Skeleton, Typography } from '@mui/material'
+import { AddAPhotoOutlined, PhotoLibraryRounded } from '@mui/icons-material'
 import Grid from '@mui/material/Unstable_Grid2'
 import Scrollbars from '@/components/Scrollbars/Scrollbars'
-import { Box, ButtonBase, Divider, Skeleton, Typography } from '@mui/material'
-import { AddAPhotoOutlined } from '@mui/icons-material'
-import { useAddMedias } from '@/components/MediaPane/AddMedias/useAddMedias'
-import { getAssetList, getImageAssetUrl, useCaveAssetsList } from '@/models/CaveAsset'
+import Picture from '@/components/Picture'
+import { useAddMedias } from '@/components/AddMedias/useAddMedias'
+import { countAssets, getAssetList, getImageAssetUrl, useCaveAssetsList } from '@/models/CaveAsset'
 import { useImage } from '@/hooks/useImage'
 import { assetsListConfig } from '@/config/resultPane'
 import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app'
+
+function getProp(which, theme) {
+  if (which === 'color') {
+    return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
+  }
+}
 
 export function loadMediaList(caveId) {
   return getAssetList(caveId, false)
 }
 
+export function loadMediaCount(caveId) {
+  return countAssets(caveId)
+}
+
 export default function MediaList({ caveId }) {
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
+  // const [assetsListLength, setAssetsListLength] = useState(null)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
   const scrollbarsRef = useRef()
-  // const { result } = CaveAsset.getAssetList(caveId)
-  const { mediaList: initialMediaList } = useLoaderData()
-  // const mediaList = { empty: true }
 
   const start = useRef(Date.now())
 
@@ -39,6 +48,7 @@ export default function MediaList({ caveId }) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollbar.getValues()
       const width = scrollWidth - clientWidth
       const wheelDirection = event.wheelDeltaY < 0 ? 1 : -1
+      event.preventDefault()
 
       if (
         // scrolling left
@@ -56,7 +66,6 @@ export default function MediaList({ caveId }) {
       const newScrollLeft = scrollLeft + scrollStep
       const clampedScrollLeft = func(clampValue, newScrollLeft)
 
-      event.preventDefault()
       scrollbar.scrollLeft(clampedScrollLeft)
     }
 
@@ -67,9 +76,12 @@ export default function MediaList({ caveId }) {
     return () => scrollbar?.container?.removeEventListener('wheel', onWheel)
   })
 
-  useEffect(() => {
-    console.log('##### [MediaList] loading time from useLoaderData: %s, %o', Date.now() - start.current, initialMediaList)
-  }, [initialMediaList])
+  // useEffect(() => {
+  //   console.log('##### [MediaList] loading time from useLoaderData: %o, mediaCount: %s', Date.now() - start.current, mediaCount)
+  //   if (mediaCount) {
+  //     setAssetsListLength(mediaCount)
+  //   }
+  // }, [mediaCount])
 
   useEffect(() => {
     console.log('##### [MediaList] loading time from useCaveAssetsList: %s, %o', Date.now() - start.current, mediaList)
@@ -87,9 +99,13 @@ export default function MediaList({ caveId }) {
         })
       }
 
-      assetItems.push({
-        isMedia: false
-      })
+      if (mediaList.size > assetsListMaxLength) {
+
+        assetItems.push({
+          isMedia: false
+        })
+
+      }
 
       const lastColIdx = getColPosition(assetItems.length - 1)
 
@@ -124,11 +140,13 @@ export default function MediaList({ caveId }) {
       }
       setAssetsList(list)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaList])
 
   return mediaList && !mediaList.empty && (
     <>
       <Box
+        sx={{ marginBottom: 'calc(var(--oc-pane-padding-block) * -1.25)' }}
       >
         <Scrollbars
           ref={scrollbarsRef}
@@ -139,7 +157,8 @@ export default function MediaList({ caveId }) {
             style: {
               left: 'calc(var(--oc-pane-padding-inline) / 2)',
               right: 'calc(var(--oc-pane-padding-inline) / 2)',
-              bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`
+              // bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`
+              bottom: `calc(var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px)`
             }
           }}
         >
@@ -161,7 +180,6 @@ export default function MediaList({ caveId }) {
           </Box>
         </Scrollbars>
       </Box>
-      <Divider />
     </>
   )
 }
@@ -173,7 +191,7 @@ function Media({ asset, size = 'full' }) {
   const height = size === 'full' ? fullHeight : (fullHeight / 2) - (assetsListConfig.spacing / 2)
 
   if (!asset.isMedia) {
-    return <AddMedias width={width} height={height} />
+    return <MoreMedias width={width} height={height} to='medias' />
   }
 
   const media = asset.item
@@ -190,9 +208,11 @@ function Media({ asset, size = 'full' }) {
       component={Link}
       to={`medias/${media.id}`}
     >
-      <img
-        src={src}
+      <Picture
+        // src={src}
+        sources={media.getSources('resultThumbnail')}
         alt=''
+        loading='lazy'
         style={{
           borderRadius: '.5rem',
           width,
@@ -269,16 +289,13 @@ function MediaListCell({ children, width = 'full', height = assetsListConfig.hei
   )
 }
 
-function AddMedias({ width, height }) {
-  const { promptForMedias } = useAddMedias()
-  const { t } = useTranslation('resultPane', { keyPrefix: 'addPictureBtn' })
-  function getProp(which, theme) {
-    if (which === 'color') {
-      return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
-    }
-  }
+function MoreMedias({ width, height, to }) {
+  const { t } = useTranslation('resultPane')
+
   return (
     <ButtonBase
+      component={Link}
+      to={to}
       sx={{
         borderRadius: '.5rem',
         backgroundColor: theme => `rgb(${theme.palette.primary.mainChannel} / ${theme.palette.mode === 'light' ? .1 : .08})`,
@@ -294,7 +311,6 @@ function AddMedias({ width, height }) {
         }
 
       }}
-      onClick={promptForMedias}
     >
       <Grid
         container
@@ -302,15 +318,14 @@ function AddMedias({ width, height }) {
         alignItems='center'
         rowGap={.75}
       >
-        <AddAPhotoOutlined fontSize='small' sx={{ color: theme => getProp('color', theme) }} />
+        <PhotoLibraryRounded fontSize='small' sx={{ color: theme => getProp('color', theme) }} />
         <Typography
           sx={{
             fontSize: '.875rem',
             color: theme => getProp('color', theme)
-            // color: theme => theme.palette.getContrastText(theme.palette.primary.main)
           }}
         >
-          {t('btn')}
+          {t('morePicturesBtn')}
         </Typography>
       </Grid>
     </ButtonBase>

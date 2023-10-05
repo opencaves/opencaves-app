@@ -122,7 +122,7 @@ const generateResizedImageHandler = async (object, verbose = true) => {
         const filePath = object.name // File path in the bucket.
         const fileDir = parsedPath.dir
         const fileExtension = parsedPath.ext
-        const fileNameWithoutExtension = path.basename(filePath, fileExtension)
+        const fileNameWithoutExtension = path.basename(filePath, fileExtension).replaceAll('\\', '/')
 
         const failedFilePath = path.join(
           fileDir,
@@ -183,7 +183,6 @@ const generateResizedImageHandler = async (object, verbose = true) => {
 export const generateResizedImage = functions.storage
   .object()
   .onFinalize(async object => {
-    logger.log('.........................................................')
     await generateResizedImageHandler(object)
   })
 
@@ -197,7 +196,6 @@ export const generateResizedImage = functions.storage
 export const backfillResizedImages = functions.tasks
   .taskQueue()
   .onDispatch(async data => {
-    logger.log('==========================================================')
     // export const backfillResizedImages = onTaskDispatched(async ({ data }) => {
     //   console.log('data: %o', data)
     const runtime = getExtensions().runtime()
