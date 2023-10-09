@@ -9,13 +9,11 @@ import Account from '@/routes/Account'
 import AboutRoute from 'routes/About'
 import NoMatch from '@/routes/NoMatch'
 import Layout from '@/components/App/Layout'
-import SignupWithEmail from '@/components/auth/SignupWithEmail'
-import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane'
-import MediaPane, { mediaPaneLoader } from '@/routes/MediaPane/MediaPane'
-import LoginWithEmailPrompt from '@/components/auth/LoginWithEmailPrompt'
 import AppRoot from '@/components/App/AppRoot'
-import CaveAsset from '@/models/CaveAsset'
-import { coverImageLoader } from '@/components/ResultPane/CoverImage'
+import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane'
+import MediaPane, { mediaPaneLoader } from '@/components/MediaPane/MediaPane'
+import SignupWithEmail from '@/components/auth/SignupWithEmail'
+import LoginWithEmailPrompt from '@/components/auth/LoginWithEmailPrompt'
 
 function SkipIfLoggedin({ children }) {
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)

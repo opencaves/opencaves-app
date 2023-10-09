@@ -1,17 +1,15 @@
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Divider, Drawer, IconButton, Skeleton, Typography, styled, useTheme } from '@mui/material'
+import { Box, Divider, Drawer, IconButton, Typography, styled, useTheme } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { AddAPhotoOutlined, ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material'
 import { getAssetList, useCaveAssetsList } from '@/models/CaveAsset'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton'
 import MediaPaneDetails from '@/components/MediaPane/MediaPaneDetails'
 import MediaList from '@/components/MediaPane/MediaList'
+import Dropzone from '@/components/MediaPane/Dropzone'
 import usePaneWidth from '@/hooks/usePaneWidth'
-
-const drawerWidth = 400
-const mediaItemPadding = 12
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -35,11 +33,16 @@ export default function MediaPane() {
   const initialMediaList = useLoaderData()
   const navigate = useNavigate()
 
-  console.log('initialMediaList: %o, mediaId: %o', initialMediaList, mediaId)
+  if (mediaId) {
+    const media = initialMediaList.docs.find(doc => doc.id === mediaId)
+    if (media === undefined) {
+      navigate('..', { relative: 'path', replace: true })
+    }
+  }
 
   if (!mediaId && !initialMediaList.empty) {
     const assetId = initialMediaList.docs[0].data().id
-    return navigate(assetId, { replace: true })
+    navigate(assetId, { replace: true })
   }
 
   return (
@@ -118,6 +121,7 @@ export default function MediaPane() {
           <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} />
         )
       }
+      <Dropzone />
     </Box>
   )
 }

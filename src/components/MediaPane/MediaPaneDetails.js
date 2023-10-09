@@ -14,13 +14,10 @@ import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
 import Picture from '@/components/Picture'
 import MediaPaneMenu from './MediaPaneMenu'
-import usePaneWidth from '@/hooks/usePaneWidth'
 import 'yet-another-react-lightbox/styles.css'
 
 const Main = styled('main')(
   ({ theme, open }) => {
-    const paneWidth = usePaneWidth()
-    console.log('paneWidth: %o', paneWidth)
 
     return ({
       flexGrow: 1,
@@ -35,6 +32,8 @@ const Main = styled('main')(
 export default function MediaPaneDetails({ mediaId, medias }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
+  const currentMedia = medias.docs.find(media => media.id === mediaId).data()
+
   const slides = medias.docs.map(doc => {
     const media = doc.data()
     const { url, isPanorama, originalName: filename } = media
@@ -77,11 +76,12 @@ export default function MediaPaneDetails({ mediaId, medias }) {
     // setTouchAction(type === 'panorama' ? 'none' : 'pan-y')
   }
 
-  useEffect(() => {
-    if (ref) {
-      console.log('ref: %o', ref)
-    }
-  }, [ref])
+  function Menu({ augment }) {
+    augment(({ toolbar, ...restProps }) => ({
+      toolbar: addToolbarButton(toolbar, 'menu', <MediaPaneMenu mediaAsset={currentMedia} />),
+      ...restProps,
+    }))
+  }
 
   return (
     <Main>
@@ -109,10 +109,10 @@ export default function MediaPaneDetails({ mediaId, medias }) {
         render={{
           slide: ({ slide }) => (slide.type === 'panorama' ? <PanoViewer src={slide.src} /> : <Picture sources={slide.sources} width='100%' height='100%' />),
           // buttonPrev: ButtonPrev,
-          iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '2rem' }} />,
-          iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '2rem' }} />,
-          iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '2rem' }} />,
-          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '2rem' }} />,
+          iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.75rem' }} />,
+          iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.75rem' }} />,
+          iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.75rem' }} />,
+          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.75rem' }} />,
         }}
         on={{
           view: onView
@@ -161,11 +161,4 @@ function PanoViewer({ src }) {
       <ReactPhotoSphereViewer src={src} height='100%' width='100%' />
     </div>
   )
-}
-
-function Menu({ augment }) {
-  augment(({ toolbar, ...restProps }) => ({
-    toolbar: addToolbarButton(toolbar, 'menu', <MediaPaneMenu />),
-    ...restProps,
-  }))
 }

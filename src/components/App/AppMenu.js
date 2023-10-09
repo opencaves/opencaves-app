@@ -13,6 +13,8 @@ import { useSmall } from '@/hooks/useSmall'
 import useSession from '@/hooks/useSession'
 import { setContinueUrl } from '@/redux/slices/sessionSlice'
 import { appName } from '@/config/app'
+import SignupMenuItem from './menu/SignupMenuItem.js'
+import LoginMenuItem from './menu/LoginMenuItem.js'
 
 
 export default function AppMenu({ sx, ...props }) {
@@ -27,7 +29,6 @@ export default function AppMenu({ sx, ...props }) {
   const [routeId, setRouteId] = useState()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  console.log('theme: %o', theme)
 
   const matches = useMatches()
 
@@ -152,18 +153,8 @@ export default function AppMenu({ sx, ...props }) {
 
         {
           !isLoggedIn && [
-            <MenuItem key='key-signup' component={Link} to='/signup' onClick={onSignupBtnClick}>
-              <ListItemIcon>
-                <PersonAddRounded fontSize='small' />
-              </ListItemIcon>
-              {t('signup')}
-            </MenuItem>,
-            <MenuItem key='key-login' component={Link} to='/login'>
-              <ListItemIcon>
-                <PersonRounded fontSize='small' />
-              </ListItemIcon>
-              {t('login')}
-            </MenuItem>,
+            <SignupMenuItem key='key-signup' />,
+            <LoginMenuItem key='key-login' />,
             <Divider key='key-divider-2' />
           ]
         }

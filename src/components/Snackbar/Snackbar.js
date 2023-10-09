@@ -9,7 +9,7 @@ function SlideUp(props) {
   return <Slide {...props} direction='up' />
 }
 
-export default function Snackbar({ open = false, message, autoHide = true, action = null, showCloseButton = false, children, sx = {} }) {
+export default function Snackbar({ open = false, message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children, sx = {} }) {
 
   const [_open, setOpen] = useState(open)
   const [autoHideDuration, setAutoHideDuration] = useState(null)
@@ -33,7 +33,8 @@ export default function Snackbar({ open = false, message, autoHide = true, actio
   }
 
   function onSnackbarClose(event, reason) {
-    if (!autoHide && reason === 'clickaway') {
+
+    if (!autoHide && !hideOnClickAway && reason === 'clickaway') {
       // Don't close the snackbar on click away when option autoHide === false
       return
     }
@@ -41,6 +42,10 @@ export default function Snackbar({ open = false, message, autoHide = true, actio
     // Otherwise, close the snackbar
     closeSnackbar()
   }
+
+  // function onSnackbarExited() {
+  //   console.log('[onSnackbarExited]')
+  // }
 
   useEffect(() => {
     setAutoHideDuration(autoHide ? snackbarAutoHideDuration : null)
@@ -61,7 +66,7 @@ export default function Snackbar({ open = false, message, autoHide = true, actio
         sx={
           children ? sx : {
             '& .MuiSnackbarContent-action': {
-              pt: .5
+              pt: .25
             }
           }
         }
@@ -83,6 +88,7 @@ export default function Snackbar({ open = false, message, autoHide = true, actio
           </>
         }
         TransitionComponent={SlideUp}
+        // TransitionProps={{ onExited: onSnackbarExited }}
         onClose={onSnackbarClose}
       >
         {children}

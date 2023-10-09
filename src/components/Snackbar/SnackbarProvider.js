@@ -15,11 +15,12 @@ export default function SnackbarProvider({ children }) {
   const [_action, setAction] = useState(null)
   const [_sx, setSx] = useState({})
   const [_autoHide, setAutoHide] = useState(true)
+  const [_hideOnClickAway, setHideOnClickAway] = useState(false)
   const { t } = useTranslation('app', { keyPrefix: 'snackbar' })
 
   // 
 
-  function openSnackbar({ message, autoHide = true, action = null, showCloseButton = false, children = false, sx = {} }) {
+  function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {} }) {
 
     if (children) {
       setChildren(children)
@@ -29,6 +30,7 @@ export default function SnackbarProvider({ children }) {
       setShowCloseButton(showCloseButton)
       setAction(action)
       setAutoHide(autoHide)
+      setHideOnClickAway(hideOnClickAway)
     }
 
     setMessage(message)
@@ -60,6 +62,7 @@ export default function SnackbarProvider({ children }) {
         open={open}
         message={!_children && _message}
         autoHide={_autoHide}
+        hideOnClickAway={_hideOnClickAway}
         action={
           <>
             {

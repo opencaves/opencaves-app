@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -9,12 +9,13 @@ import ResultPaneSm from './ResultPaneSm'
 import ResultPaneLg from './ResultPaneLg'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent'
+import { loadMediaCount, loadMediaList } from './MediaList'
+import { loadCoverImage } from './CoverImage'
 import { useTitle } from '@/hooks/useTitle'
 import { useSmall } from '@/hooks/useSmall'
 import { setCurrentCave } from '@/redux/slices/mapSlice'
 import './ResultPane.scss'
-import { loadMediaCount, loadMediaList } from './MediaList'
-import { loadCoverImage } from './CoverImage'
+import { current } from '@reduxjs/toolkit'
 
 export async function resultPaneLoader({ params }) {
   const { caveId } = params
@@ -34,18 +35,24 @@ export default function ResultPane() {
   const caves = useSelector(state => state.map.data)
   const isSmall = useSmall()
   const { setTitle } = useTitle()
+  const [currentCave, _setCurrentCave] = useState()
 
-  const currentCave = caves.find(cave => cave.id === caveId)
 
-  if (currentCave) {
-    dispatch(setCurrentCave(currentCave))
-  }
+  useEffect(() => {
+    if (caves && caves.length > 0) {
+      const currentCave = caves.find(cave => cave.id === caveId)
+      console.log('===================================================== %o', currentCave)
+      if (currentCave) {
+        _setCurrentCave(currentCave)
+        dispatch(setCurrentCave(currentCave))
+      }
+    }
+  }, [caves])
 
 
   useEffect(() => {
     if (currentCave) {
       setTitle(t('title', { name: currentCave.name.value }))
-      // dispatch(setCurrentCave(currentCave))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCave])

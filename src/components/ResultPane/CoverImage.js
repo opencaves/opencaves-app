@@ -36,8 +36,6 @@ export default function CoverImage({ caveId, width, height }) {
   // }, [initialCoverImage])
 
   useEffect(() => {
-    console.log('##### [CoverImage] loading time from useCoverImage: %s, %o', Date.now() - start, coverImage)
-    console.log('##### [CoverImage] coverImage: %o, loading: %o, error: %o', coverImage, coverImageLoading, coverImageError)
 
     if (coverImageError) {
       setFallbackImage(defaultMediaCardImage)

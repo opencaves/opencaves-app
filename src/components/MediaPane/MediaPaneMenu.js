@@ -1,23 +1,17 @@
 
 import { useState } from 'react'
-import { Link, useLoaderData, useParams } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { IconButton, Menu, Divider, ListItemIcon } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { IconButton, Menu } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
-import MenuItem from '@/components/App/MenuItem'
 import UseAsCoverImage from './menuItems/UseAsCoverImage'
-import { appName } from '@/config/app'
-import DeleteMedia from './menuItems/DeleteMedia.js'
+import DeleteMedia from './menuItems/DeleteMedia'
 
-export default function MediaPaneMenu({ ...props }) {
+export default function MediaPaneMenu({ mediaAsset, ...props }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const { mediaId } = useParams()
-  const mediaAssets = useLoaderData()
-  console.log('mediaAssets: %o', mediaAssets)
-  const mediaAsset = mediaAssets.docs.find(media => media.data().id === mediaId).data()
+  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
@@ -27,7 +21,7 @@ export default function MediaPaneMenu({ ...props }) {
     setAnchorEl(null)
   }
 
-  return (
+  return isLoggedIn && (
     <>
       <IconButton
         {...props}
@@ -37,11 +31,11 @@ export default function MediaPaneMenu({ ...props }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         sx={{
-          color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))'
+          color: 'var(--yarl__color_button, hsla(0,0%,100%,.8))'
         }}
         className='yarl__button'
       >
-        <MoreVert />
+        <MoreVert sx={{ fontSize: '1.75rem' }} />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

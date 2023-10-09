@@ -74,7 +74,6 @@ export default class CaveAsset {
   static async countAssets(caveId) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'))
     const snapshot = await getCountFromServer(q)
-    console.log('snapshot: %o', snapshot)
     return snapshot.data().count
   }
 
@@ -203,7 +202,7 @@ export default class CaveAsset {
       }
       sources.push(source)
     }
-    console.log('sources: %o', sources)
+
     return sources
   }
 
@@ -217,8 +216,9 @@ export default class CaveAsset {
         updated: serverTimestamp()
       })
     }
-
+    console.log('id: %o', this.id)
     const docRef = doc(db, COLL, this.id)
+    console.log('docRef: %o', docRef)
     await updateDoc(docRef, {
       isCover: true,
       updated: serverTimestamp()

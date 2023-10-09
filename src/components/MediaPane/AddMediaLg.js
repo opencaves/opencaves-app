@@ -88,7 +88,7 @@ export default function AddMediaLg() {
   )
 }
 
-function Dropzone({ onDrop, progress, onError, setOnError }) {
+export function Dropzone({ onDrop, progress, onError, setOnError }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [openSnackbar] = useSnackbar({ autoHide: false })
   const _onDrop = useCallback(droppeddFiles => {
