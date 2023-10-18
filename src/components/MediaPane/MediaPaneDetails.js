@@ -1,20 +1,23 @@
 import { useTranslation } from 'react-i18next'
-import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Share from 'yet-another-react-lightbox/plugins/share'
-import { IconButton, styled } from '@mui/material'
+import Zoom from 'yet-another-react-lightbox/plugins/zoom'
+import { ButtonBase, IconButton, styled } from '@mui/material'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
 import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
-import Picture from '@/components/Picture'
+import MediaViewer from '@/components/MediaViewer/MediaViewer'
 import MediaPaneMenu from './MediaPaneMenu'
 import 'yet-another-react-lightbox/styles.css'
+import './lightbox.scss'
+import { resolvePath, useLocation, useNavigate } from 'react-router-dom'
+import { ArrowForwardIosRounded } from '@mui/icons-material'
 
 const Main = styled('main')(
   ({ theme, open }) => {
@@ -33,12 +36,15 @@ export default function MediaPaneDetails({ mediaId, medias }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId).data()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const slides = medias.docs.map(doc => {
     const media = doc.data()
-    const { url, isPanorama, originalName: filename } = media
+    const { id, url, isPanorama, originalName: filename } = media
 
     const slide = {
+      mediaId: id,
       type: isPanorama ? 'panorama' : 'image',
       download: {
         url,
@@ -54,14 +60,14 @@ export default function MediaPaneDetails({ mediaId, medias }) {
     if (isPanorama) {
       slide.src = url
     } else {
-      slide.sources = media.getSources(['1024', '1536'], { sizes: true })
-      // src: url
+      slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })
+      slide.src = url
     }
 
     return slide
   })
 
-  const [touchAction, setTouchAction] = useState('pan-y')
+  const [touchAction, setTouchAction] = useState('none')
   const ref = useRef(null)
 
   const isFullscreenEnabled = () =>
@@ -71,9 +77,15 @@ export default function MediaPaneDetails({ mediaId, medias }) {
     document.msFullscreenEnabled
 
   function onView({ index }) {
-    // console.log('[onView] %s, %o', index, slides[index])
-    const { type } = slides[index]
+    console.log('[onView] %s, %o', index, slides[index])
+    const { mediaId, type } = slides[index]
+    const from = location.pathname
+    const to = resolvePath(`../${mediaId}`, from).pathname
+    console.log('from %o to %o', from, to)
     // setTouchAction(type === 'panorama' ? 'none' : 'pan-y')
+    if (to !== from) {
+      navigate(`../${mediaId}`, { replace: true, relative: 'path' })
+    }
   }
 
   function Menu({ augment }) {
@@ -104,61 +116,21 @@ export default function MediaPaneDetails({ mediaId, medias }) {
         styles={{ container: { backgroundColor: '#000' } }}
         controller={{
           ref,
-          touchAction
+          touchAction: 'none'
         }}
         render={{
-          slide: ({ slide }) => (slide.type === 'panorama' ? <PanoViewer src={slide.src} /> : <Picture sources={slide.sources} width='100%' height='100%' />),
-          // buttonPrev: ButtonPrev,
-          iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.75rem' }} />,
-          iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.75rem' }} />,
-          iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.75rem' }} />,
-          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.75rem' }} />,
+          slide: ({ slide }) => (<MediaViewer media={slide} />),
+          iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.5rem' }} />,
+          iconPrev: () => <ArrowBackIosNewRoundedIcon />,
+          iconNext: () => <ArrowForwardIosRounded />
         }}
         on={{
           view: onView
         }}
       />
     </Main>
-  )
-}
-
-function ButtonPrev() {
-  console.log('[buttonPrev] %o', arguments)
-  return (
-    <IconButton>
-      <ArrowBackIosNewRoundedIcon />
-    </IconButton>
-  )
-}
-
-function PanoViewer({ src }) {
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    if (containerRef) {
-      console.log('containerRef: %o', containerRef.current)
-      function handler(event) {
-        console.log('dragging: %o', event.bubbles)
-        event.stopPropagation()
-      }
-
-      containerRef.current.addEventListener('pointermove', handler)
-
-      return () => {
-        containerRef?.current?.removeEventListener('pointermove', handler)
-      }
-    }
-  }, [])
-
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        width: '100%',
-        height: '100%'
-      }}
-    >
-      <ReactPhotoSphereViewer src={src} height='100%' width='100%' />
-    </div>
   )
 }

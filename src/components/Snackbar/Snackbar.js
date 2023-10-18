@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IconButton, Snackbar as MUISnackbar, Portal } from '@mui/material'
 import Slide from '@mui/material/Slide'
-import { snackbarAutoHideDuration } from '@/config/app'
 import { Close } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
+import { snackbarAutoHideDuration } from '@/config/app'
 
 function SlideUp(props) {
   return <Slide {...props} direction='up' />
 }
 
-export default function Snackbar({ open = false, message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children, sx = {} }) {
+export default function Snackbar({ open = false, message, autoHide = true, autoHideDuration = null, hideOnClickAway = false, action = null, showCloseButton = false, children, sx = {} }) {
 
   const [_open, setOpen] = useState(open)
-  const [autoHideDuration, setAutoHideDuration] = useState(null)
+  const [_autoHideDuration, setAutoHideDuration] = useState(null)
   const { t } = useTranslation('app', { keyPrefix: 'snackbar' })
 
   function closeSnackbar() {
@@ -48,7 +48,7 @@ export default function Snackbar({ open = false, message, autoHide = true, hideO
   // }
 
   useEffect(() => {
-    setAutoHideDuration(autoHide ? snackbarAutoHideDuration : null)
+    setAutoHideDuration(autoHide ? autoHideDuration || snackbarAutoHideDuration : null)
   }, [autoHide])
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function Snackbar({ open = false, message, autoHide = true, hideO
   return (
     <Portal>
       <MUISnackbar
-        autoHideDuration={autoHideDuration}
+        autoHideDuration={_autoHideDuration}
         message={message}
         open={_open}
         ContentProps={{ sx: { alignItems: 'flex-start' } }}

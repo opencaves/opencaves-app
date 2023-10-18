@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLoaderData } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, ButtonBase, Divider, Skeleton, Typography } from '@mui/material'
-import { AddAPhotoOutlined, PhotoLibraryRounded } from '@mui/icons-material'
+import { Box, ButtonBase, Skeleton, Typography } from '@mui/material'
+import { PhotoLibraryRounded } from '@mui/icons-material'
 import Grid from '@mui/material/Unstable_Grid2'
 import Scrollbars from '@/components/Scrollbars/Scrollbars'
 import Picture from '@/components/Picture'
-import { useAddMedias } from '@/components/AddMedias/useAddMedias'
-import { countAssets, getAssetList, getImageAssetUrl, useCaveAssetsList } from '@/models/CaveAsset'
+import { countAssets, getAssetList, useCaveAssetsList } from '@/models/CaveAsset'
 import { useImage } from '@/hooks/useImage'
 import { assetsListConfig } from '@/config/resultPane'
 import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app'
@@ -26,10 +25,10 @@ export function loadMediaCount(caveId) {
   return countAssets(caveId)
 }
 
-export default function MediaList({ caveId }) {
+export default function MediaList({ caveId, hasMedia = false }) {
+  const { mediaCount } = useLoaderData()
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
-  const [assetsList, setAssetsList] = useState(null)
-  // const [assetsListLength, setAssetsListLength] = useState(null)
+  // const [assetsList, setAssetsList] = useState(null)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
   const scrollbarsRef = useRef()
 
@@ -77,14 +76,66 @@ export default function MediaList({ caveId }) {
   })
 
   // useEffect(() => {
-  //   console.log('##### [MediaList] loading time from useLoaderData: %o, mediaCount: %s', Date.now() - start.current, mediaCount)
-  //   if (mediaCount) {
-  //     setAssetsListLength(mediaCount)
-  //   }
-  // }, [mediaCount])
+  //   console.log('##### [MediaList] loading time from useCaveAssetsList: %s, %o', Date.now() - start.current, mediaList)
 
-  useEffect(() => {
-    console.log('##### [MediaList] loading time from useCaveAssetsList: %s, %o', Date.now() - start.current, mediaList)
+  //   const list = []
+
+  //   if (mediaList && !mediaList.empty) {
+  //     const assetsListLength = Math.min(mediaList.size, assetsListMaxLength)
+  //     const assetItems = []
+
+  //     for (var i = 0; i < assetsListLength; i++) {
+  //       assetItems.push({
+  //         isMedia: true,
+  //         item: mediaList.docs[i].data()
+  //       })
+  //     }
+
+  //     if (mediaList.size > assetsListMaxLength) {
+
+  //       assetItems.push({
+  //         isMedia: false
+  //       })
+
+  //     }
+
+  //     const lastColIdx = getColPosition(assetItems.length - 1)
+
+  //     function isLastCol(i) {
+  //       return getColPosition(i) === lastColIdx
+  //     }
+
+  //     for (var i = 0; i < assetItems.length; i += 3) {
+  //       list.push(
+  //         <MediaListCol key={i} isLast={isLastCol(i)}>
+  //           <Media asset={assetItems[i]} />
+  //         </MediaListCol>
+  //       )
+
+  //       if (assetItems[i + 1]) {
+  //         const colItems = [
+  //           <MediaListCell key={1} height={assetsListHeight / 2} width={assetsListHeight / 2}>
+  //             <Media asset={assetItems[i + 1]} size='half' />
+  //           </MediaListCell>
+  //         ]
+
+  //         if (assetItems[i + 2]) {
+  //           colItems.push(
+  //             <MediaListCell key={2} position='bottom' height={assetsListHeight / 2} width={assetsListHeight / 2}>
+  //               <Media asset={assetItems[i + 2]} size='half' />
+  //             </MediaListCell>
+  //           )
+  //         }
+
+  //         list.push(<MediaListCol key={i + 1} isLast={isLastCol(i + 1)} width='half'>{colItems}</MediaListCol>)
+  //       }
+  //     }
+  //     setAssetsList(list)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [mediaList])
+
+  const assetsList = useMemo(() => {
 
     const list = []
 
@@ -138,49 +189,50 @@ export default function MediaList({ caveId }) {
           list.push(<MediaListCol key={i + 1} isLast={isLastCol(i + 1)} width='half'>{colItems}</MediaListCol>)
         }
       }
-      setAssetsList(list)
+
+      return list
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaList])
 
-  return mediaList && !mediaList.empty && (
-    <>
-      <Box
-        sx={{ marginBottom: 'calc(var(--oc-pane-padding-block) * -1.25)' }}
+  return hasMedia && (
+    <Box
+      sx={{
+        marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
+        height: hasMedia && `calc((var(--oc-pane-padding-block) * 2) + ${assetsListHeight}px)`
+      }}
+    >
+      <Scrollbars
+        ref={scrollbarsRef}
+        autoHide
+        autoHeight
+        autoHeightMax={assetsListHeight + 100}
+        trackHorizontalProps={{
+          style: {
+            left: 'calc(var(--oc-pane-padding-inline) / 2)',
+            right: 'calc(var(--oc-pane-padding-inline) / 2)',
+            bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`
+          }
+        }}
       >
-        <Scrollbars
-          ref={scrollbarsRef}
-          autoHide
-          autoHeight
-          autoHeightMax={assetsListHeight + 100}
-          trackHorizontalProps={{
-            style: {
-              left: 'calc(var(--oc-pane-padding-inline) / 2)',
-              right: 'calc(var(--oc-pane-padding-inline) / 2)',
-              // bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`
-              bottom: `calc(var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px)`
-            }
-          }}
+        <Box
+          px='var(--oc-pane-padding-inline)'
+          pr='var(--oc-pane-padding-inline)'
+          my='var(--oc-pane-padding-block)'
+          width='fit-content'
         >
-          <Box
-            px='var(--oc-pane-padding-inline)'
-            pr='var(--oc-pane-padding-inline)'
-            my='var(--oc-pane-padding-block)'
-            width='fit-content'
+          <Grid
+            container
+            direction='row'
+            flexWrap='nowrap'
+            width='min-content'
+            display='flex'
           >
-            <Grid
-              container
-              direction='row'
-              flexWrap='nowrap'
-              width='min-content'
-              display='flex'
-            >
-              {assetsList}
-            </Grid>
-          </Box>
-        </Scrollbars>
-      </Box>
-    </>
+            {assetsList}
+          </Grid>
+        </Box>
+      </Scrollbars>
+    </Box>
   )
 }
 

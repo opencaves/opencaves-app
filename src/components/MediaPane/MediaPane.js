@@ -8,18 +8,21 @@ import { getAssetList, useCaveAssetsList } from '@/models/CaveAsset'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton'
 import MediaPaneDetails from '@/components/MediaPane/MediaPaneDetails'
 import MediaList from '@/components/MediaPane/MediaList'
-import Dropzone from '@/components/MediaPane/Dropzone'
+import Dropzone from '@/components/AddMedias/Dropzone'
 import usePaneWidth from '@/hooks/usePaneWidth'
+import { useEffect, useRef, useState } from 'react'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
+  borderBottom: `1px solid ${theme.palette.divider}`,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar
 }))
 
 export async function mediaPaneLoader({ params }) {
+  console.log('--- mediaPaneLoader --- %s', params.caveId)
   return getAssetList(params.caveId)
 }
 
@@ -32,18 +35,50 @@ export default function MediaPane() {
   const [mediaListSnapshot, loading, error] = useCaveAssetsList(caveId)
   const initialMediaList = useLoaderData()
   const navigate = useNavigate()
+  const [dropzoneOpen, setDropzoneOpen] = useState(false)
+  const counter = useRef(0)
 
-  if (mediaId) {
-    const media = initialMediaList.docs.find(doc => doc.id === mediaId)
-    if (media === undefined) {
-      navigate('..', { relative: 'path', replace: true })
+  function onMediaPaneDragEnter(event) {
+    event.preventDefault()
+    counter.current = counter.current + 1
+    console.log('[dragEnter] %s', counter.current)
+    setDropzoneOpen(true)
+  }
+
+  function onMediaPaneDragLeave() {
+    counter.current = counter.current - 1
+    // console.log('[dragLeave] %s', counter.current)
+    if (counter.current === 0) {
+      console.log('[dragLeave] ====================== %s', counter.current)
+      setDropzoneOpen(false)
     }
   }
 
-  if (!mediaId && !initialMediaList.empty) {
-    const assetId = initialMediaList.docs[0].data().id
-    navigate(assetId, { replace: true })
+  function onDropzoneDrop() {
+    counter.current = 0
+    setDropzoneOpen(false)
   }
+
+  useEffect(() => {
+    console.log('[!] mediaId: %o, initialMediaList: %o, mediaListSnapshot: %o', mediaId, initialMediaList, mediaListSnapshot)
+    if (mediaId) {
+      console.log('[!] initialMediaList.docs: %o', initialMediaList.docs)
+      // const media = initialMediaList.docs.find(doc => doc.id === mediaId)
+      // if (media === undefined) {
+      //   console.log('[!] going up')
+      //   navigate('..', { relative: 'path', replace: true })
+      // }
+    } else if (!initialMediaList.empty) {
+      const assetId = initialMediaList.docs[0].data().id
+      console.log('[!] going down')
+      navigate(assetId, { replace: true })
+    }
+
+  }, [mediaId])
+
+  useEffect(() => {
+    console.log('[+] initialMediaList: %o', initialMediaList)
+  }, [initialMediaList])
 
   return (
     <Box
@@ -55,6 +90,8 @@ export default function MediaPane() {
         right: 0,
         bottom: 0,
       }}
+      onDragEnter={onMediaPaneDragEnter}
+      onDragLeave={onMediaPaneDragLeave}
     >
       <Drawer
         sx={{
@@ -64,7 +101,7 @@ export default function MediaPane() {
             width: paneWidth,
             boxSizing: 'border-box',
             border: 0,
-            overflow: 'hidden'
+            overflow: 'hidden',
           },
         }}
         variant="persistent"
@@ -106,22 +143,21 @@ export default function MediaPane() {
 
         </DrawerHeader>
 
-        <Divider />
-
-        <Grid
+        <Box
           sx={{
-            mt: 'var(--oc-pane-padding-block)'
+            mt: 'var(--oc-pane-padding-block)',
+            height: '100%'
           }}
         >
           <MediaList />
-        </Grid>
+        </Box>
       </Drawer>
       {
         mediaId && mediaListSnapshot && !mediaListSnapshot.empty && (
           <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} />
         )
       }
-      <Dropzone />
+      <Dropzone open={dropzoneOpen} onDrop={onDropzoneDrop} />
     </Box>
   )
 }

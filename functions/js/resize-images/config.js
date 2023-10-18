@@ -85,6 +85,10 @@ const config = {
     '1536': {
       width: 1536,
       fit: 'outside'
+    },
+    '4k': {
+      width: 3840,
+      fit: 'outside'
     }
   },
   makePublic: true,
@@ -93,7 +97,8 @@ const config = {
   excludePathList: paramToArray(undefined),
   failedImagesPath: 'failed',
   deleteOriginalFile: deleteOriginalFile('false'),
-  imageTypes: paramToArray('webp,avif'),
+  // imageTypes: paramToArray('webp,avif'),
+  imageTypes: paramToArray('webp'),
   // outputOptions: undefined,
   outputOptions: {
     webp: {
@@ -101,7 +106,7 @@ const config = {
       effort: 4,
       smartSubsample: true,
       preset: 'photo'
-    }
+    },
   },
   animated: true,
   location: 'northamerica-northeast1'

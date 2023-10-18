@@ -15,6 +15,7 @@ import { getOS } from '@/utils/getOS'
 import { snackbarAutoHideDuration } from '@/config/app'
 import './CurrentCaveDetailsContent.scss'
 import AddMediasButton from '../MediaPane/AddMediasButton.js'
+import { useLoaderData } from 'react-router-dom'
 
 function SlideUp(props) {
   return <Slide {...props} direction='up' />
@@ -22,6 +23,7 @@ function SlideUp(props) {
 
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
+  const { mediaCount } = useLoaderData()
 
   const isSmall = useSmall()
 
@@ -127,7 +129,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       <Divider />
 
-      <MediaList caveId={cave.id} />
+      <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />
 
       <Box
         my='var(--oc-pane-padding-block)'

@@ -18,7 +18,7 @@ import { logger } from 'firebase-functions'
 import config from './config.js'
 
 export const complete = () => {
-  logger.log('Completed execution of extension')
+  logger.log('Completed execution of function resize image')
 }
 
 export const noContentType = () => {
@@ -26,7 +26,7 @@ export const noContentType = () => {
 }
 
 export const gzipContentEncoding = () => {
-  logger.log('Images encoded with \'gzip\' are not supported by this extension')
+  logger.log('Images encoded with \'gzip\' are not supported by this function resize image')
 }
 
 export const contentTypeInvalid = contentType => {
@@ -52,7 +52,7 @@ export const errorDeleting = err => {
 }
 
 export const failed = () => {
-  logger.error('Failed execution of extension')
+  logger.error('Failed execution of function resize image')
 }
 
 export const imageAlreadyResized = () => {
@@ -116,11 +116,11 @@ export const imageUploading = path => {
 }
 
 export const init = () => {
-  logger.log('Initializing extension with configuration', config)
+  logger.log('Initializing function resize image with configuration', config)
 }
 
 export const start = () => {
-  logger.log('Started execution of extension with configuration', config)
+  logger.log('Started execution of function resize image with configuration', config)
 }
 
 export const tempDirectoryCreated = directory => {

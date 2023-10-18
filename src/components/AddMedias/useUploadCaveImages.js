@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import CaveAsset from '@/models/CaveAsset'
+import useLoggedIn from '@/hooks/useLoggedin.js'
 
 export function useUploadCaveImages() {
   const user = useSelector(state => state.session.user)
@@ -13,6 +14,7 @@ export function useUploadCaveImages() {
   const [done, setDone] = useState(false)
   const [bytesTransferred, setBytesTransferred] = useState(null)
   const [totalBytes, setTotalBytes] = useState(0)
+  const isLoggedIn = useLoggedIn()
 
   function reset() {
     setTotalBytes(0)
@@ -33,13 +35,17 @@ export function useUploadCaveImages() {
         for (const [i, file] of files.entries()) {
           const index = i + 1
           const url = URL.createObjectURL(file)
+          const caveAssetData = {
+            caveId: currentCave.id,
+          }
+
+          if (isLoggedIn) {
+            caveAssetData.userId = user.uid
+          }
 
           setCurrent({ index, url })
 
-          const caveAsset = new CaveAsset({
-            caveId: currentCave.id,
-            userId: user.uid,
-          })
+          const caveAsset = new CaveAsset(caveAssetData)
 
           await caveAsset.upload(file, bytesTransferred => {
             // console.log('[%s] %s', file.name, bytesTransferred)

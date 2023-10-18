@@ -37,11 +37,9 @@ import '../init.js'
 
 sharp.cache(false)
 
-const eventChannel =
-  process.env.EVENTARC_CHANNEL &&
-  getEventarc().channel(process.env.EVENTARC_CHANNEL, {
-    allowedEventTypes: process.env.EXT_SELECTED_EVENTS
-  })
+const eventChannel = process.env.EVENTARC_CHANNEL && getEventarc().channel(process.env.EVENTARC_CHANNEL, {
+  allowedEventTypes: process.env.EXT_SELECTED_EVENTS
+})
 
 logs.init()
 
@@ -50,7 +48,7 @@ logs.init()
  * the Sharp image converting library.
  */
 
-const generateResizedImageHandler = async (object, verbose = true) => {
+export async function generateResizedImageHandler(object, verbose = true) {
   !verbose || logs.start()
   if (!shouldResize(object)) {
     return

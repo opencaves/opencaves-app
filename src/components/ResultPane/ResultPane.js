@@ -15,17 +15,16 @@ import { useTitle } from '@/hooks/useTitle'
 import { useSmall } from '@/hooks/useSmall'
 import { setCurrentCave } from '@/redux/slices/mapSlice'
 import './ResultPane.scss'
-import { current } from '@reduxjs/toolkit'
 
 export async function resultPaneLoader({ params }) {
   const { caveId } = params
-  const [mediaList, coverImage, mediaCount] = await Promise.all([
+  const [mediaList, /*coverImage,*/ mediaCount] = await Promise.all([
     loadMediaList(caveId),
-    loadCoverImage(caveId),
+    // loadCoverImage(caveId),
     loadMediaCount(caveId)
   ])
 
-  return { coverImage, mediaList, mediaCount }
+  return { mediaList, /*coverImage,*/ mediaCount }
 }
 
 export default function ResultPane() {

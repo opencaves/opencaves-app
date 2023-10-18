@@ -1,0 +1,1 @@
+export const COLL_NAME = 'cavesAssets'

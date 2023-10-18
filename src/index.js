@@ -18,15 +18,15 @@ TagManager.initialize({ gtmId: 'GTM-WBL7VM3' })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <StrictMode>
-    <Profiler name='App'>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
-      </Provider>
-    </Profiler>
-  </StrictMode >
+  // <StrictMode>
+  <Profiler name='App'>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  </Profiler>
+  // </StrictMode >
 )
 
 console.log('------------------------- test 12')

@@ -138,8 +138,6 @@ export default class CaveAsset {
     this.userId = userId
     this.isCover = isCover
     this.type = type
-    this.created = serverTimestamp()
-    this.updated = serverTimestamp()
   }
 
   toObject() {
@@ -212,26 +210,98 @@ export default class CaveAsset {
 
     for (const doc of querySnapshot.docs) {
       await updateDoc(doc.ref, {
-        isCover: false,
-        updated: serverTimestamp()
+        isCover: false
       })
     }
-    console.log('id: %o', this.id)
+
     const docRef = doc(db, COLL, this.id)
-    console.log('docRef: %o', docRef)
+
     await updateDoc(docRef, {
-      isCover: true,
-      updated: serverTimestamp()
+      isCover: true
     })
   }
 
+  //   async upload(file, callback) {
+  //     const self = this
+  //     return new Promise((resolve, reject) => {
+  //       self.originalName = file.name
+  //       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
+  //       const fileRef = ref(storage, self.fullPath)
+  //       const uploadTask = uploadBytesResumable(fileRef, file)
+  //       uploadTask.on(
+  //         'state_changed',
+  //         snap => {
+  //           // track the upload progress
+  //           callback(snap.bytesTransferred)
+  //         },
+
+  //         //
+  //         // Error handler
+  //         //
+  //         error => {
+  //           reject(error)
+  //         },
+
+  //         //
+  //         // Success handler
+  //         //
+  //         async () => {
+
+  //           // XMP metadata extraction
+  //           if (xmpSupportedMediaTypes.includes(file.type)) {
+  //             const meta = await exifr.parse(file, { ifd0: true, tiff: false, xmp: true })
+
+  //             if (meta) {
+  //               const { ProjectionType, ImageHeight, ImageWidth } = meta
+
+  //               if (ImageHeight) {
+  //                 self.width = ImageWidth
+  //                 self.height = ImageHeight
+  //               }
+
+  //               if (ProjectionType) {
+  //                 self.isPanorama = true
+  //               }
+
+  //             }
+
+  //           }
+
+  //           const docRef = doc(db, COLL_NAME, self.id).withConverter(converter)
+  //           await setDoc(docRef, self)
+  //           resolve()
+  //         }
+  //       )
+  //     })
+  //   }
+
   async upload(file, callback) {
     const self = this
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       self.originalName = file.name
       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
+
+      // XMP metadata extraction
+      if (xmpSupportedMediaTypes.includes(file.type)) {
+        const meta = await exifr.parse(file, { ifd0: true, tiff: false, xmp: true })
+
+        if (meta) {
+          const { ProjectionType, ImageHeight, ImageWidth } = meta
+
+          if (ImageHeight) {
+            self.width = ImageWidth
+            self.height = ImageHeight
+          }
+
+          if (ProjectionType) {
+            self.isPanorama = true
+          }
+
+        }
+      }
+
       const fileRef = ref(storage, self.fullPath)
-      const uploadTask = uploadBytesResumable(fileRef, file)
+      const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata: { assetData: self } })
       uploadTask.on(
         'state_changed',
         snap => {
@@ -251,28 +321,8 @@ export default class CaveAsset {
         //
         async () => {
 
-          // XMP metadata extraction
-          if (xmpSupportedMediaTypes.includes(file.type)) {
-            const meta = await exifr.parse(file, { ifd0: true, tiff: false, xmp: true })
-
-            if (meta) {
-              const { ProjectionType, ImageHeight, ImageWidth } = meta
-
-              if (ImageHeight) {
-                self.width = ImageWidth
-                self.height = ImageHeight
-              }
-
-              if (ProjectionType) {
-                self.isPanorama = true
-              }
-
-            }
-
-          }
-
-          const docRef = doc(db, COLL_NAME, self.id).withConverter(converter)
-          await setDoc(docRef, self)
+          // const docRef = doc(db, COLL_NAME, self.id).withConverter(converter)
+          // await setDoc(docRef, self)
           resolve()
         }
       )

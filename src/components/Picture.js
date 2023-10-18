@@ -1,6 +1,9 @@
 import pixel from '@/images/pixel.gif'
+import { useEffect, useRef } from 'react'
 
 export default function Picture({ sources, ...props }) {
+
+  const pictureRef = useRef()
 
   function renderSources() {
 
@@ -41,9 +44,16 @@ export default function Picture({ sources, ...props }) {
     return <img alt={alt} srcSet={src} {...sizesProp} {...rest} />
   }
 
+  useEffect(() => {
+    if (pictureRef && pictureRef.current) {
+      pictureRef.current.naturalWidth = 3072
+      pictureRef.current.naturalHeight = 1728
+    }
+  }, [pictureRef])
+
   if (sources) {
     return (
-      <picture style={{ display: 'flex' }}>
+      <picture ref={pictureRef} style={{ display: 'flex' }}>
         {renderSources()}
         {renderImage(true)}
       </picture>

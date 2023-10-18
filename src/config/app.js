@@ -9,7 +9,7 @@ export const resultPaneMinHeight = 300
 export const snackbarAutoHideDuration = 6000
 export const scrollbarTrackHeight = 8
 export const scrollbarStepFactor = 38
-export const thumbnailFormats = ['avif', 'webp']
+export const thumbnailFormats = ['webp']
 export const thumbnailFolder = 'thumbnails'
 export const caveAssetsSizes = {
   coverImage: `${paneWidth}x${Math.round(paneWidth * coverImageHeightRatio)}`,
@@ -43,6 +43,10 @@ export const imageSizes = {
   },
   '1536': {
     width: 1536,
+    fit: 'outside'
+  },
+  '4k': {
+    width: 3840,
     fit: 'outside'
   }
 }

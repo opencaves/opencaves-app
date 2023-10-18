@@ -384,7 +384,7 @@
     "addMedia": {
       "header": "Téléchargez des photos de la cénote {{name}}",
       "dragHere": "Faites glisser les photos ici",
-      "dropHere": "Déposez les fichiers ici…",
+      "dropHere": "Déposez des fichiers n'importe où pour les télécharger",
       "or": "ou",
       "btn": "Cliquez pour sélectionner des fichiers",
       "closeBtn": {
