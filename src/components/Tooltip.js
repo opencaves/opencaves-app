@@ -8,7 +8,7 @@ export default function Tooltip({ children, ...props }) {
   return (
     <ConditionalWrapper
       condition={!isSmall}
-      wrapper={children => <MUITooltip {...props}><>{children}</></MUITooltip>}
+      wrapper={children => <MUITooltip {...props}>{children}</MUITooltip>}
     >
       {children}
     </ConditionalWrapper>

@@ -33,7 +33,3 @@ if (location.hostname === 'localhost') {
   connectFunctionsEmulator(functions, '127.0.0.1', 5001)
   connectStorageEmulator(storage, '127.0.0.1', 9199)
 }
-
-// Not working in development
-// eslint-disable-next-line no-restricted-globals
-export const storageResizeImagesExtensionFixed = location.hostname !== 'localhost'

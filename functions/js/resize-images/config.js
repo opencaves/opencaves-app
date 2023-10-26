@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import { BUCKET_NAME } from '../assets/constants.js'
+import { THUMBNAILS_FOLDER } from '../constants.js'
+
 export let deleteImage
 
   ; (function (deleteImage) {
@@ -57,7 +60,7 @@ function paramToArray(param) {
 const magnificationFactor = 1.5022
 
 const config = {
-  bucket: 'opencaves.appspot.com',
+  bucket: BUCKET_NAME,
   cacheControlHeader: 'public, max-age=31536000, immutable',
   doBackfill: true,
   imageSizes: {
@@ -92,7 +95,7 @@ const config = {
     }
   },
   makePublic: true,
-  resizedImagesPath: '../thumbnails',
+  resizedImagesPath: `../${THUMBNAILS_FOLDER}`,
   includePathList: paramToArray('/caves/*/images'),
   excludePathList: paramToArray(undefined),
   failedImagesPath: 'failed',

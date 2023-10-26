@@ -21,7 +21,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, ...props }) {
   const open = Boolean(anchorEl)
   const mediaThumbnailItemId = `media-thumbnail-item-${mediaAsset.id}`
   const activeStyles = isActive ? {
-    outline: '3px solid var(--md-palette-primary-main)',
+    outline: '3px solid var(--md-palette-secondary-main)',
     outlineOffset: '-3px'
   } : {}
 
@@ -62,6 +62,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, ...props }) {
           component={Link}
           to={`../${mediaAsset.id}`}
           relative='path'
+          replace
           aria-label={t('mediaThumbnailItem.openBtn.ariaLabel')}
           sx={{
             borderRadius: '0.5rem',

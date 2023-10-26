@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, useLoaderData } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
 import { AddPhotoAlternateRounded } from '@mui/icons-material'
@@ -10,7 +8,7 @@ import UnstyledLink from '@/components/UnstyledLink'
 import Tooltip from '@/components/Tooltip'
 import Picture from '@/components/Picture'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper'
-import { getCoverImage, getImageAssetUrl, useCoverImage } from '@/models/CaveAsset'
+import { getCoverImage, useCoverImage } from '@/models/CaveAsset'
 import useSession from '@/hooks/useSession'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 import pixel from '@/images/pixel.gif'
@@ -20,79 +18,80 @@ export async function loadCoverImage(caveId) {
 }
 
 export default function CoverImage({ caveId, width, height }) {
-  const start = Date.now()
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
   const hasSession = useSession()
   const [sources, setSources] = useState(null)
-  const [fallbackImage, setFallbackImage] = useState(pixel)
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
-  // const { coverImage: initialCoverImage } = useLoaderData()
-  // const coverImage = useLoaderData()
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
 
-  // useEffect(() => {
-  //   console.log('##### [CoverImage] loading time from useLoaderData: %s, %o', Date.now() - start, initialCoverImage)
-  // }, [initialCoverImage])
+  function Container({ children }) {
+    return (
+      <Box
+        position='relative'
+        width={width}
+        height={height}
+      >
+        {children}
+      </Box>
+    )
+  }
 
   useEffect(() => {
 
-    if (coverImageError) {
-      setFallbackImage(defaultMediaCardImage)
-      return
-    }
-
-    if (coverImageLoading) {
-      setFallbackImage(pixel)
-      return
-    }
-    setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
-
     if (coverImage) {
-      setHasCoverImage(true)
-    } else {
-      setFallbackImage(defaultMediaCardImage)
+      setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
+      setHasCoverImage(!!coverImage)
     }
-  }, [coverImage, coverImageLoading, coverImageError])
+  }, [coverImage])
 
-  return (
-    <Box
-      position='relative'
-      width={width}
-      height={height}
-    >
-      <ConditionalWrapper
-        condition={hasCoverImage || hasSession}
-        wrapper={children => <Tooltip title={t(`${hasCoverImage ? 'seeImages' : 'addImages'}.tooltip`)} >{children}</Tooltip>}
-      >
+  if (coverImageLoading) {
+    return (
+      <Container>
+        <Picture
+          src={pixel}
+          alt=''
+          style={{
+            width,
+            height,
+            objectFit: 'cover'
+          }}
+        />
+      </Container>
+    )
+  }
+
+  if (coverImageError) {
+    return (
+      <Container>
+        <Picture
+          src={defaultMediaCardImage}
+          alt=''
+          style={{
+            width,
+            height,
+            objectFit: 'cover'
+          }}
+        />
+      </Container>
+    )
+  }
+
+  if (!hasCoverImage) {
+    return (
+      <Container>
         <ConditionalWrapper
-          condition={hasCoverImage || hasSession}
-          wrapper={children => {
-            if (!hasCoverImage && hasSession) {
-              return (
-                <ButtonBase onClick={promptForMedias}>
-                  {children}
-                </ButtonBase>
-              )
-            }
-
-            return (
-              <UnstyledLink
-                to='medias'
-                style={{
-                  display: 'block',
-                  ':hover': {
-                    '--oc-cover-image-add-btn-opacity': '1'
-                  }
-                }}
-              >
+          condition={hasSession}
+          wrapper={children => (
+            <Tooltip title={t('addImages.tooltip')}>
+              <ButtonBase onClick={promptForMedias}>
                 {children}
-              </UnstyledLink>
-            )
-          }}>
+              </ButtonBase>
+            </Tooltip>
+          )}
+        >
           <Picture
-            src={fallbackImage}
-            sources={sources}
+            src={defaultMediaCardImage}
             alt=''
             style={{
               width,
@@ -101,7 +100,7 @@ export default function CoverImage({ caveId, width, height }) {
             }}
           />
           {
-            hasSession && !hasCoverImage && (
+            hasSession && (
               <AddPhotoAlternateRounded
                 sx={{
                   position: 'absolute',
@@ -116,7 +115,33 @@ export default function CoverImage({ caveId, width, height }) {
             )
           }
         </ConditionalWrapper>
-      </ConditionalWrapper>
-    </Box>
+      </Container>)
+  }
+
+  return (
+    <Container>
+      <Tooltip title={t('seeImages.tooltip')}>
+        <UnstyledLink
+          to={`medias/${coverImage.id}`}
+          style={{
+            display: 'block',
+            ':hover': {
+              '--oc-cover-image-add-btn-opacity': '1'
+            }
+          }}
+        >
+          <Picture
+            src={pixel}
+            sources={sources}
+            alt=''
+            style={{
+              width,
+              height,
+              objectFit: 'cover'
+            }}
+          />
+        </UnstyledLink>
+      </Tooltip>
+    </Container>
   )
 }

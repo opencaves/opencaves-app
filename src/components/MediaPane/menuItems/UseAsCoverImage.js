@@ -1,28 +1,17 @@
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { MenuItem } from '@mui/material'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
+import useRoles from '@/hooks/useRoles'
+
+export function useUseAsCoverImage() {
+  return useRoles('editor')
+}
 
 export default function UseAsCoverImage({ mediaAsset }) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
-  const user = useSelector(state => state.session.user)
+  const isEditor = useUseAsCoverImage()
   const [openSnackbar] = useSnackbar()
-  const [isEditor, setIsEditor] = useState(false)
-
-  useEffect(() => {
-    async function getIdToken() {
-      if (user) {
-        const idTokenResult = await user.getIdTokenResult()
-        if (idTokenResult.claims.roles && idTokenResult.claims.roles.includes('editor')) {
-          setIsEditor(true)
-        }
-      }
-    }
-
-    getIdToken()
-  }, [user])
 
   async function onUseAsCoverImageClick() {
     try {

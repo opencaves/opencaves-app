@@ -28,11 +28,9 @@ export function loadMediaCount(caveId) {
 export default function MediaList({ caveId, hasMedia = false }) {
   const { mediaCount } = useLoaderData()
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
-  // const [assetsList, setAssetsList] = useState(null)
+  const [assetsList, setAssetsList] = useState(null)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
   const scrollbarsRef = useRef()
-
-  const start = useRef(Date.now())
 
   function getColPosition(i) {
     const triplets = Math.ceil((i + 1) / 3) - 1
@@ -75,75 +73,17 @@ export default function MediaList({ caveId, hasMedia = false }) {
     return () => scrollbar?.container?.removeEventListener('wheel', onWheel)
   })
 
-  // useEffect(() => {
-  //   console.log('##### [MediaList] loading time from useCaveAssetsList: %s, %o', Date.now() - start.current, mediaList)
-
-  //   const list = []
-
-  //   if (mediaList && !mediaList.empty) {
-  //     const assetsListLength = Math.min(mediaList.size, assetsListMaxLength)
-  //     const assetItems = []
-
-  //     for (var i = 0; i < assetsListLength; i++) {
-  //       assetItems.push({
-  //         isMedia: true,
-  //         item: mediaList.docs[i].data()
-  //       })
-  //     }
-
-  //     if (mediaList.size > assetsListMaxLength) {
-
-  //       assetItems.push({
-  //         isMedia: false
-  //       })
-
-  //     }
-
-  //     const lastColIdx = getColPosition(assetItems.length - 1)
-
-  //     function isLastCol(i) {
-  //       return getColPosition(i) === lastColIdx
-  //     }
-
-  //     for (var i = 0; i < assetItems.length; i += 3) {
-  //       list.push(
-  //         <MediaListCol key={i} isLast={isLastCol(i)}>
-  //           <Media asset={assetItems[i]} />
-  //         </MediaListCol>
-  //       )
-
-  //       if (assetItems[i + 1]) {
-  //         const colItems = [
-  //           <MediaListCell key={1} height={assetsListHeight / 2} width={assetsListHeight / 2}>
-  //             <Media asset={assetItems[i + 1]} size='half' />
-  //           </MediaListCell>
-  //         ]
-
-  //         if (assetItems[i + 2]) {
-  //           colItems.push(
-  //             <MediaListCell key={2} position='bottom' height={assetsListHeight / 2} width={assetsListHeight / 2}>
-  //               <Media asset={assetItems[i + 2]} size='half' />
-  //             </MediaListCell>
-  //           )
-  //         }
-
-  //         list.push(<MediaListCol key={i + 1} isLast={isLastCol(i + 1)} width='half'>{colItems}</MediaListCol>)
-  //       }
-  //     }
-  //     setAssetsList(list)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [mediaList])
-
-  const assetsList = useMemo(() => {
+  useEffect(() => {
 
     const list = []
 
     if (mediaList && !mediaList.empty) {
+      console.log('yes: mediaList: %o', mediaList)
       const assetsListLength = Math.min(mediaList.size, assetsListMaxLength)
       const assetItems = []
+      let i
 
-      for (var i = 0; i < assetsListLength; i++) {
+      for (i = 0; i < assetsListLength; i++) {
         assetItems.push({
           isMedia: true,
           item: mediaList.docs[i].data()
@@ -164,7 +104,7 @@ export default function MediaList({ caveId, hasMedia = false }) {
         return getColPosition(i) === lastColIdx
       }
 
-      for (var i = 0; i < assetItems.length; i += 3) {
+      for (i = 0; i < assetItems.length; i += 3) {
         list.push(
           <MediaListCol key={i} isLast={isLastCol(i)}>
             <Media asset={assetItems[i]} />
@@ -189,13 +129,13 @@ export default function MediaList({ caveId, hasMedia = false }) {
           list.push(<MediaListCol key={i + 1} isLast={isLastCol(i + 1)} width='half'>{colItems}</MediaListCol>)
         }
       }
-
-      return list
+      setAssetsList(list)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaList])
 
-  return hasMedia && (
+  return mediaList && !mediaList.empty && (
     <Box
       sx={{
         marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',

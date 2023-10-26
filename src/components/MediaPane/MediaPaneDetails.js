@@ -1,12 +1,14 @@
-import { useTranslation } from 'react-i18next'
 import { useRef, useState } from 'react'
+import { resolvePath, useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
-import { ButtonBase, IconButton, styled } from '@mui/material'
+import { styled } from '@mui/material'
+import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
@@ -16,8 +18,6 @@ import MediaViewer from '@/components/MediaViewer/MediaViewer'
 import MediaPaneMenu from './MediaPaneMenu'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
-import { resolvePath, useLocation, useNavigate } from 'react-router-dom'
-import { ArrowForwardIosRounded } from '@mui/icons-material'
 
 const Main = styled('main')(
   ({ theme, open }) => {
@@ -61,7 +61,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
       slide.src = url
     } else {
       slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })
-      slide.src = url
+      // slide.src = url
     }
 
     return slide
@@ -84,7 +84,9 @@ export default function MediaPaneDetails({ mediaId, medias }) {
     console.log('from %o to %o', from, to)
     // setTouchAction(type === 'panorama' ? 'none' : 'pan-y')
     if (to !== from) {
-      navigate(`../${mediaId}`, { replace: true, relative: 'path' })
+      setTimeout(() => {
+        navigate(`../${mediaId}`, { replace: true, relative: 'path' })
+      })
     }
   }
 
@@ -126,6 +128,9 @@ export default function MediaPaneDetails({ mediaId, medias }) {
           iconShare: () => <ShareRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconPrev: () => <ArrowBackIosNewRoundedIcon />,
           iconNext: () => <ArrowForwardIosRounded />
+        }}
+        noScroll={{
+          disabled: true
         }}
         on={{
           view: onView

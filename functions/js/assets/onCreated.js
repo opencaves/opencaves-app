@@ -1,6 +1,6 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
-import { COLL_NAME } from './constants.js'
 import { Timestamp } from 'firebase-admin/firestore'
+import { COLL_NAME } from './constants.js'
 
 export const onAssetCreated = onDocumentCreated(`${COLL_NAME}/{assetId}`, event => {
   const snapshot = event.data

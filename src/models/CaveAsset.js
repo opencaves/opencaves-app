@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { useEffect, useState } from 'react'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { deleteObject, ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import exifr from 'exifr/dist/lite.esm.mjs'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
-import { db, storage, storageResizeImagesExtensionFixed } from '@/config/firebase'
+import { breakpoints } from '@/theme/Theme'
+import { db, storage } from '@/config/firebase'
 import { firebaseConfig } from '@/config/firebase.config'
 import { acceptedMimeTypes } from '@/config/mediaPane'
 import { caveAssetsSizes, imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app'
-import { breakpoints } from '@/theme/Theme.js'
 
 const xmpSupportedMediaTypes = acceptedMimeTypes.filter(media => ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(media))
 
@@ -54,12 +54,10 @@ export default class CaveAsset {
         await deleteObject(assetRef)
         await deleteDoc(docRef)
 
-        if (storageResizeImagesExtensionFixed) {
-          for (const thumbSize of Object.values(caveAssetsSizes)) {
-            for (const format of thumbnailFormats) {
-              const thumbFullPath = `caves/${caveId}/images/${thumbnailFolder}/${assetId}_${thumbSize}.${format}`
-              await deleteObject(ref(storage, thumbFullPath))
-            }
+        for (const thumbSize of Object.values(caveAssetsSizes)) {
+          for (const format of thumbnailFormats) {
+            const thumbFullPath = `caves/${caveId}/images/${thumbnailFolder}/${assetId}_${thumbSize}.${format}`
+            await deleteObject(ref(storage, thumbFullPath))
           }
         }
 

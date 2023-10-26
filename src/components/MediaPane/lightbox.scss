@@ -36,11 +36,11 @@
     padding: var(--oc-media-viewer-toolbar-padding);
 
     @media (hover: hover) {
-      opacity: 0;
+      // opacity: 0;
 
-      .yarl__root:hover & {
-        animation: lightbox-toolbar-fadein 250ms linear forwards, lightbox-toolbar-fadein 250ms linear reverse forwards 4s;
-      }
+      // .yarl__root:hover & {
+      //   animation: lightbox-toolbar-fadein 250ms linear forwards, lightbox-toolbar-fadein 250ms linear reverse forwards 4s;
+      // }
 
       &:hover {
         opacity: 1 !important;

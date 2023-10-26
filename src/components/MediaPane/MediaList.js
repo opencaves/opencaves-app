@@ -17,8 +17,6 @@ function getImageWidth() {
 export default function MediaList() {
   const { t } = useTranslation('mediaPane')
   const { caveId, mediaId } = useParams()
-  const currentCave = useSelector(state => state.map.currentCave)
-  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   const [mediaListSnapshot, loading, error] = useCaveAssetsList(caveId)
   console.log('mediaListSnapshot: %o', mediaListSnapshot)
   const imageWidth = getImageWidth()
@@ -42,7 +40,9 @@ export default function MediaList() {
             pb: `${mediaItemPadding}px`,
           }}
         >
-          <Skeleton variant='rectangular' width={imageWidth} height={imageWidth * .5625} />
+          <Skeleton variant='rounded' width={imageWidth} height={imageWidth * .5625} sx={{
+            borderRadius: '0.5rem',
+          }} />
         </Box>
       )
       )}

@@ -4,14 +4,16 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Menu } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
-import UseAsCoverImage from './menuItems/UseAsCoverImage'
-import DeleteMedia from './menuItems/DeleteMedia'
+import UseAsCoverImage, { useUseAsCoverImage } from './menuItems/UseAsCoverImage'
+import DeleteMedia, { useDeleteMedia } from './menuItems/DeleteMedia'
 
 export default function MediaPaneMenu({ mediaAsset, ...props }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
+  const setDeleteMediaMenuItem = useDeleteMedia()
+  const setUseAsCoverImageMenuItem = useUseAsCoverImage()
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
@@ -21,7 +23,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
     setAnchorEl(null)
   }
 
-  return isLoggedIn && (
+  return (setDeleteMediaMenuItem || setUseAsCoverImageMenuItem) && (
     <>
       <IconButton
         {...props}
@@ -31,7 +33,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         sx={{
-          color: 'var(--yarl__color_button, hsla(0,0%,100%,.8))'
+          color: 'var(--yarl__color_button, hsla(0, 0%, 100%, .8))'
         }}
         className='yarl__button'
       >
@@ -58,6 +60,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <div>test</div>
         <UseAsCoverImage mediaAsset={mediaAsset} />
         <DeleteMedia mediaAsset={mediaAsset} />
       </Menu>

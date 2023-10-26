@@ -1,30 +1,20 @@
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { MenuItem } from '@mui/material'
 import Message from '@/components/App/Message'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import { deleteById } from '@/models/CaveAsset'
+import useRoles from '@/hooks/useRoles'
+import noop from '@/utils/noop'
 
-export default function DeleteMedia({ mediaAsset }) {
+export function useDeleteMedia() {
+  return useRoles('admin')
+}
+
+export default function DeleteMedia({ mediaAsset, onDeleteComplete = noop }) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
-  const user = useSelector(state => state.session.user)
+  const isAdmin = useDeleteMedia()
   const [openSnackbar] = useSnackbar()
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  useEffect(() => {
-    async function getIdToken() {
-      if (user) {
-        const idTokenResult = await user.getIdTokenResult()
-        if (idTokenResult.claims.roles && idTokenResult.claims.roles.includes('admin')) {
-          setIsAdmin(true)
-        }
-      }
-    }
-
-    getIdToken()
-  }, [user])
 
   async function onDeleteClick() {
     try {
@@ -32,6 +22,7 @@ export default function DeleteMedia({ mediaAsset }) {
       await deleteById(mediaAsset.id)
 
       openSnackbar(<Message message={t('deleteSuccess')} />)
+      onDeleteComplete()
     } catch (error) {
       console.error(error)
       openSnackbar(<Message message={t('deleteFail')} type='error' />, { autoHide: false })

@@ -1,16 +1,17 @@
 import admin from 'firebase-admin'
-import { logger, storage } from 'firebase-functions/v2'
+import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import { db } from '../init.js'
 import { generateResizedImageHandler } from '../resize-images/index.js'
 import { COLL_NAME } from './constants.js'
+import { THUMBNAILS_FOLDER } from '../constants.js'
 
-export const add = storage.onObjectFinalized(async event => {
+export const add = onObjectFinalized(async event => {
   const { data } = event
   const { metadata } = data
 
   await admin.storage().bucket(data.bucket).file(data.name).setMetadata({ metadata: { assetData: null } })
 
-  if (data.name.indexOf('/thumbnails/') > -1) {
+  if (data.name.indexOf(`/${THUMBNAILS_FOLDER}/`) > -1) {
     return
   }
 

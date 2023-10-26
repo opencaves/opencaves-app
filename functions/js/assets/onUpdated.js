@@ -1,7 +1,7 @@
 import { onDocumentUpdated } from 'firebase-functions/v2/firestore'
-import { COLL_NAME } from './constants.js'
 import { Timestamp } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v1'
+import { COLL_NAME } from './constants.js'
 
 export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event => {
   const dataBefore = event.data.before.data()
@@ -27,13 +27,13 @@ export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event 
 
     if (!Reflect.has(dataBefore, prop)) {
       // A prop has been added
-      logger.log('[updated] prop added: %s: %s', prop, dataAfter[prop])
+      // logger.log('[updated] prop added: %s: %s', prop, dataAfter[prop])
       return true
     }
 
     if (!Reflect.has(dataAfter, prop)) {
       // A prop has been deleted
-      logger.log('[updated] prop deleted: %s', prop)
+      // logger.log('[updated] prop deleted: %s', prop)
       return true
     }
 
@@ -44,21 +44,14 @@ export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event 
 
     const propModified = dataAfter[prop] !== dataBefore[prop]
     if (propModified) {
-      logger.log('[updated] prop `%s` modified: %s: %s', prop, dataBefore[prop], dataAfter[prop])
+      // logger.log('[updated] prop `%s` modified: %s: %s', prop, dataBefore[prop], dataAfter[prop])
     }
 
     return propModified
 
   }, false)
 
-  logger.log('[updated] object props has changed: %s', documentChanged)
-
-  // const updated = Timestamp.now()
-
-  // if (dataBefore.updated) {
-  //   logger.log('[updated] %s - %s', dataBefore.updated, updated)
-  //   return
-  // }
+  // logger.log('[updated] object props has changed: %s', documentChanged)
 
   if (documentChanged) {
     snapshot.ref.set({
