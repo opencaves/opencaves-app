@@ -40,13 +40,14 @@ export default function ResultPane() {
   useEffect(() => {
     if (caves && caves.length > 0) {
       const currentCave = caves.find(cave => cave.id === caveId)
-      console.log('===================================================== %o', currentCave)
+
       if (currentCave) {
         _setCurrentCave(currentCave)
         dispatch(setCurrentCave(currentCave))
       }
     }
-  }, [caves])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [caves, caveId])
 
 
   useEffect(() => {

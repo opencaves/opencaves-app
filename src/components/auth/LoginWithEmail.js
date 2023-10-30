@@ -1,24 +1,24 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice'
+import { deleteContinueUrl } from '@/redux/slices/sessionSlice'
+import { Section, SectionActions, SectionFields, SectionForm } from './Section'
 import AuthButton from './AuthButton'
 import TextInput from './TextInput'
 import { auth } from '@/config/firebase'
 import { passwordMinLength } from '@/config/auth'
-import { Section, SectionActions, SectionFields, SectionForm } from './Section.js'
-import { Typography } from '@mui/material'
 
 export default function LoginWithEmail() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const continueUrl = useSelector(state => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'loginWithEmail' })
   const { t: tErrors } = useTranslation('errors')
-  const { state } = useLocation()
-  const [continueUrl, setContinueUrl] = useState()
+
   const emailInputRef = useRef(null)
   const passwordInputRef = useRef(null)
 
@@ -31,43 +31,45 @@ export default function LoginWithEmail() {
   const [passwordInputValid, setPasswordInputValid] = useState(false)
   const [authErrorText, setAuthErrorText] = useState('')
 
-  if (state && state.continueUrl) {
-    dispatch(setContinueUrl(state.continueUrl))
-  }
-
-  function navigateToContinueUrl(continueUrl = '/') {
-    dispatch(deleteContinueUrl())
-    navigate(continueUrl)
+  function navigateToContinueUrl() {
+    const url = continueUrl ?? '/'
+    // dispatch(deleteContinueUrl())
+    // console.log('!!! navigating to url: %s', url)
+    // navigate(url)
   }
 
   function onEmailInputValidityChange(validity) {
-    console.log('%c[onEmailInputValidityChange] %o', 'color: blue; font-weight: bold;', validity)
     setEmailInputValid(validity.valid)
   }
 
-  // function updateInputsValidity() {
-  //   if (emailInputRef) {
-  //     console.log('emailInputRef: %o', emailInputRef)
-  //     emailInputRef.current.error = !emailInputRef.current.inputRef.checkValidity()
-  //   }
-
-  //   if (passwordInputRef) {
-  //     passwordInputRef.current.error = !passwordInputRef.current.inputRef.checkValidity()
-  //   }
-  // }
-
   useEffect(() => {
-    console.log('emailInputValid: %o', emailInputValid)
+
     if (emailInputValid) {
       setAuthErrorText('')
     }
   }, [emailInputValid])
 
   async function onLoginBtnClick() {
+    await login()
+  }
+
+  function onEmailInputKeyUp(event) {
+    if (event.key === 'Enter') {
+      passwordInputRef.current?.querySelector('#pwd')?.focus()
+    }
+  }
+
+  async function onPasswordInputKeyUp(event) {
+    if (event.key === 'Enter') {
+      await login()
+    }
+  }
+
+  async function login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      navigateToContinueUrl(continueUrl)
+      navigateToContinueUrl()
     } catch (error) {
       console.error('Error login in: %o', error)
       // updateInputsValidity()
@@ -102,6 +104,7 @@ export default function LoginWithEmail() {
             value={email}
             error={emailError}
             onChange={e => setEmail(e.target.value)}
+            onKeyUp={onEmailInputKeyUp}
             onValidityChange={onEmailInputValidityChange}
           />
           <Grid
@@ -109,6 +112,7 @@ export default function LoginWithEmail() {
             direction='column'
           >
             <TextInput
+              id="pwd"
               ref={passwordInputRef}
               label={t('passwordLabel')}
               type='password'
@@ -119,6 +123,7 @@ export default function LoginWithEmail() {
               error={passwordError}
               minLength={passwordMinLength}
               onChange={e => setPassword(e.target.value)}
+              onKeyUp={onPasswordInputKeyUp}
               onValidityChange={validity => setPasswordInputValid(validity.valid)}
             />
             <Typography

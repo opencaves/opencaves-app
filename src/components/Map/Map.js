@@ -12,7 +12,7 @@ import { MapLoading, MapError } from './MapState'
 import { hasViewState } from './location-view-state'
 import { useSmall } from '@/hooks/useSmall'
 import useCurrentRoute from '@/hooks/useCurrentRoute'
-import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState } from '@/config/map'
+import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, markerConfig } from '@/config/map'
 import { ReactComponent as PinIcon } from '@/images/map/pin.svg'
 import { ReactComponent as PinLocationUnknownIcon } from '@/images/map/pin-location-unknown.svg'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -22,8 +22,6 @@ import './Marker.scss'
 export default function OCMap() {
 
   const dataLoadingState = useSelector(state => state.data.dataLoadingState)
-  const mapProps = useSelector(state => state.map.mapProps)
-  const markerConfig = useSelector(state => state.map.marker)
   const showPopup = useSelector(state => state.map.showPopup)
   const popupData = useSelector(state => state.map.popupData)
   const searchOptions = useSelector(state => state.search)
@@ -269,8 +267,6 @@ export default function OCMap() {
       }
       {
         mapReady && dataLoadingState.state === 'loaded' && (
-          // dataLoadingState.state === 'loaded' && (
-          // false && (
           <Map
             ref={mapRef}
             {...mapProps}
@@ -316,12 +312,10 @@ export default function OCMap() {
 
                 let markerLabel = null
                 if (isCurrentCave) {
-                  // if (zoomLevel < markerConfig.current.label.maxZoomLevel) {
                   if (zoomLevel > markerConfig.label.minZoomLevel) {
                     markerLabel = <div key={`marker-${cave.id}`} className='marker-label'>{caveName}</div>
                   }
                 } else {
-                  // console.log('[%s] zoomLevel: %s, minZoomLevel: %s', zoomLevel < markerConfig.label.minZoomLevel, zoomLevel, markerConfig.label.minZoomLevel)
                   if (zoomLevel > markerConfig.label.minZoomLevel) {
                     markerLabel = <div key={`marker-${cave.id}`} className='marker-label'>{caveName}</div>
                   }

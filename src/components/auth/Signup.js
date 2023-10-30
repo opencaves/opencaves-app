@@ -15,11 +15,11 @@ export default function Signup() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
-  const { state } = useLocation()
+  // const { state } = useLocation()
 
-  if (state && state.continueUrl) {
-    dispatch(setContinueUrl(state.continueUrl))
-  }
+  // if (state && state.continueUrl) {
+  //   dispatch(setContinueUrl(state.continueUrl))
+  // }
 
   function onSuccess(continueUrl = '/') {
     dispatch(deleteContinueUrl())

@@ -11,10 +11,13 @@ import { setContinueUrl } from '@/redux/slices/sessionSlice'
 export default function LoginMenuItem(props) {
   const dispatch = useDispatch()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
-  const location = useLocation()
+  // const location = useLocation()
+  const { location } = window
 
   function onLoginMenuItemClick() {
-    dispatch(setContinueUrl(`${location.pathname}${location.search}${location.hash}`))
+    const continueUrl = `${location.pathname}${location.search}${location.hash}`
+    console.log('continueUrl: %s', continueUrl)
+    dispatch(setContinueUrl(continueUrl))
   }
 
   return (

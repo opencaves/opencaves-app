@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Signup from '@/routes/Signup'
 import Login from '@/routes/Login'
 import Logout from '@/routes/Logout'
@@ -14,17 +15,25 @@ import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane
 import MediaPane, { mediaPaneLoader } from '@/components/MediaPane/MediaPane'
 import SignupWithEmail from '@/components/auth/SignupWithEmail'
 import LoginWithEmailPrompt from '@/components/auth/LoginWithEmailPrompt'
+import { deleteContinueUrl } from '@/redux/slices/sessionSlice'
 
 function SkipIfLoggedin({ children }) {
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   const continueUrl = useSelector(state => state.session.continueUrl)
+  const dispatch = useDispatch()
+  const navigateToUrl = continueUrl ? `${continueUrl}` : '/'
 
-  if (isLoggedIn) {
-    const navigateToUrl = continueUrl ? `${continueUrl}` : '/'
-    return <Navigate to={navigateToUrl} />
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(deleteContinueUrl())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn])
 
-  return children
+
+  return isLoggedIn ? (
+    <Navigate to={navigateToUrl} />
+  ) : children
 }
 
 const routes = [

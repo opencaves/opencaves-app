@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   isLoggedIn: false,
   isAnonymous: false,
-  continueUrl: undefined,
+  continueUrl: null,
 }
 
 const sessionSlice = createSlice({
@@ -12,7 +12,6 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      console.log('[setUser] action: %o', action)
       state.user = action.payload
       state.isLoggedIn = !!action.payload && !action.payload.isAnonymous
       state.isAnonymous = !!action.payload?.isAnonymous
@@ -21,7 +20,7 @@ const sessionSlice = createSlice({
       state.continueUrl = action.payload
     },
     deleteContinueUrl: (state) => {
-      state.continueUrl = undefined
+      state.continueUrl = null
     }
   }
 })

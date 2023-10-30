@@ -1,24 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  marker: {
-    label: {
-      minZoomLevel: 11,
-    },
-    current: {
-      label: {
-        maxZoomLevel: 14
-      }
-    }
-  },
-  mapProps: {
-    attributionControl: false,
-    hash: true,
-    mapStyle: 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e',
-    // reuseMaps: true,
-    dragRotate: false,
-    useWebGL2: true
-  },
   viewState: {},
   showPopup: false,
   popupData: {},

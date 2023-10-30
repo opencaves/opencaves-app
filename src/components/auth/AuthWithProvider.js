@@ -17,12 +17,12 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
   const isSmall = useSmall()
   const isAnonymous = useAnonymous()
   const user = useSelector(state => state.session.user)
-  const { state } = useLocation()
+  // const { state } = useLocation()
   const continueUrl = useSelector(state => state.session.continueUrl)
 
-  if (state && state.continueUrl) {
-    dispatch(setContinueUrl(state.continueUrl))
-  }
+  // if (state && state.continueUrl) {
+  //   dispatch(setContinueUrl(state.continueUrl))
+  // }
 
   function onAuthWithProviderSuccess() {
     if (onSuccess) {
@@ -78,7 +78,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
       signInWithPopup(auth, new Provider())
         .then(result => {
           setDisabled(false)
-          navigate('/')
+          navigate(continueUrl || '/')
         })
         .catch((error) => {
           setDisabled(false)

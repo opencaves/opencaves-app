@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -13,17 +13,13 @@ import { ReactComponent as GoogleGLogo } from '@/images/app/auth/google-g-logo.s
 export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const continueUrl = useSelector(state => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'login' })
-  const { state } = useLocation()
 
-
-  if (state && state.continueUrl) {
-    dispatch(setContinueUrl(state.continueUrl))
-  }
-
-  function onSuccess(continueUrl = '/') {
+  function onSuccess() {
+    const url = continueUrl ?? '/'
     dispatch(deleteContinueUrl())
-    navigate(continueUrl)
+    navigate(url)
   }
 
   return (
