@@ -23,6 +23,7 @@
       "login": "Login",
       "addPictures": "Add Pictures",
       "logout": "Logout",
+      "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
       "about_withName": "About {{name}}",
       "drawer": {
@@ -168,12 +169,14 @@
       "firstNameTooShort": "The first name must be at least {{minLength}} characters",
       "passwordMissing": "Please enter your password",
       "passwordWrong": "Wrong password",
+      "userNotFound": "Could not find your account",
       "default": "An error occured. Please try again later."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
+      "auth/user-not-found": "$t(auth.userNotFound)",
       "auth/wrong-password": "$t(auth.passwordWrong)"
     }
   },

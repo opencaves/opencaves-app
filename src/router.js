@@ -3,7 +3,6 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Signup from '@/routes/Signup'
 import Login from '@/routes/Login'
-import Logout from '@/routes/Logout'
 import Map from '@/routes/Map'
 import Loading from '@/routes/Loading'
 import Account from '@/routes/Account'
@@ -80,10 +79,6 @@ const routes = [
                 element: <LoginWithEmailPrompt open={true} />
               }
             ]
-          },
-          {
-            path: 'logout',
-            element: <Logout />
           },
           {
             path: 'account',

@@ -5,16 +5,17 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useMatches } from 'react-router-dom'
 import { Button, Menu, Divider, Avatar, ListItemIcon, useTheme, Typography, Tooltip, Box } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { LogoutRounded, PersonAddRounded, PersonRounded } from '@mui/icons-material'
+import { PersonRounded } from '@mui/icons-material'
 import MenuItem from './MenuItem'
+import SignupMenuItem from './menu/SignupMenuItem'
+import LoginMenuItem from './menu/LoginMenuItem'
+import LogoutMenuItem from './menu/LogoutMenuItem'
 import AddMedias from './menu/AddMediasMenuItem'
 import LogoIcon from './LogoIcon'
 import { useSmall } from '@/hooks/useSmall'
 import useSession from '@/hooks/useSession'
 import { setContinueUrl } from '@/redux/slices/sessionSlice'
 import { appName } from '@/config/app'
-import SignupMenuItem from './menu/SignupMenuItem.js'
-import LoginMenuItem from './menu/LoginMenuItem.js'
 
 
 export default function AppMenu({ sx, ...props }) {
@@ -175,12 +176,7 @@ export default function AppMenu({ sx, ...props }) {
         {
           isLoggedIn && [
             <Divider key='key-divider-3' />,
-            <MenuItem key='key-logout' component={Link} to='/logout'>
-              <ListItemIcon>
-                <LogoutRounded fontSize='small' />
-              </ListItemIcon>
-              {t('logout')}
-            </MenuItem>
+            <LogoutMenuItem key='key-logout' />
           ]
         }
       </Menu>
