@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: chore(deops)
+      prefix: chore(deps)
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/functions/js/" # Location of package manifests
