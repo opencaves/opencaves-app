@@ -46,7 +46,7 @@
     "@ionic/react": "^7.3.3",
     "@mui/icons-material": "^5.14.0",
     "@mui/lab": "^5.0.0-alpha.138",
-    "@mui/material": "^5.13.5",
+    "@mui/material": "^5.15.3",
     "@mui/material-next": "^6.0.0-alpha.92",
     "@reduxjs/toolkit": "^1.9.5",
     "browser-fs-access": "^0.34.1",
