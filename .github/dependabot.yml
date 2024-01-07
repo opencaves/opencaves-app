@@ -12,7 +12,7 @@ updates:
     commit-message:
       prefix: chore(deps)
     # Disable version updates for npm dependencies
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 10
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/functions/js/" # Location of package manifests
@@ -21,4 +21,4 @@ updates:
     commit-message:
       prefix: chore(deps)
     # Disable version updates for npm dependencies
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 10
