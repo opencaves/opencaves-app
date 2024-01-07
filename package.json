@@ -78,7 +78,7 @@
     "react-page-visibility": "^7.0.0",
     "react-password-strength-bar": "^0.4.1",
     "react-photo-sphere-viewer": "^4.0.0-psv5.4.4",
-    "react-redux": "^8.0.7",
+    "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
     "react-transition-group": "^4.4.5",
