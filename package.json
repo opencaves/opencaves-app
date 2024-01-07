@@ -93,7 +93,7 @@
     "web-vitals": "^3.5.1",
     "workbox-background-sync": "^7.0.0",
     "workbox-core": "^7.0.0",
-    "workbox-expiration": "^6.5.4",
+    "workbox-expiration": "^7.0.0",
     "workbox-google-analytics": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "workbox-routing": "^7.0.0",
