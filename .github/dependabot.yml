@@ -9,8 +9,12 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: chore
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/functions/js/" # Location of package manifests
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: chore
