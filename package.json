@@ -106,7 +106,7 @@
     "concurrently": "^8.2.1",
     "craco-alias": "^3.0.1",
     "eslint-config-react-app": "^7.0.1",
-    "serve": "^14.2.0",
+    "serve": "^14.2.1",
     "swr": "^2.2.4"
   }
 }
