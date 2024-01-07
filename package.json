@@ -91,7 +91,7 @@
     "underscore": "^1.13.6",
     "unique-push-id": "^1.0.2",
     "web-vitals": "^2.1.4",
-    "workbox-background-sync": "^6.5.4",
+    "workbox-background-sync": "^7.0.0",
     "workbox-core": "^7.0.0",
     "workbox-expiration": "^6.5.4",
     "workbox-google-analytics": "^7.0.0",
