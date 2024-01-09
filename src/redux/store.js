@@ -1,8 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import localforage from 'localforage'
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, } from 'redux-persist'
 import sessionStorage from 'redux-persist/lib/storage/session'
-import { persistReducer, persistStore } from 'redux-persist'
-import thunk from 'redux-thunk'
 import appReducer from './slices/appSlice'
 import dataReducer from './slices/dataSlice'
 import sessionReducer from "./slices/sessionSlice"
@@ -49,7 +48,15 @@ const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: [thunk]
+  middleware: getDefaultMiddleware => {
+    const defaultMiddlewares = getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    })
+    console.log('ici: %o', defaultMiddlewares)
+    return defaultMiddlewares
+  }
 })
 
 export const persistor = persistStore(store)

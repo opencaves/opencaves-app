@@ -6,5 +6,5 @@ import { setUser } from '@/redux/slices/sessionSlice'
 export default function ManageAuth() {
   const dispatch = useDispatch()
 
-  onAuthStateChanged(auth, user => dispatch(setUser(user)))
+  onAuthStateChanged(auth, user => dispatch(setUser(user ? user.toJSON() : user)))
 }
