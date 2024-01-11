@@ -4,7 +4,7 @@
   "description": "Cloud js Functions for OpenCaves",
   "scripts": {
     "lint": "eslint .",
-    "dev": "firebase --debug emulators:start --import=../.emulator-data",
+    "dev": "firebase emulators:start --import=C:\\firebase-temp-data --export-on-exit=C:\\firebase-temp-data --debug",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
