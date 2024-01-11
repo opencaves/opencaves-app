@@ -1,7 +1,8 @@
 {
   "svg.preview.background": "editor",
   "conventionalCommits.scopes": [
-    "app"
+    "app",
+    "deps"
   ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
