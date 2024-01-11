@@ -1,0 +1,18 @@
+# Auto detect text files and perform LF normalization
+*          text=auto
+
+#
+# The above will handle all files NOT found below
+#
+
+# Source code
+*.js       text
+*.mjs      text
+*.cjs      text
+*.json     text
+
+# Ignore files (like .npmignore or .gitignore)
+*.*ignore         text
+
+.gitattributes export-ignore
+.gitkeep       export-ignore

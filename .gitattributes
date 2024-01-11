@@ -1,0 +1,73 @@
+# Auto detect text files and perform LF normalization
+*                 text=auto
+
+#
+# The above will handle all files NOT found below
+#
+
+# Configs
+.editorconfig     text
+.env              text
+.gitattributes    text
+.gitconfig        text
+*.lock            text -diff
+package.json      text eol=lf
+package-lock.json text eol=lf -diff
+.prettierrc       text
+
+# Documentation
+*.md              text diff=markdown
+*.txt             text
+AUTHORS           text
+CHANGELOG         text
+CHANGES           text
+CONTRIBUTING      text
+COPYING           text
+copyright         text
+*COPYRIGHT*       text
+INSTALL           text
+license           text
+LICENSE           text
+NEWS              text
+readme            text
+*README*          text
+TODO              text
+
+# Fonts
+*.ttf             binary
+*.eot             binary
+*.otf             binary
+*.woff            binary
+*.woff2           binary
+
+# Graphics
+*.png             binary
+*.jpg             binary
+*.tif             binary
+*.ico             binary
+*.svg             text
+*.webp            binary
+
+# Ignore files (like .npmignore or .gitignore)
+*.*ignore         text
+
+# RC files (like .babelrc or .eslintrc)
+*.*rc             text
+
+# Source code
+*.css             text diff=css
+*.js              text
+*.mjs             text
+*.cjs             text
+*.json            text
+*.map             text -diff
+*.scss            text
+
+# Prevents massive diffs from built files
+dist/*            binary
+
+#
+# Exclude files from exporting
+#
+
+.gitkeep          export-ignore
