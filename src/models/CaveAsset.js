@@ -49,17 +49,23 @@ export default class CaveAsset {
           return reject(`Can't delete asset ${assetId}: it doesn't exist.`)
         }
 
-        const { caveId, fullPath } = docSnap.data()
-        const assetRef = ref(storage, fullPath)
-        await deleteObject(assetRef)
+        // const { caveId, fullPath } = docSnap.data()
+        // const assetRef = ref(storage, fullPath)
+        // await deleteObject(assetRef)
+        // console.log('deleted asset file')
         await deleteDoc(docRef)
+        console.log('deleted asset db entry')
 
-        for (const thumbSize of Object.values(caveAssetsSizes)) {
-          for (const format of thumbnailFormats) {
-            const thumbFullPath = `caves/${caveId}/images/${thumbnailFolder}/${assetId}_${thumbSize}.${format}`
-            await deleteObject(ref(storage, thumbFullPath))
-          }
-        }
+        // for (const thumbSize of Object.values(caveAssetsSizes)) {
+        //   for (const format of thumbnailFormats) {
+        //     const thumbFullPath = `caves/${caveId}/images/${thumbnailFolder}/${assetId}_${thumbSize}.${format}`
+        //     try {
+        //       await deleteObject(ref(storage, thumbFullPath))
+        //     } catch (error) {
+        //       console.error(`Failed to delete ${thumbFullPath}`, error)
+        //     }
+        //   }
+        // }
 
         resolve()
 

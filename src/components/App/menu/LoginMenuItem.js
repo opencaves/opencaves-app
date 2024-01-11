@@ -16,7 +16,6 @@ export default function LoginMenuItem(props) {
 
   function onLoginMenuItemClick() {
     const continueUrl = `${location.pathname}${location.search}${location.hash}`
-    console.log('continueUrl: %s', continueUrl)
     dispatch(setContinueUrl(continueUrl))
   }
 
