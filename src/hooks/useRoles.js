@@ -1,8 +1,9 @@
+import { getAuth } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 export default function useRoles(roles) {
-  const user = useSelector(state => state.session.user)
+  const auth = getAuth()
+  const user = auth.currentUser
   const [hasRoles, setHasRoles] = useState(false)
 
   if (!Array.isArray(roles)) {
@@ -13,8 +14,11 @@ export default function useRoles(roles) {
     async function getUserRoles() {
       if (user) {
         const idTokenResult = await user.getIdTokenResult()
-        if (idTokenResult.claims.roles && idTokenResult.claims.roles.some(role => roles.includes(role))) {
-          setHasRoles(true)
+        const roles = idTokenResult.claims.roles
+        var newHasRoles = !!roles && roles.some(role => roles.includes(role))
+
+        if (newHasRoles !== hasRoles) {
+          setHasRoles(newHasRoles)
         }
       }
     }

@@ -1,11 +1,10 @@
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { Box, Skeleton } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Box, Collapse, Skeleton, useTheme } from '@mui/material'
 import { useCaveAssetsList } from '@/models/CaveAsset'
 import Scrollbars from '@/components/Scrollbars/Scrollbars'
 import MediaListEmpty from './MediaListEmpty'
 import MediaThumbnail from './MediaThumbnail'
+import { TransitionGroup } from 'react-transition-group'
 
 const drawerWidth = 400
 const mediaItemPadding = 12
@@ -15,11 +14,31 @@ function getImageWidth() {
 }
 
 export default function MediaList() {
-  const { t } = useTranslation('mediaPane')
   const { caveId, mediaId } = useParams()
+  const navigate = useNavigate()
   const [mediaListSnapshot, loading, error] = useCaveAssetsList(caveId)
-  console.log('mediaListSnapshot: %o', mediaListSnapshot)
   const imageWidth = getImageWidth()
+  const theme = useTheme()
+  console.log('theme: %o', theme)
+
+  function onBeforeDeleteMediaThumbnail(item, isActive) {
+    console.log('[onBeforeDeleteMediaThumbnail] start')
+    if (isActive) {
+      console.log(`[onBeforeDeleteMediaThumbnail] %o, isActive: %o`, item, isActive)
+      const index = mediaListSnapshot.docs.findIndex(docSnap => docSnap.id === item.id)
+      console.log(`[onBeforeDeleteMediaThumbnail] Found deleted item in mediaList at index %o of %o`, index, mediaListSnapshot.size - 1)
+
+      if (mediaListSnapshot.size === 1) {
+        console.log('[onBeforeDeleteMediaThumbnail] Deleted the only media in the list')
+        return
+      }
+
+      const nextItemIndex = index < mediaListSnapshot.size - 1 ? index + 1 : index - 1
+      console.log('[onBeforeDeleteMediaThumbnail] New index: %o, item: %o', nextItemIndex, mediaListSnapshot.docs[nextItemIndex])
+      const nextItemId = mediaListSnapshot.docs[nextItemIndex].id
+      navigate(`../${nextItemId}`, { replace: true, relative: 'path' })
+    }
+  }
 
   return (
     <Scrollbars
@@ -52,14 +71,18 @@ export default function MediaList() {
           mediaListSnapshot.docs.length === 0 ? (
             <MediaListEmpty />
           ) : (
-            mediaListSnapshot.docs.map(doc => {
-              const mediaAsset = doc.data()
-              const isActive = mediaAsset.id === mediaId
+            <TransitionGroup>
+              {mediaListSnapshot.docs.map(doc => {
+                const mediaAsset = doc.data()
+                const isActive = mediaAsset.id === mediaId
 
-              return (
-                <MediaThumbnail key={mediaAsset.id} mediaAsset={mediaAsset} isActive={isActive} />
-              )
-            })
+                return (
+                  <Collapse key={mediaAsset.id} easing={theme.sys.motion.easing.emphasizedAccelerate}>
+                    <MediaThumbnail mediaAsset={mediaAsset} isActive={isActive} onBeforeDelete={onBeforeDeleteMediaThumbnail} />
+                  </Collapse>
+                )
+              })}
+            </TransitionGroup>
           )
         )
       }

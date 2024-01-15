@@ -2,19 +2,22 @@ import { useTranslation } from 'react-i18next'
 import { MenuItem } from '@mui/material'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import useRoles from '@/hooks/useRoles'
+import noop from '@/utils/noop'
 
 export function useUseAsCoverImage() {
   return useRoles('editor')
 }
 
-export default function UseAsCoverImage({ mediaAsset }) {
+export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const isEditor = useUseAsCoverImage()
   const [openSnackbar] = useSnackbar()
 
-  async function onUseAsCoverImageClick() {
+  async function onSetAsCoverImageClick() {
     try {
+
+      onClick()
 
       await mediaAsset.setAsCoverImage()
 
@@ -29,6 +32,6 @@ export default function UseAsCoverImage({ mediaAsset }) {
   }
 
   return isEditor && (
-    <MenuItem onClick={onUseAsCoverImageClick} disabled={mediaAsset.isCover}>{t('useAsCoverImage')}</MenuItem>
+    <MenuItem onClick={onSetAsCoverImageClick} disabled={mediaAsset.isCover}>{t('useAsCoverImage')}</MenuItem>
   )
 }

@@ -41,11 +41,11 @@ export default function MediaPaneDetails({ mediaId, medias }) {
 
   const slides = medias.docs.map(doc => {
     const media = doc.data()
-    const { id, url, isPanorama, originalName: filename } = media
+    const { id, url, usePanoramaViewer, originalName: filename } = media
 
     const slide = {
       mediaId: id,
-      type: isPanorama ? 'panorama' : 'image',
+      type: usePanoramaViewer ? 'panorama' : 'image',
       download: {
         url,
         filename
@@ -57,7 +57,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
       }
     }
 
-    if (isPanorama) {
+    if (usePanoramaViewer) {
       slide.src = url
     } else {
       slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })

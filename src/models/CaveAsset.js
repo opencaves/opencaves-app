@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
 import { deleteObject, ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import exifr from 'exifr/dist/lite.esm.mjs'
@@ -24,7 +24,7 @@ export default class CaveAsset {
     return new Promise(async (resolve, reject) => {
       try {
 
-        const assetRef = doc(db, 'cavesAssets', assetId).withConverter(converter)
+        const assetRef = doc(db, COLL_NAME, assetId).withConverter(converter)
         const assetSnap = await getDoc(assetRef)
 
         if (!assetSnap.exists()) {
@@ -42,30 +42,14 @@ export default class CaveAsset {
     return new Promise(async (resolve, reject) => {
       try {
 
-        const docRef = doc(db, 'cavesAssets', assetId)
+        const docRef = doc(db, COLL_NAME, assetId)
         const docSnap = await getDoc(docRef)
 
         if (!docSnap.exists()) {
           return reject(`Can't delete asset ${assetId}: it doesn't exist.`)
         }
 
-        // const { caveId, fullPath } = docSnap.data()
-        // const assetRef = ref(storage, fullPath)
-        // await deleteObject(assetRef)
-        // console.log('deleted asset file')
         await deleteDoc(docRef)
-        console.log('deleted asset db entry')
-
-        // for (const thumbSize of Object.values(caveAssetsSizes)) {
-        //   for (const format of thumbnailFormats) {
-        //     const thumbFullPath = `caves/${caveId}/images/${thumbnailFolder}/${assetId}_${thumbSize}.${format}`
-        //     try {
-        //       await deleteObject(ref(storage, thumbFullPath))
-        //     } catch (error) {
-        //       console.error(`Failed to delete ${thumbFullPath}`, error)
-        //     }
-        //   }
-        // }
 
         resolve()
 
@@ -212,97 +196,27 @@ export default class CaveAsset {
     const q = query(COLL, where('caveId', '==', this.caveId), where('type', '==', 'image'), where('isCover', '==', true))
     const querySnapshot = await getDocs(q)
 
-    for (const doc of querySnapshot.docs) {
-      await updateDoc(doc.ref, {
-        isCover: false
-      })
+    if (!querySnapshot.empty) {
+      for (const doc of querySnapshot.docs) {
+        await updateDoc(doc.ref, {
+          isCover: false
+        })
+      }
     }
 
-    const docRef = doc(db, COLL, this.id)
+    const docRef = doc(db, COLL_NAME, this.id)
 
     await updateDoc(docRef, {
       isCover: true
     })
   }
 
-  //   async upload(file, callback) {
-  //     const self = this
-  //     return new Promise((resolve, reject) => {
-  //       self.originalName = file.name
-  //       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
-  //       const fileRef = ref(storage, self.fullPath)
-  //       const uploadTask = uploadBytesResumable(fileRef, file)
-  //       uploadTask.on(
-  //         'state_changed',
-  //         snap => {
-  //           // track the upload progress
-  //           callback(snap.bytesTransferred)
-  //         },
-
-  //         //
-  //         // Error handler
-  //         //
-  //         error => {
-  //           reject(error)
-  //         },
-
-  //         //
-  //         // Success handler
-  //         //
-  //         async () => {
-
-  //           // XMP metadata extraction
-  //           if (xmpSupportedMediaTypes.includes(file.type)) {
-  //             const meta = await exifr.parse(file, { ifd0: true, tiff: false, xmp: true })
-
-  //             if (meta) {
-  //               const { ProjectionType, ImageHeight, ImageWidth } = meta
-
-  //               if (ImageHeight) {
-  //                 self.width = ImageWidth
-  //                 self.height = ImageHeight
-  //               }
-
-  //               if (ProjectionType) {
-  //                 self.isPanorama = true
-  //               }
-
-  //             }
-
-  //           }
-
-  //           const docRef = doc(db, COLL_NAME, self.id).withConverter(converter)
-  //           await setDoc(docRef, self)
-  //           resolve()
-  //         }
-  //       )
-  //     })
-  //   }
-
   async upload(file, callback) {
     const self = this
     return new Promise(async (resolve, reject) => {
       self.originalName = file.name
       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
-
-      // XMP metadata extraction
-      if (xmpSupportedMediaTypes.includes(file.type)) {
-        const meta = await exifr.parse(file, { ifd0: true, tiff: false, xmp: true })
-
-        if (meta) {
-          const { ProjectionType, ImageHeight, ImageWidth } = meta
-
-          if (ImageHeight) {
-            self.width = ImageWidth
-            self.height = ImageHeight
-          }
-
-          if (ProjectionType) {
-            self.isPanorama = true
-          }
-
-        }
-      }
+      self.mediaType = file.type
 
       const fileRef = ref(storage, self.fullPath)
       const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata: { assetData: self } })
@@ -335,7 +249,7 @@ export default class CaveAsset {
 }
 
 export function useCaveAssetsList(caveId) {
-  const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
+  const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), orderBy('isCover', 'desc'), orderBy('date')).withConverter(converter)
   const collection = useCollection(q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
@@ -362,7 +276,7 @@ export function useCoverImage(caveId) {
 
 export function getImageAssetUrl(source, resize = {}, quality = 80) {
 
-  const URL = `https://northamerica-northeast1-${firebaseConfig.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
+  const URL = `https://${firebaseConfig.location}-${firebaseConfig.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
 
   const options = builder()
     .input({
@@ -383,7 +297,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', 'isCover', 'isPanorama', 'originalName', 'type', 'created', 'updated', 'fullPath', 'width', 'height']
+    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'originalName', 'type', 'fullPath']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]

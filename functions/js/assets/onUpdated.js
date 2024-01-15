@@ -15,13 +15,14 @@ export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event 
   const props = new Set([...Object.keys(dataBefore), ...Object.keys(dataAfter)])
 
   const documentChanged = [...props.values()].reduce((updated, prop) => {
+    return false
     if (updated) {
       // An updated prop has already been detected
       return updated
     }
 
-    if (prop === 'updated') {
-      // Ignore the 'updated' prop
+    if (prop === '_updated') {
+      // Ignore the '_updated' prop
       return updated
     }
 
@@ -37,8 +38,8 @@ export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event 
       return true
     }
 
-    if (prop === 'created') {
-      // prop `created` was just set. Ignore this
+    if (prop === '_created') {
+      // prop `_created` was just set. Ignore this
       return updated
     }
 
@@ -55,7 +56,7 @@ export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event 
 
   if (documentChanged) {
     snapshot.ref.set({
-      updated: Timestamp.now()
+      _updated: Timestamp.now()
     }, {
       merge: true
     })

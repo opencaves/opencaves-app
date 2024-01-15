@@ -4,13 +4,13 @@ import Message from '@/components/App/Message'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import { deleteById } from '@/models/CaveAsset'
 import useRoles from '@/hooks/useRoles'
-import noop from '@/utils/noop'
+import { noopAsync } from '@/utils/noop'
 
 export function useDeleteMedia() {
   return useRoles('admin')
 }
 
-export default function DeleteMedia({ mediaAsset, onDeleteComplete = noop }) {
+export default function DeleteMedia({ mediaAsset, onBeforeDelete = noopAsync }) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const isAdmin = useDeleteMedia()
@@ -19,10 +19,11 @@ export default function DeleteMedia({ mediaAsset, onDeleteComplete = noop }) {
   async function onDeleteClick() {
     try {
 
+      await onBeforeDelete()
+
       await deleteById(mediaAsset.id)
 
       openSnackbar(<Message message={t('deleteSuccess')} />)
-      onDeleteComplete()
     } catch (error) {
       console.error(error)
       openSnackbar(<Message message={t('deleteFail')} type='error' />, { autoHide: false })

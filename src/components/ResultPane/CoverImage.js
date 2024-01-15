@@ -39,10 +39,10 @@ export default function CoverImage({ caveId, width, height }) {
 
   useEffect(() => {
 
-    if (coverImage) {
-      setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
-      setHasCoverImage(!!coverImage)
-    }
+    // if (coverImage) {
+    setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
+    setHasCoverImage(!!coverImage)
+    // }
   }, [coverImage])
 
   if (coverImageLoading) {
@@ -118,7 +118,7 @@ export default function CoverImage({ caveId, width, height }) {
       </Container>)
   }
 
-  return (
+  return coverImage && (
     <Container>
       <Tooltip title={t('seeImages.tooltip')}>
         <UnstyledLink

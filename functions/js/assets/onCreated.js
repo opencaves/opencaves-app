@@ -9,8 +9,11 @@ export const onAssetCreated = onDocumentCreated(`${COLL_NAME}/{assetId}`, event 
     return
   }
 
+  const now = Timestamp.now()
+
   return snapshot.ref.set({
-    created: Timestamp.now()
+    _created: now,
+    _modified: now
   }, {
     merge: true
   })

@@ -6,6 +6,7 @@ import Snackbar from '@/components/Snackbar/Snackbar'
 import { useUploadCaveImages } from './useUploadCaveImages'
 import { appName } from '@/config/app'
 import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/mediaPane'
+import Message from '../App/Message.js'
 
 export default function UploadMedias({ medias }) {
   const [_medias, setMedias] = useState([])
@@ -21,6 +22,7 @@ export default function UploadMedias({ medias }) {
   }
 
   useEffect(() => {
+    console.log('done: %o', done)
     setIsDone(done)
   }, [done])
 
@@ -69,18 +71,16 @@ export default function UploadMedias({ medias }) {
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
 
+      done && (
       <Snackbar
         open={uploadComplete}
         autoHide={false}
       >
-        <SnackbarContent sx={{ p: 2 }}>
-          {
-            done && (
-              <Typography>{t('success', { count: done.count })}</Typography>
-            )
-          }
+        <SnackbarContent>
+          <Typography>{t('success', { count: done.count })}</Typography>
         </SnackbarContent>
       </Snackbar>
+      )
     </>
   )
 }

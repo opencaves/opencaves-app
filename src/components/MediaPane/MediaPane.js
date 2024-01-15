@@ -27,6 +27,7 @@ export async function mediaPaneLoader({ params }) {
 }
 
 export default function MediaPane() {
+  const params = useParams()
   const theme = useTheme()
   const { t } = useTranslation('mediaPane')
   const paneWidth = usePaneWidth()
@@ -60,25 +61,14 @@ export default function MediaPane() {
   }
 
   useEffect(() => {
-    console.log('[!] mediaId: %o, initialMediaList: %o, mediaListSnapshot: %o', mediaId, initialMediaList, mediaListSnapshot)
-    if (mediaId) {
-      console.log('[!] initialMediaList.docs: %o', initialMediaList.docs)
-      // const media = initialMediaList.docs.find(doc => doc.id === mediaId)
-      // if (media === undefined) {
-      //   console.log('[!] going up')
-      //   navigate('..', { relative: 'path', replace: true })
-      // }
-    } else if (!initialMediaList.empty) {
+    // Default display to the first media
+    if (!initialMediaList.empty && !params.mediaId) {
       const assetId = initialMediaList.docs[0].data().id
-      console.log('[!] going down')
       navigate(assetId, { replace: true })
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaId])
-
-  useEffect(() => {
-    console.log('[+] initialMediaList: %o', initialMediaList)
-  }, [initialMediaList])
 
   return (
     <Box

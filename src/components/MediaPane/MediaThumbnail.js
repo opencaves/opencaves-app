@@ -7,11 +7,12 @@ import { MoreVert } from '@mui/icons-material'
 import Picture from '@/components/Picture'
 import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage'
 import DeleteMedia from '@/components/MediaPane/menuItems/DeleteMedia'
+import noop from '@/utils/noop'
 import { storage } from '@/config/firebase'
 
 const mediaItemPadding = 12
 
-export default function MediaThumbnail({ mediaAsset, isActive, ...props }) {
+export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
 
   const theme = useTheme()
   const { t } = useTranslation('mediaPane')
@@ -30,6 +31,15 @@ export default function MediaThumbnail({ mediaAsset, isActive, ...props }) {
   }
 
   function handleClose() {
+    setAnchorEl(null)
+  }
+
+  function onBeforeDeleteMedia() {
+    onBeforeDelete(mediaAsset, isActive)
+
+  }
+
+  function onMenuClick() {
     setAnchorEl(null)
   }
 
@@ -129,9 +139,9 @@ export default function MediaThumbnail({ mediaAsset, isActive, ...props }) {
             open={open}
             onClose={handleClose}
           >
-            <UseAsCoverImage mediaAsset={mediaAsset} />
-            <MenuItem component='a' href={downloadUrl} target='_blank' sx={{ '&:hover': { color: 'unset' } }}>{t('menu.viewOriginalImage')}</MenuItem>
-            <DeleteMedia mediaAsset={mediaAsset} />
+            <UseAsCoverImage mediaAsset={mediaAsset} onClick={onMenuClick} />
+            <MenuItem component='a' href={downloadUrl} target='_blank' sx={{ '&:hover': { color: 'unset' } }} onClick={onMenuClick}>{t('menu.viewOriginalImage')}</MenuItem>
+            <DeleteMedia mediaAsset={mediaAsset} onBeforeDelete={onBeforeDeleteMedia} onClick={onMenuClick} />
           </Menu>
         </Box>
       </Box>
