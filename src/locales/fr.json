@@ -400,6 +400,9 @@
       "unknownErrorBtn": "OK",
       "uploadingTo": "Téléchargement vers",
       "countMedias": "{{index}} de {{total}}"
+    },
+    "details": {
+      "empty": "Il n'y a rien ici"
     }
   },
   "accesses": {

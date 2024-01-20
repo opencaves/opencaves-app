@@ -5,12 +5,14 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import { deleteById } from '@/models/CaveAsset'
 import useRoles from '@/hooks/useRoles'
 import { noopAsync } from '@/utils/noop'
+import { forwardRef } from 'react'
 
 export function useDeleteMedia() {
   return useRoles('admin')
 }
 
-export default function DeleteMedia({ mediaAsset, onBeforeDelete = noopAsync }) {
+// export default function DeleteMedia({ mediaAsset, onBeforeDelete = noopAsync }) {
+export default forwardRef(function DeleteMedia({ mediaAsset, onBeforeDelete = noopAsync }, ref) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const isAdmin = useDeleteMedia()
@@ -33,6 +35,6 @@ export default function DeleteMedia({ mediaAsset, onBeforeDelete = noopAsync }) 
   }
 
   return isAdmin && (
-    <MenuItem onClick={onDeleteClick}>{t('deleteAction')}</MenuItem>
+    <MenuItem ref={ref} onClick={onDeleteClick}>{t('deleteAction')}</MenuItem>
   )
-}
+})

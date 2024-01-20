@@ -9,8 +9,7 @@ import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage'
 import DeleteMedia from '@/components/MediaPane/menuItems/DeleteMedia'
 import noop from '@/utils/noop'
 import { storage } from '@/config/firebase'
-
-const mediaItemPadding = 12
+import { mediaItemPadding, mediaItemRadius } from './config'
 
 export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
 
@@ -22,8 +21,20 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   const open = Boolean(anchorEl)
   const mediaThumbnailItemId = `media-thumbnail-item-${mediaAsset.id}`
   const activeStyles = isActive ? {
-    outline: '3px solid var(--md-palette-secondary-main)',
-    outlineOffset: '-3px'
+    outline: '1px solid var(--md-palette-secondary-main)',
+    outlineOffset: '4px',
+    position: 'relative',
+    ':before': {
+      content: '""',
+      position: 'absolute',
+      left: -3,
+      right: -3,
+      top: -3,
+      bottom: -3,
+      background: 'rgb(var(--md-palette-secondary-mainChannel) / 35%)',
+      zIndex: -1,
+      borderRadius: mediaItemRadius
+    }
   } : {}
 
   function handleClick(event) {
@@ -36,7 +47,6 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
 
   function onBeforeDeleteMedia() {
     onBeforeDelete(mediaAsset, isActive)
-
   }
 
   function onMenuClick() {
@@ -65,7 +75,9 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
       <Box
         sx={{
           position: 'relative',
-          pb: 1
+          // pb: 1
+          mt: `${mediaItemPadding / 2}px`,
+          mb: `${mediaItemPadding / 2}px`,
         }}
       >
         <ButtonBase
@@ -75,19 +87,19 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           replace
           aria-label={t('mediaThumbnailItem.openBtn.ariaLabel')}
           sx={{
-            borderRadius: '0.5rem',
+            borderRadius: mediaItemRadius,
             backgroundColor: '#181818',
             width: '100%',
-            textAlign: 'center'
+            textAlign: 'center',
+            ...activeStyles
           }}
         >
           <Picture
             sources={mediaAsset.getSources('mediaThumbnail')}
             style={{
               maxHeight: '600px',
-              borderRadius: '0.5rem',
-              justifyContent: 'center',
-              ...activeStyles
+              borderRadius: mediaItemRadius,
+              justifyContent: 'center'
             }}
             loading='lazy'
             alt=''
@@ -106,7 +118,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             opacity: 'var(--_menu-opacity)',
             backgroundImage: 'linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,.4))',
             transition: 'opacity var(--_menu-transition-duration) linear var(--_menu-transition-delay)',
-            borderRadius: '.5rem .5rem 0 0'
+            borderRadius: `${mediaItemRadius} ${mediaItemRadius} 0 0`
           }}
         >
           <IconButton

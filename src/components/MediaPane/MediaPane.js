@@ -1,8 +1,8 @@
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Divider, Drawer, IconButton, Typography, styled, useTheme } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
+import { Box, Drawer, IconButton, Typography, styled, useTheme } from '@mui/material'
 import { AddAPhotoOutlined, ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material'
 import { getAssetList, useCaveAssetsList } from '@/models/CaveAsset'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton'
@@ -10,7 +10,6 @@ import MediaPaneDetails from '@/components/MediaPane/MediaPaneDetails'
 import MediaList from '@/components/MediaPane/MediaList'
 import Dropzone from '@/components/AddMedias/Dropzone'
 import usePaneWidth from '@/hooks/usePaneWidth'
-import { useEffect, useRef, useState } from 'react'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -22,7 +21,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 export async function mediaPaneLoader({ params }) {
-  console.log('--- mediaPaneLoader --- %s', params.caveId)
   return getAssetList(params.caveId)
 }
 
@@ -30,6 +28,7 @@ export default function MediaPane() {
   const params = useParams()
   const theme = useTheme()
   const { t } = useTranslation('mediaPane')
+  const mediaPaneRef = useRef(null)
   const paneWidth = usePaneWidth()
   const { caveId, mediaId } = useParams()
   const currentCave = useSelector(state => state.map.currentCave)
@@ -67,11 +66,49 @@ export default function MediaPane() {
       navigate(assetId, { replace: true })
     }
 
+    if (initialMediaList.empty) {
+      navigate('..', { replace: true })
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaId])
 
+  function onBeforeDeleteMedia(item, isActive) {
+    console.log('[onBeforeDeleteMedia] start')
+    if (isActive) {
+      console.log(`[onBeforeDeleteMedia] %o, isActive: %o`, item, isActive)
+      const index = mediaListSnapshot.docs.findIndex(docSnap => docSnap.id === item.id)
+      console.log(`[onBeforeDeleteMedia] Found deleted item in mediaList at index %o of %o`, index, mediaListSnapshot.size - 1)
+
+      if (mediaListSnapshot.size === 1) {
+        console.log('[onBeforeDeleteMedia] Deleted the only media in the list')
+        return
+      }
+
+      const nextItemIndex = index < mediaListSnapshot.size - 1 ? index + 1 : index - 1
+      console.log('[onBeforeDeleteMedia] New index: %o, item: %o', nextItemIndex, mediaListSnapshot.docs[nextItemIndex])
+      const nextItemId = mediaListSnapshot.docs[nextItemIndex].id
+      navigate(`../${nextItemId}`, { replace: true, relative: 'path' })
+    }
+  }
+
+  useEffect(() => {
+    const mediaPaneNode = mediaPaneRef.current
+
+    function onMediaDelete({ data: { mediaAsset, isActive } }) {
+      console.log('[MediaPane] media:delete %o (%o)', mediaAsset, isActive)
+    }
+
+    mediaPaneNode.addEventListener('media:delete', onMediaDelete)
+
+    return () => {
+      mediaPaneNode.removeEventListener('media:delete', onMediaDelete)
+    }
+  }, [])
+
   return (
     <Box
+      ref={mediaPaneRef}
       sx={{
         display: 'flex',
         position: 'absolute',

@@ -68,19 +68,15 @@ export default class CaveAsset {
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
-    const assetList = { docs: [], empty: true, size: 0 }
+    const { docs, empty, size } = await getDocs(q)
+    const assetList = { docs, empty, size }
 
     if (useSnapshot) {
-      const unsubscribe = onSnapshot(q, ({ docs, empty, size }) => {
+      onSnapshot(q, ({ docs, empty, size }) => {
         assetList.docs = docs
         assetList.empty = empty
         assetList.size = size
       })
-    } else {
-      const { docs, empty, size } = await getDocs(q)
-      assetList.docs = docs
-      assetList.empty = empty
-      assetList.size = size
     }
 
     return assetList
@@ -93,7 +89,7 @@ export default class CaveAsset {
 
         if (useSnapshot) {
           const result = { data: null }
-          const unsubscribe = onSnapshot(q, querySnapshot => {
+          onSnapshot(q, querySnapshot => {
             if (querySnapshot.empty) {
               result.data = null
               return

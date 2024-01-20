@@ -480,18 +480,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
       // onTransitionEnter={onTransitionEnter}
       onTransitionExited={onTransitionExited}
     >
-      {/* <div style={{ position: 'absolute', left: 4, top: 24, opacity: 0.4, '&:hover': { opacity: 1 } }}>
-        <small>
-
-          <br />currentStep: {currentStep}
-          <br />email: {email}
-          <br />emailAlreadyInUse: {emailAlreadyInUse.toString()}
-          <br />email2Prefilled: {email2Prefilled.toString()}
-          <br />showInvalidActionCodeStep: {showInvalidActionCodeStep.toString()}
-          <br />showRetypeEmailStep: {showRetypeEmailStep.toString()}
-          <br />email2: {email2}
-        </small>
-      </div> */}
       <DialogTitle>
         <Grid
           container
@@ -532,12 +520,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
           flexDirection: 'column',
           justifyContent: isSmall ? 'flex-start' : 'center',
           alignItems: 'center',
-          // px: {
-          //   xs: 3,
-          //   md: 6
-          // },
-          // pt: 0,
-          // pb: 0,
         }}
       >
         <Grid
@@ -672,6 +654,17 @@ export default function SignupWithEmail({ open: initialOpen }) {
                             <AuthWithGoogle
                               message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')}
                             />
+                            <Box mt={1}>
+                              <p style={{ margin: 0, textAlign: 'center' }}>
+                                <small>
+                                  {ts('email.loginInvite')}
+                                  {' '}
+                                  <Link to={`/login`} >
+                                    {ts('email.loginBtn')}
+                                  </Link>
+                                </small>
+                              </p>
+                            </Box>
                           </SectionActions>
                         </SectionForm>
                       </>

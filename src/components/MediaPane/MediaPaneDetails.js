@@ -35,9 +35,26 @@ const Main = styled('main')(
 export default function MediaPaneDetails({ mediaId, medias }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
-  const currentMedia = medias.docs.find(media => media.id === mediaId).data()
+  const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const [touchAction, setTouchAction] = useState('none')
+  const ref = useRef(null)
+
+  if (!currentMedia) {
+    return (
+      <Main
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: theme => theme.palette.common.white
+        }}
+      >
+        <div>{t('details.empty')}</div>
+      </Main>
+    )
+  }
 
   const slides = medias.docs.map(doc => {
     const media = doc.data()
@@ -61,14 +78,10 @@ export default function MediaPaneDetails({ mediaId, medias }) {
       slide.src = url
     } else {
       slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })
-      // slide.src = url
     }
 
     return slide
   })
-
-  const [touchAction, setTouchAction] = useState('none')
-  const ref = useRef(null)
 
   const isFullscreenEnabled = () =>
     document.fullscreenEnabled ??

@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Menu } from '@mui/material'
@@ -9,6 +9,7 @@ import DeleteMedia, { useDeleteMedia } from './menuItems/DeleteMedia'
 
 export default function MediaPaneMenu({ mediaAsset, ...props }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
+  const deleteMediaRef = useRef(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
@@ -21,6 +22,12 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
 
   function handleClose() {
     setAnchorEl(null)
+  }
+
+  function onBeforeDeleteMedia() {
+    // onBeforeDelete(mediaAsset, isActive)
+    const deleteEvent = new CustomEvent('media:delete', { detail: { mediaAsset, isActive: true } })
+    deleteMediaRef.current.dispatchEvent(deleteEvent)
   }
 
   return (setDeleteMediaMenuItem || setUseAsCoverImageMenuItem) && (
@@ -62,7 +69,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
       >
         <div>test</div>
         <UseAsCoverImage mediaAsset={mediaAsset} />
-        <DeleteMedia mediaAsset={mediaAsset} />
+        <DeleteMedia ref={deleteMediaRef} mediaAsset={mediaAsset} onBeforeDelete={onBeforeDeleteMedia} />
       </Menu>
     </>
   )

@@ -71,16 +71,18 @@ export default function UploadMedias({ medias }) {
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
 
-      done && (
-      <Snackbar
-        open={uploadComplete}
-        autoHide={false}
-      >
-        <SnackbarContent>
-          <Typography>{t('success', { count: done.count })}</Typography>
-        </SnackbarContent>
-      </Snackbar>
-      )
+      {
+        done && (
+          <Snackbar
+            open={uploadComplete}
+            autoHide={false}
+          >
+            <SnackbarContent>
+              <Typography>{t('success', { count: done.count })}</Typography>
+            </SnackbarContent>
+          </Snackbar>
+        )
+      }
     </>
   )
 }

@@ -5,9 +5,7 @@ import Scrollbars from '@/components/Scrollbars/Scrollbars'
 import MediaListEmpty from './MediaListEmpty'
 import MediaThumbnail from './MediaThumbnail'
 import { TransitionGroup } from 'react-transition-group'
-
-const drawerWidth = 400
-const mediaItemPadding = 12
+import { drawerWidth, mediaItemPadding, mediaItemRadius } from './config'
 
 function getImageWidth() {
   return drawerWidth - (mediaItemPadding * 2)
@@ -19,7 +17,6 @@ export default function MediaList() {
   const [mediaListSnapshot, loading, error] = useCaveAssetsList(caveId)
   const imageWidth = getImageWidth()
   const theme = useTheme()
-  console.log('theme: %o', theme)
 
   function onBeforeDeleteMediaThumbnail(item, isActive) {
     console.log('[onBeforeDeleteMediaThumbnail] start')
@@ -60,7 +57,7 @@ export default function MediaList() {
           }}
         >
           <Skeleton variant='rounded' width={imageWidth} height={imageWidth * .5625} sx={{
-            borderRadius: '0.5rem',
+            borderRadius: mediaItemRadius,
           }} />
         </Box>
       )

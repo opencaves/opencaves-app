@@ -402,6 +402,9 @@
       "unknownErrorBtn": "Dismiss",
       "uploadingTo": "Uploading to",
       "countMedias": "{{index}} of {{total}}"
+    },
+    "details": {
+      "empty": "There is nothing here"
     }
   },
   "accesses": {
