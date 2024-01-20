@@ -2,6 +2,17 @@ import { forwardRef } from 'react'
 import Scrollbars2 from 'react-custom-scrollbars-2'
 import { scrollbarTrackHeight } from '@/config/app'
 import './Scrollbars.scss'
+import { useTheme } from '@mui/material'
+
+const DefaultThumb = forwardRef(function DefaultThumb(props, ref) {
+
+  return (
+    <div
+      ref={ref}
+      {...props}
+    />
+  )
+})
 
 const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ style, trackHorizontalProps = {}, ...otherProps }, ref) {
   const { style: trackHorizontalStyle, trackHorizontalOtherProps } = trackHorizontalProps
@@ -48,13 +59,33 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
 })
 
 const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, trackHorizontalProps = {}, trackVerticalProps = {}, ...props }, ref) {
-  const renderTrackHorizontal = props.renderTrackHorizontal || (({ style, ...props }) => (
-    <DefaultTrackHorizontal
-      style={style}
-      trackHorizontalProps={trackHorizontalProps}
-      {...props}
-    />
-  ))
+  const { palette } = useTheme()
+
+  function renderThumb({ style, ...props }) {
+
+    return (
+      <DefaultThumb
+        style={{
+          ...style,
+          backgroundColor: palette.Scrollbar.bg,
+          borderRadius: 'inherit',
+          cursor: 'pointer'
+        }}
+        {...props}
+      />
+    )
+  }
+
+  const renderTrackHorizontal = props.renderTrackHorizontal || (({ style, ...props }) => {
+
+    return (
+      <DefaultTrackHorizontal
+        style={style}
+        trackHorizontalProps={trackHorizontalProps}
+        {...props}
+      />
+    )
+  })
 
   const TrackVertical = forwardRef(function TrackVertical(props, ref) {
     return (
@@ -72,6 +103,7 @@ const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, t
       autoHide={false}
       renderTrackHorizontal={renderTrackHorizontal}
       renderTrackVertical={renderTrackVertical}
+      renderThumbVertical={renderThumb}
     >
       {children}
     </Scrollbars2 >

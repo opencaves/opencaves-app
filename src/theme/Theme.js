@@ -57,7 +57,7 @@ const lightThemeOptions = {
       contrastText: '#fff'
     },
     Scrollbar: {
-      bg: 'rgb(0 0 0 / .12)'
+      bg: 'rgb(193 193 193)'
     }
   },
   oc: {
