@@ -1,6 +1,6 @@
 {
   "name": "opencaves-app",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"craco  start\"",
