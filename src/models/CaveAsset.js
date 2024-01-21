@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
-import { deleteObject, ref, uploadBytesResumable } from 'firebase/storage'
+import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { breakpoints } from '@/theme/Theme'
 import { db, storage } from '@/config/firebase'
 import { firebaseConfig } from '@/config/firebase.config'
-import { acceptedMimeTypes } from '@/config/mediaPane'
-import { caveAssetsSizes, imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app'
-
-const xmpSupportedMediaTypes = acceptedMimeTypes.filter(media => ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(media))
+import { imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
@@ -233,9 +230,6 @@ export default class CaveAsset {
         // Success handler
         //
         async () => {
-
-          // const docRef = doc(db, CAVES_ASSETS_COLL_NAME, self.id).withConverter(converter)
-          // await setDoc(docRef, self)
           resolve()
         }
       )

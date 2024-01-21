@@ -1,5 +1,5 @@
 import pushId from 'unique-push-id'
-import { dashedId, str, Markdown, bol, num, arrStr, loc } from './types.js'
+import { dashedId, str, Markdown, bol, num, arrStr, loc } from './types'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map'
 
 const languagesMap = new Map()
@@ -30,7 +30,7 @@ function setCaveIdx(cenotes) {
 
   function makeOCLinksFromCenoteNames(str) {
     return str.replaceAll(cenoteNamesRegEx, function replacer(match, prefix, cenote, cenoteName) {
-      return `${prefix}${cenote}[${cenoteName}](oc:${cenoteIdFromNameMap.get(cenoteName.toLowerCase())})`
+      return `${prefix}[${cenote}${cenoteName}](oc:${cenoteIdFromNameMap.get(cenoteName.toLowerCase())})`
     })
   }
 
