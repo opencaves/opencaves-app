@@ -13,24 +13,25 @@ import { mediaItemPadding, mediaItemRadius } from './config'
 
 export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
 
-  const theme = useTheme()
+  const { direction, palette } = useTheme()
   const { t } = useTranslation('mediaPane')
   const [anchorEl, setAnchorEl] = useState(null)
   const [downloadUrl, setDownloadUrl] = useState(null)
 
+
   const open = Boolean(anchorEl)
   const mediaThumbnailItemId = `media-thumbnail-item-${mediaAsset.id}`
   const activeStyles = isActive ? {
-    outline: '1px solid var(--md-palette-secondary-main)',
+    outline: `1px solid var(--md-palette-secondary-${palette.mode})`,
     outlineOffset: '4px',
     position: 'relative',
     ':before': {
       content: '""',
       position: 'absolute',
-      left: -3,
-      right: -3,
-      top: -3,
-      bottom: -3,
+      left: -4,
+      right: -4,
+      top: -4,
+      bottom: -4,
       background: 'rgb(var(--md-palette-secondary-mainChannel) / 35%)',
       zIndex: -1,
       borderRadius: mediaItemRadius
@@ -111,7 +112,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           right={0}
           top={0}
           display='flex'
-          flexDirection={theme.direction === 'ltr' ? 'row-reverse' : 'row'}
+          flexDirection={direction === 'ltr' ? 'row-reverse' : 'row'}
           px='8px'
           pt='8px'
           sx={{
@@ -141,11 +142,11 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             }}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: theme.direction === 'ltr' ? 'right' : 'left'
+              horizontal: direction === 'ltr' ? 'right' : 'left'
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: theme.direction === 'ltr' ? 'right' : 'left'
+              horizontal: direction === 'ltr' ? 'right' : 'left'
             }}
             anchorEl={anchorEl}
             open={open}

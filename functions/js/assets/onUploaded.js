@@ -2,7 +2,7 @@ import admin from 'firebase-admin'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import { db } from '../init.js'
 import { generateResizedImageHandler } from '../resize-images/index.js'
-import { COLL_NAME } from './constants.js'
+import { CAVES_ASSETS_COLL_NAME } from './constants.js'
 import { THUMBNAILS_FOLDER } from '../constants.js'
 import { create } from 'exif-parser'
 import exifr from 'exifr/dist/lite.esm.mjs'
@@ -55,11 +55,6 @@ export const add = onObjectFinalized(async event => {
       assetData.date = new Timestamp(ModifyDate, 0)
     }
 
-    logger.log('====================================================== DateTimeOriginal: ' + DateTimeOriginal)
-    logger.log('====================================================== DateTime: ' + DateTime)
-    logger.log('====================================================== ModifyDate: ' + ModifyDate)
-    logger.log('====================================================== date: ' + assetData.date)
-
     if (GPSLongitude) {
       assetData.position = {
         latitude: GPSLatitude,
@@ -75,9 +70,6 @@ export const add = onObjectFinalized(async event => {
     if (supportsXMP(assetData.mediaType)) {
       const xmp = await exifr.parse(imageBuffer, { ifd0: true, tiff: false, xmp: true })
 
-      // logger.log('======================================================')
-      // logger.log(xmp)
-
       if (xmp) {
         const { UsePanoramaViewer, ProjectionType, PoseHeadingDegrees } = xmp
 
@@ -90,7 +82,7 @@ export const add = onObjectFinalized(async event => {
       }
     }
 
-    const docRef = db.collection(COLL_NAME).doc(assetData.id)
+    const docRef = db.collection(CAVES_ASSETS_COLL_NAME).doc(assetData.id)
     await docRef.create(assetData)
   }
 })

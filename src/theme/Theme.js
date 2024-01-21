@@ -290,7 +290,7 @@ const darkThemeOptions = {
     },
     divider: `rgba(255, 255, 255, ${DIVIDER_ALPHA})`,
     Scrollbar: {
-      bg: 'rgb(244, 244, 244)'
+      bg: 'rgb(62 62 62)'
     },
     text: {
       primary: '#dedbd7',

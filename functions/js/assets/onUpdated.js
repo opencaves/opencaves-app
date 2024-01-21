@@ -1,9 +1,9 @@
 import { onDocumentUpdated } from 'firebase-functions/v2/firestore'
 import { Timestamp } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v1'
-import { COLL_NAME } from './constants.js'
+import { CAVES_ASSETS_COLL_NAME } from './constants.js'
 
-export const onAssetUpdated = onDocumentUpdated(`${COLL_NAME}/{assetId}`, event => {
+export const onAssetUpdated = onDocumentUpdated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, event => {
   const dataBefore = event.data.before.data()
   const snapshot = event.data.after
   const dataAfter = event.data.after.data()

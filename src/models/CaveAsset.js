@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
 import { deleteObject, ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
-import exifr from 'exifr/dist/lite.esm.mjs'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { breakpoints } from '@/theme/Theme'
@@ -13,8 +12,8 @@ import { caveAssetsSizes, imageSizes, paneWidth, thumbnailFolder, thumbnailForma
 
 const xmpSupportedMediaTypes = acceptedMimeTypes.filter(media => ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(media))
 
-const COLL_NAME = 'cavesAssets'
-const COLL = collection(db, COLL_NAME)
+const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
+const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
 
 export default class CaveAsset {
 
@@ -24,7 +23,7 @@ export default class CaveAsset {
     return new Promise(async (resolve, reject) => {
       try {
 
-        const assetRef = doc(db, COLL_NAME, assetId).withConverter(converter)
+        const assetRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId).withConverter(converter)
         const assetSnap = await getDoc(assetRef)
 
         if (!assetSnap.exists()) {
@@ -42,7 +41,7 @@ export default class CaveAsset {
     return new Promise(async (resolve, reject) => {
       try {
 
-        const docRef = doc(db, COLL_NAME, assetId)
+        const docRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId)
         const docSnap = await getDoc(docRef)
 
         if (!docSnap.exists()) {
@@ -200,7 +199,7 @@ export default class CaveAsset {
       }
     }
 
-    const docRef = doc(db, COLL_NAME, this.id)
+    const docRef = doc(db, CAVES_ASSETS_COLL_NAME, this.id)
 
     await updateDoc(docRef, {
       isCover: true
@@ -235,7 +234,7 @@ export default class CaveAsset {
         //
         async () => {
 
-          // const docRef = doc(db, COLL_NAME, self.id).withConverter(converter)
+          // const docRef = doc(db, CAVES_ASSETS_COLL_NAME, self.id).withConverter(converter)
           // await setDoc(docRef, self)
           resolve()
         }

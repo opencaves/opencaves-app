@@ -90,11 +90,9 @@ export default function MediaPaneDetails({ mediaId, medias }) {
     document.msFullscreenEnabled
 
   function onView({ index }) {
-    console.log('[onView] %s, %o', index, slides[index])
     const { mediaId, type } = slides[index]
     const from = location.pathname
     const to = resolvePath(`../${mediaId}`, from).pathname
-    console.log('from %o to %o', from, to)
     // setTouchAction(type === 'panorama' ? 'none' : 'pan-y')
     if (to !== from) {
       setTimeout(() => {

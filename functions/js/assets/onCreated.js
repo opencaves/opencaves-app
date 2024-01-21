@@ -1,8 +1,8 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { Timestamp } from 'firebase-admin/firestore'
-import { COLL_NAME } from './constants.js'
+import { CAVES_ASSETS_COLL_NAME } from './constants.js'
 
-export const onAssetCreated = onDocumentCreated(`${COLL_NAME}/{assetId}`, event => {
+export const onAssetCreated = onDocumentCreated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, event => {
   const snapshot = event.data
 
   if (!snapshot) {

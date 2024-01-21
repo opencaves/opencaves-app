@@ -26,8 +26,6 @@ export default function AddMediaLg() {
   const [onError, setOnError] = useState(null)
   const { progress, done, error } = useUploadCaveImages(files, currentCave.id)
 
-  console.log('user: ', user)
-
   function onAddMediaClose() {
     setAddMediaOpen(false)
     navigate('..', { replace: true })

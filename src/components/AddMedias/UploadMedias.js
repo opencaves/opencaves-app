@@ -78,7 +78,8 @@ export default function UploadMedias({ medias }) {
             autoHide={false}
           >
             <SnackbarContent>
-              <Typography>{t('success', { count: done.count })}</Typography>
+              {/* <Typography>{t('success', { count: done.count })}</Typography> */}
+              <Message message={t('success', { count: done.count })} />
             </SnackbarContent>
           </Snackbar>
         )
