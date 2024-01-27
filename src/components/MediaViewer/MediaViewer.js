@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
-import Picture from '@/components/Picture'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
+import Picture from '@/components/Picture'
 
 export default function MediaViewer({ media }) {
   const { t } = useTranslation('mediaPane')
@@ -53,13 +53,32 @@ function PanoViewer({ src }) {
 }
 
 function PictureViewer({ media }) {
+  const viewport = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  }
+
+  const initialY = (window.innerHeight / 2)
+
+  function onInit(reactZoomPanPinchRef) {
+    console.log('[onInit] reactZoomPanPinchRef: %o', reactZoomPanPinchRef)
+    // reactZoomPanPinchRef.centerView(1, 0)
+    reactZoomPanPinchRef.setTransform(0, 200, 1)
+  }
+
   return (
     <TransformWrapper
-      limitToBounds={false}
+      onInit={onInit}
+      limitToBounds={true}
+    // initialPositionY={initialY}
     >
       <TransformComponent
         wrapperClass='oc-media-viewer-wrapper'
         contentClass='oc-media-viewer-content'
+        wrapperStyle={{
+          width: '100%',
+          height: '100%',
+        }}
       >
         <Picture sources={media.sources} width='100%' height='100%' />
       </TransformComponent>

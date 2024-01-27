@@ -1,13 +1,13 @@
 import admin from 'firebase-admin'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
-import { db } from '../init.js'
-import { generateResizedImageHandler } from '../resize-images/index.js'
-import { CAVES_ASSETS_COLL_NAME } from './constants.js'
-import { THUMBNAILS_FOLDER } from '../constants.js'
 import { create } from 'exif-parser'
 import exifr from 'exifr/dist/lite.esm.mjs'
 import { logger } from 'firebase-functions/v1'
 import { Timestamp } from 'firebase-admin/firestore'
+import { generateResizedImageHandler } from '../resize-images/index.js'
+import { db } from '../init.js'
+import { CAVES_ASSETS_COLL_NAME } from './constants.js'
+import { THUMBNAILS_FOLDER } from '../constants.js'
 
 function supportsXMP(mediaType) {
   return ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(mediaType)

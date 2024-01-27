@@ -1,6 +1,5 @@
 import { onDocumentUpdated } from 'firebase-functions/v2/firestore'
 import { Timestamp } from 'firebase-admin/firestore'
-import { logger } from 'firebase-functions/v1'
 import { CAVES_ASSETS_COLL_NAME } from './constants.js'
 
 export const onAssetUpdated = onDocumentUpdated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, event => {

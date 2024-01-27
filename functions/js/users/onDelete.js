@@ -1,8 +1,13 @@
-import { auth, logger } from 'firebase-functions/v1'
+import functions from 'firebase-functions'
 import { db } from '../init.js'
 import { USERS_COLL_NAME } from '../assets/constants.js'
+import { region } from '../constants.js'
 
 
-export const onUserCreate = auth.user().onDelete(async user => {
-  await db.collection(USERS_COLL_NAME).doc(user.uid).delete()
-})
+export const onUserCreate = functions
+  .region(region)
+  .auth
+  .user()
+  .onDelete(async user => {
+    await db.collection(USERS_COLL_NAME).doc(user.uid).delete()
+  })

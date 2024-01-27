@@ -10,6 +10,7 @@ import MediaPaneDetails from '@/components/MediaPane/MediaPaneDetails'
 import MediaList from '@/components/MediaPane/MediaList'
 import Dropzone from '@/components/AddMedias/Dropzone'
 import usePaneWidth from '@/hooks/usePaneWidth'
+import { useSmall } from '@/hooks/useSmall.js'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -26,6 +27,7 @@ export async function mediaPaneLoader({ params }) {
 
 export default function MediaPane() {
   const params = useParams()
+  const isSmall = useSmall()
   const theme = useTheme()
   const { t } = useTranslation('mediaPane')
   const mediaPaneRef = useRef(null)
@@ -106,7 +108,25 @@ export default function MediaPane() {
     }
   }, [])
 
-  return (
+  return isSmall ? (
+    <Box
+      ref={mediaPaneRef}
+      sx={{
+        display: 'flex',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+    >
+      {
+        mediaId && mediaListSnapshot && !mediaListSnapshot.empty && (
+          <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} />
+        )
+      }
+    </Box>
+  ) : (
     <Box
       ref={mediaPaneRef}
       sx={{

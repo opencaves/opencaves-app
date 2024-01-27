@@ -78,7 +78,6 @@ export default function MediaList({ caveId, hasMedia = false }) {
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      console.log('yes: mediaList: %o', mediaList)
       const assetsListLength = Math.min(mediaList.size, assetsListMaxLength)
       const assetItems = []
       let i

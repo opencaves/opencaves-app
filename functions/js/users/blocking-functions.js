@@ -1,7 +1,7 @@
 import { beforeUserCreated } from 'firebase-functions/v2/identity'
 import { auth, db } from '../init.js'
 
-export const beforeCreated = beforeUserCreated({ region: 'northamerica-northeast1' }, async event => {
+export const beforeCreated = beforeUserCreated(async event => {
   const users = db.collection('users')
   const user = event.data
   const { uid, email } = user

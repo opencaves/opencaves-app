@@ -3,11 +3,12 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/*.js'",
     "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"craco  start\"",
     "dev:serve": "craco start",
     "serve": "serve -p 4000 -s build",
     "build": "craco  build",
-    "deploy": "firebase deploy --only hosting",
+    "deploy": "firebase deploy",
     "eject": "react-scripts eject"
   },
   "engines": {
@@ -110,6 +111,7 @@
     "craco-alias": "^3.0.1",
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.2.1",
+    "source-map-explorer": "^2.5.3",
     "swr": "^2.2.4"
   }
 }

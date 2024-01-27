@@ -1,3 +1,5 @@
+import './init.js'
+
 export { api } from './api/v1/api.js'
 
 export * from './users/onCreate.js'

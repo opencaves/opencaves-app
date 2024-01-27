@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { resolvePath, useLocation, useNavigate } from 'react-router-dom'
+import { Link, resolvePath, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
@@ -7,7 +7,7 @@ import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
-import { styled } from '@mui/material'
+import { IconButton, styled, useTheme } from '@mui/material'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -18,6 +18,7 @@ import MediaViewer from '@/components/MediaViewer/MediaViewer'
 import MediaPaneMenu from './MediaPaneMenu'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
+import { ArrowBackRounded } from '@mui/icons-material'
 
 const Main = styled('main')(
   ({ theme, open }) => {
@@ -38,6 +39,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
   const navigate = useNavigate()
   const location = useLocation()
+  const theme = useTheme()
 
   const [touchAction, setTouchAction] = useState('none')
   const ref = useRef(null)
@@ -59,7 +61,6 @@ export default function MediaPaneDetails({ mediaId, medias }) {
   const slides = medias.docs.map(doc => {
     const media = doc.data()
     const { id, url, usePanoramaViewer, originalName: filename } = media
-
     const slide = {
       mediaId: id,
       type: usePanoramaViewer ? 'panorama' : 'image',
@@ -67,6 +68,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
         url,
         filename
       },
+      ratio: media.width / media.height,
       share: {
         url: window.location.href,
         title: t('share.title', { title: document.title }),
@@ -114,6 +116,28 @@ export default function MediaPaneDetails({ mediaId, medias }) {
         index={currentIndex}
         slides={slides}
         fullscreen={{ auto: false }}
+        toolbar={{
+          buttons: [
+            <IconButton
+              key='oc-media-pane-details-back-btn'
+              aria-label={t('backBtn.ariaLabel')}
+              component={Link}
+              to='..'
+              disableRipple
+              sx={{
+                color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))',
+                marginRight: 'auto'
+              }}
+              className='yarl__button'
+            >
+              {theme.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardIosRounded />}
+            </IconButton>,
+            'share',
+            'download',
+            'fullscreen',
+            'menu'
+          ]
+        }}
         plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share]}
         carousel={{
           padding: 0,
@@ -126,7 +150,10 @@ export default function MediaPaneDetails({ mediaId, medias }) {
             width: '100%'
           },
         }}
-        styles={{ container: { backgroundColor: '#000' } }}
+        styles={{
+          container: { backgroundColor: '#000' },
+          slide: { justifyContent: 'stretch' }
+        }}
         controller={{
           ref,
           touchAction: 'none'
