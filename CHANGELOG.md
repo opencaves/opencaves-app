@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.0](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.3.0) (2024-01-29)
+
+
+### Features
+
+* **app:** Let bots index the site ([a3364bd](https://github.com/opencaves/opencaves-app/commit/a3364bda0ae34bee3c404bc191d0e6e60080d093))
+* Changed marker color of caves that don't have a sistema for white ([9532574](https://github.com/opencaves/opencaves-app/commit/9532574e4b2a1a58a3f3ff6607bab74216d56937))
+* **theme:** Removed scrollbar thumb transparency ([b5c0a48](https://github.com/opencaves/opencaves-app/commit/b5c0a484b851e11b22111ba9cbb0a4dc5f2ee975))
+
+
+### Bug Fixes
+
+* **deps:** Non serializable firestore user in sessionSlice ([9853a7b](https://github.com/opencaves/opencaves-app/commit/9853a7b75f93068878953d94a67915e2f6c97661))
+* Prevent the "pull to refresh" effect ([ccab4e1](https://github.com/opencaves/opencaves-app/commit/ccab4e1a11fa20b95d67bfcecb30a88f00399a19))
+* Temporary fix for emulator data persistence ([b6e6132](https://github.com/opencaves/opencaves-app/commit/b6e613207946fa7d03f5de21699e7e1896bf6f63))
+
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2023-07-23)
 
 
