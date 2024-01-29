@@ -48,7 +48,7 @@
     "@invertase/image-processing-api": "^0.1.0",
     "@ionic/core": "^7.6.3",
     "@ionic/react": "^7.6.6",
-    "@mui/icons-material": "^5.15.4",
+    "@mui/icons-material": "^5.15.6",
     "@mui/lab": "^5.0.0-alpha.162",
     "@mui/material": "^5.15.3",
     "@mui/material-next": "^6.0.0-alpha.119",
