@@ -20,9 +20,6 @@ import { getFunctions } from 'firebase-admin/functions'
 import { getExtensions } from 'firebase-admin/extensions'
 import fs from 'fs'
 import functions from 'firebase-functions'
-import { logger } from 'firebase-functions'
-// import { onObjectFinalized } from 'firebase-functions/v2/storage'
-// import { onTaskDispatched } from 'firebase-functions/v2/tasks'
 import { mkdirp } from 'mkdirp'
 import os from 'os'
 import path from 'path'
@@ -34,6 +31,7 @@ import config, { deleteImage } from './config.js'
 import * as logs from './logs.js'
 import { shouldResize } from './shouldResize.js'
 import '../init.js'
+import { region } from '../constants.js'
 
 sharp.cache(false)
 
@@ -191,7 +189,9 @@ export const generateResizedImage = functions.storage
 /**
  *
  */
-export const backfillResizedImages = functions.tasks
+export const backfillResizedImages = functions
+  .region(region)
+  .tasks
   .taskQueue()
   .onDispatch(async data => {
     // export const backfillResizedImages = onTaskDispatched(async ({ data }) => {
