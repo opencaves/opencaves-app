@@ -16,10 +16,7 @@
   },
   "etags": {
     "opencaves": {
-      "extensionInstances": {
-        "storage-resize-images": "89075e6c989177d4165546ba4e84c4b2720ae8aae1b254f9a158bd0c05643b77",
-        "delete-user-data": "d7cfe8d32891e17644405fc5155bdf2a25f390a7e8cdacbad820290e089eb10d"
-      }
+      "extensionInstances": {}
     }
   }
 }
