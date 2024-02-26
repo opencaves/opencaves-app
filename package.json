@@ -51,7 +51,7 @@
     "@mui/icons-material": "^5.15.11",
     "@mui/lab": "^5.0.0-alpha.166",
     "@mui/material": "^5.15.11",
-    "@mui/material-next": "^6.0.0-alpha.123",
+    "@mui/material-next": "^6.0.0-alpha.124",
     "@reduxjs/toolkit": "^2.2.1",
     "browser-fs-access": "^0.35.0",
     "csvtojson": "^2.0.10",
