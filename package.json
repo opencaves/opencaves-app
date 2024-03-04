@@ -55,7 +55,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "browser-fs-access": "^0.35.0",
     "csvtojson": "^2.0.10",
-    "firebase": "^10.8.0",
+    "firebase": "^10.8.1",
     "firebase-functions": "^4.7.0",
     "i18next": "^23.10.0",
     "i18next-browser-languagedetector": "^7.2.0",
