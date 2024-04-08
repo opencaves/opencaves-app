@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/*.js'",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"craco  start\"",
     "dev:serve": "craco start",
     "serve": "serve -p 4000 -s build",
