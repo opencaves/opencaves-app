@@ -1,5 +1,6 @@
 
 import { findPhoneNumbersInText } from 'libphonenumber-js'
+import { normalizeLengths } from '@/utils/lengths'
 
 const locationValidityValueMap = new Map([
   ['yes', 'valid'],
@@ -59,11 +60,7 @@ export function Markdown({ makeOCLinksFromCenoteNames }) {
 
     str = makeOCLinksFromCenoteNames(str)
 
-    // var links = str.match(/\[[^\]]+\]/g)
-    // if (links) {
-    //   linksInTxt.push(...links)
-    // }
-    // str = replaceIdsInHtmlForLink(str)
+    str = normalizeLengths(str)
 
     return str
   }
