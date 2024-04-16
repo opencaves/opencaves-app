@@ -14,7 +14,7 @@ import QuickActions from './QuickActions'
 import Access from './Access'
 import SistemaHistory from './SistemaHistory'
 import MediaList from './MediaList'
-import { snackbarAutoHideDuration } from '@/config/app'
+import { snackbarDefaultAutoHideDuration } from '@/config/app'
 import './CurrentCaveDetailsContent.scss'
 
 function SlideUp(props) {
@@ -300,7 +300,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
         !isAndroid && (
           <Portal>
             <Snackbar
-              autoHideDuration={snackbarAutoHideDuration}
+              autoHideDuration={snackbarDefaultAutoHideDuration}
               message={snackbarMessage}
               open={snackbarOpen}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Snackbar as MUISnackbar, Portal } from '@mui/material'
 import Slide from '@mui/material/Slide'
 import { Close } from '@mui/icons-material'
-import { snackbarAutoHideDuration } from '@/config/app'
+import { snackbarDefaultAutoHideDuration } from '@/config/app'
 
 const SlideUp = forwardRef((props, ref) => {
   return <Slide {...props} ref={ref} direction='up' />
@@ -33,7 +33,6 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
   }
 
   function onSnackbarClose(event, reason) {
-
     if (!autoHide && !hideOnClickAway && reason === 'clickaway') {
       // Don't close the snackbar on click away when option autoHide === false
       return
@@ -48,8 +47,8 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
   // }
 
   useEffect(() => {
-    setAutoHideDuration(autoHide ? autoHideDuration || snackbarAutoHideDuration : null)
-  }, [autoHide])
+    setAutoHideDuration(autoHide ? autoHideDuration || snackbarDefaultAutoHideDuration : null)
+  }, [autoHide, autoHideDuration])
 
   useEffect(() => {
     setOpen(open)
