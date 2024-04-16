@@ -1,4 +1,5 @@
 import { beforeUserCreated } from 'firebase-functions/v2/identity'
+// import { log } from 'firebase-functions/logger'
 import { auth, db } from '../init.js'
 
 export const beforeCreated = beforeUserCreated(async event => {
@@ -7,11 +8,6 @@ export const beforeCreated = beforeUserCreated(async event => {
   const { uid, email } = user
 
   try {
-
-    // if (user.email && !user.emailVerified) {
-    //   throw new HttpsError(
-    //     'invalid-argument', 'Unverified email')
-    // }
 
     await auth.setCustomUserClaims(uid, { roles: ['editor'] })
 
