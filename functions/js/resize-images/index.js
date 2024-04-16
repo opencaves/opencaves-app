@@ -31,7 +31,7 @@ import config, { deleteImage } from './config.js'
 import * as logs from './logs.js'
 import { shouldResize } from './shouldResize.js'
 import '../init.js'
-import { region } from '../constants.js'
+import { REGION } from '../constants.js'
 
 sharp.cache(false)
 
@@ -190,7 +190,7 @@ export const generateResizedImage = functions.storage
  *
  */
 export const backfillResizedImages = functions
-  .region(region)
+  .region(REGION)
   .tasks
   .taskQueue()
   .onDispatch(async data => {

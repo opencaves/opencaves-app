@@ -1,11 +1,10 @@
 import functions from 'firebase-functions'
 import { db } from '../init.js'
-import { USERS_COLL_NAME } from '../assets/constants.js'
-import { region } from '../constants.js'
+import { REGION, USERS_COLL_NAME } from '../constants.js'
 
 
 export const onUserCreate = functions
-  .region(region)
+  .region(REGION)
   .auth
   .user()
   .onDelete(async user => {

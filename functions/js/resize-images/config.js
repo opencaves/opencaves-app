@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { BUCKET_NAME } from '../assets/constants.js'
-import { THUMBNAILS_FOLDER } from '../constants.js'
+import { BUCKET_NAME, THUMBNAILS_FOLDER } from '../constants.js'
 
 export let deleteImage
 

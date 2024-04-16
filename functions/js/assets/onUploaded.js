@@ -6,7 +6,7 @@ import { logger } from 'firebase-functions/v1'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME } from './constants.js'
+import { CAVES_ASSETS_COLL_NAME } from '../constants.js'
 import { THUMBNAILS_FOLDER } from '../constants.js'
 
 function supportsXMP(mediaType) {

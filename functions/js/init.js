@@ -3,9 +3,9 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { getAuth } from 'firebase-admin/auth'
 // import { region } from 'firebase-functions/v1'
 import { setGlobalOptions } from 'firebase-functions/v2'
-import { region } from './constants.js'
+import { REGION } from './constants.js'
 
-setGlobalOptions({ region })
+setGlobalOptions({ REGION })
 
 initializeApp()
 // region('northamerica-northeast1')
