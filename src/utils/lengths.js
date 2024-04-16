@@ -13,7 +13,7 @@ function round(number, precision) {
 }
 
 function nbsp(str) {
-  return `${str}`.replaceAll(/\s /g, '\xa0')
+  return `${str}`.replaceAll(/\s/g, '\xa0')
 }
 
 export function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {

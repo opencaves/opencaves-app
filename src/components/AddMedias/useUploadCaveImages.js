@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import CaveAsset from '@/models/CaveAsset'
-import useLoggedIn from '@/hooks/useLoggedin.js'
+import useLoggedIn from '@/hooks/useLoggedin'
 
 export function useUploadCaveImages() {
   const user = useSelector(state => state.session.user)
