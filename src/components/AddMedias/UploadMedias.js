@@ -1,12 +1,12 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardMedia, LinearProgress, Typography } from '@mui/material'
+import { Alert, Card, CardContent, CardMedia, LinearProgress, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import Snackbar from '@/components/Snackbar/Snackbar'
+import Message from '@/components/App/Message'
 import { useUploadCaveImages } from './useUploadCaveImages'
 import { appName } from '@/config/app'
 import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/mediaPane'
-import Message from '../App/Message.js'
 
 export default function UploadMedias({ medias }) {
   const [_medias, setMedias] = useState([])
@@ -19,14 +19,24 @@ export default function UploadMedias({ medias }) {
   async function uploadMedias(files) {
     setUploading(true)
     await uploadCaveImages(files)
+    setMedias([])
+    console.log('-------------- upload complete?')
   }
 
   useEffect(() => {
-    console.log('done: %o', done)
+    console.log('done?: %o', done)
     setIsDone(done)
   }, [done])
 
   useEffect(() => {
+    if (error) {
+      setUploading(false)
+      console.error('Error uploading media: %o', error)
+    }
+  }, [error])
+
+  useEffect(() => {
+    console.log('------------- use effect [medias]: %o', medias)
     if (medias) {
       setMedias(medias)
     }
@@ -78,8 +88,23 @@ export default function UploadMedias({ medias }) {
             autoHide={false}
           >
             <SnackbarContent>
+              <Alert>##################################
+                {t('success', { count: done.count })}
+              </Alert>
+            </SnackbarContent>
+          </Snackbar >
+        )
+      }
+
+      {
+        error && (
+          <Snackbar
+            open={true}
+            autoHide={false}
+          >
+            <SnackbarContent>
               {/* <Typography>{t('success', { count: done.count })}</Typography> */}
-              <Message message={t('success', { count: done.count })} />
+              <Message message={t('unknownError')} />
             </SnackbarContent>
           </Snackbar>
         )

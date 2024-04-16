@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "localId": "iuCUADGJ1XQEeFWvs1veInytkeb2",
+      "email": "christian.remillard@gmail.com",
+      "emailVerified": true,
+      "passwordHash": "PPbTO/9QtTLDFVCPe2aSDPqfRYlmhzVmpazk0Y3xCNvtnN+XtPhzfLPj+M0ZNFTa9qd1a7OUe9XMsChDH421dg==",
+      "salt": "NWgXl08fRq24nQ==",
+      "displayName": "Christian Rémillard",
+      "lastSignedInAt": "1706532883177",
+      "createdAt": "1706532883177",
+      "customAttributes": "{\"roles\":[\"editor\", \"admin\"]}",
+      "providerUserInfo": []
+    }
+  ]
+}

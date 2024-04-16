@@ -3,7 +3,8 @@
   "conventionalCommits.scopes": [
     "app",
     "deps",
-    "theme"
+    "theme",
+    "functions"
   ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
