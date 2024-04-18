@@ -60,6 +60,11 @@ const lightThemeOptions = {
       bg: 'rgb(193 193 193)'
     }
   },
+  sys: {
+    color: {
+      surfaceContainerHigh: '#eceae9'
+    }
+  },
   oc: {
     sys: {
       motion: {
@@ -230,6 +235,28 @@ const lightThemeOptions = {
             borderColor: '#dadce0'
           })
         }),
+      }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          paddingTop: 24,
+          paddingBottom: 24
+        },
+        paper: {
+          backgroundColor: 'var(--md-sys-color-surfaceContainerHigh)', // var(--md-ref-palette-neutral-92, #ece6f0)
+          borderRadius: 'var(--md-sys-shape-corner-extraLarge)',
+        }
+      }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingLeft: 24,
+          paddingRight: 24,
+          paddingBottom: 24
+        }
       }
     },
     MuiTooltip: {

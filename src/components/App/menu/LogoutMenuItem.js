@@ -4,7 +4,7 @@ import { ListItemIcon } from '@mui/material'
 import { LogoutRounded } from '@mui/icons-material'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import MenuItem from '../MenuItem'
-import Message from '../Message'
+import Message from '../../Message'
 import { auth } from '@/config/firebase'
 
 export default function LogoutMenuItem() {

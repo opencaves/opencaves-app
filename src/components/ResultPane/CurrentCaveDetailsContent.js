@@ -8,6 +8,7 @@ import Markdown from '@/components/Markdown/Markdown'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper'
 import { useSmall } from '@/hooks/useSmall'
+import useRoles from '@/hooks/useRoles'
 import { getOS } from '@/utils/getOS'
 import Address from './Address'
 import QuickActions from './QuickActions'
@@ -26,6 +27,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   const { mediaCount } = useLoaderData()
 
   const isSmall = useSmall()
+  const isEditor = useRoles('editor')
 
   const [snackbarMessage, setSnackbarMessage] = useState()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -129,21 +131,35 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       <Divider />
 
-      <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />
+      {mediaCount > 0 && (
+        <>
+          <Box
+            my='var(--oc-pane-padding-block)'
+          >
 
-      <Box
-        my='var(--oc-pane-padding-block)'
-        textAlign='center'
-      >
-        <AddMediasButton
-          color='inherit'
-          variant='outlined'
-          size='small'
-          startIcon={<AddAPhotoOutlined color='primary' />}
-        />
-      </Box>
+            <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />
 
-      <Divider />
+            {isEditor && (
+              <Box
+                // my='var(--oc-pane-padding-block)'
+                textAlign='center'
+                sx={{
+                  paddingBlockStart: 'var(--oc-pane-padding-block)'
+                }}
+              >
+                <AddMediasButton
+                  color='inherit'
+                  variant='outlined'
+                  size='small'
+                  startIcon={<AddAPhotoOutlined color='primary' />}
+                />
+              </Box>
+            )}
+          </Box>
+
+          <Divider sx={{ mt: !isEditor ?? 'var(--oc-pane-padding-block)' }} />
+        </>
+      )}
 
       <List dense className='oc-results-copy-list'>
 

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MenuItem } from '@mui/material'
-import Message from '@/components/App/Message'
+import Message from '@/components/Message'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
 import { deleteById } from '@/models/CaveAsset'
 import useRoles from '@/hooks/useRoles'

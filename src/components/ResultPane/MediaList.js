@@ -25,7 +25,7 @@ export function loadMediaCount(caveId) {
   return countAssets(caveId)
 }
 
-export default function MediaList({ caveId, hasMedia = false }) {
+export default function MediaList({ caveId, hasMedia = false, sx, ...props }) {
   const { mediaCount } = useLoaderData()
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
@@ -138,8 +138,10 @@ export default function MediaList({ caveId, hasMedia = false }) {
     <Box
       sx={{
         marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
-        height: hasMedia && `calc((var(--oc-pane-padding-block) * 2) + ${assetsListHeight}px)`
+        height: hasMedia && `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
+        ...sx
       }}
+      {...props}
     >
       <Scrollbars
         ref={scrollbarsRef}
@@ -157,7 +159,7 @@ export default function MediaList({ caveId, hasMedia = false }) {
         <Box
           px='var(--oc-pane-padding-inline)'
           pr='var(--oc-pane-padding-inline)'
-          my='var(--oc-pane-padding-block)'
+          mb='var(--oc-pane-padding-block)'
           width='fit-content'
         >
           <Grid

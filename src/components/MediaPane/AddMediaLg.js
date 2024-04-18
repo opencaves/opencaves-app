@@ -8,7 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Close, PhotoOutlined } from '@mui/icons-material'
 import Or from '@/components/utils/Or'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar'
-import Message from '../App/Message'
+import Message from '../Message'
 import { useUploadCaveImages } from '@/components/AddMedias/useUploadCaveImages'
 import { acceptedMimeTypes } from '@/config/mediaPane'
 

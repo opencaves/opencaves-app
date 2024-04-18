@@ -9,7 +9,7 @@ import Tooltip from '@/components/Tooltip'
 import Picture from '@/components/Picture'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper'
 import { getCoverImage, useCoverImage } from '@/models/CaveAsset'
-import useSession from '@/hooks/useSession'
+import useRoles from '@/hooks/useRoles'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 import pixel from '@/images/pixel.gif'
 
@@ -19,12 +19,12 @@ export async function loadCoverImage(caveId) {
 
 export default function CoverImage({ caveId, width, height }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
-  const hasSession = useSession()
+  const isEditor = useRoles('editor')
   const [sources, setSources] = useState(null)
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
-
+  console.log('isEditor: %o', isEditor)
   function Container({ children }) {
     return (
       <Box
@@ -81,7 +81,7 @@ export default function CoverImage({ caveId, width, height }) {
     return (
       <Container>
         <ConditionalWrapper
-          condition={hasSession}
+          condition={isEditor}
           wrapper={children => (
             <Tooltip title={t('addImages.tooltip')}>
               <ButtonBase onClick={promptForMedias}>
@@ -100,7 +100,7 @@ export default function CoverImage({ caveId, width, height }) {
             }}
           />
           {
-            hasSession && (
+            isEditor && (
               <AddPhotoAlternateRounded
                 sx={{
                   position: 'absolute',

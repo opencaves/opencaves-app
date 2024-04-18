@@ -1,9 +1,9 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Card, CardContent, CardMedia, LinearProgress, Typography } from '@mui/material'
+import { Alert, Card, CardContent, CardMedia, LinearProgress, Typography, useTheme } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import Snackbar from '@/components/Snackbar/Snackbar'
-import Message from '@/components/App/Message'
+import { ErrorAlert } from '@/components/Alert'
 import { useUploadCaveImages } from './useUploadCaveImages'
 import { appName } from '@/config/app'
 import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/mediaPane'
@@ -15,6 +15,14 @@ export default function UploadMedias({ medias }) {
   const [uploading, setUploading] = useState(false)
   const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
+  const [errorAlertOpen, setErrorAlertOpen] = useState(false)
+  const theme = useTheme()
+  console.log('theme: %o', theme)
+
+  function onErrorAlertClose() {
+    console.log('[onErrorAlertClose] closing alert dialog.')
+    setErrorAlertOpen(false)
+  }
 
   async function uploadMedias(files) {
     setUploading(true)
@@ -71,6 +79,10 @@ export default function UploadMedias({ medias }) {
     }
   }, [uploadComplete])
 
+  useEffect(() => {
+    setErrorAlertOpen(error)
+  }, [error])
+
 
   return (
     <>
@@ -80,6 +92,11 @@ export default function UploadMedias({ medias }) {
       >
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
+
+      {errorAlertOpen && (
+        <ErrorAlert open={true} onClose={onErrorAlertClose}>{t('unknownError')}</ErrorAlert>
+      )
+      }
 
       {
         done && (
@@ -93,20 +110,6 @@ export default function UploadMedias({ medias }) {
               </Alert>
             </SnackbarContent>
           </Snackbar >
-        )
-      }
-
-      {
-        error && (
-          <Snackbar
-            open={true}
-            autoHide={false}
-          >
-            <SnackbarContent>
-              {/* <Typography>{t('success', { count: done.count })}</Typography> */}
-              <Message message={t('unknownError')} />
-            </SnackbarContent>
-          </Snackbar>
         )
       }
     </>
