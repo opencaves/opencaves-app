@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
-import Rating from '../Rating/Rating'
+import Rating from '@/components/Rating/Rating'
 import CoverImage from './CoverImage'
 import { useSmall } from '@/hooks/useSmall'
 import { ISO6391ToISO6392 } from '@/utils/lang'
@@ -14,7 +14,6 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   const coverImageHeight = Math.round(coverImageWidth * coverImageHeightRatio)
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
-  const [rating, setRating] = useState(-1)
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
   const resolvedLanguage = ISO6391ToISO6392(i18n.resolvedLanguage)
   const caveNameTranslation = (langCode => {
@@ -28,10 +27,8 @@ export default function CurrentCaveDetailsHeader({ cave }) {
 
     return cave.nameTranslations?.[resolvedLanguage]?.join(', ') || null
   })(cave.name?.languageCode)
-
+  console.log('cave: %o', cave)
   const isSmall = useSmall()
-
-  useEffect(() => setRating(Reflect.has(cave, 'rating') ? cave.rating : -1), [cave])
 
   return (
     <>
@@ -48,7 +45,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
         {
           cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
         }
-        <Rating value={rating} sx={{ pt: '0.5rem' }} ></Rating>
+        <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} />
       </Box >
     </>
   )
