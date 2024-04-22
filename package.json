@@ -46,7 +46,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
     "@invertase/image-processing-api": "^0.1.0",
-    "@ionic/core": "^7.8.3",
+    "@ionic/core": "^8.0.0",
     "@ionic/react": "^8.0.0",
     "@mui/icons-material": "^5.15.15",
     "@mui/lab": "^5.0.0-alpha.170",
