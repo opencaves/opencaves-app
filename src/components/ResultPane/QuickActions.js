@@ -15,8 +15,8 @@ function openDirections(cave) {
   console.log('[onClick] cave: %o',)
   const url = new URL('https://www.google.com/maps/dir/?api=1&travelmode=driving')
   url.searchParams.append('destination', `${cave.location.latitude},${cave.location.longitude}`)
-  if (cave.entranceCoordinates) {
-    url.searchParams.append('waypoints', `${cave.entranceCoordinates.latitude},${cave.entranceCoordinates.longitude}`)
+  if (cave.entrance) {
+    url.searchParams.append('waypoints', `${cave.entrance.latitude},${cave.entrance.longitude}`)
   }
 
   if ('platform' in navigator) {
