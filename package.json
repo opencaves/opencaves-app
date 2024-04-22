@@ -111,7 +111,7 @@
     "concurrently": "^8.2.2",
     "craco-alias": "^3.0.1",
     "eslint-config-react-app": "^7.0.1",
-    "serve": "^14.2.1",
+    "serve": "^14.2.2",
     "source-map-explorer": "^2.5.3",
     "swr": "^2.2.5"
   }
