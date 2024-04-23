@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 
-
 export function useCheckForAppUpdates(interval = 20 * 60 * 1000 /* 20 minutes */) {
 
   const [updateAvailable, setUpdateAvailable] = useState(false)
-  console.log('Launching the check for updates process')
+  // console.log('Launching the check for updates process')
   useEffect(() => {
 
     if (!('serviceWorker' in navigator)) {

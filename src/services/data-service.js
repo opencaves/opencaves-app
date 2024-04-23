@@ -19,14 +19,12 @@ function handleSetCaves(data) {
 
 export function getData() {
   return new Promise((resolve, reject) => {
-    console.log('[getData] getting data...')
+    // console.log('[getData] getting data...')
     function doGetData() {
       fetchCaveData()
         .then(data => {
-          // console.log('[getData] fetched data: %o', data)
-          // setCaves(toGeojson(data.caves))
           handleSetCaves(data)
-          console.log('[getData] returning data from fetch')
+          // console.log('[getData] returning data from fetch')
           resolve()
 
           // setgeoJson(toGeojson(data.caves))
@@ -40,7 +38,7 @@ export function getData() {
     if (store.getState().data.caves.length === 0) {
       doGetData()
     } else {
-      console.log('[getData] returning data from store')
+      // console.log('[getData] returning data from store')
       const expires = store.getState().data.expires
       const now = Date.now()
       if (expires && expires < now) {

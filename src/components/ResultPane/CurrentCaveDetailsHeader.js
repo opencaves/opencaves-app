@@ -27,7 +27,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
 
     return cave.nameTranslations?.[resolvedLanguage]?.join(', ') || null
   })(cave.name?.languageCode)
-  console.log('cave: %o', cave)
+
   const isSmall = useSmall()
 
   return (

@@ -35,7 +35,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   const [addressTooltipOpen, setAddressTooltipOpen] = useState(false)
   const [coordinatesTooltipOpen, setCoordinatesTooltipOpen] = useState(false)
   const [keyCoordinatesTooltipOpen, setKeyCoordinatesTooltipOpen] = useState(false)
-  const [entranceCoordinatesTooltipOpen, setEntranceCoordinatesTooltipOpen] = useState(false)
+  const [entranceTooltipOpen, setEntranceTooltipOpen] = useState(false)
 
   const isAndroid = getOS() === 'Android'
 
@@ -102,16 +102,16 @@ export default function CurrentCaveDetailsContent({ cave }) {
     setSnackbarOpen(true)
   }
 
-  function handleEntranceCoordinatesTooltipOpen() {
-    setEntranceCoordinatesTooltipOpen(true)
+  function handleEntranceTooltipOpen() {
+    setEntranceTooltipOpen(true)
   }
 
-  function handleEntranceCoordinatesTooltipClose() {
-    setEntranceCoordinatesTooltipOpen(false)
+  function handleEntranceTooltipClose() {
+    setEntranceTooltipOpen(false)
   }
 
-  function handleEntranceCoordinatesCopy() {
-    setEntranceCoordinatesTooltipOpen(false)
+  function handleEntranceCopy() {
+    setEntranceTooltipOpen(false)
     setSnackbarMessage(t('copiedToClipboard'))
     setSnackbarOpen(true)
   }
@@ -257,11 +257,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
         {
           entranceText && (
-            <CopyToClipboard text={entranceText} placement='bottom-end' onCopy={handleEntranceCoordinatesCopy}>
+            <CopyToClipboard text={entranceText} placement='bottom-end' onCopy={handleEntranceCopy}>
               <ListItem disablePadding>
                 <ConditionalWrapper
                   condition={!isSmall}
-                  wrapper={children => <Tooltip title={t('copyEntranceCoordinates')} open={entranceCoordinatesTooltipOpen} onOpen={handleEntranceCoordinatesTooltipOpen} onClose={handleEntranceCoordinatesTooltipClose}>{children}</Tooltip>}
+                  wrapper={children => <Tooltip title={t('copyEntranceCoordinates')} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>{children}</Tooltip>}
                 >
                   <ListItemButton>
                     <ListItemIcon>

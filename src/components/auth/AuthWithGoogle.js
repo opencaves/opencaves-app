@@ -6,6 +6,7 @@ import { ReactComponent as GoogleGLogo } from '@/images/app/auth/google-g-logo.s
 export default function AuthWithGoogle({ message, onSuccess, ...props }) {
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
 
+  console.log('[AuthWithGoogle] GoogleAuthProvider: %o', GoogleAuthProvider)
   return (
     <AuthWithProvider
       message={message || t('withGoogle')}

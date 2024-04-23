@@ -16,8 +16,8 @@ export default function UploadMedias({ medias }) {
   const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
-  const theme = useTheme()
-  console.log('theme: %o', theme)
+  // const theme = useTheme()
+  // console.log('theme: %o', theme)
 
   function onErrorAlertClose() {
     console.log('[onErrorAlertClose] closing alert dialog.')

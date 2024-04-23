@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProviderId, linkWithCredential, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -17,12 +17,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
   const isSmall = useSmall()
   const isAnonymous = useAnonymous()
   const user = useSelector(state => state.session.user)
-  // const { state } = useLocation()
   const continueUrl = useSelector(state => state.session.continueUrl)
-
-  // if (state && state.continueUrl) {
-  //   dispatch(setContinueUrl(state.continueUrl))
-  // }
 
   function onAuthWithProviderSuccess() {
     if (onSuccess) {

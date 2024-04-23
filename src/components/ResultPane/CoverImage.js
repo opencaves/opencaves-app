@@ -24,7 +24,7 @@ export default function CoverImage({ caveId, width, height }) {
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
-  console.log('isEditor: %o', isEditor)
+
   function Container({ children }) {
     return (
       <Box
