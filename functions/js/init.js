@@ -5,7 +5,7 @@ import { getAuth } from 'firebase-admin/auth'
 import { setGlobalOptions } from 'firebase-functions/v2'
 import { REGION } from './constants.js'
 
-setGlobalOptions({ REGION })
+setGlobalOptions({ region: REGION })
 
 initializeApp()
 // region('northamerica-northeast1')

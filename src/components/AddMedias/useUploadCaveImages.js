@@ -63,7 +63,7 @@ export function useUploadCaveImages() {
         setDone({ count: files.length })
       }
     } catch (error) {
-      console.log('////////////////////////////////////////////////')
+      console.error('[uploadCaveImages] error: %o', error)
       setDone()
       setError(error)
       reset()

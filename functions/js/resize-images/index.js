@@ -30,8 +30,8 @@ import { modifyImage } from './resize-image.js'
 import config, { deleteImage } from './config.js'
 import * as logs from './logs.js'
 import { shouldResize } from './shouldResize.js'
-import '../init.js'
 import { REGION } from '../constants.js'
+import '../init.js'
 
 sharp.cache(false)
 

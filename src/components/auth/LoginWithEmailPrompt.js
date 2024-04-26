@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import AuthPrompt, { Header } from './AuthPrompt'
-import LoginWithEmail from './LoginWithEmail'
+import LogInWithEmail from './LogInWithEmail'
 
-export default function LoginWithEmailPrompt({ open, onClose }) {
+export default function LogInWithEmailPrompt({ open, onClose }) {
   const { t } = useTranslation('auth', { keyPrefix: 'loginWithEmailPrompt' })
 
   return (
@@ -11,7 +11,7 @@ export default function LoginWithEmailPrompt({ open, onClose }) {
       onClose={onClose}
     >
       <Header>{t('header')}</Header>
-      <LoginWithEmail />
+      <LogInWithEmail />
 
     </AuthPrompt>
   )

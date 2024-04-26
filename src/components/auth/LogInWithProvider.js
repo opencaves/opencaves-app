@@ -10,7 +10,7 @@ import { useSmall } from '@/hooks/useSmall'
 import useAnonymous from '@/hooks/useAnonymous'
 import { auth } from '@/config/firebase'
 
-export default function AuthWithProvider({ Provider, message, color, onSuccess, Logo, sx, ...props }) {
+export default function LogInWithProvider({ Provider, message, color, onSuccess, Logo, sx, ...props }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(false)
@@ -19,7 +19,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
   const user = useSelector(state => state.session.user)
   const continueUrl = useSelector(state => state.session.continueUrl)
 
-  function onAuthWithProviderSuccess() {
+  function onLogInWithProviderSuccess() {
     if (onSuccess) {
       return onSuccess.call(null, arguments)
     }
@@ -32,7 +32,8 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
     return prompt('password')
   }
 
-  async function signInWithProvider() {
+  async function loginWithProvider() {
+
     setDisabled(true)
 
     if (isAnonymous) {
@@ -75,11 +76,9 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
     } else {
       signInWithPopup(auth, new Provider())
         .then(result => {
-          setDisabled(false)
           navigate(continueUrl || '/')
         })
         .catch((error) => {
-          setDisabled(false)
 
           if (error.code === 'auth/account-exists-with-different-credential') {
             // User's email already exists.
@@ -126,11 +125,14 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
                 // As we have access to the pending credential, we can directly call the link method.
                 result.user.linkAndRetrieveDataWithCredential(pendingCred).then(function (usercred) {
                   // Google account successfully linked to the existing Firebase user.
-                  onAuthWithProviderSuccess()
+                  onLogInWithProviderSuccess()
                 })
               })
             })
           }
+        })
+        .finally(() => {
+          setDisabled(false)
         })
     }
   }
@@ -141,7 +143,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
       variant='outlined'
       color={color}
       disabled={disabled}
-      onClick={signInWithProvider}
+      onClick={loginWithProvider}
       sx={sx || null}
       {...props}
     >

@@ -14,12 +14,12 @@ export default function useRoles(roles) {
     async function getUserRoles() {
       if (user) {
         const idTokenResult = await user.getIdTokenResult()
-        const roles = idTokenResult.claims.roles
-        var newHasRoles = !!roles && roles.some(role => roles.includes(role))
+        const userRoles = idTokenResult.claims.roles
+        console.log('roles: %o', roles)
+        console.log('userRoles: %o', userRoles)
+        var newHasRoles = !!userRoles && roles.every(role => userRoles.includes(role))
 
-        if (newHasRoles !== hasRoles) {
-          setHasRoles(newHasRoles)
-        }
+        setHasRoles(newHasRoles)
       }
     }
 

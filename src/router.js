@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Signup from '@/routes/Signup'
-import Login from '@/routes/Login'
+import LogIn from '@/routes/LogIn'
 import Map from '@/routes/Map'
 import Loading from '@/routes/Loading'
 import Account from '@/routes/Account'
@@ -13,7 +13,7 @@ import AppRoot from '@/components/App/AppRoot'
 import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane'
 import MediaPane, { mediaPaneLoader } from '@/components/MediaPane/MediaPane'
 import SignupWithEmail from '@/components/auth/SignupWithEmail'
-import LoginWithEmailPrompt from '@/components/auth/LoginWithEmailPrompt'
+import LogInWithEmailPrompt from '@/components/auth/LogInWithEmailPrompt'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice'
 
 function SkipIfLoggedin({ children }) {
@@ -70,13 +70,13 @@ const routes = [
             path: 'login',
             element: (
               <SkipIfLoggedin>
-                <Login />
+                <LogIn />
               </SkipIfLoggedin>
             ),
             children: [
               {
                 path: 'with-email',
-                element: <LoginWithEmailPrompt open={true} />
+                element: <LogInWithEmailPrompt open={true} />
               }
             ]
           },

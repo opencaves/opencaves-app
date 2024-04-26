@@ -19,10 +19,10 @@
       "ariaLabel": "Plus",
       "home": "Home",
       "myAccount": "My account",
-      "signup": "Signup",
-      "login": "Login",
+      "signup": "Sign up",
+      "login": "Log in",
       "addPictures": "Add Pictures",
-      "logout": "Logout",
+      "logout": "Log out",
       "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
       "about_withName": "About {{name}}",
@@ -98,7 +98,7 @@
               "header": "This email is already in use",
               "details": "An account is already using the email <strong>{{email}}</strong>.<br /> Try another email or log in with Google.",
               "previousBtn": "Try another email",
-              "loginWithGoogle": "Login with Google"
+              "loginWithGoogle": "LogIn with Google"
             },
             "emailSentNotification": {
               "header": "Check your emails",
@@ -144,7 +144,7 @@
           }
         }
       },
-      "goToLogin": {
+      "goToLogIn": {
         "invite": "Already have an account?",
         "btn": "Log in"
       }

@@ -8,13 +8,13 @@ import MenuItem from '@/components/App/MenuItem'
 import { setContinueUrl } from '@/redux/slices/sessionSlice'
 
 
-export default function LoginMenuItem(props) {
+export default function LogInMenuItem(props) {
   const dispatch = useDispatch()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   // const location = useLocation()
   const { location } = window
 
-  function onLoginMenuItemClick() {
+  function onLogInMenuItemClick() {
     const continueUrl = `${location.pathname}${location.search}${location.hash}`
     dispatch(setContinueUrl(continueUrl))
   }
@@ -24,7 +24,7 @@ export default function LoginMenuItem(props) {
       key='key-login'
       component={Link}
       to='/login'
-      onClick={onLoginMenuItemClick}
+      onClick={onLogInMenuItemClick}
       {...props}
     >
       <ListItemIcon>

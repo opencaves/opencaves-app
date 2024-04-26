@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { googleProvider } from './providers'
-import AuthWithProvider from './AuthWithProvider'
-import LoginWithEmail from './LoginWithEmail'
+import LogInWithGoogle from './LogInWithGoogle'
+import LogInWithEmail from './LogInWithEmail'
 import Or from '../utils/Or'
 import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice'
-import { ReactComponent as GoogleGLogo } from '@/images/app/auth/google-g-logo.svg'
 
-export default function Login() {
+export default function LogIn() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const continueUrl = useSelector(state => state.session.continueUrl)
@@ -37,11 +35,12 @@ export default function Login() {
             sm: '42ch'
           }}
         >
-          <AuthWithProvider message={t('withGoogle')} provider={googleProvider} onSuccess={onSuccess} Logo={GoogleGLogo} />
 
-          <Or><Typography variant='caption'>{t('or')}</Typography></Or>
+          <LogInWithGoogle onSuccess={onSuccess} />
 
-          <LoginWithEmail />
+          <Or><Typography variant='caption' textTransform='uppercase'>{t('or')}</Typography></Or>
+
+          <LogInWithEmail />
 
         </Stack>
 

@@ -211,11 +211,13 @@ export default class CaveAsset {
       self.mediaType = file.type
 
       const fileRef = ref(storage, self.fullPath)
+      console.log('fileRef: %o', fileRef)
       const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata: { assetData: self } })
       uploadTask.on(
         'state_changed',
         snap => {
           // track the upload progress
+          // console.log('[uploadTask] task snapshoot: %o', snap)
           callback(snap.bytesTransferred)
         },
 
@@ -223,6 +225,7 @@ export default class CaveAsset {
         // Error handler
         //
         error => {
+          console.error('[uploadTask] Error: error')
           reject(error)
         },
 
@@ -230,7 +233,8 @@ export default class CaveAsset {
         // Success handler
         //
         async () => {
-          resolve()
+          console.info('[uploadTask] Success %o', this)
+          resolve(this)
         }
       )
     })
@@ -265,7 +269,7 @@ export function useCoverImage(caveId) {
 
 export function getImageAssetUrl(source, resize = {}, quality = 80) {
 
-  const URL = `https://${firebaseConfig.location}-${firebaseConfig.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
+  const url = `https://${firebaseConfig.location}-${firebaseConfig.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
 
   const options = builder()
     .input({
@@ -276,7 +280,7 @@ export function getImageAssetUrl(source, resize = {}, quality = 80) {
     .output({ webp: { reductionEffort: 3, quality } })
     .toEncodedString()
 
-  return `${URL}${options}`
+  return `${url}${options}`
 }
 
 const converter = {

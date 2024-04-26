@@ -8,7 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { PersonRounded } from '@mui/icons-material'
 import MenuItem from './MenuItem'
 import SignupMenuItem from './menu/SignupMenuItem'
-import LoginMenuItem from './menu/LoginMenuItem'
+import LogInMenuItem from './menu/LogInMenuItem'
 import LogoutMenuItem from './menu/LogoutMenuItem'
 import AddMedias from './menu/AddMediasMenuItem'
 import LogoIcon from './LogoIcon'
@@ -54,7 +54,6 @@ export default function AppMenu({ sx, ...props }) {
   }
 
   useEffect(() => {
-    console.log('matches: %o', matches)
     setRouteId(matches[matches.length - 1].id)
   }, [matches])
 
@@ -80,10 +79,12 @@ export default function AppMenu({ sx, ...props }) {
                 src={user.photoURL || 'broken-image.webp'}
                 alt={user.displayName}
                 sx={{
-                  bgcolor: isSmall ? theme.palette.primary.main : 'transparent',
+                  bgcolor: 'transparent',
                   // color: 'inherit',
-                  width: '27px',
-                  height: '27px'
+                  width: '32px',
+                  height: '32px',
+                  outline: isSmall ? null : `3px solid ${theme.palette.primary.main}`,
+                  outlineOffset: 2
                 }}
               />
             ) : (
@@ -155,7 +156,7 @@ export default function AppMenu({ sx, ...props }) {
         {
           !isLoggedIn && [
             <SignupMenuItem key='key-signup' />,
-            <LoginMenuItem key='key-login' />,
+            <LogInMenuItem key='key-login' />,
             <Divider key='key-divider-2' />
           ]
         }

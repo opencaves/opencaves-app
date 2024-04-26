@@ -12,7 +12,7 @@ import TextInput from './TextInput'
 import { auth } from '@/config/firebase'
 import { passwordMinLength } from '@/config/auth'
 
-export default function LoginWithEmail() {
+export default function LogInWithEmail() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const continueUrl = useSelector(state => state.session.continueUrl)
@@ -49,7 +49,7 @@ export default function LoginWithEmail() {
     }
   }, [emailInputValid])
 
-  async function onLoginBtnClick() {
+  async function onLogInBtnClick() {
     await login()
   }
 
@@ -148,7 +148,7 @@ export default function LoginWithEmail() {
         <SectionActions>
           <AuthButton
             // endIcon={<NavigateNextRounded />}
-            onClick={onLoginBtnClick}
+            onClick={onLogInBtnClick}
           >
             {t('loginBtn.label')}
           </AuthButton>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useMatches } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Login from '@/components/auth/Login'
+import LogIn from '@/components/auth/LogIn'
 import { useTitle } from '@/hooks/useTitle'
 
 export default function SignupPage() {
@@ -17,6 +17,6 @@ export default function SignupPage() {
   }, [matches])
 
   return (
-    <Login />
+    <LogIn />
   )
 }
