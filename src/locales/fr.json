@@ -36,7 +36,7 @@
       }
     },
     "updateAvailable": {
-      "message": "Une nouvelle version de cette application est disponible",
+      "message": "Une nouvelle version de l'application OpenCaves est disponible",
       "btn": "Actualiser"
     }
   },
