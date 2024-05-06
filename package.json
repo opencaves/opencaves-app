@@ -61,7 +61,7 @@
     "i18next": "^23.11.3",
     "i18next-browser-languagedetector": "^7.2.1",
     "install": "^0.13.0",
-    "libphonenumber-js": "^1.10.61",
+    "libphonenumber-js": "^1.11.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.3.0",
