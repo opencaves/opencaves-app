@@ -64,7 +64,7 @@
     "libphonenumber-js": "^1.11.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^3.3.0",
+    "mapbox-gl": "^3.4.0",
     "minisearch": "^6.3.0",
     "npm": "^10.8.0",
     "p-wait-for": "^5.0.2",
