@@ -53,7 +53,7 @@
     "@mui/lab": "^5.0.0-alpha.172",
     "@mui/material": "^5.16.4",
     "@mui/material-next": "^6.0.0-alpha.126",
-    "@reduxjs/toolkit": "^2.2.6",
+    "@reduxjs/toolkit": "^2.2.7",
     "browser-fs-access": "^0.35.0",
     "csvtojson": "^2.0.10",
     "firebase": "^10.12.4",
