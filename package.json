@@ -48,7 +48,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@invertase/image-processing-api": "^0.1.0",
     "@ionic/core": "^8.2.1",
-    "@ionic/react": "^8.2.5",
+    "@ionic/react": "^8.2.6",
     "@mui/icons-material": "^5.16.4",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.4",
