@@ -97,7 +97,7 @@
     "swiper": "^11.1.14",
     "underscore": "^1.13.7",
     "unique-push-id": "^1.0.2",
-    "web-vitals": "^4.2.3",
+    "web-vitals": "^4.2.4",
     "workbox-background-sync": "^7.1.0",
     "workbox-core": "^7.1.0",
     "workbox-expiration": "^7.1.0",
