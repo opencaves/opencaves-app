@@ -99,7 +99,7 @@
     "unique-push-id": "^1.0.2",
     "web-vitals": "^4.2.4",
     "workbox-background-sync": "^7.1.0",
-    "workbox-core": "^7.1.0",
+    "workbox-core": "^7.3.0",
     "workbox-expiration": "^7.1.0",
     "workbox-google-analytics": "^7.1.0",
     "workbox-precaching": "^7.1.0",
