@@ -65,7 +65,7 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.8.0",
-    "minisearch": "^7.1.0",
+    "minisearch": "^7.1.1",
     "npm": "^10.9.1",
     "p-wait-for": "^5.0.2",
     "prop-types": "^15.8.1",
