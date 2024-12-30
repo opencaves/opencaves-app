@@ -45,7 +45,7 @@
     "@capacitor/share": "^6.0.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fontsource/roboto": "^5.1.0",
+    "@fontsource/roboto": "^5.1.1",
     "@invertase/image-processing-api": "^0.1.0",
     "@ionic/core": "^8.4.1",
     "@ionic/react": "^8.4.1",
