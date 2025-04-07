@@ -105,7 +105,7 @@
     "workbox-precaching": "^7.3.0",
     "workbox-routing": "^7.1.0",
     "workbox-strategies": "^7.3.0",
-    "yet-another-react-lightbox": "^3.21.8"
+    "yet-another-react-lightbox": "^3.22.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
