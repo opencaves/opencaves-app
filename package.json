@@ -59,7 +59,7 @@
     "firebase": "^11.6.0",
     "firebase-functions": "^6.3.2",
     "i18next": "^25.0.1",
-    "i18next-browser-languagedetector": "^8.0.4",
+    "i18next-browser-languagedetector": "^8.0.5",
     "install": "^0.13.0",
     "libphonenumber-js": "^1.12.7",
     "localforage": "^1.10.0",
