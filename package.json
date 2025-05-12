@@ -93,7 +93,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
     "remark-gfm": "^4.0.1",
-    "sass": "^1.86.3",
+    "sass": "^1.88.0",
     "swiper": "^11.2.6",
     "underscore": "^1.13.7",
     "unique-push-id": "^1.0.2",
