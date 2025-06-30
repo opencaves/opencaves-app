@@ -44,7 +44,7 @@
   "dependencies": {
     "@capacitor/share": "^7.0.1",
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.2.6",
     "@invertase/image-processing-api": "^0.1.0",
     "@ionic/core": "^8.6.2",
