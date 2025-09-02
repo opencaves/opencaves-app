@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { appTitle } from '@/config/app'
+import { appTitle, paneInitialBreakpoint } from '@/config/app'
 import { paneBreakpoints } from '@/config/app'
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
   searchBarOff: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
-  resultPaneSmInitialBreakpoint: paneBreakpoints[0]
+  resultPaneSmCurrentBreakpoint: paneInitialBreakpoint
 }
 
 export const appSlice = createSlice({
@@ -27,13 +27,13 @@ export const appSlice = createSlice({
     setResultPaneSmOpen: (state, action) => {
       state.resultPaneSmOpen = action.payload
     },
-    setResultPaneSmInitialBreakpoint: (state, action) => {
-      state.resultPaneSmInitialBreakpoint = action.payload
+    setResultPaneSmCurrentBreakpoint: (state, action) => {
+      state.resultPaneSmCurrentBreakpoint = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmInitialBreakpoint } = appSlice.actions
+export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmCurrentBreakpoint } = appSlice.actions
 
 export default appSlice.reducer

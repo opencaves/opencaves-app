@@ -63,6 +63,18 @@ const lightThemeOptions = {
   sys: {
     color: {
       surfaceContainerHigh: '#eceae9'
+    },
+    motion: {
+      duration: {
+        emphasized: 500,
+        // emphasizedAccelerate: 200,
+        // emphasizedDecelerate: 400,
+        emphasizedAccelerate: 200,
+        emphasizedDecelerate: 400,
+        standard: 300,
+        standardDecelerate: 250,
+        standardAccelerate: 200
+      }
     }
   },
   oc: {
@@ -111,7 +123,7 @@ const lightThemeOptions = {
     },
     caveDetailsHeader: {
       fontSize: '1.375rem',
-      lineHeight: '1.75rem',
+      lineHeight: '1.875rem',
       fontWeight: 400
     },
     caveDetailsSubHeader: {

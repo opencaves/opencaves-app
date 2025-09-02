@@ -32,7 +32,7 @@ export default function UploadMedias({ medias }) {
   }
 
   useEffect(() => {
-    console.log('done?: %o', done)
+    // console.log('done?: %o', done)
     setIsDone(done)
   }, [done])
 
@@ -44,7 +44,7 @@ export default function UploadMedias({ medias }) {
   }, [error])
 
   useEffect(() => {
-    console.log('------------- use effect [medias]: %o', medias)
+    // console.log('------------- use effect [medias]: %o', medias)
     if (medias) {
       setMedias(medias)
     }

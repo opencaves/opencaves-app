@@ -26,11 +26,11 @@ export default function MapPage() {
                 position: 'absolute',
                 top: '1rem',
                 right: '1rem',
-                width: '40px',
-                height: '40px',
+                width: '48px',
+                height: '48px',
                 p: 0,
                 '> .MuiSvgIcon-root': {
-                  fontSize: '1.719rem'
+                  fontSize: '32px'
                 }
               }}
             />

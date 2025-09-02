@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
-import SignupWithAnonymous from '@/components/auth/SignupWithAnonymous'
 import ResultPaneSm from './ResultPaneSm'
 import ResultPaneLg from './ResultPaneLg'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent'
 import { loadMediaCount, loadMediaList } from './MediaList'
-import { loadCoverImage } from './CoverImage'
+import { getCaveById } from '@/models/Cave'
 import { useTitle } from '@/hooks/useTitle'
 import { useSmall } from '@/hooks/useSmall'
 import { setCurrentCave } from '@/redux/slices/mapSlice'
@@ -18,13 +17,12 @@ import './ResultPane.scss'
 
 export async function resultPaneLoader({ params }) {
   const { caveId } = params
-  const [mediaList, /*coverImage,*/ mediaCount] = await Promise.all([
+  const [mediaList, mediaCount] = await Promise.all([
     loadMediaList(caveId),
-    // loadCoverImage(caveId),
     loadMediaCount(caveId)
   ])
 
-  return { mediaList, /*coverImage,*/ mediaCount }
+  return { mediaList, mediaCount }
 }
 
 export default function ResultPane() {
@@ -36,10 +34,10 @@ export default function ResultPane() {
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
 
-
   useEffect(() => {
+
     if (caves && caves.length > 0) {
-      const currentCave = caves.find(cave => cave.id === caveId)
+      const currentCave = getCaveById(caveId)
 
       if (currentCave) {
         _setCurrentCave(currentCave)
@@ -64,7 +62,7 @@ export default function ResultPane() {
           isSmall ? (
             <TransitionGroup>
               <Collapse in={!!currentCave}>
-                <ResultPaneSm cave={currentCave}>
+                <ResultPaneSm id="result-pane" cave={currentCave}>
                   <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>
                   <CurrentCaveDetailsContent cave={currentCave}></CurrentCaveDetailsContent>
                 </ResultPaneSm>
@@ -73,7 +71,7 @@ export default function ResultPane() {
           ) : (
             <TransitionGroup>
               <Collapse in={!!currentCave}>
-                <ResultPaneLg cave={currentCave}>
+                <ResultPaneLg id="result-pane" cave={currentCave}>
                   <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>
                   <CurrentCaveDetailsContent cave={currentCave}></CurrentCaveDetailsContent>
                 </ResultPaneLg>
@@ -81,7 +79,6 @@ export default function ResultPane() {
             </TransitionGroup>
           )
         }
-        <SignupWithAnonymous />
         <Outlet />
       </>
     )

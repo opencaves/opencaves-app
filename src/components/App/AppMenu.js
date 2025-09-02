@@ -35,6 +35,7 @@ export default function AppMenu({ sx, ...props }) {
 
   const menuStyles = {
     minWidth: 'unset',
+    borderRadius: '50%',
     bgcolor: !isSmall && !isLoggedIn && theme.palette.background.paper,
     ':hover': {
       bgcolor: !isSmall && !isLoggedIn && theme.palette.background.paper
@@ -155,17 +156,14 @@ export default function AppMenu({ sx, ...props }) {
 
         {
           !isLoggedIn && [
-            <SignupMenuItem key='key-signup' />,
             <LogInMenuItem key='key-login' />,
+            <SignupMenuItem key='key-signup' />,
             <Divider key='key-divider-2' />
           ]
         }
 
-        {/* <MenuItem component={Link} to='/' onClick={onAboutMenuClick}>
-          {t('home')}
-        </MenuItem> */}
         {
-          hasSession && routeId === 'result-pane' && (
+          isLoggedIn && routeId === 'result-pane' && (
             <AddMedias />
           )
         }

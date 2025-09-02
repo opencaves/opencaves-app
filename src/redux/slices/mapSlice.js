@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   viewState: {},
-  showPopup: false,
+  // showPopup: false,
   popupData: {},
   currentCave: null,
   currentZoomLevel: 14,
@@ -23,14 +23,17 @@ export const mapSlice = createSlice({
     setViewState: (state, action) => {
       state.viewState = action.payload
     },
-    setShowPopup: (state, action) => {
-      state.showPopup = action.payload
-    },
+    // setShowPopup: (state, action) => {
+    //   state.showPopup = action.payload
+    // },
     setPopupData: (state, action) => {
       state.popupData = action.payload
     },
     setCurrentCave: (state, action) => {
       state.currentCave = action.payload
+    },
+    clearCurrentCave: (state) => {
+      state.currentCave = null
     },
     setMapData: (state, action) => {
       state.data = action.payload
@@ -81,6 +84,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, setShowPopup, setPopupData, setCurrentCave, setMapData, setFilteredData } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData } = mapSlice.actions
 
 export default mapSlice.reducer

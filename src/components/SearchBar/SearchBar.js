@@ -17,8 +17,9 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import AppMenu from '@/components/App/AppMenu'
 import { store } from '@/redux/store'
 import { useSmall } from '@/hooks/useSmall'
-import { setCurrentCave } from '@/redux/slices/mapSlice'
+import { setCurrentCave, clearCurrentCave } from '@/redux/slices/mapSlice'
 import { toggleFilterMenu } from '@/redux/slices/appSlice'
+import { observeStore } from '@/utils/observeStore'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes'
 import { ReactComponent as LocationUnknownOutlinedIcon } from '@/images/location-validity-unknown.svg'
 import Snippet from './Snippet'
@@ -174,6 +175,20 @@ export default function SearchBar() {
   searchIndex.addAll(data)
 
   useEffect(() => {
+    const select = state => state.map.currentCave
+    const onChange = currentCave => {
+      if (currentCave === null) {
+        setValue('')
+        clearSearchResults()
+        // navigate(`/map`, { replace: true })
+      }
+    }
+
+    return observeStore(store, select, onChange)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     if (currentCave) {
       setValue(getCaveName(currentCave.name))
     }
@@ -236,9 +251,7 @@ export default function SearchBar() {
 
   function onSearchbarInputClear() {
 
-    dispatch(setCurrentCave(null))
-    setValue('')
-    clearSearchResults()
+    dispatch(clearCurrentCave())
     navigate(`/map`, { replace: true })
   }
 
@@ -276,6 +289,7 @@ export default function SearchBar() {
       onOutsideClick={onSearchbarBlur}
     >
       <Box
+        id='oc-search-bar'
         ref={searchBarRef}
         sx={{
           position: 'absolute',

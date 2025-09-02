@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @keyframes spinner-dots {
   0% {
     transform: scale(1, 1);
@@ -19,7 +21,8 @@
 }
 
 .oc-map-loading {
-  --oc-map-loading-color: #bdb9ae;
+  // --oc-map-loading-color: #bdb9ae;
+  --oc-map-loading-color: var(--md-palette-primary-main);
   --oc-map-loading-spinner-size: 16.6667%;
 
   position: absolute;
@@ -103,6 +106,9 @@
 
     &.spinner-dot-1 {
       left: 30%;
+    }
+
+    &.spinner-dot-2 {
     }
 
     &.spinner-dot-3 {

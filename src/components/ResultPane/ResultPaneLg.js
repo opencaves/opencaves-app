@@ -5,12 +5,13 @@ import { useTheme } from '@mui/material/styles'
 import { resultPaneMinHeight } from '@/config/app'
 import './ResultPaneLg.scss'
 
-export default function ResultPaneLg({ children }) {
+export default function ResultPaneLg({ children, ...props }) {
 
   const theme = useTheme()
 
   return (
     <Card
+      {...props}
       className='oc-result-pane oc-result-pane-lg'
       sx={{
         position: 'relative',

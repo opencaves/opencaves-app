@@ -92,7 +92,9 @@ const routes = [
       },
       {
         path: '/map',
+        id: 'map',
         element: <Map />,
+        errorElement: <NoMatch />,
         children: [
           {
             path: ':caveId',

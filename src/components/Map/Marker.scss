@@ -1,28 +1,9 @@
-@keyframes active-path-1 {
-  from {
-  }
-
-  to {
-    fill: #ea4335;
-    stroke: #c6211d;
-  }
-}
-
-@keyframes active-path-2 {
-  from {
-  }
-
-  to {
-    fill: #b21511;
-  }
-}
-
 @keyframes zoomIn {
   from {
   }
 
   to {
-    transform: scale3d(1.3333, 1.3333, 1.3333);
+    transform: var(--oc-marker-active-scale);
   }
 }
 
@@ -96,25 +77,15 @@
 
 .mapboxgl-marker {
   --oc-marker-animation-duration: 0.68s;
+  --oc-marker-active-scale: scale3d(1.5, 1.5, 1.5);
 
-  &.active-animated {
+  &.active-animate {
     z-index: 1;
 
     .marker-icon {
       // transform: scale(1.5);
       transform-origin: center bottom;
       animation: var(--oc-marker-animation-duration) bounceIn, var(--oc-marker-animation-duration) bounce, calc(var(--oc-marker-animation-duration) * 0.25) calc(var(--oc-marker-animation-duration) * 0.75) forwards zoomIn;
-
-      > path:first-child {
-        // fill: #ea4335;
-        // stroke: #c6211d;
-        animation: 0.125s forwards active-path-1;
-      }
-
-      > path:nth-child(2) {
-        // fill: #b21511;
-        animation: 0.125s forwards active-path-2;
-      }
     }
 
     .marker-label {
@@ -126,7 +97,7 @@
     z-index: 1;
 
     .marker-icon {
-      transform: scale3d(1.3333, 1.3333, 1.3333);
+      transform: var(--oc-marker-active-scale);
       transform-origin: center bottom;
       filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
 

@@ -6,7 +6,7 @@ export const initialViewState = {
 }
 export const mapProps = {
   attributionControl: false,
-  hash: true,
+  hash: false,
   mapStyle: 'mapbox://styles/remillc/clg9w4w1500fc01pphp0b039e',
   // reuseMaps: true,
   dragRotate: false,

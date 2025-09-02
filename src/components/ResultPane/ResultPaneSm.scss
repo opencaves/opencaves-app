@@ -3,7 +3,7 @@
   --oc-result-pane-sm-upper-height: 48px;
   --oc-result-pane-border-radius: 1rem 1rem 0 0;
 
-  --height: calc(100% + var(--oc-pane-padding-block)); // ion-modal
+  --height: calc(100% + calc(var(--oc-pane-padding-block) * 1.4)); // ion-modal
   --border-radius: var(--oc-result-pane-border-radius); // ion-modal20.27736, -87.43314
   --background: var(--md-palette-background-paper); // ion-modal
 
@@ -16,6 +16,8 @@
 
   &::part(handle) {
     width: 54px;
+    top: 15px;
+    transform: translateY(-50%);
   }
 
   .oc-back-btn {
@@ -32,21 +34,44 @@
   }
 
   .oc-result-pane--header {
+    padding-top: calc(var(--oc-pane-padding-block) * 1.4);
     padding-left: var(--oc-pane-padding-inline);
     padding-right: var(--oc-pane-padding-inline);
     padding-bottom: 0;
   }
 }
 
-.oc-result-pane--head {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 49px;
-  background-color: var(--md-palette-background-paper);
-  padding-left: calc(var(--oc-pane-padding-inline) - 5px);
-  padding-right: calc(var(--oc-pane-padding-inline) - 5px);
-  z-index: var(--oc-result-pane-sm-z-index);
-  opacity: 0;
+.oc-result-pane {
+  &--head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 49px;
+    background-color: var(--md-palette-background-paper);
+    padding-left: calc(var(--oc-pane-padding-inline) - 5px);
+    padding-right: calc(var(--oc-pane-padding-inline) - 5px);
+    z-index: var(--oc-result-pane-sm-z-index);
+    opacity: 0;
+  }
+
+  .oc-cave-details-header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1.375rem;
+
+    h1 {
+      flex-grow: 1;
+    }
+  }
+
+  &--minimize {
+    h1 {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 }

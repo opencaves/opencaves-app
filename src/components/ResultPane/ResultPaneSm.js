@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { createContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -7,49 +7,56 @@ import { Box, Card, CardContent, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
-import { setResultPaneSmInitialBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
+import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import ResultPaneMenu from './ResultPaneMenu'
-import { paneBreakpoints, paneOpenThreshold } from '@/config/app'
+import { paneBreakpoints, paneInitialBreakpoint, paneOpenThreshold } from '@/config/app'
 import './ResultPaneSm.scss'
-
-// function easeInQuad(t, b = 0, c = 1, d = 1) {
-//   return c * (t /= d) * t + b
-// }
 
 function easeOutQuad(t, b = 0, c = 1, d = 1) {
   return -c * (t /= d) * (t - 2) + b
 }
 
-export default function ResultPaneSm({ children }) {
+export const ResultPaneSmContext = createContext()
 
-  const modal = useRef({})
-  const paneHead = useRef({})
+export default function ResultPaneSm({ children, ...props }) {
+
+  const modalRef = useRef({})
+  const paneHeadRef = useRef({})
 
   const theme = useTheme()
   const dispatch = useDispatch()
 
   const firstBreakpoint = paneBreakpoints[0]
-  const initialBreakpoint = useSelector(state => state.app.resultPaneSmInitialBreakpoint)
+  const initialBreakpoint = useSelector(state => state.app.resultPaneSmCurrentBreakpoint)
   const resultPaneOpen = useSelector(state => state.app.resultPaneSmOpen)
   const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
+  const [breakpoints, setBreakpoints] = useState(paneBreakpoints)
   const [breakpoint, setBreakpoint] = useState(0)
   const [modalPosition, setModalPosition] = useState(breakpoint)
   const [paneOpenFactor, setPaneOpenFactor] = useState(modalPosition)
   const [paneTransitionDirection, setPaneTransitionDirection] = useState('out')
+
+  const [paneMinimizeFactor, setPaneMinimizeFactor] = useState(modalPosition)
+
   const searchBarOff = useSelector(state => state.app.searchBarOff)
 
   const paneBreakpointsThreshold = paneBreakpoints[paneBreakpoints.length - 2]
 
+  const contextData = useMemo(() => ({
+    modalPosition,
+    paneOpenFactor,
+    paneMinimizeFactor
+  }), [modalPosition, paneOpenFactor, paneMinimizeFactor])
+
   function onModalBreakpointDidChange(event) {
-    const actualBreakpoint = event.detail.breakpoint
-    setBreakpoint(actualBreakpoint)
-    dispatch(setResultPaneSmInitialBreakpoint(actualBreakpoint))
-    console.log('[onModalBreakpointDidChange] actualBreakpoint: %o', actualBreakpoint)
+    const currentBreakpoint = event.detail.breakpoint
+    setBreakpoint(currentBreakpoint)
+    dispatch(setResultPaneSmCurrentBreakpoint(currentBreakpoint))
   }
 
   function onBackBtnClick() {
-    modal.current.setCurrentBreakpoint(firstBreakpoint)
+    modalRef.current.setCurrentBreakpoint(paneInitialBreakpoint)
   }
 
   function observeStyle(
@@ -80,9 +87,9 @@ export default function ResultPaneSm({ children }) {
   useEffect(() => {
     (async () => {
 
-      await waitFor(() => modal.current?.shadowRoot?.querySelectorAll('.modal-wrapper').length > 0)
+      await waitFor(() => modalRef.current?.shadowRoot?.querySelectorAll('.modal-wrapper').length > 0)
 
-      const modalContent = modal.current.shadowRoot.querySelector('.modal-wrapper')
+      const modalContent = modalRef.current.shadowRoot.querySelector('.modal-wrapper')
       let actualModalPosition = null
 
       observeStyle(modalContent, 'transform', function (matrix) {
@@ -110,6 +117,9 @@ export default function ResultPaneSm({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /*
+  * Open factor calculation
+  */
   useEffect(() => {
     if (modalPosition < paneOpenThreshold) {
       if (paneOpenFactor > 0) {
@@ -121,24 +131,39 @@ export default function ResultPaneSm({ children }) {
     const paneThreshold = paneOpenThreshold * 100
     const openFactor = ((modalPosition * 100) - paneThreshold) / (100 - paneThreshold)
     setPaneOpenFactor(easeOutQuad(openFactor))
-    // console.log('========= open factor: %s', openFactor)
-    // console.log('========= easeOutQuad: %s', easeOutQuad(openFactor))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalPosition])
+
+
+  /*
+  * Minimize factor calculation
+  */
+  useEffect(() => {
+
+    function clamp(num) {
+      return Math.min(Math.max(num, 0), 1)
+    }
+
+    const intervalHeight = breakpoints[1] - breakpoints[0]
+    const minimizeFactor = clamp((modalPosition - breakpoints[0]) / intervalHeight)
+
+    setPaneMinimizeFactor(minimizeFactor)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalPosition])
 
   useEffect(() => {
     const dY = .5
     const y = (1 - paneOpenFactor) * dY * 50
-    paneHead.current?.style?.setProperty('opacity', paneOpenFactor)
-    paneHead.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
+    paneHeadRef.current?.style?.setProperty('opacity', paneOpenFactor)
+    paneHeadRef.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
   }, [paneOpenFactor])
 
   useEffect(() => {
     const borderRadius = `${1 - paneOpenFactor}rem`
-    modal.current?.style?.setProperty('--oc-result-pane-border-radius', `${borderRadius} ${borderRadius} 0 0`)
+    modalRef.current?.style?.setProperty('--oc-result-pane-border-radius', `${borderRadius} ${borderRadius} 0 0`)
   }, [paneOpenFactor])
 
   useEffect(() => {
-    // if (modalPosition > paneBreakpointsThreshold) {
     if (paneOpenFactor > 0) {
       if (!searchBarOff) {
         dispatch(setSearchBarOff(true))
@@ -152,14 +177,14 @@ export default function ResultPaneSm({ children }) {
   }, [modalPosition])
 
   return resultPaneOpen && !filterMenuOpen && (
-    <>
+    <ResultPaneSmContext.Provider value={contextData}>
       {
         modalPosition > paneBreakpointsThreshold && (
           <Grid
             className='oc-result-pane--head'
             container
             alignItems='center'
-            ref={paneHead}
+            ref={paneHeadRef}
           >
             <Grid>
               <IconButton
@@ -184,21 +209,24 @@ export default function ResultPaneSm({ children }) {
         )
       }
       <IonModal
-        ref={modal}
+        {...props}
+        ref={modalRef}
         isOpen={true}
+        animated={false}
+        breakpoints={breakpoints}
         handleBehavior='cycle'
         initialBreakpoint={initialBreakpoint}
-        animated={false}
-        breakpoints={paneBreakpoints}
+        // keepContentsMounted={true}
         showBackdrop={false}
         backdropDismiss={false}
         backdropBreakpoint={1}
         // handle={breakpoint !== 1}
         mode='md'
-        className='oc-result-pane oc-result-pane-sm'
+        className={`oc-result-pane oc-result-pane-sm ${paneMinimizeFactor < .5 && 'oc-result-pane--minimize'}`}
         onIonBreakpointDidChange={onModalBreakpointDidChange}
       >
         <Box
+          id="oc-result-pane"
           sx={{
             height: () => breakpoint === 1 ? '100%' : null,
           }}
@@ -248,6 +276,6 @@ export default function ResultPaneSm({ children }) {
           </Card>
         </Box>
       </IonModal>
-    </>
+    </ResultPaneSmContext.Provider>
   )
 }

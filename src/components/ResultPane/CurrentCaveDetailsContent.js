@@ -123,7 +123,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
     setSnackbarOpen(false)
     setSnackbarMessage('')
   }
-  console.log('isEditor: %o', isEditor)
+
   return (
     <Box className='oc-result-pane--content'>
 

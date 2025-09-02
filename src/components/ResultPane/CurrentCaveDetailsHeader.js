@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, Typography, styled } from '@mui/material'
+import { Close } from '@mui/icons-material'
 import Rating from '@/components/Rating/Rating'
 import CoverImage from './CoverImage'
+import { ResultPaneSmContext } from './ResultPaneSm'
+import { clearCurrentCave } from '@/redux/slices/mapSlice'
 import { useSmall } from '@/hooks/useSmall'
 import { ISO6391ToISO6392 } from '@/utils/lang'
 import { paneWidth } from '@/config/app'
 import { coverImageHeightRatio } from '@/config/resultPane'
 import './CurrentCaveDetailsHeader.scss'
+import ConditionalWrapper from '../utils/ConditionalWrapper.js'
+import { useNavigate } from 'react-router-dom'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
+
+  const paneData = useContext(ResultPaneSmContext)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const coverImageWidth = paneWidth
   const coverImageHeight = Math.round(coverImageWidth * coverImageHeightRatio)
   const { t, i18n } = useTranslation('resultPane')
@@ -30,6 +41,27 @@ export default function CurrentCaveDetailsHeader({ cave }) {
 
   const isSmall = useSmall()
 
+  function onClear() {
+    // dispatch(clearCurrentCave())
+    navigate('/map')
+  }
+
+  function getSubHeaders() {
+    return (
+      <>
+        {
+          caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
+        }
+        {
+          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
+        }
+        <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} />
+      </>
+    )
+  }
+
+  useEffect(() => { console.log(paneData) }, [paneData])
+
   return (
     <>
       {
@@ -38,15 +70,37 @@ export default function CurrentCaveDetailsHeader({ cave }) {
         )
       }
       <Box className='oc-result-pane--header'>
-        <Typography variant='caveDetailsHeader'>{caveName}</Typography>
+        <Box className='oc-cave-details-header'>
+          <Typography variant='caveDetailsHeader'>{caveName}</Typography>
+          {
+            isSmall && paneData.paneOpenFactor < 1 && (
+              <Box>
+                <StyledIconButton size="small" sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
+                  <Close fontSize='small' />
+                </StyledIconButton>
+              </Box>
+            )
+          }
+        </Box>
         {
-          caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
+          isSmall ? (
+            paneData.paneMinimizeFactor > .25 && getSubHeaders()
+          ) : (
+            getSubHeaders()
+          )
         }
-        {
-          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
-        }
-        <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} />
+        {/* {
+            caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
+          }
+          {
+            cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
+          }
+          <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} /> */}
       </Box >
     </>
   )
 }
+
+const StyledIconButton = styled(IconButton)({
+  backgroundColor: '#f2f2f2'
+})

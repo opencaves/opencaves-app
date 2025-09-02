@@ -1,10 +1,14 @@
 import { assetsListConfig, coverImageHeightRatio } from './resultPane'
 
+const paneSmMinimalHeight = /* padding top: var(--oc-pane-padding-block) * 1.4 */ (16 * 1.4) + /* header height */ 30 + /* padding bottom  */ (16 * .6) + 73.33
+
 export const appName = 'OpenCaves'
 export const appTitle = 'Open Caves' // For use in the page <title> and in the app title bar
 export const paneWidth = 400
 export const paneOpenThreshold = .7
-export const paneBreakpoints = [.33, 1]
+export const paneInitialBreakpoint = .33
+// export const paneBreakpoints = [.08, .33, 1]
+export const paneBreakpoints = [paneSmMinimalHeight / window.innerHeight, .33, 1]
 export const resultPaneMinHeight = 300
 export const snackbarDefaultAutoHideDuration = 6000
 export const scrollbarTrackHeight = 8

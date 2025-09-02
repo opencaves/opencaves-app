@@ -527,8 +527,8 @@ function getConnections(data) {
     }
   })
 
-  console.log(`${i} connections added: %o`, newConnections)
-  console.log('connections: %o', connections)
+  // console.log(`${i} connections added: %o`, newConnections)
+  // console.log('connections: %o', connections)
 
   return connections
 }
