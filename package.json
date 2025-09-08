@@ -50,7 +50,7 @@
     "@ionic/core": "^8.7.3",
     "@ionic/react": "^8.1.1",
     "@mui/icons-material": "^5.15.17",
-    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/lab": "^6.0.0-dev.240424162023-9968b4889d",
     "@mui/material": "^5.15.17",
     "@mui/material-next": "^6.0.0-alpha.126",
     "@photo-sphere-viewer/core": "^5.7.3",
