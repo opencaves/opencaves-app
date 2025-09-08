@@ -54,7 +54,7 @@
     "@mui/material": "^5.15.17",
     "@mui/material-next": "^6.0.0-alpha.126",
     "@photo-sphere-viewer/core": "^5.7.3",
-    "@photo-sphere-viewer/markers-plugin": "^5.7.3",
+    "@photo-sphere-viewer/markers-plugin": "^5.14.0",
     "@reduxjs/toolkit": "^2.2.4",
     "browser-fs-access": "^0.35.0",
     "csvtojson": "^2.0.10",
