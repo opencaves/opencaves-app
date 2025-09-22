@@ -69,7 +69,7 @@
     "mapbox-gl": "^3.3.0",
     "minisearch": "^6.3.0",
     "npm": "^11.6.0",
-    "p-wait-for": "^5.0.2",
+    "p-wait-for": "^6.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
