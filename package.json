@@ -55,7 +55,7 @@
     "@mui/material-next": "^6.0.0-alpha.126",
     "@photo-sphere-viewer/core": "^5.7.3",
     "@photo-sphere-viewer/markers-plugin": "^5.14.0",
-    "@reduxjs/toolkit": "^2.9.0",
+    "@reduxjs/toolkit": "^2.9.1",
     "browser-fs-access": "^0.35.0",
     "csvtojson": "^2.0.10",
     "firebase": "^12.4.0",
