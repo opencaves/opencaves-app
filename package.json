@@ -117,6 +117,6 @@
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.2.5",
     "source-map-explorer": "^2.5.3",
-    "swr": "^2.2.5"
+    "swr": "^2.3.6"
   }
 }
