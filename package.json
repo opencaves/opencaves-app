@@ -71,7 +71,7 @@
     "npm": "^11.6.4",
     "p-wait-for": "^6.0.0",
     "prop-types": "^15.8.1",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-copy-to-clipboard": "^5.1.0",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^19.2.1",
