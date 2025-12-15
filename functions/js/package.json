@@ -15,7 +15,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@googleapis/sheets": "^12.0.0",
+    "@googleapis/sheets": "^13.0.1",
     "exif-parser": "^0.1.12",
     "exifr": "^7.1.3",
     "firebase-admin": "^13.6.0",
