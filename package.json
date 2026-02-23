@@ -97,7 +97,7 @@
     "remark-gfm": "^4.0.1",
     "sass": "^1.97.3",
     "swiper": "^12.1.2",
-    "underscore": "^1.13.7",
+    "underscore": "^1.13.8",
     "unique-push-id": "^1.0.2",
     "web-vitals": "^5.1.0",
     "workbox-background-sync": "^7.4.0",
