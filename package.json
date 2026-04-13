@@ -90,7 +90,7 @@
     "react-router-dom": "^7.14.0",
     "react-scripts": "5.0.1",
     "react-transition-group": "^4.4.5",
-    "react-zoom-pan-pinch": "^3.7.0",
+    "react-zoom-pan-pinch": "^4.0.3",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
