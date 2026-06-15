@@ -21,7 +21,7 @@
     "firebase-admin": "^13.10.0",
     "firebase-functions": "^7.2.5",
     "mkdirp": "^3.0.1",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.1",
     "uuid": "^14.0.0",
     "uuidv4": "^6.2.13"
   },
