@@ -60,7 +60,7 @@
     "csvtojson": "^2.0.14",
     "firebase": "^12.15.0",
     "firebase-functions": "^7.2.5",
-    "i18next": "^26.3.1",
+    "i18next": "^26.3.3",
     "i18next-browser-languagedetector": "^8.2.1",
     "install": "^0.13.0",
     "libphonenumber-js": "^1.13.7",
