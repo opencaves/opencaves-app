@@ -1,4 +1,4 @@
-import { store } from '@/redux/store.js'
+import { store } from '@/redux/store.jsx'
 
 export default class Cave {
   static getCaveById(id) {

@@ -1,6 +1,6 @@
 
 import { findPhoneNumbersInText } from 'libphonenumber-js'
-import { normalizeLengths } from '@/utils/lengths'
+import { normalizeLengths } from '@/utils/lengths.jsx'
 
 const locationValidityValueMap = new Map([
   ['yes', 'valid'],

@@ -1,5 +1,5 @@
 import { collection, query, where, getDocs, getDoc } from 'firebase/firestore'
-import { db } from '@/config/firebase'
+import { db } from '@/config/firebase.js'
 
 const RATINGS_COLL_NAME = 'ratings'
 const COLL = collection(db, RATINGS_COLL_NAME)

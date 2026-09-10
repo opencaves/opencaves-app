@@ -2,15 +2,14 @@
   "name": "opencaves-app",
   "version": "2.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"craco  start\"",
-    "dev:serve": "craco start",
+    "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"vite\"",
     "serve": "serve -p 4000 -s build",
-    "build": "craco  build",
+    "build": "vite build",
     "deploy": "firebase deploy",
-    "deploy:beta": "firebase hosting:channel:deploy beta",
-    "eject": "react-scripts eject"
+    "deploy:beta": "firebase hosting:channel:deploy beta"
   },
   "engines": {
     "node": ">= 18.16.0"
@@ -111,12 +110,14 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.1.0",
+    "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^10.0.5",
     "craco-alias": "^3.0.1",
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.2.6",
     "source-map-explorer": "^2.5.3",
-    "swr": "^2.5.1"
+    "swr": "^2.5.1",
+    "vite": "^8.3.0",
+    "vite-plugin-svgr": "^5.2.0"
   }
 }
