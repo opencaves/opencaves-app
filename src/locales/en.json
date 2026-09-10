@@ -238,6 +238,9 @@
       "showInvalidCoordinates": "Show invalid coordinates",
       "showUnconfirmedCoordinates": "Show unconfirmed coordinates"
     },
+    "areas": {
+      "heading": "Areas"
+    },
     "access": {
       "heading": "Access",
       "items": [

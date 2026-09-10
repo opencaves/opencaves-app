@@ -41,7 +41,8 @@ export const mapSlice = createSlice({
       const props = [
         'location.validity',
         'access',
-        'accessibility'
+        'accessibility',
+        'area'
       ]
 
       const results = new Map()

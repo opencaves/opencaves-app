@@ -2,7 +2,7 @@ import csv from 'csvtojson'
 
 const sheets = ['Cenotes', 'Sistemas', 'Connections', 'Access', 'Accessibility', 'Sources', 'Areas', 'Sistema colors', 'Language Codes']
 
-const key = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
+const GOOGLE_SHEET_KEY = '1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc'
 
 // ['Cenotes!A1:AJ', 'Sistemas!A1:U', 'Old sistemas!A1:N', 'Accessibility!A1:D', 'Sources!A1:D', 'Areas!A1:C']
 //https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv&sheet={sheet_name}
@@ -16,8 +16,9 @@ export function getCaveData() {
   const data = {}
 
   RANGES_NAMES.forEach((newSheetName, i) => {
+    const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_KEY}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheets[i])}`
     promises.push(
-      fetch(`https://docs.google.com/spreadsheets/d/${key}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheets[i])}`)
+      fetch(url)
         .then(response => {
           return response.text()
         })
@@ -31,7 +32,8 @@ export function getCaveData() {
             })
         })
       // .catch(error => {
-      //   reject(error)
+      //   console.error(`Could not fetch url ${url}. Error:`, error)
+      //   // reject(error)
       // })
     )
     // promises.push(

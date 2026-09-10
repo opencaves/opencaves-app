@@ -96,17 +96,18 @@ function FilterMenuSectionHeader({ children, ...props }) {
       alignItems='end'
       sx={{
         minHeight: '48px',
+        marginBottom: '.5rem',
       }}
     >
       <Typography
         component='h3'
         sx={{
           lineHeight: 1,
-          color: 'var(--md-palette-text-secondary)',
+          color: 'var(--md-palette-text-primary)',
           fontWeight: 500,
-          fontSize: '0.875rem',
+          fontSize: '1.125rem',
           px: '1rem',
-          bgcolor: 'var(--md-palette-background-paper)'
+          bgcolor: 'var(--md-palette-background-paper)',
         }}
       >
         {children}
@@ -162,6 +163,8 @@ export default function MapFilterMenu({ props }) {
 
   const filterMenuOpen = useSelector(state => state.app.filterMenuOpen)
 
+
+  const showAreas = useSelector(state => state.search.showAreas)
   const showValidCoordinates = useSelector(state => state.search.showValidCoordinates)
   const showInvalidCoordinates = useSelector(state => state.search.showInvalidCoordinates)
   const showUnconfirmedCoordinates = useSelector(state => state.search.showUnconfirmedCoordinates)
@@ -209,6 +212,16 @@ export default function MapFilterMenu({ props }) {
       return access
     })
     dispatch(setShowAccesses(newAccesses))
+  }
+
+  function handleShowAreas(checked, areaKey) {
+    const newAreas = showAreas.map(area => {
+      if (area.key === areaKey) {
+        return { ...area, checked }
+      }
+      return area
+    })
+    dispatch(setShowAccesses(newAreas))
   }
 
   function handleShowAccessibilities(checked, accessKey) {
@@ -283,6 +296,27 @@ export default function MapFilterMenu({ props }) {
             onClick={handleShowUnconfirmedCoordinates}
             checked={showUnconfirmedCoordinates}
           />
+        </List>
+
+        <FilterMenuSectionHeader>{t('areas.heading')}</FilterMenuSectionHeader>
+        <List disablePadding>
+          {
+            showAreas.map(({ key, checked }) => {
+              const primary = `${key}`
+              const nb = getDataStat('area', key)
+              const onClick = e => handleShowAreas(!checked, key)
+
+              return (
+                <FilterMenuItem
+                  key={key}
+                  primary={primary}
+                  nb={nb}
+                  checked={checked}
+                  onClick={onClick}
+                />
+              )
+            })
+          }
         </List>
 
         <FilterMenuSectionHeader>{t('access.heading')}</FilterMenuSectionHeader>

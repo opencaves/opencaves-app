@@ -236,6 +236,9 @@
       "showInvalidCoordinates": "Afficher les coordonnées invalides",
       "showUnconfirmedCoordinates": "Afficher les coordonnées non confirmées"
     },
+    "areas": {
+      "heading": "Régions"
+    },
     "access": {
       "heading": "Accès",
       "items": [
