@@ -1,4 +1,0 @@
-# https://www.robotstxt.org/robotstxt.html
-# Robots are welcome!
-User-agent: *
-Disallow: 
