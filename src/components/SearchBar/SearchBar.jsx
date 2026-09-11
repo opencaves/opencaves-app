@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
 import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, Box, Grid, styled } from '@mui/material'
-
+import { Clear, Tune, Search, ArrowBack, LocationOnOutlined } from '@mui/icons-material'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import { store } from '@/redux/store.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -18,32 +18,32 @@ import './SearchBar.scss'
 
 const SearchIcon = () => (
   <Box component="span" aria-hidden="true">
-    ?
+    <Search />
   </Box>
 )
 const ArrowBackIcon = () => (
   <Box component="span" aria-hidden="true">
-    &lt;
+    <ArrowBack />
   </Box>
 )
 const ClearIcon = () => (
   <Box component="span" aria-hidden="true">
-    x
+    <Clear />
   </Box>
 )
 const TuneIcon = () => (
   <Box component="span" aria-hidden="true">
-    =
+    <Tune />
   </Box>
 )
 const LocationOnOutlinedIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    +
+    <LocationOnOutlined />
   </Box>
 )
 const LocationOffOutlinedIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    -
+    <LocationOnOutlined />
   </Box>
 )
 

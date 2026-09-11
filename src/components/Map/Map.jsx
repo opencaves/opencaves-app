@@ -2,7 +2,7 @@ import { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { LngLat, Point } from 'mapbox-gl'
+import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
 import { useTheme } from '@mui/material-next'
@@ -21,6 +21,11 @@ import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
+
+Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
+  configurable: true,
+  value: null,
+})
 
 export default function OCMap() {
   const mapRef = useRef()
