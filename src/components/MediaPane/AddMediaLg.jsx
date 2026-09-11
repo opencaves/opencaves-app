@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 import { Box, IconButton, Dialog, DialogTitle, DialogContent, Typography, Button, LinearProgress } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { Close, PhotoOutlined } from '@mui/icons-material'
 import Or from '@/components/utils/Or.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -14,9 +14,9 @@ import { acceptedMimeTypes } from '@/config/mediaPane.js'
 
 export default function AddMediaLg() {
   const navigate = useNavigate()
-  const user = useSelector(state => state.session.user)
+  const user = useSelector((state) => state.session.user)
 
-  const currentCave = useSelector(state => state.map.currentCave)
+  const currentCave = useSelector((state) => state.map.currentCave)
   const [openSnackbar] = useSnackbar()
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
@@ -55,12 +55,7 @@ export default function AddMediaLg() {
 
   return (
     user && (
-      <Dialog
-        open={addMediaOpen}
-        onClose={onAddMediaClose}
-        maxWidth='md'
-        fullWidth
-      >
+      <Dialog open={addMediaOpen} onClose={onAddMediaClose} maxWidth="md" fullWidth>
         <DialogTitle>
           {t('header', { name: currentCave.name.value })}
           <IconButton
@@ -77,9 +72,7 @@ export default function AddMediaLg() {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-
           <Dropzone onDrop={onDrop} progress={progress} onError={onError} setOnError={setOnError} />
-
         </DialogContent>
       </Dialog>
     )
@@ -89,31 +82,30 @@ export default function AddMediaLg() {
 export function Dropzone({ onDrop, progress, onError, setOnError }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [openSnackbar] = useSnackbar({ autoHide: false })
-  const _onDrop = useCallback(droppeddFiles => {
-    const wrongFile = droppeddFiles.find(file => !acceptedMimeTypes.includes(file.type))
-    if (wrongFile) {
-      openSnackbar(
-        <Message
-          message={t('wrongMediaType')}
-          type='error'
-          footer={
-            <Grid
-              container
-              flexWrap='nowrap'
-              mt={1.75}
-              ml={.4}
-              sx={{ color: '#c1c1c1' }}
-            >
-              <PhotoOutlined fontSize='small' sx={{ mr: 1.5 }} />
-              <Typography variant='caption' component='span' ml={.2} >{wrongFile.name}</Typography>
-            </Grid >
-          }
-        />
-      )
-    } else {
-      onDrop(droppeddFiles)
-    }
-  }, [onDrop, openSnackbar, t])
+  const _onDrop = useCallback(
+    (droppeddFiles) => {
+      const wrongFile = droppeddFiles.find((file) => !acceptedMimeTypes.includes(file.type))
+      if (wrongFile) {
+        openSnackbar(
+          <Message
+            message={t('wrongMediaType')}
+            type="error"
+            footer={
+              <Grid container mt={1.75} ml={0.4} sx={{ flexWrap: 'nowrap', color: '#c1c1c1' }}>
+                <PhotoOutlined fontSize="small" sx={{ mr: 1.5 }} />
+                <Typography variant="caption" component="span" ml={0.2}>
+                  {wrongFile.name}
+                </Typography>
+              </Grid>
+            }
+          />,
+        )
+      } else {
+        onDrop(droppeddFiles)
+      }
+    },
+    [onDrop, openSnackbar, t],
+  )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: _onDrop })
 
@@ -126,9 +118,11 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
     return (
       <Container>
         <Grid container>
-          <Message type='error' fontSize={24} message={t('unknownError')}></Message>
+          <Message type="error" fontSize={24} message={t('unknownError')}></Message>
           <Grid>
-            <Button variant='outlined' onClick={onErrorMessageBtnClick}>{t('unknownErrorBtn')}</Button>
+            <Button variant="outlined" onClick={onErrorMessageBtnClick}>
+              {t('unknownErrorBtn')}
+            </Button>
           </Grid>
         </Grid>
       </Container>
@@ -136,39 +130,32 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
   }
 
   return (
-    <Container
-      rootProps={getRootProps()}
-      isDragActive={isDragActive}
-    >
+    <Container rootProps={getRootProps()} isDragActive={isDragActive}>
       <input {...getInputProps()} />
-      {
-        typeof progress === 'number' ? (
-          <Box
-            sx={{
-              width: '80%',
-              mx: 'auto'
-            }}
-          >
-            <LinearProgress variant='determinate' value={progress} />
-          </Box>
-        ) : (
-          isDragActive ? (
-            <Typography variant='h3' fontWeight={300}>{t('dropHere')}</Typography>
-          ) : (
-            <Grid
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
-              textAlign='center'
-              container
-            >
-              <Typography variant='h3' fontWeight={300}>{t('dragHere')}</Typography>
-              <Or strokeWidth='73px' my={3}>{t('or')}</Or>
-              <Button variant='outlined'>{t('btn')}</Button>
-            </Grid>
-          )
-        )
-      }
+      {typeof progress === 'number' ? (
+        <Box
+          sx={{
+            width: '80%',
+            mx: 'auto',
+          }}
+        >
+          <LinearProgress variant="determinate" value={progress} />
+        </Box>
+      ) : isDragActive ? (
+        <Typography variant="h3" fontWeight={300}>
+          {t('dropHere')}
+        </Typography>
+      ) : (
+        <Grid direction="column" textAlign="center" container sx={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Typography variant="h3" fontWeight={300}>
+            {t('dragHere')}
+          </Typography>
+          <Or strokeWidth="73px" my={3}>
+            {t('or')}
+          </Or>
+          <Button variant="outlined">{t('btn')}</Button>
+        </Grid>
+      )}
     </Container>
   )
 }
@@ -179,17 +166,17 @@ function Container({ children, rootProps = {}, onError, isDragActive }) {
       <Grid
         {...rootProps}
         container
-        justifyContent='center'
-        alignItems='center'
-        xs
+        size="grow"
         sx={{
+          justifyContent: 'center',
+          alignItems: 'center',
           borderStyle: 'dashed',
           borderWidth: 4,
           borderColor: onError ? 'error' : isDragActive ? 'secondary.main' : '#ddd',
           borderRadius: '2px',
           height: 400,
           transitionProperty: 'border',
-          transitionDuration: '150ms'
+          transitionDuration: '150ms',
         }}
       >
         {children}

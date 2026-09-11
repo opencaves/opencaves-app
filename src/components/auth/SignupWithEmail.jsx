@@ -5,7 +5,7 @@ import { usePageVisibility } from 'react-page-visibility'
 import { Trans, useTranslation } from 'react-i18next'
 import { checkActionCode, fetchSignInMethodsForEmail, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, updatePassword, updateProfile } from 'firebase/auth'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { ArrowBack, CheckCircleOutlineRounded, Close, SendRounded, WarningRounded } from '@mui/icons-material'
 import { register } from 'swiper/element/bundle'
@@ -32,7 +32,6 @@ if (!customElements.get('swiper-container')) {
 }
 
 export default function SignupWithEmail({ open: initialOpen }) {
-
   const logoHeight = 100
   const logoWidth = 185
   const emailCallbackStep = 2
@@ -55,7 +54,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [registrationComplete, setRegistrationComplete] = useState(false)
   const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false)
   const [signinMethodsForEmail, setSigninMethodsForEmail] = useState()
-  const continueUrl = useSelector(state => state.session.continueUrl)
+  const continueUrl = useSelector((state) => state.session.continueUrl)
 
   const [currentStep, setCurrentStep] = useState(searchParams.has(emailValidatedParam) ? emailCallbackStep : 0)
   const initialStep = currentStep
@@ -94,18 +93,18 @@ export default function SignupWithEmail({ open: initialOpen }) {
     handleCodeInApp: true,
   }
 
-  const broadcastCurrentStep = useBroadcastChannel('currentStep', event => {
+  const broadcastCurrentStep = useBroadcastChannel('currentStep', (event) => {
     if (!isVisible) {
       console.log('[broadcast] going to step: %o', event.data)
       goToStep(event.data, 0, false)
     }
   })
 
-  const broadcastEmail = useBroadcastChannel('email', event => {
+  const broadcastEmail = useBroadcastChannel('email', (event) => {
     if (event.data.action === 'GET') {
       broadcastEmail({
         action: 'SET',
-        email
+        email,
       })
     }
 
@@ -152,13 +151,11 @@ export default function SignupWithEmail({ open: initialOpen }) {
     const swiper = swiperRef.current?.swiper
     if (swiper) {
       swiper.slideTo(step, speed, runCallbacks)
-
     }
 
     if (step >= emailCallbackStep) {
       broadcastCurrentStep(step)
     }
-
   }
 
   // Set step header
@@ -193,14 +190,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
   }
 
   async function onStepEmailContinueBtnClick() {
-
     if (!emailInputValidity.valid) {
       setEmailInputHelperText(emailInputEmpty ? tErrors('emailMissing') : tErrors('emailInvalid'))
       return
     }
 
     try {
-
       setStepEmailLoading(true)
 
       const fetchedSigninMethodsForEmail = await fetchSignInMethodsForEmail(auth, email)
@@ -216,7 +211,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
       }
 
       nextStep()
-
     } catch (error) {
       console.error(error)
     } finally {
@@ -238,19 +232,14 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   // Go to Email callback step on load
   useEffect(() => {
-
     async function doEmailCallback() {
-
       if (searchParams.has(emailValidatedParam)) {
-
         if (swiperRef.current?.swiper) {
-
           goToStep(emailCallbackStep, 0)
 
           const oobCode = searchParams.get('oobCode')
           let bypassEmailCallbackStep = true
           try {
-
             // Validates action code
             const result = await checkActionCode(auth, oobCode)
             console.log('[verifyActionCode] result: %o', result)
@@ -260,7 +249,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
             if (!email2Prefilled) {
               bypassEmailCallbackStep = false
             }
-
           } catch (error) {
             console.error('[verifyActionCode] error: %o', error)
             setShowInvalidActionCodeStep(true)
@@ -273,7 +261,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
               // swiperRef.current.swiper.update()
             }
           }
-
         }
       }
     }
@@ -363,11 +350,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
   }, [password])
 
   async function onStepPasswordContinueBtnClick() {
-
     try {
-
       if (isSignInWithEmailLink(auth, window.location.href)) {
-
         setStepPasswordLoading(true)
 
         // Create User
@@ -381,14 +365,13 @@ export default function SignupWithEmail({ open: initialOpen }) {
         console.log('User created. result: %o', user)
 
         await updateProfile(user, {
-          displayName: `${firstName}${lastName ? ` ${lastName}` : ``}`
+          displayName: `${firstName}${lastName ? ` ${lastName}` : ``}`,
         })
 
         nextStep()
       } else {
         alert('[TODO] Email link cound not be verified. To be done.')
       }
-
     } catch (error) {
       console.error(error)
       console.error(error.code)
@@ -422,7 +405,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // 
+  //
   useEffect(() => {
     if (swiperRef.current) {
       const swiperEl = swiperRef.current
@@ -465,50 +448,35 @@ export default function SignupWithEmail({ open: initialOpen }) {
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
       sx={{
-        '--swiper-pagination-color': 'var(--md-palette-secondary-main)'
+        '--swiper-pagination-color': 'var(--md-palette-secondary-main)',
       }}
       // TransitionComponent={Grow}
       transitionDuration={{
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
-        exit: theme.oc.sys.motion.duration.emphasizedAccelerate
+        exit: theme.oc.sys.motion.duration.emphasizedAccelerate,
       }}
       TransitionProps={{
         mountOnEnter: true,
-        unmountOnExit: true
+        unmountOnExit: true,
       }}
       onClose={onClose}
       // onTransitionEnter={onTransitionEnter}
       onTransitionExited={onTransitionExited}
     >
       <DialogTitle>
-        <Grid
-          container
-          xs
-          alignItems='center'
-          gap={2}
-        >
-          <Grid
-            xs
-            order={isSmall && 1}>
+        <Grid container size="grow" gap={2} sx={{ alignItems: 'center' }}>
+          <Grid size="grow" order={isSmall && 1}>
             {t('header')}
           </Grid>
-          <Grid
-          >
+          <Grid>
             <IconButton
               aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')}
-
               onClick={onClose}
               sx={{
-                p: 0
+                p: 0,
               }}
             >
-              {
-                isSmall ? (
-                  <ArrowBack />
-                ) : (
-                  <Close />
-                )
-              }
+              {isSmall ? <ArrowBack /> : <Close />}
             </IconButton>
           </Grid>
         </Grid>
@@ -524,38 +492,38 @@ export default function SignupWithEmail({ open: initialOpen }) {
       >
         <Grid
           container
-          direction='column'
-          alignItems='center'
+          direction="column"
           width={{
             xs: '100%',
-            sm: '80%'
+            sm: '80%',
           }}
           sx={{
+            alignItems: 'center',
             py: {
               xs: 4,
               sm: 6,
-              md: 7
+              md: 7,
             },
           }}
         >
           <Logo
-            variant='brand-short'
+            variant="brand-short"
             width={logoWidth}
             height={logoHeight}
             mb={{
               xs: 6,
               md: 8,
-              lg: 10
+              lg: 10,
             }}
           />
 
           <Typography
-            variant='h1'
-            component='h1'
+            variant="h1"
+            component="h1"
             fontSize={{
               xs: 30,
               md: 32,
-              lg: 36
+              lg: 36,
             }}
             // mt={{
             //   xs: 6,
@@ -563,67 +531,41 @@ export default function SignupWithEmail({ open: initialOpen }) {
             //   lg: 10
             // }}
             mb={4}
-            textAlign='center'
+            textAlign="center"
           >
             {header}
           </Typography>
 
-          <Box
-            width='100%'
-          >
+          <Box width="100%">
             <swiper-container
               ref={swiperRef}
               initial-slide={initialStep}
-              allow-touch-move={process.env.NODE_ENV !== 'production'}
-              slides-per-view='1'
-              speed='350'
+              allow-touch-move={import.meta.env.DEV}
+              slides-per-view="1"
+              speed="350"
               // css-mode
               pagination
             >
-
-              {/* 
-                * Step 0 - Enter email
-                */}
+              {/*
+               * Step 0 - Enter email
+               */}
               <swiper-slide data-step="email">
                 <Section>
                   <SectionForm>
                     <SectionFields>
-                      <TextInput
-                        type='email'
-                        name='email'
-                        label={ts('email.label')}
-                        value={email}
-                        required
-                        inputMode='email'
-                        autoComplete='email'
-                        helperText={emailInputHelperText}
-                        onChange={event => setEmail(event.target.value)}
-                        onKeyUp={onEmailInputKeyUp}
-                        onValidityChange={validity => setEmailInputValidity(validity)}
-                      />
+                      <TextInput type="email" name="email" label={ts('email.label')} value={email} required inputMode="email" autoComplete="email" helperText={emailInputHelperText} onChange={(event) => setEmail(event.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={(validity) => setEmailInputValidity(validity)} />
                     </SectionFields>
                     <SectionActions>
-
                       <Progress enabled={stepEmailLoading} />
 
-                      <AuthButton
-                        disabled={!emailInputValidity.valid}
-                        Component={LoadingButton}
-                        loading={stepEmailLoading}
-                        endIcon={<NavigateNextRounded />}
-                        onClick={onStepEmailContinueBtnClick}
-                      >
+                      <AuthButton disabled={!emailInputValidity.valid} Component={LoadingButton} loading={stepEmailLoading} endIcon={<NavigateNextRounded />} onClick={onStepEmailContinueBtnClick}>
                         {ts('email.continueBtn')}
                       </AuthButton>
 
                       <Box mt={1}>
                         <p style={{ margin: 0, textAlign: 'center' }}>
                           <small>
-                            {ts('email.loginInvite')}
-                            {' '}
-                            <Link to={`/login`} >
-                              {ts('email.loginBtn')}
-                            </Link>
+                            {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
                           </small>
                         </p>
                       </Box>
@@ -632,213 +574,172 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 </Section>
               </swiper-slide>
 
-              {/* 
-                * Step 1 - Email already in use / Check email
-                */}
+              {/*
+               * Step 1 - Email already in use / Check email
+               */}
               <swiper-slide data-step="emailSentAndEmailVerification" data-sub-step={emailAlreadyInUse ? 'emailInUse' : 'emailSentNotification'}>
                 <Section>
-                  {
-                    emailAlreadyInUse ? (
-                      <>
-                        <SectionDetails mb={gap}>
-                          <Trans i18nKey='emailSentAndEmailVerification.emailInUse.details' t={ts} values={{ email }} />
-                        </SectionDetails>
-                        <SectionForm>
-                          <SectionActions>
-                            <AuthButton
-                              onClick={() => { previousStep() }}
-                            >
-                              {ts('emailSentAndEmailVerification.emailInUse.previousBtn')}
-                            </AuthButton>
+                  {emailAlreadyInUse ? (
+                    <>
+                      <SectionDetails mb={gap}>
+                        <Trans i18nKey="emailSentAndEmailVerification.emailInUse.details" t={ts} values={{ email }} />
+                      </SectionDetails>
+                      <SectionForm>
+                        <SectionActions>
+                          <AuthButton
+                            onClick={() => {
+                              previousStep()
+                            }}
+                          >
+                            {ts('emailSentAndEmailVerification.emailInUse.previousBtn')}
+                          </AuthButton>
 
-                            <AuthWithGoogle
-                              message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')}
-                            />
-                            <Box mt={1}>
-                              <p style={{ margin: 0, textAlign: 'center' }}>
-                                <small>
-                                  {ts('email.loginInvite')}
-                                  {' '}
-                                  <Link to={`/login`} >
-                                    {ts('email.loginBtn')}
-                                  </Link>
-                                </small>
-                              </p>
-                            </Box>
-                          </SectionActions>
-                        </SectionForm>
-                      </>
-                    ) : (
-                      <Grid
-                        container
-                        direction='column'
-                        alignItems='center'
+                          <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />
+                          <Box mt={1}>
+                            <p style={{ margin: 0, textAlign: 'center' }}>
+                              <small>
+                                {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
+                              </small>
+                            </p>
+                          </Box>
+                        </SectionActions>
+                      </SectionForm>
+                    </>
+                  ) : (
+                    <Grid
+                      container
+                      direction="column"
+                      sx={{
+                        alignItems: 'center',
+                        mt: 2,
+                        mb: 4,
+                      }}
+                    >
+                      <SendRounded
+                        // <EmailFastOutline
+                        color="primary"
                         sx={{
-                          mt: 2,
-                          mb: 4
+                          fontSize: 80,
+                        }}
+                      />
+
+                      <SectionDetails
+                        sx={{
+                          mt: 1,
                         }}
                       >
-                        <SendRounded
-                          // <EmailFastOutline
-                          color='primary'
-                          sx={{
-                            fontSize: 80
-                          }}
-                        />
-
-                        <SectionDetails
-                          sx={{
-                            mt: 1
-                          }}
-                        >
-                          <Trans
-                            t={ts}
-                            i18nKey='emailSentAndEmailVerification.emailSentNotification.details'
-                            values={{ email }}
-                          />
-                        </SectionDetails>
-                      </Grid>
-                    )
-                  }
+                        <Trans t={ts} i18nKey="emailSentAndEmailVerification.emailSentNotification.details" values={{ email }} />
+                      </SectionDetails>
+                    </Grid>
+                  )}
                 </Section>
               </swiper-slide>
 
-              {/* 
-                * Step 2 - Email callback
-                */}
+              {/*
+               * Step 2 - Email callback
+               */}
               <swiper-slide data-step="emailCallback" data-sub-step={showInvalidActionCodeStep ? 'invalidActionCode' : showRetypeEmailStep ? 'retypeEmail' : null}>
                 <Section>
-
-                  {/* 
-                    * Step 2a - Invalid action code
-                    */
+                  {
+                    /*
+                     * Step 2a - Invalid action code
+                     */
 
                     showInvalidActionCodeStep ? (
                       <>
                         <Grid
                           container
-                          direction='column'
-                          alignItems='center'
+                          direction="column"
                           sx={{
+                            alignItems: 'center',
                             mt: 2,
-                            mb: 4
+                            mb: 4,
                           }}
                         >
                           <WarningRounded
                             // <EmailFastOutline
-                            color='warning'
+                            color="warning"
                             sx={{
-                              fontSize: 80
+                              fontSize: 80,
                             }}
                           />
 
                           <SectionDetails
                             sx={{
-                              mt: 1
+                              mt: 1,
                             }}
                           >
-                            <Trans
-                              t={ts}
-                              i18nKey='emailCallback.invalidActionCode.details'
-                              values={{ email }}
-                            />
+                            <Trans t={ts} i18nKey="emailCallback.invalidActionCode.details" values={{ email }} />
                           </SectionDetails>
                         </Grid>
 
                         <SectionForm>
                           <SectionActions>
                             <AuthButton
-                              onClick={() => { goToStep(0, 0) }}
+                              onClick={() => {
+                                goToStep(0, 0)
+                              }}
                             >
                               {ts('emailCallback.invalidActionCode.previousBtn')}
                             </AuthButton>
                           </SectionActions>
                         </SectionForm>
                       </>
+                    ) : /*
+                     * Step 2b - Retype email
+                     */
+
+                    showRetypeEmailStep ? (
+                      <SectionForm>
+                        <SectionFields>
+                          <TextInput type="email" name="email2" label={ts('emailCallback.retypeEmail.email2Label')} value={email2} required autoComplete="off" helperText={email2InputHelperText} customError={email2InputCustomError} onChange={onEmail2InputChange} onKeyUp={onEmail2InputKeyUp} onValidityChange={(validity) => setEmail2InputValidity(validity)} />
+                        </SectionFields>
+                        <SectionActions>
+                          <AuthButton endIcon={<NavigateNextRounded />} disabled={!email2InputValidity.valid} onClick={() => nextStep()}>
+                            {ts('emailCallback.retypeEmail.continueBtn')}
+                          </AuthButton>
+                        </SectionActions>
+                      </SectionForm>
                     ) : (
-
-                      /*
-                       * Step 2b - Retype email
-                       */
-
-                      showRetypeEmailStep ? (
-                        <SectionForm>
-                          <SectionFields>
-                            <TextInput
-                              type='email'
-                              name='email2'
-                              label={ts('emailCallback.retypeEmail.email2Label')}
-                              value={email2}
-                              required
-                              autoComplete='off'
-                              helperText={email2InputHelperText}
-                              customError={email2InputCustomError}
-                              onChange={onEmail2InputChange}
-                              onKeyUp={onEmail2InputKeyUp}
-                              onValidityChange={validity => setEmail2InputValidity(validity)}
-                            />
-                          </SectionFields>
-                          <SectionActions>
-                            <AuthButton
-                              endIcon={<NavigateNextRounded />}
-                              disabled={!email2InputValidity.valid}
-                              onClick={() => nextStep()}
-                            >
-                              {ts('emailCallback.retypeEmail.continueBtn')}
-                            </AuthButton>
-                          </SectionActions>
-                        </SectionForm>
-                      ) : (
-                        <SectionForm>
-                          <SectionFields>
-                            <Skeleton variant='rounded' height={56} sx={{ mt: .75, mb: 2.875 }} />
-                            <Skeleton variant='rounded' height={56} mt={.75} />
-                          </SectionFields>
-                          <SectionActions>
-                            <Skeleton variant='circular' height={40} mt={1} sx={{ borderRadius: '20px' }} />
-                          </SectionActions>
-                        </SectionForm>
-                      )
+                      <SectionForm>
+                        <SectionFields>
+                          <Skeleton variant="rounded" height={56} sx={{ mt: 0.75, mb: 2.875 }} />
+                          <Skeleton variant="rounded" height={56} mt={0.75} />
+                        </SectionFields>
+                        <SectionActions>
+                          <Skeleton variant="circular" height={40} mt={1} sx={{ borderRadius: '20px' }} />
+                        </SectionActions>
+                      </SectionForm>
                     )
                   }
                 </Section>
               </swiper-slide>
 
-              {/* 
-                * Step 3 - Enter first name / Last name
-                */}
+              {/*
+               * Step 3 - Enter first name / Last name
+               */}
               <swiper-slide data-step="name">
                 <Section>
                   <SectionForm>
                     <SectionFields>
                       <TextInput
-                        name='firstName'
+                        name="firstName"
                         label={ts('name.firstNameLabel')}
                         value={firstName}
                         // sx={{ mt: .75 }}
                         required
-                        autoComplete='given-name'
+                        autoComplete="given-name"
                         minLength={firstNameMinLength}
                         helperText={firstNameInputHelperText}
-                        onChange={event => setFirstName(event.target.value)}
+                        onChange={(event) => setFirstName(event.target.value)}
                         onKeyUp={onFirstNameInputKeyUp}
-                        onValidityChange={validity => setFirstNameInputValidity(validity)}
+                        onValidityChange={(validity) => setFirstNameInputValidity(validity)}
                       />
 
-                      <TextInput
-                        name='lastName'
-                        label={ts('name.lastNameLabel')}
-                        value={lastName}
-                        autoComplete='family-name'
-                        onChange={event => setLastName(event.target.value)}
-                      />
+                      <TextInput name="lastName" label={ts('name.lastNameLabel')} value={lastName} autoComplete="family-name" onChange={(event) => setLastName(event.target.value)} />
                     </SectionFields>
                     <SectionActions>
-                      <AuthButton
-                        disabled={!firstNameInputValidity}
-                        endIcon={<NavigateNextRounded />}
-                        onClick={onStepNameContinueBtnClick}
-                      >
+                      <AuthButton disabled={!firstNameInputValidity} endIcon={<NavigateNextRounded />} onClick={onStepNameContinueBtnClick}>
                         {ts('name.continueBtn')}
                       </AuthButton>
                     </SectionActions>
@@ -846,40 +747,21 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 </Section>
               </swiper-slide>
 
-              {/* 
-                * Step 4 - Enter password
-                */}
+              {/*
+               * Step 4 - Enter password
+               */}
               <swiper-slide data-step="password">
                 <Section>
                   <SectionForm>
                     <SectionDetails>{ts('password.details')}</SectionDetails>
                     <SectionFields>
-                      <PasswordInput
-                        label={ts('password.passwordLabel')}
-                        type='password'
-                        name='password'
-                        value={password}
-                        fullWidth
-                        required
-                        autoComplete='new-password'
-                        minLength={passwordMinLength}
-                        inputMode='password'
-                        error={passwordInputError}
-                        onChange={onPasswordInputChange}
-                        onKeyUp={onPasswordInputKeyUp}
-                      />
+                      <PasswordInput label={ts('password.passwordLabel')} type="password" name="password" value={password} fullWidth required autoComplete="new-password" minLength={passwordMinLength} inputMode="password" error={passwordInputError} onChange={onPasswordInputChange} onKeyUp={onPasswordInputKeyUp} />
                     </SectionFields>
 
                     <Progress enabled={stepPasswordLoading} />
 
                     <SectionActions>
-                      <AuthButton
-                        Component={LoadingButton}
-                        loading={stepPasswordLoading}
-                        endIcon={<NavigateNextRounded />}
-                        disabled={passwordInputError}
-                        onClick={onStepPasswordContinueBtnClick}
-                      >
+                      <AuthButton Component={LoadingButton} loading={stepPasswordLoading} endIcon={<NavigateNextRounded />} disabled={passwordInputError} onClick={onStepPasswordContinueBtnClick}>
                         {ts('password.continueBtn')}
                       </AuthButton>
                     </SectionActions>
@@ -887,26 +769,22 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 </Section>
               </swiper-slide>
 
-              {/* 
-                * Step 5 - Registration completed
-                */}
+              {/*
+               * Step 5 - Registration completed
+               */}
               <swiper-slide data-step="created">
                 <Section>
                   <CheckCircleOutlineRounded
                     sx={{
                       fontSize: 80,
                       mt: 2,
-                      mb: 4
+                      mb: 4,
                     }}
-                    color='success'
+                    color="success"
                   />
                   <SectionForm>
                     <SectionActions>
-                      <AuthButton
-                        component={Link}
-                        to={continueUrl || defaultContinuetUrl}
-                        onClick={onStepCreatedCloseBtnClick}
-                      >
+                      <AuthButton component={Link} to={continueUrl || defaultContinuetUrl} onClick={onStepCreatedCloseBtnClick}>
                         {ts('created.closeBtn')}
                       </AuthButton>
 

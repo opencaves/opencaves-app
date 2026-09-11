@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import localforage from 'localforage'
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, } from 'redux-persist'
-import sessionStorage from 'redux-persist/lib/storage/session'
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import appReducer from './slices/appSlice.jsx'
 import dataReducer from './slices/dataSlice.jsx'
 import sessionReducer from './slices/sessionSlice.jsx'
@@ -9,29 +8,35 @@ import searchReducer from './slices/searchSlice.jsx'
 import mapSlice from './slices/mapSlice.jsx'
 
 const persistStorage = localforage.createInstance({
-  name: 'OpenCaves'
+  name: 'OpenCaves',
 })
+
+const sessionPersistStorage = {
+  getItem: (key) => Promise.resolve(window.sessionStorage.getItem(key)),
+  setItem: (key, value) => Promise.resolve(window.sessionStorage.setItem(key, value)),
+  removeItem: (key) => Promise.resolve(window.sessionStorage.removeItem(key)),
+}
 
 const rootPersistConfig = {
   key: 'root',
   storage: persistStorage,
-  blacklist: ['navigation', 'map', 'app', 'session']
+  blacklist: ['navigation', 'map', 'app', 'session'],
 }
 
 const appPersistConfig = {
   key: 'app',
-  storage: sessionStorage
+  storage: sessionPersistStorage,
 }
 
 const sessionPersistConfig = {
   key: 'session',
-  storage: sessionStorage,
+  storage: sessionPersistStorage,
 }
 
 const mapPersistConfig = {
   key: 'map',
   storage: persistStorage,
-  blacklist: ['currentMarker']
+  blacklist: ['currentMarker'],
 }
 
 const rootReducer = combineReducers({
@@ -40,15 +45,15 @@ const rootReducer = combineReducers({
   search: searchReducer,
   // map: persistReducer(mapPersistConfig, mapReducer),
   map: mapSlice,
-  data: dataReducer
+  data: dataReducer,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== 'production',
-  middleware: getDefaultMiddleware => {
+  devTools: import.meta.env.DEV,
+  middleware: (getDefaultMiddleware) => {
     const defaultMiddlewares = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -56,7 +61,7 @@ export const store = configureStore({
     })
 
     return defaultMiddlewares
-  }
+  },
 })
 
 export const persistor = persistStore(store)

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import Logo from '@/images/logo/brand_light.svg'
+import Logo from '@/images/logo/brand_light.svg?react'
 
 export default function About(props) {
   const { t } = useTranslation('about')
@@ -21,7 +21,7 @@ export default function About(props) {
         <Logo width={isSmall ? '70%' : '60%'} />
       </Box>
       <Typography component="p" fontSize="small" textAlign="center" color="text.secondary">
-        {t('version', { version: process.env.VITE_VERSION })}{' '}
+        {t('version', { version: import.meta.env.REACT_APP_VERSION })}{' '}
         <Link href="https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md" target="_blank" ml={1}>
           {t('whatsNew')}
         </Link>

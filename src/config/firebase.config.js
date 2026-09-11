@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-  apiKey: process.env.VITE_FirebaseApiKey,
-  authDomain: process.env.VITE_FirebaseAuthDomain,
-  projectId: process.env.VITE_FirebaseProjectId,
-  location: process.env.VITE_FirebaseLocation,
-  storageBucket: process.env.VITE_FirebaseStorageBucket,
-  messagingSenderId: process.env.VITE_FirebaseMessagingSenderId,
-  appId: process.env.VITE_FirebaseAppId,
+  apiKey: import.meta.env.REACT_APP_FirebaseApiKey,
+  authDomain: import.meta.env.REACT_APP_FirebaseAuthDomain,
+  projectId: import.meta.env.REACT_APP_FirebaseProjectId,
+  location: import.meta.env.REACT_APP_FirebaseLocation,
+  storageBucket: import.meta.env.REACT_APP_FirebaseStorageBucket,
+  messagingSenderId: import.meta.env.REACT_APP_FirebaseMessagingSenderId,
+  appId: import.meta.env.REACT_APP_FirebaseAppId,
 }

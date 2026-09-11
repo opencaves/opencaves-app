@@ -1,29 +1,28 @@
 import { useEffect, useState } from 'react'
 import { Fade, LinearProgress, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { gap } from '@/config/auth.js'
 
 const width = {
   xs: '100%',
-  sm: '42ch'
+  sm: '42ch',
 }
 
 export function Section({ children, ...props }) {
-
   return (
     <Grid
       {...props}
-      className='oc-auth-section'
+      className="oc-auth-section"
       container
-      direction='column'
-      alignContent='center'
-      alignItems='center'
+      direction="column"
+      alignContent="center"
       mb={{
         xs: 2,
-        lg: 8
+        lg: 8,
       }}
-      xs
+      size="grow"
       rowGap={gap}
+      sx={{ alignItems: 'center' }}
     >
       {children}
     </Grid>
@@ -32,16 +31,7 @@ export function Section({ children, ...props }) {
 
 export function SectionDetails({ children, ...props }) {
   return (
-
-    <Typography
-      className='oc-auth-section-details'
-      variant='body'
-      textAlign='center'
-      my={0}
-      mx={1.75}
-      paragraph
-      {...props}
-    >
+    <Typography className="oc-auth-section-details" variant="body" textAlign="center" my={0} mx={1.75} paragraph {...props}>
       {children}
     </Typography>
   )
@@ -49,14 +39,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid
-      className='oc-auth-section-form'
-      container
-      direction='column'
-      rowGap={gap}
-      width={width}
-      {...props}
-    >
+    <Grid className="oc-auth-section-form" container direction="column" rowGap={gap} width={width} {...props}>
       {children}
     </Grid>
   )
@@ -64,15 +47,7 @@ export function SectionForm({ children, ...props }) {
 
 export function SectionFields({ children, ...props }) {
   return (
-    <Grid
-      className='oc-auth-section-fields'
-      container
-      direction='column'
-      xs
-      rowGap={gap}
-      sx={{ pt: .75 }}
-      {...props}
-    >
+    <Grid className="oc-auth-section-fields" container direction="column" size="grow" rowGap={gap} sx={{ pt: 0.75 }} {...props}>
       {children}
     </Grid>
   )
@@ -80,23 +55,13 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid
-      className='oc-auth-section-actions'
-      container
-      direction='column'
-      rowGap={gap}
-      alignItems='stretch'
-      textAlign='center'
-      mt={1}
-      {...props}
-    >
+    <Grid className="oc-auth-section-actions" container direction="column" rowGap={gap} textAlign="center" mt={1} sx={{ alignItems: 'stretch' }} {...props}>
       {children}
     </Grid>
   )
 }
 
 export function Progress({ enabled = false }) {
-
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -104,16 +69,10 @@ export function Progress({ enabled = false }) {
   }, [enabled])
 
   return (
-
-    <Grid
-      container
-      direction='column'
-      alignItems='center'
-      sx={{ visibility: enabled ? 'visible' : 'hidden' }}
-    >
+    <Grid container direction="column" sx={{ alignItems: 'center', visibility: enabled ? 'visible' : 'hidden' }}>
       <Grid
         sx={{
-          width
+          width,
         }}
       >
         <Fade
@@ -121,7 +80,7 @@ export function Progress({ enabled = false }) {
           style={{
             transitionDelay: loading ? '800ms' : '0ms',
           }}
-        // unmountOnExit
+          // unmountOnExit
         >
           <LinearProgress sx={{ height: 2 }} />
         </Fade>

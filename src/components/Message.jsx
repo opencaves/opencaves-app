@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { CheckCircleOutlineRounded, WarningRounded } from '@mui/icons-material'
 
 export default function Message({ message, footer, type, fontSize }) {
@@ -8,32 +8,16 @@ export default function Message({ message, footer, type, fontSize }) {
       mr={3}
       sx={{
         fontSize: fontSize ?? '1rem',
-        lineHeight: 1
+        lineHeight: 1,
       }}
     >
-      <Grid
-        container
-        direction='row'
-        flexWrap='nowrap'
-        alignItems='center'
-      >
-        <Grid
-          container
-          direction='column'
-        >
-          {
-            type === 'error' ? (
-              <WarningRounded color='warning' sx={{ mr: 1.5, fontSize: '1.5em' }} />
-            ) : (
-              <CheckCircleOutlineRounded color='success' sx={{ mr: 1.5, fontSize: '1.5em' }} />
-            )
-          }
+      <Grid container direction="row" sx={{ flexWrap: 'nowrap', alignItems: 'center' }}>
+        <Grid container direction="column">
+          {type === 'error' ? <WarningRounded color="warning" sx={{ mr: 1.5, fontSize: '1.5em' }} /> : <CheckCircleOutlineRounded color="success" sx={{ mr: 1.5, fontSize: '1.5em' }} />}
         </Grid>
-        <Grid xs>{message}</Grid>
+        <Grid size="grow">{message}</Grid>
       </Grid>
-      {
-        footer
-      }
+      {footer}
     </Box>
   )
 }

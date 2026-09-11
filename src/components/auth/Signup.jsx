@@ -2,7 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import AuthButton from './AuthButton.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
@@ -26,42 +26,32 @@ export default function Signup() {
 
   return (
     <>
-      <Grid
-        container
-        direction='column'
-        alignItems='center'
-        m={4}
-      >
-
+      <Grid container direction="column" m={4} sx={{ alignItems: 'center' }}>
         <Logo
-          variant='brand'
+          variant="brand"
           sx={{
             width: '80%',
             maxWidth: '400px',
-            my: 12
+            my: 12,
           }}
         />
 
-        <Stack
-          spacing={3}
-          width='32ch'
-        >
+        <Stack spacing={3} width="32ch">
           <AuthWithGoogle onSuccess={onSuccess} />
 
-          <Or><Typography variant='caption'>{t('or')}</Typography></Or>
+          <Or>
+            <Typography variant="caption">{t('or')}</Typography>
+          </Or>
 
-          <AuthButton variant='contained' component={Link} to='with-email'>{t('withEmail')}</AuthButton>
-
+          <AuthButton variant="contained" component={Link} to="with-email">
+            {t('withEmail')}
+          </AuthButton>
         </Stack>
 
         <Box mt={5}>
           <p>
             <small>
-              {t('goToLogIn.invite')}
-              {' '}
-              <Link to='/login' >
-                {t('goToLogIn.btn')}
-              </Link>
+              {t('goToLogIn.invite')} <Link to="/login">{t('goToLogIn.btn')}</Link>
             </small>
           </p>
         </Box>

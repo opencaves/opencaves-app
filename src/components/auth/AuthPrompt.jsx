@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { ArrowBack, Close } from '@mui/icons-material'
 import Logo from '../App/Logo.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -11,7 +11,6 @@ import './SignupWithEmail.scss'
 const gap = 2
 
 export default function AuthPrompt({ open: initialOpen, title, dialogTitle, children, onClose }) {
-
   const logoHeight = 100
   const logoWidth = 185
 
@@ -50,28 +49,26 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
       sx={{
-        '--swiper-pagination-color': 'var(--md-palette-secondary-main)'
+        '--swiper-pagination-color': 'var(--md-palette-secondary-main)',
       }}
       // TransitionComponent={Grow}
       transitionDuration={{
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
-        exit: theme.oc.sys.motion.duration.emphasizedAccelerate
+        exit: theme.oc.sys.motion.duration.emphasizedAccelerate,
       }}
       TransitionProps={{
         mountOnEnter: true,
-        unmountOnExit: true
+        unmountOnExit: true,
       }}
       onClose={onDialogClose}
       // onTransitionEnter={onTransitionEnter}
       onTransitionExited={onTransitionExited}
     >
-      {
-        dialogTitle && (
-          <DialogTitle>
-            <AuthDialogTitleBar dialogTitle={dialogTitle} onClose={onDialogClose} />
-          </DialogTitle>
-        )
-      }
+      {dialogTitle && (
+        <DialogTitle>
+          <AuthDialogTitleBar dialogTitle={dialogTitle} onClose={onDialogClose} />
+        </DialogTitle>
+      )}
       <DialogContent
         sx={{
           position: 'relative',
@@ -87,45 +84,43 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
           // pb: 0,
         }}
       >
-        {
-          !dialogTitle && (
-            <AuthDialogCloseBtn
-              onClose={onClose}
-              sx={{
-                position: 'absolute',
-                top: 20,
-                left: isSmall ? 24 : null,
-                right: !isSmall ? 24 : null
-              }}
-            />
-          )
-        }
+        {!dialogTitle && (
+          <AuthDialogCloseBtn
+            onClose={onClose}
+            sx={{
+              position: 'absolute',
+              top: 20,
+              left: isSmall ? 24 : null,
+              right: !isSmall ? 24 : null,
+            }}
+          />
+        )}
         <Grid
           container
-          direction='column'
-          alignItems='center'
+          direction="column"
           width={{
             xs: '100%',
-            sm: '80%'
+            sm: '80%',
           }}
           sx={{
+            alignItems: 'center',
             py: {
               xs: 4,
               sm: 6,
-              md: 7
+              md: 7,
             },
           }}
         >
           <Logo
-            variant='brand-short'
+            variant="brand-short"
             width={logoWidth}
             height={logoHeight}
             sx={{
               mb: {
                 xs: 6,
                 md: 8,
-                lg: 10
-              }
+                lg: 10,
+              },
             }}
           />
           {children}
@@ -140,25 +135,16 @@ function AuthDialogTitleBar({ dialogTitle, onClose }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <Grid
-      container
-      xs
-      alignItems='center'
-      gap={2}
-      position={!dialogTitle ?? 'absolute'}
-    >
-      <Grid
-        xs
-        order={isSmall && 1}>
+    <Grid container size="grow" gap={2} position={!dialogTitle ?? 'absolute'} sx={{ alignItems: 'center' }}>
+      <Grid size="grow" order={isSmall && 1}>
         {dialogTitle}
       </Grid>
 
-      <Grid
-      >
+      <Grid>
         <AuthDialogCloseBtn
           onClose={onClose}
           sx={{
-            p: 0
+            p: 0,
           }}
         />
       </Grid>
@@ -171,18 +157,8 @@ function AuthDialogCloseBtn({ onClose, ...props }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <IconButton
-      aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')}
-      onClick={onClose}
-      {...props}
-    >
-      {
-        isSmall ? (
-          <ArrowBack />
-        ) : (
-          <Close />
-        )
-      }
+    <IconButton aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')} onClick={onClose} {...props}>
+      {isSmall ? <ArrowBack /> : <Close />}
     </IconButton>
   )
 }
@@ -190,14 +166,13 @@ function AuthDialogCloseBtn({ onClose, ...props }) {
 export function Step({ instructions, fields, actions, gap = 2, children, ...props }) {
   function Container({ children }) {
     return actions || fields || instructions ? (
-
       <Grid
         container
-        direction='column'
+        direction="column"
         rowGap={gap}
         width={{
           xs: '100%',
-          sm: '42ch'
+          sm: '42ch',
         }}
       >
         {children}
@@ -209,47 +184,29 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
     <Grid
       {...props}
       container
-      direction='column'
-      alignContent='center'
-      alignItems='center'
+      direction="column"
+      alignContent="center"
       mb={{
         xs: 2,
-        lg: 8
+        lg: 8,
       }}
-      xs
+      size="grow"
       rowGap={gap}
+      sx={{ alignItems: 'center' }}
     >
       {children}
       <Container>
         {instructions}
-        {
-          fields && (
-            <Grid
-              container
-              direction='column'
-              xs
-              rowGap={gap}
-              sx={{ pt: .75 }}
-            >
-              {fields}
-            </Grid>
-          )
-        }
-        {
-          actions && (
-            <Grid
-              container
-              direction='column'
-              rowGap={gap}
-              alignItems='sretch'
-
-              mt={gap * .75}
-
-            >
-              {actions}
-            </Grid>
-          )
-        }
+        {fields && (
+          <Grid container direction="column" size="grow" rowGap={gap} sx={{ pt: 0.75 }}>
+            {fields}
+          </Grid>
+        )}
+        {actions && (
+          <Grid container direction="column" rowGap={gap} mt={gap * 0.75} sx={{ alignItems: 'stretch' }}>
+            {actions}
+          </Grid>
+        )}
       </Container>
     </Grid>
   )
@@ -258,15 +215,15 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
 export function Header({ children }) {
   return (
     <Typography
-      variant='h1'
-      component='h1'
+      variant="h1"
+      component="h1"
       fontSize={{
         xs: 30,
         md: 32,
-        lg: 36
+        lg: 36,
       }}
       mb={4}
-      textAlign='center'
+      textAlign="center"
     >
       {children}
     </Typography>

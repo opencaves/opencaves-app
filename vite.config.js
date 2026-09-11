@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr'
 
 export default defineConfig({
+  envPrefix: ['VITE_', 'REACT_APP_'],
   plugins: [
     react({
       include: /\.(js|jsx|ts|tsx)$/,

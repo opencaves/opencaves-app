@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import Logo from '@/images/logo/logo-white.svg'
+import Logo from '@/images/logo/logo-white.svg?react'
 import './MapState.scss'
 
 export const MapLoading = forwardRef(function MapLoading(props, ref) {

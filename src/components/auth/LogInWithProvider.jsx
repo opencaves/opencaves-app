@@ -16,8 +16,8 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
   const [disabled, setDisabled] = useState(false)
   const isSmall = useSmall()
   const isAnonymous = useAnonymous()
-  const user = useSelector(state => state.session.user)
-  const continueUrl = useSelector(state => state.session.continueUrl)
+  const user = useSelector((state) => state.session.user)
+  const continueUrl = useSelector((state) => state.session.continueUrl)
 
   function onLogInWithProviderSuccess() {
     if (onSuccess) {
@@ -33,7 +33,6 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
   }
 
   async function loginWithProvider() {
-
     setDisabled(true)
 
     if (isAnonymous) {
@@ -44,7 +43,6 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       const credentialArgs = []
 
       switch (Provider.PROVIDER_ID) {
-
         // If this is a Google Signin
         case ProviderId.GOOGLE:
           console.log('[case ProviderId.GOOGLE] user: %o', user)
@@ -63,9 +61,10 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
         console.log('credentialArgs: %o', credentialArgs)
         const credential = Provider.credential(...credentialArgs)
         linkWithCredential(user, credential)
-          .then(usercred => {
+          .then((usercred) => {
             console.log('Anonymous account successfully upgraded', usercred.user)
-          }).catch((error) => {
+          })
+          .catch((error) => {
             console.log('Error upgrading anonymous account', error)
           })
       }
@@ -75,11 +74,10 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       signInWithRedirect(auth, new Provider())
     } else {
       signInWithPopup(auth, new Provider())
-        .then(result => {
+        .then((result) => {
           navigate(continueUrl || '/')
         })
         .catch((error) => {
-
           if (error.code === 'auth/account-exists-with-different-credential') {
             // User's email already exists.
             // Let's try to fix this
@@ -97,13 +95,16 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
                 // Asks the user their password.
                 // In real scenario, you should handle this asynchronously.
                 var password = promptUserForPassword() // TODO: implement promptUserForPassword.
-                auth.signInWithEmailAndPassword(email, password).then(function (result) {
-                  // Step 4a.
-                  return result.user.linkWithCredential(pendingCred)
-                }).then(function () {
-                  // Google account successfully linked to the existing Firebase user.
-                  onSuccess()
-                })
+                auth
+                  .signInWithEmailAndPassword(email, password)
+                  .then(function (result) {
+                    // Step 4a.
+                    return result.user.linkWithCredential(pendingCred)
+                  })
+                  .then(function () {
+                    // Google account successfully linked to the existing Firebase user.
+                    onSuccess()
+                  })
                 return
               }
               // All the other cases are external providers.
@@ -139,8 +140,12 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
 
   return (
     <AuthButton
-      startIcon={<SvgIcon component={Logo} inheritViewBox />}
-      variant='outlined'
+      startIcon={
+        <SvgIcon inheritViewBox>
+          <Logo />
+        </SvgIcon>
+      }
+      variant="outlined"
       color={color}
       disabled={disabled}
       onClick={loginWithProvider}

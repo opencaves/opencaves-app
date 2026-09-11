@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 import { Dialog, Icon, SvgIcon, Typography, useTheme } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import UploadMedias from './UploadMedias.jsx'
 import { acceptedMimeTypes } from '@/config/mediaPane.js'
-import DropIcon from '@/images/media-pane/drop.svg'
+import DropIcon from '@/images/media-pane/drop.svg?react'
 
 export default function Dropzone({ open = false, onDrop = () => {} }) {
   const theme = useTheme()
@@ -87,8 +87,10 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
     <>
       <Dialog open={_open} fullScreen={true} disableEscapeKeyDown={true} transitionDuration={350}>
         <Grid container {...getRootProps({ sx })}>
-          <Grid className="oc-dropzone" container direction="column" alignItems="center" justifyContent="center" flex={1}>
-            <SvgIcon component={DropIcon} inheritViewBox sx={{ fontSize: '10rem' }} color="primary" />
+          <Grid className="oc-dropzone" container direction="column" flex={1} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+            <SvgIcon inheritViewBox sx={{ fontSize: '10rem' }} color="primary">
+              <DropIcon />
+            </SvgIcon>
             <Typography fontSize="1.875rem" letterSpacing={0} fontWeight={300} lineHeight={1} mt={2}>
               {t('dropHere')}
             </Typography>

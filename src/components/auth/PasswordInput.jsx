@@ -2,18 +2,11 @@ import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PasswordStrengthBar from 'react-password-strength-bar'
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const PasswordInput = forwardRef(function PasswordInput(props, ref) {
-
-  const { value,
-    minLength = 4,
-    error = false,
-    onValidityChange = () => { },
-    onKeyUp = () => { },
-    children,
-    ...others } = props
+  const { value, minLength = 4, error = false, onValidityChange = () => {}, onKeyUp = () => {}, children, ...others } = props
 
   const { t } = useTranslation('passwordInput')
 
@@ -23,7 +16,7 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   const [showPassword, setShowPassword] = useState(false)
   const inputRef = useRef(null)
   const nthUpdate = useRef(0)
-  const firstUpdate = useRef(process.env.NODE_ENV === 'production' ? 1 : 2)
+  const firstUpdate = useRef(import.meta.env.PROD ? 1 : 2)
 
   function updateValidity() {
     const valid = inputRef?.current.checkValidity()
@@ -42,7 +35,7 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   }
 
   function onShowPasswordClick() {
-    setShowPassword(show => !show)
+    setShowPassword((show) => !show)
   }
 
   function onShowPasswordMouseDown(event) {
@@ -58,7 +51,6 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   }, [value])
 
   useEffect(() => {
-
     onValidityChange.call(null, inputValid)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,7 +64,6 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
 
     setInputState('determinate')
     updateValidity()
-
   }, [onValidityChange])
 
   return (
@@ -81,26 +72,21 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
         {...others}
         ref={ref}
         inputRef={inputRef}
-        variant='outlined'
+        variant="outlined"
         type={showPassword ? 'text' : 'password'}
-        name='password'
+        name="password"
         value={value}
         required
         error={inputError}
         onKeyUp={onInputKeyUp}
         InputProps={{
           endAdornment: (
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label={t('passwordIcon.ariaLabel')}
-                onClick={onShowPasswordClick}
-                onMouseDown={onShowPasswordMouseDown}
-                edge='end'
-              >
+            <InputAdornment position="end">
+              <IconButton aria-label={t('passwordIcon.ariaLabel')} onClick={onShowPasswordClick} onMouseDown={onShowPasswordMouseDown} edge="end">
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
-          )
+          ),
         }}
       />
 
@@ -109,20 +95,11 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
         height={28}
         sx={{
           '& > *': {
-            flexGrow: 1
-          }
+            flexGrow: 1,
+          },
         }}
       >
-        {
-          value && (
-            <PasswordStrengthBar
-              password={value}
-              minLength={minLength}
-              scoreWords={t('scoreWords', { returnObjects: true })}
-              shortScoreWord={t('shortScoreWord')}
-            />
-          )
-        }
+        {value && <PasswordStrengthBar password={value} minLength={minLength} scoreWords={t('scoreWords', { returnObjects: true })} shortScoreWord={t('shortScoreWord')} />}
       </Grid>
     </Box>
   )

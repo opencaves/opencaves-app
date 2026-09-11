@@ -4,15 +4,7 @@ import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
-import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, SvgIcon, Box, styled } from '@mui/material'
-import Grid from '@mui/material/Grid'
-import TuneIcon from '@mui/icons-material/Tune'
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
-import LocationOffOutlinedIcon from '@mui/icons-material/LocationOffOutlined'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import ClearIcon from '@mui/icons-material/Clear'
-import SearchIcon from '@mui/icons-material/Search'
-import OutsideClickHandler from 'react-outside-click-handler'
+import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, Box, Grid, styled } from '@mui/material'
 
 import AppMenu from '@/components/App/AppMenu.jsx'
 import { store } from '@/redux/store.jsx'
@@ -22,8 +14,38 @@ import { toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { observeStore } from '@/utils/observeStore.jsx'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.jsx'
 import Snippet from './Snippet.jsx'
-import LocationUnknownOutlinedIcon from '@/images/location-validity-unknown.svg'
 import './SearchBar.scss'
+
+const SearchIcon = () => (
+  <Box component="span" aria-hidden="true">
+    ?
+  </Box>
+)
+const ArrowBackIcon = () => (
+  <Box component="span" aria-hidden="true">
+    &lt;
+  </Box>
+)
+const ClearIcon = () => (
+  <Box component="span" aria-hidden="true">
+    x
+  </Box>
+)
+const TuneIcon = () => (
+  <Box component="span" aria-hidden="true">
+    =
+  </Box>
+)
+const LocationOnOutlinedIcon = ({ sx }) => (
+  <Box component="span" aria-hidden="true" sx={sx}>
+    +
+  </Box>
+)
+const LocationOffOutlinedIcon = ({ sx }) => (
+  <Box component="span" aria-hidden="true" sx={sx}>
+    -
+  </Box>
+)
 
 const nameTranslationFields = store.getState().data.languages.map((l) => `nameTranslations.${l.code}`)
 
@@ -286,7 +308,7 @@ export default function SearchBar() {
   }, [searchBarRef])
 
   return (
-    <OutsideClickHandler onOutsideClick={onSearchbarBlur}>
+    <div onBlur={onSearchbarBlur}>
       <Box
         id="oc-search-bar"
         ref={searchBarRef}
@@ -325,7 +347,7 @@ export default function SearchBar() {
             m: '0.5rem 0.5rem 0 0.5rem',
           }}
         >
-          <Grid container alignItems="stretch">
+          <Grid container sx={{ alignItems: 'stretch' }}>
             <Grid width="48px" height="48px" position="relative" overflow="hidden" className="oc-search-bar--actions">
               <Fade in={!backBtnOn}>
                 <ActionButton disableRipple aria-label={t('actionButton.search.ariaLabel')}>
@@ -422,7 +444,7 @@ export default function SearchBar() {
                         }}
                       >
                         <ListItemButton ref={(element) => resultItemsRef.current.push(element)} onClick={() => onResultsItemClick(result.id)}>
-                          {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : result.location === 'unknown' ? <SvgIcon component={LocationUnknownOutlinedIcon} sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
+                          {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
                           <Box
                             sx={{
                               width: '100%',
@@ -440,6 +462,6 @@ export default function SearchBar() {
           }
         </Box>
       </Box>
-    </OutsideClickHandler>
+    </div>
   )
 }

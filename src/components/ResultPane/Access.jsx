@@ -1,24 +1,24 @@
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { SvgIcon } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { styled } from '@mui/material'
 import { HelpOutlineRounded } from '@mui/icons-material'
 import Markdown from '../Markdown/Markdown.jsx'
-import KeyIcon from '@/images/accesses/key.svg'
-import NoIcon from '@/images/accesses/no.svg'
-import YesIcon from '@/images/accesses/yes.svg'
-import PermissionIcon from '@/images/accesses/permission.svg'
-import CustomersIcon from '@/images/accesses/customers.svg'
-import UnknownIcon from '@/images/accesses/unknown.svg'
-import SidemountIcon from '@/images/accessibilities/sidemount.svg'
-import SeaIcon from '@/images/accessibilities/sea.svg'
-import NotSafeIcon from '@/images/accessibilities/not-safe.svg'
-import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg'
-import JungleIcon from '@/images/accessibilities/jungle.svg'
-import VariableIcon from '@/images/accessibilities/variable.svg'
-import FeesYesIcon from '@/images/fees/fees-yes.svg'
-import FeesNoIcon from '@/images/fees/fees-no.svg'
+import KeyIcon from '@/images/accesses/key.svg?react'
+import NoIcon from '@/images/accesses/no.svg?react'
+import YesIcon from '@/images/accesses/yes.svg?react'
+import PermissionIcon from '@/images/accesses/permission.svg?react'
+import CustomersIcon from '@/images/accesses/customers.svg?react'
+import UnknownIcon from '@/images/accesses/unknown.svg?react'
+import SidemountIcon from '@/images/accessibilities/sidemount.svg?react'
+import SeaIcon from '@/images/accessibilities/sea.svg?react'
+import NotSafeIcon from '@/images/accessibilities/not-safe.svg?react'
+import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg?react'
+import JungleIcon from '@/images/accessibilities/jungle.svg?react'
+import VariableIcon from '@/images/accessibilities/variable.svg?react'
+import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
+import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
 
 export default function Access({ cave }) {
@@ -49,7 +49,12 @@ export default function Access({ cave }) {
         icon = UnknownIcon
     }
 
-    return <SvgIcon component={icon} fontSize="large" inheritViewBox aria-label={t(`${access.name}.label`, { ns: 'accesses' })} color="primary" className="oc-icon" />
+    const Icon = icon
+    return (
+      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${access.name}.label`, { ns: 'accesses' })} color="primary" className="oc-icon">
+        <Icon />
+      </SvgIcon>
+    )
   }
 
   function getAccessibilityIcon() {
@@ -78,11 +83,21 @@ export default function Access({ cave }) {
         icon = HelpOutlineRounded
     }
 
-    return <SvgIcon component={icon} fontSize="large" inheritViewBox aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} color="primary" className="oc-icon" />
+    const Icon = icon
+    return (
+      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} color="primary" className="oc-icon">
+        <Icon />
+      </SvgIcon>
+    )
   }
 
   function getFeesIcon() {
-    return <SvgIcon component={cave.fees ? FeesYesIcon : FeesNoIcon} fontSize="large" inheritViewBox aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} color="primary" className="oc-icon" />
+    const Icon = cave.fees ? FeesYesIcon : FeesNoIcon
+    return (
+      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} color="primary" className="oc-icon">
+        <Icon />
+      </SvgIcon>
+    )
   }
 
   function getFeesLabel() {
@@ -112,37 +127,37 @@ export default function Access({ cave }) {
       </div>
 
       <div className="details-container">
-        <Grid container spacing={0} xs="auto" display="flex" justifyContent="center" alignItems="center">
+        <Grid container spacing={0} size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
           <div className="oc-access--grid">
-            <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">
+            <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
               <Grid container direction="column" spacing={1}>
-                <Grid xs="auto" display="flex" justifyContent="center">
+                <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
                   {getAccessIcon()}
                 </Grid>
-                <Grid xs="auto">
+                <Grid size="auto">
                   <IconText className="oc-access--icon-text">{getAccessLabel()}</IconText>
                 </Grid>
               </Grid>
             </Grid>
             {cave.accessibility && (
-              <Grid display="flex" justifyContent="center" alignItems="center">
+              <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid xs="auto" display="flex" justifyContent="center">
+                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
                     {getAccessibilityIcon()}
                   </Grid>
-                  <Grid xs="auto">
+                  <Grid size="auto">
                     <IconText className="oc-access--icon-text">{getAccessibilityLabel()}</IconText>
                   </Grid>
                 </Grid>
               </Grid>
             )}
             {Reflect.has(cave, 'fees') && cave.fees && (
-              <Grid display="flex" justifyContent="center" alignItems="center">
+              <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid xs="auto" display="flex" justifyContent="center">
+                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
                     {getFeesIcon()}
                   </Grid>
-                  <Grid xs="auto">
+                  <Grid size="auto">
                     <IconText className="oc-access--icon-text">{getFeesLabel()}</IconText>
                   </Grid>
                 </Grid>

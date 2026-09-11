@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Card, CardContent, CardMedia, LinearProgress, Typography, useTheme } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import { useUploadCaveImages } from './useUploadCaveImages.jsx'
@@ -16,8 +16,6 @@ export default function UploadMedias({ medias }) {
   const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
-  // const theme = useTheme()
-  // console.log('theme: %o', theme)
 
   function onErrorAlertClose() {
     console.log('[onErrorAlertClose] closing alert dialog.')
@@ -44,7 +42,6 @@ export default function UploadMedias({ medias }) {
   }, [error])
 
   useEffect(() => {
-    // console.log('------------- use effect [medias]: %o', medias)
     if (medias) {
       setMedias(medias)
     }
@@ -56,7 +53,6 @@ export default function UploadMedias({ medias }) {
     }
     if (_medias.length > 0) {
       doUploadMedias()
-
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_medias])
@@ -83,35 +79,28 @@ export default function UploadMedias({ medias }) {
     setErrorAlertOpen(error)
   }, [error])
 
-
   return (
     <>
-      <Snackbar
-        open={uploading}
-        autoHide={false}
-      >
+      <Snackbar open={uploading} autoHide={false}>
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
 
       {errorAlertOpen && (
-        <ErrorAlert open={true} onClose={onErrorAlertClose}>{t('unknownError')}</ErrorAlert>
-      )
-      }
+        <ErrorAlert open={true} onClose={onErrorAlertClose}>
+          {t('unknownError')}
+        </ErrorAlert>
+      )}
 
-      {
-        done && (
-          <Snackbar
-            open={uploadComplete}
-            autoHide={false}
-          >
-            <SnackbarContent>
-              <Alert>##################################
-                {t('success', { count: done.count })}
-              </Alert>
-            </SnackbarContent>
-          </Snackbar >
-        )
-      }
+      {done && (
+        <Snackbar open={uploadComplete} autoHide={false}>
+          <SnackbarContent>
+            <Alert>
+              ##################################
+              {t('success', { count: done.count })}
+            </Alert>
+          </SnackbarContent>
+        </Snackbar>
+      )}
     </>
   )
 }
@@ -128,70 +117,57 @@ const UploadInfo = forwardRef((props, ref) => {
         flexGrow: 1,
         display: 'flex',
         minWidth: {
-          sm: 444
-        }
+          sm: 444,
+        },
       }}
     >
-      <Grid sx={{ position: 'relative', width: '33%' }}>
-        {
-          current && (
-            <CardMedia
-              component='img'
-              image={current.url}
-              sx={{ position: 'absolute', width: '100%', height: '100%' }}
-            />
-          )
-        }
-      </Grid>
-      <Grid
-        container
-        direction='column'
-        flexGrow={1}
-      >
+      <Grid sx={{ position: 'relative', width: '33%' }}>{current && <CardMedia component="img" image={current.url} sx={{ position: 'absolute', width: '100%', height: '100%' }} />}</Grid>
+      <Grid container direction="column" flexGrow={1}>
         <CardContent
           sx={{
             flexGrow: 1,
             '&:last-child': {
-              paddingBottom: 2
-            }
+              paddingBottom: 2,
+            },
           }}
         >
           <Typography
-            color='text.secondary'
+            color="text.secondary"
             sx={{
               lineHeight: 1,
-              margin: 0
+              margin: 0,
             }}
           >
             {t('uploadingTo')}
           </Typography>
           <Typography
-            variant='h5'
-            component='div'
+            variant="h5"
+            component="div"
             sx={{
               lineHeight: 1,
               marginTop: '.7em',
-              marginBottom: '.7em'
+              marginBottom: '.7em',
             }}
           >
             {appName}
           </Typography>
           <LinearProgress
-            variant='determinate'
+            variant="determinate"
             value={progress}
             sx={{
               borderRadius: 2,
               '> .MuiLinearProgress-bar': {
-                borderRadius: 2
-              }
-            }} />
+                borderRadius: 2,
+              },
+            }}
+          />
           <Typography
-            color='text.secondary'
-            fontSize='small'
+            color="text.secondary"
+            fontSize="small"
             sx={{
               textAlign: 'right',
               lineHeight: 1,
-              marginTop: '.7em'
+              marginTop: '.7em',
             }}
           >
             {t('countMedias', { index: current ? current.index : 0, total })}
@@ -212,9 +188,9 @@ const SnackbarContent = forwardRef((props, ref) => {
         flexGrow: 1,
         display: 'flex',
         minWidth: {
-          sm: 444
+          sm: 444,
         },
-        ...sx
+        ...sx,
       }}
       {...otherProps}
     >

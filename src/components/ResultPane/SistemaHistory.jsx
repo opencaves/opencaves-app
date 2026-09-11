@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Accordion, AccordionDetails, AccordionSummary, Box, SvgIcon, Typography } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '@/models/Sistema.js'
-import CaveSystemIcon from '@/images/cave-system.svg'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 export default function Sistema({ sistemaHistory }) {
@@ -24,7 +24,9 @@ export default function Sistema({ sistemaHistory }) {
                 display: 'inline-flex',
               }}
             >
-              <SvgIcon component={CaveSystemIcon} inheritViewBox htmlColor={currentSistema.color ?? SISTEMA_DEFAULT_COLOR} />
+              <SvgIcon inheritViewBox htmlColor={currentSistema.color ?? SISTEMA_DEFAULT_COLOR}>
+                <CaveSystemIcon />
+              </SvgIcon>
             </Box>
             <Typography variant="caveDetailsItemText" component="div">
               {t2('sistema', { system: currentSistema.name })}
@@ -66,12 +68,14 @@ export default function Sistema({ sistemaHistory }) {
         py: 'var(--oc-pane-padding-block)',
       }}
     >
-      <Grid xs="auto">
+      <Grid size="auto">
         <Box sx={{ minWidth: 'var(--oc-details-icon-min-width)' }}>
-          <SvgIcon component={CaveSystemIcon} inheritViewBox slot="start" className="cave-system-icon" htmlColor={currentSistema.color ?? 'red'} />
+          <SvgIcon inheritViewBox slot="start" className="cave-system-icon" htmlColor={currentSistema.color ?? 'red'}>
+            <CaveSystemIcon />
+          </SvgIcon>
         </Box>
       </Grid>
-      <Grid xs>
+      <Grid size="grow">
         <Typography variant="caveDetailsItemText">{t2('sistema', { system: currentSistema.name })}</Typography>
       </Grid>
     </Grid>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { GoogleAuthProvider } from 'firebase/auth'
 import { noop } from 'lodash'
 import LogInWithProvider from './LogInWithProvider.jsx'
-import GoogleGLogo from '@/images/app/auth/google-g-logo.svg'
+import GoogleGLogo from '@/images/app/auth/google-g-logo.svg?react'
 
 export default function LogInWithGoogle({ message = null, onSuccess = noop }) {
   const { t } = useTranslation('auth', { keyPrefix: 'login' })

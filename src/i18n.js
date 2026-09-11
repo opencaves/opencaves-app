@@ -35,7 +35,7 @@ i18n
 
     //   return fallbacks
     // },
-    debug: !process.env.NODE_ENV.endsWith('production'),
+    debug: import.meta.env.DEV,
     defaultNS: 'app',
     // ns: ['common'],
     lowerCaseLng: true,

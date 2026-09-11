@@ -29,10 +29,10 @@ http://ionicframework.com/docs/theming/ */
   // z-indexes
   --oc-app-menu-z-index: 1;
   --oc-filter-menu-z-index: 10000;
-  --oc-searchbar-z-index: calc(var(--md-zIndex-drawer) - 1);
-  --oc-searchbar-sm-z-index: calc(var(--md-zIndex-drawer) - 1);
-  --oc-result-pane-z-index: calc(var(--md-zIndex-drawer) - 2);
-  --oc-result-pane-sm-z-index: calc(var(--md-zIndex-drawer) - 1);
+  --oc-searchbar-z-index: 1000;
+  --oc-searchbar-sm-z-index: 1000;
+  --oc-result-pane-z-index: 998;
+  --oc-result-pane-sm-z-index: 999;
 
   // font sizes
   --oc-map-text-primary-font-size: 1rem;

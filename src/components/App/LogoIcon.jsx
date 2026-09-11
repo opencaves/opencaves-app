@@ -1,26 +1,12 @@
-import { useMemo, useState } from 'react'
-import { SvgIcon } from '@mui/material'
+import { Box } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 import LogoLight from '@/images/logo/logo_light.svg'
 import LogoDark from '@/images/logo/logo_dark.svg'
 
 export default function LogoIcon({ colorScheme, ...props }) {
   const { mode } = useColorScheme()
-  const [icon, setIcon] = useState(null)
+  const { sx, ...other } = props
+  const src = colorScheme === 'light' || (colorScheme !== 'dark' && mode === 'light') ? LogoLight : LogoDark
 
-  useMemo(() => {
-    setIcon(colorScheme === 'light' ? LogoLight : LogoDark)
-  }, [colorScheme])
-
-  useMemo(() => {
-    // If colorScheme is defined and has a valid value,
-    // then don't auto mutate icon
-    if (typeof colorScheme === 'string' && colorScheme && ['light', 'dark'].includes(colorScheme)) {
-      return
-    }
-
-    setIcon(mode === 'light' ? LogoLight : LogoDark)
-  }, [mode, colorScheme])
-
-  return <SvgIcon component={icon} inheritViewBox {...props} />
+  return <Box component="img" src={src} alt="" sx={{ width: '1em', height: '1em', ...sx }} {...other} />
 }

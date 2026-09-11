@@ -4,7 +4,7 @@ const DebugBreakpoints = lazy(() => import('./DebugBreakpoints.jsx'))
 const ModeSwitcher = lazy(() => import('./ModeSwitcher.jsx'))
 
 export default function Dev({ sx }) {
-  const dev = process.env.NODE_ENV === 'development'
+  const dev = import.meta.env.DEV
 
   return dev ? (
     <>

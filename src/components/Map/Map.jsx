@@ -16,8 +16,8 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import useCurrentRoute from '@/hooks/useCurrentRoute.jsx'
 import { paneWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, markerConfig } from '@/config/map.js'
-import PinIcon from '@/images/map/pin.svg'
-import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg'
+import PinIcon from '@/images/map/pin.svg?react'
+import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -346,7 +346,7 @@ export default function OCMap() {
             height: '100%',
           }}
         >
-          <Map ref={mapRef} {...mapProps} initialViewState={initialViewState} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialViewState} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
               // trackUserLocation={true}
@@ -390,7 +390,13 @@ export default function OCMap() {
                 return (
                   <Marker key={`m-${cave.id}`} longitude={cave.location.longitude} latitude={cave.location.latitude} anchor="center" onClick={(event) => onMarkerClick(event, cave)}>
                     <UnstyledLink to={`/map/${cave.id}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
-                      <SvgIcon component={pinIcon} inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} />
+                      <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor}>
+                        {pinIcon &&
+                          (() => {
+                            const Pin = pinIcon
+                            return <Pin />
+                          })()}
+                      </SvgIcon>
                       {markerLabel && markerLabel}
                     </UnstyledLink>
                   </Marker>

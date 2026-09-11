@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { Section, SectionActions, SectionFields, SectionForm } from './Section.jsx'
@@ -15,7 +15,7 @@ import { passwordMinLength } from '@/config/auth.js'
 export default function LogInWithEmail() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const continueUrl = useSelector(state => state.session.continueUrl)
+  const continueUrl = useSelector((state) => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'loginWithEmail' })
   const { t: tErrors } = useTranslation('errors')
 
@@ -43,7 +43,6 @@ export default function LogInWithEmail() {
   }
 
   useEffect(() => {
-
     if (emailInputValid) {
       setAuthErrorText('')
     }
@@ -66,7 +65,6 @@ export default function LogInWithEmail() {
   }
 
   async function login() {
-
     try {
       await signInWithEmailAndPassword(auth, email, password)
       navigateToContinueUrl()
@@ -81,7 +79,6 @@ export default function LogInWithEmail() {
         setEmailError(true)
       }
 
-
       if (error.code.indexOf('password') > -1) {
         setPasswordError(true)
       }
@@ -92,58 +89,18 @@ export default function LogInWithEmail() {
     <Section>
       <SectionForm>
         <SectionFields>
-          <TextInput
-            ref={emailInputRef}
-            label={t('emailLabel')}
-            type='email'
-            name='email'
-            required
-            inputMode='email'
-            autoComplete='email'
-            variant='outlined'
-            value={email}
-            error={emailError}
-            onChange={e => setEmail(e.target.value)}
-            onKeyUp={onEmailInputKeyUp}
-            onValidityChange={onEmailInputValidityChange}
-          />
-          <Grid
-            container
-            direction='column'
-          >
-            <TextInput
-              id="pwd"
-              ref={passwordInputRef}
-              label={t('passwordLabel')}
-              type='password'
-              name='password'
-              required
-              variant='outlined'
-              value={password}
-              error={passwordError}
-              minLength={passwordMinLength}
-              onChange={e => setPassword(e.target.value)}
-              onKeyUp={onPasswordInputKeyUp}
-              onValidityChange={validity => setPasswordInputValid(validity.valid)}
-            />
-            <Typography
-              component={Link}
-              to='/password-recovery'
-              fontSize='small'
-              display='block'
-              textAlign='right'
-              mt={0.75}
-            >{t('forgotPassword')}</Typography>
+          <TextInput ref={emailInputRef} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" variant="outlined" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />
+          <Grid container direction="column">
+            <TextInput id="pwd" ref={passwordInputRef} label={t('passwordLabel')} type="password" name="password" required variant="outlined" value={password} error={passwordError} minLength={passwordMinLength} onChange={(e) => setPassword(e.target.value)} onKeyUp={onPasswordInputKeyUp} onValidityChange={(validity) => setPasswordInputValid(validity.valid)} />
+            <Typography component={Link} to="/password-recovery" fontSize="small" display="block" textAlign="right" mt={0.75}>
+              {t('forgotPassword')}
+            </Typography>
           </Grid>
-
         </SectionFields>
 
-        <Typography
-          fontSize='small'
-          display='block'
-          textAlign='center'
-          color='error'
-        >{authErrorText}</Typography>
+        <Typography fontSize="small" display="block" textAlign="center" color="error">
+          {authErrorText}
+        </Typography>
 
         <SectionActions>
           <AuthButton
@@ -152,7 +109,6 @@ export default function LogInWithEmail() {
           >
             {t('loginBtn.label')}
           </AuthButton>
-
         </SectionActions>
       </SectionForm>
     </Section>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Button, Drawer, styled, useTheme } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Grid } from '@mui/material'
 import { MenuRounded } from '@mui/icons-material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
@@ -21,7 +21,6 @@ export default function AppBar(props) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
-  console.log('theme: %o', theme)
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
@@ -32,13 +31,13 @@ export default function AppBar(props) {
     whiteSpace: 'nowrap',
     borderColor: 'rgba(255 255 255 / 0.5)',
     ':hover': {
-      borderColor: '#fff'
-    }
+      borderColor: '#fff',
+    },
   })
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant='h6' sx={{ my: 2 }} noWrap>
+      <Typography variant="h6" sx={{ my: 2 }} noWrap>
         {appTitle}
       </Typography>
       <Divider />
@@ -58,39 +57,29 @@ export default function AppBar(props) {
 
   return (
     <>
-      <MUIAppBar component='nav'>
+      <MUIAppBar component="nav">
         <Toolbar>
-          {
-            isSmall && (
-              <IconButton
-                color='inherit'
-                aria-label={t('drawer.ariaLabel')}
-                edge='start'
-                onClick={handleDrawerToggle}
-                sx={{ mr: { xs: 1, sm: 2 } }}
-              >
-                <MenuRounded />
-              </IconButton>
-            )
-          }
+          {isSmall && (
+            <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} edge="start" onClick={handleDrawerToggle} sx={{ mr: { xs: 1, sm: 2 } }}>
+              <MenuRounded />
+            </IconButton>
+          )}
 
-          <Link
-            to='/'
-          >
-            <LogoIcon colorScheme='dark' sx={{ mr: 1 }} />
+          <Link to="/">
+            <LogoIcon colorScheme="dark" sx={{ mr: 1 }} />
           </Link>
 
           <StyledButton
-            variant='text'
+            variant="text"
             component={Link}
-            to='/'
+            to="/"
             sx={{
               mr: 2,
-              p: 0
+              p: 0,
             }}
           >
             <Typography
-              variant='h6'
+              variant="h6"
               noWrap
               sx={{
                 color: 'inherit',
@@ -101,15 +90,9 @@ export default function AppBar(props) {
             </Typography>
           </StyledButton>
 
-          <Grid
-            container
-            xs
-            flexWrap='nowrap'
-          >
+          <Grid container size="grow" sx={{ flexWrap: 'nowrap' }}>
             {!isSmall && (
-              <Grid
-                sx={{ mr: 1 }}
-              >
+              <Grid sx={{ mr: 1 }}>
                 {navItems.map(({ key, to }) => (
                   <Button key={key} component={Link} to={to} sx={{ color: '#fff' }}>
                     {t(`${key}`, { name: appName })}
@@ -119,50 +102,40 @@ export default function AppBar(props) {
             )}
             <Grid
               container
-              flexWrap='nowrap'
               sx={{
+                flexWrap: 'nowrap',
                 flexGrow: 1,
-                justifyContent: 'flex-end'
-              }}>
-              <StyledButton
-                variant='text'
-                component={Link}
-                to='/login'
-              >
+                justifyContent: 'flex-end',
+              }}
+            >
+              <StyledButton variant="text" component={Link} to="/login">
                 {t('login')}
               </StyledButton>
-              <StyledButton
-                variant='outlined'
-                component={Link}
-                to='/signup'
-              >
+              <StyledButton variant="outlined" component={Link} to="/signup">
                 {t('signup')}
               </StyledButton>
             </Grid>
           </Grid>
-
         </Toolbar>
       </MUIAppBar>
-      {
-        isSmall && (
-          <nav>
-            <Drawer
-              container={container}
-              variant='temporary'
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: isSmall, // Better open performance on mobile.
-              }}
-              sx={{
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </nav>
-        )
-      }
+      {isSmall && (
+        <nav>
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: isSmall, // Better open performance on mobile.
+            }}
+            sx={{
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </nav>
+      )}
       <Toolbar />
     </>
   )
