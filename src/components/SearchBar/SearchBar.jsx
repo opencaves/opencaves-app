@@ -16,11 +16,7 @@ import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.jsx'
 import Snippet from './Snippet.jsx'
 import './SearchBar.scss'
 
-const SearchIcon = () => (
-  <Box component="span" aria-hidden="true">
-    <Search />
-  </Box>
-)
+const SearchIcon = () => <Search aria-hidden="true" />
 const ArrowBackIcon = () => (
   <Box component="span" aria-hidden="true">
     <ArrowBack />
@@ -31,11 +27,7 @@ const ClearIcon = () => (
     <Clear />
   </Box>
 )
-const TuneIcon = () => (
-  <Box component="span" aria-hidden="true">
-    <Tune />
-  </Box>
-)
+const TuneIcon = () => <Tune aria-hidden="true" />
 const LocationOnOutlinedIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
     <LocationOnOutlined />
@@ -348,7 +340,15 @@ export default function SearchBar() {
           }}
         >
           <Grid container sx={{ alignItems: 'stretch' }}>
-            <Grid width="48px" height="48px" position="relative" overflow="hidden" className="oc-search-bar--actions">
+            <Grid
+              sx={{
+                width: '48px',
+                height: '48px',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+              className="oc-search-bar--actions"
+            >
               <Fade in={!backBtnOn}>
                 <ActionButton disableRipple aria-label={t('actionButton.search.ariaLabel')}>
                   <SearchIcon />

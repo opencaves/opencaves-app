@@ -19,28 +19,31 @@ export default function MapPage() {
         <SearchBar />
         <Map />
         <FilterMenu />
-        {
-          isLarge && (
-            <AppMenu
-              sx={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                width: '48px',
-                height: '48px',
-                p: 0,
-                '> .MuiSvgIcon-root': {
-                  fontSize: '32px'
-                }
-              }}
-            />
-          )
-        }
+        {isLarge && (
+          <AppMenu
+            logoColorScheme="light"
+            logoSx={{
+              width: '28px',
+              height: '28px',
+            }}
+            sx={{
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
+              width: '40px',
+              height: '40px',
+              p: 0,
+              '> .MuiSvgIcon-root': {
+                fontSize: '32px',
+              },
+            }}
+          />
+        )}
         <Outlet />
         <Dev
           sx={{
             '--oc-mode-switcher-right': isLarge ? 'calc(40px + 2rem)' : '.5rem',
-            '--oc-mode-switcher-top': isLarge ? '1rem' : 'calc(48px + 1rem)'
+            '--oc-mode-switcher-top': isLarge ? '1rem' : 'calc(48px + 1rem)',
           }}
         />
       </AddMediasProvider>

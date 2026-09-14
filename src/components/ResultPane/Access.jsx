@@ -50,11 +50,7 @@ export default function Access({ cave }) {
     }
 
     const Icon = icon
-    return (
-      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${access.name}.label`, { ns: 'accesses' })} color="primary" className="oc-icon">
-        <Icon />
-      </SvgIcon>
-    )
+    return <Icon aria-label={t(`${access.name}.label`, { ns: 'accesses' })} className="oc-icon" />
   }
 
   function getAccessibilityIcon() {
@@ -84,20 +80,12 @@ export default function Access({ cave }) {
     }
 
     const Icon = icon
-    return (
-      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} color="primary" className="oc-icon">
-        <Icon />
-      </SvgIcon>
-    )
+    return <Icon aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} className="oc-icon" />
   }
 
   function getFeesIcon() {
     const Icon = cave.fees ? FeesYesIcon : FeesNoIcon
-    return (
-      <SvgIcon fontSize="large" inheritViewBox aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} color="primary" className="oc-icon">
-        <Icon />
-      </SvgIcon>
-    )
+    return <Icon aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} className="oc-icon" />
   }
 
   function getFeesLabel() {
@@ -130,7 +118,7 @@ export default function Access({ cave }) {
         <Grid container spacing={0} size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
           <div className="oc-access--grid">
             <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Grid container direction="column" spacing={1}>
+              <Grid container direction="column" spacing={1} sx={{ alignItems: 'center' }}>
                 <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
                   {getAccessIcon()}
                 </Grid>
@@ -142,7 +130,7 @@ export default function Access({ cave }) {
             {cave.accessibility && (
               <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
+                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                     {getAccessibilityIcon()}
                   </Grid>
                   <Grid size="auto">
@@ -154,7 +142,7 @@ export default function Access({ cave }) {
             {Reflect.has(cave, 'fees') && cave.fees && (
               <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
+                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
                     {getFeesIcon()}
                   </Grid>
                   <Grid size="auto">

@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
-import { Scrollbars } from 'react-custom-scrollbars-2'
+import { Scrollbars } from 'react-custom-scrollbars-3'
 import waitFor from 'p-wait-for'
 import { Box, Card, CardContent, IconButton } from '@mui/material'
 import { Grid } from '@mui/material'

@@ -16,7 +16,7 @@ import useSession from '@/hooks/useSession.jsx'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { appName } from '@/config/app.js'
 
-export default function AppMenu({ sx, ...props }) {
+export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
   const dispatch = useDispatch()
   const hasSession = useSession()
   const user = useSelector((state) => state.session.user)
@@ -86,7 +86,7 @@ export default function AppMenu({ sx, ...props }) {
               }}
             />
           ) : (
-            <LogoIcon />
+            <LogoIcon colorScheme={logoColorScheme} sx={logoSx} />
           )}
         </Button>
       </Tooltip>

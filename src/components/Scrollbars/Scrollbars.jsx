@@ -1,17 +1,11 @@
 import { forwardRef } from 'react'
 import { useTheme } from '@mui/material'
-import Scrollbars2 from 'react-custom-scrollbars-2'
+import Scrollbars3 from 'react-custom-scrollbars-3'
 import { scrollbarTrackHeight } from '@/config/app.js'
 import './Scrollbars.scss'
 
 const DefaultThumb = forwardRef(function DefaultThumb(props, ref) {
-
-  return (
-    <div
-      ref={ref}
-      {...props}
-    />
-  )
+  return <div ref={ref} {...props} />
 })
 
 const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ style, trackHorizontalProps = {}, ...otherProps }, ref) {
@@ -21,7 +15,7 @@ const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ styl
     <div
       ref={ref}
       {...trackHorizontalOtherProps}
-      className='oc-scrollbar--track oc-scrollbar--track-horizontal'
+      className="oc-scrollbar--track oc-scrollbar--track-horizontal"
       style={{
         ...style,
         height: scrollbarTrackHeight,
@@ -29,7 +23,7 @@ const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ styl
         bottom: 2,
         left: 8,
         borderRadius: scrollbarTrackHeight / 2,
-        ...trackHorizontalStyle
+        ...trackHorizontalStyle,
       }}
       {...otherProps}
     />
@@ -43,7 +37,7 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
     <div
       ref={ref}
       {...trackVerticalOtherProps}
-      className='oc-scrollbar--track oc-scrollbar--track-vertical'
+      className="oc-scrollbar--track oc-scrollbar--track-vertical"
       style={{
         ...style,
         width: scrollbarTrackHeight,
@@ -51,7 +45,7 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
         bottom: 8,
         top: 8,
         borderRadius: scrollbarTrackHeight / 2,
-        ...trackVerticalStyle
+        ...trackVerticalStyle,
       }}
       {...otherProps}
     />
@@ -62,51 +56,35 @@ const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, t
   const { palette } = useTheme()
 
   function renderThumb({ style, ...props }) {
-
     return (
       <DefaultThumb
         style={{
           ...style,
           backgroundColor: palette.Scrollbar.bg,
           borderRadius: 'inherit',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
         {...props}
       />
     )
   }
 
-  const renderTrackHorizontal = props.renderTrackHorizontal || (({ style, ...props }) => {
-
-    return (
-      <DefaultTrackHorizontal
-        style={style}
-        trackHorizontalProps={trackHorizontalProps}
-        {...props}
-      />
-    )
-  })
+  const renderTrackHorizontal =
+    props.renderTrackHorizontal ||
+    (({ style, ...props }) => {
+      return <DefaultTrackHorizontal style={style} trackHorizontalProps={trackHorizontalProps} {...props} />
+    })
 
   const TrackVertical = forwardRef(function TrackVertical(props, ref) {
-    return (
-      <DefaultTrackVertical ref={ref} {...props} />
-    )
+    return <DefaultTrackVertical ref={ref} {...props} />
   })
 
   const renderTrackVertical = props.renderTrackVertical || TrackVertical.render
 
   return (
-    <Scrollbars2
-      ref={ref}
-      {...props}
-      className={`oc-scrollbar${autoHide ? ' oc-scrollbar--autohide' : ''}`}
-      autoHide={false}
-      renderTrackHorizontal={renderTrackHorizontal}
-      renderTrackVertical={renderTrackVertical}
-      renderThumbVertical={renderThumb}
-    >
+    <Scrollbars3 ref={ref} {...props} className={`oc-scrollbar${autoHide ? ' oc-scrollbar--autohide' : ''}`} autoHide={false} renderTrackHorizontal={renderTrackHorizontal} renderTrackVertical={renderTrackVertical} renderThumbVertical={renderThumb}>
       {children}
-    </Scrollbars2 >
+    </Scrollbars3>
   )
 })
 

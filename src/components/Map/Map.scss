@@ -26,15 +26,18 @@
   }
 
   button {
-    box-shadow: var(--md-shadows-6);
-    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: var(--oc-map-control-shadow);
+    transition:
+      background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     border: 0;
 
     &:not(:disabled) {
-      background-color: var(--md-palette-grey-300);
+      background-color: var(--oc-map-control-background);
     }
     &:not(:disabled):hover {
-      background-color: var(--md-palette-background-paper);
+      background-color: var(--oc-map-control-hover-background);
     }
 
     &.mapboxgl-ctrl-geolocate {
@@ -44,13 +47,26 @@
 
       .mapboxgl-ctrl-icon {
         background-size: 55%;
+        background-color: var(--mui-palette-primary-main);
+        background-repeat: no-repeat;
+        background-position: center;
+        mask-size: 55%;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-image: url('../../images/map/crosshair.dark.svg');
+        -webkit-mask-size: 55%;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-image: url('../../images/map/crosshair.dark.svg');
 
         [data-mui-color-scheme='light'] & {
-          background-image: url('../../images/map/crosshair.dark.svg');
+          mask-image: url('../../images/map/crosshair.dark.svg');
+          -webkit-mask-image: url('../../images/map/crosshair.dark.svg');
         }
 
         [data-mui-color-scheme='dark'] & {
-          background-image: url('../../images/map/crosshair.light.svg');
+          mask-image: url('../../images/map/crosshair.light.svg');
+          -webkit-mask-image: url('../../images/map/crosshair.light.svg');
         }
       }
 
