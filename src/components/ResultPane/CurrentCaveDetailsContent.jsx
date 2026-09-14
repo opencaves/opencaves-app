@@ -8,7 +8,6 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import useRoles from '@/hooks/useRoles.jsx'
 import { getOS } from '@/utils/getOS.jsx'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
@@ -19,7 +18,7 @@ import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
 function SlideUp(props) {
-  return <Slide {...props} direction='up' />
+  return <Slide {...props} direction="up" />
 }
 
 export default function CurrentCaveDetailsContent({ cave }) {
@@ -27,7 +26,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
   const { mediaCount } = useLoaderData()
 
   const isSmall = useSmall()
-  const isEditor = useRoles('editor')
 
   const [snackbarMessage, setSnackbarMessage] = useState()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -43,17 +41,15 @@ export default function CurrentCaveDetailsContent({ cave }) {
   let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
 
   if (cave.location) {
-
     address = <Address longitude={cave.location.longitude} latitude={cave.location.latitude} />
     addressText = `${cave.location.latitude}, ${cave.location.longitude}`
     coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}${cave.location.validity === 'unknown' ? ` (${t('coordinateValidityUnknown')})` : ``}`
     coordinatesTextCopy = `${cave.location.latitude}, ${cave.location.longitude}`
     hasAddressOrCoordinates = true
-
   }
 
   if (cave.keys) {
-    keysTexts = cave.keys.map(key => `${key.latitude}, ${key.longitude}`)
+    keysTexts = cave.keys.map((key) => `${key.latitude}, ${key.longitude}`)
   }
 
   if (cave.entrance) {
@@ -125,216 +121,200 @@ export default function CurrentCaveDetailsContent({ cave }) {
   }
 
   return (
-    <Box className='oc-result-pane--content'>
-
+    <Box className="oc-result-pane--content">
       <QuickActions cave={cave}></QuickActions>
 
       <Divider />
 
-      {mediaCount > 0 && (
-        <>
+      <>
+        <Box my="var(--oc-pane-padding-block)">
+          {mediaCount > 0 && <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />}
+
           <Box
-            my='var(--oc-pane-padding-block)'
+            // my='var(--oc-pane-padding-block)'
+            textAlign="center"
+            sx={{
+              paddingBlockStart: 'var(--oc-pane-padding-block)',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
           >
-
-            <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />
-
-            {isEditor && (
-              <Box
-                // my='var(--oc-pane-padding-block)'
-                textAlign='center'
-                sx={{
-                  paddingBlockStart: 'var(--oc-pane-padding-block)'
-                }}
-              >
-                <AddMediasButton
-                  color='inherit'
-                  variant='outlined'
-                  size='small'
-                  startIcon={<AddAPhotoOutlined color='primary' />}
-                />
-              </Box>
-            )}
+            <AddMediasButton color="inherit" variant="outlined" size="small" startIcon={<AddAPhotoOutlined color="primary" />} />
           </Box>
+        </Box>
 
-          <Divider sx={{ mt: !isEditor ?? 'var(--oc-pane-padding-block)' }} />
-        </>
-      )}
+        <Divider sx={{ mt: 'var(--oc-pane-padding-block)' }} />
+      </>
 
-      <List dense className='oc-results-copy-list'>
-
-        {
-
-          hasAddressOrCoordinates &&
-
+      <List dense className="oc-results-copy-list">
+        {hasAddressOrCoordinates && (
           <>
-            {
-              address && (
-                <CopyToClipboard text={addressText} placement='bottom-end' onCopy={handleAddressCopy}>
-                  <ListItem disablePadding>
-                    <ConditionalWrapper
-                      condition={!isSmall}
-                      wrapper={children =>
-                        <Tooltip title={t('copyAddress')} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>{children}</Tooltip>}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <LocationOnOutlined color='primary' />
-                        </ListItemIcon>
-                        <ListItemText primary={address} />
-                        <ListItemIcon className='oc-icon-copy-container'>
-                          <ContentCopy className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                        </ListItemIcon>
-                      </ListItemButton>
-                    </ConditionalWrapper>
-                  </ListItem>
-                </CopyToClipboard>
-              )
-            }
+            {address && (
+              <CopyToClipboard text={addressText} placement="bottom-end" onCopy={handleAddressCopy}>
+                <ListItem disablePadding>
+                  <ConditionalWrapper
+                    condition={!isSmall}
+                    wrapper={(children) => (
+                      <Tooltip title={t('copyAddress')} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+                        {children}
+                      </Tooltip>
+                    )}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <LocationOnOutlined color="primary" />
+                      </ListItemIcon>
+                      <ListItemText primary={address} />
+                      <ListItemIcon className="oc-icon-copy-container">
+                        <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </ConditionalWrapper>
+                </ListItem>
+              </CopyToClipboard>
+            )}
 
-            {
-              coordinatesText && (
-                <CopyToClipboard text={coordinatesTextCopy} placement='bottom-end' onCopy={handleCoordinatesCopy}>
-                  <ListItem disablePadding>
-                    <ConditionalWrapper
-                      condition={!isSmall}
-                      wrapper={children => <Tooltip title={t('copyCoordinates')} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>{children}</Tooltip>}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <MyLocationOutlined color='primary' />
-                        </ListItemIcon>
-                        <ListItemText primary={coordinatesText} />
-                        <ListItemIcon className='oc-icon-copy-container'>
-                          <ContentCopy className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                        </ListItemIcon>
-                      </ListItemButton>
-
-                    </ConditionalWrapper>
-                  </ListItem>
-                </CopyToClipboard>
-              )
-            }
+            {coordinatesText && (
+              <CopyToClipboard text={coordinatesTextCopy} placement="bottom-end" onCopy={handleCoordinatesCopy}>
+                <ListItem disablePadding>
+                  <ConditionalWrapper
+                    condition={!isSmall}
+                    wrapper={(children) => (
+                      <Tooltip title={t('copyCoordinates')} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
+                        {children}
+                      </Tooltip>
+                    )}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <MyLocationOutlined color="primary" />
+                      </ListItemIcon>
+                      <ListItemText primary={coordinatesText} />
+                      <ListItemIcon className="oc-icon-copy-container">
+                        <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </ConditionalWrapper>
+                </ListItem>
+              </CopyToClipboard>
+            )}
           </>
-        }
+        )}
 
-        {
+        {!hasAddressOrCoordinates && (
+          <ListItem disablePadding>
+            <ListItemButton disabled>
+              <ListItemIcon>
+                <LocationDisabledOutlined color="primary" />
+              </ListItemIcon>
+              <ListItemText primary={t('locationNotAvailable')} />
+            </ListItemButton>
+          </ListItem>
+        )}
 
-          !hasAddressOrCoordinates && (
-            <ListItem disablePadding>
-              <ListItemButton disabled>
-                <ListItemIcon>
-                  <LocationDisabledOutlined color='primary' />
-                </ListItemIcon>
-                <ListItemText primary={t('locationNotAvailable')} />
-              </ListItemButton>
-            </ListItem>
-          )
-        }
-
-        {
-          keysTexts && keysTexts.map(keyText =>
-            <CopyToClipboard key={keyText} text={keyText} placement='bottom-end' onCopy={handleKeyCoordinatesCopy}>
+        {keysTexts &&
+          keysTexts.map((keyText) => (
+            <CopyToClipboard key={keyText} text={keyText} placement="bottom-end" onCopy={handleKeyCoordinatesCopy}>
               <ListItem disablePadding>
                 <ConditionalWrapper
                   condition={!isSmall}
-                  wrapper={children => <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>{children}</Tooltip>}
+                  wrapper={(children) => (
+                    <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
+                      {children}
+                    </Tooltip>
+                  )}
                 >
                   <ListItemButton>
                     <ListItemIcon>
-                      <KeyRounded color='primary' />
+                      <KeyRounded color="primary" />
                     </ListItemIcon>
                     <ListItemText primary={keyText} />
-                    <ListItemIcon className='oc-icon-copy-container'>
-                      <ContentCopy className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
+                    <ListItemIcon className="oc-icon-copy-container">
+                      <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
                     </ListItemIcon>
                   </ListItemButton>
                 </ConditionalWrapper>
               </ListItem>
             </CopyToClipboard>
-          )
-        }
+          ))}
 
-        {
-          entranceText && (
-            <CopyToClipboard text={entranceText} placement='bottom-end' onCopy={handleEntranceCopy}>
-              <ListItem disablePadding>
-                <ConditionalWrapper
-                  condition={!isSmall}
-                  wrapper={children => <Tooltip title={t('copyEntranceCoordinates')} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>{children}</Tooltip>}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <FenceRounded color='primary' />
-                    </ListItemIcon>
-                    <ListItemText primary={entranceText} />
-                    <ListItemIcon className='oc-icon-copy-container'>
-                      <ContentCopy className='oc-icon-copy' style={{ fontSize: '1.125rem' }} />
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ConditionalWrapper>
-              </ListItem>
-            </CopyToClipboard>
-          )
-        }
-
+        {entranceText && (
+          <CopyToClipboard text={entranceText} placement="bottom-end" onCopy={handleEntranceCopy}>
+            <ListItem disablePadding>
+              <ConditionalWrapper
+                condition={!isSmall}
+                wrapper={(children) => (
+                  <Tooltip title={t('copyEntranceCoordinates')} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
+                    {children}
+                  </Tooltip>
+                )}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <FenceRounded color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary={entranceText} />
+                  <ListItemIcon className="oc-icon-copy-container">
+                    <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
+                  </ListItemIcon>
+                </ListItemButton>
+              </ConditionalWrapper>
+            </ListItem>
+          </CopyToClipboard>
+        )}
       </List>
 
-      {
-        cave.sistemas && cave.sistemas.length > 0 && <>
+      {cave.sistemas && cave.sistemas.length > 0 && (
+        <>
           <Divider />
           <SistemaHistory sistemaHistory={cave.sistemas} />
         </>
-      }
+      )}
 
       <Divider />
 
       <Access cave={cave} />
 
-      {
-        cave.description && <>
+      {cave.description && (
+        <>
           <Divider />
-          <div className='details-container details-text'>
+          <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
           </div>
         </>
-      }
+      )}
 
-      {
-        cave.direction && <>
+      {cave.direction && (
+        <>
           <Divider />
-          <div className='details-container'>
-            <h2 className='h2'>{t('directionsHeader')}</h2>
+          <div className="details-container">
+            <h2 className="h2">{t('directionsHeader')}</h2>
           </div>
-          <div className='details-container details-text'>
+          <div className="details-container details-text">
             <Markdown>{cave.direction}</Markdown>
           </div>
         </>
-      }
+      )}
 
-      {
-        !isAndroid && (
-          <Portal>
-            <Snackbar
-              autoHideDuration={snackbarDefaultAutoHideDuration}
-              message={snackbarMessage}
-              open={snackbarOpen}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-              action={
-                <IconButton
-                  size='small'
-                  color='inherit'
-                  onClick={handleSnackbarClose}
-                >
-                  <Close />
-                </IconButton>
-              }
-              TransitionComponent={SlideUp}
-              onClose={() => { setSnackbarOpen(false) }}
-            />
-          </Portal>
-        )
-      }
+      {!isAndroid && (
+        <Portal>
+          <Snackbar
+            autoHideDuration={snackbarDefaultAutoHideDuration}
+            message={snackbarMessage}
+            open={snackbarOpen}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            action={
+              <IconButton size="small" color="inherit" onClick={handleSnackbarClose}>
+                <Close />
+              </IconButton>
+            }
+            TransitionComponent={SlideUp}
+            onClose={() => {
+              setSnackbarOpen(false)
+            }}
+          />
+        </Portal>
+      )}
     </Box>
   )
 }

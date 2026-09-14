@@ -7,9 +7,7 @@ import { useAddMedias } from '@/components/AddMedias/useAddMedias.jsx'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
 import Tooltip from '@/components/Tooltip.jsx'
 import Picture from '@/components/Picture.jsx'
-import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { getCoverImage, useCoverImage } from '@/models/CaveAsset.js'
-import useRoles from '@/hooks/useRoles.jsx'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 
 export async function loadCoverImage(caveId) {
@@ -18,7 +16,6 @@ export async function loadCoverImage(caveId) {
 
 export default function CoverImage({ caveId, width, height }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
-  const isEditor = useRoles('editor')
   const [sources, setSources] = useState(null)
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
@@ -74,24 +71,17 @@ export default function CoverImage({ caveId, width, height }) {
   if (!hasCoverImage) {
     return (
       <Container>
-        <ConditionalWrapper
-          condition={isEditor}
-          wrapper={(children) => (
-            <Tooltip title={t('addImages.tooltip')}>
-              <ButtonBase onClick={promptForMedias}>{children}</ButtonBase>
-            </Tooltip>
-          )}
-        >
-          <Picture
-            src={defaultMediaCardImage}
-            alt=""
-            style={{
-              width,
-              height,
-              objectFit: 'cover',
-            }}
-          />
-          {isEditor && (
+        <Tooltip title={t('addImages.tooltip')}>
+          <ButtonBase onClick={promptForMedias}>
+            <Picture
+              src={defaultMediaCardImage}
+              alt=""
+              style={{
+                width,
+                height,
+                objectFit: 'cover',
+              }}
+            />
             <AddPhotoAlternateRounded
               sx={{
                 position: 'absolute',
@@ -103,8 +93,8 @@ export default function CoverImage({ caveId, width, height }) {
                 transition: 'all var(--md-transition-duration-shortest) ease-in-out',
               }}
             />
-          )}
-        </ConditionalWrapper>
+          </ButtonBase>
+        </Tooltip>
       </Container>
     )
   }
