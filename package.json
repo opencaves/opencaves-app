@@ -12,7 +12,7 @@
     "deploy:beta": "firebase hosting:channel:deploy beta"
   },
   "engines": {
-    "node": ">= 18.16.0"
+    "node": ">= 20"
   },
   "eslintConfig": {
     "extends": [
