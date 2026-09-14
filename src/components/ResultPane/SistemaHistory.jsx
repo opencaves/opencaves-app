@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Accordion, AccordionDetails, AccordionSummary, Box, SvgIcon, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
@@ -24,9 +24,7 @@ export default function Sistema({ sistemaHistory }) {
                 display: 'inline-flex',
               }}
             >
-              <SvgIcon inheritViewBox htmlColor={currentSistema.color ?? SISTEMA_DEFAULT_COLOR}>
-                <CaveSystemIcon />
-              </SvgIcon>
+              <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
             </Box>
             <Typography variant="caveDetailsItemText" component="div">
               {t2('sistema', { system: currentSistema.name })}
@@ -70,9 +68,7 @@ export default function Sistema({ sistemaHistory }) {
     >
       <Grid size="auto">
         <Box sx={{ minWidth: 'var(--oc-details-icon-min-width)' }}>
-          <SvgIcon inheritViewBox slot="start" className="cave-system-icon" htmlColor={currentSistema.color ?? 'red'}>
-            <CaveSystemIcon />
-          </SvgIcon>
+          <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
         </Box>
       </Grid>
       <Grid size="grow">
