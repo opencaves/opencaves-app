@@ -132,11 +132,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
           <Box
             // my='var(--oc-pane-padding-block)'
-            textAlign="center"
             sx={{
               paddingBlockStart: 'var(--oc-pane-padding-block)',
               display: 'flex',
               justifyContent: 'center',
+              textAlign: 'center',
             }}
           >
             <AddMediasButton color="inherit" variant="outlined" size="small" startIcon={<AddAPhotoOutlined color="primary" />} />

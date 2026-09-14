@@ -140,10 +140,14 @@ export default function OCMap() {
     doSetActiveMarkerElem(markerElem)
   }
 
-  function getCenterLngLat(lng, lat) {
+  function getCenterLngLat(lng, lat, offsetForPane = true) {
     console.log('[getCenterLngLat] %s, %s', lng, lat)
     try {
       const map = mapRef.current
+      if (!offsetForPane) {
+        return new LngLat(lng, lat)
+      }
+
       const currentPoint = map.project([lng, lat])
       let centerPoint
 
@@ -170,10 +174,10 @@ export default function OCMap() {
     }
   }
 
-  function flyToMarker({ animate = true, zoomTo = false } = {}) {
+  function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true } = {}) {
     console.log('[flyToMarker] animate: %o', animate)
-    if (currentCave && currentCave.location) {
-      const { longitude: lng, latitude: lat } = currentCave.location
+    if (cave && cave.location) {
+      const { longitude: lng, latitude: lat } = cave.location
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
         const markerLngLat = marker.getLngLat()
         return markerLngLat.lng === lng && markerLngLat.lat === lat
@@ -183,12 +187,15 @@ export default function OCMap() {
         setActiveMarkerElem(currentMarker.getElement(), true)
       }
 
-      const center = getCenterLngLat(lng, lat)
+      const center = getCenterLngLat(lng, lat, offsetForPane)
       const fn = animate ? 'flyTo' : 'jumpTo'
 
       mapRef.current?.[fn]({
         center,
         zoom: currentZoomLevel,
+        ...(animate && {
+          duration: theme.oc.sys.motion.duration.emphasized,
+        }),
       })
     }
   }
@@ -291,13 +298,9 @@ export default function OCMap() {
       return
     }
 
-    if (caveData) {
-      const initialCave = caveData
-      console.log('ici: ', caveData)
-
-      // setCurrentCave(currentCave)
-
-      // setHasInitialGoToMarker(true)
+    const routeCave = caveData.find((cave) => cave.id === caveId)
+    if (routeCave) {
+      setCurrentCave(routeCave)
     }
 
     // if (currentCave) {
@@ -319,7 +322,19 @@ export default function OCMap() {
     // }
 
     setMapReady(true)
-  }, [caveData, currentCave])
+  }, [caveData, caveId])
+
+  useEffect(() => {
+    if (!mapLoaded || !caveId) {
+      return
+    }
+
+    const routeCave = caveData.find((cave) => cave.id === caveId)
+    if (routeCave?.location) {
+      flyToMarker({ animate: true, cave: routeCave, offsetForPane: false })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapLoaded, caveId, caveData, currentZoomLevel])
 
   useEffect(() => {
     if (mapReady && hasInitialGoToMarker && activeMarkerElem) {
