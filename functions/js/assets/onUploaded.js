@@ -25,7 +25,7 @@ export const onAssetUploaded = onObjectFinalized(async event => {
     logger.log('[onAssetUploaded] filePath: %s', filePath)
     logger.log('[onAssetUploaded] data: %o', data)
 
-    await bucket.file(filePath).setMetadata({ metadata: { assetData: null } })
+    await bucket.file(filePath).setMetadata({ metadata: { originalName: null, userId: null } })
 
     logger.log('[onAssetUploaded] setMetadata done')
 
@@ -34,11 +34,29 @@ export const onAssetUploaded = onObjectFinalized(async event => {
       return
     }
 
-    if (metadata.assetData) {
+    // caves/{caveId}/{type}s/{assetId} - identity comes from the upload path, not client-supplied metadata.
+    const [, caveId, typePlural, assetId] = filePath.split('/')
+
+    if (caveId && typePlural && assetId) {
 
       logger.log('[onAssetUploaded] Detected an asset upload')
 
-      const assetData = JSON.parse(metadata.assetData)
+      const assetData = {
+        id: assetId,
+        caveId,
+        type: typePlural.endsWith('s') ? typePlural.slice(0, -1) : typePlural,
+        isCover: false,
+        mediaType: data.contentType,
+        fullPath: filePath,
+      }
+
+      if (metadata?.originalName) {
+        assetData.originalName = metadata.originalName
+      }
+
+      if (metadata?.userId) {
+        assetData.userId = metadata.userId
+      }
 
       logger.log('[onAssetUploaded] Generating resized images')
 

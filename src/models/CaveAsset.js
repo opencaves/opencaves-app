@@ -210,9 +210,20 @@ export default class CaveAsset {
       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
       self.mediaType = file.type
 
+      // caveId/type/id are re-derived server-side from the storage path, which
+      // can't be spoofed independently of where the object actually lands.
+      // Only userId needs a Storage rule check, so keep the metadata flat and minimal.
+      const customMetadata = {
+        originalName: self.originalName,
+      }
+
+      if (self.userId) {
+        customMetadata.userId = self.userId
+      }
+
       const fileRef = ref(storage, self.fullPath)
       console.log('fileRef: %o', fileRef)
-      const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata: { assetData: self } })
+      const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata })
       uploadTask.on(
         'state_changed',
         snap => {
