@@ -1,9 +1,12 @@
 import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import PasswordStrengthBar from 'react-password-strength-bar'
+import * as PasswordStrengthBarModule from 'react-password-strength-bar'
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
 import { Grid } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+
+// Vite's CJS interop for this package's default export is inconsistent across environments.
+const PasswordStrengthBar = PasswordStrengthBarModule.default?.default ?? PasswordStrengthBarModule.default ?? PasswordStrengthBarModule
 
 const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   const { value, minLength = 4, error = false, onValidityChange = () => {}, onKeyUp = () => {}, children, ...others } = props

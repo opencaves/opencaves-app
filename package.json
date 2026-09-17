@@ -109,6 +109,7 @@
     "concurrently": "^10.0.5",
     "eslint-config-react-app": "^7.0.1",
     "patch-package": "^8.0.1",
+    "postcss-logical": "^9.0.0",
     "serve": "^14.2.6",
     "source-map-explorer": "^2.5.3",
     "swr": "^2.5.1",
