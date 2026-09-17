@@ -455,9 +455,11 @@ export default function SignupWithEmail({ open: initialOpen }) {
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
         exit: theme.oc.sys.motion.duration.emphasizedAccelerate,
       }}
-      TransitionProps={{
-        mountOnEnter: true,
-        unmountOnExit: true,
+      slotProps={{
+        transition: {
+          mountOnEnter: true,
+          unmountOnExit: true,
+        },
       }}
       onClose={onClose}
       // onTransitionEnter={onTransitionEnter}
@@ -465,7 +467,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
     >
       <DialogTitle>
         <Grid container size="grow" gap={2} sx={{ alignItems: 'center' }}>
-          <Grid size="grow" order={isSmall && 1}>
+          <Grid size="grow" order={isSmall ? 1 : undefined}>
             {t('header')}
           </Grid>
           <Grid>
@@ -531,7 +533,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
             //   lg: 10
             // }}
             mb={4}
-            textAlign="center"
+            sx={{ textAlign: 'center' }}
           >
             {header}
           </Typography>

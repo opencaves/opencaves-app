@@ -259,10 +259,9 @@ const lightThemeOptions = {
           paddingTop: 24,
           paddingBottom: 24,
         },
-        paper: {
-          backgroundColor: 'var(--md-sys-color-surfaceContainerHigh)', // var(--md-ref-palette-neutral-92, #ece6f0)
-          borderRadius: 'var(--md-sys-shape-corner-extraLarge)',
-        },
+        paper: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.background.paper,
+        }),
       },
     },
     MuiDialogActions: {
@@ -357,6 +356,7 @@ const darkThemeOptions = {
 export const theme = extendTheme({
   sys: lightThemeOptions.sys,
   oc: lightThemeOptions.oc,
+  colorSchemeSelector: 'data-mui-color-scheme',
   colorSchemes: {
     light: lightThemeOptions,
     dark: merge({}, lightThemeOptions, darkThemeOptions),

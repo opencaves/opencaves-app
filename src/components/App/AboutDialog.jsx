@@ -29,8 +29,10 @@ export default function AboutDialog({ open = false }) {
       onClose={onDialogClose}
       aria-label={t('ariaLabel', { name: appName })}
       maxWidth={false}
-      TransitionProps={{
-        onExited: onDialogExited
+      slotProps={{
+        transition: {
+          onExited: onDialogExited,
+        },
       }}
     >
       <IconButton

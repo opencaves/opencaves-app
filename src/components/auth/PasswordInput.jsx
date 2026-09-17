@@ -79,14 +79,16 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
         required
         error={inputError}
         onKeyUp={onInputKeyUp}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton aria-label={t('passwordIcon.ariaLabel')} onClick={onShowPasswordClick} onMouseDown={onShowPasswordMouseDown} edge="end">
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton aria-label={t('passwordIcon.ariaLabel')} onClick={onShowPasswordClick} onMouseDown={onShowPasswordMouseDown} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         }}
       />
 

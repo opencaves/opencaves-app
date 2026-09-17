@@ -56,15 +56,6 @@ const TextInput = forwardRef(function TextInput(props, ref) {
 
   useMemo(() => {
     if (inputRef?.current) {
-      if (inputRef?.current.validity.valid !== inputValidity && inputState === 'determinate') {
-        updateValidity()
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputRef?.current?.validity])
-
-  useMemo(() => {
-    if (inputRef?.current) {
       updateValidity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,12 +131,14 @@ const TextInput = forwardRef(function TextInput(props, ref) {
       helperText={helperText ? inputError ? helperText : ' ' : null}
       onChange={onChange}
       onKeyUp={onInputKeyUp}
-      inputProps={{
-        autoComplete,
-        inputMode,
-        maxLength,
-        minLength,
-        pattern
+      slotProps={{
+        htmlInput: {
+          autoComplete,
+          inputMode,
+          maxLength,
+          minLength,
+          pattern
+        }
       }}
     />
   )

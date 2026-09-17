@@ -15,7 +15,7 @@ const ImgRoot = styled(Box, {
 }))
 
 const Logo = forwardRef(function Logo(props, ref) {
-  const { variant = 'logo', alt = '', colorScheme, ...other } = props
+  const { variant = 'logo', alt = '', colorScheme, width, height, mb, sx, ...other } = props
   const { mode } = useColorScheme()
   const [src, setSrc] = useState()
 
@@ -46,6 +46,7 @@ const Logo = forwardRef(function Logo(props, ref) {
   return (
     <ImgRoot
       ref={ref}
+      sx={{ width, height, mb, ...sx }}
       {...other}
     >
       <img src={src} alt={alt} style={{ width: '100%', height: 'auto' }} />

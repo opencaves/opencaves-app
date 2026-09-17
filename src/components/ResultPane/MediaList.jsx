@@ -271,7 +271,7 @@ function MoreMedias({ width, height, to }) {
         },
       }}
     >
-      <Grid container direction="column" rowGap={0.75} sx={{ alignItems: 'center' }}>
+      <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
         <PhotoLibraryRounded fontSize="small" sx={{ color: (theme) => getProp('color', theme) }} />
         <Typography
           sx={{

@@ -15,14 +15,12 @@ export function Section({ children, ...props }) {
       className="oc-auth-section"
       container
       direction="column"
-      alignContent="center"
       mb={{
         xs: 2,
         lg: 8,
       }}
       size="grow"
-      rowGap={gap}
-      sx={{ alignItems: 'center' }}
+      sx={{ alignItems: 'center', alignContent: 'center', rowGap: gap }}
     >
       {children}
     </Grid>
@@ -31,7 +29,7 @@ export function Section({ children, ...props }) {
 
 export function SectionDetails({ children, ...props }) {
   return (
-    <Typography className="oc-auth-section-details" variant="body" textAlign="center" my={0} mx={1.75} paragraph {...props}>
+    <Typography className="oc-auth-section-details" variant="body" component="p" my={0} mx={1.75} sx={{ textAlign: 'center' }} {...props}>
       {children}
     </Typography>
   )
@@ -39,7 +37,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-form" container direction="column" rowGap={gap} width={width} {...props}>
+    <Grid className="oc-auth-section-form" container direction="column" width={width} sx={{ rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -47,7 +45,7 @@ export function SectionForm({ children, ...props }) {
 
 export function SectionFields({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-fields" container direction="column" size="grow" rowGap={gap} sx={{ pt: 0.75 }} {...props}>
+    <Grid className="oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -55,7 +53,7 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-actions" container direction="column" rowGap={gap} textAlign="center" mt={1} sx={{ alignItems: 'stretch' }} {...props}>
+    <Grid className="oc-auth-section-actions" container direction="column" mt={1} sx={{ alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
       {children}
     </Grid>
   )

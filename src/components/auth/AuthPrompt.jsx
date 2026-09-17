@@ -56,9 +56,11 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
         exit: theme.oc.sys.motion.duration.emphasizedAccelerate,
       }}
-      TransitionProps={{
-        mountOnEnter: true,
-        unmountOnExit: true,
+      slotProps={{
+        transition: {
+          mountOnEnter: true,
+          unmountOnExit: true,
+        },
       }}
       onClose={onDialogClose}
       // onTransitionEnter={onTransitionEnter}
@@ -135,8 +137,8 @@ function AuthDialogTitleBar({ dialogTitle, onClose }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <Grid container size="grow" gap={2} position={!dialogTitle ?? 'absolute'} sx={{ alignItems: 'center' }}>
-      <Grid size="grow" order={isSmall && 1}>
+    <Grid container size="grow" gap={2} sx={{ alignItems: 'center', position: !dialogTitle ? 'absolute' : undefined }}>
+      <Grid size="grow" order={isSmall ? 1 : undefined}>
         {dialogTitle}
       </Grid>
 
@@ -169,11 +171,11 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
       <Grid
         container
         direction="column"
-        rowGap={gap}
         width={{
           xs: '100%',
           sm: '42ch',
         }}
+        sx={{ rowGap: gap }}
       >
         {children}
       </Grid>
@@ -185,25 +187,23 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
       {...props}
       container
       direction="column"
-      alignContent="center"
       mb={{
         xs: 2,
         lg: 8,
       }}
       size="grow"
-      rowGap={gap}
-      sx={{ alignItems: 'center' }}
+      sx={{ alignItems: 'center', alignContent: 'center', rowGap: gap }}
     >
       {children}
       <Container>
         {instructions}
         {fields && (
-          <Grid container direction="column" size="grow" rowGap={gap} sx={{ pt: 0.75 }}>
+          <Grid container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }}>
             {fields}
           </Grid>
         )}
         {actions && (
-          <Grid container direction="column" rowGap={gap} mt={gap * 0.75} sx={{ alignItems: 'stretch' }}>
+          <Grid container direction="column" mt={gap * 0.75} sx={{ alignItems: 'stretch', rowGap: gap }}>
             {actions}
           </Grid>
         )}

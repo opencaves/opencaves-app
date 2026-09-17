@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
-import { CssBaseline, GlobalStyles } from '@mui/material'
+import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
 import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import { getData } from '@/services/data-service.jsx'
@@ -46,6 +46,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <InitColorSchemeScript defaultMode="light" />
       <ThemeProvider theme={theme}>
         <Splash />
         <GlobalStyles
