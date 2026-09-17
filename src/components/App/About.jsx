@@ -20,9 +20,9 @@ export default function About(props) {
       >
         <Logo width={isSmall ? '70%' : '60%'} />
       </Box>
-      <Typography component="p" fontSize="small" textAlign="center" color="text.secondary">
+      <Typography component="p" sx={{ fontSize: 'small', textAlign: 'center' }} color="text.secondary">
         {t('version', { version: import.meta.env.REACT_APP_VERSION })}{' '}
-        <Link href="https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md" target="_blank" ml={1}>
+        <Link href="https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md" target="_blank" sx={{ ml: 1 }}>
           {t('whatsNew')}
         </Link>
       </Typography>

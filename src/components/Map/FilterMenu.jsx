@@ -21,8 +21,8 @@ function FilterMenuHead({ title, children, ...props }) {
     <Box>
       <Grid
         container
-        gap={1}
         sx={{
+          gap: 1,
           alignItems: 'center',
           boxShadow: 'var(--md-shadows-2)',
           position: 'relative',
@@ -58,7 +58,7 @@ function FilterMenuContent({ children, ...props }) {
   const theme = useTheme()
 
   return (
-    <Grid {...props} flex={1} overflow="hidden" size="grow">
+    <Grid {...props} size="grow" sx={{ flex: 1, overflow: 'hidden' }}>
       <Box sx={{ height: '100%', overflowY: 'auto' }}>{children}</Box>
     </Grid>
   )
@@ -67,8 +67,8 @@ function FilterMenuContent({ children, ...props }) {
 function FilterMenuSectionHeader({ children, ...props }) {
   return (
     <Box
-      display="flex"
       sx={{
+        display: 'flex',
         alignItems: 'end',
         minHeight: '48px',
         marginBottom: '.5rem',

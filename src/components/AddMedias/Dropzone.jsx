@@ -87,11 +87,11 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
     <>
       <Dialog open={_open} fullScreen={true} disableEscapeKeyDown={true} transitionDuration={350}>
         <Grid container {...getRootProps({ sx })}>
-          <Grid className="oc-dropzone" container direction="column" flex={1} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Grid className="oc-dropzone" container direction="column" sx={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <SvgIcon inheritViewBox sx={{ fontSize: '10rem' }} color="primary">
               <DropIcon />
             </SvgIcon>
-            <Typography fontSize="1.875rem" letterSpacing={0} fontWeight={300} lineHeight={1} mt={2}>
+            <Typography sx={{ fontSize: '1.875rem', letterSpacing: 0, fontWeight: 300, lineHeight: 1, mt: 2 }}>
               {t('dropHere')}
             </Typography>
           </Grid>

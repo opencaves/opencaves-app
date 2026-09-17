@@ -107,15 +107,15 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           />
         </ButtonBase>
         <Box
-          position='absolute'
-          left={0}
-          right={0}
-          top={0}
-          display='flex'
-          flexDirection={direction === 'ltr' ? 'row-reverse' : 'row'}
-          px='8px'
-          pt='8px'
           sx={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            display: 'flex',
+            flexDirection: direction === 'ltr' ? 'row-reverse' : 'row',
+            px: '8px',
+            pt: '8px',
             opacity: 'var(--_menu-opacity)',
             backgroundImage: 'linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,.4))',
             transition: 'opacity var(--_menu-transition-duration) linear var(--_menu-transition-delay)',

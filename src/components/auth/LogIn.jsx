@@ -22,18 +22,20 @@ export default function LogIn() {
 
   return (
     <>
-      <Grid container direction="column" m={4} sx={{ alignItems: 'center' }}>
+      <Grid container direction="column" sx={{ m: 4, alignItems: 'center' }}>
         <Stack
           spacing={4}
-          width={{
-            xs: '100%',
-            sm: '42ch',
+          sx={{
+            width: {
+              xs: '100%',
+              sm: '42ch',
+            },
           }}
         >
           <LogInWithGoogle onSuccess={onSuccess} />
 
           <Or>
-            <Typography variant="caption" textTransform="uppercase">
+            <Typography variant="caption" sx={{ textTransform: 'uppercase' }}>
               {t('or')}
             </Typography>
           </Or>

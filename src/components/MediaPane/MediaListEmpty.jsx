@@ -26,7 +26,7 @@ export default function MediaPaneEmpty() {
       }}
     >
       <Box
-        textAlign='center'
+        sx={{ textAlign: 'center' }}
       >
         <Typography sx={{ fontSize: '1.55rem', fontWeight: 300, mb: 4 }}>{t('header')}</Typography>
 

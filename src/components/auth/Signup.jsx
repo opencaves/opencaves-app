@@ -26,7 +26,7 @@ export default function Signup() {
 
   return (
     <>
-      <Grid container direction="column" m={4} sx={{ alignItems: 'center' }}>
+      <Grid container direction="column" sx={{ m: 4, alignItems: 'center' }}>
         <Logo
           variant="brand"
           sx={{
@@ -36,7 +36,7 @@ export default function Signup() {
           }}
         />
 
-        <Stack spacing={3} width="32ch">
+        <Stack spacing={3} sx={{ width: '32ch' }}>
           <AuthWithGoogle onSuccess={onSuccess} />
 
           <Or>
@@ -48,7 +48,7 @@ export default function Signup() {
           </AuthButton>
         </Stack>
 
-        <Box mt={5}>
+        <Box sx={{ mt: 5 }}>
           <p>
             <small>
               {t('goToLogIn.invite')} <Link to="/login">{t('goToLogIn.btn')}</Link>

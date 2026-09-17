@@ -115,11 +115,11 @@ export default function Access({ cave }) {
       </div>
 
       <div className="details-container">
-        <Grid container spacing={0} size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Grid container spacing={0} size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div className="oc-access--grid">
-            <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Grid container direction="column" spacing={1} sx={{ alignItems: 'center' }}>
-                <Grid size="auto" display="flex" sx={{ justifyContent: 'center' }}>
+                <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center' }}>
                   {getAccessIcon()}
                 </Grid>
                 <Grid size="auto">
@@ -128,9 +128,9 @@ export default function Access({ cave }) {
               </Grid>
             </Grid>
             {cave.accessibility && (
-              <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {getAccessibilityIcon()}
                   </Grid>
                   <Grid size="auto">
@@ -140,9 +140,9 @@ export default function Access({ cave }) {
               </Grid>
             )}
             {Reflect.has(cave, 'fees') && cave.fees && (
-              <Grid display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {getFeesIcon()}
                   </Grid>
                   <Grid size="auto">

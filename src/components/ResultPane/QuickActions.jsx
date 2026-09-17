@@ -181,9 +181,9 @@ export default function QuickActions({ cave }) {
               )}
             >
               <Box
-                display="flex"
-                gap={1.5}
                 sx={{
+                  display: 'flex',
+                  gap: 1.5,
                   pl: 'var(--oc-pane-padding-inline)',
                   pr: 'var(--oc-pane-padding-inline)',
                   pb: '11px',
@@ -225,7 +225,7 @@ export default function QuickActions({ cave }) {
         >
           <Grid container>
             {cave.location && (
-              <Grid size="grow" display="flex" sx={{ justifyContent: 'center' }}>
+              <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid container sx={{ justifyContent: 'center' }}>
                   <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave)}>
                     <Grid container direction="column">
@@ -242,7 +242,7 @@ export default function QuickActions({ cave }) {
                 </Grid>
               </Grid>
             )}
-            <Grid size="grow" display="flex" sx={{ justifyContent: 'center' }}>
+            <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
                 <ButtonLg id="save-btn" aria-label={t('save')} onClick={handleDialogOpen}>
                   <Grid container direction="column">
@@ -259,7 +259,7 @@ export default function QuickActions({ cave }) {
               </Grid>
             </Grid>
 
-            <Grid size="grow" display="flex" sx={{ justifyContent: 'center' }}>
+            <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
                 <ButtonLg id="save-btn" aria-label={t('share')} onClick={handleShareOpen}>
                   <Grid container direction="column">

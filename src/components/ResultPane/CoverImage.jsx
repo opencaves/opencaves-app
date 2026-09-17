@@ -23,7 +23,7 @@ export default function CoverImage({ caveId, width, height }) {
 
   function Container({ children }) {
     return (
-      <Box position="relative" width={width} height={height}>
+      <Box sx={{ position: 'relative', width, height }}>
         {children}
       </Box>
     )

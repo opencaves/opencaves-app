@@ -123,7 +123,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
       <Divider />
 
       <>
-        <Box my="var(--oc-pane-padding-block)">
+        <Box sx={{ my: 'var(--oc-pane-padding-block)' }}>
           {mediaCount > 0 && <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />}
 
           <Box

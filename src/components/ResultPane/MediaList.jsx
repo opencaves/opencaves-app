@@ -158,8 +158,8 @@ export default function MediaList({ caveId, hasMedia = false, sx, ...props }) {
             },
           }}
         >
-          <Box px="var(--oc-pane-padding-inline)" pr="var(--oc-pane-padding-inline)" mb="var(--oc-pane-padding-block)" width="fit-content">
-            <Grid container direction="row" width="min-content" display="flex" sx={{ flexWrap: 'nowrap' }}>
+          <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+            <Grid container direction="row" sx={{ width: 'min-content', display: 'flex', flexWrap: 'nowrap' }}>
               {assetsList}
             </Grid>
           </Box>
@@ -205,9 +205,9 @@ function Media({ asset, size = 'full' }) {
     </ButtonBase>
   ) : status === 'failed' ? (
     <Box
-      width={width}
-      height={height}
       sx={{
+        width,
+        height,
         borderRadius: '.5rem',
         backgroundColor: 'rgb(0 0 0 / 4.5%)',
         display: 'flex',
@@ -230,7 +230,7 @@ function MediaListCol({ children, width = 'full', isLast = false, height = asset
   }
 
   return (
-    <Grid {...props} container direction="column" minHeight={height} minWidth={widths[width]} position="relative" sx={{ flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
@@ -243,7 +243,7 @@ function MediaListCell({ children, width = 'full', height = assetsListConfig.hei
   }
 
   return (
-    <Grid {...props} container direction="column" minHeight={height} minWidth={widths[width]} position="relative" sx={{ flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
+    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )

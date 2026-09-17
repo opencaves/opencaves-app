@@ -91,9 +91,9 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
             message={t('wrongMediaType')}
             type="error"
             footer={
-              <Grid container mt={1.75} ml={0.4} sx={{ flexWrap: 'nowrap', color: '#c1c1c1' }}>
+              <Grid container sx={{ mt: 1.75, ml: 0.4, flexWrap: 'nowrap', color: '#c1c1c1' }}>
                 <PhotoOutlined fontSize="small" sx={{ mr: 1.5 }} />
-                <Typography variant="caption" component="span" ml={0.2}>
+                <Typography variant="caption" component="span" sx={{ ml: 0.2 }}>
                   {wrongFile.name}
                 </Typography>
               </Grid>
@@ -142,15 +142,15 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
           <LinearProgress variant="determinate" value={progress} />
         </Box>
       ) : isDragActive ? (
-        <Typography variant="h3" fontWeight={300}>
+        <Typography variant="h3" sx={{ fontWeight: 300 }}>
           {t('dropHere')}
         </Typography>
       ) : (
-        <Grid direction="column" textAlign="center" container sx={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant="h3" fontWeight={300}>
+        <Grid direction="column" container sx={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography variant="h3" sx={{ fontWeight: 300 }}>
             {t('dragHere')}
           </Typography>
-          <Or strokeWidth="73px" my={3}>
+          <Or strokeWidth="73px" sx={{ my: 3 }}>
             {t('or')}
           </Or>
           <Button variant="outlined">{t('btn')}</Button>

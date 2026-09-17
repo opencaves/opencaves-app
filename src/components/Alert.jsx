@@ -20,7 +20,7 @@ export function ErrorAlert({ open = false, onClose, children }) {
   return (
     <Dialog onClose={handleClose} open={errorAlertOpen}>
       <DialogContent>
-        <Grid container direction="column" gap={2}>
+        <Grid container direction="column" sx={{ gap: 2 }}>
           <Grid size="grow" sx={{ alignSelf: 'center' }}>
             <WarningRounded color="error" fontSize="large" />
           </Grid>

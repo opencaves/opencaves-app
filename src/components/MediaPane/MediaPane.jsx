@@ -167,9 +167,9 @@ export default function MediaPane() {
 
           <Typography
             variant='fontTitleLarge'
-            flexGrow={1}
-            textAlign='center'
             sx={{
+              flexGrow: 1,
+              textAlign: 'center',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap'

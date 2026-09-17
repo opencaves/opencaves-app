@@ -112,8 +112,8 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {isLoggedIn && [
-          <Box key="key-user-info" px={2} py={0.75}>
-            <Grid container direction="column" gap={1} sx={{ alignItems: 'center', p: 1 }}>
+          <Box key="key-user-info" sx={{ px: 2, py: 0.75 }}>
+            <Grid container direction="column" sx={{ gap: 1, alignItems: 'center', p: 1 }}>
               <Avatar
                 src={user.photoURL || 'broken-image.webp'}
                 alt={user.displayName}

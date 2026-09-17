@@ -15,12 +15,16 @@ export function Section({ children, ...props }) {
       className="oc-auth-section"
       container
       direction="column"
-      mb={{
-        xs: 2,
-        lg: 8,
-      }}
       size="grow"
-      sx={{ alignItems: 'center', alignContent: 'center', rowGap: gap }}
+      sx={{
+        mb: {
+          xs: 2,
+          lg: 8,
+        },
+        alignItems: 'center',
+        alignContent: 'center',
+        rowGap: gap,
+      }}
     >
       {children}
     </Grid>
@@ -29,7 +33,7 @@ export function Section({ children, ...props }) {
 
 export function SectionDetails({ children, ...props }) {
   return (
-    <Typography className="oc-auth-section-details" variant="body" component="p" my={0} mx={1.75} sx={{ textAlign: 'center' }} {...props}>
+    <Typography className="oc-auth-section-details" variant="body" component="p" sx={{ my: 0, mx: 1.75, textAlign: 'center' }} {...props}>
       {children}
     </Typography>
   )
@@ -37,7 +41,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-form" container direction="column" width={width} sx={{ rowGap: gap }} {...props}>
+    <Grid className="oc-auth-section-form" container direction="column" sx={{ width, rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -53,7 +57,7 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-actions" container direction="column" mt={1} sx={{ alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
+    <Grid className="oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
       {children}
     </Grid>
   )

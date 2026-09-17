@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePageVisibility } from 'react-page-visibility'
@@ -40,6 +40,11 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const { t: ts } = useTranslation('auth', { keyPrefix: 'signup.withEmailDialog.steps' })
   const { t: tErrors } = useTranslation('errors', { keyPrefix: 'auth' })
   const swiperRef = useRef()
+  const [swiperReady, setSwiperReady] = useState(false)
+  const setSwiperContainerRef = useCallback((node) => {
+    swiperRef.current = node
+    setSwiperReady(!!node)
+  }, [])
   const dispatch = useDispatch()
   const theme = useTheme()
   const isMd = useMediaQuery(theme.breakpoints.down('md'))
@@ -175,7 +180,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
         })
       }
     }
-  }, [currentStep, showRetypeEmailStep, showInvalidActionCodeStep, ts])
+  }, [currentStep, swiperReady, showRetypeEmailStep, showInvalidActionCodeStep, ts])
 
   //
   // Step 0 - Enter email
@@ -268,7 +273,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
     doEmailCallback()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, swiperRef.current?.swiper, showRetypeEmailStep, email2Prefilled])
+  }, [searchParams, swiperReady, showRetypeEmailStep, email2Prefilled])
 
   //
   // Step 2b - Retype email ( / Mismatch email verification ?)
@@ -424,15 +429,15 @@ export default function SignupWithEmail({ open: initialOpen }) {
         }
       }
 
-      swiperEl.addEventListener('activeindexchange', onActiveIndexChange)
+      swiperEl.addEventListener('swiperactiveindexchange', onActiveIndexChange)
 
       // Initialization
       onActiveIndexChange()
 
-      return () => swiperEl.removeEventListener('activeindexchange', onActiveIndexChange)
+      return () => swiperEl.removeEventListener('swiperactiveindexchange', onActiveIndexChange)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [swiperRef?.current])
+  }, [swiperReady])
 
   useEffect(() => {
     if (currentStep === emailCallbackStep) {
@@ -459,6 +464,10 @@ export default function SignupWithEmail({ open: initialOpen }) {
         transition: {
           mountOnEnter: true,
           unmountOnExit: true,
+          // Swiper measures slide widths on mount; while the dialog is still
+          // animating in, the container has no real width yet, so re-measure
+          // once the transition actually finishes.
+          onEntered: () => swiperRef.current?.swiper?.update(),
         },
       }}
       onClose={onClose}
@@ -466,8 +475,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
       onTransitionExited={onTransitionExited}
     >
       <DialogTitle>
-        <Grid container size="grow" gap={2} sx={{ alignItems: 'center' }}>
-          <Grid size="grow" order={isSmall ? 1 : undefined}>
+        <Grid container size="grow" sx={{ gap: 2, alignItems: 'center' }}>
+          <Grid size="grow" sx={{ order: isSmall ? 1 : undefined }}>
             {t('header')}
           </Grid>
           <Grid>
@@ -495,11 +504,11 @@ export default function SignupWithEmail({ open: initialOpen }) {
         <Grid
           container
           direction="column"
-          width={{
-            xs: '100%',
-            sm: '80%',
-          }}
           sx={{
+            width: {
+              xs: '100%',
+              sm: '80%',
+            },
             alignItems: 'center',
             py: {
               xs: 4,
@@ -512,35 +521,39 @@ export default function SignupWithEmail({ open: initialOpen }) {
             variant="brand-short"
             width={logoWidth}
             height={logoHeight}
-            mb={{
-              xs: 6,
-              md: 8,
-              lg: 10,
+            sx={{
+              mb: {
+                xs: 6,
+                md: 8,
+                lg: 10,
+              },
             }}
           />
 
           <Typography
             variant="h1"
             component="h1"
-            fontSize={{
-              xs: 30,
-              md: 32,
-              lg: 36,
-            }}
             // mt={{
             //   xs: 6,
             //   md: 8,
             //   lg: 10
             // }}
-            mb={4}
-            sx={{ textAlign: 'center' }}
+            sx={{
+              fontSize: {
+                xs: 30,
+                md: 32,
+                lg: 36,
+              },
+              textAlign: 'center',
+              mb: 4,
+            }}
           >
             {header}
           </Typography>
 
-          <Box width="100%">
+          <Box sx={{ width: '100%' }}>
             <swiper-container
-              ref={swiperRef}
+              ref={setSwiperContainerRef}
               initial-slide={initialStep}
               allow-touch-move={import.meta.env.DEV}
               slides-per-view="1"
@@ -564,7 +577,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                         {ts('email.continueBtn')}
                       </AuthButton>
 
-                      <Box mt={1}>
+                      <Box sx={{ mt: 1 }}>
                         <p style={{ margin: 0, textAlign: 'center' }}>
                           <small>
                             {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
@@ -583,7 +596,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 <Section>
                   {emailAlreadyInUse ? (
                     <>
-                      <SectionDetails mb={gap}>
+                      <SectionDetails sx={{ mb: gap }}>
                         <Trans i18nKey="emailSentAndEmailVerification.emailInUse.details" t={ts} values={{ email }} />
                       </SectionDetails>
                       <SectionForm>
@@ -597,7 +610,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                           </AuthButton>
 
                           <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />
-                          <Box mt={1}>
+                          <Box sx={{ mt: 1 }}>
                             <p style={{ margin: 0, textAlign: 'center' }}>
                               <small>
                                 {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
@@ -706,10 +719,10 @@ export default function SignupWithEmail({ open: initialOpen }) {
                       <SectionForm>
                         <SectionFields>
                           <Skeleton variant="rounded" height={56} sx={{ mt: 0.75, mb: 2.875 }} />
-                          <Skeleton variant="rounded" height={56} mt={0.75} />
+                          <Skeleton variant="rounded" height={56} sx={{ mt: 0.75 }} />
                         </SectionFields>
                         <SectionActions>
-                          <Skeleton variant="circular" height={40} mt={1} sx={{ borderRadius: '20px' }} />
+                          <Skeleton variant="circular" height={40} sx={{ mt: 1, borderRadius: '20px' }} />
                         </SectionActions>
                       </SectionForm>
                     )

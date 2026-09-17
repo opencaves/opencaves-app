@@ -94,8 +94,8 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
 
       <Grid
         container
-        height={28}
         sx={{
+          height: 28,
           '& > *': {
             flexGrow: 1,
           },

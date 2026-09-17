@@ -100,11 +100,11 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
         <Grid
           container
           direction="column"
-          width={{
-            xs: '100%',
-            sm: '80%',
-          }}
           sx={{
+            width: {
+              xs: '100%',
+              sm: '80%',
+            },
             alignItems: 'center',
             py: {
               xs: 4,
@@ -137,8 +137,8 @@ function AuthDialogTitleBar({ dialogTitle, onClose }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <Grid container size="grow" gap={2} sx={{ alignItems: 'center', position: !dialogTitle ? 'absolute' : undefined }}>
-      <Grid size="grow" order={isSmall ? 1 : undefined}>
+    <Grid container size="grow" sx={{ gap: 2, alignItems: 'center', position: !dialogTitle ? 'absolute' : undefined }}>
+      <Grid size="grow" sx={{ order: isSmall ? 1 : undefined }}>
         {dialogTitle}
       </Grid>
 
@@ -171,11 +171,13 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
       <Grid
         container
         direction="column"
-        width={{
-          xs: '100%',
-          sm: '42ch',
+        sx={{
+          width: {
+            xs: '100%',
+            sm: '42ch',
+          },
+          rowGap: gap,
         }}
-        sx={{ rowGap: gap }}
       >
         {children}
       </Grid>
@@ -187,12 +189,16 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
       {...props}
       container
       direction="column"
-      mb={{
-        xs: 2,
-        lg: 8,
-      }}
       size="grow"
-      sx={{ alignItems: 'center', alignContent: 'center', rowGap: gap }}
+      sx={{
+        mb: {
+          xs: 2,
+          lg: 8,
+        },
+        alignItems: 'center',
+        alignContent: 'center',
+        rowGap: gap,
+      }}
     >
       {children}
       <Container>
@@ -203,7 +209,7 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
           </Grid>
         )}
         {actions && (
-          <Grid container direction="column" mt={gap * 0.75} sx={{ alignItems: 'stretch', rowGap: gap }}>
+          <Grid container direction="column" sx={{ mt: gap * 0.75, alignItems: 'stretch', rowGap: gap }}>
             {actions}
           </Grid>
         )}
@@ -217,13 +223,15 @@ export function Header({ children }) {
     <Typography
       variant="h1"
       component="h1"
-      fontSize={{
-        xs: 30,
-        md: 32,
-        lg: 36,
+      sx={{
+        fontSize: {
+          xs: 30,
+          md: 32,
+          lg: 36,
+        },
+        mb: 4,
+        textAlign: 'center',
       }}
-      mb={4}
-      textAlign="center"
     >
       {children}
     </Typography>
