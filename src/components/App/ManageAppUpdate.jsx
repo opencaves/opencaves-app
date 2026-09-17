@@ -4,10 +4,6 @@ import { Button, Snackbar, Slide } from '@mui/material'
 import { useServiceWorker } from '@/hooks/useServiceWorker.jsx'
 import { useCheckForAppUpdates } from '@/hooks/useCheckForAppUpdates.jsx'
 
-function TransitionTop(props) {
-  return <Slide {...props} direction="up" />
-}
-
 export default function ManageAppUpdate() {
   const { waitingWorker, showReload, reloadPage } = useServiceWorker(1000)
   const [open, setOpen] = useState(false)
@@ -44,7 +40,8 @@ export default function ManageAppUpdate() {
         >
           {t('updateAvailable.btn')
           }</Button>}
-      TransitionComponent={TransitionTop}
+      slots={{ transition: Slide }}
+      slotProps={{ transition: { direction: 'up' } }}
     />
   )
 }

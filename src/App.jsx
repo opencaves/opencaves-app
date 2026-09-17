@@ -2,7 +2,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles } from '@mui/material'
 import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
@@ -46,7 +46,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <CssVarsProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <Splash />
         <GlobalStyles
           styles={theme => ({
@@ -72,7 +72,7 @@ const App = () => {
           <ManageAppUpdate />
           <ManageAuth />
         </HelmetProvider>
-      </CssVarsProvider>
+      </ThemeProvider>
     </Fragment>
   )
 }

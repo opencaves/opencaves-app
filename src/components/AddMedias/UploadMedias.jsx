@@ -122,7 +122,7 @@ const UploadInfo = forwardRef((props, ref) => {
       }}
     >
       <Grid sx={{ position: 'relative', width: '33%' }}>{current && <CardMedia component="img" image={current.url} sx={{ position: 'absolute', width: '100%', height: '100%' }} />}</Grid>
-      <Grid container direction="column" flexGrow={1}>
+      <Grid container direction="column" sx={{ flexGrow: 1 }}>
         <CardContent
           sx={{
             flexGrow: 1,

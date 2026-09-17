@@ -17,10 +17,6 @@ import MediaList from './MediaList.jsx'
 import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
-function SlideUp(props) {
-  return <Slide {...props} direction="up" />
-}
-
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
   const { mediaCount } = useLoaderData()
@@ -308,7 +304,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
                 <Close />
               </IconButton>
             }
-            TransitionComponent={SlideUp}
+            slots={{ transition: Slide }}
+            slotProps={{ transition: { direction: 'up' } }}
             onClose={() => {
               setSnackbarOpen(false)
             }}
