@@ -8,7 +8,7 @@ export default function Or({ strokeWidth, sx, children, ...props }) {
       // bgcolor='background.paper'
       sx={{
         '--oc_gap': '0.75em',
-        '--oc_stroke-color': 'var(--md-palette-divider)',
+        '--oc_stroke-color': 'rgba(0, 0, 0, 0.18)',
         '--oc_stroke-thick': '1.5px',
         '--oc_stroke-style': 'solid',
         '--oc_min-width': strokeWidth || '2em',
