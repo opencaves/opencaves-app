@@ -47,10 +47,10 @@ export default function ResultPaneMenu({ ...props }) {
             sx: {
               mt: 1,
             },
-          }
-        }}
-        MenuListProps={{
-          sx: { py: .5 }
+          },
+          list: {
+            sx: { py: .5 },
+          },
         }}
 
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}

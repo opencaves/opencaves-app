@@ -137,8 +137,10 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           </IconButton>
           <Menu
             id={mediaThumbnailItemId}
-            MenuListProps={{
-              'aria-labelledby': 'long-button',
+            slotProps={{
+              list: {
+                'aria-labelledby': 'long-button',
+              },
             }}
             anchorOrigin={{
               vertical: 'bottom',

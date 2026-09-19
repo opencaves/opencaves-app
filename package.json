@@ -50,7 +50,6 @@
     "@ionic/core": "^9.0.4",
     "@ionic/react": "^9.0.4",
     "@mui/icons-material": "^9.4.0",
-    "@mui/lab": "^9.0.0-beta.9",
     "@mui/material": "^9.4.0",
     "@photo-sphere-viewer/core": "^5.15.1",
     "@photo-sphere-viewer/markers-plugin": "^5.15.1",

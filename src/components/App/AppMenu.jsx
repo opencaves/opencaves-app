@@ -104,9 +104,9 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
               mt: 1,
             },
           },
-        }}
-        MenuListProps={{
-          sx: { py: 0.5 },
+          list: {
+            sx: { py: 0.5 },
+          },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}

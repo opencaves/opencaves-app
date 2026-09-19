@@ -58,10 +58,10 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
             sx: {
               mt: 1,
             },
-          }
-        }}
-        MenuListProps={{
-          sx: { py: .5 }
+          },
+          list: {
+            sx: { py: .5 },
+          },
         }}
 
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
