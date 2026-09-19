@@ -7,7 +7,7 @@ import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
-import Scrollbars from 'react-custom-scrollbars-3'
+import { Scrollbars } from 'react-custom-scrollbars-3'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './QuickActions.scss'
 

@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import { useTheme } from '@mui/material'
-import Scrollbars3 from 'react-custom-scrollbars-3'
+import { Scrollbars as Scrollbars3 } from 'react-custom-scrollbars-3'
 import { scrollbarTrackHeight } from '@/config/app.js'
 import './Scrollbars.scss'
 
@@ -75,11 +75,11 @@ const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, t
       return <DefaultTrackHorizontal style={style} trackHorizontalProps={trackHorizontalProps} {...props} />
     })
 
-  const TrackVertical = forwardRef(function TrackVertical(props, ref) {
-    return <DefaultTrackVertical ref={ref} {...props} />
-  })
-
-  const renderTrackVertical = props.renderTrackVertical || TrackVertical.render
+  const renderTrackVertical =
+    props.renderTrackVertical ||
+    (({ style, ...props }) => {
+      return <DefaultTrackVertical style={style} trackVerticalProps={trackVerticalProps} {...props} />
+    })
 
   return (
     <Scrollbars3 ref={ref} {...props} className={`oc-scrollbar${autoHide ? ' oc-scrollbar--autohide' : ''}`} autoHide={false} renderTrackHorizontal={renderTrackHorizontal} renderTrackVertical={renderTrackVertical} renderThumbVertical={renderThumb}>
