@@ -155,7 +155,7 @@ export default function ResultPaneSm({ children, ...props }) {
   useEffect(() => {
     const dY = 0.5
     const y = (1 - paneOpenFactor) * dY * 50
-    paneHeadRef.current?.style?.setProperty('opacity', paneOpenFactor)
+    paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', paneOpenFactor)
     paneHeadRef.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
   }, [paneOpenFactor])
 
@@ -271,3 +271,4 @@ export default function ResultPaneSm({ children, ...props }) {
     )
   )
 }
+

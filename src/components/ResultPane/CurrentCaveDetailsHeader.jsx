@@ -60,8 +60,6 @@ export default function CurrentCaveDetailsHeader({ cave }) {
     )
   }
 
-  useEffect(() => { console.log(paneData) }, [paneData])
-
   return (
     <>
       {
