@@ -236,7 +236,7 @@ export default class CaveAsset {
         // Error handler
         //
         error => {
-          console.error('[uploadTask] Error: error')
+          console.error('[uploadTask] Error: %o', error)
           reject(error)
         },
 

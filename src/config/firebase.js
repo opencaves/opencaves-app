@@ -11,7 +11,8 @@ import { firebaseConfig } from './firebase.config.js'
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
-const functions = getFunctions(app)
+const functionsRegion = firebaseConfig.location || 'northamerica-northeast1'
+export const functions = getFunctions(app, functionsRegion)
 
 export const auth = getAuth()
 auth.languageCode = i18n.resolvedLanguage

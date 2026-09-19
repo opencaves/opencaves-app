@@ -7,8 +7,8 @@ export const assignRole = functions
   .auth
   .user()
   .onCreate(async user => {
-    const { uid, providerData } = user
-    const roles = [providerData.length === 0 ? 'guest' : 'editor']
+    const { uid, email, isAnonymous } = user
+    const roles = isAnonymous || !email ? ['guest'] : ['editor']
 
     await auth.setCustomUserClaims(uid, { roles })
   })

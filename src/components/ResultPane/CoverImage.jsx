@@ -9,6 +9,7 @@ import Tooltip from '@/components/Tooltip.jsx'
 import Picture from '@/components/Picture.jsx'
 import { getCoverImage, useCoverImage } from '@/models/CaveAsset.js'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
+import transparentPixel from '@/images/transparentPixel.js'
 
 export async function loadCoverImage(caveId) {
   return getCoverImage(caveId, false)
@@ -40,7 +41,7 @@ export default function CoverImage({ caveId, width, height }) {
     return (
       <Container>
         <Picture
-          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+          src={transparentPixel}
           alt=""
           style={{
             width,
@@ -113,7 +114,7 @@ export default function CoverImage({ caveId, width, height }) {
             }}
           >
             <Picture
-              src={pixel}
+              src={transparentPixel}
               sources={sources}
               alt=""
               style={{

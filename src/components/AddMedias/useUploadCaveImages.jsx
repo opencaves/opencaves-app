@@ -1,8 +1,37 @@
 
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { auth } from '@/config/firebase.js'
 import CaveAsset from '@/models/CaveAsset.js'
 import useLoggedIn from '@/hooks/useLoggedin.jsx'
+import sleep from '@/utils/sleep.js'
+
+async function ensureEditorRole() {
+  const currentUser = auth.currentUser
+
+  if (!currentUser) {
+    throw new Error('You must be signed in to upload media.')
+  }
+
+  const maxAttempts = 6
+  const delayMs = 500
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    await currentUser.getIdToken(true)
+    const idTokenResult = await currentUser.getIdTokenResult()
+    const roles = idTokenResult.claims.roles
+
+    if (Array.isArray(roles) && roles.includes('editor')) {
+      return
+    }
+
+    if (attempt < maxAttempts) {
+      await sleep(delayMs)
+    }
+  }
+
+  throw new Error('Your account is missing the editor role required to upload media.')
+}
 
 export function useUploadCaveImages() {
   const user = useSelector(state => state.session.user)
@@ -26,6 +55,11 @@ export function useUploadCaveImages() {
     // console.log('Start uploading files: ', files)
     try {
       if (files && files.length > 0) {
+        if (!isLoggedIn) {
+          throw new Error('You must be signed in to upload media.')
+        }
+
+        await ensureEditorRole()
 
         setBytesTransferred(Array(files.length).fill(0))
         setTotalBytes(files.reduce((total, file) => total + file.size, 0))
