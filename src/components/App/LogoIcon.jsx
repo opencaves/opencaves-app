@@ -8,5 +8,5 @@ export default function LogoIcon({ colorScheme, ...props }) {
   const { sx, ...other } = props
   const src = colorScheme === 'light' || (colorScheme !== 'dark' && mode === 'light') ? LogoLight : LogoDark
 
-  return <Box component="img" src={src} alt="" sx={{ width: '1em', height: '1em', ...sx }} {...other} />
+  return <Box component="img" src={src} alt="" sx={{ width: 24, height: 24, display: 'block', objectFit: 'contain', flexShrink: 0, ...sx }} {...other} />
 }
