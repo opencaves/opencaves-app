@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProviderId, linkWithCredential, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { SvgIcon } from '@mui/material'
 import { getProviderForProviderId } from './providers.jsx'
 import AuthButton from './AuthButton.jsx'
 import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
@@ -141,9 +140,7 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
   return (
     <AuthButton
       startIcon={
-        <SvgIcon inheritViewBox>
-          <Logo />
-        </SvgIcon>
+        <Logo width={18} height={18} aria-hidden="true" focusable="false" />
       }
       variant="outlined"
       color={color}
