@@ -1,7 +1,6 @@
-import { LoadingButton } from '@mui/lab'
-// import { Button } from '@mui/material'
+import Button from '@mui/material/Button'
 
-export default function AuthButton({ Component = LoadingButton, disabled, startIcon, endIcon, sx = {}, children, ...props }) {
+export default function AuthButton({ Component = Button, disabled, startIcon, endIcon, sx = {}, children, ...props }) {
 
   return (
     <Component
@@ -10,11 +9,11 @@ export default function AuthButton({ Component = LoadingButton, disabled, startI
         ...sx,
         '> .MuiButton-startIcon': {
           marginRight: '1em',
-          '&.MuiLoadingButton-startIconLoadingStart': {
+          '&.MuiButton-loadingPositionStart': {
             display: 'none'
           }
         },
-        '> .MuiLoadingButton-loadingIndicator': {
+        '> .MuiButton-loadingIndicator': {
           position: 'unset',
           marginRight: '1em'
         }

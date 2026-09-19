@@ -6,7 +6,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { checkActionCode, fetchSignInMethodsForEmail, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, updatePassword, updateProfile } from 'firebase/auth'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
 import { ArrowBack, CheckCircleOutlineRounded, Close, SendRounded, WarningRounded } from '@mui/icons-material'
 import { register } from 'swiper/element/bundle'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice'
@@ -573,7 +572,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                     <SectionActions>
                       <Progress enabled={stepEmailLoading} />
 
-                      <AuthButton disabled={!emailInputValidity.valid} Component={LoadingButton} loading={stepEmailLoading} endIcon={<NavigateNextRounded />} onClick={onStepEmailContinueBtnClick}>
+                      <AuthButton disabled={!emailInputValidity.valid} loading={stepEmailLoading} endIcon={<NavigateNextRounded />} onClick={onStepEmailContinueBtnClick}>
                         {ts('email.continueBtn')}
                       </AuthButton>
 
@@ -776,7 +775,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                     <Progress enabled={stepPasswordLoading} />
 
                     <SectionActions>
-                      <AuthButton Component={LoadingButton} loading={stepPasswordLoading} endIcon={<NavigateNextRounded />} disabled={passwordInputError} onClick={onStepPasswordContinueBtnClick}>
+                      <AuthButton loading={stepPasswordLoading} endIcon={<NavigateNextRounded />} disabled={passwordInputError} onClick={onStepPasswordContinueBtnClick}>
                         {ts('password.continueBtn')}
                       </AuthButton>
                     </SectionActions>
