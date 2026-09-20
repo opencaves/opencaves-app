@@ -20,9 +20,7 @@ function PanoViewer({ src }) {
 
   useEffect(() => {
     if (containerRef) {
-      console.log('containerRef: %o', containerRef.current)
       function handler(event) {
-        console.log('pointermove: %o', event.bubbles)
         event.stopPropagation()
       }
 
