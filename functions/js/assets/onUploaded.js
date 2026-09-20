@@ -81,41 +81,56 @@ export const onAssetUploaded = onObjectFinalized(async event => {
       const downloadResponse = await bucket.file(filePath).download()
       const imageBuffer = downloadResponse[0]
 
-      const parser = create(imageBuffer)
-      parser.enableImageSize(true)
+      // exif-parser only understands the JPEG/TIFF marker structure; it throws
+      // on other formats (e.g. webp, png), which must not block asset creation.
+      let tags = null
 
-      const result = parser.parse()
+      if (assetData.mediaType === 'image/jpeg' || assetData.mediaType === 'image/jpg') {
+        try {
+          const parser = create(imageBuffer)
+          parser.enableImageSize(true)
 
+          const result = parser.parse()
 
-      logger.log('[onAssetUploaded] Found metadatas: %o', result)
+          logger.log('[onAssetUploaded] Found metadatas: %o', result)
 
-      const { DateTime, DateTimeOriginal, ModifyDate, ImageHeight, ImageWidth, GPSLongitude, GPSLatitude, GPSAltitude, Orientation } = result.tags
-
-      if (ImageHeight) {
-        assetData.width = ImageWidth
-        assetData.height = ImageHeight
-      }
-
-      if (DateTimeOriginal) {
-        assetData.date = new Timestamp(DateTimeOriginal, 0)
-      } else if (DateTime) {
-        assetData.date = new Timestamp(DateTime, 0)
-      } else if (ModifyDate) {
-        assetData.date = new Timestamp(ModifyDate, 0)
-      } else {
-        assetData.date = getUploadTimestamp(data, event)
-      }
-
-      if (GPSLongitude) {
-        assetData.position = {
-          latitude: GPSLatitude,
-          longitude: GPSLongitude,
-          altitude: GPSAltitude || null
+          tags = result.tags
+        } catch (error) {
+          logger.warn('[onAssetUploaded] Could not read EXIF metadata: %o', error)
         }
       }
 
-      if (Orientation) {
-        assetData.orientation = Orientation
+      if (tags) {
+        const { DateTime, DateTimeOriginal, ModifyDate, ImageHeight, ImageWidth, GPSLongitude, GPSLatitude, GPSAltitude, Orientation } = tags
+
+        if (ImageHeight) {
+          assetData.width = ImageWidth
+          assetData.height = ImageHeight
+        }
+
+        if (DateTimeOriginal) {
+          assetData.date = new Timestamp(DateTimeOriginal, 0)
+        } else if (DateTime) {
+          assetData.date = new Timestamp(DateTime, 0)
+        } else if (ModifyDate) {
+          assetData.date = new Timestamp(ModifyDate, 0)
+        }
+
+        if (GPSLongitude) {
+          assetData.position = {
+            latitude: GPSLatitude,
+            longitude: GPSLongitude,
+            altitude: GPSAltitude || null
+          }
+        }
+
+        if (Orientation) {
+          assetData.orientation = Orientation
+        }
+      }
+
+      if (!assetData.date) {
+        assetData.date = getUploadTimestamp(data, event)
       }
 
       if (supportsXMP(assetData.mediaType)) {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Box, Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
@@ -19,7 +18,6 @@ import './CurrentCaveDetailsContent.scss'
 
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
-  const { mediaCount } = useLoaderData()
 
   const isSmall = useSmall()
 
@@ -124,7 +122,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       <>
         <Box sx={{ my: 'var(--oc-pane-padding-block)' }}>
-          {mediaCount > 0 && <MediaList caveId={cave.id} hasMedia={mediaCount > 0} />}
+          <MediaList caveId={cave.id} />
 
           <Box
             // my='var(--oc-pane-padding-block)'

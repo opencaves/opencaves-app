@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useLoaderData } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Skeleton, Typography } from '@mui/material'
 import { PhotoLibraryRounded } from '@mui/icons-material'
@@ -25,8 +25,7 @@ export function loadMediaCount(caveId) {
   return countAssets(caveId)
 }
 
-export default function MediaList({ caveId, hasMedia = false, sx, ...props }) {
-  const { mediaCount } = useLoaderData()
+export default function MediaList({ caveId, sx, ...props }) {
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
@@ -154,7 +153,7 @@ export default function MediaList({ caveId, hasMedia = false, sx, ...props }) {
       <Box
         sx={{
           marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
-          height: hasMedia && `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
+          height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
           ...sx,
         }}
         {...props}
