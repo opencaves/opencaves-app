@@ -1,12 +1,14 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Card, CardContent, CardMedia, LinearProgress, Typography, useTheme } from '@mui/material'
+import { Alert, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import { useUploadCaveImages } from './useUploadCaveImages.jsx'
 import { appName } from '@/config/app.js'
 import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/mediaPane.js'
+
+const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
 export default function UploadMedias({ medias }) {
   const [_medias, setMedias] = useState([])
@@ -86,8 +88,18 @@ export default function UploadMedias({ medias }) {
       </Snackbar>
 
       {errorAlertOpen && (
-        <ErrorAlert open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
-          {error?.code === 'wrong-media-type' ? t('wrongMediaType') : t('unknownError')}
+        <ErrorAlert
+          open={true}
+          onClose={onErrorAlertClose}
+          header={t('errorHeader')}
+          dismissLabel={t('unknownErrorBtn')}
+          hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}
+        >
+          {error?.code === 'wrong-media-type' ? (
+            <WrongMediaTypeMessage fileNames={error.fileNames} />
+          ) : (
+            <Typography color="text.secondary">{t('unknownError')}</Typography>
+          )}
         </ErrorAlert>
       )}
 
@@ -100,6 +112,43 @@ export default function UploadMedias({ medias }) {
           </SnackbarContent>
         </Snackbar>
       )}
+    </>
+  )
+}
+
+function WrongMediaTypeMessage({ fileNames }) {
+  const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
+
+  return (
+    <>
+      <Typography color="text.secondary">{t('wrongMediaType', { count: fileNames.length })}</Typography>
+      <Grid
+        container
+        sx={{
+          gap: 0.5,
+          justifyContent: 'center',
+          maxWidth: '100%',
+        }}
+      >
+        {fileNames.map(fileName => (
+          <Chip
+            key={fileName}
+            label={fileName}
+            size="small"
+            variant="outlined"
+            sx={{
+              maxWidth: '100%',
+              borderRadius: '6px',
+              borderColor: 'divider',
+              backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'rgba(175, 184, 193, 0.2)' : 'rgba(110, 118, 129, 0.4)'),
+              '.MuiChip-label': {
+                fontFamily: codeFontFamily,
+                fontSize: '0.8125rem',
+              },
+            }}
+          />
+        ))}
+      </Grid>
     </>
   )
 }

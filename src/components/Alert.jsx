@@ -39,7 +39,7 @@ export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, 
               {header}
             </Typography>
           )}
-          <Typography color="text.secondary">{children}</Typography>
+          {children}
           {hint && (
             <Typography variant="body2" color="text.secondary">
               {hint}

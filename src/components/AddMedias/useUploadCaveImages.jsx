@@ -7,8 +7,8 @@ import useLoggedIn from '@/hooks/useLoggedin.jsx'
 import sleep from '@/utils/sleep.js'
 import { acceptedMimeTypes } from '@/config/mediaPane.js'
 
-function findWrongMediaType(files) {
-  return files.find(file => !acceptedMimeTypes.includes(file.type))
+function findWrongMediaTypeFiles(files) {
+  return files.filter(file => !acceptedMimeTypes.includes(file.type))
 }
 
 async function ensureEditorRole() {
@@ -64,10 +64,12 @@ export function useUploadCaveImages() {
           throw new Error('You must be signed in to upload media.')
         }
 
-        const wrongTypeFile = findWrongMediaType(files)
-        if (wrongTypeFile) {
-          const wrongTypeError = new Error(`Unsupported media type "${wrongTypeFile.type || 'unknown'}" for file "${wrongTypeFile.name}".`)
+        const wrongTypeFiles = findWrongMediaTypeFiles(files)
+        if (wrongTypeFiles.length > 0) {
+          const fileNames = wrongTypeFiles.map(file => file.name)
+          const wrongTypeError = new Error(`Unsupported media type for file(s): ${fileNames.join(', ')}`)
           wrongTypeError.code = 'wrong-media-type'
+          wrongTypeError.fileNames = fileNames
           throw wrongTypeError
         }
 
