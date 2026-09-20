@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
+import { useEffect, useMemo, useState } from 'react'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
@@ -253,7 +253,11 @@ export default class CaveAsset {
 }
 
 export function useCaveAssetsList(caveId) {
-  const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), orderBy('isCover', 'desc'), orderBy('date')).withConverter(converter)
+  const q = useMemo(
+    () => query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter),
+    [caveId],
+  )
+
   const collection = useCollection(q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })

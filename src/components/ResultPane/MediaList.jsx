@@ -76,14 +76,28 @@ export default function MediaList({ caveId, hasMedia = false, sx, ...props }) {
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      const assetsListLength = Math.min(mediaList.size, assetsListMaxLength)
+      const docs = [...mediaList.docs]
+        .sort((a, b) => {
+          const aCover = a.data().isCover ? 1 : 0
+          const bCover = b.data().isCover ? 1 : 0
+
+          if (aCover !== bCover) {
+            return bCover - aCover
+          }
+
+          const aDate = a.data().date?.toDate?.() ?? 0
+          const bDate = b.data().date?.toDate?.() ?? 0
+          return bDate - aDate
+        })
+
+      const assetsListLength = Math.min(docs.length, assetsListMaxLength)
       const assetItems = []
       let i
 
       for (i = 0; i < assetsListLength; i++) {
         assetItems.push({
           isMedia: true,
-          item: mediaList.docs[i].data(),
+          item: docs[i].data(),
         })
       }
 
