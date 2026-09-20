@@ -65,6 +65,8 @@ const App = () => {
             defaultTitle={appTitle}
           >
             <title>{title}</title>
+            <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
           </Helmet>
           <TitleBar />
           <SnackbarProvider>
