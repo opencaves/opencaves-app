@@ -45,6 +45,24 @@
   }
 }
 
+@keyframes settleBounce {
+  from {
+    transform: var(--oc-marker-active-scale);
+  }
+
+  45% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  70% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
 @keyframes bounce {
   from,
   20%,
@@ -111,6 +129,13 @@
       font-size: var(--oc-marker-selected-font-size);
     }
   }
+
+  &.inactive-animate {
+    .marker-icon {
+      transform-origin: center bottom;
+      animation: var(--oc-marker-animation-duration) settleBounce;
+    }
+  }
 }
 
 .marker {
@@ -121,6 +146,11 @@
 
   &-icon {
     cursor: pointer;
+    transform: scale3d(1, 1, 1);
+    transform-origin: center bottom;
+    transition:
+      transform var(--oc-marker-animation-duration) var(--md-sys-motion-easing-standardDecelerate, cubic-bezier(0.2, 0, 0, 1)),
+      filter var(--oc-marker-animation-duration) var(--md-sys-motion-easing-standardDecelerate, cubic-bezier(0.2, 0, 0, 1));
 
     &:hover + .marker-label {
       color: var(--oc-marker-selected-color);
@@ -129,6 +159,9 @@
 
   &-label {
     color: rgb(240, 240, 240);
+    transition:
+      color var(--oc-marker-animation-duration) var(--md-sys-motion-easing-standardDecelerate, cubic-bezier(0.2, 0, 0, 1)),
+      font-size var(--oc-marker-animation-duration) var(--md-sys-motion-easing-standardDecelerate, cubic-bezier(0.2, 0, 0, 1));
     // -webkit-text-stroke: 0.5px #f00;
     text-shadow: rgb(45, 45, 45) 1px 0px 0px, rgb(45, 45, 45) 0.540302px 0.841471px 0px, rgb(45, 45, 45) -0.416147px 0.909297px 0px, rgb(45, 45, 45) -0.989992px 0.14112px 0px, rgb(45, 45, 45) -0.653644px -0.756802px 0px, rgb(45, 45, 45) 0.283662px -0.958924px 0px, rgb(45, 45, 45) 0.96017px -0.279416px 0px;
     letter-spacing: 0.025em;
@@ -141,3 +174,5 @@
     }
   }
 }
+
+

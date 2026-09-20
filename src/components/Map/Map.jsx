@@ -27,6 +27,8 @@ Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
   value: null,
 })
 
+const MARKER_ANIMATION_DURATION_MS = 680
+
 export default function OCMap() {
   const mapRef = useRef()
   const currentMarkerRef = useRef()
@@ -128,6 +130,12 @@ export default function OCMap() {
     if (activeMarkerElem) {
       activeMarkerElem.classList.remove(activeMarkerElem.dataset.activeClass)
       delete activeMarkerElem.dataset.activeClass
+
+      activeMarkerElem.classList.remove('inactive-animate')
+      activeMarkerElem.classList.add('inactive-animate')
+      window.setTimeout(() => {
+        activeMarkerElem.classList.remove('inactive-animate')
+      }, MARKER_ANIMATION_DURATION_MS)
     }
 
     if (markerElem) {
@@ -294,6 +302,8 @@ export default function OCMap() {
     // const pathname = router.routeInfo.pathname
 
     if (!caveId) {
+      _setCurrentCave(null)
+      setActiveMarkerElem(null)
       setMapReady(true)
       return
     }
