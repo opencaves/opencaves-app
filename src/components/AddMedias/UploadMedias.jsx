@@ -86,8 +86,8 @@ export default function UploadMedias({ medias }) {
       </Snackbar>
 
       {errorAlertOpen && (
-        <ErrorAlert open={true} onClose={onErrorAlertClose}>
-          {t('unknownError')}
+        <ErrorAlert open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
+          {error?.code === 'wrong-media-type' ? t('wrongMediaType') : t('unknownError')}
         </ErrorAlert>
       )}
 

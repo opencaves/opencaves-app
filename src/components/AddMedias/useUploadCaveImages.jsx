@@ -5,6 +5,11 @@ import { auth } from '@/config/firebase.js'
 import CaveAsset from '@/models/CaveAsset.js'
 import useLoggedIn from '@/hooks/useLoggedin.jsx'
 import sleep from '@/utils/sleep.js'
+import { acceptedMimeTypes } from '@/config/mediaPane.js'
+
+function findWrongMediaType(files) {
+  return files.find(file => !acceptedMimeTypes.includes(file.type))
+}
 
 async function ensureEditorRole() {
   const currentUser = auth.currentUser
@@ -57,6 +62,13 @@ export function useUploadCaveImages() {
       if (files && files.length > 0) {
         if (!isLoggedIn) {
           throw new Error('You must be signed in to upload media.')
+        }
+
+        const wrongTypeFile = findWrongMediaType(files)
+        if (wrongTypeFile) {
+          const wrongTypeError = new Error(`Unsupported media type "${wrongTypeFile.type || 'unknown'}" for file "${wrongTypeFile.name}".`)
+          wrongTypeError.code = 'wrong-media-type'
+          throw wrongTypeError
         }
 
         await ensureEditorRole()

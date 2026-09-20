@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Dialog, DialogActions, DialogContent } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { WarningRounded } from '@mui/icons-material'
+import { ReportProblemRounded } from '@mui/icons-material'
 
-export function ErrorAlert({ open = false, onClose, children }) {
+export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, children }) {
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
 
   function handleClose() {
@@ -18,18 +18,38 @@ export function ErrorAlert({ open = false, onClose, children }) {
   }, [open])
 
   return (
-    <Dialog onClose={handleClose} open={errorAlertOpen}>
-      <DialogContent>
-        <Grid container direction="column" sx={{ gap: 2 }}>
-          <Grid size="grow" sx={{ alignSelf: 'center' }}>
-            <WarningRounded color="error" fontSize="large" />
-          </Grid>
-          <Grid>{children}</Grid>
+    <Dialog
+      onClose={handleClose}
+      open={errorAlertOpen}
+      maxWidth="xs"
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: '1.5rem',
+            textAlign: 'center',
+          },
+        },
+      }}
+    >
+      <DialogContent sx={{ pt: 4 }}>
+        <Grid container direction="column" sx={{ gap: 1, alignItems: 'center' }}>
+          <ReportProblemRounded color="warning" sx={{ fontSize: '3rem', mb: 1 }} />
+          {header && (
+            <Typography variant="h5" component="p" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+              {header}
+            </Typography>
+          )}
+          <Typography color="text.secondary">{children}</Typography>
+          {hint && (
+            <Typography variant="body2" color="text.secondary">
+              {hint}
+            </Typography>
+          )}
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} autoFocus>
-          Ok
+      <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+        <Button variant="contained" disableElevation onClick={handleClose} autoFocus>
+          {dismissLabel}
         </Button>
       </DialogActions>
     </Dialog>
@@ -39,4 +59,7 @@ export function ErrorAlert({ open = false, onClose, children }) {
 ErrorAlert.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  header: PropTypes.node,
+  hint: PropTypes.node,
+  dismissLabel: PropTypes.node,
 }
