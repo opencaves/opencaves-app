@@ -11,9 +11,10 @@ export default function Splash() {
 ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║     ██╔══██║╚██╗ ██╔╝██╔══╝  ╚════██║   ██║   ██║██╔══██╗██║   ██║
 ╚██████╔╝██║     ███████╗██║ ╚████║╚██████╗██║  ██║ ╚████╔╝ ███████╗███████║██╗╚██████╔╝██║  ██║╚██████╔╝
  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ `
-  console.log('theme: ', theme)
+
+  const primaryColor = theme.palette.primary.main
   const style = `
-    color: ${theme.vars.palette.primary.main};
+    color: ${primaryColor};
   `
   useEffect(() => {
     console.log(
@@ -23,7 +24,7 @@ ${v.padStart((splashLength + v.length) / 2, ' ')}
 `,
       style,
     )
-  }, [])
+  }, [splash, splashLength, style, v])
 
   return undefined
 }
