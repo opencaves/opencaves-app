@@ -95,7 +95,6 @@ export default function UploadMedias({ medias }) {
         <Snackbar open={uploadComplete} autoHide={false}>
           <SnackbarContent>
             <Alert>
-              ##################################
               {t('success', { count: done.count })}
             </Alert>
           </SnackbarContent>
