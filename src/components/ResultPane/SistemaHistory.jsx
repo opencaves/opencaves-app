@@ -26,9 +26,16 @@ export default function Sistema({ sistemaHistory }) {
             >
               <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
             </Box>
-            <Typography variant="caveDetailsItemText" component="div">
-              {t2('sistema', { system: currentSistema.name })}
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="caveDetailsItemText" component="div">
+                {t2('sistema', { system: currentSistema.name })}
+              </Typography>
+              {currentSistema.createdAt && (
+                <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+                </Typography>
+              )}
+            </Box>
           </AccordionSummary>
           <AccordionDetails variant="sistemaHistory">
             {sistemaHistory.map((sistema, i) => {
@@ -72,7 +79,14 @@ export default function Sistema({ sistemaHistory }) {
         </Box>
       </Grid>
       <Grid size="grow">
-        <Typography variant="caveDetailsItemText">{t2('sistema', { system: currentSistema.name })}</Typography>
+        <Box>
+          <Typography variant="caveDetailsItemText">{t2('sistema', { system: currentSistema.name })}</Typography>
+          {currentSistema.createdAt && (
+            <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+            </Typography>
+          )}
+        </Box>
       </Grid>
     </Grid>
   )
