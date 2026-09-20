@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+export function buildContinueUrl(location) {
+  const baseUrl = `${location.pathname}${location.search}`
+
+  if (/^\/map\/[^/]+$/.test(location.pathname)) {
+    return baseUrl
+  }
+
+  return `${baseUrl}${location.hash}`
+}
+
 const initialState = {
   user: null,
   isLoggedIn: false,

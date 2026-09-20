@@ -8,7 +8,6 @@ import { Box, Dialog, DialogContent, DialogTitle, IconButton, Skeleton, Typograp
 import { Grid } from '@mui/material'
 import { ArrowBack, CheckCircleOutlineRounded, Close, SendRounded, WarningRounded } from '@mui/icons-material'
 import { register } from 'swiper/element/bundle'
-import { deleteContinueUrl } from '@/redux/slices/sessionSlice'
 import Logo from '../App/Logo.jsx'
 import PasswordInput from './PasswordInput.jsx'
 import AuthButton from './AuthButton.jsx'
@@ -389,14 +388,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
     } finally {
       setStepPasswordLoading(false)
     }
-  }
-
-  //
-  // Step 5 - Registration completed
-  //
-
-  function onStepCreatedCloseBtnClick() {
-    dispatch(deleteContinueUrl())
   }
 
   //
@@ -798,7 +789,16 @@ export default function SignupWithEmail({ open: initialOpen }) {
                   />
                   <SectionForm>
                     <SectionActions>
-                      <AuthButton component={Link} to={continueUrl || defaultContinuetUrl} onClick={onStepCreatedCloseBtnClick}>
+                      <AuthButton
+                        onClick={() => {
+                          const url = continueUrl || defaultContinuetUrl
+                          if (url.includes('#')) {
+                            window.location.href = url
+                          } else {
+                            navigate(url)
+                          }
+                        }}
+                      >
                         {ts('created.closeBtn')}
                       </AuthButton>
 

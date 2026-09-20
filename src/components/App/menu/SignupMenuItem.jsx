@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ListItemIcon } from '@mui/material'
 import { PersonAddRounded } from '@mui/icons-material'
 import MenuItem from '@/components/App/MenuItem.jsx'
-import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 export default function SignupMenuItem(props) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
@@ -13,7 +13,11 @@ export default function SignupMenuItem(props) {
   const location = useLocation()
 
   function onSignupBtnClick() {
-    dispatch(setContinueUrl(`${location.pathname}${location.search}${location.hash}`))
+    if (location.pathname.startsWith('/login') || location.pathname.startsWith('/signup')) {
+      return
+    }
+
+    dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
   return (

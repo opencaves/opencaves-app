@@ -35,7 +35,7 @@ const sessionPersistConfig = {
 
 const mapPersistConfig = {
   key: 'map',
-  storage: persistStorage,
+  storage: sessionPersistStorage,
   blacklist: ['currentMarker'],
 }
 
@@ -43,8 +43,7 @@ const rootReducer = combineReducers({
   app: persistReducer(appPersistConfig, appReducer),
   session: persistReducer(sessionPersistConfig, sessionReducer),
   search: searchReducer,
-  // map: persistReducer(mapPersistConfig, mapReducer),
-  map: mapSlice,
+  map: persistReducer(mapPersistConfig, mapSlice),
   data: dataReducer,
 })
 

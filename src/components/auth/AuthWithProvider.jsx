@@ -4,7 +4,6 @@ import { ProviderId, linkWithCredential, signInWithPopup, signInWithRedirect } f
 import { useNavigate } from 'react-router-dom'
 import { getProviderForProviderId } from './providers.jsx'
 import AuthButton from './AuthButton.jsx'
-import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useAnonymous from '@/hooks/useAnonymous.jsx'
 import { auth } from '@/config/firebase.js'
@@ -20,11 +19,16 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
 
   function onAuthWithProviderSuccess() {
     if (onSuccess) {
-      return onSuccess.call(null, arguments)
+      return onSuccess()
     }
 
-    navigate(continueUrl || '/')
-    dispatch(deleteContinueUrl())
+    const url = continueUrl || '/'
+
+    if (url.includes('#')) {
+      window.location.href = url
+    } else {
+      navigate(url)
+    }
   }
 
   function promptUserForPassword() {
@@ -73,9 +77,9 @@ export default function AuthWithProvider({ Provider, message, color, onSuccess, 
       signInWithRedirect(auth, new Provider())
     } else {
       signInWithPopup(auth, new Provider())
-        .then((result) => {
+        .then(() => {
           setDisabled(false)
-          navigate(continueUrl || '/')
+          onAuthWithProviderSuccess()
         })
         .catch((error) => {
           setDisabled(false)

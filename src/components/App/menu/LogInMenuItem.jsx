@@ -5,18 +5,20 @@ import { Link, useLocation } from 'react-router-dom'
 import { ListItemIcon } from '@mui/material'
 import { PersonRounded } from '@mui/icons-material'
 import MenuItem from '@/components/App/MenuItem.jsx'
-import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 
 export default function LogInMenuItem(props) {
   const dispatch = useDispatch()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
-  // const location = useLocation()
-  const { location } = window
+  const location = useLocation()
 
   function onLogInMenuItemClick() {
-    const continueUrl = `${location.pathname}${location.search}${location.hash}`
-    dispatch(setContinueUrl(continueUrl))
+    if (location.pathname.startsWith('/login') || location.pathname.startsWith('/signup')) {
+      return
+    }
+
+    dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
   return (

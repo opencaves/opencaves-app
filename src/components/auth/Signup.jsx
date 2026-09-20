@@ -1,9 +1,8 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { deleteContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import AuthButton from './AuthButton.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
 import Or from '../utils/Or.jsx'
@@ -11,7 +10,7 @@ import Logo from '../App/Logo.jsx'
 
 export default function Signup() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const continueUrl = useSelector((state) => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
   // const { state } = useLocation()
 
@@ -19,9 +18,13 @@ export default function Signup() {
   //   dispatch(setContinueUrl(state.continueUrl))
   // }
 
-  function onSuccess(continueUrl = '/') {
-    dispatch(deleteContinueUrl())
-    navigate(continueUrl)
+  function onSuccess() {
+    const url = continueUrl ?? '/'
+    if (url.includes('#')) {
+      window.location.href = url
+    } else {
+      navigate(url)
+    }
   }
 
   return (

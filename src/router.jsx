@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Signup from '@/routes/Signup.jsx'
@@ -20,7 +20,15 @@ function SkipIfLoggedin({ children }) {
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   const continueUrl = useSelector(state => state.session.continueUrl)
   const dispatch = useDispatch()
-  const navigateToUrl = continueUrl ? `${continueUrl}` : '/'
+
+  // Snapshot continueUrl so that deleteContinueUrl() (dispatched below once
+  // logged in) doesn't wipe out the redirect target before it's used: that
+  // would cause a second render with continueUrl already null, redirecting
+  // to '/' instead of the page the user was on.
+  const continueUrlRef = useRef(continueUrl)
+  if (continueUrl) {
+    continueUrlRef.current = continueUrl
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -31,7 +39,7 @@ function SkipIfLoggedin({ children }) {
 
 
   return isLoggedIn ? (
-    <Navigate to={navigateToUrl} />
+    <Navigate to={continueUrlRef.current ?? '/'} />
   ) : children
 }
 

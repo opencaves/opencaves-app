@@ -29,6 +29,10 @@ Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
 
 const MARKER_ANIMATION_DURATION_MS = 680
 
+function hasSavedViewState(viewState) {
+  return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
+}
+
 export default function OCMap() {
   const mapRef = useRef()
   const currentMarkerRef = useRef()
@@ -36,6 +40,7 @@ export default function OCMap() {
   const dataLoadingState = useSelector((state) => state.data.dataLoadingState)
   const searchOptions = useSelector((state) => state.search)
   const _currentCave = useSelector((state) => state.map.currentCave)
+  const savedViewState = useSelector((state) => state.map.viewState)
   const currentZoomLevel = useSelector((state) => state.map.currentZoomLevel)
   const mapData = useSelector((state) => state.map.data)
   const caveData = useSelector((state) => state.data.caves)
@@ -46,11 +51,13 @@ export default function OCMap() {
   const [mapReady, setMapReady] = useState(false)
   const theme = useTheme()
 
+  const persistedViewStateAvailable = hasSavedViewState(savedViewState)
+  const initialMapViewState = persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState
+
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
   const [activeMarkerElem, doSetActiveMarkerElem] = useState()
-  const [zoomLevel, setZoomLevel] = useState(defaultViewState.zoom)
-  const [initialViewState, setInitialViewState] = useState(defaultViewState)
+  const [zoomLevel, setZoomLevel] = useState(initialMapViewState.zoom)
   const [mapBounds, setMapBounds] = useState()
   const [mapLoaded, setMapLoaded] = useState(false)
 
@@ -340,11 +347,24 @@ export default function OCMap() {
     }
 
     const routeCave = caveData.find((cave) => cave.id === caveId)
+
+    if (persistedViewStateAvailable && _currentCave?.id === caveId && routeCave?.location) {
+      const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
+        const markerLngLat = marker.getLngLat()
+        return markerLngLat.lng === routeCave.location.longitude && markerLngLat.lat === routeCave.location.latitude
+      })
+
+      if (currentMarker) {
+        setActiveMarkerElem(currentMarker.getElement(), true)
+      }
+
+      return
+    }
     if (routeCave?.location) {
       flyToMarker({ animate: true, cave: routeCave, offsetForPane: false })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapLoaded, caveId, caveData, currentZoomLevel])
+  }, [mapLoaded, caveId, caveData, currentZoomLevel, persistedViewStateAvailable, _currentCave])
 
   useEffect(() => {
     if (mapReady && hasInitialGoToMarker && activeMarkerElem) {
@@ -376,7 +396,7 @@ export default function OCMap() {
             height: '100%',
           }}
         >
-          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialViewState} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
               // trackUserLocation={true}
@@ -418,7 +438,7 @@ export default function OCMap() {
                 }
 
                 return (
-                  <Marker key={`m-${cave.id}`} longitude={cave.location.longitude} latitude={cave.location.latitude} anchor="center" onClick={(event) => onMarkerClick(event, cave)}>
+                  <Marker key={`m-${cave.id}`} longitude={cave.location.longitude} latitude={cave.location.latitude} anchor="center" className={isCurrentCave ? 'active' : undefined} onClick={(event) => onMarkerClick(event, cave)}>
                     <UnstyledLink to={`/map/${cave.id}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
                       <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor}>
                         {pinIcon &&

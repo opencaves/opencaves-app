@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Button, Drawer, styled, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
@@ -7,6 +8,7 @@ import { MenuRounded } from '@mui/icons-material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import { appName, appTitle } from '@/config/app.js'
+import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 const drawerWidth = 240
 const navItems = [
@@ -17,6 +19,8 @@ const navItems = [
 
 export default function AppBar(props) {
   const { window } = props
+  const dispatch = useDispatch()
+  const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
@@ -24,6 +28,14 @@ export default function AppBar(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
+  }
+
+  function captureContinueUrl() {
+    if (location.pathname.startsWith('/login') || location.pathname.startsWith('/signup')) {
+      return
+    }
+
+    dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
   const StyledButton = styled(Button)({
@@ -108,10 +120,10 @@ export default function AppBar(props) {
                 justifyContent: 'flex-end',
               }}
             >
-              <StyledButton variant="text" component={Link} to="/login">
+              <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl}>
                 {t('login')}
               </StyledButton>
-              <StyledButton variant="outlined" component={Link} to="/signup">
+              <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl}>
                 {t('signup')}
               </StyledButton>
             </Grid>

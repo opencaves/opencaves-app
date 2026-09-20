@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { Section, SectionActions, SectionFields, SectionForm } from './Section.jsx'
 import AuthButton from './AuthButton.jsx'
 import TextInput from './TextInput.jsx'
@@ -14,7 +13,6 @@ import { passwordMinLength } from '@/config/auth.js'
 
 export default function LogInWithEmail() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const continueUrl = useSelector((state) => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'loginWithEmail' })
   const { t: tErrors } = useTranslation('errors')
@@ -33,9 +31,11 @@ export default function LogInWithEmail() {
 
   function navigateToContinueUrl() {
     const url = continueUrl ?? '/'
-    // dispatch(deleteContinueUrl())
-    // console.log('!!! navigating to url: %s', url)
-    // navigate(url)
+    if (url.includes('#')) {
+      window.location.href = url
+    } else {
+      navigate(url)
+    }
   }
 
   function onEmailInputValidityChange(validity) {

@@ -12,6 +12,8 @@ import { loadMediaCount, loadMediaList } from './MediaList.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { paneInitialBreakpoint } from '@/config/app.js'
+import { setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import './ResultPane.scss'
 
@@ -33,6 +35,16 @@ export default function ResultPane() {
   const isSmall = useSmall()
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
+
+  useEffect(() => {
+    if (!isSmall || !caveId) {
+      return
+    }
+
+    dispatch(toggleFilterMenu(false))
+    dispatch(setResultPaneSmOpen(true))
+    dispatch(setResultPaneSmCurrentBreakpoint(paneInitialBreakpoint))
+  }, [caveId, dispatch, isSmall])
 
   useEffect(() => {
 
