@@ -2,7 +2,6 @@ import './init.js'
 
 export { api } from './api/v1/api.js'
 
-export * from './users/onCreate.js'
 export * from './users/onDelete.js'
 export * from './users/blocking-functions.js'
 export * from './users/assignRole.js'
