@@ -6,11 +6,23 @@ import logger from 'firebase-functions/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME } from '../constants.js'
-import { THUMBNAILS_FOLDER } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER } from '../constants.js'
+import { supportedXMP } from '../config.js'
 
 function supportsXMP(mediaType) {
-  return ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff'].includes(mediaType)
+  return supportedXMP.includes(mediaType)
+}
+
+function getUploadTimestamp(data, event) {
+  if (data.timeCreated) {
+    return Timestamp.fromDate(new Date(data.timeCreated))
+  }
+
+  if (event.time) {
+    return Timestamp.fromDate(new Date(event.time))
+  }
+
+  return Timestamp.now()
 }
 
 export const onAssetUploaded = onObjectFinalized(async event => {
@@ -90,6 +102,8 @@ export const onAssetUploaded = onObjectFinalized(async event => {
         assetData.date = new Timestamp(DateTime, 0)
       } else if (ModifyDate) {
         assetData.date = new Timestamp(ModifyDate, 0)
+      } else {
+        assetData.date = getUploadTimestamp(data, event)
       }
 
       if (GPSLongitude) {

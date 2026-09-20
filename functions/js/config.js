@@ -1,0 +1,1 @@
+export const supportedXMP = ['image/jpeg', 'image/jpg', 'image/png', 'image/tiff']
