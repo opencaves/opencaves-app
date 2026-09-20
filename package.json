@@ -9,7 +9,8 @@
     "serve": "serve -p 4000 -s build",
     "build": "vite build",
     "deploy": "firebase deploy",
-    "deploy:beta": "firebase hosting:channel:deploy beta"
+    "deploy:beta": "firebase hosting:channel:deploy beta",
+    "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "engines": {
     "node": ">= 20"

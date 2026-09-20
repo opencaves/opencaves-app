@@ -2,3 +2,4 @@
 # Robots are welcome!
 User-agent: *
 Disallow: 
+Sitemap: https://opencaves.org/sitemap.xml
