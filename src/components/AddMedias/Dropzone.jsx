@@ -41,6 +41,12 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
     borderColor: 'error',
   }
 
+  const handleClose = (_event, reason) => {
+    if (reason !== 'escapeKeyDown') {
+      setOpen(false)
+    }
+  }
+
   const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
     accept: acceptedMimeTypes.reduce((accept, mime) => {
       accept[mime] = []
@@ -67,17 +73,15 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
     onDrop()
   }
 
-  function onDropzoneDragEnter() {
-    console.log('[onDropzoneDragEnter] %o', arguments)
-  }
+  // function onDropzoneDragEnter() {
+  //   console.log('[onDropzoneDragEnter] %o', arguments)
+  // }
 
   function onDropzoneDragLeave() {
-    console.log('[onDropzoneDragLeave]')
     setOpen(false)
   }
 
   useEffect(() => {
-    console.log('open: %o', open)
     if (open) {
       setOpen(open)
     }
@@ -85,7 +89,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
 
   return (
     <>
-      <Dialog open={_open} fullScreen={true} disableEscapeKeyDown={true} transitionDuration={350}>
+      <Dialog open={_open} fullScreen={true} onClose={handleClose} transitionDuration={350}>
         <Grid container {...getRootProps({ sx })}>
           <Grid className="oc-dropzone" container direction="column" sx={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <SvgIcon inheritViewBox sx={{ fontSize: '10rem' }} color="primary">
