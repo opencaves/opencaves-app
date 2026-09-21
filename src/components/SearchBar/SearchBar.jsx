@@ -416,6 +416,7 @@ export default function SearchBar() {
                 sx={{
                   width: '48px',
                   height: '48px',
+                  p: 0,
                   bgcolor: 'transparent',
                   ':hover': {
                     bgcolor: 'transparent',
