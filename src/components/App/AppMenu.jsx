@@ -10,7 +10,7 @@ import SignupMenuItem from './menu/SignupMenuItem.jsx'
 import LogInMenuItem from './menu/LogInMenuItem.jsx'
 import LogoutMenuItem from './menu/LogoutMenuItem.jsx'
 import AddMedias from './menu/AddMediasMenuItem.jsx'
-import LogoIcon from './LogoIcon.jsx'
+import AppMenuIcon from './AppMenuIcon.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useSession from '@/hooks/useSession.jsx'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
@@ -72,22 +72,14 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
             ...menuStyles,
           }}
         >
-          {isLoggedIn ? (
-            <Avatar
-              src={user.photoURL || 'broken-image.webp'}
-              alt={user.displayName}
-              sx={{
-                bgcolor: 'transparent',
-                // color: 'inherit',
-                width: '32px',
-                height: '32px',
-                outline: isSmall ? null : `3px solid ${theme.palette.primary.main}`,
-                outlineOffset: 2,
-              }}
-            />
-          ) : (
-            <LogoIcon colorScheme={logoColorScheme} sx={logoSx} />
-          )}
+          <AppMenuIcon
+            logoColorScheme={logoColorScheme}
+            logoSx={logoSx}
+            avatarSx={{
+              outline: isSmall ? null : `3px solid ${theme.palette.primary.main}`,
+              outlineOffset: 2,
+            }}
+          />
         </Button>
       </Tooltip>
       <Menu

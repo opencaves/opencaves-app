@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { IconButton, Menu, Divider, ListItemIcon } from '@mui/material'
-import { MoreVert, PersonRounded } from '@mui/icons-material'
+import { PersonRounded } from '@mui/icons-material'
 import MenuItem from '@/components/App/MenuItem.jsx'
 import AddMedias from '@/components/App/menu/AddMediasMenuItem.jsx'
+import AppMenuIcon from '@/components/App/AppMenuIcon.jsx'
 import { appName } from '@/config/app.js'
 
 export default function ResultPaneMenu({ ...props }) {
@@ -33,7 +34,7 @@ export default function ResultPaneMenu({ ...props }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        <MoreVert />
+        <AppMenuIcon />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

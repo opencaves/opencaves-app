@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@ionic/react'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import waitFor from 'p-wait-for'
-import { Box, Card, CardContent, IconButton } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { Box, Card, CardContent, IconButton, Slide, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
@@ -18,12 +19,14 @@ function easeOutQuad(t, b = 0, c = 1, d = 1) {
 
 export const ResultPaneSmContext = createContext()
 
-export default function ResultPaneSm({ children, ...props }) {
+export default function ResultPaneSm({ children, cave, ...props }) {
   const modalRef = useRef({})
   const paneHeadRef = useRef({})
 
   const theme = useTheme()
   const dispatch = useDispatch()
+  const { t: tMap } = useTranslation('map')
+  const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
 
   const firstBreakpoint = paneBreakpoints[0]
   const initialBreakpoint = useSelector((state) => state.app.resultPaneSmCurrentBreakpoint)
@@ -37,6 +40,7 @@ export default function ResultPaneSm({ children, ...props }) {
   const [paneTransitionDirection, setPaneTransitionDirection] = useState('out')
 
   const [paneMinimizeFactor, setPaneMinimizeFactor] = useState(modalPosition)
+  const [titleHidden, setTitleHidden] = useState(false)
 
   const searchBarOff = useSelector((state) => state.app.searchBarOff)
 
@@ -47,8 +51,10 @@ export default function ResultPaneSm({ children, ...props }) {
       modalPosition,
       paneOpenFactor,
       paneMinimizeFactor,
+      titleHidden,
+      setTitleHidden,
     }),
-    [modalPosition, paneOpenFactor, paneMinimizeFactor],
+    [modalPosition, paneOpenFactor, paneMinimizeFactor, titleHidden],
   )
 
   function onModalBreakpointDidChange(event) {
@@ -175,7 +181,7 @@ export default function ResultPaneSm({ children, ...props }) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalPosition])
+  }, [paneOpenFactor])
 
   return (
     resultPaneOpen &&
@@ -195,7 +201,13 @@ export default function ResultPaneSm({ children, ...props }) {
                 <ExpandMoreRounded fontSize="large" />
               </IconButton>
             </Grid>
-            <Grid size="grow"></Grid>
+            <Grid size="grow" sx={{ overflow: 'hidden', pl: '8px' }}>
+              <Slide in={titleHidden} direction="down" appear={false} mountOnEnter unmountOnExit>
+                <Typography variant="caveDetailsHeader" component="p" noWrap sx={{ fontSize: '1.125rem', lineHeight: '1.5rem' }}>
+                  {caveName}
+                </Typography>
+              </Slide>
+            </Grid>
             <Grid>
               <ResultPaneMenu
                 sx={{
@@ -250,6 +262,7 @@ export default function ResultPaneSm({ children, ...props }) {
                   <CardContent
                     sx={{
                       p: 0,
+                      pb: 'var(--oc-pane-padding-inline)',
                     }}
                   >
                     {children}
@@ -259,6 +272,7 @@ export default function ResultPaneSm({ children, ...props }) {
                 <CardContent
                   sx={{
                     p: 0,
+                    pb: 'var(--oc-pane-padding-inline)',
                   }}
                 >
                   {children}
