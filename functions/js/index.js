@@ -1,6 +1,7 @@
 import './init.js'
 
 export { api } from './api/v1/api.js'
+export { sitemap } from './sitemap/sitemap.js'
 
 export * from './users/onDelete.js'
 export * from './users/blocking-functions.js'
