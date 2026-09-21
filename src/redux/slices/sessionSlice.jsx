@@ -15,6 +15,7 @@ const initialState = {
   isLoggedIn: false,
   isAnonymous: false,
   continueUrl: null,
+  roles: [],
 }
 
 const sessionSlice = createSlice({
@@ -25,6 +26,12 @@ const sessionSlice = createSlice({
       state.user = action.payload
       state.isLoggedIn = !!action.payload && !action.payload.isAnonymous
       state.isAnonymous = !!action.payload?.isAnonymous
+      if (!action.payload) {
+        state.roles = []
+      }
+    },
+    setUserRoles: (state, action) => {
+      state.roles = action.payload || []
     },
     setContinueUrl: (state, action) => {
       state.continueUrl = action.payload
@@ -35,5 +42,5 @@ const sessionSlice = createSlice({
   }
 })
 
-export const { setUser, setContinueUrl, deleteContinueUrl } = sessionSlice.actions
+export const { setUser, setUserRoles, setContinueUrl, deleteContinueUrl } = sessionSlice.actions
 export default sessionSlice.reducer

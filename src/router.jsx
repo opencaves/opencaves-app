@@ -8,6 +8,12 @@ import Loading from '@/routes/Loading.jsx'
 import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
+import AdminHome from '@/routes/admin/AdminHome.jsx'
+import AdminCaves from '@/routes/admin/AdminCaves.jsx'
+import AdminCaveEdit from '@/routes/admin/AdminCaveEdit.jsx'
+import AdminSistemas from '@/routes/admin/AdminSistemas.jsx'
+import AdminSistemaEdit from '@/routes/admin/AdminSistemaEdit.jsx'
+import AdminReferenceData from '@/routes/admin/AdminReferenceData.jsx'
 import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
 import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane.jsx'
@@ -41,6 +47,21 @@ function SkipIfLoggedin({ children }) {
   return isLoggedIn ? (
     <Navigate to={continueUrlRef.current ?? '/'} />
   ) : children
+}
+
+function RequireEditor({ children }) {
+  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
+  const roles = useSelector(state => state.session.roles)
+
+  if (!isLoggedIn) {
+    return <Navigate to='/login' />
+  }
+
+  if (!roles.includes('editor')) {
+    return <Navigate to='/' />
+  }
+
+  return children
 }
 
 const routes = [
@@ -95,6 +116,54 @@ const routes = [
           {
             path: 'loading',
             element: <Loading />
+          },
+          {
+            path: 'admin',
+            element: (
+              <RequireEditor>
+                <AdminHome />
+              </RequireEditor>
+            )
+          },
+          {
+            path: 'admin/caves',
+            element: (
+              <RequireEditor>
+                <AdminCaves />
+              </RequireEditor>
+            )
+          },
+          {
+            path: 'admin/caves/:caveId',
+            element: (
+              <RequireEditor>
+                <AdminCaveEdit />
+              </RequireEditor>
+            )
+          },
+          {
+            path: 'admin/sistemas',
+            element: (
+              <RequireEditor>
+                <AdminSistemas />
+              </RequireEditor>
+            )
+          },
+          {
+            path: 'admin/sistemas/:sistemaId',
+            element: (
+              <RequireEditor>
+                <AdminSistemaEdit />
+              </RequireEditor>
+            )
+          },
+          {
+            path: 'admin/reference/:collectionName',
+            element: (
+              <RequireEditor>
+                <AdminReferenceData />
+              </RequireEditor>
+            )
           }
         ]
       },

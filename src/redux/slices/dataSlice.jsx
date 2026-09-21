@@ -52,6 +52,9 @@ export const dataSlice = createSlice({
     setExpires: (state) => {
       state.expires = Date.now() + state.maxAge
     },
+    invalidateExpires: (state) => {
+      state.expires = 0
+    },
     setLanguages: (state, action) => {
       state.languages = action.payload
     }
@@ -60,6 +63,6 @@ export const dataSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // export const { setCoordinateValid } = filterSlice.actions
-export const { setDataLoadingState, setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, setLanguages } = dataSlice.actions
+export const { setDataLoadingState, setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, invalidateExpires, setLanguages } = dataSlice.actions
 
 export default dataSlice.reducer

@@ -1,7 +1,7 @@
-import { getCaveData } from './data-service/dataImporter.js'
-import { processData } from './data-service/dataProcessor.js'
+import { readCaveDataFromFirestore } from './data-service/firestoreDataReader.js'
+import { postProcessCaveData } from './data-service/postProcessCaveData.js'
 import { store } from '@/redux/store.jsx'
-import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, setLanguages } from '@/redux/slices/dataSlice'
+import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, invalidateExpires, setLanguages } from '@/redux/slices/dataSlice'
 
 
 function handleSetCaves(data) {
@@ -15,6 +15,12 @@ function handleSetCaves(data) {
   store.dispatch(setSources(data.sources))
   store.dispatch(setLanguages(data.languages))
   store.dispatch(setExpires())
+}
+
+// Forces a refetch on the next getData() call, regardless of the expires
+// cache - used after an admin edit saves, so the map reflects it right away.
+export function invalidateData() {
+  store.dispatch(invalidateExpires())
 }
 
 export function getData() {
@@ -51,9 +57,9 @@ export function getData() {
 }
 
 async function fetchCaveData() {
-  return getCaveData().then((data) => {
+  return readCaveDataFromFirestore().then((data) => {
     // console.log('[fetchCaveData] raw data: %o', data)
-    data = processData(data)
+    data = postProcessCaveData(data)
 
     const bounds = {
       minLongitude: 180,

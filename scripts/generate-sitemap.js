@@ -1,9 +1,25 @@
 import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { getCaveData } from '../src/services/data-service/dataImporter.js'
+import { initializeApp, applicationDefault } from 'firebase-admin/app'
+import { getFirestore } from 'firebase-admin/firestore'
 
 const SITE_URL = 'https://opencaves.org'
+const PROJECT_ID = 'opencaves'
+
+const isProd = process.argv.includes('--prod')
+
+if (!isProd && !process.env.FIRESTORE_EMULATOR_HOST) {
+  console.error(
+    'Refusing to run: no FIRESTORE_EMULATOR_HOST set and --prod was not passed.\n' +
+    'Either start the emulator and set FIRESTORE_EMULATOR_HOST=127.0.0.1:8080, or pass\n' +
+    '--prod to read from the real project (requires Application Default Credentials).'
+  )
+  process.exit(1)
+}
+
+initializeApp(isProd ? { credential: applicationDefault(), projectId: PROJECT_ID } : { projectId: PROJECT_ID })
+const db = getFirestore()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outputPath = path.resolve(__dirname, '../public/sitemap.xml')
@@ -27,11 +43,8 @@ function buildSitemap(urls) {
 }
 
 async function main() {
-  const data = await getCaveData()
-
-  const caveIds = data.caves
-    .map((cave) => cave.id?.trim())
-    .filter(Boolean)
+  const caveRefs = await db.collection('caves').listDocuments()
+  const caveIds = caveRefs.map((ref) => ref.id)
 
   const urls = [
     `${SITE_URL}/`,
