@@ -28,6 +28,12 @@
   }
 
   .oc-result-pane--card {
+    // MUI's Card has its own default border-radius (theme.shape.borderRadius),
+    // independent of the ion-modal's own --border-radius. A non-zero outer
+    // modal radius is big enough to mask that mismatch, but once the modal
+    // goes fully square, this card's own residual rounding is exposed as a
+    // small gap in its top corners revealing whatever's behind the modal.
+    border-radius: 0;
     box-shadow: none;
     margin: 0;
     padding-top: 0;

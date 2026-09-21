@@ -62,6 +62,16 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     const currentBreakpoint = event.detail.breakpoint
     setBreakpoint(currentBreakpoint)
     dispatch(setResultPaneSmCurrentBreakpoint(currentBreakpoint))
+    // modalPosition is inferred continuously from the modal's CSS transform
+    // matrix, which is only needed to animate smoothly *during* a drag. On
+    // some real devices (e.g. when the mobile browser's toolbar hides/shows
+    // mid-drag and shifts window.innerHeight) that inference can drift and
+    // settle short of the breakpoint Ionic itself actually landed on,
+    // leaving the pane visually fully open while modalPosition (and
+    // everything derived from it: border-radius, the head bar, hiding the
+    // search bar) still thinks it isn't. Resync to Ionic's own authoritative
+    // settled breakpoint here.
+    setModalPosition(currentBreakpoint)
   }
 
   function onBackBtnClick() {
