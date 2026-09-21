@@ -1,4 +1,4 @@
-import functions from 'firebase-functions'
+import * as functions from 'firebase-functions/v1'
 import { db } from '../init.js'
 import { REGION, USERS_COLL_NAME } from '../constants.js'
 

@@ -1,4 +1,4 @@
-import functions from 'firebase-functions'
+import * as functions from 'firebase-functions/v1'
 import { auth } from '../init.js'
 import { REGION } from '../constants.js'
 
