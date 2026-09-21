@@ -105,7 +105,7 @@ export default function UploadMedias({ medias }) {
 
       {done && (
         <Snackbar open={uploadComplete} autoHide={false}>
-          <SnackbarContent>
+          <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
             <Alert>
               {t('success', { count: done.count })}
             </Alert>
