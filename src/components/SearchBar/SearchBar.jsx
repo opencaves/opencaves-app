@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { menuController } from '@ionic/core/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
@@ -137,6 +136,7 @@ export default function SearchBar() {
   const data = useSelector((state) => state.data.caves)
   const currentCave = useSelector((state) => state.map.currentCave)
   const searchBarOff = useSelector((state) => state.app.searchBarOff)
+  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
 
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
@@ -284,8 +284,7 @@ export default function SearchBar() {
   }
 
   function onFilterBtnClick() {
-    menuController.toggle()
-    dispatch(toggleFilterMenu(true))
+    dispatch(toggleFilterMenu(!filterMenuOpen))
   }
 
   useEffect(() => {

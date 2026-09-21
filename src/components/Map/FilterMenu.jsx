@@ -162,7 +162,7 @@ export default function MapFilterMenu({ props }) {
         return
       }
 
-      toggleFilterMenu(open)
+      dispatch(toggleFilterMenu(open))
       dispatch(setResultPaneSmOpen(open))
     }
   }
