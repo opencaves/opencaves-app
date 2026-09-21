@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0 (2026-09-21)
+
+
+### Bug Fixes
+
+* animate map marker deselect bounce ([542082e](https://github.com/opencaves/opencaves-app/commit/542082ea9149893a023b49035fc325028bb09f6c))
+* **functions:** repair firebase-functions v7 imports and Node runtime ([22348df](https://github.com/opencaves/opencaves-app/commit/22348df706ec616689ab3811215c4bc9d92d15e5))
+* recover media uploads and cover-image crash ([115cdcb](https://github.com/opencaves/opencaves-app/commit/115cdcb2fb6bcd48af9619b192193d610907a6f7))
+
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2023-07-23)
 
 
