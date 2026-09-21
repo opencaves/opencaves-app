@@ -11,6 +11,7 @@ import { ExpandMoreRounded } from '@mui/icons-material'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import ResultPaneMenu from './ResultPaneMenu.jsx'
 import { paneBreakpoints, paneInitialBreakpoint, paneOpenThreshold } from '@/config/app.js'
+import { resultPaneSmUpperHeight } from '@/config/resultPane.js'
 import './ResultPaneSm.scss'
 
 function easeOutQuad(t, b = 0, c = 1, d = 1) {
@@ -262,7 +263,26 @@ export default function ResultPaneSm({ children, cave, ...props }) {
                   <CardContent
                     sx={{
                       p: 0,
-                      pb: 'var(--oc-pane-padding-inline)',
+                      // MUI's CardContent applies its own padding-bottom via a
+                      // `&:last-child` rule, whose specificity beats a plain
+                      // `pb` override here, so it has to be targeted directly.
+                      //
+                      // This pane's top offset (--oc-result-pane-sm-upper-height,
+                      // to clear the search bar) pushes its own bottom edge past
+                      // the viewport by the same amount, since Ionic's sheet
+                      // modal sizes itself to window.innerHeight regardless of
+                      // that offset. No amount of scrolling can reveal that
+                      // permanently off-screen band, so pad it out here instead.
+                      // window.innerHeight itself is unreliable on mobile Chrome
+                      // (it can reflect the toolbar-hidden viewport even while
+                      // the toolbar is shown), and Android's gesture-nav bar
+                      // eats further space env(safe-area-inset-bottom) accounts
+                      // for — so this is intentionally more generous than the
+                      // precise offset value, confirmed insufficient on a real
+                      // device (Pixel 10 Pro) at exactly that value.
+                      '&:last-child': {
+                        pb: `calc(var(--oc-pane-padding-inline) + ${resultPaneSmUpperHeight * 2}px + env(safe-area-inset-bottom, 0px))`,
+                      },
                     }}
                   >
                     {children}
