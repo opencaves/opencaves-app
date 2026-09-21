@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
+import { useEffect, useMemo, useState } from 'react'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
-import { breakpoints } from '@/theme/Theme'
-import { db, storage } from '@/config/firebase'
-import { firebaseConfig } from '@/config/firebase.config'
-import { imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app'
+import { breakpoints } from '@/theme/Theme.jsx'
+import { db, storage } from '@/config/firebase.js'
+import { firebaseConfig } from '@/config/firebase.config.js'
+import { imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
@@ -210,9 +210,20 @@ export default class CaveAsset {
       self.fullPath = `caves/${self.caveId}/${self.type}s/${self.id}`
       self.mediaType = file.type
 
+      // caveId/type/id are re-derived server-side from the storage path, which
+      // can't be spoofed independently of where the object actually lands.
+      // Only userId needs a Storage rule check, so keep the metadata flat and minimal.
+      const customMetadata = {
+        originalName: self.originalName,
+      }
+
+      if (self.userId) {
+        customMetadata.userId = self.userId
+      }
+
       const fileRef = ref(storage, self.fullPath)
       console.log('fileRef: %o', fileRef)
-      const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata: { assetData: self } })
+      const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata })
       uploadTask.on(
         'state_changed',
         snap => {
@@ -225,7 +236,7 @@ export default class CaveAsset {
         // Error handler
         //
         error => {
-          console.error('[uploadTask] Error: error')
+          console.error('[uploadTask] Error: %o', error)
           reject(error)
         },
 
@@ -242,7 +253,11 @@ export default class CaveAsset {
 }
 
 export function useCaveAssetsList(caveId) {
-  const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), orderBy('isCover', 'desc'), orderBy('date')).withConverter(converter)
+  const q = useMemo(
+    () => query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter),
+    [caveId],
+  )
+
   const collection = useCollection(q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })

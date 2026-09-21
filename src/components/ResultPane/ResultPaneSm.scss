@@ -2,10 +2,11 @@
   --oc-result-pane-z-index: var(--oc-result-pane-sm-z-index);
   --oc-result-pane-sm-upper-height: 48px;
   --oc-result-pane-border-radius: 1rem 1rem 0 0;
+  --oc-result-pane-surface-color: var(--md-palette-background-paper);
 
   --height: calc(100% + calc(var(--oc-pane-padding-block) * 1.4)); // ion-modal
   --border-radius: var(--oc-result-pane-border-radius); // ion-modal20.27736, -87.43314
-  --background: var(--md-palette-background-paper); // ion-modal
+  --background: var(--oc-result-pane-surface-color); // ion-modal
 
   top: var(--oc-result-pane-sm-upper-height);
 
@@ -27,6 +28,12 @@
   }
 
   .oc-result-pane--card {
+    // MUI's Card has its own default border-radius (theme.shape.borderRadius),
+    // independent of the ion-modal's own --border-radius. A non-zero outer
+    // modal radius is big enough to mask that mismatch, but once the modal
+    // goes fully square, this card's own residual rounding is exposed as a
+    // small gap in its top corners revealing whatever's behind the modal.
+    border-radius: 0;
     box-shadow: none;
     margin: 0;
     padding-top: 0;
@@ -34,6 +41,7 @@
   }
 
   .oc-result-pane--header {
+    background-color: var(--oc-result-pane-surface-color);
     padding-top: calc(var(--oc-pane-padding-block) * 1.4);
     padding-left: var(--oc-pane-padding-inline);
     padding-right: var(--oc-pane-padding-inline);
@@ -48,11 +56,21 @@
     left: 0;
     width: 100%;
     height: 49px;
-    background-color: var(--md-palette-background-paper);
+    background-color: white;
     padding-left: calc(var(--oc-pane-padding-inline) - 5px);
     padding-right: calc(var(--oc-pane-padding-inline) - 5px);
     z-index: var(--oc-result-pane-sm-z-index);
-    opacity: 0;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--oc-result-pane-surface-color);
+      opacity: var(--oc-result-pane-head-surface-opacity, 0);
+      pointer-events: none;
+      z-index: -1;
+    }
   }
 
   .oc-cave-details-header {
@@ -75,3 +93,4 @@
     }
   }
 }
+

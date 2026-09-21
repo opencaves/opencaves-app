@@ -10,5 +10,8 @@
     "editor.defaultFormatter": "ms-python.autopep8"
   },
   "python.formatting.provider": "none",
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "chat.tools.terminal.autoApprove": {
+    "ForEach-Object": true
+  }
 }

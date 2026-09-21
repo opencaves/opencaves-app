@@ -3,7 +3,7 @@ import { db } from '../init.js'
 import { REGION, USERS_COLL_NAME } from '../constants.js'
 
 
-export const onUserCreate = functions
+export const onUserDelete = functions
   .region(REGION)
   .auth
   .user()

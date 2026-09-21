@@ -4,14 +4,15 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth'
 import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
-import { getAnalytics } from 'firebase/analytics'
-import i18n from '../i18n'
-import { firebaseConfig } from './firebase.config'
+// import { getAnalytics } from 'firebase/analytics'
+import i18n from '../i18n.js'
+import { firebaseConfig } from './firebase.config.js'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
-const functions = getFunctions(app)
+const functionsRegion = firebaseConfig.location || 'northamerica-northeast1'
+export const functions = getFunctions(app, functionsRegion)
 
 export const auth = getAuth()
 auth.languageCode = i18n.resolvedLanguage
@@ -23,7 +24,7 @@ const localCache = persistentLocalCache({
 })
 export const db = initializeFirestore(app, { localCache })
 
-export const analytics = getAnalytics(app)
+// export const analytics = getAnalytics(app)
 
 export default app
 

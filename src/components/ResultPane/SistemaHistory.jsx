@@ -1,0 +1,93 @@
+import { useTranslation } from 'react-i18next'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import { ExpandMore } from '@mui/icons-material'
+import { Grid } from '@mui/material'
+import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
+import { getSistemaById } from '@/models/Sistema.js'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+
+export default function Sistema({ sistemaHistory }) {
+  const { t: t2 } = useTranslation('resultPane')
+
+  const hasSistemaAncestry = sistemaHistory.length > 1
+  const currentSistema = getSistemaById(sistemaHistory[sistemaHistory.length - 1].id)
+
+  if (hasSistemaAncestry) {
+    return (
+      <>
+        <Accordion variant="sistemaHistory" disableGutters elevation={0} square>
+          <AccordionSummary expandIcon={<ExpandMore />} disableRipple={false} variant="sistemaHistory">
+            <Box
+              sx={{
+                minWidth: 'var(--oc-details-icon-min-width)',
+                display: 'inline-flex',
+              }}
+            >
+              <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="caveDetailsItemText" component="div">
+                {t2('sistema', { system: currentSistema.name })}
+              </Typography>
+              {currentSistema.createdAt && (
+                <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+                </Typography>
+              )}
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails variant="sistemaHistory">
+            {sistemaHistory.map((sistema, i) => {
+              const sistemaName =
+                i === 0 ? (
+                  <Typography variant="caveDetailsItemText">{t2('sistema', { system: sistema.name })}</Typography>
+                ) : (
+                  <Box>
+                    <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
+                    <Typography variant="caveDetailsItemText">{t2('sistema', { system: sistema.name })}</Typography>{' '}
+                    {sistema.date && (
+                      <Typography variant="mapTextSmall" sx={(theme) => ({ ml: theme.spacing(0.5) })}>
+                        {sistema.date}
+                      </Typography>
+                    )}
+                  </Box>
+                )
+              return (
+                <div key={sistema.id} className="oc-results-sistemas--item" style={{ paddingInlineStart: `calc(var(--oc-results-sistemas--item-padding) * ${i})` }}>
+                  {sistemaName}
+                </div>
+              )
+            })}
+          </AccordionDetails>
+        </Accordion>
+      </>
+    )
+  }
+
+  return (
+    <Grid
+      container
+      sx={{
+        px: 'var(--oc-pane-padding-inline)',
+        py: 'var(--oc-pane-padding-block)',
+      }}
+    >
+      <Grid size="auto">
+        <Box sx={{ minWidth: 'var(--oc-details-icon-min-width)' }}>
+          <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
+        </Box>
+      </Grid>
+      <Grid size="grow">
+        <Box>
+          <Typography variant="caveDetailsItemText">{t2('sistema', { system: currentSistema.name })}</Typography>
+          {currentSistema.createdAt && (
+            <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+            </Typography>
+          )}
+        </Box>
+      </Grid>
+    </Grid>
+  )
+}

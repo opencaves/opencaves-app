@@ -236,6 +236,9 @@
       "showInvalidCoordinates": "Afficher les coordonnées invalides",
       "showUnconfirmedCoordinates": "Afficher les coordonnées non confirmées"
     },
+    "areas": {
+      "heading": "Régions"
+    },
     "access": {
       "heading": "Accès",
       "items": [
@@ -395,7 +398,10 @@
       },
       "success_one": "1 photo ajoutée",
       "success_other": "{{count}} photos ajoutées",
-      "wrongMediaType": "Impossible d'importer une photo, essayez un autre format.",
+      "errorHeader": "Oups !",
+      "wrongMediaType_one": "Rien n'a été enregistré. L'importation a été annulée car le format de ce fichier n'est pas pris en charge :",
+      "wrongMediaType_other": "Rien n'a été enregistré. L'importation a été annulée car le format de ces fichiers n'est pas pris en charge :",
+      "wrongMediaTypeHint": "Les formats Webp et Avif fonctionnent bien.",
       "unknownError": "Quelque chose s'est mal passé. Veuillez réessayer.",
       "unknownErrorBtn": "OK",
       "uploadingTo": "Téléchargement vers",

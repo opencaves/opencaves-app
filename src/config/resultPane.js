@@ -5,3 +5,7 @@ export const assetsListConfig = {
   maxLength: 18,
   spacing: 8
 }
+// Keep in sync with .oc-result-pane--head's height in ResultPaneSm.scss.
+export const resultPaneSmHeadHeight = 49
+// Keep in sync with --oc-result-pane-sm-upper-height in ResultPaneSm.scss.
+export const resultPaneSmUpperHeight = 48
