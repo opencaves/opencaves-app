@@ -1,5 +1,8 @@
 :root {
-  --ctrl-group-margin-mobile: 16px;
+  // MD3's standard FAB/icon-button-to-edge margin (16dp) - applied
+  // everywhere, not just on mobile, so this stays aligned with
+  // EditCaveFab.jsx's own 16px margin on every screen size.
+  --oc-map-control-edge-margin: 16px;
 }
 
 .oc-map-container {
@@ -21,8 +24,8 @@
     box-shadow: none;
   }
 
-  .plt-mobile .mapboxgl-ctrl-bottom-right & {
-    margin: 0 var(--ctrl-group-margin-mobile) var(--ctrl-group-margin-mobile) 0;
+  .mapboxgl-ctrl-bottom-right & {
+    margin: 0 var(--oc-map-control-edge-margin) var(--oc-map-control-edge-margin) 0;
   }
 
   button {

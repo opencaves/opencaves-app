@@ -481,6 +481,11 @@
   },
   "map": {
     "title": "Carte",
-    "caveNameUnknown": "[nom inconnu]"
+    "caveNameUnknown": "[nom inconnu]",
+    "editFab": {
+      "ariaLabel": "Modifier les données du cénote",
+      "editCurrentCave": "Modifier le cénote actuel",
+      "addNewCave": "Ajouter un nouveau cénote"
+    }
   }
 }

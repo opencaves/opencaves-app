@@ -6,6 +6,7 @@ import { MapLoading } from '@/components/Map/MapState.jsx'
 import SearchBar from '@/components/SearchBar/SearchBar.jsx'
 import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
+import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import './Map.scss'
@@ -30,6 +31,7 @@ export default function MapPage() {
           <Map />
         </Suspense>
         <FilterMenu />
+        <EditCaveFab />
         {isLarge && (
           <AppMenu
             logoColorScheme="light"

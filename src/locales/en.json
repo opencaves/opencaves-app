@@ -483,6 +483,11 @@
   },
   "map": {
     "title": "Map",
-    "caveNameUnknown": "[unknown name]"
+    "caveNameUnknown": "[unknown name]",
+    "editFab": {
+      "ariaLabel": "Edit cave data",
+      "editCurrentCave": "Edit current cave",
+      "addNewCave": "Add new cave"
+    }
   }
 }
