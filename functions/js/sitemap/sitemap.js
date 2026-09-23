@@ -33,8 +33,9 @@ export const sitemap = onRequest({ region: REGION }, async (req, res) => {
   ]
 
   res.set('Content-Type', 'application/xml')
-  // Search-engine crawlers, not people, hit this - cache for an hour so a
-  // burst of crawler requests doesn't hit Firestore on every one.
-  res.set('Cache-Control', 'public, max-age=3600')
+  // Search-engine crawlers, not people, hit this - cache briefly so a burst
+  // of crawler requests doesn't hit Firestore on every one, without leaving
+  // a stale CDN-edge copy around for too long after cave data changes.
+  res.set('Cache-Control', 'public, max-age=600')
   res.send(buildSitemap(urls))
 })
