@@ -50,6 +50,11 @@ below before assuming caves/sistemas data still comes from a spreadsheet.
   `--only functions`, or `--only functions:js:<name>` for a single function
 - No test suite currently exists in this repo.
 
+## Commit messages
+
+All commit messages must be written in English, regardless of the language
+used elsewhere in the conversation or in the app's UI/locale strings.
+
 ## Data model
 
 Firestore collections: `caves`, `sistemas`, `connections`, `accesses`,
