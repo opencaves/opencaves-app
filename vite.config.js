@@ -7,6 +7,37 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   build: {
     outDir: 'build',
+    rollupOptions: {
+      output: {
+        // Split heavy, independently-versioned vendor libraries into their
+        // own chunks: they change far less often than the app's own code,
+        // so browsers (and this app's precaching service worker) can keep
+        // reusing a cached copy across deploys that don't touch them.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return
+          }
+          if (id.includes('/mapbox-gl/') || id.includes('/react-map-gl/')) {
+            return 'mapbox'
+          }
+          if (id.includes('/@mui/') || id.includes('/@emotion/')) {
+            return 'mui'
+          }
+          if (id.includes('/@ionic/')) {
+            return 'ionic'
+          }
+          if (id.includes('/@photo-sphere-viewer/') || id.includes('/react-photo-sphere-viewer/')) {
+            return 'photo-sphere-viewer'
+          }
+          if (id.includes('/firebase/') || id.includes('/@firebase/')) {
+            return 'firebase'
+          }
+          if (id.includes('/swiper/')) {
+            return 'swiper'
+          }
+        },
+      },
+    },
   },
   envPrefix: ['VITE_', 'REACT_APP_'],
   plugins: [
@@ -39,8 +70,9 @@ export default defineConfig({
         // call, so it needs to be a classic script, not an ES module -
         // also makes the output land at service-worker.js instead of .mjs.
         rollupFormat: 'iife',
-        // This app doesn't code-split, so its main bundle is a few MB;
-        // that's a separate problem from "does offline caching work".
+        // Even after splitting, the mapbox/ionic vendor chunks are still a
+        // few MB each; raise Workbox's default 2 MiB precache limit rather
+        // than exclude them from offline support.
         maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
       },
     })

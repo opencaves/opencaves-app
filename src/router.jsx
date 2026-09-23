@@ -1,25 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Signup from '@/routes/Signup.jsx'
-import LogIn from '@/routes/LogIn.jsx'
 import Map from '@/routes/Map.jsx'
 import Loading from '@/routes/Loading.jsx'
 import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
-import AdminHome from '@/routes/admin/AdminHome.jsx'
-import AdminCaves from '@/routes/admin/AdminCaves.jsx'
-import AdminCaveEdit from '@/routes/admin/AdminCaveEdit.jsx'
-import AdminSistemas from '@/routes/admin/AdminSistemas.jsx'
-import AdminSistemaEdit from '@/routes/admin/AdminSistemaEdit.jsx'
-import AdminReferenceData from '@/routes/admin/AdminReferenceData.jsx'
 import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
 import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane.jsx'
-import MediaPane, { mediaPaneLoader } from '@/components/MediaPane/MediaPane.jsx'
-import SignupWithEmail from '@/components/auth/SignupWithEmail.jsx'
-import LogInWithEmailPrompt from '@/components/auth/LogInWithEmailPrompt.jsx'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 function SkipIfLoggedin({ children }) {
@@ -64,6 +53,28 @@ function RequireEditor({ children }) {
   return children
 }
 
+// Code-splitting helpers for react-router's data-router `lazy` route
+// property: each of these keeps a heavy/rarely-visited page (the whole
+// admin section, the 360°-photo viewer, auth pages) out of the initial
+// bundle, only fetching it once that route is actually navigated to.
+function skipIfLoggedIn(importer) {
+  return {
+    lazy: async () => {
+      const { default: Component } = await importer()
+      return { Component: () => <SkipIfLoggedin><Component /></SkipIfLoggedin> }
+    }
+  }
+}
+
+function requireEditor(importer) {
+  return {
+    lazy: async () => {
+      const { default: Component } = await importer()
+      return { Component: () => <RequireEditor><Component /></RequireEditor> }
+    }
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -83,29 +94,23 @@ const routes = [
           },
           {
             path: 'signup',
-            element: (
-              <SkipIfLoggedin>
-                <Signup />
-              </SkipIfLoggedin>
-            ),
+            ...skipIfLoggedIn(() => import('@/routes/Signup.jsx')),
             children: [
               {
                 path: 'with-email',
-                element: <SignupWithEmail open={true} />
+                lazy: () => import('@/components/auth/SignupWithEmail.jsx')
+                  .then(({ default: Component }) => ({ Component: () => <Component open={true} /> }))
               }
             ]
           },
           {
             path: 'login',
-            element: (
-              <SkipIfLoggedin>
-                <LogIn />
-              </SkipIfLoggedin>
-            ),
+            ...skipIfLoggedIn(() => import('@/routes/LogIn.jsx')),
             children: [
               {
                 path: 'with-email',
-                element: <LogInWithEmailPrompt open={true} />
+                lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx')
+                  .then(({ default: Component }) => ({ Component: () => <Component open={true} /> }))
               }
             ]
           },
@@ -119,51 +124,27 @@ const routes = [
           },
           {
             path: 'admin',
-            element: (
-              <RequireEditor>
-                <AdminHome />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminHome.jsx'))
           },
           {
             path: 'admin/caves',
-            element: (
-              <RequireEditor>
-                <AdminCaves />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminCaves.jsx'))
           },
           {
             path: 'admin/caves/:caveId',
-            element: (
-              <RequireEditor>
-                <AdminCaveEdit />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminCaveEdit.jsx'))
           },
           {
             path: 'admin/sistemas',
-            element: (
-              <RequireEditor>
-                <AdminSistemas />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminSistemas.jsx'))
           },
           {
             path: 'admin/sistemas/:sistemaId',
-            element: (
-              <RequireEditor>
-                <AdminSistemaEdit />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminSistemaEdit.jsx'))
           },
           {
             path: 'admin/reference/:collectionName',
-            element: (
-              <RequireEditor>
-                <AdminReferenceData />
-              </RequireEditor>
-            )
+            ...requireEditor(() => import('@/routes/admin/AdminReferenceData.jsx'))
           }
         ]
       },
@@ -181,8 +162,8 @@ const routes = [
             children: [
               {
                 path: 'medias/:mediaId?',
-                element: <MediaPane />,
-                loader: mediaPaneLoader
+                lazy: () => import('@/components/MediaPane/MediaPane.jsx')
+                  .then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader }))
               }
             ]
           }
