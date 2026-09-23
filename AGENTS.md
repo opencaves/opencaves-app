@@ -18,6 +18,10 @@ below before assuming caves/sistemas data still comes from a spreadsheet.
   v7 (data router, using the `lazy` route property for code splitting)
 - Ionic React (`@ionic/react`) for mobile-style UI primitives (sheet modals,
   etc.), MUI (`@mui/material`) for everything else
+- Design principles are based on **Material Design 3** — `src/theme/Theme.jsx`
+  uses M3 token naming (`--md-sys-*`, `--md-palette-*`); follow M3 conventions
+  (color roles, typescale, motion tokens) for new UI rather than plain MUI
+  defaults or ad hoc values
 - Redux Toolkit + redux-persist for state
 - Mapbox GL / `react-map-gl` for the map (not Google Maps, despite one
   legacy geocoding call to `maps.googleapis.com` in `Address.jsx`)
