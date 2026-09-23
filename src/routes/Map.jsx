@@ -1,13 +1,22 @@
+import { Suspense, lazy } from 'react'
 import { Outlet } from 'react-router-dom'
 import { IonApp } from '@ionic/react'
 import { useMediaQuery, useTheme } from '@mui/material'
-import Map from '@/components/Map/Map.jsx'
+import { MapLoading } from '@/components/Map/MapState.jsx'
 import SearchBar from '@/components/SearchBar/SearchBar.jsx'
 import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import './Map.scss'
+
+// mapbox-gl/react-map-gl are ~500KB (compressed) on their own and were
+// imported statically at the top of components/Map/Map.jsx alongside its
+// own MapLoading spinner - meaning that whole bundle had to finish
+// downloading and evaluating before the spinner could render at all, even
+// though the spinner itself doesn't need any of it. Loading it lazily lets
+// the (already-bundled, tiny) spinner below paint immediately instead.
+const Map = lazy(() => import('@/components/Map/Map.jsx'))
 
 export default function MapPage() {
   const theme = useTheme()
@@ -17,7 +26,9 @@ export default function MapPage() {
     <IonApp>
       <AddMediasProvider>
         <SearchBar />
-        <Map />
+        <Suspense fallback={<MapLoading />}>
+          <Map />
+        </Suspense>
         <FilterMenu />
         {isLarge && (
           <AppMenu
