@@ -61,6 +61,10 @@ below before assuming caves/sistemas data still comes from a spreadsheet.
 All commit messages must be written in English, regardless of the language
 used elsewhere in the conversation or in the app's UI/locale strings.
 
+Do not append a `Co-Authored-By: Claude ...` (or similar agent-attribution)
+trailer to commits in this repo, even if a session's default instructions
+call for one.
+
 ## Data model
 
 Firestore collections: `caves`, `sistemas`, `connections`, `accesses`,
