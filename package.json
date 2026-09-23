@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\"  \"vite\"",
+    "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data --export-on-exit=./.emulator-data\"  \"vite\"",
     "serve": "serve -p 4000 -s build",
     "build": "vite build",
     "deploy": "firebase deploy",

@@ -41,8 +41,12 @@ below before assuming caves/sistemas data still comes from a spreadsheet.
 ## Commands
 
 - `npm run dev` — Vite + Firebase emulators together (imports seed data from
-  `./.emulator-data`; note there's no `--export-on-exit`, so emulator state
-  isn't saved back automatically when you stop it)
+  `./.emulator-data` and exports back to it on a clean exit via
+  `--export-on-exit`, so emulator state persists across restarts; this
+  folder is **not** tracked in git — only `.emulator-data/.gitignore` is —
+  so a fresh clone or a wiped `.emulator-data` starts with an empty
+  database and needs `node scripts/migrate-sheet-to-firestore.js` run once
+  against the emulator to populate it)
 - `npm run build` — production build
 - `node scripts/migrate-sheet-to-firestore.js` — seed/sync Firestore from
   the Google Sheet against the local emulator (requires
