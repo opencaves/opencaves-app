@@ -124,27 +124,27 @@ const routes = [
           },
           {
             path: 'admin',
-            ...requireEditor(() => import('@/routes/admin/AdminHome.jsx'))
-          },
-          {
-            path: 'admin/caves',
-            ...requireEditor(() => import('@/routes/admin/AdminCaves.jsx'))
-          },
-          {
-            path: 'admin/caves/:caveId',
-            ...requireEditor(() => import('@/routes/admin/AdminCaveEdit.jsx'))
-          },
-          {
-            path: 'admin/sistemas',
-            ...requireEditor(() => import('@/routes/admin/AdminSistemas.jsx'))
-          },
-          {
-            path: 'admin/sistemas/:sistemaId',
-            ...requireEditor(() => import('@/routes/admin/AdminSistemaEdit.jsx'))
+            ...requireEditor(() => import('@/routes/admin/AdminDashboard.jsx'))
           },
           {
             path: 'admin/reference/:collectionName',
-            ...requireEditor(() => import('@/routes/admin/AdminReferenceData.jsx'))
+            ...requireEditor(() => import('@/routes/admin/ReferenceDataEditor.jsx'))
+          },
+          {
+            path: 'caves',
+            ...requireEditor(() => import('@/routes/caves/CaveList.jsx'))
+          },
+          {
+            path: 'caves/:caveId/edit',
+            ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx'))
+          },
+          {
+            path: 'sistemas',
+            ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx'))
+          },
+          {
+            path: 'sistemas/:sistemaId/edit',
+            ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx'))
           }
         ]
       },

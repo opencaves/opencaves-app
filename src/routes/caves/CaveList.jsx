@@ -5,7 +5,7 @@ import { Button, List, ListItemButton, ListItemText, TextField, Typography } fro
 import CaveModel from '@/models/CaveModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
-export default function AdminCaves() {
+export default function CaveList() {
   const [caves, loading] = CaveModel.useAll()
   const [search, setSearch] = useState('')
   const { setTitle } = useTitle()
@@ -28,7 +28,7 @@ export default function AdminCaves() {
     <div>
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Caves</Typography>
 
-      <Button component={Link} to={`/admin/caves/${pushId()}`} variant="contained" sx={{ mb: 2, mr: 2 }}>
+      <Button component={Link} to={`/caves/${pushId()}/edit`} variant="contained" sx={{ mb: 2, mr: 2 }}>
         New cave
       </Button>
 
@@ -46,7 +46,7 @@ export default function AdminCaves() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{filtered.length} cave(s)</Typography>
           <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {filtered.map(cave => (
-              <ListItemButton key={cave.id} component={Link} to={`/admin/caves/${cave.id}`} divider>
+              <ListItemButton key={cave.id} component={Link} to={`/caves/${cave.id}/edit`} divider>
                 <ListItemText primary={cave.name?.value || '(unnamed)'} secondary={cave.id} />
               </ListItemButton>
             ))}

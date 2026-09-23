@@ -12,7 +12,7 @@ const REFERENCE_COLLECTIONS = [
   { collection: 'languages', label: 'Languages' },
 ]
 
-export default function AdminHome() {
+export default function AdminDashboard() {
   const { setTitle } = useTitle()
 
   useEffect(() => {
@@ -26,10 +26,10 @@ export default function AdminHome() {
 
       <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>Caves</Typography>
       <List disablePadding>
-        <ListItemButton component={Link} to="/admin/caves" divider>
+        <ListItemButton component={Link} to="/caves" divider>
           <ListItemText primary="Manage caves" />
         </ListItemButton>
-        <ListItemButton component={Link} to="/admin/sistemas" divider>
+        <ListItemButton component={Link} to="/sistemas" divider>
           <ListItemText primary="Manage sistemas" />
         </ListItemButton>
       </List>

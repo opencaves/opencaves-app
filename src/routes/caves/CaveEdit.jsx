@@ -53,7 +53,7 @@ function MarkdownField({ label, value, onChange }) {
   )
 }
 
-export default function AdminCaveEdit() {
+export default function CaveEdit() {
   const { caveId } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
@@ -169,7 +169,7 @@ export default function AdminCaveEdit() {
 
       invalidateData()
       await getData()
-      navigate('/admin/caves')
+      navigate('/caves')
     } finally {
       setSaving(false)
     }
@@ -182,7 +182,7 @@ export default function AdminCaveEdit() {
     await CaveModel.remove(caveId)
     invalidateData()
     await getData()
-    navigate('/admin/caves')
+    navigate('/caves')
   }
 
   if (loading) {
@@ -301,7 +301,7 @@ export default function AdminCaveEdit() {
 
       <Box sx={{ display: 'flex', gap: 1, mt: 3 }}>
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>Save</Button>
-        <Button onClick={() => navigate('/admin/caves')} disabled={saving}>Cancel</Button>
+        <Button onClick={() => navigate('/caves')} disabled={saving}>Cancel</Button>
         {!isNew && <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>Delete</Button>}
       </Box>
     </div>

@@ -22,7 +22,7 @@ const CONFIGS = {
 
 const emptyFields = (fields) => Object.fromEntries(fields.map(f => [f, '']))
 
-export default function AdminReferenceData() {
+export default function ReferenceDataEditor() {
   const { collectionName } = useParams()
   const config = CONFIGS[collectionName]
   const { setTitle } = useTitle()

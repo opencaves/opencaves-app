@@ -5,7 +5,7 @@ import { Button, List, ListItemButton, ListItemText, Typography } from '@mui/mat
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
-export default function AdminSistemas() {
+export default function SistemaList() {
   const [sistemas, loading] = SistemaModel.useAll()
   const { setTitle } = useTitle()
 
@@ -18,7 +18,7 @@ export default function AdminSistemas() {
     <div>
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Sistemas</Typography>
 
-      <Button component={Link} to={`/admin/sistemas/${pushId()}`} variant="contained" sx={{ mb: 2 }}>
+      <Button component={Link} to={`/sistemas/${pushId()}/edit`} variant="contained" sx={{ mb: 2 }}>
         New sistema
       </Button>
 
@@ -27,7 +27,7 @@ export default function AdminSistemas() {
       ) : (
         <List disablePadding>
           {[...sistemas].sort((a, b) => (a.name || '').localeCompare(b.name || '')).map(sistema => (
-            <ListItemButton key={sistema.id} component={Link} to={`/admin/sistemas/${sistema.id}`} divider>
+            <ListItemButton key={sistema.id} component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
               <ListItemText primary={sistema.name || '(unnamed)'} secondary={sistema.id} />
             </ListItemButton>
           ))}

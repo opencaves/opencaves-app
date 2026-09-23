@@ -30,7 +30,7 @@ const emptyForm = {
   parentSistemaId: '',
 }
 
-export default function AdminSistemaEdit() {
+export default function SistemaEdit() {
   const { sistemaId } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
@@ -125,7 +125,7 @@ export default function AdminSistemaEdit() {
 
       invalidateData()
       await getData()
-      navigate('/admin/sistemas')
+      navigate('/sistemas')
     } finally {
       setSaving(false)
     }
@@ -138,7 +138,7 @@ export default function AdminSistemaEdit() {
     await SistemaModel.remove(sistemaId)
     invalidateData()
     await getData()
-    navigate('/admin/sistemas')
+    navigate('/sistemas')
   }
 
   if (loading) {
@@ -235,7 +235,7 @@ export default function AdminSistemaEdit() {
 
       <Box sx={{ display: 'flex', gap: 1, mt: 3 }}>
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>Save</Button>
-        <Button onClick={() => navigate('/admin/sistemas')} disabled={saving}>Cancel</Button>
+        <Button onClick={() => navigate('/sistemas')} disabled={saving}>Cancel</Button>
         {!isNew && <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>Delete</Button>}
       </Box>
     </div>
