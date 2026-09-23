@@ -65,6 +65,9 @@ Do not append a `Co-Authored-By: Claude ...` (or similar agent-attribution)
 trailer to commits in this repo, even if a session's default instructions
 call for one.
 
+Always push right after committing, as part of the same action rather than
+a separate, later step.
+
 ## Data model
 
 Firestore collections: `caves`, `sistemas`, `connections`, `accesses`,
