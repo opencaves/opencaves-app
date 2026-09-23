@@ -1,6 +1,8 @@
-// One-time (re-runnable) migration: fetches the live Google Sheet data and
-// writes it into Firestore, using the existing sheet-derived IDs as literal
-// Firestore document IDs.
+// Re-runnable migration: fetches the live Google Sheet data and makes
+// Firestore match it exactly, using the existing sheet-derived IDs as
+// literal Firestore document IDs. Each collection is fully replaced on every
+// run - existing documents get overwritten, and any doc not present in this
+// run's data gets deleted, so the database always mirrors the current sheet.
 
 import pushId from 'unique-push-id'
 import yargs from 'yargs'
@@ -70,23 +72,45 @@ function collectionsToWrite(data) {
   ]
 }
 
-async function writeCollection(collectionName, getId, records) {
-  let written = 0
+async function writeBatched(refs, apply) {
+  let count = 0
 
-  for (let i = 0; i < records.length; i += WRITE_BATCH_SIZE) {
+  for (let i = 0; i < refs.length; i += WRITE_BATCH_SIZE) {
     const batch = db.batch()
-    const chunk = records.slice(i, i + WRITE_BATCH_SIZE)
+    const chunk = refs.slice(i, i + WRITE_BATCH_SIZE)
 
-    chunk.forEach((record) => {
-      const { id, ...fields } = record
-      batch.set(db.collection(collectionName).doc(getId(record)), fields)
-    })
+    chunk.forEach((ref) => apply(batch, ref))
 
     await batch.commit()
-    written += chunk.length
+    count += chunk.length
   }
 
-  console.log(`  ${collectionName}: wrote ${written} document(s)`)
+  return count
+}
+
+// Makes this collection exactly match the sheet: writes every current
+// record, then deletes anything else already in the collection. This is
+// what makes the script safe to re-run - a row removed from the sheet, or a
+// stray document from some earlier run/experiment, doesn't linger forever.
+async function writeCollection(collectionName, getId, records) {
+  const collectionRef = db.collection(collectionName)
+
+  // Compute each record's id exactly once (colors' id is a fresh pushId()
+  // per call - computing it twice would give the same record two different
+  // ids and break the diff against what's already there).
+  const entries = records.map((record) => {
+    const { id, ...fields } = record
+    return { ref: collectionRef.doc(getId(record)), fields }
+  })
+  const currentIds = new Set(entries.map(({ ref }) => ref.id))
+
+  const existingRefs = await collectionRef.listDocuments()
+  const staleRefs = existingRefs.filter((ref) => !currentIds.has(ref.id))
+
+  const written = await writeBatched(entries, (batch, { ref, fields }) => batch.set(ref, fields))
+  const deleted = await writeBatched(staleRefs, (batch, ref) => batch.delete(ref))
+
+  console.log(`  ${collectionName}: wrote ${written} document(s), removed ${deleted} stale document(s)`)
 }
 
 async function main() {
