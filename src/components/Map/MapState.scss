@@ -64,8 +64,19 @@
     }
   }
 
+  // The error heading's text ("Something went wrong") is far longer than
+  // the loading screen's ("Open Caves"), so at the same nowrap/12vmin
+  // sizing it overflowed past the viewport on narrow screens instead of
+  // wrapping.
+  &--error-heading {
+    white-space: normal;
+    font-size: min(12vmin, 2.5rem);
+  }
+
   pre {
     max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
     padding-left: 1em !important;
     padding-right: 1em !important;
     padding-bottom: 1em;
