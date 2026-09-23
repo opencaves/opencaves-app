@@ -318,6 +318,15 @@ export default function OCMap() {
     const routeCave = caveData.find((cave) => cave.id === caveId)
     if (routeCave) {
       setCurrentCave(routeCave)
+
+      // A cave with no location has no marker of its own to select, but a
+      // previously-selected marker (from whatever cave was open before)
+      // needs to be explicitly cleared here - flyToMarker() would normally
+      // do that as a side effect of moving to the new marker, but it no-ops
+      // entirely when the new cave has no location to fly to.
+      if (!routeCave.location) {
+        setActiveMarkerElem(null)
+      }
     }
 
     // if (currentCave) {
