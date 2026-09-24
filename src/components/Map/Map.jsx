@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
+import { FenceRounded } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
-import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
+import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
 import { setTitle } from '@/redux/slices/appSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
@@ -16,6 +17,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import useCurrentRoute from '@/hooks/useCurrentRoute.jsx'
 import { paneWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, markerConfig } from '@/config/map.js'
+import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -28,6 +30,15 @@ Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
 })
 
 const MARKER_ANIMATION_DURATION_MS = 680
+
+function EntranceMapMarkerIcon({ size = 28 }) {
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: size, height: size }}>
+      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ width: '100%', height: '100%', display: 'block', color: 'white' }} />
+      <FenceRounded sx={{ position: 'absolute', fontSize: size * 0.62, color: '#111827', lineHeight: 1 }} />
+    </Box>
+  )
+}
 
 function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
@@ -104,6 +115,27 @@ export default function OCMap() {
     return result
   }, [mapData, searchOptions])
 
+  const displayedCaves = useMemo(() => {
+    if (!filteredCaves || !isWidePaneEditMode || !editFieldCoordinates.location) {
+      return filteredCaves
+    }
+
+    return filteredCaves.map((cave) => {
+      if (caveId !== cave.id) {
+        return cave
+      }
+
+      return {
+        ...cave,
+        location: {
+          ...cave.location,
+          longitude: editFieldCoordinates.location.longitude,
+          latitude: editFieldCoordinates.location.latitude,
+        },
+      }
+    })
+  }, [filteredCaves, isWidePaneEditMode, editFieldCoordinates.location, caveId])
+
   function filterCaves(caves, filters) {
     function or(filters) {
       return function iteratee(result, item) {
@@ -123,11 +155,13 @@ export default function OCMap() {
       // marker's own coordinates as the picked value instead.
       event.originalEvent?.preventDefault()
       event.originalEvent?.stopPropagation()
-      dispatch(setPickedCoordinate({
-        field: pickingCoordinateFor,
-        longitude: cave.location.longitude,
-        latitude: cave.location.latitude,
-      }))
+      dispatch(
+        setPickedCoordinate({
+          field: pickingCoordinateFor,
+          longitude: cave.location.longitude,
+          latitude: cave.location.latitude,
+        }),
+      )
       return
     }
 
@@ -181,12 +215,24 @@ export default function OCMap() {
     doSetActiveMarkerElem(markerElem)
   }
 
-  function getCenterLngLat(lng, lat, offsetForPane = true) {
+  function getCenterLngLat(lng, lat, offsetForPane = true, zoom = currentZoomLevel) {
     console.log('[getCenterLngLat] %s, %s', lng, lat)
     try {
       const map = mapRef.current
       if (!offsetForPane) {
         return new LngLat(lng, lat)
+      }
+
+      // project()/unproject() work in the map's CURRENT view. If the map
+      // hasn't already settled at the zoom we're about to fly to (e.g. the
+      // very first centering from a fresh/default view), a pixel offset
+      // computed here would correspond to a wildly different geographic
+      // distance once we actually apply it at `zoom` - snap there first
+      // (no animation, immediately overwritten by the real flyTo/jumpTo
+      // the caller does with the result) so the offset math below is
+      // always computed at the zoom it'll actually be used at.
+      if (map.getZoom() !== zoom) {
+        map.jumpTo({ center: [lng, lat], zoom })
       }
 
       const currentPoint = map.project([lng, lat])
@@ -307,11 +353,20 @@ export default function OCMap() {
       return
     }
 
-    dispatch(setPickedCoordinate({
+    const picked = {
       field: pickingCoordinateFor,
-      longitude: event.lngLat.lng,
-      latitude: event.lngLat.lat,
-    }))
+      longitude: num(event.lngLat.lng, 5),
+      latitude: num(event.lngLat.lat, 5),
+    }
+
+    dispatch(
+      setEditFieldCoordinate({
+        field: pickingCoordinateFor,
+        longitude: picked.longitude,
+        latitude: picked.latitude,
+      }),
+    )
+    dispatch(setPickedCoordinate(picked))
   }
 
   // Drop target for CoordinateField.jsx's draggable pin: its drag image is
@@ -333,20 +388,37 @@ export default function OCMap() {
 
     const containerRect = mapRef.current.getMap().getContainer().getBoundingClientRect()
     const lngLat = mapRef.current.unproject([event.clientX - containerRect.left, event.clientY - containerRect.top])
-
-    dispatch(setPickedCoordinate({
+    const picked = {
       field: pickingCoordinateFor,
-      longitude: lngLat.lng,
-      latitude: lngLat.lat,
-    }))
+      longitude: num(lngLat.lng, 5),
+      latitude: num(lngLat.lat, 5),
+    }
+
+    dispatch(
+      setEditFieldCoordinate({
+        field: pickingCoordinateFor,
+        longitude: picked.longitude,
+        latitude: picked.latitude,
+      }),
+    )
+    dispatch(setPickedCoordinate(picked))
   }
 
   function onFieldMarkerDragEnd(field, event) {
-    dispatch(setPickedCoordinate({
+    const picked = {
       field,
-      longitude: event.lngLat.lng,
-      latitude: event.lngLat.lat,
-    }))
+      longitude: num(event.lngLat.lng, 5),
+      latitude: num(event.lngLat.lat, 5),
+    }
+
+    dispatch(
+      setEditFieldCoordinate({
+        field,
+        longitude: picked.longitude,
+        latitude: picked.latitude,
+      }),
+    )
+    dispatch(setPickedCoordinate(picked))
   }
 
   /**
@@ -535,16 +607,27 @@ export default function OCMap() {
             {/* 'location' isn't rendered here - it's the same point as the
                 current cave's own marker below, which becomes draggable
                 instead of duplicating it with a second pin. */}
-            {isWidePaneEditMode && Object.entries(editFieldCoordinates)
-              .filter(([field]) => field !== 'location')
-              .map(([field, { longitude, latitude }]) => (
-                <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
-                  {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
-                  <SvgIcon inheritViewBox className="marker-icon" htmlColor={theme.palette.secondary.main} sx={{ cursor: 'grab !important' }}>
-                    <PinIcon />
-                  </SvgIcon>
-                </Marker>
-              ))}
+            {isWidePaneEditMode &&
+              Object.entries(editFieldCoordinates)
+                .filter(([field]) => field !== 'location')
+                .map(([field, { longitude, latitude }]) => {
+                  const isEntranceField = field === 'entrance'
+
+                  return (
+                    <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
+                      {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
+                      <Box className="marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab !important', width: 28, height: 28 }}>
+                        {isEntranceField ? (
+                          <EntranceMapMarkerIcon size={28} />
+                        ) : (
+                          <SvgIcon inheritViewBox htmlColor={theme.palette.secondary.main} sx={{ width: '100%', height: '100%' }}>
+                            <PinIcon />
+                          </SvgIcon>
+                        )}
+                      </Box>
+                    </Marker>
+                  )
+                })}
 
             {filteredCaves
               ?.filter(({ location }) => {
@@ -586,15 +669,17 @@ export default function OCMap() {
                     onClick={(event) => onMarkerClick(event, cave)}
                     draggable={isDraggableCurrentCave}
                     onDragStart={isDraggableCurrentCave ? () => setIsDraggingCurrentMarker(true) : undefined}
-                    onDragEnd={isDraggableCurrentCave ? (event) => { setIsDraggingCurrentMarker(false); onFieldMarkerDragEnd('location', event) } : undefined}
+                    onDragEnd={
+                      isDraggableCurrentCave
+                        ? (event) => {
+                            setIsDraggingCurrentMarker(false)
+                            onFieldMarkerDragEnd('location', event)
+                          }
+                        : undefined
+                    }
                   >
                     <UnstyledLink to={`/map/${cave.id}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
-                      <SvgIcon
-                        inheritViewBox
-                        className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`}
-                        htmlColor={markerColor}
-                        sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}
-                      >
+                      <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
                         {pinIcon &&
                           (() => {
                             const Pin = pinIcon

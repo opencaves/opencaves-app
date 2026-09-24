@@ -6,6 +6,7 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { num } from '@/services/data-service/types.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -38,6 +39,15 @@ export default function SistemaEdit() {
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
   const [sources] = sourcesModel.useAll()
+
+  function normalizeCoordinateValue(value) {
+    if (value === '' || value === null || typeof value === 'undefined') {
+      return ''
+    }
+
+    const normalized = Number(num(value, 5))
+    return Number.isFinite(normalized) ? String(normalized) : ''
+  }
 
   const [form, setForm] = useState(emptyForm)
   const [loading, setLoading] = useState(true)
@@ -73,8 +83,8 @@ export default function SistemaEdit() {
         note: sistema?.note || '',
         aka: (sistema?.aka || []).join('|'),
         maps: (sistema?.maps || []).join('|'),
-        longitude: sistema?.location?.longitude ?? '',
-        latitude: sistema?.location?.latitude ?? '',
+        longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
+        latitude: normalizeCoordinateValue(sistema?.location?.latitude ?? ''),
         parentSistemaId: connection?.parentSistemaId || '',
       })
       setLoading(false)
@@ -92,7 +102,7 @@ export default function SistemaEdit() {
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm(f => ({ ...f, [name]: e.target.value }))
+      onChange: (e) => setForm(f => ({ ...f, [name]: ['longitude', 'latitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value }))
     }
   }
 
@@ -117,7 +127,7 @@ export default function SistemaEdit() {
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(form.longitude), latitude: Number(form.latitude) }
+        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
       }
 
       await SistemaModel.save(sistemaId, fields)

@@ -107,7 +107,7 @@
             }
           },
           "emailCallback": {
-            "header": "\u00a0",
+            "header": " ",
             "invalidActionCode": {
               "header": "Lien email expiré",
               "details": "Le lien de validation par courriel que vous avez utilisé a expiré.",
@@ -368,11 +368,12 @@
       "entrance": "Entrée",
       "longitude": "Longitude",
       "latitude": "Latitude",
-      "dragPinToMap": "Faites glisser l'épingle sur la carte pour définir cet emplacement",
+      "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
       "navigateToCoordinate": "Centrer la carte ici",
+      "removeCoordinate": "Supprimer les coordonnées",
       "pickMyLocation": "Utiliser ma position actuelle",
       "none": "(aucun)",
-      "sistema": "Système",
+      "sistema": "Syst?me",
       "sistemaColor": "Couleur du système (remplacement)",
       "colorNone": "Aucune",
       "existingColors": "Couleurs existantes",
@@ -390,7 +391,11 @@
       "direction": "S'y rendre (markdown)",
       "preview": "Aperçu",
       "save": "Enregistrer",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "sistemaGroup": "Syst?me",
+      "accessSection": "Acc?s et accessibilit?",
+      "accessGroup": "Accès",
+      "accessibilityGroup": "Accessibilité"
     }
   },
   "mediaPane": {

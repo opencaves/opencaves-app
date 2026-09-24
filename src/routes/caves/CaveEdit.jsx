@@ -6,6 +6,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { num } from '@/services/data-service/types.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -46,7 +47,9 @@ function MarkdownField({ label, value, onChange }) {
       <TextField label={label} fullWidth multiline minRows={3} value={value} onChange={onChange} />
       {value && (
         <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, mt: 0.5 }}>
-          <Typography variant="caption" color="text.secondary">Preview</Typography>
+          <Typography variant="caption" color="text.secondary">
+            Preview
+          </Typography>
           <Markdown>{value}</Markdown>
         </Box>
       )}
@@ -64,6 +67,15 @@ export default function CaveEdit() {
   const [sources] = sourcesModel.useAll()
   const [accesses] = accessesModel.useAll()
   const [accessibilities] = accessibilitiesModel.useAll()
+
+  function normalizeCoordinateValue(value) {
+    if (value === '' || value === null || typeof value === 'undefined') {
+      return ''
+    }
+
+    const normalized = Number(num(value, 5))
+    return Number.isFinite(normalized) ? String(normalized) : ''
+  }
 
   const [form, setForm] = useState(emptyForm)
   const [loading, setLoading] = useState(true)
@@ -103,34 +115,36 @@ export default function CaveEdit() {
         note: cave?.note || '',
         aka: (cave?.aka || []).join('|'),
         maps: (cave?.maps || []).join('|'),
-        longitude: cave?.location?.longitude ?? '',
-        latitude: cave?.location?.latitude ?? '',
-        entranceLongitude: cave?.entrance?.longitude ?? '',
-        entranceLatitude: cave?.entrance?.latitude ?? '',
+        longitude: normalizeCoordinateValue(cave?.location?.longitude ?? ''),
+        latitude: normalizeCoordinateValue(cave?.location?.latitude ?? ''),
+        entranceLongitude: normalizeCoordinateValue(cave?.entrance?.longitude ?? ''),
+        entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
       })
       setLoading(false)
     }
 
     load()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [caveId])
 
   useEffect(() => {
-    setTitle(isNew ? 'New cave' : (form.name || caveId))
+    setTitle(isNew ? 'New cave' : form.name || caveId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm(f => ({ ...f, [name]: e.target.value }))
+      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
     }
   }
 
   function checkboxField(name) {
     return {
       checked: form[name],
-      onChange: (e) => setForm(f => ({ ...f, [name]: e.target.checked }))
+      onChange: (e) => setForm((f) => ({ ...f, [name]: e.target.checked })),
     }
   }
 
@@ -156,16 +170,26 @@ export default function CaveEdit() {
         rating: form.rating === '' ? undefined : Number(form.rating),
         reporter: form.reporter || undefined,
         note: form.note || undefined,
-        aka: form.aka ? form.aka.split('|').map(s => s.trim()).filter(Boolean) : undefined,
-        maps: form.maps ? form.maps.split('|').map(s => s.trim()).filter(Boolean) : undefined,
+        aka: form.aka
+          ? form.aka
+              .split('|')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : undefined,
+        maps: form.maps
+          ? form.maps
+              .split('|')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : undefined,
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(form.longitude), latitude: Number(form.latitude) }
+        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
       }
 
       if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
-        fields.entrance = { longitude: Number(form.entranceLongitude), latitude: Number(form.entranceLatitude) }
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
       }
 
       await CaveModel.save(caveId, fields)
@@ -194,7 +218,9 @@ export default function CaveEdit() {
 
   return (
     <div>
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>{isNew ? 'New cave' : form.name || caveId}</Typography>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+        {isNew ? 'New cave' : form.name || caveId}
+      </Typography>
 
       <Grid container spacing={2} sx={{ maxWidth: 720 }}>
         <Grid size={12}>
@@ -204,9 +230,13 @@ export default function CaveEdit() {
         <Grid size={6}>
           <TextField select label="Sistema" fullWidth {...field('sistemaId')}>
             <MenuItem value="">(none)</MenuItem>
-            {[...sistemas].sort((a, b) => (a.name || '').localeCompare(b.name || '')).map(s => (
-              <MenuItem key={s.id} value={s.id}>{s.name || s.id}</MenuItem>
-            ))}
+            {[...sistemas]
+              .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+              .map((s) => (
+                <MenuItem key={s.id} value={s.id}>
+                  {s.name || s.id}
+                </MenuItem>
+              ))}
           </TextField>
         </Grid>
         <Grid size={6}>
@@ -216,16 +246,20 @@ export default function CaveEdit() {
         <Grid size={6}>
           <TextField select label="Area" fullWidth {...field('area')}>
             <MenuItem value="">(none)</MenuItem>
-            {areas.map(a => (
-              <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+            {areas.map((a) => (
+              <MenuItem key={a.id} value={a.id}>
+                {a.name}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
         <Grid size={6}>
           <TextField select label="Source" fullWidth {...field('source')}>
             <MenuItem value="">(none)</MenuItem>
-            {sources.map(s => (
-              <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>
+            {sources.map((s) => (
+              <MenuItem key={s.id} value={s.id}>
+                {s.name}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -245,33 +279,47 @@ export default function CaveEdit() {
         </Grid>
 
         <Grid size={6}>
-          <TextField select label="Access" fullWidth {...field('access')}>
+          <TextField select label="Access" fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
             <MenuItem value="">(none)</MenuItem>
-            {accesses.map(a => (
-              <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+            {accesses.map((a) => (
+              <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                <Typography variant="body1">{a.name}</Typography>
+                {a.description && (
+                  <Typography variant="body2" color="text.secondary">
+                    {a.description}
+                  </Typography>
+                )}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
         <Grid size={6}>
-          <TextField select label="Accessibility" fullWidth {...field('accessibility')}>
+          <TextField select label="Accessibility" fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
             <MenuItem value="">(none)</MenuItem>
-            {accessibilities.map(a => (
-              <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+            {accessibilities.map((a) => (
+              <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                <Typography variant="body1">{a.name}</Typography>
+                {a.description && (
+                  <Typography variant="body2" color="text.secondary">
+                    {a.description}
+                  </Typography>
+                )}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label="Access details (markdown)" value={form.accessDetails} onChange={(e) => setForm(f => ({ ...f, accessDetails: e.target.value }))} />
+          <MarkdownField label="Access details (markdown)" value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} />
         </Grid>
         <Grid size={12}>
-          <MarkdownField label="Accessibility details (markdown)" value={form.accessibilityDetails} onChange={(e) => setForm(f => ({ ...f, accessibilityDetails: e.target.value }))} />
+          <MarkdownField label="Accessibility details (markdown)" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
         </Grid>
         <Grid size={12}>
-          <MarkdownField label="Description (markdown)" value={form.description} onChange={(e) => setForm(f => ({ ...f, description: e.target.value }))} />
+          <MarkdownField label="Description (markdown)" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
         </Grid>
         <Grid size={12}>
-          <MarkdownField label="Getting there (markdown)" value={form.direction} onChange={(e) => setForm(f => ({ ...f, direction: e.target.value }))} />
+          <MarkdownField label="Getting there (markdown)" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} />
         </Grid>
 
         <Grid size={6}>
@@ -306,9 +354,17 @@ export default function CaveEdit() {
       </Grid>
 
       <Box sx={{ display: 'flex', gap: 1, mt: 3 }}>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>Save</Button>
-        <Button onClick={() => navigate('/caves')} disabled={saving}>Cancel</Button>
-        {!isNew && <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>Delete</Button>}
+        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+          Save
+        </Button>
+        <Button onClick={() => navigate('/caves')} disabled={saving}>
+          Cancel
+        </Button>
+        {!isNew && (
+          <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>
+            Delete
+          </Button>
+        )}
       </Box>
     </div>
   )

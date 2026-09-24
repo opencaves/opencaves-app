@@ -2,23 +2,41 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
-import { CenterFocusStrongRounded, MyLocationRounded } from '@mui/icons-material'
+import { CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded } from '@mui/icons-material'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
+import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
+
+function EntrancePinIcon({ size = 20 }) {
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: size, height: size }}>
+      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ width: '100%', height: '100%', display: 'block', color: 'white' }} />
+      <FenceRounded sx={{ position: 'absolute', fontSize: size * 0.62, color: '#111827', lineHeight: 1 }} />
+    </Box>
+  )
+}
 
 const PIN_SIZE = 28
 
-// Longitude/latitude pair. When empty, a draggable pin sits next to the
-// fields - dropping it on the map (see Map.jsx's onDrop) reads its bottom
-// tip's position as the chosen coordinate. Once set, the pin itself lives on
-// the map instead (a draggable Marker rendered by Map.jsx from
-// editFieldCoordinates) so the field can be repositioned directly there.
+// Longitude/latitude pair. The action row includes a draggable icon that can
+// be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
+// set, the coordinate itself also lives on the map as a draggable Marker
+// rendered by Map.jsx from editFieldCoordinates.
 export default function CoordinateField({ field, label, longitude, latitude, onChange }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const pickedCoordinate = useSelector(state => state.map.pickedCoordinate)
+  const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
+
+  function normalizeCoordinateValue(value) {
+    if (value === '' || value === null || typeof value === 'undefined') {
+      return ''
+    }
+
+    const normalized = Number(num(value, 5))
+    return Number.isFinite(normalized) ? String(normalized) : ''
+  }
 
   useEffect(() => {
     if (pickedCoordinate?.field === field) {
@@ -59,7 +77,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     setLocating(true)
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        onChange({ longitude: position.coords.longitude, latitude: position.coords.latitude })
+        onChange({ longitude: normalizeCoordinateValue(position.coords.longitude), latitude: normalizeCoordinateValue(position.coords.latitude) })
         setLocating(false)
       },
       (error) => {
@@ -70,61 +88,55 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   function onNavigateToClick() {
-    dispatch(requestFlyToCoordinate({ longitude: Number(longitude), latitude: Number(latitude) }))
+    dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, 5)), latitude: Number(num(latitude, 5)) }))
+  }
+
+  function onClearClick() {
+    onChange({ longitude: '', latitude: '' })
   }
 
   function onPinDragStart(event) {
     dispatch(setPickingCoordinateFor(field))
     event.dataTransfer.effectAllowed = 'move'
-    // The pin's tip is at the bottom-center of its icon - offset the native
-    // drag image so the cursor (and therefore the drop point Map.jsx reads)
-    // tracks that tip, not wherever on the icon the user grabbed it.
-    event.dataTransfer.setDragImage(event.currentTarget, PIN_SIZE / 2, PIN_SIZE)
+    event.dataTransfer.dropEffect = 'move'
+    event.dataTransfer.setData('text/plain', field)
+    event.dataTransfer.setData('application/x-opencaves-field', field)
+    event.dataTransfer.setDragImage(event.currentTarget, 12, 12)
   }
 
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Typography variant="caption" color="text.secondary">{label}</Typography>
-        {!isSet && (
-          <Tooltip title={t('dragPinToMap')}>
-            <SvgIcon
-              component={PinIcon}
-              inheritViewBox
-              draggable
-              onDragStart={onPinDragStart}
-              sx={{ width: PIN_SIZE, height: PIN_SIZE, cursor: 'grab', color: 'primary.main' }}
-            />
-          </Tooltip>
-        )}
+        <Typography variant="caption" color="text.secondary">
+          {label}
+        </Typography>
       </Box>
       <Grid container spacing={1} sx={{ alignItems: 'center' }}>
         <Grid size="auto">
-          <TextField
-            size="small"
-            label={t('longitude')}
-            type="number"
-            sx={{ width: 130 }}
-            value={longitude}
-            onChange={(e) => onChange({ longitude: e.target.value, latitude })}
-          />
+          <TextField size="small" label={t('longitude')} type="number" sx={{ width: 130 }} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
         </Grid>
         <Grid size="auto">
-          <TextField
-            size="small"
-            label={t('latitude')}
-            type="number"
-            sx={{ width: 130 }}
-            value={latitude}
-            onChange={(e) => onChange({ longitude, latitude: e.target.value })}
-          />
+          <TextField size="small" label={t('latitude')} type="number" sx={{ width: 130 }} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
         </Grid>
         {isSet && (
           <Grid size="auto">
             <Tooltip title={t('navigateToCoordinate')}>
               <IconButton size="small" onClick={onNavigateToClick}>
-                <CenterFocusStrongRounded fontSize="small" />
+                <CenterFocusStrongRounded fontSize="small" sx={{ color: 'action.active' }} />
               </IconButton>
+            </Tooltip>
+          </Grid>
+        )}
+        {!isSet && (
+          <Grid size="auto">
+            <Tooltip title={t('dragPinToMap')}>
+              <Box component="span" draggable onDragStart={onPinDragStart} sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab' }}>
+                {field === 'entrance' ? (
+                  <EntrancePinIcon size={20} />
+                ) : (
+                  <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
+                )}
+              </Box>
             </Tooltip>
           </Grid>
         )}
@@ -132,7 +144,16 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Tooltip title={t('pickMyLocation')}>
             <span>
               <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating}>
-                {locating ? <CircularProgress size={16} /> : <MyLocationRounded fontSize="small" />}
+                {locating ? <CircularProgress size={16} /> : <MyLocationRounded fontSize="small" sx={{ color: 'action.active' }} />}
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Grid>
+        <Grid size="auto">
+          <Tooltip title={t('removeCoordinate')}>
+            <span>
+              <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
+                <CloseRounded fontSize="small" sx={{ color: 'action.active' }} />
               </IconButton>
             </span>
           </Tooltip>
