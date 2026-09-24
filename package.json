@@ -9,7 +9,8 @@
     "serve": "serve -p 4000 -s build",
     "build": "vite build",
     "deploy": "firebase deploy",
-    "deploy:beta": "firebase hosting:channel:deploy beta"
+    "deploy:beta": "firebase hosting:channel:deploy beta",
+    "postinstall": "patch-package"
   },
   "engines": {
     "node": ">= 20"
