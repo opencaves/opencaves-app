@@ -19,8 +19,6 @@ function EntrancePinIcon({ size = 20 }) {
   )
 }
 
-const PIN_SIZE = 28
-
 // Longitude/latitude pair. The action row includes a draggable icon that can
 // be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
 // set, the coordinate itself also lives on the map as a draggable Marker
@@ -133,13 +131,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         {!isSet && (
           <Grid size="auto">
             <Tooltip title={t('dragPinToMap')}>
-              <Box component="span" draggable onDragStart={onPinDragStart} sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab' }}>
+              <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
                 {field === 'entrance' ? (
                   <EntrancePinIcon size={20} />
                 ) : (
                   <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
                 )}
-              </Box>
+              </IconButton>
             </Tooltip>
           </Grid>
         )}
@@ -147,7 +145,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Tooltip title={t('pickMyLocation')}>
             <span>
               <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating}>
-                {locating ? <CircularProgress size={16} /> : <MyLocationRounded fontSize="small" sx={{ color: 'action.active' }} />}
+                {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" sx={{ color: 'action.active' }} />}
               </IconButton>
             </span>
           </Tooltip>
