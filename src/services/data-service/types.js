@@ -1,4 +1,20 @@
 
+// Squared distance between two {longitude, latitude} points - only meant for
+// relative sorting (nearest-first), not as an actual displayed distance, so
+// the flat-earth approximation (accurate enough across a region as small as
+// the Yucatán) skips the cost of a proper haversine calculation. Returns
+// Infinity when either point is missing, so entries without a location sort
+// to the end rather than throwing or landing in an arbitrary spot.
+export function squaredDistance(a, b) {
+  if (!a || !b || typeof a.longitude !== 'number' || typeof a.latitude !== 'number' || typeof b.longitude !== 'number' || typeof b.latitude !== 'number') {
+    return Infinity
+  }
+
+  const dLng = a.longitude - b.longitude
+  const dLat = a.latitude - b.latitude
+  return dLng * dLng + dLat * dLat
+}
+
 const locationValidityValueMap = new Map([
   ['yes', 'valid'],
   ['no', 'invalid'],

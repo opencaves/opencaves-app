@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, CloseRounded } from '@mui/icons-material'
@@ -9,10 +10,10 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
-import { num, pickDescription } from '@/services/data-service/types.js'
+import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import CoordinateField from './CoordinateField.jsx'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -135,6 +136,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  // Sorts the Sistema dropdown nearest-first, live as the map is panned.
+  const mapCenter = useSelector((state) => state.map.viewState)
 
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
@@ -312,7 +315,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <TextField select label={t('sistema')} fullWidth {...field('sistemaId')}>
         <MenuItem value="">{t('none')}</MenuItem>
         {[...sistemas]
-          .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+          .sort((a, b) => squaredDistance(a.location, mapCenter) - squaredDistance(b.location, mapCenter) || (a.name || '').localeCompare(b.name || ''))
           .map((s) => (
             <MenuItem key={s.id} value={s.id}>
               <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: s.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
