@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, CloseRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
@@ -148,6 +148,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   // Area is a property of the sistema, not something to pick per cave -
   // shown inline in each Sistema option instead of its own field.
   const areasById = new Map(areas.map((a) => [a.id, a.name]))
+  const [sistemaSearch, setSistemaSearch] = useState('')
+  const sistemaSearchInputRef = useRef(null)
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -312,10 +314,42 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Divider />
 
       <Typography variant="subtitle2">{t('sistemaGroup')}</Typography>
-      <TextField select label={t('sistema')} fullWidth {...field('sistemaId')}>
+      <TextField
+        select
+        label={t('sistema')}
+        fullWidth
+        {...field('sistemaId')}
+        slotProps={{
+          select: {
+            MenuProps: { autoFocus: false },
+            onClose: () => setSistemaSearch(''),
+          },
+        }}
+      >
+        <ListSubheader
+          sx={{ px: 1.5, py: 0.5 }}
+          onKeyDown={(e) => {
+            if (e.key !== 'Escape') e.stopPropagation()
+          }}
+        >
+          <TextField
+            inputRef={sistemaSearchInputRef}
+            autoFocus
+            size="small"
+            fullWidth
+            placeholder={t('sistemaSearchPlaceholder')}
+            value={sistemaSearch}
+            onChange={(e) => setSistemaSearch(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </ListSubheader>
         <MenuItem value="">{t('none')}</MenuItem>
         {[...sistemas]
           .sort((a, b) => squaredDistance(a.location, mapCenter) - squaredDistance(b.location, mapCenter) || (a.name || '').localeCompare(b.name || ''))
+          .filter((s) => {
+            const q = sistemaSearch.trim().toLowerCase()
+            return !q || (s.name || s.id).toLowerCase().includes(q) || (areasById.get(s.area) || '').toLowerCase().includes(q)
+          })
           .map((s) => (
             <MenuItem key={s.id} value={s.id}>
               <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: s.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />

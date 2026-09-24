@@ -378,6 +378,7 @@
       "none": "(ninguno)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
+      "sistemaSearchPlaceholder": "Buscar",
       "source": "Fuente",
       "sourceHint": "De dónde proviene la información de este sistema",
       "access": "Acceso",
