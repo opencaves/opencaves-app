@@ -34,7 +34,14 @@ below before assuming caves/sistemas data still comes from a spreadsheet.
   into a real file with a precache manifest — Vite has no equivalent to
   CRA's webpack plugin for this, so don't remove that plugin config
   thinking it's redundant.
-- i18n via `react-i18next`, locale files at `src/locales/{en,fr}.json`
+- i18n via `react-i18next`, locale files at `src/locales/{en,fr}.json` — the
+  app is bilingual (EN/FR) in production. **Never hardcode user-facing
+  labels/strings in component files.** Add the string to both
+  `en.json`/`fr.json` under a namespace matching (or nested under) the
+  component's area — e.g. `quickActions`, `resultPane`, `map` — and render it
+  via `useTranslation('namespace')`'s `t('key')`, following the existing
+  components as precedent. This applies to every user-facing string:
+  buttons, field labels, tooltips, placeholders, dialog text, aria-labels.
 - `functions/py/` exists but is **not** in `firebase.json`'s `functions`
   config — it's not deployed, don't assume it's live.
 
