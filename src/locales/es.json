@@ -395,7 +395,9 @@
       "direction": "Cómo llegar (markdown)",
       "preview": "Vista previa",
       "save": "Guardar",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "accessGroup": "Acceso",
+      "accessibilityGroup": "Accesibilidad"
     }
   },
   "mediaPane": {
