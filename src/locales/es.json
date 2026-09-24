@@ -368,6 +368,7 @@
       "coordinates": "Coordenadas",
       "location": "Ubicación",
       "entrance": "Entrada",
+      "key": "Llave",
       "longitude": "Longitud",
       "latitude": "Latitud",
       "dragPinToMap": "Arrastra este marcador al mapa para definir esta ubicación",

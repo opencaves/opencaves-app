@@ -170,6 +170,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
     entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
     entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
+    keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
+    keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
     nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
       lang,
       value: (values || []).join(', '),
@@ -248,6 +250,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
       }
 
+      if (form.keyLongitude === '' && form.keyLatitude === '' && cave.keys?.length) {
+        fields.keys = deleteField()
+      } else if (form.keyLongitude !== '' && form.keyLatitude !== '') {
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, 5)), latitude: Number(num(form.keyLatitude, 5)) }]
+      }
+
       // setDoc's merge:true merges nested map fields key-by-key rather than
       // replacing the whole nameTranslations map, so a language dropped from
       // the form needs an explicit deleteField() sentinel to actually clear
@@ -294,6 +302,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
       <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
+      <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
 
       <Divider />
 

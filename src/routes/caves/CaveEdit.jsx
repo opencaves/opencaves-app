@@ -40,6 +40,8 @@ const emptyForm = {
   latitude: '',
   entranceLongitude: '',
   entranceLatitude: '',
+  keyLongitude: '',
+  keyLatitude: '',
 }
 
 function MarkdownField({ label, value, onChange, minRows = 3, resizable = false }) {
@@ -123,6 +125,8 @@ export default function CaveEdit() {
         latitude: normalizeCoordinateValue(cave?.location?.latitude ?? ''),
         entranceLongitude: normalizeCoordinateValue(cave?.entrance?.longitude ?? ''),
         entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
+        keyLongitude: normalizeCoordinateValue(cave?.keys?.[0]?.longitude ?? ''),
+        keyLatitude: normalizeCoordinateValue(cave?.keys?.[0]?.latitude ?? ''),
       })
       setLoading(false)
     }
@@ -141,7 +145,7 @@ export default function CaveEdit() {
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
+      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
     }
   }
 
@@ -193,6 +197,10 @@ export default function CaveEdit() {
 
       if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
         fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
+      }
+
+      if (form.keyLongitude !== '' && form.keyLatitude !== '') {
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, 5)), latitude: Number(num(form.keyLatitude, 5)) }]
       }
 
       await CaveModel.save(caveId, fields)
@@ -276,6 +284,13 @@ export default function CaveEdit() {
         </Grid>
         <Grid size={6}>
           <TextField label="Entrance latitude" type="number" fullWidth {...field('entranceLatitude')} />
+        </Grid>
+
+        <Grid size={6}>
+          <TextField label="Key longitude" type="number" fullWidth {...field('keyLongitude')} />
+        </Grid>
+        <Grid size={6}>
+          <TextField label="Key latitude" type="number" fullWidth {...field('keyLatitude')} />
         </Grid>
 
         <Grid size={6}>

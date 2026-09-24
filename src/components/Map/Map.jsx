@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import { FenceRounded } from '@mui/icons-material'
+import { FenceRounded, VpnKeyRounded } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
@@ -20,6 +20,7 @@ import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, 
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
+import PinBadgeIcon from './PinBadgeIcon.jsx'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -31,16 +32,12 @@ Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
 
 const MARKER_ANIMATION_DURATION_MS = 680
 
-function EntranceMapMarkerIcon({ size = 28 }) {
-  return (
-    <Box sx={{ position: 'relative', width: size, height: size }}>
-      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', color: 'white' }} />
-      {/* pin.svg's viewBox is 0 0 20 28.15 - a circular head sitting at the
-          top tapering to a point at the bottom, so its visual center is
-          well above the halfway mark of the full icon's bounding box. */}
-      <FenceRounded sx={{ position: 'absolute', top: '32%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: '#111827', lineHeight: 1 }} />
-    </Box>
-  )
+// Special-point fields (as opposed to the cave's own sistema-colored
+// location marker) get a white pin badged with a small glyph identifying
+// which point it is.
+const EDIT_FIELD_BADGE_ICONS = {
+  entrance: FenceRounded,
+  key: VpnKeyRounded,
 }
 
 function hasSavedViewState(viewState) {
@@ -614,14 +611,14 @@ export default function OCMap() {
               Object.entries(editFieldCoordinates)
                 .filter(([field]) => field !== 'location')
                 .map(([field, { longitude, latitude }]) => {
-                  const isEntranceField = field === 'entrance'
+                  const badgeIcon = EDIT_FIELD_BADGE_ICONS[field]
 
                   return (
                     <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
                       {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
                       <Box className="marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab !important', width: 28, height: 28 }}>
-                        {isEntranceField ? (
-                          <EntranceMapMarkerIcon size={28} />
+                        {badgeIcon ? (
+                          <PinBadgeIcon size={28} overlay={badgeIcon} />
                         ) : (
                           <SvgIcon inheritViewBox htmlColor={theme.palette.secondary.main} sx={{ width: '100%', height: '100%' }}>
                             <PinIcon />

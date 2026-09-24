@@ -2,21 +2,18 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
-import { CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded } from '@mui/icons-material'
+import { CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
+import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
 
-function EntrancePinIcon({ size = 20 }) {
-  return (
-    <Box sx={{ position: 'relative', width: size, height: size }}>
-      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', color: 'white' }} />
-      {/* pin.svg's viewBox is 0 0 20 28.15 - a circular head sitting at the
-          top tapering to a point at the bottom, so its visual center is
-          well above the halfway mark of the full icon's bounding box. */}
-      <FenceRounded sx={{ position: 'absolute', top: '32%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: '#111827', lineHeight: 1 }} />
-    </Box>
-  )
+// Special-point fields (as opposed to the cave's own sistema-colored
+// location marker) get a white pin badged with a small glyph identifying
+// which point it is.
+const FIELD_BADGE_ICONS = {
+  entrance: FenceRounded,
+  key: VpnKeyRounded,
 }
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
@@ -123,7 +120,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Grid size="auto">
             <Tooltip title={t('navigateToCoordinate')}>
               <IconButton size="small" onClick={onNavigateToClick}>
-                <CenterFocusStrongRounded fontSize="small" sx={{ color: 'action.active' }} />
+                <CenterFocusStrongRounded fontSize="small" />
               </IconButton>
             </Tooltip>
           </Grid>
@@ -132,8 +129,8 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Grid size="auto">
             <Tooltip title={t('dragPinToMap')}>
               <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
-                {field === 'entrance' ? (
-                  <EntrancePinIcon size={20} />
+                {FIELD_BADGE_ICONS[field] ? (
+                  <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} />
                 ) : (
                   <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
                 )}
@@ -145,7 +142,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Tooltip title={t('pickMyLocation')}>
             <span>
               <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating}>
-                {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" sx={{ color: 'action.active' }} />}
+                {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
               </IconButton>
             </span>
           </Tooltip>
@@ -154,7 +151,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Tooltip title={t('removeCoordinate')}>
             <span>
               <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
-                <CloseRounded fontSize="small" sx={{ color: 'action.active' }} />
+                <CloseRounded fontSize="small" />
               </IconButton>
             </span>
           </Tooltip>

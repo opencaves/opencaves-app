@@ -368,6 +368,7 @@
       "coordinates": "Coordinates",
       "location": "Location",
       "entrance": "Entrance",
+      "key": "Key",
       "longitude": "Longitude",
       "latitude": "Latitude",
       "dragPinToMap": "Drag this marker onto the map to set this location",

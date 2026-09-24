@@ -366,6 +366,7 @@
       "coordinates": "Coordonnées",
       "location": "Emplacement",
       "entrance": "Entrée",
+      "key": "Clé",
       "longitude": "Longitude",
       "latitude": "Latitude",
       "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
