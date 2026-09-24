@@ -391,11 +391,13 @@
       "facilitiesHint": "Whether facilities such as restrooms or changing areas are available on site",
       "activities": "Activities",
       "activitiesHint": "Whether additional activities (e.g. swimming, snorkeling) are offered at this location",
-      "accessDetails": "Access details (markdown)",
-      "accessibilityDetails": "Accessibility details (markdown)",
-      "description": "Description (markdown)",
-      "direction": "Getting there (markdown)",
+      "accessDetails": "Access details",
+      "accessibilityDetails": "Accessibility details",
+      "description": "Description",
+      "direction": "Getting there",
       "preview": "Preview",
+      "markdownTab": "Markdown",
+      "emptyPreview": "Nothing to preview yet",
       "save": "Save",
       "cancel": "Cancel"
     }

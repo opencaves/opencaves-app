@@ -9,7 +9,7 @@ import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
-import Markdown from '@/components/Markdown/Markdown.jsx'
+import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
@@ -106,22 +106,9 @@ function NameTranslationsField({ label, rows, languages, onChange, addLabel, rem
   )
 }
 
-function MarkdownField({ label, value, onChange, minRows = 3, resizable = false }) {
+function MarkdownField({ label, value, onChange, minRows, resizable }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-
-  return (
-    <Box>
-      <TextField label={label} fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={resizable ? { '& textarea': { resize: 'vertical' } } : undefined} />
-      {value && (
-        <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, mt: 0.5 }}>
-          <Typography variant="caption" color="text.secondary">
-            {t('preview')}
-          </Typography>
-          <Markdown>{value}</Markdown>
-        </Box>
-      )}
-    </Box>
-  )
+  return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} editTabLabel={t('markdownTab')} previewTabLabel={t('preview')} emptyPreviewLabel={t('emptyPreview')} />
 }
 
 // Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
@@ -332,16 +319,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
             if (e.key !== 'Escape') e.stopPropagation()
           }}
         >
-          <TextField
-            inputRef={sistemaSearchInputRef}
-            autoFocus
-            size="small"
-            fullWidth
-            placeholder={t('sistemaSearchPlaceholder')}
-            value={sistemaSearch}
-            onChange={(e) => setSistemaSearch(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <TextField inputRef={sistemaSearchInputRef} autoFocus size="small" fullWidth placeholder={t('sistemaSearchPlaceholder')} value={sistemaSearch} onChange={(e) => setSistemaSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
         </ListSubheader>
         <MenuItem value="">{t('none')}</MenuItem>
         {[...sistemas]

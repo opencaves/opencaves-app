@@ -7,7 +7,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { num } from '@/services/data-service/types.js'
-import Markdown from '@/components/Markdown/Markdown.jsx'
+import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -227,21 +227,11 @@ export default function SistemaEdit() {
         </Grid>
 
         <Grid size={12}>
-          <TextField label="Description (markdown)" fullWidth multiline minRows={5} sx={{ '& textarea': { resize: 'vertical' } }} {...field('description')} />
+          <MarkdownField label="Description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
         </Grid>
-        {form.description && (
-          <Grid size={12}>
-            <Typography variant="caption" color="text.secondary">
-              Preview
-            </Typography>
-            <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1 }}>
-              <Markdown>{form.description}</Markdown>
-            </Box>
-          </Grid>
-        )}
 
         <Grid size={12}>
-          <TextField label="Getting there (markdown)" fullWidth multiline minRows={3} sx={{ '& textarea': { resize: 'vertical' } }} {...field('direction')} />
+          <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={3} resizable />
         </Grid>
 
         <Grid size={6}>
