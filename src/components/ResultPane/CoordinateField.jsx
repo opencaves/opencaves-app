@@ -9,9 +9,12 @@ import PinIcon from '@/images/map/pin.svg?react'
 
 function EntrancePinIcon({ size = 20 }) {
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: size, height: size }}>
-      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ width: '100%', height: '100%', display: 'block', color: 'white' }} />
-      <FenceRounded sx={{ position: 'absolute', fontSize: size * 0.62, color: '#111827', lineHeight: 1 }} />
+    <Box sx={{ position: 'relative', width: size, height: size }}>
+      <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', color: 'white' }} />
+      {/* pin.svg's viewBox is 0 0 20 28.15 - a circular head sitting at the
+          top tapering to a point at the bottom, so its visual center is
+          well above the halfway mark of the full icon's bounding box. */}
+      <FenceRounded sx={{ position: 'absolute', top: '32%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: '#111827', lineHeight: 1 }} />
     </Box>
   )
 }
