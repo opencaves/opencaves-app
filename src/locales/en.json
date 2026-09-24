@@ -379,6 +379,7 @@
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
       "source": "Source",
+      "sourceHint": "Where this sistema's information comes from",
       "access": "Access",
       "accessGroup": "Access",
       "accessibility": "Accessibility",

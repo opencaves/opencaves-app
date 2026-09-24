@@ -379,6 +379,7 @@
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
       "source": "Fuente",
+      "sourceHint": "De dónde proviene la información de este sistema",
       "access": "Acceso",
       "accessibility": "Accesibilidad",
       "fees": "Costos",

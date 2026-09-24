@@ -249,7 +249,7 @@ export default function CaveEdit() {
                   <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: s.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
                   {s.name || s.id}
                   {areasById.get(s.area) && (
-                    <Typography component="span" color="text.secondary" sx={{ ml: 0.5 }}>
+                    <Typography component="span" sx={{ ml: 0.5, color: 'text.secondary' }}>
                       ({areasById.get(s.area)})
                     </Typography>
                   )}
@@ -259,7 +259,7 @@ export default function CaveEdit() {
         </Grid>
 
         <Grid size={12}>
-          <TextField select label="Source" fullWidth {...field('source')}>
+          <TextField select label="Source" helperText="Where this sistema's information comes from" fullWidth {...field('source')}>
             <MenuItem value="">(none)</MenuItem>
             {sources.map((s) => (
               <MenuItem key={s.id} value={s.id}>
@@ -297,7 +297,7 @@ export default function CaveEdit() {
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
                 {pickDescription(a.descriptions, descriptionLang) && (
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {pickDescription(a.descriptions, descriptionLang)}
                   </Typography>
                 )}
@@ -312,7 +312,7 @@ export default function CaveEdit() {
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
                 {pickDescription(a.descriptions, descriptionLang) && (
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {pickDescription(a.descriptions, descriptionLang)}
                   </Typography>
                 )}

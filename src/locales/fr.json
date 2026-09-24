@@ -376,6 +376,7 @@
       "none": "(aucun)",
       "sistema": "Système",
       "source": "Source",
+      "sourceHint": "D'où proviennent les informations sur ce système",
       "access": "Accès",
       "accessibility": "Accessibilité",
       "fees": "Frais",
