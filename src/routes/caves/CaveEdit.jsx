@@ -9,6 +9,7 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -19,7 +20,6 @@ const accessibilitiesModel = createCollectionModel('accessibilities')
 const emptyForm = {
   name: '',
   sistemaId: '',
-  area: '',
   source: '',
   access: '',
   accessDetails: '',
@@ -74,6 +74,9 @@ export default function CaveEdit() {
   const [sources] = sourcesModel.useAll()
   const [accesses] = accessesModel.useAll()
   const [accessibilities] = accessibilitiesModel.useAll()
+  // Area is a property of the sistema, not something to pick per cave -
+  // shown inline in each Sistema option instead of its own field.
+  const areasById = new Map(areas.map((a) => [a.id, a.name]))
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -104,7 +107,6 @@ export default function CaveEdit() {
       setForm({
         name: cave?.name?.value || '',
         sistemaId: cave?.sistemaId || '',
-        area: cave?.area || '',
         source: cave?.source || '',
         access: cave?.access || '',
         accessDetails: cave?.accessDetails || '',
@@ -162,7 +164,6 @@ export default function CaveEdit() {
       const fields = {
         name: { value: form.name },
         sistemaId: form.sistemaId || undefined,
-        area: form.area || undefined,
         source: form.source || undefined,
         access: form.access || undefined,
         accessDetails: form.accessDetails || undefined,
@@ -245,23 +246,19 @@ export default function CaveEdit() {
               .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
               .map((s) => (
                 <MenuItem key={s.id} value={s.id}>
+                  <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: s.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
                   {s.name || s.id}
+                  {areasById.get(s.area) && (
+                    <Typography component="span" color="text.secondary" sx={{ ml: 0.5 }}>
+                      ({areasById.get(s.area)})
+                    </Typography>
+                  )}
                 </MenuItem>
               ))}
           </TextField>
         </Grid>
 
-        <Grid size={6}>
-          <TextField select label="Area" fullWidth {...field('area')}>
-            <MenuItem value="">(none)</MenuItem>
-            {areas.map((a) => (
-              <MenuItem key={a.id} value={a.id}>
-                {a.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid size={6}>
+        <Grid size={12}>
           <TextField select label="Source" fullWidth {...field('source')}>
             <MenuItem value="">(none)</MenuItem>
             {sources.map((s) => (

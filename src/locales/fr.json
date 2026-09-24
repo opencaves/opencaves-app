@@ -374,8 +374,7 @@
       "removeCoordinate": "Supprimer les coordonnées",
       "pickMyLocation": "Utiliser ma position actuelle",
       "none": "(aucun)",
-      "sistema": "Syst?me",
-      "area": "Zone",
+      "sistema": "Système",
       "source": "Source",
       "access": "Accès",
       "accessibility": "Accessibilité",
@@ -392,8 +391,7 @@
       "preview": "Aperçu",
       "save": "Enregistrer",
       "cancel": "Annuler",
-      "sistemaGroup": "Syst?me",
-      "accessSection": "Acc?s et accessibilit?",
+      "sistemaGroup": "Système",
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité"
     }
