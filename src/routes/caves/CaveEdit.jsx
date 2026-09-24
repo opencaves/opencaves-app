@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { num } from '@/services/data-service/types.js'
+import { num, pickDescription } from '@/services/data-service/types.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -284,9 +285,9 @@ export default function CaveEdit() {
             {accesses.map((a) => (
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
-                {a.description && (
+                {pickDescription(a.descriptions, i18n.language) && (
                   <Typography variant="body2" color="text.secondary">
-                    {a.description}
+                    {pickDescription(a.descriptions, i18n.language)}
                   </Typography>
                 )}
               </MenuItem>
@@ -299,9 +300,9 @@ export default function CaveEdit() {
             {accessibilities.map((a) => (
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
-                {a.description && (
+                {pickDescription(a.descriptions, i18n.language) && (
                   <Typography variant="body2" color="text.secondary">
-                    {a.description}
+                    {pickDescription(a.descriptions, i18n.language)}
                   </Typography>
                 )}
               </MenuItem>
@@ -323,13 +324,19 @@ export default function CaveEdit() {
         </Grid>
 
         <Grid size={6}>
-          <FormControlLabel control={<Checkbox {...checkboxField('fees')} />} label="Fees" />
+          <Tooltip title="Whether visiting this cave requires paying an entrance fee">
+            <FormControlLabel control={<Checkbox {...checkboxField('fees')} />} label="Fees" />
+          </Tooltip>
         </Grid>
         <Grid size={6}>
-          <FormControlLabel control={<Checkbox {...checkboxField('facilities')} />} label="Facilities" />
+          <Tooltip title="Whether facilities such as restrooms or changing areas are available on site">
+            <FormControlLabel control={<Checkbox {...checkboxField('facilities')} />} label="Facilities" />
+          </Tooltip>
         </Grid>
         <Grid size={6}>
-          <FormControlLabel control={<Checkbox {...checkboxField('activities')} />} label="Activities" />
+          <Tooltip title="Whether additional activities (e.g. swimming, snorkeling) are offered at this location">
+            <FormControlLabel control={<Checkbox {...checkboxField('activities')} />} label="Activities" />
+          </Tooltip>
         </Grid>
 
         <Grid size={6}>

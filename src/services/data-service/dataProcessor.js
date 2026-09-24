@@ -438,10 +438,11 @@ function getAccesses(data) {
 
   data.access.forEach((old) => {
     if (old.id !== '') {
+      const description = str(old.Description)
       var newItem = {
         id: dashedId(old.Access),
         name: str(old.Access),
-        description: str(old.Description),
+        descriptions: description ? [{ lang: 'en', description }] : [],
         note: str(old.Note)
       }
 
@@ -462,10 +463,11 @@ function getAccessibilities(data) {
 
   data.accessibility.forEach((old) => {
     if (old.id !== '') {
+      const description = str(old.Description)
       var newItem = {
         id: dashedId(old.Accessibility),
         name: str(old.Accessibility),
-        description: str(old.Description),
+        descriptions: description ? [{ lang: 'en', description }] : [],
         note: str(old.Note)
       }
 

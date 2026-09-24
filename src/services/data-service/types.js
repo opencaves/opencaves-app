@@ -59,6 +59,16 @@ export function arrStr(str) {
   return str.split('|')
 }
 
+// Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
+// array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
+export function pickDescription(descriptions, lang, fallbackLang = 'en') {
+  if (!descriptions) {
+    return ''
+  }
+  const match = descriptions.find((d) => d.lang === lang) || descriptions.find((d) => d.lang === fallbackLang)
+  return match?.description || ''
+}
+
 export function loc(obj, lngProp, latProp, validProp = null) {
   if (typeof obj[lngProp] === 'undefined' || obj[lngProp] === '' || obj[latProp] === '') {
     return

@@ -1,31 +1,37 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { Box, Button, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
 import { Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
-import { dashedId } from '@/services/data-service/types.js'
+import { dashedId, pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
 // Per-collection shape: which fields the form shows, and how the document ID
 // is derived (a slug of one of the fields, the record's own value for one of
 // its fields, or an opaque generated ID when nothing suitable exists).
+// `descriptionsField` marks a field that is actually backed by a
+// `descriptions: [{ lang, description }]` array (only English is ever
+// populated from the Google Sheet) - this form edits the entry for the
+// admin's current UI language, leaving other languages untouched.
 const CONFIGS = {
-  accesses: { label: 'Accesses', fields: ['name', 'description', 'note'], id: { from: 'name', transform: dashedId } },
-  accessibilities: { label: 'Accessibilities', fields: ['name', 'description', 'note'], id: { from: 'name', transform: dashedId } },
+  accesses: { label: 'Accesses', fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
+  accessibilities: { label: 'Accessibilities', fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
   sources: { label: 'Sources', fields: ['name', 'description', 'note'], id: { kind: 'generated' } },
   areas: { label: 'Areas', fields: ['name', 'note'], id: { from: 'name', transform: (v) => v } },
   colors: { label: 'Colors', fields: ['hex'], id: { kind: 'generated' } },
   languages: { label: 'Languages', fields: ['code', 'eng', 'fra'], id: { from: 'code', transform: (v) => v } },
 }
 
-const emptyFields = (fields) => Object.fromEntries(fields.map(f => [f, '']))
+const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
 export default function ReferenceDataEditor() {
   const { collectionName } = useParams()
   const config = CONFIGS[collectionName]
   const { setTitle } = useTitle()
+  const { i18n } = useTranslation()
 
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()
@@ -49,7 +55,7 @@ export default function ReferenceDataEditor() {
 
   function startEdit(item) {
     setEditingId(item.id)
-    setForm(Object.fromEntries(config.fields.map(f => [f, item[f] || ''])))
+    setForm(Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(item.descriptions, i18n.language) : item[f] || ''])))
   }
 
   function cancelEdit() {
@@ -60,13 +66,18 @@ export default function ReferenceDataEditor() {
   async function handleSave() {
     setSaving(true)
     try {
-      const id = editingId !== 'new'
-        ? editingId
-        : config.id.kind === 'generated'
-          ? pushId()
-          : config.id.transform(form[config.id.from])
+      const id = editingId !== 'new' ? editingId : config.id.kind === 'generated' ? pushId() : config.id.transform(form[config.id.from])
 
-      await model.save(id, form)
+      const fields = { ...form }
+      if (config.descriptionsField) {
+        const description = fields[config.descriptionsField]
+        delete fields[config.descriptionsField]
+        const existingItem = editingId !== 'new' ? items.find((i) => i.id === editingId) : undefined
+        const otherDescriptions = (existingItem?.descriptions || []).filter((d) => d.lang !== i18n.language)
+        fields.descriptions = description ? [...otherDescriptions, { lang: i18n.language, description }] : otherDescriptions
+      }
+
+      await model.save(id, fields)
       invalidateData()
       await getData()
       cancelEdit()
@@ -86,35 +97,35 @@ export default function ReferenceDataEditor() {
 
   return (
     <div>
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>{config.label}</Typography>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+        {config.label}
+      </Typography>
 
       {editingId ? (
         <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
-          {config.fields.map(field => (
-            <TextField
-              key={field}
-              label={field}
-              value={form[field]}
-              onChange={(e) => setForm(f => ({ ...f, [field]: e.target.value }))}
-              disabled={editingId !== 'new' && field === config.id.from}
-              multiline={field === 'description' || field === 'note'}
-              minRows={field === 'description' || field === 'note' ? 2 : undefined}
-            />
+          {config.fields.map((field) => (
+            <TextField key={field} label={field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={editingId !== 'new' && field === config.id.from} multiline={field === 'description' || field === 'note'} minRows={field === 'description' || field === 'note' ? 2 : undefined} />
           ))}
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button variant="contained" onClick={handleSave} disabled={saving}>Save</Button>
-            <Button onClick={cancelEdit} disabled={saving}>Cancel</Button>
+            <Button variant="contained" onClick={handleSave} disabled={saving}>
+              Save
+            </Button>
+            <Button onClick={cancelEdit} disabled={saving}>
+              Cancel
+            </Button>
           </Box>
         </Box>
       ) : (
-        <Button variant="contained" sx={{ mb: 2 }} onClick={startNew}>New</Button>
+        <Button variant="contained" sx={{ mb: 2 }} onClick={startNew}>
+          New
+        </Button>
       )}
 
       {loading ? (
         <Typography>Loading…</Typography>
       ) : (
         <List disablePadding>
-          {items.map(item => (
+          {items.map((item) => (
             <ListItem
               key={item.id}
               divider

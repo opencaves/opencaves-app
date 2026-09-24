@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, CloseRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
@@ -9,7 +9,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
-import { num } from '@/services/data-service/types.js'
+import { num, pickDescription } from '@/services/data-service/types.js'
 import ColorPickerField from './ColorPickerField.jsx'
 import CoordinateField from './CoordinateField.jsx'
 
@@ -129,7 +129,7 @@ function MarkdownField({ label, value, onChange }) {
 // (aka, maps, rating, reporter, note, exploration date, cover image) stays
 // in the dedicated admin form.
 export default function CurrentCaveDetailsContentEdit({ cave }) {
-  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const navigate = useNavigate()
 
   const [sistemas] = SistemaModel.useAll()
@@ -334,9 +334,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         {accesses.map((a) => (
           <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
             <Typography variant="body1">{a.name}</Typography>
-            {a.description && (
+            {pickDescription(a.descriptions, i18n.language) && (
               <Typography variant="body2" color="text.secondary">
-                {a.description}
+                {pickDescription(a.descriptions, i18n.language)}
               </Typography>
             )}
           </MenuItem>
@@ -351,9 +351,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         {accessibilities.map((a) => (
           <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
             <Typography variant="body1">{a.name}</Typography>
-            {a.description && (
+            {pickDescription(a.descriptions, i18n.language) && (
               <Typography variant="body2" color="text.secondary">
-                {a.description}
+                {pickDescription(a.descriptions, i18n.language)}
               </Typography>
             )}
           </MenuItem>
@@ -362,9 +362,15 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-        <FormControlLabel control={<Checkbox checked={form.fees} onChange={(e) => setForm((f) => ({ ...f, fees: e.target.checked }))} />} label={t('fees')} />
-        <FormControlLabel control={<Checkbox checked={form.facilities} onChange={(e) => setForm((f) => ({ ...f, facilities: e.target.checked }))} />} label={t('facilities')} />
-        <FormControlLabel control={<Checkbox checked={form.activities} onChange={(e) => setForm((f) => ({ ...f, activities: e.target.checked }))} />} label={t('activities')} />
+        <Tooltip title={t('feesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.fees} onChange={(e) => setForm((f) => ({ ...f, fees: e.target.checked }))} />} label={t('fees')} />
+        </Tooltip>
+        <Tooltip title={t('facilitiesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.facilities} onChange={(e) => setForm((f) => ({ ...f, facilities: e.target.checked }))} />} label={t('facilities')} />
+        </Tooltip>
+        <Tooltip title={t('activitiesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.activities} onChange={(e) => setForm((f) => ({ ...f, activities: e.target.checked }))} />} label={t('activities')} />
+        </Tooltip>
       </Box>
 
       <Divider />
