@@ -19,7 +19,6 @@ const accessibilitiesModel = createCollectionModel('accessibilities')
 const emptyForm = {
   name: '',
   sistemaId: '',
-  sistemaColor: '',
   area: '',
   source: '',
   access: '',
@@ -103,7 +102,6 @@ export default function CaveEdit() {
       setForm({
         name: cave?.name?.value || '',
         sistemaId: cave?.sistemaId || '',
-        sistemaColor: cave?.sistemaColor || '',
         area: cave?.area || '',
         source: cave?.source || '',
         access: cave?.access || '',
@@ -160,7 +158,6 @@ export default function CaveEdit() {
       const fields = {
         name: { value: form.name },
         sistemaId: form.sistemaId || undefined,
-        sistemaColor: form.sistemaColor || undefined,
         area: form.area || undefined,
         source: form.source || undefined,
         access: form.access || undefined,
@@ -233,7 +230,7 @@ export default function CaveEdit() {
           <TextField label="Name" fullWidth required {...field('name')} />
         </Grid>
 
-        <Grid size={6}>
+        <Grid size={12}>
           <TextField select label="Sistema" fullWidth {...field('sistemaId')}>
             <MenuItem value="">(none)</MenuItem>
             {[...sistemas]
@@ -244,9 +241,6 @@ export default function CaveEdit() {
                 </MenuItem>
               ))}
           </TextField>
-        </Grid>
-        <Grid size={6}>
-          <TextField label="Sistema color override" fullWidth {...field('sistemaColor')} placeholder="#rrggbb" />
         </Grid>
 
         <Grid size={6}>

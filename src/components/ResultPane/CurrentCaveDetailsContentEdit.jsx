@@ -11,7 +11,6 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-import ColorPickerField from './ColorPickerField.jsx'
 import CoordinateField from './CoordinateField.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -156,7 +155,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     name: cave.name?.value || '',
     aka: cave.aka || [],
     sistemaId: cave.sistemaId || '',
-    sistemaColor: cave.sistemaColor || '',
     area: cave.area || '',
     source: cave.source || '',
     access: cave.access || '',
@@ -225,7 +223,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         name: { value: form.name },
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
         sistemaId: form.sistemaId || undefined,
-        sistemaColor: form.sistemaColor || undefined,
         area: form.area || undefined,
         source: form.source || undefined,
         access: form.access || undefined,
@@ -311,7 +308,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
             </MenuItem>
           ))}
       </TextField>
-      <ColorPickerField label={t('sistemaColor')} value={form.sistemaColor} onChange={(hex) => setForm((f) => ({ ...f, sistemaColor: hex }))} />
 
       <TextField select label={t('area')} fullWidth {...field('area')}>
         <MenuItem value="">{t('none')}</MenuItem>
