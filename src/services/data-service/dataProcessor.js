@@ -442,7 +442,7 @@ function getAccesses(data) {
       var newItem = {
         id: dashedId(old.Access),
         name: str(old.Access),
-        descriptions: description ? [{ lang: 'en', description }] : [],
+        descriptions: description ? [{ lang: 'eng', description }] : [],
         note: str(old.Note)
       }
 
@@ -467,7 +467,7 @@ function getAccessibilities(data) {
       var newItem = {
         id: dashedId(old.Accessibility),
         name: str(old.Accessibility),
-        descriptions: description ? [{ lang: 'en', description }] : [],
+        descriptions: description ? [{ lang: 'eng', description }] : [],
         note: str(old.Note)
       }
 

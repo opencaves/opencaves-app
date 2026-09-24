@@ -8,6 +8,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { dashedId, pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 
 // Per-collection shape: which fields the form shows, and how the document ID
 // is derived (a slug of one of the fields, the record's own value for one of
@@ -32,6 +33,10 @@ export default function ReferenceDataEditor() {
   const config = CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { i18n } = useTranslation()
+  // descriptions[].lang is stored as a 3-letter code (matching the
+  // `languages` collection / cave nameTranslations), not i18next's own
+  // 2-letter language code.
+  const lang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
 
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()
@@ -55,7 +60,7 @@ export default function ReferenceDataEditor() {
 
   function startEdit(item) {
     setEditingId(item.id)
-    setForm(Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(item.descriptions, i18n.language) : item[f] || ''])))
+    setForm(Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(item.descriptions, lang) : item[f] || ''])))
   }
 
   function cancelEdit() {
@@ -73,8 +78,8 @@ export default function ReferenceDataEditor() {
         const description = fields[config.descriptionsField]
         delete fields[config.descriptionsField]
         const existingItem = editingId !== 'new' ? items.find((i) => i.id === editingId) : undefined
-        const otherDescriptions = (existingItem?.descriptions || []).filter((d) => d.lang !== i18n.language)
-        fields.descriptions = description ? [...otherDescriptions, { lang: i18n.language, description }] : otherDescriptions
+        const otherDescriptions = (existingItem?.descriptions || []).filter((d) => d.lang !== lang)
+        fields.descriptions = description ? [...otherDescriptions, { lang, description }] : otherDescriptions
       }
 
       await model.save(id, fields)

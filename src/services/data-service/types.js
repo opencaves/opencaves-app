@@ -61,7 +61,7 @@ export function arrStr(str) {
 
 // Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
 // array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
-export function pickDescription(descriptions, lang, fallbackLang = 'en') {
+export function pickDescription(descriptions, lang, fallbackLang = 'eng') {
   if (!descriptions) {
     return ''
   }

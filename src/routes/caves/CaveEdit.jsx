@@ -8,6 +8,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { num, pickDescription } from '@/services/data-service/types.js'
+import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -62,6 +63,10 @@ export default function CaveEdit() {
   const { caveId } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
+  const { i18n } = useTranslation()
+  // descriptions[].lang is a 3-letter code (matching the languages
+  // collection / cave nameTranslations), not i18next's own 2-letter code.
+  const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
 
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
@@ -285,9 +290,9 @@ export default function CaveEdit() {
             {accesses.map((a) => (
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
-                {pickDescription(a.descriptions, i18n.language) && (
+                {pickDescription(a.descriptions, descriptionLang) && (
                   <Typography variant="body2" color="text.secondary">
-                    {pickDescription(a.descriptions, i18n.language)}
+                    {pickDescription(a.descriptions, descriptionLang)}
                   </Typography>
                 )}
               </MenuItem>
@@ -300,9 +305,9 @@ export default function CaveEdit() {
             {accessibilities.map((a) => (
               <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <Typography variant="body1">{a.name}</Typography>
-                {pickDescription(a.descriptions, i18n.language) && (
+                {pickDescription(a.descriptions, descriptionLang) && (
                   <Typography variant="body2" color="text.secondary">
-                    {pickDescription(a.descriptions, i18n.language)}
+                    {pickDescription(a.descriptions, descriptionLang)}
                   </Typography>
                 )}
               </MenuItem>
