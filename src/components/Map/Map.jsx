@@ -629,7 +629,7 @@ export default function OCMap() {
                   )
                 })}
 
-            {filteredCaves
+            {displayedCaves
               ?.filter(({ location }) => {
                 const lngLat = new LngLat(location.longitude, location.latitude)
                 return mapBounds ? mapBounds.contains(lngLat) : true
