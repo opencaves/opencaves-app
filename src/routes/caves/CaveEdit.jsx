@@ -42,10 +42,10 @@ const emptyForm = {
   entranceLatitude: '',
 }
 
-function MarkdownField({ label, value, onChange }) {
+function MarkdownField({ label, value, onChange, minRows = 3, resizable = false }) {
   return (
     <>
-      <TextField label={label} fullWidth multiline minRows={3} value={value} onChange={onChange} />
+      <TextField label={label} fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={resizable ? { '& textarea': { resize: 'vertical' } } : undefined} />
       {value && (
         <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, mt: 0.5 }}>
           <Typography variant="caption" color="text.secondary">
@@ -317,10 +317,10 @@ export default function CaveEdit() {
           <MarkdownField label="Accessibility details (markdown)" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
         </Grid>
         <Grid size={12}>
-          <MarkdownField label="Description (markdown)" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
+          <MarkdownField label="Description (markdown)" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
         </Grid>
         <Grid size={12}>
-          <MarkdownField label="Getting there (markdown)" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} />
+          <MarkdownField label="Getting there (markdown)" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
         </Grid>
 
         <Grid size={6}>

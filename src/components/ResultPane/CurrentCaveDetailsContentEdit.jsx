@@ -104,12 +104,12 @@ function NameTranslationsField({ label, rows, languages, onChange, addLabel, rem
   )
 }
 
-function MarkdownField({ label, value, onChange }) {
+function MarkdownField({ label, value, onChange, minRows = 3, resizable = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
 
   return (
     <Box>
-      <TextField label={label} fullWidth multiline minRows={3} value={value} onChange={onChange} />
+      <TextField label={label} fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={resizable ? { '& textarea': { resize: 'vertical' } } : undefined} />
       {value && (
         <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, mt: 0.5 }}>
           <Typography variant="caption" color="text.secondary">
@@ -375,8 +375,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
-      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} />
+      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1, boxShadow: showFooterShadow ? '0 -6px 16px -12px rgba(0,0,0,0.4)' : 'none' }}>
         <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>

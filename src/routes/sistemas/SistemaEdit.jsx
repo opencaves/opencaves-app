@@ -59,10 +59,7 @@ export default function SistemaEdit() {
 
     async function load() {
       setLoading(true)
-      const [sistema, connection] = await Promise.all([
-        SistemaModel.getById(sistemaId),
-        ConnectionModel.getBySistemaId(sistemaId),
-      ])
+      const [sistema, connection] = await Promise.all([SistemaModel.getById(sistemaId), ConnectionModel.getBySistemaId(sistemaId)])
 
       if (cancelled) {
         return
@@ -91,18 +88,20 @@ export default function SistemaEdit() {
     }
 
     load()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [sistemaId])
 
   useEffect(() => {
-    setTitle(isNew ? 'New sistema' : (form.name || sistemaId))
+    setTitle(isNew ? 'New sistema' : form.name || sistemaId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm(f => ({ ...f, [name]: ['longitude', 'latitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value }))
+      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
     }
   }
 
@@ -121,8 +120,18 @@ export default function SistemaEdit() {
         explorationDate: form.explorationDate || undefined,
         reporter: form.reporter || undefined,
         note: form.note || undefined,
-        aka: form.aka ? form.aka.split('|').map(s => s.trim()).filter(Boolean) : undefined,
-        maps: form.maps ? form.maps.split('|').map(s => s.trim()).filter(Boolean) : undefined,
+        aka: form.aka
+          ? form.aka
+              .split('|')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : undefined,
+        maps: form.maps
+          ? form.maps
+              .split('|')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : undefined,
         public: true,
       }
 
@@ -155,11 +164,13 @@ export default function SistemaEdit() {
     return <Typography>Loading…</Typography>
   }
 
-  const otherSistemas = sistemas.filter(s => s.id !== sistemaId)
+  const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
 
   return (
     <div>
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>{isNew ? 'New sistema' : form.name || sistemaId}</Typography>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+        {isNew ? 'New sistema' : form.name || sistemaId}
+      </Typography>
 
       <Grid container spacing={2} sx={{ maxWidth: 720 }}>
         <Grid size={12}>
@@ -169,16 +180,20 @@ export default function SistemaEdit() {
         <Grid size={6}>
           <TextField select label="Parent sistema" fullWidth {...field('parentSistemaId')}>
             <MenuItem value="">(none)</MenuItem>
-            {otherSistemas.map(s => (
-              <MenuItem key={s.id} value={s.id}>{s.name || s.id}</MenuItem>
+            {otherSistemas.map((s) => (
+              <MenuItem key={s.id} value={s.id}>
+                {s.name || s.id}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
         <Grid size={6}>
           <TextField select label="Area" fullWidth {...field('area')}>
             <MenuItem value="">(none)</MenuItem>
-            {areas.map(a => (
-              <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+            {areas.map((a) => (
+              <MenuItem key={a.id} value={a.id}>
+                {a.name}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -189,8 +204,10 @@ export default function SistemaEdit() {
         <Grid size={6}>
           <TextField select label="Source" fullWidth {...field('source')}>
             <MenuItem value="">(none)</MenuItem>
-            {sources.map(s => (
-              <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>
+            {sources.map((s) => (
+              <MenuItem key={s.id} value={s.id}>
+                {s.name}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -210,11 +227,13 @@ export default function SistemaEdit() {
         </Grid>
 
         <Grid size={12}>
-          <TextField label="Description (markdown)" fullWidth multiline minRows={3} {...field('description')} />
+          <TextField label="Description (markdown)" fullWidth multiline minRows={5} sx={{ '& textarea': { resize: 'vertical' } }} {...field('description')} />
         </Grid>
         {form.description && (
           <Grid size={12}>
-            <Typography variant="caption" color="text.secondary">Preview</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Preview
+            </Typography>
             <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1 }}>
               <Markdown>{form.description}</Markdown>
             </Box>
@@ -222,7 +241,7 @@ export default function SistemaEdit() {
         )}
 
         <Grid size={12}>
-          <TextField label="Getting there (markdown)" fullWidth multiline minRows={2} {...field('direction')} />
+          <TextField label="Getting there (markdown)" fullWidth multiline minRows={3} sx={{ '& textarea': { resize: 'vertical' } }} {...field('direction')} />
         </Grid>
 
         <Grid size={6}>
@@ -244,9 +263,17 @@ export default function SistemaEdit() {
       </Grid>
 
       <Box sx={{ display: 'flex', gap: 1, mt: 3 }}>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>Save</Button>
-        <Button onClick={() => navigate('/sistemas')} disabled={saving}>Cancel</Button>
-        {!isNew && <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>Delete</Button>}
+        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+          Save
+        </Button>
+        <Button onClick={() => navigate('/sistemas')} disabled={saving}>
+          Cancel
+        </Button>
+        {!isNew && (
+          <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>
+            Delete
+          </Button>
+        )}
       </Box>
     </div>
   )
