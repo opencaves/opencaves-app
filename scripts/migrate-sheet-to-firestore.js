@@ -23,7 +23,7 @@ const argv = yargs(hideBin(process.argv))
     default: false,
     describe: 'Write to the real opencaves Firestore project instead of the local emulator (requires Application Default Credentials for a service account with Firestore access)'
   })
-  .example('$0', 'Run against the local emulator (FIRESTORE_EMULATOR_HOST must be set)')
+  .example('$0', 'Run against the local emulator (127.0.0.1:8080 unless FIRESTORE_EMULATOR_HOST is set)')
   .example('$0 --production', 'Run against the real opencaves Firestore project')
   .help()
   .alias('help', 'h')
@@ -32,15 +32,10 @@ const argv = yargs(hideBin(process.argv))
 
 const isProd = argv.production
 
+// Default to the local emulator (port from firebase.json) so a bare run just
+// works; an explicit FIRESTORE_EMULATOR_HOST still wins.
 if (!isProd && !process.env.FIRESTORE_EMULATOR_HOST) {
-  console.error(
-    'Refusing to run: no FIRESTORE_EMULATOR_HOST set and --production was not passed.\n' +
-    'Either start the emulator (`npm run dev` or `firebase emulators:start`) and set\n' +
-    'FIRESTORE_EMULATOR_HOST=127.0.0.1:8080, or pass --production/-p to write to the real\n' +
-    'project (requires Application Default Credentials for a service account with\n' +
-    'Firestore access).'
-  )
-  process.exit(1)
+  process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080'
 }
 
 if (isProd) {
