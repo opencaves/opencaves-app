@@ -93,7 +93,7 @@ export default function ResultPane() {
               <Collapse in={!!currentCave}>
                 <ResultPaneSm id="result-pane" cave={currentCave}>
                   {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
-                  <DetailsContent cave={currentCave}></DetailsContent>
+                  <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
                 </ResultPaneSm>
               </Collapse>
             </TransitionGroup>
@@ -102,7 +102,7 @@ export default function ResultPane() {
               <Collapse in={!!currentCave}>
                 <ResultPaneLg id="result-pane" cave={currentCave} editMode={showEditContent}>
                   {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
-                  <DetailsContent cave={currentCave}></DetailsContent>
+                  <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
                 </ResultPaneLg>
               </Collapse>
             </TransitionGroup>

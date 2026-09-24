@@ -681,7 +681,7 @@ export default function OCMap() {
                         : undefined
                     }
                   >
-                    <UnstyledLink to={`/map/${cave.id}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
+                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
                       <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
                         {pinIcon &&
                           (() => {
