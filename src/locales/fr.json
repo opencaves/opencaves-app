@@ -352,6 +352,45 @@
       "myAccount": "Mon compte",
       "edit": "Modifier",
       "about": "À propos d'{{name}}"
+    },
+    "edit": {
+      "name": "Nom",
+      "aka": "Également connu sous le nom de",
+      "addAka": "Ajouter un nom",
+      "removeAka": "Supprimer ce nom",
+      "nameTranslations": "Traductions du nom",
+      "addNameTranslation": "Ajouter une traduction",
+      "removeNameTranslation": "Supprimer cette traduction",
+      "nameTranslationLanguage": "Langue",
+      "nameTranslationValue": "Nom traduit",
+      "coordinates": "Coordonnées",
+      "location": "Emplacement",
+      "entrance": "Entrée",
+      "longitude": "Longitude",
+      "latitude": "Latitude",
+      "dragPinToMap": "Faites glisser l'épingle sur la carte pour définir cet emplacement",
+      "navigateToCoordinate": "Centrer la carte ici",
+      "pickMyLocation": "Utiliser ma position actuelle",
+      "none": "(aucun)",
+      "sistema": "Système",
+      "sistemaColor": "Couleur du système (remplacement)",
+      "colorNone": "Aucune",
+      "existingColors": "Couleurs existantes",
+      "newColor": "Nouvelle couleur",
+      "area": "Zone",
+      "source": "Source",
+      "access": "Accès",
+      "accessibility": "Accessibilité",
+      "fees": "Frais",
+      "facilities": "Installations",
+      "activities": "Activités",
+      "accessDetails": "Détails d'accès (markdown)",
+      "accessibilityDetails": "Détails d'accessibilité (markdown)",
+      "description": "Description (markdown)",
+      "direction": "S'y rendre (markdown)",
+      "preview": "Aperçu",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
     }
   },
   "mediaPane": {
@@ -484,6 +523,7 @@
     "caveNameUnknown": "[nom inconnu]",
     "editFab": {
       "ariaLabel": "Modifier les données du cénote",
+      "quickEditCurrentCave": "Modification rapide",
       "editCurrentCave": "Modifier le cénote actuel",
       "addNewCave": "Ajouter un nouveau cénote"
     }

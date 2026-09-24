@@ -10,8 +10,7 @@ import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-import { paneWidth } from '@/config/app.js'
-import { coverImageHeightRatio, resultPaneSmHeadHeight } from '@/config/resultPane.js'
+import { resultPaneSmHeadHeight } from '@/config/resultPane.js'
 import ConditionalWrapper from '../utils/ConditionalWrapper.jsx'
 import './CurrentCaveDetailsHeader.scss'
 
@@ -22,8 +21,6 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   const navigate = useNavigate()
   const titleRef = useRef(null)
 
-  const coverImageWidth = paneWidth
-  const coverImageHeight = Math.round(coverImageWidth * coverImageHeightRatio)
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
@@ -80,7 +77,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
     <>
       {
         !isSmall && (
-          <CoverImage caveId={cave.id} width={coverImageWidth} height={coverImageHeight} />
+          <CoverImage caveId={cave.id} />
         )
       }
       <Box className='oc-result-pane--header'>

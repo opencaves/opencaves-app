@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material'
-import { AddLocationRounded, EditLocationRounded, EditRounded } from '@mui/icons-material'
+import { AddLocationRounded, EditLocationRounded, EditRounded, TuneRounded } from '@mui/icons-material'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions
@@ -20,6 +20,11 @@ export default function EditCaveFab() {
 
   if (!roles.includes('editor')) {
     return null
+  }
+
+  function quickEditCurrentCave() {
+    setOpen(false)
+    navigate(`/map/${caveId}/edit`)
   }
 
   function editCurrentCave() {
@@ -55,6 +60,12 @@ export default function EditCaveFab() {
         zIndex: 'var(--oc-app-menu-z-index)',
       })}
     >
+      <SpeedDialAction
+        icon={<TuneRounded />}
+        title={t('quickEditCurrentCave')}
+        onClick={quickEditCurrentCave}
+        slotProps={{ fab: { 'aria-label': t('quickEditCurrentCave'), disabled: !caveId } }}
+      />
       <SpeedDialAction
         icon={<EditLocationRounded />}
         title={t('editCurrentCave')}

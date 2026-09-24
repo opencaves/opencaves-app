@@ -169,6 +169,11 @@ function getCaves(data) {
           fn: str
         },
         {
+          new: 'activities',
+          old: 'Activities',
+          fn: bol
+        },
+        {
           new: 'fees',
           old: 'Fees',
           fn: bol

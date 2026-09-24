@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
@@ -8,6 +8,7 @@ import ResultPaneSm from './ResultPaneSm.jsx'
 import ResultPaneLg from './ResultPaneLg.jsx'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
+import CurrentCaveDetailsContentEdit from './CurrentCaveDetailsContentEdit.jsx'
 import { loadMediaCount, loadMediaList } from './MediaList.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -31,10 +32,21 @@ export default function ResultPane() {
   const { t } = useTranslation('resultPane')
   const { caveId } = useParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
   const caves = useSelector(state => state.map.data)
+  const roles = useSelector(state => state.session.roles)
   const isSmall = useSmall()
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
+
+  const isEditMode = location.pathname.endsWith('/edit')
+
+  useEffect(() => {
+    if (isEditMode && !roles.includes('editor')) {
+      navigate(`/map/${caveId}`, { replace: true })
+    }
+  }, [isEditMode, roles, caveId, navigate])
 
   useEffect(() => {
     if (!isSmall || !caveId) {
@@ -68,6 +80,11 @@ export default function ResultPane() {
   }, [currentCave])
 
   if (currentCave) {
+    // Guard against rendering, even briefly, before the redirect effect
+    // above fires for a non-editor who navigated straight to the edit URL.
+    const showEditContent = isEditMode && roles.includes('editor')
+    const DetailsContent = showEditContent ? CurrentCaveDetailsContentEdit : CurrentCaveDetailsContent
+
     return (
       <>
         {
@@ -76,16 +93,16 @@ export default function ResultPane() {
               <Collapse in={!!currentCave}>
                 <ResultPaneSm id="result-pane" cave={currentCave}>
                   <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>
-                  <CurrentCaveDetailsContent cave={currentCave}></CurrentCaveDetailsContent>
+                  <DetailsContent cave={currentCave}></DetailsContent>
                 </ResultPaneSm>
               </Collapse>
             </TransitionGroup>
           ) : (
             <TransitionGroup>
               <Collapse in={!!currentCave}>
-                <ResultPaneLg id="result-pane" cave={currentCave}>
+                <ResultPaneLg id="result-pane" cave={currentCave} editMode={showEditContent}>
                   <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>
-                  <CurrentCaveDetailsContent cave={currentCave}></CurrentCaveDetailsContent>
+                  <DetailsContent cave={currentCave}></DetailsContent>
                 </ResultPaneLg>
               </Collapse>
             </TransitionGroup>

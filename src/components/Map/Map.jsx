@@ -1,5 +1,5 @@
 import { createRef, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
@@ -8,7 +8,7 @@ import { Box, Fade, SvgIcon } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
-import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData } from '@/redux/slices/mapSlice.jsx'
+import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
 import { setTitle } from '@/redux/slices/appSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
@@ -44,9 +44,21 @@ export default function OCMap() {
   const currentZoomLevel = useSelector((state) => state.map.currentZoomLevel)
   const mapData = useSelector((state) => state.map.data)
   const caveData = useSelector((state) => state.data.caves)
+  const pickingCoordinateFor = useSelector((state) => state.map.pickingCoordinateFor)
+  const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
+  const flyToCoordinateRequest = useSelector((state) => state.map.flyToCoordinateRequest)
+  const roles = useSelector((state) => state.session.roles)
 
   const { caveId } = useParams()
+  const location = useLocation()
   const currentRoute = useCurrentRoute()
+
+  // Mirrors ResultPane.jsx's own showEditContent check: the in-place edit
+  // form (and the widened/elongated pane it renders in) only actually shows
+  // for an editor on a /edit URL, so only then does the map need to shift
+  // its centering to keep the current cave visible in the narrower
+  // remaining space.
+  const isWidePaneEditMode = location.pathname.endsWith('/edit') && roles.includes('editor')
 
   const [mapReady, setMapReady] = useState(false)
   const theme = useTheme()
@@ -58,6 +70,7 @@ export default function OCMap() {
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
   const [activeMarkerElem, doSetActiveMarkerElem] = useState()
   const [zoomLevel, setZoomLevel] = useState(initialMapViewState.zoom)
+  const [isDraggingCurrentMarker, setIsDraggingCurrentMarker] = useState(false)
   const [mapBounds, setMapBounds] = useState()
   const [mapLoaded, setMapLoaded] = useState(false)
 
@@ -105,6 +118,19 @@ export default function OCMap() {
   }
 
   function onMarkerClick(event, cave) {
+    if (pickingCoordinateFor) {
+      // Don't navigate away to a different cave mid-pick - use this
+      // marker's own coordinates as the picked value instead.
+      event.originalEvent?.preventDefault()
+      event.originalEvent?.stopPropagation()
+      dispatch(setPickedCoordinate({
+        field: pickingCoordinateFor,
+        longitude: cave.location.longitude,
+        latitude: cave.location.latitude,
+      }))
+      return
+    }
+
     setActiveMarkerElem(event.target.getElement())
   }
 
@@ -176,7 +202,10 @@ export default function OCMap() {
 
         centerPoint = currentPoint.add(new Point(0, resultPaneHeight / 2)).sub(new Point(0, searchBarHeight / 2))
       } else {
-        centerPoint = currentPoint.sub(new Point(paneWidth / 2, 0))
+        // Keep in sync with ResultPaneLg.jsx's own `min(paneWidth * 2, 80vw)`
+        // cap on its max-width in edit mode.
+        const effectivePaneWidth = isWidePaneEditMode ? Math.min(paneWidth * 2, window.innerWidth * 0.8) : paneWidth
+        centerPoint = currentPoint.sub(new Point(effectivePaneWidth / 2, 0))
         console.log('[getCenterLngLat] currentPoint', currentPoint)
         console.log('[getCenterLngLat] centerPoint', centerPoint)
       }
@@ -213,6 +242,16 @@ export default function OCMap() {
         }),
       })
     }
+  }
+
+  function flyToCoordinate(lng, lat) {
+    const center = getCenterLngLat(lng, lat, true)
+
+    mapRef.current?.flyTo({
+      center,
+      zoom: currentZoomLevel,
+      duration: theme.oc.sys.motion.duration.emphasized,
+    })
   }
 
   function updateMapBounds() {
@@ -261,6 +300,53 @@ export default function OCMap() {
 
   function onGeolocateError(error) {
     console.error('[onGeolocateError] %o', error)
+  }
+
+  function onMapClick(event) {
+    if (!pickingCoordinateFor) {
+      return
+    }
+
+    dispatch(setPickedCoordinate({
+      field: pickingCoordinateFor,
+      longitude: event.lngLat.lng,
+      latitude: event.lngLat.lat,
+    }))
+  }
+
+  // Drop target for CoordinateField.jsx's draggable pin: its drag image is
+  // offset to the pin's bottom tip (see onPinDragStart there), so the
+  // pointer position at drop time - not wherever the pin was grabbed - is
+  // exactly the coordinate to unproject.
+  function onMapDragOver(event) {
+    if (pickingCoordinateFor) {
+      event.preventDefault()
+    }
+  }
+
+  function onMapDrop(event) {
+    if (!pickingCoordinateFor || !mapRef.current) {
+      return
+    }
+
+    event.preventDefault()
+
+    const containerRect = mapRef.current.getMap().getContainer().getBoundingClientRect()
+    const lngLat = mapRef.current.unproject([event.clientX - containerRect.left, event.clientY - containerRect.top])
+
+    dispatch(setPickedCoordinate({
+      field: pickingCoordinateFor,
+      longitude: lngLat.lng,
+      latitude: lngLat.lat,
+    }))
+  }
+
+  function onFieldMarkerDragEnd(field, event) {
+    dispatch(setPickedCoordinate({
+      field,
+      longitude: event.lngLat.lng,
+      latitude: event.lngLat.lat,
+    }))
   }
 
   /**
@@ -370,10 +456,41 @@ export default function OCMap() {
       return
     }
     if (routeCave?.location) {
-      flyToMarker({ animate: true, cave: routeCave, offsetForPane: false })
+      // offsetForPane matters a lot now that the pane can be much wider in
+      // edit mode (see ResultPaneLg.jsx) - without it, a cave (and any
+      // entrance point further from it) can land squarely behind the pane
+      // on first load and never be visible at all.
+      flyToMarker({ animate: true, cave: routeCave, offsetForPane: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapLoaded, caveId, caveData, currentZoomLevel, persistedViewStateAvailable, _currentCave])
+
+  // Re-center when entering/exiting quick-edit mode, since the result pane
+  // doubling in width (see ResultPaneLg.jsx) changes how much of the map is
+  // actually free to the right of it. Skip the very first run - the initial
+  // centering effects above already account for isWidePaneEditMode via
+  // getCenterLngLat, so re-flying here too would just be a redundant jump.
+  const skipNextWidePaneFly = useRef(true)
+  useEffect(() => {
+    if (skipNextWidePaneFly.current) {
+      skipNextWidePaneFly.current = false
+      return
+    }
+
+    if (mapLoaded && currentCave?.location) {
+      flyToMarker({ animate: true })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWidePaneEditMode])
+
+  // A CoordinateField's own "center the map here" action.
+  useEffect(() => {
+    if (flyToCoordinateRequest && mapLoaded) {
+      flyToCoordinate(flyToCoordinateRequest.longitude, flyToCoordinateRequest.latitude)
+      dispatch(clearFlyToCoordinateRequest())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flyToCoordinateRequest, mapLoaded])
 
   useEffect(() => {
     if (mapReady && hasInitialGoToMarker && activeMarkerElem) {
@@ -404,14 +521,30 @@ export default function OCMap() {
             width: '100%',
             height: '100%',
           }}
+          onDragOver={onMapDragOver}
+          onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
               // trackUserLocation={true}
               position="bottom-right"
               onError={onGeolocateError}
             />
+
+            {/* 'location' isn't rendered here - it's the same point as the
+                current cave's own marker below, which becomes draggable
+                instead of duplicating it with a second pin. */}
+            {isWidePaneEditMode && Object.entries(editFieldCoordinates)
+              .filter(([field]) => field !== 'location')
+              .map(([field, { longitude, latitude }]) => (
+                <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
+                  {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
+                  <SvgIcon inheritViewBox className="marker-icon" htmlColor={theme.palette.secondary.main} sx={{ cursor: 'grab !important' }}>
+                    <PinIcon />
+                  </SvgIcon>
+                </Marker>
+              ))}
 
             {filteredCaves
               ?.filter(({ location }) => {
@@ -427,29 +560,41 @@ export default function OCMap() {
                   console.log('isCurrentCave? (%s): %o', caveName, isCurrentCave)
                 }
 
+                const isDraggableCurrentCave = isCurrentCave && isWidePaneEditMode
+
+                // Always label the current cave's own marker while its
+                // in-place edit form (and this marker's own draggability)
+                // is active, regardless of zoom - not just above the
+                // general label zoom threshold. Hidden while actively being
+                // dragged so the name doesn't trail the pin around.
                 let markerLabel = null
-                if (isCurrentCave) {
-                  if (zoomLevel > markerConfig.label.minZoomLevel) {
-                    markerLabel = (
-                      <div key={`marker-${cave.id}`} className="marker-label">
-                        {caveName}
-                      </div>
-                    )
-                  }
-                } else {
-                  if (zoomLevel > markerConfig.label.minZoomLevel) {
-                    markerLabel = (
-                      <div key={`marker-${cave.id}`} className="marker-label">
-                        {caveName}
-                      </div>
-                    )
-                  }
+                if (!(isDraggableCurrentCave && isDraggingCurrentMarker) && (zoomLevel > markerConfig.label.minZoomLevel || (isCurrentCave && isWidePaneEditMode))) {
+                  markerLabel = (
+                    <div key={`marker-${cave.id}`} className="marker-label">
+                      {caveName}
+                    </div>
+                  )
                 }
 
                 return (
-                  <Marker key={`m-${cave.id}`} longitude={cave.location.longitude} latitude={cave.location.latitude} anchor="center" className={isCurrentCave ? 'active' : undefined} onClick={(event) => onMarkerClick(event, cave)}>
+                  <Marker
+                    key={`m-${cave.id}`}
+                    longitude={cave.location.longitude}
+                    latitude={cave.location.latitude}
+                    anchor="center"
+                    className={isCurrentCave ? 'active' : undefined}
+                    onClick={(event) => onMarkerClick(event, cave)}
+                    draggable={isDraggableCurrentCave}
+                    onDragStart={isDraggableCurrentCave ? () => setIsDraggingCurrentMarker(true) : undefined}
+                    onDragEnd={isDraggableCurrentCave ? (event) => { setIsDraggingCurrentMarker(false); onFieldMarkerDragEnd('location', event) } : undefined}
+                  >
                     <UnstyledLink to={`/map/${cave.id}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
-                      <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor}>
+                      <SvgIcon
+                        inheritViewBox
+                        className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`}
+                        htmlColor={markerColor}
+                        sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}
+                      >
                         {pinIcon &&
                           (() => {
                             const Pin = pinIcon

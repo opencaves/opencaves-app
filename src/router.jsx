@@ -161,6 +161,14 @@ const routes = [
             loader: resultPaneLoader,
             children: [
               {
+                // No element of its own - just needs to exist so this path
+                // matches instead of 404ing. ResultPane (rendered by the
+                // parent :caveId route above) detects it via useLocation()
+                // and swaps in its editable content, since edit mode is a
+                // state of the existing pane, not a separate page.
+                path: 'edit'
+              },
+              {
                 path: 'medias/:mediaId?',
                 lazy: () => import('@/components/MediaPane/MediaPane.jsx')
                   .then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader }))

@@ -9,7 +9,19 @@ const initialState = {
   data: [],
   dataStats: {},
   filteredData: [],
-  filteredDataTotals: {}
+  filteredDataTotals: {},
+  // Cross-component coordinate picking: the cave edit form (rendered inside
+  // ResultPane) sets which field it wants next, Map.jsx's own click handler
+  // (a sibling component, not a child) fills it in on the next map click.
+  pickingCoordinateFor: null, // 'location' | 'entrance' | null
+  pickedCoordinate: null, // { field, longitude, latitude } | null
+  // Live mirror of the edit form's own (possibly unsaved) location/entrance
+  // values, keyed by field name, so Map.jsx can render a pin for each
+  // populated field without waiting for a save.
+  editFieldCoordinates: {}, // { [field]: { longitude, latitude } }
+  // A CoordinateField's own "center the map here" action - Map.jsx flies
+  // there and clears this once it has.
+  flyToCoordinateRequest: null, // { longitude, latitude } | null
 }
 
 export const mapSlice = createSlice({
@@ -80,11 +92,37 @@ export const mapSlice = createSlice({
     },
     setFilteredData: (state, action) => {
       state.filteredData = action.payload
+    },
+    setPickingCoordinateFor: (state, action) => {
+      state.pickingCoordinateFor = action.payload
+    },
+    setPickedCoordinate: (state, action) => {
+      state.pickedCoordinate = action.payload
+      state.pickingCoordinateFor = null
+    },
+    clearPickedCoordinate: (state) => {
+      state.pickedCoordinate = null
+    },
+    setEditFieldCoordinate: (state, action) => {
+      const { field, longitude, latitude } = action.payload
+      state.editFieldCoordinates[field] = { longitude, latitude }
+    },
+    clearEditFieldCoordinate: (state, action) => {
+      delete state.editFieldCoordinates[action.payload]
+    },
+    clearAllEditFieldCoordinates: (state) => {
+      state.editFieldCoordinates = {}
+    },
+    requestFlyToCoordinate: (state, action) => {
+      state.flyToCoordinateRequest = action.payload
+    },
+    clearFlyToCoordinateRequest: (state) => {
+      state.flyToCoordinateRequest = null
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest } = mapSlice.actions
 
 export default mapSlice.reducer

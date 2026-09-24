@@ -27,6 +27,7 @@ const emptyForm = {
   direction: '',
   fees: false,
   facilities: false,
+  activities: false,
   explorationDate: '',
   rating: '',
   reporter: '',
@@ -95,6 +96,7 @@ export default function CaveEdit() {
         direction: cave?.direction || '',
         fees: !!cave?.fees,
         facilities: !!cave?.facilities,
+        activities: !!cave?.activities,
         explorationDate: cave?.explorationDate || '',
         rating: cave?.rating ?? '',
         reporter: cave?.reporter || '',
@@ -149,6 +151,7 @@ export default function CaveEdit() {
         direction: form.direction || undefined,
         fees: form.fees,
         facilities: form.facilities,
+        activities: form.activities,
         explorationDate: form.explorationDate || undefined,
         rating: form.rating === '' ? undefined : Number(form.rating),
         reporter: form.reporter || undefined,
@@ -276,6 +279,9 @@ export default function CaveEdit() {
         </Grid>
         <Grid size={6}>
           <FormControlLabel control={<Checkbox {...checkboxField('facilities')} />} label="Facilities" />
+        </Grid>
+        <Grid size={6}>
+          <FormControlLabel control={<Checkbox {...checkboxField('activities')} />} label="Activities" />
         </Grid>
 
         <Grid size={6}>

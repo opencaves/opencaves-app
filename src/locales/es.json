@@ -1,0 +1,533 @@
+{
+  "404": {
+    "header": "¡Ups!",
+    "description": "Lo sentimos, pero la página que buscas no existe.",
+    "backBtn": "Ir a la página de inicio",
+    "search": {
+      "placeHolder": "Buscar...",
+      "btn": "Buscar"
+    }
+  },
+  "app": {
+    "back": "Atrás",
+    "previous": "Anterior",
+    "item_zero": "{{count}} elemento",
+    "item_one": "{{count}} elemento",
+    "item_other": "{{count}} elementos",
+    "menu": {
+      "tooltip": "Menú",
+      "ariaLabel": "Más",
+      "home": "Inicio",
+      "myAccount": "Mi cuenta",
+      "admin": "Administración de datos",
+      "signup": "Registrarse",
+      "login": "Iniciar sesión",
+      "addPictures": "Añadir fotos",
+      "logout": "Cerrar sesión",
+      "logoutSuccess": "Has cerrado sesión correctamente.",
+      "about": "Acerca de",
+      "about_withName": "Acerca de {{name}}",
+      "drawer": {
+        "ariaLabel": "abrir menú"
+      }
+    },
+    "snackbar": {
+      "close": {
+        "ariaLabel": "cerrar"
+      }
+    },
+    "updateAvailable": {
+      "message": "Hay una nueva versión de la aplicación OpenCaves disponible",
+      "btn": "Actualizar"
+    }
+  },
+  "auth": {
+    "dialog": {
+      "closeBtn": {
+        "ariaLabel": "atrás"
+      },
+      "closeBtnSm": {
+        "ariaLabel": "cerrar"
+      }
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "withGoogle": "Iniciar sesión con Google",
+      "withEmail": "Iniciar sesión con correo electrónico",
+      "or": "o",
+      "goToSignup": {
+        "invite": "¿No tienes una cuenta?",
+        "btn": "Regístrate"
+      }
+    },
+    "loginWithEmailPrompt": {
+      "header": "Iniciar sesión"
+    },
+    "loginWithEmail": {
+      "emailLabel": "Correo electrónico",
+      "passwordLabel": "Contraseña",
+      "loginBtn": {
+        "label": "Iniciar sesión"
+      },
+      "forgotPassword": "¿Olvidaste tu contraseña?"
+    },
+    "signup": {
+      "title": "Registrarse",
+      "withGoogle": "Regístrate con Google",
+      "withFacebook": "Regístrate con Facebook",
+      "or": "o",
+      "withEmail": "Crear una cuenta",
+      "withEmailDialog": {
+        "title": "Crear una cuenta",
+        "header": "Crear una cuenta",
+        "closeBtn": {
+          "ariaLabel": "atrás"
+        },
+        "closeBtnSm": {
+          "ariaLabel": "cerrar"
+        },
+        "steps": {
+          "email": {
+            "header": "Ingresa tu correo electrónico",
+            "label": "Correo electrónico",
+            "loginInvite": "¿Ya tienes una cuenta?",
+            "loginBtn": "Iniciar sesión",
+            "continueBtn": "Siguiente"
+          },
+          "emailSentAndEmailVerification": {
+            "emailInUse": {
+              "header": "Este correo electrónico ya está en uso",
+              "details": "Ya existe una cuenta que usa el correo <strong>{{email}}</strong>.<br /> Prueba con otro correo o inicia sesión con Google.",
+              "previousBtn": "Probar con otro correo",
+              "loginWithGoogle": "Iniciar sesión con Google"
+            },
+            "emailSentNotification": {
+              "header": "Revisa tu correo",
+              "details": "Se envió un correo de inicio de sesión con instrucciones a <strong>{{email}}</strong>.<br /> Revisa tu correo para completar el registro."
+            }
+          },
+          "emailCallback": {
+            "header": " ",
+            "invalidActionCode": {
+              "header": "Enlace de correo caducado",
+              "details": "El enlace de verificación por correo que usaste ha caducado.",
+              "previousBtn": "Inténtalo de nuevo"
+            },
+            "retypeEmail": {
+              "header": "Confirma tu correo",
+              "email2Label": "Correo electrónico",
+              "continueBtn": "Siguiente"
+            }
+          },
+          "name": {
+            "header": "Ingresa tu nombre",
+            "firstNameLabel": "Nombre",
+            "lastNameLabel": "Apellido (opcional)",
+            "continueBtn": "Siguiente"
+          },
+          "password": {
+            "header": "Crea una contraseña",
+            "details": "Crea una contraseña segura con una combinación de letras, números y símbolos",
+            "emailLabel": "Correo electrónico",
+            "passwordLabel": "Contraseña",
+            "continueBtn": "Registrarse"
+          },
+          "emailFailed": {
+            "header": "Verificación de correo electrónico",
+            "details": {
+              "tryAgain": "Intenta registrarte de nuevo"
+            }
+          },
+          "created": {
+            "header": "Cuenta creada",
+            "closeBtn": "Cerrar",
+            "accountLink": "Ir a mi cuenta"
+          }
+        }
+      },
+      "goToLogIn": {
+        "invite": "¿Ya tienes una cuenta?",
+        "btn": "Iniciar sesión"
+      }
+    }
+  },
+  "about": {
+    "title": "Acerca de",
+    "version": "Versión {{version}}",
+    "whatsNew": "Novedades",
+    "dialog": {
+      "ariaLabel": "Acerca de {{name}}",
+      "close": "cerrar"
+    }
+  },
+  "errors": {
+    "auth": {
+      "actionCodeExpired": "El enlace de verificación del correo ha caducado",
+      "emailInvalid": "Por favor ingresa un correo electrónico válido",
+      "emailMismatch": "El correo proporcionado no coincide con la dirección de inicio de sesión",
+      "emailMissing": "Por favor ingresa un correo electrónico",
+      "firstNameMissing": "Por favor ingresa un nombre",
+      "firstNameTooShort": "El nombre debe tener al menos {{minLength}} caracteres",
+      "passwordMissing": "Por favor ingresa tu contraseña",
+      "passwordWrong": "Contraseña incorrecta",
+      "userNotFound": "No se pudo encontrar tu cuenta",
+      "default": "Ocurrió un error. Por favor inténtalo de nuevo más tarde."
+    },
+    "firebaseErrors": {
+      "auth/expired-action-code": "$t(auth.actionCodeExpired)",
+      "auth/invalid-email": "$t(auth.emailInvalid)",
+      "auth/missing-password": "$t(auth.passwordMissing)",
+      "auth/user-not-found": "$t(auth.userNotFound)",
+      "auth/wrong-password": "$t(auth.passwordWrong)"
+    }
+  },
+  "quickActions": {
+    "ariaLabel": "Acciones para el cenote {{name}}",
+    "directions": "Cómo llegar",
+    "save": "Guardar",
+    "share": "Compartir",
+    "shareTitle": "Cenote {{name}} / OpenCaves.org",
+    "shareText": "Cenote {{name}}\n",
+    "shareDialogTitle": "Compartir"
+  },
+  "passwordInput": {
+    "passwordIcon": {
+      "ariaLabel": "alternar visibilidad de la contraseña"
+    },
+    "scoreWords": [
+      "débil",
+      "aceptable",
+      "buena",
+      "fuerte"
+    ],
+    "shortScoreWord": "demasiado corta"
+  },
+  "searchBar": {
+    "actionButton": {
+      "search": {
+        "ariaLabel": "Buscar"
+      },
+      "back": {
+        "ariaLabel": "Atrás"
+      },
+      "clear": {
+        "ariaLabel": "Borrar",
+        "tooltip": "Borrar"
+      },
+      "filter": {
+        "ariaLabel": "Filtrar cenotes",
+        "tooltip": "Filtrar cenotes"
+      }
+    },
+    "placeholder": "Buscar",
+    "ariaLabel": "Buscar",
+    "snippet": {
+      "aka": "alias",
+      "nameTranslations": {
+        "eng": "inglés",
+        "spa": "español",
+        "myn": "maya"
+      }
+    }
+  },
+  "filter": {
+    "windowTitle": "Filtrar cenotes",
+    "close": "Cerrar",
+    "coordinate": {
+      "heading": "Coordenadas GPS",
+      "showValidCoordinates": "Mostrar coordenadas válidas",
+      "showInvalidCoordinates": "Mostrar coordenadas inválidas",
+      "showUnconfirmedCoordinates": "Mostrar coordenadas sin confirmar"
+    },
+    "areas": {
+      "heading": "Zonas"
+    },
+    "access": {
+      "heading": "Acceso",
+      "items": [
+        {
+          "key": "customers",
+          "label": "Solo clientes",
+          "description": "Solo para clientes."
+        },
+        {
+          "key": "guide",
+          "label": "Se necesita un guía",
+          "description": "Es necesario contratar un guía para acceder al sitio."
+        },
+        {
+          "key": "key",
+          "label": "Se necesita llave",
+          "description": "Es necesario obtener una llave para acceder al sitio."
+        },
+        {
+          "key": "no",
+          "label": "Acceso prohibido",
+          "description": "El buceo en cuevas está prohibido en este lugar."
+        },
+        {
+          "key": "permission",
+          "label": "Se requiere permiso",
+          "description": "Solo con el permiso del propietario, de manera individual."
+        },
+        {
+          "key": "yes",
+          "label": "Acceso autorizado",
+          "description": "El buceo en cuevas está permitido en este lugar."
+        },
+        {
+          "key": "unknown",
+          "label": "Desconocido",
+          "description": "Se desconoce el acceso."
+        }
+      ]
+    },
+    "accessibility": {
+      "heading": "Accesibilidad",
+      "items": [
+        {
+          "key": "unknown",
+          "label": "Desconocido",
+          "description": "No se ha reportado información sobre la accesibilidad del sitio."
+        },
+        {
+          "key": "inaccessible",
+          "label": "Inaccesible",
+          "description": "El sitio es inaccesible."
+        },
+        {
+          "key": "jungle",
+          "label": "Selva",
+          "description": "No hay un camino que lleve al sitio."
+        },
+        {
+          "key": "not-safe",
+          "label": "No seguro",
+          "description": "El sitio se considera no seguro para bucear por diversas razones."
+        },
+        {
+          "key": "sea",
+          "label": "Mar",
+          "description": "Esta cueva es accesible únicamente desde el mar."
+        },
+        {
+          "key": "sidemount-only",
+          "label": "Certificación Sidemount",
+          "description": "Se requiere una tarjeta de certificación de buceo sidemount para acceder al sitio."
+        },
+        {
+          "key": "variable",
+          "label": "Acceso variable",
+          "description": "El acceso a esta zona varía según la hora o el punto de entrada."
+        }
+      ]
+    }
+  },
+  "resultPane": {
+    "title": "Cenote {{name}}",
+    "accessHeader": "Acceso",
+    "aka": "alias",
+    "directionsHeader": "Cómo llegar",
+    "cenote": "Cenote",
+    "sistema": "Sistema {{ system }}",
+    "coordinateValidityUnknown": "sin confirmar",
+    "copiedToClipboard": "Copiado al portapapeles",
+    "copyAddress": "Copiar dirección",
+    "copyCoordinates": "Copiar coordenadas",
+    "copyKeyCoordinates": "Copiar coordenadas clave",
+    "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
+    "addressLoading": "Cargando dirección…",
+    "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
+    "addressNotAvailable": "Dirección no disponible",
+    "locationNotAvailable": "Ubicación no disponible",
+    "coverImage": {
+      "addImages": {
+        "tooltip": "Añadir fotos"
+      },
+      "seeImages": {
+        "tooltip": "Ver fotos"
+      }
+    },
+    "morePicturesBtn": "Más fotos",
+    "menu": {
+      "ariaLabel": "Más",
+      "myAccount": "Mi cuenta",
+      "edit": "Editar",
+      "about": "Acerca de {{name}}"
+    },
+    "edit": {
+      "name": "Nombre",
+      "aka": "También conocido como",
+      "addAka": "Añadir nombre",
+      "removeAka": "Eliminar nombre",
+      "nameTranslations": "Traducciones del nombre",
+      "addNameTranslation": "Añadir traducción",
+      "removeNameTranslation": "Eliminar traducción",
+      "nameTranslationLanguage": "Idioma",
+      "nameTranslationValue": "Nombre traducido",
+      "coordinates": "Coordenadas",
+      "location": "Ubicación",
+      "entrance": "Entrada",
+      "longitude": "Longitud",
+      "latitude": "Latitud",
+      "dragPinToMap": "Arrastra el pin al mapa para definir esta ubicación",
+      "navigateToCoordinate": "Centrar el mapa aquí",
+      "pickMyLocation": "Usar mi ubicación actual",
+      "none": "(ninguno)",
+      "sistema": "Sistema",
+      "sistemaColor": "Color del sistema (anulación)",
+      "colorNone": "Ninguno",
+      "existingColors": "Colores existentes",
+      "newColor": "Nuevo color",
+      "area": "Zona",
+      "source": "Fuente",
+      "access": "Acceso",
+      "accessibility": "Accesibilidad",
+      "fees": "Costos",
+      "facilities": "Instalaciones",
+      "activities": "Actividades",
+      "accessDetails": "Detalles de acceso (markdown)",
+      "accessibilityDetails": "Detalles de accesibilidad (markdown)",
+      "description": "Descripción (markdown)",
+      "direction": "Cómo llegar (markdown)",
+      "preview": "Vista previa",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    }
+  },
+  "mediaPane": {
+    "header": "Cenote {{name}}",
+    "backBtn": {
+      "tooltip": "Atrás",
+      "ariaLabel": "Atrás"
+    },
+    "addPictureBtn": {
+      "tooltip": "Añadir fotos",
+      "ariaLabel": "añadir fotos"
+    },
+    "empty": {
+      "header": "¡Aún no hay fotos!",
+      "btn": "Añadir fotos"
+    },
+    "share": {
+      "title": "Ver « {{title}} » en OpenCaves.org",
+      "text": "Ver « {{title}}"
+    },
+    "images": "fotos",
+    "menu": {
+      "ariaLabel": "Más",
+      "useAsCoverImage": "Usar como imagen de portada",
+      "useAsCoverSuccess": "Imagen de portada cambiada.",
+      "useAsCoverFail": "No se pudo cambiar la imagen de portada.",
+      "viewOriginalImage": "Ver imagen original",
+      "deleteAction": "Eliminar",
+      "deleteSuccess": "Archivo eliminado.",
+      "deleteFail": "No se pudo eliminar el archivo."
+    },
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "Mostrar imagen"
+      }
+    },
+    "addMedia": {
+      "header": "Sube fotos del cenote {{name}}",
+      "dragHere": "Arrastra las fotos aquí",
+      "dropHere": "Suelta los archivos aquí…",
+      "or": "o",
+      "btn": "Haz clic para seleccionar archivos",
+      "closeBtn": {
+        "ariaLabel": "cerrar"
+      },
+      "success_one": "1 foto añadida",
+      "success_other": "{{count}} fotos añadidas",
+      "errorHeader": "¡Ups!",
+      "wrongMediaType_one": "No se guardó nada. El proceso se canceló porque el formato de este archivo no es compatible:",
+      "wrongMediaType_other": "No se guardó nada. El proceso se canceló porque el formato de estos archivos no es compatible:",
+      "wrongMediaTypeHint": "Los archivos Webp y Avif funcionan bien.",
+      "unknownError": "Algo salió mal. Por favor inténtalo de nuevo.",
+      "unknownErrorBtn": "Descartar",
+      "uploadingTo": "Subiendo a",
+      "countMedias": "{{index}} de {{total}}"
+    },
+    "details": {
+      "empty": "No hay nada aquí"
+    }
+  },
+  "accesses": {
+    "customers": {
+      "label": "Solo clientes",
+      "description": "El sitio es accesible únicamente para clientes."
+    },
+    "guide": {
+      "label": "Se necesita un guía",
+      "description": "Es necesario contratar un guía para acceder al sitio."
+    },
+    "key": {
+      "label": "Se necesita una llave",
+      "description": "Es necesario obtener una llave para acceder al sitio."
+    },
+    "no": {
+      "label": "Acceso prohibido",
+      "description": "El buceo en cuevas está prohibido en este lugar."
+    },
+    "permission": {
+      "label": "Se necesita permiso",
+      "description": "El sitio es accesible únicamente con el permiso del propietario, de manera individual."
+    },
+    "yes": {
+      "label": "Acceso permitido",
+      "description": "El buceo en cuevas está permitido en este lugar."
+    },
+    "unknown": {
+      "label": "Acceso desconocido",
+      "description": "Se desconocen los detalles de acceso al sitio."
+    }
+  },
+  "accessibilities": {
+    "jungle": {
+      "label": "En la selva",
+      "description": "No hay un camino que lleve al cenote."
+    },
+    "not-safe": {
+      "label": "No seguro",
+      "description": "El sitio se considera no seguro para bucear por diversas razones."
+    },
+    "sidemount-only": {
+      "label": "Solo sidemount",
+      "description": "Se requiere una tarjeta de certificación de buceo sidemount para acceder al sitio."
+    },
+    "variable": {
+      "label": "Entradas variables",
+      "description": "El acceso a esta zona varía según el punto de entrada."
+    },
+    "inaccessible": {
+      "label": "Inaccesible",
+      "description": "El sitio es inaccesible."
+    },
+    "sea": {
+      "label": "Desde el mar",
+      "description": "Esta cueva es accesible únicamente desde el mar."
+    }
+  },
+  "sistema": {
+    "header": "Sistema"
+  },
+  "fees": {
+    "yes": {
+      "label": "Tiene costos"
+    },
+    "no": {
+      "label": "Sin costos"
+    }
+  },
+  "map": {
+    "title": "Mapa",
+    "caveNameUnknown": "[nombre desconocido]",
+    "editFab": {
+      "ariaLabel": "Editar datos del cenote",
+      "quickEditCurrentCave": "Edición rápida",
+      "editCurrentCave": "Editar cenote actual",
+      "addNewCave": "Añadir nuevo cenote"
+    }
+  }
+}

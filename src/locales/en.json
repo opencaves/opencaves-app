@@ -354,6 +354,45 @@
       "myAccount": "My Account",
       "edit": "Edit",
       "about": "About {{name}}"
+    },
+    "edit": {
+      "name": "Name",
+      "aka": "Also known as",
+      "addAka": "Add name",
+      "removeAka": "Remove name",
+      "nameTranslations": "Name translations",
+      "addNameTranslation": "Add translation",
+      "removeNameTranslation": "Remove translation",
+      "nameTranslationLanguage": "Language",
+      "nameTranslationValue": "Translated name",
+      "coordinates": "Coordinates",
+      "location": "Location",
+      "entrance": "Entrance",
+      "longitude": "Longitude",
+      "latitude": "Latitude",
+      "dragPinToMap": "Drag the pin onto the map to set this location",
+      "navigateToCoordinate": "Center the map here",
+      "pickMyLocation": "Use my current location",
+      "none": "(none)",
+      "sistema": "Sistema",
+      "sistemaColor": "Sistema color override",
+      "colorNone": "None",
+      "existingColors": "Existing colors",
+      "newColor": "New color",
+      "area": "Area",
+      "source": "Source",
+      "access": "Access",
+      "accessibility": "Accessibility",
+      "fees": "Fees",
+      "facilities": "Facilities",
+      "activities": "Activities",
+      "accessDetails": "Access details (markdown)",
+      "accessibilityDetails": "Accessibility details (markdown)",
+      "description": "Description (markdown)",
+      "direction": "Getting there (markdown)",
+      "preview": "Preview",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "mediaPane": {
@@ -486,6 +525,7 @@
     "caveNameUnknown": "[unknown name]",
     "editFab": {
       "ariaLabel": "Edit cave data",
+      "quickEditCurrentCave": "Quick edit",
       "editCurrentCave": "Edit current cave",
       "addNewCave": "Add new cave"
     }
