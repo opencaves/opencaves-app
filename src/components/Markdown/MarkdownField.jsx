@@ -1,23 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import {
-  ArrowDropDownRounded,
-  CodeRounded,
-  DataObjectRounded,
-  FormatBoldRounded,
-  FormatItalicRounded,
-  FormatListBulletedRounded,
-  FormatListNumberedRounded,
-  FormatQuoteRounded,
-  FormatStrikethroughRounded,
-  HorizontalRuleRounded,
-  TitleRounded,
-  Redo,
-  Undo,
-} from '@mui/icons-material'
-import { Editor, rootCtx, defaultValueCtx } from '@milkdown/core'
-import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
+import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { ArrowDropDownRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
+import { Editor, rootCtx, defaultValueCtx, editorViewCtx } from '@milkdown/core'
+import { TextSelection } from '@milkdown/prose/state'
+import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
@@ -36,16 +23,7 @@ const TOOLBAR_BUTTONS_BEFORE_HEADINGS = [
   { key: 'inlineCode', icon: DataObjectRounded, command: toggleInlineCodeCommand },
 ]
 
-const TOOLBAR_BUTTONS_AFTER_HEADINGS = [
-  { key: 'quote', icon: FormatQuoteRounded, command: wrapInBlockquoteCommand },
-  { key: 'divider2' },
-  { key: 'bulletList', icon: FormatListBulletedRounded, command: wrapInBulletListCommand },
-  { key: 'orderedList', icon: FormatListNumberedRounded, command: wrapInOrderedListCommand },
-  { key: 'hr', icon: HorizontalRuleRounded, command: insertHrCommand },
-  { key: 'divider3' },
-  { key: 'undo', icon: Undo, command: undoCommand },
-  { key: 'redo', icon: Redo, command: redoCommand },
-]
+const TOOLBAR_BUTTONS_AFTER_HEADINGS = [{ key: 'quote', icon: FormatQuoteRounded, command: wrapInBlockquoteCommand }, { key: 'divider2' }, { key: 'bulletList', icon: FormatListBulletedRounded, command: wrapInBulletListCommand }, { key: 'orderedList', icon: FormatListNumberedRounded, command: wrapInOrderedListCommand }, { key: 'hr', icon: HorizontalRuleRounded, command: insertHrCommand }, { key: 'divider3' }, { key: 'undo', icon: Undo, command: undoCommand }, { key: 'redo', icon: Redo, command: redoCommand }]
 
 const HEADING_LEVELS = [1, 2, 3]
 
@@ -80,6 +58,13 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [isEmpty, setIsEmpty] = useState(!value)
   const [sourceMode, setSourceMode] = useState(false)
   const [headingMenuAnchor, setHeadingMenuAnchor] = useState(null)
+  const [linkDialogOpen, setLinkDialogOpen] = useState(false)
+  const [linkHref, setLinkHref] = useState('')
+  // Focusing the dialog's text field moves the browser's DOM selection out
+  // of the editor, which Milkdown/ProseMirror then reads back as "selection
+  // cleared" - snapshot the selected range here, while the editor still has
+  // focus, and restore it before applying the link.
+  const savedSelectionRef = useRef(null)
   onChangeRef.current = onChange
 
   useEffect(() => {
@@ -137,6 +122,31 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     setHeadingMenuAnchor(null)
   }
 
+  function insertLink() {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
+    setLinkHref('')
+    setLinkDialogOpen(true)
+  }
+
+  function confirmLink() {
+    setLinkDialogOpen(false)
+    if (!linkHref) {
+      return
+    }
+
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    if (view && savedSelectionRef.current) {
+      const docSize = view.state.doc.content.size
+      const from = Math.min(savedSelectionRef.current.from, docSize)
+      const to = Math.min(savedSelectionRef.current.to, docSize)
+      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+      view.focus()
+    }
+
+    runCommand(toggleLinkCommand, { href: linkHref })
+  }
+
   return (
     <Box className="oc-markdown-field">
       <Typography variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }}>
@@ -154,16 +164,19 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           </Tooltip>
         ))}
 
+        <Tooltip title={t('toolbar.link')}>
+          <span>
+            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLink}>
+              <LinkRounded fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+
         <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
 
         <Tooltip title={t('toolbar.heading')}>
           <span>
-            <IconButton
-              size="small"
-              disabled={sourceMode}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}
-            >
+            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
               <TitleRounded fontSize="small" />
               <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
             </IconButton>
@@ -197,6 +210,18 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           </IconButton>
         </Tooltip>
       </Box>
+
+      <Dialog open={linkDialogOpen} onClose={() => setLinkDialogOpen(false)} maxWidth="xs" fullWidth>
+        <DialogContent>
+          <TextField autoFocus fullWidth label={t('toolbar.linkPrompt')} value={linkHref} onChange={(e) => setLinkHref(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && confirmLink()} placeholder="https://" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setLinkDialogOpen(false)}>{t('toolbar.linkCancel')}</Button>
+          <Button variant="contained" onClick={confirmLink} disabled={!linkHref}>
+            {t('toolbar.link')}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={resizable ? { '& textarea': { resize: 'vertical' } } : undefined} />}
 

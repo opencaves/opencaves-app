@@ -1,38 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import pushId from 'unique-push-id'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { Add, Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
-import { dashedId, pickDescription } from '@/services/data-service/types.js'
+import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-
-// Per-collection shape: which fields the form shows, and how the document ID
-// is derived (a slug of one of the fields, the record's own value for one of
-// its fields, or an opaque generated ID when nothing suitable exists).
-// `descriptionsField` marks a field that is actually backed by a
-// `descriptions: [{ lang, description }]` array (only English is ever
-// populated from the Google Sheet) - this form edits the entry for the
-// admin's current UI language, leaving other languages untouched.
-const CONFIGS = {
-  accesses: { label: 'Accesses', fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
-  accessibilities: { label: 'Accessibilities', fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
-  sources: { label: 'Sources', fields: ['name', 'description', 'note'], id: { kind: 'generated' } },
-  areas: { label: 'Areas', fields: ['name', 'note'], id: { from: 'name', transform: (v) => v } },
-  colors: { label: 'Colors', fields: ['hex'], id: { kind: 'generated' } },
-  languages: { label: 'Languages', fields: ['code', 'eng', 'fra'], id: { from: 'code', transform: (v) => v } },
-}
-
-const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
+import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 
 export default function ReferenceDataEditor() {
   const { collectionName } = useParams()
-  const config = CONFIGS[collectionName]
+  const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { i18n } = useTranslation()
+  const navigate = useNavigate()
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
   // 2-letter language code.
@@ -40,9 +23,6 @@ export default function ReferenceDataEditor() {
 
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()
-  const [editingId, setEditingId] = useState(null)
-  const [form, setForm] = useState(emptyFields(config?.fields || []))
-  const [saving, setSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
 
   useEffect(() => {
@@ -58,44 +38,6 @@ export default function ReferenceDataEditor() {
     )
   }
 
-  function startNew() {
-    setEditingId('new')
-    setForm(emptyFields(config.fields))
-  }
-
-  function startEdit(item) {
-    setEditingId(item.id)
-    setForm(Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(item.descriptions, lang) : item[f] || ''])))
-  }
-
-  function cancelEdit() {
-    setEditingId(null)
-    setForm(emptyFields(config.fields))
-  }
-
-  async function handleSave() {
-    setSaving(true)
-    try {
-      const id = editingId !== 'new' ? editingId : config.id.kind === 'generated' ? pushId() : config.id.transform(form[config.id.from])
-
-      const fields = { ...form }
-      if (config.descriptionsField) {
-        const description = fields[config.descriptionsField]
-        delete fields[config.descriptionsField]
-        const existingItem = editingId !== 'new' ? items.find((i) => i.id === editingId) : undefined
-        const otherDescriptions = (existingItem?.descriptions || []).filter((d) => d.lang !== lang)
-        fields.descriptions = description ? [...otherDescriptions, { lang, description }] : otherDescriptions
-      }
-
-      await model.save(id, fields)
-      invalidateData()
-      await getData()
-      cancelEdit()
-    } finally {
-      setSaving(false)
-    }
-  }
-
   async function handleDelete(id) {
     setDeleteTarget(null)
     await model.remove(id)
@@ -109,26 +51,6 @@ export default function ReferenceDataEditor() {
         {config.label}
       </Typography>
 
-      {editingId ? (
-        <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
-          {config.fields.map((field) => (
-            <TextField key={field} label={field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={editingId !== 'new' && field === config.id.from} multiline={field === 'description' || field === 'note'} minRows={field === 'description' || field === 'note' ? 2 : undefined} />
-          ))}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-            <Button onClick={cancelEdit} disabled={saving}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleSave} disabled={saving}>
-              Save
-            </Button>
-          </Box>
-        </Box>
-      ) : (
-        <Fab color="primary" aria-label="New" onClick={startNew} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
-          <Add />
-        </Fab>
-      )}
-
       {loading ? (
         <Typography>Loading…</Typography>
       ) : (
@@ -139,7 +61,7 @@ export default function ReferenceDataEditor() {
               divider
               secondaryAction={
                 <>
-                  <IconButton edge="end" onClick={() => startEdit(item)} aria-label="Edit">
+                  <IconButton edge="end" onClick={() => navigate(`${item.id}/edit`)} aria-label="Edit">
                     <Edit fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" onClick={() => setDeleteTarget(item)} aria-label="Delete">
@@ -153,6 +75,10 @@ export default function ReferenceDataEditor() {
           ))}
         </List>
       )}
+
+      <Fab color="primary" aria-label="New" onClick={() => navigate('new/edit')} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
+        <Add />
+      </Fab>
 
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>Delete this item?</DialogTitle>

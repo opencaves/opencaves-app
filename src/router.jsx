@@ -144,6 +144,10 @@ const routes = [
             ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
           },
           {
+            path: 'dashboard/:collectionName/:itemId/edit',
+            ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+          },
+          {
             path: 'caves',
             ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
           },
