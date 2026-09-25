@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Map from '@/routes/Map.jsx'
 import Loading from '@/routes/Loading.jsx'
@@ -10,6 +10,7 @@ import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
 import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane.jsx'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
 function SkipIfLoggedin({ children }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
@@ -84,6 +85,16 @@ function requireEditor(importer) {
   }
 }
 
+function RedirectToCollection() {
+  const { collectionName } = useParams()
+  return <Navigate to={`/${collectionName}`} replace />
+}
+
+function RedirectToCollectionEdit() {
+  const { collectionName, itemId } = useParams()
+  return <Navigate to={`/${collectionName}/${itemId}/edit`} replace />
+}
+
 const routes = [
   {
     path: '/',
@@ -141,12 +152,22 @@ const routes = [
           },
           {
             path: 'dashboard/:collectionName',
-            ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
+            element: <RedirectToCollection />,
           },
           {
             path: 'dashboard/:collectionName/:itemId/edit',
-            ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+            element: <RedirectToCollectionEdit />,
           },
+          ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
+            {
+              path: collectionName,
+              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
+            },
+            {
+              path: `${collectionName}/:itemId/edit`,
+              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+            },
+          ]),
           {
             path: 'caves',
             ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),

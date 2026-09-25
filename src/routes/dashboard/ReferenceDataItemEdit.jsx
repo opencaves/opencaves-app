@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
@@ -16,7 +16,10 @@ import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
 export default function ReferenceDataItemEdit() {
-  const { collectionName, itemId } = useParams()
+  const params = useParams()
+  const location = useLocation()
+  const collectionName = params.collectionName || location.pathname.split('/').filter(Boolean)[0]
+  const itemId = params.itemId
   const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('dashboard')
@@ -63,7 +66,7 @@ export default function ReferenceDataItemEdit() {
     // Replace, not push: otherwise the edit URL stays in history as its own
     // entry, and the browser Back button from the list (after Cancel/Save)
     // would land right back on it instead of skipping past it.
-    navigate(`/dashboard/${collectionName}`, { replace: true })
+    navigate(`/${collectionName}`, { replace: true })
   }
 
   if (!config) {

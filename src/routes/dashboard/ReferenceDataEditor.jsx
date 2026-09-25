@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
 import { Add, ArrowBackRounded, Delete, Edit } from '@mui/icons-material'
@@ -11,7 +11,9 @@ import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 
 export default function ReferenceDataEditor() {
-  const { collectionName } = useParams()
+  const params = useParams()
+  const location = useLocation()
+  const collectionName = params.collectionName || location.pathname.split('/').filter(Boolean)[0]
   const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('dashboard')
