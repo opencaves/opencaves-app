@@ -13,5 +13,5 @@ export default function LogInWithGoogle({ message = null, onSuccess = noop }) {
     setMessage(message ?? t('withGoogle'))
   }, [message, t])
 
-  return <LogInWithProvider message={_message} Provider={GoogleAuthProvider} onSuccess={onSuccess} Logo={GoogleGLogo} />
+  return <LogInWithProvider message={_message} Provider={GoogleAuthProvider} onSuccess={onSuccess} Logo={GoogleGLogo} className="oc-log-in-with-google" />
 }

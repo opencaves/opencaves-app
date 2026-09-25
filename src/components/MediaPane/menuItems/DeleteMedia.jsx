@@ -35,6 +35,6 @@ export default forwardRef(function DeleteMedia({ mediaAsset, onBeforeDelete = no
   }
 
   return isAdmin && (
-    <MenuItem ref={ref} onClick={onDeleteClick}>{t('deleteAction')}</MenuItem>
+    <MenuItem ref={ref} className="oc-delete-media" onClick={onDeleteClick}>{t('deleteAction')}</MenuItem>
   )
 })

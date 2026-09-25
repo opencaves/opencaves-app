@@ -39,6 +39,7 @@ export default function MediaList() {
 
   return (
     <Scrollbars
+      className="oc-media-list"
       autoHide
       style={{
         width: '100%',

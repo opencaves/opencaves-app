@@ -111,6 +111,7 @@ export default function MediaPane() {
   return isSmall ? (
     <Box
       ref={mediaPaneRef}
+      className="oc-media-pane"
       sx={{
         display: 'flex',
         position: 'absolute',
@@ -129,6 +130,7 @@ export default function MediaPane() {
   ) : (
     <Box
       ref={mediaPaneRef}
+      className="oc-media-pane"
       sx={{
         display: 'flex',
         position: 'absolute',
@@ -141,6 +143,7 @@ export default function MediaPane() {
       onDragLeave={onMediaPaneDragLeave}
     >
       <Drawer
+        className="oc-media-pane--drawer"
         sx={{
           width: paneWidth,
           flexShrink: 0,
@@ -155,7 +158,7 @@ export default function MediaPane() {
         anchor="left"
         open={true}
       >
-        <DrawerHeader>
+        <DrawerHeader className="oc-media-pane--header">
           <IconButton
             aria-label={t('backBtn.ariaLabel')}
             component={Link}

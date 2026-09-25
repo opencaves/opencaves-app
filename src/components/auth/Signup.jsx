@@ -29,7 +29,7 @@ export default function Signup() {
 
   return (
     <>
-      <Grid container direction="column" sx={{ m: 4, alignItems: 'center' }}>
+      <Grid className="oc-signup" container direction="column" sx={{ m: 4, alignItems: 'center' }}>
         <Logo
           variant="brand"
           sx={{

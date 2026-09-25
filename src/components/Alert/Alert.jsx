@@ -14,6 +14,7 @@ import { CheckCircleOutlineRounded, WarningRounded } from '@mui/icons-material'
 export default function Message({ message, footer, type, fontSize }) {
   return (
     <Box
+      className="oc-alert-message"
       sx={{
         mr: 3,
         fontSize: fontSize ?? '1rem',

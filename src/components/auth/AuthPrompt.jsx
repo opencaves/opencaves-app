@@ -10,7 +10,7 @@ import './SignupWithEmail.scss'
 
 const gap = 2
 
-export default function AuthPrompt({ open: initialOpen, title, dialogTitle, children, onClose }) {
+export default function AuthPrompt({ open: initialOpen, title, dialogTitle, children, onClose, className }) {
   const logoHeight = 100
   const logoWidth = 185
 
@@ -44,6 +44,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
 
   return (
     <Dialog
+      className={`oc-auth-prompt ${className || ''}`.trim()}
       fullScreen={isSmall}
       fullWidth
       maxWidth={isMd ? 'sm' : 'md'}
@@ -137,7 +138,7 @@ function AuthDialogTitleBar({ dialogTitle, onClose }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <Grid container size="grow" sx={{ gap: 2, alignItems: 'center', position: !dialogTitle ? 'absolute' : undefined }}>
+    <Grid className="oc-auth-prompt--title-bar" container size="grow" sx={{ gap: 2, alignItems: 'center', position: !dialogTitle ? 'absolute' : undefined }}>
       <Grid size="grow" sx={{ order: isSmall ? 1 : undefined }}>
         {dialogTitle}
       </Grid>
@@ -159,16 +160,17 @@ function AuthDialogCloseBtn({ onClose, ...props }) {
   const { t } = useTranslation('auth', { keyPrefix: 'dialog' })
 
   return (
-    <IconButton aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')} onClick={onClose} {...props}>
+    <IconButton className="oc-auth-prompt--close-btn" aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')} onClick={onClose} {...props}>
       {isSmall ? <ArrowBack /> : <Close />}
     </IconButton>
   )
 }
 
-export function Step({ instructions, fields, actions, gap = 2, children, ...props }) {
+export function Step({ instructions, fields, actions, gap = 2, className, children, ...props }) {
   function Container({ children }) {
     return actions || fields || instructions ? (
       <Grid
+        className="oc-step--container"
         container
         direction="column"
         sx={{
@@ -187,6 +189,7 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
   return (
     <Grid
       {...props}
+      className={`oc-step ${className || ''}`.trim()}
       container
       direction="column"
       size="grow"
@@ -221,6 +224,7 @@ export function Step({ instructions, fields, actions, gap = 2, children, ...prop
 export function Header({ children }) {
   return (
     <Typography
+      className="oc-header"
       variant="h1"
       component="h1"
       sx={{

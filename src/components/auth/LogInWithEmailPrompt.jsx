@@ -9,6 +9,7 @@ export default function LogInWithEmailPrompt({ open, onClose }) {
     <AuthPrompt
       open={open}
       onClose={onClose}
+      className="oc-log-in-with-email-prompt"
     >
       <Header>{t('header')}</Header>
       <LogInWithEmail />

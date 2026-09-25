@@ -32,6 +32,6 @@ export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
   }
 
   return isEditor && (
-    <MenuItem onClick={onSetAsCoverImageClick} disabled={mediaAsset.isCover}>{t('useAsCoverImage')}</MenuItem>
+    <MenuItem className="oc-use-as-cover-image" onClick={onSetAsCoverImageClick} disabled={mediaAsset.isCover}>{t('useAsCoverImage')}</MenuItem>
   )
 }

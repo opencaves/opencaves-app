@@ -19,6 +19,7 @@
       "ariaLabel": "Plus",
       "home": "Home",
       "myAccount": "My account",
+      "admin": "Dashboard",
       "signup": "Sign up",
       "login": "Log in",
       "addPictures": "Add Pictures",
@@ -75,7 +76,7 @@
       "withGoogle": "Sign up with Google",
       "withFacebook": "Sign up with Facebook",
       "or": "or",
-      "withEmail": "Create an account",
+      "withEmail": "Sign up with email",
       "withEmailDialog": {
         "title": "Create an account",
         "header": "Create an account",
@@ -106,7 +107,7 @@
             }
           },
           "emailCallback": {
-            "header": "\u00a0",
+            "header": " ",
             "invalidActionCode": {
               "header": "Expired email link",
               "details": "The email validation link you used has expired.",
@@ -353,6 +354,51 @@
       "myAccount": "My Account",
       "edit": "Edit",
       "about": "About {{name}}"
+    },
+    "edit": {
+      "name": "Name",
+      "aka": "Also known as",
+      "addAka": "Add name",
+      "removeAka": "Remove name",
+      "nameTranslations": "Name translations",
+      "addNameTranslation": "Add translation",
+      "removeNameTranslation": "Remove translation",
+      "nameTranslationLanguage": "Language",
+      "nameTranslationValue": "Translated name",
+      "coordinates": "Coordinates",
+      "location": "Location",
+      "entrance": "Entrance",
+      "key": "Key",
+      "longitude": "Longitude",
+      "latitude": "Latitude",
+      "dragPinToMap": "Drag this marker onto the map to set this location",
+      "navigateToCoordinate": "Center the map here",
+      "removeCoordinate": "Remove coordinates",
+      "pickMyLocation": "Use my current location",
+      "none": "(none)",
+      "sistema": "Sistema",
+      "sistemaGroup": "Sistema",
+      "editSistemas": "Edit sistemas",
+      "sistemaSearchPlaceholder": "Search",
+      "source": "Source",
+      "sourceHint": "Where this sistema's information comes from",
+      "access": "Access",
+      "accessGroup": "Access",
+      "accessibility": "Accessibility",
+      "accessibilityGroup": "Accessibility",
+      "fees": "Fees",
+      "feesHint": "Whether visiting this cave requires paying an entrance fee",
+      "facilities": "Facilities",
+      "facilitiesHint": "Whether facilities such as restrooms or changing areas are available on site",
+      "activities": "Activities",
+      "activitiesHint": "Whether additional activities (e.g. swimming, snorkeling) are offered at this location",
+      "accessDetails": "Access details",
+      "accessibilityDetails": "Accessibility details",
+      "description": "Description",
+      "direction": "Getting there",
+      "emptyPreview": "Nothing written yet",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "mediaPane": {
@@ -412,6 +458,84 @@
     "details": {
       "empty": "There is nothing here"
     }
+  },
+  "markdownField": {
+    "hint": "You can use Markdown syntax (e.g. **bold**, # heading, - list).",
+    "save": "Save",
+    "toolbar": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "strikethrough": "Strikethrough",
+      "inlineCode": "Inline code",
+      "link": "Link",
+      "linkPrompt": "Enter the link URL",
+      "linkInvalid": "Enter a valid URL",
+      "linkCancel": "Cancel",
+      "heading": "Heading",
+      "heading1": "Heading 1",
+      "heading2": "Heading 2",
+      "heading3": "Heading 3",
+      "quote": "Quote",
+      "bulletList": "Bullet list",
+      "orderedList": "Numbered list",
+      "hr": "Horizontal rule",
+      "undo": "Undo",
+      "redo": "Redo",
+      "viewSource": "View Markdown source",
+      "viewFormatted": "View formatted text"
+    }
+  },
+  "sistemaEditForm": {
+    "parentSistemaSearchPlaceholder": "Search",
+    "length": "Total distance explored (m)",
+    "aka": "Also known as",
+    "addAka": "Add name",
+    "removeAka": "Remove name",
+    "explorations": "Exploration history",
+    "addExploration": "Add exploration info",
+    "removeExploration": "Remove exploration",
+    "explorationDate": "Date",
+    "explorationDatePlaceholder": "YYYY, YYYY-MM, or YYYY-MM-DD",
+    "explorationDateInvalid": "Use YYYY, YYYY-MM, or YYYY-MM-DD",
+    "explorationTeam": "Team",
+    "explorationDescription": "Description",
+    "explorationNotes": "Notes"
+  },
+  "mapsPicker": {
+    "addMap": "Add a map",
+    "removeMap": "Remove this map",
+    "upload": "Upload a new file",
+    "empty": "No maps uploaded yet",
+    "mapDate": "Date",
+    "mapDatePlaceholder": "YYYY, YYYY-MM, or YYYY-MM-DD",
+    "mapAuthors": "Authors",
+    "addAuthor": "Add author",
+    "removeAuthor": "Remove author",
+    "mapLegend": "Legend",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
+  "colorPicker": {
+    "addColor": "Add a color",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "sistemaPane": {
+    "header": "Sistemas",
+    "backBtn": {
+      "ariaLabel": "Back"
+    },
+    "newSistema": "New sistema",
+    "loading": "Loading…",
+    "unnamedSistema": "(unnamed)",
+    "searchBtn": {
+      "ariaLabel": "Search"
+    },
+    "editSistemaBtn": {
+      "ariaLabel": "Edit this sistema"
+    },
+    "searchPlaceholder": "Search",
+    "akaLabel": "aka"
   },
   "accesses": {
     "customers": {
@@ -482,6 +606,33 @@
   },
   "map": {
     "title": "Map",
-    "caveNameUnknown": "[unknown name]"
+    "caveNameUnknown": "[unknown name]",
+    "editFab": {
+      "ariaLabel": "Edit cave data",
+      "quickEditCurrentCave": "Quick edit",
+      "editCurrentCave": "Edit current cave",
+      "addNewCave": "Add new cave"
+    }
+  },
+  "dashboard": {
+    "backToDashboard": "Back to dashboard",
+    "color": "Color",
+    "usersSection": "Users",
+    "manageUsers": "Manage users"
+  },
+  "usersAdmin": {
+    "title": "Users",
+    "searchLabel": "Search by email",
+    "loading": "Loading…",
+    "count": "{{count}} user(s)",
+    "disabled": "Disabled",
+    "role": {
+      "editor": "Editor",
+      "admin": "Admin"
+    },
+    "delete": "Delete",
+    "deleteTitle": "Delete this user?",
+    "deleteConfirm": "{{email}} will be permanently deleted. This cannot be undone.",
+    "cancel": "Cancel"
   }
 }

@@ -11,8 +11,8 @@ export default function Account() {
   }
 
   return (
-    <div className='center'>
-      <div className='profile'>
+    <div className='oc-account center'>
+      <div className='oc-account--profile profile'>
         <h1>Profile</h1>
         <p>
           <strong>Name: </strong>{user?.name}

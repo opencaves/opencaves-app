@@ -1,6 +1,19 @@
 
-import { findPhoneNumbersInText } from 'libphonenumber-js'
-import { normalizeLengths } from '@/utils/lengths.jsx'
+// Squared distance between two {longitude, latitude} points - only meant for
+// relative sorting (nearest-first), not as an actual displayed distance, so
+// the flat-earth approximation (accurate enough across a region as small as
+// the Yucatán) skips the cost of a proper haversine calculation. Returns
+// Infinity when either point is missing, so entries without a location sort
+// to the end rather than throwing or landing in an arbitrary spot.
+export function squaredDistance(a, b) {
+  if (!a || !b || typeof a.longitude !== 'number' || typeof a.latitude !== 'number' || typeof b.longitude !== 'number' || typeof b.latitude !== 'number') {
+    return Infinity
+  }
+
+  const dLng = a.longitude - b.longitude
+  const dLat = a.latitude - b.latitude
+  return dLng * dLng + dLat * dLat
+}
 
 const locationValidityValueMap = new Map([
   ['yes', 'valid'],
@@ -37,64 +50,6 @@ export function str(str) {
   return str.trim()
 }
 
-export function Markdown({ makeOCLinksFromCenoteNames }) {
-  return function markdown(str) {
-    const country = 'MX'
-    const slices = []
-    let position = 0
-    const matches = findPhoneNumbersInText(str, country)
-
-    for (const match of matches) {
-      const original = str.slice(match.startsAt, match.endsAt)
-      const formattedNumber = `[${original}](${match.number.getURI()})`
-      // const formattedNumber = `${match.number.getURI()}`
-      slices.push(str.slice(position, match.startsAt))
-      slices.push(formattedNumber)
-      position = match.endsAt
-    }
-
-    if (slices.length > 0) {
-      slices.push(str.slice(position))
-      str = slices.join('')
-    }
-
-    str = makeOCLinksFromCenoteNames(str)
-
-    str = normalizeLengths(str)
-
-    return str
-  }
-}
-
-export function markdown(str) {
-  const country = 'MX'
-  const slices = []
-  let position = 0
-  const matches = findPhoneNumbersInText(str, country)
-
-  for (const match of matches) {
-    const original = str.slice(match.startsAt, match.endsAt)
-    const formattedNumber = `[${original}](${match.number.getURI()})`
-    // const formattedNumber = `${match.number.getURI()}`
-    slices.push(str.slice(position, match.startsAt))
-    slices.push(formattedNumber)
-    position = match.endsAt
-  }
-
-  if (slices.length > 0) {
-    slices.push(str.slice(position))
-    str = slices.join('')
-  }
-
-  // var links = str.match(/\[[^\]]+\]/g)
-  // if (links) {
-  //   linksInTxt.push(...links)
-  // }
-  // str = replaceIdsInHtmlForLink(str)
-
-  return str
-}
-
 export function bol(str) {
   if (isEmpty(str)) {
     return
@@ -118,6 +73,16 @@ export function arrStr(str) {
     return
   }
   return str.split('|')
+}
+
+// Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
+// array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
+export function pickDescription(descriptions, lang, fallbackLang = 'eng') {
+  if (!descriptions) {
+    return ''
+  }
+  const match = descriptions.find((d) => d.lang === lang) || descriptions.find((d) => d.lang === fallbackLang)
+  return match?.description || ''
 }
 
 export function loc(obj, lngProp, latProp, validProp = null) {

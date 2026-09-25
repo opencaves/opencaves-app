@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import admin from 'firebase-admin'
+import { getStorage } from 'firebase-admin/storage'
 import { getEventarc } from 'firebase-admin/eventarc'
 import { getFunctions } from 'firebase-admin/functions'
 import { getExtensions } from 'firebase-admin/extensions'
@@ -52,7 +52,7 @@ export async function generateResizedImageHandler(object, verbose = true) {
     return
   }
 
-  const bucket = admin.storage().bucket(object.bucket)
+  const bucket = getStorage().bucket(object.bucket)
   const filePath = object.name // File path in the bucket.
   const parsedPath = path.parse(filePath)
   const objectMetadata = object
@@ -120,7 +120,12 @@ export async function generateResizedImageHandler(object, verbose = true) {
         const fileExtension = parsedPath.ext
         const fileNameWithoutExtension = path.basename(filePath, fileExtension).replaceAll('\\', '/')
 
-        const failedFilePath = path.join(
+        // path.join uses the host's own separator (backslashes on Windows),
+        // but this is a Cloud Storage object path, which must always use
+        // forward slashes regardless of the OS this function happens to run
+        // on - path.posix.join (matching modifiedFilePath's construction
+        // above in resize-image.js) keeps it correct on every platform.
+        const failedFilePath = path.posix.join(
           fileDir,
           config.failedImagesPath,
           `${fileNameWithoutExtension}${fileExtension}`
@@ -208,7 +213,7 @@ export const backfillResizedImages = functions
     if (data?.nextPageQuery === undefined) {
       logs.startBackfill()
     }
-    const bucket = admin.storage().bucket(process.env.IMG_BUCKET)
+    const bucket = getStorage().bucket(process.env.IMG_BUCKET)
     const query = data.nextPageQuery || {
       autoPaginate: false,
       maxResults: 3 // We only grab 3 images at a time to minimize the chance of OOM errors.

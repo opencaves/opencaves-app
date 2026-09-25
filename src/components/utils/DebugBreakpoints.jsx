@@ -23,6 +23,7 @@ export default function DebugBreakpoints() {
 
   return breakpoint && (
     <div
+      className="oc-debug-breakpoints"
       style={{
         position: 'absolute',
         left: '.5em',

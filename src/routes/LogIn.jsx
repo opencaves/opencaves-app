@@ -17,6 +17,6 @@ export default function SignupPage() {
   }, [matches])
 
   return (
-    <LogIn />
+    <LogIn className="oc-log-in" />
   )
 }

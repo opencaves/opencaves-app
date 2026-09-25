@@ -8,7 +8,7 @@ import MenuItem from '@/components/App/MenuItem.jsx'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 
-export default function LogInMenuItem(props) {
+export default function LogInMenuItem({ className, ...props }) {
   const dispatch = useDispatch()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const location = useLocation()
@@ -27,6 +27,7 @@ export default function LogInMenuItem(props) {
       component={Link}
       to='/login'
       onClick={onLogInMenuItemClick}
+      className={`oc-log-in-menu-item ${className || ''}`.trim()}
       {...props}
     >
       <ListItemIcon>

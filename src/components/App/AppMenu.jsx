@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useMatches } from 'react-router-dom'
 import { Button, Menu, Divider, Avatar, ListItemIcon, useTheme, Typography, Tooltip, Box } from '@mui/material'
 import { Grid } from '@mui/material'
-import { PersonRounded } from '@mui/icons-material'
+import { PersonRounded, SettingsRounded } from '@mui/icons-material'
 import MenuItem from './MenuItem.jsx'
 import SignupMenuItem from './menu/SignupMenuItem.jsx'
 import LogInMenuItem from './menu/LogInMenuItem.jsx'
@@ -16,11 +16,12 @@ import useSession from '@/hooks/useSession.jsx'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { appName } from '@/config/app.js'
 
-export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
+export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...props }) {
   const dispatch = useDispatch()
   const hasSession = useSession()
   const user = useSelector((state) => state.session.user)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const roles = useSelector((state) => state.session.roles)
   const isSmall = useSmall()
   const theme = useTheme()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
@@ -61,6 +62,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
       <Tooltip title={t('tooltip')}>
         <Button
           {...props}
+          className={`oc-app-menu ${className || ''}`.trim()}
           variant={isSmall ? 'text' : 'contained'}
           aria-label={t('ariaLabel')}
           onClick={handleClick}
@@ -83,6 +85,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
         </Button>
       </Tooltip>
       <Menu
+        className="oc-app-menu--menu"
         id="app-menu"
         component="nav"
         anchorEl={anchorEl}
@@ -129,6 +132,14 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
             </ListItemIcon>
             {t('myAccount')}
           </MenuItem>,
+          roles.includes('editor') && (
+            <MenuItem key="key-admin" component={Link} to="/dashboard" onClick={handleClose}>
+              <ListItemIcon>
+                <SettingsRounded fontSize="small" />
+              </ListItemIcon>
+              {t('admin')}
+            </MenuItem>
+          ),
           <Divider key="key-divider-1" />,
         ]}
 

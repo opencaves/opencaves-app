@@ -10,7 +10,7 @@ import AddMedias from '@/components/App/menu/AddMediasMenuItem.jsx'
 import AppMenuIcon from '@/components/App/AppMenuIcon.jsx'
 import { appName } from '@/config/app.js'
 
-export default function ResultPaneMenu({ ...props }) {
+export default function ResultPaneMenu({ className, ...props }) {
   const user = useSelector(state => state.session.user)
   const { t } = useTranslation('resultPane', { keyPrefix: 'menu' })
   const [anchorEl, setAnchorEl] = useState(null)
@@ -28,6 +28,7 @@ export default function ResultPaneMenu({ ...props }) {
     <>
       <IconButton
         {...props}
+        className={`oc-result-pane-menu ${className || ''}`.trim()}
         aria-label={t('ariaLabel')}
         onClick={handleClick}
         aria-controls={open ? 'result-pane-menu' : undefined}

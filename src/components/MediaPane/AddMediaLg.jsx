@@ -55,7 +55,7 @@ export default function AddMediaLg() {
 
   return (
     user && (
-      <Dialog open={addMediaOpen} onClose={onAddMediaClose} maxWidth="md" fullWidth>
+      <Dialog className="oc-add-media-lg" open={addMediaOpen} onClose={onAddMediaClose} maxWidth="md" fullWidth>
         <DialogTitle>
           {t('header', { name: currentCave.name.value })}
           <IconButton
@@ -116,7 +116,7 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
 
   if (onError) {
     return (
-      <Container>
+      <Container className="oc-dropzone">
         <Grid container>
           <Message type="error" fontSize={24} message={t('unknownError')}></Message>
           <Grid>
@@ -130,7 +130,7 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
   }
 
   return (
-    <Container rootProps={getRootProps()} isDragActive={isDragActive}>
+    <Container className="oc-dropzone" rootProps={getRootProps()} isDragActive={isDragActive}>
       <input {...getInputProps()} />
       {typeof progress === 'number' ? (
         <Box
@@ -160,13 +160,14 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
   )
 }
 
-function Container({ children, rootProps = {}, onError, isDragActive }) {
+function Container({ children, rootProps = {}, onError, isDragActive, className }) {
   return (
-    <Grid container>
+    <Grid container className={`oc-container ${className || ''}`.trim()}>
       <Grid
         {...rootProps}
         container
         size="grow"
+        className="oc-container--dropzone"
         sx={{
           justifyContent: 'center',
           alignItems: 'center',

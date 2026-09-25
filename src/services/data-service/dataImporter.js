@@ -36,18 +36,6 @@ export function getCaveData() {
       //   // reject(error)
       // })
     )
-    // promises.push(
-    //   new Promise((resolve, reject) => {
-    //     Papa.parse(`https://docs.google.com/spreadsheets/d/${key}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheets[i])}`, {
-    //       download: true,
-    //       header: true,
-    //       complete: result => {
-    //         data[newSheetName] = result.data
-    //         resolve()
-    //       },
-    //       error: (error, file) => reject(error)
-    //     })
-    //   }))
   })
 
   return Promise.all(promises).then(() => data)

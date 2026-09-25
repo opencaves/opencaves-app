@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
 import { setupIonicReact } from '@ionic/react'
 import { PersistGate } from 'redux-persist/integration/react'
-import TagManager from 'react-gtm-module'
 import { store, persistor } from '@/redux/store.jsx'
 import App from './App.jsx'
 import Profiler from '@/components/utils/Profiler.jsx'
@@ -13,8 +12,6 @@ import './i18n.js'
 setupIonicReact({
   // mode: 'ios'
 })
-
-TagManager.initialize({ gtmId: 'GTM-WBL7VM3' })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -29,7 +26,20 @@ root.render(
   // </StrictMode >
 )
 
-console.log('------------------------- test 12')
+// Google Tag Manager has no bearing on the app being usable - load and
+// initialize it once the browser is idle instead of having it compete with
+// the app's own bundle for bandwidth and parse time during initial load.
+function initTagManager() {
+  import('react-gtm-module').then(({ default: TagManager }) => {
+    TagManager.initialize({ gtmId: 'GTM-WBL7VM3' })
+  })
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(initTagManager)
+} else {
+  setTimeout(initTagManager, 2000)
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

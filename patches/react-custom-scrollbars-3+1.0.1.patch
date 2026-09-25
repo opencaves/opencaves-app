@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-custom-scrollbars-3/lib/Scrollbars/index.js b/node_modules/react-custom-scrollbars-3/lib/Scrollbars/index.js
+index 0000000..0000000 100644
+--- a/node_modules/react-custom-scrollbars-3/lib/Scrollbars/index.js
++++ b/node_modules/react-custom-scrollbars-3/lib/Scrollbars/index.js
+@@ -697,7 +697,7 @@
+                 autoHeightMax = _props5.autoHeightMax,
+                 style = _props5.style,
+                 children = _props5.children,
+-                props = _objectWithoutProperties(_props5, ['onScroll', 'onScrollFrame', 'onScrollStart', 'onScrollStop', 'onUpdate', 'renderView', 'renderTrackHorizontal', 'renderTrackVertical', 'renderThumbHorizontal', 'renderThumbVertical', 'tagName', 'hideTracksWhenNotNeeded', 'autoHide', 'autoHideTimeout', 'autoHideDuration', 'thumbSize', 'thumbMinSize', 'universal', 'autoHeight', 'autoHeightMin', 'autoHeightMax', 'style', 'children']);
++                props = _objectWithoutProperties(_props5, ['onScroll', 'onScrollFrame', 'onScrollStart', 'onScrollStop', 'onUpdate', 'renderView', 'renderTrackHorizontal', 'renderTrackVertical', 'renderThumbHorizontal', 'renderThumbVertical', 'tagName', 'hideTracksWhenNotNeeded', 'autoHide', 'autoHideTimeout', 'autoHideDuration', 'thumbSize', 'thumbMinSize', 'universal', 'autoHeight', 'autoHeightMin', 'autoHeightMax', 'style', 'children', 'defaultScrollbarWidth']);
+             /* eslint-enable no-unused-vars */
+
+             var didMountUniversal = this.state.didMountUniversal;

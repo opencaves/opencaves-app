@@ -6,6 +6,10 @@ const supportedLangs = [
   {
     ISO6391: 'fr',
     ISO6392: 'fra'
+  },
+  {
+    ISO6391: 'es',
+    ISO6392: 'spa'
   }
 ]
 

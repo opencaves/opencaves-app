@@ -1,6 +1,7 @@
 export const REGION = 'northamerica-northeast1'
 
 // Firestore database constants
+export const CAVES_COLL_NAME = 'caves'
 export const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 export const USERS_COLL_NAME = 'users'
 export const RATINGS_COLL_NAME = 'ratings'

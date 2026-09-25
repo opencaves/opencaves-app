@@ -7,6 +7,12 @@
 
   <meta name="description" content="Open Caves is the reference for finding Cenotes in the Yucatan area of Mexico. Find new caves to dive, verified GPS coordinates, usefull descriptions and much more." />
 
+  <!-- Both gate content on the initial map view (tiles, cave data) - start
+       the connection during initial parse instead of when the app's JS
+       actually gets around to requesting them. -->
+  <link rel="preconnect" href="https://api.mapbox.com" crossorigin />
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/pwa/icons/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/pwa/icons/favicon-16x16.png" />

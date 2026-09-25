@@ -1,0 +1,401 @@
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { AddRounded, CloseRounded, EditRounded } from '@mui/icons-material'
+import { deleteField } from 'firebase/firestore'
+import CaveModel from '@/models/CaveModel.js'
+import SistemaModel from '@/models/SistemaModel.js'
+import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import { invalidateData, getData } from '@/services/data-service.jsx'
+import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
+import RepeatableTextField from '@/components/RepeatableTextField.jsx'
+import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
+import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
+import CoordinateField from './CoordinateField.jsx'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+
+const areasModel = createCollectionModel('areas')
+const sourcesModel = createCollectionModel('sources')
+const accessesModel = createCollectionModel('accesses')
+const accessibilitiesModel = createCollectionModel('accessibilities')
+const languagesModel = createCollectionModel('languages')
+
+// One row per language, each language selectable in at most one row at a
+// time (its own current selection stays available to itself, but disappears
+// from every other row's options once picked).
+function NameTranslationsField({ label, rows, languages, onChange, addLabel, removeLabel, languageLabel, valueLabel }) {
+  const usedLangs = rows.map((r) => r.lang).filter(Boolean)
+  const unusedLanguages = languages.filter((l) => !usedLangs.includes(l.code))
+
+  function updateAt(index, patch) {
+    onChange(rows.map((r, i) => (i === index ? { ...r, ...patch } : r)))
+  }
+
+  function removeAt(index) {
+    onChange(rows.filter((_, i) => i !== index))
+  }
+
+  function add() {
+    onChange([...rows, { lang: unusedLanguages[0].code, value: '' }])
+  }
+
+  return (
+    <Box className="oc-name-translations-field">
+      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
+        {label}
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        {rows.map((row, index) => (
+          <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <TextField select size="small" label={languageLabel} sx={{ width: 160, flexShrink: 0 }} value={row.lang} onChange={(e) => updateAt(index, { lang: e.target.value })}>
+              {languages
+                .filter((l) => l.code === row.lang || !usedLangs.includes(l.code))
+                .map((l) => (
+                  <MenuItem key={l.code} value={l.code}>
+                    {l.eng}
+                  </MenuItem>
+                ))}
+            </TextField>
+            <TextField size="small" label={valueLabel} fullWidth value={row.value} onChange={(e) => updateAt(index, { value: e.target.value })} />
+            <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
+              <CloseRounded fontSize="small" />
+            </IconButton>
+          </Box>
+        ))}
+        <Button size="small" startIcon={<AddRounded />} onClick={add} disabled={unusedLanguages.length === 0} sx={{ alignSelf: 'flex-start' }}>
+          {addLabel}
+        </Button>
+      </Box>
+    </Box>
+  )
+}
+
+function MarkdownField({ label, value, onChange, minRows, resizable }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
+}
+
+// Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
+// layout as the read-only view (CurrentCaveDetailsContent), swapped for
+// editable fields, for quick in-context tweaks without leaving the map.
+// Covers the fields an editor is likely to touch often; the full field set
+// (aka, maps, rating, reporter, note, exploration date, cover image) stays
+// in the dedicated admin form.
+export default function CurrentCaveDetailsContentEdit({ cave }) {
+  const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const navigate = useNavigate()
+  // descriptions[].lang is a 3-letter code (matching the languages
+  // collection / cave nameTranslations), not i18next's own 2-letter code.
+  const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  // Sorts the Sistema dropdown nearest-first, live as the map is panned.
+  const mapCenter = useSelector((state) => state.map.viewState)
+
+  const [sistemas] = SistemaModel.useAll()
+  const [areas] = areasModel.useAll()
+  const [sources] = sourcesModel.useAll()
+  const [accesses] = accessesModel.useAll()
+  const [accessibilities] = accessibilitiesModel.useAll()
+  const [languages] = languagesModel.useAll()
+  // Area is a property of the sistema, not something to pick per cave -
+  // shown inline in each Sistema option instead of its own field.
+  const areasById = new Map(areas.map((a) => [a.id, a.name]))
+  const [sistemaSearch, setSistemaSearch] = useState('')
+  const sistemaSearchInputRef = useRef(null)
+
+  function normalizeCoordinateValue(value) {
+    if (value === '' || value === null || typeof value === 'undefined') {
+      return ''
+    }
+
+    const normalized = Number(num(value, 5))
+    return Number.isFinite(normalized) ? String(normalized) : ''
+  }
+
+  const [form, setForm] = useState(() => ({
+    name: cave.name?.value || '',
+    aka: cave.aka || [],
+    sistemaId: cave.sistemaId || '',
+    source: cave.source || '',
+    access: cave.access || '',
+    accessDetails: cave.accessDetails || '',
+    accessibility: cave.accessibility || '',
+    accessibilityDetails: cave.accessibilityDetails || '',
+    description: cave.description || '',
+    direction: cave.direction || '',
+    fees: !!cave.fees,
+    facilities: !!cave.facilities,
+    activities: !!cave.activities,
+    longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
+    latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
+    entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
+    entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
+    keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
+    keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
+    nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
+      lang,
+      value: (values || []).join(', '),
+    })),
+  }))
+  const [saving, setSaving] = useState(false)
+  const [showFooterShadow, setShowFooterShadow] = useState(false)
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    const node = contentRef.current
+    if (!node) {
+      return undefined
+    }
+
+    const updateShadow = () => {
+      const container = node.parentElement
+      const hasScroll = container && container.scrollHeight > container.clientHeight + 1
+      setShowFooterShadow(hasScroll)
+    }
+
+    updateShadow()
+
+    const resizeObserver = new ResizeObserver(updateShadow)
+    resizeObserver.observe(node)
+
+    if (node.parentElement) {
+      resizeObserver.observe(node.parentElement)
+    }
+
+    return () => resizeObserver.disconnect()
+  }, [])
+
+  function field(name) {
+    return {
+      value: form[name],
+      onChange: (e) => setForm((f) => ({ ...f, [name]: e.target.value })),
+    }
+  }
+
+  function exitEditMode() {
+    // replace: true so Cancel/Save never leave a stray edit-mode entry
+    // behind in history - closing should be a one-way exit, not something
+    // a later back-navigation could reopen.
+    navigate(`/map/${cave.id}`, { replace: true })
+  }
+
+  async function handleSave() {
+    setSaving(true)
+    try {
+      const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
+
+      const fields = {
+        name: { value: form.name },
+        aka: trimmedAka.length > 0 ? trimmedAka : undefined,
+        sistemaId: form.sistemaId || undefined,
+        source: form.source || undefined,
+        access: form.access || undefined,
+        accessDetails: form.accessDetails || undefined,
+        accessibility: form.accessibility || undefined,
+        accessibilityDetails: form.accessibilityDetails || undefined,
+        description: form.description || undefined,
+        direction: form.direction || undefined,
+        fees: form.fees,
+        facilities: form.facilities,
+        activities: form.activities,
+      }
+
+      if (form.longitude === '' && form.latitude === '' && cave.location) {
+        fields.location = deleteField()
+      } else if (form.longitude !== '' && form.latitude !== '') {
+        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
+      }
+
+      if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
+        fields.entrance = deleteField()
+      } else if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
+      }
+
+      if (form.keyLongitude === '' && form.keyLatitude === '' && cave.keys?.length) {
+        fields.keys = deleteField()
+      } else if (form.keyLongitude !== '' && form.keyLatitude !== '') {
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, 5)), latitude: Number(num(form.keyLatitude, 5)) }]
+      }
+
+      // setDoc's merge:true merges nested map fields key-by-key rather than
+      // replacing the whole nameTranslations map, so a language dropped from
+      // the form needs an explicit deleteField() sentinel to actually clear
+      // it - just omitting it here would leave its old value untouched.
+      const nameTranslationsUpdate = {}
+      form.nameTranslations.forEach(({ lang, value }) => {
+        const trimmed = value
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+        if (lang && trimmed.length > 0) {
+          nameTranslationsUpdate[lang] = trimmed
+        }
+      })
+      Object.keys(cave.nameTranslations || {}).forEach((lang) => {
+        if (!(lang in nameTranslationsUpdate)) {
+          nameTranslationsUpdate[lang] = deleteField()
+        }
+      })
+      if (Object.keys(nameTranslationsUpdate).length > 0) {
+        fields.nameTranslations = nameTranslationsUpdate
+      }
+
+      await CaveModel.save(cave.id, fields)
+      invalidateData()
+      await getData()
+      exitEditMode()
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <Box ref={contentRef} className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
+      <TextField label={t('name')} fullWidth required {...field('name')} />
+
+      <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
+
+      <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} />
+
+      <Divider />
+
+      <Typography variant="subtitle2">{t('coordinates')}</Typography>
+
+      <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
+      <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
+      <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
+
+      <Divider />
+
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Typography variant="subtitle2">{t('sistemaGroup')}</Typography>
+        <Tooltip title={t('editSistemas')}>
+          <IconButton component={Link} to="sistemas" size="small" aria-label={t('editSistemas')}>
+            <EditRounded fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <TextField
+        select
+        label={t('sistema')}
+        fullWidth
+        {...field('sistemaId')}
+        slotProps={{
+          select: {
+            // A fixed width keeps the menu from resizing horizontally as
+            // the filtered list changes. The search itself is only cleared
+            // once the close transition has fully finished (onExited, not
+            // onClose) - clearing it any earlier would repopulate the full
+            // list while the menu is still visibly fading out.
+            MenuProps: {
+              autoFocus: false,
+              slotProps: {
+                paper: { sx: { width: 320 } },
+                transition: { onExited: () => setSistemaSearch('') },
+              },
+            },
+          },
+        }}
+      >
+        <ListSubheader
+          sx={{ px: 1.5, py: 0.5 }}
+          onKeyDown={(e) => {
+            if (e.key !== 'Escape') e.stopPropagation()
+          }}
+        >
+          <TextField inputRef={sistemaSearchInputRef} autoFocus size="small" fullWidth placeholder={t('sistemaSearchPlaceholder')} value={sistemaSearch} onChange={(e) => setSistemaSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
+        </ListSubheader>
+        <MenuItem value="">{t('none')}</MenuItem>
+        {[...sistemas]
+          .sort((a, b) => squaredDistance(a.location, mapCenter) - squaredDistance(b.location, mapCenter) || (a.name || '').localeCompare(b.name || ''))
+          .filter((s) => {
+            const q = sistemaSearch.trim().toLowerCase()
+            return !q || (s.name || s.id).toLowerCase().includes(q) || (areasById.get(s.area) || '').toLowerCase().includes(q)
+          })
+          .map((s) => (
+            <MenuItem key={s.id} value={s.id}>
+              <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: s.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
+              {s.name || s.id}
+              {areasById.get(s.area) && (
+                <Typography component="span" sx={{ ml: 0.5, color: 'text.secondary' }}>
+                  ({areasById.get(s.area)})
+                </Typography>
+              )}
+            </MenuItem>
+          ))}
+      </TextField>
+
+      <TextField select label={t('source')} helperText={t('sourceHint')} fullWidth {...field('source')}>
+        <MenuItem value="">{t('none')}</MenuItem>
+        {sources.map((s) => (
+          <MenuItem key={s.id} value={s.id}>
+            {s.name}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <Divider />
+
+      <Typography variant="subtitle2">{t('accessGroup')}</Typography>
+      <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
+        <MenuItem value="">{t('none')}</MenuItem>
+        {accesses.map((a) => (
+          <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="body1">{a.name}</Typography>
+            {pickDescription(a.descriptions, descriptionLang) && (
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {pickDescription(a.descriptions, descriptionLang)}
+              </Typography>
+            )}
+          </MenuItem>
+        ))}
+      </TextField>
+      <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} />
+
+      <Divider />
+      <Typography variant="subtitle2">{t('accessibilityGroup')}</Typography>
+      <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
+        <MenuItem value="">{t('none')}</MenuItem>
+        {accessibilities.map((a) => (
+          <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="body1">{a.name}</Typography>
+            {pickDescription(a.descriptions, descriptionLang) && (
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {pickDescription(a.descriptions, descriptionLang)}
+              </Typography>
+            )}
+          </MenuItem>
+        ))}
+      </TextField>
+      <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
+
+      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Tooltip title={t('feesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.fees} onChange={(e) => setForm((f) => ({ ...f, fees: e.target.checked }))} />} label={t('fees')} />
+        </Tooltip>
+        <Tooltip title={t('facilitiesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.facilities} onChange={(e) => setForm((f) => ({ ...f, facilities: e.target.checked }))} />} label={t('facilities')} />
+        </Tooltip>
+        <Tooltip title={t('activitiesHint')}>
+          <FormControlLabel control={<Checkbox checked={form.activities} onChange={(e) => setForm((f) => ({ ...f, activities: e.target.checked }))} />} label={t('activities')} />
+        </Tooltip>
+      </Box>
+
+      <Divider />
+
+      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1, boxShadow: showFooterShadow ? '0 -6px 16px -12px rgba(0,0,0,0.4)' : 'none' }}>
+        <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+          {t('cancel')}
+        </Button>
+        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+          {t('save')}
+        </Button>
+      </Box>
+    </Box>
+  )
+}

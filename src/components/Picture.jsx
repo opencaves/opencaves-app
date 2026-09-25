@@ -20,12 +20,12 @@ export default function Picture({ sources, ...props }) {
   }
 
   function renderImage(skipSizes = false) {
-    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, ...rest } = props
+    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, ...rest } = props
 
     // Adds sizes props if sources isn't defined
     const sizesProp = skipSizes ? null : { sizes }
 
-    return <img alt={alt} srcSet={src} {...sizesProp} {...rest} />
+    return <img alt={alt} srcSet={src} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
   }
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function Picture({ sources, ...props }) {
 
   if (sources) {
     return (
-      <picture ref={pictureRef} style={{ display: 'flex' }}>
+      <picture ref={pictureRef} className={`oc-picture ${props.className || ''}`.trim()} style={{ display: 'flex' }}>
         {renderSources()}
         {renderImage(true)}
       </picture>

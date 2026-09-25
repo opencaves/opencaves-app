@@ -15,7 +15,7 @@ const ImgRoot = styled(Box, {
 }))
 
 const Logo = forwardRef(function Logo(props, ref) {
-  const { variant = 'logo', alt = '', colorScheme, width, height, mb, sx, ...other } = props
+  const { variant = 'logo', alt = '', colorScheme, width, height, mb, sx, className, ...other } = props
   const { mode } = useColorScheme()
   const [src, setSrc] = useState()
 
@@ -46,6 +46,7 @@ const Logo = forwardRef(function Logo(props, ref) {
   return (
     <ImgRoot
       ref={ref}
+      className={`oc-logo ${className || ''}`.trim()}
       sx={{ width, height, mb, ...sx }}
       {...other}
     >

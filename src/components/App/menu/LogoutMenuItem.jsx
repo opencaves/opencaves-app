@@ -22,7 +22,7 @@ export default function LogoutMenuItem() {
   }
 
   return (
-    <MenuItem onClick={onLogoutMenuItemClick}>
+    <MenuItem className="oc-logout-menu-item" onClick={onLogoutMenuItemClick}>
       <ListItemIcon>
         <LogoutRounded fontSize='small' />
       </ListItemIcon>

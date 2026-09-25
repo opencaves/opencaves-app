@@ -7,7 +7,7 @@ import { PersonAddRounded } from '@mui/icons-material'
 import MenuItem from '@/components/App/MenuItem.jsx'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
-export default function SignupMenuItem(props) {
+export default function SignupMenuItem({ className, ...props }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const dispatch = useDispatch()
   const location = useLocation()
@@ -25,6 +25,7 @@ export default function SignupMenuItem(props) {
       component={Link}
       to='/signup'
       onClick={onSignupBtnClick}
+      className={`oc-signup-menu-item ${className || ''}`.trim()}
       {...props}
     >
       <ListItemIcon>

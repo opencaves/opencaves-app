@@ -110,11 +110,11 @@ export default function Access({ cave }) {
 
   return (
     <>
-      <div className="details-container">
+      <div className="details-container oc-access">
         <h2 className="h2">{t('accessHeader')}</h2>
       </div>
 
-      <div className="details-container">
+      <div className="details-container oc-access">
         <Grid container spacing={0} size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div className="oc-access--grid">
             <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -156,7 +156,7 @@ export default function Access({ cave }) {
       </div>
 
       {(cave.accessDetails || cave.accessibilityDetails) && (
-        <div className="details-container details-text">
+        <div className="details-container details-text oc-access">
           <Markdown>{cave.accessDetails}</Markdown>
           <Markdown>{cave.accessibilityDetails}</Markdown>
         </div>

@@ -1,4 +1,4 @@
-import admin from 'firebase-admin'
+import { getStorage } from 'firebase-admin/storage'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import { create } from 'exif-parser'
 import exifr from 'exifr/dist/lite.esm.mjs'
@@ -31,7 +31,7 @@ export const onAssetUploaded = onObjectFinalized(async event => {
     logger.log('[onAssetUploaded] TRY BEGIN')
     const { data } = event
     const { metadata } = data
-    const bucket = admin.storage().bucket(data.bucket)
+    const bucket = getStorage().bucket(data.bucket)
     const filePath = data.name
 
     logger.log('[onAssetUploaded] filePath: %s', filePath)

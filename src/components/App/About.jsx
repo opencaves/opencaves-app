@@ -3,12 +3,12 @@ import { Box, Link, Typography } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import Logo from '@/images/logo/brand_light.svg?react'
 
-export default function About(props) {
+export default function About({ className, ...props }) {
   const { t } = useTranslation('about')
   const isSmall = useSmall()
 
   return (
-    <Box {...props}>
+    <Box className={`oc-about ${className || ''}`.trim()} {...props}>
       <Box
         sx={{
           width: isSmall ? '70vmin' : '60vmin',

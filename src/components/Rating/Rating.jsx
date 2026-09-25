@@ -21,7 +21,7 @@ export default function OCRating({ caveId, ...props }) {
       name='cave-rating'
       value={value}
       size='small'
-      className='rating'
+      className='oc-rating rating'
       emptyIcon={<Star fontSize='inherit' />}
       readOnly />
   )

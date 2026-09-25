@@ -42,11 +42,12 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         sx={{
           color: 'var(--yarl__color_button, hsla(0, 0%, 100%, .8))'
         }}
-        className='yarl__button'
+        className='oc-media-pane-menu yarl__button'
       >
         <MoreVert sx={{ fontSize: '1.75rem' }} />
       </IconButton>
       <Menu
+        className="oc-media-pane-menu--menu"
         anchorEl={anchorEl}
         id='media-pane-menu'
         open={open}

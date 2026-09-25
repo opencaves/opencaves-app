@@ -86,7 +86,7 @@ export default function LogInWithEmail() {
   }
 
   return (
-    <Section>
+    <Section className="oc-log-in-with-email">
       <SectionForm>
         <SectionFields>
           <TextInput ref={emailInputRef} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" variant="outlined" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />

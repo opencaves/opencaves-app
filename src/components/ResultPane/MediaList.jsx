@@ -25,7 +25,7 @@ export function loadMediaCount(caveId) {
   return countAssets(caveId)
 }
 
-export default function MediaList({ caveId, sx, ...props }) {
+export default function MediaList({ caveId, sx, className, ...props }) {
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
@@ -151,6 +151,7 @@ export default function MediaList({ caveId, sx, ...props }) {
     mediaList &&
     !mediaList.empty && (
       <Box
+        className={`oc-media-list ${className || ''}`.trim()}
         sx={{
           marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
           height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,

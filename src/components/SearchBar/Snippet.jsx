@@ -17,7 +17,7 @@ export default function Snippet({ result }) {
 
   if (result.hints.name) {
     return (
-      <Grid container>
+      <Grid container className="oc-snippet">
         <Grid size="grow">
           <SnippetTextPrimary dangerouslySetInnerHTML={{ __html: result.hints.name }} />
         </Grid>
@@ -33,7 +33,7 @@ export default function Snippet({ result }) {
     const value = result.hints[prop]
     return (
       <>
-        <Grid container>
+        <Grid container className="oc-snippet">
           <Grid size="grow">
             <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
           </Grid>
@@ -46,7 +46,7 @@ export default function Snippet({ result }) {
           sx={{
             mt: '1px',
           }}
-          className="oc-search-bar--results-item-extra"
+          className="oc-snippet--extra oc-search-bar--results-item-extra"
         >
           <span dangerouslySetInnerHTML={{ __html: Array.isArray(value) ? value[0] : value }}></span>
           <span> </span>
@@ -56,7 +56,7 @@ export default function Snippet({ result }) {
     )
   }
   return (
-    <Grid container>
+    <Grid container className="oc-snippet">
       <Grid size="grow">
         <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
       </Grid>

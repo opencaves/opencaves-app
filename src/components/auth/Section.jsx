@@ -8,11 +8,11 @@ const width = {
   sm: '42ch',
 }
 
-export function Section({ children, ...props }) {
+export function Section({ children, className, ...props }) {
   return (
     <Grid
       {...props}
-      className="oc-auth-section"
+      className={`oc-section oc-auth-section ${className || ''}`.trim()}
       container
       direction="column"
       size="grow"
@@ -33,7 +33,7 @@ export function Section({ children, ...props }) {
 
 export function SectionDetails({ children, ...props }) {
   return (
-    <Typography className="oc-auth-section-details" variant="body" component="p" sx={{ my: 0, mx: 1.75, textAlign: 'center' }} {...props}>
+    <Typography className="oc-section-details oc-auth-section-details" variant="body" component="p" sx={{ my: 0, mx: 1.75, textAlign: 'center' }} {...props}>
       {children}
     </Typography>
   )
@@ -41,7 +41,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-form" container direction="column" sx={{ width, rowGap: gap }} {...props}>
+    <Grid className="oc-section-form oc-auth-section-form" container direction="column" sx={{ width, rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -49,7 +49,7 @@ export function SectionForm({ children, ...props }) {
 
 export function SectionFields({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }} {...props}>
+    <Grid className="oc-section-fields oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -57,7 +57,7 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid className="oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
+    <Grid className="oc-section-actions oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
       {children}
     </Grid>
   )
@@ -71,7 +71,7 @@ export function Progress({ enabled = false }) {
   }, [enabled])
 
   return (
-    <Grid container direction="column" sx={{ alignItems: 'center', visibility: enabled ? 'visible' : 'hidden' }}>
+    <Grid className="oc-progress" container direction="column" sx={{ alignItems: 'center', visibility: enabled ? 'visible' : 'hidden' }}>
       <Grid
         sx={{
           width,

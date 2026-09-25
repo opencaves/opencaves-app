@@ -19,6 +19,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { useBroadcastChannel } from '@/hooks/useBroadcastChannel.jsx'
 import { Forward } from '../Transitions.jsx'
 import { auth } from '@/config/firebase.js'
+import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { defaultContinuetUrl, firstNameMinLength, gap, passwordMinLength } from '@/config/auth.js'
 import { NavigateNextRounded } from '../icons.jsx'
 import './SignupWithEmail.scss'
@@ -90,8 +91,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [showInvalidActionCodeStep, setShowInvalidActionCodeStep] = useState(false)
   const [showRetypeEmailStep, setShowRetypeEmailStep] = useState(false)
 
+  // continueUrl is carried in the link itself (not just in this tab's
+  // sessionStorage-backed redux state) because the user may click the
+  // emailed verification link from a different tab/window than the one
+  // that started signup - that tab's sessionStorage never had it set.
   const actionCodeSettings = {
-    url: `${window.location.origin}/signup/with-email?${emailValidatedParam}`,
+    url: `${window.location.origin}/signup/with-email?${emailValidatedParam}${continueUrl ? `&continueUrl=${encodeURIComponent(continueUrl)}` : ''}`,
     // This must be true.
     handleCodeInApp: true,
   }
@@ -232,6 +237,17 @@ export default function SignupWithEmail({ open: initialOpen }) {
   //
   // Step 2a - Invalid action code
   //
+
+  // Restore continueUrl from the verification link itself, since the tab
+  // completing the flow (this one) may not be the tab that started it and
+  // set it in redux originally - see actionCodeSettings above.
+  useEffect(() => {
+    const linkContinueUrl = searchParams.get('continueUrl')
+    if (linkContinueUrl) {
+      dispatch(setContinueUrl(linkContinueUrl))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Go to Email callback step on load
   useEffect(() => {
@@ -438,6 +454,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   return (
     <Dialog
+      className="oc-signup-with-email"
       fullScreen={isSmall}
       fullWidth
       maxWidth={isMd ? 'sm' : 'md'}
@@ -543,6 +560,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
           <Box sx={{ width: '100%' }}>
             <swiper-container
+              className="oc-signup-with-email--steps"
               ref={setSwiperContainerRef}
               initial-slide={initialStep}
               allow-touch-move={import.meta.env.DEV}
@@ -554,7 +572,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 0 - Enter email
                */}
-              <swiper-slide data-step="email">
+              <swiper-slide className="oc-signup-with-email--step-email" data-step="email">
                 <Section>
                   <SectionForm>
                     <SectionFields>
@@ -582,7 +600,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 1 - Email already in use / Check email
                */}
-              <swiper-slide data-step="emailSentAndEmailVerification" data-sub-step={emailAlreadyInUse ? 'emailInUse' : 'emailSentNotification'}>
+              <swiper-slide className="oc-signup-with-email--step-email-sent" data-step="emailSentAndEmailVerification" data-sub-step={emailAlreadyInUse ? 'emailInUse' : 'emailSentNotification'}>
                 <Section>
                   {emailAlreadyInUse ? (
                     <>
@@ -643,7 +661,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 2 - Email callback
                */}
-              <swiper-slide data-step="emailCallback" data-sub-step={showInvalidActionCodeStep ? 'invalidActionCode' : showRetypeEmailStep ? 'retypeEmail' : null}>
+              <swiper-slide className="oc-signup-with-email--step-email-callback" data-step="emailCallback" data-sub-step={showInvalidActionCodeStep ? 'invalidActionCode' : showRetypeEmailStep ? 'retypeEmail' : null}>
                 <Section>
                   {
                     /*
@@ -723,7 +741,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 3 - Enter first name / Last name
                */}
-              <swiper-slide data-step="name">
+              <swiper-slide className="oc-signup-with-email--step-name" data-step="name">
                 <Section>
                   <SectionForm>
                     <SectionFields>
@@ -755,7 +773,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 4 - Enter password
                */}
-              <swiper-slide data-step="password">
+              <swiper-slide className="oc-signup-with-email--step-password" data-step="password">
                 <Section>
                   <SectionForm>
                     <SectionDetails>{ts('password.details')}</SectionDetails>
@@ -777,7 +795,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 5 - Registration completed
                */}
-              <swiper-slide data-step="created">
+              <swiper-slide className="oc-signup-with-email--step-created" data-step="created">
                 <Section>
                   <CheckCircleOutlineRounded
                     sx={{

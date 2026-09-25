@@ -7,7 +7,7 @@ export default function AddMediasMenuItem() {
   const { promptForMedias } = useAddMedias()
 
   return (
-    <MenuItem onClick={promptForMedias}>
+    <MenuItem className="oc-add-medias-menu-item" onClick={promptForMedias}>
       {t('addPictures')}
     </MenuItem>
   )

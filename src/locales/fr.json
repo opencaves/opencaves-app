@@ -19,6 +19,7 @@
       "ariaLabel": "Plus",
       "home": "Accueil",
       "myAccount": "Mon compte",
+      "admin": "Tableau de bord",
       "signup": "S'inscrire",
       "login": "Se connecter",
       "logout": "Se déconnecter",
@@ -75,7 +76,7 @@
       "withGoogle": "S'inscrire avec Google",
       "withFacebook": "Inscrivez-vous avec Facebook",
       "or": "ou",
-      "withEmail": "Créez un compte",
+      "withEmail": "S'inscrire avec un courriel",
       "withEmailDialog": {
         "title": "Créez un compte",
         "header": "Créez un compte",
@@ -106,7 +107,7 @@
             }
           },
           "emailCallback": {
-            "header": "\u00a0",
+            "header": " ",
             "invalidActionCode": {
               "header": "Lien email expiré",
               "details": "Le lien de validation par courriel que vous avez utilisé a expiré.",
@@ -351,6 +352,51 @@
       "myAccount": "Mon compte",
       "edit": "Modifier",
       "about": "À propos d'{{name}}"
+    },
+    "edit": {
+      "name": "Nom",
+      "aka": "Également connu sous le nom de",
+      "addAka": "Ajouter un nom",
+      "removeAka": "Supprimer ce nom",
+      "nameTranslations": "Traductions du nom",
+      "addNameTranslation": "Ajouter une traduction",
+      "removeNameTranslation": "Supprimer cette traduction",
+      "nameTranslationLanguage": "Langue",
+      "nameTranslationValue": "Nom traduit",
+      "coordinates": "Coordonnées",
+      "location": "Emplacement",
+      "entrance": "Entrée",
+      "key": "Clé",
+      "longitude": "Longitude",
+      "latitude": "Latitude",
+      "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
+      "navigateToCoordinate": "Centrer la carte ici",
+      "removeCoordinate": "Supprimer les coordonnées",
+      "pickMyLocation": "Utiliser ma position actuelle",
+      "none": "(aucun)",
+      "sistema": "Système",
+      "source": "Source",
+      "sourceHint": "D'où proviennent les informations sur ce système",
+      "access": "Accès",
+      "accessibility": "Accessibilité",
+      "fees": "Frais",
+      "feesHint": "Indique si la visite de ce cénote nécessite de payer un droit d'entrée",
+      "facilities": "Installations",
+      "facilitiesHint": "Indique si des installations comme des toilettes ou des vestiaires sont disponibles sur place",
+      "activities": "Activités",
+      "activitiesHint": "Indique si des activités supplémentaires (natation, plongée libre, etc.) sont proposées sur place",
+      "accessDetails": "Détails d'accès",
+      "accessibilityDetails": "Détails d'accessibilité",
+      "description": "Description",
+      "direction": "S'y rendre",
+      "emptyPreview": "Rien n'a encore été écrit",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "sistemaGroup": "Système",
+      "editSistemas": "Modifier les systèmes",
+      "sistemaSearchPlaceholder": "Rechercher",
+      "accessGroup": "Accès",
+      "accessibilityGroup": "Accessibilité"
     }
   },
   "mediaPane": {
@@ -410,6 +456,84 @@
     "details": {
       "empty": "Il n'y a rien ici"
     }
+  },
+  "markdownField": {
+    "hint": "Vous pouvez utiliser la syntaxe Markdown (ex. **gras**, # titre, - liste).",
+    "save": "Enregistrer",
+    "toolbar": {
+      "bold": "Gras",
+      "italic": "Italique",
+      "strikethrough": "Barré",
+      "inlineCode": "Code en ligne",
+      "link": "Lien",
+      "linkPrompt": "Entrez l'URL du lien",
+      "linkInvalid": "Entrez une URL valide",
+      "linkCancel": "Annuler",
+      "heading": "Titre",
+      "heading1": "Titre 1",
+      "heading2": "Titre 2",
+      "heading3": "Titre 3",
+      "quote": "Citation",
+      "bulletList": "Liste à puces",
+      "orderedList": "Liste numérotée",
+      "hr": "Ligne horizontale",
+      "undo": "Annuler",
+      "redo": "Rétablir",
+      "viewSource": "Voir la source Markdown",
+      "viewFormatted": "Voir le texte formaté"
+    }
+  },
+  "sistemaEditForm": {
+    "parentSistemaSearchPlaceholder": "Rechercher",
+    "length": "Distance explorée (m)",
+    "aka": "Également connu sous le nom de",
+    "addAka": "Ajouter un nom",
+    "removeAka": "Supprimer ce nom",
+    "explorations": "Historique d'exploration",
+    "addExploration": "Ajouter des informations d'exploration",
+    "removeExploration": "Supprimer cette exploration",
+    "explorationDate": "Date",
+    "explorationDatePlaceholder": "AAAA, AAAA-MM ou AAAA-MM-JJ",
+    "explorationDateInvalid": "Utilisez AAAA, AAAA-MM ou AAAA-MM-JJ",
+    "explorationTeam": "Équipe",
+    "explorationDescription": "Description",
+    "explorationNotes": "Notes"
+  },
+  "mapsPicker": {
+    "addMap": "Ajouter une carte",
+    "removeMap": "Supprimer cette carte",
+    "upload": "Téléverser un nouveau fichier",
+    "empty": "Aucune carte téléversée pour l'instant",
+    "mapDate": "Date",
+    "mapDatePlaceholder": "AAAA, AAAA-MM ou AAAA-MM-JJ",
+    "mapAuthors": "Auteurs",
+    "addAuthor": "Ajouter un auteur",
+    "removeAuthor": "Supprimer cet auteur",
+    "mapLegend": "Légende",
+    "cancel": "Annuler",
+    "add": "Ajouter"
+  },
+  "colorPicker": {
+    "addColor": "Ajouter une couleur",
+    "add": "Ajouter",
+    "cancel": "Annuler"
+  },
+  "sistemaPane": {
+    "header": "Systèmes",
+    "backBtn": {
+      "ariaLabel": "Retour"
+    },
+    "newSistema": "Nouveau système",
+    "loading": "Chargement…",
+    "unnamedSistema": "(sans nom)",
+    "searchBtn": {
+      "ariaLabel": "Rechercher"
+    },
+    "editSistemaBtn": {
+      "ariaLabel": "Modifier ce système"
+    },
+    "searchPlaceholder": "Rechercher",
+    "akaLabel": "aussi connu sous"
   },
   "accesses": {
     "customers": {
@@ -480,6 +604,33 @@
   },
   "map": {
     "title": "Carte",
-    "caveNameUnknown": "[nom inconnu]"
+    "caveNameUnknown": "[nom inconnu]",
+    "editFab": {
+      "ariaLabel": "Modifier les données du cénote",
+      "quickEditCurrentCave": "Modification rapide",
+      "editCurrentCave": "Modifier le cénote actuel",
+      "addNewCave": "Ajouter un nouveau cénote"
+    }
+  },
+  "dashboard": {
+    "backToDashboard": "Retour au tableau de bord",
+    "color": "Couleur",
+    "usersSection": "Utilisateurs",
+    "manageUsers": "Gérer les utilisateurs"
+  },
+  "usersAdmin": {
+    "title": "Utilisateurs",
+    "searchLabel": "Rechercher par courriel",
+    "loading": "Chargement…",
+    "count": "{{count}} utilisateur(s)",
+    "disabled": "Désactivé",
+    "role": {
+      "editor": "Éditeur",
+      "admin": "Admin"
+    },
+    "delete": "Supprimer",
+    "deleteTitle": "Supprimer cet utilisateur?",
+    "deleteConfirm": "{{email}} sera définitivement supprimé. Cette action est irréversible.",
+    "cancel": "Annuler"
   }
 }

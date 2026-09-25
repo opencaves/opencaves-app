@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
@@ -137,6 +137,11 @@ export default function SearchBar() {
   const currentCave = useSelector((state) => state.map.currentCave)
   const searchBarOff = useSelector((state) => state.app.searchBarOff)
   const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const roles = useSelector((state) => state.session.roles)
+
+  const location = useLocation()
+  // Kept in sync with ResultPane.jsx/Map.jsx's own edit-mode check.
+  const isEditMode = location.pathname.endsWith('/edit') && roles.includes('editor')
 
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
@@ -211,9 +216,9 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (searchBarRef) {
-      searchBarRef.current.classList.toggle('off', searchBarOff)
+      searchBarRef.current.classList.toggle('off', searchBarOff || isEditMode)
     }
-  }, [searchBarOff])
+  }, [searchBarOff, isEditMode])
 
   function onSearchbarInputChange(event) {
     // console.log('[onSearchbarInputChange¸%o', event)
@@ -299,7 +304,7 @@ export default function SearchBar() {
   }, [searchBarRef])
 
   return (
-    <div onBlur={onSearchbarBlur}>
+    <div className="oc-search-bar" onBlur={onSearchbarBlur}>
       <Box
         id="oc-search-bar"
         ref={searchBarRef}

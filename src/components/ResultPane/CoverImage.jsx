@@ -8,6 +8,7 @@ import UnstyledLink from '@/components/UnstyledLink.jsx'
 import Tooltip from '@/components/Tooltip.jsx'
 import Picture from '@/components/Picture.jsx'
 import { getCoverImage, useCoverImage } from '@/models/CaveAsset.js'
+import { coverImageHeightRatio } from '@/config/resultPane.js'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 import transparentPixel from '@/images/transparentPixel.js'
 
@@ -15,16 +16,23 @@ export async function loadCoverImage(caveId) {
   return getCoverImage(caveId, false)
 }
 
-export default function CoverImage({ caveId, width, height }) {
+// Fluid by default: fills whatever width its container gives it (so it
+// scales with the result pane - e.g. when quick-edit mode doubles the
+// pane's width) rather than being pinned to a fixed pixel size, keeping its
+// aspect ratio via CSS instead of a computed pixel height.
+export default function CoverImage({ caveId, width = '100%' }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
   const [sources, setSources] = useState(null)
   const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
 
+  const height = '100%'
+  const aspectRatio = 1 / coverImageHeightRatio
+
   function Container({ children }) {
     return (
-      <Box sx={{ position: 'relative', width, height }}>
+      <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio }}>
         {children}
       </Box>
     )

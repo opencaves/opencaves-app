@@ -24,7 +24,7 @@ export default function AboutDialog({ open = false }) {
 
   return (
     <Dialog
-      className='dialog'
+      className='oc-about-dialog dialog'
       open={aboutDialogOpen}
       onClose={onDialogClose}
       aria-label={t('ariaLabel', { name: appName })}

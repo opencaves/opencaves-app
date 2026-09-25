@@ -23,7 +23,7 @@ export default function LogIn() {
 
   return (
     <>
-      <Grid container direction="column" sx={{ m: 4, alignItems: 'center' }}>
+      <Grid className="oc-log-in" container direction="column" sx={{ m: 4, alignItems: 'center' }}>
         <Stack
           spacing={4}
           sx={{

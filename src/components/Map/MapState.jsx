@@ -28,7 +28,7 @@ export function MapError({ error }) {
   return (
     <div className="oc-map-loading">
       <div className="oc-map-loading--box">
-        <h1>
+        <h1 className="oc-map-loading--error-heading">
           :-(
           <br />
           Something went wrong

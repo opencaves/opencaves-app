@@ -30,16 +30,16 @@ export default function Address({ latitude, longitude }) {
   const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.REACT_APP_GOOGLE_GEOCODING_API_KEY}&language=${i18n.resolvedLanguage}&result_type=${resultTypes.join('|')}`, fetcher)
 
   if (error) {
-    return <span>{t('addressLoadingError', { errMessage: error.message })}</span>
+    return <span className="oc-address">{t('addressLoadingError', { errMessage: error.message })}</span>
   }
 
   if (isLoading) {
-    return <span>{t('addressLoading')}</span>
+    return <span className="oc-address">{t('addressLoading')}</span>
   }
   // render data
   if (data) {
-    return <span>{data.formatted_address}</span>
+    return <span className="oc-address">{data.formatted_address}</span>
   }
 
-  return <span>{t('addressNotAvailable')}</span>
+  return <span className="oc-address">{t('addressNotAvailable')}</span>
 }

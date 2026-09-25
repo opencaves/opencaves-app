@@ -54,6 +54,7 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
   return (
     <Portal>
       <MUISnackbar
+        className="oc-snackbar"
         autoHideDuration={_autoHideDuration}
         message={message}
         open={_open}
