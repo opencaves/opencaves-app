@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
+import { EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -291,7 +291,14 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">Sistema</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="subtitle2">Sistema</Typography>
+          <Tooltip title="Edit sistemas">
+            <IconButton component={Link} to="/sistemas" size="small" aria-label="Edit sistemas">
+              <EditRounded fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         <TextField select label="Sistema" fullWidth {...field('sistemaId')}>
           <MenuItem value="">(none)</MenuItem>
