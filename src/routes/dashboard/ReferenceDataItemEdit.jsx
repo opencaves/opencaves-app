@@ -102,7 +102,7 @@ export default function ReferenceDataItemEdit() {
   return (
     <div className="oc-reference-data-item-edit">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={goBack} aria-label="Back">
+        <IconButton onClick={goBack} aria-label="Back" sx={{ ml: -5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5">

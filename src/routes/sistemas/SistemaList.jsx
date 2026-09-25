@@ -60,7 +60,7 @@ export default function SistemaList() {
     <div className="oc-sistema-list">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: -5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
