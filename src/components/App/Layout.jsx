@@ -10,11 +10,17 @@ export default function Layout() {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        // #root itself is pinned to the viewport with overflow-y hidden
+        // (disable-pull-to-refresh.scss, needed for the full-screen /map
+        // page's own internal scroll areas) - so any Layout-based page
+        // taller than the viewport needs to be its own scroll container,
+        // not rely on the document/body to scroll.
+        height: '100%',
+        overflowY: 'auto',
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component='main' sx={{ py: 2, display: 'grid', flexGrow: '1' }}>
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1' }}>
         <Outlet />
       </Container>
 
