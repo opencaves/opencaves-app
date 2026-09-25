@@ -133,7 +133,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
             {t('myAccount')}
           </MenuItem>,
           roles.includes('editor') && (
-            <MenuItem key="key-admin" component={Link} to="/admin" onClick={handleClose}>
+            <MenuItem key="key-admin" component={Link} to="/dashboard" onClick={handleClose}>
               <ListItemIcon>
                 <SettingsRounded fontSize="small" />
               </ListItemIcon>

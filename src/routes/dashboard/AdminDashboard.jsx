@@ -16,15 +16,19 @@ export default function AdminDashboard() {
   const { setTitle } = useTitle()
 
   useEffect(() => {
-    setTitle('Admin')
+    setTitle('Dashboard')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div className="oc-admin-dashboard">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Data admin</Typography>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+        Dashboard
+      </Typography>
 
-      <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>Caves</Typography>
+      <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>
+        Caves
+      </Typography>
       <List disablePadding>
         <ListItemButton component={Link} to="/caves" divider>
           <ListItemText primary="Manage caves" />
@@ -34,10 +38,12 @@ export default function AdminDashboard() {
         </ListItemButton>
       </List>
 
-      <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>Reference data</Typography>
+      <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
+        Reference data
+      </Typography>
       <List disablePadding>
         {REFERENCE_COLLECTIONS.map(({ collection, label }) => (
-          <ListItemButton key={collection} component={Link} to={`/admin/reference/${collection}`} divider>
+          <ListItemButton key={collection} component={Link} to={`/dashboard/reference/${collection}`} divider>
             <ListItemText primary={label} />
           </ListItemButton>
         ))}

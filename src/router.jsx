@@ -12,8 +12,8 @@ import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 function SkipIfLoggedin({ children }) {
-  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  const continueUrl = useSelector(state => state.session.continueUrl)
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const continueUrl = useSelector((state) => state.session.continueUrl)
   const dispatch = useDispatch()
 
   // Snapshot continueUrl so that deleteContinueUrl() (dispatched below once
@@ -32,22 +32,19 @@ function SkipIfLoggedin({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn])
 
-
-  return isLoggedIn ? (
-    <Navigate to={continueUrlRef.current ?? '/'} />
-  ) : children
+  return isLoggedIn ? <Navigate to={continueUrlRef.current ?? '/'} /> : children
 }
 
 function RequireEditor({ children }) {
-  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  const roles = useSelector(state => state.session.roles)
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const roles = useSelector((state) => state.session.roles)
 
   if (!isLoggedIn) {
-    return <Navigate to='/login' />
+    return <Navigate to="/login" />
   }
 
   if (!roles.includes('editor')) {
-    return <Navigate to='/' />
+    return <Navigate to="/" />
   }
 
   return children
@@ -61,8 +58,14 @@ function skipIfLoggedIn(importer) {
   return {
     lazy: async () => {
       const { default: Component } = await importer()
-      return { Component: () => <SkipIfLoggedin><Component /></SkipIfLoggedin> }
-    }
+      return {
+        Component: () => (
+          <SkipIfLoggedin>
+            <Component />
+          </SkipIfLoggedin>
+        ),
+      }
+    },
   }
 }
 
@@ -70,8 +73,14 @@ function requireEditor(importer) {
   return {
     lazy: async () => {
       const { default: Component } = await importer()
-      return { Component: () => <RequireEditor><Component /></RequireEditor> }
-    }
+      return {
+        Component: () => (
+          <RequireEditor>
+            <Component />
+          </RequireEditor>
+        ),
+      }
+    },
   }
 }
 
@@ -85,12 +94,12 @@ const routes = [
         children: [
           {
             index: true,
-            element: <Navigate to='map' />,
-            errorElement: <NoMatch />
+            element: <Navigate to="map" />,
+            errorElement: <NoMatch />,
           },
           {
             path: 'about',
-            element: <AboutRoute />
+            element: <AboutRoute />,
           },
           {
             path: 'signup',
@@ -98,10 +107,9 @@ const routes = [
             children: [
               {
                 path: 'with-email',
-                lazy: () => import('@/components/auth/SignupWithEmail.jsx')
-                  .then(({ default: Component }) => ({ Component: () => <Component open={true} /> }))
-              }
-            ]
+                lazy: () => import('@/components/auth/SignupWithEmail.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
+              },
+            ],
           },
           {
             path: 'login',
@@ -109,44 +117,43 @@ const routes = [
             children: [
               {
                 path: 'with-email',
-                lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx')
-                  .then(({ default: Component }) => ({ Component: () => <Component open={true} /> }))
-              }
-            ]
+                lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
+              },
+            ],
           },
           {
             path: 'account',
-            element: <Account />
+            element: <Account />,
           },
           {
             path: 'loading',
-            element: <Loading />
+            element: <Loading />,
           },
           {
-            path: 'admin',
-            ...requireEditor(() => import('@/routes/admin/AdminDashboard.jsx'))
+            path: 'dashboard',
+            ...requireEditor(() => import('@/routes/dashboard/AdminDashboard.jsx')),
           },
           {
-            path: 'admin/reference/:collectionName',
-            ...requireEditor(() => import('@/routes/admin/ReferenceDataEditor.jsx'))
+            path: 'dashboard/reference/:collectionName',
+            ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
           },
           {
             path: 'caves',
-            ...requireEditor(() => import('@/routes/caves/CaveList.jsx'))
+            ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
           },
           {
             path: 'caves/:caveId/edit',
-            ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx'))
+            ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
           },
           {
             path: 'sistemas',
-            ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx'))
+            ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
           },
           {
             path: 'sistemas/:sistemaId/edit',
-            ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx'))
-          }
-        ]
+            ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
+          },
+        ],
       },
       {
         path: '/map',
@@ -166,12 +173,11 @@ const routes = [
                 // parent :caveId route above) detects it via useLocation()
                 // and swaps in its editable content, since edit mode is a
                 // state of the existing pane, not a separate page.
-                path: 'edit'
+                path: 'edit',
               },
               {
                 path: 'medias/:mediaId?',
-                lazy: () => import('@/components/MediaPane/MediaPane.jsx')
-                  .then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader }))
+                lazy: () => import('@/components/MediaPane/MediaPane.jsx').then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader })),
               },
               {
                 path: 'sistemas',
@@ -179,16 +185,16 @@ const routes = [
                 children: [
                   {
                     path: ':sistemaId/edit',
-                    ...requireEditor(() => import('@/components/SistemaPane/SistemaEditPane.jsx'))
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                    ...requireEditor(() => import('@/components/SistemaPane/SistemaEditPane.jsx')),
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 export default createBrowserRouter(routes, {
