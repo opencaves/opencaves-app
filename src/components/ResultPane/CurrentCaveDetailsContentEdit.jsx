@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { AddRounded, CloseRounded, EditRounded } from '@mui/icons-material'
+import { EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -11,6 +11,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
+import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
@@ -21,56 +22,6 @@ const sourcesModel = createCollectionModel('sources')
 const accessesModel = createCollectionModel('accesses')
 const accessibilitiesModel = createCollectionModel('accessibilities')
 const languagesModel = createCollectionModel('languages')
-
-// One row per language, each language selectable in at most one row at a
-// time (its own current selection stays available to itself, but disappears
-// from every other row's options once picked).
-function NameTranslationsField({ label, rows, languages, onChange, addLabel, removeLabel, languageLabel, valueLabel }) {
-  const usedLangs = rows.map((r) => r.lang).filter(Boolean)
-  const unusedLanguages = languages.filter((l) => !usedLangs.includes(l.code))
-
-  function updateAt(index, patch) {
-    onChange(rows.map((r, i) => (i === index ? { ...r, ...patch } : r)))
-  }
-
-  function removeAt(index) {
-    onChange(rows.filter((_, i) => i !== index))
-  }
-
-  function add() {
-    onChange([...rows, { lang: unusedLanguages[0].code, value: '' }])
-  }
-
-  return (
-    <Box className="oc-name-translations-field">
-      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
-        {label}
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        {rows.map((row, index) => (
-          <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <TextField select size="small" label={languageLabel} sx={{ width: 160, flexShrink: 0 }} value={row.lang} onChange={(e) => updateAt(index, { lang: e.target.value })}>
-              {languages
-                .filter((l) => l.code === row.lang || !usedLangs.includes(l.code))
-                .map((l) => (
-                  <MenuItem key={l.code} value={l.code}>
-                    {l.eng}
-                  </MenuItem>
-                ))}
-            </TextField>
-            <TextField size="small" label={valueLabel} fullWidth value={row.value} onChange={(e) => updateAt(index, { value: e.target.value })} />
-            <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
-              <CloseRounded fontSize="small" />
-            </IconButton>
-          </Box>
-        ))}
-        <Button size="small" startIcon={<AddRounded />} onClick={add} disabled={unusedLanguages.length === 0} sx={{ alignSelf: 'flex-start' }}>
-          {addLabel}
-        </Button>
-      </Box>
-    </Box>
-  )
-}
 
 function MarkdownField({ label, value, onChange, minRows, resizable }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
