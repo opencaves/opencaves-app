@@ -7,6 +7,7 @@ import { AddRounded, ArrowBackRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
 const NO_AREA = '(no area)'
@@ -85,6 +86,7 @@ export default function SistemaList() {
                   <ListSubheader sx={{ fontSize: '1.125rem', fontWeight: 300 }}>{areaName}</ListSubheader>
                   {groupSistemas.map((sistema) => (
                     <ListItemButton key={sistema.id} component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
+                      <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
                       <ListItemText primary={sistema.name || '(unnamed)'} secondary={sistema.id} />
                     </ListItemButton>
                   ))}

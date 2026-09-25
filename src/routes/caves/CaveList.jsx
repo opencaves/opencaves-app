@@ -8,6 +8,7 @@ import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
 const NO_AREA = '(no area)'
@@ -28,6 +29,7 @@ export default function CaveList() {
   const areasById = useMemo(() => new Map(areas.map((a) => [a.id, a.name])), [areas])
   // A cave has no area of its own - it comes from whichever sistema it belongs to.
   const areaNameBySistemaId = useMemo(() => new Map(sistemas.map((s) => [s.id, areasById.get(s.area)])), [sistemas, areasById])
+  const sistemasById = useMemo(() => new Map(sistemas.map((s) => [s.id, s])), [sistemas])
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -89,6 +91,7 @@ export default function CaveList() {
                   <ListSubheader sx={{ fontSize: '1.125rem', fontWeight: 300 }}>{areaName}</ListSubheader>
                   {groupCaves.map((cave) => (
                     <ListItemButton key={cave.id} component={Link} to={`/caves/${cave.id}/edit`} divider>
+                      <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistemasById.get(cave.sistemaId)?.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
                       <ListItemText primary={cave.name?.value || '(unnamed)'} secondary={cave.id} />
                     </ListItemButton>
                   ))}
