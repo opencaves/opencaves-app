@@ -15,7 +15,6 @@ import ConditionalWrapper from '../utils/ConditionalWrapper.jsx'
 import './CurrentCaveDetailsHeader.scss'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
-
   const paneData = useContext(ResultPaneSmContext)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -25,7 +24,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   const { t: tMap } = useTranslation('map')
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
   const resolvedLanguage = ISO6391ToISO6392(i18n.resolvedLanguage)
-  const caveNameTranslation = (langCode => {
+  const caveNameTranslation = ((langCode) => {
     if (langCode) {
       if (langCode !== resolvedLanguage) {
         return cave.nameTranslations?.[resolvedLanguage]?.join(', ')
@@ -55,19 +54,22 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   }, [isSmall])
 
   function onClear() {
-    // dispatch(clearCurrentCave())
+    // SearchBar.jsx watches currentCave and resets its own value/search
+    // results back to empty once it goes null - this is what makes the
+    // close button also reset the search bar, not just navigate away.
+    dispatch(clearCurrentCave())
     navigate('/map')
   }
 
   function getSubHeaders() {
     return (
       <>
-        {
-          caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
-        }
-        {
-          cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
-        }
+        {caveNameTranslation && <Typography variant="caveDetailsSubHeader">{caveNameTranslation}</Typography>}
+        {cave.aka && cave.aka.length && (
+          <Typography variant="caveDetailsSubHeader">
+            {t('aka')} {cave.aka.join(', ')}
+          </Typography>
+        )}
         <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} />
       </>
     )
@@ -75,31 +77,21 @@ export default function CurrentCaveDetailsHeader({ cave }) {
 
   return (
     <>
-      {
-        !isSmall && (
-          <CoverImage caveId={cave.id} />
-        )
-      }
-      <Box className='oc-current-cave-details-header oc-result-pane--header'>
-        <Box className='oc-cave-details-header'>
-          <Typography ref={titleRef} variant='caveDetailsHeader'>{caveName}</Typography>
-          {
-            isSmall && paneData.paneOpenFactor < 1 && (
-              <Box>
-                <StyledIconButton size="small" sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
-                  <Close fontSize='small' />
-                </StyledIconButton>
-              </Box>
-            )
-          }
+      {!isSmall && <CoverImage caveId={cave.id} />}
+      <Box className="oc-current-cave-details-header oc-result-pane--header">
+        <Box className="oc-cave-details-header">
+          <Typography ref={titleRef} variant="caveDetailsHeader">
+            {caveName}
+          </Typography>
+          {isSmall && paneData.paneOpenFactor < 1 && (
+            <Box>
+              <StyledIconButton size="small" sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
+                <Close fontSize="small" />
+              </StyledIconButton>
+            </Box>
+          )}
         </Box>
-        {
-          isSmall ? (
-            paneData.paneMinimizeFactor > .25 && getSubHeaders()
-          ) : (
-            getSubHeaders()
-          )
-        }
+        {isSmall ? paneData.paneMinimizeFactor > 0.25 && getSubHeaders() : getSubHeaders()}
         {/* {
             caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
           }
@@ -107,11 +99,11 @@ export default function CurrentCaveDetailsHeader({ cave }) {
             cave.aka && cave.aka.length && <Typography variant='caveDetailsSubHeader'>{t('aka')} {cave.aka.join(', ')}</Typography>
           }
           <Rating caveId={cave.id} sx={{ pt: '0.5rem' }} /> */}
-      </Box >
+      </Box>
     </>
   )
 }
 
 const StyledIconButton = styled(IconButton)({
-  backgroundColor: '#f2f2f2'
+  backgroundColor: '#f2f2f2',
 })
