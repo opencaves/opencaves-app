@@ -88,6 +88,12 @@ const routes = [
   {
     path: '/',
     element: <AppRoot />,
+    // Catches any path that doesn't match a route anywhere under here
+    // (not just this route's own render errors) - without it, a totally
+    // unmatched path (e.g. an old bookmarked URL) falls through to
+    // react-router's own bare, unstyled default error page instead of the
+    // app's NoMatch component.
+    errorElement: <NoMatch />,
     children: [
       {
         element: <Layout />,
