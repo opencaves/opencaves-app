@@ -355,18 +355,18 @@ export default function CaveEdit() {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', gap: 1, mt: 3 }}>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
-          Save
-        </Button>
-        <Button onClick={() => navigate('/caves')} disabled={saving}>
-          Cancel
-        </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3 }}>
         {!isNew && (
-          <Button color="error" onClick={handleDelete} disabled={saving} sx={{ ml: 'auto' }}>
+          <Button color="error" onClick={handleDelete} disabled={saving} sx={{ mr: 'auto' }}>
             Delete
           </Button>
         )}
+        <Button onClick={() => navigate('/caves')} disabled={saving}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+          Save
+        </Button>
       </Box>
     </div>
   )

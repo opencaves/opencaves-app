@@ -103,12 +103,7 @@ export default function ColorPicker({ label, value, onChange }) {
           ))}
 
           <Tooltip title={t('addColor')}>
-            <IconButton
-              className="oc-color-picker--add-btn"
-              size="small"
-              onClick={() => setAdding(true)}
-              sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}
-            >
+            <IconButton className="oc-color-picker--add-btn" size="small" onClick={() => setAdding(true)} sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}>
               <AddRounded fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -116,18 +111,12 @@ export default function ColorPicker({ label, value, onChange }) {
 
         {adding && (
           <Box className="oc-color-picker--add-form" sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1.5, pb: 1.5 }}>
-            <Box
-              component="input"
-              type="color"
-              value={newColor}
-              onChange={(e) => setNewColor(e.target.value)}
-              sx={{ width: 36, height: 36, p: 0, border: '1px solid', borderColor: 'divider', borderRadius: 0.5, cursor: 'pointer' }}
-            />
-            <Button size="small" variant="contained" onClick={handleAddColor} disabled={saving}>
-              {t('add')}
-            </Button>
+            <Box component="input" type="color" value={newColor} onChange={(e) => setNewColor(e.target.value)} sx={{ width: 36, height: 36, p: 0, border: '1px solid', borderColor: 'divider', borderRadius: 0.5, cursor: 'pointer' }} />
             <Button size="small" onClick={() => setAdding(false)} disabled={saving}>
               {t('cancel')}
+            </Button>
+            <Button size="small" variant="contained" onClick={handleAddColor} disabled={saving}>
+              {t('add')}
             </Button>
           </Box>
         )}

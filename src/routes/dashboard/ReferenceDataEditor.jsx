@@ -114,12 +114,12 @@ export default function ReferenceDataEditor() {
           {config.fields.map((field) => (
             <TextField key={field} label={field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={editingId !== 'new' && field === config.id.from} multiline={field === 'description' || field === 'note'} minRows={field === 'description' || field === 'note' ? 2 : undefined} />
           ))}
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button variant="contained" onClick={handleSave} disabled={saving}>
-              Save
-            </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button onClick={cancelEdit} disabled={saving}>
               Cancel
+            </Button>
+            <Button variant="contained" onClick={handleSave} disabled={saving}>
+              Save
             </Button>
           </Box>
         </Box>
