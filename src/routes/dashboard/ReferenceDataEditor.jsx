@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Button, Fab, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
 import { Add, Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { dashedId, pickDescription } from '@/services/data-service/types.js'
@@ -43,6 +43,7 @@ export default function ReferenceDataEditor() {
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState(emptyFields(config?.fields || []))
   const [saving, setSaving] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState(null)
 
   useEffect(() => {
     setTitle(config?.label || collectionName)
@@ -96,9 +97,7 @@ export default function ReferenceDataEditor() {
   }
 
   async function handleDelete(id) {
-    if (!window.confirm('Delete this item?')) {
-      return
-    }
+    setDeleteTarget(null)
     await model.remove(id)
     invalidateData()
     await getData()
@@ -143,7 +142,7 @@ export default function ReferenceDataEditor() {
                   <IconButton edge="end" onClick={() => startEdit(item)} aria-label="Edit">
                     <Edit fontSize="small" />
                   </IconButton>
-                  <IconButton edge="end" onClick={() => handleDelete(item.id)} aria-label="Delete">
+                  <IconButton edge="end" onClick={() => setDeleteTarget(item)} aria-label="Delete">
                     <Delete fontSize="small" />
                   </IconButton>
                 </>
@@ -154,6 +153,19 @@ export default function ReferenceDataEditor() {
           ))}
         </List>
       )}
+
+      <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
+        <DialogTitle>Delete this item?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{deleteTarget?.name || deleteTarget?.hex || deleteTarget?.code || deleteTarget?.id} will be permanently deleted.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteTarget(null)}>Cancel</Button>
+          <Button color="error" onClick={() => handleDelete(deleteTarget.id)}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
