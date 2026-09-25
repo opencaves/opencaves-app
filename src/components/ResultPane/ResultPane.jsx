@@ -40,7 +40,12 @@ export default function ResultPane() {
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
 
-  const isEditMode = location.pathname.endsWith('/edit')
+  // The sistemas pane (and its own nested :sistemaId/edit pane) is only
+  // reachable from edit mode and overlays the edit-mode pane, so it must
+  // keep counting as edit mode even though its own URL segment isn't
+  // literally "edit" - otherwise the underlying pane would flip back to
+  // its read-only, narrower state the moment that overlay opens.
+  const isEditMode = location.pathname.endsWith('/edit') || location.pathname.includes('/sistemas')
 
   useEffect(() => {
     if (isEditMode && !roles.includes('editor')) {

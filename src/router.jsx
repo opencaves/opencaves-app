@@ -172,6 +172,16 @@ const routes = [
                 path: 'medias/:mediaId?',
                 lazy: () => import('@/components/MediaPane/MediaPane.jsx')
                   .then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader }))
+              },
+              {
+                path: 'sistemas',
+                ...requireEditor(() => import('@/components/SistemaPane/SistemaPane.jsx')),
+                children: [
+                  {
+                    path: ':sistemaId/edit',
+                    ...requireEditor(() => import('@/components/SistemaPane/SistemaEditPane.jsx'))
+                  }
+                ]
               }
             ]
           }

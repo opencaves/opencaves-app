@@ -378,6 +378,7 @@
       "none": "(none)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
+      "editSistemas": "Edit sistemas",
       "sistemaSearchPlaceholder": "Search",
       "source": "Source",
       "sourceHint": "Where this sistema's information comes from",
@@ -459,6 +460,45 @@
     "details": {
       "empty": "There is nothing here"
     }
+  },
+  "sistemaEditForm": {
+    "length": "Total linear distance explored (m)",
+    "aka": "Also known as",
+    "addAka": "Add name",
+    "removeAka": "Remove name",
+    "explorations": "Exploration history",
+    "addExploration": "Add exploration",
+    "removeExploration": "Remove exploration",
+    "explorationDate": "Date",
+    "explorationDatePlaceholder": "YYYY, YYYY-MM, or YYYY-MM-DD",
+    "explorationDateInvalid": "Use YYYY, YYYY-MM, or YYYY-MM-DD",
+    "explorationTeam": "Team",
+    "explorationDescription": "Description",
+    "explorationNotes": "Notes"
+  },
+  "mapsPicker": {
+    "addMap": "Add a map",
+    "upload": "Upload a new file",
+    "empty": "No maps uploaded yet"
+  },
+  "colorPicker": {
+    "addColor": "Add a color",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "sistemaPane": {
+    "header": "Sistemas",
+    "backBtn": {
+      "ariaLabel": "Back"
+    },
+    "newSistema": "New sistema",
+    "loading": "Loading…",
+    "unnamedSistema": "(unnamed)",
+    "searchBtn": {
+      "ariaLabel": "Search"
+    },
+    "searchPlaceholder": "Search",
+    "akaLabel": "aka"
   },
   "accesses": {
     "customers": {

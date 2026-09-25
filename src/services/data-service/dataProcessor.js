@@ -105,6 +105,33 @@ function nameTrans(old) {
   return
 }
 
+// The Sistemas sheet records exploration history as numbered column groups
+// ("Exploration 1 - Date"/"Exploration 1 - Team"/"Exploration 1 - Notes",
+// "Exploration 2 - ...", currently up to 2) rather than a single flat set of
+// columns, so each numbered group becomes one entry in the sistema's
+// `explorations` array. The sheet has no per-exploration description column
+// (that's markdown-only, entered directly in the admin UI), so it's left
+// out of imported entries rather than forced to an empty string.
+function getExplorations(old) {
+  const explorations = []
+
+  for (let i = 1; i <= 2; i++) {
+    const date = str(old[`Exploration ${i} - Date`])
+    const team = str(old[`Exploration ${i} - Team`])
+    const notes = str(old[`Exploration ${i} - Notes`])
+
+    if (date || team || notes) {
+      const exploration = {}
+      if (date) exploration.date = date
+      if (team) exploration.team = team
+      if (notes) exploration.notes = notes
+      explorations.push(exploration)
+    }
+  }
+
+  return explorations.length > 0 ? explorations : undefined
+}
+
 /*
  * caves data
  */
@@ -317,16 +344,6 @@ function getSistemas(data) {
         fn: getIdRef
       },
       {
-        new: 'explorationDate',
-        old: 'Exploration Date',
-        fn: str
-      },
-      {
-        new: 'reporter',
-        old: 'Reported By',
-        fn: str
-      },
-      {
         new: 'note',
         old: 'Note',
         fn: str
@@ -348,6 +365,11 @@ function getSistemas(data) {
 
       if (sistemaLoc) {
         newItem.location = sistemaLoc
+      }
+
+      const explorations = getExplorations(old)
+      if (explorations) {
+        newItem.explorations = explorations
       }
 
       sistemas.push(newItem)

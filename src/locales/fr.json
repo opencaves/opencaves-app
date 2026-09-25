@@ -395,6 +395,7 @@
       "save": "Enregistrer",
       "cancel": "Annuler",
       "sistemaGroup": "Système",
+      "editSistemas": "Modifier les systèmes",
       "sistemaSearchPlaceholder": "Rechercher",
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité"
@@ -457,6 +458,45 @@
     "details": {
       "empty": "Il n'y a rien ici"
     }
+  },
+  "sistemaEditForm": {
+    "length": "Distance explorée (m)",
+    "aka": "Également connu sous le nom de",
+    "addAka": "Ajouter un nom",
+    "removeAka": "Supprimer ce nom",
+    "explorations": "Historique d'exploration",
+    "addExploration": "Ajouter une exploration",
+    "removeExploration": "Supprimer cette exploration",
+    "explorationDate": "Date",
+    "explorationDatePlaceholder": "AAAA, AAAA-MM ou AAAA-MM-JJ",
+    "explorationDateInvalid": "Utilisez AAAA, AAAA-MM ou AAAA-MM-JJ",
+    "explorationTeam": "Équipe",
+    "explorationDescription": "Description",
+    "explorationNotes": "Notes"
+  },
+  "mapsPicker": {
+    "addMap": "Ajouter une carte",
+    "upload": "Téléverser un nouveau fichier",
+    "empty": "Aucune carte téléversée pour l'instant"
+  },
+  "colorPicker": {
+    "addColor": "Ajouter une couleur",
+    "add": "Ajouter",
+    "cancel": "Annuler"
+  },
+  "sistemaPane": {
+    "header": "Systèmes",
+    "backBtn": {
+      "ariaLabel": "Retour"
+    },
+    "newSistema": "Nouveau système",
+    "loading": "Chargement…",
+    "unnamedSistema": "(sans nom)",
+    "searchBtn": {
+      "ariaLabel": "Rechercher"
+    },
+    "searchPlaceholder": "Rechercher",
+    "akaLabel": "aussi connu sous"
   },
   "accesses": {
     "customers": {
