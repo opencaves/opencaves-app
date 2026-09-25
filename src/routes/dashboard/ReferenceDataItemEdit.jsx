@@ -59,7 +59,10 @@ export default function ReferenceDataItemEdit() {
   }, [collectionName, itemId])
 
   function goBack() {
-    navigate(`/dashboard/${collectionName}`)
+    // Replace, not push: otherwise the edit URL stays in history as its own
+    // entry, and the browser Back button from the list (after Cancel/Save)
+    // would land right back on it instead of skipping past it.
+    navigate(`/dashboard/${collectionName}`, { replace: true })
   }
 
   if (!config) {

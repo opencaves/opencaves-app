@@ -459,6 +459,7 @@
   },
   "markdownField": {
     "hint": "Vous pouvez utiliser la syntaxe Markdown (ex. **gras**, # titre, - liste).",
+    "save": "Enregistrer",
     "toolbar": {
       "bold": "Gras",
       "italic": "Italique",
@@ -466,6 +467,7 @@
       "inlineCode": "Code en ligne",
       "link": "Lien",
       "linkPrompt": "Entrez l'URL du lien",
+      "linkInvalid": "Entrez une URL valide",
       "linkCancel": "Annuler",
       "heading": "Titre",
       "heading1": "Titre 1",

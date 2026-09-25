@@ -122,16 +122,50 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     setHeadingMenuAnchor(null)
   }
 
+  // Existing href at the cursor (empty selection, using the marks active
+  // for insertion there) or anywhere within the selected range, so editing
+  // a link the cursor/selection is already inside pre-fills its URL
+  // instead of starting from a blank field.
+  function getActiveLinkHref(view) {
+    const linkType = view.state.schema.marks.link
+    if (!linkType) {
+      return ''
+    }
+
+    const { from, to, empty, $from } = view.state.selection
+    if (empty) {
+      return $from.marks().find((mark) => mark.type === linkType)?.attrs?.href || ''
+    }
+
+    let href = ''
+    view.state.doc.nodesBetween(from, to, (node) => {
+      const mark = node.marks.find((m) => m.type === linkType)
+      if (mark) {
+        href = mark.attrs.href
+      }
+    })
+    return href
+  }
+
   function insertLink() {
     const view = editorRef.current?.ctx.get(editorViewCtx)
     savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
-    setLinkHref('')
+    setLinkHref(view ? getActiveLinkHref(view) : '')
     setLinkDialogOpen(true)
+  }
+
+  function isValidUrl(href) {
+    try {
+      new URL(href)
+      return true
+    } catch {
+      return false
+    }
   }
 
   function confirmLink() {
     setLinkDialogOpen(false)
-    if (!linkHref) {
+    if (!isValidUrl(linkHref)) {
       return
     }
 
@@ -213,12 +247,12 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
       <Dialog open={linkDialogOpen} onClose={() => setLinkDialogOpen(false)} maxWidth="xs" fullWidth>
         <DialogContent>
-          <TextField autoFocus fullWidth label={t('toolbar.linkPrompt')} value={linkHref} onChange={(e) => setLinkHref(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && confirmLink()} placeholder="https://" />
+          <TextField autoFocus fullWidth label={t('toolbar.linkPrompt')} value={linkHref} onChange={(e) => setLinkHref(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && isValidUrl(linkHref) && confirmLink()} placeholder="https://" error={!!linkHref && !isValidUrl(linkHref)} helperText={!!linkHref && !isValidUrl(linkHref) ? t('toolbar.linkInvalid') : ' '} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setLinkDialogOpen(false)}>{t('toolbar.linkCancel')}</Button>
-          <Button variant="contained" onClick={confirmLink} disabled={!linkHref}>
-            {t('toolbar.link')}
+          <Button variant="contained" onClick={confirmLink} disabled={!isValidUrl(linkHref)}>
+            {t('save')}
           </Button>
         </DialogActions>
       </Dialog>

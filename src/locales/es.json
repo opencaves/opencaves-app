@@ -461,6 +461,7 @@
   },
   "markdownField": {
     "hint": "Puedes usar sintaxis Markdown (ej. **negrita**, # título, - lista).",
+    "save": "Guardar",
     "toolbar": {
       "bold": "Negrita",
       "italic": "Cursiva",
@@ -468,6 +469,7 @@
       "inlineCode": "Código en línea",
       "link": "Enlace",
       "linkPrompt": "Introduce la URL del enlace",
+      "linkInvalid": "Introduce una URL válida",
       "linkCancel": "Cancelar",
       "heading": "Título",
       "heading1": "Título 1",

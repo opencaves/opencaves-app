@@ -461,6 +461,7 @@
   },
   "markdownField": {
     "hint": "You can use Markdown syntax (e.g. **bold**, # heading, - list).",
+    "save": "Save",
     "toolbar": {
       "bold": "Bold",
       "italic": "Italic",
@@ -468,6 +469,7 @@
       "inlineCode": "Inline code",
       "link": "Link",
       "linkPrompt": "Enter the link URL",
+      "linkInvalid": "Enter a valid URL",
       "linkCancel": "Cancel",
       "heading": "Heading",
       "heading1": "Heading 1",
