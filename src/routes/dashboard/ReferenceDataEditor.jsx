@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
 import { Add, ArrowBackRounded, Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
@@ -75,6 +75,7 @@ export default function ReferenceDataEditor() {
             <ListItem
               key={item.id}
               divider
+              disablePadding
               secondaryAction={
                 <>
                   <IconButton edge="end" onClick={() => navigate(`${item.id}/edit`)} aria-label="Edit">
@@ -86,7 +87,9 @@ export default function ReferenceDataEditor() {
                 </>
               }
             >
-              <ListItemText primary={item[lang] || item.eng || item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
+              <ListItemButton component={Link} to={`${item.id}/edit`} sx={{ pr: 12 }}>
+                <ListItemText primary={item[lang] || item.eng || item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
+              </ListItemButton>
             </ListItem>
           ))}
         </List>

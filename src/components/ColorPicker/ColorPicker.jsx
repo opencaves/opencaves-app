@@ -23,7 +23,7 @@ const swatchSx = {
 // `colors` reference-data collection (the same one ReferenceDataEditor.jsx
 // manages), so every entity picking a color draws from - and can grow - the
 // same shared palette, instead of each place free-typing its own hex value.
-export default function ColorPicker({ label, value, onChange }) {
+export default function ColorPicker({ label, value, onChange, saveOnAdd = true }) {
   const { t } = useTranslation('colorPicker')
   const [colors] = colorsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -47,14 +47,18 @@ export default function ColorPicker({ label, value, onChange }) {
   }
 
   async function handleAddColor() {
-    setSaving(true)
-    try {
-      await colorsModel.save(pushId(), { hex: newColor })
-      invalidateData()
-      await getData()
+    if (saveOnAdd) {
+      setSaving(true)
+      try {
+        await colorsModel.save(pushId(), { hex: newColor })
+        invalidateData()
+        await getData()
+        handleSelect(newColor)
+      } finally {
+        setSaving(false)
+      }
+    } else {
       handleSelect(newColor)
-    } finally {
-      setSaving(false)
     }
   }
 
@@ -103,7 +107,16 @@ export default function ColorPicker({ label, value, onChange }) {
           ))}
 
           <Tooltip title={t('addColor')}>
-            <IconButton className="oc-color-picker--add-btn" size="small" onClick={() => setAdding(true)} sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}>
+            <IconButton
+              className="oc-color-picker--add-btn"
+              size="small"
+              onClick={() => {
+                const isValidHex = /^#[0-9a-fA-F]{6}$/.test(value)
+                setNewColor(isValidHex ? value : '#ffffff')
+                setAdding(true)
+              }}
+              sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}
+            >
               <AddRounded fontSize="small" />
             </IconButton>
           </Tooltip>

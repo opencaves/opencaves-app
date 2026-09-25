@@ -613,6 +613,7 @@
     }
   },
   "dashboard": {
-    "backToDashboard": "Retour au tableau de bord"
+    "backToDashboard": "Retour au tableau de bord",
+    "color": "Couleur"
   }
 }

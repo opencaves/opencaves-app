@@ -613,5 +613,9 @@
       "editCurrentCave": "Editar cenote actual",
       "addNewCave": "Añadir nuevo cenote"
     }
+  },
+  "dashboard": {
+    "backToDashboard": "Volver al panel",
+    "color": "Color"
   }
 }

@@ -615,6 +615,7 @@
     }
   },
   "dashboard": {
-    "backToDashboard": "Back to dashboard"
+    "backToDashboard": "Back to dashboard",
+    "color": "Color"
   }
 }
