@@ -46,6 +46,7 @@ function hasSavedViewState(viewState) {
 
 export default function OCMap() {
   const mapRef = useRef()
+  const mapContainerRef = useRef()
   const currentMarkerRef = useRef()
 
   const dataLoadingState = useSelector((state) => state.data.dataLoadingState)
@@ -90,6 +91,24 @@ export default function OCMap() {
   const { t } = useTranslation('map')
 
   const isSmall = useSmall()
+
+  // react-map-gl/mapbox-gl only resize the canvas on window resize, not on
+  // their own container resizing (e.g. a CSS-driven size change like the
+  // cave edit page's enlarge toggle) - without this, the extra revealed
+  // area after a container grows just stays blank.
+  useEffect(() => {
+    const container = mapContainerRef.current
+    if (!container) {
+      return undefined
+    }
+
+    const observer = new ResizeObserver(() => {
+      mapRef.current?.resize()
+    })
+    observer.observe(container)
+
+    return () => observer.disconnect()
+  }, [])
 
   const filteredCaves = useMemo(() => {
     const filters = {
@@ -582,7 +601,7 @@ export default function OCMap() {
   }
 
   return (
-    <Box className="oc-map oc-map-container">
+    <Box className="oc-map oc-map-container" ref={mapContainerRef}>
       <Fade timeout={theme.transitions.duration.complex} in={!mapReady || dataLoadingState.state === 'loading'} unmountOnExit={true}>
         <MapLoading />
       </Fade>
