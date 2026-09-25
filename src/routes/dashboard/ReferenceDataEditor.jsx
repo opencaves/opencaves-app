@@ -88,7 +88,32 @@ export default function ReferenceDataEditor() {
               }
             >
               <ListItemButton component={Link} to={`${item.id}/edit`} sx={{ pr: 12 }}>
-                <ListItemText primary={item[lang] || item.eng || item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
+                <ListItemText
+                  primary={
+                    collectionName === 'colors' ? (
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box
+                          component="span"
+                          sx={{
+                            display: 'inline-block',
+                            width: 12,
+                            height: 12,
+                            borderRadius: 0.5,
+                            bgcolor: item.hex || 'transparent',
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            mr: 1,
+                            flexShrink: 0,
+                          }}
+                        />
+                        {item.hex || item.id}
+                      </Box>
+                    ) : (
+                      item[lang] || item.eng || item.name || item.hex || item.code || item.id
+                    )
+                  }
+                  secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined}
+                />
               </ListItemButton>
             </ListItem>
           ))}
