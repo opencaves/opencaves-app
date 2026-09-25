@@ -616,7 +616,8 @@
     "backToDashboard": "Retour au tableau de bord",
     "color": "Couleur",
     "usersSection": "Utilisateurs",
-    "manageUsers": "Gérer les utilisateurs"
+    "manageUsers": "Gérer les utilisateurs",
+    "noSections": "Vous n'avez encore accès à aucune section du tableau de bord."
   },
   "usersAdmin": {
     "title": "Utilisateurs",

@@ -36,6 +36,16 @@ function SkipIfLoggedin({ children }) {
   return isLoggedIn ? <Navigate to={continueUrlRef.current ?? '/'} /> : children
 }
 
+function RequireAuth({ children }) {
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
+  }
+
+  return children
+}
+
 function RequireEditor({ children }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
@@ -79,6 +89,21 @@ function skipIfLoggedIn(importer) {
           <SkipIfLoggedin>
             <Component />
           </SkipIfLoggedin>
+        ),
+      }
+    },
+  }
+}
+
+function requireAuth(importer) {
+  return {
+    lazy: async () => {
+      const { default: Component } = await importer()
+      return {
+        Component: () => (
+          <RequireAuth>
+            <Component />
+          </RequireAuth>
         ),
       }
     },
@@ -178,7 +203,7 @@ const routes = [
           },
           {
             path: 'dashboard',
-            ...requireEditor(() => import('@/routes/dashboard/AdminDashboard.jsx')),
+            ...requireAuth(() => import('@/routes/dashboard/AdminDashboard.jsx')),
           },
           {
             path: 'dashboard/:collectionName',

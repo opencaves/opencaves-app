@@ -618,7 +618,8 @@
     "backToDashboard": "Back to dashboard",
     "color": "Color",
     "usersSection": "Users",
-    "manageUsers": "Manage users"
+    "manageUsers": "Manage users",
+    "noSections": "You don't have access to any dashboard sections yet."
   },
   "usersAdmin": {
     "title": "Users",

@@ -18,6 +18,7 @@ export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
   const roles = useSelector((state) => state.session.roles)
+  const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
 
   useEffect(() => {
@@ -31,28 +32,32 @@ export default function AdminDashboard() {
         Dashboard
       </Typography>
 
-      <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>
-        Caves
-      </Typography>
-      <List disablePadding>
-        <ListItemButton component={Link} to="/caves" divider>
-          <ListItemText primary="Manage caves" />
-        </ListItemButton>
-        <ListItemButton component={Link} to="/sistemas" divider>
-          <ListItemText primary="Manage sistemas" />
-        </ListItemButton>
-      </List>
+      {isEditor && (
+        <>
+          <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>
+            Caves
+          </Typography>
+          <List disablePadding>
+            <ListItemButton component={Link} to="/caves" divider>
+              <ListItemText primary="Manage caves" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/sistemas" divider>
+              <ListItemText primary="Manage sistemas" />
+            </ListItemButton>
+          </List>
 
-      <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
-        Reference data
-      </Typography>
-      <List disablePadding>
-        {REFERENCE_COLLECTIONS.map(({ collection, label }) => (
-          <ListItemButton key={collection} component={Link} to={`/${collection}`} divider>
-            <ListItemText primary={label} />
-          </ListItemButton>
-        ))}
-      </List>
+          <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
+            Reference data
+          </Typography>
+          <List disablePadding>
+            {REFERENCE_COLLECTIONS.map(({ collection, label }) => (
+              <ListItemButton key={collection} component={Link} to={`/${collection}`} divider>
+                <ListItemText primary={label} />
+              </ListItemButton>
+            ))}
+          </List>
+        </>
+      )}
 
       {isAdmin && (
         <>
@@ -65,6 +70,10 @@ export default function AdminDashboard() {
             </ListItemButton>
           </List>
         </>
+      )}
+
+      {!isEditor && !isAdmin && (
+        <Typography color="text.secondary">{t('noSections')}</Typography>
       )}
     </div>
   )
