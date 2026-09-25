@@ -134,7 +134,7 @@ const routes = [
             ...requireEditor(() => import('@/routes/dashboard/AdminDashboard.jsx')),
           },
           {
-            path: 'dashboard/reference/:collectionName',
+            path: 'dashboard/:collectionName',
             ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
           },
           {

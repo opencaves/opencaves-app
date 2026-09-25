@@ -43,7 +43,7 @@ export default function AdminDashboard() {
       </Typography>
       <List disablePadding>
         {REFERENCE_COLLECTIONS.map(({ collection, label }) => (
-          <ListItemButton key={collection} component={Link} to={`/dashboard/reference/${collection}`} divider>
+          <ListItemButton key={collection} component={Link} to={`/dashboard/${collection}`} divider>
             <ListItemText primary={label} />
           </ListItemButton>
         ))}

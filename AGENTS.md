@@ -54,7 +54,7 @@ Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...`
 
 - `/map`, `/map/:caveId` — public browsing (crawlable, listed in the dynamic `/sitemap.xml` Cloud Function)
 - `/caves`, `/caves/:caveId/edit`, `/sistemas`, `/sistemas/:sistemaId/edit` — editor-only CRUD, gated by the `RequireEditor` wrapper in `router.jsx`
-- `/dashboard`, `/dashboard/reference/:collectionName` — dashboard + generic reference-data CRUD (also editor-only)
+- `/dashboard`, `/dashboard/:collectionName` — dashboard + generic reference-data CRUD (also editor-only)
 - Route **component files live under `src/routes/` mirroring their URL** (e.g. `routes/caves/CaveEdit.jsx`, not `routes/dashboard/AdminCaveEdit.jsx`) — keep new pages consistent with this rather than dumping everything under `routes/dashboard/`.
 - Heavy/rarely-visited routes (admin section, auth pages, the 360°-photo viewer) use react-router's `lazy` property to keep them out of the main bundle. Heavy vendor libraries (mapbox-gl, MUI, Ionic, Firebase, Photo Sphere Viewer, Swiper) get their own chunks via `manualChunks` in `vite.config.js`.
 
