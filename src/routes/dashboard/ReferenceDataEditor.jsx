@@ -148,7 +148,7 @@ export default function ReferenceDataEditor() {
                 </>
               }
             >
-              <ListItemText primary={item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
+              <ListItemText primary={item[lang] || item.eng || item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
             </ListItem>
           ))}
         </List>
@@ -157,7 +157,7 @@ export default function ReferenceDataEditor() {
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>Delete this item?</DialogTitle>
         <DialogContent>
-          <DialogContentText>{deleteTarget?.name || deleteTarget?.hex || deleteTarget?.code || deleteTarget?.id} will be permanently deleted.</DialogContentText>
+          <DialogContentText>{deleteTarget?.[lang] || deleteTarget?.eng || deleteTarget?.name || deleteTarget?.hex || deleteTarget?.code || deleteTarget?.id} will be permanently deleted.</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteTarget(null)}>Cancel</Button>
