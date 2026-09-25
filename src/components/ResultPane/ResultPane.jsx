@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
 import CurrentCaveDetailsContentEdit from './CurrentCaveDetailsContentEdit.jsx'
 import { loadMediaCount, loadMediaList } from './MediaList.jsx'
+import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -39,6 +40,8 @@ export default function ResultPane() {
   const isSmall = useSmall()
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
+  const [dropzoneOpen, setDropzoneOpen] = useState(false)
+  const dragCounter = useRef(0)
 
   // The sistemas pane (and its own nested :sistemaId/edit pane) is only
   // reachable from edit mode and overlays the edit-mode pane, so it must
@@ -84,6 +87,60 @@ export default function ResultPane() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCave])
 
+  // Dragging a file anywhere over the window (not just onto a dedicated
+  // dropzone) opens the same full-screen upload prompt used in the media
+  // pane, for as long as a cave's details pane is open. Listening on
+  // `window` rather than a container element is what makes this cover the
+  // whole window, including the map area, which lives outside this
+  // component's own DOM subtree. The enter/leave counter is needed because
+  // the browser fires dragenter/dragleave for every child element the
+  // pointer passes over, not just once for the window as a whole.
+  useEffect(() => {
+    if (!currentCave) {
+      return
+    }
+
+    function onWindowDragEnter(event) {
+      if (!event.dataTransfer?.types.includes('Files')) {
+        return
+      }
+      event.preventDefault()
+      dragCounter.current += 1
+      setDropzoneOpen(true)
+    }
+
+    function onWindowDragOver(event) {
+      if (event.dataTransfer?.types.includes('Files')) {
+        event.preventDefault()
+      }
+    }
+
+    function onWindowDragLeave() {
+      dragCounter.current -= 1
+      if (dragCounter.current <= 0) {
+        dragCounter.current = 0
+        setDropzoneOpen(false)
+      }
+    }
+
+    function onWindowDrop() {
+      dragCounter.current = 0
+      setDropzoneOpen(false)
+    }
+
+    window.addEventListener('dragenter', onWindowDragEnter)
+    window.addEventListener('dragover', onWindowDragOver)
+    window.addEventListener('dragleave', onWindowDragLeave)
+    window.addEventListener('drop', onWindowDrop)
+
+    return () => {
+      window.removeEventListener('dragenter', onWindowDragEnter)
+      window.removeEventListener('dragover', onWindowDragOver)
+      window.removeEventListener('dragleave', onWindowDragLeave)
+      window.removeEventListener('drop', onWindowDrop)
+    }
+  }, [currentCave])
+
   if (currentCave) {
     // Guard against rendering, even briefly, before the redirect effect
     // above fires for a non-editor who navigated straight to the edit URL.
@@ -114,6 +171,13 @@ export default function ResultPane() {
           )
         }
         <Outlet />
+        <Dropzone
+          open={dropzoneOpen}
+          onDrop={() => {
+            dragCounter.current = 0
+            setDropzoneOpen(false)
+          }}
+        />
       </>
     )
 
