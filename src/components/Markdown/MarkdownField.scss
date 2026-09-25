@@ -1,0 +1,127 @@
+.oc-markdown-field {
+  &--editor-wrap {
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    transition: border-color 0.15s ease;
+    padding: 8.5px 14px;
+    box-sizing: border-box;
+
+    &:focus-within {
+      border-color: var(--md-sys-color-primary, #1976d2);
+      border-width: 2px;
+      padding: 7.5px 13px;
+    }
+  }
+
+  &--placeholder {
+    position: absolute;
+    pointer-events: none;
+    font-size: 1rem;
+  }
+
+  &--editor {
+    // Stretches the actual editable element to fill the wrapper's full
+    // min-height, instead of only occupying its own content's height -
+    // otherwise clicking below short content wouldn't focus the editor.
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    .milkdown {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ProseMirror {
+      outline: none;
+      flex: 1;
+      font-size: 1rem;
+      line-height: 1.5;
+
+      > * + * {
+        margin-top: 0.6em;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      h1 { font-size: 1.6em; }
+      h2 { font-size: 1.4em; }
+      h3 { font-size: 1.2em; }
+      h4, h5, h6 { font-size: 1.05em; }
+
+      ul, ol {
+        margin: 0;
+        padding-left: 1.4em;
+      }
+
+      li + li {
+        margin-top: 0.2em;
+      }
+
+      blockquote {
+        margin: 0;
+        padding-left: 1em;
+        border-left: 3px solid rgba(0, 0, 0, 0.15);
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      pre {
+        margin: 0;
+        padding: 0.6em 0.8em;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+        font-size: 0.9em;
+      }
+
+      code {
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 3px;
+        padding: 0.1em 0.3em;
+        font-size: 0.9em;
+      }
+
+      pre code {
+        background: none;
+        padding: 0;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.15);
+        margin: 0.6em 0;
+      }
+
+      a {
+        color: var(--md-sys-color-primary, #1976d2);
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding: 0.3em 0.6em;
+        text-align: left;
+      }
+
+      th {
+        background: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}

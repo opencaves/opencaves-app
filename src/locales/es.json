@@ -394,9 +394,7 @@
       "accessibilityDetails": "Detalles de accesibilidad",
       "description": "Descripción",
       "direction": "Cómo llegar",
-      "preview": "Vista previa",
-      "markdownTab": "Markdown",
-      "emptyPreview": "Nada que previsualizar todavía",
+      "emptyPreview": "Aún no se ha escrito nada",
       "save": "Guardar",
       "cancel": "Cancelar",
       "accessGroup": "Acceso",
@@ -461,7 +459,29 @@
       "empty": "No hay nada aquí"
     }
   },
+  "markdownField": {
+    "hint": "Puedes usar sintaxis Markdown (ej. **negrita**, # título, - lista).",
+    "toolbar": {
+      "bold": "Negrita",
+      "italic": "Cursiva",
+      "strikethrough": "Tachado",
+      "inlineCode": "Código en línea",
+      "heading": "Título",
+      "heading1": "Título 1",
+      "heading2": "Título 2",
+      "heading3": "Título 3",
+      "quote": "Cita",
+      "bulletList": "Lista con viñetas",
+      "orderedList": "Lista numerada",
+      "hr": "Línea horizontal",
+      "undo": "Deshacer",
+      "redo": "Rehacer",
+      "viewSource": "Ver el origen Markdown",
+      "viewFormatted": "Ver el texto formateado"
+    }
+  },
   "sistemaEditForm": {
+    "parentSistemaSearchPlaceholder": "Buscar",
     "length": "Distancia explorada (m)",
     "aka": "También conocido como",
     "addAka": "Añadir nombre",
@@ -478,8 +498,17 @@
   },
   "mapsPicker": {
     "addMap": "Agregar un mapa",
+    "removeMap": "Eliminar este mapa",
     "upload": "Subir un nuevo archivo",
-    "empty": "Aún no se han subido mapas"
+    "empty": "Aún no se han subido mapas",
+    "mapDate": "Fecha",
+    "mapDatePlaceholder": "AAAA, AAAA-MM o AAAA-MM-DD",
+    "mapAuthors": "Autores",
+    "addAuthor": "Añadir autor",
+    "removeAuthor": "Eliminar autor",
+    "mapLegend": "Leyenda",
+    "cancel": "Cancelar",
+    "add": "Agregar"
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -496,6 +525,9 @@
     "unnamedSistema": "(sin nombre)",
     "searchBtn": {
       "ariaLabel": "Buscar"
+    },
+    "editSistemaBtn": {
+      "ariaLabel": "Editar este sistema"
     },
     "searchPlaceholder": "Buscar",
     "akaLabel": "también conocido como"

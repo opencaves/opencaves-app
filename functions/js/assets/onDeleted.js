@@ -1,4 +1,4 @@
-import admin from 'firebase-admin'
+import { getStorage } from 'firebase-admin/storage'
 import { onDocumentDeleted } from 'firebase-functions/v2/firestore'
 import config from '../resize-images/config.js'
 import { THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
@@ -9,7 +9,7 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   const { imageSizes, imageTypes } = config
   const assetId = event.params.assetId
   const { caveId, fullPath } = data
-  const bucket = admin.storage().bucket(BUCKET_NAME)
+  const bucket = getStorage().bucket(BUCKET_NAME)
   const deleteFilesPromises = []
 
   deleteFilesPromises.push(bucket.file(fullPath).delete())

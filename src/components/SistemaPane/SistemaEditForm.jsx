@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
@@ -122,6 +122,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
+  const [parentSearch, setParentSearch] = useState('')
+  const parentSearchInputRef = useRef(null)
 
   useEffect(() => {
     let cancelled = false
@@ -222,13 +224,18 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
     return <Typography className="oc-sistema-edit-form">Loading…</Typography>
   }
 
+  const areasById = new Map(areas.map((a) => [a.id, a.name]))
   const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
+  const parentSearchQuery = parentSearch.trim().toLowerCase()
+  const visibleParentSistemas = parentSearchQuery
+    ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery))
+    : otherSistemas
   const hasInvalidExplorationDate = form.explorations.some((e) => e.date && !PARTIAL_DATE_PATTERN.test(e.date))
 
   return (
     <Box className="oc-sistema-edit-form">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {isNew ? 'New sistema' : form.name || sistemaId}
+        {form.name || sistemaId}
       </Typography>
 
       <Grid container spacing={2} sx={{ maxWidth: 720 }}>
@@ -237,11 +244,55 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={6}>
-          <TextField select label="Parent sistema" fullWidth {...field('parentSistemaId')}>
+          <TextField
+            select
+            label="Parent sistema"
+            fullWidth
+            {...field('parentSistemaId')}
+            slotProps={{
+              select: {
+                // A fixed width keeps the menu from resizing horizontally as
+                // the filtered list changes. The search itself is only
+                // cleared once the close transition has fully finished
+                // (onExited, not onClose) - clearing it any earlier would
+                // repopulate the full list while the menu is still visibly
+                // fading out.
+                MenuProps: {
+                  autoFocus: false,
+                  slotProps: {
+                    paper: { sx: { width: 320 } },
+                    transition: { onExited: () => setParentSearch('') },
+                  },
+                },
+              },
+            }}
+          >
+            <ListSubheader
+              sx={{ px: 1.5, py: 0.5 }}
+              onKeyDown={(e) => {
+                if (e.key !== 'Escape') e.stopPropagation()
+              }}
+            >
+              <TextField
+                inputRef={parentSearchInputRef}
+                autoFocus
+                size="small"
+                fullWidth
+                placeholder={t('parentSistemaSearchPlaceholder')}
+                value={parentSearch}
+                onChange={(e) => setParentSearch(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </ListSubheader>
             <MenuItem value="">(none)</MenuItem>
-            {otherSistemas.map((s) => (
+            {visibleParentSistemas.map((s) => (
               <MenuItem key={s.id} value={s.id}>
                 {s.name || s.id}
+                {areasById.get(s.area) && (
+                  <Typography component="span" sx={{ ml: 0.5, color: 'text.disabled' }}>
+                    ({areasById.get(s.area)})
+                  </Typography>
+                )}
               </MenuItem>
             ))}
           </TextField>
@@ -275,10 +326,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           <CoordinateField field="sistemaLocation" label="Location" longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
         </Grid>
 
-        <Grid size={6}>
+        <Grid size={4}>
           <TextField label={t('length')} type="number" fullWidth {...field('length')} />
         </Grid>
-        <Grid size={6}>
+        <Grid size={4}>
           <TextField label="Max depth (m)" type="number" fullWidth {...field('maxDepth')} />
         </Grid>
 
@@ -291,7 +342,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={3} resizable />
+          <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
         </Grid>
 
         <Grid size={12}>

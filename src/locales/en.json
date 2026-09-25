@@ -396,9 +396,7 @@
       "accessibilityDetails": "Accessibility details",
       "description": "Description",
       "direction": "Getting there",
-      "preview": "Preview",
-      "markdownTab": "Markdown",
-      "emptyPreview": "Nothing to preview yet",
+      "emptyPreview": "Nothing written yet",
       "save": "Save",
       "cancel": "Cancel"
     }
@@ -461,8 +459,30 @@
       "empty": "There is nothing here"
     }
   },
+  "markdownField": {
+    "hint": "You can use Markdown syntax (e.g. **bold**, # heading, - list).",
+    "toolbar": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "strikethrough": "Strikethrough",
+      "inlineCode": "Inline code",
+      "heading": "Heading",
+      "heading1": "Heading 1",
+      "heading2": "Heading 2",
+      "heading3": "Heading 3",
+      "quote": "Quote",
+      "bulletList": "Bullet list",
+      "orderedList": "Numbered list",
+      "hr": "Horizontal rule",
+      "undo": "Undo",
+      "redo": "Redo",
+      "viewSource": "View Markdown source",
+      "viewFormatted": "View formatted text"
+    }
+  },
   "sistemaEditForm": {
-    "length": "Total linear distance explored (m)",
+    "parentSistemaSearchPlaceholder": "Search",
+    "length": "Total distance explored (m)",
     "aka": "Also known as",
     "addAka": "Add name",
     "removeAka": "Remove name",
@@ -478,8 +498,17 @@
   },
   "mapsPicker": {
     "addMap": "Add a map",
+    "removeMap": "Remove this map",
     "upload": "Upload a new file",
-    "empty": "No maps uploaded yet"
+    "empty": "No maps uploaded yet",
+    "mapDate": "Date",
+    "mapDatePlaceholder": "YYYY, YYYY-MM, or YYYY-MM-DD",
+    "mapAuthors": "Authors",
+    "addAuthor": "Add author",
+    "removeAuthor": "Remove author",
+    "mapLegend": "Legend",
+    "cancel": "Cancel",
+    "add": "Add"
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -496,6 +525,9 @@
     "unnamedSistema": "(unnamed)",
     "searchBtn": {
       "ariaLabel": "Search"
+    },
+    "editSistemaBtn": {
+      "ariaLabel": "Edit this sistema"
     },
     "searchPlaceholder": "Search",
     "akaLabel": "aka"

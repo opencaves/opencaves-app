@@ -50,7 +50,11 @@ export default function ReferenceDataEditor() {
   }, [collectionName])
 
   if (!config) {
-    return <Typography className="oc-reference-data-editor" color="error">Unknown reference collection: {collectionName}</Typography>
+    return (
+      <Typography className="oc-reference-data-editor" color="error">
+        Unknown reference collection: {collectionName}
+      </Typography>
+    )
   }
 
   function startNew() {
@@ -145,7 +149,7 @@ export default function ReferenceDataEditor() {
                 </>
               }
             >
-              <ListItemText primary={item.name || item.hex || item.code || item.id} secondary={item.id} />
+              <ListItemText primary={item.name || item.hex || item.code || item.id} secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined} />
             </ListItem>
           ))}
         </List>

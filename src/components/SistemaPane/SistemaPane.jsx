@@ -1,8 +1,8 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Collapse, Drawer, Fab, IconButton, List, ListItemButton, ListItemText, TextField, Typography, styled, useTheme } from '@mui/material'
-import { AddRounded, ArrowBackRounded, ArrowForwardRounded, SearchRounded } from '@mui/icons-material'
+import { Box, Collapse, Drawer, Fab, IconButton, List, ListItem, ListItemButton, ListItemText, TextField, Typography, styled, useTheme } from '@mui/material'
+import { AddRounded, ArrowBackRounded, ArrowForwardRounded, EditRounded, SearchRounded } from '@mui/icons-material'
 import pushId from 'unique-push-id'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -174,22 +174,33 @@ export default function SistemaPane() {
                 const areaName = areasById.get(sistema.area)
                 const aka = sistema.aka || []
                 return (
-                  <ListItemButton key={sistema.id} component={Link} to={`${sistema.id}/edit`} divider>
-                    <ListItemText
-                      primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
-                          {sistema.name || t('unnamedSistema')}
-                          {areaName && (
-                            <Typography component="span" sx={{ ml: 0.5, color: 'text.secondary' }}>
-                              ({areaName})
-                            </Typography>
-                          )}
-                        </Box>
-                      }
-                      secondary={[sistema.id, aka.length ? `${t('akaLabel')}: ${aka.join(', ')}` : null].filter(Boolean).join(' · ')}
-                    />
-                  </ListItemButton>
+                  <ListItem
+                    key={sistema.id}
+                    divider
+                    disablePadding
+                    secondaryAction={
+                      <IconButton edge="end" component={Link} to={`${sistema.id}/edit`} aria-label={t('editSistemaBtn.ariaLabel')}>
+                        <EditRounded fontSize="small" />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemButton onClick={() => navigate(`${sistema.id}/edit`)} sx={{ pr: 6 }}>
+                      <ListItemText
+                        primary={
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1, flexShrink: 0 }} />
+                            {sistema.name || t('unnamedSistema')}
+                            {areaName && (
+                              <Typography component="span" sx={{ ml: 0.5, color: 'text.secondary' }}>
+                                ({areaName})
+                              </Typography>
+                            )}
+                          </Box>
+                        }
+                        secondary={[sistema.id, aka.length ? `${t('akaLabel')}: ${aka.join(', ')}` : null].filter(Boolean).join(' · ')}
+                      />
+                    </ListItemButton>
+                  </ListItem>
                 )
               })}
             </List>

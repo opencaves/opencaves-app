@@ -74,7 +74,7 @@ function NameTranslationsField({ label, rows, languages, onChange, addLabel, rem
 
 function MarkdownField({ label, value, onChange, minRows, resizable }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} editTabLabel={t('markdownTab')} previewTabLabel={t('preview')} emptyPreviewLabel={t('emptyPreview')} />
+  return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
 }
 
 // Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
@@ -174,7 +174,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   }
 
   function exitEditMode() {
-    navigate(`/map/${cave.id}`)
+    // replace: true so Cancel/Save never leave a stray edit-mode entry
+    // behind in history - closing should be a one-way exit, not something
+    // a later back-navigation could reopen.
+    navigate(`/map/${cave.id}`, { replace: true })
   }
 
   async function handleSave() {
@@ -281,8 +284,18 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         {...field('sistemaId')}
         slotProps={{
           select: {
-            MenuProps: { autoFocus: false },
-            onClose: () => setSistemaSearch(''),
+            // A fixed width keeps the menu from resizing horizontally as
+            // the filtered list changes. The search itself is only cleared
+            // once the close transition has fully finished (onExited, not
+            // onClose) - clearing it any earlier would repopulate the full
+            // list while the menu is still visibly fading out.
+            MenuProps: {
+              autoFocus: false,
+              slotProps: {
+                paper: { sx: { width: 320 } },
+                transition: { onExited: () => setSistemaSearch('') },
+              },
+            },
           },
         }}
       >
