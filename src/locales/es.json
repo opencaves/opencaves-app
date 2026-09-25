@@ -616,6 +616,23 @@
   },
   "dashboard": {
     "backToDashboard": "Volver al panel",
-    "color": "Color"
+    "color": "Color",
+    "usersSection": "Usuarios",
+    "manageUsers": "Administrar usuarios"
+  },
+  "usersAdmin": {
+    "title": "Usuarios",
+    "searchLabel": "Buscar por correo",
+    "loading": "Cargando…",
+    "count": "{{count}} usuario(s)",
+    "disabled": "Deshabilitado",
+    "role": {
+      "editor": "Editor",
+      "admin": "Admin"
+    },
+    "delete": "Eliminar",
+    "deleteTitle": "¿Eliminar este usuario?",
+    "deleteConfirm": "{{email}} será eliminado permanentemente. Esta acción no se puede deshacer.",
+    "cancel": "Cancelar"
   }
 }

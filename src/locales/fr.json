@@ -614,6 +614,23 @@
   },
   "dashboard": {
     "backToDashboard": "Retour au tableau de bord",
-    "color": "Couleur"
+    "color": "Couleur",
+    "usersSection": "Utilisateurs",
+    "manageUsers": "Gérer les utilisateurs"
+  },
+  "usersAdmin": {
+    "title": "Utilisateurs",
+    "searchLabel": "Rechercher par courriel",
+    "loading": "Chargement…",
+    "count": "{{count}} utilisateur(s)",
+    "disabled": "Désactivé",
+    "role": {
+      "editor": "Éditeur",
+      "admin": "Admin"
+    },
+    "delete": "Supprimer",
+    "deleteTitle": "Supprimer cet utilisateur?",
+    "deleteConfirm": "{{email}} sera définitivement supprimé. Cette action est irréversible.",
+    "cancel": "Annuler"
   }
 }

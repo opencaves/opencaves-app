@@ -7,6 +7,7 @@ export * from './users/onDelete.js'
 export * from './users/blocking-functions.js'
 export * from './users/assignRole.js'
 export * from './users/ensureEditorRole.js'
+export * from './users/manageUsers.js'
 
 export * from './assets/setCoverImage.js'
 export * from './assets/onUploaded.js'

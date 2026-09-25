@@ -51,6 +51,21 @@ function RequireEditor({ children }) {
   return children
 }
 
+function RequireAdmin({ children }) {
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const roles = useSelector((state) => state.session.roles)
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
+  }
+
+  if (!roles.includes('admin')) {
+    return <Navigate to="/" />
+  }
+
+  return children
+}
+
 // Code-splitting helpers for react-router's data-router `lazy` route
 // property: each of these keeps a heavy/rarely-visited page (the whole
 // admin section, the 360°-photo viewer, auth pages) out of the initial
@@ -79,6 +94,21 @@ function requireEditor(importer) {
           <RequireEditor>
             <Component />
           </RequireEditor>
+        ),
+      }
+    },
+  }
+}
+
+function requireAdmin(importer) {
+  return {
+    lazy: async () => {
+      const { default: Component } = await importer()
+      return {
+        Component: () => (
+          <RequireAdmin>
+            <Component />
+          </RequireAdmin>
         ),
       }
     },
@@ -183,6 +213,10 @@ const routes = [
           {
             path: 'sistemas/:sistemaId/edit',
             ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
+          },
+          {
+            path: 'users',
+            ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
           },
         ],
       },

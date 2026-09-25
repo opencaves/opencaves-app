@@ -616,6 +616,23 @@
   },
   "dashboard": {
     "backToDashboard": "Back to dashboard",
-    "color": "Color"
+    "color": "Color",
+    "usersSection": "Users",
+    "manageUsers": "Manage users"
+  },
+  "usersAdmin": {
+    "title": "Users",
+    "searchLabel": "Search by email",
+    "loading": "Loading…",
+    "count": "{{count}} user(s)",
+    "disabled": "Disabled",
+    "role": {
+      "editor": "Editor",
+      "admin": "Admin"
+    },
+    "delete": "Delete",
+    "deleteTitle": "Delete this user?",
+    "deleteConfirm": "{{email}} will be permanently deleted. This cannot be undone.",
+    "cancel": "Cancel"
   }
 }
