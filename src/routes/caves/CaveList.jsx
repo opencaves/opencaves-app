@@ -25,7 +25,7 @@ export default function CaveList() {
   }, [caves, search])
 
   return (
-    <div>
+    <div className="oc-cave-list">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Caves</Typography>
 
       <Button component={Link} to={`/caves/${pushId()}/edit`} variant="contained" sx={{ mb: 2, mr: 2 }}>

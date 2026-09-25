@@ -24,7 +24,7 @@ export default function MapPage() {
   const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 
   return (
-    <IonApp>
+    <IonApp className="oc-map">
       <AddMediasProvider>
         <SearchBar />
         <Suspense fallback={<MapLoading />}>

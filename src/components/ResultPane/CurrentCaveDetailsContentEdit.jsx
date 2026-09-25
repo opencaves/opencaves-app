@@ -35,7 +35,7 @@ function RepeatableTextField({ label, values, onChange, addLabel, removeLabel })
   }
 
   return (
-    <Box>
+    <Box className="oc-repeatable-text-field">
       <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
         {label}
       </Typography>
@@ -76,7 +76,7 @@ function NameTranslationsField({ label, rows, languages, onChange, addLabel, rem
   }
 
   return (
-    <Box>
+    <Box className="oc-name-translations-field">
       <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
         {label}
       </Typography>
@@ -283,7 +283,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   }
 
   return (
-    <Box ref={contentRef} className="oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
+    <Box ref={contentRef} className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
       <TextField label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />

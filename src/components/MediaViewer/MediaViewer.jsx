@@ -35,6 +35,7 @@ function PanoViewer({ src }) {
   return (
     <div
       ref={containerRef}
+      className="oc-media-viewer"
       style={{
         width: '100%',
         height: '100%'
@@ -71,7 +72,7 @@ function PictureViewer({ media }) {
     // initialPositionY={initialY}
     >
       <TransformComponent
-        wrapperClass='oc-media-viewer-wrapper'
+        wrapperClass='oc-media-viewer oc-media-viewer-wrapper'
         contentClass='oc-media-viewer-content'
         wrapperStyle={{
           width: '100%',

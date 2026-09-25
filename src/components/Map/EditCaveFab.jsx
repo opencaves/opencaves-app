@@ -39,6 +39,7 @@ export default function EditCaveFab() {
 
   return (
     <SpeedDial
+      className="oc-edit-cave-fab"
       ariaLabel={t('ariaLabel')}
       icon={<SpeedDialIcon icon={<EditRounded />} />}
       open={open}

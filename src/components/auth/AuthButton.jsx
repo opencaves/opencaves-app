@@ -1,10 +1,11 @@
 import Button from '@mui/material/Button'
 
-export default function AuthButton({ Component = Button, disabled, startIcon, endIcon, sx = {}, children, ...props }) {
+export default function AuthButton({ Component = Button, disabled, startIcon, endIcon, sx = {}, className, children, ...props }) {
 
   return (
     <Component
       variant='contained'
+      className={`oc-auth-button ${className || ''}`.trim()}
       sx={{
         ...sx,
         '> .MuiButton-startIcon': {

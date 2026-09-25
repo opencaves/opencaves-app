@@ -4,7 +4,7 @@ import EmailFastOutlineSvg from '@/images/icons/email-fast-outline.svg?react'
 
 export function NavigateNextRounded() {
   return (
-    <SvgIcon inheritViewBox>
+    <SvgIcon className="oc-navigate-next-rounded" inheritViewBox>
       <NavigateNextRoundedSvg />
     </SvgIcon>
   )
@@ -12,7 +12,7 @@ export function NavigateNextRounded() {
 
 export function EmailFastOutline() {
   return (
-    <SvgIcon inheritViewBox>
+    <SvgIcon className="oc-email-fast-outline" inheritViewBox>
       <EmailFastOutlineSvg />
     </SvgIcon>
   )

@@ -32,7 +32,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
 
   function Container({ children }) {
     return (
-      <Box sx={{ position: 'relative', width, aspectRatio }}>
+      <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio }}>
         {children}
       </Box>
     )

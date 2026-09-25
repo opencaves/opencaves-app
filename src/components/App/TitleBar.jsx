@@ -16,6 +16,7 @@ export default function TitleBar() {
   return (
     isWindowControlsOverlayVisible && (
       <Grid
+        className="oc-title-bar"
         container
         sx={{
           position: 'absolute',
@@ -36,7 +37,7 @@ export default function TitleBar() {
           },
         }}
       >
-        <Grid container sx={{ alignItems: 'center' }}>
+        <Grid className="oc-title-bar--logo" container sx={{ alignItems: 'center' }}>
           <LogoIcon
             colorScheme="dark"
             sx={{
@@ -44,7 +45,7 @@ export default function TitleBar() {
             }}
           />
         </Grid>
-        <Grid container sx={{ alignItems: 'center' }}>
+        <Grid className="oc-title-bar--title" container sx={{ alignItems: 'center' }}>
           <Typography
             variant="titlebarTitle"
             sx={{

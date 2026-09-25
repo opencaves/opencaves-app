@@ -21,7 +21,7 @@ export default function AdminDashboard() {
   }, [])
 
   return (
-    <div>
+    <div className="oc-admin-dashboard">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Data admin</Typography>
 
       <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>Caves</Typography>

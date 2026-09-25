@@ -47,6 +47,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
   if (!currentMedia) {
     return (
       <Main
+        className="oc-media-pane-details"
         sx={{
           alignItems: 'center',
           justifyContent: 'center',
@@ -111,7 +112,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
   }
 
   return (
-    <Main>
+    <Main className="oc-media-pane-details">
       <Lightbox
         index={currentIndex}
         slides={slides}

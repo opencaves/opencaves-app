@@ -15,7 +15,7 @@ export default function SistemaList() {
   }, [])
 
   return (
-    <div>
+    <div className="oc-sistema-list">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Sistemas</Typography>
 
       <Button component={Link} to={`/sistemas/${pushId()}/edit`} variant="contained" sx={{ mb: 2 }}>

@@ -61,6 +61,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   return (
     <Box
       {...props}
+      className={`oc-media-thumbnail ${props.className || ''}`.trim()}
       sx={{
         '--_menu-opacity': 0,
         '--_menu-transition-duration': 'var(--md-transition-duration-complex)',
@@ -87,6 +88,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           relative='path'
           replace
           aria-label={t('mediaThumbnailItem.openBtn.ariaLabel')}
+          className="oc-media-thumbnail--link"
           sx={{
             borderRadius: mediaItemRadius,
             backgroundColor: '#181818',
@@ -107,6 +109,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           />
         </ButtonBase>
         <Box
+          className="oc-media-thumbnail--toolbar"
           sx={{
             position: 'absolute',
             left: 0,

@@ -454,6 +454,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   return (
     <Dialog
+      className="oc-signup-with-email"
       fullScreen={isSmall}
       fullWidth
       maxWidth={isMd ? 'sm' : 'md'}
@@ -559,6 +560,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
           <Box sx={{ width: '100%' }}>
             <swiper-container
+              className="oc-signup-with-email--steps"
               ref={setSwiperContainerRef}
               initial-slide={initialStep}
               allow-touch-move={import.meta.env.DEV}
@@ -570,7 +572,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 0 - Enter email
                */}
-              <swiper-slide data-step="email">
+              <swiper-slide className="oc-signup-with-email--step-email" data-step="email">
                 <Section>
                   <SectionForm>
                     <SectionFields>
@@ -598,7 +600,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 1 - Email already in use / Check email
                */}
-              <swiper-slide data-step="emailSentAndEmailVerification" data-sub-step={emailAlreadyInUse ? 'emailInUse' : 'emailSentNotification'}>
+              <swiper-slide className="oc-signup-with-email--step-email-sent" data-step="emailSentAndEmailVerification" data-sub-step={emailAlreadyInUse ? 'emailInUse' : 'emailSentNotification'}>
                 <Section>
                   {emailAlreadyInUse ? (
                     <>
@@ -659,7 +661,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 2 - Email callback
                */}
-              <swiper-slide data-step="emailCallback" data-sub-step={showInvalidActionCodeStep ? 'invalidActionCode' : showRetypeEmailStep ? 'retypeEmail' : null}>
+              <swiper-slide className="oc-signup-with-email--step-email-callback" data-step="emailCallback" data-sub-step={showInvalidActionCodeStep ? 'invalidActionCode' : showRetypeEmailStep ? 'retypeEmail' : null}>
                 <Section>
                   {
                     /*
@@ -739,7 +741,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 3 - Enter first name / Last name
                */}
-              <swiper-slide data-step="name">
+              <swiper-slide className="oc-signup-with-email--step-name" data-step="name">
                 <Section>
                   <SectionForm>
                     <SectionFields>
@@ -771,7 +773,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 4 - Enter password
                */}
-              <swiper-slide data-step="password">
+              <swiper-slide className="oc-signup-with-email--step-password" data-step="password">
                 <Section>
                   <SectionForm>
                     <SectionDetails>{ts('password.details')}</SectionDetails>
@@ -793,7 +795,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
               {/*
                * Step 5 - Registration completed
                */}
-              <swiper-slide data-step="created">
+              <swiper-slide className="oc-signup-with-email--step-created" data-step="created">
                 <Section>
                   <CheckCircleOutlineRounded
                     sx={{

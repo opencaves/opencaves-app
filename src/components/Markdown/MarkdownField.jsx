@@ -8,7 +8,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [tab, setTab] = useState('edit')
 
   return (
-    <Box>
+    <Box className="oc-markdown-field">
       <Typography variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }}>
         {label}
       </Typography>

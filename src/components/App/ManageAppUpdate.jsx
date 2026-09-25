@@ -31,10 +31,12 @@ export default function ManageAppUpdate() {
 
   return (
     <Snackbar
+      className="oc-manage-app-update"
       open={open}
       message={t('updateAvailable.message')}
       action={
         <Button
+          className="oc-manage-app-update--reload-button"
           color='secondary'
           onClick={onSnackbarBtnClick}
         >

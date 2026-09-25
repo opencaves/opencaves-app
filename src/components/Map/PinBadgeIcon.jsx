@@ -9,7 +9,7 @@ import PinIcon from '@/images/map/pin.svg?react'
 // full icon's bounding box to land in that head, not straddle the taper.
 export default function PinBadgeIcon({ size = 20, overlay: Overlay }) {
   return (
-    <Box sx={{ position: 'relative', width: size, height: size }}>
+    <Box className="oc-pin-badge-icon" sx={{ position: 'relative', width: size, height: size }}>
       <SvgIcon component={PinIcon} inheritViewBox htmlColor="white" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', color: 'white' }} />
       {Overlay && <Overlay sx={{ position: 'absolute', top: '32%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: '#111827', lineHeight: 1 }} />}
     </Box>

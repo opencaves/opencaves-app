@@ -103,7 +103,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   return (
-    <Box>
+    <Box className="oc-coordinate-field">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <Typography variant="caption" color="text.secondary">
           {label}

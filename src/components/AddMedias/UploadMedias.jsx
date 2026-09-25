@@ -83,12 +83,13 @@ export default function UploadMedias({ medias }) {
 
   return (
     <>
-      <Snackbar open={uploading} autoHide={false}>
+      <Snackbar className="oc-upload-medias" open={uploading} autoHide={false}>
         <UploadInfo total={medias.length} progress={progress} current={current} />
       </Snackbar>
 
       {errorAlertOpen && (
         <ErrorAlert
+          className="oc-upload-medias--error-alert"
           open={true}
           onClose={onErrorAlertClose}
           header={t('errorHeader')}
@@ -104,7 +105,7 @@ export default function UploadMedias({ medias }) {
       )}
 
       {done && (
-        <Snackbar open={uploadComplete} autoHide={false}>
+        <Snackbar className="oc-upload-medias--complete" open={uploadComplete} autoHide={false}>
           <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
             <Alert>
               {t('success', { count: done.count })}
@@ -121,8 +122,9 @@ function WrongMediaTypeMessage({ fileNames }) {
 
   return (
     <>
-      <Typography color="text.secondary">{t('wrongMediaType', { count: fileNames.length })}</Typography>
+      <Typography className="oc-wrong-media-type-message" color="text.secondary">{t('wrongMediaType', { count: fileNames.length })}</Typography>
       <Grid
+        className="oc-wrong-media-type-message--files"
         container
         sx={{
           gap: 0.5,
@@ -160,6 +162,7 @@ const UploadInfo = forwardRef((props, ref) => {
   return (
     <Card
       ref={ref}
+      className="oc-upload-info"
       elevation={6}
       sx={{
         flexGrow: 1,
@@ -241,6 +244,7 @@ const SnackbarContent = forwardRef((props, ref) => {
         ...sx,
       }}
       {...otherProps}
+      className={`oc-snackbar-content ${otherProps.className || ''}`.trim()}
     >
       {children}
     </Card>

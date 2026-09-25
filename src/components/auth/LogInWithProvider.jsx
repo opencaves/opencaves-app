@@ -8,7 +8,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import useAnonymous from '@/hooks/useAnonymous.jsx'
 import { auth } from '@/config/firebase.js'
 
-export default function LogInWithProvider({ Provider, message, color, onSuccess, Logo, sx, ...props }) {
+export default function LogInWithProvider({ Provider, message, color, onSuccess, Logo, sx, className, ...props }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(false)
@@ -143,6 +143,7 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
 
   return (
     <AuthButton
+      className={`oc-log-in-with-provider ${className || ''}`.trim()}
       startIcon={
         <Logo width={18} height={18} aria-hidden="true" focusable="false" />
       }

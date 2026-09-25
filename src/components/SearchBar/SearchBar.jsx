@@ -304,7 +304,7 @@ export default function SearchBar() {
   }, [searchBarRef])
 
   return (
-    <div onBlur={onSearchbarBlur}>
+    <div className="oc-search-bar" onBlur={onSearchbarBlur}>
       <Box
         id="oc-search-bar"
         ref={searchBarRef}

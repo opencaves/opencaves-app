@@ -9,7 +9,7 @@ export default function NoMatch() {
   const theme = useTheme()
 
   return (
-    <Grid container className="no-match--container" direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid container className="oc-no-match no-match--container" direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
       <Grid className="no-match--box">
         <h1 className="no-match--header">{t('header')}</h1>
         <p>{t('description')}</p>

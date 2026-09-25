@@ -70,7 +70,7 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   }, [onValidityChange])
 
   return (
-    <Box>
+    <Box className="oc-password-input">
       <TextField
         {...others}
         ref={ref}

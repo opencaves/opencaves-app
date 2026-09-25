@@ -50,7 +50,7 @@ export default function ReferenceDataEditor() {
   }, [collectionName])
 
   if (!config) {
-    return <Typography color="error">Unknown reference collection: {collectionName}</Typography>
+    return <Typography className="oc-reference-data-editor" color="error">Unknown reference collection: {collectionName}</Typography>
   }
 
   function startNew() {
@@ -101,7 +101,7 @@ export default function ReferenceDataEditor() {
   }
 
   return (
-    <div>
+    <div className="oc-reference-data-editor">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
         {config.label}
       </Typography>

@@ -80,7 +80,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
           <CoverImage caveId={cave.id} />
         )
       }
-      <Box className='oc-result-pane--header'>
+      <Box className='oc-current-cave-details-header oc-result-pane--header'>
         <Box className='oc-cave-details-header'>
           <Typography ref={titleRef} variant='caveDetailsHeader'>{caveName}</Typography>
           {

@@ -9,13 +9,14 @@ export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
   const theme = useTheme()
 
   if (!isLoggedIn) {
-    return <LogoIcon colorScheme={logoColorScheme} sx={logoSx} />
+    return <LogoIcon className="oc-app-menu-icon" colorScheme={logoColorScheme} sx={logoSx} />
   }
 
   const initial = user.displayName?.trim()?.[0]?.toUpperCase()
 
   return (
     <Avatar
+      className="oc-app-menu-icon"
       src={user.photoURL || undefined}
       alt={user.displayName}
       sx={{

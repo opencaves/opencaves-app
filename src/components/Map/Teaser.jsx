@@ -7,6 +7,7 @@ export default function Teaser(cave) {
   const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
   return (
     <Popup
+      className="oc-teaser"
       longitude={longitude}
       latitude={latitude}>
       {caveName}

@@ -69,7 +69,7 @@ export default function AppBar(props) {
 
   return (
     <>
-      <MUIAppBar component="nav">
+      <MUIAppBar className="oc-app-bar" component="nav">
         <Toolbar>
           {isSmall && (
             <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} edge="start" onClick={handleDrawerToggle} sx={{ mr: { xs: 1, sm: 2 } }}>
@@ -133,6 +133,7 @@ export default function AppBar(props) {
       {isSmall && (
         <nav>
           <Drawer
+            className="oc-app-bar--drawer"
             container={container}
             variant="temporary"
             open={mobileOpen}

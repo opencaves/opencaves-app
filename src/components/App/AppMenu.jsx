@@ -16,7 +16,7 @@ import useSession from '@/hooks/useSession.jsx'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { appName } from '@/config/app.js'
 
-export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
+export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...props }) {
   const dispatch = useDispatch()
   const hasSession = useSession()
   const user = useSelector((state) => state.session.user)
@@ -62,6 +62,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
       <Tooltip title={t('tooltip')}>
         <Button
           {...props}
+          className={`oc-app-menu ${className || ''}`.trim()}
           variant={isSmall ? 'text' : 'contained'}
           aria-label={t('ariaLabel')}
           onClick={handleClick}
@@ -84,6 +85,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, ...props }) {
         </Button>
       </Tooltip>
       <Menu
+        className="oc-app-menu--menu"
         id="app-menu"
         component="nav"
         anchorEl={anchorEl}

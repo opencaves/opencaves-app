@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 
-export default function Or({ strokeWidth, sx, children, ...props }) {
+export default function Or({ strokeWidth, sx, children, className, ...props }) {
 
   return (
     <Box
@@ -36,6 +36,7 @@ export default function Or({ strokeWidth, sx, children, ...props }) {
         },
         ...sx
       }}
+      className={`oc-or ${className || ''}`.trim()}
       {...props}
     >
       {children}

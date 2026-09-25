@@ -27,6 +27,7 @@ const TextInput = forwardRef(function TextInput(props, ref) {
     onValidityChange = () => { },
     onKeyUp = () => { },
     onChange,
+    className,
     ...others
   } = props
 
@@ -120,6 +121,7 @@ const TextInput = forwardRef(function TextInput(props, ref) {
   return (
     <TextField
       {...others}
+      className={`oc-text-input ${className || ''}`.trim()}
       ref={ref}
       inputRef={inputRef}
       label={label}

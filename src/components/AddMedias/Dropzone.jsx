@@ -89,7 +89,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
 
   return (
     <>
-      <Dialog open={_open} fullScreen={true} onClose={handleClose} transitionDuration={350}>
+      <Dialog className="oc-dropzone" open={_open} fullScreen={true} onClose={handleClose} transitionDuration={350}>
         <Grid container {...getRootProps({ sx })}>
           <Grid className="oc-dropzone" container direction="column" sx={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <SvgIcon inheritViewBox sx={{ fontSize: '10rem' }} color="primary">

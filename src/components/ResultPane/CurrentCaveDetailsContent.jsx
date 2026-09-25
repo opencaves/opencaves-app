@@ -115,7 +115,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   }
 
   return (
-    <Box className="oc-result-pane--content">
+    <Box className="oc-current-cave-details-content oc-result-pane--content">
       <QuickActions cave={cave}></QuickActions>
 
       <Divider />

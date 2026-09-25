@@ -209,11 +209,11 @@ export default function CaveEdit() {
   }
 
   if (loading) {
-    return <Typography>Loading…</Typography>
+    return <Typography className="oc-cave-edit">Loading…</Typography>
   }
 
   return (
-    <div>
+    <div className="oc-cave-edit">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
         {isNew ? 'New cave' : form.name || caveId}
       </Typography>

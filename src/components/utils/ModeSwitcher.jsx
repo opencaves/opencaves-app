@@ -4,7 +4,7 @@ import { useColorScheme } from '@mui/material/styles'
 
 // ModeSwitcher is an example interface for toggling between modes.
 // Material UI does not provide the toggle interface—you have to build it yourself.
-export default function ModeSwitcher(props) {
+export default function ModeSwitcher({ className, ...props }) {
   const { mode, setMode } = useColorScheme()
   const [mounted, setMounted] = useState(false)
 
@@ -43,6 +43,7 @@ export default function ModeSwitcher(props) {
           opacity: 1
         }
       }}
+      className={`oc-mode-switcher ${className || ''}`.trim()}
       {...props}
     >
       {mode === 'light' ? 'Dark' : 'Light'}

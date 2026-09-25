@@ -19,6 +19,7 @@ export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, 
 
   return (
     <Dialog
+      className="oc-error-alert"
       onClose={handleClose}
       open={errorAlertOpen}
       maxWidth="xs"

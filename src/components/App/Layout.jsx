@@ -6,6 +6,7 @@ import Dev from '../utils/Dev.jsx'
 export default function Layout() {
   return (
     <Box
+      className="oc-layout"
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -13,7 +14,7 @@ export default function Layout() {
       }}
     >
       <AppBar />
-      <Container component='main' sx={{ py: 2, display: 'grid', flexGrow: '1' }}>
+      <Container className="oc-layout--main" component='main' sx={{ py: 2, display: 'grid', flexGrow: '1' }}>
         <Outlet />
       </Container>
 

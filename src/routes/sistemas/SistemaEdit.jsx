@@ -161,13 +161,13 @@ export default function SistemaEdit() {
   }
 
   if (loading) {
-    return <Typography>Loading…</Typography>
+    return <Typography className="oc-sistema-edit">Loading…</Typography>
   }
 
   const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
 
   return (
-    <div>
+    <div className="oc-sistema-edit">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
         {isNew ? 'New sistema' : form.name || sistemaId}
       </Typography>

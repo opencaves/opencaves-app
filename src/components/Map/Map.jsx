@@ -582,7 +582,7 @@ export default function OCMap() {
   }
 
   return (
-    <Box className="oc-map-container">
+    <Box className="oc-map oc-map-container">
       <Fade timeout={theme.transitions.duration.complex} in={!mapReady || dataLoadingState.state === 'loading'} unmountOnExit={true}>
         <MapLoading />
       </Fade>
@@ -616,7 +616,7 @@ export default function OCMap() {
                   return (
                     <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
                       {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
-                      <Box className="marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab !important', width: 28, height: 28 }}>
+                      <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab !important', width: 28, height: 28 }}>
                         {badgeIcon ? (
                           <PinBadgeIcon size={28} overlay={badgeIcon} />
                         ) : (
@@ -653,7 +653,7 @@ export default function OCMap() {
                 let markerLabel = null
                 if (!(isDraggableCurrentCave && isDraggingCurrentMarker) && (zoomLevel > markerConfig.label.minZoomLevel || (isCurrentCave && isWidePaneEditMode))) {
                   markerLabel = (
-                    <div key={`marker-${cave.id}`} className="marker-label">
+                    <div key={`marker-${cave.id}`} className="oc-map--marker-label marker-label">
                       {caveName}
                     </div>
                   )
@@ -678,8 +678,8 @@ export default function OCMap() {
                         : undefined
                     }
                   >
-                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="marker" id={isCurrentCave ? 'active-marker' : null}>
-                      <SvgIcon inheritViewBox className={`marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
+                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="oc-map--marker marker" id={isCurrentCave ? 'active-marker' : null}>
+                      <SvgIcon inheritViewBox className={`oc-map--marker-icon marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
                         {pinIcon &&
                           (() => {
                             const Pin = pinIcon

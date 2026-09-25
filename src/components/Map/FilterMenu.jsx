@@ -18,7 +18,7 @@ function FilterMenuHead({ title, children, ...props }) {
   }
 
   return (
-    <Box>
+    <Box className="oc-filter-menu--head">
       <Grid
         container
         sx={{
@@ -58,7 +58,7 @@ function FilterMenuContent({ children, ...props }) {
   const theme = useTheme()
 
   return (
-    <Grid {...props} size="grow" sx={{ flex: 1, overflow: 'hidden' }}>
+    <Grid {...props} size="grow" className="oc-filter-menu--content" sx={{ flex: 1, overflow: 'hidden' }}>
       <Box sx={{ height: '100%', overflowY: 'auto' }}>{children}</Box>
     </Grid>
   )
@@ -67,6 +67,7 @@ function FilterMenuContent({ children, ...props }) {
 function FilterMenuSectionHeader({ children, ...props }) {
   return (
     <Box
+      className="oc-filter-menu--section-header"
       sx={{
         display: 'flex',
         alignItems: 'end',
@@ -93,7 +94,7 @@ function FilterMenuSectionHeader({ children, ...props }) {
 
 function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding className="oc-filter-menu--item">
       <ListItemButton onClick={onClick} divider>
         <ListItemText
           primary={
@@ -209,6 +210,7 @@ export default function MapFilterMenu({ props }) {
   return (
     <SwipeableDrawer
       {...props}
+      className="oc-filter-menu"
       anchor="right"
       hideBackdrop={true}
       variant="persistent"

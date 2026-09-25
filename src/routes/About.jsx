@@ -19,7 +19,7 @@ export default function AboutRoute() {
   }, [matches])
 
   return (
-    <Grid container direction="column" sx={{ height: '100%', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid className="oc-about" container direction="column" sx={{ height: '100%', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center' }}>
       <Grid>
         <About />
       </Grid>

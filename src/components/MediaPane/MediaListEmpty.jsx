@@ -16,6 +16,7 @@ export default function MediaPaneEmpty() {
   return (
     <Box
       ref={containerRef}
+      className="oc-media-pane-empty"
       sx={{
         display: 'flex',
         flexDirection: 'column',

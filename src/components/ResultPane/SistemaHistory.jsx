@@ -16,7 +16,7 @@ export default function Sistema({ sistemaHistory }) {
   if (hasSistemaAncestry) {
     return (
       <>
-        <Accordion variant="sistemaHistory" disableGutters elevation={0} square>
+        <Accordion className="oc-sistema-history" variant="sistemaHistory" disableGutters elevation={0} square>
           <AccordionSummary expandIcon={<ExpandMore />} disableRipple={false} variant="sistemaHistory">
             <Box
               sx={{
@@ -67,6 +67,7 @@ export default function Sistema({ sistemaHistory }) {
 
   return (
     <Grid
+      className="oc-sistema-history"
       container
       sx={{
         px: 'var(--oc-pane-padding-inline)',
