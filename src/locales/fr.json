@@ -611,5 +611,8 @@
       "editCurrentCave": "Modifier le cénote actuel",
       "addNewCave": "Ajouter un nouveau cénote"
     }
+  },
+  "dashboard": {
+    "backToDashboard": "Retour au tableau de bord"
   }
 }

@@ -613,5 +613,8 @@
       "editCurrentCave": "Edit current cave",
       "addNewCave": "Add new cave"
     }
+  },
+  "dashboard": {
+    "backToDashboard": "Back to dashboard"
   }
 }

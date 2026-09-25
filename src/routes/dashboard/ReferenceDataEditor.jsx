@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material'
-import { Add, Delete, Edit } from '@mui/icons-material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material'
+import { Add, ArrowBackRounded, Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -14,7 +14,7 @@ export default function ReferenceDataEditor() {
   const { collectionName } = useParams()
   const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation('dashboard')
   const navigate = useNavigate()
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
@@ -32,9 +32,18 @@ export default function ReferenceDataEditor() {
 
   if (!config) {
     return (
-      <Typography className="oc-reference-data-editor" color="error">
-        Unknown reference collection: {collectionName}
-      </Typography>
+      <div className="oc-reference-data-editor">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+          <Tooltip title={t('backToDashboard')}>
+            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')}>
+              <ArrowBackRounded />
+            </IconButton>
+          </Tooltip>
+          <Typography component="h1" variant="h5" color="error">
+            Unknown reference collection: {collectionName}
+          </Typography>
+        </Box>
+      </div>
     )
   }
 
@@ -47,9 +56,16 @@ export default function ReferenceDataEditor() {
 
   return (
     <div className="oc-reference-data-editor">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {config.label}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Tooltip title={t('backToDashboard')}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h5">
+          {config.label}
+        </Typography>
+      </Box>
 
       {loading ? (
         <Typography>Loading…</Typography>

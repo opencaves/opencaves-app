@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Button, List, ListItemButton, ListItemText, TextField, Typography } from '@mui/material'
+import { Box, Button, IconButton, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
+import { ArrowBackRounded } from '@mui/icons-material'
 import CaveModel from '@/models/CaveModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
 export default function CaveList() {
+  const { t } = useTranslation('dashboard')
   const [caves, loading] = CaveModel.useAll()
   const [search, setSearch] = useState('')
   const { setTitle } = useTitle()
@@ -26,7 +29,14 @@ export default function CaveList() {
 
   return (
     <div className="oc-cave-list">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Caves</Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Tooltip title={t('backToDashboard')}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h5">Caves</Typography>
+      </Box>
 
       <Button component={Link} to={`/caves/${pushId()}/edit`} variant="contained" sx={{ mb: 2, mr: 2 }}>
         New cave

@@ -1,11 +1,14 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Button, List, ListItemButton, ListItemText, Typography } from '@mui/material'
+import { Box, Button, IconButton, List, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
+import { ArrowBackRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
 export default function SistemaList() {
+  const { t } = useTranslation('dashboard')
   const [sistemas, loading] = SistemaModel.useAll()
   const { setTitle } = useTitle()
 
@@ -16,7 +19,14 @@ export default function SistemaList() {
 
   return (
     <div className="oc-sistema-list">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>Sistemas</Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Tooltip title={t('backToDashboard')}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h5">Sistemas</Typography>
+      </Box>
 
       <Button component={Link} to={`/sistemas/${pushId()}/edit`} variant="contained" sx={{ mb: 2 }}>
         New sistema
