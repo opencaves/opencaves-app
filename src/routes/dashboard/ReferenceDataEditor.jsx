@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Button, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import { Delete, Edit } from '@mui/icons-material'
+import { Box, Button, Fab, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
+import { Add, Delete, Edit } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { dashedId, pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -125,9 +125,9 @@ export default function ReferenceDataEditor() {
           </Box>
         </Box>
       ) : (
-        <Button variant="contained" sx={{ mb: 2 }} onClick={startNew}>
-          New
-        </Button>
+        <Fab color="primary" aria-label="New" onClick={startNew} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
+          <Add />
+        </Fab>
       )}
 
       {loading ? (
