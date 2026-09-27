@@ -83,7 +83,7 @@ export default function SistemaList() {
             placeholder="Search by name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}
+            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
             slotProps={{
               input: {
                 startAdornment: (

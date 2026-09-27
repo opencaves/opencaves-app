@@ -7,6 +7,7 @@ import { Grid } from '@mui/material'
 import { MenuRounded } from '@mui/icons-material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
+import AppMenu from './AppMenu.jsx'
 import { appName, appTitle } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
@@ -118,12 +119,30 @@ export default function AppBar(props) {
                 justifyContent: 'flex-end',
               }}
             >
-              <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl}>
-                {t('login')}
-              </StyledButton>
-              <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl}>
-                {t('signup')}
-              </StyledButton>
+              {!isLoggedIn && (
+                <>
+                  <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl}>
+                    {t('login')}
+                  </StyledButton>
+                  <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl}>
+                    {t('signup')}
+                  </StyledButton>
+                </>
+              )}
+              {isLoggedIn && (
+                <AppMenu
+                  logoColorScheme="dark"
+                  disableElevation
+                  sx={(theme) => ({
+                    ml: 1,
+                    width: theme.spacing(5),
+                    height: theme.spacing(5),
+                    minWidth: theme.spacing(5),
+                    p: 0,
+                    borderRadius: '50%',
+                  })}
+                />
+              )}
             </Grid>
           </Grid>
         </Toolbar>

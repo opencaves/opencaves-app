@@ -41,6 +41,13 @@
       "btn": "Actualizar"
     }
   },
+  "account": {
+    "profile": "Perfil",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "signOut": "Cerrar sesión",
+    "signedOut": "Sesión cerrada"
+  },
   "auth": {
     "dialog": {
       "closeBtn": {

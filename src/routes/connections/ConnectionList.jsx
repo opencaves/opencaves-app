@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AddRounded, ArrowBackRounded, ArrowForwardRounded, SearchRounded } from '@mui/icons-material'
 import { Box, Fab, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Tooltip, Typography } from '@mui/material'
@@ -10,6 +10,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 export default function ConnectionList() {
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
+  const navigate = useNavigate()
   const [connections, loading] = ConnectionModel.useAll()
   const [sistemas] = SistemaModel.useAll()
   const [search, setSearch] = useState('')
@@ -72,7 +73,7 @@ export default function ConnectionList() {
             placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}
+            sx={(theme) => ({ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
             slotProps={{
               input: {
                 startAdornment: (
@@ -102,7 +103,19 @@ export default function ConnectionList() {
               </TableHead>
               <TableBody>
                 {filtered.map((connection) => (
-                  <TableRow key={connection.id} component={Link} to={`/connections/${connection.id}/edit`} hover sx={{ textDecoration: 'none' }}>
+                  <TableRow
+                    key={connection.id}
+                    hover
+                    tabIndex={0}
+                    onClick={() => navigate(`/connections/${connection.id}/edit`)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        navigate(`/connections/${connection.id}/edit`)
+                      }
+                    }}
+                    sx={{ cursor: 'pointer' }}
+                  >
                     <TableCell sx={{ width: 'calc((100% - 48px) / 2)' }}>{sistemaNames.get(connection.sistemaId) || connection.sistemaId}</TableCell>
                     <TableCell aria-hidden="true" sx={{ width: 48, textAlign: 'center' }}>
                       <ArrowForwardRounded fontSize="small" color="action" />

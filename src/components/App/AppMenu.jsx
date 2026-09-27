@@ -60,20 +60,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
   return (
     <>
       <Tooltip title={t('tooltip')}>
-        <Button
-          {...props}
-          className={`oc-app-menu ${className || ''}`.trim()}
-          variant={isSmall ? 'text' : 'contained'}
-          aria-label={t('ariaLabel')}
-          onClick={handleClick}
-          aria-controls={open ? 'app-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          sx={{
-            ...sx,
-            ...menuStyles,
-          }}
-        >
+        <Button {...props} className={`oc-app-menu ${className || ''}`.trim()} variant={isSmall ? 'text' : 'contained'} aria-label={t('ariaLabel')} onClick={handleClick} aria-controls={open ? 'app-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} sx={[sx, menuStyles]}>
           <AppMenuIcon
             logoColorScheme={logoColorScheme}
             logoSx={logoSx}

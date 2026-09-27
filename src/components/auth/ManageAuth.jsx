@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onIdTokenChanged, signOut } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
@@ -11,7 +11,7 @@ export default function ManageAuth() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async user => {
+    async function syncUser(user) {
       let roles = []
 
       if (user) {
@@ -31,8 +31,30 @@ export default function ManageAuth() {
 
       dispatch(setUser(user ? user.toJSON() : user))
       dispatch(setUserRoles(Array.isArray(roles) ? roles : []))
-    })
+    }
 
-    return unsubscribe
+    async function refreshCurrentUser() {
+      const user = auth.currentUser
+      if (!user) return
+
+      try {
+        await user.reload()
+        await syncUser(auth.currentUser)
+      } catch (error) {
+        if (error.code === 'auth/user-disabled' || error.code === 'auth/user-not-found') {
+          await signOut(auth)
+          return
+        }
+        console.warn('[ManageAuth] Unable to reload user:', error)
+      }
+    }
+
+    const unsubscribe = onIdTokenChanged(auth, syncUser)
+    const refreshInterval = setInterval(refreshCurrentUser, 30000)
+
+    return () => {
+      unsubscribe()
+      clearInterval(refreshInterval)
+    }
   }, [dispatch])
 }

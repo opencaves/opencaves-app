@@ -41,6 +41,13 @@
       "btn": "Refresh"
     }
   },
+  "account": {
+    "profile": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "signOut": "Sign Out",
+    "signedOut": "Signed out"
+  },
   "auth": {
     "dialog": {
       "closeBtn": {
