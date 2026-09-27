@@ -25,6 +25,7 @@ export default function ConnectionEdit() {
   const navigate = useNavigate()
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
+  const [connections, connectionsLoading, connectionsError] = ConnectionModel.useAll()
   const [sistemas] = SistemaModel.useAll()
   const [sources] = sourcesModel.useAll()
   const [areas] = areasModel.useAll()
@@ -33,6 +34,8 @@ export default function ConnectionEdit() {
   const [error, setError] = useState(null)
   const [parentSearch, setParentSearch] = useState('')
 
+  const connection = connections.find((item) => item.id === connectionId)
+
   useEffect(() => {
     if (isNew) {
       setForm({ sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', reporter: '', note: '' })
@@ -40,35 +43,28 @@ export default function ConnectionEdit() {
       return undefined
     }
 
-    let cancelled = false
-    ConnectionModel.getById(connectionId)
-      .then((connection) => {
-        if (!cancelled) {
-          setForm(
-            connection
-              ? {
-                  sistemaId: connection.sistemaId,
-                  parentSistemaId: connection.parentSistemaId || '',
-                  source: connection.source || '',
-                  connectionDate: connection.connectionDate || '',
-                  reporter: connection.reporter || '',
-                  note: connection.note || '',
-                }
-              : null,
-          )
-          setError(connection ? null : t('connectionNotFound'))
-        }
-      })
-      .catch((cause) => {
-        if (!cancelled) {
-          console.error(cause)
-          setError(t('connectionLoadError'))
-        }
-      })
-    return () => {
-      cancelled = true
+    if (connectionsLoading) return undefined
+    if (connectionsError) {
+      console.error(connectionsError)
+      setError(t('connectionLoadError'))
+      return undefined
     }
-  }, [connectionId, isNew, t])
+
+    setForm(
+      connection
+        ? {
+            sistemaId: connection.sistemaId,
+            parentSistemaId: connection.parentSistemaId || '',
+            source: connection.source || '',
+            connectionDate: connection.connectionDate || '',
+            reporter: connection.reporter || '',
+            note: connection.note || '',
+          }
+        : null,
+    )
+    setError(connection ? null : t('connectionNotFound'))
+    return undefined
+  }, [connection, connectionId, connectionsError, connectionsLoading, isNew, t])
 
   useEffect(() => {
     setTitle(t(isNew ? 'newSistemaConnection' : 'editSistemaConnection'))
