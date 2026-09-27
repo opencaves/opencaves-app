@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
+import { ArrowBackRounded, EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -234,9 +234,14 @@ export default function CaveEdit() {
 
   return (
     <div className="oc-cave-edit">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {isNew ? 'New cenote' : `Cenote ${form.name || caveId}`}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <IconButton component={Link} to="/caves" aria-label="Back to caves" sx={{ ml: -5 }}>
+          <ArrowBackRounded />
+        </IconButton>
+        <Typography component="h1" variant="h5">
+          {isNew ? 'New cenote' : `Cenote ${form.name || caveId}`}
+        </Typography>
+      </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label="Name" fullWidth required {...field('name')} />

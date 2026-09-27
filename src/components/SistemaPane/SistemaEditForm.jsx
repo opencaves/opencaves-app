@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
-import { AddRounded, CloseRounded } from '@mui/icons-material'
+import { AddRounded, ArrowBackRounded, CloseRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -249,9 +249,14 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
 
   return (
     <Box className="oc-sistema-edit-form">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {`Sistema ${form.name || sistemaId}`}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <IconButton onClick={onDone} aria-label="Back to sistemas" sx={{ ml: -5 }}>
+          <ArrowBackRounded />
+        </IconButton>
+        <Typography component="h1" variant="h5">
+          {`Sistema ${form.name || sistemaId}`}
+        </Typography>
+      </Box>
 
       <Grid container spacing={2}>
         <Grid size={12}>
