@@ -356,7 +356,7 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label="Access details" value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} />
+        <MarkdownField label="Access details" value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
 
         <Divider />
 
@@ -379,7 +379,7 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label="Accessibility details" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
+        <MarkdownField label="Accessibility details" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
@@ -389,7 +389,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <TextField label={t('note')} fullWidth multiline minRows={2} {...field('note')} />
+        <TextField label={t('note')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
       </Box>
 
       <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>

@@ -134,7 +134,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
                 <TextField size="small" label={t('mapTitle')} required fullWidth autoFocus value={pendingDetails.title} onChange={(e) => setPendingDetails((d) => ({ ...d, title: e.target.value }))} />
                 <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
-                <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} />
+                <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>

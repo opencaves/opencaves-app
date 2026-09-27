@@ -26,13 +26,7 @@ function MapPreview({ caveId, map, index, returnTo }) {
   const image = (file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
-      {image ? (
-        <Box component="img" src={url} alt="" loading="lazy" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-      ) : (
-        <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>
-          {file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}
-        </Box>
-      )}
+      {image ? <Box component="img" src={url} alt="" loading="lazy" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
       <Typography
         variant="caption"
         noWrap
@@ -201,7 +195,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
               <TextField size="small" label={tMaps('mapTitle')} required fullWidth autoFocus value={pendingDetails.title} onChange={(e) => setPendingDetails((d) => ({ ...d, title: e.target.value }))} />
               <TextField size="small" label={tMaps('mapDate')} placeholder={tMaps('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
               <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
-              <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} />
+              <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
             </Box>
           </Box>
         </DialogContent>

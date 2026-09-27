@@ -242,7 +242,7 @@ export default function ConnectionEdit() {
           </TextField>
           <TextField label={t('connectionDate')} fullWidth {...field('connectionDate')} />
           <TextField label={t('connectionReporter')} fullWidth {...field('reporter')} />
-          <TextField label={t('connectionNote')} fullWidth multiline minRows={2} {...field('note')} />
+          <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>
               {t('cancel')}

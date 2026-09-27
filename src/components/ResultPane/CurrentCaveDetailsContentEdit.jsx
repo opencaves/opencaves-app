@@ -319,7 +319,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           </MenuItem>
         ))}
       </TextField>
-      <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} />
+      <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
 
       <Divider />
       <Typography variant="subtitle2">{t('accessibilityGroup')}</Typography>
@@ -341,7 +341,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           </MenuItem>
         ))}
       </TextField>
-      <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
+      <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />

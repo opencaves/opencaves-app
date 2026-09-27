@@ -92,7 +92,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceh
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
               </Grid>
               <Grid size={12}>
-                <TextField size="small" label={notesLabel} fullWidth multiline minRows={2} value={exploration.notes} onChange={(e) => updateAt(index, { notes: e.target.value })} />
+                <TextField size="small" label={notesLabel} fullWidth multiline minRows={2} value={exploration.notes} onChange={(e) => updateAt(index, { notes: e.target.value })} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Grid>
             </Grid>
           </Box>

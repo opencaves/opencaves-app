@@ -59,7 +59,7 @@ export default function EditMapDialog({ map, onClose }) {
             <TextField size="small" label={t('mapTitle')} required fullWidth autoFocus value={details.title} onChange={(e) => setDetails((d) => ({ ...d, title: e.target.value }))} />
             <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
             <AuthorsField value={details.authors} onChange={(authors) => setDetails((d) => ({ ...d, authors }))} />
-            <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={details.note} onChange={(e) => setDetails((d) => ({ ...d, note: e.target.value }))} />
+            <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={details.note} onChange={(e) => setDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
           </Box>
         </Box>
       </DialogContent>
