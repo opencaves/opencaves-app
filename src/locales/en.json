@@ -555,6 +555,7 @@
     "explorationDatePlaceholder": "YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
     "explorationDateInvalid": "Use YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
     "explorationTeam": "Team",
+    "teamSearchPlaceholder": "Search teams",
     "explorationDescription": "Description",
     "explorationNotes": "Notes"
   },

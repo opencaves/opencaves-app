@@ -553,6 +553,7 @@
     "explorationDatePlaceholder": "AAAA, AAAA-AAAA, AAAA-MM ou AAAA-MM-JJ",
     "explorationDateInvalid": "Utilisez AAAA, AAAA-AAAA, AAAA-MM ou AAAA-MM-JJ",
     "explorationTeam": "Équipe",
+    "teamSearchPlaceholder": "Rechercher des équipes",
     "explorationDescription": "Description",
     "explorationNotes": "Notes"
   },

@@ -24,7 +24,8 @@ const emptyExploration = { date: '', team: '', description: '', notes: '' }
 // represent "2019" or "2019-06" on their own).
 const PARTIAL_DATE_PATTERN = /^\d{4}(-(\d{2}(-\d{2})?|\d{4}))?$/
 
-function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceholder, dateInvalidHint, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
+function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceholder, dateInvalidHint, teamLabel, teamSearchPlaceholder, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
+  const [teamSearch, setTeamSearch] = useState('')
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
   }
@@ -53,13 +54,38 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceh
                 <TextField size="small" label={dateLabel} placeholder={datePlaceholder} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} error={!!exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date)} helperText={exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date) ? dateInvalidHint : undefined} />
               </Grid>
               <Grid size={6}>
-                <TextField select size="small" label={teamLabel} fullWidth value={exploration.team} onChange={(e) => updateAt(index, { team: e.target.value })}>
+                <TextField
+                  select
+                  size="small"
+                  label={teamLabel}
+                  fullWidth
+                  value={exploration.team}
+                  onChange={(e) => updateAt(index, { team: e.target.value })}
+                  slotProps={{
+                    select: {
+                      MenuProps: {
+                        autoFocus: false,
+                        slotProps: { transition: { onExited: () => setTeamSearch('') } },
+                      },
+                    },
+                  }}
+                >
+                  <ListSubheader
+                    sx={{ px: 1.5, py: 0.5 }}
+                    onKeyDown={(event) => {
+                      if (event.key !== 'Escape') event.stopPropagation()
+                    }}
+                  >
+                    <TextField autoFocus size="small" fullWidth placeholder={teamSearchPlaceholder} value={teamSearch} onChange={(e) => setTeamSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
+                  </ListSubheader>
                   <MenuItem value="">{teamLabel}</MenuItem>
-                  {teamOptions.map((team) => (
-                    <MenuItem key={team} value={team}>
-                      {team}
-                    </MenuItem>
-                  ))}
+                  {teamOptions
+                    .filter((team) => !teamSearch.trim() || team.toLowerCase().includes(teamSearch.trim().toLowerCase()) || team === exploration.team)
+                    .map((team) => (
+                      <MenuItem key={team} value={team}>
+                        {team}
+                      </MenuItem>
+                    ))}
                 </TextField>
               </Grid>
               <Grid size={12}>
@@ -326,7 +352,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} datePlaceholder={t('explorationDatePlaceholder')} dateInvalidHint={t('explorationDateInvalid')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} datePlaceholder={t('explorationDatePlaceholder')} dateInvalidHint={t('explorationDateInvalid')} teamLabel={t('explorationTeam')} teamSearchPlaceholder={t('teamSearchPlaceholder')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
         </Grid>
 
         <Grid size={12}>
