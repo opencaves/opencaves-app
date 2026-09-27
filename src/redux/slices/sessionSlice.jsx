@@ -1,13 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
+
+export function isMapPath(pathname) {
+  return /^\/map(?:\/[^/]+)?$/.test(pathname)
+}
 
 export function buildContinueUrl(location) {
   const baseUrl = `${location.pathname}${location.search}`
 
-  if (/^\/map\/[^/]+$/.test(location.pathname)) {
-    return baseUrl
+  if (isMapPath(location.pathname)) {
+    return `${baseUrl}${location.hash}`
   }
 
-  return `${baseUrl}${location.hash}`
+  return baseUrl
 }
 
 const initialState = {
@@ -38,8 +42,8 @@ const sessionSlice = createSlice({
     },
     deleteContinueUrl: (state) => {
       state.continueUrl = null
-    }
-  }
+    },
+  },
 })
 
 export const { setUser, setUserRoles, setContinueUrl, deleteContinueUrl } = sessionSlice.actions

@@ -1,9 +1,20 @@
-import { Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
 import Dev from '../utils/Dev.jsx'
+import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 
 export default function Layout() {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (location.hash && !isMapPath(location.pathname)) {
+      navigate({ pathname: location.pathname, search: location.search, hash: '' }, { replace: true })
+    }
+  }, [location, navigate])
+
   return (
     <Box
       className="oc-layout"

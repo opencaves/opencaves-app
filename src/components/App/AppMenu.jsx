@@ -13,7 +13,7 @@ import AddMedias from './menu/AddMediasMenuItem.jsx'
 import AppMenuIcon from './AppMenuIcon.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useSession from '@/hooks/useSession.jsx'
-import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { appName } from '@/config/app.js'
 
 export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...props }) {
@@ -50,7 +50,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
   }
 
   function onSignupBtnClick() {
-    dispatch(setContinueUrl(`${location.pathname}${location.search}${location.hash}`))
+    dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
   useEffect(() => {
