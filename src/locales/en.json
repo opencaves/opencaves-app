@@ -368,7 +368,7 @@
     "edit": {
       "name": "Name",
       "aka": "Also known as",
-      "addAka": "Add name",
+      "addAka": "Add alternate name",
       "removeAka": "Remove name",
       "nameTranslations": "Name translations",
       "addNameTranslation": "Add translation",
@@ -514,7 +514,7 @@
     "parentSistemaSearchPlaceholder": "Search",
     "length": "Total distance explored (m)",
     "aka": "Also known as",
-    "addAka": "Add name",
+    "addAka": "Add alternate name",
     "removeAka": "Remove name",
     "explorations": "Exploration history",
     "addExploration": "Add exploration info",

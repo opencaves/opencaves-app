@@ -256,7 +256,7 @@ export default function CaveEdit() {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label="Name" fullWidth required {...field('name')} />
 
-        <RepeatableTextField label="AKA" values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel="Add name" removeLabel="Remove name" />
+        <RepeatableTextField label="AKA" values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel="Remove name" />
 
         <NameTranslationsField label="Name translations" rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel="Add translation" removeLabel="Remove translation" languageLabel="Language" valueLabel="Translated name" />
 

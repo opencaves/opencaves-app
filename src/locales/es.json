@@ -368,7 +368,7 @@
     "edit": {
       "name": "Nombre",
       "aka": "También conocido como",
-      "addAka": "Añadir nombre",
+      "addAka": "Añadir nombre alternativo",
       "removeAka": "Eliminar nombre",
       "nameTranslations": "Traducciones del nombre",
       "addNameTranslation": "Añadir traducción",
@@ -514,7 +514,7 @@
     "parentSistemaSearchPlaceholder": "Buscar",
     "length": "Distancia explorada (m)",
     "aka": "También conocido como",
-    "addAka": "Añadir nombre",
+    "addAka": "Añadir nombre alternativo",
     "removeAka": "Eliminar nombre",
     "explorations": "Historial de exploración",
     "addExploration": "Añadir información de exploración",
