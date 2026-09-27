@@ -145,7 +145,7 @@ export default function CaveEdit() {
   }, [caveId])
 
   useEffect(() => {
-    setTitle(isNew ? 'New cave' : form.name || caveId)
+    setTitle(isNew ? 'New cenote' : `Cenote ${form.name || caveId}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
@@ -235,7 +235,7 @@ export default function CaveEdit() {
   return (
     <div className="oc-cave-edit">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {isNew ? 'New cave' : form.name || caveId}
+        {isNew ? 'New cenote' : `Cenote ${form.name || caveId}`}
       </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

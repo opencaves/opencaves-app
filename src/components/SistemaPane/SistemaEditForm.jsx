@@ -179,7 +179,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading])
 
   useEffect(() => {
-    onTitleChange?.(isNew ? 'New sistema' : form.name || sistemaId)
+    onTitleChange?.(isNew ? 'New sistema' : `Sistema ${form.name || sistemaId}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
@@ -250,7 +250,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   return (
     <Box className="oc-sistema-edit-form">
       <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        {form.name || sistemaId}
+        {`Sistema ${form.name || sistemaId}`}
       </Typography>
 
       <Grid container spacing={2}>
