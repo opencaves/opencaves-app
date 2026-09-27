@@ -609,8 +609,7 @@
     "caveNameUnknown": "[unknown name]",
     "editFab": {
       "ariaLabel": "Edit cave data",
-      "quickEditCurrentCave": "Quick edit",
-      "editCurrentCave": "Edit current cave",
+      "editCave": "Edit cave",
       "addNewCave": "Add new cave"
     }
   },

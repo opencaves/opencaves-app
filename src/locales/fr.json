@@ -607,8 +607,7 @@
     "caveNameUnknown": "[nom inconnu]",
     "editFab": {
       "ariaLabel": "Modifier les données du cénote",
-      "quickEditCurrentCave": "Modification rapide",
-      "editCurrentCave": "Modifier le cénote actuel",
+      "editCave": "Modifier le cénote",
       "addNewCave": "Ajouter un nouveau cénote"
     }
   },
