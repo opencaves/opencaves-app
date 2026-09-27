@@ -249,6 +249,11 @@ function getCaves(data) {
           new: 'maps',
           old: 'maps',
           fn: arrStr
+        },
+        {
+          new: 'videos',
+          old: 'Videos',
+          fn: arrStr
         }
       ])
 
