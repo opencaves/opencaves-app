@@ -389,12 +389,10 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <TextField label="Exploration date" fullWidth {...field('explorationDate')} />
-        <TextField label="Reported by" fullWidth {...field('reporter')} />
         <TextField label={t('note')} fullWidth multiline minRows={2} {...field('note')} />
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3 }}>
+      <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
         {!isNew && (
           <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
             Delete
