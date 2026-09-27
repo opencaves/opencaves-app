@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
-import { AddRounded, CloseRounded, PlayArrowRounded } from '@mui/icons-material'
+import { AddRounded, CloseRounded, DeleteOutlineRounded, EditRounded, PlayArrowRounded } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { assetsListConfig } from '@/config/resultPane.js'
@@ -37,12 +37,13 @@ function getEmbedUrl(value) {
   return null
 }
 
-export default function VideoList({ caveId, videos }) {
+export default function VideoList({ caveId, videos, onChange, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((state) => state.session.roles)
   const scrollbarsRef = useRef()
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [newVideoUrl, setNewVideoUrl] = useState('')
+  const [editingIndex, setEditingIndex] = useState(null)
   const [saving, setSaving] = useState(false)
   const [activeVideo, setActiveVideo] = useState(null)
   const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
@@ -62,10 +63,21 @@ export default function VideoList({ caveId, videos }) {
   function closeAddDialog() {
     setAddDialogOpen(false)
     setNewVideoUrl('')
+    setEditingIndex(null)
   }
 
   async function addVideo() {
-    const nextVideos = [...videoUrls, newVideoUrl.trim()]
+    const nextVideos = [...videoUrls]
+    if (editingIndex === null) {
+      nextVideos.push(newVideoUrl.trim())
+    } else {
+      nextVideos[editingIndex] = newVideoUrl.trim()
+    }
+    if (onChange) {
+      onChange(nextVideos)
+      closeAddDialog()
+      return
+    }
     setSaving(true)
     try {
       await CaveModel.save(caveId, { videos: nextVideos })
@@ -110,7 +122,7 @@ export default function VideoList({ caveId, videos }) {
   }
 
   return (
-    <Box sx={{ px: 'var(--oc-pane-padding-inline)', pt: 'var(--oc-pane-padding-block)' }}>
+    <Box sx={{ px: 'var(--oc-pane-padding-inline)', pt: 'var(--oc-pane-padding-block)', ...sx }}>
       <Typography component="h2" className="h2" sx={{ mb: 1 }}>
         {t('videosHeader')}
       </Typography>
@@ -134,7 +146,7 @@ export default function VideoList({ caveId, videos }) {
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (
-                    <Box key={`${video}-${index}`} sx={{ width: videoWidth, height: videoHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: 1 }}>
+                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: videoWidth, height: videoHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: 1 }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
                           {/* The preview iframe ignores pointer input so wheel events reach the horizontal gallery. */}
@@ -146,6 +158,25 @@ export default function VideoList({ caveId, videos }) {
                           <Link href={video} target="_blank" rel="noreferrer" sx={{ color: 'common.white', textAlign: 'center' }}>
                             {t('openVideo', { index: index + 1 })}
                           </Link>
+                        </Box>
+                      )}
+                      {onChange && (
+                        <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
+                          <IconButton
+                            size="small"
+                            aria-label={t('edit.editVideo')}
+                            onClick={() => {
+                              setEditingIndex(index)
+                              setNewVideoUrl(video)
+                              setAddDialogOpen(true)
+                            }}
+                            sx={{ color: 'common.white' }}
+                          >
+                            <EditRounded fontSize="small" />
+                          </IconButton>
+                          <IconButton size="small" aria-label={t('edit.removeVideo')} onClick={() => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))} sx={{ color: 'common.white' }}>
+                            <DeleteOutlineRounded fontSize="small" />
+                          </IconButton>
                         </Box>
                       )}
                     </Box>
@@ -164,7 +195,7 @@ export default function VideoList({ caveId, videos }) {
         </Box>
       )}
       <Dialog open={addDialogOpen} onClose={closeAddDialog} maxWidth="xs" fullWidth>
-        <DialogTitle>{t('addVideoTitle')}</DialogTitle>
+        <DialogTitle>{editingIndex === null ? t('addVideoTitle') : t('edit.editVideo')}</DialogTitle>
         <DialogContent>
           <TextField autoFocus fullWidth label={t('videoUrl')} placeholder="https://" value={newVideoUrl} onChange={(event) => setNewVideoUrl(event.target.value)} error={!!newVideoUrl && !isValidVideoUrl(newVideoUrl)} helperText={!!newVideoUrl && !isValidVideoUrl(newVideoUrl) ? t('invalidVideoUrl') : ' '} />
         </DialogContent>
@@ -173,7 +204,7 @@ export default function VideoList({ caveId, videos }) {
             {t('cancel')}
           </Button>
           <Button variant="contained" onClick={addVideo} disabled={saving || !isValidVideoUrl(newVideoUrl)}>
-            {t('addVideo')}
+            {editingIndex === null ? t('addVideo') : t('edit.save')}
           </Button>
         </DialogActions>
       </Dialog>

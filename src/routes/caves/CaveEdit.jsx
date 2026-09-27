@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
+import { AddAPhotoOutlined, EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -13,9 +13,13 @@ import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
+import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
+import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
+import MediaList from '@/components/ResultPane/MediaList.jsx'
+import VideoList from '@/components/ResultPane/VideoList.jsx'
 import OCMap from '@/components/Map/Map.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -43,6 +47,7 @@ const emptyForm = {
   note: '',
   aka: [],
   maps: [],
+  videos: [],
   nameTranslations: [],
   longitude: '',
   latitude: '',
@@ -56,7 +61,7 @@ export default function CaveEdit() {
   const { caveId } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
@@ -124,6 +129,7 @@ export default function CaveEdit() {
         note: cave?.note || '',
         aka: cave?.aka || [],
         maps: cave?.maps || [],
+        videos: Array.isArray(cave?.videos) ? cave.videos : typeof cave?.videos === 'string' ? cave.videos.split('|') : [],
         nameTranslations: Object.entries(cave?.nameTranslations || {}).map(([lang, values]) => ({
           lang,
           value: (values || []).join(', '),
@@ -185,6 +191,7 @@ export default function CaveEdit() {
         note: form.note || undefined,
         aka: form.aka.map((s) => s.trim()).filter(Boolean).length > 0 ? form.aka.map((s) => s.trim()).filter(Boolean) : undefined,
         maps: form.maps.map((s) => s.trim()).filter(Boolean).length > 0 ? form.maps.map((s) => s.trim()).filter(Boolean) : undefined,
+        videos: form.videos.map((url) => url.trim()).filter(Boolean),
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
@@ -252,6 +259,27 @@ export default function CaveEdit() {
         <RepeatableTextField label="AKA" values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel="Add name" removeLabel="Remove name" />
 
         <NameTranslationsField label="Name translations" rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel="Add translation" removeLabel="Remove translation" languageLabel="Language" valueLabel="Translated name" />
+
+        <Divider />
+
+        <Typography variant="subtitle2">{t('pictures')}</Typography>
+        {!isNew && (
+          <>
+            <MediaList caveId={caveId} />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              <AddMediasProvider caveId={caveId}>
+                <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
+              </AddMediasProvider>
+              <Button component={Link} to={`/map/${caveId}/medias`} size="small" startIcon={<EditRounded />}>
+                {t('managePictures')}
+              </Button>
+            </Box>
+          </>
+        )}
+
+        <Divider />
+
+        <VideoList caveId={caveId} videos={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} sx={{ px: 0, pt: 0 }} />
 
         <Divider />
 

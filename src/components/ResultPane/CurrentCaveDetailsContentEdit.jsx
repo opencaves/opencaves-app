@@ -18,6 +18,7 @@ import { num, pickDescription, squaredDistance } from '@/services/data-service/t
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
 import MediaList from './MediaList.jsx'
+import VideoList from './VideoList.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
@@ -217,8 +218,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <Typography variant="subtitle2">{t('videos')}</Typography>
-      <RepeatableTextField label={t('videoUrl')} values={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} addLabel={t('addVideo')} removeLabel={t('removeVideo')} />
+      <VideoList caveId={cave.id} videos={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} sx={{ px: 0, pt: 0 }} />
 
       <Divider />
 

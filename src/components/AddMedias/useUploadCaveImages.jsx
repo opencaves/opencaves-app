@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { auth } from '@/config/firebase.js'
@@ -8,7 +7,7 @@ import sleep from '@/utils/sleep.js'
 import { acceptedMimeTypes } from '@/config/mediaPane.js'
 
 function findWrongMediaTypeFiles(files) {
-  return files.filter(file => !acceptedMimeTypes.includes(file.type))
+  return files.filter((file) => !acceptedMimeTypes.includes(file.type))
 }
 
 async function ensureEditorRole() {
@@ -38,9 +37,9 @@ async function ensureEditorRole() {
   throw new Error('Your account is missing the editor role required to upload media.')
 }
 
-export function useUploadCaveImages() {
-  const user = useSelector(state => state.session.user)
-  const currentCave = useSelector(state => state.map.currentCave)
+export function useUploadCaveImages(caveId) {
+  const user = useSelector((state) => state.session.user)
+  const currentCave = useSelector((state) => state.map.currentCave)
 
   const [current, setCurrent] = useState(null)
   const [progress, setProgress] = useState(null)
@@ -66,7 +65,7 @@ export function useUploadCaveImages() {
 
         const wrongTypeFiles = findWrongMediaTypeFiles(files)
         if (wrongTypeFiles.length > 0) {
-          const fileNames = wrongTypeFiles.map(file => file.name)
+          const fileNames = wrongTypeFiles.map((file) => file.name)
           const wrongTypeError = new Error(`Unsupported media type for file(s): ${fileNames.join(', ')}`)
           wrongTypeError.code = 'wrong-media-type'
           wrongTypeError.fileNames = fileNames
@@ -84,7 +83,7 @@ export function useUploadCaveImages() {
           const index = i + 1
           const url = URL.createObjectURL(file)
           const caveAssetData = {
-            caveId: currentCave.id,
+            caveId: caveId ?? currentCave.id,
           }
 
           if (isLoggedIn) {
@@ -95,10 +94,10 @@ export function useUploadCaveImages() {
 
           const caveAsset = new CaveAsset(caveAssetData)
 
-          await caveAsset.upload(file, bytesTransferred => {
+          await caveAsset.upload(file, (bytesTransferred) => {
             // console.log('[%s] %s', file.name, bytesTransferred)
             setTimeout(() => {
-              setBytesTransferred(bytes => {
+              setBytesTransferred((bytes) => {
                 const newBytes = [...bytes]
                 newBytes.splice(i, 1, bytesTransferred)
                 return newBytes

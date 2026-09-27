@@ -10,9 +10,9 @@ import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/med
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
-export default function UploadMedias({ medias }) {
+export default function UploadMedias({ medias, caveId }) {
   const [_medias, setMedias] = useState([])
-  const { uploadCaveImages, current, progress, done, error } = useUploadCaveImages()
+  const { uploadCaveImages, current, progress, done, error } = useUploadCaveImages(caveId)
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [uploading, setUploading] = useState(false)
   const [uploadComplete, setUploadComplete] = useState(false)
@@ -88,28 +88,15 @@ export default function UploadMedias({ medias }) {
       </Snackbar>
 
       {errorAlertOpen && (
-        <ErrorAlert
-          className="oc-upload-medias--error-alert"
-          open={true}
-          onClose={onErrorAlertClose}
-          header={t('errorHeader')}
-          dismissLabel={t('unknownErrorBtn')}
-          hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}
-        >
-          {error?.code === 'wrong-media-type' ? (
-            <WrongMediaTypeMessage fileNames={error.fileNames} />
-          ) : (
-            <Typography color="text.secondary">{t('unknownError')}</Typography>
-          )}
+        <ErrorAlert className="oc-upload-medias--error-alert" open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
+          {error?.code === 'wrong-media-type' ? <WrongMediaTypeMessage fileNames={error.fileNames} /> : <Typography color="text.secondary">{t('unknownError')}</Typography>}
         </ErrorAlert>
       )}
 
       {done && (
         <Snackbar className="oc-upload-medias--complete" open={uploadComplete} autoHide={false}>
           <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
-            <Alert>
-              {t('success', { count: done.count })}
-            </Alert>
+            <Alert>{t('success', { count: done.count })}</Alert>
           </SnackbarContent>
         </Snackbar>
       )}
@@ -122,7 +109,9 @@ function WrongMediaTypeMessage({ fileNames }) {
 
   return (
     <>
-      <Typography className="oc-wrong-media-type-message" color="text.secondary">{t('wrongMediaType', { count: fileNames.length })}</Typography>
+      <Typography className="oc-wrong-media-type-message" color="text.secondary">
+        {t('wrongMediaType', { count: fileNames.length })}
+      </Typography>
       <Grid
         className="oc-wrong-media-type-message--files"
         container
@@ -132,7 +121,7 @@ function WrongMediaTypeMessage({ fileNames }) {
           maxWidth: '100%',
         }}
       >
-        {fileNames.map(fileName => (
+        {fileNames.map((fileName) => (
           <Chip
             key={fileName}
             label={fileName}

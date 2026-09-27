@@ -6,7 +6,7 @@ import { acceptedExtensions, acceptedMimeTypes } from '@/config/mediaPane.js'
 
 export const AddMediasContext = createContext(null)
 
-export default function AddMediasProvider({ children }) {
+export default function AddMediasProvider({ children, caveId }) {
   const [medias, setMedias] = useState([])
   const { t } = useTranslation('mediaPane')
 
@@ -32,7 +32,7 @@ export default function AddMediasProvider({ children }) {
   return (
     <AddMediasContext.Provider value={{ promptForMedias }}>
       {children}
-      <UploadMedias medias={medias} />
-    </AddMediasContext.Provider >
+      <UploadMedias medias={medias} caveId={caveId} />
+    </AddMediasContext.Provider>
   )
 }
