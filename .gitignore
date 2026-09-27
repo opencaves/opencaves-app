@@ -32,3 +32,4 @@ firebase-export-*
 *.log*
 functions/py/out.png
 functions/py/t.jpg
+/.vscode
