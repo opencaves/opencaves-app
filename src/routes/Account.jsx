@@ -143,7 +143,7 @@ export default function Account() {
             )}
           </Box>
         </Box>
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ mb: 3, pl: 1.5 }}>
           <Typography variant="body2" color="text.secondary">
             {t('email')}
           </Typography>
