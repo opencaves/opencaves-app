@@ -178,7 +178,7 @@ export default function CaveEdit() {
         reporter: form.reporter || undefined,
         note: form.note || undefined,
         aka: form.aka.map((s) => s.trim()).filter(Boolean).length > 0 ? form.aka.map((s) => s.trim()).filter(Boolean) : undefined,
-        maps: form.maps.map((s) => s.trim()).filter(Boolean).length > 0 ? form.maps.map((s) => s.trim()).filter(Boolean) : undefined,
+        maps: form.maps.map((s) => s.trim()).filter(Boolean),
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
       }
 
@@ -250,7 +250,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} isNew={isNew} standaloneUpload />
+        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} maps={form.maps} onMapsChange={(maps) => setForm((f) => ({ ...f, maps }))} isNew={isNew} standaloneUpload />
 
         <Divider />
 
@@ -394,7 +394,6 @@ export default function CaveEdit() {
 
         <TextField label="Exploration date" fullWidth {...field('explorationDate')} />
         <TextField label="Reported by" fullWidth {...field('reporter')} />
-        <RepeatableTextField label="Maps" values={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} addLabel="Add map" removeLabel="Remove map" />
         <TextField label="Note" fullWidth multiline minRows={2} {...field('note')} />
       </Box>
 

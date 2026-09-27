@@ -37,14 +37,14 @@ export const onAssetUploaded = onObjectFinalized(async event => {
     logger.log('[onAssetUploaded] filePath: %s', filePath)
     logger.log('[onAssetUploaded] data: %o', data)
 
+    // Map previews must retain their download tokens; only cave originals need metadata cleanup.
+    if (!filePath?.startsWith('caves/') || filePath.includes(`/${THUMBNAILS_FOLDER}/`)) {
+      return
+    }
+
     await bucket.file(filePath).setMetadata({ metadata: { originalName: null, userId: null } })
 
     logger.log('[onAssetUploaded] setMetadata done')
-
-    if (filePath.indexOf(`/${THUMBNAILS_FOLDER}/`) > -1) {
-      logger.log('[onAssetUploaded] filePath.indexOf(`/${THUMBNAILS_FOLDER}/`) > -1')
-      return
-    }
 
     // caves/{caveId}/{type}s/{assetId} - identity comes from the upload path, not client-supplied metadata.
     const [, caveId, typePlural, assetId] = filePath.split('/')

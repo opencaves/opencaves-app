@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
+import { PictureAsPdfRounded } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'
@@ -144,7 +145,7 @@ function WrongMediaTypeMessage({ fileNames }) {
   )
 }
 
-const UploadInfo = forwardRef((props, ref) => {
+export const UploadInfo = forwardRef((props, ref) => {
   const { total, progress, current } = props
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
 
@@ -161,7 +162,15 @@ const UploadInfo = forwardRef((props, ref) => {
         },
       }}
     >
-      <Grid sx={{ position: 'relative', width: '33%' }}>{current && <CardMedia component="img" image={current.url} sx={{ position: 'absolute', width: '100%', height: '100%' }} />}</Grid>
+      <Grid sx={{ position: 'relative', width: '33%' }}>
+        {current?.type === 'application/pdf' ? (
+          <Box sx={{ position: 'absolute', width: '100%', height: '100%', display: 'grid', placeItems: 'center', bgcolor: 'action.hover' }}>
+            <PictureAsPdfRounded color="primary" fontSize="large" />
+          </Box>
+        ) : current?.url ? (
+          <CardMedia component="img" image={current.url} sx={{ position: 'absolute', width: '100%', height: '100%' }} />
+        ) : null}
+      </Grid>
       <Grid container direction="column" sx={{ flexGrow: 1 }}>
         <CardContent
           sx={{
@@ -218,7 +227,7 @@ const UploadInfo = forwardRef((props, ref) => {
   )
 })
 
-const SnackbarContent = forwardRef((props, ref) => {
+export const SnackbarContent = forwardRef((props, ref) => {
   const { children, sx, ...otherProps } = props
   return (
     <Card

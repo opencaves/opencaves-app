@@ -71,6 +71,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const [form, setForm] = useState(() => ({
     name: cave.name?.value || '',
     aka: cave.aka || [],
+    maps: Array.isArray(cave.maps) ? cave.maps : typeof cave.maps === 'string' ? cave.maps.split('|') : [],
     videos: Array.isArray(cave.videos) ? cave.videos : typeof cave.videos === 'string' ? cave.videos.split('|') : [],
     sistemaId: cave.sistemaId || '',
     source: cave.source || '',
@@ -118,6 +119,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       const fields = {
         name: { value: form.name },
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
+        maps: form.maps.map((url) => url.trim()).filter(Boolean),
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
         sistemaId: form.sistemaId || undefined,
         source: form.source || undefined,
@@ -206,7 +208,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <CaveMediaTabs caveId={cave.id} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} />
+      <CaveMediaTabs caveId={cave.id} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} maps={form.maps} onMapsChange={(maps) => setForm((f) => ({ ...f, maps }))} />
 
       <Divider />
 
