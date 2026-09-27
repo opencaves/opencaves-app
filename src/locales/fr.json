@@ -44,6 +44,9 @@
   "account": {
     "profile": "Profil",
     "name": "Nom",
+    "saveName": "Enregistrer",
+    "nameSaved": "Nom enregistré",
+    "nameSaveError": "Impossible d'enregistrer le nom.",
     "email": "Courriel",
     "signOut": "Se déconnecter",
     "signedOut": "Déconnecté"

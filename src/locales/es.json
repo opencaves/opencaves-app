@@ -44,6 +44,9 @@
   "account": {
     "profile": "Perfil",
     "name": "Nombre",
+    "saveName": "Guardar",
+    "nameSaved": "Nombre guardado",
+    "nameSaveError": "No se pudo guardar el nombre.",
     "email": "Correo electrónico",
     "signOut": "Cerrar sesión",
     "signedOut": "Sesión cerrada"

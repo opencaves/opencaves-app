@@ -44,6 +44,9 @@
   "account": {
     "profile": "Profile",
     "name": "Name",
+    "saveName": "Save",
+    "nameSaved": "Name saved",
+    "nameSaveError": "Could not save the name.",
     "email": "Email",
     "signOut": "Sign Out",
     "signedOut": "Signed out"
