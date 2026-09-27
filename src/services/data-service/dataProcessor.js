@@ -132,6 +132,51 @@ function getExplorations(old) {
   return explorations.length > 0 ? explorations : undefined
 }
 
+function canonicalizeVideoUrl(value) {
+  const cleanValue = str(value)?.replace(/[\r\n\t]/g, '')
+  if (!cleanValue) {
+    return
+  }
+
+  try {
+    const url = new URL(cleanValue)
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+      return cleanValue
+    }
+
+    if (url.hostname === 'youtu.be' || ['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(url.hostname)) {
+      const videoId = url.hostname === 'youtu.be'
+        ? url.pathname.split('/').filter(Boolean)[0]
+        : url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)/)?.[1]
+      return videoId ? `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}` : cleanValue
+    }
+
+    if (['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'].includes(url.hostname)) {
+      const videoId = url.pathname.match(/^\/(?:video\/)?(\d+)/)?.[1]
+      return videoId ? `https://vimeo.com/${videoId}` : cleanValue
+    }
+
+    if (['facebook.com', 'www.facebook.com', 'm.facebook.com'].includes(url.hostname)) {
+      const videoUrl = url.pathname === '/plugins/video.php' ? url.searchParams.get('href') : url.href
+      if (!videoUrl) {
+        return cleanValue
+      }
+
+      const normalizedVideoUrl = new URL(videoUrl)
+      normalizedVideoUrl.hash = ''
+      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(normalizedVideoUrl.href)}&show_text=false`
+    }
+  } catch {
+    return cleanValue
+  }
+
+  return cleanValue
+}
+
+function getVideoUrls(value) {
+  return arrStr(value)?.map(canonicalizeVideoUrl).filter(Boolean)
+}
+
 /*
  * caves data
  */
@@ -253,7 +298,7 @@ function getCaves(data) {
         {
           new: 'videos',
           old: 'Videos',
-          fn: arrStr
+          fn: getVideoUrls
         }
       ])
 

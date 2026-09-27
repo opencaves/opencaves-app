@@ -41,17 +41,16 @@ export default function MediaList({ caveId, sx, className, ...props }) {
     const scrollbar = scrollbarsRef?.current
 
     function onWheel(event) {
+      event.preventDefault()
       const { scrollLeft, scrollWidth, clientWidth } = scrollbar.getValues()
       const width = scrollWidth - clientWidth
-      const wheelDirection = event.wheelDeltaY < 0 ? 1 : -1
-      event.preventDefault()
+      const delta = event.deltaY || event.deltaX
+      const wheelDirection = Math.sign(delta)
+      if (!wheelDirection || width <= 0) {
+        return
+      }
 
-      if (
-        // scrolling left
-        (wheelDirection < 0 && Math.round(scrollLeft) <= 0) ||
-        // scrolling right
-        (wheelDirection > 0 && Math.round(scrollLeft) >= width)
-      ) {
+      if ((wheelDirection < 0 && Math.round(scrollLeft) <= 0) || (wheelDirection > 0 && Math.round(scrollLeft) >= width)) {
         return
       }
 
@@ -65,7 +64,7 @@ export default function MediaList({ caveId, sx, className, ...props }) {
     }
 
     if (scrollbar) {
-      scrollbar.container.addEventListener('wheel', onWheel)
+      scrollbar.container.addEventListener('wheel', onWheel, { passive: false })
     }
 
     return () => scrollbar?.container?.removeEventListener('wheel', onWheel)
@@ -75,19 +74,18 @@ export default function MediaList({ caveId, sx, className, ...props }) {
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      const docs = [...mediaList.docs]
-        .sort((a, b) => {
-          const aCover = a.data().isCover ? 1 : 0
-          const bCover = b.data().isCover ? 1 : 0
+      const docs = [...mediaList.docs].sort((a, b) => {
+        const aCover = a.data().isCover ? 1 : 0
+        const bCover = b.data().isCover ? 1 : 0
 
-          if (aCover !== bCover) {
-            return bCover - aCover
-          }
+        if (aCover !== bCover) {
+          return bCover - aCover
+        }
 
-          const aDate = a.data().date?.toDate?.() ?? 0
-          const bDate = b.data().date?.toDate?.() ?? 0
-          return bDate - aDate
-        })
+        const aDate = a.data().date?.toDate?.() ?? 0
+        const bDate = b.data().date?.toDate?.() ?? 0
+        return bDate - aDate
+      })
 
       const assetsListLength = Math.min(docs.length, assetsListMaxLength)
       const assetItems = []

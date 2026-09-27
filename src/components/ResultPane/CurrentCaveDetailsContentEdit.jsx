@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { EditRounded } from '@mui/icons-material'
+import { AddAPhotoOutlined, EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveModel from '@/models/CaveModel.js'
@@ -11,11 +11,13 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
+import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
+import MediaList from './MediaList.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
@@ -69,6 +71,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const [form, setForm] = useState(() => ({
     name: cave.name?.value || '',
     aka: cave.aka || [],
+    videos: Array.isArray(cave.videos) ? cave.videos : typeof cave.videos === 'string' ? cave.videos.split('|') : [],
     sistemaId: cave.sistemaId || '',
     source: cave.source || '',
     access: cave.access || '',
@@ -115,6 +118,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       const fields = {
         name: { value: form.name },
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
+        videos: form.videos.map((url) => url.trim()).filter(Boolean),
         sistemaId: form.sistemaId || undefined,
         source: form.source || undefined,
         access: form.access || undefined,
@@ -199,6 +203,22 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
 
       <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} />
+
+      <Divider />
+
+      <Typography variant="subtitle2">{t('pictures')}</Typography>
+      <MediaList caveId={cave.id} />
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
+        <Button component={Link} to={`/map/${cave.id}/medias`} size="small" startIcon={<EditRounded />}>
+          {t('managePictures')}
+        </Button>
+      </Box>
+
+      <Divider />
+
+      <Typography variant="subtitle2">{t('videos')}</Typography>
+      <RepeatableTextField label={t('videoUrl')} values={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} addLabel={t('addVideo')} removeLabel={t('removeVideo')} />
 
       <Divider />
 

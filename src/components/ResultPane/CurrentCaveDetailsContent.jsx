@@ -13,6 +13,7 @@ import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import MediaList from './MediaList.jsx'
+import VideoList from './VideoList.jsx'
 import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
@@ -136,6 +137,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
             <AddMediasButton color="inherit" variant="outlined" size="small" startIcon={<AddAPhotoOutlined color="primary" />} />
           </Box>
         </Box>
+
+        <VideoList caveId={cave.id} videos={cave.videos} />
 
         <Divider sx={{ mt: 'var(--oc-pane-padding-block)' }} />
       </>
