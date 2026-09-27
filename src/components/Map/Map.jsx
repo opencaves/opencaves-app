@@ -62,6 +62,7 @@ export default function OCMap() {
   const roles = useSelector((state) => state.session.roles)
 
   const { caveId } = useParams()
+  const previousCameraCaveIdRef = useRef(caveId)
   const location = useLocation()
   const currentRoute = useCurrentRoute()
 
@@ -536,8 +537,15 @@ export default function OCMap() {
     }
 
     const routeCave = caveData.find((cave) => cave.id === caveId)
+    if (!routeCave) {
+      return
+    }
 
-    if (persistedViewStateAvailable && _currentCave?.id === caveId && routeCave?.location) {
+    const caveRouteChanged = previousCameraCaveIdRef.current !== caveId
+    previousCameraCaveIdRef.current = caveId
+
+    // A newly selected route must fly even if Redux already holds this cave.
+    if (persistedViewStateAvailable && _currentCave?.id === caveId && !caveRouteChanged && routeCave.location) {
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
         const markerLngLat = marker.getLngLat()
         return markerLngLat.lng === routeCave.location.longitude && markerLngLat.lat === routeCave.location.latitude
@@ -549,7 +557,7 @@ export default function OCMap() {
 
       return
     }
-    if (routeCave?.location) {
+    if (routeCave.location) {
       // offsetForPane matters a lot now that the pane can be much wider in
       // edit mode (see ResultPaneLg.jsx) - without it, a cave (and any
       // entrance point further from it) can land squarely behind the pane

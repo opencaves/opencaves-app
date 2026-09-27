@@ -8,7 +8,7 @@ import { Clear, Tune, Search, ArrowBack, LocationOnOutlined } from '@mui/icons-m
 import AppMenu from '@/components/App/AppMenu.jsx'
 import { store } from '@/redux/store.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { setCurrentCave, clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
+import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { observeStore } from '@/utils/observeStore.jsx'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.jsx'
@@ -276,8 +276,8 @@ export default function SearchBar() {
   }
 
   function onResultsItemClick(id) {
+    // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
-    dispatch(setCurrentCave(selectedCave))
     setValue(selectedCave.name.value)
     clearSearchResults()
     setBackBtnOn(false)
