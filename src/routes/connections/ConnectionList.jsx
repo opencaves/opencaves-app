@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { AddRounded, ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material'
-import { Box, Button, IconButton, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
+import { AddRounded, ArrowBackRounded, ArrowForwardRounded, SearchRounded } from '@mui/icons-material'
+import { Box, Fab, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -41,38 +41,58 @@ export default function ConnectionList() {
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2, mb: 2 }}>
-        <TextField label={t('searchSistemaConnections')} value={search} onChange={(event) => setSearch(event.target.value)} sx={{ minWidth: 280, maxWidth: '100%' }} />
-        <Button component={Link} to="/sistemas" variant="outlined" size="small" startIcon={<AddRounded />}>
-          {t('chooseSistemaToConnect')}
-        </Button>
-      </Box>
-
       {loading ? (
         <Typography>{t('loading')}</Typography>
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             {t('sistemaConnectionCount', { count: filtered.length })}
           </Typography>
-          <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
-            {filtered.map((connection) => (
-              <ListItemButton key={connection.id} component={Link} to={`/connections/${connection.id}/edit`} divider>
-                <ListItemText
-                  primary={
-                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-                      <span>{sistemaNames.get(connection.sistemaId) || connection.sistemaId}</span>
+          <TextField
+            fullWidth
+            variant="outlined"
+            label={t('searchSistemaConnections')}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRounded />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <TableContainer component={Paper} sx={{ maxHeight: '70vh' }}>
+            <Table stickyHeader size="small" aria-label={t('manageSistemaConnections')}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{t('childSistema')}</TableCell>
+                  <TableCell aria-hidden="true" sx={{ width: 48 }} />
+                  <TableCell>{t('parentSistema')}</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filtered.map((connection) => (
+                  <TableRow key={connection.id} component={Link} to={`/connections/${connection.id}/edit`} hover sx={{ textDecoration: 'none' }}>
+                    <TableCell>{sistemaNames.get(connection.sistemaId) || connection.sistemaId}</TableCell>
+                    <TableCell aria-hidden="true" sx={{ width: 48, textAlign: 'center' }}>
                       <ArrowForwardRounded fontSize="small" color="action" />
-                      <span>{sistemaNames.get(connection.parentSistemaId) || connection.parentSistemaId || t('noParentSistema')}</span>
-                    </Box>
-                  }
-                  secondary={connection.connectionDate || connection.note || connection.id}
-                />
-              </ListItemButton>
-            ))}
-          </List>
+                    </TableCell>
+                    <TableCell>{sistemaNames.get(connection.parentSistemaId) || connection.parentSistemaId || t('noParentSistema')}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </>
       )}
+
+      <Fab color="primary" component={Link} to="/connections/new/edit" aria-label={t('newSistemaConnection')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
+        <AddRounded />
+      </Fab>
     </div>
   )
 }

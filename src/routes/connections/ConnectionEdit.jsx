@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
+import pushId from 'unique-push-id'
 import { ArrowBackRounded } from '@mui/icons-material'
 import { Alert, Box, Button, IconButton, InputAdornment, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
@@ -20,6 +21,7 @@ function SistemaColor({ color }) {
 
 export default function ConnectionEdit() {
   const { connectionId } = useParams()
+  const isNew = connectionId === 'new'
   const navigate = useNavigate()
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
@@ -32,6 +34,12 @@ export default function ConnectionEdit() {
   const [parentSearch, setParentSearch] = useState('')
 
   useEffect(() => {
+    if (isNew) {
+      setForm({ sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', reporter: '', note: '' })
+      setError(null)
+      return undefined
+    }
+
     let cancelled = false
     ConnectionModel.getById(connectionId)
       .then((connection) => {
@@ -60,12 +68,12 @@ export default function ConnectionEdit() {
     return () => {
       cancelled = true
     }
-  }, [connectionId, t])
+  }, [connectionId, isNew, t])
 
   useEffect(() => {
-    setTitle(t('editSistemaConnection'))
+    setTitle(t(isNew ? 'newSistemaConnection' : 'editSistemaConnection'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t])
+  }, [isNew, t])
 
   function field(name) {
     return {
@@ -78,7 +86,8 @@ export default function ConnectionEdit() {
     setSaving(true)
     setError(null)
     try {
-      await ConnectionModel.save(connectionId, {
+      await ConnectionModel.save(isNew ? pushId() : connectionId, {
+        sistemaId: form.sistemaId,
         parentSistemaId: form.parentSistemaId,
         source: form.source || deleteField(),
         connectionDate: form.connectionDate.trim() || deleteField(),
@@ -138,21 +147,38 @@ export default function ConnectionEdit() {
 
       {form && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 720 }}>
-          <TextField
-            label={t('childSistema')}
-            value={childName}
-            fullWidth
-            slotProps={{
-              input: {
-                readOnly: true,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SistemaColor color={childSistema?.color} />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
+          {isNew ? (
+            <TextField select label={t('childSistema')} fullWidth {...field('sistemaId')}>
+              <MenuItem value="">{t('childSistema')}</MenuItem>
+              {sistemas
+                .slice()
+                .sort((first, second) => (first.name || first.id).localeCompare(second.name || second.id))
+                .map((sistema) => (
+                  <MenuItem key={sistema.id} value={sistema.id}>
+                    <Box sx={{ mr: 1, display: 'inline-flex' }}>
+                      <SistemaColor color={sistema.color} />
+                    </Box>
+                    {sistema.name || sistema.id}
+                  </MenuItem>
+                ))}
+            </TextField>
+          ) : (
+            <TextField
+              label={t('childSistema')}
+              value={childName}
+              fullWidth
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SistemaColor color={childSistema?.color} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          )}
           <TextField
             select
             label={t('parentSistema')}
@@ -225,7 +251,7 @@ export default function ConnectionEdit() {
             <Button component={Link} to="/connections" disabled={saving}>
               {t('cancel')}
             </Button>
-            <Button variant="contained" onClick={handleSave} disabled={saving || !form.parentSistemaId}>
+            <Button variant="contained" onClick={handleSave} disabled={saving || !form.sistemaId || !form.parentSistemaId}>
               {t('save')}
             </Button>
           </Box>

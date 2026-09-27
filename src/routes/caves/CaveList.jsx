@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, List, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
-import { AddRounded, ArrowBackRounded } from '@mui/icons-material'
+import { Box, Fab, IconButton, InputAdornment, List, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { AddRounded, ArrowBackRounded, SearchRounded } from '@mui/icons-material'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -69,21 +69,35 @@ export default function CaveList() {
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
-        <Typography component="h1" variant="h5">Caves</Typography>
+        <Typography component="h1" variant="h5">
+          Caves
+        </Typography>
       </Box>
-
-      <TextField
-        label="Search by name"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 2, minWidth: 280 }}
-      />
 
       {loading ? (
         <Typography>Loading…</Typography>
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{filtered.length} cave(s)</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            {filtered.length} cave(s)
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="Search by name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRounded />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
           <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {groups.map(([areaName, groupCaves]) => (
               <li key={areaName}>
@@ -102,14 +116,7 @@ export default function CaveList() {
         </>
       )}
 
-      <Fab
-        className="oc-cave-list--new-fab"
-        color="primary"
-        component={Link}
-        to={`/caves/${pushId()}/edit`}
-        aria-label="New cave"
-        sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}
-      >
+      <Fab className="oc-cave-list--new-fab" color="primary" component={Link} to={`/caves/${pushId()}/edit`} aria-label="New cave" sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
         <AddRounded />
       </Fab>
     </div>

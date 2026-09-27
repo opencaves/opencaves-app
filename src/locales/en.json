@@ -666,6 +666,7 @@
     "backToDashboard": "Back to dashboard",
     "manageSistemaConnections": "Manage sistemas connexions",
     "searchSistemaConnections": "Search connections",
+    "newSistemaConnection": "New sistema connection",
     "chooseSistemaToConnect": "Choose a sistema to connect",
     "sistemaConnectionCount_one": "{{count}} connection",
     "sistemaConnectionCount_other": "{{count}} connections",

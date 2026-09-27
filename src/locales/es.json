@@ -666,6 +666,7 @@
     "backToDashboard": "Volver al panel",
     "manageSistemaConnections": "Gestionar conexiones entre sistemas",
     "searchSistemaConnections": "Buscar conexiones",
+    "newSistemaConnection": "Nueva conexión entre sistemas",
     "chooseSistemaToConnect": "Elegir un sistema para conectar",
     "sistemaConnectionCount_one": "{{count}} conexión",
     "sistemaConnectionCount_other": "{{count}} conexiones",
