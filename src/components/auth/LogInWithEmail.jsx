@@ -89,9 +89,9 @@ export default function LogInWithEmail() {
     <Section className="oc-log-in-with-email">
       <SectionForm>
         <SectionFields>
-          <TextInput ref={emailInputRef} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" variant="outlined" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />
+          <TextInput ref={emailInputRef} label={t('emailLabel')} type="email" name="email" required inputMode="email" autoComplete="email" value={email} error={emailError} onChange={(e) => setEmail(e.target.value)} onKeyUp={onEmailInputKeyUp} onValidityChange={onEmailInputValidityChange} />
           <Grid container direction="column">
-            <TextInput id="pwd" ref={passwordInputRef} label={t('passwordLabel')} type="password" name="password" required variant="outlined" value={password} error={passwordError} minLength={passwordMinLength} onChange={(e) => setPassword(e.target.value)} onKeyUp={onPasswordInputKeyUp} onValidityChange={(validity) => setPasswordInputValid(validity.valid)} />
+            <TextInput id="pwd" ref={passwordInputRef} label={t('passwordLabel')} type="password" name="password" required value={password} error={passwordError} minLength={passwordMinLength} onChange={(e) => setPassword(e.target.value)} onKeyUp={onPasswordInputKeyUp} onValidityChange={(validity) => setPasswordInputValid(validity.valid)} />
             <Typography component={Link} to="/password-recovery" sx={{ fontSize: 'small', display: 'block', textAlign: 'right', mt: 0.75 }}>
               {t('forgotPassword')}
             </Typography>

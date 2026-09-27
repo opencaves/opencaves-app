@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { ArrowDropDownRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
@@ -51,6 +52,7 @@ const HEADING_LEVELS = [1, 2, 3]
 // change when this was rewritten.
 export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '' }) {
   const { t } = useTranslation('markdownField')
+  const theme = useTheme()
   const rootRef = useRef(null)
   const editorRef = useRef(null)
   const lastEmittedRef = useRef(value)
@@ -257,7 +259,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         </DialogActions>
       </Dialog>
 
-      {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={resizable ? { '& textarea': { resize: 'vertical' } } : undefined} />}
+      {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={{ '& textarea': { ...theme.typography.md3Input, resize: resizable ? 'vertical' : 'none' } }} />}
 
       {/* Kept mounted (only hidden) rather than conditionally rendered when
           sourceMode is on: Milkdown attaches to this exact DOM node once on
@@ -271,6 +273,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           minHeight: `${(minRows * 1.4375 + 1) * 1.25}em`,
           resize: resizable ? 'vertical' : 'none',
           overflow: resizable ? 'auto' : 'visible',
+          '& .ProseMirror': theme.typography.md3Input,
         }}
         onMouseDown={(e) => {
           // Clicking below the last line (ProseMirror only occupies its

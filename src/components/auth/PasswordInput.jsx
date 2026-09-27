@@ -75,7 +75,6 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
         {...others}
         ref={ref}
         inputRef={inputRef}
-        variant="outlined"
         type={showPassword ? 'text' : 'password'}
         name="password"
         value={value}

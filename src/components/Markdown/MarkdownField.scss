@@ -1,13 +1,17 @@
 .oc-markdown-field {
   &--editor-wrap {
-    border: 1px solid rgba(0, 0, 0, 0.23);
+    border: 1px solid var(--md-palette-divider, rgba(0, 0, 0, 0.23));
     border-radius: 4px;
     transition: border-color 0.15s ease;
     padding: 8.5px 14px;
     box-sizing: border-box;
 
+    &:hover:not(:focus-within) {
+      border-color: var(--md-palette-text-primary);
+    }
+
     &:focus-within {
-      border-color: var(--md-sys-color-primary, #1976d2);
+      border-color: var(--md-palette-primary-main, #1976d2);
       border-width: 2px;
       padding: 7.5px 13px;
     }
@@ -86,14 +90,14 @@
       blockquote {
         margin: 0;
         padding-left: 1em;
-        border-left: 3px solid rgba(0, 0, 0, 0.15);
-        color: rgba(0, 0, 0, 0.6);
+        border-left: 3px solid var(--md-palette-divider);
+        color: var(--md-palette-text-secondary);
       }
 
       pre {
         margin: 0;
         padding: 0.6em 0.8em;
-        background: rgba(0, 0, 0, 0.05);
+        background: color-mix(in srgb, var(--md-palette-text-primary) 5%, var(--md-palette-background-paper));
         border-radius: 4px;
         overflow-x: auto;
         font-family: 'Roboto Mono', ui-monospace, monospace;
@@ -102,7 +106,7 @@
 
       code {
         font-family: 'Roboto Mono', ui-monospace, monospace;
-        background: rgba(0, 0, 0, 0.05);
+        background: color-mix(in srgb, var(--md-palette-text-primary) 5%, var(--md-palette-background-paper));
         border-radius: 3px;
         padding: 0.1em 0.3em;
         font-size: 0.9em;
@@ -115,7 +119,7 @@
 
       hr {
         border: none;
-        border-top: 1px solid rgba(0, 0, 0, 0.15);
+        border-top: 1px solid var(--md-palette-divider);
         margin: 0.6em 0;
       }
 
@@ -130,13 +134,13 @@
 
       th,
       td {
-        border: 1px solid rgba(0, 0, 0, 0.15);
+        border: 1px solid var(--md-palette-divider);
         padding: 0.3em 0.6em;
         text-align: left;
       }
 
       th {
-        background: rgba(0, 0, 0, 0.04);
+        background: color-mix(in srgb, var(--md-palette-text-primary) 4%, var(--md-palette-background-paper));
       }
     }
   }

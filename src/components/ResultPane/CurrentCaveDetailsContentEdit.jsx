@@ -277,6 +277,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         ))}
       </TextField>
 
+      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+
       <Divider />
 
       <Typography variant="subtitle2">{t('accessGroup')}</Typography>
@@ -323,11 +326,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           <FormControlLabel control={<Checkbox checked={form.activities} onChange={(e) => setForm((f) => ({ ...f, activities: e.target.checked }))} />} label={t('activities')} />
         </Tooltip>
       </Box>
-
-      <Divider />
-
-      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
-      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }}>
         <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>

@@ -326,6 +326,9 @@ export default function CaveEdit() {
           ))}
         </TextField>
 
+        <MarkdownField label="Description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+        <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+
         <Divider />
 
         <Typography variant="subtitle2">Access</Typography>
@@ -373,11 +376,6 @@ export default function CaveEdit() {
             <FormControlLabel control={<Checkbox {...checkboxField('activities')} />} label="Activities" />
           </Tooltip>
         </Box>
-
-        <Divider />
-
-        <MarkdownField label="Description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
-        <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
 
         <Divider />
 

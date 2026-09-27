@@ -2,7 +2,6 @@ import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { TextField } from '@mui/material'
 
 const TextInput = forwardRef(function TextInput(props, ref) {
-
   function v(v) {
     const r = { name }
     for (var key in v) {
@@ -11,25 +10,7 @@ const TextInput = forwardRef(function TextInput(props, ref) {
     return r
   }
 
-  const {
-    label,
-    name,
-    value = '',
-    type = 'text',
-    error = false,
-    helperText,
-    autoComplete,
-    inputMode,
-    maxLength,
-    minLength,
-    pattern,
-    customError = false,
-    onValidityChange = () => { },
-    onKeyUp = () => { },
-    onChange,
-    className,
-    ...others
-  } = props
+  const { label, name, value = '', type = 'text', error = false, helperText, autoComplete, inputMode, maxLength, minLength, pattern, customError = false, onValidityChange = () => {}, onKeyUp = () => {}, onChange, className, ...others } = props
 
   const [inputState, setInputState] = useState('indeterminate')
   const [inputValidity, setInputValidity] = useState({})
@@ -78,7 +59,6 @@ const TextInput = forwardRef(function TextInput(props, ref) {
   }, [value])
 
   useEffect(() => {
-
     if (inputState === 'indeterminate') {
       return
     }
@@ -101,7 +81,6 @@ const TextInput = forwardRef(function TextInput(props, ref) {
 
   useMemo(() => {
     if (value && inputState === 'determinate') {
-
       updateValidity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,12 +104,11 @@ const TextInput = forwardRef(function TextInput(props, ref) {
       ref={ref}
       inputRef={inputRef}
       label={label}
-      variant='outlined'
       type={type}
       name={name}
       value={value}
       error={inputError}
-      helperText={helperText ? inputError ? helperText : ' ' : null}
+      helperText={helperText ? (inputError ? helperText : ' ') : null}
       onChange={onChange}
       onKeyUp={onInputKeyUp}
       slotProps={{
@@ -139,8 +117,8 @@ const TextInput = forwardRef(function TextInput(props, ref) {
           inputMode,
           maxLength,
           minLength,
-          pattern
-        }
+          pattern,
+        },
       }}
     />
   )

@@ -163,6 +163,13 @@ const lightThemeOptions = {
       letterSpacing: 0,
       fontWeight: 400,
     },
+    md3Input: {
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem',
+      letterSpacing: '0.03125rem',
+      color: 'var(--md-palette-text-primary)',
+    },
     md3Placeholder: {
       fontSize: '1rem',
       fontWeight: 400,
@@ -172,6 +179,11 @@ const lightThemeOptions = {
     },
   },
   components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: 'filled',
+      },
+    },
     MuiAccordion: {
       variants: [
         {
