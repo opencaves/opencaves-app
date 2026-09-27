@@ -163,6 +163,13 @@ const lightThemeOptions = {
       letterSpacing: 0,
       fontWeight: 400,
     },
+    md3Placeholder: {
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem',
+      letterSpacing: '0.03125rem',
+      color: 'var(--md-palette-text-secondary)',
+    },
   },
   components: {
     MuiAccordion: {

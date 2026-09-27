@@ -293,7 +293,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         }}
       >
         {isEmpty && placeholder && (
-          <Typography className="oc-markdown-field--placeholder" color="text.disabled">
+          <Typography className="oc-markdown-field--placeholder" variant="md3Placeholder">
             {placeholder}
           </Typography>
         )}
