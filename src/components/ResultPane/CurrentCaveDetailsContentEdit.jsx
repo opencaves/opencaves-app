@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Checkbox, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
+import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -37,6 +38,7 @@ function MarkdownField({ label, value, onChange, minRows, resizable }) {
 export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
@@ -90,33 +92,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     })),
   }))
   const [saving, setSaving] = useState(false)
-  const [showFooterShadow, setShowFooterShadow] = useState(false)
-  const contentRef = useRef(null)
-
-  useEffect(() => {
-    const node = contentRef.current
-    if (!node) {
-      return undefined
-    }
-
-    const updateShadow = () => {
-      const container = node.parentElement
-      const hasScroll = container && container.scrollHeight > container.clientHeight + 1
-      setShowFooterShadow(hasScroll)
-    }
-
-    updateShadow()
-
-    const resizeObserver = new ResizeObserver(updateShadow)
-    resizeObserver.observe(node)
-
-    if (node.parentElement) {
-      resizeObserver.observe(node.parentElement)
-    }
-
-    return () => resizeObserver.disconnect()
-  }, [])
-
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   function field(name) {
     return {
       value: form[name],
@@ -202,8 +178,22 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     }
   }
 
+  async function handleDelete() {
+    setDeleteDialogOpen(false)
+    setSaving(true)
+    try {
+      await CaveModel.remove(cave.id)
+      invalidateData()
+      await getData()
+      dispatch(clearCurrentCave())
+      navigate('/map', { replace: true })
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
-    <Box ref={contentRef} className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
+    <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
       <TextField label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
@@ -339,7 +329,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
       <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1, boxShadow: showFooterShadow ? '0 -6px 16px -12px rgba(0,0,0,0.4)' : 'none' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }}>
+        <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
+          {t('delete')}
+        </Button>
         <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
           {t('cancel')}
         </Button>
@@ -347,6 +340,21 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           {t('save')}
         </Button>
       </Box>
+
+      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+        <DialogTitle>{t('deleteCave')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('deleteCaveConfirm', { name: form.name || cave.id })}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} disabled={saving}>
+            {t('cancel')}
+          </Button>
+          <Button color="error" onClick={handleDelete} disabled={saving}>
+            {t('delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }

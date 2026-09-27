@@ -397,6 +397,9 @@
       "description": "Description",
       "direction": "Getting there",
       "emptyPreview": "Nothing written yet",
+      "delete": "Delete",
+      "deleteCave": "Delete cave?",
+      "deleteCaveConfirm": "{{name}} will be permanently deleted. This cannot be undone.",
       "save": "Save",
       "cancel": "Cancel"
     }
