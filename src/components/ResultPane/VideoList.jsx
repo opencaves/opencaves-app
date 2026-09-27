@@ -37,7 +37,7 @@ function getEmbedUrl(value) {
   return null
 }
 
-export default function VideoList({ caveId, videos, onChange, showTitle = true, sx }) {
+export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((state) => state.session.roles)
   const scrollbarsRef = useRef()
@@ -117,7 +117,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     return () => container.removeEventListener('wheel', onWheel)
   }, [videoUrls.length])
 
-  if (videoUrls.length === 0 && !canEdit) {
+  if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
   }
 
@@ -193,9 +193,9 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
           </Scrollbars>
         </Box>
       )}
-      {canEdit && (
+      {(canEdit || showAdd) && (
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>
-          <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => setAddDialogOpen(true)}>
+          <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => (canEdit ? setAddDialogOpen(true) : onAddUnauthorized?.())}>
             {t('addVideos')}
           </Button>
         </Box>

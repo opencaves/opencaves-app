@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Box, Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
-import { Close, ContentCopy, LocationOnOutlined, MyLocationOutlined, LocationDisabledOutlined, FenceRounded, KeyRounded, AddAPhotoOutlined } from '@mui/icons-material'
+import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
+import { Close, ContentCopy, LocationOnOutlined, MyLocationOutlined, LocationDisabledOutlined, FenceRounded, KeyRounded } from '@mui/icons-material'
 import Markdown from '@/components/Markdown/Markdown.jsx'
-import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { getOS } from '@/utils/getOS.jsx'
@@ -12,8 +11,7 @@ import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
-import MediaList from './MediaList.jsx'
-import VideoList from './VideoList.jsx'
+import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
@@ -121,27 +119,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       <Divider />
 
-      <>
-        <Box sx={{ my: 'var(--oc-pane-padding-block)' }}>
-          <MediaList caveId={cave.id} />
+      <CaveMediaTabs caveId={cave.id} videos={cave.videos} maps={cave.maps} editable={false} />
 
-          <Box
-            // my='var(--oc-pane-padding-block)'
-            sx={{
-              paddingBlockStart: 'var(--oc-pane-padding-block)',
-              display: 'flex',
-              justifyContent: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <AddMediasButton color="inherit" variant="outlined" size="small" startIcon={<AddAPhotoOutlined color="primary" />} />
-          </Box>
-        </Box>
-
-        <VideoList caveId={cave.id} videos={cave.videos} />
-
-        <Divider sx={{ mt: 'var(--oc-pane-padding-block)' }} />
-      </>
+      <Divider />
 
       <List dense className="oc-results-copy-list">
         {hasAddressOrCoordinates && (

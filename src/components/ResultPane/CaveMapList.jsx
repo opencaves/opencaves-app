@@ -47,8 +47,10 @@ function MapPreview({ map, index }) {
   )
 }
 
-export default function CaveMapList({ maps, onChange }) {
+export default function CaveMapList({ maps, onChange, onAdd, canAdd = true, onAddUnauthorized }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const editable = Boolean(onChange)
+  const addMap = onChange || onAdd
   const [mapFiles] = mapsModel.useAll()
   const scrollbarsRef = useRef()
   const fileInputRef = useRef()
@@ -103,7 +105,7 @@ export default function CaveMapList({ maps, onChange }) {
     if (editingIndex === null) nextMaps.push(...uploaded.map((map) => map.id))
     else nextMaps[editingIndex] = uploaded[0].id
     setUploadedMaps((current) => Object.assign({}, current, ...uploaded.map((map) => ({ [map.id]: map }))))
-    onChange(nextMaps)
+    await addMap(nextMaps)
     setEditingIndex(null)
   }
 
@@ -121,31 +123,37 @@ export default function CaveMapList({ maps, onChange }) {
                       {t('originalFile')}
                     </Button>
                   )}
-                  <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
-                    <Tooltip title={t('editMap')}>
-                      <IconButton size="small" aria-label={t('editMap')} disabled={uploading} onClick={() => selectFile(index)} sx={{ color: 'common.white' }}>
-                        <EditRounded fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('removeMap')}>
-                      <IconButton size="small" aria-label={t('removeMap')} disabled={uploading} onClick={() => onChange(mapValues.filter((_, mapIndex) => mapIndex !== index))} sx={{ color: 'common.white' }}>
-                        <DeleteOutlineRounded fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
+                  {editable && (
+                    <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
+                      <Tooltip title={t('editMap')}>
+                        <IconButton size="small" aria-label={t('editMap')} disabled={uploading} onClick={() => selectFile(index)} sx={{ color: 'common.white' }}>
+                          <EditRounded fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={t('removeMap')}>
+                        <IconButton size="small" aria-label={t('removeMap')} disabled={uploading} onClick={() => onChange(mapValues.filter((_, mapIndex) => mapIndex !== index))} sx={{ color: 'common.white' }}>
+                          <DeleteOutlineRounded fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  )}
                 </Box>
               ))}
             </Box>
           </Scrollbars>
         </Box>
       )}
-      <Box sx={{ display: 'flex', justifyContent: 'center', pt: mapValues.length > 0 ? 2 : 0 }}>
-        <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading} onClick={() => selectFile()}>
-          {t('addMap')}
-        </Button>
-      </Box>
-      <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
-      <MapUploadFeedback uploading={uploading} progress={progress} current={current} total={total} error={error} success={success} clearError={clearError} />
+      {addMap && (
+        <>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: mapValues.length > 0 ? 2 : 0 }}>
+            <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())}>
+              {t('addMap')}
+            </Button>
+          </Box>
+          <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
+          <MapUploadFeedback uploading={uploading} progress={progress} current={current} total={total} error={error} success={success} clearError={clearError} />
+        </>
+      )}
     </>
   )
 }
