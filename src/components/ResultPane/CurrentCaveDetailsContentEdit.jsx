@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { AddAPhotoOutlined, EditRounded } from '@mui/icons-material'
+import { EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveModel from '@/models/CaveModel.js'
@@ -11,15 +11,13 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
-import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
-import MediaList from './MediaList.jsx'
-import VideoList from './VideoList.jsx'
+import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
@@ -208,19 +206,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <Typography variant="subtitle2">{t('pictures')}</Typography>
-      <MediaList caveId={cave.id} editable />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
-        <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
-        <Button component={Link} to={`/map/${cave.id}/medias`} size="small" startIcon={<EditRounded />}>
-          {t('managePictures')}
-        </Button>
-      </Box>
-
-      <Divider />
-
-      <Typography variant="subtitle2">{t('videos')}</Typography>
-      <VideoList caveId={cave.id} videos={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} showTitle={false} sx={{ px: 0, pt: 0 }} />
+      <CaveMediaTabs caveId={cave.id} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} />
 
       <Divider />
 
