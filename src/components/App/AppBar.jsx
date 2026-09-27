@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Button, Drawer, styled, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
@@ -11,12 +11,6 @@ import { appName, appTitle } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
 const drawerWidth = 240
-const navItems = [
-  { key: 'home', to: '/' },
-  { key: 'about', to: '/about' },
-  // { key: 'contact', to: '/contact' }
-]
-
 export default function AppBar(props) {
   const { window } = props
   const dispatch = useDispatch()
@@ -25,6 +19,10 @@ export default function AppBar(props) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const roles = useSelector((state) => state.session.roles)
+  const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
+  const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
