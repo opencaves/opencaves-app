@@ -8,7 +8,10 @@ const initialState = {
   searchBarOff: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
-  resultPaneSmCurrentBreakpoint: paneInitialBreakpoint
+  resultPaneSmCurrentBreakpoint: paneInitialBreakpoint,
+  // Which of the Pictures/Videos/Maps tabs was last open, per cave - lets a
+  // reload of the same cave's pane come back to the tab the person was on.
+  caveMediaTabByCaveId: {},
 }
 
 export const appSlice = createSlice({
@@ -29,11 +32,15 @@ export const appSlice = createSlice({
     },
     setResultPaneSmCurrentBreakpoint: (state, action) => {
       state.resultPaneSmCurrentBreakpoint = action.payload
-    }
+    },
+    setCaveMediaTab: (state, action) => {
+      const { caveId, tab } = action.payload
+      state.caveMediaTabByCaveId[caveId] = tab
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmCurrentBreakpoint } = appSlice.actions
+export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmCurrentBreakpoint, setCaveMediaTab } = appSlice.actions
 
 export default appSlice.reducer

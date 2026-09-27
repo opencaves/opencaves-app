@@ -40,6 +40,15 @@ export default defineConfig({
     },
   },
   envPrefix: ['VITE_', 'REACT_APP_'],
+  optimizeDeps: {
+    // pdf-into-svg resolves its .NET WASM runtime assets at request time via
+    // relative import.meta.url paths (see node_modules/pdf-into-svg/dist/index.js).
+    // Vite's dependency pre-bundling flattens the package into
+    // node_modules/.vite/deps/, which breaks those relative paths since the
+    // sibling runtime/ folder doesn't get copied alongside it - excluding it
+    // keeps it served straight from node_modules, where the paths resolve.
+    exclude: ['pdf-into-svg'],
+  },
   plugins: [
     react({
       include: /\.(js|jsx|ts|tsx)$/,

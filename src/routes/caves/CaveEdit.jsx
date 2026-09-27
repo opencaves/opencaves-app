@@ -43,7 +43,6 @@ const emptyForm = {
   reporter: '',
   note: '',
   aka: [],
-  maps: [],
   videos: [],
   nameTranslations: [],
   longitude: '',
@@ -124,7 +123,6 @@ export default function CaveEdit() {
         reporter: cave?.reporter || '',
         note: cave?.note || '',
         aka: cave?.aka || [],
-        maps: cave?.maps || [],
         videos: Array.isArray(cave?.videos) ? cave.videos : typeof cave?.videos === 'string' ? cave.videos.split('|') : [],
         nameTranslations: Object.entries(cave?.nameTranslations || {}).map(([lang, values]) => ({
           lang,
@@ -178,7 +176,6 @@ export default function CaveEdit() {
         reporter: form.reporter || undefined,
         note: form.note || undefined,
         aka: form.aka.map((s) => s.trim()).filter(Boolean).length > 0 ? form.aka.map((s) => s.trim()).filter(Boolean) : undefined,
-        maps: form.maps.map((s) => s.trim()).filter(Boolean),
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
       }
 
@@ -250,7 +247,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} maps={form.maps} onMapsChange={(maps) => setForm((f) => ({ ...f, maps }))} isNew={isNew} standaloneUpload />
+        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
 
         <Divider />
 

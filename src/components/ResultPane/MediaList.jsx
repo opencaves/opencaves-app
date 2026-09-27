@@ -2,10 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
-import { DeleteOutlineRounded, EditRounded, PhotoLibraryRounded } from '@mui/icons-material'
+import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Typography } from '@mui/material'
+import { CloseRounded, DeleteOutlineRounded, EditRounded, PhotoLibraryRounded } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import CardOptionsMenu from './CardOptionsMenu.jsx'
 import Picture from '@/components/Picture.jsx'
 import { countAssets, deleteById, getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
@@ -28,7 +29,7 @@ export function loadMediaCount(caveId) {
 
 export default function MediaList({ caveId, editable = false, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
+  const canDelete = useSelector((state) => state.session.roles.includes('editor'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)
@@ -226,6 +227,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
 
 function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const [viewerOpen, setViewerOpen] = useState(false)
   const fullHeight = assetsListConfig.height
   const fullWidth = assetsListConfig.height * assetsListConfig.widthRatio
   const width = size === 'full' ? fullWidth : fullWidth / 2 - assetsListConfig.spacing / 2
@@ -250,21 +252,24 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
       {editable && (
-        <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
-          <Tooltip title={t('editPicture')}>
-            <IconButton component={Link} to={`/map/${caveId}/medias/${media.id}`} size="small" aria-label={t('editPicture')} sx={{ color: 'common.white' }}>
-              <EditRounded fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          {canDelete && (
-            <Tooltip title={t('deletePicture')}>
-              <IconButton size="small" aria-label={t('deletePicture')} onClick={() => onDelete(media)} sx={{ color: 'common.white' }}>
-                <DeleteOutlineRounded fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          )}
-        </Box>
+        <CardOptionsMenu
+          ariaLabel={t('pictureOptions')}
+          actions={[
+            { label: t('editPicture'), icon: <EditRounded fontSize="small" />, onClick: () => setViewerOpen(true) },
+            ...(canDelete ? [{ label: t('deletePicture'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => onDelete(media), danger: true }] : []),
+          ]}
+        />
       )}
+      <Dialog className="oc-picture-viewer-dialog" open={viewerOpen} onClose={() => setViewerOpen(false)} maxWidth="lg" fullWidth>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
+          <IconButton onClick={() => setViewerOpen(false)} aria-label={t('closeVideo', { defaultValue: 'Close' })}>
+            <CloseRounded />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ p: 0, bgcolor: 'common.black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Picture sources={media.getSources(['1024', '1536', '4k'], { sizes: true })} alt="" style={{ maxWidth: '100%', maxHeight: '80vh', objectFit: 'contain' }} />
+        </DialogContent>
+      </Dialog>
     </Box>
   ) : status === 'failed' ? (
     <Box

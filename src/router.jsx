@@ -270,6 +270,10 @@ const routes = [
                 lazy: () => import('@/components/MediaPane/MediaPane.jsx').then(({ default: Component, mediaPaneLoader: loader }) => ({ Component, loader })),
               },
               {
+                path: 'maps/:mapId?',
+                lazy: () => import('@/components/MapPane/MapPane.jsx').then(({ default: Component, mapPaneLoader: loader }) => ({ Component, loader })),
+              },
+              {
                 path: 'sistemas',
                 ...requireEditor(() => import('@/components/SistemaPane/SistemaPane.jsx')),
                 children: [

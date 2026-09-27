@@ -362,7 +362,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MapsPicker label="Maps" value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} />
+          <MapsPicker label="Maps" value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} />
         </Grid>
       </Grid>
 

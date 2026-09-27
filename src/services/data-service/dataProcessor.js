@@ -291,11 +291,6 @@ function getCaves(data) {
           fn: str
         },
         {
-          new: 'maps',
-          old: 'maps',
-          fn: arrStr
-        },
-        {
           new: 'videos',
           old: 'Videos',
           fn: getVideoUrls

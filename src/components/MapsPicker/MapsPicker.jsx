@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Avatar, Box, Button, Card, CardActionArea, CircularProgress, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Menu, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded, DescriptionRounded, ImageRounded } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
-import RepeatableTextField from '@/components/RepeatableTextField.jsx'
+import AuthorsField from './AuthorsField.jsx'
+import PendingFilePreview from './PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
 
-const emptyPendingDetails = { date: '', authors: [], legend: '' }
+const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
 const mapsModel = createCollectionModel('maps')
 
@@ -32,12 +33,12 @@ function MapThumbnail({ map, size }) {
 // by every sistema - not scoped to one sistema, same sharing model as
 // ColorPicker's `colors` palette. `value` is an array of map doc IDs;
 // `onChange` receives the updated array.
-export default function MapsPicker({ label, value = [], onChange }) {
+export default function MapsPicker({ label, value = [], onChange, sistemaName = '' }) {
   const { t } = useTranslation('mapsPicker')
   const [maps] = mapsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
-  const { uploadMaps, uploading, progress, current, total, error, success, clearError } = useMapUpload()
-  const [pendingFiles, setPendingFiles] = useState([])
+  const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
+  const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const open = Boolean(anchorEl)
 
@@ -49,7 +50,7 @@ export default function MapsPicker({ label, value = [], onChange }) {
 
   function handleClose() {
     setAnchorEl(null)
-    setPendingFiles([])
+    setPendingFile(null)
     setPendingDetails(emptyPendingDetails)
   }
 
@@ -62,30 +63,31 @@ export default function MapsPicker({ label, value = [], onChange }) {
   }
 
   function handleFileSelected(event) {
-    const files = Array.from(event.target.files || [])
+    const file = event.target.files?.[0]
     event.target.value = ''
-    if (files.length === 0) {
+    if (!file) {
       return
     }
-    setPendingFiles(files)
-    setPendingDetails(emptyPendingDetails)
+    setPendingFile(file)
+    setPendingDetails({ ...emptyPendingDetails, title: sistemaName })
   }
 
   function cancelPendingUpload() {
-    setPendingFiles([])
+    setPendingFile(null)
     setPendingDetails(emptyPendingDetails)
   }
 
   async function confirmUpload() {
     const trimmedAuthors = pendingDetails.authors.map((author) => author.trim()).filter(Boolean)
-    const uploaded = await uploadMaps(pendingFiles, {
+    const uploaded = await uploadMap(pendingFile, {
+      title: pendingDetails.title.trim(),
       date: pendingDetails.date || undefined,
-      authors: trimmedAuthors.length > 0 ? trimmedAuthors : undefined,
-      legend: pendingDetails.legend || undefined,
+      authors: trimmedAuthors,
+      note: pendingDetails.note.trim() || undefined,
     })
-    if (uploaded.length === 0) return
+    if (!uploaded) return
 
-    onChange([...value, ...uploaded.map((map) => map.id)])
+    onChange([...value, uploaded.id])
     handleClose()
   }
 
@@ -96,7 +98,7 @@ export default function MapsPicker({ label, value = [], onChange }) {
       </Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'flex-start' }}>
         {selectedMaps.map((m) => (
-          <Card key={m.id} className="oc-maps-picker--card" title={[m.date, m.authors?.join(', '), m.legend].filter(Boolean).join(' · ') || undefined} sx={{ width: 160, position: 'relative', flexShrink: 0 }}>
+          <Card key={m.id} className="oc-maps-picker--card" title={[m.date, m.authors?.join(', ')].filter(Boolean).join(' · ') || undefined} sx={{ width: 160, position: 'relative', flexShrink: 0 }}>
             <IconButton size="small" onClick={() => removeChip(m.id)} aria-label={t('removeMap')} sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
               <CloseRounded fontSize="small" />
             </IconButton>
@@ -119,19 +121,27 @@ export default function MapsPicker({ label, value = [], onChange }) {
       </Box>
 
       <Menu className="oc-maps-picker--menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {pendingFiles.length > 0 ? (
-          <Box className="oc-maps-picker--upload-details" sx={{ width: 340, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            <Typography variant="subtitle2" noWrap title={pendingFiles.map((file) => file.name).join(', ')}>
-              {pendingFiles.length === 1 ? pendingFiles[0].name : t('filesSelected', { count: pendingFiles.length })}
-            </Typography>
-            <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
-            <RepeatableTextField label={t('mapAuthors')} values={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} addLabel={t('addAuthor')} removeLabel={t('removeAuthor')} />
-            <TextField size="small" label={t('mapLegend')} fullWidth multiline minRows={2} value={pendingDetails.legend} onChange={(e) => setPendingDetails((d) => ({ ...d, legend: e.target.value }))} />
+        {pendingFile ? (
+          <Box className="oc-maps-picker--upload-details" sx={{ width: 900, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            <Box sx={{ display: 'flex', gap: 1.5 }}>
+              <Box sx={{ width: 440, height: 440, flexShrink: 0 }}>
+                <PendingFilePreview file={pendingFile} width={440} height={440} />
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, flex: 1, minWidth: 0 }}>
+                <Typography variant="subtitle2" noWrap title={pendingFile.name}>
+                  {pendingFile.name}
+                </Typography>
+                <TextField size="small" label={t('mapTitle')} required fullWidth autoFocus value={pendingDetails.title} onChange={(e) => setPendingDetails((d) => ({ ...d, title: e.target.value }))} />
+                <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+                <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
+                <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} />
+              </Box>
+            </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
               <Button size="small" onClick={cancelPendingUpload} disabled={uploading}>
                 {t('cancel')}
               </Button>
-              <Button size="small" variant="contained" onClick={confirmUpload} disabled={uploading} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
+              <Button size="small" variant="contained" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
                 {t('add')}
               </Button>
             </Box>
@@ -158,13 +168,13 @@ export default function MapsPicker({ label, value = [], onChange }) {
             <Box sx={{ px: 1.5, py: 1.5, borderTop: '1px solid', borderColor: 'divider' }}>
               <Button component="label" size="small" startIcon={<AddRounded />}>
                 {t('upload')}
-                <input type="file" hidden multiple accept="image/*,application/pdf" onChange={handleFileSelected} />
+                <input type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
               </Button>
             </Box>
           </>
         )}
       </Menu>
-      <MapUploadFeedback uploading={uploading} progress={progress} current={current} total={total} error={error} success={success} clearError={clearError} />
+      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} success={success} clearError={clearError} />
     </Box>
   )
 }

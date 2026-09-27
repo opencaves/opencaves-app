@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded, DeleteOutlineRounded, EditRounded, PlayArrowRounded } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { assetsListConfig } from '@/config/resultPane.js'
 import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
@@ -163,27 +164,21 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                         </Box>
                       )}
                       {onChange && (
-                        <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
-                          <Tooltip title={t('edit.editVideo')}>
-                            <IconButton
-                              size="small"
-                              aria-label={t('edit.editVideo')}
-                              onClick={() => {
+                        <CardOptionsMenu
+                          ariaLabel={t('edit.videoOptions')}
+                          actions={[
+                            {
+                              label: t('edit.editVideo'),
+                              icon: <EditRounded fontSize="small" />,
+                              onClick: () => {
                                 setEditingIndex(index)
                                 setNewVideoUrl(video)
                                 setAddDialogOpen(true)
-                              }}
-                              sx={{ color: 'common.white' }}
-                            >
-                              <EditRounded fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title={t('edit.removeVideo')}>
-                            <IconButton size="small" aria-label={t('edit.removeVideo')} onClick={() => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))} sx={{ color: 'common.white' }}>
-                              <DeleteOutlineRounded fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        </Box>
+                              },
+                            },
+                            { label: t('edit.removeVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index)), danger: true },
+                          ]}
+                        />
                       )}
                     </Box>
                   )

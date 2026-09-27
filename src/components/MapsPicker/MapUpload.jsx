@@ -13,106 +13,77 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 
 const mapsModel = createCollectionModel('maps')
 
-async function getMapName(file) {
-  const filename = file.name.replace(/\.[^.]+$/, '')
-  if (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)) {
-    try {
-      const { PDFDocument } = await import('pdf-lib')
-      const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true })
-      return pdf.getTitle()?.trim() || filename
-    } catch (error) {
-      console.warn('Could not read PDF map title', error)
-      return filename
-    }
-  }
-  if (file.type !== 'image/svg+xml' && !/\.svg$/i.test(file.name)) return filename
-
-  const document = new DOMParser().parseFromString(await file.text(), 'image/svg+xml')
-  return document.querySelector('svg > title')?.textContent?.trim() || filename
-}
-
+// A map's title always comes from the person uploading it (see MapUploadDetailsFields)
+// rather than being guessed from the file, so every map has a name the person
+// who added it actually chose.
 export function useMapUpload() {
   const { t } = useTranslation('mapsPicker')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [current, setCurrent] = useState(null)
-  const [total, setTotal] = useState(0)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
 
-  async function uploadMaps(files, details = {}) {
-    const selectedFiles = Array.from(files)
-    if (selectedFiles.length === 0) return []
+  async function uploadMap(file, { title, authors = [], date, note } = {}) {
+    if (!file) return null
     setError(null)
     setSuccess(null)
-    if (selectedFiles.some((file) => !file.type.startsWith('image/') && file.type !== 'application/pdf')) {
+    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
       setError('invalidMapFile')
-      return []
+      return null
     }
 
     setUploading(true)
     setProgress(0)
-    setTotal(selectedFiles.length)
-    const totalBytes = Math.max(
-      1,
-      selectedFiles.reduce((total, file) => total + file.size, 0),
-    )
-    let completedBytes = 0
-    let previewUrl = null
-    const uploadedMaps = []
-    let failed = false
+    // A quick object URL, not the heavier vector conversion used for the
+    // large dialog preview - just enough for a snackbar-sized miniature.
+    const thumbnailUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : null
+    setCurrent({ index: 1, type: file.type, url: thumbnailUrl })
+    let uploadedMap = null
     try {
-      for (const [index, file] of selectedFiles.entries()) {
-        if (previewUrl) URL.revokeObjectURL(previewUrl)
-        previewUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : null
-        setCurrent({ index: index + 1, type: file.type, url: previewUrl })
-        const id = pushId()
-        const isPdf = file.type === 'application/pdf'
-        const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
-        const task = uploadBytesResumable(storageRef, file)
-        await new Promise((resolve, reject) => {
-          task.on('state_changed', (snapshot) => setProgress(Math.round(((completedBytes + snapshot.bytesTransferred) / totalBytes) * 100)), reject, resolve)
-        })
+      const id = pushId()
+      const isPdf = file.type === 'application/pdf'
+      const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
+      const task = uploadBytesResumable(storageRef, file)
+      await new Promise((resolve, reject) => {
+        task.on('state_changed', (snapshot) => setProgress(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)), reject, resolve)
+      })
 
-        completedBytes += file.size
-        const url = await getDownloadURL(storageRef)
-        const map = { name: await getMapName(file), url, contentType: file.type, ...details }
-        await mapsModel.save(id, map)
-        uploadedMaps.push({ id, ...map })
+      const url = await getDownloadURL(storageRef)
+      const map = { name: title, url, contentType: file.type, authors: authors.length > 0 ? authors : undefined, date: date || undefined, note: note || undefined }
+      await mapsModel.save(id, map)
+      uploadedMap = { id, ...map }
+
+      invalidateData()
+      try {
+        await getData()
+      } catch (refreshError) {
+        console.error('Map data refresh failed after upload', refreshError)
       }
+
+      setProgress(100)
+      setSuccess(t(isPdf ? 'uploadSuccessPdf' : 'uploadSuccess', { count: 1 }))
     } catch (cause) {
       console.error(cause)
-      failed = true
       setError('uploadError')
     } finally {
-      if (uploadedMaps.length > 0) {
-        invalidateData()
-        try {
-          await getData()
-        } catch (refreshError) {
-          console.error('Map data refresh failed after upload', refreshError)
-        }
-      }
-      if (!failed) {
-        setProgress(100)
-        setSuccess(t(selectedFiles.some((file) => file.type === 'application/pdf') ? 'uploadSuccessPdf' : 'uploadSuccess', { count: uploadedMaps.length }))
-      }
-      if (previewUrl) URL.revokeObjectURL(previewUrl)
       setUploading(false)
+      if (thumbnailUrl) URL.revokeObjectURL(thumbnailUrl)
+      setCurrent(null)
     }
-    return uploadedMaps
+    return uploadedMap
   }
 
-  return { uploadMaps, uploading, progress, current, total, error, success, clearError: () => setError(null) }
+  return { uploadMap, uploading, progress, current, error, success, clearError: () => setError(null) }
 }
 
-export default function MapUploadFeedback({ uploading, progress, current, total, error, success, clearError }) {
+export default function MapUploadFeedback({ uploading, progress, current, error, success, clearError }) {
   const { t } = useTranslation('mapsPicker')
 
   return (
     <>
       <Snackbar open={uploading} autoHide={false}>
-        <UploadInfo total={total} progress={progress} current={current} />
+        <UploadInfo total={1} progress={progress} current={current} />
       </Snackbar>
       {error && (
         <ErrorAlert open={true} onClose={clearError} header={t('uploadErrorHeader')} dismissLabel={t('dismiss')}>

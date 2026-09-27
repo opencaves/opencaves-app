@@ -1,0 +1,64 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import { DeleteOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
+
+// Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
+// injected into the Lightbox with the same edit/delete actions already
+// available from the Maps tab's own three-dot menu.
+export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+
+  function handleClose() {
+    setAnchorEl(null)
+  }
+
+  return (
+    <>
+      <IconButton
+        {...props}
+        aria-label={t('mapOptions')}
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+        aria-haspopup="true"
+        sx={{ color: 'var(--yarl__color_button, hsla(0, 0%, 100%, .8))' }}
+        className="oc-map-pane-menu yarl__button"
+      >
+        <MoreVert sx={{ fontSize: '1.75rem' }} />
+      </IconButton>
+      <Menu
+        className="oc-map-pane-menu--menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose()
+            onEdit(map)
+          }}
+        >
+          <ListItemIcon>
+            <EditRounded fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{t('editMap')}</ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose()
+            onDelete(map)
+          }}
+          sx={{ color: 'error.main' }}
+        >
+          <ListItemIcon sx={{ color: 'error.main' }}>
+            <DeleteOutlineRounded fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{t('removeMap')}</ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  )
+}

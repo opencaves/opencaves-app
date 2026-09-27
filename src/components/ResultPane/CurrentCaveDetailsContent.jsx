@@ -119,7 +119,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
       <Divider />
 
-      <CaveMediaTabs caveId={cave.id} videos={cave.videos} maps={cave.maps} editable={false} />
+      <CaveMediaTabs caveId={cave.id} videos={cave.videos} sistemaId={cave.sistemaId} editable={false} />
 
       <Divider />
 
