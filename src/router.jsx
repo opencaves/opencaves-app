@@ -154,6 +154,7 @@ const routes = [
   {
     path: '/',
     element: <AppRoot />,
+    HydrateFallback: Loading,
     // Catches any path that doesn't match a route anywhere under here
     // (not just this route's own render errors) - without it, a totally
     // unmatched path (e.g. an old bookmarked URL) falls through to
