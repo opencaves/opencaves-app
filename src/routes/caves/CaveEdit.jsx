@@ -43,7 +43,6 @@ const emptyForm = {
   facilities: false,
   activities: false,
   explorationDate: '',
-  rating: '',
   reporter: '',
   note: '',
   aka: [],
@@ -125,7 +124,6 @@ export default function CaveEdit() {
         facilities: !!cave?.facilities,
         activities: !!cave?.activities,
         explorationDate: cave?.explorationDate || '',
-        rating: cave?.rating ?? '',
         reporter: cave?.reporter || '',
         note: cave?.note || '',
         aka: cave?.aka || [],
@@ -180,7 +178,6 @@ export default function CaveEdit() {
         facilities: form.facilities,
         activities: form.activities,
         explorationDate: form.explorationDate || undefined,
-        rating: form.rating === '' ? undefined : Number(form.rating),
         reporter: form.reporter || undefined,
         note: form.note || undefined,
         aka: form.aka.map((s) => s.trim()).filter(Boolean).length > 0 ? form.aka.map((s) => s.trim()).filter(Boolean) : undefined,
@@ -416,14 +413,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Grid container spacing={2}>
-          <Grid size={6}>
-            <TextField label="Exploration date" fullWidth {...field('explorationDate')} />
-          </Grid>
-          <Grid size={6}>
-            <TextField label="Rating" type="number" fullWidth {...field('rating')} />
-          </Grid>
-        </Grid>
+        <TextField label="Exploration date" fullWidth {...field('explorationDate')} />
         <TextField label="Reported by" fullWidth {...field('reporter')} />
         <RepeatableTextField label="Maps" values={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} addLabel="Add map" removeLabel="Remove map" />
         <TextField label="Note" fullWidth multiline minRows={2} {...field('note')} />
