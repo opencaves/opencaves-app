@@ -155,6 +155,9 @@ export default function OCMap() {
     })
   }, [filteredCaves, isWidePaneEditMode, editFieldCoordinates.location, caveId])
 
+  const selectedCave = displayedCaves?.find((cave) => cave.id === caveId)
+  const selectedCaveMarkerColor = selectedCave?.sistemas?.[selectedCave.sistemas.length - 1]?.color || SISTEMA_DEFAULT_COLOR
+
   function filterCaves(caves, filters) {
     function or(filters) {
       return function iteratee(result, item) {
@@ -647,6 +650,23 @@ export default function OCMap() {
                     </Marker>
                   )
                 })}
+
+            {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
+              <Marker key={`selected-entrance-${selectedCave.id}`} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
+                <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
+                  <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor="white" />
+                </Box>
+              </Marker>
+            )}
+            {selectedCave &&
+              !isWidePaneEditMode &&
+              selectedCave.keys?.map((key, index) => (
+                <Marker key={`selected-key-${selectedCave.id}-${index}`} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
+                  <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
+                    <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor="white" />
+                  </Box>
+                </Marker>
+              ))}
 
             {displayedCaves
               ?.filter(({ location }) => {
