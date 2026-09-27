@@ -1,12 +1,12 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
 import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
-import { getData } from '@/services/data-service.jsx'
+import { subscribeToData } from '@/services/data-service.jsx'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
 import TitleBar from '@/components/App/TitleBar.jsx'
 import ManageAppUpdate from '@/components/App/ManageAppUpdate.jsx'
@@ -32,17 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const App = () => {
-
   const dispatch = useDispatch()
   const { title } = useTitle()
 
-  getData()
-    .then(() => {
-      dispatch(setDataLoadingState({ state: 'loaded' }))
-    })
-    .catch(error => {
-      dispatch(setDataLoadingState({ state: 'error', error }))
-    })
+  useEffect(() => {
+    dispatch(setDataLoadingState({ state: 'loading' }))
+    return subscribeToData(
+      () => dispatch(setDataLoadingState({ state: 'loaded' })),
+      (error) => {
+        console.error('[subscribeToData] %o', error)
+        dispatch(setDataLoadingState({ state: 'error', error }))
+      },
+    )
+  }, [dispatch])
 
   return (
     <Fragment>
@@ -50,22 +52,22 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Splash />
         <GlobalStyles
-          styles={theme => ({
+          styles={(theme) => ({
             ':root': {
-              ...Object.entries(theme.transitions.duration).reduce((styles, style) => ({
-                ...styles, [`--${theme.cssVarPrefix
-                  }-transition-duration-${style[0]}`]: `${style[1]}ms`
-              }), {})
-            }
+              ...Object.entries(theme.transitions.duration).reduce(
+                (styles, style) => ({
+                  ...styles,
+                  [`--${theme.cssVarPrefix}-transition-duration-${style[0]}`]: `${style[1]}ms`,
+                }),
+                {},
+              ),
+            },
           })}
         />
         <CssBaseline />
         <HelmetProvider>
-          <Helmet
-            defaultTitle={appTitle}
-          >
+          <Helmet defaultTitle={appTitle}>
             <title>{title}</title>
-
           </Helmet>
           <TitleBar />
           <SnackbarProvider>

@@ -1,8 +1,7 @@
-import { readCaveDataFromFirestore } from './data-service/firestoreDataReader.js'
+import { readCaveDataFromFirestore, subscribeToCaveData } from './data-service/firestoreDataReader.js'
 import { postProcessCaveData } from './data-service/postProcessCaveData.js'
 import { store } from '@/redux/store.jsx'
 import { setAccesses, setAccessibilities, setAreas, setCaves, setColors, setConnections, setSistemas, setSources, setExpires, invalidateExpires, setLanguages } from '@/redux/slices/dataSlice'
-
 
 function handleSetCaves(data) {
   store.dispatch(setAccesses(data.accesses))
@@ -25,17 +24,13 @@ export function invalidateData() {
 
 export function getData() {
   return new Promise((resolve, reject) => {
-    // console.log('[getData] getting data...')
     function doGetData() {
       fetchCaveData()
-        .then(data => {
+        .then((data) => {
           handleSetCaves(data)
-          // console.log('[getData] returning data from fetch')
           resolve()
-
-          // setgeoJson(toGeojson(data.caves))
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('[getData] %o', error)
           reject(error)
         })
@@ -44,31 +39,43 @@ export function getData() {
     if (store.getState().data.caves.length === 0) {
       doGetData()
     } else {
-      // console.log('[getData] returning data from store')
       const expires = store.getState().data.expires
       const now = Date.now()
-      if (expires && expires < now) {
+      if (expires === 0 || (expires && expires < now)) {
         console.log('[getData] data expired. Fetching again...')
         doGetData()
+      } else {
+        resolve()
       }
-      resolve()
     }
   })
 }
 
-async function fetchCaveData() {
-  return readCaveDataFromFirestore().then((data) => {
-    // console.log('[fetchCaveData] raw data: %o', data)
-    data = postProcessCaveData(data)
-
-    const bounds = {
-      minLongitude: 180,
-      maxLongitude: -180,
-      minLatitude: 90,
-      maxLatitude: -90
+export function subscribeToData(onData, onError) {
+  return subscribeToCaveData((rawData) => {
+    try {
+      handleSetCaves(processCaveData(rawData))
+      onData()
+    } catch (error) {
+      onError(error)
     }
-    // console.log('[fetchCaveData] processed data: %o', data)
-    data.caves.filter(c => c.location).forEach(cave => {
+  }, onError)
+}
+
+function processCaveData(data) {
+  // console.log('[fetchCaveData] raw data: %o', data)
+  data = postProcessCaveData(data)
+
+  const bounds = {
+    minLongitude: 180,
+    maxLongitude: -180,
+    minLatitude: 90,
+    maxLatitude: -90,
+  }
+  // console.log('[fetchCaveData] processed data: %o', data)
+  data.caves
+    .filter((c) => c.location)
+    .forEach((cave) => {
       // console.log('cave: %o', cave)
       const lng = cave.location.longitude
       const lat = cave.location.latitude
@@ -89,8 +96,11 @@ async function fetchCaveData() {
       }
     })
 
-    data.bounds = bounds
+  data.bounds = bounds
 
-    return data
-  })
+  return data
+}
+
+async function fetchCaveData() {
+  return processCaveData(await readCaveDataFromFirestore())
 }

@@ -11,7 +11,8 @@ export default function Sistema({ sistemaHistory }) {
   const { t: t2 } = useTranslation('resultPane')
 
   const hasSistemaAncestry = sistemaHistory.length > 1
-  const currentSistema = getSistemaById(sistemaHistory[sistemaHistory.length - 1].id)
+  const latestSistema = sistemaHistory[sistemaHistory.length - 1]
+  const currentSistema = getSistemaById(latestSistema.id) ?? latestSistema
 
   if (hasSistemaAncestry) {
     return (

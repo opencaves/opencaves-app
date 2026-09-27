@@ -31,3 +31,7 @@ firebase-export-*
 *.log*
 functions/py/out.png
 functions/py/t.jpg
+
+# Local emulator snapshots
+/*
+!/.gitignore

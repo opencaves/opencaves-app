@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, onSnapshot } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
 
 const COLLECTION_NAMES = {
@@ -26,4 +26,17 @@ export async function readCaveDataFromFirestore() {
   )
 
   return Object.fromEntries(entries)
+}
+
+export function subscribeToCaveData(onData, onError) {
+  const data = {}
+  const names = Object.entries(COLLECTION_NAMES)
+  const unsubscribers = names.map(([key, name]) => onSnapshot(collection(db, name), snapshot => {
+    data[key] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    if (Object.keys(data).length === names.length) {
+      onData({ ...data })
+    }
+  }, onError))
+
+  return () => unsubscribers.forEach(unsubscribe => unsubscribe())
 }
