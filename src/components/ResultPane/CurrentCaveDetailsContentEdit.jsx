@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { AddAPhotoOutlined, EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
@@ -17,6 +17,7 @@ import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import CoordinateField from './CoordinateField.jsx'
+import BooleanToggleField from './BooleanToggleField.jsx'
 import MediaList from './MediaList.jsx'
 import VideoList from './VideoList.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
@@ -356,16 +357,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       </TextField>
       <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
 
-      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Tooltip title={t('feesHint')}>
-          <FormControlLabel control={<Checkbox checked={form.fees} onChange={(e) => setForm((f) => ({ ...f, fees: e.target.checked }))} />} label={t('fees')} />
-        </Tooltip>
-        <Tooltip title={t('facilitiesHint')}>
-          <FormControlLabel control={<Checkbox checked={form.facilities} onChange={(e) => setForm((f) => ({ ...f, facilities: e.target.checked }))} />} label={t('facilities')} />
-        </Tooltip>
-        <Tooltip title={t('activitiesHint')}>
-          <FormControlLabel control={<Checkbox checked={form.activities} onChange={(e) => setForm((f) => ({ ...f, activities: e.target.checked }))} />} label={t('activities')} />
-        </Tooltip>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
+        <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
+        <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }}>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControlLabel, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { AddAPhotoOutlined, EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
@@ -18,6 +18,7 @@ import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
+import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import MediaList from '@/components/ResultPane/MediaList.jsx'
 import VideoList from '@/components/ResultPane/VideoList.jsx'
 import OCMap from '@/components/Map/Map.jsx'
@@ -159,13 +160,6 @@ export default function CaveEdit() {
     return {
       value: form[name],
       onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
-    }
-  }
-
-  function checkboxField(name) {
-    return {
-      checked: form[name],
-      onChange: (e) => setForm((f) => ({ ...f, [name]: e.target.checked })),
     }
   }
 
@@ -414,16 +408,10 @@ export default function CaveEdit() {
         </TextField>
         <MarkdownField label="Accessibility details" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} />
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-          <Tooltip title="Whether visiting this cave requires paying an entrance fee">
-            <FormControlLabel control={<Checkbox {...checkboxField('fees')} />} label="Fees" />
-          </Tooltip>
-          <Tooltip title="Whether facilities such as restrooms or changing areas are available on site">
-            <FormControlLabel control={<Checkbox {...checkboxField('facilities')} />} label="Facilities" />
-          </Tooltip>
-          <Tooltip title="Whether additional activities (e.g. swimming, snorkeling) are offered at this location">
-            <FormControlLabel control={<Checkbox {...checkboxField('activities')} />} label="Activities" />
-          </Tooltip>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
+          <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
+          <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
         </Box>
 
         <Divider />
