@@ -66,8 +66,10 @@ export default function ConnectionList() {
           </Typography>
           <TextField
             fullWidth
+            size="small"
             variant="outlined"
-            label={t('searchSistemaConnections')}
+            aria-label={t('searchSistemaConnections')}
+            placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}

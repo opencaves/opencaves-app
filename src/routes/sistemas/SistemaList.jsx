@@ -77,8 +77,10 @@ export default function SistemaList() {
           </Typography>
           <TextField
             fullWidth
+            size="small"
             variant="outlined"
-            label="Search by name"
+            aria-label="Search by name"
+            placeholder="Search by name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}

@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { httpsCallable } from 'firebase/functions'
-import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
-import { ArrowBackRounded, DeleteRounded } from '@mui/icons-material'
+import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
+import { ArrowBackRounded, DeleteRounded, SearchRounded } from '@mui/icons-material'
 import { functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 
@@ -64,9 +64,7 @@ export default function UsersAdmin() {
   }, [users, search])
 
   async function toggleRole(user, role) {
-    const nextRoles = user.roles.includes(role)
-      ? user.roles.filter((r) => r !== role)
-      : [...user.roles, role]
+    const nextRoles = user.roles.includes(role) ? user.roles.filter((r) => r !== role) : [...user.roles, role]
 
     setSavingUid(user.uid)
     setUsers((prev) => prev.map((u) => (u.uid === user.uid ? { ...u, roles: nextRoles } : u)))
@@ -102,14 +100,29 @@ export default function UsersAdmin() {
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
-        <Typography component="h1" variant="h5">{t('title')}</Typography>
+        <Typography component="h1" variant="h5">
+          {t('title')}
+        </Typography>
       </Box>
 
       <TextField
-        label={t('searchLabel')}
+        fullWidth
+        size="small"
+        variant="outlined"
+        aria-label={t('searchLabel')}
+        placeholder={t('searchLabel')}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 2, minWidth: 280 }}
+        sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 999 } }}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchRounded />
+              </InputAdornment>
+            ),
+          },
+        }}
       />
 
       {error && (
@@ -128,24 +141,10 @@ export default function UsersAdmin() {
           <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {filtered.map((user) => (
               <ListItem key={user.uid} divider sx={{ py: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                <ListItemText
-                  primary={user.email}
-                  secondary={user.disabled ? t('disabled') : null}
-                  sx={{ flexBasis: 260, flexGrow: 1 }}
-                />
+                <ListItemText primary={user.email} secondary={user.disabled ? t('disabled') : null} sx={{ flexBasis: 260, flexGrow: 1 }} />
                 <FormGroup row>
                   {ASSIGNABLE_ROLES.map((role) => (
-                    <FormControlLabel
-                      key={role}
-                      control={
-                        <Checkbox
-                          checked={user.roles.includes(role)}
-                          disabled={savingUid === user.uid}
-                          onChange={() => toggleRole(user, role)}
-                        />
-                      }
-                      label={t(`role.${role}`)}
-                    />
+                    <FormControlLabel key={role} control={<Checkbox checked={user.roles.includes(role)} disabled={savingUid === user.uid} onChange={() => toggleRole(user, role)} />} label={t(`role.${role}`)} />
                   ))}
                 </FormGroup>
                 <Tooltip title={t('delete')}>
@@ -165,8 +164,12 @@ export default function UsersAdmin() {
           <DialogContentText>{t('deleteConfirm', { email: deleteTarget?.email })}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteTarget(null)} disabled={deleting}>{t('cancel')}</Button>
-          <Button color="error" onClick={handleDelete} disabled={deleting}>{t('delete')}</Button>
+          <Button onClick={() => setDeleteTarget(null)} disabled={deleting}>
+            {t('cancel')}
+          </Button>
+          <Button color="error" onClick={handleDelete} disabled={deleting}>
+            {t('delete')}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
