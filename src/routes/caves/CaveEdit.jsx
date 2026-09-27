@@ -262,11 +262,11 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">{t('pictures')}</Typography>
         {!isNew && (
           <>
-            <MediaList caveId={caveId} />
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            <Typography variant="subtitle2">{t('pictures')}</Typography>
+            <MediaList caveId={caveId} editable />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
               <AddMediasProvider caveId={caveId}>
                 <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
               </AddMediasProvider>
@@ -279,7 +279,8 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <VideoList caveId={caveId} videos={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} sx={{ px: 0, pt: 0 }} />
+        <Typography variant="subtitle2">{t('videos')}</Typography>
+        <VideoList caveId={caveId} videos={form.videos} onChange={(videos) => setForm((f) => ({ ...f, videos }))} showTitle={false} sx={{ px: 0, pt: 0 }} />
 
         <Divider />
 
@@ -330,6 +331,11 @@ export default function CaveEdit() {
 
         <TextField select label="Sistema" fullWidth {...field('sistemaId')}>
           <MenuItem value="">(none)</MenuItem>
+          {form.sistemaId && !sistemas.some((s) => s.id === form.sistemaId) && (
+            <MenuItem value={form.sistemaId} sx={{ display: 'none' }}>
+              {form.sistemaId}
+            </MenuItem>
+          )}
           {[...sistemas]
             .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
             .map((s) => (
@@ -347,6 +353,11 @@ export default function CaveEdit() {
 
         <TextField select label="Source" helperText="Where this sistema's information comes from" fullWidth {...field('source')}>
           <MenuItem value="">(none)</MenuItem>
+          {form.source && !sources.some((s) => s.id === form.source) && (
+            <MenuItem value={form.source} sx={{ display: 'none' }}>
+              {form.source}
+            </MenuItem>
+          )}
           {sources.map((s) => (
             <MenuItem key={s.id} value={s.id}>
               {s.name}
@@ -362,6 +373,11 @@ export default function CaveEdit() {
         <Typography variant="subtitle2">Access</Typography>
         <TextField select label="Access" fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">(none)</MenuItem>
+          {form.access && !accesses.some((a) => a.id === form.access) && (
+            <MenuItem value={form.access} sx={{ display: 'none' }}>
+              {form.access}
+            </MenuItem>
+          )}
           {accesses.map((a) => (
             <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
               <Typography variant="body1">{a.name}</Typography>
@@ -380,6 +396,11 @@ export default function CaveEdit() {
         <Typography variant="subtitle2">Accessibility</Typography>
         <TextField select label="Accessibility" fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">(none)</MenuItem>
+          {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
+            <MenuItem value={form.accessibility} sx={{ display: 'none' }}>
+              {form.accessibility}
+            </MenuItem>
+          )}
           {accessibilities.map((a) => (
             <MenuItem key={a.id} value={a.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
               <Typography variant="body1">{a.name}</Typography>

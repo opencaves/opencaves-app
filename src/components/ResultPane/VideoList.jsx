@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, CloseRounded, DeleteOutlineRounded, EditRounded, PlayArrowRounded } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
@@ -37,7 +37,7 @@ function getEmbedUrl(value) {
   return null
 }
 
-export default function VideoList({ caveId, videos, onChange, sx }) {
+export default function VideoList({ caveId, videos, onChange, showTitle = true, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((state) => state.session.roles)
   const scrollbarsRef = useRef()
@@ -123,9 +123,11 @@ export default function VideoList({ caveId, videos, onChange, sx }) {
 
   return (
     <Box sx={{ px: 'var(--oc-pane-padding-inline)', pt: 'var(--oc-pane-padding-block)', ...sx }}>
-      <Typography component="h2" className="h2" sx={{ mb: 1 }}>
-        {t('videosHeader')}
-      </Typography>
+      {showTitle && (
+        <Typography component="h2" className="h2" sx={{ mb: 1 }}>
+          {t('videosHeader')}
+        </Typography>
+      )}
       {videoUrls.length > 0 && (
         <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${videoHeight}px)`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars
@@ -146,7 +148,7 @@ export default function VideoList({ caveId, videos, onChange, sx }) {
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (
-                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: videoWidth, height: videoHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: 1 }}>
+                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: videoWidth, height: videoHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
                           {/* The preview iframe ignores pointer input so wheel events reach the horizontal gallery. */}
@@ -162,21 +164,25 @@ export default function VideoList({ caveId, videos, onChange, sx }) {
                       )}
                       {onChange && (
                         <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
-                          <IconButton
-                            size="small"
-                            aria-label={t('edit.editVideo')}
-                            onClick={() => {
-                              setEditingIndex(index)
-                              setNewVideoUrl(video)
-                              setAddDialogOpen(true)
-                            }}
-                            sx={{ color: 'common.white' }}
-                          >
-                            <EditRounded fontSize="small" />
-                          </IconButton>
-                          <IconButton size="small" aria-label={t('edit.removeVideo')} onClick={() => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))} sx={{ color: 'common.white' }}>
-                            <DeleteOutlineRounded fontSize="small" />
-                          </IconButton>
+                          <Tooltip title={t('edit.editVideo')}>
+                            <IconButton
+                              size="small"
+                              aria-label={t('edit.editVideo')}
+                              onClick={() => {
+                                setEditingIndex(index)
+                                setNewVideoUrl(video)
+                                setAddDialogOpen(true)
+                              }}
+                              sx={{ color: 'common.white' }}
+                            >
+                              <EditRounded fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title={t('edit.removeVideo')}>
+                            <IconButton size="small" aria-label={t('edit.removeVideo')} onClick={() => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))} sx={{ color: 'common.white' }}>
+                              <DeleteOutlineRounded fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
                         </Box>
                       )}
                     </Box>
@@ -188,7 +194,7 @@ export default function VideoList({ caveId, videos, onChange, sx }) {
         </Box>
       )}
       {canEdit && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', pt: 'var(--oc-pane-padding-block)' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>
           <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => setAddDialogOpen(true)}>
             {t('addVideos')}
           </Button>

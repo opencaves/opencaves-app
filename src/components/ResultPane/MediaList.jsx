@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, ButtonBase, Skeleton, Typography } from '@mui/material'
-import { PhotoLibraryRounded } from '@mui/icons-material'
+import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
+import { DeleteOutlineRounded, EditRounded, PhotoLibraryRounded } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import Picture from '@/components/Picture.jsx'
-import { countAssets, getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
+import { countAssets, deleteById, getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { assetsListConfig } from '@/config/resultPane.js'
 import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
@@ -25,11 +26,38 @@ export function loadMediaCount(caveId) {
   return countAssets(caveId)
 }
 
-export default function MediaList({ caveId, sx, className, ...props }) {
+export default function MediaList({ caveId, editable = false, sx, className, ...props }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
+  const [pictureToDelete, setPictureToDelete] = useState(null)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
   const scrollbarsRef = useRef()
+
+  function closeDeleteDialog() {
+    if (deleting) return
+    setPictureToDelete(null)
+    setDeleteError(false)
+  }
+
+  async function handleDelete() {
+    if (!canDelete || !pictureToDelete) return
+
+    setDeleting(true)
+    setDeleteError(false)
+    try {
+      await deleteById(pictureToDelete.id)
+      setPictureToDelete(null)
+    } catch (error) {
+      console.error(error)
+      setDeleteError(true)
+    } finally {
+      setDeleting(false)
+    }
+  }
 
   function getColPosition(i) {
     const triplets = Math.ceil((i + 1) / 3) - 1
@@ -38,7 +66,9 @@ export default function MediaList({ caveId, sx, className, ...props }) {
   }
 
   useEffect(() => {
-    const scrollbar = scrollbarsRef?.current
+    const scrollbar = scrollbarsRef.current
+    const container = scrollbar?.container
+    if (!container) return undefined
 
     function onWheel(event) {
       event.preventDefault()
@@ -63,12 +93,9 @@ export default function MediaList({ caveId, sx, className, ...props }) {
       scrollbar.scrollLeft(clampedScrollLeft)
     }
 
-    if (scrollbar) {
-      scrollbar.container.addEventListener('wheel', onWheel, { passive: false })
-    }
-
-    return () => scrollbar?.container?.removeEventListener('wheel', onWheel)
-  })
+    container.addEventListener('wheel', onWheel, { passive: false })
+    return () => container.removeEventListener('wheel', onWheel)
+  }, [mediaList])
 
   useEffect(() => {
     const list = []
@@ -113,21 +140,21 @@ export default function MediaList({ caveId, sx, className, ...props }) {
       for (i = 0; i < assetItems.length; i += 3) {
         list.push(
           <MediaListCol key={i} isLast={isLastCol(i)}>
-            <Media asset={assetItems[i]} />
+            <Media asset={assetItems[i]} caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
           </MediaListCol>,
         )
 
         if (assetItems[i + 1]) {
           const colItems = [
             <MediaListCell key={1} height={assetsListHeight / 2} width={assetsListHeight / 2}>
-              <Media asset={assetItems[i + 1]} size="half" />
+              <Media asset={assetItems[i + 1]} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
             </MediaListCell>,
           ]
 
           if (assetItems[i + 2]) {
             colItems.push(
               <MediaListCell key={2} position="bottom" height={assetsListHeight / 2} width={assetsListHeight / 2}>
-                <Media asset={assetItems[i + 2]} size="half" />
+                <Media asset={assetItems[i + 2]} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
               </MediaListCell>,
             )
           }
@@ -143,52 +170,69 @@ export default function MediaList({ caveId, sx, className, ...props }) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mediaList])
+  }, [mediaList, editable, canDelete, caveId])
 
   return (
-    mediaList &&
-    !mediaList.empty && (
-      <Box
-        className={`oc-media-list ${className || ''}`.trim()}
-        sx={{
-          marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
-          height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
-          ...sx,
-        }}
-        {...props}
-      >
-        <Scrollbars
-          ref={scrollbarsRef}
-          autoHide
-          autoHeight
-          autoHeightMax={assetsListHeight + 100}
-          trackHorizontalProps={{
-            style: {
-              left: 'calc(var(--oc-pane-padding-inline) / 2)',
-              right: 'calc(var(--oc-pane-padding-inline) / 2)',
-              bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`,
-            },
+    <>
+      {mediaList && !mediaList.empty && (
+        <Box
+          className={`oc-media-list ${className || ''}`.trim()}
+          sx={{
+            marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
+            height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
+            ...sx,
           }}
+          {...props}
         >
-          <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
-            <Grid container direction="row" sx={{ width: 'min-content', display: 'flex', flexWrap: 'nowrap' }}>
-              {assetsList}
-            </Grid>
-          </Box>
-        </Scrollbars>
-      </Box>
-    )
+          <Scrollbars
+            ref={scrollbarsRef}
+            autoHide
+            autoHeight
+            autoHeightMax={assetsListHeight + 100}
+            trackHorizontalProps={{
+              style: {
+                left: 'calc(var(--oc-pane-padding-inline) / 2)',
+                right: 'calc(var(--oc-pane-padding-inline) / 2)',
+                bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`,
+              },
+            }}
+          >
+            <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+              <Grid container direction="row" sx={{ width: 'min-content', display: 'flex', flexWrap: 'nowrap' }}>
+                {assetsList}
+              </Grid>
+            </Box>
+          </Scrollbars>
+        </Box>
+      )}
+      <Dialog open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
+        <DialogTitle>{t('deletePicture')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('deletePictureConfirm')}</DialogContentText>
+          {deleteError && <Alert severity="error">{t('deletePictureError')}</Alert>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} disabled={deleting}>
+            {t('cancel')}
+          </Button>
+          <Button color="error" onClick={handleDelete} disabled={deleting}>
+            {t('delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }
 
-function Media({ asset, size = 'full' }) {
+function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const fullHeight = assetsListConfig.height
   const fullWidth = assetsListConfig.height * assetsListConfig.widthRatio
   const width = size === 'full' ? fullWidth : fullWidth / 2 - assetsListConfig.spacing / 2
   const height = size === 'full' ? fullHeight : fullHeight / 2 - assetsListConfig.spacing / 2
 
   if (!asset.isMedia) {
-    return <MoreMedias width={width} height={height} to="medias" />
+    return <MoreMedias width={width} height={height} to={editable ? `/map/${caveId}/medias` : 'medias'} />
   }
 
   const media = asset.item
@@ -199,22 +243,29 @@ function Media({ asset, size = 'full' }) {
   const { src, status, error } = useImage(assetUrl)
 
   return status === 'loading' ? (
-    <Skeleton variant="rounded" width={width} height={height} />
+    <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
-    <ButtonBase component={Link} to={`medias/${media.id}`}>
-      <Picture
-        // src={src}
-        sources={media.getSources('resultThumbnail')}
-        alt=""
-        loading="lazy"
-        style={{
-          borderRadius: '.5rem',
-          width,
-          height,
-          objectFit: 'cover',
-        }}
-      />
-    </ButtonBase>
+    <Box sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
+      <ButtonBase component={Link} to={editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`}>
+        <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
+      </ButtonBase>
+      {editable && (
+        <Box sx={{ position: 'absolute', top: 4, right: 4, display: 'flex', gap: 0.5, bgcolor: 'rgba(0, 0, 0, 0.75)', borderRadius: 1 }}>
+          <Tooltip title={t('editPicture')}>
+            <IconButton component={Link} to={`/map/${caveId}/medias/${media.id}`} size="small" aria-label={t('editPicture')} sx={{ color: 'common.white' }}>
+              <EditRounded fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          {canDelete && (
+            <Tooltip title={t('deletePicture')}>
+              <IconButton size="small" aria-label={t('deletePicture')} onClick={() => onDelete(media)} sx={{ color: 'common.white' }}>
+                <DeleteOutlineRounded fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
+      )}
+    </Box>
   ) : status === 'failed' ? (
     <Box
       sx={{
