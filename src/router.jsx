@@ -241,6 +241,14 @@ const routes = [
             ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
           },
           {
+            path: 'connections',
+            ...requireEditor(() => import('@/routes/connections/ConnectionList.jsx')),
+          },
+          {
+            path: 'connections/:connectionId/edit',
+            ...requireEditor(() => import('@/routes/connections/ConnectionEdit.jsx')),
+          },
+          {
             path: 'users',
             ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
           },

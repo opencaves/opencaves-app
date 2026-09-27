@@ -44,6 +44,9 @@ export default function AdminDashboard() {
             <ListItemButton component={Link} to="/sistemas" divider>
               <ListItemText primary="Manage sistemas" />
             </ListItemButton>
+            <ListItemButton component={Link} to="/connections" divider>
+              <ListItemText primary={t('manageSistemaConnections')} />
+            </ListItemButton>
           </List>
 
           <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
@@ -72,9 +75,7 @@ export default function AdminDashboard() {
         </>
       )}
 
-      {!isEditor && !isAdmin && (
-        <Typography color="text.secondary">{t('noSections')}</Typography>
-      )}
+      {!isEditor && !isAdmin && <Typography color="text.secondary">{t('noSections')}</Typography>}
     </div>
   )
 }

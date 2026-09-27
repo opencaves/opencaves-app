@@ -391,7 +391,7 @@ export default function CaveEdit() {
 
         <TextField label="Exploration date" fullWidth {...field('explorationDate')} />
         <TextField label="Reported by" fullWidth {...field('reporter')} />
-        <TextField label="Note" fullWidth multiline minRows={2} {...field('note')} />
+        <TextField label={t('note')} fullWidth multiline minRows={2} {...field('note')} />
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3 }}>

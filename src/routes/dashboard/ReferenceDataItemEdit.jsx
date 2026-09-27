@@ -116,37 +116,12 @@ export default function ReferenceDataItemEdit() {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
           {config.fields.map((field) => {
             if (field === 'description') {
-              return (
-                <MarkdownField
-                  key={field}
-                  label={field}
-                  value={form[field]}
-                  onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))}
-                />
-              )
+              return <MarkdownField key={field} label={field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} />
             }
             if ((collectionName === 'colors' && field === 'hex') || field === 'color') {
-              return (
-                <ColorPicker
-                  key={field}
-                  label={t('color', { defaultValue: 'Color' })}
-                  value={form[field]}
-                  onChange={(hex) => setForm((f) => ({ ...f, [field]: hex }))}
-                  saveOnAdd={false}
-                />
-              )
+              return <ColorPicker key={field} label={t('color', { defaultValue: 'Color' })} value={form[field]} onChange={(hex) => setForm((f) => ({ ...f, [field]: hex }))} saveOnAdd={false} />
             }
-            return (
-              <TextField
-                key={field}
-                label={field}
-                value={form[field]}
-                onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))}
-                disabled={!isNew && field === config.id.from}
-                multiline={field === 'note'}
-                minRows={field === 'note' ? 2 : undefined}
-              />
-            )
+            return <TextField key={field} label={field === 'note' ? t('notesLabel') : field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={!isNew && field === config.id.from} multiline={field === 'note'} minRows={field === 'note' ? 2 : undefined} />
           })}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button onClick={goBack} disabled={saving}>

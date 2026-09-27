@@ -10,7 +10,6 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
-const NO_AREA = '(no area)'
 
 export default function SistemaList() {
   const { t } = useTranslation('dashboard')
@@ -43,15 +42,15 @@ export default function SistemaList() {
   const groups = useMemo(() => {
     const byArea = new Map()
     filtered.forEach((sistema) => {
-      const areaName = areasById.get(sistema.area) || NO_AREA
+      const areaName = areasById.get(sistema.area) || sistema.area || null
       if (!byArea.has(areaName)) {
         byArea.set(areaName, [])
       }
       byArea.get(areaName).push(sistema)
     })
     return [...byArea.entries()].sort(([a], [b]) => {
-      if (a === NO_AREA) return 1
-      if (b === NO_AREA) return -1
+      if (a === null) return 1
+      if (b === null) return -1
       return a.localeCompare(b)
     })
   }, [filtered, areasById])
@@ -64,26 +63,27 @@ export default function SistemaList() {
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
-        <Typography component="h1" variant="h5">Sistemas</Typography>
+        <Typography component="h1" variant="h5">
+          Sistemas
+        </Typography>
       </Box>
 
-      <TextField
-        label="Search by name"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 2, minWidth: 280 }}
-      />
+      <TextField label="Search by name" value={search} onChange={(e) => setSearch(e.target.value)} sx={{ mb: 2, minWidth: 280 }} />
 
       {loading ? (
         <Typography>Loading…</Typography>
       ) : (
         <>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{filtered.length} sistema(s)</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {filtered.length} sistema(s)
+          </Typography>
           <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {groups.map(([areaName, groupSistemas]) => (
-              <li key={areaName}>
+              <li key={areaName ?? 'unassigned'}>
                 <ul style={{ padding: 0 }}>
-                  <ListSubheader sx={{ fontSize: '1.125rem', fontWeight: 300 }}>{areaName}</ListSubheader>
+                  <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 600, borderBottom: '1px solid', borderColor: 'divider' }}>
+                    {areaName ?? t('noSistemaArea')} ({groupSistemas.length})
+                  </ListSubheader>
                   {groupSistemas.map((sistema) => (
                     <ListItemButton key={sistema.id} component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
                       <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
@@ -97,14 +97,7 @@ export default function SistemaList() {
         </>
       )}
 
-      <Fab
-        className="oc-sistema-list--new-fab"
-        color="primary"
-        component={Link}
-        to={`/sistemas/${pushId()}/edit`}
-        aria-label="New sistema"
-        sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}
-      >
+      <Fab className="oc-sistema-list--new-fab" color="primary" component={Link} to={`/sistemas/${pushId()}/edit`} aria-label="New sistema" sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
         <AddRounded />
       </Fab>
     </div>
