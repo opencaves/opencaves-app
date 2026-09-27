@@ -105,7 +105,8 @@ const emptyForm = {
 // page, a slide-out-then-back for the pane).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const { t } = useTranslation('sistemaEditForm')
-  const [sistemas] = SistemaModel.useAll()
+  const [sistemas, sistemasLoading] = SistemaModel.useAll()
+  const [connections, connectionsLoading] = ConnectionModel.useAll()
   const [areas] = areasModel.useAll()
   const [sources] = sourcesModel.useAll()
 
@@ -126,41 +127,32 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const parentSearchInputRef = useRef(null)
 
   useEffect(() => {
-    let cancelled = false
-
-    async function load() {
-      setLoading(true)
-      const [sistema, connection] = await Promise.all([SistemaModel.getById(sistemaId), ConnectionModel.getBySistemaId(sistemaId)])
-
-      if (cancelled) {
-        return
-      }
-
-      setIsNew(!sistema)
-      setForm({
-        name: sistema?.name || '',
-        color: sistema?.color || '',
-        area: sistema?.area || '',
-        description: sistema?.description || '',
-        direction: sistema?.direction || '',
-        length: sistema?.length ?? '',
-        maxDepth: sistema?.maxDepth ?? '',
-        source: sistema?.source || '',
-        explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e })),
-        aka: sistema?.aka || [],
-        maps: sistema?.maps || [],
-        longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
-        latitude: normalizeCoordinateValue(sistema?.location?.latitude ?? ''),
-        parentSistemaId: connection?.parentSistemaId || '',
-      })
-      setLoading(false)
+    if (sistemasLoading || connectionsLoading) {
+      return
     }
 
-    load()
-    return () => {
-      cancelled = true
-    }
-  }, [sistemaId])
+    const sistema = sistemas.find((item) => item.id === sistemaId)
+    const connection = connections.find((item) => item.sistemaId === sistemaId)
+
+    setIsNew(!sistema)
+    setForm({
+      name: sistema?.name || '',
+      color: sistema?.color || '',
+      area: sistema?.area || '',
+      description: sistema?.description || '',
+      direction: sistema?.direction || '',
+      length: sistema?.length ?? '',
+      maxDepth: sistema?.maxDepth ?? '',
+      source: sistema?.source || '',
+      explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e })),
+      aka: sistema?.aka || [],
+      maps: sistema?.maps || [],
+      longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
+      latitude: normalizeCoordinateValue(sistema?.location?.latitude ?? ''),
+      parentSistemaId: connection?.parentSistemaId || '',
+    })
+    setLoading(false)
+  }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading])
 
   useEffect(() => {
     onTitleChange?.(isNew ? 'New sistema' : form.name || sistemaId)

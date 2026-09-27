@@ -4,6 +4,7 @@ import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
 import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
+import layoutBackground from '@/images/404/bg.webp'
 
 export default function Layout() {
   const location = useLocation()
@@ -28,10 +29,14 @@ export default function Layout() {
         // not rely on the document/body to scroll.
         height: '100%',
         overflowY: 'auto',
+        backgroundColor: '#000',
+        backgroundImage: `url(${layoutBackground})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1' }}>
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, borderRadius: '4px' }}>
         <Outlet />
       </Container>
 

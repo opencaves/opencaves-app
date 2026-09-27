@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, MapRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import dashboardBackground from '@/images/404/bg.webp'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', label: 'Accesses', icon: LockOpenRounded },
@@ -14,6 +15,19 @@ const REFERENCE_COLLECTIONS = [
   { collection: 'colors', label: 'Colors', icon: PaletteRounded },
   { collection: 'languages', label: 'Languages', icon: LanguageRounded },
 ]
+
+const DASHBOARD_SURFACE = 'rgba(255, 255, 255, 0.9)'
+const dashboardItemSx = (theme) => ({
+  position: 'relative',
+  bgcolor: 'rgba(0, 0, 0, 0.03)',
+  transition: 'background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease',
+  '&:hover': {
+    bgcolor: 'rgba(0, 0, 0, 0.08)',
+    boxShadow: theme.shadows[1],
+    transform: 'translateY(-1px)',
+    zIndex: 1,
+  },
+})
 
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
@@ -28,70 +42,94 @@ export default function AdminDashboard() {
   }, [])
 
   return (
-    <div className="oc-admin-dashboard">
-      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-        Dashboard
-      </Typography>
-
-      {isEditor && (
-        <>
-          <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1 }}>
-            Caves
+    <Box
+      className="oc-admin-dashboard"
+      sx={{
+        width: '100%',
+        minHeight: 'calc(100vh - 100px)',
+        p: { xs: 1, sm: 2 },
+        border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' },
+        borderRadius: '4px',
+        backgroundColor: '#000',
+        backgroundImage: `url(${dashboardBackground})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+    >
+      <Box sx={{ width: '100%', height: '100%', maxWidth: 1400, mx: 'auto', p: { xs: 2, sm: 4 }, pb: 4, bgcolor: DASHBOARD_SURFACE }}>
+        <Box sx={{ mb: 4, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 500 }}>
+            Dashboard
           </Typography>
-          <List disablePadding>
-            <ListItemButton component={Link} to="/caves" divider>
-              <ListItemIcon>
-                <MapRounded />
-              </ListItemIcon>
-              <ListItemText primary="Manage caves" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/sistemas" divider>
-              <ListItemIcon>
-                <AccountTreeRounded />
-              </ListItemIcon>
-              <ListItemText primary="Manage sistemas" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/connections" divider>
-              <ListItemIcon>
-                <LinkRounded />
-              </ListItemIcon>
-              <ListItemText primary={t('manageSistemaConnections')} />
-            </ListItemButton>
-          </List>
+          <Box sx={{ width: 56, height: 4, mt: 1.5, borderRadius: 2, bgcolor: 'secondary.main' }} />
+        </Box>
 
-          <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
-            Reference data
-          </Typography>
-          <List disablePadding>
-            {REFERENCE_COLLECTIONS.map(({ collection, label, icon: Icon }) => (
-              <ListItemButton key={collection} component={Link} to={`/${collection}`} divider>
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-                <ListItemText primary={label} />
-              </ListItemButton>
-            ))}
-          </List>
-        </>
-      )}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }, gap: 3, alignItems: 'start' }}>
+          {isEditor && (
+            <>
+              <Box component="section">
+                <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                  Caves
+                </Typography>
+                <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                  <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <MapRounded />
+                    </ListItemIcon>
+                    <ListItemText primary="Manage caves" />
+                  </ListItemButton>
+                  <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <AccountTreeRounded />
+                    </ListItemIcon>
+                    <ListItemText primary="Manage sistemas" />
+                  </ListItemButton>
+                  <ListItemButton component={Link} to="/connections" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <LinkRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageSistemaConnections')} />
+                  </ListItemButton>
+                </List>
+              </Box>
 
-      {isAdmin && (
-        <>
-          <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1 }}>
-            {t('usersSection')}
-          </Typography>
-          <List disablePadding>
-            <ListItemButton component={Link} to="/users" divider>
-              <ListItemIcon>
-                <PeopleRounded />
-              </ListItemIcon>
-              <ListItemText primary={t('manageUsers')} />
-            </ListItemButton>
-          </List>
-        </>
-      )}
+              <Box component="section">
+                <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                  Reference data
+                </Typography>
+                <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                  {REFERENCE_COLLECTIONS.map(({ collection, label, icon: Icon }) => (
+                    <ListItemButton key={collection} component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
+                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                        <Icon />
+                      </ListItemIcon>
+                      <ListItemText primary={label} />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Box>
+            </>
+          )}
 
-      {!isEditor && !isAdmin && <Typography color="text.secondary">{t('noSections')}</Typography>}
-    </div>
+          {isAdmin && (
+            <Box component="section">
+              <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                {t('usersSection')}
+              </Typography>
+              <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                <ListItemButton component={Link} to="/users" divider sx={dashboardItemSx}>
+                  <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                    <PeopleRounded />
+                  </ListItemIcon>
+                  <ListItemText primary={t('manageUsers')} />
+                </ListItemButton>
+              </List>
+            </Box>
+          )}
+        </Box>
+
+        {!isEditor && !isAdmin && <Typography color="text.secondary">{t('noSections')}</Typography>}
+      </Box>
+    </Box>
   )
 }
