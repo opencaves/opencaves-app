@@ -19,10 +19,10 @@ const sourcesModel = createCollectionModel('sources')
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
 
 // Exploration dates only need to be as precise as what's actually known -
-// a year, a year and month, or a full day - so this is a plain text field
+// a year, a year range, a year and month, or a full day - so this is a plain text field
 // rather than a date picker (which forces day-level precision and can't
 // represent "2019" or "2019-06" on their own).
-const PARTIAL_DATE_PATTERN = /^\d{4}(-\d{2}(-\d{2})?)?$/
+const PARTIAL_DATE_PATTERN = /^\d{4}(-(\d{2}(-\d{2})?|\d{4}))?$/
 
 function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceholder, dateInvalidHint, teamLabel, descriptionLabel, notesLabel, values, onChange }) {
   function updateAt(index, patch) {
@@ -50,16 +50,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceh
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
               <Grid size={6}>
-                <TextField
-                  size="small"
-                  label={dateLabel}
-                  placeholder={datePlaceholder}
-                  fullWidth
-                  value={exploration.date}
-                  onChange={(e) => updateAt(index, { date: e.target.value })}
-                  error={!!exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date)}
-                  helperText={exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date) ? dateInvalidHint : undefined}
-                />
+                <TextField size="small" label={dateLabel} placeholder={datePlaceholder} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} error={!!exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date)} helperText={exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date) ? dateInvalidHint : undefined} />
               </Grid>
               <Grid size={6}>
                 <TextField size="small" label={teamLabel} fullWidth value={exploration.team} onChange={(e) => updateAt(index, { team: e.target.value })} />
@@ -219,9 +210,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const areasById = new Map(areas.map((a) => [a.id, a.name]))
   const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
   const parentSearchQuery = parentSearch.trim().toLowerCase()
-  const visibleParentSistemas = parentSearchQuery
-    ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery))
-    : otherSistemas
+  const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery)) : otherSistemas
   const hasInvalidExplorationDate = form.explorations.some((e) => e.date && !PARTIAL_DATE_PATTERN.test(e.date))
 
   return (
@@ -265,16 +254,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
                 if (e.key !== 'Escape') e.stopPropagation()
               }}
             >
-              <TextField
-                inputRef={parentSearchInputRef}
-                autoFocus
-                size="small"
-                fullWidth
-                placeholder={t('parentSistemaSearchPlaceholder')}
-                value={parentSearch}
-                onChange={(e) => setParentSearch(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-              />
+              <TextField inputRef={parentSearchInputRef} autoFocus size="small" fullWidth placeholder={t('parentSistemaSearchPlaceholder')} value={parentSearch} onChange={(e) => setParentSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
             </ListSubheader>
             <MenuItem value="">(none)</MenuItem>
             {visibleParentSistemas.map((s) => (
@@ -338,19 +318,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField
-            label={t('explorations')}
-            addLabel={t('addExploration')}
-            removeLabel={t('removeExploration')}
-            dateLabel={t('explorationDate')}
-            datePlaceholder={t('explorationDatePlaceholder')}
-            dateInvalidHint={t('explorationDateInvalid')}
-            teamLabel={t('explorationTeam')}
-            descriptionLabel={t('explorationDescription')}
-            notesLabel={t('explorationNotes')}
-            values={form.explorations}
-            onChange={(explorations) => setForm((f) => ({ ...f, explorations }))}
-          />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} datePlaceholder={t('explorationDatePlaceholder')} dateInvalidHint={t('explorationDateInvalid')} teamLabel={t('explorationTeam')} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
         </Grid>
 
         <Grid size={12}>
