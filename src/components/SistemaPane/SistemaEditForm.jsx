@@ -360,7 +360,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, mt: 3 }}>
+      <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
         {!isNew && (
           <Button color="error" onClick={handleDelete} disabled={saving} sx={{ mr: 'auto' }}>
             Delete
