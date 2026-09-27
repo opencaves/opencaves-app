@@ -258,12 +258,11 @@ const routes = [
             loader: resultPaneLoader,
             children: [
               {
-                // No element of its own - just needs to exist so this path
-                // matches instead of 404ing. ResultPane (rendered by the
-                // parent :caveId route above) detects it via useLocation()
-                // and swaps in its editable content, since edit mode is a
-                // state of the existing pane, not a separate page.
+                // ResultPane owns edit mode; this empty leaf makes the URL
+                // match without rendering another pane or warning about a
+                // missing route element.
                 path: 'edit',
+                element: <></>,
               },
               {
                 path: 'medias/:mediaId?',
