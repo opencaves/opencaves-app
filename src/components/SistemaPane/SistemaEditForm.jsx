@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import { AddRounded, ArrowBackRounded, CloseRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
@@ -330,6 +330,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
+          <Divider />
+        </Grid>
+
+        <Grid size={12}>
           <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
         </Grid>
 
@@ -341,11 +345,23 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
+          <Divider />
+        </Grid>
+
+        <Grid size={12}>
           <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
         </Grid>
 
         <Grid size={12}>
+          <Divider />
+        </Grid>
+
+        <Grid size={12}>
           <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+        </Grid>
+
+        <Grid size={12}>
+          <Divider />
         </Grid>
 
         <Grid size={12}>
