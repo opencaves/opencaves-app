@@ -156,7 +156,7 @@ export default function ConnectionEdit() {
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" data-appbar-page-title>
           {t('editSistemaConnection')}
         </Typography>
       </Box>

@@ -40,9 +40,9 @@ export default function ReferenceDataItemEdit() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    setTitle(config ? t(`collections.${collectionName}.title`) : collectionName)
+    setTitle(config ? t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`) : collectionName)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionName])
+  }, [collectionName, isNew])
 
   useEffect(() => {
     if (isNew || !config) {
@@ -117,7 +117,7 @@ export default function ReferenceDataItemEdit() {
         <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" data-appbar-page-title>
           {t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`)}
         </Typography>
       </Box>

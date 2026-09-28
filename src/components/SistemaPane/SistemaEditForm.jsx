@@ -249,7 +249,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: -5 }}>
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" data-appbar-page-title>
           {t('sistemaTitle', { name: form.name || sistemaId })}
         </Typography>
       </Box>

@@ -245,7 +245,7 @@ export default function CaveEdit() {
         <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" data-appbar-page-title>
           {isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId })}
         </Typography>
       </Box>
@@ -263,7 +263,9 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">{t('coordinates')}</Typography>
+        <Typography variant="subtitle2" component="h2">
+          {t('coordinates')}
+        </Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
           {/* Above the map preview: the fields' own grid overflows a few px
@@ -302,7 +304,9 @@ export default function CaveEdit() {
         <Divider />
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
+          <Typography variant="subtitle2" component="h2">
+            {t('sistemaGroup')}
+          </Typography>
           <Tooltip title={t('editSistemas')}>
             <IconButton component={Link} to="/sistemas" size="small" aria-label={t('editSistemas')}>
               <EditRounded fontSize="small" />
@@ -351,7 +355,9 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">{t('accessGroup')}</Typography>
+        <Typography variant="subtitle2" component="h2">
+          {t('accessGroup')}
+        </Typography>
         <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
@@ -374,7 +380,9 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
+        <Typography variant="subtitle2" component="h2">
+          {t('accessibilityGroup')}
+        </Typography>
         <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (

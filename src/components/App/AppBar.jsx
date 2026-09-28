@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -10,20 +10,56 @@ import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
 import { appName, appTitle } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
 const drawerWidth = 240
+const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONFIGS).join('|')})/[^/]+/edit$`)
 export default function AppBar(props) {
   const { window } = props
   const dispatch = useDispatch()
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [entityHeadingHidden, setEntityHeadingHidden] = useState(false)
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
+  const pageTitle = useSelector((state) => state.app.title)
+  const isNamedEditPage = /^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname)
+  const pageTitleSuffix = ` / ${appTitle}`
+  const entityTitle = pageTitle?.endsWith(pageTitleSuffix) ? pageTitle.slice(0, -pageTitleSuffix.length) : ''
+  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityTitle ? entityTitle : appTitle
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
+
+  useEffect(() => {
+    setEntityHeadingHidden(false)
+    if (!isNamedEditPage) return undefined
+
+    const scrollRoot = document.querySelector('.oc-layout')
+    if (!scrollRoot) return undefined
+
+    let observedHeading = null
+    const intersectionObserver = new IntersectionObserver(([entry]) => setEntityHeadingHidden(!entry.isIntersecting), { root: scrollRoot, rootMargin: '-64px 0px 0px 0px', threshold: 0 })
+    const observeHeading = () => {
+      const heading = scrollRoot.querySelector('[data-appbar-page-title]')
+      if (heading && heading !== observedHeading) {
+        if (observedHeading) intersectionObserver.unobserve(observedHeading)
+        observedHeading = heading
+        intersectionObserver.observe(heading)
+      }
+    }
+    const mutationObserver = new MutationObserver(observeHeading)
+
+    observeHeading()
+    mutationObserver.observe(scrollRoot, { childList: true, subtree: true })
+
+    return () => {
+      mutationObserver.disconnect()
+      intersectionObserver.disconnect()
+    }
+  }, [isNamedEditPage])
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
@@ -93,14 +129,20 @@ export default function AppBar(props) {
             }}
           >
             <Typography
+              key={toolbarTitle}
               variant="h6"
               noWrap
               sx={{
                 color: 'inherit',
                 textDecoration: 'none',
+                '@keyframes appbar-title-enter': {
+                  from: { opacity: 0, transform: 'translateY(4px)' },
+                  to: { opacity: 1, transform: 'translateY(0)' },
+                },
+                animation: 'appbar-title-enter 180ms ease-out',
               }}
             >
-              {appTitle}
+              {toolbarTitle}
             </Typography>
           </StyledButton>
 
