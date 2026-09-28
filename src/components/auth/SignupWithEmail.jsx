@@ -103,7 +103,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   const broadcastCurrentStep = useBroadcastChannel('currentStep', (event) => {
     if (!isVisible) {
-      console.log('[broadcast] going to step: %o', event.data)
       goToStep(event.data, 0, false)
     }
   })
@@ -207,7 +206,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
       setStepEmailLoading(true)
 
       const fetchedSigninMethodsForEmail = await fetchSignInMethodsForEmail(auth, email)
-      console.log('fetchedSigninMethodsForEmail: %o', fetchedSigninMethodsForEmail)
       const emailInUse = fetchedSigninMethodsForEmail.length > 0
 
       setEmailAlreadyInUse(emailInUse)
@@ -260,8 +258,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
           let bypassEmailCallbackStep = true
           try {
             // Validates action code
-            const result = await checkActionCode(auth, oobCode)
-            console.log('[verifyActionCode] result: %o', result)
+            await checkActionCode(auth, oobCode)
 
             // Check for email prefilled
             setShowRetypeEmailStep(!email2Prefilled)
@@ -276,7 +273,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
             if (bypassEmailCallbackStep) {
               nextStep(0)
             } else {
-              console.log('NOT bypassing email callback step.')
               // swiperRef.current.swiper.update()
             }
           }
@@ -335,7 +331,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   function onStepNameContinueBtnClick() {
     const valid = validateFirstNameInput()
-    console.log('onStepNameContinueBtnClick: %o', valid)
     if (!valid) {
       return
     }
@@ -376,12 +371,10 @@ export default function SignupWithEmail({ open: initialOpen }) {
         // Create User
         const { user } = await signInWithEmailLink(auth, email2, window.location.href)
 
-        console.log('User created. result: %o', user)
 
         await updatePassword(user, password)
 
         // const { user } = await createUserWithEmailAndPassword(auth, email2, password)
-        console.log('User created. result: %o', user)
 
         await updateProfile(user, {
           displayName: `${firstName}${lastName ? ` ${lastName}` : ``}`,

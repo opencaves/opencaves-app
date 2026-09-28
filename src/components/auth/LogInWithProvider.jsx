@@ -48,9 +48,7 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       switch (Provider.PROVIDER_ID) {
         // If this is a Google Signin
         case ProviderId.GOOGLE:
-          console.log('[case ProviderId.GOOGLE] user: %o', user)
           const idToken = await user.getIdToken()
-          console.log('idToken: %o', idToken)
           credentialArgs.push(idToken)
           break
 
@@ -61,14 +59,10 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
       }
 
       if (credentialArgs.length > 0) {
-        console.log('credentialArgs: %o', credentialArgs)
         const credential = Provider.credential(...credentialArgs)
         linkWithCredential(user, credential)
-          .then((usercred) => {
-            console.log('Anonymous account successfully upgraded', usercred.user)
-          })
           .catch((error) => {
-            console.log('Error upgrading anonymous account', error)
+            console.error('Error upgrading anonymous account', error)
           })
       }
     }

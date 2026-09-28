@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react'
 import { useMatches } from 'react-router-dom'
 import waitForDom from '@/utils/wait-for-dom.jsx'
 
-function log(name, color, obj) {
-  console.log(`%c[useMapUiReady] %c${name}: `, `font-weight: bold;`, `color: ${color}`, obj)
-}
-
 export function useMapUiReady(mapLoaded, currentMarkerElem) {
   const hasMarker = arguments.length === 2
   const [uiReady, setUiReady] = useState(false)
@@ -16,7 +12,6 @@ export function useMapUiReady(mapLoaded, currentMarkerElem) {
   // Wait for current marker ready if needed
   useEffect(() => {
     if (currentMarkerElem) {
-      console.log('%c[useMapUiReady] currentMarkerElem: ', 'font-weight: bold;', currentMarkerElem)
       setCurrentMarkerLoaded(true)
     }
   }, [currentMarkerElem])
@@ -26,7 +21,6 @@ export function useMapUiReady(mapLoaded, currentMarkerElem) {
 
     async function waitForResultPaneUiReady() {
       await waitForDom('#result-pane')
-      console.log('%c[useMapUiReady] currentMarkerElem: ', 'font-weight: bold;', currentMarkerElem)
       setResultPaneLoaded(true)
     }
 
@@ -46,7 +40,6 @@ export function useMapUiReady(mapLoaded, currentMarkerElem) {
 
     async function waitForActiveMarkerUiReady() {
       await waitForDom('#active-marker')
-      console.log('%c[useMapUiReady] currentMarkerElem: ', 'font-weight: bold;', currentMarkerElem)
       setResultPaneLoaded(true)
     }
 
@@ -61,26 +54,10 @@ export function useMapUiReady(mapLoaded, currentMarkerElem) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    console.log('%c[useMapUiReady] mapLoaded: ', 'font-weight: bold;', mapLoaded)
-  }, [mapLoaded])
-
-  useEffect(() => {
-    log('mapLoaded', 'red', mapLoaded)
-  }, [mapLoaded])
-
-  useEffect(() => {
-    log('resultPaneLoaded', 'green', resultPaneLoaded)
-  }, [resultPaneLoaded])
-
-  useEffect(() => {
-    log('currentMarkerLoaded', 'blue', currentMarkerLoaded)
-  }, [currentMarkerLoaded])
 
 
   useEffect(() => {
     if (mapLoaded && resultPaneLoaded && currentMarkerLoaded) {
-      console.log('%c[useMapUiReady] uiReady: ', 'font-weight: bold;', true)
       setUiReady(true)
     }
   }, [mapLoaded, resultPaneLoaded, currentMarkerLoaded])

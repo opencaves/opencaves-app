@@ -41,7 +41,7 @@ export default function AddMediaLg() {
     if (error) {
       setOnError(true)
       setFiles([])
-      console.log('An error occured! %o', error)
+      console.error('An error occured! %o', error)
     }
   }, [error, done])
 

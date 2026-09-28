@@ -21,7 +21,6 @@ export default function UploadMedias({ medias, caveId }) {
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
 
   function onErrorAlertClose() {
-    console.log('[onErrorAlertClose] closing alert dialog.')
     setErrorAlertOpen(false)
   }
 
@@ -29,7 +28,6 @@ export default function UploadMedias({ medias, caveId }) {
     setUploading(true)
     await uploadCaveImages(files)
     setMedias([])
-    console.log('-------------- upload complete?')
   }
 
   useEffect(() => {

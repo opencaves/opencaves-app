@@ -15,11 +15,9 @@ export function useCheckForAppUpdates(interval = 20 * 60 * 1000 /* 20 minutes */
 
     //adding listen to newWork activated state, prevents setUpdateAvailable being called when user clicks refresh
     const processUpdate = event => {
-      console.log('[serviceWorker] Update found!')
       const newWorker = serviceWorker.installing
       if (newWorker) {
         newWorker.addEventListener('statechange', () => {
-          console.log('[serviceWorker] Update: state changed: %s', newWorker.state)
           if (newWorker.state === 'activated') {
             setUpdateAvailable(true)
           }
@@ -33,9 +31,6 @@ export function useCheckForAppUpdates(interval = 20 * 60 * 1000 /* 20 minutes */
         return
       }
 
-      function p(n) { return `${n}`.padStart(2, '0') }
-      const now = new Date()
-      console.log(`[serviceWorker] ${p(now.getHours())}:${p(now.getMinutes())}:${p(now.getSeconds())} Checking for update...`)
       serviceWorker.update()
       timeout = setTimeout(() => checkForUpdates(serviceWorker), interval)
     }

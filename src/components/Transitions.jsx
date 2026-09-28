@@ -45,7 +45,6 @@ export const Forward = forwardRef(function Forward(props, ref) {
     const easing = inProp ? theme.sys.motion.easing.emphasizedDecelerate : theme.sys.motion.easing.emphasizedAccelerate
     setEasing(easing)
 
-    console.log('inProp: %o, duration: %o, easing: %o', inProp, duration, easing)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inProp])

@@ -17,7 +17,6 @@ export default function useGetMedias() {
     }
 
     const files = await fileOpen(pickerOpts)
-    console.log('ici je setMedias(%o)', files)
     setMedias(files)
   }, [])
 

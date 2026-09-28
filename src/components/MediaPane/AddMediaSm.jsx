@@ -15,8 +15,7 @@ export default function AddMediaSm() {
     }
 
     async function getTheFiles() {
-      const files = await fileOpen(pickerOpts)
-      console.log('files: %o', files)
+      await fileOpen(pickerOpts)
     }
 
     getTheFiles()

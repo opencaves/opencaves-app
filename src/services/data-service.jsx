@@ -42,7 +42,6 @@ export function getData() {
       const expires = store.getState().data.expires
       const now = Date.now()
       if (expires === 0 || (expires && expires < now)) {
-        console.log('[getData] data expired. Fetching again...')
         doGetData()
       } else {
         resolve()

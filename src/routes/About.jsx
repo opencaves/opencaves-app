@@ -11,7 +11,6 @@ export default function AboutRoute() {
   const matches = useMatches()
 
   useEffect(() => {
-    console.log('matches: %o', matches)
     if (matches.length === 2) {
       setTitle(t('title'))
     }

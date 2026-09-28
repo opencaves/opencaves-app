@@ -43,7 +43,6 @@ export default function MediaPane() {
   function onMediaPaneDragEnter(event) {
     event.preventDefault()
     counter.current = counter.current + 1
-    console.log('[dragEnter] %s', counter.current)
     setDropzoneOpen(true)
   }
 
@@ -51,7 +50,6 @@ export default function MediaPane() {
     counter.current = counter.current - 1
     // console.log('[dragLeave] %s', counter.current)
     if (counter.current === 0) {
-      console.log('[dragLeave] ====================== %s', counter.current)
       setDropzoneOpen(false)
     }
   }
@@ -76,37 +74,18 @@ export default function MediaPane() {
   }, [mediaId])
 
   function onBeforeDeleteMedia(item, isActive) {
-    console.log('[onBeforeDeleteMedia] start')
     if (isActive) {
-      console.log(`[onBeforeDeleteMedia] %o, isActive: %o`, item, isActive)
       const index = mediaListSnapshot.docs.findIndex(docSnap => docSnap.id === item.id)
-      console.log(`[onBeforeDeleteMedia] Found deleted item in mediaList at index %o of %o`, index, mediaListSnapshot.size - 1)
 
       if (mediaListSnapshot.size === 1) {
-        console.log('[onBeforeDeleteMedia] Deleted the only media in the list')
         return
       }
 
       const nextItemIndex = index < mediaListSnapshot.size - 1 ? index + 1 : index - 1
-      console.log('[onBeforeDeleteMedia] New index: %o, item: %o', nextItemIndex, mediaListSnapshot.docs[nextItemIndex])
       const nextItemId = mediaListSnapshot.docs[nextItemIndex].id
       navigate(`../${nextItemId}`, { replace: true, relative: 'path' })
     }
   }
-
-  useEffect(() => {
-    const mediaPaneNode = mediaPaneRef.current
-
-    function onMediaDelete({ data: { mediaAsset, isActive } }) {
-      console.log('[MediaPane] media:delete %o (%o)', mediaAsset, isActive)
-    }
-
-    mediaPaneNode.addEventListener('media:delete', onMediaDelete)
-
-    return () => {
-      mediaPaneNode.removeEventListener('media:delete', onMediaDelete)
-    }
-  }, [])
 
   return isSmall ? (
     <Box

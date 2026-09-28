@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { httpsCallable } from 'firebase/functions'
-import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
 import { ArrowBackRounded, DeleteRounded, SearchRounded } from '@mui/icons-material'
 import { functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -16,7 +16,6 @@ const ASSIGNABLE_ROLES = ['editor', 'admin']
 export default function UsersAdmin() {
   const { t } = useTranslation(['usersAdmin', 'dashboard'])
   const { setTitle } = useTitle()
-  const theme = useTheme()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -24,10 +23,6 @@ export default function UsersAdmin() {
   const [savingUid, setSavingUid] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
-
-  useEffect(() => {
-    console.log('MUI theme:', theme)
-  }, [theme])
 
   useEffect(() => {
     setTitle(t('title'))

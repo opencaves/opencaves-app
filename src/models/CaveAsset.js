@@ -222,7 +222,6 @@ export default class CaveAsset {
       }
 
       const fileRef = ref(storage, self.fullPath)
-      console.log('fileRef: %o', fileRef)
       const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata })
       uploadTask.on(
         'state_changed',
@@ -244,7 +243,6 @@ export default class CaveAsset {
         // Success handler
         //
         async () => {
-          console.info('[uploadTask] Success %o', this)
           resolve(this)
         }
       )

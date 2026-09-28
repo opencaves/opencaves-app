@@ -19,19 +19,14 @@ export default function MediaList() {
   const theme = useTheme()
 
   function onBeforeDeleteMediaThumbnail(item, isActive) {
-    console.log('[onBeforeDeleteMediaThumbnail] start')
     if (isActive) {
-      console.log(`[onBeforeDeleteMediaThumbnail] %o, isActive: %o`, item, isActive)
       const index = mediaListSnapshot.docs.findIndex(docSnap => docSnap.id === item.id)
-      console.log(`[onBeforeDeleteMediaThumbnail] Found deleted item in mediaList at index %o of %o`, index, mediaListSnapshot.size - 1)
 
       if (mediaListSnapshot.size === 1) {
-        console.log('[onBeforeDeleteMediaThumbnail] Deleted the only media in the list')
         return
       }
 
       const nextItemIndex = index < mediaListSnapshot.size - 1 ? index + 1 : index - 1
-      console.log('[onBeforeDeleteMediaThumbnail] New index: %o, item: %o', nextItemIndex, mediaListSnapshot.docs[nextItemIndex])
       const nextItemId = mediaListSnapshot.docs[nextItemIndex].id
       navigate(`../${nextItemId}`, { replace: true, relative: 'path' })
     }

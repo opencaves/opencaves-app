@@ -12,7 +12,6 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import './QuickActions.scss'
 
 function openDirections(cave) {
-  console.log('[onClick] cave: %o')
   const url = new URL('https://www.google.com/maps/dir/?api=1&travelmode=driving')
   url.searchParams.append('destination', `${cave.location.latitude},${cave.location.longitude}`)
   if (cave.entrance) {
@@ -132,7 +131,6 @@ export default function QuickActions({ cave }) {
   }
 
   function handleDialogOpen() {
-    console.log('[handleDialogOpen]')
     setDialogOpen(true)
   }
 

@@ -60,7 +60,6 @@ function PictureViewer({ media }) {
   const initialY = (window.innerHeight / 2)
 
   function onInit(reactZoomPanPinchRef) {
-    console.log('[onInit] reactZoomPanPinchRef: %o', reactZoomPanPinchRef)
     // reactZoomPanPinchRef.centerView(1, 0)
     reactZoomPanPinchRef.setTransform(0, 200, 1)
   }

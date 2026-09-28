@@ -210,14 +210,12 @@ export default function OCMap() {
 
   function setCurrentCave(newCurrentCave) {
     if (currentCave !== newCurrentCave) {
-      console.log('%c[setCurrentCave] %o, current cave === new current cave ? %o', 'color: cyan;', newCurrentCave, currentCave === newCurrentCave)
       _setCurrentCave(newCurrentCave)
       dispatch(setCurrentCaveInStore(newCurrentCave))
     }
   }
 
   function setActiveMarkerElem(markerElem, animate = false) {
-    console.log('### [setActiveMarkerElem] markerElem: ', markerElem)
     if (activeMarkerElem) {
       activeMarkerElem.classList.remove(activeMarkerElem.dataset.activeClass)
       delete activeMarkerElem.dataset.activeClass
@@ -240,7 +238,6 @@ export default function OCMap() {
   }
 
   function getCenterLngLat(lng, lat, offsetForPane = true, zoom = currentZoomLevel) {
-    console.log('[getCenterLngLat] %s, %s', lng, lat)
     try {
       const map = mapRef.current
       if (!offsetForPane) {
@@ -276,8 +273,6 @@ export default function OCMap() {
         // cap on its max-width in edit mode.
         const effectivePaneWidth = isWidePaneEditMode ? Math.min(paneWidth * 2, window.innerWidth * 0.8) : paneWidth
         centerPoint = currentPoint.sub(new Point(effectivePaneWidth / 2, 0))
-        console.log('[getCenterLngLat] currentPoint', currentPoint)
-        console.log('[getCenterLngLat] centerPoint', centerPoint)
       }
 
       const centerLngLat = map.unproject(centerPoint)
@@ -289,7 +284,6 @@ export default function OCMap() {
   }
 
   function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true } = {}) {
-    console.log('[flyToMarker] animate: %o', animate)
     if (cave && cave.location) {
       const { longitude: lng, latitude: lat } = cave.location
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
@@ -355,15 +349,12 @@ export default function OCMap() {
   }
 
   function onLoad() {
-    console.log('[onLoad] mapRef: %o', mapRef)
     // Disable touch rotation
     mapRef.current?.getMap().touchZoomRotate.disableRotation()
     setMapLoaded(true)
 
     // Set initial map bounds
     setMapBounds()
-
-    console.log('uiReady: ', uiReady)
 
     // flyToMarker(false)
   }
@@ -448,15 +439,6 @@ export default function OCMap() {
   /**
    * IGNORE START
    */
-  useEffect(() => {
-    console.log('currentMarkerRef: ', currentMarkerRef)
-  }, [currentMarkerRef])
-  useEffect(() => {
-    console.log('uiReady: ', uiReady)
-  }, [uiReady])
-  useEffect(() => {
-    console.log('======================================================================')
-  }, [])
   useEffect(() => {
     console.log('==== currentCave: ', currentCave)
   }, [currentCave])
@@ -597,8 +579,6 @@ export default function OCMap() {
 
   useEffect(() => {
     if (mapReady && hasInitialGoToMarker && activeMarkerElem) {
-      console.log('[mapReady] hasInitialGoToMarker: ', hasInitialGoToMarker)
-      console.log('[mapReady] activeMarkerElem: ', activeMarkerElem)
       // setHasInitialGoToMarker(false)
       flyToMarker({ animate: false })
     }
@@ -687,9 +667,6 @@ export default function OCMap() {
                 const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
                 const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
                 const pinIcon = cave.location.validity === 'valid' ? PinIcon : PinLocationUnknownIcon
-                if (isCurrentCave) {
-                  console.log('isCurrentCave? (%s): %o', caveName, isCurrentCave)
-                }
 
                 const isDraggableCurrentCave = isCurrentCave && isWidePaneEditMode
 
