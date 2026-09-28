@@ -340,7 +340,9 @@ export default function QuickActions({ cave }) {
         <DialogContent>
           <DialogContentText id="oc-account-prompt-text">{t('accountPrompt.text', { name: caveName })}</DialogContentText>
         </DialogContent>
-        <DialogActions>
+        {/* Three actions don't fit side by side on a phone (labels wrapped
+            word by word): stack them full-width there, main action on top. */}
+        <DialogActions sx={{ flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', gap: 1, '& > :not(style) ~ :not(style)': { ml: { xs: 0, sm: 1 } } }}>
           <Button onClick={() => setAccountPromptOpen(false)}>{t('accountPrompt.notNow')}</Button>
           <Button onClick={() => goToAuth('/login')}>{t('accountPrompt.logIn')}</Button>
           <Button variant="contained" onClick={() => goToAuth('/signup')} autoFocus>

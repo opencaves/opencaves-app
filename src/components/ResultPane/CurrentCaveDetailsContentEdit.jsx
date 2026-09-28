@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +20,7 @@ import CoordinateField from './CoordinateField.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import { useSmall } from '@/hooks/useSmall.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -41,6 +43,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const isSmall = useSmall()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
@@ -196,8 +199,36 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     }
   }
 
+  // On phones the form lives in Ionic's sheet, which is always
+  // window.innerHeight tall and slid down (see AGENTS.md): a sticky bar would
+  // stick to the sheet's off-screen bottom, and position: fixed would be
+  // relative to its transformed wrapper. So there the bar is portaled to
+  // <body> and pinned to the viewport - above the sheet (z-index 999), below
+  // dialogs and menus - and the form gets room to scroll its last fields
+  // clear of it. On wider screens it stays sticky within the pane.
+  const saveBar = (
+    <Box
+      className="oc-current-cave-details-content-edit--actions"
+      sx={
+        isSmall
+          ? (theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider', px: 'var(--oc-pane-padding-inline)', pt: 1.5, pb: 'calc(12px + env(safe-area-inset-bottom))' })
+          : { display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }
+      }
+    >
+      <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
+        {t('delete')}
+      </Button>
+      <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+        {t('cancel')}
+      </Button>
+      <Button variant="contained" onClick={handleSave} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+        {t('save')}
+      </Button>
+    </Box>
+  )
+
   return (
-    <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)' }}>
+    <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))' }) }}>
       <TextField label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
@@ -349,17 +380,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }}>
-        <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
-          {t('delete')}
-        </Button>
-        <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
-          {t('cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
-          {t('save')}
-        </Button>
-      </Box>
+      {isSmall ? createPortal(saveBar, document.body) : saveBar}
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>{t('deleteCave')}</DialogTitle>

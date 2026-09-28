@@ -10,9 +10,19 @@ import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import ResultPaneMenu from './ResultPaneMenu.jsx'
+import EditCaveButtons from '@/components/Map/EditCaveButtons.jsx'
 import { paneBreakpoints, paneInitialBreakpoint, paneOpenThreshold } from '@/config/app.js'
 import { resultPaneSmUpperHeight } from '@/config/resultPane.js'
 import './ResultPaneSm.scss'
+
+// Sheet position (fraction of the screen) above which the map's bottom-right
+// controls fade out rather than keep riding up over the details.
+const mapControlsHideThreshold = 0.5
+
+// M3 icon buttons in the expanded pane's top bar: 48dp touch targets around
+// 24dp icons (the account avatar is 32dp), spaced 8dp apart via the bar's
+// columnGap.
+const headerIconButtonSx = { width: 48, height: 48, p: 0 }
 
 function easeOutQuad(t, b = 0, c = 1, d = 1) {
   return -c * (t /= d) * (t - 2) + b
@@ -182,6 +192,28 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     modalRef.current?.style?.setProperty('--oc-result-pane-border-radius', `${borderRadius} ${borderRadius} 0 0`)
   }, [paneOpenFactor])
 
+  // Publishes the sheet's live height so the map's bottom-right controls
+  // (geolocate, the editors' edit FAB) sit just above it, following drags
+  // instead of being covered. Past the midpoint they'd float over the
+  // details, so they fade out. The sheet is sized to window.innerHeight
+  // (see AGENTS.md), matching modalPosition's fraction.
+  useEffect(() => {
+    const root = document.documentElement.style
+    const visible = resultPaneOpen && !filterMenuOpen
+    const hidden = visible && modalPosition > mapControlsHideThreshold
+    root.setProperty('--oc-result-pane-sm-height', visible ? `${Math.max(0, modalPosition) * window.innerHeight}px` : '0px')
+    root.setProperty('--oc-map-controls-opacity', hidden ? '0' : '1')
+    root.setProperty('--oc-map-controls-visibility', hidden ? 'hidden' : 'visible')
+  }, [modalPosition, resultPaneOpen, filterMenuOpen])
+
+  useEffect(
+    () => () => {
+      const root = document.documentElement.style
+      ;['--oc-result-pane-sm-height', '--oc-map-controls-opacity', '--oc-map-controls-visibility'].forEach((name) => root.removeProperty(name))
+    },
+    [],
+  )
+
   useEffect(() => {
     if (paneOpenFactor > 0) {
       if (!searchBarOff) {
@@ -200,32 +232,35 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     !filterMenuOpen && (
       <ResultPaneSmContext.Provider value={contextData}>
         {modalPosition > paneBreakpointsThreshold && (
-          <Grid className="oc-result-pane--head" container ref={paneHeadRef} sx={{ alignItems: 'center' }}>
+          <Grid className="oc-result-pane--head" container ref={paneHeadRef} sx={{ alignItems: 'center', columnGap: 1 }}>
             <Grid>
               <IconButton
                 className="oc-back-btn"
                 aria-label={tApp('back')}
                 onClick={onBackBtnClick}
-                sx={{
-                  p: 0,
-                }}
+                sx={headerIconButtonSx}
               >
-                <ExpandMoreRounded fontSize="large" />
+                <ExpandMoreRounded />
               </IconButton>
             </Grid>
-            <Grid size="grow" sx={{ overflow: 'hidden', pl: '8px' }}>
+            <Grid size="grow" sx={{ overflow: 'hidden' }}>
               <Slide in={titleHidden} direction="down" appear={false} mountOnEnter unmountOnExit>
                 <Typography variant="caveDetailsHeader" component="p" noWrap sx={{ fontSize: '1.125rem', lineHeight: '1.5rem' }}>
                   {caveName}
                 </Typography>
               </Slide>
             </Grid>
+            {/* Take over the editors' edit FAB while it's hidden (same
+                threshold), so it's always reachable exactly once. The
+                geolocate control has no stand-in: locating yourself only
+                makes sense with the map in view. */}
+            {modalPosition > mapControlsHideThreshold && (
+              <Grid sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <EditCaveButtons sx={headerIconButtonSx} />
+              </Grid>
+            )}
             <Grid>
-              <ResultPaneMenu
-                sx={{
-                  p: 0,
-                }}
-              />
+              <ResultPaneMenu sx={headerIconButtonSx} />
             </Grid>
           </Grid>
         )}

@@ -17,6 +17,19 @@
   font-family: var(--oc-font-family);
 }
 
+// Rides above the mobile result pane's sheet (ResultPaneSm publishes its
+// height; 0 when there's no sheet) and fades out once it's mostly open.
+.mapboxgl-ctrl-bottom-right {
+  bottom: var(--oc-result-pane-sm-height, 0px);
+  opacity: var(--oc-map-controls-opacity, 1);
+  // visibility (not pointer-events) also makes hidden controls unclickable,
+  // without overriding anything's own pointer-events.
+  visibility: var(--oc-map-controls-visibility, visible);
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
+}
+
 .mapboxgl-ctrl-group {
   background-color: transparent;
 

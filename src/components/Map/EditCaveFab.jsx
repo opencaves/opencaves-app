@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
@@ -8,28 +8,45 @@ import { AddRounded, EditRounded } from '@mui/icons-material'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions
-// lead to editor-only /caves/*/edit routes. Kept below the mobile result
-// pane's own z-index so it gets covered the same way the geolocate button
-// does when that pane is open, instead of floating on top of it.
-export default function EditCaveFab() {
+// lead to editor-only /caves/*/edit routes. Like that control, it rides
+// above the mobile result pane's sheet and fades out once the sheet is
+// mostly open (ResultPaneSm's --oc-result-pane-sm-height and
+// --oc-map-controls-* variables).
+// The editor actions, shared with the mobile result pane's header
+// (EditCaveButtons), which offers them when this FAB is hidden.
+export function useEditCaveActions() {
   const { caveId } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const roles = useSelector((state) => state.session.roles)
+
+  return {
+    canEdit: roles.includes('editor'),
+    caveId,
+    // Already editing it: "Edit cave" has nothing to do.
+    isEditingCave: !!caveId && location.pathname === `/map/${caveId}/edit`,
+    editCave: () => navigate(`/map/${caveId}/edit`),
+    addNewCave: () => navigate(`/caves/${pushId()}/edit`),
+  }
+}
+
+export default function EditCaveFab() {
+  const { canEdit, caveId, isEditingCave, editCave: goEditCave, addNewCave: goAddNewCave } = useEditCaveActions()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
 
-  if (!roles.includes('editor')) {
+  if (!canEdit) {
     return null
   }
 
   function editCave() {
     setOpen(false)
-    navigate(`/map/${caveId}/edit`)
+    goEditCave()
   }
 
   function addNewCave() {
     setOpen(false)
-    navigate(`/caves/${pushId()}/edit`)
+    goAddNewCave()
   }
 
   return (
@@ -52,12 +69,28 @@ export default function EditCaveFab() {
         // margins - at 8dp the two circular buttons read as cramped/prone
         // to mis-taps rather than a deliberately related, evenly-spaced
         // pair.
-        bottom: `calc(16px + 50px + ${theme.spacing(2)})`,
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + 16px + 50px + ${theme.spacing(2)})`,
+        opacity: 'var(--oc-map-controls-opacity, 1)',
+        visibility: 'var(--oc-map-controls-visibility, visible)',
+        transition: 'opacity 150ms ease, visibility 150ms ease',
         zIndex: 'var(--oc-app-menu-z-index)',
         // Plain one-line text beside each action instead of MUI's default
         // wrapping label chip. With no chip behind it, it gets the same
         // light-text-with-dark-halo treatment as the map's marker labels
         // (Marker.scss) so it stays readable over any part of the map.
+        // A disabled action (Edit cave, while already editing it) gets a
+        // light grey, slightly translucent surface - distinct from the
+        // enabled actions' white, but unlike MUI's default near-transparent
+        // grey still visible over the map - with a greyed icon, and its
+        // label dims with it.
+        [`& .${speedDialActionClasses.fab}.Mui-disabled`]: {
+          bgcolor: 'rgba(224, 224, 224, 0.85)',
+          color: 'action.disabled',
+          boxShadow: theme.shadows[2],
+        },
+        [`& .${speedDialActionClasses.staticTooltip}:has(.Mui-disabled) .${speedDialActionClasses.staticTooltipLabel}`]: {
+          opacity: 0.6,
+        },
         [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
           bgcolor: 'transparent',
           boxShadow: 'none',
@@ -71,7 +104,7 @@ export default function EditCaveFab() {
       {/* tooltip.open makes MUI render each action's title as a fixed label
           to the left of its icon (its "static tooltip") instead of a hover
           tooltip. */}
-      <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ tooltip: { title: t('editCave'), open: true }, fab: { 'aria-label': t('editCave'), disabled: !caveId } }} />
+      <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ tooltip: { title: t('editCave'), open: true }, fab: { 'aria-label': t('editCave'), disabled: !caveId || isEditingCave } }} />
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={{ tooltip: { title: t('addNewCave'), open: true }, fab: { 'aria-label': t('addNewCave') } }} />
     </SpeedDial>
   )
