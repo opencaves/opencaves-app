@@ -762,7 +762,8 @@
     "editFab": {
       "ariaLabel": "Editar datos del cenote",
       "editCave": "Editar cenote",
-      "addNewCave": "Añadir nuevo cenote"
+      "addNewCave": "Añadir nuevo cenote",
+      "exitEditMode": "Salir del modo de edición"
     },
     "error": "Algo salió mal",
     "savedCave": "Guardado"

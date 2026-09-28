@@ -760,7 +760,8 @@
     "editFab": {
       "ariaLabel": "Modifier les données du cénote",
       "editCave": "Modifier le cénote",
-      "addNewCave": "Ajouter un nouveau cénote"
+      "addNewCave": "Ajouter un nouveau cénote",
+      "exitEditMode": "Quitter le mode édition"
     },
     "error": "Une erreur est survenue",
     "savedCave": "Sauvegardé"

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses } from '@mui/material'
-import { AddRounded, EditRounded } from '@mui/icons-material'
+import { AddRounded, EditOffRounded, EditRounded } from '@mui/icons-material'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions
@@ -26,12 +26,15 @@ export function useEditCaveActions() {
     // Already editing it: "Edit cave" has nothing to do.
     isEditingCave: !!caveId && location.pathname === `/map/${caveId}/edit`,
     editCave: () => navigate(`/map/${caveId}/edit`),
+    // Same one-way exit as the form's Cancel (replace: no edit-mode entry
+    // left in history for Back to reopen); unsaved changes are dropped.
+    exitEditMode: () => navigate(`/map/${caveId}`, { replace: true }),
     addNewCave: () => navigate(`/caves/${pushId()}/edit`),
   }
 }
 
 export default function EditCaveFab() {
-  const { canEdit, caveId, isEditingCave, editCave: goEditCave, addNewCave: goAddNewCave } = useEditCaveActions()
+  const { canEdit, caveId, isEditingCave, editCave: goEditCave, exitEditMode: goExitEditMode, addNewCave: goAddNewCave } = useEditCaveActions()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
 
@@ -42,6 +45,11 @@ export default function EditCaveFab() {
   function editCave() {
     setOpen(false)
     goEditCave()
+  }
+
+  function exitEditMode() {
+    setOpen(false)
+    goExitEditMode()
   }
 
   function addNewCave() {
@@ -104,7 +112,12 @@ export default function EditCaveFab() {
       {/* tooltip.open makes MUI render each action's title as a fixed label
           to the left of its icon (its "static tooltip") instead of a hover
           tooltip. */}
-      <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ tooltip: { title: t('editCave'), open: true }, fab: { 'aria-label': t('editCave'), disabled: !caveId || isEditingCave } }} />
+      {/* While editing this cave, the action becomes its opposite. */}
+      {isEditingCave ? (
+        <SpeedDialAction icon={<EditOffRounded />} onClick={exitEditMode} slotProps={{ tooltip: { title: t('exitEditMode'), open: true }, fab: { 'aria-label': t('exitEditMode') } }} />
+      ) : (
+        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ tooltip: { title: t('editCave'), open: true }, fab: { 'aria-label': t('editCave'), disabled: !caveId } }} />
+      )}
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={{ tooltip: { title: t('addNewCave'), open: true }, fab: { 'aria-label': t('addNewCave') } }} />
     </SpeedDial>
   )

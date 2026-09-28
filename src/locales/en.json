@@ -762,7 +762,8 @@
     "editFab": {
       "ariaLabel": "Edit cave data",
       "editCave": "Edit cave",
-      "addNewCave": "Add new cave"
+      "addNewCave": "Add new cave",
+      "exitEditMode": "Exit edit mode"
     },
     "error": "Something went wrong",
     "savedCave": "Saved"
