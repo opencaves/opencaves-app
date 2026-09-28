@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Avatar, Box, Button, Card, CardActionArea, CircularProgress, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Menu, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded, DescriptionRounded, ImageRounded } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
@@ -37,12 +38,14 @@ function MapThumbnail({ map, size }) {
 // `onChange` receives the updated array.
 export default function MapsPicker({ label, value = [], onChange, sistemaName = '' }) {
   const { t } = useTranslation('mapsPicker')
+  const isSmall = useSmall()
   const [maps] = mapsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
   const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const open = Boolean(anchorEl)
+  const previewSize = isSmall ? 240 : 440
 
   const selectedMaps = value.map((id) => maps.find((m) => m.id === id)).filter(Boolean)
 
@@ -122,19 +125,19 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
         </Button>
       </Box>
 
-      <Menu className="oc-maps-picker--menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Menu className="oc-maps-picker--menu" anchorEl={anchorEl} open={open} onClose={handleClose} slotProps={{ paper: { sx: { maxWidth: 'calc(100vw - 16px)', maxHeight: 'calc(100dvh - 32px)', overflowY: 'auto' } } }}>
         {pendingFile ? (
-          <Box className="oc-maps-picker--upload-details" sx={{ width: 900, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            <Box sx={{ display: 'flex', gap: 1.5 }}>
-              <Box sx={{ width: 440, height: 440, flexShrink: 0 }}>
-                <PendingFilePreview file={pendingFile} width={440} height={440} />
+          <Box className="oc-maps-picker--upload-details" sx={{ width: isSmall ? 'calc(100vw - 32px)' : 900, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'center', sm: 'stretch' }, gap: 1.5 }}>
+              <Box sx={{ width: previewSize, height: previewSize, maxWidth: '100%', flexShrink: 0 }}>
+                <PendingFilePreview file={pendingFile} width={previewSize} height={previewSize} />
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, flex: 1, minWidth: 0 }}>
                 <Typography variant="subtitle2" noWrap title={pendingFile.name}>
                   {pendingFile.name}
                 </Typography>
                 <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-                <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+                <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: isSmall ? '100%' : 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
                 <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Box>
