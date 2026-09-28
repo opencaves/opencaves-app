@@ -38,6 +38,11 @@ function SkipIfLoggedin({ children }) {
 
 function RequireAuth({ children }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const authResolved = useSelector((state) => state.session.authResolved)
+
+  if (!authResolved) {
+    return null
+  }
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />
@@ -49,6 +54,11 @@ function RequireAuth({ children }) {
 function RequireEditor({ children }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
+  const authResolved = useSelector((state) => state.session.authResolved)
+
+  if (!authResolved) {
+    return null
+  }
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />
@@ -64,6 +74,11 @@ function RequireEditor({ children }) {
 function RequireAdmin({ children }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
+  const authResolved = useSelector((state) => state.session.authResolved)
+
+  if (!authResolved) {
+    return null
+  }
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />
@@ -196,7 +211,11 @@ const routes = [
           },
           {
             path: 'account',
-            element: <Account />,
+            element: (
+              <RequireAuth>
+                <Account />
+              </RequireAuth>
+            ),
           },
           {
             path: 'loading',

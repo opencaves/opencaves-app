@@ -20,6 +20,10 @@ const initialState = {
   isAnonymous: false,
   continueUrl: null,
   roles: [],
+  // False until Firebase Auth has reported the restored session once. The
+  // session slice isn't persisted, so until then a signed-in user looks
+  // signed out - route guards wait for this rather than redirect.
+  authResolved: false,
 }
 
 const sessionSlice = createSlice({
@@ -27,6 +31,7 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
+      state.authResolved = true
       state.user = action.payload
       state.isLoggedIn = !!action.payload && !action.payload.isAnonymous
       state.isAnonymous = !!action.payload?.isAnonymous
