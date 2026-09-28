@@ -512,7 +512,18 @@
         "remove": "Remove"
       }
     },
-    "closePane": "Close"
+    "closePane": "Close",
+    "rating": {
+      "stars_one": "{{count}} star",
+      "stars_other": "{{count}} stars",
+      "average": "Rated {{value}} out of 5",
+      "notRated": "Not rated yet",
+      "count_one": "({{count}} rating)",
+      "count_other": "({{count}} ratings)",
+      "yourRating": "Your rating",
+      "rateThisCave": "Rate this cave",
+      "saveError": "Could not save your rating."
+    }
   },
   "mediaPane": {
     "header": "Cenote {{name}}",

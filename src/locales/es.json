@@ -512,7 +512,18 @@
         "remove": "Quitar"
       }
     },
-    "closePane": "Cerrar"
+    "closePane": "Cerrar",
+    "rating": {
+      "stars_one": "{{count}} estrella",
+      "stars_other": "{{count}} estrellas",
+      "average": "Calificación: {{value}} de 5",
+      "notRated": "Aún sin calificar",
+      "count_one": "({{count}} calificación)",
+      "count_other": "({{count}} calificaciones)",
+      "yourRating": "Tu calificación",
+      "rateThisCave": "Califica este cenote",
+      "saveError": "No se pudo guardar tu calificación."
+    }
   },
   "mediaPane": {
     "header": "Cenote {{name}}",

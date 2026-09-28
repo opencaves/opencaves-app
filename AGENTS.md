@@ -42,7 +42,7 @@ Always push right after committing, as part of the same action rather than a sep
 
 ## Data model
 
-Firestore collections: `caves`, `sistemas`, `connections`, `accesses`, `accessibilities`, `sources`, `areas`, `colors`, `languages` (cave data), plus `cavesAssets` (media) and `ratings`. Document IDs are Firebase push-ID—formatted and stable (carried over from a previous Firebase-backed version of the app, then a stint on a Google Sheet, now back to Firestore).
+Firestore collections: `caves`, `sistemas`, `connections`, `accesses`, `accessibilities`, `sources`, `areas`, `colors`, `languages` (cave data), plus `cavesAssets` (media) and `maps`. Per-user data lives under `users/{uid}`: `savedCaves/{caveId}` and `ratings/{caveId}` (one 1–5 rating per cave, editors/admins only; a cave's average is a collection-group query on `ratings` by `caveId`, whose index is in `firestore.indexes.json`). Document IDs are Firebase push-ID—formatted and stable (carried over from a previous Firebase-backed version of the app, then a stint on a Google Sheet, now back to Firestore).
 
 Two things are **deliberately** computed client-side at read time, not stored in Firestore, so they can't go stale as records are edited independently of each other:
 

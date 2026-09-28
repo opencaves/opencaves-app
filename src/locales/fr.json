@@ -510,7 +510,18 @@
         "remove": "Retirer"
       }
     },
-    "closePane": "Fermer"
+    "closePane": "Fermer",
+    "rating": {
+      "stars_one": "{{count}} étoile",
+      "stars_other": "{{count}} étoiles",
+      "average": "Note : {{value}} sur 5",
+      "notRated": "Pas encore notée",
+      "count_one": "({{count}} note)",
+      "count_other": "({{count}} notes)",
+      "yourRating": "Votre note",
+      "rateThisCave": "Noter cette cénote",
+      "saveError": "Impossible d’enregistrer votre note."
+    }
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
