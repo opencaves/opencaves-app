@@ -23,6 +23,7 @@ import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
 import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
+import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
 
 // Mapbox gives every marker's wrapper role="img" aria-label="Map marker".
@@ -96,8 +97,10 @@ export default function OCMap() {
   const [mapReady, setMapReady] = useState(false)
   const theme = useTheme()
 
+  // A position in the URL (a shared link) wins over the last one seen here.
+  const [hashViewState] = useState(locationViewState)
   const persistedViewStateAvailable = hasSavedViewState(savedViewState)
-  const initialMapViewState = persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState
+  const initialMapViewState = hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
@@ -117,6 +120,27 @@ export default function OCMap() {
   // their own container resizing (e.g. a CSS-driven size change like the
   // cave edit page's enlarge toggle) - without this, the extra revealed
   // area after a container grows just stays blank.
+  // Back on a map page (e.g. closing the /about dialog over the map): put the
+  // position back in the URL. Also follow hand-edited hashes, as mapbox-gl's
+  // `hash` option did.
+  // (Not before load: the map isn't at its initial position yet.)
+  useEffect(() => {
+    if (mapLoaded) {
+      writeMapHash(mapRef.current?.getMap())
+    }
+  }, [location.pathname, mapLoaded])
+
+  useEffect(() => {
+    function onHashChange() {
+      const viewState = locationViewState()
+      if (viewState) {
+        mapRef.current?.jumpTo({ center: [viewState.longitude, viewState.latitude], zoom: viewState.zoom })
+      }
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
   useEffect(() => {
     const container = mapContainerRef.current
     if (!container) {
@@ -356,6 +380,7 @@ export default function OCMap() {
   function onMoveEnd() {
     // Set current map bounds
     updateMapBounds()
+    writeMapHash(mapRef.current?.getMap())
   }
 
   function onZoom(event) {
@@ -371,6 +396,7 @@ export default function OCMap() {
     // Disable touch rotation
     mapRef.current?.getMap().touchZoomRotate.disableRotation()
     setMapLoaded(true)
+    writeMapHash(mapRef.current?.getMap())
 
     // Set initial map bounds
     setMapBounds()
