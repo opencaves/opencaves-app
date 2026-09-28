@@ -775,7 +775,7 @@
     "caveNameUnknown": "[nombre desconocido]",
     "editFab": {
       "ariaLabel": "Editar datos del cenote",
-      "editCave": "Editar cenote",
+      "editCave": "Editar este cenote",
       "addNewCave": "Añadir nuevo cenote",
       "exitEditMode": "Salir del modo de edición"
     },

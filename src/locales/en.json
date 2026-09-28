@@ -775,7 +775,7 @@
     "caveNameUnknown": "[unknown name]",
     "editFab": {
       "ariaLabel": "Edit cave data",
-      "editCave": "Edit cave",
+      "editCave": "Edit this cave",
       "addNewCave": "Add new cave",
       "exitEditMode": "Exit edit mode"
     },
