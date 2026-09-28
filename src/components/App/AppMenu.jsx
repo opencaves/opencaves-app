@@ -120,6 +120,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
               {t('admin')}
             </MenuItem>
           ),
+          <LogoutMenuItem key="key-logout" />,
           <Divider key="key-divider-1" />,
         ]}
 
@@ -127,14 +128,14 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
 
         <OfflinePreviewsMenuItem />
 
+        <Divider key="key-divider-about" />
+
         <MenuItem key="key-about2" component={Link} to="/about" state={{ backgroundLocation: location }}>
           <ListItemIcon>
             <InfoOutlined fontSize="small" />
           </ListItemIcon>
           {t('about', { context: 'withName', name: appName })}
         </MenuItem>
-
-        {isLoggedIn && [<Divider key="key-divider-3" />, <LogoutMenuItem key="key-logout" />]}
       </Menu>
     </>
   )

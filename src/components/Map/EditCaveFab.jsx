@@ -99,7 +99,9 @@ export default function EditCaveFab() {
           color: 'action.disabled',
           boxShadow: theme.shadows[2],
         },
-        [`& .${speedDialActionClasses.staticTooltip}:has(.Mui-disabled) .${speedDialActionClasses.staticTooltipLabel}`]: {
+        // Only while open: MUI hides a closed dial's labels with opacity 0,
+        // which this would otherwise override, leaving the label floating.
+        [`& .${speedDialActionClasses.staticTooltip}:not(.${speedDialActionClasses.staticTooltipClosed}):has(.Mui-disabled) .${speedDialActionClasses.staticTooltipLabel}`]: {
           opacity: 0.6,
         },
         [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
