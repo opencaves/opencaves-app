@@ -21,6 +21,12 @@ const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
+const sectionHeadingProps = {
+  component: 'h2',
+  variant: 'h6',
+  className: 'oc-sistema-edit-form--section-title',
+  sx: { mt: 1, mb: 3, pl: 1, borderLeft: '3px solid', borderColor: 'secondary.main', fontWeight: 600 },
+}
 
 function parseLocalizedNumber(value, locale) {
   if (value === '' || value === null || typeof value === 'undefined') return null
@@ -43,7 +49,7 @@ function formatLocalizedNumber(value, locale) {
   return number === null ? String(value ?? '') : new Intl.NumberFormat(locale, { maximumFractionDigits: 20 }).format(number)
 }
 
-function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
+function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange, labelProps = {} }) {
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
   }
@@ -58,7 +64,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel,
 
   return (
     <Box className="oc-explorations-field">
-      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
+      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }} {...labelProps}>
         {label}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -335,7 +341,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
+          <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={7}>
@@ -350,7 +356,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
+          <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={12}>
@@ -358,7 +364,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+          <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={12}>
@@ -366,11 +372,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+          <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={12}>
@@ -378,7 +384,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} />
+          <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} labelProps={sectionHeadingProps} />
         </Grid>
       </Grid>
 

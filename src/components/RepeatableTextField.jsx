@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded } from '@mui/icons-material'
 
-export default function RepeatableTextField({ label, values, onChange, addLabel, removeLabel }) {
+export default function RepeatableTextField({ label, values, onChange, addLabel, removeLabel, labelProps = {} }) {
   function updateAt(index, value) {
     onChange(values.map((v, i) => (i === index ? value : v)))
   }
@@ -16,7 +16,7 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
 
   return (
     <Box className="oc-repeatable-text-field">
-      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
+      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }} {...labelProps}>
         {label}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

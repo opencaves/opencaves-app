@@ -53,7 +53,7 @@ const HEADING_LEVELS = [1, 2, 3]
 // onChange keeps the exact (event) => event.target.value contract every
 // call site already used with the old textarea, so no caller needed to
 // change when this was rewritten.
-export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '' }) {
+export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '', labelProps = {} }) {
   const { t } = useTranslation('markdownField')
   const theme = useTheme()
   const rootRef = useRef(null)
@@ -239,7 +239,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
   return (
     <Box className="oc-markdown-field">
-      <Typography id={labelId} variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }}>
+      <Typography id={labelId} variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }} {...labelProps}>
         {label}
       </Typography>
 

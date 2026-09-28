@@ -36,7 +36,7 @@ function MapThumbnail({ map, size }) {
 // by every sistema - not scoped to one sistema, same sharing model as
 // ColorPicker's `colors` palette. `value` is an array of map doc IDs;
 // `onChange` receives the updated array.
-export default function MapsPicker({ label, value = [], onChange, sistemaName = '' }) {
+export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {} }) {
   const { t } = useTranslation('mapsPicker')
   const isSmall = useSmall()
   const [maps] = mapsModel.useAll()
@@ -98,7 +98,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
 
   return (
     <Box className="oc-maps-picker">
-      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
+      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }} {...labelProps}>
         {label}
       </Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'flex-start' }}>

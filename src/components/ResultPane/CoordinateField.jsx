@@ -57,7 +57,7 @@ function LabeledAction({ icon, label, onClick, disabled }) {
     </ButtonBase>
   )
 }
-export default function CoordinateField({ field, label, longitude, latitude, onChange }) {
+export default function CoordinateField({ field, label, longitude, latitude, onChange, labelProps = {} }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
@@ -199,7 +199,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   return (
     <Box className="oc-coordinate-field">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" color="text.secondary" {...labelProps}>
           {label}
         </Typography>
       </Box>
