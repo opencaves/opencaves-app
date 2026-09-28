@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -5,6 +6,7 @@ import Logo from '@/images/logo/brand_light.svg?react'
 
 export default function About({ className, ...props }) {
   const { t } = useTranslation('about')
+  const { t: tLegal } = useTranslation('legal')
   const isSmall = useSmall()
 
   return (
@@ -24,6 +26,17 @@ export default function About({ className, ...props }) {
         {t('version', { version: import.meta.env.REACT_APP_VERSION })}{' '}
         <Link href="https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md" target="_blank" sx={{ ml: 1 }}>
           {t('whatsNew')}
+        </Link>
+      </Typography>
+      <Typography component="nav" aria-label={tLegal('links.ariaLabel')} sx={{ fontSize: 'small', textAlign: 'center', mt: 1 }} color="text.secondary">
+        <Link component={RouterLink} to="/privacy">
+          {tLegal('privacy.title')}
+        </Link>
+        <Box component="span" aria-hidden="true" sx={{ mx: 1 }}>
+          ·
+        </Box>
+        <Link component={RouterLink} to="/terms">
+          {tLegal('terms.title')}
         </Link>
       </Typography>
     </Box>

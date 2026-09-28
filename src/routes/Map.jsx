@@ -7,6 +7,7 @@ import SearchBar from '@/components/SearchBar/SearchBar.jsx'
 import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
+import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import './Map.scss'
@@ -32,6 +33,7 @@ export default function MapPage() {
         </Suspense>
         <FilterMenu />
         <EditCaveFab />
+        <MapLegalLinks />
         {isLarge && (
           <AppMenu
             logoColorScheme="light"

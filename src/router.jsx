@@ -190,6 +190,14 @@ const routes = [
             element: <AboutRoute />,
           },
           {
+            path: 'privacy',
+            lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
+          },
+          {
+            path: 'terms',
+            lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="terms" /> })),
+          },
+          {
             path: 'signup',
             ...skipIfLoggedIn(() => import('@/routes/Signup.jsx')),
             children: [
