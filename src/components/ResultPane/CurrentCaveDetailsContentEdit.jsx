@@ -229,8 +229,17 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     </Box>
   )
 
+  // M3 touch sizing for the whole form on phones (it's built from dense,
+  // desktop-sized controls shared with the admin pages): 48dp targets with
+  // 24dp icons for icon buttons, 40dp-tall buttons, standard-size switches.
+  const phoneTouchSizing = {
+    '& .MuiIconButton-root': { width: 48, height: 48, p: 0 },
+    '& .MuiIconButton-root .MuiSvgIcon-root': { fontSize: 24 },
+    '& .MuiButton-root': { minHeight: 40 },
+  }
+
   return (
-    <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))' }) }}>
+    <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))', ...phoneTouchSizing }) }}>
       <TextField label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />

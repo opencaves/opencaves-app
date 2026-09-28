@@ -117,6 +117,46 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     event.dataTransfer.setDragImage(event.currentTarget, 12, 12)
   }
 
+  // Values are capped at 5 decimals (normalizeCoordinateValue), so the widest
+  // is "-180.00000": narrow fields, without the number spinners (useless
+  // here, and they'd cover digits in a field this narrow).
+  const coordinateInputSx = {
+    width: 112,
+    '& input[type=number]': { MozAppearance: 'textfield' },
+    '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
+  }
+
+  const inputs = (
+    <>
+      <Grid size="auto">
+        <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
+      </Grid>
+      <Grid size="auto">
+        <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
+      </Grid>
+    </>
+  )
+
+  const myLocationButton = (
+    <Tooltip title={t('pickMyLocation')}>
+      <span>
+        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
+          {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
+        </IconButton>
+      </span>
+    </Tooltip>
+  )
+
+  const removeButton = (
+    <Tooltip title={t('removeCoordinate')}>
+      <span>
+        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
+          <CloseRounded fontSize="small" />
+        </IconButton>
+      </span>
+    </Tooltip>
+  )
+
   return (
     <Box className="oc-coordinate-field">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -124,63 +164,60 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           {label}
         </Typography>
       </Box>
-      <Grid container spacing={1} sx={{ alignItems: 'center' }}>
-        <Grid size="auto">
-          <TextField size="small" label={t('longitude')} type="number" sx={{ width: 130 }} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
-        </Grid>
-        <Grid size="auto">
-          <TextField size="small" label={t('latitude')} type="number" sx={{ width: 130 }} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
-        </Grid>
-        {isSet && (
-          <Grid size="auto">
-            <Tooltip title={t('navigateToCoordinate')}>
-              <IconButton size="small" onClick={onNavigateToClick}>
-                <CenterFocusStrongRounded fontSize="small" />
-              </IconButton>
-            </Tooltip>
+      {inPhoneSheet ? (
+        // Phones: the inputs, then the actions on their own row in a fixed
+        // order - ones that don't apply yet are disabled, not hidden, so
+        // nothing shifts around as the field fills in.
+        <>
+          <Grid container spacing={1} sx={{ alignItems: 'center' }}>
+            {inputs}
           </Grid>
-        )}
-        {inPhoneSheet && (
-          <Grid size="auto">
+          <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'center', mt: 0.5, ml: -1.5 }}>
             <Tooltip title={t('placeOnMap')}>
               <IconButton size="small" onClick={onPlaceOnMapClick} aria-label={t('placeOnMap')}>
                 <AddLocationAltRounded fontSize="small" />
               </IconButton>
             </Tooltip>
-          </Grid>
-        )}
-        {!isSet && !inPhoneSheet && (
-          <Grid size="auto">
-            <Tooltip title={t('dragPinToMap')}>
-              <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
-                {FIELD_BADGE_ICONS[field] ? (
-                  <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} />
-                ) : (
-                  <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
-                )}
-              </IconButton>
+            <Tooltip title={t('navigateToCoordinate')}>
+              <span>
+                <IconButton size="small" onClick={onNavigateToClick} disabled={!isSet} aria-label={t('navigateToCoordinate')}>
+                  <CenterFocusStrongRounded fontSize="small" />
+                </IconButton>
+              </span>
             </Tooltip>
-          </Grid>
-        )}
-        <Grid size="auto">
-          <Tooltip title={t('pickMyLocation')}>
-            <span>
-              <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating}>
-                {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
-              </IconButton>
-            </span>
-          </Tooltip>
+            {myLocationButton}
+            {removeButton}
+          </Box>
+        </>
+      ) : (
+        <Grid container spacing={1} sx={{ alignItems: 'center' }}>
+          {inputs}
+          {isSet && (
+            <Grid size="auto">
+              <Tooltip title={t('navigateToCoordinate')}>
+                <IconButton size="small" onClick={onNavigateToClick}>
+                  <CenterFocusStrongRounded fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          )}
+          {!isSet && (
+            <Grid size="auto">
+              <Tooltip title={t('dragPinToMap')}>
+                <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
+                  {FIELD_BADGE_ICONS[field] ? (
+                    <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} />
+                  ) : (
+                    <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
+                  )}
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          )}
+          <Grid size="auto">{myLocationButton}</Grid>
+          <Grid size="auto">{removeButton}</Grid>
         </Grid>
-        <Grid size="auto">
-          <Tooltip title={t('removeCoordinate')}>
-            <span>
-              <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
-                <CloseRounded fontSize="small" />
-              </IconButton>
-            </span>
-          </Tooltip>
-        </Grid>
-      </Grid>
+      )}
     </Box>
   )
 }

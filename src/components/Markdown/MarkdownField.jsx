@@ -239,6 +239,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         {label}
       </Typography>
 
+      {/* Wraps onto more rows when it doesn't fit (e.g. phones' 48dp touch
+          targets, set by the edit form). */}
       <Box className="oc-markdown-field--toolbar" sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5 }}>
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
           <Tooltip key={key} title={t(`toolbar.${key}`)}>
