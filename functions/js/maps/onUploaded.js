@@ -4,8 +4,51 @@ import { logger } from 'firebase-functions/logger'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import { PDFDocument } from 'pdf-lib'
 import { convertPdfToSvg } from 'pdf-into-svg'
+import sharp from 'sharp'
 import pushId from 'unique-push-id'
 import { db } from '../init.js'
+
+// Derived files live in a subfolder so writing them never matches the
+// maps/{mapId} upload triggers below.
+const DERIVED_FOLDER = 'maps/derived'
+const IMMUTABLE_CACHE_CONTROL = 'public, max-age=31536000, immutable'
+
+// Survey maps carry fine lines and small labels, so the viewing copy keeps a
+// high quality and a large width (sharp never enlarges smaller scans).
+const VIEW_WIDTH = 4096
+const VIEW_QUALITY = 80
+// Covers the Maps tab/MapsPicker cards at high-DPI.
+const THUMBNAIL_WIDTH = 640
+const THUMBNAIL_QUALITY = 70
+// Large scans exceed sharp's default ~268 MP safety limit.
+const MAX_INPUT_PIXELS = 1_000_000_000
+
+// Saves `data` and returns a Firebase Storage download URL for it (the same
+// token-based URL shape getDownloadURL() gives the client), so the app can
+// load it without going through storage rules.
+async function saveWithDownloadUrl(bucket, path, data, contentType) {
+  const token = randomBytes(32).toString('base64url')
+  await bucket.file(path).save(data, {
+    metadata: {
+      contentType,
+      cacheControl: IMMUTABLE_CACHE_CONTROL,
+      metadata: { firebaseStorageDownloadTokens: token }
+    }
+  })
+
+  const host = process.env.FIREBASE_STORAGE_EMULATOR_HOST
+    ? `http://${process.env.FIREBASE_STORAGE_EMULATOR_HOST}`
+    : 'https://firebasestorage.googleapis.com'
+  return `${host}/v0/b/${bucket.name}/o/${encodeURIComponent(path)}?alt=media&token=${token}`
+}
+
+function webpThumbnail(input) {
+  return sharp(input, { limitInputPixels: MAX_INPUT_PIXELS })
+    .rotate()
+    .resize({ width: THUMBNAIL_WIDTH, withoutEnlargement: true })
+    .webp({ quality: THUMBNAIL_QUALITY, effort: 4 })
+    .toBuffer()
+}
 
 export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSeconds: 300 }, async event => {
   const { bucket: bucketName, name: originalPath, contentType } = event.data
@@ -37,21 +80,50 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   const previewUrls = []
   for (const [index, { svg }] of pages.entries()) {
     // Keep the PDF intact; each SVG retains the page's vector paths and text.
-    const previewPath = `maps/${svgIds[index]}`
-    const token = randomBytes(32).toString('base64url')
-    await bucket.file(previewPath).save(svg, {
-      metadata: {
-        contentType: 'image/svg+xml',
-        metadata: { firebaseStorageDownloadTokens: token }
-      }
-    })
-
-    const host = process.env.FIREBASE_STORAGE_EMULATOR_HOST
-      ? `http://${process.env.FIREBASE_STORAGE_EMULATOR_HOST}`
-      : 'https://firebasestorage.googleapis.com'
-    previewUrls.push(`${host}/v0/b/${bucketName}/o/${encodeURIComponent(previewPath)}?alt=media&token=${token}`)
+    previewUrls.push(await saveWithDownloadUrl(bucket, `maps/${svgIds[index]}`, svg, 'image/svg+xml'))
   }
 
-  await mapRef.set({ previewUrl: previewUrls[0], previewUrls, ...(title && { name: title }) }, { merge: true })
+  // A small raster of the first page for the map cards - a full SVG page can
+  // be heavy to render at card size. Optional: a page sharp can't rasterize
+  // just leaves the cards on the SVG.
+  let thumbnailUrl
+  try {
+    thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(Buffer.from(pages[0].svg)), 'image/webp')
+  } catch (error) {
+    logger.warn('Could not rasterize a thumbnail for PDF map', { mapId, error })
+  }
+
+  await mapRef.set({ previewUrl: previewUrls[0], previewUrls, ...(thumbnailUrl && { thumbnailUrl }), ...(title && { name: title }) }, { merge: true })
   logger.info('Converted PDF map to vector SVG pages', { mapId, pages: previewUrls.length })
+})
+
+// Image maps (scans, usually large JPEG/PNG) get a WebP viewing copy and
+// thumbnail, stored as previewUrl/thumbnailUrl - which the app already
+// prefers over the original `url` for display (and offline downloads). The
+// original upload stays untouched as `url`, for the "Original file" download.
+// SVG uploads are already vector and light, so they're left as-is (this also
+// skips the PDF function's own maps/{svgId} pages).
+export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSeconds: 300 }, async event => {
+  const { bucket: bucketName, name: originalPath, contentType } = event.data
+  const match = /^maps\/([^/]+)$/.exec(originalPath || '')
+  if (!match || !contentType?.startsWith('image/') || contentType === 'image/svg+xml') return
+
+  const [, mapId] = match
+  const bucket = getStorage().bucket(bucketName)
+  const [original] = await bucket.file(originalPath).download()
+
+  const view = await sharp(original, { limitInputPixels: MAX_INPUT_PIXELS })
+    // Applies EXIF orientation (phone photos of paper maps).
+    .rotate()
+    .resize({ width: VIEW_WIDTH, withoutEnlargement: true })
+    .webp({ quality: VIEW_QUALITY, effort: 5, smartSubsample: true })
+    .toBuffer()
+
+  const previewUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_view.webp`, view, 'image/webp')
+  const thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(original), 'image/webp')
+
+  // merge: the client writes the map doc's own fields (name, url, ...) around
+  // the same time, in either order.
+  await db.collection('maps').doc(mapId).set({ previewUrl, thumbnailUrl }, { merge: true })
+  logger.info('Converted image map to WebP', { mapId, originalBytes: original.length, viewBytes: view.length })
 })

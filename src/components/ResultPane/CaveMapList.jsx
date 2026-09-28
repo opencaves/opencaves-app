@@ -25,8 +25,10 @@ function MapPreview({ caveId, map, index, returnTo }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [failed, setFailed] = useState(false)
   const { file } = map
-  const url = file?.previewUrl || map.url
-  const image = (file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
+  // thumbnailUrl/previewUrl: WebP (or SVG) derivatives made by the
+  // onMap*Uploaded functions, much lighter than the original upload.
+  const url = file?.thumbnailUrl || file?.previewUrl || map.url
+  const image = (file?.thumbnailUrl || file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
       {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}

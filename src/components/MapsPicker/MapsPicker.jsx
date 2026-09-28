@@ -12,11 +12,12 @@ const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
 const mapsModel = createCollectionModel('maps')
 
-// PDFs can't be thumbnailed with a plain <img src>, so they fall back to a
+// PDFs can't be thumbnailed with a plain <img src>, so until their
+// conversion (onMapPdfUploaded) adds a thumbnail/preview they fall back to a
 // generic file icon; image maps show an actual miniature of the file.
 function MapThumbnail({ map, size }) {
   const sx = { width: size, height: size }
-  if (map.contentType === 'application/pdf' && !map.previewUrl) {
+  if (map.contentType === 'application/pdf' && !map.previewUrl && !map.thumbnailUrl) {
     return (
       <Avatar variant="rounded" sx={sx}>
         <DescriptionRounded fontSize="small" />
@@ -24,7 +25,7 @@ function MapThumbnail({ map, size }) {
     )
   }
   return (
-    <Avatar variant="rounded" src={map.previewUrl || map.url} slotProps={{ img: { crossOrigin: 'anonymous' } }} sx={sx}>
+    <Avatar variant="rounded" src={map.thumbnailUrl || map.previewUrl || map.url} slotProps={{ img: { crossOrigin: 'anonymous' } }} sx={sx}>
       <ImageRounded fontSize="small" />
     </Avatar>
   )
@@ -104,7 +105,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
               <CloseRounded fontSize="small" />
             </IconButton>
             <CardActionArea component="a" href={m.previewUrl || m.url} target="_blank" rel="noopener noreferrer">
-              <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.previewUrl || m.url} alt={m.name} crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>
+              <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl && !m.thumbnailUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.thumbnailUrl || m.previewUrl || m.url} alt={m.name} crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>
               <Typography variant="body2" noWrap sx={{ display: 'block', px: 1, py: 0.75 }}>
                 {m.name}
               </Typography>
