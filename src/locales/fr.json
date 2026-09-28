@@ -540,6 +540,15 @@
       "viewFormatted": "Voir le texte formaté"
     }
   },
+  "newSourceDialog": {
+    "title": "Nouvelle source",
+    "name": "Nom",
+    "description": "Description",
+    "note": "Note(s)",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "saveError": "Impossible d'enregistrer la source."
+  },
   "partialDateField": {
     "formats": "AAAA, AAAA-MM ou AAAA-MM-JJ",
     "formatsWithRange": "AAAA, AAAA-AAAA, AAAA-MM ou AAAA-MM-JJ",
@@ -700,6 +709,7 @@
     "parentSistema": "Système parent",
     "searchParentSistema": "Rechercher des systèmes ou des zones",
     "connectionSource": "Source",
+    "addSource": "Ajouter une source…",
     "noSource": "(aucune)",
     "connectionDate": "Date",
     "connectionReporter": "Signalée par",
