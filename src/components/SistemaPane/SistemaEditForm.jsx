@@ -231,7 +231,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           <TextField label={t('name')} fullWidth required {...field('name')} />
         </Grid>
 
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <TextField
             select
             label={t('parentSistema')}
@@ -276,7 +276,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
             ))}
           </TextField>
         </Grid>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <TextField select label={t('area')} fullWidth {...field('area')}>
             <MenuItem value="">{t('none')}</MenuItem>
             {areas.map((a) => (
@@ -287,10 +287,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           </TextField>
         </Grid>
 
-        <Grid size={6}>
-          <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} />
+        <Grid size="auto">
+          <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />
         </Grid>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <TextField select label={t('source')} fullWidth {...field('source')}>
             <MenuItem value="">{t('none')}</MenuItem>
             {sources.map((s) => (
@@ -325,7 +325,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')}teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
         </Grid>
 
         <Grid size={12}>
