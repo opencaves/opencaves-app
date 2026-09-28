@@ -48,7 +48,7 @@ export default function SavedCavesList() {
                 divider
                 secondaryAction={
                   <Tooltip title={t('remove')}>
-                    <IconButton edge="end" aria-label={t('removeNamed', { name: caveName })} onClick={() => unsaveCave(cave.id)}>
+                    <IconButton edge="end" aria-label={t('removeNamed', { name: caveName })} onClick={() => unsaveCave(cave.id).catch((error) => console.error(error))}>
                       <BookmarkRemoveOutlined />
                     </IconButton>
                   </Tooltip>

@@ -120,7 +120,6 @@ export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
   const { t: tMap } = useTranslation('map')
   const [accountPromptOpen, setAccountPromptOpen] = useState(false)
-  const [savePending, setSavePending] = useState(false)
   const theme = useTheme()
   const location = useLocation()
   const navigate = useNavigate()
@@ -148,28 +147,24 @@ export default function QuickActions({ cave }) {
   // Toggles the cave in the user's saved caves. Anonymous/signed-out
   // sessions get an invitation to create an account instead, since saved
   // caves live on the account.
-  async function handleSaveClick() {
+  //
+  // Not awaited: Firestore applies the write to its local cache right away
+  // (so the button and the map's bookmark update immediately) but only
+  // resolves once the server acknowledges it - offline, that's whenever the
+  // connection comes back. A rejection (e.g. denied by the rules) rolls the
+  // local change back on its own; just report it.
+  function handleSaveClick() {
     if (!canSave) {
       setAccountPromptOpen(true)
       return
     }
-    if (savePending) return
 
-    setSavePending(true)
-    try {
-      if (saved) {
-        await unsaveCave(cave.id)
-        openSnackbar(t('unsavedMessage'))
-      } else {
-        await saveCave(cave.id)
-        openSnackbar(t('savedMessage'))
-      }
-    } catch (error) {
+    const write = saved ? unsaveCave(cave.id) : saveCave(cave.id)
+    openSnackbar(saved ? t('unsavedMessage') : t('savedMessage'))
+    write.catch((error) => {
       console.error(error)
       openSnackbar(t('saveError'))
-    } finally {
-      setSavePending(false)
-    }
+    })
   }
 
   // Comes back to this cave once the account is created / signed in to.
@@ -237,7 +232,7 @@ export default function QuickActions({ cave }) {
                   </QuickActionsItem>
                 )}
                 <QuickActionsItem>
-                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={<SaveIcon />} className="oc-quick-actions--btn" onClick={handleSaveClick} disabled={savePending}>
+                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={<SaveIcon />} className="oc-quick-actions--btn" onClick={handleSaveClick}>
                     {saveLabel}
                   </Button>
                 </QuickActionsItem>
@@ -283,7 +278,7 @@ export default function QuickActions({ cave }) {
             )}
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
-                <ButtonLg id="save-btn" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick} disabled={savePending}>
+                <ButtonLg id="save-btn" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick}>
                   <Grid container direction="column">
                     <Grid>
                       <IconLg>

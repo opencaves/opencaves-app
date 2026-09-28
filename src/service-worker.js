@@ -6,6 +6,8 @@ import { setCacheNameDetails, clientsClaim } from 'workbox-core'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+import { ExpirationPlugin } from 'workbox-expiration'
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import * as googleAnalytics from 'workbox-google-analytics'
 
 const CACHE_PREFIX = 'oc'
@@ -77,11 +79,29 @@ registerRoute(
     cacheName: cacheName('images')
   })
 )
+// Uploaded maps (images/PDFs), fetched through Firebase Storage download
+// URLs. (url.origin never has a trailing slash - comparing against one would
+// never match.)
 registerRoute(
-  // Asset files
-  ({ url }) => url.origin === 'https://firebasestorage.googleapis.com/' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
+  ({ url }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
   new StaleWhileRevalidate({
     cacheName: cacheName('images')
+  })
+)
+
+// Cave pictures and their resized thumbnails, served as public objects from
+// the bucket (CaveAsset.js). Each URL's content never changes (uploaded with
+// an immutable Cache-Control), so cache-first is safe. Loaded by plain
+// <img> tags, so responses can be opaque (status 0) - allowed explicitly,
+// and capped since opaque entries count heavily against storage quota.
+registerRoute(
+  ({ url }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/'),
+  new CacheFirst({
+    cacheName: cacheName('cave-images'),
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [0, 200] }),
+      new ExpirationPlugin({ maxEntries: 300, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
+    ],
   })
 )
 
