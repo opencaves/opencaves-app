@@ -333,10 +333,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
         </Grid>
 
-        <Grid size={6}>
+        <Grid size={7}>
           <TextField label={t('length')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
-        <Grid size={6}>
+        <Grid size={5}>
           <TextField label={t('maxDepth')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
