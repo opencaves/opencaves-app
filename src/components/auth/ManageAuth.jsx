@@ -11,15 +11,23 @@ export default function ManageAuth() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // uids we already asked ensureEditorRole for, so a call that doesn't grant
+    // the role can't retrigger itself through the forced refresh below.
+    const editorRoleRequested = new Set()
+
+    // Runs as the onIdTokenChanged listener, so it must never force a token
+    // refresh unconditionally: a forced refresh fires onIdTokenChanged again,
+    // which would loop forever and re-render the app nonstop.
     async function syncUser(user) {
       let roles = []
 
       if (user) {
         try {
-          let idTokenResult = await user.getIdTokenResult(true)
+          let idTokenResult = await user.getIdTokenResult()
           roles = idTokenResult?.claims?.roles
 
-          if (!Array.isArray(roles) || !roles.includes('editor')) {
+          if ((!Array.isArray(roles) || !roles.includes('editor')) && !user.isAnonymous && !editorRoleRequested.has(user.uid)) {
+            editorRoleRequested.add(user.uid)
             await ensureEditorRole()
             idTokenResult = await user.getIdTokenResult(true)
             roles = idTokenResult?.claims?.roles
@@ -39,7 +47,9 @@ export default function ManageAuth() {
 
       try {
         await user.reload()
-        await syncUser(auth.currentUser)
+        // Picks up role changes made server-side; the resulting
+        // onIdTokenChanged event runs syncUser.
+        await user.getIdToken(true)
       } catch (error) {
         if (error.code === 'auth/user-disabled' || error.code === 'auth/user-not-found') {
           await signOut(auth)
