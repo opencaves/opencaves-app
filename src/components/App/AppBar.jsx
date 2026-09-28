@@ -68,7 +68,7 @@ export default function AppBar(props) {
 
   return (
     <>
-      <MUIAppBar className="oc-app-bar" component="nav">
+      <MUIAppBar className="oc-app-bar" component="nav" aria-label={t('navMain')}>
         <Toolbar>
           {isSmall && (
             <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} edge="start" onClick={handleDrawerToggle} sx={{ mr: { xs: 1, sm: 2 } }}>
@@ -76,7 +76,10 @@ export default function AppBar(props) {
             </IconButton>
           )}
 
-          <Link to="/">
+          {/* Same destination as the title link beside it: hidden from
+              assistive tech and the tab order instead of a second,
+              text-less link. */}
+          <Link to="/" aria-hidden="true" tabIndex={-1}>
             <LogoIcon colorScheme="dark" sx={{ mr: 1 }} />
           </Link>
 
@@ -148,7 +151,7 @@ export default function AppBar(props) {
         </Toolbar>
       </MUIAppBar>
       {isSmall && (
-        <nav>
+        <nav aria-label={t('navDrawer')}>
           <Drawer
             className="oc-app-bar--drawer"
             container={container}

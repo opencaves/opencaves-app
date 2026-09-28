@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
@@ -9,6 +9,10 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import './SignupWithEmail.scss'
 
 const gap = 2
+
+// The dialog is named after the Header rendered inside it (when there's no
+// dialogTitle bar): the Header takes this id, the Dialog points at it.
+const HeaderIdContext = createContext(undefined)
 
 export default function AuthPrompt({ open: initialOpen, title, dialogTitle, children, onClose, className }) {
   const logoHeight = 100
@@ -21,6 +25,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
   const { setTitle } = useTitle()
 
   const [open, setOpen] = useState(initialOpen)
+  const headerId = useId()
 
   function onDialogClose() {
     setOpen(false)
@@ -64,6 +69,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
         },
       }}
       onClose={onDialogClose}
+      aria-labelledby={dialogTitle ? undefined : headerId}
       // onTransitionEnter={onTransitionEnter}
       onTransitionExited={onTransitionExited}
     >
@@ -72,6 +78,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
           <AuthDialogTitleBar dialogTitle={dialogTitle} onClose={onDialogClose} />
         </DialogTitle>
       )}
+      <HeaderIdContext.Provider value={headerId}>
       <DialogContent
         sx={{
           position: 'relative',
@@ -129,6 +136,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
           {children}
         </Grid>
       </DialogContent>
+      </HeaderIdContext.Provider>
     </Dialog>
   )
 }
@@ -222,8 +230,10 @@ export function Step({ instructions, fields, actions, gap = 2, className, childr
 }
 
 export function Header({ children }) {
+  const headerId = useContext(HeaderIdContext)
   return (
     <Typography
+      id={headerId}
       className="oc-header"
       variant="h1"
       component="h1"

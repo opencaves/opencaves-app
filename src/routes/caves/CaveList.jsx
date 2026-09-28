@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, InputAdornment, List, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Fab, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, ArrowBackRounded, SearchRounded } from '@mui/icons-material'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -106,10 +106,12 @@ export default function CaveList() {
                 <ul style={{ padding: 0 }}>
                   <ListSubheader sx={{ fontSize: '1.125rem', fontWeight: 300 }}>{areaName}</ListSubheader>
                   {groupCaves.map((cave) => (
-                    <ListItemButton key={cave.id} component={Link} to={`/caves/${cave.id}/edit`} divider>
-                      <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistemasById.get(cave.sistemaId)?.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
-                      <ListItemText primary={cave.name?.value || t('unnamed')} secondary={cave.id} />
-                    </ListItemButton>
+                    <ListItem key={cave.id} disablePadding>
+                      <ListItemButton component={Link} to={`/caves/${cave.id}/edit`} divider>
+                        <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistemasById.get(cave.sistemaId)?.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
+                        <ListItemText primary={cave.name?.value || t('unnamed')} secondary={cave.id} />
+                      </ListItemButton>
+                    </ListItem>
                   ))}
                 </ul>
               </li>

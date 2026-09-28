@@ -252,7 +252,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <Typography variant="subtitle2">{t('coordinates')}</Typography>
+      <Typography variant="subtitle2" component="h2">{t('coordinates')}</Typography>
 
       <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
       <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
@@ -261,7 +261,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Divider />
 
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="subtitle2">{t('sistemaGroup')}</Typography>
+        <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
         <Tooltip title={t('editSistemas')}>
           <IconButton component={Link} to="sistemas" size="small" aria-label={t('editSistemas')}>
             <EditRounded fontSize="small" />
@@ -342,7 +342,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <Typography variant="subtitle2">{t('accessGroup')}</Typography>
+      <Typography variant="subtitle2" component="h2">{t('accessGroup')}</Typography>
       <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.access && !accesses.some((a) => a.id === form.access) && (
@@ -364,7 +364,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
 
       <Divider />
-      <Typography variant="subtitle2">{t('accessibilityGroup')}</Typography>
+      <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
       <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (

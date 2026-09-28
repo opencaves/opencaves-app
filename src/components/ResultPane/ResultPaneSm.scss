@@ -19,6 +19,13 @@
     width: 54px;
     top: 15px;
     transform: translateY(-50%);
+    // A 24px-tall touch target (WCAG 2.5.8) around the same 5px bar: the
+    // padding is transparent (background clipped to the content box), and
+    // the radius's inner curve keeps the bar's rounded ends.
+    height: 24px;
+    padding: 9.5px 0;
+    background-clip: content-box;
+    border-radius: 12px;
   }
 
   .oc-back-btn {

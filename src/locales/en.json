@@ -29,7 +29,9 @@
       "about_withName": "About {{name}}",
       "drawer": {
         "ariaLabel": "open menu"
-      }
+      },
+      "navMain": "Main",
+      "navDrawer": "Site menu"
     },
     "snackbar": {
       "saved": "Saved",
@@ -285,7 +287,8 @@
         "spa": "spanish",
         "myn": "mayan"
       }
-    }
+    },
+    "inputAriaLabel": "Search cenotes"
   },
   "filter": {
     "windowTitle": "Filter Cenotes",
@@ -508,7 +511,8 @@
         "myLocation": "My location",
         "remove": "Remove"
       }
-    }
+    },
+    "closePane": "Close"
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -597,7 +601,8 @@
       "undo": "Undo",
       "redo": "Redo",
       "viewSource": "View Markdown source",
-      "viewFormatted": "View formatted text"
+      "viewFormatted": "View formatted text",
+      "ariaLabel": "{{field}} formatting"
     }
   },
   "creatableTextField": {
@@ -775,7 +780,12 @@
       "exitEditMode": "Exit edit mode"
     },
     "error": "Something went wrong",
-    "savedCave": "Saved"
+    "savedCave": "Saved",
+    "markers": {
+      "location": "Cave location",
+      "entrance": "Cave entrance",
+      "key": "Key location"
+    }
   },
   "dashboard": {
     "noSistemaArea": "No area assigned",

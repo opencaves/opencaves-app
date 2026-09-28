@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { ListItemIcon, ListItemText, Switch } from '@mui/material'
+import { Box, ListItemIcon, ListItemText, Switch } from '@mui/material'
 import { CloudDownloadOutlined } from '@mui/icons-material'
 import MenuItem from '../MenuItem.jsx'
 import { setOfflinePreviewsEnabled, useOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
@@ -38,8 +38,13 @@ export default function OfflinePreviewsMenuItem() {
         <CloudDownloadOutlined fontSize="small" />
       </ListItemIcon>
       <ListItemText primary={t('previewsLabel')} secondary={secondary} slotProps={{ secondary: { sx: { maxWidth: 220, whiteSpace: 'normal' } } }} />
-      {/* Decorative: the menu item itself is the checkbox (role/aria-checked). */}
-      <Switch edge="end" size="small" checked={enabled} slotProps={{ input: { tabIndex: -1, 'aria-hidden': true } }} sx={{ ml: 1, pointerEvents: 'none' }} />
+      {/* Decorative: the menu item itself is the checkbox (role/aria-checked).
+          inert keeps the switch's own checkbox input out of the
+          accessibility tree and tab order - otherwise it'd be an
+          interactive control nested inside the menu item. */}
+      <Box component="span" inert sx={{ display: 'inline-flex', ml: 1, pointerEvents: 'none' }}>
+        <Switch edge="end" size="small" checked={enabled} />
+      </Box>
     </MenuItem>
   )
 }

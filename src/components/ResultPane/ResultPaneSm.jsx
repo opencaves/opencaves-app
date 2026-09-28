@@ -293,6 +293,8 @@ export default function ResultPaneSm({ children, cave, ...props }) {
         )}
         <IonModal
           {...props}
+          // Ionic copies it onto its role="dialog" wrapper, naming the pane.
+          aria-label={caveName}
           ref={modalRef}
           isOpen={true}
           animated={false}

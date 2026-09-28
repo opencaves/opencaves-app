@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ArrowDropDownRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
-import { Editor, rootCtx, defaultValueCtx, editorViewCtx } from '@milkdown/core'
+import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
 import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
@@ -62,6 +62,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const onChangeRef = useRef(onChange)
   const [isEmpty, setIsEmpty] = useState(!value)
   const [sourceMode, setSourceMode] = useState(false)
+  const labelId = useId()
   const [headingMenuAnchor, setHeadingMenuAnchor] = useState(null)
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)
   const [linkHref, setLinkHref] = useState('')
@@ -83,6 +84,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       .config((ctx) => {
         ctx.set(rootCtx, rootRef.current)
         ctx.set(defaultValueCtx, value || '')
+        // The editable element is a bare contenteditable: name it after the
+        // field's visible label so it reads as a labeled text box.
+        ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId } }))
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
           lastEmittedRef.current = markdown
           setIsEmpty(!markdown)
@@ -235,26 +239,29 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
   return (
     <Box className="oc-markdown-field">
-      <Typography variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }}>
+      <Typography id={labelId} variant="subtitle2" color="text.secondary" component="div" sx={{ mt: '0.5rem', mb: 0.5, fontWeight: 'normal' }}>
         {label}
       </Typography>
 
       {/* Wraps onto more rows when it doesn't fit (e.g. phones' 48dp touch
           targets, set by the edit form). */}
-      <Box className="oc-markdown-field--toolbar" sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5 }}>
+      {/* Tooltips use describeChild: their child is the <span> that lets a
+          disabled button still show one, and a label isn't allowed on a
+          plain span - each button carries its own aria-label instead. */}
+      <Box className="oc-markdown-field--toolbar" role="toolbar" aria-label={t('toolbar.ariaLabel', { field: label })} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5 }}>
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
-          <Tooltip key={key} title={t(`toolbar.${key}`)}>
+          <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
             <span>
-              <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+              <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
                 <Icon fontSize="small" />
               </IconButton>
             </span>
           </Tooltip>
         ))}
 
-        <Tooltip title={t('toolbar.link')}>
+        <Tooltip title={t('toolbar.link')} describeChild>
           <span>
-            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
+            <IconButton size="small" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
               <LinkRounded fontSize="small" />
               <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
             </IconButton>
@@ -267,9 +274,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
 
-        <Tooltip title={t('toolbar.heading')}>
+        <Tooltip title={t('toolbar.heading')} describeChild>
           <span>
-            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
+            <IconButton size="small" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
               <TitleRounded fontSize="small" />
               <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
             </IconButton>
@@ -287,9 +294,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           key.startsWith('divider') ? (
             <Divider key={key} orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
           ) : (
-            <Tooltip key={key} title={t(`toolbar.${key}`)}>
+            <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
               <span>
-                <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
                   <Icon fontSize="small" />
                 </IconButton>
               </span>
@@ -298,7 +305,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         )}
         <Box sx={{ flex: 1 }} />
         <Tooltip title={sourceMode ? t('toolbar.viewFormatted') : t('toolbar.viewSource')}>
-          <IconButton size="small" color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
+          <IconButton size="small" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
             <CodeRounded fontSize="small" />
           </IconButton>
         </Tooltip>
@@ -318,7 +325,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
       <CaveLinkDialog open={caveLinkDialogOpen} initialCaveId={activeHref.startsWith(CAVE_LINK_PREFIX) ? activeHref.slice(CAVE_LINK_PREFIX.length) : null} onClose={() => setCaveLinkDialogOpen(false)} onConfirm={confirmCaveLink} />
 
-      {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={{ '& textarea': { ...theme.typography.md3Input, resize: resizable ? 'vertical' : 'none' } }} />}
+      {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} slotProps={{ htmlInput: { 'aria-labelledby': labelId } }} sx={{ '& textarea': { ...theme.typography.md3Input, resize: resizable ? 'vertical' : 'none' } }} />}
 
       {/* Kept mounted (only hidden) rather than conditionally rendered when
           sourceMode is on: Milkdown attaches to this exact DOM node once on

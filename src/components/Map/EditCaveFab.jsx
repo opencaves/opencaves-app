@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses } from '@mui/material'
+import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses } from '@mui/material'
 import { AddRounded, EditOffRounded, EditRounded } from '@mui/icons-material'
 
 // Sits directly above the map's "find my location" control (bottom-right,
@@ -57,7 +57,10 @@ export default function EditCaveFab() {
     goAddNewCave()
   }
 
+  // Its own labeled section: on the map page it sits outside the map's region
+  // and any other landmark.
   return (
+    <Box component="section" className="oc-edit-cave-fab--section" aria-label={t('ariaLabel')}>
     <SpeedDial
       className="oc-edit-cave-fab"
       ariaLabel={t('ariaLabel')}
@@ -120,5 +123,6 @@ export default function EditCaveFab() {
       )}
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={{ tooltip: { title: t('addNewCave'), open: true }, fab: { 'aria-label': t('addNewCave') } }} />
     </SpeedDial>
+    </Box>
   )
 }

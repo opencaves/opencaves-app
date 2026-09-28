@@ -163,7 +163,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   )
 
   const myLocationButton = (
-    <Tooltip title={t('pickMyLocation')}>
+    <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
         <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
           {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
@@ -173,7 +173,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   )
 
   const removeButton = (
-    <Tooltip title={t('removeCoordinate')}>
+    <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
         <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
           <CloseRounded fontSize="small" />

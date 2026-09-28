@@ -18,7 +18,7 @@ export default function EditCaveButtons({ sx }) {
     <>
       {/* Already editing this cave: nothing for it to do, so it's left out. */}
       {!isEditingCave && (
-        <Tooltip title={t('editCave')}>
+        <Tooltip title={t('editCave')} describeChild>
           <span>
             <IconButton className="oc-edit-cave-btn" aria-label={t('editCave')} onClick={editCave} disabled={!caveId} sx={sx}>
               <EditRounded />

@@ -214,9 +214,14 @@ export default function SearchBar() {
     }
   }, [currentCave, getCaveName])
 
+  // Slid off-screen (edit mode, or the phone sheet fully open): inert too,
+  // so the hidden search landmark and its field leave the tab order and the
+  // accessibility tree instead of being reachable while invisible.
   useEffect(() => {
     if (searchBarRef) {
-      searchBarRef.current.classList.toggle('off', searchBarOff || isEditMode)
+      const off = searchBarOff || isEditMode
+      searchBarRef.current.classList.toggle('off', off)
+      searchBarRef.current.inert = off
     }
   }, [searchBarOff, isEditMode])
 
@@ -364,7 +369,7 @@ export default function SearchBar() {
                 </ActionButton>
               </Fade>
             </Grid>
-            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{ 'aria-label': 'search google maps' }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
+            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{ 'aria-label': t('inputAriaLabel') }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
 
             <Box
               sx={{

@@ -29,7 +29,9 @@
       "about_withName": "À propos d'{{name}}",
       "drawer": {
         "ariaLabel": "ouvrir le menu"
-      }
+      },
+      "navMain": "Principale",
+      "navDrawer": "Menu du site"
     },
     "snackbar": {
       "saved": "Enregistré",
@@ -283,7 +285,8 @@
         "en": "Anglais",
         "es": "Espagnol"
       }
-    }
+    },
+    "inputAriaLabel": "Rechercher des cénotes"
   },
   "filter": {
     "windowTitle": "Filtrer les cenotes",
@@ -506,7 +509,8 @@
         "myLocation": "Ma position",
         "remove": "Retirer"
       }
-    }
+    },
+    "closePane": "Fermer"
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -595,7 +599,8 @@
       "undo": "Annuler",
       "redo": "Rétablir",
       "viewSource": "Voir la source Markdown",
-      "viewFormatted": "Voir le texte formaté"
+      "viewFormatted": "Voir le texte formaté",
+      "ariaLabel": "Mise en forme : {{field}}"
     }
   },
   "creatableTextField": {
@@ -773,7 +778,12 @@
       "exitEditMode": "Quitter le mode édition"
     },
     "error": "Une erreur est survenue",
-    "savedCave": "Sauvegardé"
+    "savedCave": "Sauvegardé",
+    "markers": {
+      "location": "Emplacement du cénote",
+      "entrance": "Entrée du cénote",
+      "key": "Emplacement de la clé"
+    }
   },
   "dashboard": {
     "noSistemaArea": "Aucune zone attribuée",

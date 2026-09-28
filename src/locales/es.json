@@ -29,7 +29,9 @@
       "about_withName": "Acerca de {{name}}",
       "drawer": {
         "ariaLabel": "abrir menú"
-      }
+      },
+      "navMain": "Principal",
+      "navDrawer": "Menú del sitio"
     },
     "snackbar": {
       "saved": "Guardado",
@@ -285,7 +287,8 @@
         "spa": "español",
         "myn": "maya"
       }
-    }
+    },
+    "inputAriaLabel": "Buscar cenotes"
   },
   "filter": {
     "windowTitle": "Filtrar cenotes",
@@ -508,7 +511,8 @@
         "myLocation": "Mi ubicación",
         "remove": "Quitar"
       }
-    }
+    },
+    "closePane": "Cerrar"
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -597,7 +601,8 @@
       "undo": "Deshacer",
       "redo": "Rehacer",
       "viewSource": "Ver el origen Markdown",
-      "viewFormatted": "Ver el texto formateado"
+      "viewFormatted": "Ver el texto formateado",
+      "ariaLabel": "Formato: {{field}}"
     }
   },
   "creatableTextField": {
@@ -775,7 +780,12 @@
       "exitEditMode": "Salir del modo de edición"
     },
     "error": "Algo salió mal",
-    "savedCave": "Guardado"
+    "savedCave": "Guardado",
+    "markers": {
+      "location": "Ubicación del cenote",
+      "entrance": "Entrada del cenote",
+      "key": "Ubicación de la llave"
+    }
   },
   "dashboard": {
     "noSistemaArea": "Sin área asignada",

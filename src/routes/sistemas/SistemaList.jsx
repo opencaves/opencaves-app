@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, InputAdornment, List, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Fab, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
 import { AddRounded, ArrowBackRounded, SearchRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -102,10 +102,12 @@ export default function SistemaList() {
                     {areaName ?? t('noSistemaArea')} ({groupSistemas.length})
                   </ListSubheader>
                   {groupSistemas.map((sistema) => (
-                    <ListItemButton key={sistema.id} component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
-                      <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
-                      <ListItemText primary={sistema.name || t('unnamed')} secondary={sistema.id} />
-                    </ListItemButton>
+                    <ListItem key={sistema.id} disablePadding>
+                      <ListItemButton component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
+                        <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
+                        <ListItemText primary={sistema.name || t('unnamed')} secondary={sistema.id} />
+                      </ListItemButton>
+                    </ListItem>
                   ))}
                 </ul>
               </li>

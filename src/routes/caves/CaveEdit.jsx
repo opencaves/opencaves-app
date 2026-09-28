@@ -263,10 +263,12 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">{t('coordinates')}</Typography>
+        <Typography variant="subtitle2" component="h2">{t('coordinates')}</Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-          <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0 }}>
+          {/* Above the map preview: the fields' own grid overflows a few px
+              into it, which otherwise covered part of their buttons. */}
+          <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, position: 'relative', zIndex: 1 }}>
             <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
             <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
             <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
@@ -300,7 +302,7 @@ export default function CaveEdit() {
         <Divider />
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="subtitle2">{t('sistemaGroup')}</Typography>
+          <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
           <Tooltip title={t('editSistemas')}>
             <IconButton component={Link} to="/sistemas" size="small" aria-label={t('editSistemas')}>
               <EditRounded fontSize="small" />
@@ -349,7 +351,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">{t('accessGroup')}</Typography>
+        <Typography variant="subtitle2" component="h2">{t('accessGroup')}</Typography>
         <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
@@ -372,7 +374,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">{t('accessibilityGroup')}</Typography>
+        <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
         <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (

@@ -24,6 +24,20 @@ import PinBadgeIcon from './PinBadgeIcon.jsx'
 import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
+
+// Mapbox gives every marker's wrapper role="img" aria-label="Map marker".
+// A cave marker holds its own named link, which that image role would bury
+// (an interactive element nested in an image): drop it there. Decorative
+// markers keep the image role, with a real label (labelMarker).
+function unlabelMarker(marker) {
+  const el = marker?.getElement()
+  el?.removeAttribute('role')
+  el?.removeAttribute('aria-label')
+}
+
+function labelMarker(label) {
+  return (marker) => marker?.getElement().setAttribute('aria-label', label)
+}
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -596,7 +610,7 @@ export default function OCMap() {
   }
 
   return (
-    <Box className="oc-map oc-map-container" ref={mapContainerRef}>
+    <Box className="oc-map oc-map-container" ref={mapContainerRef} role="region" aria-label={t('title')}>
       <Fade timeout={theme.transitions.duration.complex} in={!mapReady || dataLoadingState.state === 'loading'} unmountOnExit={true}>
         <MapLoading />
       </Fade>
@@ -629,7 +643,7 @@ export default function OCMap() {
                   const badgeIcon = EDIT_FIELD_BADGE_ICONS[field]
 
                   return (
-                    <Marker key={`edit-field-${field}`} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
+                    <Marker key={`edit-field-${field}`} ref={labelMarker(t(`markers.${field}`))} longitude={longitude} latitude={latitude} anchor="bottom" draggable onDragEnd={(event) => onFieldMarkerDragEnd(field, event)}>
                       {/* .marker-icon's own cursor:pointer would otherwise win over sx - force the open-hand grab cursor. */}
                       <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'grab !important', width: 28, height: 28 }}>
                         {badgeIcon ? (
@@ -645,7 +659,7 @@ export default function OCMap() {
                 })}
 
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
-              <Marker key={`selected-entrance-${selectedCave.id}`} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
+              <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
                 <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
                   <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
                 </Box>
@@ -654,7 +668,7 @@ export default function OCMap() {
             {selectedCave &&
               !isWidePaneEditMode &&
               selectedCave.keys?.map((key, index) => (
-                <Marker key={`selected-key-${selectedCave.id}-${index}`} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
+                <Marker key={`selected-key-${selectedCave.id}-${index}`} ref={labelMarker(t('markers.key'))} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
                   <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
                     <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
                   </Box>
@@ -691,6 +705,7 @@ export default function OCMap() {
                 return (
                   <Marker
                     key={`m-${cave.id}`}
+                    ref={unlabelMarker}
                     longitude={cave.location.longitude}
                     latitude={cave.location.latitude}
                     anchor="center"
@@ -707,7 +722,9 @@ export default function OCMap() {
                         : undefined
                     }
                   >
-                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="oc-map--marker marker" id={isCurrentCave ? 'active-marker' : null}>
+                    {/* Out of the tab order: ~870 pins would make the map a tab trap, and
+                        every cave is keyboard-reachable through the search bar. */}
+                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="oc-map--marker marker" id={isCurrentCave ? 'active-marker' : null} aria-label={caveName} tabIndex={-1}>
                       <SvgIcon inheritViewBox className="oc-map--marker-icon marker-icon" htmlColor={markerColor} style={{ '--oc-pin-glyph-color': getPinGlyphColor(markerColor) }} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
                         {pinIcon &&
                           (() => {

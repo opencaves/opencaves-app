@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, MapRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import dashboardBackground from '@/images/dashboard/bg.webp'
@@ -72,24 +72,30 @@ export default function AdminDashboard() {
                   {t('cavesSection')}
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
-                  <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
-                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                      <MapRounded />
-                    </ListItemIcon>
-                    <ListItemText primary={t('manageCaves')} />
-                  </ListItemButton>
-                  <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
-                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                      <AccountTreeRounded />
-                    </ListItemIcon>
-                    <ListItemText primary={t('manageSistemas')} />
-                  </ListItemButton>
-                  <ListItemButton component={Link} to="/connections" divider sx={dashboardItemSx}>
-                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                      <LinkRounded />
-                    </ListItemIcon>
-                    <ListItemText primary={t('manageSistemaConnections')} />
-                  </ListItemButton>
+                  <ListItem disablePadding>
+                    <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
+                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                        <MapRounded />
+                      </ListItemIcon>
+                      <ListItemText primary={t('manageCaves')} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
+                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                        <AccountTreeRounded />
+                      </ListItemIcon>
+                      <ListItemText primary={t('manageSistemas')} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component={Link} to="/connections" divider sx={dashboardItemSx}>
+                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                        <LinkRounded />
+                      </ListItemIcon>
+                      <ListItemText primary={t('manageSistemaConnections')} />
+                    </ListItemButton>
+                  </ListItem>
                 </List>
               </Box>
 
@@ -99,12 +105,14 @@ export default function AdminDashboard() {
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
                   {REFERENCE_COLLECTIONS.map(({ collection, icon: Icon }) => (
-                    <ListItemButton key={collection} component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
-                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                        <Icon />
-                      </ListItemIcon>
-                      <ListItemText primary={t(`collections.${collection}.title`)} />
-                    </ListItemButton>
+                    <ListItem key={collection} disablePadding>
+                      <ListItemButton component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
+                        <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                          <Icon />
+                        </ListItemIcon>
+                        <ListItemText primary={t(`collections.${collection}.title`)} />
+                      </ListItemButton>
+                    </ListItem>
                   ))}
                 </List>
               </Box>
@@ -117,12 +125,14 @@ export default function AdminDashboard() {
                 {t('usersSection')}
               </Typography>
               <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
-                <ListItemButton component={Link} to="/users" divider sx={dashboardItemSx}>
-                  <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                    <PeopleRounded />
-                  </ListItemIcon>
-                  <ListItemText primary={t('manageUsers')} />
-                </ListItemButton>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/users" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <PeopleRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageUsers')} />
+                  </ListItemButton>
+                </ListItem>
               </List>
             </Box>
           )}

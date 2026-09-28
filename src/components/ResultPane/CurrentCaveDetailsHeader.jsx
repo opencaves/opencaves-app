@@ -80,12 +80,14 @@ export default function CurrentCaveDetailsHeader({ cave }) {
       {!isSmall && <CoverImage caveId={cave.id} />}
       <Box className="oc-current-cave-details-header oc-result-pane--header">
         <Box className="oc-cave-details-header">
-          <Typography ref={titleRef} variant="caveDetailsHeader">
+          {/* h2 under the page's h1, so the sections below it (h3) nest
+              properly. */}
+          <Typography ref={titleRef} variant="caveDetailsHeader" component="h2">
             {caveName}
           </Typography>
           {isSmall && paneData.paneOpenFactor < 1 && (
             <Box>
-              <StyledIconButton size="small" sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
+              <StyledIconButton size="small" aria-label={t('closePane')} sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
                 <Close fontSize="small" />
               </StyledIconButton>
             </Box>
