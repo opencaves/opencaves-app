@@ -11,7 +11,10 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll } from '@milkdown/utils'
+import CaveLinkDialog from './CaveLinkDialog.jsx'
 import './MarkdownField.scss'
+
+const CAVE_LINK_PREFIX = 'oc:'
 
 // The formatting toolbar. Each entry's command is one of Milkdown's own
 // command/mark/node plugins (see the imports above) - adding a button for a
@@ -62,6 +65,10 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [headingMenuAnchor, setHeadingMenuAnchor] = useState(null)
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)
   const [linkHref, setLinkHref] = useState('')
+  const [linkMenuAnchor, setLinkMenuAnchor] = useState(null)
+  const [caveLinkDialogOpen, setCaveLinkDialogOpen] = useState(false)
+  // href of the link under the cursor/selection when the link menu opened.
+  const [activeHref, setActiveHref] = useState('')
   // Focusing the dialog's text field moves the browser's DOM selection out
   // of the editor, which Milkdown/ProseMirror then reads back as "selection
   // cleared" - snapshot the selected range here, while the editor still has
@@ -149,11 +156,58 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     return href
   }
 
-  function insertLink() {
+  // The link button offers a web link or a link to a cave. The selection and
+  // any existing link are captured here, before the menu takes focus.
+  function openLinkMenu(event) {
     const view = editorRef.current?.ctx.get(editorViewCtx)
     savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
-    setLinkHref(view ? getActiveLinkHref(view) : '')
+    setActiveHref(view ? getActiveLinkHref(view) : '')
+    setLinkMenuAnchor(event.currentTarget)
+  }
+
+  function insertLink() {
+    setLinkMenuAnchor(null)
+    setLinkHref(activeHref.startsWith(CAVE_LINK_PREFIX) ? '' : activeHref)
     setLinkDialogOpen(true)
+  }
+
+  function insertCaveLink() {
+    setLinkMenuAnchor(null)
+    setCaveLinkDialogOpen(true)
+  }
+
+  // Puts the selection captured by openLinkMenu back, since the dialog moved
+  // focus (and so ProseMirror's selection) out of the editor.
+  function restoreSelection(view) {
+    if (!savedSelectionRef.current) {
+      return
+    }
+    const docSize = view.state.doc.content.size
+    const from = Math.min(savedSelectionRef.current.from, docSize)
+    const to = Math.min(savedSelectionRef.current.to, docSize)
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+    view.focus()
+  }
+
+  // Written as the same `oc:<caveId>` link the app already renders as an
+  // in-app link to that cave (see uri-transformer.js). With nothing
+  // selected, the cave's name is inserted as the link text.
+  function confirmCaveLink(cave) {
+    setCaveLinkDialogOpen(false)
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    const linkType = view?.state.schema.marks.link
+    if (!view || !linkType) {
+      return
+    }
+
+    restoreSelection(view)
+    const { state } = view
+    const { from, to, empty } = state.selection
+    const mark = linkType.create({ href: `${CAVE_LINK_PREFIX}${cave.id}` })
+    // Replaces any link already on the selection instead of toggling it off,
+    // which is what toggleLinkCommand would do there.
+    const tr = empty ? state.tr.replaceSelectionWith(state.schema.text(cave.name, [mark]), false) : state.tr.removeMark(from, to, linkType).addMark(from, to, mark)
+    view.dispatch(tr)
   }
 
   function isValidUrl(href) {
@@ -172,12 +226,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     }
 
     const view = editorRef.current?.ctx.get(editorViewCtx)
-    if (view && savedSelectionRef.current) {
-      const docSize = view.state.doc.content.size
-      const from = Math.min(savedSelectionRef.current.from, docSize)
-      const to = Math.min(savedSelectionRef.current.to, docSize)
-      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
-      view.focus()
+    if (view) {
+      restoreSelection(view)
     }
 
     runCommand(toggleLinkCommand, { href: linkHref })
@@ -202,11 +252,16 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.link')}>
           <span>
-            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLink}>
+            <IconButton size="small" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
               <LinkRounded fontSize="small" />
+              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
+        <Menu className="oc-markdown-field--link-menu" anchorEl={linkMenuAnchor} open={Boolean(linkMenuAnchor)} onClose={() => setLinkMenuAnchor(null)}>
+          <MenuItem onClick={insertLink}>{t('toolbar.linkWeb')}</MenuItem>
+          <MenuItem onClick={insertCaveLink}>{t('toolbar.linkCave')}</MenuItem>
+        </Menu>
 
         <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
 
@@ -258,6 +313,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           </Button>
         </DialogActions>
       </Dialog>
+
+      <CaveLinkDialog open={caveLinkDialogOpen} initialCaveId={activeHref.startsWith(CAVE_LINK_PREFIX) ? activeHref.slice(CAVE_LINK_PREFIX.length) : null} onClose={() => setCaveLinkDialogOpen(false)} onConfirm={confirmCaveLink} />
 
       {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} sx={{ '& textarea': { ...theme.typography.md3Input, resize: resizable ? 'vertical' : 'none' } }} />}
 
