@@ -104,7 +104,7 @@ export default function SistemaList() {
                   {groupSistemas.map((sistema) => (
                     <ListItem key={sistema.id} disablePadding>
                       <ListItemButton component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
-                        <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
+                        <Box component="span" sx={{ display: 'inline-block', width: 24, height: 24, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
                         <ListItemText primary={sistema.name || t('unnamed')} secondary={sistema.id} />
                       </ListItemButton>
                     </ListItem>

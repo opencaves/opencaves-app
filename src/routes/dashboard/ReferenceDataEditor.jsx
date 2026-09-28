@@ -98,8 +98,8 @@ export default function ReferenceDataEditor() {
                           component="span"
                           sx={{
                             display: 'inline-block',
-                            width: 12,
-                            height: 12,
+                            width: 24,
+                            height: 24,
                             borderRadius: 0.5,
                             bgcolor: item.hex || 'transparent',
                             border: '1px solid',
