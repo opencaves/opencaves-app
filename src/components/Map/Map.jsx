@@ -21,6 +21,7 @@ import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
+import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -662,7 +663,7 @@ export default function OCMap() {
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
               <Marker key={`selected-entrance-${selectedCave.id}`} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
                 <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                  <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor="white" />
+                  <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
                 </Box>
               </Marker>
             )}
@@ -671,7 +672,7 @@ export default function OCMap() {
               selectedCave.keys?.map((key, index) => (
                 <Marker key={`selected-key-${selectedCave.id}-${index}`} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
                   <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                    <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor="white" />
+                    <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
                   </Box>
                 </Marker>
               ))}
@@ -726,7 +727,7 @@ export default function OCMap() {
                     }
                   >
                     <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="oc-map--marker marker" id={isCurrentCave ? 'active-marker' : null}>
-                      <SvgIcon inheritViewBox className={`oc-map--marker-icon marker-icon ${markerColor === SISTEMA_DEFAULT_COLOR ? 'marker-icon-default' : ''}`} htmlColor={markerColor} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
+                      <SvgIcon inheritViewBox className="oc-map--marker-icon marker-icon" htmlColor={markerColor} style={{ '--oc-pin-glyph-color': getPinGlyphColor(markerColor) }} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
                         {pinIcon &&
                           (() => {
                             const Pin = pinIcon

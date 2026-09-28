@@ -92,8 +92,10 @@
   display: none !important;
 }
 
-.marker-icon-default {
-  > :nth-child(2) {
-    fill: #000;
+.oc-map--marker-icon {
+  // The cave/unknown-location glyph (pin.svg's second path, filled #fff in
+  // the file) - Map.jsx sets --oc-pin-glyph-color to black on light pins.
+  svg > path:nth-of-type(2) {
+    fill: var(--oc-pin-glyph-color, #fff);
   }
 }
