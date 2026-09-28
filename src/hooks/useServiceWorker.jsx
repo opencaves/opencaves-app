@@ -14,12 +14,16 @@ export const useServiceWorker = () => {
     setWaitingWorker(registration.waiting)
   }, [])
 
-  // simply put, this tells the service
-  // worker to skip the waiting phase and then reloads the page
+  // Tells the waiting service worker to take over, and reloads once it has:
+  // reloading right away could still be served by the old one.
   const reloadPage = useCallback(() => {
-    waitingWorker?.postMessage({ type: 'SKIP_WAITING' })
     setShowReload(false)
-    window.location.reload()
+    if (!waitingWorker || !navigator.serviceWorker?.controller) {
+      window.location.reload()
+      return
+    }
+    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload(), { once: true })
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' })
   }, [waitingWorker])
 
   // register the service worker

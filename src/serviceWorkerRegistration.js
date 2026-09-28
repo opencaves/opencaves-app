@@ -65,12 +65,8 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      registration.addEventListener('updatefound', () => {
-        const installingWorker = registration.installing
-        if (installingWorker == null) {
-          return
-        }
-        installingWorker.onstatechange = () => {
+      function trackInstalling(installingWorker) {
+        installingWorker.addEventListener('statechange', () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
@@ -97,6 +93,28 @@ function registerValidSW(swUrl, config) {
               }
             }
           }
+        })
+      }
+
+      // The browser checks for a new version as the page loads, usually
+      // before this runs - by now that update may already be installing or
+      // waiting, its updatefound event long gone.
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        config?.onUpdate?.(registration)
+      } else if (registration.installing) {
+        trackInstalling(registration.installing)
+      }
+      registration.addEventListener('updatefound', () => {
+        if (registration.installing) {
+          trackInstalling(registration.installing)
+        }
+      })
+
+      // An installed app is mostly resumed from the background rather than
+      // reloaded, and browsers only look for a new version on page loads.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          registration.update().catch(() => {})
         }
       })
     })
