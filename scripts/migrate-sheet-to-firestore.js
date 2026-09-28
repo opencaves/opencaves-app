@@ -62,7 +62,7 @@ function collectionsToWrite(data) {
     ['accessibilities', (accessibility) => accessibility.id, () => data.accessibilities],
     ['sources', (source) => source.id, () => data.sources],
     ['areas', (area) => area.id, () => data.areas],
-    ['colors', () => pushId(), () => data.colors],
+    ['colors', () => pushId(), () => data.colors.map((color) => ({ ...color, hex: color.hex.toLowerCase() }))],
     ['languages', (language) => language.code, () => data.languages],
   ]
 }
