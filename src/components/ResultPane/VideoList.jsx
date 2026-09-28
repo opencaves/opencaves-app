@@ -202,7 +202,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </DialogContent>
         <DialogActions>
           <Button onClick={closeAddDialog} disabled={saving}>
-            {t('cancel')}
+            {t('edit.cancel')}
           </Button>
           <Button variant="contained" onClick={addVideo} disabled={saving || !isValidVideoUrl(newVideoUrl)}>
             {editingIndex === null ? t('addVideo') : t('edit.save')}
