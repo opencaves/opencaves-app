@@ -17,6 +17,8 @@ const FIELD_BADGE_ICONS = {
   key: VpnKeyRounded,
 }
 
+const coordinateActionButtonSx = { width: 48, height: 48, flexShrink: 0 }
+
 // Longitude/latitude pair. The action row includes a draggable icon that can
 // be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
 // set, the coordinate itself also lives on the map as a draggable Marker
@@ -151,21 +153,19 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
   }
 
+  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
+  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
   const inputs = (
     <>
-      <Grid size="auto">
-        <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
-      </Grid>
-      <Grid size="auto">
-        <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
-      </Grid>
+      <Grid size="auto">{longitudeInput}</Grid>
+      <Grid size="auto">{latitudeInput}</Grid>
     </>
   )
 
   const myLocationButton = (
     <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
-        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
+        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')} sx={coordinateActionButtonSx}>
           {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
         </IconButton>
       </span>
@@ -175,10 +175,24 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const removeButton = (
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
-        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
+        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')} sx={coordinateActionButtonSx}>
           <CloseRounded fontSize="small" />
         </IconButton>
       </span>
+    </Tooltip>
+  )
+
+  const navigateOrPinButton = isSet ? (
+    <Tooltip title={t('navigateToCoordinate')}>
+      <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')} sx={coordinateActionButtonSx}>
+        <CenterFocusStrongRounded fontSize="small" />
+      </IconButton>
+    </Tooltip>
+  ) : (
+    <Tooltip title={t('dragPinToMap')}>
+      <IconButton size="small" draggable onDragStart={onPinDragStart} aria-label={t('dragPinToMap')} sx={{ ...coordinateActionButtonSx, cursor: 'grab' }}>
+        {FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />}
+      </IconButton>
     </Tooltip>
   )
 
@@ -205,27 +219,19 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         </>
       ) : (
         <Grid container spacing={1} sx={{ alignItems: 'center' }}>
-          {inputs}
-          {isSet && (
-            <Grid size="auto">
-              <Tooltip title={t('navigateToCoordinate')}>
-                <IconButton size="small" onClick={onNavigateToClick}>
-                  <CenterFocusStrongRounded fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          )}
-          {!isSet && (
-            <Grid size="auto">
-              <Tooltip title={t('dragPinToMap')}>
-                <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
-                  {FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />}
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          )}
-          <Grid size="auto">{myLocationButton}</Grid>
-          <Grid size="auto">{removeButton}</Grid>
+          <Grid size="auto">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {longitudeInput}
+              {latitudeInput}
+            </Box>
+          </Grid>
+          <Grid size="grow">
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>
+              {navigateOrPinButton}
+              {myLocationButton}
+              {removeButton}
+            </Box>
+          </Grid>
         </Grid>
       )}
     </Box>
