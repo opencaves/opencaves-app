@@ -294,6 +294,12 @@ export default function ResultPaneSm({ children, cave, ...props }) {
                   autoHeight
                   autoHeightMax="100vh"
                   hideTracksWhenNotNeeded={true}
+                  // ion-content-scroll-host: Ionic's sheet gesture only
+                  // defers to a scrolled container it recognizes (ion-content
+                  // or this class). Without it, dragging down in scrolled
+                  // content of the fully open pane moved the whole pane
+                  // instead of scrolling back up.
+                  renderView={({ className, ...viewProps }) => <div {...viewProps} className={`ion-content-scroll-host oc-result-pane--scroll-view ${className || ''}`.trim()} />}
                   renderThumbVertical={({ style, ...props }) => (
                     <div
                       {...props}
