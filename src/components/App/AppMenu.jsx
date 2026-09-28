@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation, useMatches } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Button, Menu, Divider, Avatar, ListItemIcon, useTheme, Typography, Tooltip, Box } from '@mui/material'
 import { Grid } from '@mui/material'
 import { PersonRounded, SettingsRounded } from '@mui/icons-material'
@@ -9,7 +9,6 @@ import MenuItem from './MenuItem.jsx'
 import SignupMenuItem from './menu/SignupMenuItem.jsx'
 import LogInMenuItem from './menu/LogInMenuItem.jsx'
 import LogoutMenuItem from './menu/LogoutMenuItem.jsx'
-import AddMedias from './menu/AddMediasMenuItem.jsx'
 import AppMenuIcon from './AppMenuIcon.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useSession from '@/hooks/useSession.jsx'
@@ -26,11 +25,8 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
   const theme = useTheme()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const location = useLocation()
-  const [routeId, setRouteId] = useState()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-
-  const matches = useMatches()
 
   const menuStyles = {
     minWidth: 'unset',
@@ -52,10 +48,6 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
   function onSignupBtnClick() {
     dispatch(setContinueUrl(buildContinueUrl(location)))
   }
-
-  useEffect(() => {
-    setRouteId(matches[matches.length - 1].id)
-  }, [matches])
 
   return (
     <>
@@ -131,8 +123,6 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
         ]}
 
         {!isLoggedIn && [<LogInMenuItem key="key-login" />, <SignupMenuItem key="key-signup" />, <Divider key="key-divider-2" />]}
-
-        {isLoggedIn && routeId === 'result-pane' && <AddMedias />}
 
         <MenuItem key="key-about2" component={Link} to="/about" state={{ backgroundLocation: location }}>
           {t('about', { context: 'withName', name: appName })}
