@@ -37,7 +37,7 @@ export default function ReferenceDataEditor() {
       <div className="oc-reference-data-editor">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <Tooltip title={t('backToDashboard')}>
-            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: -5 }}>
+            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -5 } }}>
               <ArrowBackRounded />
             </IconButton>
           </Tooltip>
@@ -60,7 +60,7 @@ export default function ReferenceDataEditor() {
     <div className="oc-reference-data-editor">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: -5 }}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -5 } }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
@@ -79,17 +79,17 @@ export default function ReferenceDataEditor() {
               divider
               disablePadding
               secondaryAction={
-                <>
-                  <IconButton edge="end" onClick={() => navigate(`${item.id}/edit`)} aria-label={t('edit')}>
-                    <Edit fontSize="small" />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <IconButton size="large" onClick={() => navigate(`${item.id}/edit`)} aria-label={t('edit')}>
+                    <Edit />
                   </IconButton>
-                  <IconButton edge="end" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
-                    <Delete fontSize="small" />
+                  <IconButton size="large" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
+                    <Delete />
                   </IconButton>
-                </>
+                </Box>
               }
             >
-              <ListItemButton component={Link} to={`${item.id}/edit`} sx={{ pr: 12 }}>
+              <ListItemButton component={Link} to={`${item.id}/edit`} sx={{ pr: 16 }}>
                 <ListItemText
                   primary={
                     collectionName === 'colors' ? (

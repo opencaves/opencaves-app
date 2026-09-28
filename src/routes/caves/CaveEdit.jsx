@@ -242,7 +242,7 @@ export default function CaveEdit() {
   return (
     <div className="oc-cave-edit">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: -5 }}>
+        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5">
