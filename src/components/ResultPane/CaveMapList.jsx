@@ -7,6 +7,7 @@ import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
 import AuthorsField from '@/components/MapsPicker/AuthorsField.jsx'
+import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
 import EditMapDialog from '@/components/MapsPicker/EditMapDialog.jsx'
 import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
@@ -197,7 +198,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
               <PendingFilePreview file={pendingFile} width={440} height={440} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
-              <TextField size="small" label={tMaps('mapTitle')} required fullWidth autoFocus value={pendingDetails.title} onChange={(e) => setPendingDetails((d) => ({ ...d, title: e.target.value }))} />
+              <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
               <TextField size="small" label={tMaps('mapDate')} placeholder={tMaps('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
               <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
               <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />

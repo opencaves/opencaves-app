@@ -5,6 +5,7 @@ import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, Di
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
 import AuthorsField from './AuthorsField.jsx'
+import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 
 const mapsModel = createCollectionModel('maps')
@@ -56,7 +57,7 @@ export default function EditMapDialog({ map, onClose }) {
             <PendingFilePreview existingUrl={map?.previewUrl || map?.url} existingContentType={map?.previewUrl ? undefined : map?.contentType} width={440} height={440} />
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
-            <TextField size="small" label={t('mapTitle')} required fullWidth autoFocus value={details.title} onChange={(e) => setDetails((d) => ({ ...d, title: e.target.value }))} />
+            <MapSistemaField autoFocus value={details.title} onChange={(title) => setDetails((d) => ({ ...d, title }))} />
             <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
             <AuthorsField value={details.authors} onChange={(authors) => setDetails((d) => ({ ...d, authors }))} />
             <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={details.note} onChange={(e) => setDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />

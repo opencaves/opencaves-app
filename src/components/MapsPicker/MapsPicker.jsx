@@ -4,6 +4,7 @@ import { Avatar, Box, Button, Card, CardActionArea, CircularProgress, IconButton
 import { AddRounded, CloseRounded, DescriptionRounded, ImageRounded } from '@mui/icons-material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import AuthorsField from './AuthorsField.jsx'
+import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
 
@@ -131,7 +132,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
                 <Typography variant="subtitle2" noWrap title={pendingFile.name}>
                   {pendingFile.name}
                 </Typography>
-                <TextField size="small" label={t('mapTitle')} required fullWidth autoFocus value={pendingDetails.title} onChange={(e) => setPendingDetails((d) => ({ ...d, title: e.target.value }))} />
+                <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
                 <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
                 <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
