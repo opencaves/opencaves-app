@@ -68,7 +68,6 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <div>test</div>
         <UseAsCoverImage mediaAsset={mediaAsset} />
         <DeleteMedia ref={deleteMediaRef} mediaAsset={mediaAsset} onBeforeDelete={onBeforeDeleteMedia} />
       </Menu>

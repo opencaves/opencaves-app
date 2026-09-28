@@ -1,4 +1,5 @@
 import { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import Logo from '@/images/logo/logo-white.svg?react'
 import './MapState.scss'
 
@@ -25,13 +26,14 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
 })
 
 export function MapError({ error }) {
+  const { t } = useTranslation('map')
   return (
     <div className="oc-map-loading">
       <div className="oc-map-loading--box">
         <h1 className="oc-map-loading--error-heading">
           :-(
           <br />
-          Something went wrong
+          {t('error')}
         </h1>
         <pre>{error.stack}</pre>
       </div>

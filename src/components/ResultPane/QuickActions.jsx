@@ -278,13 +278,13 @@ export default function QuickActions({ cave }) {
       )}
 
       <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Argh!</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('comingSoon.title')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">To be implemented...</DialogContentText>
+          <DialogContentText id="alert-dialog-description">{t('comingSoon.text')}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} autoFocus>
-            OK
+            {t('comingSoon.ok')}
           </Button>
         </DialogActions>
       </Dialog>

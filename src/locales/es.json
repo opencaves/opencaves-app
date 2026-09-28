@@ -209,7 +209,12 @@
     "share": "Compartir",
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
     "shareText": "Cenote {{name}}\n",
-    "shareDialogTitle": "Compartir"
+    "shareDialogTitle": "Compartir",
+    "comingSoon": {
+      "title": "Próximamente",
+      "text": "Esta función aún no está disponible.",
+      "ok": "Aceptar"
+    }
   },
   "passwordInput": {
     "passwordIcon": {
@@ -456,7 +461,13 @@
       "save": "Guardar",
       "cancel": "Cancelar",
       "accessGroup": "Acceso",
-      "accessibilityGroup": "Accesibilidad"
+      "accessibilityGroup": "Accesibilidad",
+      "newCave": "Nuevo cenote",
+      "caveTitle": "Cenote {{name}}",
+      "backToCaves": "Volver a los cenotes",
+      "enlargeMap": "Ampliar el mapa",
+      "shrinkMap": "Reducir el mapa",
+      "loading": "Cargando…"
     }
   },
   "mediaPane": {
@@ -579,7 +590,26 @@
     "explorationDate": "Fecha",
     "explorationTeam": "Equipo",
     "explorationDescription": "Descripción",
-    "explorationNotes": "Notas"
+    "explorationNotes": "Notas",
+    "newSistema": "Nuevo sistema",
+    "sistemaTitle": "Sistema {{name}}",
+    "backToSistemas": "Volver a los sistemas",
+    "name": "Nombre",
+    "parentSistema": "Sistema padre",
+    "area": "Zona",
+    "color": "Color",
+    "source": "Fuente",
+    "location": "Ubicación",
+    "maxDepth": "Profundidad máx. (m)",
+    "description": "Descripción",
+    "direction": "Cómo llegar",
+    "maps": "Mapas",
+    "none": "(ninguno)",
+    "deleteConfirm": "¿Eliminar este sistema?",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "loading": "Cargando…"
   },
   "mapsPicker": {
     "addMap": "Agregar un mapa",
@@ -702,7 +732,8 @@
       "ariaLabel": "Editar datos del cenote",
       "editCave": "Editar cenote",
       "addNewCave": "Añadir nuevo cenote"
-    }
+    },
+    "error": "Algo salió mal"
   },
   "dashboard": {
     "noSistemaArea": "Sin área asignada",
@@ -739,7 +770,55 @@
     },
     "usersSection": "Usuarios",
     "manageUsers": "Administrar usuarios",
-    "noSections": "Aún no tienes acceso a ninguna sección del panel."
+    "noSections": "Aún no tienes acceso a ninguna sección del panel.",
+    "title": "Panel",
+    "cavesSection": "Cenotes",
+    "referenceDataSection": "Datos de referencia",
+    "manageCaves": "Gestionar cenotes",
+    "manageSistemas": "Gestionar sistemas",
+    "caves": "Cenotes",
+    "sistemas": "Sistemas",
+    "caveCount_one": "{{count}} cenote",
+    "caveCount_other": "{{count}} cenotes",
+    "sistemaCount_one": "{{count}} sistema",
+    "sistemaCount_other": "{{count}} sistemas",
+    "searchByName": "Buscar por nombre",
+    "newCave": "Nuevo cenote",
+    "newSistema": "Nuevo sistema",
+    "unnamed": "(sin nombre)",
+    "back": "Atrás",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "newItem": "Nuevo",
+    "deleteItemTitle": "¿Eliminar este elemento?",
+    "deleteItemConfirm": "{{name}} se eliminará de forma permanente.",
+    "unknownCollection": "Colección de referencia desconocida: {{name}}",
+    "collections": {
+      "accesses": {
+        "title": "Accesos",
+        "newItem": "Nuevo acceso"
+      },
+      "accessibilities": {
+        "title": "Accesibilidades",
+        "newItem": "Nueva accesibilidad"
+      },
+      "sources": {
+        "title": "Fuentes",
+        "newItem": "Nueva fuente"
+      },
+      "areas": {
+        "title": "Zonas",
+        "newItem": "Nueva zona"
+      },
+      "colors": {
+        "title": "Colores",
+        "newItem": "Nuevo color"
+      },
+      "languages": {
+        "title": "Idiomas",
+        "newItem": "Nuevo idioma"
+      }
+    }
   },
   "usersAdmin": {
     "title": "Usuarios",

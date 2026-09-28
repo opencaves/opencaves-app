@@ -27,6 +27,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const theme = useTheme()
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
+  const { t: tApp } = useTranslation('app')
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
 
   const firstBreakpoint = paneBreakpoints[0]
@@ -203,7 +204,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
             <Grid>
               <IconButton
                 className="oc-back-btn"
-                aria-label="Back"
+                aria-label={tApp('back')}
                 onClick={onBackBtnClick}
                 sx={{
                   p: 0,

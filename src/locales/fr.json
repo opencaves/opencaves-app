@@ -208,7 +208,12 @@
     "share": "Partager",
     "shareTitle": "Cénote {{name}} / OpenCaves.org",
     "shareText": "Cénote {{name}}\n",
-    "shareDialogTitle": "Partager"
+    "shareDialogTitle": "Partager",
+    "comingSoon": {
+      "title": "Bientôt disponible",
+      "text": "Cette fonctionnalité n’est pas encore disponible.",
+      "ok": "OK"
+    }
   },
   "passwordInput": {
     "passwordIcon": {
@@ -454,7 +459,13 @@
       "editSistemas": "Modifier les systèmes",
       "sistemaSearchPlaceholder": "Rechercher",
       "accessGroup": "Accès",
-      "accessibilityGroup": "Accessibilité"
+      "accessibilityGroup": "Accessibilité",
+      "newCave": "Nouveau cénote",
+      "caveTitle": "Cénote {{name}}",
+      "backToCaves": "Retour aux cénotes",
+      "enlargeMap": "Agrandir la carte",
+      "shrinkMap": "Réduire la carte",
+      "loading": "Chargement…"
     }
   },
   "mediaPane": {
@@ -577,7 +588,26 @@
     "explorationDate": "Date",
     "explorationTeam": "Équipe",
     "explorationDescription": "Description",
-    "explorationNotes": "Notes"
+    "explorationNotes": "Notes",
+    "newSistema": "Nouveau sistema",
+    "sistemaTitle": "Sistema {{name}}",
+    "backToSistemas": "Retour aux sistemas",
+    "name": "Nom",
+    "parentSistema": "Sistema parent",
+    "area": "Région",
+    "color": "Couleur",
+    "source": "Source",
+    "location": "Emplacement",
+    "maxDepth": "Profondeur max. (m)",
+    "description": "Description",
+    "direction": "Comment s’y rendre",
+    "maps": "Cartes",
+    "none": "(aucun)",
+    "deleteConfirm": "Supprimer ce sistema ?",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "loading": "Chargement…"
   },
   "mapsPicker": {
     "addMap": "Ajouter une carte",
@@ -700,7 +730,8 @@
       "ariaLabel": "Modifier les données du cénote",
       "editCave": "Modifier le cénote",
       "addNewCave": "Ajouter un nouveau cénote"
-    }
+    },
+    "error": "Une erreur est survenue"
   },
   "dashboard": {
     "noSistemaArea": "Aucune zone attribuée",
@@ -737,7 +768,55 @@
     },
     "usersSection": "Utilisateurs",
     "manageUsers": "Gérer les utilisateurs",
-    "noSections": "Vous n'avez encore accès à aucune section du tableau de bord."
+    "noSections": "Vous n'avez encore accès à aucune section du tableau de bord.",
+    "title": "Tableau de bord",
+    "cavesSection": "Cénotes",
+    "referenceDataSection": "Données de référence",
+    "manageCaves": "Gérer les cénotes",
+    "manageSistemas": "Gérer les sistemas",
+    "caves": "Cénotes",
+    "sistemas": "Sistemas",
+    "caveCount_one": "{{count}} cénote",
+    "caveCount_other": "{{count}} cénotes",
+    "sistemaCount_one": "{{count}} sistema",
+    "sistemaCount_other": "{{count}} sistemas",
+    "searchByName": "Rechercher par nom",
+    "newCave": "Nouveau cénote",
+    "newSistema": "Nouveau sistema",
+    "unnamed": "(sans nom)",
+    "back": "Retour",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "newItem": "Nouveau",
+    "deleteItemTitle": "Supprimer cet élément ?",
+    "deleteItemConfirm": "{{name}} sera définitivement supprimé.",
+    "unknownCollection": "Collection de référence inconnue : {{name}}",
+    "collections": {
+      "accesses": {
+        "title": "Accès",
+        "newItem": "Nouvel accès"
+      },
+      "accessibilities": {
+        "title": "Accessibilités",
+        "newItem": "Nouvelle accessibilité"
+      },
+      "sources": {
+        "title": "Sources",
+        "newItem": "Nouvelle source"
+      },
+      "areas": {
+        "title": "Régions",
+        "newItem": "Nouvelle région"
+      },
+      "colors": {
+        "title": "Couleurs",
+        "newItem": "Nouvelle couleur"
+      },
+      "languages": {
+        "title": "Langues",
+        "newItem": "Nouvelle langue"
+      }
+    }
   },
   "usersAdmin": {
     "title": "Utilisateurs",

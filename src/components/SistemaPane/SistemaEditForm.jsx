@@ -145,7 +145,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading])
 
   useEffect(() => {
-    onTitleChange?.(isNew ? 'New sistema' : `Sistema ${form.name || sistemaId}`)
+    onTitleChange?.(isNew ? t('newSistema') : t('sistemaTitle', { name: form.name || sistemaId }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
@@ -195,7 +195,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   }
 
   async function handleDelete() {
-    if (!window.confirm('Delete this sistema?')) {
+    if (!window.confirm(t('deleteConfirm'))) {
       return
     }
     await SistemaModel.remove(sistemaId)
@@ -205,7 +205,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   }
 
   if (loading) {
-    return <Typography className="oc-sistema-edit-form">Loading…</Typography>
+    return <Typography className="oc-sistema-edit-form">{t('loading')}</Typography>
   }
 
   const areasById = new Map(areas.map((a) => [a.id, a.name]))
@@ -218,23 +218,23 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   return (
     <Box className="oc-sistema-edit-form">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={onDone} aria-label="Back to sistemas" sx={{ ml: -5 }}>
+        <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: -5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5">
-          {`Sistema ${form.name || sistemaId}`}
+          {t('sistemaTitle', { name: form.name || sistemaId })}
         </Typography>
       </Box>
 
       <Grid container spacing={2}>
         <Grid size={12}>
-          <TextField label="Name" fullWidth required {...field('name')} />
+          <TextField label={t('name')} fullWidth required {...field('name')} />
         </Grid>
 
         <Grid size={6}>
           <TextField
             select
-            label="Parent sistema"
+            label={t('parentSistema')}
             fullWidth
             {...field('parentSistemaId')}
             slotProps={{
@@ -263,7 +263,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
             >
               <TextField inputRef={parentSearchInputRef} autoFocus size="small" fullWidth placeholder={t('parentSistemaSearchPlaceholder')} value={parentSearch} onChange={(e) => setParentSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
             </ListSubheader>
-            <MenuItem value="">(none)</MenuItem>
+            <MenuItem value="">{t('none')}</MenuItem>
             {visibleParentSistemas.map((s) => (
               <MenuItem key={s.id} value={s.id}>
                 {s.name || s.id}
@@ -277,8 +277,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           </TextField>
         </Grid>
         <Grid size={6}>
-          <TextField select label="Area" fullWidth {...field('area')}>
-            <MenuItem value="">(none)</MenuItem>
+          <TextField select label={t('area')} fullWidth {...field('area')}>
+            <MenuItem value="">{t('none')}</MenuItem>
             {areas.map((a) => (
               <MenuItem key={a.id} value={a.id}>
                 {a.name}
@@ -288,11 +288,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={6}>
-          <ColorPicker label="Color" value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} />
+          <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} />
         </Grid>
         <Grid size={6}>
-          <TextField select label="Source" fullWidth {...field('source')}>
-            <MenuItem value="">(none)</MenuItem>
+          <TextField select label={t('source')} fullWidth {...field('source')}>
+            <MenuItem value="">{t('none')}</MenuItem>
             {sources.map((s) => (
               <MenuItem key={s.id} value={s.id}>
                 {s.name}
@@ -302,14 +302,14 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <CoordinateField field="sistemaLocation" label="Location" longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
+          <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
         </Grid>
 
         <Grid size={4}>
           <TextField label={t('length')} type="number" fullWidth {...field('length')} />
         </Grid>
         <Grid size={4}>
-          <TextField label="Max depth (m)" type="number" fullWidth {...field('maxDepth')} />
+          <TextField label={t('maxDepth')} type="number" fullWidth {...field('maxDepth')} />
         </Grid>
 
         <Grid size={12}>
@@ -317,11 +317,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label="Description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+          <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
         </Grid>
 
         <Grid size={12}>
-          <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+          <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
         </Grid>
 
         <Grid size={12}>
@@ -329,21 +329,21 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <MapsPicker label="Maps" value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} />
+          <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} />
         </Grid>
       </Grid>
 
       <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
         {!isNew && (
           <Button color="error" onClick={handleDelete} disabled={saving} sx={{ mr: 'auto' }}>
-            Delete
+            {t('delete')}
           </Button>
         )}
         <Button onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || hasInvalidExplorationDate} sx={{ minWidth: 88 }}>
-          Save
+          {t('save')}
         </Button>
       </Box>
     </Box>

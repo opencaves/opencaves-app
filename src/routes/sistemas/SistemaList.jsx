@@ -64,23 +64,23 @@ export default function SistemaList() {
           </IconButton>
         </Tooltip>
         <Typography component="h1" variant="h5">
-          Sistemas
+          {t('sistemas')}
         </Typography>
       </Box>
 
       {loading ? (
-        <Typography>Loading…</Typography>
+        <Typography>{t('loading')}</Typography>
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {filtered.length} sistema(s)
+            {t('sistemaCount', { count: filtered.length })}
           </Typography>
           <TextField
             fullWidth
             size="small"
             variant="outlined"
-            aria-label="Search by name"
-            placeholder="Search by name"
+            aria-label={t('searchByName')}
+            placeholder={t('searchByName')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
@@ -104,7 +104,7 @@ export default function SistemaList() {
                   {groupSistemas.map((sistema) => (
                     <ListItemButton key={sistema.id} component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
                       <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
-                      <ListItemText primary={sistema.name || '(unnamed)'} secondary={sistema.id} />
+                      <ListItemText primary={sistema.name || t('unnamed')} secondary={sistema.id} />
                     </ListItemButton>
                   ))}
                 </ul>
@@ -114,7 +114,7 @@ export default function SistemaList() {
         </>
       )}
 
-      <Fab className="oc-sistema-list--new-fab" color="primary" component={Link} to={`/sistemas/${pushId()}/edit`} aria-label="New sistema" sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
+      <Fab className="oc-sistema-list--new-fab" color="primary" component={Link} to={`/sistemas/${pushId()}/edit`} aria-label={t('newSistema')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
         <AddRounded />
       </Fab>
     </div>

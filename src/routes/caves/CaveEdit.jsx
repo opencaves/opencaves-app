@@ -148,7 +148,7 @@ export default function CaveEdit() {
   }, [caveId])
 
   useEffect(() => {
-    setTitle(isNew ? 'New cenote' : `Cenote ${form.name || caveId}`)
+    setTitle(isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name])
 
@@ -236,26 +236,26 @@ export default function CaveEdit() {
   }
 
   if (loading) {
-    return <Typography className="oc-cave-edit">Loading…</Typography>
+    return <Typography className="oc-cave-edit">{t('loading')}</Typography>
   }
 
   return (
     <div className="oc-cave-edit">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton component={Link} to="/caves" aria-label="Back to caves" sx={{ ml: -5 }}>
+        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: -5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5">
-          {isNew ? 'New cenote' : `Cenote ${form.name || caveId}`}
+          {isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId })}
         </Typography>
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <TextField label="Name" fullWidth required {...field('name')} />
+        <TextField label={t('name')} fullWidth required {...field('name')} />
 
-        <RepeatableTextField label="AKA" values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel="Remove name" />
+        <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
 
-        <NameTranslationsField label="Name translations" rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel="Add translation" removeLabel="Remove translation" languageLabel="Language" valueLabel="Translated name" />
+        <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} />
 
         <Divider />
 
@@ -263,13 +263,13 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2">Coordinates</Typography>
+        <Typography variant="subtitle2">{t('coordinates')}</Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
           <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0 }}>
-            <CoordinateField field="location" label="Location" longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
-            <CoordinateField field="entrance" label="Entrance" longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
-            <CoordinateField field="key" label="Key" longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
+            <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
+            <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
+            <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
             {/* Map.jsx's own CSS fills its nearest positioned ancestor with
@@ -287,7 +287,7 @@ export default function CaveEdit() {
                 the width freed up by the coordinates column shrinking to
                 its content width. */}
             <Box sx={{ position: 'relative', width: '100%', aspectRatio: mapExpanded ? '4 / 3' : '16 / 9', borderRadius: 1, overflow: 'hidden', border: '1px solid', borderColor: 'divider', transition: (theme) => theme.transitions.create('aspect-ratio') }}>
-              <Tooltip title={mapExpanded ? 'Shrink map' : 'Enlarge map'}>
+              <Tooltip title={mapExpanded ? t('shrinkMap') : t('enlargeMap')}>
                 <IconButton size="small" onClick={() => setMapExpanded((v) => !v)} sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
                   {mapExpanded ? <FullscreenExitRounded fontSize="small" /> : <FullscreenRounded fontSize="small" />}
                 </IconButton>
@@ -300,16 +300,16 @@ export default function CaveEdit() {
         <Divider />
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="subtitle2">Sistema</Typography>
-          <Tooltip title="Edit sistemas">
-            <IconButton component={Link} to="/sistemas" size="small" aria-label="Edit sistemas">
+          <Typography variant="subtitle2">{t('sistemaGroup')}</Typography>
+          <Tooltip title={t('editSistemas')}>
+            <IconButton component={Link} to="/sistemas" size="small" aria-label={t('editSistemas')}>
               <EditRounded fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
 
-        <TextField select label="Sistema" fullWidth {...field('sistemaId')}>
-          <MenuItem value="">(none)</MenuItem>
+        <TextField select label={t('sistema')} fullWidth {...field('sistemaId')}>
+          <MenuItem value="">{t('none')}</MenuItem>
           {form.sistemaId && !sistemas.some((s) => s.id === form.sistemaId) && (
             <MenuItem value={form.sistemaId} sx={{ display: 'none' }}>
               {form.sistemaId}
@@ -330,8 +330,8 @@ export default function CaveEdit() {
             ))}
         </TextField>
 
-        <TextField select label="Source" helperText="Where this sistema's information comes from" fullWidth {...field('source')}>
-          <MenuItem value="">(none)</MenuItem>
+        <TextField select label={t('source')} helperText={t('sourceHint')} fullWidth {...field('source')}>
+          <MenuItem value="">{t('none')}</MenuItem>
           {form.source && !sources.some((s) => s.id === form.source) && (
             <MenuItem value={form.source} sx={{ display: 'none' }}>
               {form.source}
@@ -344,14 +344,14 @@ export default function CaveEdit() {
           ))}
         </TextField>
 
-        <MarkdownField label="Description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
-        <MarkdownField label="Getting there" value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+        <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
+        <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
 
         <Divider />
 
-        <Typography variant="subtitle2">Access</Typography>
-        <TextField select label="Access" fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
-          <MenuItem value="">(none)</MenuItem>
+        <Typography variant="subtitle2">{t('accessGroup')}</Typography>
+        <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
+          <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
             <MenuItem value={form.access} sx={{ display: 'none' }}>
               {form.access}
@@ -368,13 +368,13 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label="Access details" value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
+        <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
 
         <Divider />
 
-        <Typography variant="subtitle2">Accessibility</Typography>
-        <TextField select label="Accessibility" fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
-          <MenuItem value="">(none)</MenuItem>
+        <Typography variant="subtitle2">{t('accessibilityGroup')}</Typography>
+        <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
+          <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
             <MenuItem value={form.accessibility} sx={{ display: 'none' }}>
               {form.accessibility}
@@ -391,7 +391,7 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label="Accessibility details" value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
+        <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
@@ -407,26 +407,26 @@ export default function CaveEdit() {
       <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
         {!isNew && (
           <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
-            Delete
+            {t('delete')}
           </Button>
         )}
         <Button onClick={() => navigate('/caves')} disabled={saving}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
-          Save
+          {t('save')}
         </Button>
       </Box>
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete this cave?</DialogTitle>
+        <DialogTitle>{t('deleteCave')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{form.name || caveId} will be permanently deleted.</DialogContentText>
+          <DialogContentText>{t('deleteCaveConfirm', { name: form.name || caveId })}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={() => setDeleteDialogOpen(false)}>{t('cancel')}</Button>
           <Button color="error" onClick={handleDelete}>
-            Delete
+            {t('delete')}
           </Button>
         </DialogActions>
       </Dialog>

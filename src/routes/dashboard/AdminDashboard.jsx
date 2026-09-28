@@ -8,12 +8,12 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import dashboardBackground from '@/images/dashboard/bg.webp'
 
 const REFERENCE_COLLECTIONS = [
-  { collection: 'accesses', label: 'Accesses', icon: LockOpenRounded },
-  { collection: 'accessibilities', label: 'Accessibilities', icon: AccessibleRounded },
-  { collection: 'sources', label: 'Sources', icon: SourceRounded },
-  { collection: 'areas', label: 'Areas', icon: PublicRounded },
-  { collection: 'colors', label: 'Colors', icon: PaletteRounded },
-  { collection: 'languages', label: 'Languages', icon: LanguageRounded },
+  { collection: 'accesses', icon: LockOpenRounded },
+  { collection: 'accessibilities', icon: AccessibleRounded },
+  { collection: 'sources', icon: SourceRounded },
+  { collection: 'areas', icon: PublicRounded },
+  { collection: 'colors', icon: PaletteRounded },
+  { collection: 'languages', icon: LanguageRounded },
 ]
 
 const DASHBOARD_SURFACE = 'rgba(255, 255, 255, 0.9)'
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
   const isAdmin = roles.includes('admin')
 
   useEffect(() => {
-    setTitle('Dashboard')
+    setTitle(t('title'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
       <Box sx={{ width: '100%', height: '100%', maxWidth: 1400, mx: 'auto', p: { xs: 2, sm: 4 }, pb: 4, bgcolor: DASHBOARD_SURFACE }}>
         <Box sx={{ mb: 4, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography component="h1" variant="h4" sx={{ fontWeight: 500 }}>
-            Dashboard
+            {t('title')}
           </Typography>
           <Box sx={{ width: 56, height: 4, mt: 1.5, borderRadius: 2, bgcolor: 'secondary.main' }} />
         </Box>
@@ -69,20 +69,20 @@ export default function AdminDashboard() {
             <>
               <Box component="section">
                 <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
-                  Caves
+                  {t('cavesSection')}
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
                   <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                       <MapRounded />
                     </ListItemIcon>
-                    <ListItemText primary="Manage caves" />
+                    <ListItemText primary={t('manageCaves')} />
                   </ListItemButton>
                   <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                       <AccountTreeRounded />
                     </ListItemIcon>
-                    <ListItemText primary="Manage sistemas" />
+                    <ListItemText primary={t('manageSistemas')} />
                   </ListItemButton>
                   <ListItemButton component={Link} to="/connections" divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
@@ -95,15 +95,15 @@ export default function AdminDashboard() {
 
               <Box component="section">
                 <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
-                  Reference data
+                  {t('referenceDataSection')}
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
-                  {REFERENCE_COLLECTIONS.map(({ collection, label, icon: Icon }) => (
+                  {REFERENCE_COLLECTIONS.map(({ collection, icon: Icon }) => (
                     <ListItemButton key={collection} component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
                       <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                         <Icon />
                       </ListItemIcon>
-                      <ListItemText primary={label} />
+                      <ListItemText primary={t(`collections.${collection}.title`)} />
                     </ListItemButton>
                   ))}
                 </List>

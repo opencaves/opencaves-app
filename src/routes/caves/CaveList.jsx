@@ -70,23 +70,23 @@ export default function CaveList() {
           </IconButton>
         </Tooltip>
         <Typography component="h1" variant="h5">
-          Caves
+          {t('caves')}
         </Typography>
       </Box>
 
       {loading ? (
-        <Typography>Loading…</Typography>
+        <Typography>{t('loading')}</Typography>
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {filtered.length} cave(s)
+            {t('caveCount', { count: filtered.length })}
           </Typography>
           <TextField
             fullWidth
             size="small"
             variant="outlined"
-            aria-label="Search by name"
-            placeholder="Search by name"
+            aria-label={t('searchByName')}
+            placeholder={t('searchByName')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
@@ -108,7 +108,7 @@ export default function CaveList() {
                   {groupCaves.map((cave) => (
                     <ListItemButton key={cave.id} component={Link} to={`/caves/${cave.id}/edit`} divider>
                       <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: sistemasById.get(cave.sistemaId)?.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
-                      <ListItemText primary={cave.name?.value || '(unnamed)'} secondary={cave.id} />
+                      <ListItemText primary={cave.name?.value || t('unnamed')} secondary={cave.id} />
                     </ListItemButton>
                   ))}
                 </ul>
@@ -118,7 +118,7 @@ export default function CaveList() {
         </>
       )}
 
-      <Fab className="oc-cave-list--new-fab" color="primary" component={Link} to={`/caves/${pushId()}/edit`} aria-label="New cave" sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
+      <Fab className="oc-cave-list--new-fab" color="primary" component={Link} to={`/caves/${pushId()}/edit`} aria-label={t('newCave')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
         <AddRounded />
       </Fab>
     </div>

@@ -28,7 +28,7 @@ export default function ReferenceDataEditor() {
   const [deleteTarget, setDeleteTarget] = useState(null)
 
   useEffect(() => {
-    setTitle(config?.label || collectionName)
+    setTitle(config ? t(`collections.${collectionName}.title`) : collectionName)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collectionName])
 
@@ -42,7 +42,7 @@ export default function ReferenceDataEditor() {
             </IconButton>
           </Tooltip>
           <Typography component="h1" variant="h5" color="error">
-            Unknown reference collection: {collectionName}
+            {t('unknownCollection', { name: collectionName })}
           </Typography>
         </Box>
       </div>
@@ -65,12 +65,12 @@ export default function ReferenceDataEditor() {
           </IconButton>
         </Tooltip>
         <Typography component="h1" variant="h5">
-          {config.label}
+          {t(`collections.${collectionName}.title`)}
         </Typography>
       </Box>
 
       {loading ? (
-        <Typography>Loading…</Typography>
+        <Typography>{t('loading')}</Typography>
       ) : (
         <List disablePadding>
           {items.map((item) => (
@@ -80,10 +80,10 @@ export default function ReferenceDataEditor() {
               disablePadding
               secondaryAction={
                 <>
-                  <IconButton edge="end" onClick={() => navigate(`${item.id}/edit`)} aria-label="Edit">
+                  <IconButton edge="end" onClick={() => navigate(`${item.id}/edit`)} aria-label={t('edit')}>
                     <Edit fontSize="small" />
                   </IconButton>
-                  <IconButton edge="end" onClick={() => setDeleteTarget(item)} aria-label="Delete">
+                  <IconButton edge="end" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
                     <Delete fontSize="small" />
                   </IconButton>
                 </>
@@ -122,19 +122,19 @@ export default function ReferenceDataEditor() {
         </List>
       )}
 
-      <Fab color="primary" aria-label="New" onClick={() => navigate('new/edit')} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
+      <Fab color="primary" aria-label={t('newItem')} onClick={() => navigate('new/edit')} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
         <Add />
       </Fab>
 
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
-        <DialogTitle>Delete this item?</DialogTitle>
+        <DialogTitle>{t('deleteItemTitle')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{deleteTarget?.[lang] || deleteTarget?.eng || deleteTarget?.name || deleteTarget?.hex || deleteTarget?.code || deleteTarget?.id} will be permanently deleted.</DialogContentText>
+          <DialogContentText>{t('deleteItemConfirm', { name: deleteTarget?.[lang] || deleteTarget?.eng || deleteTarget?.name || deleteTarget?.hex || deleteTarget?.code || deleteTarget?.id })}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteTarget(null)}>Cancel</Button>
+          <Button onClick={() => setDeleteTarget(null)}>{t('cancel')}</Button>
           <Button color="error" onClick={() => handleDelete(deleteTarget.id)}>
-            Delete
+            {t('delete')}
           </Button>
         </DialogActions>
       </Dialog>

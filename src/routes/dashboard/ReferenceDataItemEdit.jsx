@@ -40,7 +40,7 @@ export default function ReferenceDataItemEdit() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    setTitle(config?.label || collectionName)
+    setTitle(config ? t(`collections.${collectionName}.title`) : collectionName)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collectionName])
 
@@ -114,16 +114,16 @@ export default function ReferenceDataItemEdit() {
   return (
     <div className="oc-reference-data-item-edit">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={goBack} aria-label="Back" sx={{ ml: -5 }}>
+        <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: -5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5">
-          {isNew ? `New ${config.label.replace(/s$/, '')}` : config.label}
+          {t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`)}
         </Typography>
       </Box>
 
       {loading ? (
-        <Typography>Loading…</Typography>
+        <Typography>{t('loading')}</Typography>
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
           {config.fields.map((field) => {
@@ -137,10 +137,10 @@ export default function ReferenceDataItemEdit() {
           })}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button onClick={goBack} disabled={saving}>
-              Cancel
+              {t('cancel')}
             </Button>
             <Button variant="contained" onClick={handleSave} disabled={saving}>
-              Save
+              {t('save')}
             </Button>
           </Box>
         </Box>

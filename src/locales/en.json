@@ -209,7 +209,12 @@
     "share": "Share",
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
     "shareText": "Cenote {{name}}\n",
-    "shareDialogTitle": "Share"
+    "shareDialogTitle": "Share",
+    "comingSoon": {
+      "title": "Coming soon",
+      "text": "This feature isn’t available yet.",
+      "ok": "OK"
+    }
   },
   "passwordInput": {
     "passwordIcon": {
@@ -456,7 +461,13 @@
       "deleteCave": "Delete cave?",
       "deleteCaveConfirm": "{{name}} will be permanently deleted. This cannot be undone.",
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "newCave": "New cenote",
+      "caveTitle": "Cenote {{name}}",
+      "backToCaves": "Back to caves",
+      "enlargeMap": "Enlarge map",
+      "shrinkMap": "Shrink map",
+      "loading": "Loading…"
     }
   },
   "mediaPane": {
@@ -579,7 +590,26 @@
     "explorationDate": "Date",
     "explorationTeam": "Team",
     "explorationDescription": "Description",
-    "explorationNotes": "Notes"
+    "explorationNotes": "Notes",
+    "newSistema": "New sistema",
+    "sistemaTitle": "Sistema {{name}}",
+    "backToSistemas": "Back to sistemas",
+    "name": "Name",
+    "parentSistema": "Parent sistema",
+    "area": "Area",
+    "color": "Color",
+    "source": "Source",
+    "location": "Location",
+    "maxDepth": "Max depth (m)",
+    "description": "Description",
+    "direction": "Getting there",
+    "maps": "Maps",
+    "none": "(none)",
+    "deleteConfirm": "Delete this sistema?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading…"
   },
   "mapsPicker": {
     "addMap": "Add a map",
@@ -702,7 +732,8 @@
       "ariaLabel": "Edit cave data",
       "editCave": "Edit cave",
       "addNewCave": "Add new cave"
-    }
+    },
+    "error": "Something went wrong"
   },
   "dashboard": {
     "noSistemaArea": "No area assigned",
@@ -739,7 +770,55 @@
     },
     "usersSection": "Users",
     "manageUsers": "Manage users",
-    "noSections": "You don't have access to any dashboard sections yet."
+    "noSections": "You don't have access to any dashboard sections yet.",
+    "title": "Dashboard",
+    "cavesSection": "Caves",
+    "referenceDataSection": "Reference data",
+    "manageCaves": "Manage caves",
+    "manageSistemas": "Manage sistemas",
+    "caves": "Caves",
+    "sistemas": "Sistemas",
+    "caveCount_one": "{{count}} cave",
+    "caveCount_other": "{{count}} caves",
+    "sistemaCount_one": "{{count}} sistema",
+    "sistemaCount_other": "{{count}} sistemas",
+    "searchByName": "Search by name",
+    "newCave": "New cave",
+    "newSistema": "New sistema",
+    "unnamed": "(unnamed)",
+    "back": "Back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "newItem": "New",
+    "deleteItemTitle": "Delete this item?",
+    "deleteItemConfirm": "{{name}} will be permanently deleted.",
+    "unknownCollection": "Unknown reference collection: {{name}}",
+    "collections": {
+      "accesses": {
+        "title": "Accesses",
+        "newItem": "New access"
+      },
+      "accessibilities": {
+        "title": "Accessibilities",
+        "newItem": "New accessibility"
+      },
+      "sources": {
+        "title": "Sources",
+        "newItem": "New source"
+      },
+      "areas": {
+        "title": "Areas",
+        "newItem": "New area"
+      },
+      "colors": {
+        "title": "Colors",
+        "newItem": "New color"
+      },
+      "languages": {
+        "title": "Languages",
+        "newItem": "New language"
+      }
+    }
   },
   "usersAdmin": {
     "title": "Users",

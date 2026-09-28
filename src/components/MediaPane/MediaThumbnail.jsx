@@ -126,7 +126,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           }}
         >
           <IconButton
-            aria-label="more"
+            aria-label={t('menu.ariaLabel')}
             id="long-button"
             aria-controls={open ? mediaThumbnailItemId : undefined}
             aria-expanded={open ? 'true' : undefined}
