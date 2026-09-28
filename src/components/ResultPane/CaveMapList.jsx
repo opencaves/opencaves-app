@@ -158,15 +158,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && (
-                    <CardOptionsMenu
-                      ariaLabel={t('mapOptions')}
-                      actions={[
-                        { label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => setEditingMap(map.file) },
-                        !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true },
-                      ].filter(Boolean)}
-                    />
-                  )}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => setEditingMap(map.file) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>
@@ -176,7 +168,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       {(canAdd || onAddUnauthorized) && (
         <>
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: selectedMaps.length > 0 ? 2 : 0 }}>
-            <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())}>
+            <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())} sx={{ minHeight: 48 }}>
               {t('addMap')}
             </Button>
           </Box>

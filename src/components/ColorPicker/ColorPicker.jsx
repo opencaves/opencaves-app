@@ -128,7 +128,7 @@ export default function ColorPicker({ label, value, onChange, saveOnAdd = true }
             <Button size="small" onClick={() => setAdding(false)} disabled={saving}>
               {t('cancel')}
             </Button>
-            <Button size="small" variant="contained" onClick={handleAddColor} disabled={saving}>
+            <Button size="small" variant="outlined" onClick={handleAddColor} disabled={saving} sx={{ minHeight: 48 }}>
               {t('add')}
             </Button>
           </Box>

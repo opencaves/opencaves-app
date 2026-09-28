@@ -120,7 +120,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
             )}
           </Card>
         ))}
-        <Button className="oc-maps-picker--add-btn" size="small" startIcon={<AddRounded />} onClick={handleOpen}>
+        <Button className="oc-maps-picker--add-btn" variant="outlined" size="small" startIcon={<AddRounded />} onClick={handleOpen} sx={{ minHeight: 48 }}>
           {t('addMap')}
         </Button>
       </Box>
@@ -146,7 +146,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
               <Button size="small" onClick={cancelPendingUpload} disabled={uploading}>
                 {t('cancel')}
               </Button>
-              <Button size="small" variant="contained" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
+              <Button size="small" variant="outlined" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined} sx={{ minHeight: 48 }}>
                 {t('add')}
               </Button>
             </Box>

@@ -43,7 +43,7 @@ export default function NameTranslationsField({ label, rows, languages, onChange
             </IconButton>
           </Box>
         ))}
-        <Button size="small" startIcon={<AddRounded />} onClick={add} disabled={unusedLanguages.length === 0} sx={{ alignSelf: 'flex-start' }}>
+        <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={add} disabled={unusedLanguages.length === 0} sx={{ alignSelf: 'flex-start', minHeight: 48 }}>
           {addLabel}
         </Button>
       </Box>

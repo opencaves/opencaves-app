@@ -190,7 +190,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       )}
       {(canEdit || showAdd) && (
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>
-          <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => (canEdit ? setAddDialogOpen(true) : onAddUnauthorized?.())}>
+          <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => (canEdit ? setAddDialogOpen(true) : onAddUnauthorized?.())} sx={{ minHeight: 48 }}>
             {t('addVideos')}
           </Button>
         </Box>

@@ -30,7 +30,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
   }
-  const addPicturesButton = <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
+  const addPicturesButton = <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} sx={{ minHeight: 48 }} />}>{t('addPictures')}</AddMediasButton>
 
   function requireLogin() {
     dispatch(setContinueUrl(buildContinueUrl(location)))
@@ -49,7 +49,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <MediaList caveId={caveId} editable={editable} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
-              <Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
+              <Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} onClick={requireLogin} sx={{ minHeight: 48 }}>
                 {t('addPictures')}
               </Button>
             ) : standaloneUpload ? (

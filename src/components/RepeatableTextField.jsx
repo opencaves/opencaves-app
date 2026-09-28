@@ -28,7 +28,7 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
             </IconButton>
           </Box>
         ))}
-        <Button size="small" startIcon={<AddRounded />} onClick={add} sx={{ alignSelf: 'flex-start' }}>
+        <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={add} sx={{ alignSelf: 'flex-start', minHeight: 48 }}>
           {addLabel}
         </Button>
       </Box>
