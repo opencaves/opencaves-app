@@ -29,7 +29,7 @@ export function register(config) {
       return
     }
 
-    window.addEventListener('load', () => {
+    function onLoad() {
       const swUrl = `${import.meta.env.BASE_URL}service-worker.js`
 
       if (isLocalhost) {
@@ -48,7 +48,16 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config)
       }
-    })
+    }
+
+    // Called from a React effect (useServiceWorker), which usually runs after
+    // the load event has already fired - waiting for it then would mean
+    // never registering at all.
+    if (document.readyState === 'complete') {
+      onLoad()
+    } else {
+      window.addEventListener('load', onLoad, { once: true })
+    }
   }
 }
 
