@@ -19,6 +19,7 @@ import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
 import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import StickyActionBar from '@/components/StickyActionBar.jsx'
 import OCMap from '@/components/Map/Map.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -414,7 +415,7 @@ export default function CaveEdit() {
         <TextField label={t('note')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
       </Box>
 
-      <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
+      <StickyActionBar gap={1}>
         {!isNew && (
           <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
@@ -426,7 +427,7 @@ export default function CaveEdit() {
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
           {t('save')}
         </Button>
-      </Box>
+      </StickyActionBar>
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>{t('deleteCave')}</DialogTitle>

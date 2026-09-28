@@ -15,6 +15,7 @@ import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import StickyActionBar from '@/components/StickyActionBar.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -381,7 +382,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
       </Grid>
 
-      <Box sx={(theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, mt: 3, py: 1.5, position: 'sticky', bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'rgba(255, 255, 255, 0.94)', borderTop: '1px solid', borderColor: 'divider' })}>
+      <StickyActionBar gap={1.5}>
         {!isNew && (
           <Button color="error" onClick={handleDelete} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
@@ -393,7 +394,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || hasInvalidExplorationDate || hasInvalidMeasurement} sx={{ minWidth: 88 }}>
           {t('save')}
         </Button>
-      </Box>
+      </StickyActionBar>
     </Box>
   )
 }
