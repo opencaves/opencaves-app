@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
+import { Box, ButtonBase, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
 import { AddLocationAltRounded, CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
@@ -23,9 +23,38 @@ const FIELD_BADGE_ICONS = {
 // rendered by Map.jsx from editFieldCoordinates.
 //
 // Inside the phone sheet (ResultPaneSm) the map is hidden behind the form
-// and drag-and-drop doesn't work by touch, so there "Place on map" and
-// "Center the map here" use the map's place-on-map mode instead
-// (PlaceOnMapOverlay), which minimizes the sheet while it runs.
+// and drag-and-drop doesn't work by touch, so there "Place on map" uses the
+// map's place-on-map mode instead (PlaceOnMapOverlay), which minimizes the
+// sheet while it runs.
+
+// A phone action: icon over a short label (the label is also its accessible
+// name), with at least a 48dp touch target.
+function LabeledAction({ icon, label, onClick, disabled }) {
+  return (
+    <ButtonBase
+      className="oc-coordinate-field--action"
+      onClick={onClick}
+      disabled={disabled}
+      sx={{
+        flexDirection: 'column',
+        gap: 0.5,
+        minWidth: 72,
+        minHeight: 56,
+        px: 1,
+        py: 0.75,
+        borderRadius: 2,
+        color: 'text.secondary',
+        '&:hover': { bgcolor: 'action.hover' },
+        '&.Mui-disabled': { opacity: 0.38 },
+      }}
+    >
+      {icon}
+      <Typography component="span" sx={{ fontSize: 12, fontWeight: 500, lineHeight: '16px', letterSpacing: '0.5px', textAlign: 'center' }}>
+        {label}
+      </Typography>
+    </ButtonBase>
+  )
+}
 export default function CoordinateField({ field, label, longitude, latitude, onChange }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
@@ -93,15 +122,11 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   function onNavigateToClick() {
-    if (inPhoneSheet) {
-      dispatch(startPlaceOnMap({ field, label, mode: 'view', longitude, latitude }))
-      return
-    }
     dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, 5)), latitude: Number(num(latitude, 5)) }))
   }
 
   function onPlaceOnMapClick() {
-    dispatch(startPlaceOnMap({ field, label, mode: 'place', ...(isSet && { longitude, latitude }) }))
+    dispatch(startPlaceOnMap({ field, label, ...(isSet && { longitude, latitude }) }))
   }
 
   function onClearClick() {
@@ -165,28 +190,17 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         </Typography>
       </Box>
       {inPhoneSheet ? (
-        // Phones: the inputs, then the actions on their own row in a fixed
-        // order - ones that don't apply yet are disabled, not hidden, so
-        // nothing shifts around as the field fills in.
+        // Phones: the inputs, then labeled actions on their own row in a
+        // fixed order - Remove is disabled, not hidden, while there's nothing
+        // to remove, so nothing shifts around as the field fills in.
         <>
           <Grid container spacing={1} sx={{ alignItems: 'center' }}>
             {inputs}
           </Grid>
-          <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'center', mt: 0.5, ml: -1.5 }}>
-            <Tooltip title={t('placeOnMap')}>
-              <IconButton size="small" onClick={onPlaceOnMapClick} aria-label={t('placeOnMap')}>
-                <AddLocationAltRounded fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={t('navigateToCoordinate')}>
-              <span>
-                <IconButton size="small" onClick={onNavigateToClick} disabled={!isSet} aria-label={t('navigateToCoordinate')}>
-                  <CenterFocusStrongRounded fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
-            {myLocationButton}
-            {removeButton}
+          <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 1, ml: -1 }}>
+            <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} />
+            <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />
+            <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet} />
           </Box>
         </>
       ) : (

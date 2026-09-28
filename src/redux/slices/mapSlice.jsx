@@ -23,10 +23,10 @@ const initialState = {
   // there and clears this once it has.
   flyToCoordinateRequest: null, // { longitude, latitude } | null
   // Phone edit form's "place on map" mode (the sheet minimizes so the map
-  // shows): 'place' pans the map under a fixed center pin and confirms it
-  // into the field (via setPickedCoordinate); 'view' just shows the point.
-  // PlaceOnMapOverlay (in Map.jsx) runs it, ResultPaneSm moves the sheet.
-  placeOnMap: null, // { field, label, mode: 'place' | 'view', longitude?, latitude? } | null
+  // shows): the map pans under a fixed center cross and the result is
+  // confirmed into the field (via setPickedCoordinate). PlaceOnMapOverlay
+  // (in Map.jsx) runs it, ResultPaneSm moves the sheet.
+  placeOnMap: null, // { field, label, longitude?, latitude? } | null
 }
 
 export const mapSlice = createSlice({

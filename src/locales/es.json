@@ -503,7 +503,11 @@
       "placeOnMapTitle": "Colocar: {{label}}",
       "placeOnMapHint": "Mueve el mapa para poner el pin en el lugar",
       "confirm": "Confirmar",
-      "backToForm": "Volver al formulario"
+      "coordinateActions": {
+        "placeOnMap": "Colocar en el mapa",
+        "myLocation": "Mi ubicación",
+        "remove": "Quitar"
+      }
     }
   },
   "mediaPane": {

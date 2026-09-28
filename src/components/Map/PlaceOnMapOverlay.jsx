@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Fab, IconButton, Paper, Typography } from '@mui/material'
-import { CheckRounded, CloseRounded, EditNoteRounded } from '@mui/icons-material'
+import { Box, Fab, IconButton, Paper, Typography } from '@mui/material'
+import { CheckRounded, CloseRounded } from '@mui/icons-material'
 import { endPlaceOnMap, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { paneBreakpoints } from '@/config/app.js'
 
@@ -13,13 +13,10 @@ const PLACE_ZOOM = 17
 const COORDINATE_DECIMALS = 5
 
 // The phone edit form's "place on map" mode (mapSlice.placeOnMap), shown over
-// the map while ResultPaneSm keeps the sheet minimized:
-// - 'place': a fixed cross marks the center of the visible map; the person
-//   pans the map under it and confirms (the on-map Confirm button, within
-//   thumb reach), which hands the coordinate back to the form's
-//   CoordinateField (setPickedCoordinate).
-// - 'view': the map just flies to the point (its marker is already on the
-//   map), with a "Back to form" button.
+// the map while ResultPaneSm keeps the sheet minimized: a fixed cross marks
+// the center of the visible map; the person pans the map under it and
+// confirms (the on-map Confirm button, within thumb reach), which hands the
+// coordinate back to the form's CoordinateField (setPickedCoordinate).
 // Portaled to <body>: above the search bar (1000) and the sheet (999).
 export default function PlaceOnMapOverlay({ mapRef }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -91,13 +88,6 @@ export default function PlaceOnMapOverlay({ mapRef }) {
   }
 
   return createPortal(
-    placeOnMap.mode === 'view' ? (
-      <Box className="oc-place-on-map oc-place-on-map--view" sx={(theme) => ({ position: 'fixed', top: 'calc(12px + env(safe-area-inset-top))', left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: theme.zIndex.appBar, pointerEvents: 'none' })}>
-        <Button ref={barRef} variant="contained" startIcon={<EditNoteRounded />} onClick={close} sx={{ pointerEvents: 'auto', borderRadius: 5, boxShadow: 3 }}>
-          {t('backToForm')}
-        </Button>
-      </Box>
-    ) : (
       <>
         <Paper
           ref={barRef}
@@ -142,8 +132,7 @@ export default function PlaceOnMapOverlay({ mapRef }) {
             {t('confirm')}
           </Fab>
         </Box>
-      </>
-    ),
+      </>,
     document.body,
   )
 }

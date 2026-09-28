@@ -501,7 +501,11 @@
       "placeOnMapTitle": "Placer : {{label}}",
       "placeOnMapHint": "Déplacez la carte pour mettre l’épingle au bon endroit",
       "confirm": "Confirmer",
-      "backToForm": "Retour au formulaire"
+      "coordinateActions": {
+        "placeOnMap": "Placer sur la carte",
+        "myLocation": "Ma position",
+        "remove": "Retirer"
+      }
     }
   },
   "mediaPane": {
