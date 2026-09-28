@@ -31,7 +31,13 @@
         "ariaLabel": "ouvrir le menu"
       },
       "navMain": "Principale",
-      "navDrawer": "Menu du site"
+      "navDrawer": "Menu du site",
+      "greeting": "Bonjour, {{name}} !",
+      "greetingNoName": "Bonjour !",
+      "manageAccount": "Gérer votre compte",
+      "welcome": "Bienvenue sur {{name}}",
+      "welcomeText": "Connectez-vous pour sauvegarder vos cénotes préférées et contribuer.",
+      "close": "Fermer"
     },
     "snackbar": {
       "saved": "Enregistré",

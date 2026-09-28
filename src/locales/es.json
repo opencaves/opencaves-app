@@ -31,7 +31,13 @@
         "ariaLabel": "abrir menú"
       },
       "navMain": "Principal",
-      "navDrawer": "Menú del sitio"
+      "navDrawer": "Menú del sitio",
+      "greeting": "¡Hola, {{name}}!",
+      "greetingNoName": "¡Hola!",
+      "manageAccount": "Administrar tu cuenta",
+      "welcome": "Te damos la bienvenida a {{name}}",
+      "welcomeText": "Inicia sesión para guardar tus cenotes favoritos y contribuir.",
+      "close": "Cerrar"
     },
     "snackbar": {
       "saved": "Guardado",

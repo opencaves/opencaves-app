@@ -1,33 +1,24 @@
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useId, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
-import { Button, Menu, Divider, Avatar, ListItemIcon, useTheme, Typography, Tooltip, Box } from '@mui/material'
-import { Grid } from '@mui/material'
-import { InfoOutlined, PersonRounded, SettingsRounded } from '@mui/icons-material'
-import MenuItem from './MenuItem.jsx'
-import SignupMenuItem from './menu/SignupMenuItem.jsx'
-import LogInMenuItem from './menu/LogInMenuItem.jsx'
-import LogoutMenuItem from './menu/LogoutMenuItem.jsx'
-import OfflinePreviewsMenuItem from './menu/OfflinePreviewsMenuItem.jsx'
+import { Button, Popover, Tooltip, useTheme } from '@mui/material'
 import AppMenuIcon from './AppMenuIcon.jsx'
+import AppMenuPanel from './AppMenuPanel.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import useSession from '@/hooks/useSession.jsx'
-import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
-import { appName } from '@/config/app.js'
 
+// The account button (avatar, or the logo when signed out) and its account
+// card. The card holds buttons and links, not just menu items, so it's a
+// labeled dialog-style Popover rather than an ARIA menu (which may only
+// contain menu items).
 export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...props }) {
-  const dispatch = useDispatch()
-  const hasSession = useSession()
-  const user = useSelector((state) => state.session.user)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
   const isSmall = useSmall()
   const theme = useTheme()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
-  const location = useLocation()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const panelId = useId()
+  const titleId = useId()
 
   const menuStyles = {
     minWidth: 'unset',
@@ -38,22 +29,14 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
     },
   }
 
-  function handleClick(event) {
-    setAnchorEl(event.currentTarget)
-  }
-
   function handleClose() {
     setAnchorEl(null)
-  }
-
-  function onSignupBtnClick() {
-    dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
   return (
     <>
       <Tooltip title={t('tooltip')}>
-        <Button {...props} className={`oc-app-menu ${className || ''}`.trim()} variant={isSmall ? 'text' : 'contained'} aria-label={t('ariaLabel')} onClick={handleClick} aria-controls={open ? 'app-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} sx={[sx, menuStyles]}>
+        <Button {...props} className={`oc-app-menu ${className || ''}`.trim()} variant={isSmall ? 'text' : 'contained'} aria-label={t('ariaLabel')} onClick={(event) => setAnchorEl(event.currentTarget)} aria-controls={open ? panelId : undefined} aria-haspopup="dialog" aria-expanded={open ? 'true' : undefined} sx={[sx, menuStyles]}>
           <AppMenuIcon
             logoColorScheme={logoColorScheme}
             logoSx={logoSx}
@@ -64,79 +47,27 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
           />
         </Button>
       </Tooltip>
-      <Menu
-        className="oc-app-menu--menu"
-        id="app-menu"
-        component="nav"
-        anchorEl={anchorEl}
+      <Popover
+        className="oc-app-menu--popover"
+        id={panelId}
         open={open}
+        anchorEl={anchorEl}
         onClose={handleClose}
-        onClick={handleClose}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         slotProps={{
           paper: {
-            elevation: 2,
-            sx: {
-              mt: 1,
-            },
-          },
-          list: {
-            sx: { py: 0.5 },
+            role: 'dialog',
+            'aria-labelledby': titleId,
+            elevation: 3,
+            // M3 large container shape, on the tinted surface Google Maps'
+            // account card uses; the sections inside are white.
+            sx: (theme) => ({ mt: 1, borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, maxHeight: 'calc(100dvh - 80px)' }),
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {isLoggedIn && [
-          <Box key="key-user-info" sx={{ px: 2, py: 0.75 }}>
-            <Grid container direction="column" sx={{ gap: 1, alignItems: 'center', p: 1 }}>
-              <Avatar
-                src={user.photoURL || 'broken-image.webp'}
-                alt={user.displayName}
-                sx={{
-                  bgcolor: theme.palette.primary.main,
-                  boxShadow: '0 0 0 1px rgba(31, 35, 40, 0.15)',
-                }}
-              />
-              <Typography
-                sx={{
-                  fontSize: 'var(--md-sys-typescale-label-large-size)',
-                }}
-              >
-                {user.displayName}
-              </Typography>
-            </Grid>
-          </Box>,
-          <MenuItem key="key-signup" component={Link} to="/account" onClick={handleClose}>
-            <ListItemIcon>
-              <PersonRounded fontSize="small" />
-            </ListItemIcon>
-            {t('myAccount')}
-          </MenuItem>,
-          roles.includes('editor') && (
-            <MenuItem key="key-admin" component={Link} to="/dashboard" onClick={handleClose}>
-              <ListItemIcon>
-                <SettingsRounded fontSize="small" />
-              </ListItemIcon>
-              {t('admin')}
-            </MenuItem>
-          ),
-          <LogoutMenuItem key="key-logout" />,
-          <Divider key="key-divider-1" />,
-        ]}
-
-        {!isLoggedIn && [<LogInMenuItem key="key-login" />, <SignupMenuItem key="key-signup" />, <Divider key="key-divider-2" />]}
-
-        <OfflinePreviewsMenuItem />
-
-        <Divider key="key-divider-about" />
-
-        <MenuItem key="key-about2" component={Link} to="/about" state={{ backgroundLocation: location }}>
-          <ListItemIcon>
-            <InfoOutlined fontSize="small" />
-          </ListItemIcon>
-          {t('about', { context: 'withName', name: appName })}
-        </MenuItem>
-      </Menu>
+        <AppMenuPanel onClose={handleClose} titleId={titleId} />
+      </Popover>
     </>
   )
 }
