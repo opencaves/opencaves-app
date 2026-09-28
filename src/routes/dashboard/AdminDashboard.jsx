@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, MapRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import dashboardBackground from '@/images/404/bg.webp'
+import dashboardBackground from '@/images/dashboard/bg.webp'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', label: 'Accesses', icon: LockOpenRounded },

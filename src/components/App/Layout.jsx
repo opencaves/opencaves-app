@@ -5,10 +5,16 @@ import AppBar from './AppBar.jsx'
 import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
+import dashboardBackground from '@/images/dashboard/bg.webp'
+import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
+
+// First URL segment of every dashboard (admin) page - see router.jsx.
+const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', ...Object.keys(REFERENCE_DATA_CONFIGS)])
 
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
+  const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1])
 
   useEffect(() => {
     if (location.hash && !isMapPath(location.pathname)) {
@@ -30,7 +36,7 @@ export default function Layout() {
         height: '100%',
         overflowY: 'auto',
         backgroundColor: '#000',
-        backgroundImage: `url(${layoutBackground})`,
+        backgroundImage: `url(${isDashboardPage ? dashboardBackground : layoutBackground})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
