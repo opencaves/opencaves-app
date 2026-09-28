@@ -44,6 +44,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSmall = useSmall()
+  // The map's "place on map" mode takes over the screen: no Save bar then.
+  const placingOnMap = useSelector((state) => !!state.map.placeOnMap)
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
@@ -380,7 +382,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
       </Box>
 
-      {isSmall ? createPortal(saveBar, document.body) : saveBar}
+      {isSmall ? !placingOnMap && createPortal(saveBar, document.body) : saveBar}
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>{t('deleteCave')}</DialogTitle>

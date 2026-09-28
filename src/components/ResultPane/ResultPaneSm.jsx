@@ -206,6 +206,33 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     root.setProperty('--oc-map-controls-visibility', hidden ? 'hidden' : 'visible')
   }, [modalPosition, resultPaneOpen, filterMenuOpen])
 
+  // The phone edit form's "place on map" mode (PlaceOnMapOverlay): minimize
+  // the sheet so the map shows, then put it back exactly where it was -
+  // same height, same scroll position in the form - when the mode ends.
+  const placeOnMap = useSelector((state) => state.map.placeOnMap)
+  const placeOnMapReturnRef = useRef(null)
+  useEffect(() => {
+    const modal = modalRef.current
+    if (!modal) return
+    const scrollView = () => modal.querySelector('.oc-result-pane--scroll-view')
+
+    if (placeOnMap && !placeOnMapReturnRef.current) {
+      // initialBreakpoint mirrors the sheet's current breakpoint (updated on
+      // every breakpoint change); the local `breakpoint` state is 0 until
+      // the first one.
+      placeOnMapReturnRef.current = { breakpoint: initialBreakpoint, scrollTop: scrollView()?.scrollTop ?? 0 }
+      modal.setCurrentBreakpoint(firstBreakpoint)
+    } else if (!placeOnMap && placeOnMapReturnRef.current) {
+      const { breakpoint: returnBreakpoint, scrollTop } = placeOnMapReturnRef.current
+      placeOnMapReturnRef.current = null
+      modal.setCurrentBreakpoint(returnBreakpoint).then(() => {
+        const view = scrollView()
+        if (view) view.scrollTop = scrollTop
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placeOnMap])
+
   useEffect(
     () => () => {
       const root = document.documentElement.style
@@ -288,68 +315,64 @@ export default function ResultPaneSm({ children, cave, ...props }) {
             }}
           >
             <Card className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`} component="main">
-              {breakpoint === 1 ? (
-                <Scrollbars
-                  autoHide
-                  autoHeight
-                  autoHeightMax="100vh"
-                  hideTracksWhenNotNeeded={true}
-                  // ion-content-scroll-host: Ionic's sheet gesture only
-                  // defers to a scrolled container it recognizes (ion-content
-                  // or this class). Without it, dragging down in scrolled
-                  // content of the fully open pane moved the whole pane
-                  // instead of scrolling back up.
-                  renderView={({ className, ...viewProps }) => <div {...viewProps} className={`ion-content-scroll-host oc-result-pane--scroll-view ${className || ''}`.trim()} />}
-                  renderThumbVertical={({ style, ...props }) => (
-                    <div
-                      {...props}
-                      style={{
-                        ...style,
-                        cursor: 'pointer',
-                        borderRadius: '50%',
-                        backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
-                      }}
-                    />
-                  )}
-                >
-                  <CardContent
-                    sx={{
-                      p: 0,
-                      // MUI's CardContent applies its own padding-bottom via a
-                      // `&:last-child` rule, whose specificity beats a plain
-                      // `pb` override here, so it has to be targeted directly.
-                      //
-                      // This pane's top offset (--oc-result-pane-sm-upper-height,
-                      // to clear the search bar) pushes its own bottom edge past
-                      // the viewport by the same amount, since Ionic's sheet
-                      // modal sizes itself to window.innerHeight regardless of
-                      // that offset. No amount of scrolling can reveal that
-                      // permanently off-screen band, so pad it out here instead.
-                      // window.innerHeight itself is unreliable on mobile Chrome
-                      // (it can reflect the toolbar-hidden viewport even while
-                      // the toolbar is shown), and Android's gesture-nav bar
-                      // eats further space env(safe-area-inset-bottom) accounts
-                      // for — so this is intentionally more generous than the
-                      // precise offset value, confirmed insufficient on a real
-                      // device (Pixel 10 Pro) at exactly that value.
-                      '&:last-child': {
-                        pb: `calc(var(--oc-pane-padding-inline) + ${resultPaneSmUpperHeight * 2}px + env(safe-area-inset-bottom, 0px))`,
-                      },
+              {/* One tree at every breakpoint: rendering the children under a
+                  different wrapper per breakpoint (as this used to) made React
+                  remount the whole pane whenever the sheet left or reached
+                  full height - dropping the edit form's unsaved changes, and
+                  any coordinate picked on the map while the sheet was
+                  minimized. Below full height the view just doesn't scroll. */}
+              <Scrollbars
+                autoHide
+                autoHeight
+                autoHeightMax="100vh"
+                hideTracksWhenNotNeeded={true}
+                // ion-content-scroll-host: Ionic's sheet gesture only
+                // defers to a scrolled container it recognizes (ion-content
+                // or this class). Without it, dragging down in scrolled
+                // content of the fully open pane moved the whole pane
+                // instead of scrolling back up.
+                renderView={({ className, style, ...viewProps }) => <div {...viewProps} style={breakpoint === 1 ? style : { ...style, overflow: 'hidden' }} className={`ion-content-scroll-host oc-result-pane--scroll-view ${className || ''}`.trim()} />}
+                renderThumbVertical={({ style, ...props }) => (
+                  <div
+                    {...props}
+                    style={{
+                      ...style,
+                      cursor: 'pointer',
+                      borderRadius: '50%',
+                      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
                     }}
-                  >
-                    {children}
-                  </CardContent>
-                </Scrollbars>
-              ) : (
+                  />
+                )}
+              >
                 <CardContent
                   sx={{
                     p: 0,
-                    pb: 'var(--oc-pane-padding-inline)',
+                    // MUI's CardContent applies its own padding-bottom via a
+                    // `&:last-child` rule, whose specificity beats a plain
+                    // `pb` override here, so it has to be targeted directly.
+                    //
+                    // At full height, this pane's top offset
+                    // (--oc-result-pane-sm-upper-height, to clear the search
+                    // bar) pushes its own bottom edge past the viewport by the
+                    // same amount, since Ionic's sheet modal sizes itself to
+                    // window.innerHeight regardless of that offset. No amount
+                    // of scrolling can reveal that permanently off-screen
+                    // band, so pad it out here instead. window.innerHeight
+                    // itself is unreliable on mobile Chrome (it can reflect
+                    // the toolbar-hidden viewport even while the toolbar is
+                    // shown), and Android's gesture-nav bar eats further space
+                    // env(safe-area-inset-bottom) accounts for — so this is
+                    // intentionally more generous than the precise offset
+                    // value, confirmed insufficient on a real device (Pixel 10
+                    // Pro) at exactly that value.
+                    '&:last-child': {
+                      pb: breakpoint === 1 ? `calc(var(--oc-pane-padding-inline) + ${resultPaneSmUpperHeight * 2}px + env(safe-area-inset-bottom, 0px))` : 'var(--oc-pane-padding-inline)',
+                    },
                   }}
                 >
                   {children}
                 </CardContent>
-              )}
+              </Scrollbars>
             </Card>
           </Box>
         </IonModal>

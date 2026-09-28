@@ -498,7 +498,12 @@
       "backToCaves": "Back to caves",
       "enlargeMap": "Enlarge map",
       "shrinkMap": "Shrink map",
-      "loading": "Loading…"
+      "loading": "Loading…",
+      "placeOnMap": "Place on map",
+      "placeOnMapTitle": "Place: {{label}}",
+      "placeOnMapHint": "Move the map to put the pin on the spot",
+      "confirm": "Confirm",
+      "backToForm": "Back to form"
     }
   },
   "mediaPane": {

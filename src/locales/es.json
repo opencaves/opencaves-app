@@ -498,7 +498,12 @@
       "backToCaves": "Volver a los cenotes",
       "enlargeMap": "Ampliar el mapa",
       "shrinkMap": "Reducir el mapa",
-      "loading": "Cargando…"
+      "loading": "Cargando…",
+      "placeOnMap": "Colocar en el mapa",
+      "placeOnMapTitle": "Colocar: {{label}}",
+      "placeOnMapHint": "Mueve el mapa para poner el pin en el lugar",
+      "confirm": "Confirmar",
+      "backToForm": "Volver al formulario"
     }
   },
   "mediaPane": {

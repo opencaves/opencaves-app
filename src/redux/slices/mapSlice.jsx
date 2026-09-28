@@ -22,6 +22,11 @@ const initialState = {
   // A CoordinateField's own "center the map here" action - Map.jsx flies
   // there and clears this once it has.
   flyToCoordinateRequest: null, // { longitude, latitude } | null
+  // Phone edit form's "place on map" mode (the sheet minimizes so the map
+  // shows): 'place' pans the map under a fixed center pin and confirms it
+  // into the field (via setPickedCoordinate); 'view' just shows the point.
+  // PlaceOnMapOverlay (in Map.jsx) runs it, ResultPaneSm moves the sheet.
+  placeOnMap: null, // { field, label, mode: 'place' | 'view', longitude?, latitude? } | null
 }
 
 export const mapSlice = createSlice({
@@ -118,11 +123,17 @@ export const mapSlice = createSlice({
     },
     clearFlyToCoordinateRequest: (state) => {
       state.flyToCoordinateRequest = null
+    },
+    startPlaceOnMap: (state, action) => {
+      state.placeOnMap = action.payload
+    },
+    endPlaceOnMap: (state) => {
+      state.placeOnMap = null
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap } = mapSlice.actions
 
 export default mapSlice.reducer

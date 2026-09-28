@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
-import { CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
-import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate } from '@/redux/slices/mapSlice.jsx'
+import { AddLocationAltRounded, CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
+import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
+import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
@@ -20,12 +21,18 @@ const FIELD_BADGE_ICONS = {
 // be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
 // set, the coordinate itself also lives on the map as a draggable Marker
 // rendered by Map.jsx from editFieldCoordinates.
+//
+// Inside the phone sheet (ResultPaneSm) the map is hidden behind the form
+// and drag-and-drop doesn't work by touch, so there "Place on map" and
+// "Center the map here" use the map's place-on-map mode instead
+// (PlaceOnMapOverlay), which minimizes the sheet while it runs.
 export default function CoordinateField({ field, label, longitude, latitude, onChange }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
+  const inPhoneSheet = !!useContext(ResultPaneSmContext)
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -86,7 +93,15 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   function onNavigateToClick() {
+    if (inPhoneSheet) {
+      dispatch(startPlaceOnMap({ field, label, mode: 'view', longitude, latitude }))
+      return
+    }
     dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, 5)), latitude: Number(num(latitude, 5)) }))
+  }
+
+  function onPlaceOnMapClick() {
+    dispatch(startPlaceOnMap({ field, label, mode: 'place', ...(isSet && { longitude, latitude }) }))
   }
 
   function onClearClick() {
@@ -125,7 +140,16 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
             </Tooltip>
           </Grid>
         )}
-        {!isSet && (
+        {inPhoneSheet && (
+          <Grid size="auto">
+            <Tooltip title={t('placeOnMap')}>
+              <IconButton size="small" onClick={onPlaceOnMapClick} aria-label={t('placeOnMap')}>
+                <AddLocationAltRounded fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        )}
+        {!isSet && !inPhoneSheet && (
           <Grid size="auto">
             <Tooltip title={t('dragPinToMap')}>
               <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>

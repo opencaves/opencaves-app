@@ -36,7 +36,9 @@ const sessionPersistConfig = {
 const mapPersistConfig = {
   key: 'map',
   storage: sessionPersistStorage,
-  blacklist: ['currentMarker'],
+  // placeOnMap is a transient UI mode - restoring it after a reload would
+  // strand the sheet minimized with nothing driving it.
+  blacklist: ['currentMarker', 'placeOnMap'],
 }
 
 const rootReducer = combineReducers({

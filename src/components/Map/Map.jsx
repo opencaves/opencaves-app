@@ -23,6 +23,7 @@ import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
 import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
+import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -610,6 +611,7 @@ export default function OCMap() {
           onDrop={onMapDrop}
         >
           <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+            <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
               // trackUserLocation={true}

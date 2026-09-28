@@ -496,7 +496,12 @@
       "backToCaves": "Retour aux cénotes",
       "enlargeMap": "Agrandir la carte",
       "shrinkMap": "Réduire la carte",
-      "loading": "Chargement…"
+      "loading": "Chargement…",
+      "placeOnMap": "Placer sur la carte",
+      "placeOnMapTitle": "Placer : {{label}}",
+      "placeOnMapHint": "Déplacez la carte pour mettre l’épingle au bon endroit",
+      "confirm": "Confirmer",
+      "backToForm": "Retour au formulaire"
     }
   },
   "mediaPane": {
