@@ -10,6 +10,33 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 
+function getHexHue(hex) {
+  let value = String(hex || '')
+    .trim()
+    .replace(/^#/, '')
+  if (/^[\da-f]{3,4}$/i.test(value)) {
+    value = [...value.slice(0, 3)].map((digit) => digit + digit).join('')
+  } else if (/^[\da-f]{6}([\da-f]{2})?$/i.test(value)) {
+    value = value.slice(0, 6)
+  } else {
+    return null
+  }
+
+  const channels = [0, 2, 4].map((index) => Number.parseInt(value.slice(index, index + 2), 16) / 255)
+  const [red, green, blue] = channels
+  const max = Math.max(...channels)
+  const min = Math.min(...channels)
+  const delta = max - min
+  if (delta === 0) return null
+
+  let hue
+  if (max === red) hue = ((green - blue) / delta) % 6
+  else if (max === green) hue = (blue - red) / delta + 2
+  else hue = (red - green) / delta + 4
+
+  return (hue * 60 + 360) % 360
+}
+
 export default function ReferenceDataEditor() {
   const params = useParams()
   const location = useLocation()
@@ -26,6 +53,14 @@ export default function ReferenceDataEditor() {
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()
   const [deleteTarget, setDeleteTarget] = useState(null)
+  const sortedItems =
+    collectionName === 'colors'
+      ? [...items].sort((first, second) => {
+          const firstHue = getHexHue(first.hex) ?? 361
+          const secondHue = getHexHue(second.hex) ?? 361
+          return firstHue - secondHue || String(first.hex || first.id).localeCompare(String(second.hex || second.id))
+        })
+      : items
 
   useEffect(() => {
     setTitle(config ? t(`collections.${collectionName}.title`) : collectionName)
@@ -73,7 +108,7 @@ export default function ReferenceDataEditor() {
         <Typography>{t('loading')}</Typography>
       ) : (
         <List disablePadding>
-          {items.map((item) => (
+          {sortedItems.map((item) => (
             <ListItem
               key={item.id}
               divider
