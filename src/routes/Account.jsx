@@ -8,6 +8,7 @@ import { CheckRounded, LogoutRounded, SaveRounded } from '@mui/icons-material'
 import { auth } from '@/config/firebase.js'
 import { setUser } from '@/redux/slices/sessionSlice.jsx'
 import SavedCavesList from '@/components/SavedCaves/SavedCavesList.jsx'
+import OfflineStorageSection from '@/components/Offline/OfflineStorageSection.jsx'
 
 export default function Account() {
   const { t } = useTranslation('account')
@@ -152,6 +153,7 @@ export default function Account() {
           <Typography component="p">{user?.email || ''}</Typography>
         </Box>
         {isLoggedIn && <SavedCavesList />}
+        <OfflineStorageSection />
         {hasPasswordProvider && (
           <Box component="section" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
             <Typography component="h2" variant="h6" sx={{ mb: 2 }}>

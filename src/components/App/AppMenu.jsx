@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import { Button, Menu, Divider, Avatar, ListItemIcon, useTheme, Typography, Tooltip, Box } from '@mui/material'
 import { Grid } from '@mui/material'
-import { PersonRounded, SettingsRounded } from '@mui/icons-material'
+import { InfoOutlined, PersonRounded, SettingsRounded } from '@mui/icons-material'
 import MenuItem from './MenuItem.jsx'
 import SignupMenuItem from './menu/SignupMenuItem.jsx'
 import LogInMenuItem from './menu/LogInMenuItem.jsx'
 import LogoutMenuItem from './menu/LogoutMenuItem.jsx'
+import OfflinePreviewsMenuItem from './menu/OfflinePreviewsMenuItem.jsx'
 import AppMenuIcon from './AppMenuIcon.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useSession from '@/hooks/useSession.jsx'
@@ -124,7 +125,12 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
 
         {!isLoggedIn && [<LogInMenuItem key="key-login" />, <SignupMenuItem key="key-signup" />, <Divider key="key-divider-2" />]}
 
+        <OfflinePreviewsMenuItem />
+
         <MenuItem key="key-about2" component={Link} to="/about" state={{ backgroundLocation: location }}>
+          <ListItemIcon>
+            <InfoOutlined fontSize="small" />
+          </ListItemIcon>
           {t('about', { context: 'withName', name: appName })}
         </MenuItem>
 

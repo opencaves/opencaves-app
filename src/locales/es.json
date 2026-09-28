@@ -68,6 +68,20 @@
       "remove": "Quitar de guardados",
       "removeNamed": "Quitar {{name}} de guardados",
       "sistema": "Sistema {{name}}"
+    },
+    "offline": {
+      "title": "Uso sin conexión",
+      "measuring": "Calculando los datos almacenados…",
+      "used": "OpenCaves almacena {{size}} en este dispositivo.",
+      "persisted": "Protegido contra la limpieza automática del navegador.",
+      "notPersisted": "El navegador puede eliminar estos datos si el dispositivo se queda sin espacio.",
+      "clear": "Borrar los datos sin conexión",
+      "confirmTitle": "¿Borrar los datos sin conexión?",
+      "confirmText": "Las imágenes, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión». Tus cenotes guardados seguirán guardados y se descargarán de nuevo la próxima vez que estés en Wi-Fi.",
+      "confirmClear": "Borrar",
+      "cancel": "Cancelar",
+      "cleared": "Datos sin conexión borrados",
+      "clearError": "No se pudieron borrar los datos sin conexión."
     }
   },
   "auth": {
@@ -228,7 +242,10 @@
       "notNow": "Ahora no",
       "logIn": "Iniciar sesión",
       "signUp": "Crear una cuenta"
-    }
+    },
+    "savedDownloadWhenOnline": "Guardado en tu perfil. Se descargará para usarlo sin conexión cuando vuelvas a estar en línea.",
+    "savedDownloadOnWifi": "Guardado en tu perfil. Se descargará para usarlo sin conexión cuando estés en Wi-Fi.",
+    "downloadingOffline": "Descargando para usar sin conexión: {{progress}} %"
   },
   "passwordInput": {
     "passwordIcon": {
@@ -849,5 +866,25 @@
     "deleteTitle": "¿Eliminar este usuario?",
     "deleteConfirm": "{{email}} será eliminado permanentemente. Esta acción no se puede deshacer.",
     "cancel": "Cancelar"
+  },
+  "offline": {
+    "caveReady": "El cenote {{name}} está disponible sin conexión",
+    "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
+    "previewsReady": "Las vistas previas de los cenotes y los mapas están disponibles sin conexión",
+    "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
+    "previewsLabel": "Hacer disponible sin conexión",
+    "previewsHint": "Vistas previas de cenotes y mapas",
+    "waitingForWifi": "Esperando Wi-Fi",
+    "waitingForConnection": "Esperando conexión",
+    "downloadingCount": "Descargando para usar sin conexión… {{done}} / {{total}}",
+    "downloadingPercent": "Descargando para usar sin conexión: {{progress}} %",
+    "previewsIncompleteShort": "Algunos archivos no se pudieron descargar",
+    "previewsAvailable_one": "{{count}} archivo disponible sin conexión",
+    "previewsAvailable_other": "{{count}} archivos disponibles sin conexión",
+    "caveAvailable": "Disponible sin conexión",
+    "caveIncompleteShort": "Parcialmente disponible sin conexión",
+    "caveNotYet": "Aún no descargado",
+    "savedIncomplete": "Algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
+    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión"
   }
 }

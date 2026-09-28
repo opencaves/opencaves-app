@@ -61,6 +61,17 @@ export default class CaveAsset {
     return snapshot.data().count
   }
 
+  // One-shot reads (no listener) used by the offline downloads.
+  static async getImages(caveId) {
+    const { docs } = await getDocs(query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter))
+    return docs.map((d) => d.data())
+  }
+
+  static async getAllCoverImages() {
+    const { docs } = await getDocs(query(COLL, where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter))
+    return docs.map((d) => d.data())
+  }
+
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
@@ -143,30 +154,34 @@ export default class CaveAsset {
    * @returns 
    */
 
+  // URL of one resized version (see resize-images' imageSizes) - the exact
+  // URL <Picture> requests for it, which the offline downloads rely on.
+  getThumbnailUrl(dimension, format = thumbnailFormats[0]) {
+    const isProd = window.location.hostname !== 'localhost'
+    const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${firebaseConfig.storageBucket}/o/?alt=media`
+    const url = new URL(baseUrl)
+    const thumbnailPath = `caves/${this.caveId}/${thumbnailFolder}/${this.id}_${dimension}.${format}`
+
+    if (isProd) {
+      url.pathname += thumbnailPath
+    } else {
+      url.pathname += encodeURIComponent(thumbnailPath)
+    }
+
+    return url.href
+  }
+
   getSources(dimensions, { sizes = false } = {}) {
     if (!Array.isArray(dimensions)) {
       dimensions = [dimensions]
     }
 
     const sources = []
-    const isProd = window.location.hostname !== 'localhost'
-    const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${firebaseConfig.storageBucket}/o/?alt=media`
-    const { matches: isSmall } = window.matchMedia(`(max-width: ${breakpoints.sm})`)
 
     for (const format of thumbnailFormats) {
       const srcSet = dimensions.map((dimension, i) => {
         const imageSize = imageSizes[dimension]
-        const url = new URL(baseUrl)
-        const thumbnailPath = `caves/${this.caveId}/${thumbnailFolder}/${this.id}_${dimension}.${format}`
-
-        if (isProd) {
-          url.pathname += thumbnailPath
-          //
-        } else {
-          url.pathname += encodeURIComponent(thumbnailPath)
-        }
-
-        return `${url.href}${i === dimensions.length - 1 ? `` : ` ${imageSize.width}w`}`
+        return `${this.getThumbnailUrl(dimension, format)}${i === dimensions.length - 1 ? `` : ` ${imageSize.width}w`}`
       }).join(', ')
 
 
@@ -309,6 +324,12 @@ const converter = {
         caveAsset[prop] = data[prop]
       }
     })
+    // Assets are stored under their own id, so the doc id is the fallback
+    // when the data lacks an `id` field - otherwise the constructor's fresh
+    // random id would point every thumbnail URL at a file that doesn't exist.
+    if (!Reflect.has(data, 'id')) {
+      caveAsset.id = snapshot.id
+    }
     return caveAsset
   }
 }

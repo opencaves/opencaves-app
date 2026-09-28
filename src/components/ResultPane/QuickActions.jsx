@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
@@ -15,6 +15,8 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { requestPersistentStorage } from '@/utils/persistentStorage.js'
+import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
+import { isMeteredConnection, markJustSaved, offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import './QuickActions.scss'
 
@@ -113,6 +115,12 @@ function LabelLg(props) {
   )
 }
 
+// Determinate ring shown in place of the Save icon while the saved cenote
+// downloads for offline use; sized like the icon it replaces.
+function DownloadProgressIcon({ value, label }) {
+  return <CircularProgress variant="determinate" value={value} size={18} thickness={5} aria-label={label} sx={{ color: 'inherit' }} />
+}
+
 function QuickActionsItem({ children, ...props }) {
   return <Box {...props}>{children}</Box>
 }
@@ -128,7 +136,12 @@ export default function QuickActions({ cave }) {
   const [openSnackbar] = useSnackbar()
   const { canSave, isSaved, saveCave, unsaveCave } = useSavedCaves()
   const saved = isSaved(cave.id)
-  const SaveIcon = saved ? BookmarkIcon : BookmarkBorderIcon
+  const offlineStatus = useOfflineStatus(savedCaveStatusKey(cave.id))
+  // While this saved cenote's pictures and maps download for offline use, a
+  // progress ring replaces the bookmark icon.
+  const downloading = saved && offlineStatus?.state === 'downloading' && offlineStatus.total > 0
+  const downloadProgress = downloading ? Math.round((offlineStatus.done / offlineStatus.total) * 100) : 0
+  const saveIcon = downloading ? <DownloadProgressIcon value={downloadProgress} label={t('downloadingOffline', { progress: downloadProgress })} /> : saved ? <BookmarkIcon /> : <BookmarkBorderIcon />
   const saveLabel = saved ? t('saved') : t('save')
 
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
@@ -163,9 +176,13 @@ export default function QuickActions({ cave }) {
     // Saving a cenote signals intent to rely on the app offline.
     if (!saved) {
       requestPersistentStorage()
+      markJustSaved(cave.id)
     }
     const write = saved ? unsaveCave(cave.id) : saveCave(cave.id)
-    openSnackbar(saved ? t('unsavedMessage') : t('savedMessage'))
+    // Its offline download (OfflineMediaSync) is held back without a
+    // connection or on cellular - say so rather than implying it's ready.
+    const savedMessage = !offlineSupported ? t('savedMessage') : !navigator.onLine ? t('savedDownloadWhenOnline') : isMeteredConnection() ? t('savedDownloadOnWifi') : t('savedMessage')
+    openSnackbar(saved ? t('unsavedMessage') : savedMessage)
     write.catch((error) => {
       console.error(error)
       openSnackbar(t('saveError'))
@@ -237,7 +254,7 @@ export default function QuickActions({ cave }) {
                   </QuickActionsItem>
                 )}
                 <QuickActionsItem>
-                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={<SaveIcon />} className="oc-quick-actions--btn" onClick={handleSaveClick}>
+                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={saveIcon} className="oc-quick-actions--btn" onClick={handleSaveClick}>
                     {saveLabel}
                   </Button>
                 </QuickActionsItem>
@@ -287,7 +304,7 @@ export default function QuickActions({ cave }) {
                   <Grid container direction="column">
                     <Grid>
                       <IconLg>
-                        <SaveIcon />
+                        {saveIcon}
                       </IconLg>
                     </Grid>
                     <Grid>

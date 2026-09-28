@@ -2,10 +2,54 @@ import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
-import { Bookmark, BookmarkRemoveOutlined } from '@mui/icons-material'
+import { Box, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
+import { Bookmark, BookmarkRemoveOutlined, CloudDoneOutlined, CloudOffOutlined } from '@mui/icons-material'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { getData } from '@/services/data-service.jsx'
+import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflineStatus.jsx'
+import { offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
+
+// One saved cenote's offline download state, beside its name: a progress
+// ring while downloading, a cloud-check once everything is on the device.
+function CaveOfflineIndicator({ caveId }) {
+  const { t } = useTranslation('offline')
+  const status = useOfflineStatus(savedCaveStatusKey(caveId))
+  if (!status) return null
+
+  if (status.state === 'downloading') {
+    const progress = status.total > 0 ? Math.round((status.done / status.total) * 100) : 0
+    return <CircularProgress variant="determinate" value={progress} size={16} thickness={5} aria-label={t('downloadingPercent', { progress })} />
+  }
+  const [Icon, label, color] = status.state === 'ready' ? [CloudDoneOutlined, t('caveAvailable'), 'success'] : status.state === 'incomplete' ? [CloudOffOutlined, t('caveIncompleteShort'), 'warning'] : [CloudOffOutlined, t('caveNotYet'), 'disabled']
+  return (
+    <Tooltip title={label}>
+      <Icon fontSize="small" color={color} aria-label={label} />
+    </Tooltip>
+  )
+}
+
+// Summary line under the section title.
+function OfflineSummary() {
+  const { t } = useTranslation('offline')
+  const summary = useSavedCavesOfflineSummary()
+  if (!summary) return null
+
+  const text =
+    summary.state === 'downloading'
+      ? t('downloadingCount', { done: summary.done, total: summary.total })
+      : summary.state === 'waiting'
+        ? navigator.onLine
+          ? t('waitingForWifi')
+          : t('waitingForConnection')
+        : summary.state === 'incomplete'
+          ? t('savedIncomplete')
+          : t('savedAvailable')
+  return (
+    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }} aria-live="polite">
+      {text}
+    </Typography>
+  )
+}
 
 // The account page's "Saved cenotes" section: every cave the user saved from
 // the result pane's Save quick action, most recently saved first.
@@ -32,6 +76,7 @@ export default function SavedCavesList() {
       <Typography component="h2" variant="h6" sx={{ mb: 1 }}>
         {t('title')}
       </Typography>
+      {offlineSupported && savedCaves.length > 0 && <OfflineSummary />}
       {loading ? (
         <Typography color="text.secondary">{t('loading')}</Typography>
       ) : savedCaves.length === 0 ? (
@@ -59,6 +104,11 @@ export default function SavedCavesList() {
                     <Bookmark sx={{ color: 'var(--oc-marker-saved-badge-color, #ffc107)' }} />
                   </ListItemIcon>
                   <ListItemText primary={caveName} secondary={sistemaName ? t('sistema', { name: sistemaName }) : undefined} />
+                  {offlineSupported && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', ml: 1, mr: 1 }}>
+                      <CaveOfflineIndicator caveId={cave.id} />
+                    </Box>
+                  )}
                 </ListItemButton>
               </ListItem>
             )

@@ -68,6 +68,20 @@
       "remove": "Retirer des sauvegardés",
       "removeNamed": "Retirer {{name}} des sauvegardés",
       "sistema": "Sistema {{name}}"
+    },
+    "offline": {
+      "title": "Utilisation hors ligne",
+      "measuring": "Calcul des données stockées…",
+      "used": "OpenCaves stocke {{size}} sur cet appareil.",
+      "persisted": "Protégé contre le nettoyage automatique du navigateur.",
+      "notPersisted": "Le navigateur peut supprimer ces données si l’appareil manque d’espace.",
+      "clear": "Effacer les données hors ligne",
+      "confirmTitle": "Effacer les données hors ligne ?",
+      "confirmText": "Les images, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé. Vos cénotes sauvegardés le restent et seront téléchargés à nouveau lors de votre prochaine connexion Wi-Fi.",
+      "confirmClear": "Effacer",
+      "cancel": "Annuler",
+      "cleared": "Données hors ligne effacées",
+      "clearError": "Impossible d’effacer les données hors ligne."
     }
   },
   "auth": {
@@ -227,7 +241,10 @@
       "notNow": "Plus tard",
       "logIn": "Se connecter",
       "signUp": "Créer un compte"
-    }
+    },
+    "savedDownloadWhenOnline": "Sauvegardé dans votre profil. Il sera téléchargé pour une utilisation hors ligne dès votre retour en ligne.",
+    "savedDownloadOnWifi": "Sauvegardé dans votre profil. Il sera téléchargé pour une utilisation hors ligne dès que vous serez en Wi-Fi.",
+    "downloadingOffline": "Téléchargement pour utilisation hors ligne : {{progress}} %"
   },
   "passwordInput": {
     "passwordIcon": {
@@ -847,5 +864,25 @@
     "deleteTitle": "Supprimer cet utilisateur?",
     "deleteConfirm": "{{email}} sera définitivement supprimé. Cette action est irréversible.",
     "cancel": "Annuler"
+  },
+  "offline": {
+    "caveReady": "Le cénote {{name}} est disponible hors ligne",
+    "caveIncomplete": "Le cénote {{name}} est sauvegardé, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
+    "previewsReady": "Les aperçus des cénotes et les cartes sont disponibles hors ligne",
+    "previewsIncomplete": "Certains aperçus ou cartes n’ont pas pu être téléchargés. Nouvel essai plus tard.",
+    "previewsLabel": "Rendre disponible hors ligne",
+    "previewsHint": "Aperçus des cénotes et cartes",
+    "waitingForWifi": "En attente du Wi-Fi",
+    "waitingForConnection": "En attente d’une connexion",
+    "downloadingCount": "Téléchargement pour utilisation hors ligne… {{done}} / {{total}}",
+    "downloadingPercent": "Téléchargement pour utilisation hors ligne : {{progress}} %",
+    "previewsIncompleteShort": "Certains fichiers n’ont pas pu être téléchargés",
+    "previewsAvailable_one": "{{count}} fichier disponible hors ligne",
+    "previewsAvailable_other": "{{count}} fichiers disponibles hors ligne",
+    "caveAvailable": "Disponible hors ligne",
+    "caveIncompleteShort": "Partiellement disponible hors ligne",
+    "caveNotYet": "Pas encore téléchargé",
+    "savedIncomplete": "Certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
+    "savedAvailable": "Tous les cénotes sauvegardés sont disponibles hors ligne"
   }
 }

@@ -79,14 +79,32 @@ registerRoute(
     cacheName: cacheName('images')
   })
 )
+// Files the app downloaded for offline use (saved cenotes' pictures and maps,
+// every cave's cover thumbnail - src/services/offline/offlineMedia.js; keep
+// these names in sync). Checked before the regular strategies, which would
+// otherwise only find files the user happened to view. ignoreVary: Storage
+// responses vary on Origin, which the app's own download request and a later
+// <img> request needn't match exactly.
+const OFFLINE_CACHES = ['oc-offline-saved-caves-v1', 'oc-offline-previews-v1']
+
+function preferOfflineCaches(strategy) {
+  return async (options) => {
+    for (const offlineCacheName of OFFLINE_CACHES) {
+      const cached = await caches.match(options.request.url, { cacheName: offlineCacheName, ignoreVary: true })
+      if (cached) return cached
+    }
+    return strategy.handle(options)
+  }
+}
+
 // Uploaded maps (images/PDFs), fetched through Firebase Storage download
 // URLs. (url.origin never has a trailing slash - comparing against one would
 // never match.)
 registerRoute(
   ({ url }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
-  new StaleWhileRevalidate({
+  preferOfflineCaches(new StaleWhileRevalidate({
     cacheName: cacheName('images')
-  })
+  }))
 )
 
 // Cave pictures and their resized thumbnails, served as public objects from
@@ -99,13 +117,13 @@ registerRoute(
 // served to a CORS request (which the browser would reject).
 registerRoute(
   ({ url }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/'),
-  new CacheFirst({
+  preferOfflineCaches(new CacheFirst({
     cacheName: cacheName('cave-images-cors'),
     plugins: [
       new CacheableResponsePlugin({ statuses: [0, 200] }),
       new ExpirationPlugin({ maxEntries: 3000, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
     ],
-  })
+  }))
 )
 
 registerRoute(

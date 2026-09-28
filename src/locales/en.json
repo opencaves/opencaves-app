@@ -68,6 +68,20 @@
       "remove": "Remove from saved",
       "removeNamed": "Remove {{name}} from saved",
       "sistema": "Sistema {{name}}"
+    },
+    "offline": {
+      "title": "Offline use",
+      "measuring": "Measuring stored data…",
+      "used": "OpenCaves stores {{size}} on this device.",
+      "persisted": "Protected from automatic cleanup by the browser.",
+      "notPersisted": "The browser may remove this data if the device runs low on space.",
+      "clear": "Clear offline data",
+      "confirmTitle": "Clear offline data?",
+      "confirmText": "Downloaded pictures, maps and map areas will be removed from this device, and “Make available offline” will be turned off. Your saved cenotes stay saved and will download again the next time you’re on Wi-Fi.",
+      "confirmClear": "Clear",
+      "cancel": "Cancel",
+      "cleared": "Offline data cleared",
+      "clearError": "Could not clear the offline data."
     }
   },
   "auth": {
@@ -228,7 +242,10 @@
       "notNow": "Not now",
       "logIn": "Log in",
       "signUp": "Create an account"
-    }
+    },
+    "savedDownloadWhenOnline": "Saved to your profile. It will download for offline use once you’re back online.",
+    "savedDownloadOnWifi": "Saved to your profile. It will download for offline use once you’re on Wi-Fi.",
+    "downloadingOffline": "Downloading for offline use: {{progress}}%"
   },
   "passwordInput": {
     "passwordIcon": {
@@ -849,5 +866,25 @@
     "deleteTitle": "Delete this user?",
     "deleteConfirm": "{{email}} will be permanently deleted. This cannot be undone.",
     "cancel": "Cancel"
+  },
+  "offline": {
+    "caveReady": "Cenote {{name}} is available offline",
+    "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
+    "previewsReady": "Cenote previews and maps are available offline",
+    "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
+    "previewsLabel": "Make available offline",
+    "previewsHint": "Cenote previews and maps",
+    "waitingForWifi": "Waiting for Wi-Fi",
+    "waitingForConnection": "Waiting for a connection",
+    "downloadingCount": "Downloading for offline use… {{done}} / {{total}}",
+    "downloadingPercent": "Downloading for offline use: {{progress}}%",
+    "previewsIncompleteShort": "Some files couldn’t be downloaded",
+    "previewsAvailable_one": "{{count}} file available offline",
+    "previewsAvailable_other": "{{count}} files available offline",
+    "caveAvailable": "Available offline",
+    "caveIncompleteShort": "Partly available offline",
+    "caveNotYet": "Not downloaded yet",
+    "savedIncomplete": "Some files couldn’t be downloaded. We’ll retry later.",
+    "savedAvailable": "All saved cenotes are available offline"
   }
 }
