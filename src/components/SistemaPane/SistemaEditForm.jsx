@@ -13,14 +13,15 @@ import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
+import CreatableTextField from '@/components/CreatableTextField.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
 
-function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamSearchPlaceholder, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
-  const [teamSearch, setTeamSearch] = useState('')
+function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
   }
@@ -49,39 +50,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel,
                 <PartialDateField size="small" label={dateLabel} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={6}>
-                <TextField
-                  select
-                  size="small"
-                  label={teamLabel}
-                  fullWidth
-                  value={exploration.team}
-                  onChange={(e) => updateAt(index, { team: e.target.value })}
-                  slotProps={{
-                    select: {
-                      MenuProps: {
-                        autoFocus: false,
-                        slotProps: { transition: { onExited: () => setTeamSearch('') } },
-                      },
-                    },
-                  }}
-                >
-                  <ListSubheader
-                    sx={{ px: 1.5, py: 0.5 }}
-                    onKeyDown={(event) => {
-                      if (event.key !== 'Escape') event.stopPropagation()
-                    }}
-                  >
-                    <TextField autoFocus size="small" fullWidth placeholder={teamSearchPlaceholder} value={teamSearch} onChange={(e) => setTeamSearch(e.target.value)} onClick={(e) => e.stopPropagation()} />
-                  </ListSubheader>
-                  <MenuItem value="">{teamLabel}</MenuItem>
-                  {teamOptions
-                    .filter((team) => !teamSearch.trim() || team.toLowerCase().includes(teamSearch.trim().toLowerCase()) || team === exploration.team)
-                    .map((team) => (
-                      <MenuItem key={team} value={team}>
-                        {team}
-                      </MenuItem>
-                    ))}
-                </TextField>
+                <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
@@ -119,11 +88,13 @@ const emptyForm = {
 
 // Shared by the standalone /sistemas/:sistemaId/edit page (SistemaEdit.jsx)
 // and the in-pane SistemaEditPane.jsx, so the two only differ in their
-// surrounding chrome. onDone is called after save/cancel/delete so each
+// surrounding chrome. onDone is called after cancel/delete so each
 // caller can decide where that goes (a hard navigate for the standalone
 // page, a slide-out-then-back for the pane).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const { t } = useTranslation('sistemaEditForm')
+  const { t: tApp } = useTranslation('app')
+  const [openSnackbar] = useSnackbar()
   const [sistemas, sistemasLoading] = SistemaModel.useAll()
   const [connections, connectionsLoading] = ConnectionModel.useAll()
   const [areas] = areasModel.useAll()
@@ -215,7 +186,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
 
       invalidateData()
       await getData()
-      onDone()
+      // Stays on the form after saving; only cancel/delete leave it.
+      setIsNew(false)
+      openSnackbar(tApp('snackbar.saved'))
     } finally {
       setSaving(false)
     }
@@ -352,7 +325,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')}teamLabel={t('explorationTeam')} teamSearchPlaceholder={t('teamSearchPlaceholder')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')}teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
         </Grid>
 
         <Grid size={12}>

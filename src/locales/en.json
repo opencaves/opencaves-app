@@ -32,6 +32,7 @@
       }
     },
     "snackbar": {
+      "saved": "Saved",
       "close": {
         "ariaLabel": "close"
       }
@@ -548,6 +549,9 @@
       "viewFormatted": "View formatted text"
     }
   },
+  "creatableTextField": {
+    "add": "Add \"{{value}}\""
+  },
   "newSourceDialog": {
     "title": "New source",
     "name": "Name",
@@ -574,7 +578,6 @@
     "removeExploration": "Remove exploration",
     "explorationDate": "Date",
     "explorationTeam": "Team",
-    "teamSearchPlaceholder": "Search teams",
     "explorationDescription": "Description",
     "explorationNotes": "Notes"
   },
@@ -721,7 +724,6 @@
     "noSource": "(none)",
     "connectionDate": "Date",
     "connectionReporter": "Reported by",
-    "addReporter": "Add \"{{name}}\"",
     "connectionNote": "Note(s)",
     "notesLabel": "Note(s)",
     "connectionNotFound": "Connection not found.",

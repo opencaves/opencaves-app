@@ -18,6 +18,7 @@ import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
 import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OCMap from '@/components/Map/Map.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -58,6 +59,8 @@ export default function CaveEdit() {
   const navigate = useNavigate()
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const { t: tApp } = useTranslation('app')
+  const [openSnackbar] = useSnackbar()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
@@ -214,7 +217,11 @@ export default function CaveEdit() {
 
       invalidateData()
       await getData()
-      navigate('/caves')
+      // Stays on the form after saving. The saved doc becomes the new
+      // baseline for the next save's nameTranslations diff.
+      setOriginalCave(await CaveModel.getById(caveId))
+      setIsNew(false)
+      openSnackbar(tApp('snackbar.saved'))
     } finally {
       setSaving(false)
     }

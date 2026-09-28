@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import pushId from 'unique-push-id'
 import { AddRounded, ArrowBackRounded } from '@mui/icons-material'
-import { Alert, Autocomplete, Box, Button, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography, createFilterOptions } from '@mui/material'
+import { Alert, Box, Button, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -13,10 +13,11 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 import NewSourceDialog from '@/components/NewSourceDialog.jsx'
+import CreatableTextField from '@/components/CreatableTextField.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
-const filterReporters = createFilterOptions()
 // Menu value for the "Add a source" entry; can't collide with a push id.
 const ADD_SOURCE = '__add-source__'
 
@@ -39,6 +40,8 @@ export default function ConnectionEdit() {
   const isNew = connectionId === 'new'
   const navigate = useNavigate()
   const { t } = useTranslation('dashboard')
+  const { t: tApp } = useTranslation('app')
+  const [openSnackbar] = useSnackbar()
   const { setTitle } = useTitle()
   const [connections, connectionsLoading, connectionsError] = ConnectionModel.useAll()
   const [sistemas] = SistemaModel.useAll()
@@ -98,7 +101,8 @@ export default function ConnectionEdit() {
     setSaving(true)
     setError(null)
     try {
-      await ConnectionModel.save(isNew ? pushId() : connectionId, {
+      const id = isNew ? pushId() : connectionId
+      await ConnectionModel.save(id, {
         sistemaId: form.sistemaId,
         parentSistemaId: form.parentSistemaId,
         source: form.source || deleteField(),
@@ -108,7 +112,11 @@ export default function ConnectionEdit() {
       })
       invalidateData()
       await getData()
-      navigate('/connections')
+      // Stays on the form after saving. A new connection only gets its id
+      // here, so the URL switches to it (replace, no new history entry) to
+      // make a second Save update it instead of creating another one.
+      if (isNew) navigate(`/connections/${id}/edit`, { replace: true })
+      openSnackbar(tApp('snackbar.saved'))
     } catch (cause) {
       console.error(cause)
       setError(t('connectionSaveError'))
@@ -292,31 +300,7 @@ export default function ConnectionEdit() {
             }}
           />
           <PartialDateField label={t('connectionDate')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
-          <Autocomplete
-            className="oc-connection-edit--reporter"
-            freeSolo
-            selectOnFocus
-            handleHomeEndKeys
-            options={reporterOptions}
-            value={form.reporter || null}
-            inputValue={form.reporter}
-            onInputChange={(event, value) => setForm((current) => ({ ...current, reporter: value }))}
-            onChange={(event, value) => setForm((current) => ({ ...current, reporter: typeof value === 'string' ? value : value?.inputValue || '' }))}
-            filterOptions={(options, params) => {
-              const filtered = filterReporters(options, params)
-              const input = params.inputValue.trim()
-              // Offer the typed name as an explicit "Add" entry when it's new.
-              if (input && !options.some((option) => option.toLowerCase() === input.toLowerCase())) filtered.push({ inputValue: input })
-              return filtered
-            }}
-            getOptionLabel={(option) => (typeof option === 'string' ? option : option.inputValue)}
-            renderOption={({ key, ...props }, option) => (
-              <li key={key} {...props}>
-                {typeof option === 'string' ? option : t('addReporter', { name: option.inputValue })}
-              </li>
-            )}
-            renderInput={(params) => <TextField {...params} label={t('connectionReporter')} />}
-          />
+          <CreatableTextField className="oc-connection-edit--reporter" label={t('connectionReporter')} options={reporterOptions} value={form.reporter} onChange={(reporter) => setForm((current) => ({ ...current, reporter }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>

@@ -32,6 +32,7 @@
       }
     },
     "snackbar": {
+      "saved": "Enregistré",
       "close": {
         "ariaLabel": "fermer"
       }
@@ -546,6 +547,9 @@
       "viewFormatted": "Voir le texte formaté"
     }
   },
+  "creatableTextField": {
+    "add": "Ajouter « {{value}} »"
+  },
   "newSourceDialog": {
     "title": "Nouvelle source",
     "name": "Nom",
@@ -572,7 +576,6 @@
     "removeExploration": "Supprimer cette exploration",
     "explorationDate": "Date",
     "explorationTeam": "Équipe",
-    "teamSearchPlaceholder": "Rechercher des équipes",
     "explorationDescription": "Description",
     "explorationNotes": "Notes"
   },
@@ -719,7 +722,6 @@
     "noSource": "(aucune)",
     "connectionDate": "Date",
     "connectionReporter": "Signalée par",
-    "addReporter": "Ajouter « {{name}} »",
     "connectionNote": "Note(s)",
     "notesLabel": "Note(s)",
     "connectionNotFound": "Connexion introuvable.",

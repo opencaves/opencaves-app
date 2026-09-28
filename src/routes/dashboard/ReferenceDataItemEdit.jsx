@@ -11,6 +11,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
@@ -23,6 +24,8 @@ export default function ReferenceDataItemEdit() {
   const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('dashboard')
+  const { t: tApp } = useTranslation('app')
+  const [openSnackbar] = useSnackbar()
   const navigate = useNavigate()
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
@@ -96,7 +99,13 @@ export default function ReferenceDataItemEdit() {
       await model.save(id, fields)
       invalidateData()
       await getData()
-      goBack()
+      // Stays on the form after saving. A new item only gets its id here, so
+      // the URL switches to it (replace, no new history entry), which also
+      // reloads it; an existing item just refreshes the baseline its
+      // descriptions are merged against.
+      if (isNew) navigate(`/${collectionName}/${id}/edit`, { replace: true })
+      else setItem((current) => ({ ...current, ...fields }))
+      openSnackbar(tApp('snackbar.saved'))
     } finally {
       setSaving(false)
     }
