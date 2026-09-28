@@ -11,6 +11,8 @@ import EditMapDialog from '@/components/MapsPicker/EditMapDialog.jsx'
 import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
+import ConnectionModel from '@/models/ConnectionModel.js'
+import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
 import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
 import { assetsListConfig } from '@/config/resultPane.js'
@@ -54,14 +56,17 @@ function MapPreview({ caveId, map, index, returnTo }) {
 }
 
 // Maps belong to a sistema (shared by every cave in it), not to an individual
-// cave - this tab is a view onto `sistemaId`'s sistema.maps, read and written
-// directly (not staged in the cave's own edit form) since it isn't this
-// cave's own data.
+// cave - this tab is a view onto `sistemaId`'s sistema.maps plus its ancestor
+// sistemas' maps, read and written directly (not staged in the cave's own
+// edit form) since it isn't this cave's own data. New maps are added to the
+// cave's own sistema; inherited ones can only be removed from their own
+// sistema, since removing them here would affect every sibling cave.
 export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [sistemas] = SistemaModel.useAll()
   const sistema = sistemas.find((s) => s.id === sistemaId)
+  const [connections] = ConnectionModel.useAll()
   const [mapFiles] = mapsModel.useAll()
   const scrollbarsRef = useRef()
   const fileInputRef = useRef()
@@ -70,9 +75,9 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const [editingMap, setEditingMap] = useState(null)
   const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
   const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
-  const selectedMaps = mapValues.map((value) => {
+  const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id: value, sistemaId: ownerId }) => {
     const file = mapFiles.find((map) => map.id === value)
-    return { value, file, url: file?.url || value }
+    return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
   })
   const mapWidth = assetsListConfig.height * assetsListConfig.widthRatio
   const mapHeight = assetsListConfig.height
@@ -93,7 +98,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
 
     container.addEventListener('wheel', onWheel, { passive: false })
     return () => container.removeEventListener('wheel', onWheel)
-  }, [mapValues.length])
+  }, [selectedMaps.length])
 
   async function saveMaps(nextMaps) {
     await SistemaModel.save(sistemaId, { maps: nextMaps })
@@ -132,8 +137,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     setPendingDetails(emptyPendingDetails)
   }
 
-  async function removeMap(index) {
-    await saveMaps(mapValues.filter((_, mapIndex) => mapIndex !== index))
+  async function removeMap(value) {
+    await saveMaps(mapValues.filter((mapValue) => mapValue !== value))
   }
 
   return (
@@ -155,8 +160,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                       ariaLabel={t('mapOptions')}
                       actions={[
                         { label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => setEditingMap(map.file) },
-                        { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(index), danger: true },
-                      ]}
+                        !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true },
+                      ].filter(Boolean)}
                     />
                   )}
                 </Box>
@@ -167,7 +172,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       )}
       {(canAdd || onAddUnauthorized) && (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: mapValues.length > 0 ? 2 : 0 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: selectedMaps.length > 0 ? 2 : 0 }}>
             <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())}>
               {t('addMap')}
             </Button>

@@ -64,9 +64,11 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
     }
   }
 
+  // `maps` also holds ancestor sistemas' maps (tagged with their own
+  // sistemaId), so only the cave's own sistema's maps are written back.
   async function handleDelete(map) {
     const remaining = maps.filter((m) => m.id !== map.id)
-    await SistemaModel.save(sistemaId, { maps: remaining.map((m) => m.id) })
+    await SistemaModel.save(sistemaId, { maps: remaining.filter((m) => m.sistemaId === sistemaId).map((m) => m.id) })
     if (remaining.length === 0) {
       navigate(returnTo, { replace: true })
     } else {
@@ -76,7 +78,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
 
   function Menu({ augment }) {
     augment(({ toolbar, ...rest }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => setEditingMap(currentMap)} onDelete={handleDelete} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => setEditingMap(currentMap)} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} />),
       ...rest,
     }))
   }

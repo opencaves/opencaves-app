@@ -5,7 +5,8 @@ import { DeleteOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material
 
 // Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
 // injected into the Lightbox with the same edit/delete actions already
-// available from the Maps tab's own three-dot menu.
+// available from the Maps tab's own three-dot menu. Omitting `onDelete` (for
+// a map inherited from an ancestor sistema) hides the remove action.
 export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [anchorEl, setAnchorEl] = useState(null)
@@ -46,18 +47,20 @@ export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
           </ListItemIcon>
           <ListItemText>{t('editMap')}</ListItemText>
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose()
-            onDelete(map)
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <ListItemIcon sx={{ color: 'error.main' }}>
-            <DeleteOutlineRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('removeMap')}</ListItemText>
-        </MenuItem>
+        {onDelete && (
+          <MenuItem
+            onClick={() => {
+              handleClose()
+              onDelete(map)
+            }}
+            sx={{ color: 'error.main' }}
+          >
+            <ListItemIcon sx={{ color: 'error.main' }}>
+              <DeleteOutlineRounded fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('removeMap')}</ListItemText>
+          </MenuItem>
+        )}
       </Menu>
     </>
   )

@@ -6,6 +6,8 @@ import { Box, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemTe
 import { ArrowBackRounded, ArrowForwardRounded, DescriptionRounded, MapOutlined } from '@mui/icons-material'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
+import ConnectionModel from '@/models/ConnectionModel.js'
+import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import MapPaneDetails from './MapPaneDetails.jsx'
 import usePaneWidth from '@/hooks/usePaneWidth.jsx'
@@ -23,10 +25,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export async function mapPaneLoader({ params }) {
   const cave = await CaveModel.getById(params.caveId)
-  const sistema = cave?.sistemaId ? await SistemaModel.getById(cave.sistemaId) : null
-  const mapIds = Array.isArray(sistema?.maps) ? sistema.maps : []
-  const maps = (await Promise.all(mapIds.map((id) => mapsModel.getById(id)))).filter(Boolean)
-  return { sistemaId: cave?.sistemaId || null, maps }
+  const sistemaId = cave?.sistemaId || null
+  const [sistemas, connections] = sistemaId ? await Promise.all([SistemaModel.getAll(), ConnectionModel.getAll()]) : [[], []]
+  const mapRefs = getSistemaMapRefs(sistemaId, sistemas, connections)
+  const maps = (await Promise.all(mapRefs.map(({ id }) => mapsModel.getById(id)))).filter(Boolean)
+  return { sistemaId, mapRefs, maps }
 }
 
 // Clicking a map opens this - the same drawer + big-viewer structure as
@@ -46,11 +49,18 @@ export default function MapPane() {
   const initial = useLoaderData()
   const returnTo = location.state?.from || `/map/${caveId}`
   const [sistemas] = SistemaModel.useAll()
+  const [connections, connectionsLoading] = ConnectionModel.useAll()
   const [mapFiles] = mapsModel.useAll()
   const sistemaId = initial.sistemaId
-  const liveSistema = sistemas.find((s) => s.id === sistemaId)
-  const mapIds = liveSistema ? (Array.isArray(liveSistema.maps) ? liveSistema.maps : []) : initial.maps.map((m) => m.id)
-  const maps = mapIds.map((id) => mapFiles.find((m) => m.id === id) || initial.maps.find((m) => m.id === id)).filter(Boolean)
+  // Falls back to the loader's snapshot until the live listeners have data.
+  const live = sistemas.length > 0 && !connectionsLoading
+  const mapRefs = live ? getSistemaMapRefs(sistemaId, sistemas, connections) : initial.mapRefs
+  const maps = mapRefs
+    .map(({ id, sistemaId: ownerId }) => {
+      const map = mapFiles.find((m) => m.id === id) || initial.maps.find((m) => m.id === id)
+      return map && { ...map, sistemaId: ownerId }
+    })
+    .filter(Boolean)
 
   useEffect(() => {
     if (maps.length === 0) {
