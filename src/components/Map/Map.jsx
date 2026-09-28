@@ -709,7 +709,12 @@ export default function OCMap() {
                     longitude={cave.location.longitude}
                     latitude={cave.location.latitude}
                     anchor="center"
-                    className={isCurrentCave ? 'active' : undefined}
+                    // Not 'active': react-map-gl updates this class by toggling
+                    // it, assuming it's still there from the last render, while
+                    // setActiveMarkerElem adds/removes 'active' itself. Sharing
+                    // the name let the toggle re-add 'active' to the previous
+                    // pin after it had already shrunk, leaving it large.
+                    className={isCurrentCave ? 'oc-map--current-marker' : undefined}
                     onClick={(event) => onMarkerClick(event, cave)}
                     draggable={isDraggableCurrentCave}
                     onDragStart={isDraggableCurrentCave ? () => setIsDraggingCurrentMarker(true) : undefined}
