@@ -91,16 +91,19 @@ registerRoute(
 
 // Cave pictures and their resized thumbnails, served as public objects from
 // the bucket (CaveAsset.js). Each URL's content never changes (uploaded with
-// an immutable Cache-Control), so cache-first is safe. Loaded by plain
-// <img> tags, so responses can be opaque (status 0) - allowed explicitly,
-// and capped since opaque entries count heavily against storage quota.
+// an immutable Cache-Control), so cache-first is safe. The app loads them in
+// CORS mode (crossOrigin="anonymous", bucket CORS in storage.cors.json), so
+// entries count against quota at their real size. Opaque (status 0)
+// responses are still accepted for any <img> without crossOrigin. The cache
+// name changed when CORS mode came in, so no earlier opaque entry is ever
+// served to a CORS request (which the browser would reject).
 registerRoute(
   ({ url }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/'),
   new CacheFirst({
-    cacheName: cacheName('cave-images'),
+    cacheName: cacheName('cave-images-cors'),
     plugins: [
       new CacheableResponsePlugin({ statuses: [0, 200] }),
-      new ExpirationPlugin({ maxEntries: 300, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
+      new ExpirationPlugin({ maxEntries: 3000, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
     ],
   })
 )
@@ -140,6 +143,12 @@ registerRoute(
     cacheName: cacheName('vendors')
   })
 )
+
+// Drop the pre-CORS picture cache (opaque entries, replaced by
+// cave-images-cors above).
+self.addEventListener('activate', (event) => {
+  event.waitUntil(caches.delete(cacheName('cave-images')))
+})
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})

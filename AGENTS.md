@@ -29,6 +29,7 @@ Add short comments where they clarify non-obvious behavior, constraints, or reas
 - `npm run build` — production build
 - `node scripts/migrate-sheet-to-firestore.js` — seed/sync Firestore from the Google Sheet against the local emulator (`127.0.0.1:8080` by default, overridable via `FIRESTORE_EMULATOR_HOST`); add `-p`/`--production` to run against the real project (requires `gcloud auth application-default login` first)
 - `firebase deploy` — deploys everything; scope with `--only hosting`, `--only functions`, or `--only functions:js:<name>` for a single function
+- `gcloud storage buckets update gs://opencaves.appspot.com --cors-file=storage.cors.json` — applies the Storage bucket's CORS config, which `firebase deploy` does **not** carry. The app loads bucket images with `crossOrigin="anonymous"` (so the service worker caches them at real size instead of as opaque responses), so without this CORS config those images fail to load entirely.
 - No test suite currently exists in this repo.
 
 ## Commit messages

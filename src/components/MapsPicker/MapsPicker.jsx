@@ -24,7 +24,7 @@ function MapThumbnail({ map, size }) {
     )
   }
   return (
-    <Avatar variant="rounded" src={map.previewUrl || map.url} sx={sx}>
+    <Avatar variant="rounded" src={map.previewUrl || map.url} slotProps={{ img: { crossOrigin: 'anonymous' } }} sx={sx}>
       <ImageRounded fontSize="small" />
     </Avatar>
   )
@@ -104,7 +104,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
               <CloseRounded fontSize="small" />
             </IconButton>
             <CardActionArea component="a" href={m.previewUrl || m.url} target="_blank" rel="noopener noreferrer">
-              <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.previewUrl || m.url} alt={m.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>
+              <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.previewUrl || m.url} alt={m.name} crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>
               <Typography variant="body2" noWrap sx={{ display: 'block', px: 1, py: 0.75 }}>
                 {m.name}
               </Typography>

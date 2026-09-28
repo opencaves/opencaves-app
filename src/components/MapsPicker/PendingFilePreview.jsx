@@ -223,6 +223,7 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
           component="img"
           src={previewUrl}
           alt=""
+          crossOrigin="anonymous"
           draggable={false}
           sx={{
             width: '100%',

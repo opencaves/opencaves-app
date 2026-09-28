@@ -144,7 +144,9 @@ export default function MediaPaneDetails({ mediaId, medias }) {
           padding: 0,
           spacing: 0,
           imageFit: 'contain',
-          finite: true
+          finite: true,
+          // CORS mode, matching <Picture> (see storage.cors.json).
+          imageProps: { crossOrigin: 'anonymous' }
         }}
         inline={{
           style: {

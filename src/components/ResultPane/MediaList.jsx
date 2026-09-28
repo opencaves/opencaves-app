@@ -241,8 +241,9 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
 
   // const assetUrl = getImageAssetUrl(asset.fullPath, { width: length, height: length })
   const assetUrl = media.url
+  // Preloaded in CORS mode like <Picture> itself, so both share one request.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { src, status, error } = useImage(assetUrl)
+  const { src, status, error } = useImage(assetUrl, 'anonymous')
 
   return status === 'loading' ? (
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />

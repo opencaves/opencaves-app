@@ -14,6 +14,7 @@ import { Scrollbars } from 'react-custom-scrollbars-3'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import './QuickActions.scss'
 
@@ -159,6 +160,10 @@ export default function QuickActions({ cave }) {
       return
     }
 
+    // Saving a cenote signals intent to rely on the app offline.
+    if (!saved) {
+      requestPersistentStorage()
+    }
     const write = saved ? unsaveCave(cave.id) : saveCave(cave.id)
     openSnackbar(saved ? t('unsavedMessage') : t('savedMessage'))
     write.catch((error) => {

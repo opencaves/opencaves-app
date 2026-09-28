@@ -108,7 +108,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
           ],
         }}
         plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom].filter(Boolean)}
-        carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true }}
+        carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
         styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}
         zoom={{ maxZoomPixelRatio: 5, doubleTapDelay: 300, doubleClickDelay: 300 }}

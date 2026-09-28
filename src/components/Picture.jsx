@@ -20,12 +20,15 @@ export default function Picture({ sources, ...props }) {
   }
 
   function renderImage(skipSizes = false) {
-    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, ...rest } = props
+    // crossOrigin: cave pictures come from the Storage bucket (CORS-enabled,
+    // see storage.cors.json), and a CORS response is cached by the service
+    // worker at its real size instead of as a quota-heavy opaque response.
+    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, crossOrigin = 'anonymous', ...rest } = props
 
     // Adds sizes props if sources isn't defined
     const sizesProp = skipSizes ? null : { sizes }
 
-    return <img alt={alt} srcSet={src} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
+    return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
   }
 
   useEffect(() => {

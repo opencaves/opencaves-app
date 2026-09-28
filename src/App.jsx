@@ -7,6 +7,7 @@ import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
 import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import { subscribeToData } from '@/services/data-service.jsx'
+import { isInstalledApp, requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
 import TitleBar from '@/components/App/TitleBar.jsx'
 import ManageAppUpdate from '@/components/App/ManageAppUpdate.jsx'
@@ -45,6 +46,12 @@ const App = () => {
       },
     )
   }, [dispatch])
+
+  useEffect(() => {
+    if (isInstalledApp()) {
+      requestPersistentStorage()
+    }
+  }, [])
 
   return (
     <Fragment>
