@@ -62,6 +62,9 @@ export default function ReferenceDataItemEdit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collectionName, itemId])
 
+  // Falls back to the raw field key for fields without a translated label yet.
+  const fieldLabel = (field) => t(`fieldLabels.${field}`, { defaultValue: field })
+
   function goBack() {
     // Replace, not push: otherwise the edit URL stays in history as its own
     // entry, and the browser Back button from the list (after Cancel/Save)
@@ -116,12 +119,12 @@ export default function ReferenceDataItemEdit() {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
           {config.fields.map((field) => {
             if (field === 'description') {
-              return <MarkdownField key={field} label={field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} resizable />
+              return <MarkdownField key={field} label={fieldLabel(field)} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} resizable />
             }
             if ((collectionName === 'colors' && field === 'hex') || field === 'color') {
               return <ColorPicker key={field} label={t('color', { defaultValue: 'Color' })} value={form[field]} onChange={(hex) => setForm((f) => ({ ...f, [field]: hex }))} saveOnAdd={false} />
             }
-            return <TextField key={field} label={field === 'note' ? t('notesLabel') : field} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={!isNew && field === config.id.from} multiline={field === 'note'} minRows={field === 'note' ? 2 : undefined} sx={field === 'note' ? { '& textarea': { resize: 'vertical' } } : undefined} />
+            return <TextField key={field} label={field === 'note' ? t('notesLabel') : fieldLabel(field)} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} disabled={!isNew && field === config.id.from} multiline={field === 'note'} minRows={field === 'note' ? 2 : undefined} sx={field === 'note' ? { '& textarea': { resize: 'vertical' } } : undefined} />
           })}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button onClick={goBack} disabled={saving}>

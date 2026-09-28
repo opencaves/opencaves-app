@@ -723,6 +723,10 @@
     "save": "Enregistrer",
     "loading": "Chargement…",
     "color": "Couleur",
+    "fieldLabels": {
+      "name": "Nom",
+      "description": "Description"
+    },
     "usersSection": "Utilisateurs",
     "manageUsers": "Gérer les utilisateurs",
     "noSections": "Vous n'avez encore accès à aucune section du tableau de bord."

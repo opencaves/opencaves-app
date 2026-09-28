@@ -725,6 +725,10 @@
     "save": "Guardar",
     "loading": "Cargando…",
     "color": "Color",
+    "fieldLabels": {
+      "name": "Nombre",
+      "description": "Descripción"
+    },
     "usersSection": "Usuarios",
     "manageUsers": "Administrar usuarios",
     "noSections": "Aún no tienes acceso a ninguna sección del panel."

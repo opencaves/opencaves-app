@@ -725,6 +725,10 @@
     "save": "Save",
     "loading": "Loading…",
     "color": "Color",
+    "fieldLabels": {
+      "name": "Name",
+      "description": "Description"
+    },
     "usersSection": "Users",
     "manageUsers": "Manage users",
     "noSections": "You don't have access to any dashboard sections yet."
