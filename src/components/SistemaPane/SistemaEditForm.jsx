@@ -21,6 +21,27 @@ const sourcesModel = createCollectionModel('sources')
 
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
 
+function parseLocalizedNumber(value, locale) {
+  if (value === '' || value === null || typeof value === 'undefined') return null
+
+  const parts = new Intl.NumberFormat(locale).formatToParts(12345.6)
+  const groupSeparator = parts.find((part) => part.type === 'group')?.value
+  const decimalSeparator = parts.find((part) => part.type === 'decimal')?.value || '.'
+  let normalized = String(value).trim()
+
+  if (groupSeparator) normalized = normalized.split(groupSeparator).join('')
+  normalized = normalized.replace(/[\s\u00a0\u202f]/g, '')
+  if (decimalSeparator !== '.') normalized = normalized.replace(decimalSeparator, '.')
+
+  const number = Number(normalized)
+  return normalized && Number.isFinite(number) ? number : null
+}
+
+function formatLocalizedNumber(value, locale) {
+  const number = parseLocalizedNumber(value, locale)
+  return number === null ? String(value ?? '') : new Intl.NumberFormat(locale, { maximumFractionDigits: 20 }).format(number)
+}
+
 function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
@@ -92,7 +113,8 @@ const emptyForm = {
 // caller can decide where that goes (a hard navigate for the standalone
 // page, a slide-out-then-back for the pane).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
-  const { t } = useTranslation('sistemaEditForm')
+  const { t, i18n } = useTranslation('sistemaEditForm')
+  const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
   const [sistemas, sistemasLoading] = SistemaModel.useAll()
@@ -113,6 +135,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
+  const [focusedNumberField, setFocusedNumberField] = useState(null)
   const [parentSearch, setParentSearch] = useState('')
   const parentSearchInputRef = useRef(null)
 
@@ -157,6 +180,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   }
 
   async function handleSave() {
+    const length = form.length === '' ? null : parseLocalizedNumber(form.length, locale)
+    const maxDepth = form.maxDepth === '' ? null : parseLocalizedNumber(form.maxDepth, locale)
+    if ((form.length !== '' && length === null) || (form.maxDepth !== '' && maxDepth === null)) return
+
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
@@ -168,8 +195,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         area: form.area || undefined,
         description: form.description || undefined,
         direction: form.direction || undefined,
-        length: form.length === '' ? undefined : Number(form.length),
-        maxDepth: form.maxDepth === '' ? undefined : Number(form.maxDepth),
+        length: form.length === '' ? undefined : length,
+        maxDepth: form.maxDepth === '' ? undefined : maxDepth,
         source: form.source || undefined,
         explorations: trimmedExplorations.length > 0 ? trimmedExplorations : undefined,
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
@@ -214,6 +241,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery)) : otherSistemas
   const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
+  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
 
   return (
     <Box className="oc-sistema-edit-form">
@@ -305,11 +333,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
           <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
         </Grid>
 
-        <Grid size={4}>
-          <TextField label={t('length')} type="number" fullWidth {...field('length')} />
+        <Grid size={6}>
+          <TextField label={t('length')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
-        <Grid size={4}>
-          <TextField label={t('maxDepth')} type="number" fullWidth {...field('maxDepth')} />
+        <Grid size={6}>
+          <TextField label={t('maxDepth')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
         <Grid size={12}>
@@ -342,7 +370,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         <Button onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
           {t('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || hasInvalidExplorationDate} sx={{ minWidth: 88 }}>
+        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || hasInvalidExplorationDate || hasInvalidMeasurement} sx={{ minWidth: 88 }}>
           {t('save')}
         </Button>
       </Box>

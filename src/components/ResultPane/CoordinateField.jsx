@@ -146,7 +146,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   // is "-180.00000": narrow fields, without the number spinners (useless
   // here, and they'd cover digits in a field this narrow).
   const coordinateInputSx = {
-    width: 112,
+    width: 104,
     '& input[type=number]': { MozAppearance: 'textfield' },
     '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
   }
@@ -219,11 +219,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
             <Grid size="auto">
               <Tooltip title={t('dragPinToMap')}>
                 <IconButton size="small" draggable onDragStart={onPinDragStart} sx={{ cursor: 'grab' }}>
-                  {FIELD_BADGE_ICONS[field] ? (
-                    <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} />
-                  ) : (
-                    <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
-                  )}
+                  {FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />}
                 </IconButton>
               </Tooltip>
             </Grid>
