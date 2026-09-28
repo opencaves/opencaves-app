@@ -703,6 +703,7 @@
     "noSource": "(aucune)",
     "connectionDate": "Date",
     "connectionReporter": "Signalée par",
+    "addReporter": "Ajouter « {{name}} »",
     "connectionNote": "Note(s)",
     "notesLabel": "Note(s)",
     "connectionNotFound": "Connexion introuvable.",

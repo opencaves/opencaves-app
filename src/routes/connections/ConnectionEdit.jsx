@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import pushId from 'unique-push-id'
 import { ArrowBackRounded } from '@mui/icons-material'
-import { Alert, Box, Button, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Autocomplete, Box, Button, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography, createFilterOptions } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -15,6 +15,7 @@ import PartialDateField, { isValidPartialDate } from '@/components/PartialDateFi
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
+const filterReporters = createFilterOptions()
 
 function SistemaColor({ color }) {
   return <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', flexShrink: 0 }} />
@@ -114,6 +115,8 @@ export default function ConnectionEdit() {
 
   const childSistema = sistemas.find((sistema) => sistema.id === form?.sistemaId)
   const childName = childSistema?.name || form?.sistemaId || ''
+  // Every distinct reporter already used on a connection, for the dropdown.
+  const reporterOptions = useMemo(() => [...new Set(connections.map((item) => item.reporter?.trim()).filter(Boolean))].sort((first, second) => first.localeCompare(second)), [connections])
   const areaNames = useMemo(() => new Map(areas.map((area) => [area.id, area.name])), [areas])
   const getAreaName = (sistema) => (sistema?.area ? areaNames.get(sistema.area) || sistema.area : null)
   const parentGroups = useMemo(() => {
@@ -262,7 +265,31 @@ export default function ConnectionEdit() {
             ))}
           </TextField>
           <PartialDateField label={t('connectionDate')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
-          <TextField label={t('connectionReporter')} fullWidth {...field('reporter')} />
+          <Autocomplete
+            className="oc-connection-edit--reporter"
+            freeSolo
+            selectOnFocus
+            handleHomeEndKeys
+            options={reporterOptions}
+            value={form.reporter || null}
+            inputValue={form.reporter}
+            onInputChange={(event, value) => setForm((current) => ({ ...current, reporter: value }))}
+            onChange={(event, value) => setForm((current) => ({ ...current, reporter: typeof value === 'string' ? value : value?.inputValue || '' }))}
+            filterOptions={(options, params) => {
+              const filtered = filterReporters(options, params)
+              const input = params.inputValue.trim()
+              // Offer the typed name as an explicit "Add" entry when it's new.
+              if (input && !options.some((option) => option.toLowerCase() === input.toLowerCase())) filtered.push({ inputValue: input })
+              return filtered
+            }}
+            getOptionLabel={(option) => (typeof option === 'string' ? option : option.inputValue)}
+            renderOption={({ key, ...props }, option) => (
+              <li key={key} {...props}>
+                {typeof option === 'string' ? option : t('addReporter', { name: option.inputValue })}
+              </li>
+            )}
+            renderInput={(params) => <TextField {...params} label={t('connectionReporter')} />}
+          />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>

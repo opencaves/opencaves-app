@@ -705,6 +705,7 @@
     "noSource": "(none)",
     "connectionDate": "Date",
     "connectionReporter": "Reported by",
+    "addReporter": "Add \"{{name}}\"",
     "connectionNote": "Note(s)",
     "notesLabel": "Note(s)",
     "connectionNotFound": "Connection not found.",
