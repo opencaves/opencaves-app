@@ -4,19 +4,30 @@ import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import pushId from 'unique-push-id'
 import { ArrowBackRounded } from '@mui/icons-material'
-import { Alert, Box, Button, IconButton, InputAdornment, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, Button, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
 
 function SistemaColor({ color }) {
   return <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', flexShrink: 0 }} />
+}
+
+// Muted secondary label so the area reads as context, not part of the name.
+function SistemaArea({ name }) {
+  if (!name) return null
+  return (
+    <Typography component="span" variant="body2" className="oc-connection-edit--area" sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}>
+      {name}
+    </Typography>
+  )
 }
 
 export default function ConnectionEdit() {
@@ -103,8 +114,9 @@ export default function ConnectionEdit() {
 
   const childSistema = sistemas.find((sistema) => sistema.id === form?.sistemaId)
   const childName = childSistema?.name || form?.sistemaId || ''
+  const areaNames = useMemo(() => new Map(areas.map((area) => [area.id, area.name])), [areas])
+  const getAreaName = (sistema) => (sistema?.area ? areaNames.get(sistema.area) || sistema.area : null)
   const parentGroups = useMemo(() => {
-    const areaNames = new Map(areas.map((area) => [area.id, area.name]))
     const groups = new Map()
     const term = parentSearch.trim().toLowerCase()
     sistemas
@@ -119,7 +131,7 @@ export default function ConnectionEdit() {
         groups.get(areaName).push(sistema)
       })
     return [...groups.entries()].sort(([first], [second]) => (first === null ? 1 : second === null ? -1 : first.localeCompare(second))).map(([areaName, group]) => [areaName, group.sort((first, second) => (first.name || first.id).localeCompare(second.name || second.id))])
-  }, [areas, sistemas, form?.sistemaId, form?.parentSistemaId, parentSearch, t])
+  }, [areaNames, sistemas, form?.sistemaId, form?.parentSistemaId, parentSearch, t])
 
   return (
     <div className="oc-connection-edit">
@@ -159,21 +171,29 @@ export default function ConnectionEdit() {
                 ))}
             </TextField>
           ) : (
+            // A read-only select rather than a plain text field, so the value
+            // renders exactly like the parent field (color, name, area inline).
             <TextField
+              select
               label={t('childSistema')}
-              value={childName}
+              value={form.sistemaId}
               fullWidth
               slotProps={{
-                input: {
+                select: {
                   readOnly: true,
-                  startAdornment: (
-                    <InputAdornment position="start">
+                  IconComponent: () => null,
+                  renderValue: () => (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <SistemaColor color={childSistema?.color} />
-                    </InputAdornment>
+                      {childName}
+                      <SistemaArea name={getAreaName(childSistema)} />
+                    </Box>
                   ),
                 },
               }}
-            />
+            >
+              <MenuItem value={form.sistemaId}>{childName}</MenuItem>
+            </TextField>
           )}
           <TextField
             select
@@ -193,6 +213,7 @@ export default function ConnectionEdit() {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <SistemaColor color={parent?.color} />
                       {parent?.name || value}
+                      <SistemaArea name={getAreaName(parent)} />
                     </Box>
                   )
                 },
@@ -240,14 +261,14 @@ export default function ConnectionEdit() {
               </MenuItem>
             ))}
           </TextField>
-          <TextField label={t('connectionDate')} fullWidth {...field('connectionDate')} />
+          <PartialDateField label={t('connectionDate')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
           <TextField label={t('connectionReporter')} fullWidth {...field('reporter')} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>
               {t('cancel')}
             </Button>
-            <Button variant="contained" onClick={handleSave} disabled={saving || !form.sistemaId || !form.parentSistemaId}>
+            <Button variant="contained" onClick={handleSave} disabled={saving || !form.sistemaId || !form.parentSistemaId || !isValidPartialDate(form.connectionDate, { allowRange: false })}>
               {t('save')}
             </Button>
           </Box>

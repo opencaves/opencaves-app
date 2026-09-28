@@ -542,6 +542,12 @@
       "viewFormatted": "Ver el texto formateado"
     }
   },
+  "partialDateField": {
+    "formats": "AAAA, AAAA-MM o AAAA-MM-DD",
+    "formatsWithRange": "AAAA, AAAA-AAAA, AAAA-MM o AAAA-MM-DD",
+    "hint": "Formato: {{formats}}",
+    "invalid": "Use {{formats}}"
+  },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Buscar",
     "length": "Distancia explorada (m)",
@@ -552,8 +558,6 @@
     "addExploration": "Añadir información de exploración",
     "removeExploration": "Eliminar esta exploración",
     "explorationDate": "Fecha",
-    "explorationDatePlaceholder": "AAAA, AAAA-AAAA, AAAA-MM o AAAA-MM-DD",
-    "explorationDateInvalid": "Use AAAA, AAAA-AAAA, AAAA-MM o AAAA-MM-DD",
     "explorationTeam": "Equipo",
     "teamSearchPlaceholder": "Buscar equipos",
     "explorationDescription": "Descripción",

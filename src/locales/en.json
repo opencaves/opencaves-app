@@ -542,6 +542,12 @@
       "viewFormatted": "View formatted text"
     }
   },
+  "partialDateField": {
+    "formats": "YYYY, YYYY-MM, or YYYY-MM-DD",
+    "formatsWithRange": "YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
+    "hint": "Format: {{formats}}",
+    "invalid": "Use {{formats}}"
+  },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Search",
     "length": "Total distance explored (m)",
@@ -552,8 +558,6 @@
     "addExploration": "Add exploration info",
     "removeExploration": "Remove exploration",
     "explorationDate": "Date",
-    "explorationDatePlaceholder": "YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
-    "explorationDateInvalid": "Use YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
     "explorationTeam": "Team",
     "teamSearchPlaceholder": "Search teams",
     "explorationDescription": "Description",

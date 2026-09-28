@@ -12,19 +12,14 @@ import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
+import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
 
-// Exploration dates only need to be as precise as what's actually known -
-// a year, a year range, a year and month, or a full day - so this is a plain text field
-// rather than a date picker (which forces day-level precision and can't
-// represent "2019" or "2019-06" on their own).
-const PARTIAL_DATE_PATTERN = /^\d{4}(-(\d{2}(-\d{2})?|\d{4}))?$/
-
-function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceholder, dateInvalidHint, teamLabel, teamSearchPlaceholder, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
+function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamSearchPlaceholder, teamOptions, descriptionLabel, notesLabel, values, onChange }) {
   const [teamSearch, setTeamSearch] = useState('')
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
@@ -51,7 +46,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, datePlaceh
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
               <Grid size={6}>
-                <TextField size="small" label={dateLabel} placeholder={datePlaceholder} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} error={!!exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date)} helperText={exploration.date && !PARTIAL_DATE_PATTERN.test(exploration.date) ? dateInvalidHint : undefined} />
+                <PartialDateField size="small" label={dateLabel} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={6}>
                 <TextField
@@ -245,7 +240,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).map((exploration) => exploration.team?.trim()).filter(Boolean)), ...form.explorations.map((exploration) => exploration.team?.trim()).filter(Boolean)])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery)) : otherSistemas
-  const hasInvalidExplorationDate = form.explorations.some((e) => e.date && !PARTIAL_DATE_PATTERN.test(e.date))
+  const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
 
   return (
     <Box className="oc-sistema-edit-form">
@@ -357,7 +352,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} datePlaceholder={t('explorationDatePlaceholder')} dateInvalidHint={t('explorationDateInvalid')} teamLabel={t('explorationTeam')} teamSearchPlaceholder={t('teamSearchPlaceholder')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')}teamLabel={t('explorationTeam')} teamSearchPlaceholder={t('teamSearchPlaceholder')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
         </Grid>
 
         <Grid size={12}>
