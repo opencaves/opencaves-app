@@ -67,11 +67,11 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel,
               <CloseRounded fontSize="small" />
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
-              <Grid size={6}>
-                <PartialDateField size="small" label={dateLabel} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
-              </Grid>
-              <Grid size={6}>
+              <Grid size={12}>
                 <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
+              </Grid>
+              <Grid size={12}>
+                <PartialDateField size="small" label={dateLabel} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
@@ -370,6 +370,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
 
         <Grid size={12}>
           <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} />
+        </Grid>
+
+        <Grid size={12}>
+          <Divider />
         </Grid>
 
         <Grid size={12}>
