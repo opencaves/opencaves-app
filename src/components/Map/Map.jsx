@@ -10,11 +10,11 @@ import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
 import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
-import { setTitle } from '@/redux/slices/appSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useCurrentRoute from '@/hooks/useCurrentRoute.jsx'
+import { useTitle } from '@/hooks/useTitle.jsx'
 import { paneWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, markerConfig } from '@/config/map.js'
 import { num } from '@/services/data-service/types.js'
@@ -80,6 +80,8 @@ export default function OCMap() {
   const roles = useSelector((state) => state.session.roles)
 
   const { caveId } = useParams()
+  const { setTitle: setPageTitle } = useTitle()
+  const { t: tSeo } = useTranslation('seo')
   const previousCameraCaveIdRef = useRef(caveId)
   const location = useLocation()
   const currentRoute = useCurrentRoute()
@@ -468,10 +470,15 @@ export default function OCMap() {
    * Initialisation
    */
 
+  // The map's own title whenever no cave is open (a cave's pane sets its
+  // own). This used to call the action creator without dispatching it, so
+  // the previous page's title lingered.
   useEffect(() => {
-    setTitle(t('title'))
+    if (!caveId) {
+      setPageTitle(tSeo('mapTitle'))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [caveId, tSeo])
 
   // //
   // // Reset current cave

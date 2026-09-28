@@ -1,4 +1,5 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 import { Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const App = () => {
   const dispatch = useDispatch()
   const { title } = useTitle()
+  const { i18n } = useTranslation()
 
   useEffect(() => {
     dispatch(setDataLoadingState({ state: 'loading' }))
@@ -74,7 +76,9 @@ const App = () => {
         />
         <CssBaseline />
         <HelmetProvider>
-          <Helmet defaultTitle={appTitle}>
+          {/* lang follows the UI language (index.html's static "en" is only
+              the pre-render fallback), for search engines and screen readers. */}
+          <Helmet defaultTitle={appTitle} htmlAttributes={{ lang: i18n.resolvedLanguage }}>
             <title>{title}</title>
           </Helmet>
           <TitleBar />

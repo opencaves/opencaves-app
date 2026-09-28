@@ -1,5 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
-# Robots are welcome!
+# Everything may be crawled. Private and admin pages (account, sign-in,
+# editors' pages, edit modes) carry a noindex meta tag instead of being
+# listed here: a Disallow would stop crawlers from ever seeing that noindex,
+# and would advertise those paths (src/utils/seo.js decides what's indexable).
 User-agent: *
-Disallow: 
+Disallow:
+
 Sitemap: https://opencaves.org/sitemap.xml

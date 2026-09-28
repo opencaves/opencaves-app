@@ -933,5 +933,13 @@
       "terms": "Términos",
       "ariaLabel": "Aviso legal"
     }
+  },
+  "seo": {
+    "defaultDescription": "OpenCaves es la referencia para encontrar cenotes en Yucatán, México: nuevas cuevas para bucear, coordenadas GPS verificadas, descripciones útiles, fotos y mapas.",
+    "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
+    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, México):",
+    "caveDescriptionFallback": "Cenote {{name}} en Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
+    "notFoundTitle": "Página no encontrada",
+    "mapTitle": "Mapa de cenotes de Yucatán"
   }
 }

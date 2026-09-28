@@ -17,7 +17,8 @@ export default function Sistema({ sistemaHistory }) {
   if (hasSistemaAncestry) {
     return (
       <>
-        <Accordion className="oc-sistema-history" variant="sistemaHistory" disableGutters elevation={0} square>
+        {/* h2: a section of the cave (whose name is the h1), like "Access". */}
+        <Accordion className="oc-sistema-history" variant="sistemaHistory" disableGutters elevation={0} square slotProps={{ heading: { component: 'h2' } }}>
           <AccordionSummary expandIcon={<ExpandMore />} disableRipple={false} variant="sistemaHistory">
             <Box
               sx={{

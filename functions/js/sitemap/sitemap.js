@@ -14,22 +14,27 @@ function escapeXml(value) {
   })[char])
 }
 
+// urls: [{ loc, lastmod? }], lastmod as a W3C date (YYYY-MM-DD).
 function buildSitemap(urls) {
   const urlEntries = urls
-    .map((loc) => `  <url>\n    <loc>${escapeXml(loc)}</loc>\n  </url>`)
+    .map(({ loc, lastmod }) => `  <url>\n    <loc>${escapeXml(loc)}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}\n  </url>`)
     .join('\n')
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>\n`
 }
 
 export const sitemap = onRequest({ region: REGION }, async (req, res) => {
-  const caveRefs = await db.collection(CAVES_COLL_NAME).listDocuments()
-  const caveIds = caveRefs.map((ref) => ref.id)
+  // select() with no fields returns only document metadata - cheap, and it
+  // includes each cave's last write time, for lastmod.
+  const caves = await db.collection(CAVES_COLL_NAME).select().get()
 
+  // Canonical URLs only: / just redirects to /map.
   const urls = [
-    `${SITE_URL}/`,
-    `${SITE_URL}/map`,
-    ...caveIds.map((id) => `${SITE_URL}/map/${id}`),
+    { loc: `${SITE_URL}/map` },
+    ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/map/${doc.id}`, lastmod: doc.updateTime.toDate().toISOString().slice(0, 10) })),
+    { loc: `${SITE_URL}/about` },
+    { loc: `${SITE_URL}/privacy` },
+    { loc: `${SITE_URL}/terms` },
   ]
 
   res.set('Content-Type', 'application/xml')

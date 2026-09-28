@@ -1,7 +1,8 @@
 import { Suspense, lazy } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { IonApp } from '@ionic/react'
-import { useMediaQuery, useTheme } from '@mui/material'
+import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { MapLoading } from '@/components/Map/MapState.jsx'
 import SearchBar from '@/components/SearchBar/SearchBar.jsx'
 import FilterMenu from '@/components/Map/FilterMenu.jsx'
@@ -23,10 +24,19 @@ const Map = lazy(() => import('@/components/Map/Map.jsx'))
 export default function MapPage() {
   const theme = useTheme()
   const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
+  const { t } = useTranslation('seo')
+  const { caveId } = useParams()
 
   return (
     <IonApp className="oc-map">
       <AddMediasProvider>
+        {/* The page's h1 (for search engines and screen readers); the map is
+            its own visual heading. While a cave is open, its name is the h1. */}
+        {!caveId && (
+        <Box component="h1" sx={{ position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
+          {t('mapHeading')}
+        </Box>
+        )}
         <SearchBar />
         <Suspense fallback={<MapLoading />}>
           <Map />

@@ -933,5 +933,13 @@
       "terms": "Terms",
       "ariaLabel": "Legal"
     }
+  },
+  "seo": {
+    "defaultDescription": "OpenCaves is the reference for finding cenotes in the Yucatán, Mexico: new caves to dive, verified GPS coordinates, useful descriptions, pictures and maps.",
+    "mapHeading": "OpenCaves: map of the cenotes of the Yucatán",
+    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, Mexico):",
+    "caveDescriptionFallback": "Cenote {{name}} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
+    "notFoundTitle": "Page not found",
+    "mapTitle": "Cenote map of the Yucatán"
   }
 }

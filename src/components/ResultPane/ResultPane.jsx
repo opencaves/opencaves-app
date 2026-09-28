@@ -17,6 +17,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { paneInitialBreakpoint } from '@/config/app.js'
 import { setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
+import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
 
 export async function resultPaneLoader({ params }) {
@@ -149,6 +150,7 @@ export default function ResultPane() {
 
     return (
       <>
+        <CaveSeo cave={currentCave} />
         {
           isSmall ? (
             <TransitionGroup>

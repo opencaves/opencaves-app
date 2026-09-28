@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { debounce } from 'lodash'
 import AboutDialog from './AboutDialog.jsx'
+import RouteSeo from '@/components/Seo/RouteSeo.jsx'
 
 export default function AppRoot() {
   const location = useLocation()
@@ -25,6 +26,7 @@ export default function AppRoot() {
 
   return (
     <>
+      <RouteSeo />
       {
         state?.backgroundLocation && (
           <Routes>

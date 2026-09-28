@@ -382,7 +382,7 @@
     }
   },
   "resultPane": {
-    "title": "Cenote {{name}}",
+    "title": "Cénote {{name}}",
     "videosHeader": "Vidéos",
     "videoFrameTitle": "Vidéo {{index}}",
     "playVideo": "Lire la vidéo {{index}}",
@@ -931,5 +931,13 @@
       "terms": "Conditions",
       "ariaLabel": "Mentions légales"
     }
+  },
+  "seo": {
+    "defaultDescription": "OpenCaves est la référence pour trouver des cénotes au Yucatán, au Mexique : de nouvelles grottes à plonger, des coordonnées GPS vérifiées, des descriptions utiles, des photos et des cartes.",
+    "mapHeading": "OpenCaves : carte des cénotes du Yucatán",
+    "caveDescriptionPrefix": "Cénote {{name}} (Yucatán, Mexique) :",
+    "caveDescriptionFallback": "Cénote {{name}} au Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
+    "notFoundTitle": "Page introuvable",
+    "mapTitle": "Carte des cénotes du Yucatán"
   }
 }

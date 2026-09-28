@@ -80,9 +80,10 @@ export default function CurrentCaveDetailsHeader({ cave }) {
       {!isSmall && <CoverImage caveId={cave.id} />}
       <Box className="oc-current-cave-details-header oc-result-pane--header">
         <Box className="oc-cave-details-header">
-          {/* h2 under the page's h1, so the sections below it (h3) nest
-              properly. */}
-          <Typography ref={titleRef} variant="caveDetailsHeader" component="h2">
+          {/* The page's h1 (the map's own hidden h1 steps aside while a cave is
+              open); its sections are h2. ResultPaneSm.scss styles this h1 on
+              phones (flex-grow, ellipsis when minimized). */}
+          <Typography ref={titleRef} variant="caveDetailsHeader" component="h1">
             {caveName}
           </Typography>
           {isSmall && paneData.paneOpenFactor < 1 && (

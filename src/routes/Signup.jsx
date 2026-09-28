@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useMatches } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Signup from '@/components/auth/Signup.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -7,14 +7,16 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 export default function SignupPage() {
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
   const { setTitle } = useTitle()
-  const matches = useMatches()
+  const { pathname } = useLocation()
 
+  // Only on the page itself - its child routes (e.g. /signup/with-email)
+  // set their own title.
   useEffect(() => {
-    if (matches.length === 1) {
+    if (pathname.replace(/\/$/, '') === '/signup') {
       setTitle(t('title'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches])
+  }, [pathname])
 
   return (
     <Signup className="oc-signup" />
