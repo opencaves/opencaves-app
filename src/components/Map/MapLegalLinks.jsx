@@ -11,8 +11,7 @@ import { Box } from '@mui/material'
 // On phones they ride above the result pane's sheet and fade out once it's
 // mostly open (ResultPaneSm's --oc-result-pane-sm-height and
 // --oc-map-controls-* variables). On wider screens they stay at the left edge,
-// drawn above the result pane when one is open there (the outline keeps them
-// readable on its white surface too).
+// beneath the result pane (z-index 998) when one is open there.
 export default function MapLegalLinks() {
   const { t } = useTranslation('legal', { keyPrefix: 'links' })
 
@@ -46,9 +45,7 @@ export default function MapLegalLinks() {
         opacity: 'var(--oc-map-controls-opacity, 1)',
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',
-        // Above the wide-screen result pane (z-index 998), below the search bar
-        // (1000).
-        [theme.breakpoints.up('sm')]: { left: 12, bottom: 12, zIndex: 999 },
+        [theme.breakpoints.up('sm')]: { left: 12, bottom: 12 },
       })}
     >
       <Box component={Link} to="/privacy" sx={linkSx}>
