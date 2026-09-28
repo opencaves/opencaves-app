@@ -60,7 +60,15 @@
     "passwordSaveError": "Impossible de modifier le mot de passe.",
     "email": "Courriel",
     "signOut": "Se déconnecter",
-    "signedOut": "Déconnecté"
+    "signedOut": "Déconnecté",
+    "savedCaves": {
+      "title": "Cénotes sauvegardés",
+      "loading": "Chargement…",
+      "empty": "Vous n’avez encore sauvegardé aucun cénote. Utilisez le bouton Sauvegarder d’un cénote pour l’ajouter ici.",
+      "remove": "Retirer des sauvegardés",
+      "removeNamed": "Retirer {{name}} des sauvegardés",
+      "sistema": "Sistema {{name}}"
+    }
   },
   "auth": {
     "dialog": {
@@ -209,10 +217,16 @@
     "shareTitle": "Cénote {{name}} / OpenCaves.org",
     "shareText": "Cénote {{name}}\n",
     "shareDialogTitle": "Partager",
-    "comingSoon": {
-      "title": "Bientôt disponible",
-      "text": "Cette fonctionnalité n’est pas encore disponible.",
-      "ok": "OK"
+    "saved": "Sauvegardé",
+    "savedMessage": "Sauvegardé dans votre profil",
+    "unsavedMessage": "Retiré de vos cénotes sauvegardés",
+    "saveError": "Impossible de mettre à jour vos cénotes sauvegardés.",
+    "accountPrompt": {
+      "title": "Sauvegardez vos cénotes préférés",
+      "text": "Créez un compte gratuit pour sauvegarder le cénote {{name}} et retrouver tous vos cénotes sauvegardés dans votre profil.",
+      "notNow": "Plus tard",
+      "logIn": "Se connecter",
+      "signUp": "Créer un compte"
     }
   },
   "passwordInput": {
@@ -731,7 +745,8 @@
       "editCave": "Modifier le cénote",
       "addNewCave": "Ajouter un nouveau cénote"
     },
-    "error": "Une erreur est survenue"
+    "error": "Une erreur est survenue",
+    "savedCave": "Sauvegardé"
   },
   "dashboard": {
     "noSistemaArea": "Aucune zone attribuée",

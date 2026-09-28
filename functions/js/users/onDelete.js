@@ -8,5 +8,7 @@ export const onUserDelete = functions
   .auth
   .user()
   .onDelete(async user => {
-    await db.collection(USERS_COLL_NAME).doc(user.uid).delete()
+    // recursiveDelete (not delete) so the user's savedCaves subcollection
+    // goes too - deleting a doc never removes its subcollections.
+    await db.recursiveDelete(db.collection(USERS_COLL_NAME).doc(user.uid))
   })

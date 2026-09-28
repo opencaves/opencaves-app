@@ -1,14 +1,20 @@
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import DirectionsIcon from '@mui/icons-material/Directions'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 import ShareIcon from '@mui/icons-material/Share'
 import { Share } from '@capacitor/share'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import './QuickActions.scss'
 
 function openDirections(cave) {
@@ -113,8 +119,17 @@ function QuickActionsItem({ children, ...props }) {
 export default function QuickActions({ cave }) {
   const { t } = useTranslation('quickActions')
   const { t: tMap } = useTranslation('map')
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [accountPromptOpen, setAccountPromptOpen] = useState(false)
+  const [savePending, setSavePending] = useState(false)
   const theme = useTheme()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [openSnackbar] = useSnackbar()
+  const { canSave, isSaved, saveCave, unsaveCave } = useSavedCaves()
+  const saved = isSaved(cave.id)
+  const SaveIcon = saved ? BookmarkIcon : BookmarkBorderIcon
+  const saveLabel = saved ? t('saved') : t('save')
 
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
   const isSmall = useSmall()
@@ -130,12 +145,38 @@ export default function QuickActions({ cave }) {
     })
   }
 
-  function handleDialogOpen() {
-    setDialogOpen(true)
+  // Toggles the cave in the user's saved caves. Anonymous/signed-out
+  // sessions get an invitation to create an account instead, since saved
+  // caves live on the account.
+  async function handleSaveClick() {
+    if (!canSave) {
+      setAccountPromptOpen(true)
+      return
+    }
+    if (savePending) return
+
+    setSavePending(true)
+    try {
+      if (saved) {
+        await unsaveCave(cave.id)
+        openSnackbar(t('unsavedMessage'))
+      } else {
+        await saveCave(cave.id)
+        openSnackbar(t('savedMessage'))
+      }
+    } catch (error) {
+      console.error(error)
+      openSnackbar(t('saveError'))
+    } finally {
+      setSavePending(false)
+    }
   }
 
-  function handleDialogClose() {
-    setDialogOpen(false)
+  // Comes back to this cave once the account is created / signed in to.
+  function goToAuth(path) {
+    setAccountPromptOpen(false)
+    dispatch(setContinueUrl(buildContinueUrl(location)))
+    navigate(path)
   }
 
   return (
@@ -196,8 +237,8 @@ export default function QuickActions({ cave }) {
                   </QuickActionsItem>
                 )}
                 <QuickActionsItem>
-                  <Button aria-label={t('save')} color="primary" variant="outlined" startIcon={<BookmarkBorderIcon />} className="oc-quick-actions--btn" onClick={handleDialogOpen}>
-                    {t('save')}
+                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={<SaveIcon />} className="oc-quick-actions--btn" onClick={handleSaveClick} disabled={savePending}>
+                    {saveLabel}
                   </Button>
                 </QuickActionsItem>
                 <QuickActionsItem>
@@ -242,15 +283,15 @@ export default function QuickActions({ cave }) {
             )}
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
-                <ButtonLg id="save-btn" aria-label={t('save')} onClick={handleDialogOpen}>
+                <ButtonLg id="save-btn" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick} disabled={savePending}>
                   <Grid container direction="column">
                     <Grid>
                       <IconLg>
-                        <BookmarkBorderIcon />
+                        <SaveIcon />
                       </IconLg>
                     </Grid>
                     <Grid>
-                      <LabelLg>{t('save')}</LabelLg>
+                      <LabelLg>{saveLabel}</LabelLg>
                     </Grid>
                   </Grid>
                 </ButtonLg>
@@ -259,7 +300,7 @@ export default function QuickActions({ cave }) {
 
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
-                <ButtonLg id="save-btn" aria-label={t('share')} onClick={handleShareOpen}>
+                <ButtonLg id="share-btn" aria-label={t('share')} onClick={handleShareOpen}>
                   <Grid container direction="column">
                     <Grid>
                       <IconLg>
@@ -277,14 +318,16 @@ export default function QuickActions({ cave }) {
         </Box>
       )}
 
-      <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{t('comingSoon.title')}</DialogTitle>
+      <Dialog className="oc-quick-actions--account-prompt" open={accountPromptOpen} onClose={() => setAccountPromptOpen(false)} aria-labelledby="oc-account-prompt-title" aria-describedby="oc-account-prompt-text">
+        <DialogTitle id="oc-account-prompt-title">{t('accountPrompt.title')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{t('comingSoon.text')}</DialogContentText>
+          <DialogContentText id="oc-account-prompt-text">{t('accountPrompt.text', { name: caveName })}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} autoFocus>
-            {t('comingSoon.ok')}
+          <Button onClick={() => setAccountPromptOpen(false)}>{t('accountPrompt.notNow')}</Button>
+          <Button onClick={() => goToAuth('/login')}>{t('accountPrompt.logIn')}</Button>
+          <Button variant="contained" onClick={() => goToAuth('/signup')} autoFocus>
+            {t('accountPrompt.signUp')}
           </Button>
         </DialogActions>
       </Dialog>

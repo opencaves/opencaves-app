@@ -60,7 +60,15 @@
     "passwordSaveError": "Could not update the password.",
     "email": "Email",
     "signOut": "Sign Out",
-    "signedOut": "Signed out"
+    "signedOut": "Signed out",
+    "savedCaves": {
+      "title": "Saved cenotes",
+      "loading": "Loading…",
+      "empty": "You haven’t saved any cenotes yet. Use the Save button on a cenote to add it here.",
+      "remove": "Remove from saved",
+      "removeNamed": "Remove {{name}} from saved",
+      "sistema": "Sistema {{name}}"
+    }
   },
   "auth": {
     "dialog": {
@@ -210,10 +218,16 @@
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
     "shareText": "Cenote {{name}}\n",
     "shareDialogTitle": "Share",
-    "comingSoon": {
-      "title": "Coming soon",
-      "text": "This feature isn’t available yet.",
-      "ok": "OK"
+    "saved": "Saved",
+    "savedMessage": "Saved to your profile",
+    "unsavedMessage": "Removed from your saved cenotes",
+    "saveError": "Could not update your saved cenotes.",
+    "accountPrompt": {
+      "title": "Save your favorite cenotes",
+      "text": "Create a free account to save cenote {{name}} and find all your saved cenotes on your profile.",
+      "notNow": "Not now",
+      "logIn": "Log in",
+      "signUp": "Create an account"
     }
   },
   "passwordInput": {
@@ -733,7 +747,8 @@
       "editCave": "Edit cave",
       "addNewCave": "Add new cave"
     },
-    "error": "Something went wrong"
+    "error": "Something went wrong",
+    "savedCave": "Saved"
   },
   "dashboard": {
     "noSistemaArea": "No area assigned",

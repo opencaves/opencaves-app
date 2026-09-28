@@ -60,7 +60,15 @@
     "passwordSaveError": "No se pudo actualizar la contraseña.",
     "email": "Correo electrónico",
     "signOut": "Cerrar sesión",
-    "signedOut": "Sesión cerrada"
+    "signedOut": "Sesión cerrada",
+    "savedCaves": {
+      "title": "Cenotes guardados",
+      "loading": "Cargando…",
+      "empty": "Aún no has guardado ningún cenote. Usa el botón Guardar de un cenote para añadirlo aquí.",
+      "remove": "Quitar de guardados",
+      "removeNamed": "Quitar {{name}} de guardados",
+      "sistema": "Sistema {{name}}"
+    }
   },
   "auth": {
     "dialog": {
@@ -210,10 +218,16 @@
     "shareTitle": "Cenote {{name}} / OpenCaves.org",
     "shareText": "Cenote {{name}}\n",
     "shareDialogTitle": "Compartir",
-    "comingSoon": {
-      "title": "Próximamente",
-      "text": "Esta función aún no está disponible.",
-      "ok": "Aceptar"
+    "saved": "Guardado",
+    "savedMessage": "Guardado en tu perfil",
+    "unsavedMessage": "Eliminado de tus cenotes guardados",
+    "saveError": "No se pudieron actualizar tus cenotes guardados.",
+    "accountPrompt": {
+      "title": "Guarda tus cenotes favoritos",
+      "text": "Crea una cuenta gratuita para guardar el cenote {{name}} y encontrar todos tus cenotes guardados en tu perfil.",
+      "notNow": "Ahora no",
+      "logIn": "Iniciar sesión",
+      "signUp": "Crear una cuenta"
     }
   },
   "passwordInput": {
@@ -733,7 +747,8 @@
       "editCave": "Editar cenote",
       "addNewCave": "Añadir nuevo cenote"
     },
-    "error": "Algo salió mal"
+    "error": "Algo salió mal",
+    "savedCave": "Guardado"
   },
   "dashboard": {
     "noSistemaArea": "Sin área asignada",

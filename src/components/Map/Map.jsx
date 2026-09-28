@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import { FenceRounded, VpnKeyRounded } from '@mui/icons-material'
+import { Bookmark, FenceRounded, VpnKeyRounded } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
@@ -22,6 +22,7 @@ import PinIcon from '@/images/map/pin.svg?react'
 import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
 import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
+import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
@@ -49,6 +50,7 @@ export default function OCMap() {
   const mapRef = useRef()
   const mapContainerRef = useRef()
   const currentMarkerRef = useRef()
+  const { isSaved } = useSavedCaves()
 
   const dataLoadingState = useSelector((state) => state.data.dataLoadingState)
   const searchOptions = useSelector((state) => state.search)
@@ -711,6 +713,7 @@ export default function OCMap() {
                             return <Pin />
                           })()}
                       </SvgIcon>
+                      {isSaved(cave.id) && <Bookmark className="oc-map--marker-saved-badge" aria-label={t('savedCave')} />}
                       {markerLabel && markerLabel}
                     </UnstyledLink>
                   </Marker>

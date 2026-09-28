@@ -7,10 +7,12 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import { CheckRounded, LogoutRounded, SaveRounded } from '@mui/icons-material'
 import { auth } from '@/config/firebase.js'
 import { setUser } from '@/redux/slices/sessionSlice.jsx'
+import SavedCavesList from '@/components/SavedCaves/SavedCavesList.jsx'
 
 export default function Account() {
   const { t } = useTranslation('account')
   const user = useSelector((state) => state.session.user)
+  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [name, setName] = useState(user?.displayName || user?.name || '')
@@ -149,6 +151,7 @@ export default function Account() {
           </Typography>
           <Typography component="p">{user?.email || ''}</Typography>
         </Box>
+        {isLoggedIn && <SavedCavesList />}
         {hasPasswordProvider && (
           <Box component="section" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
             <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
