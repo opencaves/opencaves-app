@@ -97,7 +97,10 @@
       "cancel": "Annuler",
       "cleared": "Données hors ligne effacées",
       "clearError": "Impossible d’effacer les données hors ligne."
-    }
+    },
+    "language": "Langue",
+    "languageAutomatic": "Automatique ({{language}})",
+    "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil."
   },
   "auth": {
     "dialog": {

@@ -97,7 +97,10 @@
       "cancel": "Cancel",
       "cleared": "Offline data cleared",
       "clearError": "Could not clear the offline data."
-    }
+    },
+    "language": "Language",
+    "languageAutomatic": "Automatic ({{language}})",
+    "languageHint": "Automatic follows your browser's language. Your choice is kept on this device."
   },
   "auth": {
     "dialog": {

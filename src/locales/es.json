@@ -97,7 +97,10 @@
       "cancel": "Cancelar",
       "cleared": "Datos sin conexión borrados",
       "clearError": "No se pudieron borrar los datos sin conexión."
-    }
+    },
+    "language": "Idioma",
+    "languageAutomatic": "Automático ({{language}})",
+    "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo."
   },
   "auth": {
     "dialog": {

@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { onIdTokenChanged, signOut } from 'firebase/auth'
+import { onAuthStateChanged, onIdTokenChanged, signOut } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
+import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
 
 const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
 
@@ -67,4 +68,18 @@ export default function ManageAuth() {
       clearInterval(refreshInterval)
     }
   }, [dispatch])
+
+  // The account's own language (LanguageSection), applied on sign-in - once
+  // per sign-in, not on every token refresh like onIdTokenChanged.
+  useEffect(() => {
+    return onAuthStateChanged(auth, async (user) => {
+      if (!user || user.isAnonymous) return
+      try {
+        const language = await loadAccountLanguage(user.uid)
+        if (language) applyLanguage(language)
+      } catch (error) {
+        console.warn('[ManageAuth] Unable to load the account language:', error)
+      }
+    })
+  }, [])
 }

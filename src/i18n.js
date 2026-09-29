@@ -6,6 +6,11 @@ import en from './locales/en'
 import fr from './locales/fr'
 import es from './locales/es'
 
+export const SUPPORTED_LANGUAGES = ['en', 'fr', 'es']
+// The language picked on the account page (LanguageSection), on this device.
+// Absent means Automatic: the browser's language.
+export const LANGUAGE_STORAGE_KEY = 'oc-language'
+
 i18n
   // load translation using http -> see /public/locales
   // learn more: https://github.com/i18next/i18next-http-backend
@@ -19,7 +24,18 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     resources: { en, fr, es },
+    supportedLngs: SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: true,
+    // A browser language the app doesn't have falls back to English.
+    fallbackLng: 'en',
+    detection: {
+      // A language picked on the account page, else the browser's.
+      order: ['localStorage', 'navigator'],
+      lookupLocalStorage: LANGUAGE_STORAGE_KEY,
+      // Only an explicit choice is stored (LanguageSection), never a
+      // detected one - otherwise "Automatic" couldn't be told apart from it.
+      caches: [],
+    },
     // fallbackLng: code => {
     //   if (!code || code === 'en') {
     //     return ['en']
@@ -51,5 +67,11 @@ i18n
     //   loadPath: 'locales/{{lng}}/{{ns}}.{{lng}}.json'
     // }
   })
+
+// Screen readers pick their voice from it.
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.lang = i18n.resolvedLanguage || lng
+})
+if (i18n.resolvedLanguage) document.documentElement.lang = i18n.resolvedLanguage
 
 export default i18n
