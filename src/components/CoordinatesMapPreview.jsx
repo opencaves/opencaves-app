@@ -5,6 +5,7 @@ import { Box, Fab, IconButton, Tooltip } from '@mui/material'
 import { CheckRounded, CloseRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import OCMap from '@/components/Map/Map.jsx'
 import MapPlaceSearch from '@/components/MapPlaceSearch.jsx'
+import CrossCoordinates, { CROSS_COORDINATES_OFFSET } from '@/components/CrossCoordinates.jsx'
 import { endCrossPick, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -41,6 +42,8 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
   const isSmall = useSmall()
   // Taller while placing with the cross: more room to aim.
   const [expanded, setExpanded] = useState(false)
+  // The live coordinates under the cross while placing.
+  const [crossCenter, setCrossCenter] = useState(null)
   const [fullscreen, setFullscreen] = useState(false)
   const crossPickFor = useSelector((state) => state.map.crossPickFor)
   const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
@@ -57,6 +60,11 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
     const target = editFieldCoordinates[crossPickFor] || editFieldCoordinates.location
     let frame
     let cancelled = false
+    let trackedMap = null
+    const trackCenter = () => {
+      const center = trackedMap?.getCenter()
+      if (center) setCrossCenter({ longitude: center.lng, latitude: center.lat })
+    }
     function centerOnTarget() {
       if (cancelled) return
       const map = mapRef.current?.getMap?.()
@@ -64,6 +72,9 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
         frame = requestAnimationFrame(centerOnTarget)
         return
       }
+      trackedMap = map
+      map.on('move', trackCenter)
+      trackCenter()
       boxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       if (!target) return
       const go = () => !cancelled && map.jumpTo({ center: [target.longitude, target.latitude], zoom: Math.max(map.getZoom(), PLACE_ZOOM) })
@@ -74,6 +85,8 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
     return () => {
       cancelled = true
       cancelAnimationFrame(frame)
+      trackedMap?.off('move', trackCenter)
+      setCrossCenter(null)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [crossPickFor])
@@ -144,6 +157,7 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
           </Box>
           {/* Centered in the room left of the map's own locate button (bottom
               right), which they'd otherwise overlap on phones. */}
+          <CrossCoordinates center={crossCenter} sx={{ position: 'absolute', left: '50%', top: `calc(50% + ${CROSS_COORDINATES_OFFSET}px)`, zIndex: 1 }} />
           <Box sx={{ position: 'absolute', left: 8, right: 72, bottom: fullscreen ? 'calc(24px + env(safe-area-inset-bottom))' : 12, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: 1, pointerEvents: 'none' }}>
             {crossPickFor && (
               <Fab className="oc-coordinates-map-preview--close" variant="extended" size="medium" onClick={close} sx={{ pointerEvents: 'auto', px: 2.5, textTransform: 'none', bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'background.paper' } }}>

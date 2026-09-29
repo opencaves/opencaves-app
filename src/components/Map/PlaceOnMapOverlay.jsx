@@ -2,21 +2,26 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Fab, IconButton, Paper, Typography } from '@mui/material'
+import { Box, Fab } from '@mui/material'
 import { CheckRounded, CloseRounded } from '@mui/icons-material'
 import { endPlaceOnMap, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { paneBreakpoints } from '@/config/app.js'
+import MapPlaceSearch from '@/components/MapPlaceSearch.jsx'
+import CrossCoordinates, { CROSS_COORDINATES_OFFSET } from '@/components/CrossCoordinates.jsx'
 
 const CROSS_SIZE = 48
 // Close enough to place a cave entrance precisely.
 const PLACE_ZOOM = 17
 const COORDINATE_DECIMALS = 5
+// Read by screen readers, not drawn.
+const visuallyHidden = { position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
 
 // The phone edit form's "place on map" mode (mapSlice.placeOnMap), shown over
 // the map while ResultPaneSm keeps the sheet minimized: a fixed cross marks
-// the center of the visible map; the person pans the map under it and
-// confirms (the on-map Confirm button, within thumb reach), which hands the
-// coordinate back to the form's CoordinateField (setPickedCoordinate).
+// the center of the visible map; the person pans the map under it (or
+// searches a place) and confirms, which hands the coordinate back to the
+// form's CoordinateField (setPickedCoordinate) - or closes. Same controls as
+// the admin pages' map preview (CoordinatesMapPreview).
 // Portaled to <body>: above the search bar (1000) and the sheet (999).
 export default function PlaceOnMapOverlay({ mapRef }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -89,25 +94,16 @@ export default function PlaceOnMapOverlay({ mapRef }) {
 
   return createPortal(
       <>
-        <Paper
-          ref={barRef}
-          className="oc-place-on-map oc-place-on-map--bar"
-          square
-          elevation={3}
-          sx={(theme) => ({ position: 'fixed', top: 0, left: 0, right: 0, zIndex: theme.zIndex.appBar, display: 'flex', alignItems: 'center', gap: 1, px: 1, pt: 'calc(8px + env(safe-area-inset-top))', pb: 1 })}
-        >
-          <IconButton aria-label={t('cancel')} onClick={close} sx={{ width: 48, height: 48 }}>
-            <CloseRounded />
-          </IconButton>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography noWrap sx={{ fontWeight: 500 }}>
-              {t('placeOnMapTitle', { label: placeOnMap.label })}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap component="p" aria-live="polite">
-              {center ? `${center.latitude}, ${center.longitude}` : t('placeOnMapHint')}
-            </Typography>
-          </Box>
-        </Paper>
+        {/* The admin pages' map controls (CoordinatesMapPreview): the place
+            search on top, Close and Confirm at the bottom. */}
+        <Box ref={barRef} className="oc-place-on-map oc-place-on-map--bar" sx={(theme) => ({ position: 'fixed', top: 'calc(8px + env(safe-area-inset-top))', left: 8, right: 8, zIndex: theme.zIndex.appBar })}>
+          <MapPlaceSearch mapRef={mapRef} centerOffsetY={(pinY ?? computePinY()) - window.innerHeight / 2} />
+        </Box>
+        {/* What's being placed, for screen readers (the coordinates are shown
+            above the buttons). */}
+        <Box component="p" sx={visuallyHidden}>
+          {t('placeOnMapTitle', { label: placeOnMap.label })}
+        </Box>
         {pinY !== null && (
           // Centered on the point being placed. Thin white lines with a dark
           // outline stay visible over any imagery; the gap at the center
@@ -124,10 +120,15 @@ export default function PlaceOnMapOverlay({ mapRef }) {
             <circle cx="24" cy="24" r="2" fill="#fff" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="1.5" />
           </Box>
         )}
-        {/* On the map, just above the minimized sheet: within thumb reach
-            of where the panning happens. */}
-        <Box sx={(theme) => ({ position: 'fixed', left: 0, right: 0, bottom: `calc(${paneBreakpoints[0] * 100}vh + 16px)`, display: 'flex', justifyContent: 'center', zIndex: theme.zIndex.appBar, pointerEvents: 'none' })}>
-          <Fab className="oc-place-on-map--confirm" variant="extended" color="primary" onClick={confirm} sx={{ pointerEvents: 'auto', px: 3, textTransform: 'none' }}>
+        {pinY !== null && <CrossCoordinates center={center} sx={(theme) => ({ position: 'fixed', left: '50%', top: pinY + CROSS_COORDINATES_OFFSET, zIndex: theme.zIndex.appBar })} />}
+        {/* On the map, just above the minimized sheet: within thumb reach of
+            where the panning happens - and left of the map's locate button. */}
+        <Box sx={(theme) => ({ position: 'fixed', left: 8, right: 72, bottom: `calc(${paneBreakpoints[0] * 100}vh + 16px)`, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: theme.zIndex.appBar, pointerEvents: 'none' })}>
+          <Fab className="oc-place-on-map--close" variant="extended" size="medium" onClick={close} sx={{ pointerEvents: 'auto', px: 2.5, textTransform: 'none', bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'background.paper' } }}>
+            <CloseRounded sx={{ mr: 1 }} />
+            {t('closeMap')}
+          </Fab>
+          <Fab className="oc-place-on-map--confirm" variant="extended" size="medium" color="primary" onClick={confirm} sx={{ pointerEvents: 'auto', px: 2.5, textTransform: 'none' }}>
             <CheckRounded sx={{ mr: 1 }} />
             {t('confirm')}
           </Fab>

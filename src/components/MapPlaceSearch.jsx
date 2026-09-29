@@ -33,8 +33,10 @@ function fold(text) {
 // app's own cenotes (by name or alias) and places (Mapbox geocoding, limited
 // to the Yucatán, in the UI language, nearest the map's center first).
 // Picking one only moves the map - with "Place on map"'s cross showing, the
-// cross then sits on it, ready to confirm.
-export default function MapPlaceSearch({ mapRef }) {
+// cross then sits on it, ready to confirm. centerOffsetY: how far below the
+// map's center (px) the result should land, for a cross that isn't centered
+// (PlaceOnMapOverlay's, above the phone sheet).
+export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit.placeSearch' })
   const caves = useSelector((state) => state.data.caves)
   const [input, setInput] = useState('')
@@ -115,7 +117,7 @@ export default function MapPlaceSearch({ mapRef }) {
     const map = mapRef.current
     if (!map || !option) return
     const zoom = ZOOM_BY_TYPE[option.kind === 'cave' ? 'cave' : option.type] ?? DEFAULT_ZOOM
-    map.flyTo({ center: option.center, zoom, essential: true })
+    map.flyTo({ center: option.center, zoom, offset: [0, centerOffsetY], essential: true })
   }
 
   const options = [...caveOptions, ...places]

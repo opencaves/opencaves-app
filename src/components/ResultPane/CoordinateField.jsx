@@ -67,6 +67,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
   const picking = useSelector((state) => state.map.crossPickFor === field)
+  const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
@@ -238,7 +239,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
             {inputs}
           </Grid>
           <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 1, ml: -1 }}>
-            {inPhoneSheet ? <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} /> : canPickOnMap && <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPickOnMapClick} disabled={picking} />}
+            {inPhoneSheet ? <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} disabled={placingInSheet} /> : canPickOnMap && <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPickOnMapClick} disabled={picking} />}
             <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />
             <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet} />
           </Box>
