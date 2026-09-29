@@ -58,8 +58,9 @@
 
     &.mapboxgl-ctrl-geolocate {
       border-radius: 50vh;
-      width: 50px;
-      height: 50px;
+      // MD3's FAB size, like the editors' edit FAB above it (EditCaveFab).
+      width: 56px;
+      height: 56px;
 
       .mapboxgl-ctrl-icon {
         background-size: 55%;
