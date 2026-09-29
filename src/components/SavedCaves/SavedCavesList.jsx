@@ -53,7 +53,8 @@ function OfflineSummary() {
 
 // The account page's "Saved cenotes" section: every cave the user saved from
 // the result pane's Save quick action, most recently saved first.
-export default function SavedCavesList() {
+// headingProps: the page's section heading style (see Account).
+export default function SavedCavesList({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'savedCaves' })
   const { t: tMap } = useTranslation('map')
   const { loading, savedCaveIds, unsaveCave } = useSavedCaves()
@@ -72,8 +73,8 @@ export default function SavedCavesList() {
   }, [caves, savedCaveIds])
 
   return (
-    <Box component="section" className="oc-saved-caves-list" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 1 }}>
+    <Box component="section" className="oc-saved-caves-list">
+      <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>
       {offlineSupported && savedCaves.length > 0 && <OfflineSummary />}

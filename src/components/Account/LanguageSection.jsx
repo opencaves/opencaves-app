@@ -13,7 +13,7 @@ const AUTOMATIC = 'auto'
 // The account page's language setting: a fixed language, or Automatic (the
 // browser's). Kept on this device, and in the signed-in account so it follows
 // the person (see services/languagePreference.js).
-export default function LanguageSection() {
+export default function LanguageSection({ headingProps = {} }) {
   const { t, i18n } = useTranslation('account')
   const user = useSelector((state) => state.session.user)
   const [choice, setChoice] = useState(() => readDeviceLanguage() || AUTOMATIC)
@@ -39,8 +39,8 @@ export default function LanguageSection() {
   const automaticLanguage = LANGUAGE_NAMES[browserLanguage] || LANGUAGE_NAMES.en
 
   return (
-    <Box component="section" className="oc-language-section" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-      <Typography component="h2" variant="h6" id="oc-language-section-title" sx={{ mb: 2 }}>
+    <Box component="section" className="oc-language-section">
+      <Typography component="h2" variant="h6" {...headingProps} id="oc-language-section-title">
         {t('language')}
       </Typography>
       <TextField select size="small" fullWidth value={choice} onChange={handleChange} helperText={t('languageHint')} slotProps={{ select: { labelId: 'oc-language-section-title' } }}>

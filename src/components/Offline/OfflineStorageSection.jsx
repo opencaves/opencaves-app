@@ -10,7 +10,8 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 // device (navigator.storage.estimate(): cave data, downloaded and cached
 // pictures/maps/map tiles, the app's own files) and a way to free the
 // pictures and maps.
-export default function OfflineStorageSection() {
+// headingProps: the page's section heading style (see Account).
+export default function OfflineStorageSection({ headingProps = {} }) {
   const { t, i18n } = useTranslation('account', { keyPrefix: 'offline' })
   const [openSnackbar] = useSnackbar()
   const [estimate, setEstimate] = useState(null)
@@ -62,15 +63,16 @@ export default function OfflineStorageSection() {
   }
 
   return (
-    <Box component="section" className="oc-offline-storage-section" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 1 }}>
+    <Box component="section" className="oc-offline-storage-section">
+      <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>
       <Typography sx={{ mb: 0.5 }}>{estimate ? t('used', { size: formatSize(estimate.usage || 0) }) : t('measuring')}</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         {persisted ? t('persisted') : t('notPersisted')}
       </Typography>
-      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={() => setConfirmOpen(true)} disabled={clearing}>
+      {/* Centered on phones. */}
+      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={() => setConfirmOpen(true)} disabled={clearing} sx={{ display: 'flex', width: 'fit-content', mx: { xs: 'auto', sm: 0 } }}>
         {t('clear')}
       </Button>
 

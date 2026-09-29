@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { EmailAuthProvider, reauthenticateWithCredential, signOut, updatePassword, updateProfile } from 'firebase/auth'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Divider, TextField, Typography } from '@mui/material'
 import { CheckRounded, LogoutRounded, SaveRounded } from '@mui/icons-material'
 import { auth } from '@/config/firebase.js'
 import { setUser } from '@/redux/slices/sessionSlice.jsx'
@@ -11,6 +11,9 @@ import SavedCavesList from '@/components/SavedCaves/SavedCavesList.jsx'
 import OfflineStorageSection from '@/components/Offline/OfflineStorageSection.jsx'
 import LanguageSection from '@/components/Account/LanguageSection.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
+
+const sectionHeadingProps = formSectionHeadingProps('oc-account--section-title')
 
 export default function Account() {
   const { t } = useTranslation('account')
@@ -123,69 +126,97 @@ export default function Account() {
   }
 
   const hasPasswordProvider = auth.currentUser?.providerData.some(({ providerId }) => providerId === 'password')
+  const displayName = (user?.displayName || user?.name || '').trim()
+  const nameCheck = nameSaved && (
+    <CheckRounded
+      color="success"
+      aria-label={t('nameSaved')}
+      sx={{
+        '@keyframes account-name-check-in': {
+          from: { opacity: 0, transform: 'scale(0.5)' },
+          to: { opacity: 1, transform: 'scale(1)' },
+        },
+        '@keyframes account-name-check-out': {
+          from: { opacity: 1, transform: 'scale(1)' },
+          to: { opacity: 0, transform: 'scale(0.5)' },
+        },
+        animation: `${nameCheckFading ? 'account-name-check-out' : 'account-name-check-in'} 400ms ease-out forwards`,
+      }}
+    />
+  )
 
   return (
-    <div className="oc-account center">
-      <Box className="oc-account--profile profile" sx={{ width: 'min(100%, 560px)', mx: 'auto', px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 4 } }}>
-        <Typography component="h1" variant="h4" sx={{ mb: 4, textAlign: 'center' }}>
-          {t('profile')}
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.5, mb: 2.5 }}>
-          <TextField size="small" label={t('name')} value={name} onChange={(event) => setName(event.target.value)} error={nameError} helperText={nameError ? t('nameSaveError') : undefined} disabled={savingName || signedOut} sx={{ flex: { xs: '1 1 100%', sm: '1 1 280px' } }} />
-          <Button variant="outlined" startIcon={<SaveRounded />} onClick={handleSaveName} disabled={savingName || signedOut || name.trim() === (user?.displayName || user?.name || '').trim()} sx={{ minHeight: 40, order: { xs: 2, sm: 0 } }}>
-            {t('saveName')}
-          </Button>
-          {/* Phones: the field takes the whole first line, and Save goes under
-              it at the right, flush with the field, the check just before. */}
-          <Box sx={{ width: 24, height: 24, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', order: { xs: 1, sm: 0 }, ml: { xs: 'auto', sm: 0 } }}>
-            {nameSaved && (
-              <CheckRounded
-                color="success"
-                aria-label={t('nameSaved')}
-                sx={{
-                  '@keyframes account-name-check-in': {
-                    from: { opacity: 0, transform: 'scale(0.5)' },
-                    to: { opacity: 1, transform: 'scale(1)' },
-                  },
-                  '@keyframes account-name-check-out': {
-                    from: { opacity: 1, transform: 'scale(1)' },
-                    to: { opacity: 0, transform: 'scale(0.5)' },
-                  },
-                  animation: `${nameCheckFading ? 'account-name-check-out' : 'account-name-check-in'} 400ms ease-out forwards`,
-                }}
-              />
+    <div className="oc-account">
+      {/* Same column and section style as the edit pages (section headings,
+          dividers), under an identity header like the account menu's. */}
+      <Box className="oc-account--content" sx={{ width: 'min(100%, 720px)', mx: 'auto', py: { xs: 1, sm: 3 }, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box className="oc-account--identity" sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+          <Avatar src={user?.photoURL || undefined} alt="" sx={{ width: 72, height: 72, bgcolor: 'primary.main', fontSize: 32, flexShrink: 0 }}>
+            {!user?.photoURL && (displayName[0]?.toUpperCase() || null)}
+          </Avatar>
+          <Box sx={{ minWidth: 0 }}>
+            <Typography component="h1" variant="h5" sx={{ overflowWrap: 'anywhere' }}>
+              {displayName || t('profile')}
+            </Typography>
+            {user?.email && (
+              <Typography color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>
+                {user.email}
+              </Typography>
             )}
           </Box>
         </Box>
-        <Box sx={{ mb: 3, pl: 1.5 }}>
-          <Typography variant="body2" color="text.secondary">
-            {t('email')}
-          </Typography>
-          <Typography component="p">{user?.email || ''}</Typography>
+
+        <Divider sx={formSectionDividerSx} />
+
+        <Box component="section" className="oc-account--personal-info">
+          <Typography {...sectionHeadingProps}>{t('personalInfo')}</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap', gap: 1.5 }}>
+            <TextField size="small" label={t('name')} value={name} onChange={(event) => setName(event.target.value)} error={nameError} helperText={nameError ? t('nameSaveError') : undefined} disabled={savingName || signedOut} sx={{ flex: { xs: '1 1 100%', sm: '1 1 280px' } }} />
+            {/* Phones: the field takes the whole first line, and Save goes under
+                it at the right, flush with the field, the check just before. */}
+            <Box sx={{ width: 24, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', order: { xs: 1, sm: 2 }, ml: { xs: 'auto', sm: 0 } }}>{nameCheck}</Box>
+            <Button variant="outlined" startIcon={<SaveRounded />} onClick={handleSaveName} disabled={savingName || signedOut || name.trim() === displayName} sx={{ minHeight: 40, order: { xs: 2, sm: 1 } }}>
+              {t('saveName')}
+            </Button>
+          </Box>
         </Box>
-        <LanguageSection />
-        {isLoggedIn && <SavedCavesList />}
-        <OfflineStorageSection />
+
+        <Divider sx={formSectionDividerSx} />
+        <LanguageSection headingProps={sectionHeadingProps} />
+
+        {isLoggedIn && (
+          <>
+            <Divider sx={formSectionDividerSx} />
+            <SavedCavesList headingProps={sectionHeadingProps} />
+          </>
+        )}
+
+        <Divider sx={formSectionDividerSx} />
+        <OfflineStorageSection headingProps={sectionHeadingProps} />
+
         {hasPasswordProvider && (
-          <Box component="section" sx={{ pt: 3, mb: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-            <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-              {t('changePassword')}
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <TextField type="password" size="small" label={t('currentPassword')} value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} disabled={passwordSaving || signedOut} autoComplete="current-password" />
-              <TextField type="password" size="small" label={t('newPassword')} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} disabled={passwordSaving || signedOut} autoComplete="new-password" />
-              <TextField type="password" size="small" label={t('confirmPassword')} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} error={!!passwordError} helperText={passwordError || undefined} disabled={passwordSaving || signedOut} autoComplete="new-password" />
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Button variant="outlined" onClick={handleChangePassword} disabled={passwordSaving || signedOut || !currentPassword || !newPassword || !confirmPassword}>
-                  {t('savePassword')}
-                </Button>
-                <Box sx={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{passwordSaved && <CheckRounded color="success" aria-label={t('passwordSaved')} />}</Box>
+          <>
+            <Divider sx={formSectionDividerSx} />
+            <Box component="section" className="oc-account--password">
+              <Typography {...sectionHeadingProps}>{t('changePassword')}</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField type="password" size="small" label={t('currentPassword')} value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} disabled={passwordSaving || signedOut} autoComplete="current-password" />
+                <TextField type="password" size="small" label={t('newPassword')} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} disabled={passwordSaving || signedOut} autoComplete="new-password" />
+                <TextField type="password" size="small" label={t('confirmPassword')} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} error={!!passwordError} helperText={passwordError || undefined} disabled={passwordSaving || signedOut} autoComplete="new-password" />
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1 }}>
+                  <Box sx={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{passwordSaved && <CheckRounded color="success" aria-label={t('passwordSaved')} />}</Box>
+                  <Button variant="outlined" onClick={handleChangePassword} disabled={passwordSaving || signedOut || !currentPassword || !newPassword || !confirmPassword}>
+                    {t('savePassword')}
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </>
         )}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5, pt: 2.5, borderTop: '1px solid', borderColor: 'divider' }}>
-          <Button variant="contained" color="primary" startIcon={<LogoutRounded />} onClick={handleSignOut} disabled={signingOut}>
+
+        <Divider sx={formSectionDividerSx} />
+        <Box className="oc-account--sign-out" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pb: 2 }}>
+          <Button variant="outlined" startIcon={<LogoutRounded />} onClick={handleSignOut} disabled={signingOut}>
             {t('signOut')}
           </Button>
           {signedOut && (

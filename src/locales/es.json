@@ -100,7 +100,8 @@
     },
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",
-    "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo."
+    "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo.",
+    "personalInfo": "Información personal"
   },
   "auth": {
     "dialog": {
