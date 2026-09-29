@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,8 @@ import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import { ResultPaneSmContext } from './ResultPaneSm.jsx'
+import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 
@@ -107,6 +109,23 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   }))
   const [saving, setSaving] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+
+  // Phone sheet: once the Name field has scrolled up behind the sheet's head
+  // bar, the bar shows the cave's name - as the read-only view does with its
+  // title (CurrentCaveDetailsHeader) - and hides it again once it's back.
+  const paneData = useContext(ResultPaneSmContext)
+  const nameFieldRef = useRef(null)
+  useEffect(() => {
+    const setTitleHidden = paneData?.setTitleHidden
+    if (!setTitleHidden || !nameFieldRef.current) return undefined
+    const observer = new IntersectionObserver(([entry]) => setTitleHidden(!entry.isIntersecting), { rootMargin: `-${RESULT_PANE_SM_HEAD_HEIGHT}px 0px 0px 0px` })
+    observer.observe(nameFieldRef.current)
+    return () => {
+      observer.disconnect()
+      setTitleHidden(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paneData?.setTitleHidden])
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name })
   function field(name) {
     return {
@@ -257,7 +276,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
   return (
     <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))', ...phoneTouchSizing }) }}>
-      <TextField label={t('name')} fullWidth required {...field('name')} />
+      <TextField ref={nameFieldRef} label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
 
