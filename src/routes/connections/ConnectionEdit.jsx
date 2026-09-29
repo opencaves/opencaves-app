@@ -221,6 +221,7 @@ export default function ConnectionEdit() {
           <TextField
             select
             label={t('parentSistema')}
+            helperText={t('parentSistemaHint')}
             fullWidth
             {...field('parentSistemaId')}
             slotProps={{

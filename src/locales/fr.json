@@ -691,7 +691,8 @@
     "delete": "Supprimer",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière."
   },
   "mapsPicker": {
     "addMap": "Ajouter une carte",
@@ -906,7 +907,8 @@
         "title": "Langues",
         "newItem": "Nouvelle langue"
       }
-    }
+    },
+    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière."
   },
   "usersAdmin": {
     "title": "Utilisateurs",

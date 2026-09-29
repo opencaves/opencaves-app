@@ -299,6 +299,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
           <TextField
             select
             label={t('parentSistema')}
+            helperText={t('parentSistemaHint')}
             fullWidth
             {...field('parentSistemaId')}
             slotProps={{

@@ -693,7 +693,8 @@
     "delete": "Eliminar",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente."
   },
   "mapsPicker": {
     "addMap": "Agregar un mapa",
@@ -908,7 +909,8 @@
         "title": "Idiomas",
         "newItem": "Nuevo idioma"
       }
-    }
+    },
+    "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente."
   },
   "usersAdmin": {
     "title": "Usuarios",

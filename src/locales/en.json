@@ -693,7 +693,8 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "save": "Save",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own."
   },
   "mapsPicker": {
     "addMap": "Add a map",
@@ -908,7 +909,8 @@
         "title": "Languages",
         "newItem": "New language"
       }
-    }
+    },
+    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own."
   },
   "usersAdmin": {
     "title": "Users",
