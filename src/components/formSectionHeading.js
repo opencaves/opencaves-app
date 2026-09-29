@@ -6,6 +6,10 @@ export function formSectionHeadingProps(className) {
     component: 'h2',
     variant: 'h6',
     className,
-    sx: { mt: 1, mb: 3, pl: 1, borderLeft: '3px solid', borderColor: 'secondary.main', fontWeight: 600 },
+    sx: { mt: 0, mb: 3, pl: 1, borderLeft: '3px solid', borderColor: 'secondary.main', fontWeight: 600 },
   }
 }
+
+// For the Divider between two sections: with the forms' own 16dp gap, 32dp
+// on each side.
+export const formSectionDividerSx = { my: 2 }

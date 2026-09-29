@@ -10,7 +10,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
-import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
@@ -269,20 +269,20 @@ export default function CaveEdit() {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label={t('name')} fullWidth required {...field('name')} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} labelProps={sectionHeadingProps} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <Typography {...columnHeadingProps}>{t('media')}</Typography>
         <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <Typography {...columnHeadingProps}>{t('coordinates')}</Typography>
 
@@ -302,11 +302,11 @@ export default function CaveEdit() {
           </Grid>
         </Grid>
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         {/* The heading's own margins move to the row, so the edit button
             lines up with it. */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, mb: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
           <Typography {...sectionHeadingProps} sx={{ ...sectionHeadingProps.sx, my: 0 }}>
             {t('sistemaGroup')}
           </Typography>
@@ -341,15 +341,15 @@ export default function CaveEdit() {
 
         <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <Typography {...columnHeadingProps}>{t('accessGroup')}</Typography>
         <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
@@ -372,7 +372,7 @@ export default function CaveEdit() {
         </TextField>
         <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <Typography {...columnHeadingProps}>{t('accessibilityGroup')}</Typography>
         <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
@@ -401,7 +401,7 @@ export default function CaveEdit() {
           <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
         </Box>
 
-        <Divider />
+        <Divider sx={formSectionDividerSx} />
 
         <Typography id="oc-cave-edit-note-title" {...columnHeadingProps}>
           {t('notes')}

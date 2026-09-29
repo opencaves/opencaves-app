@@ -20,7 +20,7 @@ import StickyActionBar from '@/components/StickyActionBar.jsx'
 import AddButton from '@/components/AddButton.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
-import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 
@@ -365,7 +365,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <Divider />
+          <Divider sx={formSectionDividerSx} />
         </Grid>
 
         <Grid size={12}>
@@ -386,7 +386,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <Divider />
+          <Divider sx={formSectionDividerSx} />
         </Grid>
 
         <Grid size={12}>
@@ -394,7 +394,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <Divider />
+          <Divider sx={formSectionDividerSx} />
         </Grid>
 
         <Grid size={12}>
@@ -402,7 +402,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <Divider />
+          <Divider sx={formSectionDividerSx} />
         </Grid>
 
         <Grid size={12}>
@@ -414,7 +414,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <Divider />
+          <Divider sx={formSectionDividerSx} />
         </Grid>
 
         <Grid size={12}>
