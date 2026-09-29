@@ -4,6 +4,80 @@ import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// index.html paints its map shell (a static loading screen) from the HTML
+// alone. The tags Vite injects for the app - its stylesheets (which block
+// painting) and ~1 MB of preloaded modules - would otherwise all be requested
+// before that first paint and compete with it for a slow connection. This
+// moves them into a small loader that adds them right after the first paint
+// (or shortly anyway, in a background tab where no frame is painted); the
+// app waits for its stylesheets before rendering (src/index.jsx). Build only.
+function loadAppAfterFirstPaint() {
+  return {
+    name: 'oc-load-app-after-first-paint',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        const found = { stylesheets: [], preloads: [], entry: null }
+        html = html
+          .replace(/\s*<script type="module" crossorigin src="([^"]+)"><\/script>/, (_, src) => {
+            found.entry = src
+            return ''
+          })
+          .replace(/\s*<link rel="modulepreload" crossorigin href="([^"]+)">/g, (_, href) => {
+            found.preloads.push(href)
+            return ''
+          })
+          .replace(/\s*<link rel="stylesheet" crossorigin href="([^"]+)">/g, (_, href) => {
+            found.stylesheets.push(href)
+            return ''
+          })
+        if (!found.entry) {
+          throw new Error('oc-load-app-after-first-paint: no entry script found in index.html')
+        }
+        const loader = `<script>
+    (function () {
+      var stylesheets = ${JSON.stringify(found.stylesheets)}
+      var preloads = ${JSON.stringify(found.preloads)}
+      var started = false
+      function start() {
+        if (started) return
+        started = true
+        var head = document.head
+        window.__ocAppStylesheets = Promise.all(stylesheets.map(function (href) {
+          return new Promise(function (resolve) {
+            var link = document.createElement('link')
+            link.rel = 'stylesheet'
+            link.crossOrigin = ''
+            link.href = href
+            link.onload = link.onerror = resolve
+            head.appendChild(link)
+          })
+        }))
+        preloads.forEach(function (href) {
+          var link = document.createElement('link')
+          link.rel = 'modulepreload'
+          link.crossOrigin = ''
+          link.href = href
+          head.appendChild(link)
+        })
+        var script = document.createElement('script')
+        script.type = 'module'
+        script.crossOrigin = ''
+        script.src = ${JSON.stringify(found.entry)}
+        head.appendChild(script)
+      }
+      requestAnimationFrame(function () { setTimeout(start) })
+      setTimeout(start, 300)
+    })()
+  </script>
+</body>`
+        return html.replace('</body>', loader)
+      },
+    },
+  }
+}
+
 export default defineConfig({
   build: {
     outDir: 'build',
@@ -53,6 +127,7 @@ export default defineConfig({
       }
     }),
     svgrPlugin(),
+    loadAppAfterFirstPaint(),
     VitePWA({
       // The app registers and manages the service worker itself
       // (src/serviceWorkerRegistration.js) - this plugin's only job is to

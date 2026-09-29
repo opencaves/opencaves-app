@@ -15,8 +15,11 @@ if (isPhone()) {
   loadIonic()
 }
 
+// In a build, index.html's loader adds the app's stylesheets next to this
+// script, after the page's first paint (see vite.config.js): render once
+// they're in, so nothing shows unstyled. (No such promise in dev.)
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
+Promise.resolve(window.__ocAppStylesheets).then(() => root.render(
   // <StrictMode>
   <Profiler name='App'>
     <Provider store={store}>
@@ -26,7 +29,7 @@ root.render(
     </Provider>
   </Profiler>
   // </StrictMode >
-)
+))
 
 // Google Tag Manager has no bearing on the app being usable - load and
 // initialize it once the browser is idle instead of having it compete with
