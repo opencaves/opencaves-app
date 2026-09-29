@@ -10,7 +10,7 @@ import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
-import ResultPaneMenu from './ResultPaneMenu.jsx'
+import AppMenu from '@/components/App/AppMenu.jsx'
 import EditCaveButtons from '@/components/Map/EditCaveButtons.jsx'
 import { PANE_BREAKPOINTS, PANE_INITIAL_BREAKPOINT, PANE_OPEN_THRESHOLD } from '@/config/app.js'
 import { RESULT_PANE_SM_UPPER_HEIGHT } from '@/config/resultPane.js'
@@ -290,7 +290,9 @@ export default function ResultPaneSm({ children, cave, ...props }) {
               </Grid>
             )}
             <Grid>
-              <ResultPaneMenu sx={headerIconButtonSx} />
+              {/* The same account button and card as the search bar's, which
+                  this bar stands in for while the sheet is up. */}
+              <AppMenu sx={{ ...headerIconButtonSx, bgcolor: 'transparent', ':hover': { bgcolor: 'transparent' } }} />
             </Grid>
           </Grid>
         )}

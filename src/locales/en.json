@@ -16,7 +16,7 @@
     "item_other": "{{count}} items",
     "menu": {
       "tooltip": "Menu",
-      "ariaLabel": "Plus",
+      "ariaLabel": "More",
       "home": "Home",
       "myAccount": "My account",
       "admin": "Dashboard",
