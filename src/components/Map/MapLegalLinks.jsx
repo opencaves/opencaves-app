@@ -8,10 +8,9 @@ import { Box } from '@mui/material'
 // `a:not(.MuiButtonBase-root) { color: inherit }` rule outranks a color set
 // on the links themselves.
 //
-// On phones they ride above the result pane's sheet and fade out once it's
-// mostly open (ResultPaneSm's --oc-result-pane-sm-height and
-// --oc-map-controls-* variables). On wider screens they stay at the left edge,
-// beneath the result pane (z-index 998) when one is open there.
+// Fixed at the bottom-left corner of the map, on every screen size: on
+// phones the result pane's sheet simply covers them while it's open, and on
+// wider screens the result pane (z-index 998) does when one is open there.
 export default function MapLegalLinks() {
   const { t } = useTranslation('legal', { keyPrefix: 'links' })
 
@@ -32,7 +31,7 @@ export default function MapLegalLinks() {
       sx={(theme) => ({
         position: 'absolute',
         left: 8,
-        bottom: 'calc(var(--oc-result-pane-sm-height, 0px) + 8px)',
+        bottom: 8,
         zIndex: 2,
         display: 'flex',
         alignItems: 'center',
@@ -45,9 +44,6 @@ export default function MapLegalLinks() {
         // An outline all around the glyphs (same technique as the marker
         // labels in Marker.scss).
         textShadow: '#000 1px 0 0, #000 -1px 0 0, #000 0 1px 0, #000 0 -1px 0, #000 1px 1px 0, #000 -1px -1px 0, #000 1px -1px 0, #000 -1px 1px 0',
-        opacity: 'var(--oc-map-controls-opacity, 1)',
-        visibility: 'var(--oc-map-controls-visibility, visible)',
-        transition: 'opacity 150ms ease, visibility 150ms ease',
         [theme.breakpoints.up('sm')]: { left: 12, bottom: 12 },
       })}
     >
