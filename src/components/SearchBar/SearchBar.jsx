@@ -221,11 +221,15 @@ export default function SearchBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // The open cave's name - on a cave's own page only: on /map itself the bar
+  // is empty, even while the store still holds the last cave (it's saved
+  // between visits, and cleared a moment later by the map).
+  const onCavePage = location.pathname.startsWith('/map/')
   useEffect(() => {
-    if (currentCave) {
+    if (currentCave && onCavePage) {
       setValue(getCaveName(currentCave.name))
     }
-  }, [currentCave, getCaveName])
+  }, [currentCave, getCaveName, onCavePage])
 
   // Slid off-screen (edit mode, or the phone sheet fully open): inert too,
   // so the hidden search landmark and its field leave the tab order and the

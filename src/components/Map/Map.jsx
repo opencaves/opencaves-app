@@ -623,6 +623,10 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     if (!caveId) {
       _setCurrentCave(null)
+      // In the store too: /map can be reached without closing the cave -
+      // browser Back, the app bar's Home, a link - and the search bar shows
+      // the store's cave (a no-op when it's already cleared).
+      dispatch(clearCurrentCave())
       setActiveMarkerElem(null)
       setMapReady(true)
       return
