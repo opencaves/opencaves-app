@@ -32,6 +32,7 @@ export async function resultPaneLoader({ params }) {
 
 export default function ResultPane() {
   const { t } = useTranslation('resultPane')
+  const { t: tApp } = useTranslation('app')
   const { caveId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -81,12 +82,15 @@ export default function ResultPane() {
   }, [caves, caveId])
 
 
+  // Editing it (/map/:caveId/edit): "Edit …", like every edit page's title.
+  const isEditingCave = location.pathname.endsWith('/edit')
   useEffect(() => {
     if (currentCave) {
-      setTitle(t('title', { name: currentCave.name.value }))
+      const title = t('title', { name: currentCave.name.value })
+      setTitle(isEditingCave ? tApp('editTitle', { title }) : title)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCave, t])
+  }, [currentCave, t, tApp, isEditingCave])
 
   // Dragging a file anywhere over the window (not just onto a dedicated
   // dropzone) opens the same full-screen upload prompt used in the media

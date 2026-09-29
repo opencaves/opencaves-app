@@ -44,10 +44,20 @@ export default function ReferenceDataItemEdit() {
   // A new item's baseline is its empty form; an existing one's is set once loaded.
   const { isDirty, setBaseline, unsavedChangesDialog } = useUnsavedChanges(form, { initial: isNew ? form : undefined, onSave: handleSave })
 
+  // Every edit page's title says so: "Edit <the item's name>" (its id field -
+  // name, code or hex - once loaded, else the collection's name); a new item
+  // stays "New …".
+  const itemLabel = config ? form[config.id?.from || 'name'] || form.name || form.code || form.hex : ''
   useEffect(() => {
-    setTitle(config ? t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`) : collectionName)
+    if (!config) {
+      setTitle(collectionName)
+    } else if (isNew) {
+      setTitle(t(`collections.${collectionName}.newItem`))
+    } else {
+      setTitle(tApp('editTitle', { title: itemLabel || t(`collections.${collectionName}.title`) }))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionName, isNew, t])
+  }, [collectionName, isNew, t, tApp, itemLabel])
 
   useEffect(() => {
     if (isNew || !config) {

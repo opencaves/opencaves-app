@@ -162,9 +162,10 @@ export default function CaveEdit() {
   }, [caveId])
 
   useEffect(() => {
-    setTitle(isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId }))
+    // Every edit page's title says so ("Edit …"); a new one stays "New …".
+    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || caveId }) }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name, t])
+  }, [isNew, form.name, t, tApp])
 
   function field(name) {
     return {

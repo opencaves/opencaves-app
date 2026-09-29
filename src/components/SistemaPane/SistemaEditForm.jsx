@@ -191,9 +191,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
   }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
 
   useEffect(() => {
-    onTitleChange?.(isNew ? t('newSistema') : t('sistemaTitle', { name: form.name || sistemaId }))
+    // Every edit page's title says so ("Edit …"); a new one stays "New …".
+    onTitleChange?.(isNew ? t('newSistema') : tApp('editTitle', { title: t('sistemaTitle', { name: form.name || sistemaId }) }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name, t])
+  }, [isNew, form.name, t, tApp])
 
   function field(name) {
     return {

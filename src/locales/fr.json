@@ -55,7 +55,8 @@
       "save": "Enregistrer",
       "discard": "Abandonner",
       "stay": "Continuer à modifier"
-    }
+    },
+    "editTitle": "Modifier {{title}}"
   },
   "account": {
     "profile": "Profil",
