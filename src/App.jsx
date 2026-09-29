@@ -74,10 +74,15 @@ const App = () => {
     }
   }, [dispatch, store])
 
-  // index.html's static map shell, painted before this JavaScript ran:
-  // the real page is rendering now.
+  // index.html's static map shell stays under the app until the real search
+  // bar replaces it (SearchBar) - through every loading state in between.
+  // Only a page that isn't the map (a redirect, an error page) removes it
+  // here, since no search bar will.
   useEffect(() => {
-    document.getElementById('oc-shell')?.remove()
+    const path = window.location.pathname
+    if (!(path === '/' || path === '/map' || path.startsWith('/map/'))) {
+      document.getElementById('oc-shell')?.remove()
+    }
   }, [])
 
   useEffect(() => {

@@ -33,26 +33,47 @@
   <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
   <meta name="theme-color" content="#145e79" />
 
-  <!-- The map shell: a static copy of the map page's search bar over its
-       loading background, painted from this HTML alone - before the app's
-       JavaScript (well over 1 MB) has loaded and run. Same geometry as the
-       real one (SearchBar), which replaces it: App removes it once it
-       renders. Map routes only, and light mode only (no white flash before a
+  <!-- The map shell: a static copy of the map page while it loads - its
+       search bar over its loading screen (logo, title, spinner) - painted
+       from this HTML alone, before the app's JavaScript (well over 1 MB) has
+       loaded and run. Same geometry as the real ones (SearchBar, and
+       MapLoading/MapState.scss - keep them in sync), which replace it: App
+       removes it once it renders, so the page looks the same until the map
+       appears. Map routes only, and light mode only (no white flash before a
        dark search bar). -->
   <style>
     #oc-shell { position: fixed; inset: 0; background: #ebebeb; }
     #oc-shell .oc-shell--search { position: absolute; top: 8px; left: 8px; right: 8px; box-sizing: border-box; height: 50px; display: flex; align-items: center; background: #fff; border: 1px solid #fff; border-radius: 24px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02); }
-    #oc-shell svg { position: absolute; left: 12px; width: 24px; height: 24px; fill: rgba(0, 0, 0, 0.54); }
-    #oc-shell .oc-shell--placeholder { margin-left: 48px; font: 16px/23px Roboto, Helvetica, Arial, sans-serif; color: rgba(0, 0, 0, 0.365); white-space: nowrap; overflow: hidden; }
+    #oc-shell .oc-shell--search svg { position: absolute; left: 12px; width: 24px; height: 24px; fill: rgba(0, 0, 0, 0.54); }
     @media (min-width: 600px) { #oc-shell .oc-shell--search { right: auto; width: 384px; } }
+    @font-face { font-family: 'Hero'; src: url('/src/fonts/hero/Hero.woff2') format('woff2'); font-weight: normal; font-style: normal; font-display: swap; }
+    @keyframes oc-shell-dots { 0% { transform: scale(1, 1); opacity: 0.9; } 50% { transform: scale(0.3, 0.3); opacity: 0.3; } 100% { transform: scale(1, 1); opacity: 0.9; } }
+    #oc-shell .oc-shell--loading { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; }
+    #oc-shell .oc-shell--box { display: flex; flex-direction: column; justify-content: space-between; align-items: center; max-width: calc(100% - 6rem); }
+    #oc-shell .oc-shell--logo { width: 35%; margin-bottom: 1rem; fill: #fff; }
+    #oc-shell .oc-shell--logo .p1, #oc-shell .oc-shell--logo .p2 { opacity: 0.45; }
+    #oc-shell .oc-shell--title { font: 600 12vmin/1 Hero, Helvetica, Arial, sans-serif; color: #fff; text-align: center; text-transform: uppercase; white-space: nowrap; }
+    @media (min-width: 800px) { #oc-shell .oc-shell--title { font-size: 6rem; } }
+    #oc-shell .oc-shell--spinner { margin-top: 3rem; display: inline-block; position: relative; width: 16.6667%; aspect-ratio: 2; }
+    #oc-shell .oc-shell--dot { fill: #000; transform-origin: center center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation: oc-shell-dots 0.75s linear infinite; }
   </style>
 </head>
 
 <body>
   <div id="oc-shell" aria-hidden="true">
+    <div class="oc-shell--loading">
+      <div class="oc-shell--box">
+        <svg class="oc-shell--logo" viewBox="-.0015623 -2.7662e-5 92.193 100"><path class="p1" d="M76.57 55.43l-36.23-36L22 1.2A14.48 14.48 0 0 0 16.2 0C7.37 0 .19 8.1 0 18.16v43.47a18.67 18.67 0 0 0 18.43 18.91H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.63-9.19z" /><path class="p2" d="M73.76 19.46H23a17.86 17.86 0 0 0-10 15.92 17.46 17.46 0 0 0 2.61 9.2l36.23 36L70.23 98.8A14.52 14.52 0 0 0 76 100c8.82 0 16-8.09 16.19-18.15V38.36a18.67 18.67 0 0 0-18.43-18.9z" /><path class="p3" d="M15.61 44.58l36.23 36H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.62-9.19l-36.23-36H23a17.86 17.86 0 0 0-10 15.91 17.46 17.46 0 0 0 2.61 9.2z" /></svg>
+        <div class="oc-shell--title">Open Caves</div>
+        <div class="oc-shell--spinner">
+          <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: 30%"><circle transform="translate(32,32)" r="10" /></svg>
+          <svg class="oc-shell--dot" viewBox="0 0 64 64" style="animation-delay: -111ms"><circle transform="translate(32,32)" r="10" /></svg>
+          <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: -30%; animation-delay: -220ms"><circle transform="translate(32,32)" r="10" /></svg>
+        </div>
+      </div>
+    </div>
     <div class="oc-shell--search">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14" /></svg>
-      <span class="oc-shell--placeholder"></span>
     </div>
   </div>
   <script>
@@ -61,29 +82,14 @@
       var path = location.pathname
       var isMapRoute = path === '/' || path === '/map' || path.indexOf('/map/') === 0
       var mode = null
-      var language = null
       try {
         mode = localStorage.getItem('mui-mode')
-        language = localStorage.getItem('oc-language')
       } catch (e) {}
       var dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
       if (!isMapRoute || dark) {
         shell.remove()
         return
       }
-      // Same choice as the app's language detection: the stored preference,
-      // else the browser's language (its primary subtag), else English.
-      var placeholders = __OC_SEARCH_PLACEHOLDERS__
-      var candidates = [language].concat(navigator.languages || [navigator.language])
-      var text = placeholders.en
-      for (var i = 0; i < candidates.length; i++) {
-        var code = candidates[i] && candidates[i].toLowerCase().split('-')[0]
-        if (code && placeholders[code]) {
-          text = placeholders[code]
-          break
-        }
-      }
-      shell.querySelector('.oc-shell--placeholder').textContent = text
     })()
   </script>
   <div id="root"></div>

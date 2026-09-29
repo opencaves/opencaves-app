@@ -327,6 +327,11 @@ export default function SearchBar() {
     setShowSearchResults(searchResults.length > 0 && searchBarHasFocus)
   }, [searchResults, searchBarHasFocus])
 
+  // The real search bar is here: index.html's static shell of it can go.
+  useEffect(() => {
+    document.getElementById('oc-shell')?.remove()
+  }, [])
+
   // Exposing the search bar height as a css custom property
   useEffect(() => {
     if (searchBarRef) {

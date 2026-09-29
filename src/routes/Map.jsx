@@ -10,6 +10,7 @@ import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
+import SearchBarMockup from '@/components/SearchBar/SearchBarMockup.jsx'
 import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 import './Map.scss'
 
@@ -35,7 +36,15 @@ export default function MapPage() {
   const [PageRoot] = useState(() => (isPhone() ? IonApp : 'div'))
 
   return (
-    <Suspense fallback={null}>
+    // While Ionic loads (phones): the loading screen, not a blank page.
+    <Suspense
+      fallback={
+        <>
+          <MapLoading />
+          <SearchBarMockup />
+        </>
+      }
+    >
     <PageRoot className="oc-map">
       <AddMediasProvider>
         {/* The page's h1 (for search engines and screen readers); the map is
