@@ -6,6 +6,7 @@ import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, Dia
 import { ArrowBackRounded, DeleteRounded, SearchRounded } from '@mui/icons-material'
 import { functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 const listUsersFn = httpsCallable(functions, 'listUsers')
 const setUserRolesFn = httpsCallable(functions, 'setUserRoles')
@@ -134,7 +135,7 @@ export default function UsersAdmin() {
       )}
 
       {loading ? (
-        <Typography>{t('loading')}</Typography>
+        <ListSkeleton rows={6} leading={null} count />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>

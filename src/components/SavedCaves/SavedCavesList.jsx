@@ -8,6 +8,7 @@ import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { getData } from '@/services/data-service.jsx'
 import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 // One saved cenote's offline download state, beside its name: a progress
 // ring while downloading, a cloud-check once everything is on the device.
@@ -79,7 +80,7 @@ export default function SavedCavesList({ headingProps = {} }) {
       </Typography>
       {offlineSupported && savedCaves.length > 0 && <OfflineSummary />}
       {loading ? (
-        <Typography color="text.secondary">{t('loading')}</Typography>
+        <ListSkeleton rows={3} leading="circle" fill={false} />
       ) : savedCaves.length === 0 ? (
         <Typography color="text.secondary">{t('empty')}</Typography>
       ) : (

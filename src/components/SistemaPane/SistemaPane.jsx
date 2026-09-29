@@ -9,6 +9,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { PANE_WIDTH as baseWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 const areasModel = createCollectionModel('areas')
 
@@ -167,7 +168,7 @@ export default function SistemaPane() {
           }}
         >
           {loading ? (
-            <Typography>{t('loading')}</Typography>
+            <ListSkeleton rows={8} leading="square" secondary={false} />
           ) : (
             <List disablePadding>
               {visibleSistemas.map((sistema) => {

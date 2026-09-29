@@ -57,7 +57,8 @@
       "discard": "Descartar",
       "stay": "Seguir editando"
     },
-    "editTitle": "Editar {{title}}"
+    "editTitle": "Editar {{title}}",
+    "loading": "Cargando…"
   },
   "account": {
     "profile": "Perfil",
@@ -80,7 +81,6 @@
     "signedOut": "Sesión cerrada",
     "savedCaves": {
       "title": "Cenotes guardados",
-      "loading": "Cargando…",
       "empty": "Aún no has guardado ningún cenote. Usa el botón Guardar de un cenote para añadirlo aquí.",
       "remove": "Quitar de guardados",
       "removeNamed": "Quitar {{name}} de guardados",
@@ -518,7 +518,6 @@
       "newCave": "Nuevo cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Volver a los cenotes",
-      "loading": "Cargando…",
       "placeOnMap": "Colocar en el mapa",
       "placeOnMapTitle": "Colocar: {{label}}",
       "placeOnMapHint": "Mueve el mapa para poner el pin en el lugar",
@@ -699,7 +698,6 @@
     "delete": "Eliminar",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "loading": "Cargando…",
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
     "explorationDateHint": "Cuándo tuvo lugar esta exploración."
   },
@@ -739,7 +737,6 @@
       "ariaLabel": "Atrás"
     },
     "newSistema": "Nuevo sistema",
-    "loading": "Cargando…",
     "unnamedSistema": "(sin nombre)",
     "searchBtn": {
       "ariaLabel": "Buscar"
@@ -859,7 +856,6 @@
     "connectionSaveError": "No se pudo guardar la conexión.",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "loading": "Cargando…",
     "color": "Color",
     "fieldLabels": {
       "name": "Nombre",
@@ -923,7 +919,6 @@
   "usersAdmin": {
     "title": "Usuarios",
     "searchLabel": "Buscar por correo",
-    "loading": "Cargando…",
     "count": "{{count}} usuario(s)",
     "disabled": "Deshabilitado",
     "role": {

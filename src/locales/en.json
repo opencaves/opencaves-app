@@ -57,7 +57,8 @@
       "discard": "Discard",
       "stay": "Keep editing"
     },
-    "editTitle": "Edit {{title}}"
+    "editTitle": "Edit {{title}}",
+    "loading": "Loading…"
   },
   "account": {
     "profile": "Profile",
@@ -80,7 +81,6 @@
     "signedOut": "Signed out",
     "savedCaves": {
       "title": "Saved cenotes",
-      "loading": "Loading…",
       "empty": "You haven’t saved any cenotes yet. Use the Save button on a cenote to add it here.",
       "remove": "Remove from saved",
       "removeNamed": "Remove {{name}} from saved",
@@ -518,7 +518,6 @@
       "newCave": "New cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Back to caves",
-      "loading": "Loading…",
       "placeOnMap": "Place on map",
       "placeOnMapTitle": "Place: {{label}}",
       "placeOnMapHint": "Move the map to put the pin on the spot",
@@ -699,7 +698,6 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "save": "Save",
-    "loading": "Loading…",
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
     "explorationDateHint": "When this exploration took place."
   },
@@ -739,7 +737,6 @@
       "ariaLabel": "Back"
     },
     "newSistema": "New sistema",
-    "loading": "Loading…",
     "unnamedSistema": "(unnamed)",
     "searchBtn": {
       "ariaLabel": "Search"
@@ -859,7 +856,6 @@
     "connectionSaveError": "Could not save the connection.",
     "cancel": "Cancel",
     "save": "Save",
-    "loading": "Loading…",
     "color": "Color",
     "fieldLabels": {
       "name": "Name",
@@ -923,7 +919,6 @@
   "usersAdmin": {
     "title": "Users",
     "searchLabel": "Search by email",
-    "loading": "Loading…",
     "count": "{{count}} user(s)",
     "disabled": "Disabled",
     "role": {

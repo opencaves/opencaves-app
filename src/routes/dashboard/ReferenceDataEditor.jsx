@@ -10,6 +10,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { toContentLanguage } from '@/utils/lang.jsx'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 function getHexHue(hex) {
   let value = String(hex || '')
@@ -106,7 +107,7 @@ export default function ReferenceDataEditor() {
       </Box>
 
       {loading ? (
-        <Typography>{t('loading')}</Typography>
+        <ListSkeleton rows={6} leading={null} />
       ) : (
         <List disablePadding>
           {sortedItems.map((item) => (

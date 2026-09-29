@@ -6,6 +6,7 @@ import { Box, Fab, IconButton, InputAdornment, Paper, Table, TableBody, TableCel
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 export default function ConnectionList() {
   const { t } = useTranslation('dashboard')
@@ -59,7 +60,7 @@ export default function ConnectionList() {
       </Box>
 
       {loading ? (
-        <Typography>{t('loading')}</Typography>
+        <ListSkeleton rows={8} leading={null} count search />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

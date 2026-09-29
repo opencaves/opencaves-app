@@ -26,6 +26,7 @@ import StickyActionBar from '@/components/StickyActionBar.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
+import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -258,7 +259,7 @@ export default function CaveEdit() {
   }
 
   if (loading) {
-    return <Typography className="oc-cave-edit">{t('loading')}</Typography>
+    return <FormSkeleton className="oc-cave-edit" sections={[['100%'], ['100%'], ['100%'], ['100%', 'min(100%, 280px)'], ['100%', '100%']]} />
   }
 
   return (

@@ -16,6 +16,7 @@ import PartialDateField, { isValidPartialDate } from '@/components/PartialDateFi
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
+import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
@@ -170,7 +171,7 @@ export default function ConnectionEdit() {
           {error}
         </Alert>
       )}
-      {!form && !error && <Typography>{t('loading')}</Typography>}
+      {!form && !error && <FormSkeleton header={false} sections={[['100%', '100%', 'min(100%, 280px)', '100%', '100%']]} sx={{ maxWidth: 720 }} />}
 
       {form && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 720 }}>

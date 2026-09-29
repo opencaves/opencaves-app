@@ -16,6 +16,7 @@ import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
@@ -148,7 +149,7 @@ export default function ReferenceDataItemEdit() {
       </EditPageHeader>
 
       {loading ? (
-        <Typography>{t('loading')}</Typography>
+        <FormSkeleton header={false} sections={[['100%', '100%', '100%']]} sx={{ maxWidth: 480 }} />
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
           {config.fields.map((field) => {

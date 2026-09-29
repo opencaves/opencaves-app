@@ -57,7 +57,8 @@
       "discard": "Abandonner",
       "stay": "Continuer à modifier"
     },
-    "editTitle": "Modifier {{title}}"
+    "editTitle": "Modifier {{title}}",
+    "loading": "Chargement…"
   },
   "account": {
     "profile": "Profil",
@@ -80,7 +81,6 @@
     "signedOut": "Déconnecté",
     "savedCaves": {
       "title": "Cénotes sauvegardées",
-      "loading": "Chargement…",
       "empty": "Vous n’avez encore sauvegardé aucune cénote. Utilisez le bouton Sauvegarder d’une cénote pour l’ajouter ici.",
       "remove": "Retirer des sauvegardées",
       "removeNamed": "Retirer {{name}} des sauvegardées",
@@ -516,7 +516,6 @@
       "newCave": "Nouvelle cénote",
       "caveTitle": "Cénote {{name}}",
       "backToCaves": "Retour aux cénotes",
-      "loading": "Chargement…",
       "placeOnMap": "Placer sur la carte",
       "placeOnMapTitle": "Placer : {{label}}",
       "placeOnMapHint": "Déplacez la carte pour mettre l’épingle au bon endroit",
@@ -697,7 +696,6 @@
     "delete": "Supprimer",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "loading": "Chargement…",
     "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
     "explorationDateHint": "Date à laquelle cette exploration a eu lieu."
   },
@@ -737,7 +735,6 @@
       "ariaLabel": "Retour"
     },
     "newSistema": "Nouveau système",
-    "loading": "Chargement…",
     "unnamedSistema": "(sans nom)",
     "searchBtn": {
       "ariaLabel": "Rechercher"
@@ -857,7 +854,6 @@
     "connectionSaveError": "Impossible d'enregistrer la connexion.",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "loading": "Chargement…",
     "color": "Couleur",
     "fieldLabels": {
       "name": "Nom",
@@ -921,7 +917,6 @@
   "usersAdmin": {
     "title": "Utilisateurs",
     "searchLabel": "Rechercher par courriel",
-    "loading": "Chargement…",
     "count": "{{count}} utilisateur(s)",
     "disabled": "Désactivé",
     "role": {

@@ -24,6 +24,7 @@ import { formSectionDividerSx, formSectionHeadingProps } from '@/components/form
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
+import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -264,7 +265,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
   }
 
   if (loading) {
-    return <Typography className="oc-sistema-edit-form">{t('loading')}</Typography>
+    return <FormSkeleton className="oc-sistema-edit-form" sections={[['100%', 'min(100%, 240px)', '100%', 'calc(50% - 8px)', 'calc(50% - 8px)'], ['100%'], ['100%'], ['100%']]} />
   }
 
   const areasById = new Map(areas.map((a) => [a.id, a.name]))

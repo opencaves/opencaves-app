@@ -9,6 +9,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 const areasModel = createCollectionModel('areas')
 const NO_AREA = '(no area)'
@@ -75,7 +76,7 @@ export default function CaveList() {
       </Box>
 
       {loading ? (
-        <Typography>{t('loading')}</Typography>
+        <ListSkeleton rows={10} leading="square" count search />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
