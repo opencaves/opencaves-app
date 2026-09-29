@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Drawer, IconButton, Typography, styled, useTheme } from '@mui/material'
@@ -33,8 +33,20 @@ export default function SistemaEditPane() {
     setOpen(true)
   }, [])
 
+  const dirtyRef = useRef(false)
+  const onDirtyChange = useCallback((dirty) => {
+    dirtyRef.current = dirty
+  }, [])
+
   function handleBack() {
-    setOpen(false)
+    // With unsaved changes, go back right away (still open) so the form's
+    // unsaved-changes prompt shows over the pane; sliding it out first would
+    // leave "Keep editing" with a closed pane.
+    if (dirtyRef.current) {
+      navigate(-1)
+    } else {
+      setOpen(false)
+    }
   }
 
   return (
@@ -105,7 +117,7 @@ export default function SistemaEditPane() {
             boxSizing: 'border-box',
           }}
         >
-          <SistemaEditForm sistemaId={sistemaId} onTitleChange={setTitle} onDone={handleBack} />
+          <SistemaEditForm sistemaId={sistemaId} onTitleChange={setTitle} onDone={handleBack} onDirtyChange={onDirtyChange} />
         </Box>
       </Drawer>
     </Box>

@@ -9,6 +9,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
@@ -96,6 +97,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name })
 
   useEffect(() => {
     let cancelled = false
@@ -110,7 +112,7 @@ export default function CaveEdit() {
 
       setIsNew(!cave)
       setOriginalCave(cave)
-      setForm({
+      const loaded = {
         name: cave?.name?.value || '',
         sistemaId: cave?.sistemaId || '',
         source: cave?.source || '',
@@ -138,7 +140,9 @@ export default function CaveEdit() {
         entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
         keyLongitude: normalizeCoordinateValue(cave?.keys?.[0]?.longitude ?? ''),
         keyLatitude: normalizeCoordinateValue(cave?.keys?.[0]?.latitude ?? ''),
-      })
+      }
+      setForm(loaded)
+      setBaseline(loaded)
       setLoading(false)
     }
 
@@ -161,6 +165,7 @@ export default function CaveEdit() {
   }
 
   async function handleSave() {
+    const savedForm = form
     setSaving(true)
     try {
       const fields = {
@@ -215,6 +220,7 @@ export default function CaveEdit() {
       }
 
       await CaveModel.save(caveId, fields)
+      setBaseline(savedForm)
 
       invalidateData()
       await getData()
@@ -231,6 +237,7 @@ export default function CaveEdit() {
   async function handleDelete() {
     setDeleteDialogOpen(false)
     await CaveModel.remove(caveId)
+    discardChanges()
     invalidateData()
     await getData()
     navigate('/caves')
@@ -424,7 +431,7 @@ export default function CaveEdit() {
         <Button onClick={() => navigate('/caves')} disabled={saving}>
           {t('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+        <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !form.name}>
           {t('save')}
         </Button>
       </StickyActionBar>
@@ -441,6 +448,7 @@ export default function CaveEdit() {
           </Button>
         </DialogActions>
       </Dialog>
+      {unsavedChangesDialog}
     </div>
   )
 }

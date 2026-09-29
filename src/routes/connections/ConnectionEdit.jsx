@@ -10,6 +10,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 import NewSourceDialog from '@/components/NewSourceDialog.jsx'
@@ -54,10 +55,14 @@ export default function ConnectionEdit() {
   const [addingSource, setAddingSource] = useState(false)
 
   const connection = connections.find((item) => item.id === connectionId)
+  const canSave = !!form && !!form.sistemaId && !!form.parentSistemaId && isValidPartialDate(form.connectionDate, { allowRange: false })
+  const { isDirty, setBaseline, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave })
 
   useEffect(() => {
     if (isNew) {
-      setForm({ sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', reporter: '', note: '' })
+      const empty = { sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', reporter: '', note: '' }
+      setForm(empty)
+      setBaseline(empty)
       setError(null)
       return undefined
     }
@@ -69,21 +74,21 @@ export default function ConnectionEdit() {
       return undefined
     }
 
-    setForm(
-      connection
-        ? {
-            sistemaId: connection.sistemaId,
-            parentSistemaId: connection.parentSistemaId || '',
-            source: connection.source || '',
-            connectionDate: connection.connectionDate || '',
-            reporter: connection.reporter || '',
-            note: connection.note || '',
-          }
-        : null,
-    )
+    const loaded = connection
+      ? {
+          sistemaId: connection.sistemaId,
+          parentSistemaId: connection.parentSistemaId || '',
+          source: connection.source || '',
+          connectionDate: connection.connectionDate || '',
+          reporter: connection.reporter || '',
+          note: connection.note || '',
+        }
+      : null
+    setForm(loaded)
+    setBaseline(loaded)
     setError(connection ? null : t('connectionNotFound'))
     return undefined
-  }, [connection, connectionId, connectionsError, connectionsLoading, isNew, t])
+  }, [connection, connectionId, connectionsError, connectionsLoading, isNew, t, setBaseline])
 
   useEffect(() => {
     setTitle(t(isNew ? 'newSistemaConnection' : 'editSistemaConnection'))
@@ -97,7 +102,10 @@ export default function ConnectionEdit() {
     }
   }
 
-  async function handleSave() {
+  // leaving: saving from the unsaved-changes dialog, which then goes on to
+  // wherever the user was headed instead.
+  async function handleSave({ leaving = false } = {}) {
+    const savedForm = form
     setSaving(true)
     setError(null)
     try {
@@ -110,12 +118,13 @@ export default function ConnectionEdit() {
         reporter: form.reporter.trim() || deleteField(),
         note: form.note.trim() || deleteField(),
       })
+      setBaseline(savedForm)
       invalidateData()
       await getData()
       // Stays on the form after saving. A new connection only gets its id
       // here, so the URL switches to it (replace, no new history entry) to
       // make a second Save update it instead of creating another one.
-      if (isNew) navigate(`/connections/${id}/edit`, { replace: true })
+      if (isNew && !leaving) navigate(`/connections/${id}/edit`, { replace: true })
       openSnackbar(tApp('snackbar.saved'))
     } catch (cause) {
       console.error(cause)
@@ -306,12 +315,13 @@ export default function ConnectionEdit() {
             <Button component={Link} to="/connections" disabled={saving}>
               {t('cancel')}
             </Button>
-            <Button variant="contained" onClick={handleSave} disabled={saving || !form.sistemaId || !form.parentSistemaId || !isValidPartialDate(form.connectionDate, { allowRange: false })}>
+            <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !canSave}>
               {t('save')}
             </Button>
           </Box>
         </Box>
       )}
+      {unsavedChangesDialog}
     </div>
   )
 }

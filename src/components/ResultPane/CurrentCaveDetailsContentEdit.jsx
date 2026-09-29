@@ -21,6 +21,7 @@ import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -101,6 +102,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   }))
   const [saving, setSaving] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name })
   function field(name) {
     return {
       value: form[name],
@@ -115,7 +117,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     navigate(`/map/${cave.id}`, { replace: true })
   }
 
-  async function handleSave() {
+  // leaving: saving from the unsaved-changes dialog, which then goes on to
+  // wherever the user was headed instead.
+  async function handleSave({ leaving = false } = {}) {
+    const savedForm = form
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
@@ -179,9 +184,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       }
 
       await CaveModel.save(cave.id, fields)
+      setBaseline(savedForm)
       invalidateData()
       await getData()
-      exitEditMode()
+      if (!leaving) exitEditMode()
     } finally {
       setSaving(false)
     }
@@ -192,6 +198,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     setSaving(true)
     try {
       await CaveModel.remove(cave.id)
+      discardChanges()
       invalidateData()
       await getData()
       dispatch(clearCurrentCave())
@@ -223,7 +230,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
         {t('cancel')}
       </Button>
-      <Button variant="contained" onClick={handleSave} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+      <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !form.name} sx={{ minWidth: 88 }}>
         {t('save')}
       </Button>
     </Box>
@@ -407,6 +414,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           </Button>
         </DialogActions>
       </Dialog>
+      {unsavedChangesDialog}
     </Box>
   )
 }

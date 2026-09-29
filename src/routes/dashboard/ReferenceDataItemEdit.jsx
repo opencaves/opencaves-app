@@ -8,6 +8,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
@@ -38,6 +39,8 @@ export default function ReferenceDataItemEdit() {
   const [loading, setLoading] = useState(!isNew)
   const [form, setForm] = useState(emptyFields(config?.fields || []))
   const [saving, setSaving] = useState(false)
+  // A new item's baseline is its empty form; an existing one's is set once loaded.
+  const { isDirty, setBaseline, unsavedChangesDialog } = useUnsavedChanges(form, { initial: isNew ? form : undefined, onSave: handleSave })
 
   useEffect(() => {
     setTitle(config ? t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`) : collectionName)
@@ -56,7 +59,9 @@ export default function ReferenceDataItemEdit() {
         return
       }
       setItem(loadedItem)
-      setForm(Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(loadedItem?.descriptions, lang) : loadedItem?.[f] || ''])))
+      const loaded = Object.fromEntries(config.fields.map((f) => [f, f === config.descriptionsField ? pickDescription(loadedItem?.descriptions, lang) : loadedItem?.[f] || '']))
+      setForm(loaded)
+      setBaseline(loaded)
       setLoading(false)
     })
     return () => {
@@ -83,7 +88,10 @@ export default function ReferenceDataItemEdit() {
     )
   }
 
-  async function handleSave() {
+  // leaving: saving from the unsaved-changes dialog, which then goes on to
+  // wherever the user was headed instead.
+  async function handleSave({ leaving = false } = {}) {
+    const savedForm = form
     setSaving(true)
     try {
       const id = isNew ? (config.id.kind === 'generated' ? pushId() : config.id.transform(form[config.id.from])) : itemId
@@ -97,13 +105,14 @@ export default function ReferenceDataItemEdit() {
       }
 
       await model.save(id, fields)
+      setBaseline(savedForm)
       invalidateData()
       await getData()
       // Stays on the form after saving. A new item only gets its id here, so
       // the URL switches to it (replace, no new history entry), which also
       // reloads it; an existing item just refreshes the baseline its
       // descriptions are merged against.
-      if (isNew) navigate(`/${collectionName}/${id}/edit`, { replace: true })
+      if (isNew && !leaving) navigate(`/${collectionName}/${id}/edit`, { replace: true })
       else setItem((current) => ({ ...current, ...fields }))
       openSnackbar(tApp('snackbar.saved'))
     } finally {
@@ -139,12 +148,13 @@ export default function ReferenceDataItemEdit() {
             <Button onClick={goBack} disabled={saving}>
               {t('cancel')}
             </Button>
-            <Button variant="contained" onClick={handleSave} disabled={saving}>
+            <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty}>
               {t('save')}
             </Button>
           </Box>
         </Box>
       )}
+      {unsavedChangesDialog}
     </div>
   )
 }

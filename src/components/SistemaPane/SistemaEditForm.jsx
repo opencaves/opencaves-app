@@ -16,6 +16,7 @@ import PartialDateField, { isValidPartialDate } from '@/components/PartialDateFi
 import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -118,8 +119,10 @@ const emptyForm = {
 // and the in-pane SistemaEditPane.jsx, so the two only differ in their
 // surrounding chrome. onDone is called after cancel/delete so each
 // caller can decide where that goes (a hard navigate for the standalone
-// page, a slide-out-then-back for the pane).
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
+// page, a slide-out-then-back for the pane). onDirtyChange reports whether
+// there are unsaved changes (the pane then skips its slide-out, so leaving
+// can be confirmed first).
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange }) {
   const { t, i18n } = useTranslation('sistemaEditForm')
   const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
@@ -146,6 +149,15 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const [parentSearch, setParentSearch] = useState('')
   const parentSearchInputRef = useRef(null)
 
+  const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
+  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
+  const canSave = !!form.name && !hasInvalidExplorationDate && !hasInvalidMeasurement
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave })
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty)
+  }, [isDirty, onDirtyChange])
+
   useEffect(() => {
     if (sistemasLoading || connectionsLoading) {
       return
@@ -155,7 +167,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
     const connection = connections.find((item) => item.sistemaId === sistemaId)
 
     setIsNew(!sistema)
-    setForm({
+    const loaded = {
       name: sistema?.name || '',
       color: sistema?.color || '',
       area: sistema?.area || '',
@@ -170,9 +182,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
       longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
       latitude: normalizeCoordinateValue(sistema?.location?.latitude ?? ''),
       parentSistemaId: connection?.parentSistemaId || '',
-    })
+    }
+    setForm(loaded)
+    setBaseline(loaded)
     setLoading(false)
-  }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading])
+  }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
 
   useEffect(() => {
     onTitleChange?.(isNew ? t('newSistema') : t('sistemaTitle', { name: form.name || sistemaId }))
@@ -191,6 +205,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
     const maxDepth = form.maxDepth === '' ? null : parseLocalizedNumber(form.maxDepth, locale)
     if ((form.length !== '' && length === null) || (form.maxDepth !== '' && maxDepth === null)) return
 
+    const savedForm = form
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
@@ -217,6 +232,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
 
       await SistemaModel.save(sistemaId, fields)
       await ConnectionModel.setParent(sistemaId, form.parentSistemaId || null)
+      setBaseline(savedForm)
 
       invalidateData()
       await getData()
@@ -233,6 +249,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
       return
     }
     await SistemaModel.remove(sistemaId)
+    discardChanges()
+    onDirtyChange?.(false)
     invalidateData()
     await getData()
     onDone()
@@ -247,9 +265,6 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).map((exploration) => exploration.team?.trim()).filter(Boolean)), ...form.explorations.map((exploration) => exploration.team?.trim()).filter(Boolean)])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery)) : otherSistemas
-  const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
-  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
-
   return (
     <Box className="oc-sistema-edit-form">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -397,10 +412,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
         <Button onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
           {t('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || hasInvalidExplorationDate || hasInvalidMeasurement} sx={{ minWidth: 88 }}>
+        <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !canSave} sx={{ minWidth: 88 }}>
           {t('save')}
         </Button>
       </StickyActionBar>
+      {unsavedChangesDialog}
     </Box>
   )
 }

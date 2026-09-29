@@ -48,6 +48,13 @@
     "updateAvailable": {
       "message": "Hay una nueva versión de la aplicación OpenCaves disponible",
       "btn": "Actualizar"
+    },
+    "unsavedChanges": {
+      "title": "Cambios sin guardar",
+      "message": "Tienes cambios que no se han guardado. ¿Qué quieres hacer con ellos?",
+      "save": "Guardar",
+      "discard": "Descartar",
+      "stay": "Seguir editando"
     }
   },
   "account": {
