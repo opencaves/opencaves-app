@@ -1,6 +1,11 @@
 @font-face {
   font-family: 'Hero';
-  src: url('Hero.woff') format('woff'), url('Hero.svg#Hero') format('svg');
+  // woff2 first (smaller); woff for the few browsers without it. The old SVG
+  // font fallback is gone - no current browser supports SVG fonts.
+  src: url('Hero.woff2') format('woff2'), url('Hero.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  // The map's loading title shows right away in a fallback font instead of
+  // staying invisible until this downloads.
+  font-display: swap;
 }
