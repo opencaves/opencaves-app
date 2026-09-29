@@ -178,13 +178,17 @@ const routes = [
     errorElement: <NoMatch />,
     children: [
       {
+        // Straight to the map, outside Layout: under it, Layout would render
+        // for an instant first and start downloading its background image
+        // (unused on the map). replace: so Back from /map doesn't land here
+        // and bounce forward again.
+        index: true,
+        element: <Navigate to="map" replace />,
+        errorElement: <NoMatch />,
+      },
+      {
         element: <Layout />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="map" />,
-            errorElement: <NoMatch />,
-          },
           {
             path: 'about',
             element: <AboutRoute />,
