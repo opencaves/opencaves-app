@@ -92,11 +92,12 @@
       "notPersisted": "The browser may remove this data if the device runs low on space.",
       "clear": "Clear offline data",
       "confirmTitle": "Clear offline data?",
-      "confirmText": "Downloaded pictures, maps and map areas will be removed from this device, and “Make available offline” will be turned off. Your saved cenotes stay saved and will download again the next time you’re on Wi-Fi.",
+      "confirmText": "Downloaded pictures, maps and map areas will be removed from this device, and “Make available offline” will be turned off.",
       "confirmClear": "Clear",
       "cancel": "Cancel",
       "cleared": "Offline data cleared",
-      "clearError": "Could not clear the offline data."
+      "clearError": "Could not clear the offline data.",
+      "confirmTextSaved": "Your saved cenotes stay saved and will download again the next time you’re on Wi-Fi."
     },
     "language": "Language",
     "languageAutomatic": "Automatic ({{language}})",

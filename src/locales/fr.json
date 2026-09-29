@@ -92,11 +92,12 @@
       "notPersisted": "Le navigateur peut supprimer ces données si l’appareil manque d’espace.",
       "clear": "Effacer les données hors ligne",
       "confirmTitle": "Effacer les données hors ligne ?",
-      "confirmText": "Les images, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé. Vos cénotes sauvegardées le restent et seront téléchargées à nouveau lors de votre prochaine connexion Wi-Fi.",
+      "confirmText": "Les images, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé.",
       "confirmClear": "Effacer",
       "cancel": "Annuler",
       "cleared": "Données hors ligne effacées",
-      "clearError": "Impossible d’effacer les données hors ligne."
+      "clearError": "Impossible d’effacer les données hors ligne.",
+      "confirmTextSaved": "Vos cénotes sauvegardées le restent et seront téléchargées à nouveau lors de votre prochaine connexion Wi-Fi."
     },
     "language": "Langue",
     "languageAutomatic": "Automatique ({{language}})",

@@ -92,11 +92,12 @@
       "notPersisted": "El navegador puede eliminar estos datos si el dispositivo se queda sin espacio.",
       "clear": "Borrar los datos sin conexión",
       "confirmTitle": "¿Borrar los datos sin conexión?",
-      "confirmText": "Las imágenes, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión». Tus cenotes guardados seguirán guardados y se descargarán de nuevo la próxima vez que estés en Wi-Fi.",
+      "confirmText": "Las imágenes, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión».",
       "confirmClear": "Borrar",
       "cancel": "Cancelar",
       "cleared": "Datos sin conexión borrados",
-      "clearError": "No se pudieron borrar los datos sin conexión."
+      "clearError": "No se pudieron borrar los datos sin conexión.",
+      "confirmTextSaved": "Tus cenotes guardados seguirán guardados y se descargarán de nuevo la próxima vez que estés en Wi-Fi."
     },
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",

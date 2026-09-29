@@ -80,6 +80,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
         <DialogTitle id="oc-offline-clear-title">{t('confirmTitle')}</DialogTitle>
         <DialogContent>
           <DialogContentText>{t('confirmText')}</DialogContentText>
+          <DialogContentText sx={{ mt: 1.5 }}>{t('confirmTextSaved')}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmOpen(false)} disabled={clearing}>
