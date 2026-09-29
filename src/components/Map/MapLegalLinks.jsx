@@ -37,6 +37,9 @@ export default function MapLegalLinks() {
         display: 'flex',
         alignItems: 'center',
         typography: 'body2',
+        // M3 label-medium: a notch under body text, like the map's own attribution.
+        fontSize: '0.75rem',
+        lineHeight: '1rem',
         fontWeight: 500,
         color: '#fff',
         // An outline all around the glyphs (same technique as the marker
