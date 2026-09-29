@@ -15,6 +15,9 @@ export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1])
+  // The dashboard home's page is transparent: its white margins are drawn by
+  // AdminDashboard itself, around a window onto this background image.
+  const isDashboardHome = location.pathname === '/dashboard'
 
   useEffect(() => {
     if (location.hash && !isMapPath(location.pathname)) {
@@ -42,7 +45,7 @@ export default function Layout() {
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, borderRadius: '4px' }}>
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, borderRadius: '4px' }}>
         <Outlet />
       </Container>
 

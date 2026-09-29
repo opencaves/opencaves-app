@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, MapRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import dashboardBackground from '@/images/dashboard/bg.webp'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
@@ -44,16 +43,22 @@ export default function AdminDashboard() {
   return (
     <Box
       className="oc-admin-dashboard"
+      // A window onto Layout's background image (behind the whole page) rather
+      // than a second copy of it: Layout leaves its page transparent here, so
+      // this box paints the page's white itself - out over the page's padding
+      // (negative margins), then its own 0.5rem/1rem white frame - and is
+      // see-through inside.
       sx={{
-        width: '100%',
-        minHeight: 'calc(100vh - 100px)',
+        mx: { xs: -2, sm: -3 },
+        my: -2,
+        minHeight: 'calc(100vh - 100px + 32px)',
         p: { xs: 1, sm: 2 },
-        border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' },
-        borderRadius: '4px',
-        backgroundColor: '#000',
-        backgroundImage: `url(${dashboardBackground})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        borderTopWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(16px + 1rem)' },
+        borderBottomWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(16px + 1rem)' },
+        borderLeftWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(24px + 1rem)' },
+        borderRightWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(24px + 1rem)' },
       }}
     >
       <Box sx={{ width: '100%', height: '100%', maxWidth: 1400, mx: 'auto', p: { xs: 2, sm: 4 }, pb: 4, bgcolor: DASHBOARD_SURFACE }}>
