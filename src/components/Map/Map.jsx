@@ -1,14 +1,13 @@
-import { createRef, useEffect, useMemo, useRef, useState } from 'react'
+import { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import { Bookmark, FenceRounded, VpnKeyRounded } from '@mui/icons-material'
+import { FenceRounded, VpnKeyRounded } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
-import UnstyledLink from '@/components/UnstyledLink.jsx'
 import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
@@ -19,29 +18,25 @@ import { PANE_WIDTH } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR, INITIAL_VIEW_STATE as defaultViewState, MAP_PROPS, MARKER_CONFIG, COORDINATE_DECIMALS } from '@/config/map.js'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
-import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
 import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
+import CaveMarker from './CaveMarker.jsx'
 
-// Mapbox gives every marker's wrapper role="img" aria-label="Map marker".
-// A cave marker holds its own named link, which that image role would bury
-// (an interactive element nested in an image): drop it there. Decorative
-// markers keep the image role, with a real label (labelMarker).
-function unlabelMarker(marker) {
-  const el = marker?.getElement()
-  el?.removeAttribute('role')
-  el?.removeAttribute('aria-label')
-}
-
+// Decorative markers (a cave's entrance and keys, edited coordinates) keep
+// Mapbox's role="img", with a real label instead of its "Map marker". Cave
+// pins drop that role (see CaveMarker).
 function labelMarker(label) {
   return (marker) => marker?.getElement().setAttribute('aria-label', label)
 }
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
+
+// Pins revealed per frame on first load (see markerLimit).
+const MARKER_REVEAL_BATCH = 15
 
 Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
   configurable: true,
@@ -218,6 +213,31 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }, [filteredCaves, isWidePaneEditMode, editFieldCoordinates.location, caveId])
 
   const selectedCave = displayedCaves?.find((cave) => cave.id === caveId)
+
+  // On first load the pins are revealed in batches, one per frame, instead
+  // of all at once: rendering ~300 of them (React, then Mapbox placing each)
+  // was one long block of main-thread work, during which the page couldn't
+  // respond. The open cave's pin comes first, for flyToMarker. Once all are
+  // shown, later updates (filters, panning) render them in full.
+  const [markerLimit, setMarkerLimit] = useState(MARKER_REVEAL_BATCH)
+  const allMarkersRevealed = markerLimit === Infinity
+  const markerCount = displayedCaves?.length ?? 0
+  useEffect(() => {
+    if (allMarkersRevealed || markerCount === 0) return undefined
+    if (markerLimit >= markerCount) {
+      setMarkerLimit(Infinity)
+      return undefined
+    }
+    const frame = requestAnimationFrame(() => setMarkerLimit((limit) => limit + MARKER_REVEAL_BATCH))
+    return () => cancelAnimationFrame(frame)
+  }, [markerLimit, markerCount, allMarkersRevealed])
+
+  function revealedMarkers(caves) {
+    if (allMarkersRevealed) return caves
+    const current = caves.find((cave) => cave.id === caveId)
+    const ordered = current ? [current, ...caves.filter((cave) => cave !== current)] : caves
+    return ordered.slice(0, markerLimit)
+  }
   const selectedCaveMarkerColor = selectedCave?.sistemas?.[selectedCave.sistemas.length - 1]?.color || SISTEMA_DEFAULT_COLOR
 
   function filterCaves(caves, filters) {
@@ -232,6 +252,16 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.accesses), []).value()
   }
+
+  // Stable for CaveMarker (memoized): they call this render's handlers.
+  const markerHandlersRef = useRef()
+  markerHandlersRef.current = { onMarkerClick, onFieldMarkerDragEnd }
+  const handleMarkerClick = useCallback((event, cave) => markerHandlersRef.current.onMarkerClick(event, cave), [])
+  const handleMarkerDragStart = useCallback(() => setIsDraggingCurrentMarker(true), [])
+  const handleMarkerDragEnd = useCallback((event) => {
+    setIsDraggingCurrentMarker(false)
+    markerHandlersRef.current.onFieldMarkerDragEnd('location', event)
+  }, [])
 
   function onMarkerClick(event, cave) {
     if (pickingCoordinateFor) {
@@ -788,74 +818,34 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                 </Marker>
               ))}
 
-            {displayedCaves
-              ?.filter(({ location }) => {
+            {revealedMarkers(
+              (displayedCaves || []).filter(({ location }) => {
                 const lngLat = new LngLat(location.longitude, location.latitude)
                 return mapBounds ? mapBounds.contains(lngLat) : true
-              })
-              .map((cave, i) => {
-                const isCurrentCave = caveId === cave.id
-                const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
-                const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
-                const pinIcon = cave.location.validity === 'valid' ? PinIcon : PinLocationUnknownIcon
-
-                const isDraggableCurrentCave = isCurrentCave && isWidePaneEditMode
-
-                // Always label the current cave's own marker while its
-                // in-place edit form (and this marker's own draggability)
-                // is active, regardless of zoom - not just above the
-                // general label zoom threshold. Hidden while actively being
-                // dragged so the name doesn't trail the pin around.
-                let markerLabel = null
-                if (!(isDraggableCurrentCave && isDraggingCurrentMarker) && (zoomLevel > MARKER_CONFIG.label.minZoomLevel || (isCurrentCave && isWidePaneEditMode))) {
-                  markerLabel = (
-                    <div key={`marker-${cave.id}`} className="oc-map--marker-label marker-label">
-                      {caveName}
-                    </div>
-                  )
-                }
-
-                return (
-                  <Marker
-                    key={`m-${cave.id}`}
-                    ref={unlabelMarker}
-                    longitude={cave.location.longitude}
-                    latitude={cave.location.latitude}
-                    anchor="center"
-                    // Not 'active': react-map-gl updates this class by toggling
-                    // it, assuming it's still there from the last render, while
-                    // setActiveMarkerElem adds/removes 'active' itself. Sharing
-                    // the name let the toggle re-add 'active' to the previous
-                    // pin after it had already shrunk, leaving it large.
-                    className={isCurrentCave ? 'oc-map--current-marker' : undefined}
-                    onClick={(event) => onMarkerClick(event, cave)}
-                    draggable={isDraggableCurrentCave}
-                    onDragStart={isDraggableCurrentCave ? () => setIsDraggingCurrentMarker(true) : undefined}
-                    onDragEnd={
-                      isDraggableCurrentCave
-                        ? (event) => {
-                            setIsDraggingCurrentMarker(false)
-                            onFieldMarkerDragEnd('location', event)
-                          }
-                        : undefined
-                    }
-                  >
-                    {/* Out of the tab order: ~870 pins would make the map a tab trap, and
-                        every cave is keyboard-reachable through the search bar. */}
-                    <UnstyledLink to={`/map/${cave.id}${isWidePaneEditMode ? '/edit' : ''}`} replace={currentRoute.id === 'result-pane'} className="oc-map--marker marker" id={isCurrentCave ? 'active-marker' : null} aria-label={caveName} tabIndex={-1}>
-                      <SvgIcon inheritViewBox className="oc-map--marker-icon marker-icon" htmlColor={markerColor} style={{ '--oc-pin-glyph-color': getPinGlyphColor(markerColor) }} sx={isDraggableCurrentCave ? { cursor: 'grab !important' } : undefined}>
-                        {pinIcon &&
-                          (() => {
-                            const Pin = pinIcon
-                            return <Pin />
-                          })()}
-                      </SvgIcon>
-                      {isSaved(cave.id) && <Bookmark className="oc-map--marker-saved-badge" aria-label={t('savedCave')} />}
-                      {markerLabel && markerLabel}
-                    </UnstyledLink>
-                  </Marker>
-                )
-              })}
+              }),
+            ).map((cave) => {
+              const current = caveId === cave.id
+              const draggable = current && isWidePaneEditMode
+              return (
+                <CaveMarker
+                  key={`m-${cave.id}`}
+                  cave={cave}
+                  current={current}
+                  draggable={draggable}
+                  // Only the dragged pin: the others don't re-render.
+                  dragging={draggable && isDraggingCurrentMarker}
+                  // Its name: zoomed in enough, or the open cave's pin while its
+                  // in-place edit form (and this pin's draggability) is active.
+                  showLabel={zoomLevel > MARKER_CONFIG.label.minZoomLevel || draggable}
+                  saved={isSaved(cave.id)}
+                  editMode={isWidePaneEditMode}
+                  replace={currentRoute.id === 'result-pane'}
+                  onMarkerClick={handleMarkerClick}
+                  onDragStart={handleMarkerDragStart}
+                  onDragEnd={handleMarkerDragEnd}
+                />
+              )
+            })}
           </Map>
         </Box>
       </Fade>
