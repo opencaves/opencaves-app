@@ -19,6 +19,9 @@ export default function AddButton({ className, sx, startIcon, children, ...props
         {
           alignSelf: 'flex-start',
           position: 'relative',
+          // Room around it (on the 8dp grid) on top of its container's own
+          // spacing, setting it apart from the rows above and what follows.
+          my: 2,
           // The theme sizes buttons by line height and padding, which the
           // outlined variant's 1px border then adds to: take it back out so
           // the container is 40dp tall with 16dp/24dp inner spacing.
