@@ -51,14 +51,30 @@ export function getData() {
 }
 
 export function subscribeToData(onData, onError) {
-  return subscribeToCaveData((rawData) => {
+  let rendering = null
+  const unsubscribe = subscribeToCaveData((rawData) => {
     try {
-      handleSetCaves(processCaveData(rawData))
-      onData()
+      const data = processCaveData(rawData)
+      // Handing it to the store re-renders the map and its markers,
+      // synchronously: a task of its own too, after the processing's.
+      clearTimeout(rendering)
+      rendering = setTimeout(() => {
+        try {
+          handleSetCaves(data)
+          onData()
+        } catch (error) {
+          onError(error)
+        }
+      })
     } catch (error) {
       onError(error)
     }
   }, onError)
+
+  return () => {
+    clearTimeout(rendering)
+    unsubscribe()
+  }
 }
 
 function processCaveData(data) {

@@ -31,12 +31,24 @@ export async function readCaveDataFromFirestore() {
 export function subscribeToCaveData(onData, onError) {
   const data = {}
   const names = Object.entries(COLLECTION_NAMES)
+  // onData runs in a task of its own, not inside Firestore's snapshot
+  // callback: that task is already long (Firestore applying and caching the
+  // documents), and processing plus rendering ~900 caves on top of it made
+  // one long block of main-thread work. Snapshots arriving close together
+  // are coalesced into one onData.
+  let scheduled = null
   const unsubscribers = names.map(([key, name]) => onSnapshot(collection(db, name), snapshot => {
     data[key] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-    if (Object.keys(data).length === names.length) {
-      onData({ ...data })
+    if (Object.keys(data).length === names.length && !scheduled) {
+      scheduled = setTimeout(() => {
+        scheduled = null
+        onData({ ...data })
+      })
     }
   }, onError))
 
-  return () => unsubscribers.forEach(unsubscribe => unsubscribe())
+  return () => {
+    clearTimeout(scheduled)
+    unsubscribers.forEach(unsubscribe => unsubscribe())
+  }
 }
