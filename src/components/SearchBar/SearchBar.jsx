@@ -309,7 +309,7 @@ export default function SearchBar() {
     const selectedCave = selectCaveById(id)
     // Close the phone's keyboard: the field kept focus through the tap.
     document.activeElement?.blur()
-    setValue(selectedCave.name.value)
+    setValue(getCaveName(selectedCave.name))
     clearSearchResults()
     setBackBtnOn(false)
     navigate(`/map/${id}`, { replace: true })

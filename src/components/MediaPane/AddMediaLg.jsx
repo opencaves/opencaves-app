@@ -57,7 +57,7 @@ export default function AddMediaLg() {
     user && (
       <Dialog className="oc-add-media-lg" open={addMediaOpen} onClose={onAddMediaClose} maxWidth="md" fullWidth>
         <DialogTitle>
-          {t('header', { name: currentCave.name.value })}
+          {t('header', { name: currentCave.name?.value || t('caveNameUnknown', { ns: 'map' }) })}
           <IconButton
             aria-label={t('closeBtn.ariaLabel')}
             onClick={onAddMediaClose}

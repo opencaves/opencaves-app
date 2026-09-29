@@ -86,7 +86,7 @@ export default function ResultPane() {
   const isEditingCave = location.pathname.endsWith('/edit')
   useEffect(() => {
     if (currentCave) {
-      const title = t('title', { name: currentCave.name.value })
+      const title = t('title', { name: currentCave.name?.value || t('caveNameUnknown', { ns: 'map' }) })
       setTitle(isEditingCave ? tApp('editTitle', { title }) : title)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

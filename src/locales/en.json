@@ -817,7 +817,7 @@
   },
   "map": {
     "title": "Map",
-    "caveNameUnknown": "[unknown name]",
+    "caveNameUnknown": "[no name]",
     "editFab": {
       "ariaLabel": "Edit cave data",
       "editCave": "Edit this cave",

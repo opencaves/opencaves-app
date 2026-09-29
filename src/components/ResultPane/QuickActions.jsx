@@ -208,7 +208,7 @@ export default function QuickActions({ cave }) {
             pb: 'calc(var(--oc-pane-padding-block) - 11px)',
           }}
           role="region"
-          aria-label={t('ariaLabel', { name: cave.name.value })}
+          aria-label={t('ariaLabel', { name: caveName })}
         >
           <Box
             sx={{
@@ -277,7 +277,7 @@ export default function QuickActions({ cave }) {
             pb: 'var(--oc-pane-padding-block)',
           }}
           role="region"
-          aria-label={t('ariaLabel', { name: cave.name.value })}
+          aria-label={t('ariaLabel', { name: caveName })}
         >
           <Grid container>
             {cave.location && (

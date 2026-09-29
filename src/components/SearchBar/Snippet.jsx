@@ -35,7 +35,7 @@ export default function Snippet({ result }) {
       <>
         <Grid container className="oc-snippet">
           <Grid size="grow">
-            <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
+            <SnippetTextPrimary>{result.name || t('caveNameUnknown', { ns: 'map' })}</SnippetTextPrimary>
           </Grid>
           <Grid>
             <SnippetTextSecondary component="span">{result.area}</SnippetTextSecondary>
@@ -58,7 +58,7 @@ export default function Snippet({ result }) {
   return (
     <Grid container className="oc-snippet">
       <Grid size="grow">
-        <SnippetTextPrimary>{result.name}</SnippetTextPrimary>
+        <SnippetTextPrimary>{result.name || t('caveNameUnknown', { ns: 'map' })}</SnippetTextPrimary>
       </Grid>
       <Grid>
         <SnippetTextSecondary component="span">{result.area}</SnippetTextSecondary>

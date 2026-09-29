@@ -817,7 +817,7 @@
   },
   "map": {
     "title": "Mapa",
-    "caveNameUnknown": "[nombre desconocido]",
+    "caveNameUnknown": "[sin nombre]",
     "editFab": {
       "ariaLabel": "Editar datos del cenote",
       "editCave": "Editar este cenote",

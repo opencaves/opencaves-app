@@ -157,7 +157,7 @@ export default function MediaPane() {
               whiteSpace: 'nowrap'
             }}
           >
-            {t('header', { name: currentCave.name.value })}
+            {t('header', { name: currentCave.name?.value || t('caveNameUnknown', { ns: 'map' }) })}
           </Typography>
 
           <AddMediasButton

@@ -816,7 +816,7 @@
   },
   "map": {
     "title": "Carte",
-    "caveNameUnknown": "[nom inconnu]",
+    "caveNameUnknown": "[sans nom]",
     "editFab": {
       "ariaLabel": "Modifier les données de la cénote",
       "editCave": "Modifier cette cénote",
