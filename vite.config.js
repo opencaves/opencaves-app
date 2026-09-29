@@ -1,8 +1,23 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr'
 import { VitePWA } from 'vite-plugin-pwa'
+import { APP_LANGUAGE_CODES } from './src/config/appLanguages.js'
+
+// index.html's map shell (a static search bar painted before the app's
+// JavaScript runs) shows the search placeholder in the visitor's language:
+// injected here from the locale files, so the strings stay in one place.
+function mapShellPlaceholders() {
+  return {
+    name: 'oc-map-shell-placeholders',
+    transformIndexHtml(html) {
+      const placeholders = Object.fromEntries(APP_LANGUAGE_CODES.map((code) => [code, JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, 'src/locales', code + '.json'), 'utf8')).searchBar.placeholder]))
+      return html.replace('__OC_SEARCH_PLACEHOLDERS__', JSON.stringify(placeholders))
+    },
+  }
+}
 
 export default defineConfig({
   build: {
@@ -53,6 +68,7 @@ export default defineConfig({
       }
     }),
     svgrPlugin(),
+    mapShellPlaceholders(),
     VitePWA({
       // The app registers and manages the service worker itself
       // (src/serviceWorkerRegistration.js) - this plugin's only job is to

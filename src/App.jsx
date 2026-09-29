@@ -74,6 +74,12 @@ const App = () => {
     }
   }, [dispatch, store])
 
+  // index.html's static map shell, painted before this JavaScript ran:
+  // the real page is rendering now.
+  useEffect(() => {
+    document.getElementById('oc-shell')?.remove()
+  }, [])
+
   useEffect(() => {
     if (isInstalledApp()) {
       requestPersistentStorage()

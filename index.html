@@ -32,9 +32,60 @@
   <meta name="msapplication-TileColor" content="#145e79" />
   <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
   <meta name="theme-color" content="#145e79" />
+
+  <!-- The map shell: a static copy of the map page's search bar over its
+       loading background, painted from this HTML alone - before the app's
+       JavaScript (well over 1 MB) has loaded and run. Same geometry as the
+       real one (SearchBar), which replaces it: App removes it once it
+       renders. Map routes only, and light mode only (no white flash before a
+       dark search bar). -->
+  <style>
+    #oc-shell { position: fixed; inset: 0; background: #ebebeb; }
+    #oc-shell .oc-shell--search { position: absolute; top: 8px; left: 8px; right: 8px; box-sizing: border-box; height: 50px; display: flex; align-items: center; background: #fff; border: 1px solid #fff; border-radius: 24px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02); }
+    #oc-shell svg { position: absolute; left: 12px; width: 24px; height: 24px; fill: rgba(0, 0, 0, 0.54); }
+    #oc-shell .oc-shell--placeholder { margin-left: 48px; font: 16px/23px Roboto, Helvetica, Arial, sans-serif; color: rgba(0, 0, 0, 0.365); white-space: nowrap; overflow: hidden; }
+    @media (min-width: 600px) { #oc-shell .oc-shell--search { right: auto; width: 384px; } }
+  </style>
 </head>
 
 <body>
+  <div id="oc-shell" aria-hidden="true">
+    <div class="oc-shell--search">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14" /></svg>
+      <span class="oc-shell--placeholder"></span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var shell = document.getElementById('oc-shell')
+      var path = location.pathname
+      var isMapRoute = path === '/' || path === '/map' || path.indexOf('/map/') === 0
+      var mode = null
+      var language = null
+      try {
+        mode = localStorage.getItem('mui-mode')
+        language = localStorage.getItem('oc-language')
+      } catch (e) {}
+      var dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      if (!isMapRoute || dark) {
+        shell.remove()
+        return
+      }
+      // Same choice as the app's language detection: the stored preference,
+      // else the browser's language (its primary subtag), else English.
+      var placeholders = __OC_SEARCH_PLACEHOLDERS__
+      var candidates = [language].concat(navigator.languages || [navigator.language])
+      var text = placeholders.en
+      for (var i = 0; i < candidates.length; i++) {
+        var code = candidates[i] && candidates[i].toLowerCase().split('-')[0]
+        if (code && placeholders[code]) {
+          text = placeholders[code]
+          break
+        }
+      }
+      shell.querySelector('.oc-shell--placeholder').textContent = text
+    })()
+  </script>
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
