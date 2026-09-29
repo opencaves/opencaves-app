@@ -40,10 +40,11 @@
       "close": "Fermer"
     },
     "snackbar": {
-      "saved": "Enregistré",
+      "saved": "Modifications de {{name}} enregistrées",
       "close": {
         "ariaLabel": "fermer"
-      }
+      },
+      "saveError": "Impossible d'enregistrer les modifications de {{name}}. Veuillez réessayer."
     },
     "updateAvailable": {
       "message": "Une nouvelle version de l'application OpenCaves est disponible",
@@ -913,7 +914,8 @@
         "newItem": "Nouvelle langue"
       }
     },
-    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière."
+    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
+    "connectionOfSistema": "la connexion de {{name}}"
   },
   "usersAdmin": {
     "title": "Utilisateurs",

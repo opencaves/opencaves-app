@@ -124,7 +124,7 @@ export default function ConnectionEdit() {
       // here, so the URL switches to it (replace, no new history entry) to
       // make a second Save update it instead of creating another one.
       if (isNew && !leaving) navigate(`/connections/${id}/edit`, { replace: true })
-      openSnackbar(tApp('snackbar.saved'))
+      openSnackbar(tApp('snackbar.saved', { name: t('connectionOfSistema', { name: childName }) }))
     } catch (cause) {
       console.error(cause)
       setError(t('connectionSaveError'))

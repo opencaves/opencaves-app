@@ -23,6 +23,7 @@ import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -44,6 +45,8 @@ function MarkdownField({ label, value, onChange, minRows, resizable }) {
 // dedicated admin form.
 export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const { t: tApp } = useTranslation('app')
+  const [openSnackbar] = useSnackbar()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSmall = useSmall()
@@ -189,7 +192,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       setBaseline(savedForm)
       invalidateData()
       await getData()
+      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }))
       if (!leaving) exitEditMode()
+    } catch (error) {
+      // Nothing saved: say so, and leave the form as it is (still changed).
+      console.error(error)
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || cave.id }) }))
     } finally {
       setSaving(false)
     }

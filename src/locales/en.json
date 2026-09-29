@@ -40,10 +40,11 @@
       "close": "Close"
     },
     "snackbar": {
-      "saved": "Saved",
+      "saved": "Changes to {{name}} saved",
       "close": {
         "ariaLabel": "close"
-      }
+      },
+      "saveError": "Couldn't save changes to {{name}}. Please try again."
     },
     "updateAvailable": {
       "message": "A new version of the OpenCaves app is available",
@@ -915,7 +916,8 @@
         "newItem": "New language"
       }
     },
-    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own."
+    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
+    "connectionOfSistema": "the connection of {{name}}"
   },
   "usersAdmin": {
     "title": "Users",

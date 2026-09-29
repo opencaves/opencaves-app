@@ -238,7 +238,11 @@ export default function CaveEdit() {
       // baseline for the next save's nameTranslations diff.
       setOriginalCave(await CaveModel.getById(caveId))
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved'))
+      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }))
+    } catch (error) {
+      // Nothing saved: say so, and leave the form as it is (still changed).
+      console.error(error)
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || caveId }) }))
     } finally {
       setSaving(false)
     }
