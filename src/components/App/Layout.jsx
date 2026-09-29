@@ -18,6 +18,10 @@ export default function Layout() {
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image.
   const isDashboardHome = location.pathname === '/dashboard'
+  // Phones, dashboard sub-pages: side margins showing the background image
+  // instead of the page's white side borders (margins rather than transparent
+  // borders, whose corners would join the top/bottom borders diagonally).
+  const sideBordersSeeThrough = isDashboardPage && !isDashboardHome
 
   useEffect(() => {
     if (location.hash && !isMapPath(location.pathname)) {
@@ -45,7 +49,7 @@ export default function Layout() {
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, borderRadius: '4px' }}>
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), borderRadius: sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
       </Container>
 

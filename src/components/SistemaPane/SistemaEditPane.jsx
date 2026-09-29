@@ -117,6 +117,7 @@ export default function SistemaEditPane() {
             // action bar reach out to its edges.
             '--oc-edit-header-top': 'calc(-1 * var(--oc-pane-padding-inline))',
             '--oc-page-bleed': 'var(--oc-pane-padding-inline)',
+            '--oc-page-bleed-xs': 'var(--oc-pane-padding-inline)',
             overflowY: 'auto',
             height: '100%',
             boxSizing: 'border-box',

@@ -51,13 +51,11 @@ export default function StickyActionBar({ children, gap = 1 }) {
         mt: 3,
         py: 1.5,
         boxSizing: 'border-box',
-        // Phones: the full screen width. Wider: the page's own width (out to
-        // its edges, --oc-page-bleed: Layout's container padding and border,
-        // or a pane's own padding), like EditPageHeader.
+        // The page's own width (out to its edges over the page's padding,
+        // --oc-page-bleed: on phones Layout's container padding; wider, its
+        // padding and border, or a pane's own padding), like EditPageHeader.
         px: { xs: 2, sm: 'var(--oc-page-bleed, calc(24px + 1rem))' },
-        width: { xs: '100vw', sm: 'auto' },
-        ml: { xs: 'calc(50% - 50vw)', sm: 'calc(-1 * var(--oc-page-bleed, calc(24px + 1rem)))' },
-        mr: { xs: 0, sm: 'calc(-1 * var(--oc-page-bleed, calc(24px + 1rem)))' },
+        mx: { xs: 'calc(-1 * var(--oc-page-bleed-xs, 16px))', sm: 'calc(-1 * var(--oc-page-bleed, calc(24px + 1rem)))' },
         position: 'sticky',
         bottom: 0,
         zIndex: theme.zIndex.appBar,
