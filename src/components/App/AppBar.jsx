@@ -14,6 +14,18 @@ import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.
 
 const drawerWidth = 240
 const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONFIGS).join('|')})/[^/]+/edit$`)
+// Module level, not inside AppBar: a styled() component made during render
+// is a new component type every render, so React remounted the title button
+// each time - replaying the title's enter animation (a flicker).
+const StyledButton = styled(Button)({
+  color: 'var(--md-palette-primary-contrastText)',
+  whiteSpace: 'nowrap',
+  borderColor: 'rgba(255 255 255 / 0.5)',
+  ':hover': {
+    borderColor: '#fff',
+  },
+})
+
 export default function AppBar(props) {
   const { window } = props
   const dispatch = useDispatch()
@@ -75,15 +87,6 @@ export default function AppBar(props) {
 
     dispatch(setContinueUrl(buildContinueUrl(location)))
   }
-
-  const StyledButton = styled(Button)({
-    color: 'var(--md-palette-primary-contrastText)',
-    whiteSpace: 'nowrap',
-    borderColor: 'rgba(255 255 255 / 0.5)',
-    ':hover': {
-      borderColor: '#fff',
-    },
-  })
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
