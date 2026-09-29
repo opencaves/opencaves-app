@@ -18,10 +18,11 @@ export default function Layout() {
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image.
   const isDashboardHome = location.pathname === '/dashboard'
-  // Phones, dashboard sub-pages: side margins showing the background image
-  // instead of the page's white side borders (margins rather than transparent
-  // borders, whose corners would join the top/bottom borders diagonally).
-  const sideBordersSeeThrough = isDashboardPage && !isDashboardHome
+  // Phones, dashboard sub-pages and the account page: side margins showing
+  // the background image instead of the page's white side borders (margins
+  // rather than transparent borders, whose corners would join the top/bottom
+  // borders diagonally).
+  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || location.pathname === '/account'
 
   useEffect(() => {
     if (location.hash && !isMapPath(location.pathname)) {
