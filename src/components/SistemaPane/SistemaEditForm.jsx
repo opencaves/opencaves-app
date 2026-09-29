@@ -18,17 +18,13 @@ import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
 const emptyExploration = { date: '', team: '', description: '', notes: '' }
-const sectionHeadingProps = {
-  component: 'h2',
-  variant: 'h6',
-  className: 'oc-sistema-edit-form--section-title',
-  sx: { mt: 1, mb: 3, pl: 1, borderLeft: '3px solid', borderColor: 'secondary.main', fontWeight: 600 },
-}
+const sectionHeadingProps = formSectionHeadingProps('oc-sistema-edit-form--section-title')
 
 function parseLocalizedNumber(value, locale) {
   if (value === '' || value === null || typeof value === 'undefined') return null

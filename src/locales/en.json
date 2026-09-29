@@ -525,7 +525,9 @@
       },
       "fullscreenMap": "Full screen map",
       "exitFullscreenMap": "Exit full screen",
-      "closeMap": "Close"
+      "closeMap": "Close",
+      "media": "Media",
+      "notes": "Notes"
     },
     "closePane": "Close",
     "rating": {

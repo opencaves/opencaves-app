@@ -525,7 +525,9 @@
       },
       "fullscreenMap": "Mapa en pantalla completa",
       "exitFullscreenMap": "Salir de pantalla completa",
-      "closeMap": "Cerrar"
+      "closeMap": "Cerrar",
+      "media": "Multimedia",
+      "notes": "Notas"
     },
     "closePane": "Cerrar",
     "rating": {

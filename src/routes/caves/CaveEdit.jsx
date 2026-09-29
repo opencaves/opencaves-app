@@ -10,6 +10,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import { num, pickDescription } from '@/services/data-service/types.js'
 import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
@@ -22,6 +23,8 @@ import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
+
+const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -260,19 +263,22 @@ export default function CaveEdit() {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label={t('name')} fullWidth required {...field('name')} />
 
-        <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
+        <Divider />
 
-        <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} />
+        <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
 
         <Divider />
 
+        <NameTranslationsField label={t('nameTranslations')} rows={form.nameTranslations} languages={languages} onChange={(nameTranslations) => setForm((f) => ({ ...f, nameTranslations }))} addLabel={t('addNameTranslation')} removeLabel={t('removeNameTranslation')} languageLabel={t('nameTranslationLanguage')} valueLabel={t('nameTranslationValue')} labelProps={sectionHeadingProps} />
+
+        <Divider />
+
+        <Typography {...sectionHeadingProps}>{t('media')}</Typography>
         <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">
-          {t('coordinates')}
-        </Typography>
+        <Typography {...sectionHeadingProps}>{t('coordinates')}</Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
           {/* Above the map preview beside it (md+): the fields' own grid
@@ -292,8 +298,10 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="subtitle2" component="h2">
+        {/* The heading's own margins move to the row, so the edit button
+            lines up with it. */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, mb: 3 }}>
+          <Typography {...sectionHeadingProps} sx={{ ...sectionHeadingProps.sx, my: 0 }}>
             {t('sistemaGroup')}
           </Typography>
           <Tooltip title={t('editSistemas')}>
@@ -339,14 +347,17 @@ export default function CaveEdit() {
           ))}
         </TextField>
 
-        <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
-        <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+        <Divider />
+
+        <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">
-          {t('accessGroup')}
-        </Typography>
+        <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
+
+        <Divider />
+
+        <Typography {...sectionHeadingProps}>{t('accessGroup')}</Typography>
         <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
@@ -369,9 +380,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography variant="subtitle2" component="h2">
-          {t('accessibilityGroup')}
-        </Typography>
+        <Typography {...sectionHeadingProps}>{t('accessibilityGroup')}</Typography>
         <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
@@ -400,7 +409,10 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <TextField label={t('note')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
+        <Typography id="oc-cave-edit-note-title" {...sectionHeadingProps}>
+          {t('notes')}
+        </Typography>
+        <TextField fullWidth multiline minRows={2} slotProps={{ htmlInput: { 'aria-labelledby': 'oc-cave-edit-note-title' } }} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
       </Box>
 
       <StickyActionBar gap={1}>

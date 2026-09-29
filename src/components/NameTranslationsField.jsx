@@ -4,7 +4,7 @@ import { AddRounded, CloseRounded } from '@mui/icons-material'
 // One row per language, each language selectable in at most one row at a
 // time (its own current selection stays available to itself, but disappears
 // from every other row's options once picked).
-export default function NameTranslationsField({ label, rows, languages, onChange, addLabel, removeLabel, languageLabel, valueLabel }) {
+export default function NameTranslationsField({ label, rows, languages, onChange, addLabel, removeLabel, languageLabel, valueLabel, labelProps = {} }) {
   const usedLangs = rows.map((r) => r.lang).filter(Boolean)
   const unusedLanguages = languages.filter((l) => !usedLangs.includes(l.code))
 
@@ -22,7 +22,7 @@ export default function NameTranslationsField({ label, rows, languages, onChange
 
   return (
     <Box className="oc-name-translations-field">
-      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }}>
+      <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }} {...labelProps}>
         {label}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

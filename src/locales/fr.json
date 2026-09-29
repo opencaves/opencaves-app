@@ -523,7 +523,9 @@
       },
       "fullscreenMap": "Carte en plein écran",
       "exitFullscreenMap": "Quitter le plein écran",
-      "closeMap": "Fermer"
+      "closeMap": "Fermer",
+      "media": "Médias",
+      "notes": "Notes"
     },
     "closePane": "Fermer",
     "rating": {
