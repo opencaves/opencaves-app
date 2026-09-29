@@ -8,6 +8,7 @@ import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
 import { ResultPaneSmContext } from './ResultPaneSm.jsx'
+import { useSmall } from '@/hooks/useSmall.jsx'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
@@ -17,6 +18,7 @@ const FIELD_BADGE_ICONS = {
   key: VpnKeyRounded,
 }
 
+// Phones only: 48dp touch targets.
 const coordinateActionButtonSx = { width: 48, height: 48, flexShrink: 0 }
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
@@ -64,6 +66,8 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
+  const isSmall = useSmall()
+  const actionButtonSx = isSmall ? coordinateActionButtonSx : undefined
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -165,7 +169,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const myLocationButton = (
     <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
-        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')} sx={coordinateActionButtonSx}>
+        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')} sx={actionButtonSx}>
           {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
         </IconButton>
       </span>
@@ -175,7 +179,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const removeButton = (
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
-        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')} sx={coordinateActionButtonSx}>
+        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')} sx={actionButtonSx}>
           <CloseRounded fontSize="small" />
         </IconButton>
       </span>
@@ -184,13 +188,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
 
   const navigateOrPinButton = isSet ? (
     <Tooltip title={t('navigateToCoordinate')}>
-      <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')} sx={coordinateActionButtonSx}>
+      <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')} sx={actionButtonSx}>
         <CenterFocusStrongRounded fontSize="small" />
       </IconButton>
     </Tooltip>
   ) : (
     <Tooltip title={t('dragPinToMap')}>
-      <IconButton size="small" draggable onDragStart={onPinDragStart} aria-label={t('dragPinToMap')} sx={{ ...coordinateActionButtonSx, cursor: 'grab' }}>
+      <IconButton size="small" draggable onDragStart={onPinDragStart} aria-label={t('dragPinToMap')} sx={{ ...actionButtonSx, cursor: 'grab' }}>
         {FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />}
       </IconButton>
     </Tooltip>
@@ -217,7 +221,9 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
             <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet} />
           </Box>
         </>
-      ) : (
+      ) : isSmall ? (
+        // Phones outside the result pane's sheet (e.g. the admin edit pages):
+        // longitude over latitude, the actions centered beside them.
         <Grid container spacing={1} sx={{ alignItems: 'center' }}>
           <Grid size="auto">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -232,6 +238,14 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
               {removeButton}
             </Box>
           </Grid>
+        </Grid>
+      ) : (
+        // Larger screens: everything on one row.
+        <Grid container spacing={1} sx={{ alignItems: 'center' }}>
+          {inputs}
+          <Grid size="auto">{navigateOrPinButton}</Grid>
+          <Grid size="auto">{myLocationButton}</Grid>
+          <Grid size="auto">{removeButton}</Grid>
         </Grid>
       )}
     </Box>

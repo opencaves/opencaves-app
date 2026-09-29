@@ -16,7 +16,7 @@ export default function SistemaEdit() {
 
   return (
     <div className="oc-sistema-edit">
-      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={() => navigate('/sistemas')} />
+      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={() => navigate('/sistemas')} showMapPreview />
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import { ArrowBackRounded, EditRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
+import { ArrowBackRounded, EditRounded } from '@mui/icons-material'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -21,7 +21,7 @@ import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
-import OCMap from '@/components/Map/Map.jsx'
+import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -91,7 +91,6 @@ export default function CaveEdit() {
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [mapExpanded, setMapExpanded] = useState(false)
   // Kept around only to diff nameTranslations on save (see handleSave) -
   // setDoc's merge:true merges nested maps key-by-key, so a language
   // dropped from the form needs an explicit deleteField() sentinel to
@@ -284,28 +283,7 @@ export default function CaveEdit() {
             <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
-            {/* Map.jsx's own CSS fills its nearest positioned ancestor with
-                a defined height (it's built to fill the whole /map page) -
-                this box supplies both so it renders as an inline preview
-                here instead. Dragging the pin/fence icons or clicking the
-                map still works via the same pickingCoordinateFor/
-                editFieldCoordinates redux state CoordinateField itself
-                dispatches to.
-
-                Enlarges in place (not a Dialog) so the CoordinateField
-                drag-pin/pick-location tools next to it stay reachable and
-                aren't hidden behind a dialog backdrop. aspectRatio (not a
-                fixed height) keeps it in proportion as it grows to fill
-                the width freed up by the coordinates column shrinking to
-                its content width. */}
-            <Box sx={{ position: 'relative', width: '100%', aspectRatio: mapExpanded ? '4 / 3' : '16 / 9', borderRadius: 1, overflow: 'hidden', border: '1px solid', borderColor: 'divider', transition: (theme) => theme.transitions.create('aspect-ratio') }}>
-              <Tooltip title={mapExpanded ? t('shrinkMap') : t('enlargeMap')}>
-                <IconButton size="small" onClick={() => setMapExpanded((v) => !v)} sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
-                  {mapExpanded ? <FullscreenExitRounded fontSize="small" /> : <FullscreenRounded fontSize="small" />}
-                </IconButton>
-              </Tooltip>
-              <OCMap />
-            </Box>
+            <CoordinatesMapPreview />
           </Grid>
         </Grid>
 

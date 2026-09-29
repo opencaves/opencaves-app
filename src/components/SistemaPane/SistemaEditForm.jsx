@@ -9,6 +9,7 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { num } from '@/services/data-service/types.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
+import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
@@ -121,8 +122,9 @@ const emptyForm = {
 // caller can decide where that goes (a hard navigate for the standalone
 // page, a slide-out-then-back for the pane). onDirtyChange reports whether
 // there are unsaved changes (the pane then skips its slide-out, so leaving
-// can be confirmed first).
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange }) {
+// can be confirmed first). showMapPreview adds a map beside the location
+// fields, for the standalone page (the pane already has the map behind it).
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange, showMapPreview = false }) {
   const { t, i18n } = useTranslation('sistemaEditForm')
   const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
@@ -356,7 +358,20 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} />
+          {/* Same layout as the cave edit page: fields, then the map beside
+              them (below on narrower screens). */}
+          <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
+            {/* Above the map preview: the fields' own grid overflows a few px
+                into it, which otherwise covered part of their buttons. */}
+            <Grid size={showMapPreview ? { xs: 12, md: 'auto' } : 12} sx={{ flexShrink: 0, position: 'relative', zIndex: 1 }}>
+              <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} />
+            </Grid>
+            {showMapPreview && (
+              <Grid size={{ xs: 12, md: 'grow' }}>
+                <CoordinatesMapPreview />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
 
         <Grid size={7}>
