@@ -1,10 +1,10 @@
 import { useId } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AddAPhotoOutlined, EditRounded } from '@mui/icons-material'
+import { AddAPhotoOutlined } from '@mui/icons-material'
 import AddButton from '@/components/AddButton.jsx'
-import { Box, Button, Tab, Tabs } from '@mui/material'
+import { Box, Tab, Tabs } from '@mui/material'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
@@ -57,11 +57,6 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
               <AddMediasProvider caveId={caveId}>{addPicturesButton}</AddMediasProvider>
             ) : (
               addPicturesButton
-            )}
-            {editable && (
-              <Button component={Link} to={`/map/${caveId}/medias`} size="small" startIcon={<EditRounded />}>
-                {t('managePictures')}
-              </Button>
             )}
           </Box>
         </Box>
