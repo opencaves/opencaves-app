@@ -10,7 +10,7 @@ import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getCaveData } from '../src/services/data-service/dataImporter.js'
-import { processDataForStorage } from '../src/services/data-service/dataProcessor.js'
+import { processDataForStorage, teamDateConflicts } from '../src/services/data-service/dataProcessor.js'
 
 const PROJECT_ID = 'opencaves'
 const WRITE_BATCH_SIZE = 500
@@ -121,6 +121,15 @@ async function main() {
     await writeCollection(collectionName, getId, getRecords())
   }
 
+  // Exploration teams with a trailing date that disagrees with their Date
+  // cell: imported unsplit, so both dates stay visible - to fix in the sheet.
+  if (teamDateConflicts.length > 0) {
+    console.log(`
+${teamDateConflicts.length} exploration(s) where the team's date and the Date column disagree (imported unsplit):`)
+    for (const { sistema, team, date } of teamDateConflicts) {
+      console.log(`  ${sistema}: team "${team}" vs date "${date}"`)
+    }
+  }
   console.log('Done.')
 }
 

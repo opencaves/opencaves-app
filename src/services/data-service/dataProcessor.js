@@ -105,6 +105,35 @@ function nameTrans(old) {
   return
 }
 
+// The sheet's Team cells usually also hold the exploration's date after the
+// team ("Devos, Riordan, 2008-02"; sometimes without the comma, "Bogaerts,
+// Phillips 2004-09", or as a spaced range, "Wagner and Schmittner 1998 -
+// 2001"): the whole trailing date - a year, month, day or year range - is
+// split off.
+const TRAILING_EXPLORATION_DATE = /^(.*?)[,\s]+(\d{4}\s*-\s*\d{4}|\d{4}(?:-\d{2}(?:-\d{2})?)?)$/
+
+// { team, date } from a Team cell and its Date cell, the team's own date
+// removed from the team:
+// - no Date cell: the team's date;
+// - the same date, or the team's is a more precise one within it (1999-07
+//   for 1999): the team's, whole;
+// - two different dates: the team is left as written, with the Date cell's
+//   date, so neither is lost (reported: see teamDateConflicts).
+export function splitExplorationTeam(team, date) {
+  const match = TRAILING_EXPLORATION_DATE.exec(team || '')
+  if (!match) return { team, date, conflict: false }
+  const teamOnly = match[1].trim()
+  const teamDate = match[2].replace(/\s+/g, '')
+  if (!date || teamDate === date || teamDate.startsWith(`${date}-`)) {
+    return { team: teamOnly, date: teamDate, conflict: false }
+  }
+  return { team, date, conflict: true }
+}
+
+// Teams whose date disagrees with their Date cell, for the migration script
+// to report (they're imported unsplit).
+export const teamDateConflicts = []
+
 // The Sistemas sheet records exploration history as numbered column groups
 // ("Exploration 1 - Date"/"Exploration 1 - Team"/"Exploration 1 - Notes",
 // "Exploration 2 - ...", currently up to 2) rather than a single flat set of
@@ -116,9 +145,13 @@ function getExplorations(old) {
   const explorations = []
 
   for (let i = 1; i <= 2; i++) {
-    const date = str(old[`Exploration ${i} - Date`])
-    const team = str(old[`Exploration ${i} - Team`])
+    const rawDate = str(old[`Exploration ${i} - Date`])
+    const rawTeam = str(old[`Exploration ${i} - Team`])
     const notes = str(old[`Exploration ${i} - Notes`])
+    const { team, date, conflict } = splitExplorationTeam(rawTeam, rawDate)
+    if (conflict) {
+      teamDateConflicts.push({ sistema: str(old.Sistema) || str(old.id), team: rawTeam, date: rawDate })
+    }
 
     if (date || team || notes) {
       const exploration = {}
