@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
-import { AddRounded, CloseRounded, DeleteOutlineRounded, EditRounded, PlayArrowRounded } from '@mui/icons-material'
+import { CloseRounded, DeleteOutlineRounded, EditRounded, PlayArrowRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
@@ -190,9 +191,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       )}
       {(canEdit || showAdd) && (
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>
-          <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={() => (canEdit ? setAddDialogOpen(true) : onAddUnauthorized?.())} sx={{ minHeight: 48 }}>
-            {t('addVideos')}
-          </Button>
+          <AddButton onClick={() => (canEdit ? setAddDialogOpen(true) : onAddUnauthorized?.())}>{t('addVideos')}</AddButton>
         </Box>
       )}
       <Dialog open={addDialogOpen} onClose={closeAddDialog} maxWidth="xs" fullWidth>

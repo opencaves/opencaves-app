@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { AddRounded, DeleteOutlineRounded, EditRounded, MapOutlined, PictureAsPdfRounded } from '@mui/icons-material'
+import { DeleteOutlineRounded, EditRounded, MapOutlined, PictureAsPdfRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -168,12 +169,14 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       {(canAdd || onAddUnauthorized) && (
         <>
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: selectedMaps.length > 0 ? 2 : 0 }}>
-            <Button variant="outlined" size="small" startIcon={uploading ? <CircularProgress size={16} /> : <AddRounded />} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())} sx={{ minHeight: 48 }}>
+            <AddButton startIcon={uploading ? <CircularProgress size={18} /> : undefined} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())}>
               {t('addMap')}
-            </Button>
+            </AddButton>
           </Box>
           {canAdd && !sistemaId && (
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 0.5 }}>
+            // Supporting text for the Add map button above: 8dp from it, and a
+            // little extra room (with the form's own gap, 24dp) after it.
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 1, mb: 1 }}>
               {t('mapsNeedSistema')}
             </Typography>
           )}

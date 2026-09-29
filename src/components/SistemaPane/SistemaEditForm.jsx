@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Divider, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
-import { AddRounded, ArrowBackRounded, CloseRounded } from '@mui/icons-material'
+import { ArrowBackRounded, CloseRounded } from '@mui/icons-material'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -17,6 +17,7 @@ import PartialDateField, { isValidPartialDate } from '@/components/PartialDateFi
 import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
+import AddButton from '@/components/AddButton.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 
@@ -87,9 +88,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel,
             </Grid>
           </Box>
         ))}
-        <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={add} sx={{ alignSelf: 'flex-start', minHeight: 48 }}>
-          {addLabel}
-        </Button>
+        <AddButton onClick={add}>{addLabel}</AddButton>
       </Box>
     </Box>
   )

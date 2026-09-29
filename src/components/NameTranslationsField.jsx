@@ -1,5 +1,6 @@
-import { Box, Button, IconButton, MenuItem, TextField, Typography } from '@mui/material'
-import { AddRounded, CloseRounded } from '@mui/icons-material'
+import { Box, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { CloseRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 
 // One row per language, each language selectable in at most one row at a
 // time (its own current selection stays available to itself, but disappears
@@ -43,9 +44,9 @@ export default function NameTranslationsField({ label, rows, languages, onChange
             </IconButton>
           </Box>
         ))}
-        <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={add} disabled={unusedLanguages.length === 0} sx={{ alignSelf: 'flex-start', minHeight: 48 }}>
+        <AddButton onClick={add} disabled={unusedLanguages.length === 0}>
           {addLabel}
-        </Button>
+        </AddButton>
       </Box>
     </Box>
   )

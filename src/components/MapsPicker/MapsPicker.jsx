@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Avatar, Box, Button, Card, CardActionArea, CircularProgress, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Menu, TextField, Typography } from '@mui/material'
 import { AddRounded, CloseRounded, DescriptionRounded, ImageRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import AuthorsField from './AuthorsField.jsx'
@@ -120,9 +121,9 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
             )}
           </Card>
         ))}
-        <Button className="oc-maps-picker--add-btn" variant="outlined" size="small" startIcon={<AddRounded />} onClick={handleOpen} sx={{ minHeight: 48 }}>
+        <AddButton className="oc-maps-picker--add-btn" onClick={handleOpen}>
           {t('addMap')}
-        </Button>
+        </AddButton>
       </Box>
 
       <Menu className="oc-maps-picker--menu" anchorEl={anchorEl} open={open} onClose={handleClose} slotProps={{ paper: { sx: { maxWidth: 'calc(100vw - 16px)', maxHeight: 'calc(100dvh - 32px)', overflowY: 'auto' } } }}>

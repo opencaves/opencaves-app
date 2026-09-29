@@ -25,6 +25,10 @@ import StickyActionBar from '@/components/StickyActionBar.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
+// For a heading placed directly in the form's column, whose 16dp gap already
+// separates it from what follows: 8dp more makes the same 24dp as a field's
+// own heading (labelProps).
+const columnHeadingProps = { ...sectionHeadingProps, sx: { ...sectionHeadingProps.sx, mb: 1 } }
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -273,12 +277,12 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography {...sectionHeadingProps}>{t('media')}</Typography>
+        <Typography {...columnHeadingProps}>{t('media')}</Typography>
         <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
 
         <Divider />
 
-        <Typography {...sectionHeadingProps}>{t('coordinates')}</Typography>
+        <Typography {...columnHeadingProps}>{t('coordinates')}</Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
           {/* Above the map preview beside it (md+): the fields' own grid
@@ -300,7 +304,7 @@ export default function CaveEdit() {
 
         {/* The heading's own margins move to the row, so the edit button
             lines up with it. */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, mb: 1 }}>
           <Typography {...sectionHeadingProps} sx={{ ...sectionHeadingProps.sx, my: 0 }}>
             {t('sistemaGroup')}
           </Typography>
@@ -357,7 +361,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography {...sectionHeadingProps}>{t('accessGroup')}</Typography>
+        <Typography {...columnHeadingProps}>{t('accessGroup')}</Typography>
         <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
@@ -380,7 +384,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography {...sectionHeadingProps}>{t('accessibilityGroup')}</Typography>
+        <Typography {...columnHeadingProps}>{t('accessibilityGroup')}</Typography>
         <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
@@ -409,7 +413,7 @@ export default function CaveEdit() {
 
         <Divider />
 
-        <Typography id="oc-cave-edit-note-title" {...sectionHeadingProps}>
+        <Typography id="oc-cave-edit-note-title" {...columnHeadingProps}>
           {t('notes')}
         </Typography>
         <TextField fullWidth multiline minRows={2} slotProps={{ htmlInput: { 'aria-labelledby': 'oc-cave-edit-note-title' } }} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />

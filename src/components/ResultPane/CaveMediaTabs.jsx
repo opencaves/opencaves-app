@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { AddAPhotoOutlined, EditRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 import { Box, Button, Tab, Tabs } from '@mui/material'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
@@ -30,7 +31,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
   }
-  const addPicturesButton = <AddMediasButton component={<Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} sx={{ minHeight: 48 }} />}>{t('addPictures')}</AddMediasButton>
+  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
 
   function requireLogin() {
     dispatch(setContinueUrl(buildContinueUrl(location)))
@@ -49,9 +50,9 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <MediaList caveId={caveId} editable={editable} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
-              <Button variant="outlined" size="small" startIcon={<AddAPhotoOutlined />} onClick={requireLogin} sx={{ minHeight: 48 }}>
+              <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
                 {t('addPictures')}
-              </Button>
+              </AddButton>
             ) : standaloneUpload ? (
               <AddMediasProvider caveId={caveId}>{addPicturesButton}</AddMediasProvider>
             ) : (

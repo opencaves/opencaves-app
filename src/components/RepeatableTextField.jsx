@@ -1,5 +1,6 @@
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
-import { AddRounded, CloseRounded } from '@mui/icons-material'
+import { Box, IconButton, TextField, Typography } from '@mui/material'
+import { CloseRounded } from '@mui/icons-material'
+import AddButton from '@/components/AddButton.jsx'
 
 export default function RepeatableTextField({ label, values, onChange, addLabel, removeLabel, labelProps = {} }) {
   function updateAt(index, value) {
@@ -28,9 +29,7 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
             </IconButton>
           </Box>
         ))}
-        <Button variant="outlined" size="small" startIcon={<AddRounded />} onClick={add} sx={{ alignSelf: 'flex-start', minHeight: 48 }}>
-          {addLabel}
-        </Button>
+        <AddButton onClick={add}>{addLabel}</AddButton>
       </Box>
     </Box>
   )
