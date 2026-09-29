@@ -27,7 +27,7 @@ export default function UsersAdmin() {
   useEffect(() => {
     setTitle(t('title'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [t])
 
   useEffect(() => {
     let cancelled = false

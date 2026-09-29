@@ -15,7 +15,7 @@ export default function AboutRoute() {
       setTitle(t('title'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, t])
 
   return (
     <Grid className="oc-about" container direction="column" sx={{ height: '100%', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center' }}>

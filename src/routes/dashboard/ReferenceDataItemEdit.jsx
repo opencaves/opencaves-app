@@ -46,7 +46,7 @@ export default function ReferenceDataItemEdit() {
   useEffect(() => {
     setTitle(config ? t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`) : collectionName)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionName, isNew])
+  }, [collectionName, isNew, t])
 
   useEffect(() => {
     if (isNew || !config) {

@@ -45,7 +45,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
     setTitle(title)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [title])
 
   return (
     <Dialog

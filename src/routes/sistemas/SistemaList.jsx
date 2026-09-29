@@ -19,9 +19,9 @@ export default function SistemaList() {
   const { setTitle } = useTitle()
 
   useEffect(() => {
-    setTitle('Sistemas')
+    setTitle(t('sistemas'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [t])
 
   const areasById = useMemo(() => new Map(areas.map((a) => [a.id, a.name])), [areas])
 

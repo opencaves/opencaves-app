@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     setTitle(t('title'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [t])
 
   return (
     <Box

@@ -407,7 +407,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   useEffect(() => {
     setTitle(t('title'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [t])
 
   //
   useEffect(() => {

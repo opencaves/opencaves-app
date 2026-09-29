@@ -22,9 +22,9 @@ export default function CaveList() {
   const { setTitle } = useTitle()
 
   useEffect(() => {
-    setTitle('Caves')
+    setTitle(t('caves'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [t])
 
   const areasById = useMemo(() => new Map(areas.map((a) => [a.id, a.name])), [areas])
   // A cave has no area of its own - it comes from whichever sistema it belongs to.

@@ -16,7 +16,7 @@ export default function SignupPage() {
       setTitle(t('title'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, t])
 
   return (
     <Signup className="oc-signup" />

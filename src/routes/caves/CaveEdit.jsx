@@ -163,7 +163,7 @@ export default function CaveEdit() {
   useEffect(() => {
     setTitle(isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name])
+  }, [isNew, form.name, t])
 
   function field(name) {
     return {

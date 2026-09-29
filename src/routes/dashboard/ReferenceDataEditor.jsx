@@ -65,7 +65,7 @@ export default function ReferenceDataEditor() {
   useEffect(() => {
     setTitle(config ? t(`collections.${collectionName}.title`) : collectionName)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionName])
+  }, [collectionName, t])
 
   if (!config) {
     return (

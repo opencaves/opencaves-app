@@ -86,7 +86,7 @@ export default function ResultPane() {
       setTitle(t('title', { name: currentCave.name.value }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCave])
+  }, [currentCave, t])
 
   // Dragging a file anywhere over the window (not just onto a dedicated
   // dropzone) opens the same full-screen upload prompt used in the media

@@ -192,7 +192,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
   useEffect(() => {
     onTitleChange?.(isNew ? t('newSistema') : t('sistemaTitle', { name: form.name || sistemaId }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, form.name])
+  }, [isNew, form.name, t])
 
   function field(name) {
     return {

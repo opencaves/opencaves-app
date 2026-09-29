@@ -14,7 +14,7 @@ export default function LegalPage({ page }) {
   useEffect(() => {
     setTitle(t(`${page}.title`))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
+  }, [page, t])
 
   return (
     <Box

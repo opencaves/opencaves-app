@@ -9,6 +9,8 @@ import { auth } from '@/config/firebase.js'
 import { setUser } from '@/redux/slices/sessionSlice.jsx'
 import SavedCavesList from '@/components/SavedCaves/SavedCavesList.jsx'
 import OfflineStorageSection from '@/components/Offline/OfflineStorageSection.jsx'
+import LanguageSection from '@/components/Account/LanguageSection.jsx'
+import { useTitle } from '@/hooks/useTitle.jsx'
 
 export default function Account() {
   const { t } = useTranslation('account')
@@ -29,6 +31,13 @@ export default function Account() {
   const [passwordError, setPasswordError] = useState(null)
   const [signedOut, setSignedOut] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
+  const { setTitle } = useTitle()
+
+  // Its own title, which also follows a language change made on this page.
+  useEffect(() => {
+    setTitle(t('profile'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t])
 
   useEffect(() => {
     setName(user?.displayName || user?.name || '')
@@ -152,6 +161,7 @@ export default function Account() {
           </Typography>
           <Typography component="p">{user?.email || ''}</Typography>
         </Box>
+        <LanguageSection />
         {isLoggedIn && <SavedCavesList />}
         <OfflineStorageSection />
         {hasPasswordProvider && (
