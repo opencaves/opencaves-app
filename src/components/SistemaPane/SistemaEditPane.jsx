@@ -5,7 +5,7 @@ import { Box, Drawer, IconButton, Typography, styled, useTheme } from '@mui/mate
 import { ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material'
 import SistemaEditForm from './SistemaEditForm.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { paneWidth as baseWidth } from '@/config/app.js'
+import { PANE_WIDTH as baseWidth } from '@/config/app.js'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',

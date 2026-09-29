@@ -18,7 +18,7 @@ import Splash from '@/components/utils/Splash.jsx'
 import getDevicePixelRatio from '@/utils/getDevicePixelRatio.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { theme } from '@/theme/Theme.jsx'
-import { appTitle } from '@/config/app.js'
+import { APP_TITLE } from '@/config/app.js'
 
 import '@fontsource/roboto/latin-300.css'
 import '@fontsource/roboto/latin-400.css'
@@ -78,7 +78,7 @@ const App = () => {
         <HelmetProvider>
           {/* lang follows the UI language (index.html's static "en" is only
               the pre-render fallback), for search engines and screen readers. */}
-          <Helmet defaultTitle={appTitle} htmlAttributes={{ lang: i18n.resolvedLanguage }}>
+          <Helmet defaultTitle={APP_TITLE} htmlAttributes={{ lang: i18n.resolvedLanguage }}>
             <title>{title}</title>
           </Helmet>
           <TitleBar />

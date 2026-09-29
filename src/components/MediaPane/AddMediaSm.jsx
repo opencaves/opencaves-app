@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { fileOpen, supported } from 'browser-fs-access'
-import { acceptedExtensions, acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 export default function AddMediaSm() {
   const inputRef = useRef()
@@ -9,8 +9,8 @@ export default function AddMediaSm() {
   useEffect(() => {
     const pickerOpts = {
       description: 'awef',
-      mimeTypes: acceptedMimeTypes,
-      extensions: acceptedExtensions,
+      mimeTypes: ACCEPTED_MIME_TYPES,
+      extensions: ACCEPTED_EXTENSIONS,
       multiple: true,
     }
 

@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { appTitle, paneInitialBreakpoint } from '@/config/app'
-import { paneBreakpoints } from '@/config/app'
+import { APP_TITLE, PANE_INITIAL_BREAKPOINT } from '@/config/app'
+import { PANE_BREAKPOINTS } from '@/config/app'
 
 const initialState = {
   // name: "Open Caves",
-  title: appTitle,
+  title: APP_TITLE,
   searchBarOff: false,
   filterMenuOpen: false,
   resultPaneSmOpen: true,
-  resultPaneSmCurrentBreakpoint: paneInitialBreakpoint,
+  resultPaneSmCurrentBreakpoint: PANE_INITIAL_BREAKPOINT,
   // Which of the Pictures/Videos/Maps tabs was last open, per cave - lets a
   // reload of the same cave's pane come back to the tab the person was on.
   caveMediaTabByCaveId: {},

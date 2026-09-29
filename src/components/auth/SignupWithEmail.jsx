@@ -20,7 +20,7 @@ import { useBroadcastChannel } from '@/hooks/useBroadcastChannel.jsx'
 import { Forward } from '../Transitions.jsx'
 import { auth } from '@/config/firebase.js'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
-import { defaultContinuetUrl, firstNameMinLength, gap, passwordMinLength } from '@/config/auth.js'
+import { DEFAULT_CONTINUE_URL, FIRST_NAME_MIN_LENGTH, AUTH_SECTION_GAP, PASSWORD_MIN_LENGTH } from '@/config/auth.js'
 import { NavigateNextRounded } from '../icons.jsx'
 import './SignupWithEmail.scss'
 
@@ -318,7 +318,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
 
   function validateFirstNameInput() {
     if (!firstNameInputValidity.valid) {
-      setFirstNameInputHelperText(firstNameInputValidity.valueMissing ? tErrors('firstNameMissing') : ts('firstNameTooShort', { minLength: firstNameMinLength }))
+      setFirstNameInputHelperText(firstNameInputValidity.valueMissing ? tErrors('firstNameMissing') : ts('firstNameTooShort', { minLength: FIRST_NAME_MIN_LENGTH }))
       return false
     }
 
@@ -343,7 +343,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   //
 
   function onPasswordInputKeyUp() {
-    if (passwordInputState === 'determinate' && password.length < passwordMinLength) {
+    if (passwordInputState === 'determinate' && password.length < PASSWORD_MIN_LENGTH) {
       setPasswordInputError(true)
     } else {
       setPasswordInputError(false)
@@ -597,7 +597,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 <Section>
                   {emailAlreadyInUse ? (
                     <>
-                      <SectionDetails sx={{ mb: gap }}>
+                      <SectionDetails sx={{ mb: AUTH_SECTION_GAP }}>
                         <Trans i18nKey="emailSentAndEmailVerification.emailInUse.details" t={ts} values={{ email }} />
                       </SectionDetails>
                       <SectionForm>
@@ -745,7 +745,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                         // sx={{ mt: .75 }}
                         required
                         autoComplete="given-name"
-                        minLength={firstNameMinLength}
+                        minLength={FIRST_NAME_MIN_LENGTH}
                         helperText={firstNameInputHelperText}
                         onChange={(event) => setFirstName(event.target.value)}
                         onKeyUp={onFirstNameInputKeyUp}
@@ -771,7 +771,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                   <SectionForm>
                     <SectionDetails>{ts('password.details')}</SectionDetails>
                     <SectionFields>
-                      <PasswordInput label={ts('password.passwordLabel')} type="password" name="password" value={password} fullWidth required autoComplete="new-password" minLength={passwordMinLength} inputMode="password" error={passwordInputError} onChange={onPasswordInputChange} onKeyUp={onPasswordInputKeyUp} />
+                      <PasswordInput label={ts('password.passwordLabel')} type="password" name="password" value={password} fullWidth required autoComplete="new-password" minLength={PASSWORD_MIN_LENGTH} inputMode="password" error={passwordInputError} onChange={onPasswordInputChange} onKeyUp={onPasswordInputKeyUp} />
                     </SectionFields>
 
                     <Progress enabled={stepPasswordLoading} />
@@ -802,7 +802,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                     <SectionActions>
                       <AuthButton
                         onClick={() => {
-                          const url = continueUrl || defaultContinuetUrl
+                          const url = continueUrl || DEFAULT_CONTINUE_URL
                           if (url.includes('#')) {
                             window.location.href = url
                           } else {

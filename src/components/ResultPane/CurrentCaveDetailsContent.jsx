@@ -12,7 +12,7 @@ import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
-import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
+import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
 export default function CurrentCaveDetailsContent({ cave }) {
@@ -276,7 +276,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
       {!isAndroid && (
         <Portal>
           <Snackbar
-            autoHideDuration={snackbarDefaultAutoHideDuration}
+            autoHideDuration={SNACKBAR_DEFAULT_AUTO_HIDE_DURATION}
             message={snackbarMessage}
             open={snackbarOpen}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

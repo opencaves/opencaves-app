@@ -1,3 +1,7 @@
+// Relative, not '@/': this file is also loaded by the Node migration script
+// (scripts/migrate-sheet-to-firestore.js).
+import { COORDINATE_DECIMALS } from '../../config/map.js'
+
 
 // Squared distance between two {longitude, latitude} points - only meant for
 // relative sorting (nearest-first), not as an actual displayed distance, so
@@ -91,8 +95,8 @@ export function loc(obj, lngProp, latProp, validProp = null) {
   }
 
   const location = {
-    longitude: num(obj[lngProp], 5),
-    latitude: num(obj[latProp], 5)
+    longitude: num(obj[lngProp], COORDINATE_DECIMALS),
+    latitude: num(obj[latProp], COORDINATE_DECIMALS)
   }
 
   if (validProp && Reflect.has(obj, validProp)) {

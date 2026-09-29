@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fileOpen } from 'browser-fs-access'
 import UploadMedias from './UploadMedias.jsx'
-import { acceptedExtensions, acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 export const AddMediasContext = createContext(null)
 
@@ -12,8 +12,8 @@ export default function AddMediasProvider({ children, caveId }) {
 
   const pickerOpts = {
     description: t('images'),
-    mimeTypes: acceptedMimeTypes,
-    extensions: acceptedExtensions,
+    mimeTypes: ACCEPTED_MIME_TYPES,
+    extensions: ACCEPTED_EXTENSIONS,
     multiple: true,
   }
 

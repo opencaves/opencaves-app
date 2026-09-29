@@ -15,11 +15,12 @@ import SharedMarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
-import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
+import { toContentLanguage } from '@/utils/lang.jsx'
+import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import CoordinateField from './CoordinateField.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
-import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
@@ -50,7 +51,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const placingOnMap = useSelector((state) => !!state.map.placeOnMap)
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
-  const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
   // Sorts the Sistema dropdown nearest-first, live as the map is panned.
   const mapCenter = useSelector((state) => state.map.viewState)
 
@@ -71,7 +72,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       return ''
     }
 
-    const normalized = Number(num(value, 5))
+    const normalized = Number(num(value, COORDINATE_DECIMALS))
     return Number.isFinite(normalized) ? String(normalized) : ''
   }
 
@@ -146,19 +147,19 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       if (form.longitude === '' && form.latitude === '' && cave.location) {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
+        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
         fields.entrance = deleteField()
       } else if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
-        fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)) }
       }
 
       if (form.keyLongitude === '' && form.keyLatitude === '' && cave.keys?.length) {
         fields.keys = deleteField()
       } else if (form.keyLongitude !== '' && form.keyLatitude !== '') {
-        fields.keys = [{ longitude: Number(num(form.keyLongitude, 5)), latitude: Number(num(form.keyLatitude, 5)) }]
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)) }]
       }
 
       // setDoc's merge:true merges nested map fields key-by-key rather than

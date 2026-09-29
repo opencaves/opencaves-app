@@ -14,7 +14,7 @@ import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { paneInitialBreakpoint } from '@/config/app.js'
+import { PANE_INITIAL_BREAKPOINT } from '@/config/app.js'
 import { setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
@@ -64,7 +64,7 @@ export default function ResultPane() {
 
     dispatch(toggleFilterMenu(false))
     dispatch(setResultPaneSmOpen(true))
-    dispatch(setResultPaneSmCurrentBreakpoint(paneInitialBreakpoint))
+    dispatch(setResultPaneSmCurrentBreakpoint(PANE_INITIAL_BREAKPOINT))
   }, [caveId, dispatch, isSmall])
 
   useEffect(() => {

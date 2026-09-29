@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { setTitle } from '@/redux/slices/appSlice.jsx'
-import { appTitle } from '@/config/app.js'
+import { APP_TITLE } from '@/config/app.js'
 
 export function useTitle() {
 
@@ -10,7 +10,7 @@ export function useTitle() {
   return {
     title,
     setTitle: (title) => {
-      dispatch(setTitle(title ? `${title} / ${appTitle}` : appTitle))
+      dispatch(setTitle(title ? `${title} / ${APP_TITLE}` : APP_TITLE))
     }
   }
 }

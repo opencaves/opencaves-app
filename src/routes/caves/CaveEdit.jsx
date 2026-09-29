@@ -12,8 +12,9 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import { num, pickDescription } from '@/services/data-service/types.js'
-import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import { toContentLanguage } from '@/utils/lang.jsx'
+import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
+import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
@@ -74,7 +75,7 @@ export default function CaveEdit() {
   const [openSnackbar] = useSnackbar()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
-  const descriptionLang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
 
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
@@ -91,7 +92,7 @@ export default function CaveEdit() {
       return ''
     }
 
-    const normalized = Number(num(value, 5))
+    const normalized = Number(num(value, COORDINATE_DECIMALS))
     return Number.isFinite(normalized) ? String(normalized) : ''
   }
 
@@ -197,15 +198,15 @@ export default function CaveEdit() {
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
+        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
       }
 
       if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
-        fields.entrance = { longitude: Number(num(form.entranceLongitude, 5)), latitude: Number(num(form.entranceLatitude, 5)) }
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)) }
       }
 
       if (form.keyLongitude !== '' && form.keyLatitude !== '') {
-        fields.keys = [{ longitude: Number(num(form.keyLongitude, 5)), latitude: Number(num(form.keyLatitude, 5)) }]
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)) }]
       }
 
       const nameTranslationsUpdate = {}

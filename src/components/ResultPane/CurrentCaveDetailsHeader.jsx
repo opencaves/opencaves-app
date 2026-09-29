@@ -9,8 +9,8 @@ import CoverImage from './CoverImage.jsx'
 import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
-import { resultPaneSmHeadHeight } from '@/config/resultPane.js'
+import { toContentLanguage } from '@/utils/lang.jsx'
+import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import ConditionalWrapper from '../utils/ConditionalWrapper.jsx'
 import './CurrentCaveDetailsHeader.scss'
 
@@ -23,7 +23,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
-  const resolvedLanguage = ISO6391ToISO6392(i18n.resolvedLanguage)
+  const resolvedLanguage = toContentLanguage(i18n.resolvedLanguage)
   const caveNameTranslation = ((langCode) => {
     if (langCode) {
       if (langCode !== resolvedLanguage) {
@@ -45,7 +45,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
       return
     }
 
-    const observer = new IntersectionObserver(([entry]) => paneData.setTitleHidden(!entry.isIntersecting), { rootMargin: `-${resultPaneSmHeadHeight}px 0px 0px 0px` })
+    const observer = new IntersectionObserver(([entry]) => paneData.setTitleHidden(!entry.isIntersecting), { rootMargin: `-${RESULT_PANE_SM_HEAD_HEIGHT}px 0px 0px 0px` })
 
     observer.observe(titleRef.current)
 

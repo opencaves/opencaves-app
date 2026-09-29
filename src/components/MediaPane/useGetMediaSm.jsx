@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { fileOpen } from 'browser-fs-access'
 import { useTranslation } from 'react-i18next'
-import { acceptedExtensions, acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 export default function useGetMedias() {
   const { t } = useTranslation('mediaPane')
@@ -11,8 +11,8 @@ export default function useGetMedias() {
   const getMedias = useCallback(async () => {
     const pickerOpts = {
       description: t('images'),
-      mimeTypes: acceptedMimeTypes,
-      extensions: acceptedExtensions,
+      mimeTypes: ACCEPTED_MIME_TYPES,
+      extensions: ACCEPTED_EXTENSIONS,
       multiple: true,
     }
 

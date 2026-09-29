@@ -2,7 +2,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import { Card, CardContent } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { paneWidth, resultPaneMinHeight } from '@/config/app.js'
+import { PANE_WIDTH, RESULT_PANE_MIN_HEIGHT } from '@/config/app.js'
 import './ResultPaneLg.scss'
 
 export default function ResultPaneLg({ children, editMode, cave, ...props }) {
@@ -27,8 +27,8 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
         '.MuiCardContent-root': {
           p: 0,
         },
-        minHeight: `${resultPaneMinHeight}px`,
-        maxWidth: editMode ? `min(${paneWidth * 2}px, 80vw)` : `${paneWidth}px`,
+        minHeight: `${RESULT_PANE_MIN_HEIGHT}px`,
+        maxWidth: editMode ? `min(${PANE_WIDTH * 2}px, 80vw)` : `${PANE_WIDTH}px`,
         transition: widthTransition,
       }}
       component="main"

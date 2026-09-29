@@ -6,13 +6,13 @@ import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistent
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 // import { getAnalytics } from 'firebase/analytics'
 import i18n from '../i18n.js'
-import { firebaseConfig } from './firebase.config.js'
+import { FIREBASE_CONFIG } from './firebase.config.js'
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(FIREBASE_CONFIG)
 
-const functionsRegion = firebaseConfig.location || 'northamerica-northeast1'
-export const functions = getFunctions(app, functionsRegion)
+const FUNCTIONS_REGION = FIREBASE_CONFIG.location || 'northamerica-northeast1'
+export const functions = getFunctions(app, FUNCTIONS_REGION)
 
 export const auth = getAuth()
 auth.languageCode = i18n.resolvedLanguage

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Snackbar as MUISnackbar, Portal } from '@mui/material'
 import Slide from '@mui/material/Slide'
 import { Close } from '@mui/icons-material'
-import { snackbarDefaultAutoHideDuration } from '@/config/app.js'
+import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 
 export default function Snackbar({ open = false, message, autoHide = true, autoHideDuration = null, hideOnClickAway = false, action = null, showCloseButton = false, children, sx = {} }) {
 
@@ -43,7 +43,7 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
   // }
 
   useEffect(() => {
-    setAutoHideDuration(autoHide ? autoHideDuration || snackbarDefaultAutoHideDuration : null)
+    setAutoHideDuration(autoHide ? autoHideDuration || SNACKBAR_DEFAULT_AUTO_HIDE_DURATION : null)
   }, [autoHide, autoHideDuration])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-export const firebaseConfig = {
+export const FIREBASE_CONFIG = {
   apiKey: import.meta.env.REACT_APP_FirebaseApiKey,
   authDomain: import.meta.env.REACT_APP_FirebaseAuthDomain,
   projectId: import.meta.env.REACT_APP_FirebaseProjectId,

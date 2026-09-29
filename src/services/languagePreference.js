@@ -1,19 +1,20 @@
 import { deleteField, doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
-import i18n, { LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES } from '@/i18n.js'
+import i18n from '@/i18n.js'
+import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY } from '@/config/appLanguages.js'
 
-// The UI language a person picked (the account page's LanguageSection):
+// The app (UI) language a person picked (the account page's LanguageSection):
 // kept on this device (localStorage, read by i18next's detector) and, for a
 // signed-in account, in Firestore (users/{uid}.language) so it follows them
 // to other devices. null means Automatic: the browser's language.
 
 export function isSupportedLanguage(code) {
-  return SUPPORTED_LANGUAGES.includes(code)
+  return APP_LANGUAGE_CODES.includes(code)
 }
 
 export function readDeviceLanguage() {
   try {
-    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY)
+    const stored = window.localStorage.getItem(APP_LANGUAGE_STORAGE_KEY)
     return isSupportedLanguage(stored) ? stored : null
   } catch {
     return null
@@ -23,8 +24,8 @@ export function readDeviceLanguage() {
 // Stores the choice on this device and switches the UI to it.
 export function applyLanguage(code) {
   try {
-    if (code) window.localStorage.setItem(LANGUAGE_STORAGE_KEY, code)
-    else window.localStorage.removeItem(LANGUAGE_STORAGE_KEY)
+    if (code) window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, code)
+    else window.localStorage.removeItem(APP_LANGUAGE_STORAGE_KEY)
   } catch {
     // Storage unavailable (e.g. private mode): still applies until reload.
   }

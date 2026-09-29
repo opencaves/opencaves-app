@@ -6,8 +6,8 @@ import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { db, storage } from '@/config/firebase.js'
-import { firebaseConfig } from '@/config/firebase.config.js'
-import { imageSizes, paneWidth, thumbnailFolder, thumbnailFormats } from '@/config/app.js'
+import { FIREBASE_CONFIG } from '@/config/firebase.config.js'
+import { IMAGE_SIZES, PANE_WIDTH, THUMBNAIL_FOLDER, THUMBNAIL_FORMATS } from '@/config/app.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
@@ -139,7 +139,7 @@ export default class CaveAsset {
 
   get url() {
     if (window.location.hostname === 'localhost') {
-      return `http://localhost:9199/v0/b/${firebaseConfig.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
+      return `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
     }
     return `https://storage.googleapis.com/${storage.app.options.storageBucket}${this.fullPath}`
   }
@@ -154,13 +154,13 @@ export default class CaveAsset {
    * @returns 
    */
 
-  // URL of one resized version (see resize-images' imageSizes) - the exact
+  // URL of one resized version (see resize-images' IMAGE_SIZES) - the exact
   // URL <Picture> requests for it, which the offline downloads rely on.
-  getThumbnailUrl(dimension, format = thumbnailFormats[0]) {
+  getThumbnailUrl(dimension, format = THUMBNAIL_FORMATS[0]) {
     const isProd = window.location.hostname !== 'localhost'
-    const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${firebaseConfig.storageBucket}/o/?alt=media`
+    const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
     const url = new URL(baseUrl)
-    const thumbnailPath = `caves/${this.caveId}/${thumbnailFolder}/${this.id}_${dimension}.${format}`
+    const thumbnailPath = `caves/${this.caveId}/${THUMBNAIL_FOLDER}/${this.id}_${dimension}.${format}`
 
     if (isProd) {
       url.pathname += thumbnailPath
@@ -178,9 +178,9 @@ export default class CaveAsset {
 
     const sources = []
 
-    for (const format of thumbnailFormats) {
+    for (const format of THUMBNAIL_FORMATS) {
       const srcSet = dimensions.map((dimension, i) => {
-        const imageSize = imageSizes[dimension]
+        const imageSize = IMAGE_SIZES[dimension]
         return `${this.getThumbnailUrl(dimension, format)}${i === dimensions.length - 1 ? `` : ` ${imageSize.width}w`}`
       }).join(', ')
 
@@ -191,7 +191,7 @@ export default class CaveAsset {
       }
 
       if (sizes) {
-        source.sizes = `(min-width: ${breakpoints.md}px) calc(100vw - ${paneWidth}px), 100vw`
+        source.sizes = `(min-width: ${breakpoints.md}px) calc(100vw - ${PANE_WIDTH}px), 100vw`
       }
       sources.push(source)
     }
@@ -297,7 +297,7 @@ export function useCoverImage(caveId) {
 
 export function getImageAssetUrl(source, resize = {}, quality = 80) {
 
-  const url = `https://${firebaseConfig.location}-${firebaseConfig.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
+  const url = `https://${FIREBASE_CONFIG.location}-${FIREBASE_CONFIG.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
 
   const options = builder()
     .input({

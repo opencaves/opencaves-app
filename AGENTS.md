@@ -16,8 +16,15 @@ OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatá
 - Mapbox GL / `react-map-gl` for the map (not Google Maps, despite one legacy geocoding call to `maps.googleapis.com` in `Address.jsx`)
 - Firebase: Firestore (data), Auth (custom-claim roles), Storage (media), Cloud Functions v2 (`functions/js/`, region `northamerica-northeast1`), Hosting (two sites: `opencaves` the main app, `opencaves-api` for `/v1/*`)
 - `vite-plugin-pwa` (`injectManifest` strategy) builds `src/service-worker.js` into a real file with a precache manifest — Vite has no equivalent to CRA's webpack plugin for this, so don't remove that plugin config thinking it's redundant.
-- i18n via `react-i18next`, locale files at `src/locales/{en,fr}.json` — the app is bilingual (EN/FR) in production. **Never hardcode user-facing labels/strings in component files.** Add the string to both `en.json`/`fr.json` under a namespace matching (or nested under) the component's area — e.g. `quickActions`, `resultPane`, `map` — and render it via `useTranslation('namespace')`'s `t('key')`, following the existing components as precedent. This applies to every user-facing string: buttons, field labels, tooltips, placeholders, dialog text, aria-labels.
+- i18n via `react-i18next`, locale files at `src/locales/{en,fr,es}.json` — the app is trilingual (EN/FR/ES). **Never hardcode user-facing labels/strings in component files.** Add the string to both `en.json`/`fr.json` under a namespace matching (or nested under) the component's area — e.g. `quickActions`, `resultPane`, `map` — and render it via `useTranslation('namespace')`'s `t('key')`, following the existing components as precedent. This applies to every user-facing string: buttons, field labels, tooltips, placeholders, dialog text, aria-labels.
 - `functions/py/` exists but is **not** in `firebase.json`'s `functions` config — it's not deployed, don't assume it's live.
+- **Two kinds of languages — keep them distinct.** *App (UI) languages* are what the interface is shown in: en/fr/es, one per locale file, listed in `src/config/appLanguages.js`. *Content languages* are what cave data is written in (name translations, descriptions): data in the Firestore `languages` collection (ISO 639-2, e.g. eng, spa, myn), which can include languages the UI isn't translated into. The only bridge is `APP_TO_CONTENT_LANGUAGE` in `src/config/contentLanguages.js` (`toContentLanguage()` in `utils/lang.jsx`).
+
+## Config
+
+- Values that describe the product (region, languages, coordinate precision, sizes and timings shared by several components) or that several files must agree on live in `src/config/`; constants that only matter to their own file stay next to their code.
+- Config values are `UPPER_SNAKE_CASE` (`APP_NAME`, `PANE_WIDTH`, `INITIAL_VIEW_STATE`, `COORDINATE_DECIMALS`…). The Firebase service handles in `src/config/firebase.js` (`db`, `auth`, `storage`, `functions`, `app`) are live objects, not config values, and stay camelCase.
+- `src/services/data-service/` is also loaded by the Node migration script, so it must import config with relative paths, not the `@/` alias — and config files it uses must not import anything browser-only.
 
 ## Code comments
 

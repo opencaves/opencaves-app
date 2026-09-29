@@ -9,10 +9,9 @@ import CrossCoordinates, { CROSS_COORDINATES_OFFSET } from '@/components/CrossCo
 import { endCrossPick, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { COORDINATE_DECIMALS, PLACE_ZOOM } from '@/config/map.js'
+import PlaceCross from '@/components/Map/PlaceCross.jsx'
 
-const CROSS_SIZE = 48
-// Close enough to aim at a precise spot.
-const PLACE_ZOOM = 15
 
 // Inline map beside an edit page's CoordinateFields (cave and sistema admin
 // pages). Map.jsx's own CSS fills its nearest positioned ancestor with a
@@ -116,7 +115,7 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
   function confirm() {
     const center = mapRef.current?.getCenter()
     if (center) {
-      dispatch(setPickedCoordinate({ field: crossPickFor, longitude: num(center.lng, 5), latitude: num(center.lat, 5) }))
+      dispatch(setPickedCoordinate({ field: crossPickFor, longitude: num(center.lng, COORDINATE_DECIMALS), latitude: num(center.lat, COORDINATE_DECIMALS) }))
     }
     dispatch(endCrossPick())
   }
@@ -147,14 +146,7 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
       <OCMap mapRef={mapRef} />
       {crossPickFor && (
         <>
-          {/* Same cross as PlaceOnMapOverlay: thin white lines with a dark
-              outline stay visible over any imagery; the gap at the center
-              keeps the exact spot itself uncovered. */}
-          <Box component="svg" className="oc-coordinates-map-preview--cross" aria-hidden="true" viewBox="0 0 48 48" sx={{ position: 'absolute', left: '50%', top: '50%', width: CROSS_SIZE, height: CROSS_SIZE, transform: 'translate(-50%, -50%)', zIndex: 1, pointerEvents: 'none', overflow: 'visible' }}>
-            <path d="M24 2v17M24 29v17M2 24h17M29 24h17" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="5" strokeLinecap="round" />
-            <path d="M24 2v17M24 29v17M2 24h17M29 24h17" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-            <circle cx="24" cy="24" r="2" fill="#fff" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="1.5" />
-          </Box>
+          <PlaceCross sx={{ position: 'absolute', left: '50%', top: '50%', zIndex: 1 }} />
           {/* Centered in the room left of the map's own locate button (bottom
               right), which they'd otherwise overlap on phones. */}
           <CrossCoordinates center={crossCenter} sx={{ position: 'absolute', left: '50%', top: `calc(50% + ${CROSS_COORDINATES_OFFSET}px)`, zIndex: 1 }} />

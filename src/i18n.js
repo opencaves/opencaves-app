@@ -5,11 +5,7 @@ import { initReactI18next } from 'react-i18next'
 import en from './locales/en'
 import fr from './locales/fr'
 import es from './locales/es'
-
-export const SUPPORTED_LANGUAGES = ['en', 'fr', 'es']
-// The language picked on the account page (LanguageSection), on this device.
-// Absent means Automatic: the browser's language.
-export const LANGUAGE_STORAGE_KEY = 'oc-language'
+import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY } from '@/config/appLanguages.js'
 
 i18n
   // load translation using http -> see /public/locales
@@ -24,14 +20,14 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     resources: { en, fr, es },
-    supportedLngs: SUPPORTED_LANGUAGES,
+    supportedLngs: APP_LANGUAGE_CODES,
     nonExplicitSupportedLngs: true,
     // A browser language the app doesn't have falls back to English.
     fallbackLng: 'en',
     detection: {
       // A language picked on the account page, else the browser's.
       order: ['localStorage', 'navigator'],
-      lookupLocalStorage: LANGUAGE_STORAGE_KEY,
+      lookupLocalStorage: APP_LANGUAGE_STORAGE_KEY,
       // Only an explicit choice is stored (LanguageSection), never a
       // detected one - otherwise "Automatic" couldn't be told apart from it.
       caches: [],

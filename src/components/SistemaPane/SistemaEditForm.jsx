@@ -23,6 +23,7 @@ import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
+import { COORDINATE_DECIMALS } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -138,7 +139,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
       return ''
     }
 
-    const normalized = Number(num(value, 5))
+    const normalized = Number(num(value, COORDINATE_DECIMALS))
     return Number.isFinite(normalized) ? String(normalized) : ''
   }
 
@@ -228,7 +229,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(num(form.longitude, 5)), latitude: Number(num(form.latitude, 5)) }
+        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
       }
 
       await SistemaModel.save(sistemaId, fields)

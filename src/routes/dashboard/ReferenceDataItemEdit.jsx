@@ -9,7 +9,8 @@ import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
-import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
+import { toContentLanguage } from '@/utils/lang.jsx'
+import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -32,7 +33,7 @@ export default function ReferenceDataItemEdit() {
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
   // 2-letter language code.
-  const lang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  const lang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
   const isNew = itemId === 'new'
 
   const [model] = useState(() => createCollectionModel(collectionName))

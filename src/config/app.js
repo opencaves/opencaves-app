@@ -1,39 +1,39 @@
-import { assetsListConfig, coverImageHeightRatio } from './resultPane'
+import { ASSETS_LIST_CONFIG, COVER_IMAGE_HEIGHT_RATIO } from './resultPane'
 
-const paneSmMinimalHeight = /* padding top: var(--oc-pane-padding-block) * 1.4 */ (16 * 1.4) + /* header height */ 30 + /* padding bottom  */ (16 * .6) + 73.33
+const PANE_SM_MINIMAL_HEIGHT = /* padding top: var(--oc-pane-padding-block) * 1.4 */ (16 * 1.4) + /* header height */ 30 + /* padding bottom  */ (16 * .6) + 73.33
 
-export const appName = 'OpenCaves'
-export const appTitle = 'Open Caves' // For use in the page <title> and in the app title bar
-export const paneWidth = 400
-export const paneOpenThreshold = .7
-export const paneInitialBreakpoint = .33
-// export const paneBreakpoints = [.08, .33, 1]
-export const paneBreakpoints = [paneSmMinimalHeight / window.innerHeight, .33, 1]
-export const resultPaneMinHeight = 300
-export const snackbarDefaultAutoHideDuration = 6000
-export const scrollbarTrackHeight = 8
-export const scrollbarStepFactor = 38
-export const thumbnailFormats = ['webp']
-export const thumbnailFolder = 'thumbnails'
-export const caveAssetsSizes = {
-  coverImage: `${paneWidth}x${Math.round(paneWidth * coverImageHeightRatio)}`,
-  resultThumbnail: `${Math.round(assetsListConfig.widthRatio * assetsListConfig.height)}x${assetsListConfig.height}`,
+export const APP_NAME = 'OpenCaves'
+export const APP_TITLE = 'Open Caves' // For use in the page <title> and in the app title bar
+export const PANE_WIDTH = 400
+export const PANE_OPEN_THRESHOLD = .7
+export const PANE_INITIAL_BREAKPOINT = .33
+// export const PANE_BREAKPOINTS = [.08, .33, 1]
+export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / window.innerHeight, .33, 1]
+export const RESULT_PANE_MIN_HEIGHT = 300
+export const SNACKBAR_DEFAULT_AUTO_HIDE_DURATION = 6000
+export const SCROLLBAR_TRACK_HEIGHT = 8
+export const SCROLLBAR_STEP_FACTOR = 38
+export const THUMBNAIL_FORMATS = ['webp']
+export const THUMBNAIL_FOLDER = 'thumbnails'
+export const CAVE_ASSETS_SIZES = {
+  coverImage: `${PANE_WIDTH}x${Math.round(PANE_WIDTH * COVER_IMAGE_HEIGHT_RATIO)}`,
+  resultThumbnail: `${Math.round(ASSETS_LIST_CONFIG.widthRatio * ASSETS_LIST_CONFIG.height)}x${ASSETS_LIST_CONFIG.height}`,
   mediaThumbnail: '400x800'
 }
 
-const magnificationFactor = 1.5022
+const MAGNIFICATION_FACTOR = 1.5022
 
-export const imageSizes = {
+export const IMAGE_SIZES = {
   coverImage: {
-    width: Math.round(400 * magnificationFactor),
-    height: Math.round(225 * magnificationFactor),
+    width: Math.round(400 * MAGNIFICATION_FACTOR),
+    height: Math.round(225 * MAGNIFICATION_FACTOR),
     // width: 400,
     // height: 225,
     fit: 'cover'
   },
   resultThumbnail: {
-    width: Math.round(240 * magnificationFactor),
-    height: Math.round(300 * magnificationFactor),
+    width: Math.round(240 * MAGNIFICATION_FACTOR),
+    height: Math.round(300 * MAGNIFICATION_FACTOR),
     fit: 'outside'
   },
   mediaThumbnail: {

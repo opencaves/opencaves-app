@@ -7,7 +7,8 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { ISO6391ToISO6392 } from '@/utils/lang.jsx'
+import { toContentLanguage } from '@/utils/lang.jsx'
+import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 
 function getHexHue(hex) {
@@ -48,7 +49,7 @@ export default function ReferenceDataEditor() {
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
   // 2-letter language code.
-  const lang = ISO6391ToISO6392(i18n.resolvedLanguage) || 'eng'
+  const lang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
 
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()

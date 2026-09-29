@@ -4,10 +4,10 @@ import { auth } from '@/config/firebase.js'
 import CaveAsset from '@/models/CaveAsset.js'
 import useLoggedIn from '@/hooks/useLoggedin.jsx'
 import sleep from '@/utils/sleep.js'
-import { acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 function findWrongMediaTypeFiles(files) {
-  return files.filter((file) => !acceptedMimeTypes.includes(file.type))
+  return files.filter((file) => !ACCEPTED_MIME_TYPES.includes(file.type))
 }
 
 async function ensureEditorRole() {

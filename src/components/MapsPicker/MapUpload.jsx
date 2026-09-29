@@ -6,7 +6,7 @@ import { Alert, Typography } from '@mui/material'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { SnackbarContent, UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
-import { uploadCompleteHideDuration } from '@/config/mediaPane.js'
+import { UPLOAD_COMPLETE_HIDE_DURATION } from '@/config/mediaPane.js'
 import { storage } from '@/config/firebase.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -91,7 +91,7 @@ export default function MapUploadFeedback({ uploading, progress, current, error,
         </ErrorAlert>
       )}
       {success && (
-        <Snackbar open={true} autoHideDuration={uploadCompleteHideDuration}>
+        <Snackbar open={true} autoHideDuration={UPLOAD_COMPLETE_HIDE_DURATION}>
           <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
             <Alert>{success}</Alert>
           </SnackbarContent>

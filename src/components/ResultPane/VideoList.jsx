@@ -7,8 +7,8 @@ import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
-import { assetsListConfig } from '@/config/resultPane.js'
-import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
+import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
+import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 
@@ -50,7 +50,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const [activeVideo, setActiveVideo] = useState(null)
   const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
   const canEdit = roles.includes('editor')
-  const videoWidth = assetsListConfig.height * assetsListConfig.widthRatio * 1.5
+  const videoWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio * 1.5
   const videoHeight = (videoWidth * 9) / 16
 
   function isValidVideoUrl(value) {
@@ -112,7 +112,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         return
       }
 
-      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + scrollbarStepFactor * direction)))
+      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + SCROLLBAR_STEP_FACTOR * direction)))
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
@@ -141,12 +141,12 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
               style: {
                 left: 'calc(var(--oc-pane-padding-inline) / 2)',
                 right: 'calc(var(--oc-pane-padding-inline) / 2)',
-                bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`,
+                bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
               },
             }}
           >
             <Box sx={{ px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
-              <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: `${assetsListConfig.spacing}px` }}>
+              <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: `${ASSETS_LIST_CONFIG.spacing}px` }}>
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (

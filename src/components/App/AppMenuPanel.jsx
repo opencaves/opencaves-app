@@ -9,7 +9,7 @@ import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.js
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import Message from '@/components/Message.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
-import { appName } from '@/config/app.js'
+import { APP_NAME } from '@/config/app.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 
 // The account menu's content, in the style of Google Maps' account card: a
@@ -80,7 +80,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           <>
             <AccountCircleOutlined sx={{ fontSize: 72, color: 'text.secondary', mt: 3, mb: 1 }} />
             <Typography id={titleId} component="h2" sx={{ fontSize: 22, lineHeight: '28px', fontWeight: 400, mb: 1 }}>
-              {t('welcome', { name: appName })}
+              {t('welcome', { name: APP_NAME })}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2, px: 2 }}>
               {t('welcomeText')}
@@ -129,7 +129,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           <ListItemIcon>
             <InfoOutlined />
           </ListItemIcon>
-          <ListItemText primary={t('about', { context: 'withName', name: appName })} />
+          <ListItemText primary={t('about', { context: 'withName', name: APP_NAME })} />
         </ListItemButton>
       </List>
 

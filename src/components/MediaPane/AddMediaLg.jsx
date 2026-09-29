@@ -10,7 +10,7 @@ import Or from '@/components/utils/Or.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import Message from '../Message.jsx'
 import { useUploadCaveImages } from '@/components/AddMedias/useUploadCaveImages.jsx'
-import { acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
 export default function AddMediaLg() {
   const navigate = useNavigate()
@@ -84,7 +84,7 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
   const [openSnackbar] = useSnackbar({ autoHide: false })
   const _onDrop = useCallback(
     (droppeddFiles) => {
-      const wrongFile = droppeddFiles.find((file) => !acceptedMimeTypes.includes(file.type))
+      const wrongFile = droppeddFiles.find((file) => !ACCEPTED_MIME_TYPES.includes(file.type))
       if (wrongFile) {
         openSnackbar(
           <Message

@@ -7,7 +7,7 @@ import pushId from 'unique-push-id'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { paneWidth as baseWidth } from '@/config/app.js'
+import { PANE_WIDTH as baseWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 const areasModel = createCollectionModel('areas')

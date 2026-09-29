@@ -8,7 +8,7 @@ import { PersonRounded } from '@mui/icons-material'
 import MenuItem from '@/components/App/MenuItem.jsx'
 import AddMedias from '@/components/App/menu/AddMediasMenuItem.jsx'
 import AppMenuIcon from '@/components/App/AppMenuIcon.jsx'
-import { appName } from '@/config/app.js'
+import { APP_NAME } from '@/config/app.js'
 
 export default function ResultPaneMenu({ className, ...props }) {
   const user = useSelector(state => state.session.user)
@@ -93,7 +93,7 @@ export default function ResultPaneMenu({ className, ...props }) {
         <AddMedias />
 
         <MenuItem component={Link} to='/about'>
-          {t('about', { name: appName })}
+          {t('about', { name: APP_NAME })}
         </MenuItem>
       </Menu>
     </>

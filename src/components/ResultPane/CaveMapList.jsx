@@ -16,8 +16,8 @@ import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
-import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
-import { assetsListConfig } from '@/config/resultPane.js'
+import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 
 const mapsModel = createCollectionModel('maps')
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
@@ -83,8 +83,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     const file = mapFiles.find((map) => map.id === value)
     return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
   })
-  const mapWidth = assetsListConfig.height * assetsListConfig.widthRatio
-  const mapHeight = assetsListConfig.height
+  const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
+  const mapHeight = ASSETS_LIST_CONFIG.height
 
   useEffect(() => {
     const scrollbar = scrollbarsRef.current
@@ -97,7 +97,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       const maxScrollLeft = scrollWidth - clientWidth
       const direction = Math.sign(event.deltaY || event.deltaX)
       if (!direction || maxScrollLeft <= 0) return
-      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + scrollbarStepFactor * direction)))
+      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + SCROLLBAR_STEP_FACTOR * direction)))
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
@@ -149,8 +149,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     <>
       {selectedMaps.length > 0 && (
         <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
-          <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)` } }}>
-            <Box sx={{ display: 'flex', gap: `${assetsListConfig.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+          <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>
+            <Box sx={{ display: 'flex', gap: `${ASSETS_LIST_CONFIG.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               {selectedMaps.map((map, index) => (
                 <Box key={`${map.value}-${index}`} sx={{ position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden' }}>
                   <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} />

@@ -6,8 +6,8 @@ import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import { useUploadCaveImages } from './useUploadCaveImages.jsx'
-import { appName } from '@/config/app.js'
-import { uploadCompleteHideDuration, uploadingDoneHideDelay } from '@/config/mediaPane.js'
+import { APP_NAME } from '@/config/app.js'
+import { UPLOAD_COMPLETE_HIDE_DURATION, UPLOADING_DONE_HIDE_DELAY } from '@/config/mediaPane.js'
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
@@ -63,7 +63,7 @@ export default function UploadMedias({ medias, caveId }) {
       setTimeout(() => {
         setUploadComplete(true)
         setUploading(false)
-      }, uploadingDoneHideDelay)
+      }, UPLOADING_DONE_HIDE_DELAY)
     }
   }, [isDone])
 
@@ -72,7 +72,7 @@ export default function UploadMedias({ medias, caveId }) {
       setIsDone(false)
       setTimeout(() => {
         setUploadComplete(false)
-      }, uploadCompleteHideDuration)
+      }, UPLOAD_COMPLETE_HIDE_DURATION)
     }
   }, [uploadComplete])
 
@@ -196,7 +196,7 @@ export const UploadInfo = forwardRef((props, ref) => {
               marginBottom: '.7em',
             }}
           >
-            {appName}
+            {APP_NAME}
           </Typography>
           <LinearProgress
             variant="determinate"

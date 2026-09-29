@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
+import { COORDINATE_DECIMALS } from '@/config/map.js'
 
 // The live coordinates under a "Place on map" cross (CoordinatesMapPreview,
 // PlaceOnMapOverlay) - what Confirm would store - as plain text centered
@@ -20,7 +21,7 @@ export default function CrossCoordinates({ center, sx }) {
       className="oc-cross-coordinates"
       // Announced as it settles, not on every frame of a pan (polite).
       aria-live="polite"
-      aria-label={`${t('latitude')} ${center.latitude.toFixed(5)}, ${t('longitude')} ${center.longitude.toFixed(5)}`}
+      aria-label={`${t('latitude')} ${center.latitude.toFixed(COORDINATE_DECIMALS)}, ${t('longitude')} ${center.longitude.toFixed(COORDINATE_DECIMALS)}`}
       sx={[
         {
           transform: 'translateX(-50%)',
@@ -36,7 +37,7 @@ export default function CrossCoordinates({ center, sx }) {
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {center.latitude.toFixed(5)}, {center.longitude.toFixed(5)}
+      {center.latitude.toFixed(COORDINATE_DECIMALS)}, {center.longitude.toFixed(COORDINATE_DECIMALS)}
     </Box>
   )
 }

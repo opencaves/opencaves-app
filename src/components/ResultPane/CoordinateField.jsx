@@ -10,6 +10,7 @@ import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
 import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
+import { COORDINATE_DECIMALS } from '@/config/map.js'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
@@ -78,7 +79,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       return ''
     }
 
-    const normalized = Number(num(value, 5))
+    const normalized = Number(num(value, COORDINATE_DECIMALS))
     return Number.isFinite(normalized) ? String(normalized) : ''
   }
 
@@ -132,7 +133,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   function onNavigateToClick() {
-    dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, 5)), latitude: Number(num(latitude, 5)) }))
+    dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, COORDINATE_DECIMALS)), latitude: Number(num(latitude, COORDINATE_DECIMALS)) }))
   }
 
   function onPlaceOnMapClick() {

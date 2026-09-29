@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Fade, LinearProgress, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { gap } from '@/config/auth.js'
+import { AUTH_SECTION_GAP } from '@/config/auth.js'
 
 const width = {
   xs: '100%',
@@ -23,7 +23,7 @@ export function Section({ children, className, ...props }) {
         },
         alignItems: 'center',
         alignContent: 'center',
-        rowGap: gap,
+        rowGap: AUTH_SECTION_GAP,
       }}
     >
       {children}
@@ -41,7 +41,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid className="oc-section-form oc-auth-section-form" container direction="column" sx={{ width, rowGap: gap }} {...props}>
+    <Grid className="oc-section-form oc-auth-section-form" container direction="column" sx={{ width, rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )
@@ -49,7 +49,7 @@ export function SectionForm({ children, ...props }) {
 
 export function SectionFields({ children, ...props }) {
   return (
-    <Grid className="oc-section-fields oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }} {...props}>
+    <Grid className="oc-section-fields oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )
@@ -57,7 +57,7 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid className="oc-section-actions oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: gap }} {...props}>
+    <Grid className="oc-section-actions oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )

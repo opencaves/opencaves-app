@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { appTitle } from '@/config/app.js'
+import { APP_TITLE } from '@/config/app.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 import { Link } from 'react-router-dom'
 import { Button, useTheme } from '@mui/material'
@@ -25,7 +25,7 @@ export default function NoMatch() {
         noindex: the SPA can't send a real 404 status, so tell crawlers
         directly not to index this as a page. */}
     <Helmet>
-      <title>{`${tSeo('notFoundTitle')} / ${appTitle}`}</title>
+      <title>{`${tSeo('notFoundTitle')} / ${APP_TITLE}`}</title>
     </Helmet>
     <Grid container className="oc-no-match no-match--container" direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
       <Grid className="no-match--box">

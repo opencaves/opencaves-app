@@ -11,8 +11,8 @@ import { ExpandMoreRounded } from '@mui/icons-material'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import ResultPaneMenu from './ResultPaneMenu.jsx'
 import EditCaveButtons from '@/components/Map/EditCaveButtons.jsx'
-import { paneBreakpoints, paneInitialBreakpoint, paneOpenThreshold } from '@/config/app.js'
-import { resultPaneSmUpperHeight } from '@/config/resultPane.js'
+import { PANE_BREAKPOINTS, PANE_INITIAL_BREAKPOINT, PANE_OPEN_THRESHOLD } from '@/config/app.js'
+import { RESULT_PANE_SM_UPPER_HEIGHT } from '@/config/resultPane.js'
 import './ResultPaneSm.scss'
 
 // Sheet position (fraction of the screen) above which the map's bottom-right
@@ -40,12 +40,12 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const { t: tApp } = useTranslation('app')
   const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
 
-  const firstBreakpoint = paneBreakpoints[0]
+  const firstBreakpoint = PANE_BREAKPOINTS[0]
   const initialBreakpoint = useSelector((state) => state.app.resultPaneSmCurrentBreakpoint)
   const resultPaneOpen = useSelector((state) => state.app.resultPaneSmOpen)
   const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
 
-  const [breakpoints, setBreakpoints] = useState(paneBreakpoints)
+  const [breakpoints, setBreakpoints] = useState(PANE_BREAKPOINTS)
   const [breakpoint, setBreakpoint] = useState(0)
   const [modalPosition, setModalPosition] = useState(breakpoint)
   const [paneOpenFactor, setPaneOpenFactor] = useState(modalPosition)
@@ -56,7 +56,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
 
   const searchBarOff = useSelector((state) => state.app.searchBarOff)
 
-  const paneBreakpointsThreshold = paneBreakpoints[paneBreakpoints.length - 2]
+  const paneBreakpointsThreshold = PANE_BREAKPOINTS[PANE_BREAKPOINTS.length - 2]
 
   const contextData = useMemo(
     () => ({
@@ -86,7 +86,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   }
 
   function onBackBtnClick() {
-    modalRef.current.setCurrentBreakpoint(paneInitialBreakpoint)
+    modalRef.current.setCurrentBreakpoint(PANE_INITIAL_BREAKPOINT)
   }
 
   function observeStyle(target, property, callback, initialValue = null) {
@@ -152,14 +152,14 @@ export default function ResultPaneSm({ children, cave, ...props }) {
    * Open factor calculation
    */
   useEffect(() => {
-    if (modalPosition < paneOpenThreshold) {
+    if (modalPosition < PANE_OPEN_THRESHOLD) {
       if (paneOpenFactor > 0) {
         setPaneOpenFactor(0)
       }
       return
     }
 
-    const paneThreshold = paneOpenThreshold * 100
+    const paneThreshold = PANE_OPEN_THRESHOLD * 100
     const openFactor = (modalPosition * 100 - paneThreshold) / (100 - paneThreshold)
     setPaneOpenFactor(easeOutQuad(openFactor))
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -368,7 +368,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
                     // value, confirmed insufficient on a real device (Pixel 10
                     // Pro) at exactly that value.
                     '&:last-child': {
-                      pb: breakpoint === 1 ? `calc(var(--oc-pane-padding-inline) + ${resultPaneSmUpperHeight * 2}px + env(safe-area-inset-bottom, 0px))` : 'var(--oc-pane-padding-inline)',
+                      pb: breakpoint === 1 ? `calc(var(--oc-pane-padding-inline) + ${RESULT_PANE_SM_UPPER_HEIGHT * 2}px + env(safe-area-inset-bottom, 0px))` : 'var(--oc-pane-padding-inline)',
                     },
                   }}
                 >

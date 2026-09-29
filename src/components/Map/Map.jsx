@@ -15,8 +15,8 @@ import { useMapUiReady } from './useMapUiReady.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useCurrentRoute from '@/hooks/useCurrentRoute.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { paneWidth } from '@/config/app.js'
-import { SISTEMA_DEFAULT_COLOR, initialViewState as defaultViewState, mapProps, markerConfig } from '@/config/map.js'
+import { PANE_WIDTH } from '@/config/app.js'
+import { SISTEMA_DEFAULT_COLOR, INITIAL_VIEW_STATE as defaultViewState, MAP_PROPS, MARKER_CONFIG, COORDINATE_DECIMALS } from '@/config/map.js'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinLocationUnknownIcon from '@/images/map/pin-location-unknown.svg?react'
@@ -315,9 +315,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
         centerPoint = currentPoint.add(new Point(0, resultPaneHeight / 2)).sub(new Point(0, searchBarHeight / 2))
       } else {
-        // Keep in sync with ResultPaneLg.jsx's own `min(paneWidth * 2, 80vw)`
+        // Keep in sync with ResultPaneLg.jsx's own `min(PANE_WIDTH * 2, 80vw)`
         // cap on its max-width in edit mode.
-        const effectivePaneWidth = isWidePaneEditMode ? Math.min(paneWidth * 2, window.innerWidth * 0.8) : paneWidth
+        const effectivePaneWidth = isWidePaneEditMode ? Math.min(PANE_WIDTH * 2, window.innerWidth * 0.8) : PANE_WIDTH
         centerPoint = currentPoint.sub(new Point(effectivePaneWidth / 2, 0))
       }
 
@@ -418,8 +418,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     const picked = {
       field: pickingCoordinateFor,
-      longitude: num(event.lngLat.lng, 5),
-      latitude: num(event.lngLat.lat, 5),
+      longitude: num(event.lngLat.lng, COORDINATE_DECIMALS),
+      latitude: num(event.lngLat.lat, COORDINATE_DECIMALS),
     }
 
     dispatch(
@@ -453,8 +453,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     const lngLat = mapRef.current.unproject([event.clientX - containerRect.left, event.clientY - containerRect.top])
     const picked = {
       field: pickingCoordinateFor,
-      longitude: num(lngLat.lng, 5),
-      latitude: num(lngLat.lat, 5),
+      longitude: num(lngLat.lng, COORDINATE_DECIMALS),
+      latitude: num(lngLat.lat, COORDINATE_DECIMALS),
     }
 
     dispatch(
@@ -470,8 +470,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   function onFieldMarkerDragEnd(field, event) {
     const picked = {
       field,
-      longitude: num(event.lngLat.lng, 5),
-      latitude: num(event.lngLat.lat, 5),
+      longitude: num(event.lngLat.lng, COORDINATE_DECIMALS),
+      latitude: num(event.lngLat.lat, COORDINATE_DECIMALS),
     }
 
     dispatch(
@@ -660,7 +660,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...mapProps} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
@@ -730,7 +730,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                 // general label zoom threshold. Hidden while actively being
                 // dragged so the name doesn't trail the pin around.
                 let markerLabel = null
-                if (!(isDraggableCurrentCave && isDraggingCurrentMarker) && (zoomLevel > markerConfig.label.minZoomLevel || (isCurrentCave && isWidePaneEditMode))) {
+                if (!(isDraggableCurrentCave && isDraggingCurrentMarker) && (zoomLevel > MARKER_CONFIG.label.minZoomLevel || (isCurrentCave && isWidePaneEditMode))) {
                   markerLabel = (
                     <div key={`marker-${cave.id}`} className="oc-map--marker-label marker-label">
                       {caveName}

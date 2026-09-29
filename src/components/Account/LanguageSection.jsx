@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, MenuItem, TextField, Typography } from '@mui/material'
-import { SUPPORTED_LANGUAGES } from '@/i18n.js'
+import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { applyLanguage, readDeviceLanguage, saveAccountLanguage } from '@/services/languagePreference.js'
 
-// Each language's name in itself, so it's recognizable whatever the current
-// UI language.
-const LANGUAGE_NAMES = { en: 'English', fr: 'Français', es: 'Español' }
 const AUTOMATIC = 'auto'
 
 // The account page's language setting: a fixed language, or Automatic (the
@@ -36,7 +33,7 @@ export default function LanguageSection({ headingProps = {} }) {
   }
 
   const browserLanguage = (navigator.languages?.[0] || navigator.language || '').slice(0, 2).toLowerCase()
-  const automaticLanguage = LANGUAGE_NAMES[browserLanguage] || LANGUAGE_NAMES.en
+  const automaticLanguage = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
 
   return (
     <Box component="section" className="oc-language-section">
@@ -45,9 +42,9 @@ export default function LanguageSection({ headingProps = {} }) {
       </Typography>
       <TextField select size="small" fullWidth value={choice} onChange={handleChange} helperText={t('languageHint')} slotProps={{ select: { labelId: 'oc-language-section-title' } }}>
         <MenuItem value={AUTOMATIC}>{t('languageAutomatic', { language: automaticLanguage })}</MenuItem>
-        {SUPPORTED_LANGUAGES.map((code) => (
+        {APP_LANGUAGES.map(({ code, nativeName }) => (
           <MenuItem key={code} value={code} lang={code}>
-            {LANGUAGE_NAMES[code]}
+            {nativeName}
           </MenuItem>
         ))}
       </TextField>

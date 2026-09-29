@@ -8,7 +8,7 @@ import { MenuRounded } from '@mui/icons-material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
-import { appName, appTitle } from '@/config/app.js'
+import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
@@ -42,9 +42,9 @@ export default function AppBar(props) {
   const roles = useSelector((state) => state.session.roles)
   const pageTitle = useSelector((state) => state.app.title)
   const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
-  const pageTitleSuffix = ` / ${appTitle}`
+  const pageTitleSuffix = ` / ${APP_TITLE}`
   const entityTitle = pageTitle?.endsWith(pageTitleSuffix) ? pageTitle.slice(0, -pageTitleSuffix.length) : ''
-  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityTitle ? entityTitle : appTitle
+  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityTitle ? entityTitle : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
 
@@ -91,14 +91,14 @@ export default function AppBar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }} noWrap>
-        {appTitle}
+        {APP_TITLE}
       </Typography>
       <Divider />
       <List>
         {navItems.map(({ key, to }) => (
           <ListItem key={key} disablePadding>
             <ListItemButton component={Link} to={to} sx={{ textAlign: 'center' }}>
-              <ListItemText primary={t(`${key}`, { name: appName })} />
+              <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -157,7 +157,7 @@ export default function AppBar(props) {
               <Grid sx={{ mr: 1 }}>
                 {navItems.map(({ key, to }) => (
                   <Button key={key} component={Link} to={to} sx={{ color: '#fff' }}>
-                    {t(`${key}`, { name: appName })}
+                    {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
               </Grid>

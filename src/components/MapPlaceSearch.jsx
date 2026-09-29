@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, CircularProgress, InputAdornment, SvgIcon, TextField, Typography } from '@mui/material'
 import { PlaceOutlined, SearchRounded } from '@mui/icons-material'
 import PinIcon from '@/images/map/pin.svg?react'
+import { REGION_BBOX } from '@/config/map.js'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
-// The Yucatán peninsula (west, south, east, north): results outside it are
-// of no use here.
-const SEARCH_BBOX = '-92.5,17.5,-86.5,21.8'
 const PLACE_LIMIT = 5
 const CAVE_LIMIT = 5
 const DEBOUNCE_MS = 300
@@ -80,7 +78,8 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
           access_token: import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
           autocomplete: 'true',
           limit: String(PLACE_LIMIT),
-          bbox: SEARCH_BBOX,
+          // Results outside the app's region are of no use here.
+          bbox: REGION_BBOX.join(','),
           language: (i18n.resolvedLanguage || 'en').slice(0, 2),
           ...(center && { proximity: `${center.lng},${center.lat}` }),
         })

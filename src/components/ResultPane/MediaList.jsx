@@ -10,8 +10,8 @@ import CardOptionsMenu from './CardOptionsMenu.jsx'
 import Picture from '@/components/Picture.jsx'
 import { countAssets, deleteById, getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
-import { assetsListConfig } from '@/config/resultPane.js'
-import { scrollbarStepFactor, scrollbarTrackHeight } from '@/config/app.js'
+import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
+import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 
 function getProp(which, theme) {
   if (which === 'color') {
@@ -35,7 +35,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
   const [pictureToDelete, setPictureToDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
-  const { height: assetsListHeight, maxLength: assetsListMaxLength } = assetsListConfig
+  const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
   const scrollbarsRef = useRef()
 
   function closeDeleteDialog() {
@@ -85,7 +85,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
         return
       }
 
-      const scrollStep = scrollbarStepFactor * wheelDirection
+      const scrollStep = SCROLLBAR_STEP_FACTOR * wheelDirection
       const func = wheelDirection > 0 ? Math.min : Math.max
       const clampValue = wheelDirection > 0 ? width : 0
       const newScrollLeft = scrollLeft + scrollStep
@@ -194,7 +194,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
               style: {
                 left: 'calc(var(--oc-pane-padding-inline) / 2)',
                 right: 'calc(var(--oc-pane-padding-inline) / 2)',
-                bottom: `calc((var(--oc-pane-padding-block) - ${scrollbarTrackHeight}px) / 2)`,
+                bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
               },
             }}
           >
@@ -228,10 +228,10 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
 function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [viewerOpen, setViewerOpen] = useState(false)
-  const fullHeight = assetsListConfig.height
-  const fullWidth = assetsListConfig.height * assetsListConfig.widthRatio
-  const width = size === 'full' ? fullWidth : fullWidth / 2 - assetsListConfig.spacing / 2
-  const height = size === 'full' ? fullHeight : fullHeight / 2 - assetsListConfig.spacing / 2
+  const fullHeight = ASSETS_LIST_CONFIG.height
+  const fullWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
+  const width = size === 'full' ? fullWidth : fullWidth / 2 - ASSETS_LIST_CONFIG.spacing / 2
+  const height = size === 'full' ? fullHeight : fullHeight / 2 - ASSETS_LIST_CONFIG.spacing / 2
 
   if (!asset.isMedia) {
     return <MoreMedias width={width} height={height} to={editable ? `/map/${caveId}/medias` : 'medias'} />
@@ -291,11 +291,11 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
   ) : null
 }
 
-function MediaListCol({ children, width = 'full', isLast = false, height = assetsListConfig.height, ...props }) {
-  const defaultWidth = assetsListConfig.height * assetsListConfig.widthRatio
+function MediaListCol({ children, width = 'full', isLast = false, height = ASSETS_LIST_CONFIG.height, ...props }) {
+  const defaultWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const widths = {
-    full: isLast ? defaultWidth : defaultWidth + assetsListConfig.spacing,
-    half: isLast ? defaultWidth / 2 : (defaultWidth + assetsListConfig.spacing) / 2,
+    full: isLast ? defaultWidth : defaultWidth + ASSETS_LIST_CONFIG.spacing,
+    half: isLast ? defaultWidth / 2 : (defaultWidth + ASSETS_LIST_CONFIG.spacing) / 2,
   }
 
   return (
@@ -305,10 +305,10 @@ function MediaListCol({ children, width = 'full', isLast = false, height = asset
   )
 }
 
-function MediaListCell({ children, width = 'full', height = assetsListConfig.height, position = 'top', ...props }) {
+function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.height, position = 'top', ...props }) {
   const widths = {
-    full: assetsListConfig.height,
-    half: assetsListConfig.height / 2,
+    full: ASSETS_LIST_CONFIG.height,
+    half: ASSETS_LIST_CONFIG.height / 2,
   }
 
   return (

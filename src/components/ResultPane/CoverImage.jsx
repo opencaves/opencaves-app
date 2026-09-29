@@ -8,7 +8,7 @@ import UnstyledLink from '@/components/UnstyledLink.jsx'
 import Tooltip from '@/components/Tooltip.jsx'
 import Picture from '@/components/Picture.jsx'
 import { getCoverImage, useCoverImage } from '@/models/CaveAsset.js'
-import { coverImageHeightRatio } from '@/config/resultPane.js'
+import { COVER_IMAGE_HEIGHT_RATIO } from '@/config/resultPane.js'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 import transparentPixel from '@/images/transparentPixel.js'
 
@@ -28,7 +28,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
 
   const height = '100%'
-  const aspectRatio = 1 / coverImageHeightRatio
+  const aspectRatio = 1 / COVER_IMAGE_HEIGHT_RATIO
 
   function Container({ children }) {
     return (

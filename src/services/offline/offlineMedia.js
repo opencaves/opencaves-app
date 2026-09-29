@@ -2,7 +2,7 @@ import CaveAsset from '@/models/CaveAsset.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { breakpoints } from '@/theme/Theme.jsx'
-import { paneWidth } from '@/config/app.js'
+import { PANE_WIDTH } from '@/config/app.js'
 
 // Offline downloads, kept in caches of their own (no expiry, unlike the
 // service worker's browsing caches): the service worker looks in these first
@@ -208,10 +208,10 @@ export async function clearOfflineMedia() {
 }
 
 // The one large size the picture viewers (sizes="(min-width: md)
-// calc(100vw - paneWidth), 100vw", candidates 1024/1536/4k) would request on
+// calc(100vw - PANE_WIDTH), 100vw", candidates 1024/1536/4k) would request on
 // this device - downloading all three would mostly waste space on 4k.
 function viewerDimension() {
-  const cssWidth = window.innerWidth >= breakpoints.md ? window.innerWidth - paneWidth : window.innerWidth
+  const cssWidth = window.innerWidth >= breakpoints.md ? window.innerWidth - PANE_WIDTH : window.innerWidth
   const needed = cssWidth * (window.devicePixelRatio || 1)
   return needed <= 1024 ? '1024' : needed <= 1536 ? '1536' : '4k'
 }

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Dialog, DialogContent, IconButton } from '@mui/material'
 import { CloseRounded } from '@mui/icons-material'
 import About from './About.jsx'
-import { appName } from '@/config/app.js'
+import { APP_NAME } from '@/config/app.js'
 
 
 export default function AboutDialog({ open = false }) {
@@ -27,7 +27,7 @@ export default function AboutDialog({ open = false }) {
       className='oc-about-dialog dialog'
       open={aboutDialogOpen}
       onClose={onDialogClose}
-      aria-label={t('ariaLabel', { name: appName })}
+      aria-label={t('ariaLabel', { name: APP_NAME })}
       maxWidth={false}
       slotProps={{
         transition: {

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { useTheme } from '@mui/material'
 import { Scrollbars as Scrollbars3 } from 'react-custom-scrollbars-3'
-import { scrollbarTrackHeight } from '@/config/app.js'
+import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import './Scrollbars.scss'
 
 const DefaultThumb = forwardRef(function DefaultThumb(props, ref) {
@@ -18,11 +18,11 @@ const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ styl
       className="oc-scrollbar--track oc-scrollbar--track-horizontal"
       style={{
         ...style,
-        height: scrollbarTrackHeight,
+        height: SCROLLBAR_TRACK_HEIGHT,
         right: 8,
         bottom: 2,
         left: 8,
-        borderRadius: scrollbarTrackHeight / 2,
+        borderRadius: SCROLLBAR_TRACK_HEIGHT / 2,
         ...trackHorizontalStyle,
       }}
       {...otherProps}
@@ -40,11 +40,11 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
       className="oc-scrollbar--track oc-scrollbar--track-vertical"
       style={{
         ...style,
-        width: scrollbarTrackHeight,
+        width: SCROLLBAR_TRACK_HEIGHT,
         right: 2,
         bottom: 8,
         top: 8,
-        borderRadius: scrollbarTrackHeight / 2,
+        borderRadius: SCROLLBAR_TRACK_HEIGHT / 2,
         ...trackVerticalStyle,
       }}
       {...otherProps}

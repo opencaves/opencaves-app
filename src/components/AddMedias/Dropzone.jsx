@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone'
 import { Dialog, Icon, SvgIcon, Typography, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
 import UploadMedias from './UploadMedias.jsx'
-import { acceptedMimeTypes } from '@/config/mediaPane.js'
+import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 import DropIcon from '@/images/media-pane/drop.svg?react'
 
 export default function Dropzone({ open = false, onDrop = () => {} }) {
@@ -48,7 +48,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
   }
 
   const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
-    accept: acceptedMimeTypes.reduce((accept, mime) => {
+    accept: ACCEPTED_MIME_TYPES.reduce((accept, mime) => {
       accept[mime] = []
       return accept
     }, {}),

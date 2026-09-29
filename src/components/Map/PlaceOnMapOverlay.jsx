@@ -5,14 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { Box, Fab } from '@mui/material'
 import { CheckRounded, CloseRounded } from '@mui/icons-material'
 import { endPlaceOnMap, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
-import { paneBreakpoints } from '@/config/app.js'
+import { PANE_BREAKPOINTS } from '@/config/app.js'
 import MapPlaceSearch from '@/components/MapPlaceSearch.jsx'
 import CrossCoordinates, { CROSS_COORDINATES_OFFSET } from '@/components/CrossCoordinates.jsx'
+import { COORDINATE_DECIMALS, PLACE_ZOOM } from '@/config/map.js'
+import PlaceCross from '@/components/Map/PlaceCross.jsx'
 
-const CROSS_SIZE = 48
-// Close enough to place a cave entrance precisely.
-const PLACE_ZOOM = 17
-const COORDINATE_DECIMALS = 5
 // Read by screen readers, not drawn.
 const visuallyHidden = { position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
 
@@ -36,7 +34,7 @@ export default function PlaceOnMapOverlay({ mapRef }) {
   // top bar and the minimized sheet.
   const computePinY = useCallback(() => {
     const top = barRef.current?.getBoundingClientRect().bottom ?? 0
-    const bottom = window.innerHeight * (1 - paneBreakpoints[0])
+    const bottom = window.innerHeight * (1 - PANE_BREAKPOINTS[0])
     return Math.round((top + bottom) / 2)
   }, [])
 
@@ -104,26 +102,11 @@ export default function PlaceOnMapOverlay({ mapRef }) {
         <Box component="p" sx={visuallyHidden}>
           {t('placeOnMapTitle', { label: placeOnMap.label })}
         </Box>
-        {pinY !== null && (
-          // Centered on the point being placed. Thin white lines with a dark
-          // outline stay visible over any imagery; the gap at the center
-          // keeps the exact spot itself uncovered.
-          <Box
-            component="svg"
-            className="oc-place-on-map--cross"
-            aria-hidden="true"
-            viewBox="0 0 48 48"
-            sx={(theme) => ({ position: 'fixed', left: '50%', top: pinY, width: CROSS_SIZE, height: CROSS_SIZE, transform: 'translate(-50%, -50%)', zIndex: theme.zIndex.appBar, pointerEvents: 'none', overflow: 'visible' })}
-          >
-            <path d="M24 2v17M24 29v17M2 24h17M29 24h17" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="5" strokeLinecap="round" />
-            <path d="M24 2v17M24 29v17M2 24h17M29 24h17" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-            <circle cx="24" cy="24" r="2" fill="#fff" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="1.5" />
-          </Box>
-        )}
+        {pinY !== null && <PlaceCross sx={(theme) => ({ position: 'fixed', left: '50%', top: pinY, zIndex: theme.zIndex.appBar })} />}
         {pinY !== null && <CrossCoordinates center={center} sx={(theme) => ({ position: 'fixed', left: '50%', top: pinY + CROSS_COORDINATES_OFFSET, zIndex: theme.zIndex.appBar })} />}
         {/* On the map, just above the minimized sheet: within thumb reach of
             where the panning happens - and left of the map's locate button. */}
-        <Box sx={(theme) => ({ position: 'fixed', left: 8, right: 72, bottom: `calc(${paneBreakpoints[0] * 100}vh + 16px)`, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: theme.zIndex.appBar, pointerEvents: 'none' })}>
+        <Box sx={(theme) => ({ position: 'fixed', left: 8, right: 72, bottom: `calc(${PANE_BREAKPOINTS[0] * 100}vh + 16px)`, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: theme.zIndex.appBar, pointerEvents: 'none' })}>
           <Fab className="oc-place-on-map--close" variant="extended" size="medium" onClick={close} sx={{ pointerEvents: 'auto', px: 2.5, textTransform: 'none', bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'background.paper' } }}>
             <CloseRounded sx={{ mr: 1 }} />
             {t('closeMap')}
