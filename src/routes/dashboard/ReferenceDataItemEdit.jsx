@@ -14,6 +14,7 @@ import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
+import EditPageHeader from '@/components/EditPageHeader.jsx'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
@@ -122,14 +123,14 @@ export default function ReferenceDataItemEdit() {
 
   return (
     <div className="oc-reference-data-item-edit">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <EditPageHeader>
         <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
           {t(`collections.${collectionName}.${isNew ? 'newItem' : 'title'}`)}
         </Typography>
-      </Box>
+      </EditPageHeader>
 
       {loading ? (
         <Typography>{t('loading')}</Typography>

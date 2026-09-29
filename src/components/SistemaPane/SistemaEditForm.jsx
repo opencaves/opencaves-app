@@ -18,8 +18,10 @@ import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import AddButton from '@/components/AddButton.jsx'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import EditPageHeader from '@/components/EditPageHeader.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -121,6 +123,7 @@ const emptyForm = {
 // fields, for the standalone page (the pane already has the map behind it).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange, showMapPreview = false }) {
   const { t, i18n } = useTranslation('sistemaEditForm')
+  const isSmall = useSmall()
   const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
@@ -262,23 +265,36 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
   const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).map((exploration) => exploration.team?.trim()).filter(Boolean)), ...form.explorations.map((exploration) => exploration.team?.trim()).filter(Boolean)])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery)) : otherSistemas
+  const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />
+  const colorField = isSmall ? (
+    <Grid size="auto">{colorPicker}</Grid>
+  ) : (
+    <Grid size={12}>
+      <Box sx={{ width: 240 }}>{colorPicker}</Box>
+    </Grid>
+  )
+
   return (
     <Box className="oc-sistema-edit-form">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <EditPageHeader>
         <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
           {t('sistemaTitle', { name: form.name || sistemaId })}
         </Typography>
-      </Box>
+      </EditPageHeader>
 
       <Grid container spacing={2}>
         <Grid size={12}>
           <TextField label={t('name')} fullWidth required {...field('name')} />
         </Grid>
+        {/* Wider screens: Color on its own line after Name, then Parent
+            sistema on its own, then Area and Source side by side. Phones keep
+            Name, Parent sistema, Area, Color, Source. */}
+        {!isSmall && colorField}
 
-        <Grid size={{ xs: 12, sm: 6 }}>
+        <Grid size={12}>
           <TextField
             select
             label={t('parentSistema')}
@@ -334,9 +350,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
           </TextField>
         </Grid>
 
-        <Grid size="auto">
-          <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />
-        </Grid>
+        {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
           <TextField select label={t('source')} fullWidth {...field('source')}>
             <MenuItem value="">{t('none')}</MenuItem>
@@ -348,10 +362,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
           </TextField>
         </Grid>
 
-        <Grid size={7}>
+        {/* Wider screens: just wide enough for their labels. */}
+        <Grid size={{ xs: 7, sm: 'auto' }} sx={{ width: { sm: 240 } }}>
           <TextField label={t('length')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
-        <Grid size={5}>
+        <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
           <TextField label={t('maxDepth')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 

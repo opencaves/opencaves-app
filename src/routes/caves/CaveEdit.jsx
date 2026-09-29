@@ -23,6 +23,7 @@ import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
+import EditPageHeader from '@/components/EditPageHeader.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -255,14 +256,14 @@ export default function CaveEdit() {
 
   return (
     <div className="oc-cave-edit">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <EditPageHeader>
         <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
           {isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId })}
         </Typography>
-      </Box>
+      </EditPageHeader>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label={t('name')} fullWidth required {...field('name')} />

@@ -23,10 +23,13 @@ export default function AppBar(props) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
+  // Phones only: wider screens keep the edit page's own header in view
+  // instead (EditPageHeader, sticky).
+  const isPhone = useSmall()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const pageTitle = useSelector((state) => state.app.title)
-  const isNamedEditPage = /^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname)
+  const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
   const pageTitleSuffix = ` / ${appTitle}`
   const entityTitle = pageTitle?.endsWith(pageTitleSuffix) ? pageTitle.slice(0, -pageTitleSuffix.length) : ''
   const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityTitle ? entityTitle : appTitle

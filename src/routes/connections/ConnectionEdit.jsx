@@ -16,6 +16,7 @@ import PartialDateField, { isValidPartialDate } from '@/components/PartialDateFi
 import NewSourceDialog from '@/components/NewSourceDialog.jsx'
 import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import EditPageHeader from '@/components/EditPageHeader.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
@@ -159,7 +160,7 @@ export default function ConnectionEdit() {
 
   return (
     <div className="oc-connection-edit">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <EditPageHeader>
         <Tooltip title={t('backToConnections')}>
           <IconButton component={Link} to="/connections" aria-label={t('backToConnections')} sx={{ ml: { xs: 0, sm: -5 } }}>
             <ArrowBackRounded />
@@ -168,7 +169,7 @@ export default function ConnectionEdit() {
         <Typography component="h1" variant="h5" data-appbar-page-title>
           {t('editSistemaConnection')}
         </Typography>
-      </Box>
+      </EditPageHeader>
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>

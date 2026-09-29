@@ -112,6 +112,11 @@ export default function SistemaEditPane() {
           sx={{
             p: 'var(--oc-pane-padding-inline)',
             mt: 'var(--oc-pane-padding-block)',
+            // The form's EditPageHeader sticks to the very top of this scroll
+            // area (sticky stops at its padding otherwise), and it and the
+            // action bar reach out to its edges.
+            '--oc-edit-header-top': 'calc(-1 * var(--oc-pane-padding-inline))',
+            '--oc-page-bleed': 'var(--oc-pane-padding-inline)',
             overflowY: 'auto',
             height: '100%',
             boxSizing: 'border-box',
