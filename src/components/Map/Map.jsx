@@ -58,23 +58,18 @@ const EDIT_FIELD_BADGE_ICONS = {
   key: VpnKeyRounded,
 }
 
-// Resolves true once `selector` is in the document, false after `timeout` ms.
-function waitForElement(selector, timeout) {
-  return new Promise((resolve) => {
-    if (document.querySelector(selector)) return resolve(true)
-    const observer = new MutationObserver(() => {
-      if (document.querySelector(selector)) {
-        observer.disconnect()
-        clearTimeout(timer)
-        resolve(true)
-      }
-    })
-    const timer = setTimeout(() => {
-      observer.disconnect()
-      resolve(false)
-    }, timeout)
-    observer.observe(document.body, { childList: true, subtree: true })
-  })
+// How long after centering on a cave (phone) its offset keeps following the
+// layout, and how many unchanged frames count as settled.
+const SETTLE_TIMEOUT = 2000
+const SETTLE_FRAMES = 10
+
+// The phone layout the pane offset depends on: the sheet's top, the search
+// field's bottom and the visible height (less the on-screen keyboard).
+function phoneLayoutSignature() {
+  const sheetTop = document.querySelector('#oc-result-pane')?.getBoundingClientRect().y
+  const fieldBottom = document.querySelector('#oc-search-bar .oc-search-bar--field')?.getBoundingClientRect().bottom
+  const visibleHeight = window.visualViewport?.height ?? window.innerHeight
+  return [sheetTop, fieldBottom, visibleHeight].map((value) => (value === undefined ? '-' : Math.round(value))).join('|')
 }
 
 function hasSavedViewState(viewState) {
@@ -325,17 +320,20 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       let centerPoint
 
       if (isSmall) {
-        // The phone sheet (and the search bar) may not be rendered yet on a
-        // direct page load: count what's missing as 0 - flyToMarker then
-        // re-centers once the sheet appears.
+        // Centered in the map left visible between the search bar's field
+        // and the sheet. The field row only, not the whole bar: right after
+        // picking a search result, its results list is still collapsing.
+        // The sheet (and the search bar) may not be rendered yet on a direct
+        // page load: count what's missing as 0 - flyToMarker then re-centers
+        // once the sheet appears.
         const viewportBounding = document.querySelector('#root').getBoundingClientRect()
         const resultPaneBounding = document.querySelector('#oc-result-pane')?.getBoundingClientRect()
-        const searchBarBounding = document.querySelector('#oc-search-bar')?.getBoundingClientRect()
+        const searchFieldBounding = document.querySelector('#oc-search-bar .oc-search-bar--field')?.getBoundingClientRect()
 
         const resultPaneHeight = resultPaneBounding ? viewportBounding.height - resultPaneBounding.y : 0
-        const searchBarHeight = searchBarBounding ? searchBarBounding.y : 0
+        const searchFieldBottom = searchFieldBounding ? searchFieldBounding.bottom : 0
 
-        centerPoint = currentPoint.add(new Point(0, resultPaneHeight / 2)).sub(new Point(0, searchBarHeight / 2))
+        centerPoint = currentPoint.add(new Point(0, (resultPaneHeight - searchFieldBottom) / 2))
       } else {
         // Keep in sync with ResultPaneLg.jsx's own `min(PANE_WIDTH * 2, 80vw)`
         // cap on its max-width in edit mode.
@@ -351,14 +349,62 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     }
   }
 
-  function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true, retried = false } = {}) {
+  // Phone: the layout the offset was measured against is often still moving
+  // - the sheet sliding in (or not rendered yet, on a direct load), the
+  // keyboard closing after picking a search result, Ionic's sheet dropping
+  // back down with it. Center again each time it settles into a new layout,
+  // for a short while; a new centering, the user panning the map or the
+  // cave being closed (or another one opened) ends it. Re-centering only
+  // moves the camera: the cave's pin is already the active one.
+  const settleTokenRef = useRef(0)
+  const routeCaveIdRef = useRef(caveId)
+  routeCaveIdRef.current = caveId
+  function recenterWhenLayoutSettles(cave, measuredSignature) {
+    const token = ++settleTokenRef.current
+    const map = mapRef.current?.getMap()
+    const stop = () => {
+      if (token === settleTokenRef.current) settleTokenRef.current++
+    }
+    map?.once('dragstart', stop)
+    const start = performance.now()
+    let signature = measuredSignature
+    let previous = measuredSignature
+    let stableFrames = 0
+    const step = () => {
+      if (token !== settleTokenRef.current) return
+      if (performance.now() - start > SETTLE_TIMEOUT || routeCaveIdRef.current !== cave.id) {
+        map?.off('dragstart', stop)
+        return
+      }
+      const current = phoneLayoutSignature()
+      stableFrames = current === previous ? stableFrames + 1 : 0
+      previous = current
+      if (current !== signature && stableFrames >= SETTLE_FRAMES) {
+        signature = current
+        moveCameraTo(cave)
+      }
+      requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }
+
+  function moveCameraTo(cave, { animate = true, offsetForPane = true } = {}) {
+    const center = getCenterLngLat(cave.location.longitude, cave.location.latitude, offsetForPane)
+    const fn = animate ? 'flyTo' : 'jumpTo'
+
+    mapRef.current?.[fn]({
+      center,
+      zoom: currentZoomLevel,
+      ...(animate && {
+        duration: theme.oc.sys.motion.duration.emphasized,
+      }),
+    })
+  }
+
+  function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true } = {}) {
     if (cave && cave.location) {
-      // Phone, sheet not rendered yet (direct page load): center now without
-      // its offset, then once more when it appears (once - no loop).
-      if (isSmall && offsetForPane && !retried && !document.querySelector('#oc-result-pane')) {
-        waitForElement('#oc-result-pane', 3000).then((found) => {
-          if (found) flyToMarker({ animate, cave, offsetForPane, retried: true })
-        })
+      if (isSmall && offsetForPane) {
+        recenterWhenLayoutSettles(cave, phoneLayoutSignature())
       }
       const { longitude: lng, latitude: lat } = cave.location
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
@@ -370,16 +416,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
         setActiveMarkerElem(currentMarker.getElement(), true)
       }
 
-      const center = getCenterLngLat(lng, lat, offsetForPane)
-      const fn = animate ? 'flyTo' : 'jumpTo'
-
-      mapRef.current?.[fn]({
-        center,
-        zoom: currentZoomLevel,
-        ...(animate && {
-          duration: theme.oc.sys.motion.duration.emphasized,
-        }),
-      })
+      moveCameraTo(cave, { animate, offsetForPane })
     }
   }
 
@@ -597,6 +634,10 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }, [caveData, caveId])
 
   useEffect(() => {
+    if (!caveId) {
+      // Closed: picking the same cave again is a new selection.
+      previousCameraCaveIdRef.current = null
+    }
     if (!mapLoaded || !caveId) {
       return
     }
@@ -608,6 +649,13 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     const caveRouteChanged = previousCameraCaveIdRef.current !== caveId
     previousCameraCaveIdRef.current = caveId
+
+    // Closing a cave (the search bar's clear, the pane's close) clears it
+    // from Redux just before the route leaves it: not a new selection - flying
+    // there again would re-activate its pin, only to deactivate it right after.
+    if (!caveRouteChanged && !_currentCave) {
+      return
+    }
 
     // A newly selected route must fly even if Redux already holds this cave.
     if (persistedViewStateAvailable && _currentCave?.id === caveId && !caveRouteChanged && routeCave.location) {

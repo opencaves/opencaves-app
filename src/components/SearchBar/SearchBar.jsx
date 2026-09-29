@@ -12,17 +12,20 @@ import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { observeStore } from '@/utils/observeStore.jsx'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
 import './SearchBar.scss'
 
 const SearchIcon = () => <Search aria-hidden="true" />
+// flex, not inline: an inline wrapper sits the icon on the text baseline,
+// a few pixels above the button's center.
 const ArrowBackIcon = () => (
-  <Box component="span" aria-hidden="true">
+  <Box component="span" aria-hidden="true" sx={{ display: 'flex' }}>
     <ArrowBack />
   </Box>
 )
 const ClearIcon = () => (
-  <Box component="span" aria-hidden="true">
+  <Box component="span" aria-hidden="true" sx={{ display: 'flex' }}>
     <Clear />
   </Box>
 )
@@ -106,6 +109,16 @@ function markHints(result, searchTerm) {
   })
 
   return hints
+}
+
+// Caves found by their ID, which the index doesn't hold (its tokenizer would
+// split an ID on its punctuation), shaped like index results. Their snippet
+// shows the ID with the matched part marked.
+function searchIds(caves, searchTerm) {
+  const regexp = new RegExp(`(${searchTerm.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+  return caves
+    .filter((cave) => matchesId(cave.id, searchTerm))
+    .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: cave.id.replace(regexp, '<mark>$1</mark>') } }))
 }
 
 const ActionButton = styled(IconButton)({
@@ -229,13 +242,19 @@ export default function SearchBar() {
     // console.log('[onSearchbarInputChange¸%o', event)
     const searchTerm = event.target.value
     setValue(searchTerm)
-    const searchResults = searchIndex
-      .search(searchTerm, { enrich: true })
-      .slice(0, 10)
-      .map((result) => {
-        result.hints = markHints(result, searchTerm)
-        return result
-      })
+    // ID matches first: a pasted ID means that exact cave.
+    const idResults = searchIds(data, searchTerm)
+    const idMatched = new Set(idResults.map((result) => result.id))
+    const searchResults = [
+      ...idResults,
+      ...searchIndex
+        .search(searchTerm, { enrich: true })
+        .filter((result) => !idMatched.has(result.id))
+        .map((result) => {
+          result.hints = markHints(result, searchTerm)
+          return result
+        }),
+    ].slice(0, 10)
 
     setSearchResults(searchResults)
   }
@@ -283,6 +302,8 @@ export default function SearchBar() {
   function onResultsItemClick(id) {
     // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
+    // Close the phone's keyboard: the field kept focus through the tap.
+    document.activeElement?.blur()
     setValue(selectedCave.name.value)
     clearSearchResults()
     setBackBtnOn(false)
@@ -348,7 +369,7 @@ export default function SearchBar() {
             m: '0.5rem 0.5rem 0 0.5rem',
           }}
         >
-          <Grid container sx={{ alignItems: 'stretch' }}>
+          <Grid container className="oc-search-bar--field" sx={{ alignItems: 'stretch' }}>
             <Grid
               sx={{
                 width: '48px',
@@ -453,7 +474,9 @@ export default function SearchBar() {
                           },
                         }}
                       >
-                        <ListItemButton ref={(element) => resultItemsRef.current.push(element)} onClick={() => onResultsItemClick(result.id)}>
+                        {/* No focus move on press: the input's blur would collapse the results
+                            before the press ends, so a quick tap would land on the map instead. */}
+                        <ListItemButton ref={(element) => resultItemsRef.current.push(element)} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
                           {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
                           <Box
                             sx={{
