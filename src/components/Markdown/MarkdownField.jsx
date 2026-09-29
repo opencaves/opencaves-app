@@ -10,7 +10,7 @@ import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
 import { clipboard } from '@milkdown/plugin-clipboard'
-import { callCommand, replaceAll } from '@milkdown/utils'
+import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
 import './MarkdownField.scss'
 
@@ -59,6 +59,12 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const rootRef = useRef(null)
   const editorRef = useRef(null)
   const lastEmittedRef = useRef(value)
+  // The text the editor was loaded with, and the editor's own serialization
+  // of it: the editor rewrites markdown its own way (spacing, escaping, list
+  // markers...), so without this an edit that's then undone would come back
+  // as different text - leaving the form "changed" (its Save enabled).
+  const sourceValueRef = useRef(value || '')
+  const sourceMarkdownRef = useRef(null)
   const onChangeRef = useRef(onChange)
   const [isEmpty, setIsEmpty] = useState(!value)
   const [sourceMode, setSourceMode] = useState(false)
@@ -88,9 +94,11 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         // field's visible label so it reads as a labeled text box.
         ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId } }))
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
-          lastEmittedRef.current = markdown
-          setIsEmpty(!markdown)
-          onChangeRef.current?.({ target: { value: markdown } })
+          // Back to the loaded document: report the original text as is.
+          const emitted = markdown === sourceMarkdownRef.current ? sourceValueRef.current : markdown
+          lastEmittedRef.current = emitted
+          setIsEmpty(!emitted)
+          onChangeRef.current?.({ target: { value: emitted } })
         })
       })
       .use(commonmark)
@@ -105,6 +113,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         return
       }
       editorRef.current = editor
+      sourceMarkdownRef.current = editor.action(getMarkdown())
     })
 
     return () => {
@@ -123,6 +132,10 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       lastEmittedRef.current = value
       setIsEmpty(!value)
       editorRef.current.action(replaceAll(value || ''))
+      // A new document from outside (another entity, the source-mode
+      // textarea, a reload after saving): the new baseline to map back to.
+      sourceValueRef.current = value || ''
+      sourceMarkdownRef.current = editorRef.current.action(getMarkdown())
     }
   }, [value])
 
