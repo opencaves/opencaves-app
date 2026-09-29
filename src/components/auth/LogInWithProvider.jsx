@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ProviderId, linkWithCredential, signInWithPopup, signInWithRedirect } from 'firebase/auth'
+import { ProviderId, linkWithCredential } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { getProviderForProviderId } from './providers.jsx'
 import AuthButton from './AuthButton.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useAnonymous from '@/hooks/useAnonymous.jsx'
-import { auth } from '@/config/firebase.js'
+import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/config/firebase.js'
 
 export default function LogInWithProvider({ Provider, message, color, onSuccess, Logo, sx, className, ...props }) {
   const navigate = useNavigate()
@@ -68,9 +68,9 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
     }
 
     if (isSmall) {
-      signInWithRedirect(auth, new Provider())
+      signInWithProviderRedirect(new Provider())
     } else {
-      signInWithPopup(auth, new Provider())
+      signInWithProviderPopup(new Provider())
         .then(() => {
           onLogInWithProviderSuccess()
         })
