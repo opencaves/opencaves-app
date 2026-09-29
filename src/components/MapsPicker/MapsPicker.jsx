@@ -9,6 +9,7 @@ import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
+import PartialDateField from '@/components/PartialDateField.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -138,7 +139,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
                   {pendingFile.name}
                 </Typography>
                 <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-                <TextField size="small" label={t('mapDate')} placeholder={t('mapDatePlaceholder')} sx={{ width: isSmall ? '100%' : 200 }} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+                <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
                 <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Box>

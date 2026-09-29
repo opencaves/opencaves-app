@@ -700,7 +700,8 @@
     "cancel": "Cancel",
     "save": "Save",
     "loading": "Loading…",
-    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own."
+    "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
+    "explorationDateHint": "When this exploration took place."
   },
   "mapsPicker": {
     "addMap": "Add a map",
@@ -718,14 +719,14 @@
     "empty": "No maps uploaded yet",
     "mapTitle": "Sistema",
     "mapDate": "Date",
-    "mapDatePlaceholder": "YYYY, YYYY-YYYY, YYYY-MM, or YYYY-MM-DD",
     "mapNote": "Note(s)",
     "mapAuthors": "Authors",
     "mapAuthorsHint": "Press Enter or type a comma to add an author",
     "addAuthor": "Add author",
     "removeAuthor": "Remove author",
     "cancel": "Cancel",
-    "add": "Add"
+    "add": "Add",
+    "mapDateHint": "When the map was drawn or published."
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -917,7 +918,8 @@
       }
     },
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
-    "connectionOfSistema": "the connection of {{name}}"
+    "connectionOfSistema": "the connection of {{name}}",
+    "connectionDateHint": "When the connection between the two sistemas was established."
   },
   "usersAdmin": {
     "title": "Users",

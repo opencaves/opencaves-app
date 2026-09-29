@@ -52,7 +52,7 @@ function formatLocalizedNumber(value, locale) {
   return number === null ? String(value ?? '') : new Intl.NumberFormat(locale, { maximumFractionDigits: 20 }).format(number)
 }
 
-function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange, labelProps = {} }) {
+function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, teamLabel, teamOptions, descriptionLabel, notesLabel, values, onChange, labelProps = {} }) {
   function updateAt(index, patch) {
     onChange(values.map((v, i) => (i === index ? { ...v, ...patch } : v)))
   }
@@ -81,7 +81,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, teamLabel,
                 <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
-                <PartialDateField size="small" label={dateLabel} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
+                <PartialDateField size="small" label={dateLabel} description={dateHint} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
@@ -417,7 +417,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         </Grid>
 
         <Grid size={12}>
-          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />
+          <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} dateHint={t('explorationDateHint')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />
         </Grid>
 
         <Grid size={12}>

@@ -698,7 +698,8 @@
     "cancel": "Annuler",
     "save": "Enregistrer",
     "loading": "Chargement…",
-    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière."
+    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
+    "explorationDateHint": "Date à laquelle cette exploration a eu lieu."
   },
   "mapsPicker": {
     "addMap": "Ajouter une carte",
@@ -716,14 +717,14 @@
     "empty": "Aucune carte téléversée pour l'instant",
     "mapTitle": "Sistema",
     "mapDate": "Date",
-    "mapDatePlaceholder": "AAAA, AAAA-AAAA, AAAA-MM ou AAAA-MM-JJ",
     "mapNote": "Note(s)",
     "mapAuthors": "Auteurs",
     "mapAuthorsHint": "Appuyez sur Entrée ou tapez une virgule pour ajouter un auteur",
     "addAuthor": "Ajouter un auteur",
     "removeAuthor": "Supprimer cet auteur",
     "cancel": "Annuler",
-    "add": "Ajouter"
+    "add": "Ajouter",
+    "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée."
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
@@ -915,7 +916,8 @@
       }
     },
     "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
-    "connectionOfSistema": "la connexion de {{name}}"
+    "connectionOfSistema": "la connexion de {{name}}",
+    "connectionDateHint": "Date à laquelle la connexion entre les deux sistemas a été établie."
   },
   "usersAdmin": {
     "title": "Utilisateurs",

@@ -273,7 +273,7 @@ export default function ConnectionEdit() {
             ])}
           </TextField>
           <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
-          <PartialDateField label={t('connectionDate')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
+          <PartialDateField label={t('connectionDate')} description={t('connectionDateHint')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
           <CreatableTextField className="oc-connection-edit--reporter" label={t('connectionReporter')} options={reporterOptions} value={form.reporter} onChange={(reporter) => setForm((current) => ({ ...current, reporter }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>

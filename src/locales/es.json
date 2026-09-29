@@ -700,7 +700,8 @@
     "cancel": "Cancelar",
     "save": "Guardar",
     "loading": "Cargando…",
-    "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente."
+    "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
+    "explorationDateHint": "Cuándo tuvo lugar esta exploración."
   },
   "mapsPicker": {
     "addMap": "Agregar un mapa",
@@ -718,14 +719,14 @@
     "empty": "Aún no se han subido mapas",
     "mapTitle": "Sistema",
     "mapDate": "Fecha",
-    "mapDatePlaceholder": "AAAA, AAAA-AAAA, AAAA-MM o AAAA-MM-DD",
     "mapNote": "Nota(s)",
     "mapAuthors": "Autores",
     "mapAuthorsHint": "Presiona Enter o escribe una coma para añadir un autor",
     "addAuthor": "Añadir autor",
     "removeAuthor": "Eliminar autor",
     "cancel": "Cancelar",
-    "add": "Agregar"
+    "add": "Agregar",
+    "mapDateHint": "Cuándo se dibujó o publicó el mapa."
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -917,7 +918,8 @@
       }
     },
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
-    "connectionOfSistema": "la conexión de {{name}}"
+    "connectionOfSistema": "la conexión de {{name}}",
+    "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas."
   },
   "usersAdmin": {
     "title": "Usuarios",
