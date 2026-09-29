@@ -185,6 +185,9 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     const y = (1 - paneOpenFactor) * dY * 50
     paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', paneOpenFactor)
     paneHeadRef.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
+    // Fully faded out, it's gone for taps, the keyboard and screen readers
+    // too - the search bar is back in its place.
+    paneHeadRef.current?.style?.setProperty('visibility', paneOpenFactor > 0 ? 'visible' : 'hidden')
   }, [paneOpenFactor])
 
   useEffect(() => {
