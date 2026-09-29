@@ -643,7 +643,8 @@
     "note": "Nota(s)",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "saveError": "No se pudo guardar la fuente."
+    "saveError": "No se pudo guardar la fuente.",
+    "addSource": "Añadir una fuente…"
   },
   "partialDateField": {
     "formats": "AAAA, AAAA-MM o AAAA-MM-DD",
@@ -831,7 +832,6 @@
     "parentSistema": "Sistema principal",
     "searchParentSistema": "Buscar sistemas o áreas",
     "connectionSource": "Fuente",
-    "addSource": "Añadir una fuente…",
     "noSource": "(ninguna)",
     "connectionDate": "Fecha",
     "connectionReporter": "Informado por",

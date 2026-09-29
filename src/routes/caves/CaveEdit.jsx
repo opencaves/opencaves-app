@@ -24,6 +24,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import SourceSelect from '@/components/SourceSelect.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -338,19 +339,7 @@ export default function CaveEdit() {
             ))}
         </TextField>
 
-        <TextField select label={t('source')} helperText={t('sourceHint')} fullWidth {...field('source')}>
-          <MenuItem value="">{t('none')}</MenuItem>
-          {form.source && !sources.some((s) => s.id === form.source) && (
-            <MenuItem value={form.source} sx={{ display: 'none' }}>
-              {form.source}
-            </MenuItem>
-          )}
-          {sources.map((s) => (
-            <MenuItem key={s.id} value={s.id}>
-              {s.name}
-            </MenuItem>
-          ))}
-        </TextField>
+        <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
 
         <Divider />
 

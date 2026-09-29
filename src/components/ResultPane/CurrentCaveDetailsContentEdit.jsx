@@ -22,6 +22,7 @@ import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import SourceSelect from '@/components/SourceSelect.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -330,19 +331,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           ))}
       </TextField>
 
-      <TextField select label={t('source')} helperText={t('sourceHint')} fullWidth {...field('source')}>
-        <MenuItem value="">{t('none')}</MenuItem>
-        {form.source && !sources.some((s) => s.id === form.source) && (
-          <MenuItem value={form.source} sx={{ display: 'none' }}>
-            {form.source}
-          </MenuItem>
-        )}
-        {sources.map((s) => (
-          <MenuItem key={s.id} value={s.id}>
-            {s.name}
-          </MenuItem>
-        ))}
-      </TextField>
+      <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
 
       <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
       <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />

@@ -22,6 +22,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import SourceSelect from '@/components/SourceSelect.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -352,14 +353,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
 
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField select label={t('source')} fullWidth {...field('source')}>
-            <MenuItem value="">{t('none')}</MenuItem>
-            {sources.map((s) => (
-              <MenuItem key={s.id} value={s.id}>
-                {s.name}
-              </MenuItem>
-            ))}
-          </TextField>
+          <SourceSelect label={t('source')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}

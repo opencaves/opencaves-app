@@ -641,7 +641,8 @@
     "note": "Note(s)",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "saveError": "Impossible d'enregistrer la source."
+    "saveError": "Impossible d'enregistrer la source.",
+    "addSource": "Ajouter une source…"
   },
   "partialDateField": {
     "formats": "AAAA, AAAA-MM ou AAAA-MM-JJ",
@@ -829,7 +830,6 @@
     "parentSistema": "Système parent",
     "searchParentSistema": "Rechercher des systèmes ou des zones",
     "connectionSource": "Source",
-    "addSource": "Ajouter une source…",
     "noSource": "(aucune)",
     "connectionDate": "Date",
     "connectionReporter": "Signalée par",

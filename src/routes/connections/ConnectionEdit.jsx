@@ -3,8 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import pushId from 'unique-push-id'
-import { AddRounded, ArrowBackRounded } from '@mui/icons-material'
-import { Alert, Box, Button, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { ArrowBackRounded } from '@mui/icons-material'
+import { Alert, Box, Button, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -13,15 +13,14 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
-import NewSourceDialog from '@/components/NewSourceDialog.jsx'
 import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
+import SourceSelect from '@/components/SourceSelect.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
 // Menu value for the "Add a source" entry; can't collide with a push id.
-const ADD_SOURCE = '__add-source__'
 
 function SistemaColor({ color }) {
   return <Box component="span" sx={{ display: 'inline-block', width: 12, height: 12, borderRadius: 0.5, bgcolor: color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', flexShrink: 0 }} />
@@ -53,7 +52,6 @@ export default function ConnectionEdit() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const [parentSearch, setParentSearch] = useState('')
-  const [addingSource, setAddingSource] = useState(false)
 
   const connection = connections.find((item) => item.id === connectionId)
   const canSave = !!form && !!form.sistemaId && !!form.parentSistemaId && isValidPartialDate(form.connectionDate, { allowRange: false })
@@ -273,42 +271,7 @@ export default function ConnectionEdit() {
               )),
             ])}
           </TextField>
-          <TextField
-            select
-            label={t('connectionSource')}
-            fullWidth
-            value={form.source}
-            onChange={(event) => {
-              // The "Add a source" entry opens the dialog instead of becoming the value.
-              if (event.target.value === ADD_SOURCE) setAddingSource(true)
-              else setForm((current) => ({ ...current, source: event.target.value }))
-            }}
-          >
-            <MenuItem value="">{t('noSource')}</MenuItem>
-            {form.source && !sources.some((source) => source.id === form.source) && (
-              <MenuItem value={form.source} sx={{ display: 'none' }}>
-                {form.source}
-              </MenuItem>
-            )}
-            {sources.map((source) => (
-              <MenuItem key={source.id} value={source.id}>
-                {source.name || source.id}
-              </MenuItem>
-            ))}
-            <Divider />
-            <MenuItem value={ADD_SOURCE} sx={{ color: 'primary.main' }}>
-              <AddRounded fontSize="small" sx={{ mr: 1 }} />
-              {t('addSource')}
-            </MenuItem>
-          </TextField>
-          <NewSourceDialog
-            open={addingSource}
-            onClose={() => setAddingSource(false)}
-            onCreated={(id) => {
-              setAddingSource(false)
-              setForm((current) => ({ ...current, source: id }))
-            }}
-          />
+          <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
           <PartialDateField label={t('connectionDate')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
           <CreatableTextField className="oc-connection-edit--reporter" label={t('connectionReporter')} options={reporterOptions} value={form.reporter} onChange={(reporter) => setForm((current) => ({ ...current, reporter }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />

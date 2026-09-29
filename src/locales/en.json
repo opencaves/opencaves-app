@@ -643,7 +643,8 @@
     "note": "Note(s)",
     "cancel": "Cancel",
     "save": "Save",
-    "saveError": "Unable to save the source."
+    "saveError": "Unable to save the source.",
+    "addSource": "Add a source…"
   },
   "partialDateField": {
     "formats": "YYYY, YYYY-MM, or YYYY-MM-DD",
@@ -831,7 +832,6 @@
     "parentSistema": "Parent sistema",
     "searchParentSistema": "Search sistemas or areas",
     "connectionSource": "Source",
-    "addSource": "Add a source…",
     "noSource": "(none)",
     "connectionDate": "Date",
     "connectionReporter": "Reported by",
