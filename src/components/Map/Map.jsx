@@ -58,6 +58,25 @@ const EDIT_FIELD_BADGE_ICONS = {
   key: VpnKeyRounded,
 }
 
+// Resolves true once `selector` is in the document, false after `timeout` ms.
+function waitForElement(selector, timeout) {
+  return new Promise((resolve) => {
+    if (document.querySelector(selector)) return resolve(true)
+    const observer = new MutationObserver(() => {
+      if (document.querySelector(selector)) {
+        observer.disconnect()
+        clearTimeout(timer)
+        resolve(true)
+      }
+    })
+    const timer = setTimeout(() => {
+      observer.disconnect()
+      resolve(false)
+    }, timeout)
+    observer.observe(document.body, { childList: true, subtree: true })
+  })
+}
+
 function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
 }
@@ -306,12 +325,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       let centerPoint
 
       if (isSmall) {
+        // The phone sheet (and the search bar) may not be rendered yet on a
+        // direct page load: count what's missing as 0 - flyToMarker then
+        // re-centers once the sheet appears.
         const viewportBounding = document.querySelector('#root').getBoundingClientRect()
-        const resultPaneBounding = document.querySelector('#oc-result-pane').getBoundingClientRect()
-        const searchBarBounding = document.querySelector('#oc-search-bar').getBoundingClientRect()
+        const resultPaneBounding = document.querySelector('#oc-result-pane')?.getBoundingClientRect()
+        const searchBarBounding = document.querySelector('#oc-search-bar')?.getBoundingClientRect()
 
-        const resultPaneHeight = viewportBounding.height - resultPaneBounding.y
-        const searchBarHeight = searchBarBounding.y
+        const resultPaneHeight = resultPaneBounding ? viewportBounding.height - resultPaneBounding.y : 0
+        const searchBarHeight = searchBarBounding ? searchBarBounding.y : 0
 
         centerPoint = currentPoint.add(new Point(0, resultPaneHeight / 2)).sub(new Point(0, searchBarHeight / 2))
       } else {
@@ -329,8 +351,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     }
   }
 
-  function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true } = {}) {
+  function flyToMarker({ animate = true, cave = currentCave, offsetForPane = true, retried = false } = {}) {
     if (cave && cave.location) {
+      // Phone, sheet not rendered yet (direct page load): center now without
+      // its offset, then once more when it appears (once - no loop).
+      if (isSmall && offsetForPane && !retried && !document.querySelector('#oc-result-pane')) {
+        waitForElement('#oc-result-pane', 3000).then((found) => {
+          if (found) flyToMarker({ animate, cave, offsetForPane, retried: true })
+        })
+      }
       const { longitude: lng, latitude: lat } = cave.location
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
         const markerLngLat = marker.getLngLat()
