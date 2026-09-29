@@ -295,6 +295,11 @@ export default function SearchBar() {
   }
 
   function onSearchbarInputClear() {
+    // Emptied here, not only when a cave gets cleared: with none open,
+    // there's no cave change to empty it.
+    setValue('')
+    clearSearchResults()
+    setBackBtnOn(false)
     dispatch(clearCurrentCave())
     navigate(`/map`, { replace: true })
   }
