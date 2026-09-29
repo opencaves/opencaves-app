@@ -253,7 +253,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone }) {
   return (
     <Box className="oc-sistema-edit-form">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: -5 }}>
+        <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: { xs: 0, sm: -5 } }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
