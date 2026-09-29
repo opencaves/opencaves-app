@@ -43,6 +43,16 @@ export default function Layout() {
         // not rely on the document/body to scroll.
         height: '100%',
         overflowY: 'auto',
+        // Never sideways: every page fits the width (wide content, like the
+        // connections table, scrolls within itself), and anything poking a
+        // few pixels past the edge brought a horizontal scrollbar - which,
+        // with the vertical one, shrank the background image.
+        overflowX: 'hidden',
+        // Keep the scrollbar's room even when there's nothing to scroll: a
+        // page's height changes as it loads (skeleton, then content), and a
+        // scrollbar coming and going resized this box - rescaling and
+        // shifting its cover background image with it.
+        scrollbarGutter: 'stable',
         backgroundColor: '#000',
         backgroundImage: `url(${isDashboardPage ? dashboardBackground : layoutBackground})`,
         backgroundPosition: 'center',

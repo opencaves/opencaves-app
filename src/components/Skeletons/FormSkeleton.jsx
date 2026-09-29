@@ -59,4 +59,4 @@ const DEFAULT_SECTIONS = [['100%'], ['calc(50% - 8px)', 'calc(50% - 8px)'], ['10
 const FILLER_SECTIONS = Array.from({ length: 6 }, () => ['100%', '100%'])
 
 // Read by screen readers, not drawn.
-const visuallyHidden = { position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
+const visuallyHidden = { position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }

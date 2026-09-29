@@ -12,4 +12,9 @@ body,
 
   /* Allow them to scroll down the document */
   overflow-y: hidden;
+
+  /* And never sideways: with overflow-y hidden, overflow-x would otherwise
+     compute to auto - any element poking past the edge gave the whole app a
+     horizontal scrollbar, which also squeezed the pages' height. */
+  overflow-x: hidden;
 }

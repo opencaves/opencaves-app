@@ -20,7 +20,7 @@ export default function AboutRoute() {
   return (
     <Grid className="oc-about" container direction="column" sx={{ height: '100%', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center' }}>
       {/* The page's h1 (the logo is its visual heading). */}
-      <Box component="h1" sx={{ position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
+      <Box component="h1" sx={{ position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
         {t('title')}
       </Box>
       <Grid>

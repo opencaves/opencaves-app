@@ -50,7 +50,7 @@ export default function MapPage() {
         {/* The page's h1 (for search engines and screen readers); the map is
             its own visual heading. While a cave is open, its name is the h1. */}
         {!caveId && (
-        <Box component="h1" sx={{ position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
+        <Box component="h1" sx={{ position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
           {t('mapHeading')}
         </Box>
         )}
