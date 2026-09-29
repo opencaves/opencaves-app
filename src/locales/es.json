@@ -512,8 +512,6 @@
       "newCave": "Nuevo cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Volver a los cenotes",
-      "enlargeMap": "Ampliar el mapa",
-      "shrinkMap": "Reducir el mapa",
       "loading": "Cargando…",
       "placeOnMap": "Colocar en el mapa",
       "placeOnMapTitle": "Colocar: {{label}}",
@@ -522,8 +520,12 @@
       "coordinateActions": {
         "placeOnMap": "Colocar en el mapa",
         "myLocation": "Mi ubicación",
-        "remove": "Quitar"
-      }
+        "remove": "Quitar",
+        "crossPickHint": "Mueve el mapa para poner la cruz en el lugar y luego confirma"
+      },
+      "fullscreenMap": "Mapa en pantalla completa",
+      "exitFullscreenMap": "Salir de pantalla completa",
+      "closeMap": "Cerrar"
     },
     "closePane": "Cerrar",
     "rating": {

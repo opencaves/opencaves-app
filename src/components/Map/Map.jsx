@@ -62,8 +62,11 @@ function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
 }
 
-export default function OCMap() {
-  const mapRef = useRef()
+// mapRef: optional, for a parent that needs the map itself (e.g.
+// CoordinatesMapPreview reading its center).
+export default function OCMap({ mapRef: externalMapRef } = {}) {
+  const internalMapRef = useRef()
+  const mapRef = externalMapRef ?? internalMapRef
   const mapContainerRef = useRef()
   const currentMarkerRef = useRef()
   const { isSaved } = useSavedCaves()

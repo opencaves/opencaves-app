@@ -512,8 +512,6 @@
       "newCave": "New cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Back to caves",
-      "enlargeMap": "Enlarge map",
-      "shrinkMap": "Shrink map",
       "loading": "Loading…",
       "placeOnMap": "Place on map",
       "placeOnMapTitle": "Place: {{label}}",
@@ -522,8 +520,12 @@
       "coordinateActions": {
         "placeOnMap": "Place on map",
         "myLocation": "My location",
-        "remove": "Remove"
-      }
+        "remove": "Remove",
+        "crossPickHint": "Move the map to put the cross on the spot, then confirm"
+      },
+      "fullscreenMap": "Full screen map",
+      "exitFullscreenMap": "Exit full screen",
+      "closeMap": "Close"
     },
     "closePane": "Close",
     "rating": {

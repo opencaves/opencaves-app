@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
 import { AddLocationAltRounded, CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
-import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap } from '@/redux/slices/mapSlice.jsx'
+import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap, startCrossPick, endCrossPick } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
 import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
@@ -17,9 +18,6 @@ const FIELD_BADGE_ICONS = {
   entrance: FenceRounded,
   key: VpnKeyRounded,
 }
-
-// Phones only: 48dp touch targets.
-const coordinateActionButtonSx = { width: 48, height: 48, flexShrink: 0 }
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
 // be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
@@ -59,15 +57,20 @@ function LabeledAction({ icon, label, onClick, disabled }) {
     </ButtonBase>
   )
 }
-export default function CoordinateField({ field, label, longitude, latitude, onChange, labelProps = {} }) {
+// canPickOnMap: whether there's a map on screen to tap (on phones, the admin
+// edit pages' CoordinatesMapPreview); without one, phones only get My
+// location and Remove. mapBelowOnPhones: on phones, "Place on map" opens a
+// map right below this field instead (for a page whose own map preview is
+// hidden on phones, see CoordinatesMapPreview's hideOnPhones).
+export default function CoordinateField({ field, label, longitude, latitude, onChange, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
+  const picking = useSelector((state) => state.map.crossPickFor === field)
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
   const isSmall = useSmall()
-  const actionButtonSx = isSmall ? coordinateActionButtonSx : undefined
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -135,6 +138,21 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     dispatch(startPlaceOnMap({ field, label, ...(isSet && { longitude, latitude }) }))
   }
 
+  // Phones on the admin edit pages: dragging the pin doesn't work by touch,
+  // so the map preview's cross instead (CoordinatesMapPreview: pan the map
+  // under it, then Confirm or Close - it also brings itself into view).
+  function onPickOnMapClick() {
+    dispatch(startCrossPick(field))
+  }
+
+  // Don't leave the map in pick mode for a field that's gone.
+  useEffect(
+    () => () => {
+      if (picking) dispatch(endCrossPick())
+    },
+    [picking, dispatch],
+  )
+
   function onClearClick() {
     onChange({ longitude: '', latitude: '' })
   }
@@ -166,10 +184,12 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     </>
   )
 
+  const pinIcon = FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />
+
   const myLocationButton = (
     <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
-        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')} sx={actionButtonSx}>
+        <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
           {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
         </IconButton>
       </span>
@@ -179,7 +199,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const removeButton = (
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
-        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')} sx={actionButtonSx}>
+        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
           <CloseRounded fontSize="small" />
         </IconButton>
       </span>
@@ -188,14 +208,14 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
 
   const navigateOrPinButton = isSet ? (
     <Tooltip title={t('navigateToCoordinate')}>
-      <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')} sx={actionButtonSx}>
+      <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')}>
         <CenterFocusStrongRounded fontSize="small" />
       </IconButton>
     </Tooltip>
   ) : (
     <Tooltip title={t('dragPinToMap')}>
-      <IconButton size="small" draggable onDragStart={onPinDragStart} aria-label={t('dragPinToMap')} sx={{ ...actionButtonSx, cursor: 'grab' }}>
-        {FIELD_BADGE_ICONS[field] ? <PinBadgeIcon size={20} overlay={FIELD_BADGE_ICONS[field]} /> : <SvgIcon component={PinIcon} inheritViewBox sx={{ width: 20, height: 20, color: 'action.active', display: 'block', flexShrink: 0 }} />}
+      <IconButton size="small" draggable onDragStart={onPinDragStart} aria-label={t('dragPinToMap')} sx={{ cursor: 'grab' }}>
+        {pinIcon}
       </IconButton>
     </Tooltip>
   )
@@ -207,38 +227,30 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           {label}
         </Typography>
       </Box>
-      {inPhoneSheet ? (
+      {inPhoneSheet || isSmall ? (
         // Phones: the inputs, then labeled actions on their own row in a
         // fixed order - Remove is disabled, not hidden, while there's nothing
-        // to remove, so nothing shifts around as the field fills in.
+        // to remove, so nothing shifts around as the field fills in. "Place
+        // on map" is the sheet's place-on-map mode in the map's result pane,
+        // tap-to-pick on the admin pages' map preview.
         <>
           <Grid container spacing={1} sx={{ alignItems: 'center' }}>
             {inputs}
           </Grid>
           <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 1, ml: -1 }}>
-            <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} />
+            {inPhoneSheet ? <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} /> : canPickOnMap && <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPickOnMapClick} disabled={picking} />}
             <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />
             <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet} />
           </Box>
+          <Typography className="oc-coordinate-field--pick-hint" variant="body2" color="primary" role="status" sx={{ mt: picking ? 0.5 : 0 }}>
+            {picking && !inPhoneSheet ? t('coordinateActions.crossPickHint') : ''}
+          </Typography>
+          {picking && mapBelowOnPhones && !inPhoneSheet && (
+            <Box sx={{ mt: 1 }}>
+              <CoordinatesMapPreview />
+            </Box>
+          )}
         </>
-      ) : isSmall ? (
-        // Phones outside the result pane's sheet (e.g. the admin edit pages):
-        // longitude over latitude, the actions centered beside them.
-        <Grid container spacing={1} sx={{ alignItems: 'center' }}>
-          <Grid size="auto">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {longitudeInput}
-              {latitudeInput}
-            </Box>
-          </Grid>
-          <Grid size="grow">
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>
-              {navigateOrPinButton}
-              {myLocationButton}
-              {removeButton}
-            </Box>
-          </Grid>
-        </Grid>
       ) : (
         // Larger screens: everything on one row.
         <Grid container spacing={1} sx={{ alignItems: 'center' }}>

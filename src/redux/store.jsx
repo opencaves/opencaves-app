@@ -36,9 +36,9 @@ const sessionPersistConfig = {
 const mapPersistConfig = {
   key: 'map',
   storage: sessionPersistStorage,
-  // placeOnMap is a transient UI mode - restoring it after a reload would
-  // strand the sheet minimized with nothing driving it.
-  blacklist: ['currentMarker', 'placeOnMap'],
+  // placeOnMap and crossPickFor are transient UI modes - restoring them after
+  // a reload would strand them with nothing driving them.
+  blacklist: ['currentMarker', 'placeOnMap', 'crossPickFor'],
 }
 
 const rootReducer = combineReducers({

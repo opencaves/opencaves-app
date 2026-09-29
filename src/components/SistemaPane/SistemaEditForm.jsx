@@ -371,7 +371,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
             {/* Above the map preview: the fields' own grid overflows a few px
                 into it, which otherwise covered part of their buttons. */}
             <Grid size={showMapPreview ? { xs: 12, md: 'auto' } : 12} sx={{ flexShrink: 0, position: 'relative', zIndex: 1 }}>
-              <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} />
+              <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} canPickOnMap={showMapPreview} />
             </Grid>
             {showMapPreview && (
               <Grid size={{ xs: 12, md: 'grow' }}>

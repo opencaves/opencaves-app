@@ -510,8 +510,6 @@
       "newCave": "Nouvelle cénote",
       "caveTitle": "Cénote {{name}}",
       "backToCaves": "Retour aux cénotes",
-      "enlargeMap": "Agrandir la carte",
-      "shrinkMap": "Réduire la carte",
       "loading": "Chargement…",
       "placeOnMap": "Placer sur la carte",
       "placeOnMapTitle": "Placer : {{label}}",
@@ -520,8 +518,12 @@
       "coordinateActions": {
         "placeOnMap": "Placer sur la carte",
         "myLocation": "Ma position",
-        "remove": "Retirer"
-      }
+        "remove": "Retirer",
+        "crossPickHint": "Déplacez la carte pour placer la croix sur l'endroit, puis confirmez"
+      },
+      "fullscreenMap": "Carte en plein écran",
+      "exitFullscreenMap": "Quitter le plein écran",
+      "closeMap": "Fermer"
     },
     "closePane": "Fermer",
     "rating": {

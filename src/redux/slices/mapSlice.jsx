@@ -27,6 +27,7 @@ const initialState = {
   // confirmed into the field (via setPickedCoordinate). PlaceOnMapOverlay
   // (in Map.jsx) runs it, ResultPaneSm moves the sheet.
   placeOnMap: null, // { field, label, longitude?, latitude? } | null
+  crossPickFor: null, // field being placed with the admin pages' map preview cross (CoordinatesMapPreview) | null
 }
 
 export const mapSlice = createSlice({
@@ -129,11 +130,17 @@ export const mapSlice = createSlice({
     },
     endPlaceOnMap: (state) => {
       state.placeOnMap = null
+    },
+    startCrossPick: (state, action) => {
+      state.crossPickFor = action.payload
+    },
+    endCrossPick: (state) => {
+      state.crossPickFor = null
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick } = mapSlice.actions
 
 export default mapSlice.reducer

@@ -275,15 +275,18 @@ export default function CaveEdit() {
         </Typography>
 
         <Grid container spacing={2} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-          {/* Above the map preview: the fields' own grid overflows a few px
-              into it, which otherwise covered part of their buttons. */}
-          <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, position: 'relative', zIndex: 1 }}>
-            <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
-            <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
-            <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
+          {/* Above the map preview beside it (md+): the fields' own grid
+              overflows a few px into it, which otherwise covered part of
+              their buttons. Not on phones, where the map is below instead:
+              the stacking context would trap a field's own full-screen map
+              under the page's action bar. */}
+          <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, position: { md: 'relative' }, zIndex: { md: 1 } }}>
+            <CoordinateField field="location" mapBelowOnPhones label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
+            <CoordinateField field="entrance" mapBelowOnPhones label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
+            <CoordinateField field="key" mapBelowOnPhones label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
-            <CoordinatesMapPreview />
+            <CoordinatesMapPreview hideOnPhones />
           </Grid>
         </Grid>
 
