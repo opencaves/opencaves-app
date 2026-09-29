@@ -600,6 +600,7 @@
     "sistemaConnectionCount_one": "{{count}} nup'ul",
     "sistemaConnectionCount_other": "{{count}} nup'ulo'ob",
     "noParentSistema": "Mina'an u nojoch sistemail",
+    "sistemaConnection": "U nup'ul sistemao'ob",
     "editSistemaConnection": "K'eex u nup'ul sistemao'ob",
     "backToConnections": "Suut ti' nup'ulo'ob",
     "childSistema": "Sistema",

@@ -842,6 +842,7 @@
     "sistemaConnectionCount_one": "{{count}} conexión",
     "sistemaConnectionCount_other": "{{count}} conexiones",
     "noParentSistema": "Sin sistema principal",
+    "sistemaConnection": "Conexión entre sistemas",
     "editSistemaConnection": "Editar conexión entre sistemas",
     "backToConnections": "Volver a las conexiones",
     "childSistema": "Sistema",

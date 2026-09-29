@@ -32,6 +32,9 @@ export default function AppBar(props) {
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [entityHeadingHidden, setEntityHeadingHidden] = useState(false)
+  // The edit page's own heading, e.g. "Cenote X" - not the document title,
+  // which also says "Edit".
+  const [entityHeadingText, setEntityHeadingText] = useState('')
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
@@ -40,11 +43,8 @@ export default function AppBar(props) {
   const isPhone = useSmall()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
-  const pageTitle = useSelector((state) => state.app.title)
   const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
-  const pageTitleSuffix = ` / ${APP_TITLE}`
-  const entityTitle = pageTitle?.endsWith(pageTitleSuffix) ? pageTitle.slice(0, -pageTitleSuffix.length) : ''
-  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityTitle ? entityTitle : APP_TITLE
+  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
 
@@ -59,6 +59,8 @@ export default function AppBar(props) {
     const intersectionObserver = new IntersectionObserver(([entry]) => setEntityHeadingHidden(!entry.isIntersecting), { root: scrollRoot, rootMargin: '-64px 0px 0px 0px', threshold: 0 })
     const observeHeading = () => {
       const heading = scrollRoot.querySelector('[data-appbar-page-title]')
+      // Also on every change to it: the name arrives once the item loads.
+      setEntityHeadingText(heading?.textContent.trim() || '')
       if (heading && heading !== observedHeading) {
         if (observedHeading) intersectionObserver.unobserve(observedHeading)
         observedHeading = heading
@@ -68,7 +70,7 @@ export default function AppBar(props) {
     const mutationObserver = new MutationObserver(observeHeading)
 
     observeHeading()
-    mutationObserver.observe(scrollRoot, { childList: true, subtree: true })
+    mutationObserver.observe(scrollRoot, { childList: true, subtree: true, characterData: true })
 
     return () => {
       mutationObserver.disconnect()

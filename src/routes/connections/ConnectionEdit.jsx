@@ -162,8 +162,9 @@ export default function ConnectionEdit() {
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
+        {/* No "Edit" here (nor in the phone app bar, which shows this): only the document title says it. */}
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {t('editSistemaConnection')}
+          {t(isNew ? 'newSistemaConnection' : 'sistemaConnection')}
         </Typography>
       </EditPageHeader>
 
