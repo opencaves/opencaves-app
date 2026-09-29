@@ -27,6 +27,7 @@ import { ResultPaneSmContext } from './ResultPaneSm.jsx'
 import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -344,7 +345,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           .sort((a, b) => squaredDistance(a.location, mapCenter) - squaredDistance(b.location, mapCenter) || (a.name || '').localeCompare(b.name || ''))
           .filter((s) => {
             const q = sistemaSearch.trim().toLowerCase()
-            return s.id === form.sistemaId || !q || (s.name || s.id).toLowerCase().includes(q) || (areasById.get(s.area) || '').toLowerCase().includes(q)
+            return s.id === form.sistemaId || !q || (s.name || s.id).toLowerCase().includes(q) || (areasById.get(s.area) || '').toLowerCase().includes(q) || matchesId(s.id, q)
           })
           .map((s) => (
             <MenuItem key={s.id} value={s.id}>

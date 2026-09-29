@@ -17,6 +17,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
@@ -143,7 +144,7 @@ export default function ConnectionEdit() {
       .filter((sistema) => {
         if (sistema.id === form?.sistemaId) return false
         const areaName = areaNames.get(sistema.area) || sistema.area || t('noSistemaArea')
-        return sistema.id === form?.parentSistemaId || !term || (sistema.name || '').toLowerCase().includes(term) || sistema.id.toLowerCase().includes(term) || areaName.toLowerCase().includes(term)
+        return sistema.id === form?.parentSistemaId || !term || (sistema.name || '').toLowerCase().includes(term) || matchesId(sistema.id, term) || areaName.toLowerCase().includes(term)
       })
       .forEach((sistema) => {
         const areaName = areaNames.get(sistema.area) || sistema.area || null

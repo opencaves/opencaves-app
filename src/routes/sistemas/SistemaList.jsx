@@ -9,6 +9,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
 
@@ -34,7 +35,7 @@ export default function SistemaList() {
     }
     return sorted.filter((sistema) => {
       const areaName = areasById.get(sistema.area) || ''
-      return (sistema.name || '').toLowerCase().includes(term) || areaName.toLowerCase().includes(term)
+      return (sistema.name || '').toLowerCase().includes(term) || areaName.toLowerCase().includes(term) || matchesId(sistema.id, term)
     })
   }, [sistemas, search, areasById])
 

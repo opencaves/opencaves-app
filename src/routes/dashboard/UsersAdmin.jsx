@@ -7,6 +7,7 @@ import { ArrowBackRounded, DeleteRounded, SearchRounded } from '@mui/icons-mater
 import { functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const listUsersFn = httpsCallable(functions, 'listUsers')
 const setUserRolesFn = httpsCallable(functions, 'setUserRoles')
@@ -61,7 +62,7 @@ export default function UsersAdmin() {
     if (!term) {
       return sorted
     }
-    return sorted.filter((user) => user.email.toLowerCase().includes(term))
+    return sorted.filter((user) => user.email.toLowerCase().includes(term) || matchesId(user.uid, term))
   }, [users, search])
 
   async function toggleRole(user, role) {

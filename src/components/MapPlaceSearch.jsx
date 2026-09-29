@@ -5,6 +5,7 @@ import { Autocomplete, Box, CircularProgress, InputAdornment, SvgIcon, TextField
 import { PlaceOutlined, SearchRounded } from '@mui/icons-material'
 import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
+import { matchesId } from '@/utils/matchesId.js'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
 const PLACE_LIMIT = 5
@@ -28,7 +29,7 @@ function fold(text) {
 }
 
 // A search field over a coordinates map (CoordinatesMapPreview): finds the
-// app's own cenotes (by name or alias) and places (Mapbox geocoding, limited
+// app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
 // to the Yucatán, in the UI language, nearest the map's center first).
 // Picking one only moves the map - with "Place on map"'s cross showing, the
 // cross then sits on it, ready to confirm. centerOffsetY: how far below the
@@ -51,7 +52,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
     if (query.length < 2) return []
     const q = fold(query)
     return caves
-      .filter((cave) => cave.location && [cave.name?.value, ...(cave.aka || [])].some((name) => fold(name).includes(q)))
+      .filter((cave) => cave.location && ([cave.name?.value, ...(cave.aka || [])].some((name) => fold(name).includes(q)) || matchesId(cave.id, query)))
       .slice(0, CAVE_LIMIT)
       .map((cave) => ({ kind: 'cave', id: cave.id, label: cave.name?.value || cave.id, detail: cave.aka?.length ? cave.aka.join(', ') : '', center: [cave.location.longitude, cave.location.latitude] }))
   }, [caves, query])

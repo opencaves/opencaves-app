@@ -10,6 +10,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
 const NO_AREA = '(no area)'
@@ -40,7 +41,7 @@ export default function CaveList() {
     }
     return sorted.filter((cave) => {
       const areaName = areaNameBySistemaId.get(cave.sistemaId) || ''
-      return (cave.name?.value || '').toLowerCase().includes(term) || areaName.toLowerCase().includes(term)
+      return (cave.name?.value || '').toLowerCase().includes(term) || areaName.toLowerCase().includes(term) || matchesId(cave.id, term)
     })
   }, [caves, search, areaNameBySistemaId])
 

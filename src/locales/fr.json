@@ -302,9 +302,11 @@
     "snippet": {
       "aka": "alias",
       "nameTranslations": {
-        "en": "Anglais",
-        "es": "Espagnol"
-      }
+        "eng": "anglais",
+        "spa": "espagnol",
+        "myn": "maya"
+      },
+      "id": "ID"
     },
     "inputAriaLabel": "Rechercher des cénotes"
   },

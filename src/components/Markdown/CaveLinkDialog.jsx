@@ -4,6 +4,7 @@ import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, Dialog
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
 
@@ -47,10 +48,10 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
   )
   const selected = sortedCaves.find((cave) => cave.id === selectedId) || null
 
-  // Matches cave names, alternate names and area names.
+  // Matches cave names, alternate names, area names and IDs.
   function filterOptions(options, { inputValue }) {
     const term = normalize(inputValue.trim())
-    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => normalize(text).includes(term))) : options
+    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => normalize(text).includes(term)) || matchesId(cave.id, term)) : options
     return matches.slice(0, MAX_OPTIONS)
   }
 

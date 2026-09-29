@@ -10,6 +10,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { PANE_WIDTH as baseWidth } from '@/config/app.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
 
@@ -75,7 +76,7 @@ export default function SistemaPane() {
       }
       const areaName = areasById.get(sistema.area) || ''
       const aka = sistema.aka || []
-      return (sistema.name || '').toLowerCase().includes(q) || areaName.toLowerCase().includes(q) || aka.some((a) => a.toLowerCase().includes(q))
+      return (sistema.name || '').toLowerCase().includes(q) || areaName.toLowerCase().includes(q) || aka.some((a) => a.toLowerCase().includes(q)) || matchesId(sistema.id, q)
     })
 
   return (

@@ -7,6 +7,7 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { matchesId } from '@/utils/matchesId.js'
 
 export default function ConnectionList() {
   const { t } = useTranslation('dashboard')
@@ -23,7 +24,8 @@ export default function ConnectionList() {
     .filter((connection) => {
       const child = sistemaNames.get(connection.sistemaId) || connection.sistemaId || ''
       const parent = sistemaNames.get(connection.parentSistemaId) || connection.parentSistemaId || ''
-      return `${child} ${parent}`.toLowerCase().includes(search.trim().toLowerCase())
+      // Its own ID, or either sistema's.
+      return `${child} ${parent}`.toLowerCase().includes(search.trim().toLowerCase()) || [connection.id, connection.sistemaId, connection.parentSistemaId].some((id) => matchesId(id, search))
     })
     .sort((first, second) => {
       const firstValue = sortBy === 'parent' ? first.parentSistemaId : first.sistemaId
