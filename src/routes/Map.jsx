@@ -1,6 +1,5 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
-import { IonApp } from '@ionic/react'
 import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { MapLoading } from '@/components/Map/MapState.jsx'
@@ -11,6 +10,7 @@ import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
+import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 import './Map.scss'
 
 // mapbox-gl/react-map-gl are ~500KB (compressed) on their own and were
@@ -21,14 +21,22 @@ import './Map.scss'
 // the (already-bundled, tiny) spinner below paint immediately instead.
 const Map = lazy(() => import('@/components/Map/Map.jsx'))
 
+// On phones the page sits in Ionic's IonApp (for the result pane's sheet);
+// elsewhere a plain div, so desktop never loads Ionic (see utils/ionic.js).
+const IonApp = lazy(() => loadIonic().then(({ IonApp }) => ({ default: IonApp })))
+
 export default function MapPage() {
   const theme = useTheme()
   const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
   const { t } = useTranslation('seo')
   const { caveId } = useParams()
+  // Decided once, at mount: switching wrappers later (a resized window)
+  // would remount the whole map.
+  const [PageRoot] = useState(() => (isPhone() ? IonApp : 'div'))
 
   return (
-    <IonApp className="oc-map">
+    <Suspense fallback={null}>
+    <PageRoot className="oc-map">
       <AddMediasProvider>
         {/* The page's h1 (for search engines and screen readers); the map is
             its own visual heading. While a cave is open, its name is the h1. */}
@@ -72,6 +80,7 @@ export default function MapPage() {
           }}
         />
       </AddMediasProvider>
-    </IonApp>
+    </PageRoot>
+    </Suspense>
   )
 }

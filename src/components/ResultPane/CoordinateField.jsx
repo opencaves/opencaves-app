@@ -7,7 +7,7 @@ import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordina
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from '@/components/Map/PinBadgeIcon.jsx'
-import { ResultPaneSmContext } from './ResultPaneSm.jsx'
+import { ResultPaneSmContext } from './ResultPaneSmContext.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'

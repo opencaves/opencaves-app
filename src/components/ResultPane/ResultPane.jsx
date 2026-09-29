@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
-import ResultPaneSm from './ResultPaneSm.jsx'
 import ResultPaneLg from './ResultPaneLg.jsx'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
@@ -19,6 +18,9 @@ import { setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
+
+// Phones only, and it brings Ionic along (see utils/ionic.js).
+const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
 
 export async function resultPaneLoader({ params }) {
   const { caveId } = params
@@ -159,10 +161,12 @@ export default function ResultPane() {
           isSmall ? (
             <TransitionGroup>
               <Collapse in={!!currentCave}>
-                <ResultPaneSm id="result-pane" cave={currentCave}>
-                  {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
-                  <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
-                </ResultPaneSm>
+                <Suspense fallback={null}>
+                  <ResultPaneSm id="result-pane" cave={currentCave}>
+                    {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
+                    <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
+                  </ResultPaneSm>
+                </Suspense>
               </Collapse>
             </TransitionGroup>
           ) : (

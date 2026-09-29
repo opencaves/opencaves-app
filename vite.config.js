@@ -13,28 +13,23 @@ export default defineConfig({
         // own chunks: they change far less often than the app's own code,
         // so browsers (and this app's precaching service worker) can keep
         // reusing a cached copy across deploys that don't touch them.
-        manualChunks(id) {
-          if (!id.includes('node_modules')) {
-            return
-          }
-          if (id.includes('/mapbox-gl/') || id.includes('/react-map-gl/')) {
-            return 'mapbox'
-          }
-          if (id.includes('/@mui/') || id.includes('/@emotion/')) {
-            return 'mui'
-          }
-          if (id.includes('/@ionic/')) {
-            return 'ionic'
-          }
-          if (id.includes('/@photo-sphere-viewer/') || id.includes('/react-photo-sphere-viewer/')) {
-            return 'photo-sphere-viewer'
-          }
-          if (id.includes('/firebase/') || id.includes('/@firebase/')) {
-            return 'firebase'
-          }
-          if (id.includes('/swiper/')) {
-            return 'swiper'
-          }
+        //
+        // Rolldown's groups, not the deprecated manualChunks: a group also
+        // captures its modules' dependencies, so the order matters - higher
+        // priority claims first. React (a dependency of every UI library)
+        // goes first, Ionic last: otherwise Ionic's group captured React and
+        // other shared code, and every page - desktop included, which never
+        // uses Ionic (see src/utils/ionic.js) - depended on its chunk.
+        codeSplitting: {
+          groups: [
+            { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/, priority: 60 },
+            { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50 },
+            { name: 'mui', test: /node_modules[\\/](@mui|@emotion)[\\/]/, priority: 40 },
+            { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/]/, priority: 40 },
+            { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
+            { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
+            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10 },
+          ],
         },
       },
     },

@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IonModal } from '@ionic/react'
+import { IonModal } from '@/utils/ionic.js'
+import { ResultPaneSmContext } from './ResultPaneSmContext.js'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import waitFor from 'p-wait-for'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +29,6 @@ function easeOutQuad(t, b = 0, c = 1, d = 1) {
   return -c * (t /= d) * (t - 2) + b
 }
 
-export const ResultPaneSmContext = createContext()
 
 export default function ResultPaneSm({ children, cave, ...props }) {
   const modalRef = useRef({})

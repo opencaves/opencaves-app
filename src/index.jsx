@@ -1,17 +1,19 @@
 import React, { StrictMode } from 'react'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client'
-import { setupIonicReact } from '@ionic/react'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '@/redux/store.jsx'
 import App from './App.jsx'
 import Profiler from '@/components/utils/Profiler.jsx'
 import './i18n.js'
+import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // import reportWebVitals from './reportWebVitals'
 
-setupIonicReact({
-  // mode: 'ios'
-})
+// Ionic is for phones only (see utils/ionic.js): start fetching it right
+// away there, alongside the app, so the map page doesn't wait on it.
+if (isPhone()) {
+  loadIonic()
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
