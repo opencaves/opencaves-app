@@ -30,6 +30,13 @@ export default function NameTranslationsField({ label, rows, languages, onChange
         {rows.map((row, index) => (
           <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
             <TextField select size="small" label={languageLabel} sx={{ width: 160, flexShrink: 0 }} value={row.lang} onChange={(e) => updateAt(index, { lang: e.target.value })}>
+              {/* Keeps the row's language valid while the languages load (or
+                  if it's since been removed). */}
+              {row.lang && !languages.some((l) => l.code === row.lang) && (
+                <MenuItem value={row.lang} sx={{ display: 'none' }}>
+                  {row.lang}
+                </MenuItem>
+              )}
               {languages
                 .filter((l) => l.code === row.lang || !usedLangs.includes(l.code))
                 .map((l) => (

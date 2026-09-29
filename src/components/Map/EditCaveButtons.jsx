@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { IconButton, Tooltip } from '@mui/material'
-import { AddRounded, EditRounded } from '@mui/icons-material'
+import { AddRounded, EditOutlined, EditRounded } from '@mui/icons-material'
 import { useEditCaveActions } from './EditCaveFab.jsx'
 
 // The edit FAB's two actions as separate icon buttons, for the mobile result
@@ -8,7 +8,7 @@ import { useEditCaveActions } from './EditCaveFab.jsx'
 // open. Editors only, like the FAB.
 export default function EditCaveButtons({ sx }) {
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
-  const { canEdit, caveId, isEditingCave, editCave, addNewCave } = useEditCaveActions()
+  const { canEdit, caveId, isEditingCave, editCave, exitEditMode, addNewCave } = useEditCaveActions()
 
   if (!canEdit) {
     return null
@@ -16,16 +16,23 @@ export default function EditCaveButtons({ sx }) {
 
   return (
     <>
-      {/* Already editing this cave: nothing for it to do, so it's left out. */}
-      {!isEditingCave && (
-        <Tooltip title={t('editCave')} describeChild>
-          <span>
-            <IconButton className="oc-edit-cave-btn" aria-label={t('editCave')} onClick={editCave} disabled={!caveId} sx={sx}>
-              <EditRounded />
-            </IconButton>
-          </span>
-        </Tooltip>
-      )}
+      {/* A toggle: pressed while editing this cave, when it leaves edit mode
+          (the form's unsaved-changes prompt still applies). */}
+      <Tooltip title={isEditingCave ? t('exitEditMode') : t('editCave')} describeChild>
+        <span>
+          <IconButton
+            className="oc-edit-cave-btn"
+            aria-label={t('editCave')}
+            aria-pressed={isEditingCave}
+            onClick={isEditingCave ? exitEditMode : editCave}
+            disabled={!caveId}
+            // On: a filled, primary-colored icon (no container).
+            sx={[sx, isEditingCave && { color: 'primary.main' }]}
+          >
+            {isEditingCave ? <EditRounded /> : <EditOutlined />}
+          </IconButton>
+        </span>
+      </Tooltip>
       <Tooltip title={t('addNewCave')}>
         <IconButton className="oc-add-new-cave-btn" aria-label={t('addNewCave')} onClick={addNewCave} sx={sx}>
           <AddRounded />
