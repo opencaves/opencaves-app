@@ -112,26 +112,23 @@ function nameTrans(old) {
 // split off.
 const TRAILING_EXPLORATION_DATE = /^(.*?)[,\s]+(\d{4}\s*-\s*\d{4}|\d{4}(?:-\d{2}(?:-\d{2})?)?)$/
 
-// { team, date } from a Team cell and its Date cell, the team's own date
-// removed from the team:
-// - no Date cell: the team's date;
-// - the same date, or the team's is a more precise one within it (1999-07
-//   for 1999): the team's, whole;
-// - two different dates: the team is left as written, with the Date cell's
-//   date, so neither is lost (reported: see teamDateConflicts).
+// { team, date } from a Team cell and its Date cell: whenever the team ends
+// with a date, that whole date is the exploration's date and is removed from
+// the team. `conflict` flags a Date cell that said something else (not the
+// same date, nor a less precise one it falls within, like 1999 for
+// 1999-07): the team's date still wins, the Date cell's is dropped - and
+// reported (see teamDateConflicts).
 export function splitExplorationTeam(team, date) {
   const match = TRAILING_EXPLORATION_DATE.exec(team || '')
   if (!match) return { team, date, conflict: false }
   const teamOnly = match[1].trim()
   const teamDate = match[2].replace(/\s+/g, '')
-  if (!date || teamDate === date || teamDate.startsWith(`${date}-`)) {
-    return { team: teamOnly, date: teamDate, conflict: false }
-  }
-  return { team, date, conflict: true }
+  const conflict = !!date && teamDate !== date && !teamDate.startsWith(`${date}-`)
+  return { team: teamOnly, date: teamDate, conflict }
 }
 
-// Teams whose date disagrees with their Date cell, for the migration script
-// to report (they're imported unsplit).
+// Explorations whose Date cell disagreed with their team's date, for the
+// migration script to report (the team's date was kept).
 export const teamDateConflicts = []
 
 // The Sistemas sheet records exploration history as numbered column groups

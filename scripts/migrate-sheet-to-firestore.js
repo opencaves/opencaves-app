@@ -121,13 +121,13 @@ async function main() {
     await writeCollection(collectionName, getId, getRecords())
   }
 
-  // Exploration teams with a trailing date that disagrees with their Date
-  // cell: imported unsplit, so both dates stay visible - to fix in the sheet.
+  // Explorations whose Date cell disagreed with the date in their team: the
+  // team's date was imported, the Date cell's dropped - listed to check.
   if (teamDateConflicts.length > 0) {
     console.log(`
-${teamDateConflicts.length} exploration(s) where the team's date and the Date column disagree (imported unsplit):`)
+${teamDateConflicts.length} exploration(s) where the team's date and the Date column disagree (team's date kept, Date column ignored):`)
     for (const { sistema, team, date } of teamDateConflicts) {
-      console.log(`  ${sistema}: team "${team}" vs date "${date}"`)
+      console.log(`  ${sistema}: team "${team}" - Date column "${date}" ignored`)
     }
   }
   console.log('Done.')
