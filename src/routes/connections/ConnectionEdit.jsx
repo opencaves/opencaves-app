@@ -13,7 +13,6 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
-import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
@@ -59,7 +58,7 @@ export default function ConnectionEdit() {
 
   useEffect(() => {
     if (isNew) {
-      const empty = { sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', reporter: '', note: '' }
+      const empty = { sistemaId: '', parentSistemaId: '', source: '', connectionDate: '', note: '' }
       setForm(empty)
       setBaseline(empty)
       setError(null)
@@ -79,7 +78,6 @@ export default function ConnectionEdit() {
           parentSistemaId: connection.parentSistemaId || '',
           source: connection.source || '',
           connectionDate: connection.connectionDate || '',
-          reporter: connection.reporter || '',
           note: connection.note || '',
         }
       : null
@@ -114,7 +112,7 @@ export default function ConnectionEdit() {
         parentSistemaId: form.parentSistemaId,
         source: form.source || deleteField(),
         connectionDate: form.connectionDate.trim() || deleteField(),
-        reporter: form.reporter.trim() || deleteField(),
+        // No reporter: no longer edited here; saving (a merge) leaves any stored one as is.
         note: form.note.trim() || deleteField(),
       })
       setBaseline(savedForm)
@@ -135,8 +133,6 @@ export default function ConnectionEdit() {
 
   const childSistema = sistemas.find((sistema) => sistema.id === form?.sistemaId)
   const childName = childSistema?.name || form?.sistemaId || ''
-  // Every distinct reporter already used on a connection, for the dropdown.
-  const reporterOptions = useMemo(() => [...new Set(connections.map((item) => item.reporter?.trim()).filter(Boolean))].sort((first, second) => first.localeCompare(second)), [connections])
   const areaNames = useMemo(() => new Map(areas.map((area) => [area.id, area.name])), [areas])
   const getAreaName = (sistema) => (sistema?.area ? areaNames.get(sistema.area) || sistema.area : null)
   const parentGroups = useMemo(() => {
@@ -272,9 +268,8 @@ export default function ConnectionEdit() {
               )),
             ])}
           </TextField>
-          <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
           <PartialDateField label={t('connectionDate')} description={t('connectionDateHint')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
-          <CreatableTextField className="oc-connection-edit--reporter" label={t('connectionReporter')} options={reporterOptions} value={form.reporter} onChange={(reporter) => setForm((current) => ({ ...current, reporter }))} />
+          <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>
