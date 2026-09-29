@@ -45,51 +45,51 @@ export default function MapPage() {
         </>
       }
     >
-    <PageRoot className="oc-map">
-      <AddMediasProvider>
-        {/* The page's h1 (for search engines and screen readers); the map is
+      <PageRoot className="oc-map">
+        <AddMediasProvider>
+          {/* The page's h1 (for search engines and screen readers); the map is
             its own visual heading. While a cave is open, its name is the h1. */}
-        {!caveId && (
-        <Box component="h1" sx={{ position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
-          {t('mapHeading')}
-        </Box>
-        )}
-        <SearchBar />
-        <Suspense fallback={<MapLoading />}>
-          <Map />
-        </Suspense>
-        <FilterMenu />
-        <EditCaveFab />
-        <MapLegalLinks />
-        {isLarge && (
-          <AppMenu
-            logoColorScheme="light"
-            logoSx={{
-              width: '28px',
-              height: '28px',
-            }}
+          {!caveId && (
+            <Box component="h1" sx={{ position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}>
+              {t('mapHeading')}
+            </Box>
+          )}
+          <SearchBar />
+          <Suspense fallback={<MapLoading />}>
+            <Map />
+          </Suspense>
+          <FilterMenu />
+          <EditCaveFab />
+          <MapLegalLinks />
+          {isLarge && (
+            <AppMenu
+              logoColorScheme="light"
+              logoSx={{
+                width: '28px',
+                height: '28px',
+              }}
+              sx={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                width: '56px',
+                height: '56px',
+                p: 0,
+                '> .MuiSvgIcon-root': {
+                  fontSize: '32px',
+                },
+              }}
+            />
+          )}
+          <Outlet />
+          <Dev
             sx={{
-              position: 'absolute',
-              top: '1rem',
-              right: '1rem',
-              width: '40px',
-              height: '40px',
-              p: 0,
-              '> .MuiSvgIcon-root': {
-                fontSize: '32px',
-              },
+              '--oc-mode-switcher-right': isLarge ? 'calc(56px + 2rem)' : '.5rem',
+              '--oc-mode-switcher-top': isLarge ? '1rem' : 'calc(48px + 1rem)',
             }}
           />
-        )}
-        <Outlet />
-        <Dev
-          sx={{
-            '--oc-mode-switcher-right': isLarge ? 'calc(40px + 2rem)' : '.5rem',
-            '--oc-mode-switcher-top': isLarge ? '1rem' : 'calc(48px + 1rem)',
-          }}
-        />
-      </AddMediasProvider>
-    </PageRoot>
+        </AddMediasProvider>
+      </PageRoot>
     </Suspense>
   )
 }
