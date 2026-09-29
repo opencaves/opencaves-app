@@ -10,7 +10,7 @@ OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatá
 
 - React 19, Vite 8 (build output to `build/`, not `dist/`), react-router-dom v7 (data router, using the `lazy` route property for code splitting)
 - Ionic React (`@ionic/react`) for mobile-style UI primitives (sheet modals, etc.), MUI (`@mui/material`) for everything else
-- Design principles are based on **Material Design 3** — `src/theme/Theme.jsx` uses M3 token naming (`--md-sys-*`, `--md-palette-*`); follow M3 conventions (color roles, typescale, motion tokens) for new UI rather than plain MUI defaults or ad hoc values
+- Design principles are based on **Material Design 3** — `src/theme/Theme.jsx` uses M3 token naming (`sys` typescale/motion/color roles, `oc` app tokens), emitted as CSS variables under MUI's `--mui-` prefix (see Gotchas); follow M3 conventions (color roles, typescale, motion tokens) for new UI rather than plain MUI defaults or ad hoc values
 - Custom CSS custom properties (i.e. anything outside the M3 `--md-*` tokens above) must be prefixed `--oc-`, mimicking the OpenCaves namespace.
 - Redux Toolkit + redux-persist for state
 - Mapbox GL / `react-map-gl` for the map (not Google Maps, despite one legacy geocoding call to `maps.googleapis.com` in `Address.jsx`)
@@ -73,6 +73,7 @@ Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...`
 
 ## Gotchas (hard-won, don't relearn these)
 
+- **The theme's CSS variables are `--mui-*`, not `--md-*`.** The theme used to come from `@mui/material-next`, whose `extendTheme` prefixed them `--md-`; it now uses `@mui/material/styles`' `extendTheme` (no `cssVarPrefix`), which emits `--mui-palette-*`, `--mui-sys-*`, `--mui-oc-*`. Code still written against the old names (`var(--md-palette-…)`, `var(--md-sys-…)`) resolves to nothing, silently: no error, just a missing color/size - e.g. the phone result sheet was transparent below short content. Use `theme.vars.*` in `sx`/styled (prefix-agnostic), or `--mui-*` in SCSS. Several `--md-*` references remain in the codebase and are broken the same way.
 - **Vite 8 uses Rolldown.** `build.rollupOptions.output.manualChunks` only accepts a function, not the legacy `{chunkName: [...]}` object form.
 - **MUI 9.4.0's `SpeedDialAction`** uses `title` and `slotProps.fab`, not the older `tooltipTitle`/`FabProps` props from earlier MUI versions. Passing the old names doesn't error or warn — they silently leak as meaningless literal DOM attributes (`tooltiptitle="..."`), leaving the action with no accessible name at all. If a MUI component isn't behaving as some older doc/tutorial suggests, check the installed version's actual `.d.ts` first.
 - **Ionic's sheet-style `IonModal`** (used for the mobile result pane) always sizes itself to `window.innerHeight`, ignoring any CSS `top` offset, `--height`, or `max-height` override. If content near the bottom is clipped, pad the content, don't try to resize the modal.

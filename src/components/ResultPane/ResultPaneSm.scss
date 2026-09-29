@@ -2,7 +2,9 @@
   --oc-result-pane-z-index: var(--oc-result-pane-sm-z-index);
   --oc-result-pane-sm-upper-height: 48px;
   --oc-result-pane-border-radius: 1rem 1rem 0 0;
-  --oc-result-pane-surface-color: var(--md-palette-background-paper);
+  // --mui-, not --md-: the theme (@mui/material's extendTheme) emits its
+  // palette under MUI's default prefix.
+  --oc-result-pane-surface-color: var(--mui-palette-background-paper);
 
   --height: calc(100% + calc(var(--oc-pane-padding-block) * 1.4)); // ion-modal
   --border-radius: var(--oc-result-pane-border-radius); // ion-modal20.27736, -87.43314
@@ -14,7 +16,6 @@
   &::part(backdrop) {
     display: none;
   }
-
   &::part(handle) {
     width: 54px;
     top: 15px;
