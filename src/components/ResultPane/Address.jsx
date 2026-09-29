@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import { toServiceLanguage } from '@/utils/lang.jsx'
 
 const fetcher = (...args) =>
   fetch(...args)
@@ -27,7 +28,7 @@ const resultTypes = 'street_address|route|postal_code|natural_feature|park|point
 export default function Address({ latitude, longitude }) {
   const { t, i18n } = useTranslation('resultPane')
   // const [status, setStatus] = useState(props.status)
-  const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.REACT_APP_GOOGLE_GEOCODING_API_KEY}&language=${i18n.resolvedLanguage}&result_type=${resultTypes.join('|')}`, fetcher)
+  const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.REACT_APP_GOOGLE_GEOCODING_API_KEY}&language=${toServiceLanguage(i18n.resolvedLanguage)}&result_type=${resultTypes.join('|')}`, fetcher)
 
   if (error) {
     return <span className="oc-address">{t('addressLoadingError', { errMessage: error.message })}</span>

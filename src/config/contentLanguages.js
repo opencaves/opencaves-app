@@ -10,6 +10,7 @@ export const APP_TO_CONTENT_LANGUAGE = {
   en: 'eng',
   fr: 'fra',
   es: 'spa',
+  yua: 'myn',
 }
 
 export const DEFAULT_CONTENT_LANGUAGE = 'eng'

@@ -6,6 +6,7 @@ import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistent
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 // import { getAnalytics } from 'firebase/analytics'
 import i18n from '../i18n.js'
+import { toServiceLanguage } from '../utils/lang.jsx'
 import { FIREBASE_CONFIG } from './firebase.config.js'
 
 // Initialize Firebase
@@ -15,7 +16,7 @@ const FUNCTIONS_REGION = FIREBASE_CONFIG.location || 'northamerica-northeast1'
 export const functions = getFunctions(app, FUNCTIONS_REGION)
 
 export const auth = getAuth()
-auth.languageCode = i18n.resolvedLanguage
+auth.languageCode = toServiceLanguage(i18n.resolvedLanguage)
 
 export const storage = getStorage(app)
 

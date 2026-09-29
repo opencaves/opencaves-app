@@ -1,0 +1,692 @@
+{
+  "404": {
+    "header": "¡Ay!",
+    "description": "Ma' ti' yaan le páajina ka kaxtiko'.",
+    "backBtn": "Suut tu káajbal",
+    "search": {
+      "placeHolder": "Kaxt...",
+      "btn": "Kaxt"
+    }
+  },
+  "app": {
+    "back": "Suut",
+    "previous": "Táanil",
+    "item_zero": "{{count}} ba'al",
+    "item_one": "{{count}} ba'al",
+    "item_other": "{{count}} ba'alo'ob",
+    "menu": {
+      "tooltip": "Menú",
+      "ariaLabel": "Asab",
+      "home": "Káajbal",
+      "myAccount": "In cuenta",
+      "admin": "U kúuchil meyaj",
+      "signup": "Ts'íibt a k'aaba'",
+      "login": "Ook",
+      "addPictures": "Ts'áa oochelo'ob",
+      "logout": "Jóok'",
+      "logoutSuccess": "Ts'o'ok a jóok'ol.",
+      "about": "Yóok'lal",
+      "about_withName": "Yóok'lal {{name}}",
+      "drawer": {
+        "ariaLabel": "je'ik menú"
+      },
+      "navMain": "U nojochil",
+      "navDrawer": "Menú",
+      "greeting": "¡Ba'ax ka wa'alik, {{name}}!",
+      "greetingNoName": "¡Ba'ax ka wa'alik!",
+      "manageAccount": "Nu'ukbes a cuenta",
+      "welcome": "Ki'imak k-óol ta k'uchul {{name}}",
+      "welcomeText": "Ook utia'al a kanáantik a ts'ono'oto'ob yéetel a wáantik OpenCaves.",
+      "close": "K'al"
+    },
+    "snackbar": {
+      "saved": "Kanáanta'ab u k'eexil {{name}}",
+      "close": {
+        "ariaLabel": "k'al"
+      },
+      "saveError": "Ma' páajchaj u kanáanta'al u k'eexil {{name}}. Ka'a tumbt."
+    },
+    "updateAvailable": {
+      "message": "Yaan jump'éel túumben u versión OpenCaves",
+      "btn": "Túumbenkuns"
+    },
+    "unsavedChanges": {
+      "title": "K'eexo'ob ma' kanáanta'abo'obi'",
+      "message": "Yaan k'eexo'ob ma' kanáanta'abo'obi'. ¿Ba'ax ka k'áat a beetik yéetelo'ob?",
+      "save": "Kanáant",
+      "discard": "Pul",
+      "stay": "Láayli' k'eex"
+    },
+    "editTitle": "K'eex {{title}}",
+    "loading": "Táan u k'uchul…"
+  },
+  "about": {
+    "title": "Yóok'lal",
+    "version": "Versión {{version}}",
+    "whatsNew": "Ba'ax túumben",
+    "dialog": {
+      "ariaLabel": "Yóok'lal {{name}}",
+      "close": "k'al"
+    }
+  },
+  "quickActions": {
+    "ariaLabel": "Ba'ax je'el u beeta'al yéetel u ts'ono'otil {{name}}",
+    "directions": "Bej",
+    "save": "Kanáant",
+    "share": "T'oxt",
+    "shareTitle": "Ts'ono'ot {{name}} / OpenCaves.org",
+    "shareText": "Ts'ono'ot {{name}}\n",
+    "shareDialogTitle": "T'oxt",
+    "saved": "Kanáanta'an",
+    "savedMessage": "Kanáanta'ab ta perfil",
+    "unsavedMessage": "Luk'sa'ab ti' a ts'ono'oto'ob",
+    "saveError": "Ma' páajchaj u túumbenkúunsa'al a ts'ono'oto'ob.",
+    "accountPrompt": {
+      "title": "Kanáant a ts'ono'oto'ob",
+      "text": "Beet jump'éel cuenta, ma' tu bo'ota'al, utia'al a kanáantik u ts'ono'otil {{name}} yéetel a kaxtik tuláakal a ts'ono'oto'ob ta perfil.",
+      "notNow": "Ma' bejla'e'",
+      "logIn": "Ook",
+      "signUp": "Beet jump'éel cuenta"
+    },
+    "savedDownloadWhenOnline": "Kanáanta'ab ta perfil. Yaan u k'uchul ta teléfono utia'al a meyajtik kex mina'an internet, ken ka'a yanak internet.",
+    "savedDownloadOnWifi": "Kanáanta'ab ta perfil. Yaan u k'uchul ta teléfono utia'al a meyajtik kex mina'an internet, ken yanak Wi-Fi.",
+    "downloadingOffline": "Táan u k'uchul utia'al a meyajtik kex mina'an internet: {{progress}} %"
+  },
+  "searchBar": {
+    "actionButton": {
+      "search": {
+        "ariaLabel": "Kaxt"
+      },
+      "back": {
+        "ariaLabel": "Suut"
+      },
+      "clear": {
+        "ariaLabel": "Tselik",
+        "tooltip": "Tselik"
+      },
+      "filter": {
+        "ariaLabel": "Yéey ts'ono'oto'ob",
+        "tooltip": "Yéey ts'ono'oto'ob"
+      }
+    },
+    "placeholder": "Kaxt",
+    "ariaLabel": "Kaxt",
+    "snippet": {
+      "aka": "u láak' k'aaba'",
+      "nameTranslations": {
+        "eng": "ingles",
+        "spa": "kastlan t'aan",
+        "myn": "maaya t'aan"
+      },
+      "id": "ID"
+    },
+    "inputAriaLabel": "Kaxt ts'ono'oto'ob"
+  },
+  "filter": {
+    "windowTitle": "Yéey ts'ono'oto'ob",
+    "close": "K'al",
+    "coordinate": {
+      "heading": "Coordenadas GPS",
+      "showValidCoordinates": "E'es coordenadas ma'alobo'ob",
+      "showInvalidCoordinates": "E'es coordenadas ma' ma'alobo'obi'",
+      "showUnconfirmedCoordinates": "E'es coordenadas ma' jets'a'ano'obi'"
+    },
+    "areas": {
+      "heading": "Lu'umo'ob"
+    },
+    "access": {
+      "heading": "Bix u yookol",
+      "items": [
+        {
+          "key": "customers",
+          "label": "Chéen máax ku bo'otik",
+          "description": "Chéen utia'al máaxo'ob ku bo'otiko'ob."
+        },
+        {
+          "key": "guide",
+          "label": "K'a'abet jump'éel guía",
+          "description": "K'a'abet a bo'otik jump'éel guía utia'al a wookol."
+        },
+        {
+          "key": "key",
+          "label": "K'a'abet llave",
+          "description": "K'a'abet a ch'a'ik jump'éel llave utia'al a wookol."
+        },
+        {
+          "key": "no",
+          "label": "Ma' cha'a'an u yookol",
+          "description": "Ma' cha'a'an u buceo ich le ts'ono'oto'."
+        },
+        {
+          "key": "permission",
+          "label": "K'a'abet permiso",
+          "description": "Chéen yéetel u permiso u yuumil le lu'umo', jujunp'éel máak."
+        },
+        {
+          "key": "yes",
+          "label": "Cha'a'an u yookol",
+          "description": "Cha'a'an u buceo ich le ts'ono'oto'."
+        },
+        {
+          "key": "unknown",
+          "label": "Ma' ojéela'ani'",
+          "description": "Ma' ojéela'an bix u yookol."
+        }
+      ]
+    },
+    "accessibility": {
+      "heading": "Bix u náats'al",
+      "items": [
+        {
+          "key": "unknown",
+          "label": "Ma' ojéela'ani'",
+          "description": "Mina'an u tsolil bix u k'uchul te'elo'."
+        },
+        {
+          "key": "inaccessible",
+          "label": "Ma' tu páajtal u k'uchul",
+          "description": "Ma' tu páajtal u k'uchul te'elo'."
+        },
+        {
+          "key": "jungle",
+          "label": "K'áax",
+          "description": "Mina'an bej ku bin te'elo'."
+        },
+        {
+          "key": "not-safe",
+          "label": "Sajbe'entsil",
+          "description": "Sajbe'entsil u buceo te'elo' yóok'lal ya'abach ba'al."
+        },
+        {
+          "key": "sea",
+          "label": "K'áak'náab",
+          "description": "Chéen tu k'áak'náabil ku páajtal u k'uchul le ts'ono'oto'."
+        },
+        {
+          "key": "sidemount-only",
+          "label": "Certificación Sidemount",
+          "description": "K'a'abet u tarjetail certificación sidemount utia'al u k'uchul te'elo'."
+        },
+        {
+          "key": "variable",
+          "label": "Ku k'eexpajal",
+          "description": "Ku k'eexpajal bix u yookol yóok'lal u k'iinil wa tu'ux ku yookol."
+        }
+      ]
+    }
+  },
+  "resultPane": {
+    "edit": {
+      "name": "K'aaba'",
+      "aka": "U láak' k'aaba'",
+      "addAka": "Ts'áa u láak' k'aaba'",
+      "removeAka": "Luk'es le k'aaba'",
+      "nameTranslations": "U k'aaba' ich u láak' t'aano'ob",
+      "addNameTranslation": "Ts'áa u k'aaba' ich u láak' t'aan",
+      "removeNameTranslation": "Luk'es le k'aaba'",
+      "nameTranslationLanguage": "T'aan",
+      "nameTranslationValue": "K'aaba'",
+      "pictures": "Oochelo'ob",
+      "addPictures": "Ts'áa oochelo'ob",
+      "editPicture": "K'eex oochel",
+      "deletePicture": "Luk'es oochel",
+      "deletePictureConfirm": "Yaan u luk'sa'al le oochela' utia'al mantats'.",
+      "deletePictureError": "Ma' páajchaj u luk'sa'al le oochelo'. Ka'a tumbt.",
+      "videos": "Videos",
+      "videoUrl": "U URLil le videoo'",
+      "addVideo": "Ts'áa video",
+      "editVideo": "K'eex video",
+      "removeVideo": "Luk'es video",
+      "note": "Ts'íibo'ob",
+      "maps": "Mapao'ob",
+      "addMap": "Ts'áa mapa",
+      "editMap": "K'eex mapa",
+      "removeMap": "Luk'es mapa",
+      "mapOptions": "U yóok'lal le mapao'",
+      "pictureOptions": "U yóok'lal le oochelo'",
+      "videoOptions": "U yóok'lal le videoo'",
+      "originalFile": "U yáax archivoil",
+      "openMap": "Je'ik mapa",
+      "openMapNumber": "Je'ik u mapail {{index}}",
+      "mapsNeedSistema": "Ts'áa jump'éel sistema ti' le ts'ono'ota' utia'al a ts'áak mapao'ob",
+      "coordinates": "Coordenadas",
+      "location": "Tu'ux yaan",
+      "entrance": "Jool",
+      "key": "Llave",
+      "longitude": "Longitud",
+      "latitude": "Latitud",
+      "dragPinToMap": "Pul le chíikulila' ti' le mapa utia'al u yéeya'al tu'ux yaan",
+      "navigateToCoordinate": "Ts'áa le mapa tu chúumukil way",
+      "removeCoordinate": "Luk'es coordenadas",
+      "pickMyLocation": "Meyajt tu'ux yaanen bejla'e'",
+      "none": "(mina'an)",
+      "sistema": "Sistema",
+      "sistemaGroup": "Sistema",
+      "editSistemas": "K'eex sistemao'ob",
+      "sistemaSearchPlaceholder": "Kaxt",
+      "source": "Tu'ux u taal",
+      "sourceHint": "Tu'ux u taal u tsolil le sistemaa'",
+      "access": "Bix u yookol",
+      "accessibility": "Bix u náats'al",
+      "fees": "Bo'olo'ob",
+      "feesHint": "Wa k'a'abet u bo'ota'al u yookol ti' le ts'ono'ota'",
+      "facilities": "Ba'alo'ob yaan te'elo'",
+      "facilitiesHint": "Wa yaan baño wa u kúuchil u k'eexa'al nook' te'elo'",
+      "activities": "Ba'ax ku páajtal u beeta'al",
+      "activitiesHint": "Wa ku páajtal u beeta'al u láak' ba'alo'ob (ichkíil, buceo, uláak') te'elo'",
+      "accessDetails": "U tsolil bix u yookol",
+      "accessibilityDetails": "U tsolil bix u náats'al",
+      "description": "Tsolil",
+      "direction": "Bix u k'uchul",
+      "emptyPreview": "Mix ba'al ts'íibta'an tak bejla'e'",
+      "delete": "Luk'es",
+      "deleteCave": "¿Ka luk'esik le ts'ono'ota'?",
+      "deleteCaveConfirm": "Yaan u luk'sa'al {{name}} utia'al mantats'. Ma' tu páajtal u suutsa'al.",
+      "save": "Kanáant",
+      "cancel": "Xu'ul",
+      "accessGroup": "Bix u yookol",
+      "accessibilityGroup": "Bix u náats'al",
+      "newCave": "Túumben ts'ono'ot",
+      "caveTitle": "Ts'ono'ot {{name}}",
+      "backToCaves": "Suut ti' ts'ono'oto'ob",
+      "placeOnMap": "Ts'áa ti' le mapa",
+      "placeOnMapTitle": "Ts'áa: {{label}}",
+      "placeOnMapHint": "Péek le mapa utia'al a ts'áak le chíikulil tu'ux yaan",
+      "confirm": "Jets'",
+      "coordinateActions": {
+        "placeOnMap": "Ts'áa ti' le mapa",
+        "myLocation": "Tu'ux yaanen",
+        "remove": "Luk'es",
+        "crossPickHint": "Péek le mapa utia'al a ts'áak le cruz tu'ux yaan, ts'o'okole' jets'"
+      },
+      "fullscreenMap": "Mapa ti' tuláakal u pantallail",
+      "exitFullscreenMap": "Jóok' ti' tuláakal u pantallail",
+      "closeMap": "K'al",
+      "media": "Oochelo'ob yéetel videos",
+      "notes": "Ts'íibo'ob",
+      "placeSearch": {
+        "label": "Kaxt jump'éel kúuchil wa jump'éel ts'ono'ot",
+        "placeholder": "Kaxt jump'éel kúuchil wa jump'éel ts'ono'ot",
+        "hint": "Ts'íibt kex ka'ap'éel le'etra",
+        "searching": "Táan u kaxta'al…",
+        "noResults": "Mix ba'al kaxta'abi'",
+        "error": "Ma' tu páajtal u kaxta'al kúuchilo'ob bejla'e'",
+        "cenotes": "Ts'ono'oto'ob",
+        "places": "Kúuchilo'ob"
+      }
+    }
+  },
+  "mediaPane": {
+    "header": "Ts'ono'ot {{name}}",
+    "backBtn": {
+      "tooltip": "Suut",
+      "ariaLabel": "Suut"
+    },
+    "addPictureBtn": {
+      "tooltip": "Ts'áa oochelo'ob",
+      "ariaLabel": "ts'áa oochelo'ob"
+    },
+    "empty": {
+      "header": "¡Mina'an oochelo'ob tak bejla'e'!",
+      "btn": "Ts'áa oochelo'ob"
+    },
+    "share": {
+      "title": "Il « {{title}} » ti' OpenCaves.org",
+      "text": "Il « {{title}}"
+    },
+    "images": "oochelo'ob",
+    "menu": {
+      "ariaLabel": "Asab",
+      "useAsCoverImage": "Meyajt bey u yáax oochelil",
+      "useAsCoverSuccess": "K'e'exa'ab u yáax oochelil.",
+      "useAsCoverFail": "Ma' páajchaj u k'e'exel u yáax oochelil.",
+      "viewOriginalImage": "Il u yáax oochelil",
+      "deleteAction": "Luk'es",
+      "deleteSuccess": "Luk'sa'ab le archivoo'.",
+      "deleteFail": "Ma' páajchaj u luk'sa'al le archivoo'."
+    },
+    "mediaThumbnailItem": {
+      "openBtn": {
+        "ariaLabel": "E'es oochel"
+      }
+    },
+    "addMedia": {
+      "header": "Líik'es u oochelo'ob u ts'ono'otil {{name}}",
+      "dragHere": "Pul le oochelo'ob way a'ala'",
+      "dropHere": "P'at le archivo'ob way a'ala'…",
+      "or": "wa",
+      "btn": "Péech' way utia'al a yéeyik archivo'ob",
+      "closeBtn": {
+        "ariaLabel": "k'al"
+      },
+      "success_one": "Ts'a'ab 1 oochel",
+      "success_other": "Ts'a'ab {{count}} oochelo'ob",
+      "errorHeader": "¡Ay!",
+      "wrongMediaType_one": "Mix ba'al kanáanta'abi'. Xu'ulsa'ab tumen ma' tu meyaj u formatoil le archivoa':",
+      "wrongMediaType_other": "Mix ba'al kanáanta'abi'. Xu'ulsa'ab tumen ma' tu meyaj u formatoil le archivo'oba':",
+      "wrongMediaTypeHint": "Ma'alob u meyaj u archivo'obil Webp yéetel Avif.",
+      "unknownError": "Yaan ba'ax ma' páajchaji'. Ka'a tumbt.",
+      "unknownErrorBtn": "Pul",
+      "uploadingTo": "Táan u líik'sa'al ti'",
+      "countMedias": "{{index}} ti' {{total}}"
+    },
+    "details": {
+      "empty": "Mina'an mix ba'al way a'ala'"
+    }
+  },
+  "markdownField": {
+    "hint": "Je'el u páajtal a meyajtik Markdown (bey **negrita**, # título, - lista).",
+    "save": "Kanáant",
+    "toolbar": {
+      "bold": "Negrita",
+      "italic": "Cursiva",
+      "strikethrough": "Tachado",
+      "inlineCode": "Código",
+      "link": "Enlace",
+      "linkPrompt": "Ts'íibt u URLil le enlaceo'",
+      "linkInvalid": "Ts'íibt jump'éel URL ma'alob",
+      "linkCancel": "Xu'ul",
+      "linkWeb": "Enlace web",
+      "linkCave": "Enlace ti' jump'éel ts'ono'ot",
+      "linkCaveTitle": "Enlace ti' jump'éel ts'ono'ot",
+      "linkCaveSearch": "Kaxt ts'ono'oto'ob wa lu'umo'ob",
+      "linkCaveNoArea": "Mina'an u lu'umil",
+      "linkCaveNoResults": "Ma' kaxta'ab mix jump'éel ts'ono'ot",
+      "heading": "Título",
+      "heading1": "Título 1",
+      "heading2": "Título 2",
+      "heading3": "Título 3",
+      "quote": "Cita",
+      "bulletList": "Lista",
+      "orderedList": "Lista yéetel xook",
+      "hr": "Línea",
+      "undo": "Suutes",
+      "redo": "Ka'a beet",
+      "viewSource": "Il u Markdownil",
+      "viewFormatted": "Il le ts'íib nu'ukbesa'ano'",
+      "ariaLabel": "Formato: {{field}}"
+    }
+  },
+  "creatableTextField": {
+    "add": "Ts'áa «{{value}}»"
+  },
+  "newSourceDialog": {
+    "title": "Túumben tu'ux u taal",
+    "name": "K'aaba'",
+    "description": "Tsolil",
+    "note": "Ts'íibo'ob",
+    "cancel": "Xu'ul",
+    "save": "Kanáant",
+    "saveError": "Ma' páajchaj u kanáanta'al.",
+    "addSource": "Ts'áa tu'ux u taal…"
+  },
+  "partialDateField": {
+    "formats": "AAAA, AAAA-MM wa AAAA-MM-DD",
+    "formatsWithRange": "AAAA, AAAA-AAAA, AAAA-MM wa AAAA-MM-DD",
+    "hint": "Formato: {{formats}}",
+    "invalid": "Meyajt {{formats}}"
+  },
+  "sistemaEditForm": {
+    "parentSistemaSearchPlaceholder": "Kaxt",
+    "length": "U chowakil xak'alta'an (m)",
+    "aka": "U láak' k'aaba'",
+    "addAka": "Ts'áa u láak' k'aaba'",
+    "removeAka": "Luk'es le k'aaba'",
+    "explorations": "U tsikbalil xak'altaj",
+    "addExploration": "Ts'áa u tsolil jump'éel xak'altaj",
+    "removeExploration": "Luk'es le xak'altaja'",
+    "explorationDate": "U k'iinil",
+    "explorationTeam": "Múuch'kabil",
+    "explorationDescription": "Tsolil",
+    "explorationNotes": "Ts'íibo'ob",
+    "newSistema": "Túumben sistema",
+    "sistemaTitle": "Sistema {{name}}",
+    "backToSistemas": "Suut ti' sistemao'ob",
+    "name": "K'aaba'",
+    "parentSistema": "Nojoch sistema",
+    "area": "Lu'um",
+    "color": "Boon",
+    "source": "Tu'ux u taal",
+    "location": "Tu'ux yaan",
+    "maxDepth": "U asab taamil (m)",
+    "description": "Tsolil",
+    "direction": "Bix u k'uchul",
+    "maps": "Mapao'ob",
+    "none": "(mina'an)",
+    "deleteConfirm": "¿Ka luk'esik le sistemaa'?",
+    "delete": "Luk'es",
+    "cancel": "Xu'ul",
+    "save": "Kanáant",
+    "parentSistemaHint": "Le asab nojoch sistema tu'ux nup'ul le je'ela'. P'at mina'an wa chéen u juunal.",
+    "explorationDateHint": "Ba'ax k'iin úuch le xak'altaja'."
+  },
+  "mapsPicker": {
+    "addMap": "Ts'áa jump'éel mapa",
+    "removeMap": "Luk'es le mapaa'",
+    "originalFile": "U yáax archivoil",
+    "upload": "Líik'es jump'éel túumben archivo",
+    "uploadSuccess_one": "Líik'sa'ab {{count}} mapa.",
+    "uploadSuccess_other": "Líik'sa'ab {{count}} mapao'ob.",
+    "uploadSuccessPdf_one": "Líik'sa'ab {{count}} mapa. Táan u nu'ukbesa'al u yáax ilbil.",
+    "uploadSuccessPdf_other": "Líik'sa'ab {{count}} mapao'ob. Táan u nu'ukbesa'al u yáax ilbilo'ob.",
+    "uploadErrorHeader": "Ma' páajchaj u líik'sa'al le mapao'",
+    "uploadError": "Ma' páajchaj u líik'sa'al le mapao'. Ka'a tumbt.",
+    "invalidMapFile": "Yéey jump'éel oochel wa jump'éel archivo PDF.",
+    "dismiss": "K'al",
+    "empty": "Mix jump'éel mapa líik'sa'an",
+    "mapTitle": "Sistema",
+    "mapDate": "U k'iinil",
+    "mapNote": "Ts'íibo'ob",
+    "mapAuthors": "Ajts'íibo'ob",
+    "mapAuthorsHint": "Péech' Enter wa ts'íibt jump'éel coma utia'al a ts'áak jump'éel ajts'íib",
+    "addAuthor": "Ts'áa ajts'íib",
+    "removeAuthor": "Luk'es ajts'íib",
+    "cancel": "Xu'ul",
+    "add": "Ts'áa",
+    "mapDateHint": "Ba'ax k'iin beeta'ab wa ts'a'ab k'ajóoltbil le mapao'."
+  },
+  "colorPicker": {
+    "addColor": "Ts'áa jump'éel boon",
+    "add": "Ts'áa",
+    "cancel": "Xu'ul"
+  },
+  "sistemaPane": {
+    "header": "Sistemao'ob",
+    "backBtn": {
+      "ariaLabel": "Suut"
+    },
+    "newSistema": "Túumben sistema",
+    "unnamedSistema": "(mina'an u k'aaba')",
+    "searchBtn": {
+      "ariaLabel": "Kaxt"
+    },
+    "editSistemaBtn": {
+      "ariaLabel": "K'eex le sistemaa'"
+    },
+    "searchPlaceholder": "Kaxt",
+    "akaLabel": "u láak' k'aaba'"
+  },
+  "accesses": {
+    "customers": {
+      "label": "Chéen máax ku bo'otik",
+      "description": "Chéen máaxo'ob ku bo'otiko'ob ku páajtal u yookolo'ob."
+    },
+    "guide": {
+      "label": "K'a'abet jump'éel guía",
+      "description": "K'a'abet a bo'otik jump'éel guía utia'al a wookol."
+    },
+    "key": {
+      "label": "K'a'abet jump'éel llave",
+      "description": "K'a'abet a ch'a'ik jump'éel llave utia'al a wookol."
+    },
+    "no": {
+      "label": "Ma' cha'a'an u yookol",
+      "description": "Ma' cha'a'an u buceo ich le ts'ono'oto'."
+    },
+    "permission": {
+      "label": "K'a'abet permiso",
+      "description": "Chéen yéetel u permiso u yuumil le lu'umo', jujunp'éel máak."
+    },
+    "yes": {
+      "label": "Cha'a'an u yookol",
+      "description": "Cha'a'an u buceo ich le ts'ono'oto'."
+    },
+    "unknown": {
+      "label": "Ma' ojéela'an bix u yookol",
+      "description": "Ma' ojéela'an bix u yookol te'elo'."
+    }
+  },
+  "accessibilities": {
+    "jungle": {
+      "label": "Ich k'áax",
+      "description": "Mina'an bej ku bin tak le ts'ono'oto'."
+    },
+    "not-safe": {
+      "label": "Sajbe'entsil",
+      "description": "Sajbe'entsil u buceo te'elo' yóok'lal ya'abach ba'al."
+    },
+    "sidemount-only": {
+      "label": "Chéen sidemount",
+      "description": "K'a'abet u tarjetail certificación sidemount utia'al u k'uchul te'elo'."
+    },
+    "variable": {
+      "label": "Ku k'eexpajal u joolo'ob",
+      "description": "Ku k'eexpajal bix u yookol yóok'lal tu'ux ku yookol."
+    },
+    "inaccessible": {
+      "label": "Ma' tu páajtal u k'uchul",
+      "description": "Ma' tu páajtal u k'uchul te'elo'."
+    },
+    "sea": {
+      "label": "Tu k'áak'náabil",
+      "description": "Chéen tu k'áak'náabil ku páajtal u k'uchul le ts'ono'oto'."
+    }
+  },
+  "sistema": {
+    "header": "Sistema"
+  },
+  "fees": {
+    "yes": {
+      "label": "Yaan u bo'olil"
+    },
+    "no": {
+      "label": "Mina'an u bo'olil"
+    }
+  },
+  "map": {
+    "title": "Mapa",
+    "caveNameUnknown": "[ma' ojéela'an u k'aaba']",
+    "editFab": {
+      "ariaLabel": "K'eex u ts'íibil le ts'ono'oto'",
+      "editCave": "K'eex le ts'ono'ota'",
+      "addNewCave": "Ts'áa túumben ts'ono'ot",
+      "exitEditMode": "Jóok' ti' k'eex"
+    },
+    "error": "Yaan ba'ax ma' páajchaji'",
+    "savedCave": "Kanáanta'an",
+    "markers": {
+      "location": "Tu'ux yaan le ts'ono'oto'",
+      "entrance": "U jool le ts'ono'oto'",
+      "key": "Tu'ux yaan u llaveil"
+    }
+  },
+  "dashboard": {
+    "noSistemaArea": "Mina'an u lu'umil",
+    "backToDashboard": "Suut tu kúuchil meyaj",
+    "manageSistemaConnections": "Nu'ukbes u nup'ul sistemao'ob",
+    "searchSistemaConnections": "Kaxt nup'ulo'ob",
+    "newSistemaConnection": "Túumben u nup'ul sistemao'ob",
+    "chooseSistemaToConnect": "Yéey jump'éel sistema utia'al u nup'ul",
+    "sistemaConnectionCount_one": "{{count}} nup'ul",
+    "sistemaConnectionCount_other": "{{count}} nup'ulo'ob",
+    "noParentSistema": "Mina'an u nojoch sistemail",
+    "editSistemaConnection": "K'eex u nup'ul sistemao'ob",
+    "backToConnections": "Suut ti' nup'ulo'ob",
+    "childSistema": "Sistema",
+    "parentSistema": "Nojoch sistema",
+    "searchParentSistema": "Kaxt sistemao'ob wa lu'umo'ob",
+    "connectionSource": "Tu'ux u taal",
+    "noSource": "(mina'an)",
+    "connectionDate": "U k'iinil u nup'ul",
+    "connectionNote": "Ts'íibo'ob",
+    "notesLabel": "Ts'íibo'ob",
+    "connectionNotFound": "Ma' kaxta'ab le nup'ulo'.",
+    "connectionLoadError": "Ma' páajchaj u k'uchul le nup'ulo'.",
+    "connectionSaveError": "Ma' páajchaj u kanáanta'al le nup'ulo'.",
+    "cancel": "Xu'ul",
+    "save": "Kanáant",
+    "color": "Boon",
+    "fieldLabels": {
+      "name": "K'aaba'",
+      "description": "Tsolil"
+    },
+    "usersSection": "Máako'ob",
+    "manageUsers": "Nu'ukbes máako'ob",
+    "noSections": "Ma' ts'o'ok u cha'abal a wookol mix tu jump'éel u jaatsil u kúuchil meyaj.",
+    "title": "U kúuchil meyaj",
+    "cavesSection": "Ts'ono'oto'ob",
+    "referenceDataSection": "U ts'íibil u yáax ba'alo'ob",
+    "manageCaves": "Nu'ukbes ts'ono'oto'ob",
+    "manageSistemas": "Nu'ukbes sistemao'ob",
+    "caves": "Ts'ono'oto'ob",
+    "sistemas": "Sistemao'ob",
+    "caveCount_one": "{{count}} ts'ono'ot",
+    "caveCount_other": "{{count}} ts'ono'oto'ob",
+    "sistemaCount_one": "{{count}} sistema",
+    "sistemaCount_other": "{{count}} sistemao'ob",
+    "searchByName": "Kaxt yéetel u k'aaba'",
+    "newCave": "Túumben ts'ono'ot",
+    "newSistema": "Túumben sistema",
+    "unnamed": "(mina'an u k'aaba')",
+    "back": "Suut",
+    "edit": "K'eex",
+    "delete": "Luk'es",
+    "newItem": "Túumben",
+    "deleteItemTitle": "¿Ka luk'esik le ba'ala'?",
+    "deleteItemConfirm": "Yaan u luk'sa'al {{name}} utia'al mantats'.",
+    "unknownCollection": "Ma' ojéela'an le múuch' ts'íiba': {{name}}",
+    "collections": {
+      "accesses": {
+        "title": "Bix u yookol",
+        "newItem": "Túumben bix u yookol"
+      },
+      "accessibilities": {
+        "title": "Bix u náats'al",
+        "newItem": "Túumben bix u náats'al"
+      },
+      "sources": {
+        "title": "Tu'ux u taalo'ob",
+        "newItem": "Túumben tu'ux u taal"
+      },
+      "areas": {
+        "title": "Lu'umo'ob",
+        "newItem": "Túumben lu'um"
+      },
+      "colors": {
+        "title": "Boono'ob",
+        "newItem": "Túumben boon"
+      },
+      "languages": {
+        "title": "T'aano'ob",
+        "newItem": "Túumben t'aan"
+      }
+    },
+    "parentSistemaHint": "Le asab nojoch sistema tu'ux nup'ul le je'ela'. P'at mina'an wa chéen u juunal.",
+    "connectionOfSistema": "u nup'ul {{name}}",
+    "connectionDateHint": "Ba'ax k'iin nup'ajo'ob le ka'ap'éel sistemao'obo'."
+  },
+  "usersAdmin": {
+    "title": "Máako'ob",
+    "searchLabel": "Kaxt yéetel u correo",
+    "count": "{{count}} máak",
+    "disabled": "Ma' tu meyaj",
+    "role": {
+      "editor": "Editor",
+      "admin": "Admin"
+    },
+    "delete": "Luk'es",
+    "deleteTitle": "¿Ka luk'esik le máaka'?",
+    "deleteConfirm": "Yaan u luk'sa'al {{email}} utia'al mantats'. Ma' tu páajtal u suutsa'al.",
+    "cancel": "Xu'ul"
+  }
+}

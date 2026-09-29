@@ -6,6 +6,7 @@ import { PlaceOutlined, SearchRounded } from '@mui/icons-material'
 import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { toServiceLanguage } from '@/utils/lang.jsx'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
 const PLACE_LIMIT = 5
@@ -81,7 +82,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
           limit: String(PLACE_LIMIT),
           // Results outside the app's region are of no use here.
           bbox: REGION_BBOX.join(','),
-          language: (i18n.resolvedLanguage || 'en').slice(0, 2),
+          language: toServiceLanguage(i18n.resolvedLanguage),
           ...(center && { proximity: `${center.lng},${center.lat}` }),
         })
         const response = await fetch(`${GEOCODE_URL}?${params}`, { signal: controller.signal })

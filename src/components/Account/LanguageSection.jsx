@@ -32,7 +32,8 @@ export default function LanguageSection({ headingProps = {} }) {
     }
   }
 
-  const browserLanguage = (navigator.languages?.[0] || navigator.language || '').slice(0, 2).toLowerCase()
+  // The primary subtag: two letters, or three (e.g. yua).
+  const browserLanguage = (navigator.languages?.[0] || navigator.language || '').split('-')[0].toLowerCase()
   const automaticLanguage = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
 
   return (

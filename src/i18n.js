@@ -5,7 +5,8 @@ import { initReactI18next } from 'react-i18next'
 import en from './locales/en'
 import fr from './locales/fr'
 import es from './locales/es'
-import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY } from '@/config/appLanguages.js'
+import yua from './locales/yua'
+import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY, FALLBACK_LANGUAGES } from '@/config/appLanguages.js'
 
 i18n
   // load translation using http -> see /public/locales
@@ -19,11 +20,12 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    resources: { en, fr, es },
+    resources: { en, fr, es, yua },
     supportedLngs: APP_LANGUAGE_CODES,
     nonExplicitSupportedLngs: true,
-    // A browser language the app doesn't have falls back to English.
-    fallbackLng: 'en',
+    // A browser language the app doesn't have falls back to English; a
+    // partly translated one to its own fallbacks.
+    fallbackLng: FALLBACK_LANGUAGES,
     detection: {
       // A language picked on the account page, else the browser's.
       order: ['localStorage', 'navigator'],
