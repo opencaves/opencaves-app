@@ -525,7 +525,17 @@
       "exitFullscreenMap": "Quitter le plein écran",
       "closeMap": "Fermer",
       "media": "Médias",
-      "notes": "Notes"
+      "notes": "Notes",
+      "placeSearch": {
+        "label": "Rechercher un lieu ou une cénote",
+        "placeholder": "Rechercher un lieu ou une cénote",
+        "hint": "Tapez au moins 2 lettres",
+        "searching": "Recherche…",
+        "noResults": "Aucun résultat",
+        "error": "La recherche de lieux est indisponible pour le moment",
+        "cenotes": "Cénotes",
+        "places": "Lieux"
+      }
     },
     "closePane": "Fermer",
     "rating": {

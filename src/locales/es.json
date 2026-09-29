@@ -527,7 +527,17 @@
       "exitFullscreenMap": "Salir de pantalla completa",
       "closeMap": "Cerrar",
       "media": "Multimedia",
-      "notes": "Notas"
+      "notes": "Notas",
+      "placeSearch": {
+        "label": "Buscar un lugar o un cenote",
+        "placeholder": "Buscar un lugar o un cenote",
+        "hint": "Escribe al menos 2 letras",
+        "searching": "Buscando…",
+        "noResults": "Sin resultados",
+        "error": "No se pueden buscar lugares en este momento",
+        "cenotes": "Cenotes",
+        "places": "Lugares"
+      }
     },
     "closePane": "Cerrar",
     "rating": {

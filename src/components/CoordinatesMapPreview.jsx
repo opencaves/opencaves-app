@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Fab, IconButton, Tooltip } from '@mui/material'
 import { CheckRounded, CloseRounded, FullscreenExitRounded, FullscreenRounded } from '@mui/icons-material'
 import OCMap from '@/components/Map/Map.jsx'
+import MapPlaceSearch from '@/components/MapPlaceSearch.jsx'
 import { endCrossPick, setPickedCoordinate } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -126,6 +127,10 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
           {fullscreen ? <FullscreenExitRounded /> : <FullscreenRounded fontSize={isSmall ? 'medium' : 'small'} />}
         </IconButton>
       </Tooltip>
+      {/* Top left, up to the full-screen button (48dp + margins). */}
+      <Box className="oc-coordinates-map-preview--search" sx={{ position: 'absolute', zIndex: 2, top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, left: fullscreen ? 12 : 8, right: fullscreen ? 72 : 64, maxWidth: 360 }}>
+        <MapPlaceSearch mapRef={mapRef} />
+      </Box>
       <OCMap mapRef={mapRef} />
       {crossPickFor && (
         <>
@@ -137,7 +142,9 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
             <path d="M24 2v17M24 29v17M2 24h17M29 24h17" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
             <circle cx="24" cy="24" r="2" fill="#fff" stroke="rgba(0, 0, 0, 0.6)" strokeWidth="1.5" />
           </Box>
-          <Box sx={{ position: 'absolute', left: 0, right: 0, bottom: fullscreen ? 'calc(24px + env(safe-area-inset-bottom))' : 12, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: 1, pointerEvents: 'none' }}>
+          {/* Centered in the room left of the map's own locate button (bottom
+              right), which they'd otherwise overlap on phones. */}
+          <Box sx={{ position: 'absolute', left: 8, right: 72, bottom: fullscreen ? 'calc(24px + env(safe-area-inset-bottom))' : 12, display: 'flex', justifyContent: 'center', gap: 1.5, zIndex: 1, pointerEvents: 'none' }}>
             {crossPickFor && (
               <Fab className="oc-coordinates-map-preview--close" variant="extended" size="medium" onClick={close} sx={{ pointerEvents: 'auto', px: 2.5, textTransform: 'none', bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'background.paper' } }}>
                 <CloseRounded sx={{ mr: 1 }} />
