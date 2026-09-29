@@ -71,7 +71,7 @@ export default function SistemaList() {
       </Box>
 
       {loading ? (
-        <ListSkeleton rows={10} leading="square" count search />
+        <ListSkeleton rows={10} leading="square" count search grouped />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

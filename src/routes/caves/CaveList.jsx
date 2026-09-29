@@ -77,7 +77,7 @@ export default function CaveList() {
       </Box>
 
       {loading ? (
-        <ListSkeleton rows={10} leading="square" count search />
+        <ListSkeleton rows={10} leading="square" count search grouped />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -106,7 +106,9 @@ export default function CaveList() {
             {groups.map(([areaName, groupCaves]) => (
               <li key={areaName}>
                 <ul style={{ padding: 0 }}>
-                  <ListSubheader sx={{ fontSize: '1.125rem', fontWeight: 300 }}>{areaName}</ListSubheader>
+                  <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 600, borderBottom: '1px solid', borderColor: 'divider' }}>
+                    {areaName} ({groupCaves.length})
+                  </ListSubheader>
                   {groupCaves.map((cave) => (
                     <ListItem key={cave.id} disablePadding>
                       <ListItemButton component={Link} to={`/caves/${cave.id}/edit`} divider>
