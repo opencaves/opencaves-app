@@ -131,11 +131,13 @@ export default function Account() {
           {t('profile')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.5, mb: 2.5 }}>
-          <TextField size="small" label={t('name')} value={name} onChange={(event) => setName(event.target.value)} error={nameError} helperText={nameError ? t('nameSaveError') : undefined} disabled={savingName || signedOut} sx={{ flex: '1 1 280px' }} />
-          <Button variant="outlined" startIcon={<SaveRounded />} onClick={handleSaveName} disabled={savingName || signedOut || name.trim() === (user?.displayName || user?.name || '').trim()} sx={{ minHeight: 40 }}>
+          <TextField size="small" label={t('name')} value={name} onChange={(event) => setName(event.target.value)} error={nameError} helperText={nameError ? t('nameSaveError') : undefined} disabled={savingName || signedOut} sx={{ flex: { xs: '1 1 100%', sm: '1 1 280px' } }} />
+          <Button variant="outlined" startIcon={<SaveRounded />} onClick={handleSaveName} disabled={savingName || signedOut || name.trim() === (user?.displayName || user?.name || '').trim()} sx={{ minHeight: 40, order: { xs: 2, sm: 0 } }}>
             {t('saveName')}
           </Button>
-          <Box sx={{ width: 24, height: 24, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Phones: the field takes the whole first line, and Save goes under
+              it at the right, flush with the field, the check just before. */}
+          <Box sx={{ width: 24, height: 24, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', order: { xs: 1, sm: 0 }, ml: { xs: 'auto', sm: 0 } }}>
             {nameSaved && (
               <CheckRounded
                 color="success"
