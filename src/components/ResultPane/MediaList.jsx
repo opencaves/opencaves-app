@@ -239,9 +239,9 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
 
   const media = asset.item
 
-  // const assetUrl = getImageAssetUrl(asset.fullPath, { width: length, height: length })
-  const assetUrl = media.url
-  // Preloaded in CORS mode like <Picture> itself, so both share one request.
+  // The thumbnail <Picture> shows, preloaded in CORS mode like <Picture>
+  // itself, so both share one request.
+  const assetUrl = media.getThumbnailUrl('resultThumbnail')
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { src, status, error } = useImage(assetUrl, 'anonymous')
 

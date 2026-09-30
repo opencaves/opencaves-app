@@ -137,11 +137,12 @@ export default class CaveAsset {
     }
   }
 
+  // The original upload, through the Firebase Storage API (public by the
+  // storage rules): unlike the thumbnails, originals aren't public objects,
+  // so their storage.googleapis.com URL answers 403.
   get url() {
-    if (window.location.hostname === 'localhost') {
-      return `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
-    }
-    return `https://storage.googleapis.com/${storage.app.options.storageBucket}${this.fullPath}`
+    const host = window.location.hostname === 'localhost' ? 'http://localhost:9199' : 'https://firebasestorage.googleapis.com'
+    return `${host}/v0/b/${FIREBASE_CONFIG.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
   }
 
   // set url(url) {
@@ -163,7 +164,7 @@ export default class CaveAsset {
     const thumbnailPath = `caves/${this.caveId}/${THUMBNAIL_FOLDER}/${this.id}_${dimension}.${format}`
 
     if (isProd) {
-      url.pathname += thumbnailPath
+      url.pathname += `/${thumbnailPath}`
     } else {
       url.pathname += encodeURIComponent(thumbnailPath)
     }
