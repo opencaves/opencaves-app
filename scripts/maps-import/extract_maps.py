@@ -24,8 +24,14 @@ plus a CSV inventory to review before uploading (upload-maps.js).
   each cave it shows) are reduced to the best one, which keeps the names
   the others were filed under (alsoFiledAs); removed copies are listed in
   duplicates.csv. Closer-but-unsure pairs are only flagged.
+- Reviewed duplicates: copies the fingerprint can't see (a photo of a wall
+  poster and its scan, a redrawn or recoloured copy, another edition's
+  reprint) are listed by hand in known-duplicates.csv, next to this script,
+  with the copy to keep. They're removed the same way.
 
 Usage: python scripts/maps-import/extract_maps.py <source folder> <output folder>
+       python scripts/maps-import/extract_maps.py --known-duplicates <output folder>
+         (applies known-duplicates.csv to an existing extraction, without re-extracting)
 Needs PyMuPDF and Pillow (pip install pymupdf pillow).
 """
 import csv
@@ -392,6 +398,37 @@ def remove_duplicates(rows, out):
     return [r for r in rows if id(r) not in removed_ids], removed
 
 
+KNOWN_DUPLICATES = Path(__file__).with_name('known-duplicates.csv')
+
+
+def source_key(row):
+    """How known-duplicates.csv names a map: its source file, plus #p<page> for a PDF page."""
+    return row['source'] + (f"#p{row['page']}" if row.get('page') else '')
+
+
+def remove_known_duplicates(rows, out):
+    """Removes the copies listed in known-duplicates.csv (when the copy to keep
+    is there too), like remove_duplicates does. Returns (kept rows, removed rows)."""
+    if not KNOWN_DUPLICATES.exists():
+        return rows, []
+    by_key = {source_key(r): r for r in rows if r.get('image')}
+    removed = []
+    for entry in csv.DictReader(open(KNOWN_DUPLICATES, encoding='utf-8')):
+        dup, keeper = by_key.get(entry['duplicate']), by_key.get(entry['keep'])
+        if not dup or not keeper or dup is keeper:
+            continue
+        names = [n for n in (keeper.get('alsoFiledAs') or '').split(' | ') if n]
+        names += [filed_as(dup)] + [n for n in (dup.get('alsoFiledAs') or '').split(' | ') if n]
+        keeper['alsoFiledAs'] = ' | '.join(dict.fromkeys(n for n in names if n != filed_as(keeper)))
+        keeper['duplicateSources'] = ' | '.join(v for v in [keeper.get('duplicateSources'), dup['source'], dup.get('duplicateSources')] if v)
+        (out / dup['image']).unlink(missing_ok=True)
+        dup['keptImage'] = keeper['image']
+        removed.append(dup)
+        del by_key[entry['duplicate']]
+    removed_ids = {id(r) for r in removed}
+    return [r for r in rows if id(r) not in removed_ids], removed
+
+
 def clean_svg(data):
     """Drops a style on the root <svg>: files saved from online editors keep
     the editor's zoom/pan there (e.g. a CSS transform scaling it 10x), which
@@ -485,7 +522,11 @@ def main(source, output):
             rows.append({'source': rel, 'kind': 'error', 'error': str(error)})
 
     rows, removed = remove_duplicates(rows, out)
+    rows, known = remove_known_duplicates(rows, out)
+    write_outputs(rows, removed + known, out)
 
+
+def write_outputs(rows, removed, out):
     fields = ['image', 'source', 'page', 'kind', 'width', 'height', 'bytes', 'stampName', 'stampPlace', 'publications', 'publicationYear', 'alsoFiledAs', 'duplicateSources', 'possibleDuplicateOf', 'sha1', 'error']
     with open(out / 'extracted.csv', 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
@@ -498,7 +539,20 @@ def main(source, output):
     print(f'{len(rows)} maps -> {out / "extracted.csv"} ({len(removed)} duplicate copies removed -> duplicates.csv)')
 
 
+def apply_known_duplicates(output):
+    """known-duplicates.csv applied to an existing extraction: its rows, and
+    the duplicates already removed (kept in duplicates.csv)."""
+    out = Path(output)
+    rows = list(csv.DictReader(open(out / 'extracted.csv', encoding='utf-8-sig')))
+    earlier = list(csv.DictReader(open(out / 'duplicates.csv', encoding='utf-8-sig'))) if (out / 'duplicates.csv').exists() else []
+    rows, known = remove_known_duplicates(rows, out)
+    write_outputs(rows, earlier + known, out)
+
+
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) == 3 and sys.argv[1] == '--known-duplicates':
+        apply_known_duplicates(sys.argv[2])
+    elif len(sys.argv) == 3:
+        main(sys.argv[1], sys.argv[2])
+    else:
         sys.exit(__doc__)
-    main(sys.argv[1], sys.argv[2])

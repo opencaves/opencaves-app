@@ -34,3 +34,6 @@ functions/py/out.png
 functions/py/t.jpg
 /.vscode
 /_data
+
+# Python bytecode (maps-import scripts import each other)
+__pycache__/
