@@ -42,8 +42,13 @@ async function saveWithDownloadUrl(bucket, path, data, contentType) {
   return `${host}/v0/b/${bucket.name}/o/${encodeURIComponent(path)}?alt=media&token=${token}`
 }
 
-function webpThumbnail(input) {
-  return sharp(input, { limitInputPixels: MAX_INPUT_PIXELS })
+// An SVG rasterizes at its own size, in points at 72 DPI - often narrower
+// than THUMBNAIL_WIDTH (a letter page is 612 wide), and a thumbnail is never
+// enlarged. Rendered at this density first, it has pixels to spare.
+const SVG_THUMBNAIL_DENSITY = 300
+
+function webpThumbnail(input, { svg = false } = {}) {
+  return sharp(input, { limitInputPixels: MAX_INPUT_PIXELS, ...(svg && { density: SVG_THUMBNAIL_DENSITY }) })
     .rotate()
     .resize({ width: THUMBNAIL_WIDTH, withoutEnlargement: true })
     .webp({ quality: THUMBNAIL_QUALITY, effort: 4 })
@@ -88,7 +93,7 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   // just leaves the cards on the SVG.
   let thumbnailUrl
   try {
-    thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(Buffer.from(pages[0].svg)), 'image/webp')
+    thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(Buffer.from(pages[0].svg), { svg: true }), 'image/webp')
   } catch (error) {
     logger.warn('Could not rasterize a thumbnail for PDF map', { mapId, error })
   }
@@ -101,15 +106,33 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
 // thumbnail, stored as previewUrl/thumbnailUrl - which the app already
 // prefers over the original `url` for display (and offline downloads). The
 // original upload stays untouched as `url`, for the "Original file" download.
-// SVG uploads are already vector and light, so they're left as-is (this also
-// skips the PDF function's own maps/{svgId} pages).
+// SVG uploads get only the thumbnail: the SVG itself is the best viewing copy
+// (sharp at any zoom), but can weigh megabytes - too much for a card.
 export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSeconds: 300 }, async event => {
   const { bucket: bucketName, name: originalPath, contentType } = event.data
   const match = /^maps\/([^/]+)$/.exec(originalPath || '')
-  if (!match || !contentType?.startsWith('image/') || contentType === 'image/svg+xml') return
+  if (!match || !contentType?.startsWith('image/')) return
 
   const [, mapId] = match
   const bucket = getStorage().bucket(bucketName)
+
+  if (contentType === 'image/svg+xml') {
+    // The PDF function's own pages (maps/{svgId}) are SVGs too: their map
+    // already gets its thumbnail there.
+    const pdfPage = await db.collection('maps').where('svgIds', 'array-contains', mapId).limit(1).get()
+    if (!pdfPage.empty) return
+    const [svg] = await bucket.file(originalPath).download()
+    try {
+      const thumbnailUrl = await saveWithDownloadUrl(bucket, `${DERIVED_FOLDER}/${mapId}_thumb.webp`, await webpThumbnail(svg, { svg: true }), 'image/webp')
+      await db.collection('maps').doc(mapId).set({ thumbnailUrl }, { merge: true })
+      logger.info('Made a WebP thumbnail for SVG map', { mapId, svgBytes: svg.length })
+    } catch (error) {
+      // Cards fall back to the SVG itself.
+      logger.warn('Could not rasterize a thumbnail for SVG map', { mapId, error })
+    }
+    return
+  }
+
   const [original] = await bucket.file(originalPath).download()
 
   const view = await sharp(original, { limitInputPixels: MAX_INPUT_PIXELS })
