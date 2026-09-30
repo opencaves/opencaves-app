@@ -42,11 +42,14 @@ const argv = yargs(hideBin(process.argv))
   .option('production', { alias: 'p', type: 'boolean', default: false, describe: 'The real opencaves project instead of the local emulators (needs `gcloud auth application-default login`)' })
   .option('apply', { type: 'boolean', default: false, describe: 'Actually write; without it, only print what would be done' })
   .option('limit', { type: 'number', describe: 'Only the first N photos (to try a few first)' })
-  .option('only', { type: 'string', describe: 'Only photos whose cave, folder or file contains this text' })
+  .option('only', { type: 'array', string: true, describe: 'Only photos whose cave, folder or file contains this text (or any of several)' })
   .option('undo', { type: 'boolean', default: false, describe: 'Remove every imported photo (documents, files, thumbnails) instead' })
+  .option('redo', { type: 'boolean', default: false, describe: 'Remove the selected photos\' earlier import, then import them again (e.g. after a function fix); needs --only' })
+  .check((args) => !args.redo || args.only || 'Use --redo with --only, to choose the photos to import again')
   .example('$0', 'Dry run against the local emulators')
   .example('$0 --apply --limit 5', 'Upload the first 5 photos locally')
   .example('$0 -p --apply', 'Upload everything to production')
+  .example('$0 -p --apply --redo --only 20230313_091418', 'Import one photo again in production')
   .help()
   .alias('help', 'h')
   .strict()
@@ -136,7 +139,13 @@ async function importPhoto(row, csvDir, label) {
   const caveId = list(row.caveIds)[0]
   const importKey = row.sha1
   const existing = await db.collection(COLL).where('importKey', '==', importKey).limit(1).get()
-  if (!existing.empty) {
+  if (!existing.empty && argv.redo) {
+    const asset = existing.docs[0]
+    console.log(`${label}: removing its earlier import ${asset.id}, then uploading it again`)
+    if (!argv.apply) return { id: null, status: 'uploaded' }
+    await removeFiles(asset.data().caveId, asset.id)
+    await asset.ref.delete()
+  } else if (!existing.empty) {
     const asset = existing.docs[0]
     const where = asset.data().caveId === caveId ? '' : ` - but in another cave (${asset.data().caveId}): --undo and re-import to move it`
     console.log(`${label}: already imported as ${asset.id}${where}`)
@@ -220,7 +229,7 @@ async function upload() {
     if (reason) skipped[reason]++
     return !reason
   })
-  if (argv.only) rows = rows.filter((row) => `${row.caveNames} ${row.folder} ${row.image}`.toLowerCase().includes(argv.only.toLowerCase()))
+  if (argv.only) rows = rows.filter((row) => argv.only.some((text) => `${row.caveNames} ${row.folder} ${row.image}`.toLowerCase().includes(text.toLowerCase())))
   if (argv.limit) rows = rows.slice(0, argv.limit)
   console.log(`${rows.length} photos to import (${mode}); left out: ${Object.entries(skipped).map(([k, n]) => `${n} ${k}`).join(', ')}`)
 
