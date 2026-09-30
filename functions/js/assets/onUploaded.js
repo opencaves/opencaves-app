@@ -42,7 +42,10 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
     logger.log('[onAssetUploaded] data: %o', data)
 
     // Map previews must retain their download tokens; only cave originals need metadata cleanup.
-    if (!filePath?.startsWith('caves/') || filePath.includes(`/${THUMBNAILS_FOLDER}/`)) {
+    // Only caves/{caveId}/{type}s/{assetId}: the resize also copies originals it
+    // fails on to caves/{caveId}/images/failed/{assetId}, which would otherwise
+    // come back here as an asset with the id "failed".
+    if (!filePath?.startsWith('caves/') || filePath.includes(`/${THUMBNAILS_FOLDER}/`) || filePath.split('/').length !== 4) {
       return
     }
 
