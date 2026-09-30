@@ -67,11 +67,13 @@ function collectionsToWrite(data) {
   ]
 }
 
-// Fields only the app writes - the sheet has no column for them - carried
-// over from the existing documents, since each write replaces a whole
-// document: a sistema's maps would otherwise lose their links on every run.
+// Fields the app owns, carried over from the existing documents, since each
+// write replaces a whole document: a sistema's maps (no sheet column) would
+// otherwise lose their links on every run, and its explorations - edited in
+// the app now - be reset to the sheet's. The sheet's value only fills a
+// document that doesn't have the field yet.
 const APP_ONLY_FIELDS = {
-  sistemas: ['maps'],
+  sistemas: ['maps', 'explorations'],
 }
 
 async function writeBatched(refs, apply) {
