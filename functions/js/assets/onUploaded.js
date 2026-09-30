@@ -25,9 +25,11 @@ function getUploadTimestamp(data, event) {
   return Timestamp.now()
 }
 
-// Resizing a full-size phone photo into every thumbnail size runs past the
-// default 256 MiB (the instance is killed and no asset document is created).
-export const onAssetUploaded = onObjectFinalized({ memory: '1GiB', timeoutSeconds: 300 }, async event => {
+// Resizing a full-size phone photo into every thumbnail size (in parallel)
+// takes hundreds of MiB; past the limit the instance is killed and no asset
+// document is created. One upload per instance, so a batch of uploads
+// doesn't share - and exceed - one instance's memory.
+export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 1, timeoutSeconds: 300 }, async event => {
   logger.log('[onAssetUploaded] Initializing function onObjectFinalized')
   try {
     logger.log('[onAssetUploaded] TRY BEGIN')

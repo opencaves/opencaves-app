@@ -18,7 +18,9 @@ export function resize(file, { width, height, ...options }) {
   //   throw new Error('height and width are not delimited by a \',\' or a \'x\'')
   // }
 
-  return sharp(file, { failOnError: false, animated: config.animated })
+  // failOn 'none': tolerate slightly malformed JPEGs ("Invalid SOS parameters")
+  // that browsers display fine. sharp 0.35 ignores the older failOnError option.
+  return sharp(file, { failOn: 'none', animated: config.animated })
     // .rotate()
     .resize(width, height, options)
     .toBuffer()
