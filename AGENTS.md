@@ -57,7 +57,7 @@ Two things are **deliberately** computed client-side at read time, not stored in
 - Per-cave sistema ancestry (walking `connections`) — see `postProcessCaveData.js`.
 - Cave-name markdown auto-linking (`[cenote X](oc:id)`) — same file.
 
-`scripts/migrate-sheet-to-firestore.js` is re-runnable and **fully replaces** each collection on every run (writes current Sheet data, deletes anything else already in that collection) — safe to re-run repeatedly, and intentionally lets a fresh Sheet import overwrite admin-made edits during this transitional period where both the Sheet and the admin UI can edit data.
+`scripts/migrate-sheet-to-firestore.js` is re-runnable and **fully replaces** each collection on every run (writes current Sheet data, deletes anything else already in that collection). The exception is fields with no Sheet column, which only the app writes, such as a sistema's `maps`: they're listed in its `APP_ONLY_FIELDS` and carried over, so add any new app-only field there. — safe to re-run repeatedly, and intentionally lets a fresh Sheet import overwrite admin-made edits during this transitional period where both the Sheet and the admin UI can edit data.
 
 ## Auth & roles
 

@@ -67,6 +67,13 @@ function collectionsToWrite(data) {
   ]
 }
 
+// Fields only the app writes - the sheet has no column for them - carried
+// over from the existing documents, since each write replaces a whole
+// document: a sistema's maps would otherwise lose their links on every run.
+const APP_ONLY_FIELDS = {
+  sistemas: ['maps'],
+}
+
 async function writeBatched(refs, apply) {
   let count = 0
 
@@ -83,8 +90,8 @@ async function writeBatched(refs, apply) {
   return count
 }
 
-// Makes this collection exactly match the sheet: writes every current
-// record, then deletes anything else already in the collection. This is
+// Makes this collection exactly match the sheet (plus its APP_ONLY_FIELDS):
+// writes every current record, then deletes anything else already in the collection. This is
 // what makes the script safe to re-run - a row removed from the sheet, or a
 // stray document from some earlier run/experiment, doesn't linger forever.
 async function writeCollection(collectionName, getId, records) {
@@ -98,6 +105,18 @@ async function writeCollection(collectionName, getId, records) {
     return { ref: collectionRef.doc(getId(record)), fields }
   })
   const currentIds = new Set(entries.map(({ ref }) => ref.id))
+
+  const keptFields = APP_ONLY_FIELDS[collectionName] || []
+  if (keptFields.length > 0) {
+    const existing = await collectionRef.select(...keptFields).get()
+    const existingById = new Map(existing.docs.map((doc) => [doc.id, doc]))
+    for (const entry of entries) {
+      const doc = existingById.get(entry.ref.id)
+      for (const field of keptFields) {
+        if (doc?.get(field) !== undefined) entry.fields[field] = doc.get(field)
+      }
+    }
+  }
 
   const existingRefs = await collectionRef.listDocuments()
   const staleRefs = existingRefs.filter((ref) => !currentIds.has(ref.id))
