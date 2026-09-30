@@ -55,8 +55,13 @@ def name_candidates(name):
     found += [m.group(1) for m in re.finditer(r'part of (sistema [^,()]+)', name, re.I)]
     bare = re.sub(r'\([^)]*\)', '', name)
     found.append(bare)
-    for piece in re.split(r'\s+(?:and|&|y)\s+|,\s*|\s+[-–]\s+', bare):
+    pieces = re.split(r'\s+(?:and|&|y)\s+|,\s*|\s+[-–]\s+', bare)
+    for i, piece in enumerate(pieces):
         found.append(piece)
+        # "Sistema X East & West": a lone second word stands for "Sistema X West".
+        words = pieces[i - 1].split() if i else []
+        if i and len(piece.split()) == 1 and len(words) > 1:
+            found.append(' '.join(words[:-1] + [piece]))
     seen, unique = set(), []
     for candidate in (c.strip() for c in found):
         if candidate and normalize(candidate) and candidate not in seen:
@@ -126,47 +131,60 @@ def main(folder, production):
     names = list(index)
     loose_keys = {key: normalize(key, loose=True) for key in names}
 
+    def match_name(name):
+        """[((kind, record), how)] - every cave or sistema the name covers
+        ("Sistema X East & West" is two) - or [] with no match."""
+        candidates = name_candidates(name)
+        if normalize(name) in index:
+            return [(index[normalize(name)], 'exact')]
+        exact = []
+        for candidate in candidates:
+            key = normalize(candidate)
+            if key in index and index[key] not in [m for m, _ in exact]:
+                exact.append((index[key], f'exact ("{candidate}")'))
+        if exact:
+            return exact
+        best = (0, None, None)
+        for candidate in candidates:
+            loose = normalize(candidate, loose=True)
+            # Too little left to compare ("1", "c 1"): no loose match.
+            if len(loose.replace(' ', '')) < 3:
+                continue
+            for key in names:
+                if len(loose_keys[key].replace(' ', '')) < 3:
+                    continue
+                ratio = difflib.SequenceMatcher(None, loose, loose_keys[key]).ratio()
+                if ratio > best[0]:
+                    best = (ratio, key, candidate)
+        if best[0] >= SUGGEST_THRESHOLD:
+            return [(index[best[1]], f'similar ({best[0]:.2f}, "{best[2]}")')]
+        return []
+
     for row in rows:
         if row.get('kind') == 'error':
             continue
-        name = map_name(row)
-        candidates = name_candidates(name)
-        match, how = None, ''
-        for candidate in candidates:
-            key = normalize(candidate)
-            if key in index:
-                match, how = index[key], 'exact' if candidate == name else f'exact ("{candidate}")'
-                break
-        if not match:
-            best = (0, None, None)
-            for candidate in candidates:
-                loose = normalize(candidate, loose=True)
-                # Too little left to compare ("1", "c 1"): no loose match.
-                if len(loose.replace(' ', '')) < 3:
-                    continue
-                for key in names:
-                    if len(loose_keys[key].replace(' ', '')) < 3:
-                        continue
-                    ratio = difflib.SequenceMatcher(None, loose, loose_keys[key]).ratio()
-                    if ratio > best[0]:
-                        best = (ratio, key, candidate)
-            if best[0] >= SUGGEST_THRESHOLD:
-                match, how = index[best[1]], f'similar ({best[0]:.2f}, "{best[2]}")'
-        row['mapName'] = name
-        row['matchHow'] = how or 'none'
-        if match:
-            kind, record = match
-            sistema = record if kind == 'sistema' else sistemas_by_id.get(record.get('sistemaId'))
-            cave_name = (record.get('name') or {}).get('value') if kind == 'cave' and isinstance(record.get('name'), dict) else ''
-            row['matchedKind'] = kind
-            row['matchedName'] = record.get('name') if kind == 'sistema' else cave_name
-            row['sistemaId'] = sistema['id'] if sistema else ''
-            row['sistemaName'] = sistema.get('name', '') if sistema else ''
-            if kind == 'cave' and not sistema:
-                row['matchHow'] += ', cave without a sistema'
+        # A map kept for several copies was filed under several caves: each.
+        filed = [map_name(row)] + [n for n in (row.get('alsoFiledAs') or '').split(' | ') if n]
+        row['mapName'] = filed[0]
+        found, details = [], []
+        for name in dict.fromkeys(filed):
+            matches = match_name(name)
+            if not matches:
+                details.append(f'{name}: none')
+            for (kind, record), how in matches:
+                sistema = record if kind == 'sistema' else sistemas_by_id.get(record.get('sistemaId'))
+                matched_name = record.get('name') if kind == 'sistema' else (record.get('name') or {}).get('value', '')
+                details.append(f'{name}: {kind} "{matched_name}" ({how})' + ('' if sistema else ', cave without a sistema'))
+                if sistema and sistema['id'] not in [s_['id'] for s_, _ in found]:
+                    found.append((sistema, how))
+        row['matchDetails'] = ' | '.join(details)
+        row['sistemaIds'] = ' | '.join(s_['id'] for s_, _ in found)
+        row['sistemaNames'] = ' | '.join(s_.get('name', '') for s_, _ in found)
+        hows = [how for _, how in found]
+        row['matchHow'] = 'none' if not hows else ('exact' if all(h.startswith('exact') for h in hows) else 'similar')
 
     fields = list(rows[0].keys())
-    for extra in ['mapName', 'matchHow', 'matchedKind', 'matchedName', 'sistemaId', 'sistemaName']:
+    for extra in ['mapName', 'matchHow', 'sistemaIds', 'sistemaNames', 'matchDetails']:
         if extra not in fields:
             fields.append(extra)
     with open(folder / 'matched.csv', 'w', newline='', encoding='utf-8-sig') as f:
@@ -175,8 +193,9 @@ def main(folder, production):
         writer.writerows(rows)
 
     unmatched = [r for r in rows if r.get('matchHow') == 'none']
-    print(f'{len(rows)} maps: {sum(1 for r in rows if r.get("matchHow", "").startswith("exact"))} exact, '
-          f'{sum(1 for r in rows if r.get("matchHow", "").startswith("similar"))} similar (to confirm), {len(unmatched)} with no match')
+    print(f'{len(rows)} maps: {sum(1 for r in rows if r.get("matchHow") == "exact")} exact, '
+          f'{sum(1 for r in rows if r.get("matchHow") == "similar")} with a similar name to confirm, {len(unmatched)} with no match, '
+          f'{sum(1 for r in rows if " | " in (r.get("sistemaIds") or ""))} going to several sistemas')
     print(f'sistemas: {len(sistemas)}, caves: {len(caves)} (from {"production" if production else "the emulator"})')
 
 

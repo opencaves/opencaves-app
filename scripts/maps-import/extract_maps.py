@@ -5,17 +5,25 @@ plus a CSV inventory to review before uploading (upload-maps.js).
   short text stamp from the survey archive) is rendered at the picture's own
   resolution, cropped to it - which keeps any lines drawn over it, handles
   rotated pages and colour spaces browsers can't show, and drops the stamp.
-  A vector map is rendered whole, ~6000 px on its long side. The stamp's text
-  (cave name, place, publication and year) goes into the inventory.
-- Output is WebP: lossless for vector renders and line-art scans (fine
-  lines, small text), lossy at high quality for photo-like scans.
+  A vector map (real vector paths) is exported as SVG, cropped to the
+  drawing, its text as outlines; a page with only raster pictures is
+  rendered to WebP, ~6000 px on its long side, cropped the same way. The
+  stamp's text (cave name, place, publication and year) goes into the
+  inventory.
+- Rasters are WebP: lossless for renders and line-art scans (fine lines,
+  small text), lossy at high quality for photo-like scans.
+- Scans of paper pages lose their wide blank margins, down to a margin of
+  3% of the drawing's size.
 - Images: JPEG/PNG/WebP/SVG are used as they are; TIFF and GIF become
   lossless WebP.
 - Zips: their images are extracted and treated like the others.
 - No raster image over 10 MB: bigger ones are re-encoded as lossy WebP,
   lowering the quality, then the size, until they fit.
-- Every output image gets a perceptual fingerprint, so near-identical copies
-  (the same map as .jpg, .png and .pdf, "(1)" copies...) are flagged.
+- Duplicates: every image gets a perceptual fingerprint. Copies of the same
+  map (the same map as .jpg and .pdf, "(1)" copies, one sheet filed under
+  each cave it shows) are reduced to the best one, which keeps the names
+  the others were filed under (alsoFiledAs); removed copies are listed in
+  duplicates.csv. Closer-but-unsure pairs are only flagged.
 
 Usage: python scripts/maps-import/extract_maps.py <source folder> <output folder>
 Needs PyMuPDF and Pillow (pip install pymupdf pillow).
@@ -29,6 +37,7 @@ import unicodedata
 import zipfile
 from pathlib import Path
 
+import numpy
 import pymupdf
 from PIL import Image
 
@@ -47,6 +56,28 @@ WEBP_QUALITY = 90
 MAX_FILE_BYTES = 10 * 1024 * 1024
 CAP_QUALITIES = (90, 85, 80, 75)
 CAP_SCALE_STEP = 0.85
+# Scans of paper pages: wide blank paper around the drawing is trimmed down
+# to a margin. A pixel darker than INK_LEVEL (0-255 grey) is ink; a row or
+# column holds content with at least INK_MIN_SHARE of ink, as part of a run
+# at least CONTENT_MIN_RUN of the side long - so the thin dark lines at a
+# scan's edges (the lid, the page's edge) don't count.
+INK_LEVEL = 170
+INK_MIN_SHARE = 0.003
+CONTENT_MIN_RUN = 0.01
+# Margin kept around the drawing, as a share of its longest side.
+TRIM_MARGIN = 0.03
+# Only trimmed when that removes at least this share of the image.
+TRIM_MIN_GAIN = 0.10
+# Fingerprints this close (bits, of 256) are the same map: only the best copy
+# is kept. Up to REVIEW_DUPLICATE_BITS they're only flagged, for review.
+DUPLICATE_BITS = 8
+REVIEW_DUPLICATE_BITS = 16
+# ... and only with the same proportions (width/height within this share).
+DUPLICATE_ASPECT_TOLERANCE = 0.03
+# A page is a vector map (exported as SVG) with at least this many vector
+# paths in the map's area; with fewer - only raster pictures, a frame - it's
+# rendered to WebP instead.
+MIN_VECTOR_PATHS = 20
 
 # Files that are obviously not maps: articles, work files, georeferencing byproducts.
 SKIP_NAME_PATTERNS = [r'journal\.pone', r'^doi-', r'uws\d+vol', r'_waifu2x_', r'\.aux\.xml$', r'\.points$', r'desktop\.ini$']
@@ -64,7 +95,7 @@ def slug(text):
 def average_hash(image, size=16):
     """64-bit-ish perceptual fingerprint: near-identical images get near-identical hashes."""
     small = image.convert('L').resize((size, size), Image.LANCZOS)
-    pixels = list(small.getdata())
+    pixels = list(small.tobytes())
     mean = sum(pixels) / len(pixels)
     return ''.join('1' if p > mean else '0' for p in pixels)
 
@@ -89,13 +120,15 @@ def parse_stamp(text):
     }
 
 
-def save_pixmap(pixmap, target, lossless):
+def save_pixmap(pixmap, target, lossless, trim=False):
     """WebP (PyMuPDF can't write it itself: through Pillow)."""
     if pixmap.alpha:
         pixmap = pymupdf.Pixmap(pixmap, 0)
     if pixmap.n not in (1, 3):
         pixmap = pymupdf.Pixmap(pymupdf.csRGB, pixmap)
     image = Image.frombytes('L' if pixmap.n == 1 else 'RGB', (pixmap.width, pixmap.height), pixmap.samples)
+    if trim:
+        image = trim_margins(image)
     path = target.with_suffix('.webp')
     save_webp(image, path, lossless)
     return path
@@ -158,6 +191,25 @@ def page_layout(page, pictures, margin=0.02):
     return bounds, '\n'.join(text for _, text in stamp_blocks)
 
 
+def count_vector_paths(page, clip):
+    return sum(1 for drawing in page.get_drawings() if clip.intersects(drawing['rect']))
+
+
+def export_svg(page, clip, target):
+    """The page's map area as SVG, text as outlines (no fonts needed to show
+    it). None when that isn't reliable - a rotated page, whose crop box is in
+    unrotated coordinates - or the SVG would be over MAX_FILE_BYTES."""
+    if page.rotation:
+        return None
+    page.set_cropbox(clip)
+    svg = page.get_svg_image(text_as_path=True).encode('utf-8')
+    if len(svg) > MAX_FILE_BYTES:
+        return None
+    path = target.with_suffix('.svg')
+    path.write_bytes(svg)
+    return path
+
+
 def extract_pdf(path, out_dir, base):
     """Yields (image path, kind, page number, stamp dict) per page that holds a map."""
     doc = pymupdf.open(path)
@@ -181,11 +233,67 @@ def extract_pdf(path, out_dir, base):
             pixmap = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), clip=bbox)
             # 1-bit / greyscale line scans: lossless keeps their lines crisp, and small.
             lossless = info.get('bpc', 8) == 1 or info.get('colorspace', 3) == 1
-            yield save_pixmap(pixmap, target, lossless), 'pdf-scan', index + 1, stamp
+            # Scans of paper pages: trim the paper around the drawing.
+            yield save_pixmap(pixmap, target, lossless, trim=True), 'pdf-scan', index + 1, stamp
         else:
-            zoom = VECTOR_RENDER_LONG_SIDE / max(clip.width, clip.height)
-            pixmap = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), clip=clip)
-            yield save_pixmap(pixmap, target, True), 'pdf-vector', index + 1, stamp
+            # A real vector drawing becomes an SVG: exact, sharp at any zoom.
+            # Only raster pictures (or an SVG too large) get a WebP render.
+            svg_path = export_svg(page, clip, target) if count_vector_paths(page, clip) >= MIN_VECTOR_PATHS else None
+            if svg_path:
+                yield svg_path, 'pdf-svg', index + 1, stamp
+            else:
+                zoom = VECTOR_RENDER_LONG_SIDE / max(clip.width, clip.height)
+                pixmap = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), clip=clip)
+                yield save_pixmap(pixmap, target, True), 'pdf-render', index + 1, stamp
+
+
+def content_runs(ink_counts, length, min_share, min_run):
+    """First and last index of the content along one axis: positions with
+    enough ink, within runs long enough to be drawing rather than an edge line."""
+    has_ink = ink_counts >= min_share * length
+    runs, start = [], None
+    for index, value in enumerate(has_ink):
+        if value and start is None:
+            start = index
+        elif not value and start is not None:
+            runs.append((start, index - 1))
+            start = None
+    if start is not None:
+        runs.append((start, len(has_ink) - 1))
+    long_runs = [run for run in runs if run[1] - run[0] + 1 >= min_run * len(has_ink)]
+    if not long_runs:
+        return None
+    return long_runs[0][0], long_runs[-1][1]
+
+
+def content_box(image):
+    """The drawing's bounding box on a scanned page, in the image's pixels,
+    or None when there's no clear blank margin to speak of."""
+    grey = image.convert('L')
+    # Measured on a reduced copy: fast, and blurs away specks of dust.
+    factor = max(grey.size) / 1500
+    small = grey.resize((max(1, round(grey.width / factor)), max(1, round(grey.height / factor))), Image.BILINEAR) if factor > 1 else grey
+    ink = numpy.asarray(small) < INK_LEVEL
+    columns = content_runs(ink.sum(axis=0), ink.shape[0], INK_MIN_SHARE, CONTENT_MIN_RUN)
+    rows = content_runs(ink.sum(axis=1), ink.shape[1], INK_MIN_SHARE, CONTENT_MIN_RUN)
+    if not columns or not rows:
+        return None
+    scale = grey.width / small.width
+    return (round(columns[0] * scale), round(rows[0] * scale), round((columns[1] + 1) * scale), round((rows[1] + 1) * scale))
+
+
+def trim_margins(image):
+    """Crops wide blank paper margins down to TRIM_MARGIN around the drawing."""
+    box = content_box(image)
+    if not box:
+        return image
+    left, top, right, bottom = box
+    pad = round(TRIM_MARGIN * max(right - left, bottom - top))
+    left, top = max(0, left - pad), max(0, top - pad)
+    right, bottom = min(image.width, right + pad), min(image.height, bottom + pad)
+    if (right - left) * (bottom - top) > (1 - TRIM_MIN_GAIN) * image.width * image.height:
+        return image
+    return image.crop((left, top, right, bottom))
 
 
 def cap_file_size(path):
@@ -209,6 +317,79 @@ def cap_file_size(path):
                 target.write_bytes(buffer.getvalue())
                 return target
         scale *= CAP_SCALE_STEP
+
+
+def svg_fingerprint(path):
+    """An SVG's size and fingerprint, from a render (PyMuPDF opens SVGs)."""
+    try:
+        with pymupdf.open(path) as doc:
+            page = doc[0]
+            zoom = 512 / max(page.rect.width, page.rect.height)
+            pixmap = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom))
+            image = Image.frombytes('RGB' if pixmap.n >= 3 else 'L', (pixmap.width, pixmap.height), pixmap.samples if pixmap.n != 4 else pymupdf.Pixmap(pymupdf.csRGB, pixmap).samples)
+            return round(page.rect.width), round(page.rect.height), average_hash(image)
+    except Exception:  # noqa: BLE001 - no fingerprint: never merged
+        return '', '', ''
+
+
+def filed_as(row):
+    """The name a copy was filed under: its stamp's, else its file's."""
+    return row.get('stampName') or Path(row['source'].split('#')[-1]).stem
+
+
+def keeper_rank(row):
+    """Which copy of a map to keep: rasters before hand-made SVGs (traced
+    or editor exports), then the most pixels, then the smallest file."""
+    pixels = int(row['width'] or 0) * int(row['height'] or 0)
+    return (row['image'].endswith('.svg'), -pixels, int(row['bytes']))
+
+
+def remove_duplicates(rows, out):
+    """Keeps one copy of each map (see keeper_rank) and deletes the others'
+    files, carrying their names over to it: one map sheet is often filed
+    under each of the caves it shows, and the upload attaches it to each.
+    Closer-but-unsure pairs are only flagged (possibleDuplicateOf).
+    Returns (kept rows, removed rows)."""
+    def same_shape(a, b):
+        wa, ha, wb, hb = (int(v or 0) for v in (a['width'], a['height'], b['width'], b['height']))
+        return wa and ha and wb and hb and abs(wa / ha - wb / hb) <= DUPLICATE_ASPECT_TOLERANCE * (wa / ha)
+
+    usable = [r for r in rows if r.get('fingerprint')]
+    parent = {id(r): r for r in usable}
+
+    def root(r):
+        while parent[id(r)] is not r:
+            r = parent[id(r)]
+        return r
+
+    for i, a in enumerate(usable):
+        for b in usable[:i]:
+            distance = hamming(a['fingerprint'], b['fingerprint'])
+            if distance <= DUPLICATE_BITS and same_shape(a, b):
+                ra, rb = root(a), root(b)
+                if ra is not rb:
+                    parent[id(ra)] = rb
+            elif distance <= REVIEW_DUPLICATE_BITS and not a.get('possibleDuplicateOf'):
+                a['possibleDuplicateOf'] = b['image']
+
+    groups = {}
+    for r in usable:
+        groups.setdefault(id(root(r)), []).append(r)
+    removed = []
+    for group in groups.values():
+        if len(group) < 2:
+            continue
+        group.sort(key=keeper_rank)
+        keeper, others = group[0], group[1:]
+        names = [filed_as(keeper)] + [filed_as(o) for o in others]
+        keeper['alsoFiledAs'] = ' | '.join(dict.fromkeys(n for n in names[1:] if n and n != names[0]))
+        keeper['duplicateSources'] = ' | '.join(o['source'] for o in others)
+        for other in others:
+            (out / other['image']).unlink(missing_ok=True)
+            other['keptImage'] = keeper['image']
+            removed.append(other)
+    removed_ids = {id(r) for r in removed}
+    return [r for r in rows if id(r) not in removed_ids], removed
 
 
 def clean_svg(data):
@@ -237,9 +418,12 @@ def convert_image(data, name, out_dir, base):
     return path
 
 
-def candidates(root):
+def candidates(root, exclude):
+    """Map files under root, except under exclude (the output folder, when
+    inside the source tree: a rerun must not take its own output as input)."""
+    exclude = exclude.resolve()
     for path in sorted(root.rglob('*')):
-        if not path.is_file():
+        if not path.is_file() or exclude in path.resolve().parents:
             continue
         rel = path.relative_to(root).as_posix()
         if any(re.search(p, path.name, re.I) for p in SKIP_NAME_PATTERNS):
@@ -275,12 +459,14 @@ def main(source, output):
             with Image.open(image_path) as image:
                 row['width'], row['height'] = image.size
                 row['fingerprint'] = average_hash(image)
+        else:
+            row['width'], row['height'], row['fingerprint'] = svg_fingerprint(image_path)
         row['bytes'] = image_path.stat().st_size
         row['sha1'] = hashlib.sha1(image_path.read_bytes()).hexdigest()[:12]
         rows.append(row)
         print(f'  {kind:10} {rel}' + (f' p{page}' if page else ''), flush=True)
 
-    for path, rel in candidates(root):
+    for path, rel in candidates(root, out):
         try:
             if path.suffix.lower() == '.pdf':
                 for image_path, kind, page, stamp in extract_pdf(path, images_dir, unique_base(path.stem)):
@@ -298,19 +484,18 @@ def main(source, output):
             print(f'  ERROR      {rel}: {error}', flush=True)
             rows.append({'source': rel, 'kind': 'error', 'error': str(error)})
 
-    # Near-duplicates: same fingerprint within a few bits.
-    for i, row in enumerate(rows):
-        for other in rows[:i]:
-            if row.get('fingerprint') and other.get('fingerprint') and hamming(row['fingerprint'], other['fingerprint']) <= 12:
-                row['possibleDuplicateOf'] = other['image']
-                break
+    rows, removed = remove_duplicates(rows, out)
 
-    fields = ['image', 'source', 'page', 'kind', 'width', 'height', 'bytes', 'stampName', 'stampPlace', 'publications', 'publicationYear', 'possibleDuplicateOf', 'sha1', 'error']
+    fields = ['image', 'source', 'page', 'kind', 'width', 'height', 'bytes', 'stampName', 'stampPlace', 'publications', 'publicationYear', 'alsoFiledAs', 'duplicateSources', 'possibleDuplicateOf', 'sha1', 'error']
     with open(out / 'extracted.csv', 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
         writer.writeheader()
         writer.writerows(rows)
-    print(f'{len(rows)} images -> {out / "extracted.csv"}')
+    with open(out / 'duplicates.csv', 'w', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=['source', 'image', 'keptImage', 'width', 'height'], extrasaction='ignore')
+        writer.writeheader()
+        writer.writerows(removed)
+    print(f'{len(rows)} maps -> {out / "extracted.csv"} ({len(removed)} duplicate copies removed -> duplicates.csv)')
 
 
 if __name__ == '__main__':
