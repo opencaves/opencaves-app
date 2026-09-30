@@ -8,13 +8,15 @@
 // Re-runnable: every imported map records its file's hash (importKey). A
 // file already imported isn't uploaded again - its details (name, date,
 // authors, note) and sistema links are brought up to date instead.
-// Maps with no sistema are skipped (nothing would show them).
+// Maps with no sistema are skipped (nothing would show them). A map later
+// found to be a copy of another (duplicates.csv) is retired: its sistema
+// links move to the kept copy, then it's deleted.
 //
 // A dry run by default: --apply to write. --undo removes everything an
 // import added (documents, files, sistema links).
 
 import { randomUUID } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import pushId from 'unique-push-id'
 import yargs from 'yargs'
@@ -142,7 +144,47 @@ async function upload() {
       counts.failed++
     }
   }
-  console.log(`\n${argv.apply ? 'Done' : 'Would do'}: ${counts.uploaded} uploaded, ${counts.updated} already there (updated), ${counts.failed} failed`)
+  const retired = argv.only || argv.limit ? 0 : await retireDuplicates(csvDir)
+  console.log(`\n${argv.apply ? 'Done' : 'Would do'}: ${counts.uploaded} uploaded, ${counts.updated} already there (updated), ${retired} duplicate(s) retired, ${counts.failed} failed`)
+}
+
+// Copies found to be duplicates after they were imported (duplicates.csv,
+// from extract_maps.py, next to the CSV): each one's sistema links move to
+// the copy that was kept, then it's deleted - document and files.
+async function retireDuplicates(csvDir) {
+  const file = path.join(csvDir, 'duplicates.csv')
+  if (!existsSync(file)) return 0
+  const keptKeys = new Map(readCsv(argv.csv).map((row) => [row.image, row.sha1]))
+  let retired = 0
+  for (const dup of readCsv(file).filter((row) => row.sha1)) {
+    const imported = await db.collection('maps').where('importKey', '==', dup.sha1).get()
+    if (imported.empty) continue
+    const keeperKey = keptKeys.get(dup.keptImage)
+    const keeper = keeperKey && await db.collection('maps').where('importKey', '==', keeperKey).limit(1).get()
+    if (!keeper || keeper.empty) {
+      console.log(`${dup.image}: a duplicate of ${dup.keptImage}, which isn't imported - left in place`)
+      continue
+    }
+    const keeperId = keeper.docs[0].id
+    for (const doc of imported.docs) {
+      const linked = await db.collection('sistemas').where('maps', 'array-contains', doc.id).get()
+      console.log(`${dup.image} (${doc.id}): a duplicate of ${dup.keptImage} (${keeperId}) - ${linked.size} sistema link(s) moved to it, then deleted`)
+      if (argv.apply) {
+        // Two writes: one update can't both arrayUnion and arrayRemove the same field.
+        await Promise.all(linked.docs.map((sistema) => sistema.ref.update({ maps: FieldValue.arrayUnion(keeperId) })))
+        await Promise.all(linked.docs.map((sistema) => sistema.ref.update({ maps: FieldValue.arrayRemove(doc.id) })))
+        await removeMapFiles(doc.id)
+        await doc.ref.delete()
+      }
+      retired++
+    }
+  }
+  return retired
+}
+
+// The upload and the function's derived WebPs.
+function removeMapFiles(mapId) {
+  return Promise.all([`maps/${mapId}`, `maps/derived/${mapId}_view.webp`, `maps/derived/${mapId}_thumb.webp`].map((p) => bucket.file(p).delete({ ignoreNotFound: true })))
 }
 
 async function undo() {
@@ -153,8 +195,7 @@ async function undo() {
     console.log(`  ${doc.data().name} (${doc.id}): document, files, ${linked.size} sistema link(s)`)
     if (!argv.apply) continue
     await Promise.all(linked.docs.map((sistema) => sistema.ref.update({ maps: FieldValue.arrayRemove(doc.id) })))
-    // The upload and the function's derived WebPs.
-    await Promise.all([`maps/${doc.id}`, `maps/derived/${doc.id}_view.webp`, `maps/derived/${doc.id}_thumb.webp`].map((p) => bucket.file(p).delete({ ignoreNotFound: true })))
+    await removeMapFiles(doc.id)
     await doc.ref.delete()
   }
 }

@@ -492,7 +492,7 @@ def main(source, output):
         writer.writeheader()
         writer.writerows(rows)
     with open(out / 'duplicates.csv', 'w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=['source', 'image', 'keptImage', 'width', 'height'], extrasaction='ignore')
+        writer = csv.DictWriter(f, fieldnames=['source', 'image', 'keptImage', 'width', 'height', 'sha1'], extrasaction='ignore')
         writer.writeheader()
         writer.writerows(removed)
     print(f'{len(rows)} maps -> {out / "extracted.csv"} ({len(removed)} duplicate copies removed -> duplicates.csv)')
