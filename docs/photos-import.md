@@ -2,10 +2,10 @@
 
 How to bulk-import the cave photos kept in the `_data` folder (a Google Drive
 folder, not tracked in git) into the app, as if each had been uploaded from a
-cave's page. Maps are **not** part of this: they have their own import in
-`scripts/maps-import/` (extract_maps.py → match_maps.py → upload-maps.js).
+cave's page. Maps are **not** part of this: they have their own import
+([maps-import.md](maps-import.md)).
 
-The scripts are in `scripts/photos-import/`. The process has three steps, each
+The scripts are in [`scripts/photos-import/`](../scripts/photos-import/). The process has three steps, each
 writing into `_data/photos-import/`, with a manual review before the upload:
 
 ```
@@ -103,7 +103,8 @@ makes the thumbnails, reads the EXIF and panorama data, and creates the
 node scripts/photos-import/upload-photos.js                    # dry run, local emulators
 node scripts/photos-import/upload-photos.js --apply            # upload locally
 node scripts/photos-import/upload-photos.js --apply --limit 5  # try a few first
-node scripts/photos-import/upload-photos.js --only calimba     # only matching cave/folder/file
+node scripts/photos-import/upload-photos.js --only calimba     # only matching cave/folder/file (several allowed)
+node scripts/photos-import/upload-photos.js -p --apply --redo --only 20230313_091418   # import a photo again
 node scripts/photos-import/upload-photos.js -p                 # dry run, production
 node scripts/photos-import/upload-photos.js -p --apply         # upload to production
 node scripts/photos-import/upload-photos.js --undo --apply     # remove everything imported
@@ -120,6 +121,13 @@ node scripts/photos-import/upload-photos.js --undo --apply     # remove everythi
   function didn't create the document: the functions aren't running (locally),
   or the function failed on that file (check its logs). Fix the cause and
   re-run.
+- **A photo imported without thumbnails** (the function created its document
+  but the resize failed): after fixing the function, `--redo --only <file>`
+  removes that import and uploads the photo again, so the function runs anew.
+- **After an upload**, check the result with
+  `node scripts/check-cave-images.js` (`-p` for production). It finds photos
+  missing thumbnails (re-import them with `--redo`), caves without exactly one
+  cover, and files left behind (see [maintenance.md](maintenance.md#check-the-cave-photos)).
 - `--undo` deletes the imported documents, files and thumbnails. Photos
   uploaded from the app have no `importKey` and are never touched.
 - `migrate-sheet-to-firestore.js` does not touch `cavesAssets`, so re-running

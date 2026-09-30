@@ -30,12 +30,17 @@ OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatá
 
 Add short comments where they clarify non-obvious behavior, constraints, or reasoning. Keep comments concise and avoid narrating code that is already self-explanatory.
 
+## Documentation
+
+How-to guides for people running and maintaining the app (maintenance tasks, bulk imports) live in `docs/`, listed in `docs/README.md`. Write new guides there, as lowercase kebab-case `.md` files, and add them to that index; keep only `README.md`, `CHANGELOG.md` and `AGENTS.md` at the root. When a command below changes, update its guide too (most are covered in `docs/maintenance.md`).
+
 ## Commands
 
 - `npm run dev` — Vite + Firebase emulators together (imports seed data from `./.emulator-data` and exports back to it on a clean exit via `--export-on-exit`, so emulator state persists across restarts; this folder is **not** tracked in git — only `.emulator-data/.gitignore` is — so a fresh clone or a wiped `.emulator-data` starts with an empty database and needs `node scripts/migrate-sheet-to-firestore.js` run once against the emulator to populate it)
 - `npm run build` — production build
 - `node scripts/migrate-sheet-to-firestore.js` — seed/sync Firestore from the Google Sheet against the local emulator (`127.0.0.1:8080` by default, overridable via `FIRESTORE_EMULATOR_HOST`); add `-p`/`--production` to run against the real project (requires `gcloud auth application-default login` first)
 - `node scripts/set-user-roles.js <email> --add admin` (or `--remove`, roles `editor`/`admin`) — changes an account's `roles` claim, keeping its others; the local Auth emulator by default, `-p`/`--production` for the real project (after `gcloud auth application-default login`). Needed to bootstrap the first admin, since the in-app Users page only works for existing admins. The user must sign out and back in to pick up the change.
+- `node scripts/check-cave-images.js` (`-p` for production, `--cave <id>` for one cave) — read-only integrity check of the cave photos: every `cavesAssets` photo has its original and all its thumbnails in Storage, belongs to an existing cave, each cave has exactly one cover, and no file is left without a photo (including `images/failed/` copies the resize leaves when it fails). Exits 1 when it finds problems. Run it after a bulk photo import (see `docs/photos-import.md`) or a change to the asset functions.
 - `firebase deploy` — deploys everything; scope with `--only hosting`, `--only functions`, or `--only functions:js:<name>` for a single function
 - `gcloud storage buckets update gs://opencaves.appspot.com --cors-file=storage.cors.json` — applies the Storage bucket's CORS config, which `firebase deploy` does **not** carry. The app loads bucket images with `crossOrigin="anonymous"` (so the service worker caches them at real size instead of as opaque responses), so without this CORS config those images fail to load entirely.
 - No test suite currently exists in this repo.

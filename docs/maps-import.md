@@ -2,7 +2,7 @@
 
 Survey maps (PDFs, scans, drawings) collected in a folder tree can be imported into OpenCaves in three steps: **extract** the map images, **match** each map to a sistema, then **upload** them. Each step writes files you can review before running the next one.
 
-The scripts live in [`scripts/maps-import/`](scripts/maps-import/). The examples below assume the maps sit in `_data/` at the root of the project and the import work goes to `_data/maps-import/` (neither is tracked in git).
+The scripts live in [`scripts/maps-import/`](../scripts/maps-import/). The examples below assume the maps sit in `_data/` at the root of the project and the import work goes to `_data/maps-import/` (neither is tracked in git).
 
 ```
 _data/                      source folder tree (PDFs, images, zips)
@@ -42,6 +42,13 @@ Along the way it:
 - **Trims paper margins.** On scanned paper pages, the wide blank border is cut down to a margin of 3% of the drawing's size.
 - **Caps file size.** No raster file stays over 10 MB: bigger ones are re-encoded as lossy WebP at lower quality, then at a smaller size, until they fit.
 - **Removes duplicates.** Every map gets a perceptual fingerprint, and copies of the same map are reduced to the best one. Examples are the same map saved as .jpg and .pdf, a "(1)" copy, or one sheet filed under each cave it shows. The kept map lists the names its copies were filed under (`alsoFiledAs`) so it can be matched to all of them. The removed copies go to `duplicates.csv`. Near matches the script isn't sure about are only flagged (`possibleDuplicateOf`) for you to check.
+- **Removes reviewed duplicates.** Some copies look too different for the fingerprint: a photo of a wall poster next to a scan of it, a recoloured or redrawn copy, a reprint. They're listed by hand in [`known-duplicates.csv`](../scripts/maps-import/known-duplicates.csv), next to the scripts: each row names a copy to drop, the copy to keep (its source file, plus `#p<page>` for a PDF page) and why. Different editions of a map (a later survey, added passages, another layout) are not duplicates: both stay. To apply a change to the list without extracting everything again:
+
+  ```sh
+  PYTHONIOENCODING=utf-8 python scripts/maps-import/extract_maps.py --known-duplicates _data/maps-import
+  ```
+
+  Then rerun the match (step 2) and the upload (step 3).
 
 **Review:** go through `extracted.csv` and the `images/` folder. If a source file shouldn't be imported, delete or move it out of `_data/` and rerun the script. The output is rebuilt from scratch every time.
 
@@ -107,7 +114,7 @@ The Storage upload then triggers the `onMapImageUploaded` Cloud Function (`funct
 
 The upload can be rerun safely. A map whose file was already imported (same `importKey`) isn't uploaded again. Instead, its name, date, authors and note are updated from the CSV, and it is attached to any new sistema in the row. The usual loop is to fill in authors and dates in the CSV, then run again with `--apply`.
 
-A rerun never removes anything: a sistema dropped from a row keeps its link to the map, so remove that link in the app. Likewise, a changed image file counts as a new map, since its hash is different.
+A rerun removes only duplicates: a map already imported that `duplicates.csv` now lists as a copy of another is retired. Its sistema links move to the kept copy, then its document and files are deleted. The dry run lists these too. Nothing else is removed: a sistema dropped from a row keeps its link to the map, so remove that link in the app. Likewise, a changed image file counts as a new map, since its hash is different.
 
 ### Undoing
 
