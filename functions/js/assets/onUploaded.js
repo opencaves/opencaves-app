@@ -25,7 +25,9 @@ function getUploadTimestamp(data, event) {
   return Timestamp.now()
 }
 
-export const onAssetUploaded = onObjectFinalized(async event => {
+// Resizing a full-size phone photo into every thumbnail size runs past the
+// default 256 MiB (the instance is killed and no asset document is created).
+export const onAssetUploaded = onObjectFinalized({ memory: '1GiB', timeoutSeconds: 300 }, async event => {
   logger.log('[onAssetUploaded] Initializing function onObjectFinalized')
   try {
     logger.log('[onAssetUploaded] TRY BEGIN')
