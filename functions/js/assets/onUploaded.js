@@ -139,10 +139,12 @@ export const onAssetUploaded = onObjectFinalized(async event => {
         if (xmp) {
           const { UsePanoramaViewer, ProjectionType, PoseHeadingDegrees } = xmp
 
+          // Some panoramas (e.g. cylindrical ones) have no heading: an undefined
+          // field would make Firestore reject the whole document.
           if (UsePanoramaViewer) {
             assetData.usePanoramaViewer = true
-            assetData.projectionType = ProjectionType
-            assetData.poseHeadingDegrees = PoseHeadingDegrees
+            if (ProjectionType !== undefined) assetData.projectionType = ProjectionType
+            if (PoseHeadingDegrees !== undefined) assetData.poseHeadingDegrees = PoseHeadingDegrees
           }
 
         }
