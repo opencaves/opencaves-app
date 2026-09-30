@@ -36,7 +36,7 @@ const CONCURRENCY = 4
 const DOCUMENT_TIMEOUT_MS = 180_000
 const POLL_MS = 1500
 
-const argv = yargs(hideBin(process.argv))
+const cli = yargs(hideBin(process.argv))
   .usage('Upload the extracted photos to their caves.\n\nUsage: $0 [options]')
   .option('csv', { type: 'string', default: '_data/photos-import/matched.csv', describe: 'The photos to upload (matched.csv or a reviewed copy); image paths are relative to its folder' })
   .option('production', { alias: 'p', type: 'boolean', default: false, describe: 'The real opencaves project instead of the local emulators (needs `gcloud auth application-default login`)' })
@@ -46,14 +46,22 @@ const argv = yargs(hideBin(process.argv))
   .option('undo', { type: 'boolean', default: false, describe: 'Remove every imported photo (documents, files, thumbnails) instead' })
   .option('redo', { type: 'boolean', default: false, describe: 'Remove the selected photos\' earlier import, then import them again (e.g. after a function fix); needs --only' })
   .check((args) => !args.redo || args.only || 'Use --redo with --only, to choose the photos to import again')
-  .example('$0', 'Dry run against the local emulators')
+  .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
+  .example('$0 -l', 'Dry run against the local emulators')
   .example('$0 --apply --limit 5', 'Upload the first 5 photos locally')
   .example('$0 -p --apply', 'Upload everything to production')
   .example('$0 -p --apply --redo --only 20230313_091418', 'Import one photo again in production')
   .help()
   .alias('help', 'h')
   .strict()
-  .parseSync()
+
+// No arguments: the help, not a run.
+if (hideBin(process.argv).length === 0) {
+  cli.showHelp()
+  process.exit(0)
+}
+const argv = cli.parseSync()
 
 if (!argv.production) {
   process.env.FIRESTORE_EMULATOR_HOST ??= '127.0.0.1:8080'

@@ -1,9 +1,11 @@
 # Maintenance
 
-The recurring tasks for keeping OpenCaves' data and services healthy. Every
-script below runs against the **local emulators** by default, so a bare run
-can't touch production. Add `-p` (`--production`) to use the real `opencaves`
-project, after logging in once with:
+The recurring tasks for keeping OpenCaves' data and services healthy. Run any
+script below with no arguments (or `-h`) to see its help: a bare run does
+nothing else. Every script works against the **local emulators** unless told
+otherwise - `-l` (`--local`) says so when no other option is needed - so it
+can't touch production by accident. Add `-p` (`--production`) to use the real
+`opencaves` project, after logging in once with:
 
 ```
 gcloud auth application-default login
@@ -12,7 +14,7 @@ gcloud auth application-default login
 ## Check the cave photos
 
 ```
-node scripts/check-cave-images.js              # local emulators
+node scripts/check-cave-images.js -l           # local emulators
 node scripts/check-cave-images.js -p           # production
 node scripts/check-cave-images.js -p --cave <caveId>
 ```
@@ -40,7 +42,7 @@ Files in Storage can be deleted with
 ## Sync the database from the Google Sheet
 
 ```
-node scripts/migrate-sheet-to-firestore.js      # local emulators
+node scripts/migrate-sheet-to-firestore.js -l   # local emulators
 node scripts/migrate-sheet-to-firestore.js -p   # production
 ```
 

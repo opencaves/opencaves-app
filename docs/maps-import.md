@@ -86,7 +86,7 @@ The script writes `matched.csv`, which adds `mapName`, `matchHow` (`exact`, `sim
 ## 3. Upload
 
 ```sh
-node scripts/maps-import/upload-maps.js                # dry run, local emulators
+node scripts/maps-import/upload-maps.js -l             # dry run, local emulators
 node scripts/maps-import/upload-maps.js --apply        # upload to the local emulators
 node scripts/maps-import/upload-maps.js -p             # dry run, production
 node scripts/maps-import/upload-maps.js -p --apply     # upload to production

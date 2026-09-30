@@ -15,7 +15,7 @@ import { processDataForStorage, teamDateConflicts } from '../src/services/data-s
 const PROJECT_ID = 'opencaves'
 const WRITE_BATCH_SIZE = 500
 
-const argv = yargs(hideBin(process.argv))
+const cli = yargs(hideBin(process.argv))
   .usage('Fetch the live Google Sheet data and write it into Firestore.\n\nUsage: $0 [options]')
   .option('production', {
     alias: 'p',
@@ -23,12 +23,20 @@ const argv = yargs(hideBin(process.argv))
     default: false,
     describe: 'Write to the real opencaves Firestore project instead of the local emulator (requires Application Default Credentials for a service account with Firestore access)'
   })
-  .example('$0', 'Run against the local emulator (127.0.0.1:8080 unless FIRESTORE_EMULATOR_HOST is set)')
+  .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
+  .example('$0 --local', 'Run against the local emulator (127.0.0.1:8080 unless FIRESTORE_EMULATOR_HOST is set)')
   .example('$0 --production', 'Run against the real opencaves Firestore project')
   .help()
   .alias('help', 'h')
   .strict()
-  .parseSync()
+
+// No arguments: the help, not a run.
+if (hideBin(process.argv).length === 0) {
+  cli.showHelp()
+  process.exit(0)
+}
+const argv = cli.parseSync()
 
 const isProd = argv.production
 

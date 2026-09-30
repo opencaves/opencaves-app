@@ -11,7 +11,7 @@ import { getAuth } from 'firebase-admin/auth'
 const PROJECT_ID = 'opencaves'
 const ROLES = ['editor', 'admin']
 
-const argv = yargs(hideBin(process.argv))
+const cli = yargs(hideBin(process.argv))
   .command('$0 <email>', 'Add or remove a role on an account.', (y) => y.positional('email', { type: 'string', describe: 'The account\'s email address' }))
   .option('add', { type: 'string', choices: ROLES, describe: 'Role to add' })
   .option('remove', { type: 'string', choices: ROLES, describe: 'Role to remove' })
@@ -30,7 +30,13 @@ const argv = yargs(hideBin(process.argv))
   .help()
   .alias('help', 'h')
   .strict()
-  .parseSync()
+
+// No arguments: the help, not a run.
+if (hideBin(process.argv).length === 0) {
+  cli.showHelp()
+  process.exit(0)
+}
+const argv = cli.parseSync()
 
 const email = argv.email
 const isProd = argv.production

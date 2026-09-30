@@ -29,7 +29,7 @@ const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 const CONTENT_TYPES = { '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml' }
 
-const argv = yargs(hideBin(process.argv))
+const cli = yargs(hideBin(process.argv))
   .usage('Upload the extracted maps and attach them to their sistemas.\n\nUsage: $0 [options]')
   .option('csv', { type: 'string', default: '_data/maps-import/matched.csv', describe: 'The maps to upload (matched.csv or a reviewed copy); image paths are relative to its folder' })
   .option('production', { alias: 'p', type: 'boolean', default: false, describe: 'The real opencaves project instead of the local emulators (needs `gcloud auth application-default login`)' })
@@ -37,13 +37,21 @@ const argv = yargs(hideBin(process.argv))
   .option('limit', { type: 'number', describe: 'Only the first N maps (to try a few first)' })
   .option('only', { type: 'string', describe: 'Only maps whose name or file contains this text' })
   .option('undo', { type: 'boolean', default: false, describe: 'Remove every imported map (documents, files, sistema links) instead' })
-  .example('$0', 'Dry run against the local emulators')
+  .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
+  .example('$0 -l', 'Dry run against the local emulators')
   .example('$0 --apply --limit 5', 'Upload the first 5 maps locally')
   .example('$0 -p --apply', 'Upload everything to production')
   .help()
   .alias('help', 'h')
   .strict()
-  .parseSync()
+
+// No arguments: the help, not a run.
+if (hideBin(process.argv).length === 0) {
+  cli.showHelp()
+  process.exit(0)
+}
+const argv = cli.parseSync()
 
 if (!argv.production) {
   process.env.FIRESTORE_EMULATOR_HOST ??= '127.0.0.1:8080'

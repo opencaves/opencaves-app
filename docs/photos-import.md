@@ -12,7 +12,7 @@ writing into `_data/photos-import/`, with a manual review before the upload:
 python scripts/photos-import/extract_photos.py _data _data/photos-import   # 1. inventory
 python scripts/photos-import/match_photos.py _data/photos-import           # 2. match to caves
 # review _data/photos-import/matched.csv
-node scripts/photos-import/upload-photos.js                                # 3. upload (dry run)
+node scripts/photos-import/upload-photos.js -l                             # 3. upload (dry run)
 ```
 
 ## Prerequisites
@@ -63,7 +63,7 @@ wins; otherwise the closest name above 0.85 similarity is used, with
 - **A folder spelled too differently** from its cave's name (e.g. "Minotoro"
   for Minotauro): add it to `FOLDER_CAVES` at the top of the script.
 - **A cave missing from the database:** add it to the Google Sheet, run
-  `node scripts/migrate-sheet-to-firestore.js` (and with `-p` for production),
+  `node scripts/migrate-sheet-to-firestore.js -l` (and with `-p` for production),
   then re-run the match.
 - **GPS cross-check:** a photo more than 1 km from its cave is flagged
   `far from cave`. This is a hint only, and is often wrong: the photo's GPS fix
@@ -100,7 +100,7 @@ makes the thumbnails, reads the EXIF and panorama data, and creates the
 `importKey` (the file's hash) and `importSource`.
 
 ```
-node scripts/photos-import/upload-photos.js                    # dry run, local emulators
+node scripts/photos-import/upload-photos.js -l                 # dry run, local emulators
 node scripts/photos-import/upload-photos.js --apply            # upload locally
 node scripts/photos-import/upload-photos.js --apply --limit 5  # try a few first
 node scripts/photos-import/upload-photos.js --only calimba     # only matching cave/folder/file (several allowed)
@@ -125,7 +125,7 @@ node scripts/photos-import/upload-photos.js --undo --apply     # remove everythi
   but the resize failed): after fixing the function, `--redo --only <file>`
   removes that import and uploads the photo again, so the function runs anew.
 - **After an upload**, check the result with
-  `node scripts/check-cave-images.js` (`-p` for production). It finds photos
+  `node scripts/check-cave-images.js -l` (`-p` for production). It finds photos
   missing thumbnails (re-import them with `--redo`), caves without exactly one
   cover, and files left behind (see [maintenance.md](maintenance.md#check-the-cave-photos)).
 - `--undo` deletes the imported documents, files and thumbnails. Photos

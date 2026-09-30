@@ -18,16 +18,24 @@ import { BUCKET_NAME, CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER } from '../funct
 
 const PROJECT_ID = 'opencaves'
 
-const argv = yargs(hideBin(process.argv))
+const cli = yargs(hideBin(process.argv))
   .usage('Check that the cave photos and their files in Storage agree.\n\nUsage: $0 [options]')
   .option('production', { alias: 'p', type: 'boolean', default: false, describe: 'The real opencaves project instead of the local emulators (needs `gcloud auth application-default login`)' })
   .option('cave', { type: 'string', describe: 'Only this cave (its id)' })
-  .example('$0', 'Check the local emulators')
+  .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
+  .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
+  .example('$0 -l', 'Check the local emulators')
   .example('$0 -p', 'Check production')
   .help()
   .alias('help', 'h')
   .strict()
-  .parseSync()
+
+// No arguments: the help, not a run.
+if (hideBin(process.argv).length === 0) {
+  cli.showHelp()
+  process.exit(0)
+}
+const argv = cli.parseSync()
 
 if (!argv.production) {
   process.env.FIRESTORE_EMULATOR_HOST ??= '127.0.0.1:8080'
