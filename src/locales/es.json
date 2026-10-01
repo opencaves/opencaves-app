@@ -4,6 +4,12 @@
     "description": "Lo sentimos, pero la página que buscas no existe.",
     "backBtn": "Ir a la página de inicio",
     "retryBtn": "Reintentar",
+    "devDetails": {
+      "title": "Detalles (solo en desarrollo)",
+      "url": "URL",
+      "reason": "Motivo",
+      "noRoute": "Ninguna ruta coincide con esta URL."
+    },
     "offline": {
       "header": "Estás sin conexión",
       "description": "Esta página necesita conexión para cargarse. Se cargará en cuanto vuelvas a estar en línea."

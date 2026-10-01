@@ -4,6 +4,12 @@
     "description": "Sorry but the page you are looking for does not exist.",
     "backBtn": "Go to homepage",
     "retryBtn": "Try again",
+    "devDetails": {
+      "title": "Details (development only)",
+      "url": "URL",
+      "reason": "Reason",
+      "noRoute": "No route matches this URL."
+    },
     "offline": {
       "header": "You're offline",
       "description": "This page needs a connection to load. It will load as soon as you're back online."

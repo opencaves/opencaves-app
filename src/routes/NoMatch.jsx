@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { APP_TITLE } from '@/config/app.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
-import { Link, isRouteErrorResponse, useRevalidator, useRouteError } from 'react-router-dom'
+import { Link, isRouteErrorResponse, useLocation, useRevalidator, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import './NoMatch.scss'
@@ -13,6 +13,29 @@ import './NoMatch.scss'
 // doesn't exist is "not found", but a page that failed to load (a loader or a
 // code chunk failing, usually for want of a network) says so, and offers to
 // try again rather than claiming the page doesn't exist.
+// What went wrong, in development builds only: the URL, and the error's
+// status and message, or its stack - production keeps the friendly page.
+function DevDetails({ error }) {
+  const { t } = useTranslation('404', { keyPrefix: 'devDetails' })
+  const location = useLocation()
+  const reason = !error
+    ? t('noRoute')
+    : isRouteErrorResponse(error)
+      ? [`${error.status} ${error.statusText}`, typeof error.data === 'string' ? error.data : error.data && JSON.stringify(error.data, null, 2)].filter(Boolean).join('\n')
+      : error.stack || error.message || String(error)
+  return (
+    <details className="no-match--dev-details" open>
+      <summary>{t('title')}</summary>
+      <dl>
+        <dt>{t('url')}</dt>
+        <dd><code>{`${location.pathname}${location.search}${location.hash}`}</code></dd>
+        <dt>{t('reason')}</dt>
+        <dd><pre>{reason}</pre></dd>
+      </dl>
+    </details>
+  )
+}
+
 export default function NoMatch() {
   const { t } = useTranslation('404')
   const { t: tSeo } = useTranslation('seo')
@@ -60,6 +83,7 @@ export default function NoMatch() {
             {t('retryBtn')}
           </Button>
         )}
+        {import.meta.env.DEV && <DevDetails error={error} />}
       </Grid>
     </Grid>
     </>

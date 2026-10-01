@@ -18,6 +18,35 @@
         margin: 0;
         font-size: 3rem;
       }
+
+      &--dev-details {
+        margin-top: 2rem;
+        max-width: min(48rem, 80vw);
+        text-align: left;
+        font-size: 0.875rem;
+
+        summary {
+          cursor: pointer;
+          font-weight: 500;
+        }
+
+        dt {
+          margin-top: 0.75rem;
+          font-weight: 500;
+        }
+
+        dd {
+          margin: 0.25rem 0 0;
+        }
+
+        pre {
+          margin: 0;
+          max-height: 40vh;
+          overflow: auto;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      }
     }
   }
 }

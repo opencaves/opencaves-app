@@ -4,6 +4,12 @@
     "description": "Désolé mais la page que vous recherchez n'existe pas.",
     "backBtn": "Aller à la page d'accueil",
     "retryBtn": "Réessayer",
+    "devDetails": {
+      "title": "Détails (en développement seulement)",
+      "url": "URL",
+      "reason": "Raison",
+      "noRoute": "Aucune route ne correspond à cette URL."
+    },
     "offline": {
       "header": "Vous êtes hors ligne",
       "description": "Cette page a besoin d'une connexion pour s'afficher. Elle s'affichera dès que vous serez de nouveau en ligne."
