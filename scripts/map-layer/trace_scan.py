@@ -1082,6 +1082,13 @@ def main(config_path, output):
             neutral = (rgb.max(axis=2) - rgb.min(axis=2)) <= 30
             tone = rgb.mean(axis=2)
             grey_line = ((tone >= lo) & (tone <= hi) & neutral & ~masked).astype(numpy.uint8)
+            # "greyWallsBoxes": [[x0, y0, x1, y1], ...] - only there, when the
+            # tone also edges every black wall elsewhere.
+            if trace.get('greyWallsBoxes'):
+                inside = numpy.zeros_like(grey_line)
+                for x0, y0, x1, y1 in trace['greyWallsBoxes']:
+                    inside[y0:y1, x0:x1] = 1
+                grey_line &= inside
             # Lines only: grey areas (boulder and pillar fills) taken out.
             grey_line &= ~(cv2.dilate(cv2.morphologyEx(grey_line, cv2.MORPH_OPEN, numpy.ones((5, 5), numpy.uint8)), numpy.ones((5, 5), numpy.uint8)) > 0)
             grey_line = cv2.morphologyEx(grey_line, cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8))
