@@ -46,15 +46,15 @@ function MapThumbnail({ map }) {
 
 // One map: its thumbnail, its name (two lines at most) and, under it, its
 // date and authors - enough to tell apart maps that share a name.
-function MapListItem({ map, selected, state }) {
+function MapListItem({ map, caveId, selected, state }) {
   const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
   return (
     <ListItemButton
       className="oc-map-pane--item"
       component={Link}
-      to={`../maps/${map.id}`}
+      // Absolute: a relative "../maps/<id>" resolved one level too deep (…/maps/maps/<id>).
+      to={`/map/${caveId}/maps/${map.id}`}
       state={state}
-      relative="path"
       selected={selected}
       aria-current={selected ? 'page' : undefined}
       sx={{
@@ -149,7 +149,7 @@ export default function MapPane() {
             {`${tEdit('sistema')} ${sistemaName(group.sistemaId)}`}
           </ListSubheader>
         ),
-        ...group.maps.map((map) => <MapListItem key={map.id} map={map} selected={map.id === mapId} state={location.state} />),
+        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} />),
       ])}
     </List>
   )
