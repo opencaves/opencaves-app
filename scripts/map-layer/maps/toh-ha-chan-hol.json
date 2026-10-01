@@ -1,0 +1,1415 @@
+{
+  "image": "../../../_data/maps-import/images/toh-ha-sist-part-tulum.webp",
+  "title": "Cenote Chan Hol, Sistema Toh Ha - Nadia Berni 2009",
+  "credits": "Explorers Kim Davidsson (primary explorer), Nadia Berni, David Sieff, Brian Kakuk, Alex and Thorsten Kampe, Robbie Schittner; mapping and cartography Nadia Berni, 2009",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfyTGVmYHh6q8rl9",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "eraseLines": [
+      {
+        "why": "cross-section mark A (arrow)",
+        "from": [
+          4778,
+          1148
+        ],
+        "to": [
+          4796,
+          1151
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "cross-section mark A",
+        "from": [
+          4795,
+          1163
+        ],
+        "to": [
+          4756,
+          1178
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark A (west end)",
+        "from": [
+          4600,
+          1226
+        ],
+        "to": [
+          4650,
+          1207
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark B (arrow)",
+        "from": [
+          5944,
+          808
+        ],
+        "to": [
+          5962,
+          812
+        ],
+        "widthPx": 18
+      },
+      {
+        "why": "cross-section mark B",
+        "from": [
+          5962,
+          812
+        ],
+        "to": [
+          5962,
+          860
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark B (south end)",
+        "from": [
+          5947,
+          940
+        ],
+        "to": [
+          5941,
+          982
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark C (arrow)",
+        "from": [
+          6004,
+          2288
+        ],
+        "to": [
+          6027,
+          2290
+        ],
+        "widthPx": 18
+      },
+      {
+        "why": "cross-section mark C",
+        "from": [
+          6028,
+          2290
+        ],
+        "to": [
+          6028,
+          2360
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark C (south end)",
+        "from": [
+          6021,
+          2505
+        ],
+        "to": [
+          6022,
+          2582
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark D",
+        "from": [
+          5562,
+          4398
+        ],
+        "to": [
+          5622,
+          4415
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "cross-section mark D (east end)",
+        "from": [
+          5692,
+          4459
+        ],
+        "to": [
+          5746,
+          4491
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark E",
+        "from": [
+          4004,
+          3990
+        ],
+        "to": [
+          4040,
+          4085
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "cross-section mark F",
+        "from": [
+          1126,
+          3626
+        ],
+        "to": [
+          1184,
+          3650
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "cross-section mark F (east end)",
+        "from": [
+          1272,
+          3709
+        ],
+        "to": [
+          1316,
+          3758
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark G",
+        "from": [
+          980,
+          4185
+        ],
+        "to": [
+          998,
+          4212
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark G (arrow)",
+        "from": [
+          1020,
+          4250
+        ],
+        "to": [
+          1041,
+          4291
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "cross-section mark H",
+        "from": [
+          3466,
+          1490
+        ],
+        "to": [
+          3528,
+          1468
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "cross-section mark H (east end)",
+        "from": [
+          3625,
+          1398
+        ],
+        "to": [
+          3680,
+          1368
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark J",
+        "from": [
+          5618,
+          3466
+        ],
+        "to": [
+          5600,
+          3508
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "cross-section mark J (dashes)",
+        "from": [
+          5598,
+          3520
+        ],
+        "to": [
+          5602,
+          3580
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          3315,
+          1035
+        ],
+        "to": [
+          3348,
+          1080
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          5113,
+          1400
+        ],
+        "to": [
+          5140,
+          1400
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "flow arrow (shaft)",
+        "from": [
+          5140,
+          1400
+        ],
+        "to": [
+          5186,
+          1394
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          6973,
+          1163
+        ],
+        "to": [
+          7026,
+          1166
+        ],
+        "widthPx": 20
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          5428,
+          2310
+        ],
+        "to": [
+          5475,
+          2343
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          7158,
+          2437
+        ],
+        "to": [
+          7212,
+          2412
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          2200,
+          3126
+        ],
+        "to": [
+          2272,
+          3108
+        ],
+        "widthPx": 18
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          3120,
+          3778
+        ],
+        "to": [
+          3183,
+          3800
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          4428,
+          3786
+        ],
+        "to": [
+          4498,
+          3776
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          5908,
+          4192
+        ],
+        "to": [
+          5936,
+          4138
+        ],
+        "widthPx": 18
+      },
+      {
+        "why": "flow arrow",
+        "from": [
+          1100,
+          5290
+        ],
+        "to": [
+          1120,
+          5225
+        ],
+        "widthPx": 20
+      }
+    ],
+    "why": "b/w line drawing: walls are bold strokes (about 5-7 px), boulders, columns and speleothems thinner - wall-strokes with a smaller opening than the default. Cross-section marks (A-J) and flow arrows erased by hand; dashed walls come out as details. Needs the stroke clean-up of the scratchpad wrapper ch-trace.py (pin-holes in the ragged strokes otherwise give 63k tiny skeleton loops).",
+    "fillStrokeHolesPx": 400
+  },
+  "exclude": [
+    {
+      "why": "title Cenote Chan Hol",
+      "box": [
+        70,
+        150,
+        2240,
+        470
+      ]
+    },
+    {
+      "why": "title Sistema Toh Ha",
+      "box": [
+        70,
+        620,
+        1140,
+        830
+      ]
+    },
+    {
+      "why": "section of Cenote Chan Hol and its label",
+      "box": [
+        390,
+        740,
+        1540,
+        1395
+      ]
+    },
+    {
+      "why": "total passage mapped and surveyed",
+      "box": [
+        140,
+        1520,
+        1600,
+        1670
+      ]
+    },
+    {
+      "why": "exploration history",
+      "box": [
+        160,
+        1750,
+        1770,
+        2870
+      ],
+      "history": true
+    },
+    {
+      "why": "title Tulum, Q.Roo, Mexico",
+      "box": [
+        4590,
+        165,
+        5870,
+        335
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        7880,
+        250,
+        8090,
+        940
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        8370,
+        0,
+        8401,
+        5607
+      ]
+    },
+    {
+      "why": "section A",
+      "box": [
+        3640,
+        260,
+        4440,
+        625
+      ]
+    },
+    {
+      "why": "section B",
+      "box": [
+        6660,
+        300,
+        7300,
+        665
+      ]
+    },
+    {
+      "why": "section H",
+      "box": [
+        2730,
+        1700,
+        3500,
+        2145
+      ]
+    },
+    {
+      "why": "section J",
+      "box": [
+        3900,
+        2450,
+        4450,
+        3220
+      ]
+    },
+    {
+      "why": "section C",
+      "box": [
+        7290,
+        1620,
+        7995,
+        2070
+      ]
+    },
+    {
+      "why": "section G",
+      "box": [
+        360,
+        2930,
+        925,
+        3615
+      ]
+    },
+    {
+      "why": "section F",
+      "box": [
+        1810,
+        4150,
+        2590,
+        4740
+      ]
+    },
+    {
+      "why": "section E",
+      "box": [
+        4195,
+        4140,
+        5070,
+        4775
+      ]
+    },
+    {
+      "why": "section D",
+      "box": [
+        6750,
+        3940,
+        7365,
+        4250
+      ]
+    },
+    {
+      "why": "explorers",
+      "box": [
+        210,
+        3740,
+        920,
+        4230
+      ],
+      "history": true
+    },
+    {
+      "why": "mapping and cartography",
+      "box": [
+        200,
+        4870,
+        790,
+        5130
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1700,
+        5140,
+        2270,
+        5240
+      ]
+    },
+    {
+      "why": "notes: cross sections not to scale, units in feet",
+      "box": [
+        1300,
+        5300,
+        2720,
+        5600
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        2740,
+        4720,
+        3900,
+        5420
+      ]
+    },
+    {
+      "why": "QRSS conservation note",
+      "box": [
+        4240,
+        5050,
+        5610,
+        5410
+      ]
+    },
+    {
+      "why": "geological history",
+      "box": [
+        6700,
+        4340,
+        8230,
+        5410
+      ],
+      "history": true
+    },
+    {
+      "why": "mark letter A",
+      "box": [
+        4815,
+        1130,
+        4850,
+        1172
+      ]
+    },
+    {
+      "why": "mark letter B",
+      "box": [
+        5903,
+        825,
+        5937,
+        860
+      ]
+    },
+    {
+      "why": "mark letter C",
+      "box": [
+        6044,
+        2278,
+        6080,
+        2317
+      ]
+    },
+    {
+      "why": "mark letter D",
+      "box": [
+        5587,
+        4340,
+        5622,
+        4377
+      ]
+    },
+    {
+      "why": "mark letter E",
+      "box": [
+        4050,
+        4024,
+        4083,
+        4062
+      ]
+    },
+    {
+      "why": "mark letter F",
+      "box": [
+        1091,
+        3582,
+        1122,
+        3617
+      ]
+    },
+    {
+      "why": "mark letter G",
+      "box": [
+        1054,
+        4284,
+        1091,
+        4321
+      ]
+    },
+    {
+      "why": "mark letter H",
+      "box": [
+        3433,
+        1516,
+        3467,
+        1556
+      ]
+    },
+    {
+      "why": "mark letter J",
+      "box": [
+        5637,
+        3437,
+        5666,
+        3474
+      ]
+    },
+    {
+      "why": "label CE",
+      "box": [
+        6750,
+        2715,
+        6830,
+        2760
+      ]
+    },
+    {
+      "why": "label connection to Chu-An",
+      "box": [
+        2120,
+        815,
+        2575,
+        872
+      ]
+    },
+    {
+      "why": "label connection to Ba'ab Zooz",
+      "box": [
+        7410,
+        2432,
+        7925,
+        2490
+      ]
+    },
+    {
+      "why": "label connection to Toh Ha",
+      "box": [
+        755,
+        4535,
+        1195,
+        4590
+      ]
+    },
+    {
+      "why": "label cave continues",
+      "box": [
+        730,
+        5350,
+        1030,
+        5410
+      ]
+    },
+    {
+      "why": "label shimano line",
+      "box": [
+        3200,
+        375,
+        3460,
+        420
+      ]
+    },
+    {
+      "why": "label sueco section",
+      "box": [
+        4495,
+        595,
+        4765,
+        642
+      ]
+    },
+    {
+      "why": "label lure line",
+      "box": [
+        5535,
+        588,
+        5700,
+        633
+      ]
+    },
+    {
+      "why": "label wiesn line",
+      "box": [
+        6410,
+        712,
+        6618,
+        755
+      ]
+    },
+    {
+      "why": "label mr furry balls",
+      "box": [
+        6900,
+        965,
+        7175,
+        1030
+      ]
+    },
+    {
+      "why": "label simplon line",
+      "box": [
+        2605,
+        1505,
+        2850,
+        1552
+      ]
+    },
+    {
+      "why": "label xibalba line",
+      "box": [
+        5410,
+        1385,
+        5648,
+        1432
+      ]
+    },
+    {
+      "why": "label cherry line",
+      "box": [
+        6965,
+        1938,
+        7175,
+        1985
+      ]
+    },
+    {
+      "why": "label the professor loop",
+      "box": [
+        4850,
+        3215,
+        5205,
+        3272
+      ]
+    },
+    {
+      "why": "label plain line",
+      "box": [
+        3810,
+        3355,
+        4000,
+        3400
+      ]
+    },
+    {
+      "why": "label forward line",
+      "box": [
+        2190,
+        3975,
+        2433,
+        4022
+      ]
+    },
+    {
+      "why": "label forza line",
+      "box": [
+        4355,
+        3865,
+        4545,
+        3908
+      ]
+    },
+    {
+      "why": "label texas skull line",
+      "box": [
+        5545,
+        4100,
+        5845,
+        4147
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      1727,
+      5220
+    ],
+    "to": [
+      2196,
+      5220
+    ],
+    "metres": 45.72
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVGOjIHwy7bURUrt",
+      "name": "Chan Hol",
+      "px": [
+        6805,
+        2687
+      ],
+      "latitude": 20.158,
+      "longitude": -87.5693
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVGOjIHwy7bURUrt",
+      "name": "Chan Hol",
+      "px": [
+        6805,
+        2687
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "x": "restriction-major",
+      "z": "visibility-zero",
+      "s": "silt"
+    },
+    "templates": {
+      "x": [
+        3491,
+        5006
+      ],
+      "z": [
+        3489,
+        5057
+      ],
+      "s": [
+        3492,
+        5114
+      ]
+    },
+    "letterSizePx": [
+      15,
+      40
+    ],
+    "why": "Overlined numbers are depths in feet (13: OCR read 10, the bars search found 19, 31 and 7); circled numbers are ceiling-to-floor heights in feet (28 read, 6, 11, 8 and 9 added by hand). The s template also matches the black cores of the ceiling-to-floor columns: those 32 matches are dropped (fix), and one missed s added. Minor restrictions are drawn as )( marks, not letters: added by hand. The legend has no bones symbol and no bones, skull or skeleton is drawn in the plan (checked tile by tile; the Texas Skull Line is only a name). Leads to other caves (Chu-An, Ba'ab Zooz, Toh Ha, cave continues) are at the passage ends they label; the named lines are place names at their labels.",
+    "fix": [
+      {
+        "px": [
+          3287,
+          667
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          4456,
+          960
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          4784,
+          1043
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5789,
+          1227
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          2833,
+          1305
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          2860,
+          1350
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          3305,
+          1395
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          3449,
+          1402
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          6268,
+          1496
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          3645,
+          1496
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          6496,
+          1635
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5728,
+          2641
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5837,
+          2777
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5818,
+          3005
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5878,
+          3020
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5791,
+          3041
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1507,
+          3476
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          4921,
+          3524
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1376,
+          3526
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5492,
+          3535
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1398,
+          3535
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5762,
+          3543
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1750,
+          3573
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          4659,
+          3614
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1400,
+          3656
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          3264,
+          3681
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          6547,
+          3722
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1590,
+          3746
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          4189,
+          3835
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1453,
+          3977
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          6276,
+          4373
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          6210,
+          4660
+        ],
+        "value": null
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "19",
+        "px": [
+          7455,
+          2246
+        ],
+        "value": 19,
+        "halfPx": 26
+      },
+      {
+        "type": "depth",
+        "label": "31",
+        "px": [
+          1256,
+          4728
+        ],
+        "value": 31,
+        "halfPx": 26
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "px": [
+          7189,
+          3115
+        ],
+        "value": 7,
+        "halfPx": 22
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          3449,
+          1402
+        ],
+        "value": 6,
+        "halfPx": 32
+      },
+      {
+        "type": "ceiling-height",
+        "label": "11",
+        "px": [
+          4864,
+          1414
+        ],
+        "value": 11,
+        "halfPx": 32
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          1600,
+          4030
+        ],
+        "value": 8,
+        "halfPx": 32
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "px": [
+          5596,
+          4760
+        ],
+        "value": 9,
+        "halfPx": 32
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          5847,
+          4981
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          2790,
+          965
+        ],
+        "halfPx": 28
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          4455,
+          1085
+        ],
+        "halfPx": 28
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          6870,
+          1122
+        ],
+        "halfPx": 30
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          6175,
+          762
+        ],
+        "halfPx": 28
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          3050,
+          3840
+        ],
+        "halfPx": 28
+      },
+      {
+        "type": "restriction-minor",
+        "label": ")(",
+        "px": [
+          1770,
+          3650
+        ],
+        "halfPx": 30
+      },
+      {
+        "type": "leads-to",
+        "label": "Connection to Chu-An",
+        "px": [
+          2465,
+          985
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Connection to Ba'ab Zooz",
+        "px": [
+          7487,
+          2327
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Connection to Toh Ha",
+        "px": [
+          1295,
+          4598
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Cave continues",
+        "px": [
+          1155,
+          5440
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "shimano line",
+        "px": [
+          3330,
+          397
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "sueco section",
+        "px": [
+          4630,
+          620
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "lure line",
+        "px": [
+          5615,
+          610
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "wiesn line",
+        "px": [
+          6512,
+          733
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "mr furry balls",
+        "px": [
+          7038,
+          995
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "simplon line",
+        "px": [
+          2728,
+          1528
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "xibalba line",
+        "px": [
+          5530,
+          1410
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "cherry line",
+        "px": [
+          7070,
+          1962
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "the professor loop",
+        "px": [
+          5030,
+          3245
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "plain line",
+        "px": [
+          3905,
+          3377
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "forward line",
+        "px": [
+          2310,
+          4000
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "forza line",
+        "px": [
+          4450,
+          3888
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "texas skull line",
+        "px": [
+          5695,
+          4123
+        ]
+      }
+    ]
+  }
+}

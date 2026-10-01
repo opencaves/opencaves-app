@@ -700,6 +700,15 @@ def main(config_path, output):
         review = numpy.full((height, width, 3), 255, numpy.uint8)
         review[masked] = (255, 236, 200)
         review[ink & ~strokes] = (200, 200, 255)
+        # "fillStrokeHolesPx": pin-holes in ragged scanned strokes would each
+        # become a tiny skeleton loop: closed, and holes smaller than this
+        # filled (a pillar's ring encloses far more).
+        if trace.get('fillStrokeHolesPx'):
+            strokes = cv2.morphologyEx(strokes.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8)) > 0
+            holes, count = ndimage.label(ndimage.binary_fill_holes(strokes) & ~strokes)
+            if count:
+                sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
+                strokes |= numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['fillStrokeHolesPx']))
         skeleton = skeletonize(strokes)
         neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
         for path in trace_skeleton(skeleton):
