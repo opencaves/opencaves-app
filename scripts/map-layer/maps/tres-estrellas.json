@@ -738,6 +738,36 @@
           5324
         ],
         "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "37",
+        "value": 37,
+        "px": [
+          1663,
+          1212
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1080,
+          2301
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "31",
+        "value": 31,
+        "px": [
+          1852,
+          2427
+        ],
+        "halfPx": 22
       }
     ]
   }
