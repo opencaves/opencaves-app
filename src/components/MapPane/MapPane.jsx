@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography, styled, useTheme } from '@mui/material'
-import { ArrowBackRounded, ArrowForwardRounded, DescriptionRounded, MapOutlined } from '@mui/icons-material'
+import { Box, Drawer, IconButton, List, ListItemButton, ListSubheader, Typography, styled, useTheme } from '@mui/material'
+import { ArrowBackRounded, ArrowForwardRounded, MapOutlined, PictureAsPdfRounded } from '@mui/icons-material'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
@@ -22,6 +22,65 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   ...theme.mixins.toolbar,
 }))
+
+// The list's thumbnail: 4:3, the shape of most survey sheets.
+const THUMBNAIL_WIDTH = 88
+const THUMBNAIL_HEIGHT = 66
+
+function MapThumbnail({ map }) {
+  const [failed, setFailed] = useState(false)
+  // thumbnailUrl/previewUrl: the light WebP derivatives the onMap*Uploaded functions make.
+  const src = map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') && map.url)
+  return (
+    <Box className="oc-map-pane--thumbnail" sx={{ flexShrink: 0, width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT, borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center' }}>
+      {src && !failed ? (
+        <Box component="img" src={src} alt="" loading="lazy" crossOrigin="anonymous" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      ) : map.contentType === 'application/pdf' ? (
+        <PictureAsPdfRounded color="action" />
+      ) : (
+        <MapOutlined color="action" />
+      )}
+    </Box>
+  )
+}
+
+// One map: its thumbnail, its name (two lines at most) and, under it, its
+// date and authors - enough to tell apart maps that share a name.
+function MapListItem({ map, selected, state }) {
+  const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
+  return (
+    <ListItemButton
+      className="oc-map-pane--item"
+      component={Link}
+      to={`../maps/${map.id}`}
+      state={state}
+      relative="path"
+      selected={selected}
+      aria-current={selected ? 'page' : undefined}
+      sx={{
+        gap: 2,
+        alignItems: 'center',
+        mx: 1,
+        px: 1,
+        py: 1,
+        borderRadius: 3,
+        '&.Mui-selected, &.Mui-selected:hover': { bgcolor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.12)` },
+      }}
+    >
+      <MapThumbnail map={map} />
+      <Box sx={{ minWidth: 0 }}>
+        <Typography variant="body1" sx={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', fontWeight: selected ? 500 : 400 }}>
+          {map.name}
+        </Typography>
+        {details && (
+          <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+            {details}
+          </Typography>
+        )}
+      </Box>
+    </ListItemButton>
+  )
+}
 
 export async function mapPaneLoader({ params }) {
   const cave = await CaveModel.getById(params.caveId)
@@ -73,14 +132,25 @@ export default function MapPane() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapId, maps.length])
 
+  // Maps come from the cave's sistema and the sistemas it belongs to: when
+  // there's more than one, each group gets its sistema's name.
+  const groups = []
+  for (const map of maps) {
+    const group = groups.find((g) => g.sistemaId === map.sistemaId)
+    if (group) group.maps.push(map)
+    else groups.push({ sistemaId: map.sistemaId, maps: [map] })
+  }
+  const sistemaName = (id) => sistemas.find((s) => s.id === id)?.name
   const list = (
-    <List disablePadding>
-      {maps.map((map) => (
-        <ListItemButton key={map.id} component={Link} to={`../maps/${map.id}`} state={location.state} relative="path" selected={map.id === mapId}>
-          <ListItemIcon sx={{ minWidth: 40 }}>{map.contentType === 'application/pdf' && !map.previewUrl ? <DescriptionRounded /> : <MapOutlined />}</ListItemIcon>
-          <ListItemText primary={map.name} primaryTypographyProps={{ noWrap: true }} />
-        </ListItemButton>
-      ))}
+    <List className="oc-map-pane--list" disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, pb: 2 }}>
+      {groups.map((group) => [
+        groups.length > 1 && sistemaName(group.sistemaId) && (
+          <ListSubheader key={`${group.sistemaId}-header`} disableSticky sx={{ lineHeight: 1.5, pt: 2, pb: 0.5, px: 3, typography: 'subtitle2', color: 'text.secondary', bgcolor: 'transparent' }}>
+            {`${tEdit('sistema')} ${sistemaName(group.sistemaId)}`}
+          </ListSubheader>
+        ),
+        ...group.maps.map((map) => <MapListItem key={map.id} map={map} selected={map.id === mapId} state={location.state} />),
+      ])}
     </List>
   )
 
