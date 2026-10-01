@@ -187,7 +187,10 @@ def map_candidates(config_path, output_dir):
         if config.get('entrances'):
             accuracy = max(10, rms)
             # An entrance placed at its label ("atLabel": true) is less exact.
-            found = [{**e, 'position': place(*e['px']), 'placement': 'label' if e.get('atLabel') else 'opening'} for e in config['entrances']]
+            # An entrance seen on the satellite image ("latitude"/"longitude"
+            # given) is placed there, not where the map's fit puts it.
+            found = [{**e, 'position': (e['longitude'], e['latitude']) if 'latitude' in e else place(*e['px']),
+                      'placement': 'satellite' if 'latitude' in e else 'label' if e.get('atLabel') else 'opening'} for e in config['entrances']]
         else:
             words_path = output_dir / f'{name}-ocr-words.json'
             if not words_path.exists():

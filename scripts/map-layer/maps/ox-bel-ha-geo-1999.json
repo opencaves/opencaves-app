@@ -202,6 +202,17 @@
       "longitude": -87.487878,
       "why": "pool visible on the satellite image",
       "check": false
+    },
+    {
+      "caveId": "-KPZkVSG0vPec4Nnha7l",
+      "name": "Xiix pool",
+      "px": [
+        6507,
+        3900
+      ],
+      "latitude": 20.154887,
+      "longitude": -87.474773,
+      "why": "pond visible on the satellite image"
     }
   ],
   "entrances": [
@@ -395,7 +406,9 @@
         6507,
         3900
       ],
-      "caveId": "-KPZkVSG0vPec4Nnha7l"
+      "caveId": "-KPZkVSG0vPec4Nnha7l",
+      "latitude": 20.154887,
+      "longitude": -87.474773
     },
     {
       "name": "Tarpon",
