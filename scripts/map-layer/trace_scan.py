@@ -129,8 +129,14 @@ def colour_fill_band(image_path, masked, trace):
       average;
     - connected: faintly blue pixels ("weakThreshold") joined to either -
       the thinnest passage ends."""
-    rgb = numpy.asarray(Image.open(image_path).convert('RGB')).astype(numpy.float32)
+    image = Image.open(image_path).convert('RGB')
+    rgb = numpy.asarray(image).astype(numpy.float32)
     blueness = rgb[..., 2] - rgb[..., 0]
+    if trace.get('cyanFill'):
+        # Cyan fill only ("cyanFill": true): green above red too. Survey lines
+        # drawn in blue-violet (passages surveyed but not drawn) have green
+        # about equal to red, so they and their halo don't read as fill.
+        blueness = numpy.minimum(blueness, 2 * (rgb[..., 1] - rgb[..., 0]))
     grey = rgb.mean(axis=2)
     window = trace.get('paperWindowPx', 500)
     paper = local_level(blueness, window)
@@ -150,6 +156,21 @@ def colour_fill_band(image_path, masked, trace):
     enclosed = numpy.isin(regions, [int(i) for i, m, n, o in zip(ids, mean, size, overlap)
                                     if 40 <= n <= max_region and (m >= trace.get('regionThreshold', 4) or o >= 0.3)])
     core = (strong | enclosed) & ~masked
+    # Fills of other colours that are passage too ("fillColours": [{"hue":
+    # [h0, h1], "minSaturation": s}], hue and saturation 0-255): e.g. a
+    # cenote's basin drawn in tan.
+    if trace.get('fillColours'):
+        hsv = numpy.asarray(image.convert('HSV')).astype(numpy.int16)
+        blue = cv2.dilate(core.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
+        for colour in trace['fillColours']:
+            h0, h1 = colour['hue']
+            fill = ((hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) & (hsv[..., 1] >= colour.get('minSaturation', 40))).astype(numpy.float32)
+            # By density, as the blue: a basin's fill is broken by stipple.
+            fill = (cv2.GaussianBlur(fill, (0, 0), 3) >= colour.get('density', 0.35)) & ~masked
+            # Only patches opening onto a blue passage, as a basin does.
+            patches, _ = ndimage.label(fill)
+            touching = numpy.unique(patches[fill & blue])
+            core |= numpy.isin(patches, touching[touching > 0])
     weak_excess = cv2.GaussianBlur(blueness, (0, 0), 1) - paper
     weak = (weak_excess >= trace.get('weakThreshold', 4)) & ~ink & ~masked
     # Local low-threshold areas (config "lowThresholdAreas": [{"box": [x0, y0,
@@ -254,6 +275,22 @@ def detail_features(detail_ink, water, place, to_lnglat, scale, trace, propertie
     features = []
     tolerance = trace.get('detailSimplifyMetres', 0.03) / scale
 
+    # Big shapes are cut along a grid: a water area spanning the whole system,
+    # or a network of ink with hundreds of holes, is more than the map's
+    # tiling can fill reliably - simplified and snapped to each tile's grid,
+    # its rings cross and it shows as wedges and blocks of colour.
+    cell = trace.get('splitMetres', 50) / scale
+
+    def split(shape):
+        import shapely
+        from shapely.geometry import box
+        x0, y0, x1, y1 = shape.bounds
+        if x1 - x0 <= cell and y1 - y0 <= cell:
+            return [shape]
+        boxes = [box(x, y, x + cell, y + cell) for x in numpy.arange(x0, x1, cell) for y in numpy.arange(y0, y1, cell)]
+        pieces = shapely.intersection(shape, boxes)
+        return [g for p in pieces if not p.is_empty for g in getattr(p, 'geoms', [p]) if g.geom_type == 'Polygon' and g.area > 0]
+
     def polygons(mask, kind, min_px):
         contours, hierarchy = cv2.findContours(mask.astype(numpy.uint8), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         if hierarchy is None:
@@ -270,7 +307,7 @@ def detail_features(detail_ink, water, place, to_lnglat, scale, trace, propertie
             if len(contour) < 3:
                 continue
             shape = Polygon([tuple(p) for p in contour[:, 0, :].astype(float)], holes).buffer(0).simplify(tolerance)
-            for part in getattr(shape, 'geoms', [shape]):
+            for part in [g for piece in split(shape) for g in getattr(piece, 'geoms', [piece])]:
                 if part.is_empty or part.geom_type != 'Polygon':
                     continue
                 exterior = [to_lnglat.transform(*place(x, y)) for x, y in part.exterior.coords]
@@ -402,13 +439,22 @@ def main(config_path, output):
         patch = cv2.morphologyEx(patch, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25)))
         pad = colour.get('padPx', 30)
         min_size = colour.get('minSizePx', 40)
-        # "minFill": the share of its box a patch must cover - a brick
-        # section is a filled rectangle, sand or pebbles of the colour aren't.
+        # "minFill": the share of its box a patch must cover, with what it
+        # encloses - a brick section is a filled rectangle (its cave drawn
+        # inside the brick), sand or pebbles of the colour aren't.
         min_fill = colour.get('minFill', 0)
         patches = ndimage.label(patch)[0]
         for i, sl in enumerate(ndimage.find_objects(patches)):
-            if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= min_size and (patches[sl] == i + 1).mean() >= min_fill:
-                masked[max(0, sl[0].start - pad):sl[0].stop + pad, max(0, sl[1].start - pad):sl[1].stop + pad] = True
+            if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= min_size and ndimage.binary_fill_holes(patches[sl] == i + 1).mean() >= min_fill:
+                # Its own shape, not its box: trees drawn on a section (brown
+                # trunks) would stretch a box over the passages beside them.
+                # Closed first, so a cenote's shaft open to the top is in too.
+                y0, x0 = max(0, sl[0].start - pad - 20), max(0, sl[1].start - pad - 20)
+                window = (slice(y0, sl[0].stop + pad + 20), slice(x0, sl[1].stop + pad + 20))
+                body = (patches[window] == i + 1).astype(numpy.uint8)
+                body = cv2.morphologyEx(body, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41)))
+                body = ndimage.binary_fill_holes(body).astype(numpy.uint8)
+                masked[window] |= cv2.dilate(body, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * pad + 1, 2 * pad + 1))) > 0
     colour_masked = masked.copy()
     words = ocr_words(grey, out / f'{name}-ocr-words.json')
     labels_only = real_labels(words)
@@ -558,6 +604,18 @@ def main(config_path, output):
         walls = numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX])
         band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (CLOSE_PX, CLOSE_PX)))
         band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (OPEN_PX, OPEN_PX)))
+    place, scale, _ = raster_placement(config)
+    # Small pieces far from any passage ("dropIsolated": {"maxSqMetres",
+    # "gapMetres"}): leftovers of survey lines, labels or symbols. A passage
+    # end cut off at a narrow neck stays: it's next to its passage.
+    if trace.get('dropIsolated'):
+        rule = trace['dropIsolated']
+        pieces, count = ndimage.label(band > 0, structure=numpy.ones((3, 3)))
+        areas = ndimage.sum(numpy.ones_like(pieces), pieces, numpy.arange(1, count + 1)) * scale ** 2
+        small = numpy.isin(pieces, [i + 1 for i, a in enumerate(areas) if a < rule.get('maxSqMetres', 100)])
+        gap = cv2.distanceTransform(((band > 0) & ~small).astype(numpy.uint8) ^ 1, cv2.DIST_L2, 5) * scale
+        near = numpy.unique(pieces[small & (gap <= rule.get('gapMetres', 20))])
+        band[small & ~numpy.isin(pieces, near)] = 0
     contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)

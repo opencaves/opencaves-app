@@ -153,7 +153,8 @@ const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/
 map.on('load', () => {
   map.addSource('scan', { type: 'image', url: '__IMAGE__', coordinates: __CORNERS__ })
   map.addLayer({ id: 'scan', type: 'raster', source: 'scan', paint: { 'raster-opacity': 0.35, 'raster-fade-duration': 0 } })
-  map.addSource('walls', { type: 'geojson', data: __WALLS__ })
+  // tolerance 0: simplified per tile, the detailed rings cross and fill as wedges.
+  map.addSource('walls', { type: 'geojson', data: __WALLS__, tolerance: 0 })
   map.addLayer({ id: 'water', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'water'], paint: { 'fill-color': '#9ec3d6', 'fill-opacity': 0.55 } })
   map.addLayer({ id: 'details', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'detail'], paint: { 'fill-color': '#ffffff', 'fill-opacity': 0.9 } })
   map.addLayer({ id: 'walls', type: 'line', source: 'walls', filter: ['!', ['in', ['get', 'kind'], ['literal', ['detail', 'water']]]], paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })

@@ -24,7 +24,22 @@
         "minSizePx": 100,
         "minFill": 0.5
       }
-    ]
+    ],
+    "cyanFill": true,
+    "fillColours": [
+      {
+        "why": "cenote basins drawn in tan to olive",
+        "hue": [
+          30,
+          65
+        ],
+        "minSaturation": 30
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 100,
+      "gapMetres": 20
+    }
   },
   "exclude": [
     {
