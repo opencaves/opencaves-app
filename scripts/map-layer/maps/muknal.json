@@ -1,0 +1,1452 @@
+{
+  "image": "../../../_data/maps-import/images/naranjal-sist-muknal-remote-siphon-part-tulum.webp",
+  "title": "Sistema Naranjal - Muknal Remote Siphon - QRSS 2001 (J. G. Coke IV)",
+  "credits": "An underwater cave survey of the Muknal Remote Siphon section of Sistema Naranjal, surveyed January 1991 to April 1994 by James G. Coke IV, Lorie Conlin, Carl Sutton, Thomas M. Young, and March 2000 to December 2000 by James G. Coke IV, Bil Phillips; drafted by James G. Coke IV (QRSS, 2001)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        7259,
+        330,
+        9442,
+        1091
+      ]
+    },
+    {
+      "why": "printed position (latitude, longitude, datum)",
+      "box": [
+        8072,
+        914,
+        8655,
+        1076
+      ]
+    },
+    {
+      "why": "north arrows",
+      "box": [
+        6437,
+        1117,
+        6610,
+        1736
+      ]
+    },
+    {
+      "why": "principal explorers",
+      "box": [
+        6803,
+        2031,
+        7523,
+        2386
+      ],
+      "history": true
+    },
+    {
+      "why": "survey credits and plan length",
+      "box": [
+        8097,
+        1675,
+        9214,
+        2767
+      ],
+      "history": true
+    },
+    {
+      "why": "notes",
+      "box": [
+        7869,
+        3376,
+        9442,
+        4467
+      ]
+    },
+    {
+      "why": "Snakeman's Escape note",
+      "box": [
+        7440,
+        5260,
+        8300,
+        5600
+      ]
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        660,
+        4391,
+        1878,
+        5762
+      ]
+    },
+    {
+      "why": "inset: Sistema Naranjal, area displayed",
+      "box": [
+        711,
+        3097,
+        1624,
+        4122
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        5686,
+        5483,
+        7107,
+        5863
+      ]
+    },
+    {
+      "why": "QRSS logo",
+      "box": [
+        3401,
+        558,
+        3960,
+        1015
+      ]
+    },
+    {
+      "why": "outside the frame (bottom) and caption",
+      "box": [
+        0,
+        6041,
+        10153,
+        6599
+      ]
+    },
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        10153,
+        178
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        457,
+        6599
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        9706,
+        0,
+        10153,
+        6599
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1614,
+        406,
+        2376,
+        802
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2767,
+        1015,
+        3183,
+        1157
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3173,
+        1472,
+        3889,
+        1690
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4772,
+        1056,
+        5696,
+        1361
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        5269,
+        1736,
+        5635,
+        1843
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        751,
+        1584,
+        1335,
+        1904
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        827,
+        2350,
+        1229,
+        2559
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2132,
+        2345,
+        3229,
+        2675
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1665,
+        2965,
+        2092,
+        3127
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2817,
+        3188,
+        3711,
+        3513
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        5330,
+        3188,
+        6275,
+        3513
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        5346,
+        2234,
+        6219,
+        2487
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        6508,
+        2853,
+        7077,
+        3005
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        6371,
+        3691,
+        6752,
+        3833
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        7310,
+        4234,
+        7716,
+        4325
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        6320,
+        4554,
+        6777,
+        4721
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3158,
+        4279,
+        3604,
+        4498
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        5711,
+        4975,
+        6275,
+        5188
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2477,
+        5310,
+        3076,
+        5498
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3807,
+        5584,
+        4467,
+        5787
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVKWYFuKF3wawGw0",
+      "name": "Jailhouse",
+      "px": [
+        4965,
+        3560
+      ],
+      "latitude": 20.1885,
+      "longitude": -87.4901
+    },
+    {
+      "caveId": "-KS3tV8PvWHg9xojnDG0",
+      "name": "Dead Cenote (pond on the satellite)",
+      "px": [
+        1690,
+        1580
+      ],
+      "latitude": 20.19046,
+      "longitude": -87.49359
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVKWYFuKF3wawGw0",
+      "name": "Jailhouse",
+      "px": [
+        4965,
+        3560
+      ]
+    },
+    {
+      "caveId": "-KS3tVF0Wad0I0OTKtbB",
+      "name": "Sixth Cenote Entrance",
+      "px": [
+        1330,
+        1180
+      ]
+    },
+    {
+      "caveId": "-KS3tV8PvWHg9xojnDG0",
+      "name": "Dead Cenote",
+      "px": [
+        1690,
+        1580
+      ]
+    },
+    {
+      "name": "Fenceline Cenote",
+      "px": [
+        1825,
+        1840
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "z": "visibility-zero",
+      "s": "silt"
+    },
+    "templates": {
+      "s": [
+        778,
+        5075
+      ],
+      "z": [
+        778,
+        5122
+      ],
+      "r": [
+        775,
+        5530
+      ],
+      "x": [
+        775,
+        5632
+      ]
+    },
+    "letterSizePx": [
+      12,
+      32
+    ],
+    "fix": [
+      {
+        "px": [
+          1568,
+          1261
+        ],
+        "value": 10
+      },
+      {
+        "px": [
+          3071,
+          2148
+        ],
+        "value": 55
+      },
+      {
+        "px": [
+          3571,
+          2675
+        ],
+        "value": 35
+      },
+      {
+        "px": [
+          4104,
+          3256
+        ],
+        "value": null,
+        "why": "stipple ovals read as a number"
+      },
+      {
+        "px": [
+          7422,
+          3645
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          5477,
+          4515
+        ],
+        "value": null,
+        "why": "ovals read as a number"
+      },
+      {
+        "px": [
+          6051,
+          4569
+        ],
+        "value": 55
+      },
+      {
+        "px": [
+          5611,
+          4735
+        ],
+        "value": 55
+      },
+      {
+        "px": [
+          5334,
+          4788
+        ],
+        "value": null,
+        "why": "circled 25 (a ceiling height, added in extra) read as a depth"
+      },
+      {
+        "px": [
+          4571,
+          5239
+        ],
+        "value": 70
+      },
+      {
+        "px": [
+          8603,
+          4935
+        ],
+        "value": 30
+      },
+      {
+        "px": [
+          4022,
+          5034
+        ],
+        "value": null,
+        "why": "slope hatching, not an x"
+      },
+      {
+        "px": [
+          2556,
+          4920
+        ],
+        "value": null,
+        "why": "an x (major restriction) read as a z: added in extra"
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "90",
+        "px": [
+          2354,
+          1091
+        ],
+        "value": 90
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "px": [
+          2346,
+          1727
+        ],
+        "value": 60
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "px": [
+          4497,
+          769
+        ],
+        "value": 40
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "px": [
+          4072,
+          1583
+        ],
+        "value": 40
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "px": [
+          4947,
+          789
+        ],
+        "value": 20
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "px": [
+          4072,
+          2445
+        ],
+        "value": 55
+      },
+      {
+        "type": "depth",
+        "label": "115",
+        "px": [
+          3786,
+          2831
+        ],
+        "value": 115
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          4428,
+          3117
+        ],
+        "value": 75
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "px": [
+          4692,
+          3504
+        ],
+        "value": 40
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          3180,
+          3966
+        ],
+        "value": 75
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "px": [
+          4173,
+          4044
+        ],
+        "value": 50
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "px": [
+          4799,
+          2603
+        ],
+        "value": 45
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          5583,
+          3730
+        ],
+        "value": 15
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "px": [
+          4826,
+          4233
+        ],
+        "value": 40
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "px": [
+          5915,
+          4256
+        ],
+        "value": 45
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "px": [
+          5028,
+          4644
+        ],
+        "value": 55
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "px": [
+          5307,
+          5500
+        ],
+        "value": 50
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "px": [
+          7917,
+          4947
+        ],
+        "value": 30
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "px": [
+          8905,
+          5088
+        ],
+        "value": 35
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "px": [
+          8584,
+          5612
+        ],
+        "value": 35
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          1712,
+          2114
+        ],
+        "value": 5
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          2318,
+          3711
+        ],
+        "value": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "px": [
+          2276,
+          4371
+        ],
+        "value": 3
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          4462,
+          2918
+        ],
+        "value": 15
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          4365,
+          3757
+        ],
+        "value": 10
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          3543,
+          3939
+        ],
+        "value": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          4659,
+          4095
+        ],
+        "value": 10
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          4292,
+          4244
+        ],
+        "value": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          5024,
+          3875
+        ],
+        "value": 5
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          6245,
+          4123
+        ],
+        "value": 10
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          6543,
+          4115
+        ],
+        "value": 10
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          5981,
+          4406
+        ],
+        "value": 5
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          7292,
+          3475
+        ],
+        "value": 5
+      },
+      {
+        "type": "ceiling-height",
+        "label": "25",
+        "px": [
+          5334,
+          4788
+        ],
+        "value": 25
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "px": [
+          3475,
+          4994
+        ],
+        "value": 3
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          3860,
+          4963
+        ],
+        "value": 10
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          5321,
+          5307
+        ],
+        "value": 5
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1848,
+          2136
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          2094,
+          1597
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          4885,
+          1940
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          4054,
+          3384
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          5231,
+          4162
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          4931,
+          4631
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2556,
+          4920
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1995*",
+        "px": [
+          5067,
+          880
+        ],
+        "value": 1995,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1350*",
+        "px": [
+          2199,
+          991
+        ],
+        "value": 1350,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1260*",
+        "px": [
+          3904,
+          1815
+        ],
+        "value": 1260,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1730*",
+        "px": [
+          4790,
+          2000
+        ],
+        "value": 1730,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 545",
+        "px": [
+          5060,
+          1995
+        ],
+        "value": 545,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 800*",
+        "px": [
+          2909,
+          2108
+        ],
+        "value": 800,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 955*",
+        "px": [
+          1836,
+          2606
+        ],
+        "value": 955,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1800*",
+        "px": [
+          2987,
+          3058
+        ],
+        "value": 1800,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1680",
+        "px": [
+          2636,
+          3270
+        ],
+        "value": 1680,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1675",
+        "px": [
+          7549,
+          3220
+        ],
+        "value": 1675,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 910",
+        "px": [
+          5766,
+          3690
+        ],
+        "value": 910,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1160",
+        "px": [
+          6251,
+          4012
+        ],
+        "value": 1160,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 495",
+        "px": [
+          4153,
+          4128
+        ],
+        "value": 495,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1030",
+        "px": [
+          2997,
+          4462
+        ],
+        "value": 1030,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 660",
+        "px": [
+          4744,
+          4568
+        ],
+        "value": 660,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1270",
+        "px": [
+          3880,
+          4702
+        ],
+        "value": 1270,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 1760",
+        "px": [
+          2615,
+          5013
+        ],
+        "value": 1760,
+        "halfPx": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p. 2720",
+        "px": [
+          8943,
+          5413
+        ],
+        "value": 2720,
+        "halfPx": 60
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote of the Sun, 131 m",
+        "px": [
+          1066,
+          802
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Explored passage continues",
+        "px": [
+          9005,
+          5028
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Explored passage continues",
+        "px": [
+          8625,
+          5678
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ninth Level",
+        "px": [
+          3147,
+          1337
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Muknal Siphon",
+        "px": [
+          3568,
+          2165
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Muknal Siphon",
+        "px": [
+          4355,
+          2545
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "White River",
+        "px": [
+          3640,
+          2448
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yax Tunich",
+        "px": [
+          2626,
+          3980
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yaxbe",
+        "px": [
+          3893,
+          4404
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yaxbe Drifts",
+        "px": [
+          7032,
+          3448
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yaxbe South Fault",
+        "px": [
+          5055,
+          5370
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Swiss Siphon",
+        "px": [
+          3585,
+          5173
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Snakeman's Escape",
+        "px": [
+          7601,
+          4793
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3637,
+          1999
+        ],
+        "bearing": 100,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4988,
+          2984
+        ],
+        "bearing": 180,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5164,
+          4283
+        ],
+        "bearing": 175,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4771,
+          4343
+        ],
+        "bearing": 165,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4593,
+          2286
+        ],
+        "bearing": 75,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4879,
+          2779
+        ],
+        "bearing": 170,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5350,
+          4650
+        ],
+        "bearing": 90,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6664,
+          4183
+        ],
+        "bearing": 85,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2393,
+          1829
+        ],
+        "bearing": 90,
+        "halfPx": 40
+      }
+    ]
+  },
+  "trace": {
+    "method": "wall-strokes",
+    "openRadiusPx": 2,
+    "minExtentPx": 150,
+    "water": false,
+    "symbolPadPx": 6,
+    "leaderMaxPx": 900,
+    "leaderReachPx": 110,
+    "fillStrokeHolesPx": 30,
+    "inkLevel": 205,
+    "eraseLines": [
+      {
+        "why": "section leader (Sixth Cenote section)",
+        "from": [
+          1714,
+          925
+        ],
+        "to": [
+          1612,
+          1060
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader (Dead Cenote section)",
+        "from": [
+          1590,
+          1558
+        ],
+        "to": [
+          1650,
+          1556
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          1820,
+          1556
+        ],
+        "to": [
+          1862,
+          1556
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          1857,
+          1556
+        ],
+        "to": [
+          1857,
+          1530
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          4140,
+          1190
+        ],
+        "to": [
+          4190,
+          1216
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4893,
+          1840
+        ],
+        "to": [
+          5075,
+          1885
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          4893,
+          1840
+        ],
+        "to": [
+          4893,
+          1882
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4975,
+          2178
+        ],
+        "to": [
+          5085,
+          2194
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          4634,
+          2148
+        ],
+        "to": [
+          4672,
+          2180
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          5125,
+          3055
+        ],
+        "to": [
+          5197,
+          3088
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section view arrow",
+        "from": [
+          4741,
+          3034
+        ],
+        "to": [
+          4773,
+          3060
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          5879,
+          4583
+        ],
+        "to": [
+          5879,
+          4860
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader (elbow)",
+        "from": [
+          5840,
+          4586
+        ],
+        "to": [
+          5882,
+          4586
+        ],
+        "widthPx": 11
+      }
+    ],
+    "boxSpurs": "labels",
+    "spurReachPx": 80,
+    "why": "Coke b/w line drawing: bold wall strokes, thin floor stipple, hatching, boulders. wall-strokes with a smaller opening (openRadiusPx 2) and inkLevel 205: the scan's walls are thin and broken at the default (radius 3, level 140). Section leaders and their view arrows that touch a wall erased by hand (eraseLines)."
+  },
+  "placementWhy": "Similarity fit through Jailhouse (Open Caves on-site GPS, the JAILHOUSE CENOTE ENTRANCE pond on the map) and Dead Cenote (its pond, clearly visible on the satellite imagery at 20.19046, -87.49359): 0.1109 m/px, rotation +0.2 deg. Checks: the scale bar gives 0.1116 m/px (0.6% off); the printed true-north star sits 5.7 deg west of the magnetic arrow, but a placement with it puts Dead Cenote ~20 m off its pond, so it is not used. Against the placed Naranjal stick plot (the earlier fit of this map onto it, scratchpad nar/mkpar.json): 4-20 m apart over the whole map (12 m at Jailhouse, 15 m at Dead Cenote). The 'To Cenote of the Sun 131 m' arrow lands 25 m from mayan-blue's 'To Muknal' pointer; the Sixth Cenote end is 144 m from the database Cenote of the Sun (QRSS position, validity unknown) and 106 m from OSM's. The printed position (N20.18832 W087.48985) is 33 m from Jailhouse's on-site GPS."
+}
