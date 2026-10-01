@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
-import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
+import { AccessibleRounded, LanguageRounded, LinkRounded, LockOpenRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import CaveIcon from '@/images/map/cave.svg?react'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
@@ -92,7 +93,8 @@ export default function AdminDashboard() {
                   <ListItem disablePadding>
                     <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
                       <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                        <AccountTreeRounded />
+                        {/* The cave details pane's sistema icon */}
+                        <SvgIcon component={CaveSystemIcon} inheritViewBox />
                       </ListItemIcon>
                       <ListItemText primary={t('manageSistemas')} />
                     </ListItemButton>
