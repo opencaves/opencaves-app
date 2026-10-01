@@ -1,0 +1,513 @@
+{
+  "image": "../../../_data/maps-import/images/mayan-blue-cen-tulum.webp",
+  "title": "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)",
+  "credits": "Cave plan of the Mayan Blue upstream and Xibalba sections of Sistema Naranjal, surveyed 1990-1992 by James G. Coke IV, Lorie Conlin, Thomas M. Young; drafted by James G. Coke IV (QRSS, 1993)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        8220,
+        180
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        640,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        7570,
+        0,
+        8220,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (bottom) and caption",
+      "box": [
+        0,
+        11100,
+        8220,
+        12000
+      ]
+    },
+    {
+      "why": "title",
+      "box": [
+        4830,
+        470,
+        7010,
+        1290
+      ]
+    },
+    {
+      "why": "survey credits",
+      "box": [
+        5260,
+        1700,
+        6580,
+        2760
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        4660,
+        2730,
+        4890,
+        3560
+      ]
+    },
+    {
+      "why": "penetration notations",
+      "box": [
+        5730,
+        3200,
+        6910,
+        3870
+      ]
+    },
+    {
+      "why": "principal explorers",
+      "box": [
+        6330,
+        4330,
+        7090,
+        4770
+      ],
+      "history": true
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        1210,
+        5750,
+        2650,
+        7170
+      ]
+    },
+    {
+      "why": "Sistema Naranjal inset and its scale",
+      "box": [
+        1230,
+        7640,
+        2670,
+        9190
+      ]
+    },
+    {
+      "why": "notes",
+      "box": [
+        1000,
+        9700,
+        3205,
+        10750
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3920,
+        10310,
+        5860,
+        10730
+      ]
+    },
+    {
+      "why": "QRSS logo",
+      "box": [
+        6660,
+        6000,
+        7360,
+        6600
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2400,
+        680,
+        2570,
+        820
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1030,
+        1030,
+        1420,
+        1190
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2180,
+        1190,
+        2610,
+        1500
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3370,
+        1870,
+        3965,
+        2095
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3965,
+        3000,
+        4335,
+        3105
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3620,
+        3310,
+        4090,
+        3555
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        4295,
+        4295,
+        4910,
+        4520
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        5325,
+        4400,
+        5735,
+        4540
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1480,
+        4910,
+        1870,
+        5200
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2650,
+        5385,
+        3185,
+        5690
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6535,
+        5445,
+        6965,
+        5610
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6580,
+        6965,
+        7215,
+        7210
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3040,
+        7790,
+        3660,
+        8035
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        5055,
+        8530,
+        5610,
+        8960
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3660,
+        9410,
+        4400,
+        9865
+      ]
+    },
+    {
+      "why": "foot path to Cenote Naharon",
+      "box": [
+        860,
+        1290,
+        1045,
+        1800
+      ]
+    },
+    {
+      "why": "'To Cenote Naharon 2800 feet (854 meters)' label",
+      "box": [
+        700,
+        3080,
+        1250,
+        3210
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      4262,
+      10520
+    ],
+    "to": [
+      5799,
+      10520
+    ],
+    "metres": 152.4
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue",
+      "px": [
+        5304,
+        7127
+      ],
+      "latitude": 20.19413,
+      "longitude": -87.49629
+    },
+    {
+      "caveId": "-KPZkVQIUmE-exDOoKQE",
+      "name": "Sunhole",
+      "px": [
+        3777,
+        6850
+      ],
+      "latitude": 20.19423,
+      "longitude": -87.49744,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVLrs80cfalEzD9z",
+      "name": "Lost Cenote",
+      "px": [
+        5538,
+        7672
+      ],
+      "latitude": 20.19144,
+      "longitude": -87.49353,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVMNaXw0oRR305Yi",
+      "name": "Maya Two",
+      "px": [
+        4488,
+        8006
+      ],
+      "latitude": 20.19132,
+      "longitude": -87.49415,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVG0pYan2AfIT795",
+      "name": "Cenote of the Sun",
+      "px": [
+        6765,
+        10003
+      ],
+      "latitude": 20.18994,
+      "longitude": -87.49346,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue",
+      "px": [
+        5304,
+        7127
+      ]
+    },
+    {
+      "caveId": "-KPZkVQIUmE-exDOoKQE",
+      "name": "Sunhole",
+      "px": [
+        3777,
+        6850
+      ]
+    },
+    {
+      "caveId": "-KPZkVLrs80cfalEzD9z",
+      "name": "Lost Cenote",
+      "px": [
+        5538,
+        7672
+      ]
+    },
+    {
+      "caveId": "-KPZkVMNaXw0oRR305Yi",
+      "name": "Maya Two",
+      "px": [
+        4488,
+        8006
+      ]
+    },
+    {
+      "caveId": "-KPZkVG0pYan2AfIT795",
+      "name": "Cenote of the Sun",
+      "px": [
+        6765,
+        10003
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "z": "visibility-zero",
+      "s": "silt"
+    },
+    "templates": {
+      "s": [
+        1338,
+        6551
+      ],
+      "z": [
+        1336,
+        6605
+      ],
+      "r": [
+        1338,
+        6924
+      ],
+      "x": [
+        1333,
+        7033
+      ]
+    },
+    "letterSizePx": [
+      18,
+      40
+    ]
+  },
+  "trace": {
+    "boxSpurs": true,
+    "eraseLines": [
+      {
+        "why": "Highway 307 (north line)",
+        "from": [
+          690,
+          1943
+        ],
+        "to": [
+          1700,
+          1469
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (south line)",
+        "from": [
+          700,
+          2022
+        ],
+        "to": [
+          1075,
+          1844
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4380,
+          9760
+        ],
+        "to": [
+          4770,
+          9640
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6345,
+          5685
+        ],
+        "to": [
+          6545,
+          5562
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "section leader (elbow)",
+        "from": [
+          6300,
+          5685
+        ],
+        "to": [
+          6345,
+          5685
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          3640,
+          7990
+        ],
+        "to": [
+          3810,
+          8030
+        ],
+        "widthPx": 11
+      }
+    ],
+    "spurReachPx": 80
+  }
+}

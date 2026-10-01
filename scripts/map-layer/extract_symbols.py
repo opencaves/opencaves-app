@@ -290,12 +290,28 @@ def main(config_path, output):
             continue
         marks.append(([s[1].start, s[0].start, s[1].stop, s[0].stop], shape_of(labels[s] == i + 1)))
 
+    def crosses(box):
+        # An x is two strokes crossing: its skeleton has a junction. Slope
+        # hatching ticks and stipple dashes, x-like at template size, don't.
+        from skimage.morphology import skeletonize
+        x0, y0, x1, y1 = box
+        # The mark's own ink: the biggest piece in its box.
+        pieces, n = ndimage.label(dark[y0:y1, x0:x1], structure=numpy.ones((3, 3)))
+        if not n:
+            return False
+        mark = skeletonize(pieces == 1 + int(numpy.argmax(ndimage.sum(numpy.ones_like(pieces), pieces, range(1, n + 1)))))
+        count = ndimage.convolve(mark.astype(int), numpy.ones((3, 3), int), mode='constant') - mark
+        ends = int((mark & (count == 1)).sum())
+        return bool((mark & (count >= 3)).any()) and ends >= 3
+
     def classify():
         result = []
         for box, shape in marks:
             scores = {letter: max(float((shape * t).sum()) for t in shapes) for letter, shapes in templates.items()}
             letter = max(scores, key=scores.get)
             if scores[letter] >= LETTER_SCORE.get(letter, DEFAULT_LETTER_SCORE) and letter in legend.get('letters', {}):
+                if letter.lower() == 'x' and not crosses(box):
+                    continue
                 result.append((box, shape, letter, scores[letter]))
         return result
 
@@ -329,6 +345,23 @@ def main(config_path, output):
     symbols += framed_numbers(grey, dark, excluded, legend)
     # Overlined/underlined numbers OCR missed: found from their bar.
     symbols += barred_numbers(grey, dark, excluded, legend, [s['box'] for s in symbols])
+
+    # Values corrected by hand ("fix": [{"px": [x, y], "value": v}]): the
+    # symbol found nearest that spot (within 40 px) gets that value, or is
+    # dropped with "value": null - for bold digits OCR misreads, and ovals
+    # read as numbers.
+    for item in legend.get('fix', []):
+        x, y = item['px']
+        near = [(abs((b[0] + b[2]) / 2 - x) + abs((b[1] + b[3]) / 2 - y), i) for i, b in enumerate(s['box'] for s in symbols)]
+        d, i = min(near) if near else (None, None)
+        if d is None or d > 40:
+            print(f"fix at {item['px']}: no symbol there")
+            continue
+        if item.get('value') is None:
+            symbols.pop(i)
+        else:
+            symbols[i]['value'] = item['value']
+            symbols[i]['label'] = str(item['value'])
 
     # Symbols added by hand ("extra": [{"type", "label", "px", "value"?}]):
     # the ones recognition misses (a blurred letter on a photo).

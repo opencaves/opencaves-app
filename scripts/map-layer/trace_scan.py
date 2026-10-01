@@ -401,6 +401,48 @@ def leader_lines(ink, labels, height, width, trace):
     return leaders
 
 
+def box_spurs(ink, boxes, trace):
+    """Leader lines joined to a wall, running to an excluded box (a cross-
+    section, a label block): leader_lines() takes strokes standing alone,
+    these touch a passage. From each stroke end found by an excluded box, the
+    stroke is followed back to the first junction (its wall); when that path
+    is long enough and about straight (one elbow allowed), it's a leader, removed up to a few
+    pixels short of the wall so the wall stays whole."""
+    reach = trace.get('spurReachPx', 40)
+    min_len, max_len = trace.get('leaderMinPx', 40), trace.get('leaderMaxPx', 400)
+    found = numpy.zeros_like(ink)
+    height, width = ink.shape
+    steps = [(dy, dx) for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx]
+    for x0, y0, x1, y1 in boxes:
+        # Ink around the box, within a leader's length of it.
+        wy0, wx0 = max(0, y0 - max_len), max(0, x0 - max_len)
+        wy1, wx1 = min(height, y1 + max_len), min(width, x1 + max_len)
+        skeleton = skeletonize(ink[wy0:wy1, wx0:wx1])
+        count = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+        ring = numpy.zeros_like(skeleton)
+        ring[max(0, y0 - reach - wy0):y1 + reach - wy0, max(0, x0 - reach - wx0):x1 + reach - wx0] = True
+        for ey, ex in numpy.argwhere(skeleton & (count == 1) & ring):
+            path, previous, current, junction = [(ey, ex)], None, (ey, ex), False
+            while len(path) <= max_len:
+                nxt = [(current[0] + dy, current[1] + dx) for dy, dx in steps
+                       if 0 <= current[0] + dy < skeleton.shape[0] and 0 <= current[1] + dx < skeleton.shape[1]
+                       and skeleton[current[0] + dy, current[1] + dx] and (current[0] + dy, current[1] + dx) != previous
+                       and (current[0] + dy, current[1] + dx) not in path[-3:]]
+                if len(nxt) != 1 or count[nxt[0]] > 2:
+                    # The next pixel joins other strokes: the wall.
+                    junction = len(nxt) > 1 or (len(nxt) == 1 and count[nxt[0]] > 2)
+                    break
+                previous, current = current, nxt[0]
+                path.append(current)
+            chord = numpy.hypot(path[-1][0] - path[0][0], path[-1][1] - path[0][1])
+            if not junction or len(path) < min_len or len(path) > trace.get('spurBend', 1.35) * chord + 5:
+                continue
+            for py, px in path[:-trace.get('spurKeepPx', 6)]:
+                found[wy0 + py, wx0 + px] = True
+    # The stroke's full width, not just its centre line.
+    return cv2.dilate(found.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
+
+
 def survey_line_paths(image_path, boxes, trace):
     """Survey line plots (config "trace": {"method": "survey-lines"}): the
     lines of the survey colour (blue on a Google Earth screenshot), thinned
@@ -485,6 +527,15 @@ def main(config_path, output):
         bold = cv2.morphologyEx((ink & ~masked).astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))) > 0
         bold = cv2.dilate(bold.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
         leaders |= leader_lines(ink & ~masked & ~bold, anchors, height, width, trace)
+    if trace.get('boxSpurs'):
+        section_boxes = [item['box'] for item in config.get('exclude', []) if re.search(r'profile|section', item.get('why', ''), re.I)]
+        leaders |= box_spurs(ink & ~masked, section_boxes, trace)
+    # Lines erased by hand ("eraseLines": [{"from": [x, y], "to": [x, y],
+    # "widthPx": w}]): drawn features that aren't cave - a road, a path.
+    for line in trace.get('eraseLines', []):
+        stroke = numpy.zeros(ink.shape, numpy.uint8)
+        cv2.line(stroke, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 15))
+        leaders |= stroke > 0
     near_anchor = numpy.zeros_like(ink)
     reach = trace.get('leaderReachPx', 60)
     for anchor in anchors:
