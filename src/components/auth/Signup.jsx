@@ -2,6 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
+import { SendRounded } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import AuthButton from './AuthButton.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
@@ -46,7 +47,7 @@ export default function Signup() {
             <Typography variant="caption">{t('or')}</Typography>
           </Or>
 
-          <AuthButton variant="contained" component={Link} to="with-email">
+          <AuthButton variant="contained" component={Link} to="with-email" startIcon={<SendRounded sx={{ fontSize: 18 }} aria-hidden="true" />}>
             {t('withEmail')}
           </AuthButton>
         </Stack>
