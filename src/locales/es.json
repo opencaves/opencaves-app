@@ -719,6 +719,11 @@
     "explorationDateHint": "Cuándo tuvo lugar esta exploración."
   },
   "mapsPicker": {
+    "editMap": "Editar {{name}}",
+    "removeFromSistema": "Quitar de este sistema",
+    "removeConfirmTitle": "¿Quitar este mapa?",
+    "removeConfirm": "{{name}} ya no se mostrará para este sistema. El archivo se queda en la biblioteca de mapas.",
+    "remove": "Quitar",
     "addMap": "Agregar un mapa",
     "removeMap": "Eliminar este mapa",
     "originalFile": "Archivo original",
@@ -732,7 +737,7 @@
     "invalidMapFile": "Elige una imagen o un archivo PDF.",
     "dismiss": "Cerrar",
     "empty": "Aún no se han subido mapas",
-    "mapTitle": "Sistema",
+    "mapTitle": "Título del mapa",
     "mapDate": "Fecha",
     "mapNote": "Nota(s)",
     "mapAuthors": "Autores",

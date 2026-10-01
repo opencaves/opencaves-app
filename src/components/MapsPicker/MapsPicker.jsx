@@ -9,7 +9,8 @@ import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
-import PartialDateField from '@/components/PartialDateField.jsx'
+import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
+import EditMapDialog from './EditMapDialog.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -46,6 +47,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
   const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
+  const [editingMap, setEditingMap] = useState(null)
   const open = Boolean(anchorEl)
   const previewSize = isSmall ? 240 : 440
 
@@ -109,7 +111,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
             <IconButton size="small" onClick={() => removeChip(m.id)} aria-label={t('removeMap')} sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
               <CloseRounded fontSize="small" />
             </IconButton>
-            <CardActionArea component="a" href={m.previewUrl || m.url} target="_blank" rel="noopener noreferrer">
+            <CardActionArea onClick={() => setEditingMap(m)} aria-label={t('editMap', { name: m.name })}>
               <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl && !m.thumbnailUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.thumbnailUrl || m.previewUrl || m.url} alt={m.name} crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>
               <Typography variant="body2" noWrap sx={{ display: 'block', px: 1, py: 0.75 }}>
                 {m.name}
@@ -139,7 +141,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
                   {pendingFile.name}
                 </Typography>
                 <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-                <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+                <PartialDateField size="small" allowRange={false} label={t('mapDate')} description={t('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
                 <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Box>
@@ -148,7 +150,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
               <Button size="small" onClick={cancelPendingUpload} disabled={uploading}>
                 {t('cancel')}
               </Button>
-              <Button size="small" variant="outlined" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined} sx={{ minHeight: 48 }}>
+              <Button size="small" variant="outlined" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim() || !isValidPartialDate(pendingDetails.date, { allowRange: false })} startIcon={uploading ? <CircularProgress size={16} /> : undefined} sx={{ minHeight: 48 }}>
                 {t('add')}
               </Button>
             </Box>
@@ -181,6 +183,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
           </>
         )}
       </Menu>
+      <EditMapDialog map={editingMap} onClose={() => setEditingMap(null)} onRemove={(map) => removeChip(map.id)} />
       <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} success={success} clearError={clearError} />
     </Box>
   )

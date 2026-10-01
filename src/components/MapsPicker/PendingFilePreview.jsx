@@ -3,8 +3,10 @@ import { Box, CircularProgress } from '@mui/material'
 import { PictureAsPdfRounded } from '@mui/icons-material'
 
 const MIN_SCALE = 1
-const MAX_SCALE = 5
-const CLICK_ZOOM_STEP = 1
+// Survey maps carry fine detail (depths, small labels): deep zoom.
+const MAX_SCALE = 12
+// Each click multiplies the zoom: 1x to 12x in about five clicks.
+const CLICK_ZOOM_FACTOR = 1.7
 
 // A large, zoomable/pannable preview of a map file, shown in the map details
 // form so the person confirming a title/authors can actually make out
@@ -120,7 +122,7 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
     function onWheel(event) {
       event.preventDefault()
       setScale((current) => {
-        const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, current - event.deltaY * 0.01))
+        const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, current * Math.exp(-event.deltaY * 0.002)))
         setPan((currentPan) => clampPan(currentPan, nextScale))
         return nextScale
       })
@@ -167,7 +169,7 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
     }
 
     const zoomingOut = event.shiftKey
-    const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale + (zoomingOut ? -CLICK_ZOOM_STEP : CLICK_ZOOM_STEP)))
+    const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, (zoomingOut ? scale / CLICK_ZOOM_FACTOR : scale * CLICK_ZOOM_FACTOR)))
     if (nextScale === 1) {
       setScale(1)
       setPan({ x: 0, y: 0 })

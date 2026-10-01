@@ -718,6 +718,11 @@
     "explorationDateHint": "Date à laquelle cette exploration a eu lieu."
   },
   "mapsPicker": {
+    "editMap": "Modifier {{name}}",
+    "removeFromSistema": "Retirer de ce sistema",
+    "removeConfirmTitle": "Retirer cette carte ?",
+    "removeConfirm": "{{name}} ne sera plus affichée pour ce sistema. Le fichier reste dans la bibliothèque de cartes.",
+    "remove": "Retirer",
     "addMap": "Ajouter une carte",
     "removeMap": "Supprimer cette carte",
     "originalFile": "Fichier original",
@@ -731,7 +736,7 @@
     "invalidMapFile": "Choisissez une image ou un fichier PDF.",
     "dismiss": "Fermer",
     "empty": "Aucune carte téléversée pour l'instant",
-    "mapTitle": "Sistema",
+    "mapTitle": "Titre de la carte",
     "mapDate": "Date",
     "mapNote": "Note(s)",
     "mapAuthors": "Auteurs",

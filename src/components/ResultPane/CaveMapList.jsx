@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { DeleteOutlineRounded, EditRounded, MapOutlined, PictureAsPdfRounded } from '@mui/icons-material'
 import AddButton from '@/components/AddButton.jsx'
-import PartialDateField from '@/components/PartialDateField.jsx'
+import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
 import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
@@ -197,7 +197,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
               <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-              <PartialDateField size="small" label={tMaps('mapDate')} description={tMaps('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+              <PartialDateField size="small" allowRange={false} label={tMaps('mapDate')} description={tMaps('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
               <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
               <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
             </Box>
@@ -207,7 +207,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
           <Button onClick={cancelPendingUpload} disabled={uploading}>
             {tMaps('cancel')}
           </Button>
-          <Button variant="contained" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
+          <Button variant="contained" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim() || !isValidPartialDate(pendingDetails.date, { allowRange: false })} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
             {tMaps('add')}
           </Button>
         </DialogActions>

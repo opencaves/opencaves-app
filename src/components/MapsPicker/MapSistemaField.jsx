@@ -7,7 +7,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 const areasModel = createCollectionModel('areas')
 const filterByInput = createFilterOptions()
 
-// A map's title field (labeled "Sistema"): suggests every sistema by name,
+// A map's title field (labeled "Map title"): suggests every sistema by name,
 // with its area to tell same-named sistemas apart, while staying free text
 // so a map can still be titled something that isn't a sistema name. The
 // value is the plain title string stored as the map's `name`.
