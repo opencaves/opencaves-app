@@ -4,30 +4,34 @@ layer pilot).
 1. Ink: pixels darker than INK_LEVEL.
 2. Masked out: the config's "exclude" boxes (title, legend, cross-sections,
    inset map...) and the labels OCR finds (Tesseract, cached).
-3. Walls: the long connected ink shapes - floor stippling, depth numbers
-   and symbols are compact (see MIN_WALL_EXTENT_PX).
-4. Lines: the walls thinned to one-pixel centrelines (skeleton), traced into
-   polylines, simplified; placed with the same similarity fit as
-   overlay_scan.py (scale, rotation, shift through the control points).
+3. Walls: the long connected ink shapes - depth numbers and symbols standing
+   apart are compact (see MIN_WALL_EXTENT_PX).
+4. Passages as solid bands: a closing merges each passage's two walls and the
+   floor stipple between them; an opening then drops the thin strokes left
+   (leader lines, hatching).
+5. Lines: the bands' outlines - one line along each wall, pillars and
+   islands as inner outlines - smoothed, simplified and placed with the same
+   similarity fit as overlay_scan.py (scale, rotation, shift through the
+   control points).
 
-Writes <output>/<name>-walls-review.png (kept ink black, removed ink pale,
-masked areas tinted), <output>/<name>-walls.geojson and a satellite preview
-<output>/<name>-walls.html.
+Writes <output>/<name>-walls-review.png (the bands tinted, the outlines
+black, masked areas pale orange) and <output>/<name>-walls.geojson, which
+overlay_scan.py's preview then shows over the satellite imagery.
 
 Usage: python scripts/map-layer/trace_scan.py <config.json> <output folder>
-Needs Pillow, numpy, scikit-image, pyproj, shapely, pytesseract.
+Needs Pillow, numpy, opencv, scipy, pyproj, shapely, pytesseract.
 """
 import json
 import os
 import sys
 from pathlib import Path
 
+import cv2
 import numpy
 from PIL import Image
 from pyproj import Transformer
 from scipy import ndimage
 from shapely.geometry import LineString, mapping
-from skimage.morphology import skeletonize
 
 from overlay_scan import fit_similarity
 from triage_maps import TESSDATA, TESSERACT
@@ -35,7 +39,7 @@ from triage_maps import TESSDATA, TESSERACT
 Image.MAX_IMAGE_PIXELS = None
 INK_LEVEL = 140
 # A wall is a long ink shape: its bounding box's longest side reaches
-# MIN_WALL_EXTENT_PX. Symbols, depth numbers and floor stipples are compact.
+# MIN_WALL_EXTENT_PX. Symbols and depth numbers standing apart are compact.
 MIN_WALL_EXTENT_PX = 60
 # Only real labels are masked: OCR words of letters, read confidently - its
 # misreadings of station numbers or wall wiggles would cut the walls apart.
@@ -44,14 +48,21 @@ MIN_WORD_LETTERS = 2
 # ... and longer words even when read less confidently: labels too.
 LONG_WORD_CONF = 30
 LONG_WORD_LETTERS = 3
-# Leader lines (label -> passage) end at their label: a dead-end branch whose
-# free end is this close (px) to a label is one, not a wall.
-LEADER_END_PX = 30
 # Margin around each OCR word, in pixels.
 WORD_PAD = 4
-# Traced lines shorter than this (metres) are dropped; simplification tolerance.
-MIN_LINE_METRES = 3
+# Passage bands: the closing bridges the gap between a passage's walls and
+# its floor stipple; the opening removes strokes thinner than its size.
+CLOSE_PX = 9
+OPEN_PX = 5
+# Outlines kept: at least MIN_OUTLINE_METRES long; an outer one enclosing at
+# least MIN_BAND_SQ_METRES (smaller: a symbol); a hole (pillar, island) at
+# least MIN_HOLE_SQ_METRES (smaller: a gap in the stipple).
+MIN_OUTLINE_METRES = 8
+MIN_BAND_SQ_METRES = 60
+MIN_HOLE_SQ_METRES = 60
 SIMPLIFY_METRES = 0.5
+# Chaikin corner-cutting passes: smooth out the pixel staircase.
+SMOOTH_PASSES = 2
 
 
 def ocr_words(image, cache):
@@ -67,53 +78,18 @@ def ocr_words(image, cache):
     return words
 
 
-def trace_skeleton(skeleton):
-    """The skeleton's pixel paths between junctions and ends, as point lists."""
-    pixels = set(zip(*numpy.nonzero(skeleton)))
-    neighbours = lambda p: [(p[0] + dy, p[1] + dx) for dy in (-1, 0, 1) for dx in (-1, 0, 1) if (dy or dx) and (p[0] + dy, p[1] + dx) in pixels]
-    degree = {p: len(neighbours(p)) for p in pixels}
-    nodes = {p for p, d in degree.items() if d != 2}
-    visited_edges = set()
-    paths = []
-
-    def walk(start, nxt):
-        path = [start, nxt]
-        previous, current = start, nxt
-        while current not in nodes:
-            following = [n for n in neighbours(current) if n != previous]
-            if not following:
-                break
-            previous, current = current, following[0]
-            if (previous, current) in visited_edges:
-                break
-            visited_edges.add((previous, current))
-            path.append(current)
-        return path
-
-    for node in nodes:
-        for n in neighbours(node):
-            if (node, n) in visited_edges:
-                continue
-            visited_edges.add((node, n))
-            path = walk(node, n)
-            visited_edges.add((path[-1], path[-2]))
-            paths.append(path)
-    # Closed loops with no junction at all.
-    remaining = pixels - {p for path in paths for p in path}
-    while remaining:
-        start = remaining.pop()
-        loop = [start]
-        current, previous = start, None
-        while True:
-            following = [n for n in neighbours(current) if n != previous and n in remaining]
-            if not following:
-                break
-            previous, current = current, following[0]
-            remaining.discard(current)
-            loop.append(current)
-        loop.append(start)
-        paths.append(loop)
-    return paths
+def smooth(line, passes=SMOOTH_PASSES):
+    """Chaikin's corner cutting, keeping the line's ends (and a loop closed)."""
+    coords = list(line.coords)
+    closed = coords[0] == coords[-1]
+    for _ in range(passes):
+        if len(coords) < 3:
+            break
+        out = [] if closed else [coords[0]]
+        for (x0, y0), (x1, y1) in zip(coords, coords[1:]):
+            out += [(0.75 * x0 + 0.25 * x1, 0.75 * y0 + 0.25 * y1), (0.25 * x0 + 0.75 * x1, 0.25 * y0 + 0.75 * y1)]
+        coords = out + ([out[0]] if closed else [coords[-1]])
+    return LineString(coords)
 
 
 def main(config_path, output):
@@ -132,13 +108,9 @@ def main(config_path, output):
         x0, y0, x1, y1 = item['box']
         masked[max(0, y0):y1, max(0, x0):x1] = True
     words = ocr_words(grey, out / f'{name}-ocr-words.json')
-    letters = lambda w: sum(c.isalpha() for c in w['t'])
+    letters = lambda w: sum(c.isalpha() for c in w['t'])  # noqa: E731
     labels_only = [w for w in words if (w['conf'] >= MIN_WORD_CONF and letters(w) >= MIN_WORD_LETTERS)
                    or (w['conf'] >= LONG_WORD_CONF and letters(w) >= LONG_WORD_LETTERS)]
-    near_label = numpy.zeros_like(ink)
-    for word in labels_only:
-        x0, y0, x1, y1 = word['box']
-        near_label[max(0, y0 - LEADER_END_PX):y1 + LEADER_END_PX, max(0, x0 - LEADER_END_PX):x1 + LEADER_END_PX] = True
     for word in labels_only:
         x0, y0, x1, y1 = word['box']
         masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
@@ -146,45 +118,39 @@ def main(config_path, output):
     candidate = ink & ~masked
     labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
     extents = [max(s[0].stop - s[0].start, s[1].stop - s[1].start) for s in ndimage.find_objects(labels)]
-    keep_ids = [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX]
-    walls = numpy.isin(labels, keep_ids)
-    print(f'{len(labels_only)} of {len(words)} OCR words masked as labels; {count} ink shapes, {len(keep_ids)} kept as walls ({walls.sum()} px)')
+    walls = numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX])
 
-    # Review image: kept ink black, removed ink pale grey, masked areas tinted.
-    review = numpy.full((height, width, 3), 255, numpy.uint8)
-    review[masked] = (255, 236, 200)
-    review[ink & ~walls] = (190, 190, 190)
-    review[walls] = (0, 0, 0)
-    Image.fromarray(review).save(out / f'{name}-walls-review.png')
+    band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (CLOSE_PX, CLOSE_PX)))
+    band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (OPEN_PX, OPEN_PX)))
+    contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
-    # Centrelines of the wall ink, traced and placed.
-    skeleton = skeletonize(walls)
-    paths = trace_skeleton(skeleton)
-    # Leader lines: branches with a free end (one neighbour) by a label.
-    neighbour_count = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
-    def is_leader(path):
-        ends = [p for p in (path[0], path[-1]) if neighbour_count[p] == 1]
-        return any(near_label[p] for p in ends)
-    leaders = [p for p in paths if is_leader(p)]
-    paths = [p for p in paths if not is_leader(p)]
-    print(f'{len(leaders)} leader-line branches dropped')
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
     fitted = [p for p in config['controlPoints'] if not p.get('check')]
-    place, scale, rotation = fit_similarity([p['px'] for p in fitted], [to_utm.transform(p['longitude'], p['latitude']) for p in fitted])
+    place, scale, _ = fit_similarity([p['px'] for p in fitted], [to_utm.transform(p['longitude'], p['latitude']) for p in fitted])
+
+    review = numpy.full((height, width, 3), 255, numpy.uint8)
+    review[masked] = (255, 236, 200)
+    review[band > 0] = (200, 225, 255)
     features = []
-    for path in paths:
-        line = LineString([(x, y) for y, x in path])
-        if line.length * scale < MIN_LINE_METRES:
+    for index, contour in enumerate(contours):
+        if len(contour) < 4:
             continue
-        line = line.simplify(SIMPLIFY_METRES / scale)
-        coords = [to_lnglat.transform(*place(x, y)) for x, y in line.coords]
+        hole = hierarchy[0][index][3] != -1
+        area = abs(cv2.contourArea(contour)) * scale ** 2
+        if cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES or area < (MIN_HOLE_SQ_METRES if hole else MIN_BAND_SQ_METRES):
+            continue
+        points = [tuple(p) for p in contour[:, 0, :].astype(float)]
+        line = smooth(LineString(points + points[:1])).simplify(SIMPLIFY_METRES / scale)
+        cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
-                         'geometry': mapping(LineString(coords))})
-    collection = {'type': 'FeatureCollection', 'features': features}
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    Image.fromarray(review).save(out / f'{name}-walls-review.png')
+
     geojson = out / f'{name}-walls.geojson'
-    geojson.write_text(json.dumps(collection, separators=(',', ':')), encoding='utf-8')
-    print(f'{len(paths)} skeleton paths -> {len(features)} wall lines -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
+    geojson.write_text(json.dumps({'type': 'FeatureCollection', 'features': features}, separators=(',', ':')), encoding='utf-8')
+    print(f'{len(labels_only)} of {len(words)} OCR words masked as labels; {len(contours)} outlines -> {len(features)} wall lines -> {geojson} '
+          f'({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
 
 
 if __name__ == '__main__':
