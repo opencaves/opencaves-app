@@ -457,6 +457,12 @@ def survey_line_paths(image_path, boxes, trace):
     for colour in trace.get('lineColours', ['blue']):
         lines |= tests[colour] >= excess
     lines &= ~boxes
+    # "addLines": [{"from": [x, y], "to": [x, y]}] - line pieces drawn in
+    # another colour (a short blue stretch of a red guideline), added by hand.
+    for piece in trace.get('addLines', []):
+        stroke = numpy.zeros(lines.shape, numpy.uint8)
+        cv2.line(stroke, tuple(piece['from']), tuple(piece['to']), 1, piece.get('widthPx', 5))
+        lines |= stroke > 0
     # Thin lines on a compressed screenshot break up: bridge small gaps first.
     gap = trace.get('bridgePx', 3)
     lines = cv2.morphologyEx(lines.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (gap, gap))) > 0
@@ -521,7 +527,7 @@ def main(config_path, output):
     symbol_ink = numpy.zeros_like(ink)
     symbols_px = out / f'{name}-symbols-px.json'
     if symbols_px.exists():
-        for x0, y0, x1, y1 in json.loads(symbols_px.read_text(encoding='utf-8')):
+        for x0, y0, x1, y1 in (map(int, b) for b in json.loads(symbols_px.read_text(encoding='utf-8'))):
             pad = trace.get('symbolPadPx', 3)  # enough to take a number's ring
             symbol_ink[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
     # Leader lines (a label's line to what it names - "Entrada" to its

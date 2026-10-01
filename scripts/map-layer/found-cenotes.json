@@ -2,6 +2,81 @@
  "note": "Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). Positions come from maps: never mark them as GPS.",
  "entries": [
   {
+   "name": "Mott Mott",
+   "latitude": 20.322975,
+   "longitude": -87.38513,
+   "accuracy": 105,
+   "validity": "unknown",
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMvQGTStPbeXnth",
+   "id": "-KPZkVMvQGTStPbeXnth"
+  },
+  {
+   "name": "Tikim Chi",
+   "latitude": 20.326587,
+   "longitude": -87.402159,
+   "accuracy": 105,
+   "validity": "unknown",
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQy9BtHOdENS8pe",
+   "id": "-KPZkVQy9BtHOdENS8pe"
+  },
+  {
+   "name": "Kentucky Castle",
+   "latitude": 20.333251,
+   "longitude": -87.411928,
+   "accuracy": 105,
+   "validity": "unknown",
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKuN7tJlLCj8Pue",
+   "id": "-KPZkVKuN7tJlLCj8Pue"
+  },
+  {
+   "name": "Maraville I",
+   "latitude": 20.337601,
+   "longitude": -87.413659,
+   "accuracy": 105,
+   "validity": "unknown",
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMBYflzF0TIGwz_",
+   "id": "-KPZkVMBYflzF0TIGwz_"
+  },
+  {
+   "name": "Maraville II",
+   "latitude": 20.336877,
+   "longitude": -87.41217,
+   "accuracy": 105,
+   "validity": "unknown",
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMCB5QB9-wEv7Ix",
+   "id": "-KPZkVMCB5QB9-wEv7Ix"
+  },
+  {
    "name": "Koi",
    "latitude": 20.35944,
    "longitude": -87.413409,

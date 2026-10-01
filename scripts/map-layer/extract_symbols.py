@@ -363,6 +363,12 @@ def main(config_path, output):
             symbols[i]['value'] = item['value']
             symbols[i]['label'] = str(item['value'])
 
+    # The map's entrances (config "entrances"): kept in the layer too, named.
+    for entrance in config.get('entrances', []):
+        if 'px' in entrance:
+            x, y = entrance['px']
+            symbols.append({'type': 'entrance', 'label': entrance['name'], 'box': [x - 6, y - 6, x + 6, y + 6]})
+
     # Symbols added by hand ("extra": [{"type", "label", "px", "value"?}]):
     # the ones recognition misses (a blurred letter on a photo).
     for item in legend.get('extra', []):

@@ -1,0 +1,304 @@
+{
+  "image": "../../../_data/maps-import/images/dos-ojos-part-mpo-playa-del-carmen.webp",
+  "title": "Sistema Dos Ojos (part) - Akumal Dive Center guideline map",
+  "credits": "Akumal Dive Center (ADC): existing (red) and explored (yellow) guidelines and stage drops, schematic sketch, undated",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "red"
+    ],
+    "bridgePx": 5,
+    "why": "guidelines drawn as thick red (existing) and yellow (explored) strokes on grey; only red can be taken today (no yellow test in survey_line_paths), so the yellow explored lines are missing",
+    "addLines": [
+      {
+        "why": "blue stretch of the guideline by Kentucky Castle",
+        "from": [
+          144,
+          188
+        ],
+        "to": [
+          159,
+          170
+        ]
+      }
+    ]
+  },
+  "exclude": [
+    {
+      "why": "scale bar and its title (red text)",
+      "box": [
+        250,
+        0,
+        455,
+        68
+      ]
+    },
+    {
+      "why": "legend (red and yellow sample lines)",
+      "box": [
+        520,
+        10,
+        789,
+        180
+      ]
+    },
+    {
+      "why": "Akumal Dive Center logo",
+      "box": [
+        52,
+        412,
+        186,
+        506
+      ],
+      "history": true
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      260.5,
+      50
+    ],
+    "to": [
+      434,
+      50
+    ],
+    "metres": 609.6,
+    "why": "2000 ft; not used (no \"north\"): 3.51 m/px, while the similarity fit through the trusted points gives 4.66 m/px (+33%). The map's own penetrations agree with the fit: the dome 3000 ft at ~230 px of line from Dos Ojos (~4.0 m/px), Tikimich 5000 ft at ~310 px (~4.9 m/px)"
+  },
+  "entrances": [
+    {
+      "name": "Dos Ojos (West eye)",
+      "px": [
+        606.7,
+        323.9
+      ],
+      "caveId": "-KPZkVI727bPAYLuZ57-"
+    },
+    {
+      "name": "Dos Ojos (East eye)",
+      "px": [
+        634.9,
+        320.0
+      ],
+      "caveId": "-KPZkVI6As-MTOD9BQ0C"
+    },
+    {
+      "name": "Dos Palmas",
+      "px": [
+        777.5,
+        257.2
+      ],
+      "caveId": "-KPZkVIAQhUFjZdJ21BJ"
+    },
+    {
+      "name": "Mott Mott",
+      "px": [
+        756.2,
+        321.7
+      ],
+      "caveId": "-KPZkVMvQGTStPbeXnth"
+    },
+    {
+      "name": "Tikimich",
+      "px": [
+        366.5,
+        285.4
+      ],
+      "caveId": "-KPZkVQy9BtHOdENS8pe"
+    },
+    {
+      "name": "The Pit",
+      "px": [
+        199.2,
+        378.3
+      ],
+      "caveId": "-KPZkVOHg9AafOTvAonr"
+    },
+    {
+      "name": "Kentucky Castle",
+      "px": [
+        129.0,
+        156.3
+      ],
+      "caveId": "-KPZkVKuN7tJlLCj8Pue"
+    },
+    {
+      "name": "M1 (Maraville I)",
+      "px": [
+        77.3,
+        58.7
+      ],
+      "caveId": "-KPZkVMBYflzF0TIGwz_"
+    },
+    {
+      "name": "M2 (Maraville II)",
+      "px": [
+        112.6,
+        71.5
+      ],
+      "caveId": "-KPZkVMCB5QB9-wEv7Ix"
+    },
+    {
+      "name": "Pet Cemetery",
+      "px": [
+        366.7,
+        528.3
+      ],
+      "caveId": "-KPZkVOMZId8yVJJ2Bru"
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVOHg9AafOTvAonr",
+      "name": "The Pit",
+      "px": [
+        199.2,
+        378.3
+      ],
+      "latitude": 20.32316,
+      "longitude": -87.40995,
+      "why": "Open Caves position, at the Pit's clearing at the end of its track (satellite)"
+    },
+    {
+      "caveId": "-KPZkVI727bPAYLuZ57-",
+      "name": "Dos Ojos West",
+      "px": [
+        606.7,
+        323.9
+      ],
+      "latitude": 20.3242,
+      "longitude": -87.39178,
+      "why": "Google Maps position, in the Dos Ojos park clearing (ponds under canopy)"
+    },
+    {
+      "caveId": "-KPZkVI6As-MTOD9BQ0C",
+      "name": "Dos Ojos East",
+      "px": [
+        634.9,
+        320.0
+      ],
+      "latitude": 20.32467,
+      "longitude": -87.39132
+    },
+    {
+      "caveId": "-KPZkVIAQhUFjZdJ21BJ",
+      "name": "Dos Palmas",
+      "px": [
+        777.5,
+        257.2
+      ],
+      "latitude": 20.32452,
+      "longitude": -87.3831,
+      "why": "Open Caves position, in the clearing east of the Dos Ojos access road"
+    },
+    {
+      "caveId": "-KPZkVOMZId8yVJJ2Bru",
+      "name": "Pet Cemetery",
+      "px": [
+        366.7,
+        528.3
+      ],
+      "latitude": 20.31808,
+      "longitude": -87.41059,
+      "check": true,
+      "why": "Open Caves position, at the end of its track (satellite), agrees with the QRSS 2012 overview; the sketch puts it ~760 m ESE: its southern part (Pit to Pet Cemetery) is skewed east, which no similarity or affine fit absorbs"
+    },
+    {
+      "caveId": "-KPZkVKuN7tJlLCj8Pue",
+      "name": "Kentucky Castle (\"KC\" placemark on the QRSS Google Earth line plot, placed by sac-aktun-dos-ojos-google.json)",
+      "px": [
+        129.0,
+        156.3
+      ],
+      "latitude": 20.33226,
+      "longitude": -87.4123,
+      "check": true
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {},
+    "why": "no letter codes, overlined depths or bones symbols on this sketch; its distances from Dos Ojos Cavern ('The dome 3000 ft', 'Tikimich 5000 ft', 'The Pit 10 500 ft', 'P-0 ft') are penetrations, '20 ffw' (feet of fresh water) the cavern's depth; the stage drops (black rings) have no type in the vocabulary",
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "The dome",
+        "px": [
+          488,
+          268
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "3000 ft",
+        "value": 3000,
+        "px": [
+          489,
+          281
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "5000 ft",
+        "value": 5000,
+        "px": [
+          357,
+          309
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "10 500 ft",
+        "value": 10500,
+        "px": [
+          231,
+          381
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "depth",
+        "label": "20 ffw",
+        "value": 20,
+        "px": [
+          664,
+          284
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "leads-to",
+        "label": "Upstream Dos Ojos",
+        "px": [
+          55,
+          226
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "downstream dos ojos",
+        "px": [
+          722,
+          180
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Nohoch Na Chich",
+        "px": [
+          247,
+          535
+        ]
+      }
+    ]
+  }
+}
