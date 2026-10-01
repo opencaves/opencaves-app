@@ -24,6 +24,7 @@ import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
+import { readWorkbook, mapCredits, toPartialDate } from './explorations-workbook.js'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
@@ -99,16 +100,21 @@ const list = (value) => (value || '').split('|').map((v) => v.trim()).filter(Boo
 // What the map document holds, from a CSV row. A reviewed CSV may set name,
 // date, authors (separated by "|") and note; otherwise: the map's name, its
 // publication year and the publication.
-function mapDetails(row) {
+// The credits read off the map (explorations.xlsx, next to the CSV) come
+// before the publication's, so a rerun keeps what import-explorations.js set.
+function mapDetails(row, credits) {
+  const credit = credits.get(row.image)
   const name = row.name || row.mapName
-  const date = row.date ?? row.publicationYear
-  const authors = list(row.authors)
+  const date = row.date ?? (credit?.date && toPartialDate(credit.date).date) ?? row.publicationYear
+  const authors = row.authors ? list(row.authors) : credit?.authors ?? []
   const note = row.note ?? row.publications
   return { name, ...(date && { date }), ...(authors.length && { authors }), ...(note && { note }) }
 }
 
 async function upload() {
   const csvDir = path.dirname(argv.csv)
+  const workbook = path.join(csvDir, 'explorations.xlsx')
+  const credits = existsSync(workbook) ? mapCredits(await readWorkbook(workbook)) : new Map()
   let rows = readCsv(argv.csv).filter((row) => row.image && list(row.sistemaIds).length && (row.include ?? 'yes').toLowerCase() !== 'no')
   if (argv.only) rows = rows.filter((row) => `${row.name || row.mapName} ${row.image} ${row.source}`.toLowerCase().includes(argv.only.toLowerCase()))
   if (argv.limit) rows = rows.slice(0, argv.limit)
@@ -119,16 +125,19 @@ async function upload() {
     const label = `[${index + 1}/${rows.length}] ${row.name || row.mapName} (${row.image})`
     try {
       const importKey = row.sha1
-      const details = mapDetails(row)
+      const details = mapDetails(row, credits)
       const sistemaIds = list(row.sistemaIds)
       const existing = await db.collection('maps').where('importKey', '==', importKey).limit(1).get()
 
       if (!existing.empty) {
         const mapId = existing.docs[0].id
-        console.log(`${label}: already imported as ${mapId} - details and links updated`)
+        // Sistemas linked to it that the CSV no longer lists (a corrected match).
+        const stale = (await db.collection('sistemas').where('maps', 'array-contains', mapId).get()).docs.filter((doc) => !sistemaIds.includes(doc.id))
+        console.log(`${label}: already imported as ${mapId} - details and links updated${stale.length ? `, unlinked from ${stale.map((doc) => doc.data().name).join(', ')}` : ''}`)
         if (argv.apply) {
           await existing.docs[0].ref.set({ ...details, authors: details.authors ?? FieldValue.delete() }, { merge: true })
           await Promise.all(sistemaIds.map((id) => db.collection('sistemas').doc(id).update({ maps: FieldValue.arrayUnion(mapId) })))
+          await Promise.all(stale.map((doc) => doc.ref.update({ maps: FieldValue.arrayRemove(mapId) })))
         }
         counts.updated++
         continue
@@ -153,7 +162,27 @@ async function upload() {
     }
   }
   const retired = argv.only || argv.limit ? 0 : await retireDuplicates(csvDir)
-  console.log(`\n${argv.apply ? 'Done' : 'Would do'}: ${counts.uploaded} uploaded, ${counts.updated} already there (updated), ${retired} duplicate(s) retired, ${counts.failed} failed`)
+  const excluded = argv.only || argv.limit ? 0 : await removeExcluded()
+  console.log(`\n${argv.apply ? 'Done' : 'Would do'}: ${counts.uploaded} uploaded, ${counts.updated} already there (updated), ${retired} duplicate(s) retired, ${excluded} excluded map(s) removed, ${counts.failed} failed`)
+}
+
+// Maps imported earlier that the CSV now excludes (include=no, e.g. from
+// map-overrides.csv): unlinked from their sistemas and deleted.
+async function removeExcluded() {
+  let removed = 0
+  for (const row of readCsv(argv.csv).filter((r) => r.sha1 && (r.include ?? '').toLowerCase() === 'no')) {
+    for (const doc of (await db.collection('maps').where('importKey', '==', row.sha1).get()).docs) {
+      const linked = await db.collection('sistemas').where('maps', 'array-contains', doc.id).get()
+      console.log(`${row.image} (${doc.id}): excluded - unlinked from ${linked.size} sistema(s) and deleted`)
+      if (argv.apply) {
+        await Promise.all(linked.docs.map((sistema) => sistema.ref.update({ maps: FieldValue.arrayRemove(doc.id) })))
+        await removeMapFiles(doc.id)
+        await doc.ref.delete()
+      }
+      removed++
+    }
+  }
+  return removed
 }
 
 // Copies found to be duplicates after they were imported (duplicates.csv,

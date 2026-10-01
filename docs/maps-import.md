@@ -1,6 +1,6 @@
 # Importing cave maps in bulk
 
-Survey maps (PDFs, scans, drawings) collected in a folder tree can be imported into OpenCaves in three steps: **extract** the map images, **match** each map to a sistema, then **upload** them. Each step writes files you can review before running the next one.
+Survey maps (PDFs, scans, drawings) collected in a folder tree can be imported into OpenCaves in three steps: **extract** the map images, **match** each map to a sistema, then **upload** them. An optional fourth step imports the **exploration history** read off the maps into the sistemas. Each step writes files you can review before running the next one.
 
 The scripts live in [`scripts/maps-import/`](../scripts/maps-import/). The examples below assume the maps sit in `_data/` at the root of the project and the import work goes to `_data/maps-import/` (neither is tracked in git).
 
@@ -11,6 +11,8 @@ _data/                      source folder tree (PDFs, images, zips)
     extracted.csv           inventory of every map found (step 1)
     duplicates.csv          copies removed as duplicates (step 1)
     matched.csv             the inventory plus the sistema(s) of each map (step 2)
+    explorations.xlsx       exploration history and map credits read off the maps (step 4)
+    backups/                what each exploration import replaced, for --undo (step 4)
 ```
 
 ## Requirements
@@ -70,6 +72,8 @@ The script writes `matched.csv`, which adds `mapName`, `matchHow` (`exact`, `sim
 
 **Review:** check the `similar` rows, and the maps going to several sistemas. Maps with `matchHow` = `none` are skipped by the upload: either create their sistema first and rerun the match, or fill in `sistemaIds` by hand.
 
+**Corrections that last:** [`map-overrides.csv`](../scripts/maps-import/map-overrides.csv), next to the scripts, fixes the match for good (hand edits to `matched.csv` are lost on the next run). Each row names a map (its source file, plus `#p<page>` for a PDF page), the sistema names it belongs to (`A | B`), or `exclude` for a map that shouldn't be published, and why. The match applies it last (`matchHow` = `override` or `excluded`).
+
 ### Editing the CSV before uploading
 
 `matched.csv` (or a reviewed copy of it, passed with `--csv`) can take these optional columns, which the upload uses instead of what the scripts found:
@@ -114,7 +118,13 @@ The Storage upload then triggers the `onMapImageUploaded` Cloud Function (`funct
 
 The upload can be rerun safely. A map whose file was already imported (same `importKey`) isn't uploaded again. Instead, its name, date, authors and note are updated from the CSV, and it is attached to any new sistema in the row. The usual loop is to fill in authors and dates in the CSV, then run again with `--apply`.
 
-A rerun removes only duplicates: a map already imported that `duplicates.csv` now lists as a copy of another is retired. Its sistema links move to the kept copy, then its document and files are deleted. The dry run lists these too. Nothing else is removed: a sistema dropped from a row keeps its link to the map, so remove that link in the app. Likewise, a changed image file counts as a new map, since its hash is different.
+A rerun also applies what changed in the CSV, and the dry run lists it all:
+
+- **Links follow the CSV:** a map already imported is linked to exactly the sistemas its row lists. A sistema dropped from the row (a corrected match) loses its link.
+- **Duplicates are retired:** a map already imported that `duplicates.csv` now lists as a copy of another has its sistema links moved to the kept copy, then its document and files are deleted.
+- **Excluded maps are removed:** a map already imported whose row now has `include` = `no` is unlinked from its sistemas and deleted.
+
+A changed image file counts as a new map, since its hash is different.
 
 ### Undoing
 
@@ -125,8 +135,50 @@ node scripts/maps-import/upload-maps.js --undo -p --apply   # remove it
 
 This removes every imported map (every `maps` document with an `importKey`). That covers its document, its file and derived WebPs in Storage, and its links from the sistemas. Maps added through the app are not touched.
 
+## 4. Import the exploration history
+
+Many maps carry their exploration history: who explored and surveyed, when, and sometimes a dated account. `explorations.xlsx` holds what was read off them, one row per exploration (or per map without one):
+
+| Column | Meaning |
+| --- | --- |
+| `image` | The map (a link to its file) |
+| `sistemaNames` | The sistema(s) the row goes to. It defaults to the map's; narrow it when one sheet shows two systems |
+| `mapTitle`, `mapAuthors`, `mapDate` | The map's credits: its authors (separated by `\|`) and date are written to its `maps` document |
+| `explorationDate`, `explorationTeam`, `explorationDescription` | One exploration entry: its date, its team, and what was explored (it goes to the entry's Description) |
+| `currentExplorations` | What the sistema has today (for review only) |
+| `readQuality`, `comment` | How legible the source was, and review notes. A `comment` starting with `EXCLUDED` leaves the row out |
+
+The workbook isn't produced by a script: it was filled in by reading each map. Review it, then:
+
+```sh
+node scripts/maps-import/import-explorations.js -l                 # dry run, local emulators
+node scripts/maps-import/import-explorations.js -l --apply         # import locally
+node scripts/maps-import/import-explorations.js -p --apply         # import to production
+```
+
+The dry run lists, for each sistema, the entries the maps add, and which existing entries they replace or keep:
+
+- **Replaced:** an existing entry about the same exploration, meaning a team name in common and no later than the map's period. For an entry without a team, a year in common is enough.
+- **Kept:** every other existing entry, such as a later exploration by the same people.
+- **Dates:** the app takes a year, a month, a day or a range of years. A date it can't hold (`2013-08 - 2014-12`) becomes the closest it can (`2013-2014`), and the text as read is added to the description.
+- **Source:** each entry's Notes field names the map it was read from, and holds nothing else.
+
+A rerun replaces the entries an earlier import added (they're marked `importedFrom: 'maps'`) instead of adding them again. `upload-maps.js` also reads the workbook, so a rerun of the upload keeps the map authors and dates.
+
+### Undoing an exploration import
+
+Before writing, the import saves every sistema's explorations and every map's authors and date it's about to change to `backups/explorations-<target>-<time>.json`.
+
+```sh
+node scripts/maps-import/import-explorations.js -p --undo latest            # list what would be restored
+node scripts/maps-import/import-explorations.js -p --undo latest --apply    # restore it
+node scripts/maps-import/import-explorations.js -p --undo <backup file> --apply
+```
+
+`--undo latest` reverts the latest import of that target. To go back to before the first import, pass the first backup file. A sistema or map edited after the import (in the app, say) is skipped, so newer edits aren't erased. Add `--force` to restore it anyway.
+
 ## Known limits
 
-- **Authors and survey dates aren't extracted automatically.** The archive stamp gives the publication and its year, not the surveyors. Fill in the `authors`/`date` columns while reviewing, then rerun the upload.
+- **Authors and survey dates aren't extracted automatically.** The archive stamp gives the publication and its year, not the surveyors. They come from `explorations.xlsx` (step 4), or the `authors`/`date` columns of the CSV.
 - **The matching is heuristic.** Check the `similar` matches, which are the most likely to be wrong.
 - **Maps without a sistema are skipped.** Maps of caves that aren't in the database yet (and loose photos) stay in the `none` rows until their sistema exists.
