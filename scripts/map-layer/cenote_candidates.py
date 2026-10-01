@@ -202,6 +202,7 @@ def map_candidates(config_path, output_dir):
 def main(review_path, config_paths, production):
     caves = fetch_collection('caves', production)
     sistemas = {s['id']: s for s in fetch_collection('sistemas', production)}
+    on_site_sources = {s['id'] for s in fetch_collection('sources', production) if (s.get('name') or '').lower().replace(' ', '') == 'opencaves'}
     parents = {c['sistemaId']: c['parentSistemaId'] for c in fetch_collection('connections', production) if c.get('sistemaId') and c.get('parentSistemaId')}
     by_id = {c['id']: c for c in caves}
     by_key = {}
@@ -249,6 +250,11 @@ def main(review_path, config_paths, production):
             # is doubtful): compared as a cave without a position, so the map's
             # is kept aside to replace it.
             doubtful = c.get('replacePosition') and c.get('caveId')
+            # Except one taken on site (source "Open Caves"): trusted over any
+            # map, so a disagreement is reported, not a replacement proposed.
+            if doubtful and c['caveId'] in by_id and by_id[c['caveId']].get('source') in on_site_sources:
+                print(f"{c['name']}: replacePosition ignored - its position was taken on site (source Open Caves); check the map instead")
+                doubtful = False
             with_position = [] if doubtful else sorted(((distance(spot, cave_position(m)), m) for m in matches if cave_position(m)), key=lambda t: t[0])
             without_position = matches if doubtful else [m for m in matches if not cave_position(m)]
             row = {'Map': c['map'], 'Name on the map': c['name'], 'Latitude': round(c['latitude'], 6), 'Longitude': round(c['longitude'], 6),
