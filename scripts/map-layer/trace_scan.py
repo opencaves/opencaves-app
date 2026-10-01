@@ -287,10 +287,27 @@ def detail_features(detail_ink, water, place, to_lnglat, scale, trace, propertie
 def rounded(collection, digits=7):
     """Coordinates rounded to ~1 cm (7 decimals of a degree): the file
     otherwise carries 15 meaningless decimals per coordinate."""
+    import shapely
+    from shapely.geometry import mapping, shape
+
     def walk(c):
         return round(c, digits) if isinstance(c, float) else [walk(v) for v in c]
+    kept = []
     for feature in collection['features']:
-        feature['geometry']['coordinates'] = walk(feature['geometry']['coordinates'])
+        geometry = feature['geometry']
+        if geometry['type'] in ('Polygon', 'MultiPolygon'):
+            # Snapped to the grid with shapely, which keeps polygons valid:
+            # rounding (or simplifying) can make an outline cross itself, and
+            # Mapbox then fills it differently on each tile - white patches
+            # flickering as the map zooms.
+            snapped = shapely.set_precision(shapely.make_valid(shape(geometry)), 10 ** -digits)
+            parts = [g for g in getattr(snapped, 'geoms', [snapped]) if g.geom_type in ('Polygon', 'MultiPolygon') and not g.is_empty]
+            if not parts:
+                continue
+            geometry = mapping(shapely.union_all(parts))
+        feature['geometry'] = {'type': geometry['type'], 'coordinates': walk(json.loads(json.dumps(geometry['coordinates'])))}
+        kept.append(feature)
+    collection['features'] = kept
     return collection
 
 
