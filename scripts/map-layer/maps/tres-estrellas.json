@@ -27,7 +27,68 @@
     "detailContrast": 60,
     "minDetailPx": 30,
     "wallMarginPx": 7,
-    "paperWindowPx": 2000
+    "paperWindowPx": 2000,
+    "fillPolygons": [
+      [
+        [
+          3005,
+          5455
+        ],
+        [
+          3030,
+          5435
+        ],
+        [
+          3100,
+          5430
+        ],
+        [
+          3140,
+          5415
+        ],
+        [
+          3200,
+          5390
+        ],
+        [
+          3250,
+          5375
+        ],
+        [
+          3252,
+          5410
+        ],
+        [
+          3230,
+          5430
+        ],
+        [
+          3180,
+          5448
+        ],
+        [
+          3175,
+          5465
+        ],
+        [
+          3150,
+          5495
+        ],
+        [
+          3100,
+          5512
+        ],
+        [
+          3030,
+          5522
+        ],
+        [
+          3008,
+          5500
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "the lake at the south end: dashes on white, no grey fill"
   },
   "exclude": [
     {

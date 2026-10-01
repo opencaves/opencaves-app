@@ -191,6 +191,12 @@ def colour_fill_band(image_path, masked, trace):
         for i in numpy.unique(local[local > 0]):
             if mean[i - 1] >= low and size[i - 1] <= max_region:
                 core[window] |= local == i
+    # "fillPolygons": [[[x, y], ...]] - passage drawn by hand, for open water
+    # whose fill is only a pattern of dashes on white (a lake).
+    for polygon in trace.get('fillPolygons', []):
+        area = numpy.zeros(core.shape, numpy.uint8)
+        cv2.fillPoly(area, [numpy.array(polygon, numpy.int32)], 1)
+        core |= area > 0
     core &= ~masked
     joined, _ = ndimage.label(weak | core)
     touching = numpy.unique(joined[core])
