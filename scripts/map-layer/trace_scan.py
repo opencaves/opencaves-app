@@ -588,6 +588,11 @@ def main(config_path, output):
         # their edges (the wall itself is the band's outline). On a colour-fill
         # map the band is the passage's blue fill: water.
         inside = cv2.erode(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * trace.get('wallMarginPx', 4) + 1,) * 2)) > 0
+        # Drawn outside the passages but part of the cave (a cenote's
+        # breakdown pile beside its passage): config "detailAreas" boxes.
+        for area in trace.get('detailAreas', []):
+            x0, y0, x1, y1 = area['box']
+            inside[max(0, y0):y1, max(0, x0):x1] = True
         dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders & ~symbol_ink
         water = band > 0 if trace.get('method') == 'colour-fill' else None
         features += detail_features(dark & inside & ~masked, water, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})

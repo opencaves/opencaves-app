@@ -78,6 +78,12 @@
         "why": "neck right of s, west of Sac Luum",
         "box": [845, 1650, 905, 1700]
       }
+    ],
+    "detailAreas": [
+      {
+        "why": "Cenote K'ak Ha: breakdown pile beside the passage",
+        "box": [2675, 1475, 2762, 1536]
+      }
     ]
   },
   "exclude": [
