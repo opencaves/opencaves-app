@@ -785,6 +785,14 @@ def compass_fill(config_path, config, out, name):
     lab, n = ndimage.label(line, structure=numpy.ones((3, 3)))
     size = ndimage.sum(line, lab, range(1, n + 1))
     line = numpy.isin(lab, [i + 1 for i, s in enumerate(size) if s >= 20])
+    if trace.get('stickMap'):
+        # Where the line fades into the fill's edge (grey, or teal paler than
+        # the core) the trace broke: any ink near the line, pure fill and
+        # paper aside, carries it on - a gap only where the map draws none.
+        reach_px = trace.get('lineReachPx', 4)
+        faint = (numpy.minimum(g, b) < 215) & ~((r < 60) & (g > 235) & (b > 235))
+        for _ in range(reach_px):
+            line |= faint & (cv2.dilate(line.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0)
     reach = trace.get('surveyOffFillPx', 2)
     near_fill = cv2.dilate(fill.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
     # "stickMap": true - a stick map: the survey lines are the whole drawing,
