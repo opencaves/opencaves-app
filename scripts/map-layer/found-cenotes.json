@@ -2,6 +2,187 @@
  "note": "Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). Positions come from maps: never mark them as GPS.",
  "entries": [
   {
+   "name": "Koi",
+   "latitude": 20.35944,
+   "longitude": -87.413409,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVL2GlrKZi7B58X9",
+   "replaces": [
+    20.36196,
+    -87.41889
+   ],
+   "why": "the database's position is 636 m from this map's (near Nai Tucha): doubtful",
+   "id": "-KPZkVL2GlrKZi7B58X9"
+  },
+  {
+   "name": "Castillo",
+   "latitude": 20.37391,
+   "longitude": -87.424261,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFsdd1DKJcHWlhE",
+   "id": "-KPZkVFsdd1DKJcHWlhE"
+  },
+  {
+   "name": "Sac Xib",
+   "latitude": 20.3701,
+   "longitude": -87.427431,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPOQSN8iA8Pva3y",
+   "id": "-KPZkVPOQSN8iA8Pva3y"
+  },
+  {
+   "name": "Ksel K’ax",
+   "latitude": 20.368887,
+   "longitude": -87.42059,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVL5Dyl4MuWKIRWe",
+   "id": "-KPZkVL5Dyl4MuWKIRWe"
+  },
+  {
+   "name": "Muk Wakal",
+   "latitude": 20.368025,
+   "longitude": -87.425588,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVN57u61BuFBfoZL",
+   "id": "-KPZkVN57u61BuFBfoZL"
+  },
+  {
+   "name": "Ha’ak Kak",
+   "latitude": 20.366411,
+   "longitude": -87.425125,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJt864q7iMnXKBe",
+   "id": "-KPZkVJt864q7iMnXKBe"
+  },
+  {
+   "name": "Numya",
+   "latitude": 20.364293,
+   "longitude": -87.425402,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfwMz8Euzm1BP2BZ",
+   "sistemaName": "K'oox Baal",
+   "area": "Chemuyil",
+   "action": "fill",
+   "caveId": "-KPZkVTIE2C7TXPvJ0FN",
+   "id": "-KPZkVTIE2C7TXPvJ0FN"
+  },
+  {
+   "name": "Sac Ktu Cha",
+   "latitude": 20.363165,
+   "longitude": -87.422995,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPIPv70urq0p8Os",
+   "id": "-KPZkVPIPv70urq0p8Os"
+  },
+  {
+   "name": "Chalat",
+   "latitude": 20.362696,
+   "longitude": -87.424973,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGIbn9Z4SzAOQCP",
+   "id": "-KPZkVGIbn9Z4SzAOQCP"
+  },
+  {
+   "name": "Chuuh",
+   "latitude": 20.362834,
+   "longitude": -87.422819,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGzG-n4BgmvtHWs",
+   "id": "-KPZkVGzG-n4BgmvtHWs"
+  },
+  {
+   "name": "Dos Pallapas",
+   "latitude": 20.356965,
+   "longitude": -87.411231,
+   "accuracy": 40,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVI9l6v5rCfsRB4t",
+   "id": "-KPZkVI9l6v5rCfsRB4t"
+  },
+  {
+   "name": "Entrada Zapodilla",
+   "latitude": 20.337431,
+   "longitude": -87.385063,
+   "accuracy": 15,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Misterio Maya - Sprouse 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+   "sistemaName": "Sac Actun",
+   "area": "Nohoch Nah Chich",
+   "action": "fill",
+   "caveId": "-KPZkVUdsf7b8XDBQo4d",
+   "id": "-KPZkVUdsf7b8XDBQo4d"
+  },
+  {
    "name": "The Link",
    "latitude": 20.318974,
    "longitude": -87.41027,
@@ -58,6 +239,24 @@
    "id": "-KPZkVJgaYAcxWVY0yz6"
   },
   {
+   "name": "Le Colapse Turn",
+   "latitude": 20.313337,
+   "longitude": -87.426377,
+   "accuracy": 78,
+   "placement": "label",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - upstream Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+   "sistemaName": "Sac Actun",
+   "area": "Nohoch Nah Chich",
+   "action": "fill",
+   "caveId": "-KPZkVUfMUzXeQIvZUKB",
+   "id": "-KPZkVUfMUzXeQIvZUKB"
+  },
+  {
    "name": "K'ak Ha",
    "latitude": 20.175099,
    "longitude": -87.555692,
@@ -89,24 +288,6 @@
    ],
    "why": "the database's position is 3.6 km from this map's: doubtful",
    "id": "-KPZkVPKbTGWDHL_8Y-Y"
-  },
-  {
-   "name": "Entrada Zapodilla",
-   "latitude": 20.337431,
-   "longitude": -87.385063,
-   "accuracy": 15,
-   "placement": "label",
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Cenote Misterio Maya - Sprouse 2015"
-   ],
-   "languageCode": "spa",
-   "sistemaId": "-KPZgfvSh9WU8mR_ryec",
-   "sistemaName": "Sac Actun",
-   "area": "Nohoch Nah Chich",
-   "action": "fill",
-   "caveId": "-KPZkVUdsf7b8XDBQo4d",
-   "id": "-KPZkVUdsf7b8XDBQo4d"
   },
   {
    "name": "Entrada Pequeña",

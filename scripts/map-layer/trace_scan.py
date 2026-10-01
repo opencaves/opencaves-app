@@ -375,6 +375,24 @@ def main(config_path, output):
     for item in config.get('exclude', []):
         x0, y0, x1, y1 = item['box']
         masked[max(0, y0):y1, max(0, x0):x1] = True
+    # Areas excluded by colour (config "trace": {"excludeColours": [{"hue":
+    # [h0, h1], "minSaturation": s}]}): e.g. cross-sections drawn on orange
+    # brick - each patch of that colour, grown, and its bounding box.
+    for colour in config.get('trace', {}).get('excludeColours', []):
+        hsv = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('HSV')).astype(int)
+        h0, h1 = colour['hue']
+        patch = ((hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) & (hsv[..., 1] >= colour.get('minSaturation', 120))).astype(numpy.uint8)
+        patch = cv2.morphologyEx(patch, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25)))
+        pad = colour.get('padPx', 30)
+        min_size = colour.get('minSizePx', 40)
+        # "minFill": the share of its box a patch must cover - a brick
+        # section is a filled rectangle, sand or pebbles of the colour aren't.
+        min_fill = colour.get('minFill', 0)
+        patches = ndimage.label(patch)[0]
+        for i, sl in enumerate(ndimage.find_objects(patches)):
+            if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= min_size and (patches[sl] == i + 1).mean() >= min_fill:
+                masked[max(0, sl[0].start - pad):sl[0].stop + pad, max(0, sl[1].start - pad):sl[1].stop + pad] = True
+    colour_masked = masked.copy()
     words = ocr_words(grey, out / f'{name}-ocr-words.json')
     labels_only = real_labels(words)
     for word in labels_only:
@@ -514,6 +532,7 @@ def main(config_path, output):
         for item in config.get('exclude', []):
             x0, y0, x1, y1 = item['box']
             boxes[max(0, y0):y1, max(0, x0):x1] = True
+        boxes |= colour_masked
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
     else:
         candidate = ink & ~masked

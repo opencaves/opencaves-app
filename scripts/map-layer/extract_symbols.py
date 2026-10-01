@@ -274,7 +274,12 @@ def main(config_path, output):
         i = mark_at(x, y)
         if i is not None:
             templates.setdefault(letter, []).append(shape_of(labels[objects[i]] == i + 1))
-    (h_min, h_max), (w_min, w_max) = LETTER_SIZE
+    # Letter size: the map's own ("letterSizePx": [min, max]) or the default.
+    if legend.get('letterSizePx'):
+        low, high = legend['letterSizePx']
+        (h_min, h_max), (w_min, w_max) = (low, high), (int(low * 0.6), high)
+    else:
+        (h_min, h_max), (w_min, w_max) = LETTER_SIZE
     marks = []
     for i, s in enumerate(objects):
         h, w = s[0].stop - s[0].start, s[1].stop - s[1].start

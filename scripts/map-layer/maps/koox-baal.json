@@ -1,0 +1,419 @@
+{
+  "image": "../../../_data/maps-import/images/koox-baal-sist-chemuil.webp",
+  "title": "Sistema K'oox Baal - Czech Speleological Society 2013",
+  "credits": "Explored and surveyed 1998-2012; drawn 2003-2012; edited by Daniel Hutňan, digitalized by Anna Hutňanová. Czech Speleological Society (c) 2013 (A Quest for the Secrets of Xibalba)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfwMz8Euzm1BP2BZ",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "colour-fill",
+    "threshold": 8,
+    "minBandSqMetres": 8,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 20,
+        "minSizePx": 100,
+        "minFill": 0.5
+      }
+    ]
+  },
+  "exclude": [
+    {
+      "why": "title and totals",
+      "box": [
+        4362,
+        125,
+        6216,
+        857
+      ]
+    },
+    {
+      "why": "logos",
+      "box": [
+        4487,
+        872,
+        5375,
+        1293
+      ]
+    },
+    {
+      "why": "explorers and drafters",
+      "box": [
+        4487,
+        1293,
+        6216,
+        2430
+      ],
+      "history": true
+    },
+    {
+      "why": "compass",
+      "box": [
+        5266,
+        2789,
+        5998,
+        3724
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        5422,
+        3826,
+        5905,
+        4057
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        5157,
+        4244,
+        6232,
+        5023
+      ]
+    },
+    {
+      "why": "bottom title",
+      "box": [
+        1963,
+        4518,
+        4051,
+        5141
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      5474,
+      3990
+    ],
+    "to": [
+      5812,
+      3990
+    ],
+    "metres": 200
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVKdh5s4r6q7OyiD",
+      "name": "K'oox Baal (label)",
+      "px": [
+        1418,
+        249
+      ],
+      "latitude": 20.37981,
+      "longitude": -87.43179
+    },
+    {
+      "caveId": "-KPZkVL3JsUJj2d1VxEq",
+      "name": "Kot Be (label)",
+      "px": [
+        2203,
+        2191
+      ],
+      "latitude": 20.36946,
+      "longitude": -87.42737
+    },
+    {
+      "caveId": "-KPZkVEMpzHZkAcISBMH",
+      "name": "Balam Ts'al (label)",
+      "px": [
+        2025,
+        2561
+      ],
+      "latitude": 20.36745,
+      "longitude": -87.42817
+    },
+    {
+      "caveId": "-KPZkVHIOAQIZcGBVR5w",
+      "name": "Coop One (label)",
+      "px": [
+        3839,
+        2898
+      ],
+      "latitude": 20.36556,
+      "longitude": -87.41778
+    },
+    {
+      "caveId": "-KPZkVPP0HdyLktP7wYu",
+      "name": "Sac Xiquin (label)",
+      "px": [
+        4119,
+        3075
+      ],
+      "latitude": 20.36472,
+      "longitude": -87.41616
+    },
+    {
+      "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
+      "name": "Tres Estrellas (label)",
+      "px": [
+        3241,
+        3225
+      ],
+      "latitude": 20.36361,
+      "longitude": -87.42111
+    },
+    {
+      "caveId": "-KPZkVQ_EDwgC4Ip9o1A",
+      "name": "Tan Ich (label)",
+      "px": [
+        2935,
+        3639
+      ],
+      "latitude": 20.36169,
+      "longitude": -87.4226
+    },
+    {
+      "caveId": "-KPZkVNN67s9k-Ro6pUY",
+      "name": "Nai Tucha (label)",
+      "px": [
+        3484,
+        3621
+      ],
+      "latitude": 20.36194,
+      "longitude": -87.41972
+    },
+    {
+      "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+      "name": "Shaman Ek (label)",
+      "px": [
+        2219,
+        3920
+      ],
+      "latitude": 20.36018,
+      "longitude": -87.427
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVKdh5s4r6q7OyiD",
+      "name": "K'oox Baal",
+      "px": [
+        1418,
+        249
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVL3JsUJj2d1VxEq",
+      "name": "Kot Be",
+      "px": [
+        2203,
+        2191
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVEMpzHZkAcISBMH",
+      "name": "Balam Ts'al",
+      "px": [
+        2025,
+        2561
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVHIOAQIZcGBVR5w",
+      "name": "Coop One",
+      "px": [
+        3839,
+        2898
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVPP0HdyLktP7wYu",
+      "name": "Sac Xiquin",
+      "px": [
+        4119,
+        3075
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
+      "name": "Tres Estrellas",
+      "px": [
+        3241,
+        3225
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVQ_EDwgC4Ip9o1A",
+      "name": "Tan Ich",
+      "px": [
+        2935,
+        3639
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVNN67s9k-Ro6pUY",
+      "name": "Nai Tucha",
+      "px": [
+        3484,
+        3621
+      ],
+      "atLabel": true
+    },
+    {
+      "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+      "name": "Shaman Ek",
+      "px": [
+        2219,
+        3920
+      ],
+      "atLabel": true
+    },
+    {
+      "name": "Koi",
+      "px": [
+        4612,
+        4060
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVL2GlrKZi7B58X9",
+      "replacePosition": "the database's position is 636 m from this map's (near Nai Tucha): doubtful"
+    },
+    {
+      "name": "Castillo",
+      "px": [
+        2705,
+        1349
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVFsdd1DKJcHWlhE"
+    },
+    {
+      "name": "Chun Chechem",
+      "px": [
+        3608,
+        1829
+      ],
+      "atLabel": true
+    },
+    {
+      "name": "Sac Xib",
+      "px": [
+        2144,
+        2060
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVPOQSN8iA8Pva3y"
+    },
+    {
+      "name": "Ksel K'ax",
+      "px": [
+        3350,
+        2290
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVL5Dyl4MuWKIRWe"
+    },
+    {
+      "name": "Muk Wakal",
+      "px": [
+        2468,
+        2449
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVN57u61BuFBfoZL"
+    },
+    {
+      "name": "Ha'ak Kak",
+      "px": [
+        2549,
+        2751
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVJt864q7iMnXKBe"
+    },
+    {
+      "name": "Quintan",
+      "px": [
+        4051,
+        2973
+      ],
+      "atLabel": true
+    },
+    {
+      "name": "Numya",
+      "px": [
+        2499,
+        3147
+      ],
+      "atLabel": true
+    },
+    {
+      "name": "Sac Ktu Cha",
+      "px": [
+        2923,
+        3359
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVPIPv70urq0p8Os"
+    },
+    {
+      "name": "Chalat",
+      "px": [
+        2574,
+        3446
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVGIbn9Z4SzAOQCP"
+    },
+    {
+      "name": "Chuuh",
+      "px": [
+        2954,
+        3421
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVGzG-n4BgmvtHWs"
+    },
+    {
+      "name": "Dos Pallapas",
+      "px": [
+        4995,
+        4524
+      ],
+      "atLabel": true,
+      "caveId": "-KPZkVI9l6v5rCfsRB4t"
+    }
+  ],
+  "symbols": {
+    "why": "The scan (0.59 m/px) is too coarse to read the depths; no restriction R or bones B is used in the passages - the letters there are cross-section labels.",
+    "units": "ft",
+    "letters": {
+      "R": "restriction",
+      "B": "bones"
+    },
+    "templates": {
+      "R": [
+        5756,
+        4460
+      ],
+      "B": [
+        5753,
+        4816
+      ]
+    },
+    "letterSizePx": [
+      25,
+      60
+    ]
+  }
+}

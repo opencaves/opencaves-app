@@ -19,6 +19,7 @@ Every symbol becomes a point with:
 |---|---|---|---|
 | `restriction-minor` | Passage narrows; a diver passes, single file | - | `r` |
 | `restriction-major` | Passage narrows a lot; sidemount at least, or impassable | - | `X` |
+| `restriction` | Passage narrows, how much not said | - | `R` |
 | `visibility-zero` | Expect zero visibility (silt, clay) | - | `z` |
 | `silt` | Silt floor | - | `s` |
 | `depth` | Depth at that point | metres | ↓ value |
@@ -28,6 +29,7 @@ Every symbol becomes a point with:
 | `ceiling-low` | Low ceiling (`tb`, *techo bajo*) | - | tb |
 | `too-tight` | Too tight to pass (`tt`, *demasiado estrecho*) | - | tt |
 | `passage-narrow` | Narrow passage (`a`, *pasaje angosto*) | - | a |
+| `bones` | Bones (animal or human remains) | - | `B` |
 | `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
@@ -79,6 +81,23 @@ Spanish legend, measurements in **metres**, always with one decimal:
 
 Walls are bold strokes; everything else between them (boulders, columns,
 stalagmites, sand, slopes) is drawn as on the map, not typed.
+
+### Czech Speleological Society maps (e.g. Sistema K'oox Baal, 2013)
+
+English legend, measurements in **feet**. Passages are filled in light blue
+with a dark wall line, cross-sections and profiles are drawn on orange brick
+(masked by colour: `"excludeColours"` in the config's `trace`), sand in pale
+yellow, lakes in pale blue.
+
+| On the map | Type |
+|---|---|
+| overlined number (<u>09</u>) | `depth` |
+| `R` (bold serif) | `restriction` (no minor/major distinction) |
+| `B` (bold serif) | `bones` |
+
+The scan we have (0.59 m/px) is too coarse for its depths to be read, and its
+passages carry no `R` or `B`: the capital letters next to them (J, K, N, R...)
+name the cross-sections. The entrances are placed at their labels.
 
 ### Peter Sprouse / AMCS vector maps
 

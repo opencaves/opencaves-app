@@ -52,6 +52,8 @@ FOUND_FILE = Path(__file__).resolve().parent / 'found-cenotes.json'
 # Position accuracy (metres) by how the cenote's spot on the map was found.
 LABEL_ON_VECTOR = 15
 LABEL_ON_SCAN = 75
+# A curated entrance placed at its label rather than its opening.
+LABEL_ON_RASTER = 40
 # A database cave of the same name up to FAR_METRES away is the same cenote
 # (beyond 3x the accuracy, its position disagrees: "matched, far"); further
 # away, a namesake elsewhere.
@@ -184,14 +186,16 @@ def map_candidates(config_path, output_dir):
         place = lambda x, y: to_lnglat.transform(*fit(x, y))  # noqa: E731
         if config.get('entrances'):
             accuracy = max(10, rms)
-            found = [{**e, 'position': place(*e['px']), 'placement': 'opening'} for e in config['entrances']]
+            # An entrance placed at its label ("atLabel": true) is less exact.
+            found = [{**e, 'position': place(*e['px']), 'placement': 'label' if e.get('atLabel') else 'opening'} for e in config['entrances']]
         else:
             words_path = output_dir / f'{name}-ocr-words.json'
             if not words_path.exists():
                 sys.exit(f'{words_path} is missing: run trace_scan.py on {config_path} first (it OCRs the map).')
             accuracy = LABEL_ON_SCAN + rms
             found = [{**label, 'position': place(*label['px']), 'placement': 'label'} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
-    return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1], 'accuracy': round(accuracy),
+    return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1],
+                     'accuracy': round(max(accuracy, LABEL_ON_RASTER) if f.get('atLabel') else accuracy),
                      'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition')} for f in found]
 
 
