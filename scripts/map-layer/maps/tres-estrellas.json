@@ -155,9 +155,63 @@
           2268,
           4230
         ]
+      ],
+      [
+        [
+          3003,
+          5445
+        ],
+        [
+          3015,
+          5425
+        ],
+        [
+          3035,
+          5410
+        ],
+        [
+          3060,
+          5415
+        ],
+        [
+          3065,
+          5435
+        ],
+        [
+          3100,
+          5430
+        ],
+        [
+          3165,
+          5430
+        ],
+        [
+          3185,
+          5445
+        ],
+        [
+          3180,
+          5475
+        ],
+        [
+          3155,
+          5498
+        ],
+        [
+          3100,
+          5512
+        ],
+        [
+          3030,
+          5522
+        ],
+        [
+          3005,
+          5505
+        ]
       ]
     ],
-    "waterPolygonsWhy": "water only at the entrance: Tres Estrellas cenote's open water"
+    "waterPolygonsWhy": "water at the entrance (Tres Estrellas cenote's open water) and the south lake"
   },
   "exclude": [
     {
