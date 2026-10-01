@@ -41,7 +41,8 @@
       "maxSqMetres": 100,
       "gapMetres": 20
     },
-    "minHoleSqMetres": 8
+    "minHoleSqMetres": 8,
+    "water": false
   },
   "water": false,
   "exclude": [
