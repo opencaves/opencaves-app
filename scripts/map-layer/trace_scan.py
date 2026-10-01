@@ -738,10 +738,37 @@ def main(config_path, output):
         if cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES or area < (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else min_band):
             continue
         points = [tuple(p) for p in contour[:, 0, :].astype(float)]
-        line = smooth(LineString(points + points[:1])).simplify(trace.get('wallSimplifyMetres', SIMPLIFY_METRES) / scale)
-        cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
-        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
-                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+        runs = [points + points[:1]]
+        if trace.get('wallsOnInk'):
+            # Only where the map draws a wall line: a cenote's open water
+            # fading into the paper has no wall, and gets none.
+            reach = trace.get('wallInkReachPx', 6)
+            near_ink = wall_ink_near if 'wall_ink_near' in dir() else None
+            if near_ink is None:
+                wall_ink_near = cv2.dilate(ink.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
+                near_ink = wall_ink_near
+            on = [bool(near_ink[int(y), int(x)]) for x, y in points]
+            if not all(on):
+                # Runs of on-ink points, starting after an off-ink point so a
+                # run doesn't wrap around the start.
+                start = on.index(False)
+                order = points[start:] + points[:start]
+                flags = on[start:] + on[:start]
+                runs, current = [], []
+                for p, f in zip(order, flags):
+                    if f:
+                        current.append(p)
+                    elif current:
+                        runs.append(current)
+                        current = []
+                if current:
+                    runs.append(current)
+                runs = [r for r in runs if len(r) * scale >= trace.get('minWallRunMetres', 1)]
+        for run in runs:
+            line = smooth(LineString(run)).simplify(trace.get('wallSimplifyMetres', SIMPLIFY_METRES) / scale)
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
 
     # Walls from the ink (config "trace": {"inkWalls": [{"box": [...]}]}):
     # where a passage's fill has faded to the paper's colour, its drawn wall

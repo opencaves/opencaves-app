@@ -134,7 +134,9 @@
     ],
     "minHoleSqMetres": 1,
     "minBandSqMetres": 2,
-    "wallSimplifyMetres": 0.05
+    "wallSimplifyMetres": 0.05,
+    "wallsOnInk": true,
+    "wallInkReachPx": 14
   },
   "symbols": {
     "units": "ft",
