@@ -110,6 +110,36 @@ def map_name(row):
     return stem.strip()
 
 
+OVERRIDES = Path(__file__).with_name('map-overrides.csv')
+
+
+def apply_overrides(rows, sistemas):
+    """Reviewed corrections (map-overrides.csv, next to this script) over the
+    automatic match: the sistema names a map goes to ("A | B"), or "exclude"
+    for a map that shouldn't be published (include=no)."""
+    if not OVERRIDES.exists():
+        return
+    by_name = {s.get('name'): s for s in sistemas}
+    by_key = {r['source'] + (f"#p{r['page']}" if r.get('page') else ''): r for r in rows if r.get('image')}
+    for entry in csv.DictReader(open(OVERRIDES, encoding='utf-8')):
+        row = by_key.get(entry['map'])
+        if not row:
+            continue
+        if entry['sistemas'].strip().lower() == 'exclude':
+            row['include'] = 'no'
+            row['matchHow'] = 'excluded'
+        else:
+            names = [n.strip() for n in entry['sistemas'].split('|') if n.strip()]
+            missing = [n for n in names if n not in by_name]
+            if missing:
+                print(f'map-overrides.csv: no sistema named {", ".join(missing)} (for {entry["map"]})')
+                continue
+            row['sistemaIds'] = ' | '.join(by_name[n]['id'] for n in names)
+            row['sistemaNames'] = ' | '.join(names)
+            row['matchHow'] = 'override'
+        row['matchDetails'] = f'override: {entry["reason"]}'
+
+
 def main(folder, production):
     folder = Path(folder)
     rows = list(csv.DictReader(open(folder / 'extracted.csv', encoding='utf-8-sig')))
@@ -183,8 +213,10 @@ def main(folder, production):
         hows = [how for _, how in found]
         row['matchHow'] = 'none' if not hows else ('exact' if all(h.startswith('exact') for h in hows) else 'similar')
 
+    apply_overrides(rows, sistemas)
+
     fields = list(rows[0].keys())
-    for extra in ['mapName', 'matchHow', 'sistemaIds', 'sistemaNames', 'matchDetails']:
+    for extra in ['mapName', 'matchHow', 'sistemaIds', 'sistemaNames', 'matchDetails', 'include']:
         if extra not in fields:
             fields.append(extra)
     with open(folder / 'matched.csv', 'w', newline='', encoding='utf-8-sig') as f:
@@ -195,7 +227,8 @@ def main(folder, production):
     unmatched = [r for r in rows if r.get('matchHow') == 'none']
     print(f'{len(rows)} maps: {sum(1 for r in rows if r.get("matchHow") == "exact")} exact, '
           f'{sum(1 for r in rows if r.get("matchHow") == "similar")} with a similar name to confirm, {len(unmatched)} with no match, '
-          f'{sum(1 for r in rows if " | " in (r.get("sistemaIds") or ""))} going to several sistemas')
+          f'{sum(1 for r in rows if " | " in (r.get("sistemaIds") or ""))} going to several sistemas, '
+          f'{sum(1 for r in rows if r.get("matchHow") == "override")} set by map-overrides.csv, {sum(1 for r in rows if r.get("matchHow") == "excluded")} excluded')
     print(f'sistemas: {len(sistemas)}, caves: {len(caves)} (from {"production" if production else "the emulator"})')
 
 
