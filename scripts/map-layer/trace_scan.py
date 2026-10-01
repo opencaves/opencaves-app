@@ -723,6 +723,94 @@ def thin_walls(config_path, config, out, name):
     print(f'{len(features)} wall lines -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
 
 
+def compass_fill(config_path, config, out, name):
+    """Compass exports ("method": "compass-fill"): passages are a flat cyan
+    fill computed from the survey's left/right widths, with no wall ink. The
+    walls are the pure fill's own outlines (no blur, no growth; the slit the
+    survey line cuts closed, the survey line's thin cyan edging opened away),
+    and the survey lines running outside any fill (passages surveyed without
+    widths) are kept as survey lines."""
+    trace = config.get('trace', {})
+    image_path = config_path.parent.joinpath(config['image']).resolve()
+    rgb = numpy.asarray(Image.open(image_path).convert('RGB')).astype(int)
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+
+    # 1. Fill: pure cyan; the slit the survey line cuts through it closed.
+    fill = (r < 120) & (g > 215) & (b > 215)
+    close = trace.get('fillClosePx', 5)
+    fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (close, close)))
+    # The thin cyan edging Compass gives every survey line (1-2 px, no real width)
+    # is not passage: an opening drops fills narrower than ~minFillPx.
+    k = trace.get('minFillPx', 5)
+    fill = cv2.morphologyEx(fill, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))) > 0
+    # Walls: the fill's own outlines (no wall ink to reach: colour_fill_band's
+    # blur and 2 px growth would widen every passage).
+    place, scale, _ = raster_placement(config)
+    to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
+    band = fill.astype(numpy.uint8) * 255
+    for item in config.get('exclude', []):
+        x0, y0, x1, y1 = item['box']
+        band[y0:y1, x0:x1] = 0
+    contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    review = numpy.full(rgb.shape, 255, numpy.uint8)
+    review[band > 0] = (200, 225, 255)
+    wall_features = []
+    for index, contour in enumerate(contours):
+        hole = hierarchy[0][index][3] != -1
+        area = abs(cv2.contourArea(contour)) * scale ** 2
+        if len(contour) < 4 or area < (trace.get('minHoleSqMetres', 4) if hole else trace.get('minBandSqMetres', 4)):
+            continue
+        pts = [tuple(p) for p in contour[:, 0, :].astype(float)]
+        ls = smooth(LineString(pts + pts[:1])).simplify(trace.get('wallSimplifyMetres', 0.3) / scale)
+        cv2.polylines(review, [numpy.array(ls.coords, numpy.int32)], False, (0, 0, 0), 2)
+        wall_features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in ls.coords]))})
+    walls = rounded({'type': 'FeatureCollection', 'features': wall_features})
+
+    # 2. Survey lines: dark teal (green = blue > red), plus the black core pixels
+    # touching it; away from the fill.
+    teal = ((g - r) >= 12) & (numpy.abs(g - b) < 12) & (g < 200)
+    dark = rgb.sum(-1) < 250
+    line = teal.copy()
+    for _ in range(4):
+        line |= dark & (cv2.dilate(line.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0)
+    for item in config.get('exclude', []):
+        x0, y0, x1, y1 = item['box']
+        line[y0:y1, x0:x1] = False
+    lab, n = ndimage.label(line, structure=numpy.ones((3, 3)))
+    size = ndimage.sum(line, lab, range(1, n + 1))
+    line = numpy.isin(lab, [i + 1 for i, s in enumerate(size) if s >= 20])
+    reach = trace.get('surveyOffFillPx', 2)
+    near_fill = cv2.dilate(fill.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
+    features = []
+    min_m = trace.get('surveyMinMetres', 3)
+    for path in trace_skeleton(skeletonize(line)):
+        run = []
+        runs = []
+        for y, x in path:
+            if near_fill[y, x]:
+                if len(run) >= 2:
+                    runs.append(run)
+                run = []
+            else:
+                run.append((x, y))
+        if len(run) >= 2:
+            runs.append(run)
+        for pts in runs:
+            ls = LineString(pts)
+            if ls.length * scale < min_m:
+                continue
+            ls = ls.simplify(max(0.5, scale / 2) / scale)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in ls.coords]))})
+    walls['features'] += rounded({'type': 'FeatureCollection', 'features': features})['features']
+    out.mkdir(parents=True, exist_ok=True)
+    (out / f'{name}-walls.geojson').write_text(json.dumps(walls, separators=(',', ':')), encoding='utf-8')
+    review[line & ~near_fill] = (220, 0, 0)
+    Image.fromarray(review).save(out / f'{name}-walls-review.png')
+    print(f'{len(walls["features"]) - len(features)} wall/detail features + {len(features)} survey lines -> {out / (name + "-walls.geojson")}')
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -730,6 +818,8 @@ def main(config_path, output):
     out = Path(output)
     out.mkdir(parents=True, exist_ok=True)
 
+    if config.get('trace', {}).get('method') == 'compass-fill':
+        return compass_fill(config_path, config, out, name)
     if config.get('trace', {}).get('method') == 'thin-walls':
         return thin_walls(config_path, config, out, name)
     grey = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
