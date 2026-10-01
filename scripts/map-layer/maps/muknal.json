@@ -1350,54 +1350,6 @@
       {
         "why": "section leader",
         "from": [
-          4893,
-          1840
-        ],
-        "to": [
-          5075,
-          1885
-        ],
-        "widthPx": 11
-      },
-      {
-        "why": "section view arrow",
-        "from": [
-          4893,
-          1840
-        ],
-        "to": [
-          4893,
-          1882
-        ],
-        "widthPx": 11
-      },
-      {
-        "why": "section leader",
-        "from": [
-          4975,
-          2178
-        ],
-        "to": [
-          5085,
-          2194
-        ],
-        "widthPx": 11
-      },
-      {
-        "why": "section view arrow",
-        "from": [
-          4634,
-          2148
-        ],
-        "to": [
-          4672,
-          2180
-        ],
-        "widthPx": 11
-      },
-      {
-        "why": "section leader",
-        "from": [
           5125,
           3055
         ],
@@ -1442,6 +1394,114 @@
           4586
         ],
         "widthPx": 11
+      },
+      {
+        "why": "section mark A (p. 545), along the drawn leader, stopping at the walls",
+        "from": [
+          4887,
+          1832
+        ],
+        "to": [
+          4887,
+          1876
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section mark A (p. 545), along the drawn leader, stopping at the walls",
+        "from": [
+          4887,
+          1880
+        ],
+        "to": [
+          4938,
+          1880
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section mark A (p. 545), along the drawn leader, stopping at the walls",
+        "from": [
+          4957,
+          1880
+        ],
+        "to": [
+          5018,
+          1880
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "section mark A (p. 545), along the drawn leader, stopping at the walls",
+        "from": [
+          5036,
+          1880
+        ],
+        "to": [
+          5100,
+          1880
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section mark A (p. 545), along the drawn leader, stopping at the walls",
+        "from": [
+          5100,
+          1880
+        ],
+        "to": [
+          5265,
+          1818
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section mark B (by 25), along the drawn leader, stopping at the walls",
+        "from": [
+          4633,
+          2138
+        ],
+        "to": [
+          4633,
+          2178
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section mark B (by 25), along the drawn leader, stopping at the walls",
+        "from": [
+          4633,
+          2180
+        ],
+        "to": [
+          4695,
+          2180
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section mark B (by 25), along the drawn leader, stopping at the walls",
+        "from": [
+          4992,
+          2180
+        ],
+        "to": [
+          5047,
+          2180
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section mark B (by 25), along the drawn leader, stopping at the walls",
+        "from": [
+          5047,
+          2180
+        ],
+        "to": [
+          5330,
+          2298
+        ],
+        "widthPx": 7
       }
     ],
     "boxSpurs": "labels",
