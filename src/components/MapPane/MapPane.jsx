@@ -178,6 +178,8 @@ export default function MapPane() {
           <Typography variant="fontTitleLarge" sx={{ flexGrow: 1, textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {tEdit('maps')}{currentCave ? ` – ${currentCave.name?.value || t('caveNameUnknown', { ns: 'map' })}` : ''}
           </Typography>
+          {/* As wide as the back button, so the title centres on the pane, not beside the button. */}
+          <Box aria-hidden sx={{ width: 40, flexShrink: 0 }} />
         </DrawerHeader>
         <Box sx={{ mt: 'var(--oc-pane-padding-block)', height: '100%', overflowY: 'auto' }}>{list}</Box>
       </Drawer>
