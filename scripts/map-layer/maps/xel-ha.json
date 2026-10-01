@@ -1,0 +1,647 @@
+{
+  "image": "../../../_data/maps-import/images/xel-ha-xel-ha.webp",
+  "title": "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000",
+  "credits": "Topographie degré 4 UIS, Expéditions Yuc 97/2000 (French expeditions, 1997-2000); north arrow magnetic, 1997",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+  "sistemaWhy": "Xel-Há Norte: the map is the Caleta de Xel-Ha network, and the database's Xel-Há Norte holds its named cenotes (Laguna Negra, Laguna Grande, Northwest Arm, Aquario - all without a position). The import had guessed Cenote Xel-Há South (-KPZgfueJT9K3VKShMqu) and put this map's exploration record (Expéditions Yuc 97/2000) there, but that cenote (at OSM's Cenote El Jaguar, beside Zacate) lies about 1.3 km west of the caleta, off this map's page. The south arm (Collecteur sud, towards Dos Ojos) has no sistema of its own in the database.",
+  "utmEpsg": 32616,
+  "placementWhy": "Free similarity fit on water bodies visible on the satellite imagery (OSM polygons traced from it): the four cenote pools south of the caleta, Laguna Grande (OSM 'Dolphin Inlet') and Laguna Negra (OSM 'Black Lagoon'). The scale bar is not used: the fit gives 0.75 m/px where the bar's 450 m gives 0.556 m/px - the bar reads as 0-200-400-600 m (810 px = 607 m), and the caleta's outline confirms the larger scale. The north arrow (magnetic, 1997) is about 9 degrees off true north. The coast drawn north of the caleta is schematic (up to 100 m east of the real beach) and X-Cacelito is drawn about 470 m south of Cenote Xcacel: neither is used.",
+  "trace": {
+    "method": "colour-fill",
+    "why": "Passages filled in violet-blue, cenote and lagoon surface water in pale blue, both outlined in black; collapse zones (surface) in orange are not passage and are left out; the sea is masked by its colour.",
+    "water": false,
+    "threshold": 40,
+    "excludeColours": [
+      {
+        "why": "the sea (Mer des Caraïbes), keeping the passages that run into it",
+        "hue": [
+          126,
+          146
+        ],
+        "minSaturation": 90,
+        "padPx": 15,
+        "minSizePx": 1000,
+        "keepHoles": true
+      },
+      {
+        "why": "collapse zones (zones effondrées, open to the surface) in orange, with their boulders",
+        "hue": [
+          10,
+          40
+        ],
+        "minSaturation": 100,
+        "padPx": 4,
+        "minSizePx": 60
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 60,
+      "gapMetres": 5
+    },
+    "paperWindowPx": 1500,
+    "details": false,
+    "weakThreshold": 30,
+    "regionThreshold": 30,
+    "thresholdWhy": "the labels are dark navy (blue minus red up to 37 around their strokes): thresholds above that; the palest fill (lagoons) is about 50"
+  },
+  "exclude": [
+    {
+      "why": "page frame (top)",
+      "box": [
+        365,
+        0,
+        1460,
+        50
+      ]
+    },
+    {
+      "why": "page frame (left)",
+      "box": [
+        365,
+        0,
+        430,
+        3140
+      ]
+    },
+    {
+      "why": "north arrow (Nm 1997)",
+      "box": [
+        1190,
+        60,
+        1500,
+        580
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        940,
+        590,
+        1800,
+        720
+      ]
+    },
+    {
+      "why": "title Xel-Ha",
+      "box": [
+        700,
+        1630,
+        990,
+        1755
+      ]
+    },
+    {
+      "why": "credits: Topographie degré 4 UIS, Expéditions Yuc 97/2000",
+      "box": [
+        530,
+        1810,
+        1150,
+        1975
+      ],
+      "history": true
+    },
+    {
+      "why": "caption Figure 10: Plan des réseaux de Xel-Ha",
+      "box": [
+        1300,
+        3880,
+        2080,
+        4060
+      ]
+    },
+    {
+      "why": "sea label MER DES CARAIBES",
+      "box": [
+        2740,
+        700,
+        2920,
+        3130
+      ]
+    },
+    {
+      "why": "flow arrows (Arrivées d'eau, north)",
+      "box": [
+        1420,
+        1330,
+        1496,
+        1516
+      ]
+    },
+    {
+      "why": "flow arrow (Arrivées d'eau, middle)",
+      "box": [
+        1470,
+        1990,
+        1536,
+        2030
+      ]
+    },
+    {
+      "why": "flow arrows (Arrivées d'eau, middle)",
+      "box": [
+        1335,
+        2095,
+        1410,
+        2195
+      ]
+    },
+    {
+      "why": "flow arrows (Arrivées d'eau, south)",
+      "box": [
+        1345,
+        2395,
+        1428,
+        2660
+      ]
+    },
+    {
+      "why": "flow arrow (Débit 1000 l/s)",
+      "box": [
+        1770,
+        2040,
+        1900,
+        2160
+      ]
+    },
+    {
+      "why": "flow arrow (Débit 1400 l/s)",
+      "box": [
+        1585,
+        2478,
+        1625,
+        2565
+      ]
+    },
+    {
+      "why": "flow arrows in the collapse zone",
+      "box": [
+        540,
+        3240,
+        665,
+        3370
+      ]
+    },
+    {
+      "why": "flow arrows in the Dos Ojos collapse zone",
+      "box": [
+        235,
+        3820,
+        355,
+        3915
+      ]
+    },
+    {
+      "why": "sea strip along the coast, north of the caleta",
+      "box": [
+        2300,
+        150,
+        3038,
+        2450
+      ]
+    },
+    {
+      "why": "sea strip along the coast, north end",
+      "box": [
+        2365,
+        0,
+        3038,
+        150
+      ]
+    },
+    {
+      "why": "sea strip along the coast, south of the caleta",
+      "box": [
+        2240,
+        2950,
+        3038,
+        4122
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "pool S of caleta (OSM 388141606)",
+      "px": [
+        1606,
+        2780
+      ],
+      "latitude": 20.314589,
+      "longitude": -87.36048
+    },
+    {
+      "name": "hatched pool S of caleta (OSM 388125838)",
+      "px": [
+        1844,
+        2808
+      ],
+      "latitude": 20.314079,
+      "longitude": -87.35886
+    },
+    {
+      "name": "small pool N (OSM 1068690990)",
+      "px": [
+        1976,
+        3122
+      ],
+      "latitude": 20.312036,
+      "longitude": -87.35826
+    },
+    {
+      "name": "small pool S (OSM 1068690991)",
+      "px": [
+        1971,
+        3264
+      ],
+      "latitude": 20.311137,
+      "longitude": -87.358593
+    },
+    {
+      "name": "Laguna Grande (OSM Dolphin Inlet)",
+      "px": [
+        2098,
+        2128
+      ],
+      "latitude": 20.318565,
+      "longitude": -87.356219
+    },
+    {
+      "name": "Laguna Negra (OSM Black Lagoon)",
+      "px": [
+        2135,
+        1816
+      ],
+      "latitude": 20.320453,
+      "longitude": -87.35557
+    },
+    {
+      "name": "pool in the collapse, Collecteur sud (OSM 405950392, only part of the pool)",
+      "px": [
+        1327,
+        2965
+      ],
+      "latitude": 20.313472,
+      "longitude": -87.362705,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Laguna Negra",
+      "caveId": "-KPZkVLVL4uGzw1Wi_J-",
+      "px": [
+        2135,
+        1816
+      ],
+      "latitude": 20.320453,
+      "longitude": -87.35557
+    },
+    {
+      "name": "Laguna Grande",
+      "caveId": "-KPZkVLT_OU7UXw83JvY",
+      "px": [
+        2098,
+        2128
+      ],
+      "latitude": 20.318565,
+      "longitude": -87.356219
+    },
+    {
+      "name": "Caleta de Xel-Ha",
+      "px": [
+        2150,
+        2470
+      ]
+    },
+    {
+      "name": "unnamed pool S of caleta",
+      "px": [
+        1606,
+        2780
+      ],
+      "latitude": 20.314589,
+      "longitude": -87.36048
+    },
+    {
+      "name": "unnamed hatched pool S of caleta",
+      "px": [
+        1844,
+        2808
+      ],
+      "latitude": 20.314079,
+      "longitude": -87.35886
+    },
+    {
+      "name": "unnamed pool in the collapse (Collecteur sud)",
+      "px": [
+        1327,
+        2965
+      ]
+    },
+    {
+      "name": "unnamed small pool N",
+      "px": [
+        1976,
+        3122
+      ],
+      "latitude": 20.312036,
+      "longitude": -87.35826
+    },
+    {
+      "name": "unnamed small pool S",
+      "px": [
+        1971,
+        3264
+      ],
+      "latitude": 20.311137,
+      "longitude": -87.358593
+    },
+    {
+      "name": "X-Cacelito",
+      "caveId": "-KPZkVS7lM8UvE0pn8mY",
+      "px": [
+        2300,
+        100
+      ],
+      "why": "spring at the coast (500 l/s); the map draws it about 470 m south of Cenote Xcacel (database and OSM agree there): schematic, the database position stays"
+    }
+  ],
+  "symbols": {
+    "why": "French UIS map, depths in metres written as negative numbers (-7, two of them, in the Salle corrodée rooms; no overlined numbers), no letter codes and no legend. Bones are named, not drawn: 'Squelettes de manati' (two leader lines) and 'Squelette de crocodile' (a dash to the passage), placed at the leader ends. Flow arrows: the 'Arrivées d'eau' (water inflows) at the western passage ends, 'Débit 1000 l/s' and 'Débit 1400 l/s' in the lagoon, and the arrows in the collapse zones; 'Débit 400 l/s' (north arm) and X-Cacelito's 500 l/s have no arrow. 'Trémie' (breakdown choke) and 'Zone effondrée' (collapse zone, open to the surface) are kept as place names. 'DOS OJOS' at the south-west passage end, which runs off the page: leads-to.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "-7",
+        "value": 7,
+        "px": [
+          1638,
+          959
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "-7",
+        "value": 7,
+        "px": [
+          2246,
+          545
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "bones",
+        "label": "Squelettes de manati (manatee skeletons)",
+        "px": [
+          1958,
+          1463
+        ]
+      },
+      {
+        "type": "bones",
+        "label": "Squelettes de manati (manatee skeletons)",
+        "px": [
+          1998,
+          1501
+        ]
+      },
+      {
+        "type": "bones",
+        "label": "Squelette de crocodile (crocodile skeleton)",
+        "px": [
+          2188,
+          1875
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Salle corrodée",
+        "px": [
+          1460,
+          1035
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Salle corrodée",
+        "px": [
+          1935,
+          485
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tanin",
+        "px": [
+          2292,
+          1221
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Collecteur sud",
+        "px": [
+          1085,
+          2950
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Zone effondrée",
+        "px": [
+          1880,
+          2660
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Zone effondrée",
+        "px": [
+          440,
+          3580
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trémie",
+        "px": [
+          1250,
+          3105
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trémie",
+        "px": [
+          1010,
+          3222
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trémie",
+        "px": [
+          308,
+          4037
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "DOS OJOS",
+        "px": [
+          135,
+          4040
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1450,
+          1345
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1450,
+          1420
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1450,
+          1495
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1510,
+          2012
+        ],
+        "bearing": 112
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1378,
+          2112
+        ],
+        "bearing": 90
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1375,
+          2180
+        ],
+        "bearing": 78
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1400,
+          2412
+        ],
+        "bearing": 75
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1390,
+          2445
+        ],
+        "bearing": 88
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1385,
+          2520
+        ],
+        "bearing": 112
+      },
+      {
+        "type": "flow",
+        "label": "Arrivées d'eau",
+        "px": [
+          1375,
+          2650
+        ],
+        "bearing": 80
+      },
+      {
+        "type": "flow",
+        "label": "Débit 1000 l/s",
+        "px": [
+          1835,
+          2095
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "Débit 1400 l/s",
+        "px": [
+          1605,
+          2522
+        ],
+        "bearing": 5
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          575,
+          3275
+        ],
+        "bearing": 42
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          645,
+          3325
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          272,
+          3865
+        ],
+        "bearing": 355
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          365,
+          3885
+        ],
+        "bearing": 44
+      }
+    ]
+  }
+}
