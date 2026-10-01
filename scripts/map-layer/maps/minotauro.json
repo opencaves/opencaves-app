@@ -1,0 +1,3162 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-minotauro-2.png",
+  "title": "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013",
+  "credits": "Surveyed by Karin Pointner (June-August 2011), Etienne Rousseau (June-October 2011), Alessandro Reato (June 2011-November 2013); cartography Alessandro Reato 2013. Thanks to Jim Coke, Bil Phillips, Simon Richards and Scubalandia diving equipment; landowner Don Inocencio Pat Cap. (c) 2013 Alessandro Reato",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfwz5bv3l8SRmrUt",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "colour-fill",
+    "why": "Photographed poster with passages filled in pale blue-grey to purple by depth, dark wall lines, soft focus. greyFill+blueWeight: darkness plus 2x blueness (a tan shadow along the walls' outer side is dark but not blue). Options not yet in trace_scan.py (prototyped in the session scratchpad mino_trace.py): fillOffInk (fill level averaged off the ink), inkTopHatPx (ink as thin strokes, so the purple deep fill isn't ink), paperOutside/notOutside/paperGapPx (paper level from the large areas outside the walls, never filled), inkBand (union with the default band of the drawn walls, for narrow stippled passages). Plain trace_scan.py ignores them and floods/loses passages.",
+    "greyFill": true,
+    "water": false,
+    "threshold": 35,
+    "regionThreshold": 30,
+    "weakThreshold": 25,
+    "inkContrast": 45,
+    "minBandSqMetres": 4,
+    "minHoleSqMetres": 2,
+    "dropIsolated": {
+      "maxSqMetres": 30,
+      "gapMetres": 3
+    },
+    "fillColours": [
+      {
+        "why": "open water (green)",
+        "hue": [
+          35,
+          75
+        ],
+        "minSaturation": 30
+      }
+    ],
+    "fillOffInk": true,
+    "inkTopHatPx": 9,
+    "paperOutside": 50000,
+    "blueWeight": 2,
+    "notOutside": true,
+    "paperGapPx": 5,
+    "inkBand": true
+  },
+  "exclude": [
+    {
+      "why": "screw, top left",
+      "box": [
+        0,
+        0,
+        110,
+        110
+      ]
+    },
+    {
+      "why": "screw, top right",
+      "box": [
+        2390,
+        0,
+        2528,
+        110
+      ]
+    },
+    {
+      "why": "screw, bottom left",
+      "box": [
+        0,
+        2770,
+        75,
+        2856
+      ]
+    },
+    {
+      "why": "screw, bottom right",
+      "box": [
+        2430,
+        2760,
+        2528,
+        2856
+      ]
+    },
+    {
+      "why": "poster edge",
+      "box": [
+        2515,
+        0,
+        2528,
+        2856
+      ]
+    },
+    {
+      "why": "poster edge",
+      "box": [
+        0,
+        2845,
+        2528,
+        2856
+      ]
+    },
+    {
+      "why": "poster edge",
+      "box": [
+        0,
+        0,
+        8,
+        2856
+      ]
+    },
+    {
+      "why": "poster top edge",
+      "box": [
+        0,
+        0,
+        2528,
+        60
+      ]
+    },
+    {
+      "why": "title, location, UTM, totals",
+      "box": [
+        1000,
+        60,
+        2150,
+        462
+      ]
+    },
+    {
+      "why": "section A-A' (Cenote Piedra)",
+      "box": [
+        90,
+        100,
+        672,
+        322
+      ]
+    },
+    {
+      "why": "section B-B'",
+      "box": [
+        780,
+        308,
+        1102,
+        472
+      ]
+    },
+    {
+      "why": "section C-C'",
+      "box": [
+        1858,
+        308,
+        2392,
+        452
+      ]
+    },
+    {
+      "why": "section D-D'",
+      "box": [
+        1950,
+        628,
+        2292,
+        782
+      ]
+    },
+    {
+      "why": "section E-E'",
+      "box": [
+        148,
+        818,
+        422,
+        978
+      ]
+    },
+    {
+      "why": "section F-F'",
+      "box": [
+        158,
+        1358,
+        362,
+        1500
+      ]
+    },
+    {
+      "why": "section G-G'",
+      "box": [
+        148,
+        1598,
+        642,
+        1746
+      ]
+    },
+    {
+      "why": "section H-H'",
+      "box": [
+        1398,
+        1588,
+        1612,
+        1700
+      ]
+    },
+    {
+      "why": "section I-I'",
+      "box": [
+        1740,
+        1732,
+        2210,
+        1876
+      ]
+    },
+    {
+      "why": "section J-J'",
+      "box": [
+        1636,
+        1962,
+        1932,
+        2082
+      ]
+    },
+    {
+      "why": "section K-K'",
+      "box": [
+        1328,
+        2640,
+        1626,
+        2772
+      ]
+    },
+    {
+      "why": "Upstream section explorers",
+      "box": [
+        152,
+        388,
+        348,
+        722
+      ],
+      "history": true
+    },
+    {
+      "why": "El Oriente section explorers",
+      "box": [
+        2110,
+        1358,
+        2288,
+        1500
+      ],
+      "history": true
+    },
+    {
+      "why": "Downstream section explorers",
+      "box": [
+        978,
+        2550,
+        1216,
+        2742
+      ],
+      "history": true
+    },
+    {
+      "why": "surveyors, cartography, thanks, copyright",
+      "box": [
+        68,
+        2555,
+        734,
+        2850
+      ],
+      "history": true
+    },
+    {
+      "why": "hydrological network inset",
+      "box": [
+        92,
+        1828,
+        782,
+        2318
+      ]
+    },
+    {
+      "why": "QRSS stamp",
+      "box": [
+        578,
+        2456,
+        802,
+        2668
+      ]
+    },
+    {
+      "why": "north arrows",
+      "box": [
+        2290,
+        1340,
+        2490,
+        1880
+      ]
+    },
+    {
+      "why": "declination",
+      "box": [
+        2220,
+        1878,
+        2490,
+        1906
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1972,
+        1986,
+        2406,
+        2082
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        1862,
+        2116,
+        2476,
+        2462
+      ]
+    },
+    {
+      "why": "Il filo di Arianna logo",
+      "box": [
+        2100,
+        2590,
+        2346,
+        2758
+      ]
+    },
+    {
+      "why": "label Cenote Minotauro (big letters read as walls)",
+      "box": [
+        770,
+        1600,
+        952,
+        1705
+      ]
+    },
+    {
+      "why": "label Unnamed (read as a wall)",
+      "box": [
+        40,
+        985,
+        180,
+        1030
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2032.5,
+      2031
+    ],
+    "to": [
+      2384.5,
+      2031
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVMdCXwoq2pMSkyA",
+      "name": "Minotauro (zero datum)",
+      "px": [
+        1022,
+        1592
+      ],
+      "latitude": 20.4817,
+      "longitude": -87.2713
+    },
+    {
+      "name": "Minotauro zero datum, map's UTM (16N E471750 N2264824)",
+      "px": [
+        1022,
+        1592
+      ],
+      "latitude": 20.481817,
+      "longitude": -87.270896,
+      "check": true
+    },
+    {
+      "name": "Cenote Minotaur, OSM node 4119697081",
+      "px": [
+        1022,
+        1592
+      ],
+      "latitude": 20.4816505,
+      "longitude": -87.2711369,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVMdCXwoq2pMSkyA",
+      "name": "Cenote Minotauro",
+      "px": [
+        1022,
+        1592
+      ]
+    },
+    {
+      "caveId": "-KPZkVOOkG0Wb0_BVKI9",
+      "name": "Cenote Piedra",
+      "px": [
+        640,
+        640
+      ]
+    },
+    {
+      "caveId": "-KPZkVJ2CQfi8R5qJ1p3",
+      "name": "Cenote Escalera",
+      "px": [
+        515,
+        757
+      ]
+    },
+    {
+      "caveId": "-KPZkVJTSCITforYsDef",
+      "name": "Cenote Estrella",
+      "px": [
+        278,
+        1125
+      ]
+    },
+    {
+      "name": "Unnamed Cenote Entrance",
+      "px": [
+        92,
+        1052
+      ],
+      "note": "possibly the nameless cave -KPZkVYQGBSC0KpBmkkf of this sistema (no name, no position in the database): not linked"
+    },
+    {
+      "caveId": "-KPZkVRwuPctLahiiUPx",
+      "name": "Cenote Winz",
+      "px": [
+        1727,
+        600
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Legend: overlined numbers are guideline depths in feet, circled numbers floor-to-ceiling distances in feet, p#### distances from the zero datum in feet (penetration), R minor / X major restriction, Z zero visibility, wavy arrows flow direction. OCR read 24 depths and 8 penetrations (one depth fixed: 25 -> 28); the other 51 depths, 20 penetrations, 125 circled heights, 53 letters and 27 flow arrows were found by a bar/ring/template search in a scratch script and each checked by eye on crops (extra). The scan is soft: a few blurred depths are uncertain (16/18/19 near J-J', 35 near J, 13 at the downstream end). The legend has no bones symbol and none is drawn (checked tile by tile). No 'To ...' leads; the three section names are place names at their titles.",
+    "units": "ft",
+    "letters": {},
+    "templates": {},
+    "fix": [
+      {
+        "px": [
+          828,
+          1220
+        ],
+        "value": 28
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          805,
+          674
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "49",
+        "value": 49,
+        "px": [
+          764,
+          731
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          2402,
+          917
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "31",
+        "value": 31,
+        "px": [
+          653,
+          925
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          2405,
+          1056
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "14",
+        "value": 14,
+        "px": [
+          157,
+          1082
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "value": 17,
+        "px": [
+          1692,
+          1084
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "14",
+        "value": 14,
+        "px": [
+          1525,
+          1092
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          2283,
+          1124
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "28",
+        "value": 28,
+        "px": [
+          863,
+          1143
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "value": 17,
+        "px": [
+          2098,
+          1166
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          579,
+          1173
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "31",
+        "value": 31,
+        "px": [
+          1058,
+          1205
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "32",
+        "value": 32,
+        "px": [
+          723,
+          1228
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1351,
+          1244
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          449,
+          1300
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1220,
+          1334
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1639,
+          1343
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1074,
+          1438
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "value": 16,
+        "px": [
+          1806,
+          1505
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1278,
+          1560
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1767,
+          1688
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          1195,
+          1782
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1347,
+          1800
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1191,
+          2074
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "value": 16,
+        "px": [
+          1474,
+          2112
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1383,
+          2186
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          1708,
+          2439
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "value": 29,
+        "px": [
+          1027,
+          1055
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "32",
+        "value": 32,
+        "px": [
+          619,
+          1306
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9,
+        "px": [
+          962,
+          1352
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "value": 29,
+        "px": [
+          785,
+          1198
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "value": 12,
+        "px": [
+          942,
+          1453
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          785,
+          1490
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1053,
+          1508
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1177,
+          1583
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "28",
+        "value": 28,
+        "px": [
+          795,
+          1416
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1243,
+          1478
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          1557,
+          1428
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "value": 12,
+        "px": [
+          1607,
+          1865
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1970,
+          1127
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "value": 17,
+        "px": [
+          1172,
+          2257
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1477,
+          1900
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1533,
+          2117
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "13",
+        "value": 13,
+        "px": [
+          930,
+          2502
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          1617,
+          2392
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1517,
+          2470
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1750,
+          2687
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "14",
+        "value": 14,
+        "px": [
+          1837,
+          2490
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "14",
+        "value": 14,
+        "px": [
+          1832,
+          2612
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1875,
+          2808
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "penetration",
+        "label": "p1472",
+        "value": 1472,
+        "px": [
+          1019,
+          705
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1201",
+        "value": 1201,
+        "px": [
+          1058,
+          787
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1593",
+        "value": 1593,
+        "px": [
+          1393,
+          683
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1305",
+        "value": 1305,
+        "px": [
+          245,
+          1123
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1101",
+        "value": 1101,
+        "px": [
+          615,
+          898
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p478",
+        "value": 478,
+        "px": [
+          967,
+          1332
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p813",
+        "value": 813,
+        "px": [
+          1392,
+          1215
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1270",
+        "value": 1270,
+        "px": [
+          1760,
+          1078
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1160",
+        "value": 1160,
+        "px": [
+          1680,
+          1392
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1795",
+        "value": 1795,
+        "px": [
+          2097,
+          971
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1786",
+        "value": 1786,
+        "px": [
+          2183,
+          1199
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1340",
+        "value": 1340,
+        "px": [
+          1951,
+          1403
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p2158",
+        "value": 2158,
+        "px": [
+          2460,
+          1064
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1121",
+        "value": 1121,
+        "px": [
+          1510,
+          1805
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p514",
+        "value": 514,
+        "px": [
+          1095,
+          1933
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p994",
+        "value": 994,
+        "px": [
+          1143,
+          2192
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1153",
+        "value": 1153,
+        "px": [
+          1467,
+          2297
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1413",
+        "value": 1413,
+        "px": [
+          873,
+          2483
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1369",
+        "value": 1369,
+        "px": [
+          1633,
+          2408
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "p1966",
+        "value": 1966,
+        "px": [
+          1790,
+          2815
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1028,
+          527
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1580,
+          560
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1491,
+          578
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          682,
+          583
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          965,
+          591
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          759,
+          600
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1360,
+          617
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1569,
+          626
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1081,
+          696
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          752,
+          702
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          824,
+          723
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          991,
+          724
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1637,
+          735
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          2410,
+          753
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1866,
+          757
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1288,
+          772
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2402,
+          802
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          888,
+          821
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1781,
+          833
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "17",
+        "value": 17,
+        "px": [
+          1017,
+          840
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1",
+        "value": 1,
+        "px": [
+          2330,
+          848
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1403,
+          860
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1496,
+          866
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          1263,
+          887
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1635,
+          895
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2277,
+          899
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1414,
+          912
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1304,
+          918
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1202,
+          923
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1707,
+          935
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1095,
+          944
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2133,
+          949
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          758,
+          953
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2018,
+          962
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1506,
+          963
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2354,
+          968
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          814,
+          978
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          993,
+          980
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1882,
+          990
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2371,
+          992
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1659,
+          1018
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1562,
+          1027
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2231,
+          1034
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2440,
+          1034
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2030,
+          1046
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1363,
+          1054
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1458,
+          1056
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1739,
+          1058
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "17",
+        "value": 17,
+        "px": [
+          773,
+          1069
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2148,
+          1078
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1798,
+          1085
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1030,
+          1087
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1979,
+          1089
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          622,
+          1093
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1909,
+          1094
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1",
+        "value": 1,
+        "px": [
+          73,
+          1106
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          2070,
+          1111
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1887,
+          1112
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "30",
+        "value": 30,
+        "px": [
+          395,
+          1118
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          2437,
+          1131
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          204,
+          1136
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1705,
+          1154
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2262,
+          1155
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          604,
+          1160
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          855,
+          1169
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          2123,
+          1170
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1771,
+          1171
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2347,
+          1189
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1708,
+          1197
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          508,
+          1203
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1926,
+          1205
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          436,
+          1209
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1828,
+          1213
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1761,
+          1215
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1103,
+          1223
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2017,
+          1231
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          948,
+          1232
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1801,
+          1251
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2107,
+          1251
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          756,
+          1258
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1908,
+          1279
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          336,
+          1308
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          2051,
+          1342
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          530,
+          1342
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1751,
+          1439
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1488,
+          1443
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1831,
+          1450
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1861,
+          1457
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1595,
+          1478
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          927,
+          1491
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1926,
+          1512
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1192,
+          1563
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1750,
+          1579
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1248,
+          1591
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1360,
+          1686
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1620,
+          1734
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1201,
+          1811
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1666,
+          1813
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1457,
+          1841
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1070,
+          1867
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1582,
+          1887
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1193,
+          1906
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1455,
+          1958
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1369,
+          2011
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1256,
+          2016
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1115,
+          2021
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1594,
+          2060
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1431,
+          2122
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1118,
+          2128
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1336,
+          2171
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1485,
+          2241
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1611,
+          2251
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1393,
+          2299
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1301,
+          2301
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1048,
+          2310
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1663,
+          2313
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1327,
+          2344
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1571,
+          2349
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1267,
+          2425
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1775,
+          2464
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1718,
+          2487
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1587,
+          2501
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "11",
+        "value": 11,
+        "px": [
+          1913,
+          2644
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1801,
+          2707
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1824,
+          2770
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1309,
+          734
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1421,
+          946
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1491,
+          2064
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          1313,
+          2418
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1077,
+          2280
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1565,
+          2243
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1604,
+          980
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1394,
+          1396
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1432,
+          1028
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1605,
+          564
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1682,
+          888
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          801,
+          1180
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1583,
+          1429
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2030,
+          1259
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1412,
+          1170
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1046,
+          1488
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2049,
+          1069
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1455,
+          1098
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2235,
+          1196
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1977,
+          1213
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          583,
+          1297
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1142,
+          2212
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2052,
+          963
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2149,
+          1045
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          1532,
+          1869
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          947,
+          2477
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1681,
+          1146
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          904,
+          2449
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1311,
+          1091
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          1699,
+          867
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          932,
+          562
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          1746,
+          2549
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          2322,
+          1024
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1955,
+          1087
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1330,
+          1673
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1877,
+          1032
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          917,
+          603
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1356,
+          1914
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1946,
+          1333
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          812,
+          1265
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1083,
+          1350
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          2190,
+          1046
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "visibility-zero",
+        "label": "Z",
+        "px": [
+          1882,
+          1488
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1758,
+          1533
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1929,
+          1161
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1814,
+          2535
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1829,
+          1186
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-major",
+        "label": "X",
+        "px": [
+          1251,
+          1531
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1213,
+          1544
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1094,
+          1272
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          1226,
+          1414
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          995,
+          1500
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "restriction-minor",
+        "label": "R",
+        "px": [
+          758,
+          1560
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          545,
+          852
+        ],
+        "bearing": 145
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1360,
+          690
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1225,
+          780
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1505,
+          915
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1653,
+          840
+        ],
+        "bearing": 210
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2417,
+          876
+        ],
+        "bearing": 10
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          143,
+          1150
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          380,
+          1090
+        ],
+        "bearing": 160
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          400,
+          1297
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          975,
+          1258
+        ],
+        "bearing": 165
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1005,
+          1365
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1320,
+          1278
+        ],
+        "bearing": 50
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1470,
+          1365
+        ],
+        "bearing": 145
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1560,
+          1300
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1645,
+          1132
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1725,
+          1372
+        ],
+        "bearing": 60
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1928,
+          977
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2078,
+          1137
+        ],
+        "bearing": 170
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1978,
+          1297
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2333,
+          1115
+        ],
+        "bearing": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1028,
+          1790
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1230,
+          1492
+        ],
+        "bearing": 160
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1408,
+          1785
+        ],
+        "bearing": 170
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1675,
+          1630
+        ],
+        "bearing": 200
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          995,
+          2347
+        ],
+        "bearing": 210
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1497,
+          2277
+        ],
+        "bearing": 170
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1477,
+          2432
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "place-name",
+        "label": "Upstream section",
+        "px": [
+          250,
+          400
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "El Oriente section",
+        "px": [
+          2199,
+          1370
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Downstream section",
+        "px": [
+          1097,
+          2563
+        ]
+      }
+    ]
+  }
+}

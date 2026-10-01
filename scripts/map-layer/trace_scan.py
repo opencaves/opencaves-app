@@ -136,6 +136,10 @@ def colour_fill_band(image_path, masked, trace):
         # A grey fill ("greyFill": true, b/w maps): darkness plays the part
         # of blueness - the passages are darker than the paper.
         blueness = 255 - rgb.mean(axis=2)
+        if trace.get('blueWeight'):
+            # Plus the blue: a tan shadow drawn along the walls' outer side is
+            # as dark as a pale fill, but not blue.
+            blueness = blueness + trace['blueWeight'] * (rgb[..., 2] - rgb[..., 0])
     if trace.get('cyanFill'):
         # Cyan fill only ("cyanFill": true): green above red too. Survey lines
         # drawn in blue-violet (passages surveyed but not drawn) have green
@@ -144,10 +148,36 @@ def colour_fill_band(image_path, masked, trace):
     grey = rgb.mean(axis=2)
     window = trace.get('paperWindowPx', 500)
     paper = local_level(blueness, window)
-    ink = (local_level(grey - 128, window) + 128 - grey) >= trace.get('inkContrast', 35)
+    if trace.get('inkTopHatPx'):
+        size = trace['inkTopHatPx'] | 1
+        ink = cv2.morphologyEx(grey, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (size, size))) >= trace.get('inkContrast', 35)
+    else:
+        ink = (local_level(grey - 128, window) + 128 - grey) >= trace.get('inkContrast', 35)
     ink = cv2.morphologyEx(ink.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))) > 0
 
-    strong = (cv2.GaussianBlur(blueness, (0, 0), 3) - paper) >= trace.get('threshold', 8)
+    if trace.get('paperOutside'):
+        # The paper's level from the paper itself: the large non-ink areas
+        # outside the passages (closed wall outlines keep them apart), averaged
+        # broadly - a photo's uneven light, without dense passages pulling it.
+        gap = trace.get('paperGapPx', 3)
+        closed = cv2.dilate(ink.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (gap, gap))) > 0
+        parts, n = ndimage.label(~closed & ~masked)
+        sizes = ndimage.sum(numpy.ones_like(parts), parts, numpy.arange(1, n + 1))
+        outside = numpy.isin(parts, 1 + numpy.flatnonzero(sizes >= trace['paperOutside'])).astype(numpy.float32)
+        s_ = trace.get('paperSigmaPx', 60)
+        w_ = cv2.GaussianBlur(outside, (0, 0), s_)
+        paper = numpy.where(w_ > 0.02, cv2.GaussianBlur(blueness * outside, (0, 0), s_) / numpy.maximum(w_, 0.02), paper)
+    if trace.get('fillOffInk'):
+        off = (~ink).astype(numpy.float32)
+        sigma = trace.get('offInkSigmaPx', 6)
+        weight = cv2.GaussianBlur(off, (0, 0), sigma)
+        blurred = numpy.where(weight > 0.05, cv2.GaussianBlur(blueness * off, (0, 0), sigma) / numpy.maximum(weight, 0.05), cv2.GaussianBlur(blueness, (0, 0), 3))
+    else:
+        blurred = cv2.GaussianBlur(blueness, (0, 0), 3)
+    strong = (blurred - paper) >= trace.get('threshold', 8)
+    if trace.get('paperOutside') and trace.get('notOutside'):
+        # Never the paper outside the walls: a blur reaches across a wall.
+        strong &= ~(outside > 0)
     regions, count = ndimage.label(~ink & ~masked)
     ids = numpy.arange(1, count + 1)
     excess = blueness - paper
@@ -182,6 +212,8 @@ def colour_fill_band(image_path, masked, trace):
             core |= numpy.isin(patches, touching[touching > 0])
     weak_excess = cv2.GaussianBlur(blueness, (0, 0), 1) - paper
     weak = (weak_excess >= trace.get('weakThreshold', 4)) & ~ink & ~masked
+    if trace.get('paperOutside') and trace.get('notOutside'):
+        weak &= ~(outside > 0)
     # Local low-threshold areas (config "lowThresholdAreas": [{"box": [x0, y0,
     # x1, y1], "threshold": t}]): passage ends whose fill has faded almost to
     # the paper's colour. A lower threshold anywhere would flood the paper;
@@ -209,6 +241,18 @@ def colour_fill_band(image_path, masked, trace):
     # Specks off, then grown over the wall ink so the band reaches the drawn wall.
     band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)))
     band = cv2.dilate(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
+    # "inkBand": true - united with the default band of the drawn walls (long
+    # ink shapes, closed, then opened): narrow passages whose fill is mostly
+    # stipple and wall ink read there, wide pale ones in the fill.
+    if trace.get('inkBand'):
+        drawn = (numpy.asarray(Image.open(image_path).convert('L')) < INK_LEVEL) & ~masked
+        labels, _ = ndimage.label(drawn, structure=numpy.ones((3, 3)))
+        extents = [max(s.stop - s.start for s in sl) for sl in ndimage.find_objects(labels)]
+        walls = numpy.isin(labels, [i + 1 for i, e in enumerate(extents) if e >= MIN_WALL_EXTENT_PX])
+        closing, opening = trace.get('inkBandClosePx', CLOSE_PX), trace.get('inkBandOpenPx', OPEN_PX)
+        walls = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (closing, closing)))
+        walls = cv2.morphologyEx(walls, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (opening, opening)))
+        band = (band > 0) | (walls > 0)
     return (band > 0).astype(numpy.uint8) * 255 & ~(masked.astype(numpy.uint8) * 255)
 
 
