@@ -29,7 +29,7 @@ Every symbol becomes a point with:
 | `ceiling-low` | Low ceiling (`tb`, *techo bajo*) | - | tb |
 | `too-tight` | Too tight to pass (`tt`, *demasiado estrecho*) | - | tt |
 | `passage-narrow` | Narrow passage (`a`, *pasaje angosto*) | - | a |
-| `bones` | Bones (animal or human remains) | - | `B` |
+| `bones` | Bones (animal or human remains) - of special interest: look for every one on each map, by hand where detection misses | - | `B` |
 | `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
