@@ -1,0 +1,1201 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-sac-aktun-sistema-aktun-hu-portion.png",
+  "title": "Sistema Aktun-Hu - Rancho Tamakas, Ejido Jacinto Pat (PET 2007)",
+  "credits": "Aktun-Hu Cave System, Rancho Tamakas, Ejido Jacinto Pat, Q. Roo, Mexico; 28,400 ft of underwater passage; surveyed by Alex Alvarez, Franco Attolini, Alberto Nava, Devin MacKenzie, Susan Bird, Luca Maghelli, Gianmario Roca; thanks to Alejandro, Maurico and Alfredo for their help during the Rancho Tamakas exploration; (c) 2007 PET",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfr32-S5uVCsT9hQ",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (about 20-30 m): free similarity fit on three cenotes, residuals 5 m (Nariz), 19 m (Aktun-Hu) and 14 m (Cueva Seca); 1.210 m/px, 0.7 degrees. The map has no scale bar and no north arrow (north taken as up, as the fit confirms). Nariz is the trusted point (Open Caves source, located on site); Aktun-Hu (Gerrard 2015) and Cueva Seca (map source) are not, so the scale and rotation were checked independently: (1) the map's own penetrations (p.1800 at Nariz to p.3600 at El Cruzero, p.3600 to p.6500/p.5200/p.7650, p.800 to p.1800) measured along the drawn lines give 1.15-1.25 m/px; (2) a free fit of these lines onto the Aktun-Hu lines of the placed QRSS 2012 overview (sac-actun-mpo-tulum, placed independently of these cenotes) gives 1.226 m/px and 0.5 degrees; after this placement the two line sets are a median 20 m apart (the overview is drawn at 9.5 m/px), with no systematic shift (about 10 m). Cabeza Azteca (Gerrard 2015) is a check point: the map's dot lands 95 m NW of it, and a fit including it would need 1.32 m/px, which the penetrations and the overview both reject - the database position is probably off. Canopy everywhere: no cenote pond shows on the Mapbox/Maxar imagery, and OSM has no water or cave feature on the map's area. The Google Earth line plots (sac-aktun-*-google) carry no Aktun-Hu lines, only placemarks equal to the database positions (not independent). Tunel NE's end (p.4792) stops about 550 m SW of the placed Hoyo Negro (hoyo-negro-2012): no overlap, as expected (Hoyo Negro is reached from Ich Balam / Outland, not drawn here).",
+  "exclude": [
+    {
+      "why": "title: Aktun-Hu Cave System, Rancho Tamakas, Ejido Jacinto Pat, 28,400 ft of passage",
+      "box": [
+        230,
+        40,
+        806,
+        242
+      ],
+      "history": true
+    },
+    {
+      "why": "thanks block (Alejandro, Maurico, Alfredo, Rancho Tamakas exploration)",
+      "box": [
+        92,
+        722,
+        495,
+        932
+      ],
+      "history": true
+    },
+    {
+      "why": "surveyors (Topografiado por)",
+      "box": [
+        580,
+        858,
+        840,
+        1112
+      ],
+      "history": true
+    },
+    {
+      "why": "Copyright 2007 PET",
+      "box": [
+        555,
+        1158,
+        878,
+        1202
+      ],
+      "history": true
+    },
+    {
+      "why": "stray dots",
+      "box": [
+        818,
+        0,
+        832,
+        16
+      ]
+    },
+    {
+      "why": "label p. 7650",
+      "box": [
+        18,
+        312,
+        90,
+        336
+      ]
+    },
+    {
+      "why": "label La Muraya",
+      "box": [
+        70,
+        360,
+        192,
+        392
+      ]
+    },
+    {
+      "why": "label 35ft",
+      "box": [
+        98,
+        438,
+        126,
+        455
+      ]
+    },
+    {
+      "why": "label La Esperanza",
+      "box": [
+        62,
+        504,
+        220,
+        533
+      ]
+    },
+    {
+      "why": "label p. 6500",
+      "box": [
+        18,
+        536,
+        88,
+        561
+      ]
+    },
+    {
+      "why": "label 6k",
+      "box": [
+        247,
+        517,
+        273,
+        539
+      ]
+    },
+    {
+      "why": "label 40ft",
+      "box": [
+        187,
+        562,
+        217,
+        581
+      ]
+    },
+    {
+      "why": "label 40ft",
+      "box": [
+        325,
+        584,
+        355,
+        603
+      ]
+    },
+    {
+      "why": "label Tunel E",
+      "box": [
+        418,
+        571,
+        506,
+        599
+      ]
+    },
+    {
+      "why": "label 4k",
+      "box": [
+        559,
+        562,
+        583,
+        584
+      ]
+    },
+    {
+      "why": "label p. 5200",
+      "box": [
+        344,
+        326,
+        415,
+        351
+      ]
+    },
+    {
+      "why": "label Tunel C",
+      "box": [
+        351,
+        451,
+        441,
+        481
+      ]
+    },
+    {
+      "why": "label 40ft",
+      "box": [
+        426,
+        480,
+        456,
+        499
+      ]
+    },
+    {
+      "why": "label p. 4400",
+      "box": [
+        509,
+        297,
+        579,
+        321
+      ]
+    },
+    {
+      "why": "label Tunel B",
+      "box": [
+        575,
+        339,
+        663,
+        367
+      ]
+    },
+    {
+      "why": "label 35ft",
+      "box": [
+        517,
+        355,
+        545,
+        373
+      ]
+    },
+    {
+      "why": "label p. 3600",
+      "box": [
+        612,
+        461,
+        683,
+        485
+      ]
+    },
+    {
+      "why": "label El Cruzero",
+      "box": [
+        617,
+        485,
+        736,
+        513
+      ]
+    },
+    {
+      "why": "label 40ft",
+      "box": [
+        688,
+        554,
+        717,
+        573
+      ]
+    },
+    {
+      "why": "label p. 4792",
+      "box": [
+        1042,
+        17,
+        1113,
+        41
+      ]
+    },
+    {
+      "why": "label 38ft",
+      "box": [
+        1101,
+        104,
+        1133,
+        123
+      ]
+    },
+    {
+      "why": "label 34ft",
+      "box": [
+        997,
+        129,
+        1028,
+        148
+      ]
+    },
+    {
+      "why": "label 29ft",
+      "box": [
+        996,
+        217,
+        1025,
+        236
+      ]
+    },
+    {
+      "why": "label 30ft",
+      "box": [
+        1189,
+        287,
+        1219,
+        306
+      ]
+    },
+    {
+      "why": "label 24ft",
+      "box": [
+        1221,
+        376,
+        1250,
+        395
+      ]
+    },
+    {
+      "why": "label Tunel NE",
+      "box": [
+        1208,
+        439,
+        1315,
+        471
+      ]
+    },
+    {
+      "why": "label 30ft",
+      "box": [
+        1151,
+        457,
+        1178,
+        476
+      ]
+    },
+    {
+      "why": "label Domo Oscuro",
+      "box": [
+        1005,
+        527,
+        1089,
+        581
+      ]
+    },
+    {
+      "why": "label 30ft",
+      "box": [
+        1128,
+        602,
+        1157,
+        621
+      ]
+    },
+    {
+      "why": "label Cenote Nariz",
+      "box": [
+        839,
+        611,
+        1017,
+        643
+      ]
+    },
+    {
+      "why": "label p.1800",
+      "box": [
+        899,
+        651,
+        963,
+        666
+      ]
+    },
+    {
+      "why": "label 2k",
+      "box": [
+        831,
+        681,
+        856,
+        701
+      ]
+    },
+    {
+      "why": "label 35ft",
+      "box": [
+        866,
+        704,
+        894,
+        723
+      ]
+    },
+    {
+      "why": "label Tunel Principal",
+      "box": [
+        737,
+        729,
+        906,
+        759
+      ]
+    },
+    {
+      "why": "label 40ft",
+      "box": [
+        953,
+        735,
+        981,
+        750
+      ]
+    },
+    {
+      "why": "label p.800",
+      "box": [
+        1114,
+        667,
+        1168,
+        691
+      ]
+    },
+    {
+      "why": "label 35ft",
+      "box": [
+        1021,
+        696,
+        1049,
+        715
+      ]
+    },
+    {
+      "why": "label Sifon",
+      "box": [
+        1011,
+        747,
+        1070,
+        783
+      ]
+    },
+    {
+      "why": "label 15ft",
+      "box": [
+        1133,
+        757,
+        1158,
+        776
+      ]
+    },
+    {
+      "why": "label Cenote Aktun-Hu",
+      "box": [
+        1180,
+        717,
+        1309,
+        776
+      ]
+    },
+    {
+      "why": "label 10ft",
+      "box": [
+        1191,
+        789,
+        1216,
+        806
+      ]
+    },
+    {
+      "why": "label 27ft",
+      "box": [
+        1164,
+        827,
+        1190,
+        846
+      ]
+    },
+    {
+      "why": "label Cenote Cueva Seca",
+      "box": [
+        1320,
+        799,
+        1421,
+        891
+      ]
+    },
+    {
+      "why": "label 37ft",
+      "box": [
+        1101,
+        861,
+        1131,
+        880
+      ]
+    },
+    {
+      "why": "label R",
+      "box": [
+        997,
+        881,
+        1008,
+        895
+      ]
+    },
+    {
+      "why": "label 27ft",
+      "box": [
+        1279,
+        866,
+        1304,
+        883
+      ]
+    },
+    {
+      "why": "label 33ft",
+      "box": [
+        1207,
+        886,
+        1237,
+        905
+      ]
+    },
+    {
+      "why": "label 35ft",
+      "box": [
+        989,
+        930,
+        1018,
+        949
+      ]
+    },
+    {
+      "why": "label 26ft",
+      "box": [
+        1318,
+        944,
+        1346,
+        963
+      ]
+    },
+    {
+      "why": "label 39ft",
+      "box": [
+        1130,
+        1070,
+        1160,
+        1089
+      ]
+    },
+    {
+      "why": "label 30ft",
+      "box": [
+        1233,
+        1143,
+        1263,
+        1162
+      ]
+    },
+    {
+      "why": "label p. 3776",
+      "box": [
+        1189,
+        1179,
+        1259,
+        1204
+      ]
+    },
+    {
+      "why": "label 23ft",
+      "box": [
+        1384,
+        1092,
+        1411,
+        1108
+      ]
+    },
+    {
+      "why": "label Cenote Cabeza Azteca",
+      "box": [
+        1284,
+        1147,
+        1388,
+        1233
+      ]
+    },
+    {
+      "why": "label 15ft",
+      "box": [
+        1401,
+        1220,
+        1427,
+        1239
+      ]
+    },
+    {
+      "why": "label p. 2984",
+      "box": [
+        1322,
+        1251,
+        1393,
+        1276
+      ]
+    },
+    {
+      "why": "label 5k",
+      "box": [
+        460,
+        639,
+        485,
+        660
+      ]
+    },
+    {
+      "why": "label 30ft",
+      "box": [
+        561,
+        634,
+        590,
+        649
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVNP1gaVE-XoVTT1",
+      "name": "Cenote Nariz (DB, Open Caves source - on site)",
+      "px": [
+        930,
+        680
+      ],
+      "latitude": 20.30478,
+      "longitude": -87.43509
+    },
+    {
+      "caveId": "-KPZkVDfSJ3JcxrBjG78",
+      "name": "Cenote Aktun-Hu (DB, Gerrard 2015)",
+      "px": [
+        1228,
+        808
+      ],
+      "latitude": 20.30321,
+      "longitude": -87.4316
+    },
+    {
+      "caveId": "-KPZkVHbgtSH0-b5zj9Y",
+      "name": "Cenote Cueva Seca (DB, map source)",
+      "px": [
+        1314,
+        902
+      ],
+      "latitude": 20.30249,
+      "longitude": -87.43057
+    },
+    {
+      "caveId": "-KPZkVFZW7SgdJ2EgTg1",
+      "name": "Cenote Cabeza Azteca (DB, Gerrard 2015)",
+      "px": [
+        1414,
+        1270
+      ],
+      "latitude": 20.29773,
+      "longitude": -87.42875,
+      "check": true,
+      "why": "95 m from the map dot (20.29836, -87.42937 after the fit): left out of the fit, see placementWhy"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Nariz",
+      "caveId": "-KPZkVNP1gaVE-XoVTT1",
+      "px": [
+        930,
+        680
+      ]
+    },
+    {
+      "name": "Cenote Aktun-Hu",
+      "caveId": "-KPZkVDfSJ3JcxrBjG78",
+      "px": [
+        1228,
+        808
+      ]
+    },
+    {
+      "name": "Cenote Cueva Seca",
+      "caveId": "-KPZkVHbgtSH0-b5zj9Y",
+      "px": [
+        1314,
+        902
+      ]
+    },
+    {
+      "name": "Cenote Cabeza Azteca",
+      "caveId": "-KPZkVFZW7SgdJ2EgTg1",
+      "px": [
+        1414,
+        1270
+      ],
+      "why": "The map puts it 95 m NW of the database position (Gerrard 2015), at the end of the line south of Cueva Seca (p. 2984)."
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "joinShortPx": 10,
+    "snapEndsPx": 8,
+    "why": "b/w stick map (guidelines only, no walls), traced as lines. Cenotes are blue dots on the lines (ink too: their skeleton is a short line through the dot). Every label, depth and penetration is boxed out (survey-lines tracing doesn't skip symbol ink) and listed by hand under symbols. joinShortPx/snapEndsPx: at junctions the skeleton left 1-7 px gaps where the ink is continuous (checked one by one); they are closed. The short line under the Cenote Aktun-Hu dot starts 2 px below the dot without touching it: kept as drawn."
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {},
+    "why": "PET 2007 line plot: depths are plain numbers with 'ft' (no overline), penetrations 'p. N' and the 2k/4k/5k/6k marks along Tunel Principal and Tunel E, all in feet; one 'R' (restriction) south of the Sifon line. No legend, no bones, no flow arrows. Every symbol is excluded from the trace and listed here by hand (the bar search for overlined depths finds nothing on this map).",
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "p. 7650",
+        "px": [
+          54,
+          324
+        ],
+        "value": 7650,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "La Muraya",
+        "px": [
+          131,
+          376
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "35ft",
+        "px": [
+          112,
+          446
+        ],
+        "value": 35,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "35ft",
+        "px": [
+          531,
+          364
+        ],
+        "value": 35,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "35ft",
+        "px": [
+          880,
+          713
+        ],
+        "value": 35,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "35ft",
+        "px": [
+          1035,
+          705
+        ],
+        "value": 35,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "35ft",
+        "px": [
+          1003,
+          939
+        ],
+        "value": 35,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "La Esperanza",
+        "px": [
+          141,
+          518
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p. 6500",
+        "px": [
+          53,
+          548
+        ],
+        "value": 6500,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "6k",
+        "px": [
+          260,
+          528
+        ],
+        "value": 6000,
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "40ft",
+        "px": [
+          202,
+          571
+        ],
+        "value": 40,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40ft",
+        "px": [
+          340,
+          593
+        ],
+        "value": 40,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40ft",
+        "px": [
+          441,
+          489
+        ],
+        "value": 40,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40ft",
+        "px": [
+          702,
+          563
+        ],
+        "value": 40,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40ft",
+        "px": [
+          967,
+          742
+        ],
+        "value": 40,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "Tunel E",
+        "px": [
+          462,
+          585
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "4k",
+        "px": [
+          571,
+          573
+        ],
+        "value": 4000,
+        "halfPx": 14
+      },
+      {
+        "type": "penetration",
+        "label": "p. 5200",
+        "px": [
+          379,
+          338
+        ],
+        "value": 5200,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Tunel C",
+        "px": [
+          396,
+          466
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p. 4400",
+        "px": [
+          544,
+          309
+        ],
+        "value": 4400,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Tunel B",
+        "px": [
+          619,
+          353
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p. 3600",
+        "px": [
+          647,
+          473
+        ],
+        "value": 3600,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "El Cruzero",
+        "px": [
+          676,
+          499
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p. 4792",
+        "px": [
+          1077,
+          29
+        ],
+        "value": 4792,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "38ft",
+        "px": [
+          1117,
+          113
+        ],
+        "value": 38,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "34ft",
+        "px": [
+          1012,
+          138
+        ],
+        "value": 34,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "29ft",
+        "px": [
+          1010,
+          226
+        ],
+        "value": 29,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30ft",
+        "px": [
+          1204,
+          296
+        ],
+        "value": 30,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30ft",
+        "px": [
+          1164,
+          466
+        ],
+        "value": 30,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30ft",
+        "px": [
+          1142,
+          611
+        ],
+        "value": 30,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30ft",
+        "px": [
+          1248,
+          1152
+        ],
+        "value": 30,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30ft",
+        "px": [
+          575,
+          641
+        ],
+        "value": 30,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "24ft",
+        "px": [
+          1235,
+          385
+        ],
+        "value": 24,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "Tunel NE",
+        "px": [
+          1261,
+          455
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Domo Oscuro",
+        "px": [
+          1047,
+          554
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p.1800",
+        "px": [
+          931,
+          658
+        ],
+        "value": 1800,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "2k",
+        "px": [
+          843,
+          691
+        ],
+        "value": 2000,
+        "halfPx": 14
+      },
+      {
+        "type": "place-name",
+        "label": "Tunel Principal",
+        "px": [
+          821,
+          744
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p.800",
+        "px": [
+          1141,
+          679
+        ],
+        "value": 800,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Sifon",
+        "px": [
+          1040,
+          765
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "15ft",
+        "px": [
+          1145,
+          766
+        ],
+        "value": 15,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "15ft",
+        "px": [
+          1414,
+          1229
+        ],
+        "value": 15,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "10ft",
+        "px": [
+          1203,
+          797
+        ],
+        "value": 10,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "27ft",
+        "px": [
+          1177,
+          836
+        ],
+        "value": 27,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "27ft",
+        "px": [
+          1291,
+          874
+        ],
+        "value": 27,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "37ft",
+        "px": [
+          1116,
+          870
+        ],
+        "value": 37,
+        "halfPx": 16
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1002,
+          888
+        ],
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "33ft",
+        "px": [
+          1222,
+          895
+        ],
+        "value": 33,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "26ft",
+        "px": [
+          1332,
+          953
+        ],
+        "value": 26,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "39ft",
+        "px": [
+          1145,
+          1079
+        ],
+        "value": 39,
+        "halfPx": 16
+      },
+      {
+        "type": "penetration",
+        "label": "p. 3776",
+        "px": [
+          1224,
+          1191
+        ],
+        "value": 3776,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "23ft",
+        "px": [
+          1397,
+          1100
+        ],
+        "value": 23,
+        "halfPx": 16
+      },
+      {
+        "type": "penetration",
+        "label": "p. 2984",
+        "px": [
+          1357,
+          1263
+        ],
+        "value": 2984,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "5k",
+        "px": [
+          472,
+          649
+        ],
+        "value": 5000,
+        "halfPx": 14
+      }
+    ]
+  }
+}

@@ -208,6 +208,24 @@
         7580,
         8105
       ]
+    },
+    {
+      "why": "label GEMELO (Hidden Gemelo)",
+      "box": [
+        3130,
+        4375,
+        3360,
+        4430
+      ]
+    },
+    {
+      "why": "Chac's Room leader arrowhead",
+      "box": [
+        5815,
+        3950,
+        5850,
+        3995
+      ]
     }
   ],
   "scaleBar": {
@@ -681,6 +699,16 @@
           6538,
           10975
         ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5588,
+          4007
+        ],
+        "bearing": 90,
+        "why": "Chac's Room double arrow (east-west)"
       }
     ],
     "why": "Legend (same as Coke's Mayan Blue map): overlined numbers are floor depths in feet, circled numbers ceiling-to-floor heights in feet, p.#### penetrations from the entrance in feet, r minor / x major restriction, s silty, z zero visibility, wavy arrows the direction of current, 'kls' knotted-line survey beyond the arrow (leaders erased, not kept). OCR read 41 depths, 22 heights and 17 penetrations; the rest were found on tile-by-tile crops (extra). 13 current arrows added by hand (bearing from the map's up). No bones icon in the legend and no bones drawn or written (checked tile by tile). Place names are kept at the spot their label arrow points to."
@@ -1575,6 +1603,30 @@
           10740
         ],
         "widthPx": 24
+      },
+      {
+        "why": "double flow arrow in Chac's Room (a flow symbol, not detail)",
+        "from": [
+          5560,
+          4007
+        ],
+        "to": [
+          5615,
+          4007
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "Chac's Room label leader and its arrowhead",
+        "from": [
+          5925,
+          3895
+        ],
+        "to": [
+          5895,
+          3965
+        ],
+        "widthPx": 22
       }
     ],
     "spurReachPx": 80,
@@ -1584,6 +1636,29 @@
     "symbolPadPx": 32,
     "leaderMaxPx": 900,
     "leaderReachPx": 110,
-    "water": false
+    "water": false,
+    "symbolPiecesOnly": true,
+    "addLines": [],
+    "wallLines": [
+      [
+        [
+          5793,
+          3958
+        ],
+        [
+          5793,
+          3985
+        ],
+        [
+          5792,
+          4005
+        ],
+        [
+          5790,
+          4030
+        ]
+      ]
+    ],
+    "wallLinesWhy": "inner wall east of Chac's Room, broken by the slope's ticks"
   }
 }

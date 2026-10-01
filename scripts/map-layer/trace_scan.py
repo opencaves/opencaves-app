@@ -343,6 +343,8 @@ def detail_features(detail_ink, water, place, to_lnglat, scale, trace, propertie
     def split(shape):
         import shapely
         from shapely.geometry import box
+        if shape.is_empty:
+            return []
         x0, y0, x1, y1 = shape.bounds
         if x1 - x0 <= cell and y1 - y0 <= cell:
             return [shape]
@@ -946,6 +948,16 @@ def main(config_path, output):
         for x0, y0, x1, y1 in (map(int, b) for b in json.loads(symbols_px.read_text(encoding='utf-8'))):
             pad = trace.get('symbolPadPx', 3)  # enough to take a number's ring
             symbol_ink[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
+        # "symbolPiecesOnly": a symbol's box takes only the ink pieces lying
+        # wholly inside it (its digits, bar, ring), not a wall running by.
+        if trace.get('symbolPiecesOnly'):
+            pieces, _ = ndimage.label(ink, structure=numpy.ones((3, 3)))
+            spans = ndimage.find_objects(pieces)
+            boxes_only = symbol_ink
+            symbol_ink = numpy.zeros_like(ink)
+            for i in numpy.unique(pieces[boxes_only & ink]):
+                if i and boxes_only[spans[i - 1]][pieces[spans[i - 1]] == i].all():
+                    symbol_ink[spans[i - 1]] |= pieces[spans[i - 1]] == i
     # Leader lines (a label's line to what it names - "Entrada" to its
     # entrance): thin strokes standing alone, one end by a label. Entrances
     # get their own pins, so the lines go.
@@ -1199,6 +1211,11 @@ def main(config_path, output):
             # Grown back to the stroke's full width, within the ink.
             wall_ink |= (cv2.dilate(numpy.isin(parts, long_ids).astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 3, 2 * r + 3))) > 0) & ink & ~symbol_ink
         wall_ink = cv2.morphologyEx(wall_ink.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8)) > 0
+        # "wallLines": walls drawn by hand where the scan breaks them.
+        for line in trace.get('wallLines', []):
+            drawn_line = numpy.zeros(wall_ink.shape, numpy.uint8)
+            cv2.polylines(drawn_line, [numpy.array(line, numpy.int32)], False, 1, 3)
+            wall_ink |= drawn_line > 0
         skeleton = skeletonize(wall_ink)
         neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
         for path in trace_skeleton(skeleton):
