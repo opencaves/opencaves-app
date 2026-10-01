@@ -542,7 +542,8 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
     # "lineColours": the survey colours to take (blue by default; red for a
     # second region drawn in red).
     excess = trace.get('minBlueExcess', 30)
-    tests = {'blue': b - numpy.maximum(r, g), 'red': r - numpy.maximum(g, b), 'green': g - numpy.maximum(r, b)}
+    tests = {'blue': b - numpy.maximum(r, g), 'red': r - numpy.maximum(g, b), 'green': g - numpy.maximum(r, b),
+             'yellow': numpy.minimum(r, g) - b}
     lines = numpy.zeros(b.shape, bool)
     for colour in trace.get('lineColours', ['blue']):
         lines |= ink if colour == 'black' else tests[colour] >= excess

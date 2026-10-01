@@ -1,0 +1,406 @@
+{
+  "image": "../../../_data/maps-import/images/murena-sist-akumal.webp",
+  "title": "Sistema Murena, Akumal - survey lines over satellite imagery (2014)",
+  "credits": "Survey lines over satellite imagery; AMCS Activities Newsletter 37, p. 132, 2014",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "survey-lines",
+    "lineColours": [
+      "yellow"
+    ],
+    "minBlueExcess": 40,
+    "water": false,
+    "why": "Yellow survey lines drawn over a satellite image: needs a 'yellow' test in survey_line_paths (min(r, g) - b >= minBlueExcess; prototyped in the scratchpad's murena/trace_yellow.py). At 40 the lines are near-continuous and nothing outside them passes.",
+    "addLines": [
+      {
+        "from": [
+          1364,
+          829
+        ],
+        "to": [
+          1369,
+          844
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          1375,
+          829
+        ],
+        "to": [
+          1369,
+          844
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          1170,
+          1101
+        ],
+        "to": [
+          1176,
+          1089
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          1182,
+          1078
+        ],
+        "to": [
+          1176,
+          1089
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          1262,
+          1107
+        ],
+        "to": [
+          1271,
+          1118
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          934,
+          1577
+        ],
+        "to": [
+          919,
+          1570
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          922,
+          1555
+        ],
+        "to": [
+          919,
+          1570
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          907,
+          1567
+        ],
+        "to": [
+          919,
+          1570
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          916,
+          1656
+        ],
+        "to": [
+          917,
+          1670
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          845,
+          1808
+        ],
+        "to": [
+          859,
+          1808
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          761,
+          1984
+        ],
+        "to": [
+          771,
+          1994
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          502,
+          2453
+        ],
+        "to": [
+          507,
+          2465
+        ],
+        "widthPx": 3
+      }
+    ],
+    "addLinesWhy": "The blue entrance dots cover the last few px of the survey lines that reach them (Bella Mama, Brick, Shaky Condo, Verde, Entrada Murena, Entrada Reserva, Ak Kimin, Backdoor): each line end at a dot's rim is carried to its centre; at Brick and Verde the line passes under the dot."
+  },
+  "symbols": {
+    "why": "Survey lines over satellite imagery: no depths, letter codes, legend, bones, 'To ...' leads, place names or flow arrows are drawn - only the 12 named entrances (blue dots, kept as entrances). The only number, the '82' of 'Cenote 82', is a name.",
+    "units": "m",
+    "letters": {}
+  },
+  "placement": "The map's background is satellite imagery: the tie points are patches of it matched (normalised correlation) on Mapbox satellite. The screenshot isn't a pure similarity of that imagery (a smooth warp, up to ~45 m in the south-west corner): the similarity fit through the spread tie points leaves ~11 m rms.",
+  "exclude": [],
+  "controlPoints": [
+    {
+      "name": "tie 1 (imagery)",
+      "px": [
+        1769,
+        163
+      ],
+      "latitude": 20.437288,
+      "longitude": -87.288458
+    },
+    {
+      "name": "tie 2 (imagery)",
+      "px": [
+        1383,
+        397
+      ],
+      "latitude": 20.433508,
+      "longitude": -87.295604
+    },
+    {
+      "name": "tie 3 (imagery)",
+      "px": [
+        1427,
+        575
+      ],
+      "latitude": 20.430532,
+      "longitude": -87.29496
+    },
+    {
+      "name": "tie 4 (imagery)",
+      "px": [
+        1551,
+        929
+      ],
+      "latitude": 20.42458,
+      "longitude": -87.292986
+    },
+    {
+      "name": "tie 5 (imagery)",
+      "px": [
+        881,
+        1248
+      ],
+      "latitude": 20.419754,
+      "longitude": -87.305174
+    },
+    {
+      "name": "tie 6 (imagery)",
+      "px": [
+        1453,
+        1150
+      ],
+      "latitude": 20.42098,
+      "longitude": -87.294896
+    },
+    {
+      "name": "tie 7 (imagery)",
+      "px": [
+        1223,
+        1629
+      ],
+      "latitude": 20.413137,
+      "longitude": -87.299402
+    },
+    {
+      "name": "tie 8 (imagery)",
+      "px": [
+        805,
+        1936
+      ],
+      "latitude": 20.408371,
+      "longitude": -87.307148
+    },
+    {
+      "name": "tie 9 (imagery)",
+      "px": [
+        599,
+        2162
+      ],
+      "latitude": 20.404812,
+      "longitude": -87.310967
+    },
+    {
+      "name": "tie 10 (imagery)",
+      "px": [
+        1060,
+        1996
+      ],
+      "latitude": 20.407144,
+      "longitude": -87.302663
+    },
+    {
+      "name": "tie 11 (imagery)",
+      "px": [
+        829,
+        2475
+      ],
+      "latitude": 20.399462,
+      "longitude": -87.307148
+    },
+    {
+      "name": "tie 12 (imagery)",
+      "px": [
+        327,
+        2534
+      ],
+      "latitude": 20.39908,
+      "longitude": -87.315903
+    },
+    {
+      "name": "tie 13 (imagery)",
+      "px": [
+        762,
+        2586
+      ],
+      "latitude": 20.397712,
+      "longitude": -87.308435
+    },
+    {
+      "caveId": "-KPZkVIzDXBDxmqtjY34",
+      "name": "Entrada Maurena (DB)",
+      "px": [
+        917,
+        1670
+      ],
+      "latitude": 20.4128,
+      "longitude": -87.30492,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVIolUgS0NOQGC9D",
+      "name": "Entrada Aak Kimin (DB)",
+      "px": [
+        771,
+        1994
+      ],
+      "latitude": 20.40755,
+      "longitude": -87.30776,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVEU5pleoLRFFLeO",
+      "name": "Ballena (DB)",
+      "px": [
+        1166,
+        1253
+      ],
+      "latitude": 20.41963,
+      "longitude": -87.30127,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote 82",
+      "px": [
+        1582,
+        436
+      ]
+    },
+    {
+      "name": "Cenote Spray",
+      "caveId": "-KPZkVQ8_aEC9Hts08nX",
+      "px": [
+        1513,
+        551
+      ]
+    },
+    {
+      "name": "Cenote Theater",
+      "px": [
+        1459,
+        670
+      ]
+    },
+    {
+      "name": "Cenote Bella Mama",
+      "px": [
+        1369,
+        844
+      ]
+    },
+    {
+      "name": "Cenote Brick",
+      "caveId": "-KPZkVFMSKSIvpEgivQo",
+      "px": [
+        1176,
+        1089
+      ]
+    },
+    {
+      "name": "Cenote Shaky Condo",
+      "caveId": "-KPZkVPrKkha0SafvQ_Q",
+      "px": [
+        1271,
+        1118
+      ]
+    },
+    {
+      "name": "Cenote Ballena",
+      "caveId": "-KPZkVEU5pleoLRFFLeO",
+      "px": [
+        1166,
+        1253
+      ]
+    },
+    {
+      "name": "Cenote Verde",
+      "px": [
+        919,
+        1570
+      ]
+    },
+    {
+      "name": "Entrada Murena",
+      "caveId": "-KPZkVIzDXBDxmqtjY34",
+      "px": [
+        917,
+        1670
+      ]
+    },
+    {
+      "name": "Entrada Reserva",
+      "px": [
+        859,
+        1808
+      ]
+    },
+    {
+      "name": "Cenote Ak Kimin",
+      "caveId": "-KPZkVIolUgS0NOQGC9D",
+      "px": [
+        771,
+        1994
+      ]
+    },
+    {
+      "name": "Cenote Backdoor",
+      "px": [
+        507,
+        2465
+      ]
+    }
+  ]
+}
