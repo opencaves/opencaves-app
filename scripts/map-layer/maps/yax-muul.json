@@ -8,7 +8,11 @@
   },
   "sistemaId": "-KPZgfxMC7X8AcLqXOtq",
   "utmEpsg": 32616,
-  "trace": { "method": "wall-strokes", "openRadiusPx": 3, "minExtentPx": 150 },
+  "trace": {
+    "method": "wall-strokes",
+    "openRadiusPx": 3,
+    "minExtentPx": 150
+  },
   "exclude": [
     {
       "why": "frame top",
@@ -77,7 +81,7 @@
       "why": "profile",
       "box": [
         4815,
-        394,
+        290,
         5669,
         1016
       ]
@@ -86,8 +90,8 @@
       "why": "profile A-A'",
       "box": [
         5735,
-        569,
-        6444,
+        460,
+        6500,
         1191
       ]
     },
@@ -226,6 +230,11 @@
     }
   ],
   "symbols": {
-    "units": "m"
+    "units": "m",
+    "decimals": true,
+    "words": {
+      "tb": "ceiling-low",
+      "tt": "too-tight"
+    }
   }
 }

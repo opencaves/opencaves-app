@@ -30,6 +30,7 @@ Usage: python scripts/map-layer/trace_scan.py <config.json> <output folder>
 Needs Pillow, numpy, opencv, scipy, pyproj, shapely, pytesseract.
 """
 import json
+import re
 import os
 import sys
 from pathlib import Path
@@ -315,7 +316,8 @@ def leader_lines(ink, labels, height, width, trace):
     near_label = numpy.zeros((height, width), bool)
     for word in labels:
         x0, y0, x1, y1 = word['box']
-        near_label[max(0, y0 - reach):y1 + reach, max(0, x0 - reach):x1 + reach] = True
+        r = word.get('reach', reach)
+        near_label[max(0, y0 - r):y1 + r, max(0, x0 - r):x1 + r] = True
     shapes, _ = ndimage.label(ink, structure=numpy.ones((3, 3)))
     depth = cv2.distanceTransform(ink.astype(numpy.uint8), cv2.DIST_L2, 3)
     leaders = numpy.zeros_like(ink)
@@ -338,7 +340,7 @@ def leader_lines(ink, labels, height, width, trace):
         values = depth[s][shape]
         half = float(numpy.median(values[values >= numpy.percentile(values, 75)]))
         length = skeleton.sum()
-        if shape.sum() > length * 2 * half * 1.5 or values.max() > half * 1.4:
+        if shape.sum() > length * 2 * half * 1.5 or values.max() > half * 1.6:
             continue
         if any(near_label[s][y, x] for y, x in ends):
             leaders[s] |= shape
@@ -380,10 +382,27 @@ def main(config_path, output):
         masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
 
     trace = config.get('trace', {})
+    # Symbols extract_symbols.py turned into typed points (depths, ceiling
+    # heights, codes): not drawn too. Run it before this script.
+    symbol_ink = numpy.zeros_like(ink)
+    symbols_px = out / f'{name}-symbols-px.json'
+    if symbols_px.exists():
+        for x0, y0, x1, y1 in json.loads(symbols_px.read_text(encoding='utf-8')):
+            symbol_ink[max(0, y0 - 3):y1 + 3, max(0, x0 - 3):x1 + 3] = True
     # Leader lines (a label's line to what it names - "Entrada" to its
     # entrance): thin strokes standing alone, one end by a label. Entrances
     # get their own pins, so the lines go.
-    leaders = leader_lines(ink & ~masked, labels_only, height, width, trace)
+    # Cross-sections and profiles have leaders too, to their place in the cave.
+    # Their leaders start a little away from the drawing: a longer reach.
+    anchors = labels_only + [{'box': item['box'], 'reach': trace.get('sectionReachPx', 120)} for item in config.get('exclude', [])
+                             if re.search(r'profile|section', item.get('why', ''), re.I)]
+    leaders = leader_lines(ink & ~masked, anchors, height, width, trace)
+    near_anchor = numpy.zeros_like(ink)
+    reach = trace.get('leaderReachPx', 60)
+    for anchor in anchors:
+        x0, y0, x1, y1 = anchor['box']
+        r = anchor.get('reach', reach)
+        near_anchor[max(0, y0 - r):y1 + r, max(0, x0 - r):x1 + r] = True
     ink &= ~leaders
     # The contrast-based detail detection sees a stroke's soft edge too.
     grown_leaders = cv2.dilate(leaders.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))) > 0
@@ -433,7 +452,7 @@ def main(config_path, output):
         weak = opened(radius - 1)
         weak_labels, _ = ndimage.label(weak, structure=numpy.ones((3, 3)))
         touching = numpy.unique(weak_labels[strong & (weak_labels > 0)])
-        strokes = strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)
+        strokes = (strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)) & ~symbol_ink
         to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
         place, scale, _ = raster_placement(config)
         features = []
@@ -450,6 +469,10 @@ def main(config_path, output):
             free_end = any(neighbours[p] <= 1 for p in (path[0], path[-1]))
             if free_end and line.length * scale < trace.get('minLineMetres', 1):
                 continue
+            # A leader joined to the wall it points at: a nearly straight
+            # branch whose free end is at a label or a cross-section.
+            if free_end and line.length > 0 and any(near_anchor[p] for p in (path[0], path[-1]) if neighbours[p] <= 1)                     and LineString([line.coords[0], line.coords[-1]]).length / line.length >= 0.9:
+                continue
             line = smooth(line).simplify(max(SIMPLIFY_METRES / 5, scale) / scale)
             cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 3)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
@@ -462,7 +485,11 @@ def main(config_path, output):
             for item in config.get('exclude', []):
                 x0, y0, x1, y1 = item['box']
                 boxes[max(0, y0):y1, max(0, x0):x1] = True
-            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & ~strokes & ~grown_leaders, grey_fill_mask(numpy.asarray(grey), boxes, trace), place, to_lnglat, scale, trace,
+            # Kept off the walls: the contrast test also sees each wall
+            # stroke's soft edge, which would come out as slivers along it.
+            margin = 2 * (radius + trace.get('wallMarginPx', 3)) + 1
+            off_walls = ~(cv2.dilate(strokes.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink, grey_fill_mask(numpy.asarray(grey), boxes, trace), place, to_lnglat, scale, trace,
                                         {'map': name, 'sistemaId': config.get('sistemaId')})
         Image.fromarray(review).save(out / f'{name}-walls-review.png')
         geojson = out / f'{name}-walls.geojson'
@@ -554,7 +581,7 @@ def main(config_path, output):
         # their edges (the wall itself is the band's outline). On a colour-fill
         # map the band is the passage's blue fill: water.
         inside = cv2.erode(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * trace.get('wallMarginPx', 4) + 1,) * 2)) > 0
-        dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders
+        dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders & ~symbol_ink
         water = band > 0 if trace.get('method') == 'colour-fill' else None
         features += detail_features(dark & inside & ~masked, water, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')

@@ -24,6 +24,10 @@ Every symbol becomes a point with:
 | `depth` | Depth at that point | metres | ↓ value |
 | `ceiling-height` | Ceiling-to-floor height | metres | ↕ value |
 | `penetration` | Distance from the nearest entrance | metres | p value |
+| `pit-depth` | Depth of a pit or drop (boxed number) | metres | ⇣ value |
+| `ceiling-low` | Low ceiling (`tb`, *techo bajo*) | - | tb |
+| `too-tight` | Too tight to pass (`tt`, *demasiado estrecho*) | - | tt |
+| `passage-narrow` | Narrow passage (`a`, *pasaje angosto*) | - | a |
 | `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
@@ -55,6 +59,27 @@ Variations: the 2000 Sac Actun map draws a pit as a filled dot, the 2006 Sac Be
 Ha poster as a small open circle; only the 2000 map has `CE`, dome, flow and
 breakdown.
 
+**Overlined or underlined number = depth** is a convention shared by cave map
+authors: it's trusted on every map, whatever its legend says. Only the units
+vary (feet on QRSS maps, metres on Mexican and Coke maps).
+
+### James G. Coke IV maps (e.g. Sistema Yax Muul, 2007)
+
+Spanish legend, measurements in **metres**, always with one decimal:
+
+| On the map | Type |
+|---|---|
+| overlined number (<u>5.3</u>) | `depth` (*profundidad del piso*) |
+| circled number (⑴.⑶) | `ceiling-height` (*altura del techo*) |
+| boxed number | `pit-depth` (*profundidad del pozo*) |
+| `tb` | `ceiling-low` |
+| `tt` | `too-tight` |
+| `a` | `passage-narrow` (not extracted: OCR can't tell it from stipple) |
+| `?` | `unexplored` |
+
+Walls are bold strokes; everything else between them (boulders, columns,
+stalagmites, sand, slopes) is drawn as on the map, not typed.
+
 ### Peter Sprouse / AMCS vector maps
 
 No letter codes: the symbols are drawn, in the UIS (International Union of
@@ -74,6 +99,11 @@ A map's legend goes in its config:
   "templates": { "r": [429, 2146], "x": [428, 2165], "z": [427, 2185], "s": [427, 2204] }
 }
 ```
+
+Other keys: `words` maps codes read by OCR to types (`{"tb": "ceiling-low"}`);
+`decimals: true` when every value on the map has a decimal (then whole numbers
+are taken as stipple misread); `extra` adds symbols recognition missed, by
+hand (`{"type", "label", "px", "value"}`).
 
 `templates` points to a clean sample of each letter (usually in the map's own
 legend), in the map image's pixels: letters are recognised by their shape in
