@@ -643,7 +643,7 @@ def main(config_path, output):
             # stroke's soft edge, which would come out as slivers along it.
             margin = 2 * (radius + trace.get('wallMarginPx', 3)) + 1
             off_walls = ~(cv2.dilate(strokes.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
-            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink, grey_fill_mask(numpy.asarray(grey), boxes, trace), place, to_lnglat, scale, trace,
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
                                         {'map': name, 'sistemaId': config.get('sistemaId')})
         Image.fromarray(review).save(out / f'{name}-walls-review.png')
         geojson = out / f'{name}-walls.geojson'

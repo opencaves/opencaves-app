@@ -1,0 +1,465 @@
+{
+  "image": "../../../_data/maps-import/images/aktun-hu-part-hoyo-negro-ejido-jacinto-pat-tulum.webp",
+  "title": "Hoyo Negro - Aktun-Hu (A. Nava Blank 2012)",
+  "credits": "Surveyed January 2011 - February 2012 by A. Alvarez, F. Attolini, A. Nava, R. Chavez, G. Liew, J. Mellor, S. Meacham, S. Bird, C. Le Maillot, O. Torres-Talamante; cartography by Alberto Nava Blank (c) 2012",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfr32-S5uVCsT9hQ",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        1580,
+        42,
+        2021,
+        241
+      ]
+    },
+    {
+      "why": "plan view label",
+      "box": [
+        156,
+        99,
+        341,
+        142
+      ]
+    },
+    {
+      "why": "section (top left)",
+      "box": [
+        56,
+        213,
+        412,
+        427
+      ]
+    },
+    {
+      "why": "section (bottom left)",
+      "box": [
+        28,
+        825,
+        476,
+        1003
+      ]
+    },
+    {
+      "why": "section (top right)",
+      "box": [
+        1096,
+        128,
+        1437,
+        306
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        896,
+        128,
+        996,
+        291
+      ]
+    },
+    {
+      "why": "legend",
+      "box": [
+        128,
+        1010,
+        498,
+        1366
+      ]
+    },
+    {
+      "why": "section B-B'",
+      "box": [
+        875,
+        996,
+        1508,
+        1373
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1636,
+        1224,
+        1992,
+        1295
+      ]
+    },
+    {
+      "why": "profile view, credits",
+      "box": [
+        0,
+        1380,
+        2101,
+        2277
+      ],
+      "history": true
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        2101,
+        25
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        25,
+        2277
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        2076,
+        0,
+        2101,
+        2277
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        2252,
+        2101,
+        2277
+      ]
+    },
+    {
+      "why": "section mark A'",
+      "box": [
+        220,
+        669,
+        313,
+        711
+      ]
+    },
+    {
+      "why": "section mark B",
+      "box": [
+        1672,
+        377,
+        1708,
+        469
+      ]
+    },
+    {
+      "why": "section mark B'",
+      "box": [
+        1672,
+        1081,
+        1715,
+        1167
+      ]
+    },
+    {
+      "why": "section mark A",
+      "box": [
+        1871,
+        669,
+        1964,
+        711
+      ]
+    },
+    {
+      "why": "letter B'",
+      "box": [
+        808,
+        1178,
+        856,
+        1227
+      ]
+    },
+    {
+      "why": "letter B",
+      "box": [
+        1537,
+        1178,
+        1582,
+        1227
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      1655,
+      1241
+    ],
+    "to": [
+      1972,
+      1241
+    ],
+    "metres": 30
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVKJ_lfXl0ta-asY",
+      "name": "Ich Balam (entrance)",
+      "px": [
+        1757,
+        612
+      ],
+      "latitude": 20.31482,
+      "longitude": -87.42747
+    },
+    {
+      "caveId": "-KPZkVKB0IDt_JEI4PK7",
+      "name": "Hoyo Negro",
+      "px": [
+        754,
+        633
+      ],
+      "latitude": 20.31519,
+      "longitude": -87.43128,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVKJ_lfXl0ta-asY",
+      "name": "Ich Balam",
+      "px": [
+        1757,
+        612
+      ]
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "openRadiusPx": 2,
+    "minExtentPx": 50,
+    "boxSpurs": true,
+    "water": false,
+    "eraseLines": [
+      {
+        "why": "leader to the top-right section",
+        "from": [
+          1292,
+          316
+        ],
+        "to": [
+          1205,
+          609
+        ],
+        "widthPx": 25
+      },
+      {
+        "why": "Hoyo Negro label leader",
+        "from": [
+          1053,
+          427
+        ],
+        "to": [
+          1027,
+          492
+        ],
+        "widthPx": 25
+      },
+      {
+        "why": "leader to the top-left section",
+        "from": [
+          234,
+          434
+        ],
+        "to": [
+          355,
+          562
+        ],
+        "widthPx": 25
+      },
+      {
+        "why": "leader to the bottom-left section",
+        "from": [
+          296,
+          846
+        ],
+        "to": [
+          355,
+          633
+        ],
+        "widthPx": 25
+      }
+    ]
+  },
+  "symbols": {
+    "units": "m",
+    "decimals": true,
+    "letters": {},
+    "extra": [
+      {
+        "type": "ceiling-height",
+        "label": "1.5",
+        "value": 1.5,
+        "px": [
+          1123,
+          834
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3.0",
+        "value": 3.0,
+        "px": [
+          791,
+          355
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1.5",
+        "value": 1.5,
+        "px": [
+          541,
+          1003
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4.5",
+        "value": 4.5,
+        "px": [
+          773,
+          1129
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4.2",
+        "value": 4.2,
+        "px": [
+          1347,
+          573
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3.2",
+        "value": 3.2,
+        "px": [
+          1613,
+          419
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.7",
+        "value": 2.7,
+        "px": [
+          1391,
+          935
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3.2",
+        "value": 3.2,
+        "px": [
+          2005,
+          865
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1.5",
+        "value": 1.5,
+        "px": [
+          1712,
+          488
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4.5",
+        "value": 4.5,
+        "px": [
+          1758,
+          971
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6.0",
+        "value": 6.0,
+        "px": [
+          423,
+          232
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1.5",
+        "value": 1.5,
+        "px": [
+          1863,
+          723
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3.2",
+        "value": 3.2,
+        "px": [
+          1131,
+          622
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "bones",
+        "label": "bones deposit",
+        "px": [
+          867,
+          835
+        ]
+      },
+      {
+        "type": "bones",
+        "label": "bones deposit",
+        "px": [
+          1758,
+          857
+        ]
+      },
+      {
+        "type": "human-activity",
+        "label": "human activity",
+        "px": [
+          1050,
+          632
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hoyo Negro",
+        "px": [
+          754,
+          633
+        ]
+      }
+    ]
+  }
+}

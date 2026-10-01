@@ -32,6 +32,7 @@ Every symbol becomes a point with:
 | `bones` | Bones (animal or human remains) - of special interest: look for every one on each map, by hand where detection misses | - | `B` |
 | `leads-to` | The passage continues to another cave or cenote off the map ("To Muknal", "To Cenote Naharon 2800 ft"): kept on every map, labelled as on the map ("To Muknal") | - | → |
 | `place-name` | A named place in the cave ("A Tunnel", "The Ballcourt", "Battleship Room"): kept on every map, at its label; its leader line isn't drawn | - | name |
+| `human-activity` | Signs of past human activity (Nava Blank's ☮-like symbol) | - | ☮ |
 | `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
@@ -106,6 +107,19 @@ yellow, lakes in pale blue.
 The scan we have (0.59 m/px) is too coarse for its depths to be read, and its
 passages carry no `R` or `B`: the capital letters next to them (J, K, N, R...)
 name the cross-sections. The entrances are placed at their labels.
+
+### Alberto Nava Blank maps (e.g. Hoyo Negro, 2012)
+
+Measurements in **metres**, with one decimal. Light-blue passages walled by
+bold black strokes (`wall-strokes`), boulders and pillars in grey.
+
+| On the map | Type |
+|---|---|
+| overlined number | `depth` |
+| circled number | `ceiling-height` |
+| boxed number | `pit-depth` |
+| crossed bones | `bones` (drawn small in the plan, about 40% of the legend's size) |
+| ☮-like circle | `human-activity` |
 
 ### Peter Sprouse / AMCS vector maps
 
