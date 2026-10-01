@@ -1,0 +1,1589 @@
+{
+  "image": "../../../_data/maps-import/images/naharon-cen-tulum-1.webp",
+  "title": "Cenote Naharon, Tulum - upstream section (J. G. Coke, T. M. Young 1989)",
+  "credits": "Cave plan of Cenote Naharon (Sistema Naranjal), upstream section surveyed January 1988 to October 1989 by James G. Coke and Thomas M. Young, assisted by Harve Thorn; drafted by James G. Coke, graphics design by Rod V. McCasland (J.G. Coke & T.M. Young, 1989)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        8095,
+        248
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        482,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        7590,
+        0,
+        8095,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (bottom) and caption",
+      "box": [
+        0,
+        11250,
+        8095,
+        12000
+      ]
+    },
+    {
+      "why": "notes",
+      "box": [
+        515,
+        475,
+        2740,
+        1762
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        6690,
+        1820,
+        6990,
+        2710
+      ]
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        515,
+        5590,
+        2450,
+        8355
+      ]
+    },
+    {
+      "why": "principal explorers",
+      "box": [
+        515,
+        8700,
+        2450,
+        9365
+      ],
+      "history": true
+    },
+    {
+      "why": "title and survey credits",
+      "box": [
+        515,
+        9675,
+        2450,
+        11235
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2500,
+        10680,
+        4290,
+        11165
+      ]
+    },
+    {
+      "why": "Chunyaxche label, pyramid and arrow",
+      "box": [
+        4280,
+        10390,
+        4810,
+        10670
+      ]
+    },
+    {
+      "why": "Tulum label, pyramid and arrow",
+      "box": [
+        7110,
+        9770,
+        7490,
+        9975
+      ]
+    },
+    {
+      "why": "'2300 ft to Cenote Maya Blue' label",
+      "box": [
+        7130,
+        10515,
+        7490,
+        10785
+      ]
+    },
+    {
+      "why": "foot path to Highway 307 (upper part)",
+      "box": [
+        6585,
+        8690,
+        6830,
+        9300
+      ]
+    },
+    {
+      "why": "foot path to Highway 307 (lower part)",
+      "box": [
+        6330,
+        9300,
+        6830,
+        10000
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        560,
+        4180,
+        1985,
+        4885
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2270,
+        4960,
+        3170,
+        5345
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6250,
+        4525,
+        6905,
+        4875
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6430,
+        5995,
+        7445,
+        6345
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3425,
+        6400,
+        4500,
+        6740
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3685,
+        7115,
+        4410,
+        7500
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6462,
+        7330,
+        7580,
+        8105
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2578,
+      10918
+    ],
+    "to": [
+      4129,
+      10918
+    ],
+    "metres": 152.4
+  },
+  "north": {
+    "angle": -1.35,
+    "why": "Fitted to Highway 307 (OpenStreetMap): the map's highway (drawn 20.25 degrees above horizontal) runs at a true bearing of 71.1 degrees near the entrance; matches a 1989 magnetic declination of about 1.5 degrees east (the arrow is magnetic north)"
+  },
+  "controlPoints": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cristal (Cenote Naharon)",
+      "px": [
+        6430,
+        8560
+      ],
+      "latitude": 20.20041,
+      "longitude": -87.49999
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cenote Naharon (Cristal)",
+      "px": [
+        6430,
+        8560
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "z": "visibility-zero",
+      "s": "silt"
+    },
+    "templates": {
+      "s": [
+        696,
+        7358
+      ],
+      "z": [
+        696,
+        7478
+      ],
+      "r": [
+        690,
+        7958
+      ],
+      "x": [
+        690,
+        8150
+      ]
+    },
+    "letterSizePx": [
+      18,
+      40
+    ],
+    "fix": [
+      {
+        "px": [
+          4758,
+          1645
+        ],
+        "value": 15,
+        "why": "OCR read the circled 15 as 135"
+      },
+      {
+        "px": [
+          5174,
+          1510
+        ],
+        "value": null,
+        "why": "column, not an s"
+      },
+      {
+        "px": [
+          992,
+          3096
+        ],
+        "value": null,
+        "why": "circled 8 read as an s (added as a ceiling height)"
+      },
+      {
+        "px": [
+          5652,
+          5933
+        ],
+        "value": null,
+        "why": "column, not an s"
+      },
+      {
+        "px": [
+          4658,
+          6172
+        ],
+        "value": null,
+        "why": "column, not an s"
+      },
+      {
+        "px": [
+          5016,
+          6214
+        ],
+        "value": null,
+        "why": "circled 8 also read as an s"
+      }
+    ],
+    "extra": [
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4595,
+          2690
+        ],
+        "bearing": 180,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5395,
+          3090
+        ],
+        "bearing": 160,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5585,
+          3998
+        ],
+        "bearing": 90,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3275,
+          4098
+        ],
+        "bearing": 95,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3225,
+          4860
+        ],
+        "bearing": 110,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4480,
+          5930
+        ],
+        "bearing": 115,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6040,
+          5225
+        ],
+        "bearing": 180,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5830,
+          8600
+        ],
+        "bearing": 180,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6168,
+          7915
+        ],
+        "bearing": 165,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6470,
+          8805
+        ],
+        "bearing": 205,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5465,
+          10150
+        ],
+        "bearing": 175,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6125,
+          10380
+        ],
+        "bearing": 175,
+        "halfPx": 55
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6640,
+          10890
+        ],
+        "bearing": 150,
+        "halfPx": 55
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          992,
+          3096
+        ],
+        "value": 8
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          4142,
+          2162
+        ],
+        "value": 6
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          6417,
+          8008
+        ],
+        "value": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          6590,
+          11140
+        ],
+        "value": 20
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "px": [
+          5188,
+          2180
+        ],
+        "value": 65
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "px": [
+          2818,
+          4052
+        ],
+        "value": 70
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "px": [
+          6336,
+          6702
+        ],
+        "value": 60
+      },
+      {
+        "type": "penetration",
+        "label": "p.1500",
+        "px": [
+          3682,
+          7913
+        ],
+        "value": 1500
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Maya Blue, about 700 m (2300 ft)",
+        "px": [
+          7060,
+          10735
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Caballos de Fuego",
+        "px": [
+          5440,
+          1080
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Megaglyph Passage",
+        "px": [
+          4150,
+          2260
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Q.T. Loop",
+        "px": [
+          4545,
+          3250
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chac's Room",
+        "px": [
+          5600,
+          3960
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Double Domes",
+        "px": [
+          2160,
+          4060
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hidden Gemelo",
+        "px": [
+          3540,
+          4230
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Merry-Go-Round",
+        "px": [
+          4440,
+          5090
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The P.T. Connector",
+        "px": [
+          5040,
+          5254
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Halo-Line",
+        "px": [
+          5524,
+          4891
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Halocline Room",
+        "px": [
+          5689,
+          5463
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dutch Connection",
+        "px": [
+          4688,
+          5650
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Jump Side",
+        "px": [
+          4591,
+          6152
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Main Line",
+        "px": [
+          6140,
+          5826
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Desconocido Dome",
+        "px": [
+          5676,
+          6922
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Trifurcate",
+        "px": [
+          3530,
+          7910
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Southwestern Sacbe",
+        "px": [
+          4910,
+          7681
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Southern Sacbe",
+        "px": [
+          5737,
+          8086
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Maya Road",
+        "px": [
+          6538,
+          10975
+        ]
+      }
+    ],
+    "why": "Legend (same as Coke's Mayan Blue map): overlined numbers are floor depths in feet, circled numbers ceiling-to-floor heights in feet, p.#### penetrations from the entrance in feet, r minor / x major restriction, s silty, z zero visibility, wavy arrows the direction of current, 'kls' knotted-line survey beyond the arrow (leaders erased, not kept). OCR read 41 depths, 22 heights and 17 penetrations; the rest were found on tile-by-tile crops (extra). 13 current arrows added by hand (bearing from the map's up). No bones icon in the legend and no bones drawn or written (checked tile by tile). Place names are kept at the spot their label arrow points to."
+  },
+  "trace": {
+    "boxSpurs": "labels",
+    "eraseLines": [
+      {
+        "why": "Highway 307 (north line; stops at the passage walls)",
+        "from": [
+          3950,
+          10903
+        ],
+        "to": [
+          5450,
+          10349
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (north line; stops at the passage walls)",
+        "from": [
+          5775,
+          10229
+        ],
+        "to": [
+          5983,
+          10153
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (north line; stops at the passage walls)",
+        "from": [
+          6195,
+          10074
+        ],
+        "to": [
+          7600,
+          9556
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (south line; stops at the passage walls)",
+        "from": [
+          3950,
+          10975
+        ],
+        "to": [
+          5515,
+          10398
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (south line; stops at the passage walls)",
+        "from": [
+          5790,
+          10296
+        ],
+        "to": [
+          5978,
+          10227
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "Highway 307 (south line; stops at the passage walls)",
+        "from": [
+          6250,
+          10127
+        ],
+        "to": [
+          7600,
+          9629
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "'Paved highway' label arrow",
+        "from": [
+          5195,
+          10240
+        ],
+        "to": [
+          5290,
+          10270
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "'Paved highway' label arrow",
+        "from": [
+          5290,
+          10270
+        ],
+        "to": [
+          5350,
+          10330
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "'Paved highway' label arrow",
+        "from": [
+          5350,
+          10330
+        ],
+        "to": [
+          5368,
+          10385
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          1615,
+          4071
+        ],
+        "to": [
+          1722,
+          4071
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          1722,
+          4071
+        ],
+        "to": [
+          1752,
+          3972
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          1786,
+          3864
+        ],
+        "to": [
+          1817,
+          3757
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          1817,
+          3757
+        ],
+        "to": [
+          1742,
+          3732
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          1735,
+          3722
+        ],
+        "to": [
+          1750,
+          3742
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2450,
+          4217
+        ],
+        "to": [
+          2588,
+          4242
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2636,
+          4260
+        ],
+        "to": [
+          2690,
+          4280
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2690,
+          4280
+        ],
+        "to": [
+          2712,
+          4214
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2705,
+          4205
+        ],
+        "to": [
+          2716,
+          4225
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3740,
+          4764
+        ],
+        "to": [
+          3662,
+          4796
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3742,
+          4766
+        ],
+        "to": [
+          3756,
+          4828
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3740,
+          4764
+        ],
+        "to": [
+          3822,
+          4764
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3588,
+          4824
+        ],
+        "to": [
+          3546,
+          4838
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3546,
+          4838
+        ],
+        "to": [
+          3518,
+          4770
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3505,
+          4765
+        ],
+        "to": [
+          3535,
+          4790
+        ],
+        "widthPx": 24
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3802,
+          4968
+        ],
+        "to": [
+          3822,
+          5038
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3822,
+          5038
+        ],
+        "to": [
+          3912,
+          5012
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3895,
+          5000
+        ],
+        "to": [
+          3915,
+          5025
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2740,
+          7760
+        ],
+        "to": [
+          2830,
+          7760
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          2830,
+          7760
+        ],
+        "to": [
+          3015,
+          7680
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3062,
+          7657
+        ],
+        "to": [
+          3104,
+          7640
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3104,
+          7640
+        ],
+        "to": [
+          3082,
+          7590
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3070,
+          7580
+        ],
+        "to": [
+          3090,
+          7605
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3480,
+          7570
+        ],
+        "to": [
+          3575,
+          7570
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3480,
+          7570
+        ],
+        "to": [
+          3390,
+          7448
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3390,
+          7448
+        ],
+        "to": [
+          3335,
+          7476
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3268,
+          7510
+        ],
+        "to": [
+          3238,
+          7535
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3238,
+          7535
+        ],
+        "to": [
+          3206,
+          7488
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          3195,
+          7475
+        ],
+        "to": [
+          3215,
+          7500
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5785,
+          630
+        ],
+        "to": [
+          5690,
+          632
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5690,
+          632
+        ],
+        "to": [
+          5635,
+          648
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5550,
+          650
+        ],
+        "to": [
+          5530,
+          650
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5530,
+          648
+        ],
+        "to": [
+          5530,
+          612
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5520,
+          612
+        ],
+        "to": [
+          5540,
+          612
+        ],
+        "widthPx": 25
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          4600,
+          1915
+        ],
+        "to": [
+          4665,
+          1915
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          4666,
+          1918
+        ],
+        "to": [
+          4668,
+          1952
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5995,
+          10680
+        ],
+        "to": [
+          5995,
+          10628
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5995,
+          10625
+        ],
+        "to": [
+          6070,
+          10618
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          6060,
+          10602
+        ],
+        "to": [
+          6075,
+          10635
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          6012,
+          10878
+        ],
+        "to": [
+          6018,
+          11010
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "kls leader/arrow",
+        "from": [
+          5900,
+          11015
+        ],
+        "to": [
+          6020,
+          11015
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          1990,
+          4537
+        ],
+        "to": [
+          2390,
+          4537
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark",
+        "from": [
+          2395,
+          4505
+        ],
+        "to": [
+          2410,
+          4510
+        ],
+        "widthPx": 36
+      },
+      {
+        "why": "section leader",
+        "from": [
+          3165,
+          4993
+        ],
+        "to": [
+          3300,
+          4993
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4264,
+          7505
+        ],
+        "to": [
+          4268,
+          7640
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4268,
+          7640
+        ],
+        "to": [
+          4292,
+          7735
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark",
+        "from": [
+          4314,
+          7842
+        ],
+        "to": [
+          4322,
+          7885
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark",
+        "from": [
+          4315,
+          7900
+        ],
+        "to": [
+          4322,
+          7915
+        ],
+        "widthPx": 50
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6465,
+          7792
+        ],
+        "to": [
+          6328,
+          7850
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6328,
+          7862
+        ],
+        "to": [
+          6385,
+          8045
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6165,
+          6428
+        ],
+        "to": [
+          6420,
+          6355
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section leader",
+        "from": [
+          5925,
+          6527
+        ],
+        "to": [
+          5995,
+          6505
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          5895,
+          6505
+        ],
+        "to": [
+          5905,
+          6520
+        ],
+        "widthPx": 45
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6180,
+          4840
+        ],
+        "to": [
+          6245,
+          4840
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          1972,
+          3752
+        ],
+        "to": [
+          1983,
+          3785
+        ],
+        "widthPx": 45
+      },
+      {
+        "why": "section mark",
+        "from": [
+          1985,
+          3790
+        ],
+        "to": [
+          1997,
+          3832
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          3412,
+          4845
+        ],
+        "to": [
+          3428,
+          4858
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "section mark",
+        "from": [
+          3415,
+          4870
+        ],
+        "to": [
+          3403,
+          4890
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          4825,
+          6020
+        ],
+        "to": [
+          4840,
+          6040
+        ],
+        "widthPx": 45
+      },
+      {
+        "why": "section mark",
+        "from": [
+          4815,
+          6062
+        ],
+        "to": [
+          4775,
+          6092
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          5970,
+          4825
+        ],
+        "to": [
+          5985,
+          4830
+        ],
+        "widthPx": 48
+      },
+      {
+        "why": "section mark",
+        "from": [
+          5998,
+          4840
+        ],
+        "to": [
+          6025,
+          4840
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark",
+        "from": [
+          6527,
+          8390
+        ],
+        "to": [
+          6532,
+          8405
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "'Cenote Maya Blue' lead arrow",
+        "from": [
+          7003,
+          10732
+        ],
+        "to": [
+          7110,
+          10732
+        ],
+        "widthPx": 18
+      },
+      {
+        "why": "'Cenote Maya Blue' lead arrow",
+        "from": [
+          7090,
+          10715
+        ],
+        "to": [
+          7115,
+          10740
+        ],
+        "widthPx": 24
+      }
+    ],
+    "spurReachPx": 80,
+    "wallCentres": true,
+    "wallOpenPx": 4,
+    "wallSimplifyMetres": 0.15,
+    "symbolPadPx": 32,
+    "leaderMaxPx": 900,
+    "leaderReachPx": 110,
+    "water": false
+  }
+}
