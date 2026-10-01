@@ -1,37 +1,40 @@
 """Finds the cenotes drawn on the processed maps, places them with each map's
-placement, compares them with the Google Sheet (by name, then distance) and
-writes an Excel file to review and paste from:
+placement and compares them with the database (Firestore: the caves, by name
+then distance). What the database lacks is kept aside in found-cenotes.json,
+next to this script, for a later import straight into the database:
 
-- "To add": cenotes missing from the sheet, in the sheet's columns (a new
-  id each, area from the nearest cenote, sistema and source from the map).
-  GPS valid is left empty: these positions come from maps, not GPS.
-- "Fill unnamed rows": cenotes missing by name that may be one of the
-  sheet's unnamed rows (a cenote known in a sistema, no name yet): the same
-  columns, with that row's id - fill it in rather than add a row.
-- "Positions for existing": cenotes already in the sheet without a
-  position, with the one the map gives them.
-- "Review": every cenote found, its status, the sheet's match and the
-  distance - "matched, far" ones are worth a look (a wrong GPS, a road
-  access point, or a different cenote of the same name).
-- "Sources to add": a map's source that isn't in the sheet yet.
+- "create": a cenote missing from the database (name, language, sistema,
+  area, position and its accuracy, source, the maps it's on);
+- "fill": a missing cenote that may be one of the database's unnamed caves
+  (a cave known in a sistema without a name, or named by its coordinates):
+  that cave gets the name and position rather than a new one being created;
+- "position": a cave in the database without a position, with the one the
+  map gives it.
 
-Cenotes come from the map's config "entrances" (curated: name, position on
-the map, optional caveId) or, for a scan without such a list, from its OCR'd
-labels ("CENOTE X", "X CENOTE"), placed at the label: less accurate.
+The file accumulates map after map: entries keep their id, entries from
+maps not processed in this run are kept, and an entry the database now has
+(added meanwhile) is dropped. Positions from maps are never GPS: the import
+must not mark them valid.
 
-Usage: python scripts/map-layer/cenote_candidates.py <output.xlsx> <config.json>...
+Also writes an Excel file to review everything found (every cenote, its
+status, the database's match and the distance) at the given path.
+
+Cenotes come from the map's config "entrances" (curated: name, spot on the
+map, optional caveId) or, for a scan without such a list, from its OCR'd
+labels ("CENOTE X", "X CENOTE"), placed at the label: much less accurate.
+
+Usage: python scripts/map-layer/cenote_candidates.py <review.xlsx> <config.json>... [--production]
+Reads the local Firestore emulator by default; --production reads the real
+project (publicly readable: no login).
 Needs openpyxl, pyproj, plus what the map scripts need.
 """
-import csv
 import difflib
-import io
 import json
 import math
 import random
 import re
 import sys
 import time
-import urllib.request
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -39,37 +42,38 @@ from openpyxl.styles import Font
 from pyproj import Transformer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'maps-import'))
-from match_maps import normalize  # noqa: E402
+from match_maps import fetch_collection, normalize  # noqa: E402
 
 from build_layer import vector_placement  # noqa: E402
 from overlay_scan import fit_similarity  # noqa: E402
 
-SHEET = 'https://docs.google.com/spreadsheets/d/1ylCUghFn4W_wNFAM9LnhFx-zDp4oVvWJ4RUh_mtDGwc/gviz/tq?tqx=out:csv&sheet='
+FOUND_FILE = Path(__file__).resolve().parent / 'found-cenotes.json'
 # Position accuracy (metres) by how the cenote's spot on the map was found.
 LABEL_ON_VECTOR = 15
 LABEL_ON_SCAN = 75
-# A sheet cenote of the same name this close is the same one; up to FAR_METRES
-# it's the same but its position disagrees; beyond, a namesake elsewhere.
+# A database cave of the same name up to FAR_METRES away is the same cenote
+# (beyond 3x the accuracy, its position disagrees: "matched, far"); further
+# away, a namesake elsewhere.
 FAR_METRES = 2000
-# A sheet cenote this close under another name may be the same one.
+# A database cave this close under another name may be the same one.
 NEARBY_METRES = 30
-# Two maps' candidates of the same name this close are one cenote.
+# Two maps' cenotes of the same name this close are one cenote.
 SAME_CANDIDATE_METRES = 200
 # Close spellings (e.g. "Grande" / "Grand") count as the same name when the
-# sheet's cenote is also within FAR_METRES.
+# database's cave is also within FAR_METRES.
 SIMILAR_NAME = 0.85
 # Map notes, not cenote names: "P 4404 FROM GRAND CENOTE".
 NOT_A_NAME = re.compile(r'^(from|to|desde|hacia)\b', re.I)
+# A cave "named" by its coordinates ("20.265736, -87.409042") has no name.
+COORDINATES_NAME = re.compile(r'^\s*-?\d+\.\d+\s*,\s*-?\d+\.\d+\s*$')
 # Words that only describe the opening: not part of a cenote's name.
 OPENING_WORDS = {'entrada', 'colapso', 'entrance'}
 ENGLISH_WORDS = {'the', 'of', 'snake', 'bones', 'door', 'doors', 'road', 'well', 'blue', 'big', 'little', 'pit', 'house', 'garden', 'dome', 'swoop', 'wagon', 'wheel'}
 PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
-TO_ADD_COLUMNS = ['id', 'Cenote', 'AKA', 'Language Code (ISO-639-2)', 'Spanish', 'English', 'Area', 'Area ID', 'Original Sistema', 'Original Sistema ID',
-                  'Latitude', 'Longitude', 'GPS valid', 'Source', 'Source ID', 'Publication status']
 
 
 def push_id():
-    """A Firebase push ID, as the sheet's other ids: time-ordered."""
+    """A Firebase push ID, like the database's other ids: time-ordered."""
     now = int(time.time() * 1000)
     stamp = ''
     for _ in range(8):
@@ -87,16 +91,32 @@ def key(name):
     return ' '.join(w for w in normalize(name).split() if w not in OPENING_WORDS)
 
 
-def read_sheet(tab):
-    with urllib.request.urlopen(SHEET + urllib.parse.quote(tab)) as response:
-        return list(csv.DictReader(io.StringIO(response.read().decode('utf-8'))))
-
-
 def distance(a, b):
     """Metres between two (latitude, longitude) points."""
     lat1, lon1, lat2, lon2 = (math.radians(v) for v in (*a, *b))
     h = math.sin((lat2 - lat1) / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2
     return 6371000 * 2 * math.asin(math.sqrt(h))
+
+
+def cave_name(cave):
+    name = cave.get('name')
+    value = (name or {}).get('value', '') if isinstance(name, dict) else (name or '')
+    return '' if COORDINATES_NAME.match(value or '') else (value or '')
+
+
+def cave_names(cave):
+    """Every name a cave goes by: its name, translations and aliases."""
+    names = [cave_name(cave)] + list(cave.get('aka') or [])
+    for translations in (cave.get('nameTranslations') or {}).values():
+        names += translations if isinstance(translations, list) else [translations]
+    return [n for n in names if n]
+
+
+def cave_position(cave):
+    location = cave.get('location') or {}
+    if location.get('latitude') is None or location.get('longitude') is None:
+        return None
+    return float(location['latitude']), float(location['longitude'])
 
 
 def scan_labels(config, words):
@@ -135,7 +155,7 @@ def scan_labels(config, words):
         before = [] if after else line_neighbours(word, False)
         group = before + [word] + after
         name = ' '.join(re.sub(r'[^\w\'\-]', '', w['t']) for w in (after or before)).strip()
-        if not name or NOT_A_NAME.match(name) or any(re.match(r'(?i)^(from|to)$', w['t']) for w in before[-1:]):
+        if not name or NOT_A_NAME.match(name):
             continue
         x0 = min(w['box'][0] for w in group)
         y0 = min(w['box'][1] for w in group)
@@ -146,13 +166,13 @@ def scan_labels(config, words):
 
 
 def map_candidates(config_path, output_dir):
-    """The map's cenotes: [{name, latitude, longitude, accuracy, caveId?}]."""
+    """The map's cenotes: [{name, latitude, longitude, accuracy, placement, caveId?}]."""
     config = json.loads(config_path.read_text(encoding='utf-8'))
     name = config_path.stem
     if config.get('pdf'):
         place, _, residuals = vector_placement(config)
         accuracy = LABEL_ON_VECTOR + (max(residuals) if len(residuals) > 1 else 0)
-        found = [{**e, 'position': place(*e['pdf'])} for e in config.get('entrances', [])]
+        found = [{**e, 'position': place(*e['pdf']), 'placement': 'label'} for e in config.get('entrances', [])]
     else:
         to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
         to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
@@ -163,53 +183,51 @@ def map_candidates(config_path, output_dir):
         place = lambda x, y: to_lnglat.transform(*fit(x, y))  # noqa: E731
         if config.get('entrances'):
             accuracy = max(10, rms)
-            found = [{**e, 'position': place(*e['px'])} for e in config['entrances']]
+            found = [{**e, 'position': place(*e['px']), 'placement': 'opening'} for e in config['entrances']]
         else:
             words_path = output_dir / f'{name}-ocr-words.json'
             if not words_path.exists():
                 sys.exit(f'{words_path} is missing: run trace_scan.py on {config_path} first (it OCRs the map).')
             accuracy = LABEL_ON_SCAN + rms
-            found = [{**label, 'position': place(*label['px'])} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
+            found = [{**label, 'position': place(*label['px']), 'placement': 'label'} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
     return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1], 'accuracy': round(accuracy),
-                     'map': config.get('title', name)} for f in found]
+                     'placement': f['placement'], 'map': config.get('title', name)} for f in found]
 
 
-def main(output, config_paths):
-    cenotes = read_sheet('Cenotes')
-    sources = {row['id'] for row in read_sheet('Sources')}
-    located = [r for r in cenotes if r['Latitude'] and r['Longitude']]
-    by_id = {r['id']: r for r in cenotes}
+def main(review_path, config_paths, production):
+    caves = fetch_collection('caves', production)
+    sistemas = {s['id']: s for s in fetch_collection('sistemas', production)}
+    parents = {c['sistemaId']: c['parentSistemaId'] for c in fetch_collection('connections', production) if c.get('sistemaId') and c.get('parentSistemaId')}
+    by_id = {c['id']: c for c in caves}
     by_key = {}
-    for row in cenotes:
-        for name in [row['Cenote'], row['Spanish'], row['English'], row['Mayan']] + re.split(r'[,;|]', row['AKA'] or ''):
-            if name and key(name):
-                by_key.setdefault(key(name), []).append(row)
-    sistema_names = {r['Original Sistema ID']: r['Original Sistema'] for r in cenotes if r['Original Sistema ID']}
+    for cave in caves:
+        for name in cave_names(cave):
+            if key(name):
+                by_key.setdefault(key(name), []).append(cave)
+    located = [c for c in caves if cave_position(c)]
+    unnamed = [c for c in caves if not cave_name(c)]
 
-    unnamed = [r for r in cenotes if not r['Cenote'].strip()]
-    # Sistemas merged into others ("Dos Ojos" -> "Sac Actun"): a map of a
-    # sistema shows cenotes still filed under the ones merged into it.
-    merged_into = {r['Sistema ID']: r['New name ID'] for r in read_sheet('Connections') if r['Sistema ID'] and r['New name ID']}
-
-    def merged_family(sistema_id):
+    def merged_into(sistema_id):
+        """Sistemas merged, directly or not, into this one ("Dos Ojos" -> "Sac Actun")."""
         def leads_to(sid, seen=()):
-            while sid in merged_into and sid not in seen:
+            while sid in parents and sid not in seen:
                 seen += (sid,)
-                sid = merged_into[sid]
+                sid = parents[sid]
                 if sid == sistema_id:
                     return True
             return False
-        return {sid for sid in merged_into if leads_to(sid)}
-    claimed = set()
-    review, to_add, fill, positions, new_sources, seen = [], [], [], [], {}, []
+        return {sid for sid in parents if leads_to(sid)}
+
+    previous = json.loads(FOUND_FILE.read_text(encoding='utf-8')) if FOUND_FILE.exists() else {'entries': []}
+    claimed, review, entries, seen, titles = set(), [], [], [], []
     for config_path in map(Path, config_paths):
-        config, found = map_candidates(config_path, Path(output).parent)
-        source = config.get('source') or {}
-        if source and not source.get('id'):
-            source['id'] = new_sources.setdefault(source['name'], {**source, 'id': push_id()})['id']
+        config, found = map_candidates(config_path, Path(review_path).parent)
+        titles.append(config.get('title', config_path.stem))
+        sistema_id = config.get('sistemaId', '')
+        source_id = (config.get('source') or {}).get('id', '')
         for c in found:
             spot = (c['latitude'], c['longitude'])
-            # Already found on another map: one cenote.
+            # Already found on another map of this run: one cenote.
             same = next((s for s in seen if key(s['name']) == key(c['name']) and distance((s['latitude'], s['longitude']), spot) < SAME_CANDIDATE_METRES), None)
             if same:
                 same['maps'].append(c['map'])
@@ -220,62 +238,67 @@ def main(output, config_paths):
             matches = [by_id[c['caveId']]] if c.get('caveId') in by_id else by_key.get(key(c['name']), [])
             if not matches and key(c['name']):
                 # A close spelling, nearby only: "Grande" is the Grand Cenote next to it.
-                similar = [r for k, rows in by_key.items() if difflib.SequenceMatcher(None, key(c['name']), k).ratio() >= SIMILAR_NAME for r in rows]
-                matches = [r for r in similar if r['Latitude'] and r['Longitude'] and distance(spot, (float(r['Latitude']), float(r['Longitude']))) <= FAR_METRES]
-            with_gps = sorted(((distance(spot, (float(r['Latitude']), float(r['Longitude']))), r) for r in matches if r['Latitude'] and r['Longitude']), key=lambda t: t[0])
-            without_gps = [r for r in matches if not (r['Latitude'] and r['Longitude'])]
-            row = {'Map': c['map'], 'Name on the map': c['name'], 'Latitude': round(c['latitude'], 6), 'Longitude': round(c['longitude'], 6), 'Accuracy (m)': c['accuracy']}
-            if with_gps and with_gps[0][0] <= FAR_METRES:
-                d, match = with_gps[0]
-                status = 'matched' if d <= max(100, 3 * c['accuracy']) else 'matched, far'
-                row.update({'Status': status, 'Sheet id': match['id'], 'Sheet name': match['Cenote'], 'Sheet latitude': match['Latitude'], 'Sheet longitude': match['Longitude'], 'Distance (m)': round(d)})
-            elif without_gps and (not with_gps or c.get('caveId')):
-                match = without_gps[0]
-                row.update({'Status': 'in sheet, no position', 'Sheet id': match['id'], 'Sheet name': match['Cenote']})
-                positions.append({'id': match['id'], 'Cenote': match['Cenote'], 'Latitude': row['Latitude'], 'Longitude': row['Longitude'], 'Accuracy (m)': c['accuracy'], 'From map': c['map']})
+                similar = [cave for k, group in by_key.items() if difflib.SequenceMatcher(None, key(c['name']), k).ratio() >= SIMILAR_NAME for cave in group]
+                matches = [cave for cave in similar if cave_position(cave) and distance(spot, cave_position(cave)) <= FAR_METRES]
+            with_position = sorted(((distance(spot, cave_position(m)), m) for m in matches if cave_position(m)), key=lambda t: t[0])
+            without_position = [m for m in matches if not cave_position(m)]
+            row = {'Map': c['map'], 'Name on the map': c['name'], 'Latitude': round(c['latitude'], 6), 'Longitude': round(c['longitude'], 6),
+                   'Accuracy (m)': c['accuracy'], 'Placed at': c['placement']}
+            base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'],
+                    'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps']}
+            if with_position and with_position[0][0] <= FAR_METRES:
+                d, match = with_position[0]
+                row.update({'Status': 'matched' if d <= max(100, 3 * c['accuracy']) else 'matched, far', 'Database id': match['id'],
+                            'Database name': cave_name(match), 'Distance (m)': round(d)})
+            elif without_position and (not with_position or c.get('caveId')):
+                match = without_position[0]
+                row.update({'Status': 'in database, no position', 'Database id': match['id'], 'Database name': cave_name(match)})
+                entries.append({**base, 'action': 'position', 'caveId': match['id'], 'name': cave_name(match)})
             else:
-                nearby = min(((distance(spot, (float(r['Latitude']), float(r['Longitude']))), r) for r in located), key=lambda t: t[0])
-                note = f"namesake {with_gps[0][1]['Cenote']} is {with_gps[0][0] / 1000:.1f} km away" if with_gps else ''
-                if nearby[0] <= NEARBY_METRES:
-                    note = f"{note}; " if note else ''
-                    note += f"{nearby[1]['Cenote']} is {nearby[0]:.0f} m away: the same cenote under another name?"
-                row.update({'Status': 'to add', 'Note': note})
-                area = nearby[1]
+                nearest = min(((distance(spot, cave_position(m)), m) for m in located), key=lambda t: t[0])
+                notes = [f"namesake {cave_name(with_position[0][1])} is {with_position[0][0] / 1000:.1f} km away"] if with_position else []
+                if nearest[0] <= NEARBY_METRES and cave_name(nearest[1]):
+                    notes.append(f"{cave_name(nearest[1])} is {nearest[0]:.0f} m away: the same cenote under another name?")
                 words = set(normalize(c['name']).split())
                 english = bool(words & ENGLISH_WORDS) or "'s" in c['name'].lower()
-                sistema_id = config.get('sistemaId', '')
-                new = {'id': push_id(), 'Cenote': c['name'], 'AKA': '', 'Language Code (ISO-639-2)': 'English' if english else 'Spanish',
-                       'Spanish': '' if english else c['name'], 'English': c['name'] if english else '', 'Area': area['Area'], 'Area ID': area['Area ID'],
-                       'Original Sistema': sistema_names.get(sistema_id, ''), 'Original Sistema ID': sistema_id,
-                       'Latitude': row['Latitude'], 'Longitude': row['Longitude'], 'GPS valid': '', 'Source': source.get('name', ''), 'Source ID': source.get('id', ''),
-                       'Publication status': 'public'}
-                # The sheet's unnamed rows are cenotes known to exist in a sistema,
-                # without a name yet: a new one may be one of them - fill it in
-                # rather than add another. One with a position nearby first; else
-                # one of the same sistema, in the same area if possible.
-                pool = [r for r in unnamed if r['id'] not in claimed]
-                near = [(distance(spot, (float(r['Latitude']), float(r['Longitude']))), r) for r in pool if r['Latitude'] and r['Longitude']]
-                near = [r for d, r in sorted(near, key=lambda t: t[0]) if d <= max(100, 3 * c['accuracy'])]
-                same_sistema = [r for r in pool if sistema_id and r['Original Sistema ID'] == sistema_id and not (r['Latitude'] and r['Longitude'])]
-                same_sistema.sort(key=lambda r: r['Area ID'] != area['Area ID'])
-                # Merged sistemas span other areas: only their rows of this area.
-                family = merged_family(sistema_id) if sistema_id else set()
-                merged = [r for r in pool if r['Original Sistema ID'] in family and r['Area ID'] and r['Area ID'] == area['Area ID'] and not (r['Latitude'] and r['Longitude'])]
-                slot = (near or same_sistema or merged or [None])[0]
+                new = {**base, 'languageCode': 'eng' if english else 'spa', 'sistemaId': sistema_id,
+                       'sistemaName': (sistemas.get(sistema_id) or {}).get('name', ''), 'area': nearest[1].get('area', '')}
+                # An unnamed cave may be this one: one with a position nearby
+                # first; else one of the same sistema (in the same area if
+                # possible); else one of a sistema merged into it, in this area.
+                pool = [u for u in unnamed if u['id'] not in claimed]
+                near = [u for d, u in sorted(((distance(spot, cave_position(u)), u) for u in pool if cave_position(u)), key=lambda t: t[0]) if d <= max(100, 3 * c['accuracy'])]
+                own = sorted([u for u in pool if sistema_id and u.get('sistemaId') == sistema_id and not cave_position(u)], key=lambda u: u.get('area') != new['area'])
+                family = merged_into(sistema_id) if sistema_id else set()
+                merged = [u for u in pool if u.get('sistemaId') in family and u.get('area') and u.get('area') == new['area'] and not cave_position(u)]
+                slot = (near or own or merged or [None])[0]
                 if slot:
                     claimed.add(slot['id'])
-                    others = sum(1 for r in unnamed if r['Original Sistema ID'] == slot['Original Sistema ID'] and r['Area ID'] == slot['Area ID'])
-                    fill.append({**new, 'id': slot['id'], 'Area': slot['Area'] or new['Area'], 'Area ID': slot['Area ID'] or new['Area ID'],
-                                 'Source': slot['Source'] or new['Source'], 'Source ID': slot['Source ID'] or new['Source ID'],
-                                 'Original Sistema': slot['Original Sistema'], 'Original Sistema ID': slot['Original Sistema ID'] or sistema_id,
-                                 'Unnamed rows in this sistema': others})
-                    row.update({'Status': 'fill unnamed row', 'Sheet id': slot['id'],
-                                'Note': '; '.join(filter(None, [note, f"one of the {others} unnamed {slot['Original Sistema']} rows in {slot['Area'] or 'no area'} (interchangeable)" if not near else 'unnamed row with a position nearby']))})
+                    group = sum(1 for u in unnamed if u.get('sistemaId') == slot.get('sistemaId') and u.get('area') == slot.get('area'))
+                    notes.append('unnamed cave with a position nearby' if near else
+                                 f"one of the {group} unnamed {(sistemas.get(slot.get('sistemaId')) or {}).get('name', '?')} caves in {slot.get('area') or 'no area'} (interchangeable)")
+                    row.update({'Status': 'fill unnamed cave', 'Database id': slot['id']})
+                    entries.append({**new, 'action': 'fill', 'caveId': slot['id'], 'sistemaId': slot.get('sistemaId') or sistema_id, 'area': slot.get('area') or new['area']})
                 else:
-                    to_add.append(new)
+                    row['Status'] = 'new'
+                    entries.append({**new, 'action': 'create'})
+                row['Note'] = '; '.join(notes)
             review.append(row)
 
+    # Accumulate: keep the entries from maps not in this run; keep known ids.
+    def entry_key(e):
+        return (e['action'], e.get('caveId') or key(e['name']))
+    known_ids = {entry_key(e): e.get('id') for e in previous['entries']}
+    for entry in entries:
+        entry['id'] = known_ids.get(entry_key(entry)) or (push_id() if entry['action'] == 'create' else entry['caveId'])
+    others = [e for e in previous['entries'] if not set(e['maps']) & set(titles)]
+    kept = others + [e for e in entries if entry_key(e) not in {entry_key(o) for o in others}]
+    FOUND_FILE.write_text(json.dumps({'note': 'Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). '
+                                              'Positions come from maps: never mark them as GPS.',
+                                      'entries': kept}, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+
     workbook = Workbook()
+
     def sheet(title, columns, rows, first=False):
         ws = workbook.active if first else workbook.create_sheet()
         ws.title = title
@@ -283,27 +306,30 @@ def main(output, config_paths):
         for cell in ws[1]:
             cell.font = Font(bold=True)
         for r in rows:
-            ws.append([r.get(col, '') for col in columns])
+            ws.append([', '.join(r[col]) if isinstance(r.get(col), list) else r.get(col, '') for col in columns])
         ws.freeze_panes = 'A2'
         for i, col in enumerate(columns, 1):
-            width = max([len(str(col))] + [len(str(r.get(col, ''))) for r in rows])
+            width = max([len(str(col))] + [len(str(', '.join(r[col]) if isinstance(r.get(col), list) else r.get(col, ''))) for r in rows])
             ws.column_dimensions[ws.cell(1, i).column_letter].width = min(60, width + 2)
-    sheet('To add', TO_ADD_COLUMNS, to_add, first=True)
-    sheet('Fill unnamed rows', TO_ADD_COLUMNS + ['Unnamed rows in this sistema'], fill)
-    sheet('Positions for existing', ['id', 'Cenote', 'Latitude', 'Longitude', 'Accuracy (m)', 'From map'], positions)
-    sheet('Review', ['Status', 'Map', 'Name on the map', 'Latitude', 'Longitude', 'Accuracy (m)', 'Sheet id', 'Sheet name', 'Sheet latitude', 'Sheet longitude', 'Distance (m)', 'Note'], review)
-    if new_sources:
-        sheet('Sources to add', ['id', 'Source', 'Description', 'Link', 'Note'], [{'id': s['id'], 'Source': s['name'], 'Description': s.get('description', ''), 'Note': s.get('note', '')} for s in new_sources.values()])
-    Path(output).parent.mkdir(parents=True, exist_ok=True)
-    workbook.save(output)
+    sheet('Kept aside', ['action', 'id', 'caveId', 'name', 'languageCode', 'sistemaName', 'sistemaId', 'area', 'latitude', 'longitude',
+                         'accuracy', 'placement', 'sourceId', 'maps'], kept, first=True)
+    sheet('Review', ['Status', 'Map', 'Name on the map', 'Latitude', 'Longitude', 'Accuracy (m)', 'Placed at', 'Database id', 'Database name',
+                     'Distance (m)', 'Note'], review)
+    Path(review_path).parent.mkdir(parents=True, exist_ok=True)
+    workbook.save(review_path)
 
-    counts = {}
+    counts, actions = {}, {}
     for r in review:
         counts[r['Status']] = counts.get(r['Status'], 0) + 1
-    print(f"{len(to_add)} to add, {len(fill)} to fill unnamed rows with; {len(review)} cenotes on {len(config_paths)} maps: {', '.join(f'{n} {s}' for s, n in counts.items())} -> {output}")
+    for e in kept:
+        actions[e['action']] = actions.get(e['action'], 0) + 1
+    print(f"{len(review)} cenotes on {len(config_paths)} maps ({'production' if production else 'local emulator'}): "
+          f"{', '.join(f'{n} {s}' for s, n in counts.items())}")
+    print(f"kept aside in {FOUND_FILE.name}: {', '.join(f'{n} {a}' for a, n in actions.items()) or 'nothing'}; review -> {review_path}")
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
+    args = [a for a in sys.argv[1:] if a != '--production']
+    if len(args) < 2:
         sys.exit(__doc__)
-    main(sys.argv[1], sys.argv[2:])
+    main(args[0], args[1:], '--production' in sys.argv[1:])

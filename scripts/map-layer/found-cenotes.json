@@ -1,0 +1,61 @@
+{
+ "note": "Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). Positions come from maps: never mark them as GPS.",
+ "entries": [
+  {
+   "name": "The Link",
+   "latitude": 20.318974,
+   "longitude": -87.41027,
+   "accuracy": 15,
+   "placement": "label",
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQvy2EkEuQnZMe7",
+   "id": "-KPZkVQvy2EkEuQnZMe7"
+  },
+  {
+   "name": "Pabilanny",
+   "latitude": 20.249946,
+   "longitude": -87.473401,
+   "accuracy": 14,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVO4g2jTLMSWJuhH",
+   "id": "-KPZkVO4g2jTLMSWJuhH"
+  },
+  {
+   "name": "Azteca",
+   "latitude": 20.249152,
+   "longitude": -87.470461,
+   "accuracy": 14,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEAEspvQ6zbiN1r",
+   "id": "-KPZkVEAEspvQ6zbiN1r"
+  },
+  {
+   "name": "Four Doors",
+   "latitude": 20.245323,
+   "longitude": -87.460968,
+   "accuracy": 14,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJgaYAcxWVY0yz6",
+   "id": "-KPZkVJgaYAcxWVY0yz6"
+  }
+ ]
+}
