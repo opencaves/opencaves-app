@@ -25,8 +25,7 @@
     "pdf-lib": "^1.17.1",
     "sharp": "^0.35.4",
     "unique-push-id": "^1.0.2",
-    "uuid": "^14.0.2",
-    "uuidv4": "^6.2.13"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "eslint": "^10.11.0"

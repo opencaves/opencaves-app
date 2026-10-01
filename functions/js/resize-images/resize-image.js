@@ -3,7 +3,7 @@ import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
 
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid'
 
 import config from './config.js'
 import * as logs from './logs.js'
