@@ -1,0 +1,581 @@
+{
+  "image": "../../../_data/maps-import/images/nohoch-aktun-akumal.webp",
+  "title": "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000",
+  "credits": "Figure 13 of the same French publication as Xel-Ha's Figure 10 (Expéditions Yuc 97/2000); the page carries no credits of its own",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+  "sistemaWhy": "The map holds two networks: TA TICH (north) and Nohoch Aktun (south, with the Miss Aktun of the caption). The database has both sistemas, Tatich (-KPZgfyMtMazy0q2zOdT, aka Nuhuch Actun) and Nohoch Aktun (-KPZgfxIjCFs_05eB3oM), and both list this map (-P2lcvM-PLnOl9aSWD1k). Only one sistemaId fits a config: Nohoch Aktun, after the config's name.",
+  "utmEpsg": 32616,
+  "placementWhy": "Weak: one control point plus the scale bar and the north arrow. The jungle canopy hides every collapse on both Esri and Google imagery (z18), and OSM has nothing there. The one point is the Ta Tich collapse (the yellow Effondrement west of the main gallery): the database's Cenote Nohoch Aktun (Gerrard: Sistema Tatich, 20°26.201'N 87°20.805'W) sits exactly at the end of a footpath visible on both imageries, which loops in from the dirt road to the south-west. Scale from the bar (0-500 m, 573 px: 0.873 m/px), north up as the arrow. Unchecked: the same publication's Xel-Ha map came out about 10 degrees off its north arrow; Gerrard's Sistema Nohoch Aktun position (20°25.652'N 87°20.782'W) falls 270 m west of the nearest traced passage and 360 m from the nearest collapse with this placement: either Gerrard's point is rough, or the map is turned (a 20-25 degree clockwise turn would bring the Siphon 800 m passage onto it), which nothing on the ground can confirm.",
+  "scaleBar": {
+    "from": [
+      120,
+      2358
+    ],
+    "to": [
+      693,
+      2358
+    ],
+    "metres": 500
+  },
+  "north": "up",
+  "trace": {
+    "method": "colour-fill",
+    "why": "Sumps (siphons) filled in violet-blue, air-filled passages in pale blue, both outlined in black; boulder slopes in orange and the collapses (effondrements, open to the sky, hatched outline) in yellow are traced with the passages (fillColours).",
+    "water": false,
+    "threshold": 25,
+    "weakThreshold": 15,
+    "regionThreshold": 15,
+    "paperWindowPx": 1500,
+    "details": true,
+    "fillColours": [
+      {
+        "why": "boulder slopes (orange) and collapses (yellow): part of the cave, outlined as walls",
+        "hue": [
+          8,
+          50
+        ],
+        "minSaturation": 100,
+        "density": 0.3,
+        "alone": true
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 60,
+      "gapMetres": 5
+    },
+    "fillOffInk": true,
+    "offInkSigmaPx": 1.5,
+    "thresholdWhy": "the pale-blue (air) passages are narrow and faint at their edges (blue minus red 20-40): low thresholds; the black leader lines' blue colour fringe (up to 45) then reads as fill, so the leaders are masked by boxes along them"
+  },
+  "exclude": [
+    {
+      "why": "label Trémie (upstream end of Ta Tich)",
+      "box": [
+        585,
+        5,
+        765,
+        65
+      ]
+    },
+    {
+      "why": "label Siphon amont",
+      "box": [
+        730,
+        350,
+        1070,
+        425
+      ]
+    },
+    {
+      "why": "title TA TICH",
+      "box": [
+        830,
+        650,
+        1155,
+        750
+      ]
+    },
+    {
+      "why": "label Siphon aval",
+      "box": [
+        785,
+        945,
+        1065,
+        1015
+      ]
+    },
+    {
+      "why": "label Effondrements (Ta Tich)",
+      "box": [
+        150,
+        980,
+        510,
+        1050
+      ]
+    },
+    {
+      "why": "title Nohoch Aktun",
+      "box": [
+        1250,
+        1570,
+        1810,
+        1700
+      ]
+    },
+    {
+      "why": "caption Figure 13: Plan des réseaux Ta Tich, Nohoch Aktun et Miss Aktun",
+      "box": [
+        60,
+        1765,
+        710,
+        1990
+      ]
+    },
+    {
+      "why": "label Siphon 800 m",
+      "box": [
+        1125,
+        1825,
+        1320,
+        1955
+      ]
+    },
+    {
+      "why": "label désobstruction subaquatique",
+      "box": [
+        1340,
+        1915,
+        1700,
+        2045
+      ]
+    },
+    {
+      "why": "label Effondrements (Nohoch Aktun)",
+      "box": [
+        725,
+        2090,
+        1085,
+        2160
+      ]
+    },
+    {
+      "why": "label galerie active",
+      "box": [
+        1605,
+        2240,
+        1935,
+        2315
+      ]
+    },
+    {
+      "why": "label Effondrements (south)",
+      "box": [
+        1565,
+        2615,
+        1925,
+        2690
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        80,
+        2280,
+        760,
+        2380
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        230,
+        2420,
+        620,
+        3137
+      ]
+    },
+    {
+      "why": "page mark k",
+      "box": [
+        1920,
+        3060,
+        1984,
+        3137
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        417,
+        1096,
+        561,
+        1330
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        547,
+        1316,
+        626,
+        1440
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        612,
+        1426,
+        691,
+        1550
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        447,
+        1090,
+        620,
+        1291
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        482,
+        1054,
+        623,
+        1128
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        417,
+        835,
+        506,
+        988
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        886,
+        1772,
+        952,
+        2079
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        935,
+        2198,
+        1181,
+        2352
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1167,
+        2338,
+        1238,
+        2387
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1224,
+        2373,
+        1296,
+        2422
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1282,
+        2408,
+        1354,
+        2457
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1340,
+        2443,
+        1383,
+        2474
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1369,
+        2460,
+        1398,
+        2483
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1384,
+        2469,
+        1405,
+        2487
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        891,
+        2215,
+        1050,
+        2353
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1036,
+        2339,
+        1122,
+        2414
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1108,
+        2400,
+        1158,
+        2445
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1144,
+        2431,
+        1176,
+        2460
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1162,
+        2446,
+        1185,
+        2468
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        949,
+        2174,
+        1250,
+        2271
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1736,
+        2680,
+        1768,
+        2858
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1584,
+        2684,
+        1688,
+        2809
+      ]
+    },
+    {
+      "why": "leader line (Effondrements)",
+      "box": [
+        1453,
+        2570,
+        1578,
+        2626
+      ]
+    },
+    {
+      "why": "leader line (désobstruction subaquatique)",
+      "box": [
+        1532,
+        2035,
+        1568,
+        2082
+      ]
+    },
+    {
+      "why": "leader line (désobstruction subaquatique)",
+      "box": [
+        1580,
+        2035,
+        1622,
+        2082
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVNaIeV915IYvoMm",
+      "name": "Ta Tich collapse (DB Nohoch Aktun, Gerrard; end of a footpath on the imagery)",
+      "px": [
+        545,
+        785
+      ],
+      "latitude": 20.43668,
+      "longitude": -87.34675
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Ta Tich collapse (Effondrement; database: Cenote Nohoch Aktun)",
+      "caveId": "-KPZkVNaIeV915IYvoMm",
+      "px": [
+        545,
+        785
+      ],
+      "latitude": 20.43668,
+      "longitude": -87.34675,
+      "why": "Gerrard puts Cenote Nohoch Aktun in Sistema Tatich (a.k.a. Nuhuch Actun), at this position; the database files it under the Nohoch Aktun sistema"
+    },
+    {
+      "name": "unnamed collapse S of Ta Tich (1st) (Effondrement)",
+      "px": [
+        679,
+        1161
+      ]
+    },
+    {
+      "name": "unnamed collapse S of Ta Tich (2nd) (Effondrement)",
+      "px": [
+        652,
+        1307
+      ]
+    },
+    {
+      "name": "unnamed collapse S of Ta Tich (3rd) (Effondrement)",
+      "px": [
+        725,
+        1414
+      ]
+    },
+    {
+      "name": "unnamed collapse S of Ta Tich (4th) (Effondrement)",
+      "px": [
+        744,
+        1569
+      ]
+    },
+    {
+      "name": "unnamed Nohoch Aktun upstream collapse (Effondrement)",
+      "px": [
+        933,
+        1691
+      ]
+    },
+    {
+      "name": "unnamed Nohoch Aktun central collapse (Effondrement)",
+      "px": [
+        1428,
+        2298
+      ]
+    },
+    {
+      "name": "unnamed collapse S of the central one (Effondrement)",
+      "px": [
+        1443,
+        2503
+      ]
+    },
+    {
+      "name": "unnamed collapse W of the south branch (Effondrement)",
+      "px": [
+        1367,
+        2633
+      ]
+    },
+    {
+      "name": "unnamed small collapse in the south chamber (Effondrement)",
+      "px": [
+        1497,
+        2813
+      ]
+    },
+    {
+      "name": "unnamed south chamber collapse (Effondrement)",
+      "px": [
+        1545,
+        2878
+      ]
+    },
+    {
+      "name": "unnamed south-east collapse (drawn open to the east) (Effondrement)",
+      "px": [
+        1696,
+        2917
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "French UIS map (same publication as Xel-Ha): no depths, no letter codes, no legend, no bones, no flow arrows. Kept as place names: the sumps (Siphon amont, Siphon aval, Siphon 800 m), the upstream choke (Trémie), the two underwater digs (désobstruction subaquatique, asterisks at the leader ends) and the galerie active (active, flowing gallery). The yellow Effondrements (collapses open to the sky) are entrances. The red dots inside the passages have no legend: not kept.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Trémie",
+        "px": [
+          630,
+          130
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Siphon amont",
+        "px": [
+          690,
+          390
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Siphon aval",
+        "px": [
+          734,
+          980
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Siphon 800 m",
+        "px": [
+          1095,
+          1935
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "désobstruction subaquatique (underwater dig)",
+        "px": [
+          1568,
+          2092
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "désobstruction subaquatique (underwater dig)",
+        "px": [
+          1620,
+          2094
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "galerie active",
+        "px": [
+          1650,
+          2240
+        ]
+      }
+    ]
+  }
+}
