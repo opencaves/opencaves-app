@@ -255,7 +255,7 @@
         "widthPx": 14
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           3315,
           1035
@@ -267,7 +267,7 @@
         "widthPx": 26
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           5113,
           1400
@@ -279,7 +279,7 @@
         "widthPx": 30
       },
       {
-        "why": "flow arrow (shaft)",
+        "why": "flow arrow (kept as a flow symbol) (shaft)",
         "from": [
           5140,
           1400
@@ -291,7 +291,7 @@
         "widthPx": 10
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           6973,
           1163
@@ -303,7 +303,7 @@
         "widthPx": 20
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           5428,
           2310
@@ -315,7 +315,7 @@
         "widthPx": 22
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           7158,
           2437
@@ -327,7 +327,7 @@
         "widthPx": 22
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           2200,
           3126
@@ -339,7 +339,7 @@
         "widthPx": 18
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           3120,
           3778
@@ -351,7 +351,7 @@
         "widthPx": 22
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           4428,
           3786
@@ -363,7 +363,7 @@
         "widthPx": 16
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           5908,
           4192
@@ -375,7 +375,7 @@
         "widthPx": 18
       },
       {
-        "why": "flow arrow",
+        "why": "flow arrow (kept as a flow symbol)",
         "from": [
           1100,
           5290
@@ -1409,6 +1409,96 @@
           5695,
           4123
         ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3331,
+          1057
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5126,
+          1400
+        ],
+        "bearing": 270
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          6999,
+          1164
+        ],
+        "bearing": 110
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5451,
+          2326
+        ],
+        "bearing": 135
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          7185,
+          2424
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2236,
+          3117
+        ],
+        "bearing": 80
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3151,
+          3789
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4463,
+          3781
+        ],
+        "bearing": 85
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5922,
+          4165
+        ],
+        "bearing": 25
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1110,
+          5257
+        ],
+        "bearing": 10
       }
     ]
   }

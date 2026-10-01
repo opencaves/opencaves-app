@@ -165,7 +165,8 @@ map.on('load', () => {
     const p = f.properties
     const el = document.createElement('div')
     el.className = 'symbol'
-    el.textContent = p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'entrance' ? '●' : p.type === 'place-name' ? p.label : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
+    if (p.type === 'flow') { el.style.transform = `rotate(${p.bearing - 90}deg)`; el.style.background = '#4fc3f7' }
+    el.textContent = p.type === 'flow' ? '➜' : p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'entrance' ? '●' : p.type === 'place-name' ? p.label : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
     el.title = p.type + (p.value !== undefined ? ` ${p.value} m (map: ${p.label})` : '')
     symbolMarkers.push(new mapboxgl.Marker({ element: el }).setLngLat(f.geometry.coordinates).addTo(map))
   }

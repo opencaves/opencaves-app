@@ -378,7 +378,9 @@ def main(config_path, output):
         # A number's box covers its digits and bar, so its ink isn't drawn too.
         half = item.get('halfPx', 45 if 'value' in item else 6)
         symbols.append({'type': item['type'], 'label': item.get('label', ''), 'box': [x - half, y - half, x + half, y + half],
-                        **({'value': item['value']} if 'value' in item else {})})
+                        **({'value': item['value']} if 'value' in item else {}),
+                        # A flow arrow's direction, degrees clockwise from the map's up.
+                        **({'bearing': item['bearing']} if 'bearing' in item else {})})
 
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
     place, _, _ = raster_placement(config)
@@ -389,6 +391,12 @@ def main(config_path, output):
         properties = {'map': name, 'kind': 'symbol', 'type': s['type'], 'label': s['label'], 'sistemaId': config.get('sistemaId')}
         if s.get('name'):
             properties['name'] = s['name']
+        if 'bearing' in s:
+            # Turned to true north: two points along the arrow, placed.
+            cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+            a = math.radians(s['bearing'])
+            (e0, n0), (e1, n1) = place(cx, cy), place(cx + 10 * math.sin(a), cy - 10 * math.cos(a))
+            properties['bearing'] = round(math.degrees(math.atan2(e1 - e0, n1 - n0)) % 360)
         if 'value' in s:
             properties['value'] = round(s['value'] * to_metres, 1)
             properties['unit'] = 'm'
