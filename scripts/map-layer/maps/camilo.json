@@ -20,7 +20,8 @@
     "minHoleSqMetres": 4,
     "wallSimplifyMetres": 0.3,
     "water": false,
-    "detailInk": false
+    "detailInk": false,
+    "stickMap": true
   },
   "exclude": [
     {

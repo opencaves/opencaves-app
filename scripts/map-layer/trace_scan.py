@@ -782,6 +782,11 @@ def compass_fill(config_path, config, out, name):
     line = numpy.isin(lab, [i + 1 for i, s in enumerate(size) if s >= 20])
     reach = trace.get('surveyOffFillPx', 2)
     near_fill = cv2.dilate(fill.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
+    # "stickMap": true - a stick map: the survey lines are the whole drawing,
+    # the fill is only their decoration; no walls, the lines kept throughout.
+    if trace.get('stickMap'):
+        near_fill[:] = False
+        walls['features'] = []
     features = []
     min_m = trace.get('surveyMinMetres', 3)
     for path in trace_skeleton(skeletonize(line)):
