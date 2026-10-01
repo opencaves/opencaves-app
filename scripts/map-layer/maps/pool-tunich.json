@@ -1,0 +1,159 @@
+{
+  "image": "../../../_data/maps-import/images/pool-tunich-sist-xcaret-mpo-playa-del-carmen.webp",
+  "title": "Sistema Pool Tunich area, Xcaret - line plot (May 2013)",
+  "credits": "Sistema Pool Tunich area, Xcaret, Quintana Roo, May 2013; AMCS Activities Newsletter 36, p. 99, 2013",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": null,
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      943,
+      181
+    ],
+    "to": [
+      1414,
+      181
+    ],
+    "metres": 1000
+  },
+  "north": "up",
+  "trace": {
+    "method": "survey-lines",
+    "lineColours": [
+      "cyan",
+      "red",
+      "green"
+    ],
+    "water": false,
+    "joinShortPx": 16,
+    "why": "Line plot on white: survey lines in three colours - cyan (pre-2013 dry), red (2013 dry), green (underwater). Needs a 'cyan' test in survey_line_paths (min(g, b) - r >= minBlueExcess; 'blue' is b - max(r, g), which cyan fails as g = b): prototyped in the scratchpad's pt/trace_cyan.py. At 2.1 m/px the densest mazes (and the small red 2013 mazes, e.g. Cueva Chicleros) are solid blobs on the scan: their skeleton keeps only a few lines. joinShortPx 16 keeps the short junction-to-junction pieces of the mazes (at 8 m minimum they were dropped, leaving gaps). The grey circle ('unsurveyed dry passage') isn't a survey colour, so isn't traced: the two caves stay apart."
+  },
+  "exclude": [
+    {
+      "box": [
+        40,
+        1075,
+        705,
+        1365
+      ],
+      "why": "title block and colour legend (drawn in the survey colours)"
+    },
+    {
+      "box": [
+        920,
+        120,
+        1450,
+        225
+      ],
+      "why": "scale bar"
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Vasija cenote? (sat)",
+      "px": [
+        525,
+        454
+      ],
+      "latitude": 20.59571,
+      "longitude": -87.13985,
+      "note": "Hypothesis: the only open water-filled cenote (~20 m) visible on the satellite near where the map falls; Vasija Entrance is where the underwater (green) line meets the dry (red) one, so a pool."
+    },
+    {
+      "name": "tour clearing (sat)",
+      "px": [
+        201,
+        470
+      ],
+      "latitude": 20.59608,
+      "longitude": -87.14885,
+      "check": true,
+      "note": "Alternative hypothesis: a developed clearing (palapas, vehicles) on the dirt road from the Rio Secreto reception, ~220 m from the Mundo Perdido Entrance label's cave."
+    },
+    {
+      "name": "Rio Secreto (OSM/Wikipedia)",
+      "px": [
+        780,
+        900
+      ],
+      "latitude": 20.588941,
+      "longitude": -87.135198,
+      "check": true,
+      "note": "Rio Secreto = Sistema Pool Tunich (QRSS); this is the park's reception by Hwy 307, not a point on the map: the px is only a guess (the system's centre near the highway)."
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Mundo Perdido Entrance",
+      "px": [
+        201,
+        470
+      ]
+    },
+    {
+      "name": "Vasija Entrance",
+      "px": [
+        525,
+        454
+      ]
+    },
+    {
+      "name": "Sac Xuux Entrance",
+      "px": [
+        1156,
+        1130
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Line plot: no depths, letter codes, bones, flow arrows or 'To ...' leads are drawn. Kept: the cave names (place-name, on the cave each names) and the 'unsurveyed dry passage' note on its circle.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Cueva Chicleros",
+        "px": [
+          128,
+          212
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Weeping Angels Cave",
+        "px": [
+          318,
+          190
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Unsurveyed dry passage",
+        "px": [
+          485,
+          379
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sistema Pool Tunich",
+        "px": [
+          640,
+          800
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sistema Río Escondido",
+        "px": [
+          1340,
+          1200
+        ]
+      }
+    ]
+  },
+  "placement": "WEAK, unverified. No database cave, GPS or drawn road/landmark: north (true, arrow N_T) and scale (1000 m bar, 2.123 m/px) come from the map; the position from one satellite hypothesis (Vasija Entrance = the only visible water cenote nearby). Sistema Pool Tunich is the Rio Secreto cave (QRSS), whose reception by Hwy 307 is ~200 m from the guessed system centre; the other hypothesis (Mundo Perdido Entrance = a tour clearing on the Rio Secreto dirt road) moves the map ~260 m west-north-west. Expect errors of a few hundred metres until an entrance GPS is known."
+}
