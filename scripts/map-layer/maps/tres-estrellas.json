@@ -16,7 +16,7 @@
     "weakThreshold": 60,
     "regionThreshold": 200,
     "inkContrast": 80,
-    "water": false,
+    "water": true,
     "minHoleSqMetres": 1,
     "minBandSqMetres": 2,
     "dropIsolated": {
