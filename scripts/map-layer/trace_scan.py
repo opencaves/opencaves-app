@@ -173,6 +173,11 @@ def colour_fill_band(image_path, masked, trace):
             fill = (cv2.GaussianBlur(fill, (0, 0), 3) >= colour.get('density', 0.35)) & ~masked
             # Only patches opening onto a blue passage, as a basin does.
             patches, _ = ndimage.label(fill)
+            if colour.get('alone'):
+                # "alone": true - the colour is passage wherever it is (a
+                # collapse zone drawn apart from the blue passages).
+                core |= fill
+                continue
             touching = numpy.unique(patches[fill & blue])
             core |= numpy.isin(patches, touching[touching > 0])
     weak_excess = cv2.GaussianBlur(blueness, (0, 0), 1) - paper
@@ -1056,11 +1061,27 @@ def main(config_path, output):
         # Only the excluded boxes: labels are dark text, never blue fill, and
         # their masks would cut notches into the passages they sit on.
         boxes = numpy.zeros_like(ink)
+        # "inside": true on an exclude box - a label or arrow drawn on the
+        # passage: its ink is left out, but the passage runs on under it.
         for item in config.get('exclude', []):
+            if item.get('inside'):
+                continue
             x0, y0, x1, y1 = item['box']
             boxes[max(0, y0):y1, max(0, x0):x1] = True
         boxes |= colour_masked
+        for item in config.get('exclude', []):
+            if item.get('inside'):
+                x0, y0, x1, y1 = item['box']
+                boxes[max(0, y0):y1, max(0, x0):x1] = False
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+        for item in config.get('exclude', []):
+            if item.get('inside'):
+                x0, y0, x1, y1 = item['box']
+                window = band[max(0, y0):y1, max(0, x0):x1]
+                # Filled where the passage around the box is.
+                ring = band[max(0, y0 - 6):y1 + 6, max(0, x0 - 6):x1 + 6]
+                if ring.mean() > 0.4 * 255:
+                    window[:] = 255
     else:
         candidate = ink & ~masked
         labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))

@@ -12,7 +12,7 @@
   "placementWhy": "Free similarity fit on water bodies visible on the satellite imagery (OSM polygons traced from it): the four cenote pools south of the caleta, Laguna Grande (OSM 'Dolphin Inlet') and Laguna Negra (OSM 'Black Lagoon'). The scale bar is not used: the fit gives 0.75 m/px where the bar's 450 m gives 0.556 m/px - the bar reads as 0-200-400-600 m (810 px = 607 m), and the caleta's outline confirms the larger scale. The north arrow (magnetic, 1997) is about 9 degrees off true north. The coast drawn north of the caleta is schematic (up to 100 m east of the real beach) and X-Cacelito is drawn about 470 m south of Cenote Xcacel: neither is used.",
   "trace": {
     "method": "colour-fill",
-    "why": "Passages filled in violet-blue, cenote and lagoon surface water in pale blue, both outlined in black; collapse zones (surface) in orange are not passage and are left out; the sea is masked by its colour.",
+    "why": "Passages filled in violet-blue, cenote and lagoon surface water in pale blue, both outlined in black; collapse zones in orange are traced with the passages (fillColours), their boulders as details; the sea is masked by its colour.",
     "water": false,
     "threshold": 40,
     "excludeColours": [
@@ -26,16 +26,6 @@
         "padPx": 15,
         "minSizePx": 1000,
         "keepHoles": true
-      },
-      {
-        "why": "collapse zones (zones effondrées, open to the surface) in orange, with their boulders",
-        "hue": [
-          10,
-          40
-        ],
-        "minSaturation": 100,
-        "padPx": 4,
-        "minSizePx": 60
       }
     ],
     "dropIsolated": {
@@ -43,10 +33,22 @@
       "gapMetres": 5
     },
     "paperWindowPx": 1500,
-    "details": false,
+    "details": true,
     "weakThreshold": 30,
     "regionThreshold": 30,
-    "thresholdWhy": "the labels are dark navy (blue minus red up to 37 around their strokes): thresholds above that; the palest fill (lagoons) is about 50"
+    "thresholdWhy": "the labels are dark navy (blue minus red up to 37 around their strokes): thresholds above that; the palest fill (lagoons) is about 50",
+    "fillColours": [
+      {
+        "why": "collapse zones (zones effondrees) in orange: part of the cave, outlined as walls",
+        "hue": [
+          10,
+          40
+        ],
+        "minSaturation": 100,
+        "density": 0.3,
+        "alone": true
+      }
+    ]
   },
   "exclude": [
     {
@@ -177,24 +179,6 @@
       ]
     },
     {
-      "why": "flow arrows in the collapse zone",
-      "box": [
-        540,
-        3240,
-        665,
-        3370
-      ]
-    },
-    {
-      "why": "flow arrows in the Dos Ojos collapse zone",
-      "box": [
-        235,
-        3820,
-        355,
-        3915
-      ]
-    },
-    {
       "why": "sea strip along the coast, north of the caleta",
       "box": [
         2300,
@@ -220,6 +204,95 @@
         3038,
         4122
       ]
+    },
+    {
+      "why": "label ZONE EFFONDREE",
+      "box": [
+        386,
+        3506,
+        693,
+        3640
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Tremie",
+      "box": [
+        933,
+        3206,
+        1066,
+        3246
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Tremie",
+      "box": [
+        1197,
+        3090,
+        1326,
+        3126
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Tremie",
+      "box": [
+        237,
+        4016,
+        380,
+        4056
+      ],
+      "inside": true
+    },
+    {
+      "why": "label DOS OJOS",
+      "box": [
+        56,
+        3846,
+        226,
+        3882
+      ]
+    },
+    {
+      "why": "flow arrow in the collapse zone",
+      "box": [
+        544,
+        3237,
+        613,
+        3306
+      ],
+      "inside": true
+    },
+    {
+      "why": "flow arrow in the collapse zone",
+      "box": [
+        633,
+        3282,
+        670,
+        3362
+      ],
+      "inside": true
+    },
+    {
+      "why": "flow arrow in the Dos Ojos collapse zone",
+      "box": [
+        253,
+        3816,
+        290,
+        3900
+      ],
+      "inside": true
+    },
+    {
+      "why": "flow arrow in the Dos Ojos collapse zone",
+      "box": [
+        330,
+        3853,
+        397,
+        3913
+      ],
+      "inside": true
     }
   ],
   "controlPoints": [
