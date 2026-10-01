@@ -478,7 +478,8 @@ def main(config_path, output):
         hsv = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('HSV')).astype(int)
         h0, h1 = colour['hue']
         patch = ((hsv[..., 0] >= h0) & (hsv[..., 0] <= h1) & (hsv[..., 1] >= colour.get('minSaturation', 120))).astype(numpy.uint8)
-        patch = cv2.morphologyEx(patch, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25)))
+        if not colour.get('keepHoles'):
+            patch = cv2.morphologyEx(patch, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25)))
         pad = colour.get('padPx', 30)
         min_size = colour.get('minSizePx', 40)
         # "minFill": the share of its box a patch must cover, with what it
@@ -494,8 +495,11 @@ def main(config_path, output):
                 y0, x0 = max(0, sl[0].start - pad - 20), max(0, sl[1].start - pad - 20)
                 window = (slice(y0, sl[0].stop + pad + 20), slice(x0, sl[1].stop + pad + 20))
                 body = (patches[window] == i + 1).astype(numpy.uint8)
-                body = cv2.morphologyEx(body, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41)))
-                body = ndimage.binary_fill_holes(body).astype(numpy.uint8)
+                # "keepHoles": what the colour surrounds stays (passages
+                # running out into a drawn sea).
+                if not colour.get('keepHoles'):
+                    body = cv2.morphologyEx(body, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41)))
+                    body = ndimage.binary_fill_holes(body).astype(numpy.uint8)
                 masked[window] |= cv2.dilate(body, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * pad + 1, 2 * pad + 1))) > 0
     colour_masked = masked.copy()
     words = ocr_words(grey, out / f'{name}-ocr-words.json')
@@ -785,6 +789,10 @@ def main(config_path, output):
             near = cv2.distanceTransform((~wall_ink).astype(numpy.uint8), cv2.DIST_L2, 5) * scale <= trace.get('detailReachMetres', 25)
             inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
         water = band > 0 if trace.get('method') == 'colour-fill' else None
+        # "detailInk": false - a drawing with no symbols between its walls
+        # (a vector map's flat fill): only the water is kept.
+        if not trace.get('detailInk', True):
+            dark = numpy.zeros_like(dark)
         features += detail_features(dark & inside & ~masked, water, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')
 

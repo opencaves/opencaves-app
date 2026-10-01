@@ -165,63 +165,6 @@
    "id": "-KPZkVI9l6v5rCfsRB4t"
   },
   {
-   "name": "Lost Cenote",
-   "latitude": 20.193642,
-   "longitude": -87.496066,
-   "accuracy": 10,
-   "placement": "opening",
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
-   ],
-   "action": "position",
-   "caveId": "-KPZkVLrs80cfalEzD9z",
-   "replaces": [
-    20.19144,
-    -87.49353
-   ],
-   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
-   "id": "-KPZkVLrs80cfalEzD9z"
-  },
-  {
-   "name": "Maya Two",
-   "latitude": 20.19334,
-   "longitude": -87.497062,
-   "accuracy": 10,
-   "placement": "opening",
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
-   ],
-   "action": "position",
-   "caveId": "-KPZkVMNaXw0oRR305Yi",
-   "replaces": [
-    20.19132,
-    -87.49415
-   ],
-   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
-   "id": "-KPZkVMNaXw0oRR305Yi"
-  },
-  {
-   "name": "Cenote of the Sun",
-   "latitude": 20.191557,
-   "longitude": -87.494895,
-   "accuracy": 10,
-   "placement": "opening",
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
-   ],
-   "action": "position",
-   "caveId": "-KPZkVG0pYan2AfIT795",
-   "replaces": [
-    20.18994,
-    -87.49346
-   ],
-   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
-   "id": "-KPZkVG0pYan2AfIT795"
-  },
-  {
    "name": "Entrada Zapodilla",
    "latitude": 20.337431,
    "longitude": -87.385063,
@@ -238,6 +181,516 @@
    "action": "fill",
    "caveId": "-KPZkVUdsf7b8XDBQo4d",
    "id": "-KPZkVUdsf7b8XDBQo4d"
+  },
+  {
+   "name": "Crack",
+   "latitude": 20.166136,
+   "longitude": -87.497976,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVHPws6D5XInnV9Z",
+   "id": "-KPZkVHPws6D5XInnV9Z"
+  },
+  {
+   "name": "Matchbox",
+   "latitude": 20.164656,
+   "longitude": -87.492281,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMHHPRTNgtQ0j8N",
+   "id": "-KPZkVMHHPRTNgtQ0j8N"
+  },
+  {
+   "name": "Amber Sun",
+   "latitude": 20.163545,
+   "longitude": -87.482645,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVDu1quRSyjniefg",
+   "id": "-KPZkVDu1quRSyjniefg"
+  },
+  {
+   "name": "Luz",
+   "latitude": 20.162906,
+   "longitude": -87.476858,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVM-v9OPgGiq5n4i",
+   "id": "-KPZkVM-v9OPgGiq5n4i"
+  },
+  {
+   "name": "Yax Kai",
+   "latitude": 20.162985,
+   "longitude": -87.492846,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVSUMIWfcW5uXpfb",
+   "id": "-KPZkVSUMIWfcW5uXpfb"
+  },
+  {
+   "name": "Air",
+   "latitude": 20.16109,
+   "longitude": -87.46456,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVDYv2vnEsYYsj1w",
+   "id": "-KPZkVDYv2vnEsYYsj1w"
+  },
+  {
+   "name": "La Familia",
+   "latitude": 20.160319,
+   "longitude": -87.467506,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLJQAZV870ZrA75",
+   "id": "-KPZkVLJQAZV870ZrA75"
+  },
+  {
+   "name": "La Mesa",
+   "latitude": 20.15875,
+   "longitude": -87.467683,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLLHW0GT-tB3i3L",
+   "id": "-KPZkVLLHW0GT-tB3i3L"
+  },
+  {
+   "name": "Bath Hole",
+   "latitude": 20.158808,
+   "longitude": -87.476228,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEcGZxx80-aTGeb",
+   "id": "-KPZkVEcGZxx80-aTGeb"
+  },
+  {
+   "name": "Xeh",
+   "latitude": 20.159086,
+   "longitude": -87.485862,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVSC2KJsnzXP4t_8",
+   "id": "-KPZkVSC2KJsnzXP4t_8"
+  },
+  {
+   "name": "Victoria",
+   "latitude": 20.157363,
+   "longitude": -87.460851,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRmMtLfijr5WmES",
+   "id": "-KPZkVRmMtLfijr5WmES"
+  },
+  {
+   "name": "Teapot",
+   "latitude": 20.157998,
+   "longitude": -87.479966,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQjvXWUBDvCfGCC",
+   "id": "-KPZkVQjvXWUBDvCfGCC"
+  },
+  {
+   "name": "Kubil",
+   "latitude": 20.158798,
+   "longitude": -87.495863,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVL7X4tV7kqLLoRl",
+   "id": "-KPZkVL7X4tV7kqLLoRl"
+  },
+  {
+   "name": "Bronx",
+   "latitude": 20.157294,
+   "longitude": -87.484594,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFNB8S1BqObCNsM",
+   "id": "-KPZkVFNB8S1BqObCNsM"
+  },
+  {
+   "name": "Xaan Kuna",
+   "latitude": 20.157748,
+   "longitude": -87.496157,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVS3RpMvB26KLjOU",
+   "id": "-KPZkVS3RpMvB26KLjOU"
+  },
+  {
+   "name": "Kupic",
+   "latitude": 20.156995,
+   "longitude": -87.497883,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLB8Xm7gWBtyOVV",
+   "id": "-KPZkVLB8Xm7gWBtyOVV"
+  },
+  {
+   "name": "Xux",
+   "latitude": 20.155207,
+   "longitude": -87.477376,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVSNwlj9lJBwtt7i",
+   "id": "-KPZkVSNwlj9lJBwtt7i"
+  },
+  {
+   "name": "Zapata",
+   "latitude": 20.153949,
+   "longitude": -87.457816,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVShjH4nflQYwo6A",
+   "id": "-KPZkVShjH4nflQYwo6A"
+  },
+  {
+   "name": "Twin",
+   "latitude": 20.153817,
+   "longitude": -87.461072,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRRvuwm0lnT8Q_D",
+   "id": "-KPZkVRRvuwm0lnT8Q_D"
+  },
+  {
+   "name": "Xiix",
+   "latitude": 20.154118,
+   "longitude": -87.474708,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVSG0vPec4Nnha7l",
+   "id": "-KPZkVSG0vPec4Nnha7l"
+  },
+  {
+   "name": "Tarpon",
+   "latitude": 20.153095,
+   "longitude": -87.4572,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQfoQdlmcznaiyz",
+   "id": "-KPZkVQfoQdlmcznaiyz"
+  },
+  {
+   "name": "Hideaway",
+   "latitude": 20.153249,
+   "longitude": -87.460275,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+   "sistemaName": "Ox Bel Ha",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2sADZQtLey7U5jpH0W"
+  },
+  {
+   "name": "Sac U",
+   "latitude": 20.155451,
+   "longitude": -87.500187,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPM3d_IxNiHNZcy",
+   "id": "-KPZkVPM3d_IxNiHNZcy"
+  },
+  {
+   "name": "Blackfoot",
+   "latitude": 20.152685,
+   "longitude": -87.459036,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEqVOVZP9xumhMe",
+   "id": "-KPZkVEqVOVZP9xumhMe"
+  },
+  {
+   "name": "Chac Che",
+   "latitude": 20.15371,
+   "longitude": -87.479121,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVG502HXmcPKNRUV",
+   "id": "-KPZkVG502HXmcPKNRUV"
+  },
+  {
+   "name": "Sac Ek",
+   "latitude": 20.154927,
+   "longitude": -87.501729,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPHO3ktV1mt1uUQ",
+   "id": "-KPZkVPHO3ktV1mt1uUQ"
+  },
+  {
+   "name": "Bo'ox",
+   "latitude": 20.152059,
+   "longitude": -87.456811,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEsDqX5STfDBhTE",
+   "id": "-KPZkVEsDqX5STfDBhTE"
+  },
+  {
+   "name": "Wakax",
+   "latitude": 20.153526,
+   "longitude": -87.482976,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRqh8I51amXSiFj",
+   "id": "-KPZkVRqh8I51amXSiFj"
+  },
+  {
+   "name": "Bend",
+   "latitude": 20.153347,
+   "longitude": -87.482018,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEiou1aFokoqcnD",
+   "id": "-KPZkVEiou1aFokoqcnD"
+  },
+  {
+   "name": "Dim",
+   "latitude": 20.152541,
+   "longitude": -87.479129,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVHqUTW3htnFWc3c",
+   "id": "-KPZkVHqUTW3htnFWc3c"
+  },
+  {
+   "name": "Perla",
+   "latitude": 20.151852,
+   "longitude": -87.470508,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOLMXrPLEF_AMUm",
+   "id": "-KPZkVOLMXrPLEF_AMUm"
+  },
+  {
+   "name": "Este",
+   "latitude": 20.151263,
+   "longitude": -87.469485,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJQ1BzDucY4RGYk",
+   "id": "-KPZkVJQ1BzDucY4RGYk"
+  },
+  {
+   "name": "Stilt",
+   "latitude": 20.152211,
+   "longitude": -87.485913,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQ9DhTnGsYc9Z_o",
+   "id": "-KPZkVQ9DhTnGsYc9Z_o"
+  },
+  {
+   "name": "Tall Trees",
+   "latitude": 20.151473,
+   "longitude": -87.488482,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQS1SuTErOLABMc",
+   "id": "-KPZkVQS1SuTErOLABMc"
+  },
+  {
+   "name": "Espejo",
+   "latitude": 20.151292,
+   "longitude": -87.489117,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJJYMOVGp4TUg6O",
+   "id": "-KPZkVJJYMOVGp4TUg6O"
+  },
+  {
+   "name": "Lost Twin",
+   "latitude": 20.142897,
+   "longitude": -87.463771,
+   "accuracy": 17,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+   "sistemaName": "Ox Bel Ha",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2sADZQBWeVLH2g9hVs"
   },
   {
    "name": "The Link",
