@@ -1,0 +1,356 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Nohoch Kiin, Cen., Mpo. Playa del Carmen.pdf",
+  "image": "../../../_data/maps-import/images/nohoch-kiin-cen-mpo-playa-del-carmen.webp",
+  "title": "Cenote Nohoch Kiin - Matthes 1997/2001",
+  "credits": "Cenote Nohoch Kiin, Q.Roo, Mexico; surveyed and explored May - November 1997 by Dan Lins, Mike Madden, Andreas W. Matthes; cartography Andreas W. Matthes, copyright 1997/2001 (AMCS Activities Newsletter no. 24, p. 93, 2001)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxKrf07P7QTBxP5",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title, surveyors and cartography",
+      "box": [
+        0,
+        0,
+        1670,
+        330
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        220,
+        370,
+        360,
+        880
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1300,
+        660,
+        1580,
+        775
+      ]
+    },
+    {
+      "why": "map index (legend)",
+      "box": [
+        1270,
+        1600,
+        1620,
+        2090
+      ]
+    },
+    {
+      "why": "notes (entirely submerged, halocline at 35 ft / 12 m, Freistein compass and knotted line)",
+      "box": [
+        0,
+        2170,
+        1670,
+        2486
+      ],
+      "history": true
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "North west entrance - via ICP onto the QRSS 2012 overview",
+      "px": [
+        943,
+        535
+      ],
+      "latitude": 20.265848,
+      "longitude": -87.411274
+    },
+    {
+      "name": "No eye stage cenote - via ICP onto the QRSS 2012 overview",
+      "px": [
+        1050,
+        1225
+      ],
+      "latitude": 20.259603,
+      "longitude": -87.411118
+    },
+    {
+      "name": "Breath hold cenote - via ICP onto the QRSS 2012 overview",
+      "px": [
+        318,
+        1278
+      ],
+      "latitude": 20.259982,
+      "longitude": -87.418064
+    },
+    {
+      "name": "Chupa Cabra's retreat cenote - via ICP onto the QRSS 2012 overview",
+      "px": [
+        795,
+        1560
+      ],
+      "latitude": 20.256927,
+      "longitude": -87.413927
+    },
+    {
+      "name": "south end (the two loops) - via ICP onto the QRSS 2012 overview",
+      "px": [
+        840,
+        2100
+      ],
+      "latitude": 20.252084,
+      "longitude": -87.414168
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 30,
+    "eraseLines": [
+      {
+        "why": "North west entrance leader (bold part by the daylight symbol)",
+        "from": [
+          972,
+          533
+        ],
+        "to": [
+          1035,
+          518
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "13 Conc lake room leader (bold part by the passage)",
+        "from": [
+          780,
+          837
+        ],
+        "to": [
+          935,
+          853
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Chupa Cabra's retreat leader (bold part by the daylight symbol)",
+        "from": [
+          820,
+          1555
+        ],
+        "to": [
+          925,
+          1560
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "flow arrow (north of the r by 56')",
+        "from": [
+          940,
+          1000
+        ],
+        "to": [
+          920,
+          1068
+        ],
+        "widthPx": 24
+      },
+      {
+        "why": "flow arrow (west of the x by 46')",
+        "from": [
+          652,
+          1790
+        ],
+        "to": [
+          641,
+          1869
+        ],
+        "widthPx": 24
+      }
+    ]
+  },
+  "entrances": [
+    {
+      "name": "North west entrance",
+      "caveId": "-KPZkVNk1iFm7oxpmADE",
+      "px": [
+        943,
+        535
+      ],
+      "why": "end-of-daylight-zone symbol at the end of the passage, where the label's leader points"
+    },
+    {
+      "name": "Quatro hermanos entrances",
+      "caveId": "-KPZkVOe6YBkP_jRUuBN",
+      "px": [
+        695,
+        993
+      ],
+      "why": "the leader's end on the passage (no daylight symbol drawn); the label names several entrances but points at one spot"
+    },
+    {
+      "name": "Myrna's gift cenote",
+      "caveId": "-KPZkVNE9LKZhhJu71oo",
+      "px": [
+        672,
+        1245
+      ],
+      "why": "the pointed passage end (V) the leader points at, 30 px east of the leader's end"
+    },
+    {
+      "name": "No eye stage cenote",
+      "caveId": "-KPZkVNZc_-K1ppWepoc",
+      "px": [
+        1050,
+        1225
+      ],
+      "why": "end-of-daylight-zone symbol at the passage end"
+    },
+    {
+      "name": "Breath hold cenote",
+      "caveId": "-KPZkVFKpmEZIteeaCBQ",
+      "px": [
+        318,
+        1278
+      ],
+      "why": "the passage's upturned end beside the label's leader"
+    },
+    {
+      "name": "Chupa Cabra's retreat cenote",
+      "caveId": "-KPZkVGw0MYZYro79FLR",
+      "px": [
+        795,
+        1560
+      ],
+      "why": "end-of-daylight-zone symbol, where the leader points"
+    },
+    {
+      "name": "Mak-Mak Cenote",
+      "caveId": "-KPZkVM279R3uUQrMKpG",
+      "px": [
+        432,
+        1632
+      ],
+      "why": "end-of-daylight-zone symbol the dashed leader points at; the bold wedge-shaped passage end 70 px west of it, by the label, may be the open water itself"
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt"
+    },
+    "templates": {
+      "x": [
+        1006,
+        578
+      ],
+      "s": [
+        932,
+        776
+      ],
+      "r": [
+        1035,
+        752
+      ]
+    },
+    "letterSizePx": [
+      8,
+      22
+    ],
+    "why": "Legend (map index): r restriction, X major restriction, s silt, wavy arrow flow direction, underlined number water depth in feet, end-of-daylight-zone symbol (at the cenote entrances), slope. Four underlined depths (59', 56', 45', 46'), found by searching the underline bars too (OCR misread all four: added by hand; the '13' of '13 Conc lake room' dropped). Two flow arrows, both pointing about south. No bones (no legend icon, no bone drawn or written). The end-of-daylight-zone symbols are the entrances.",
+    "extra": [
+      {
+        "type": "flow",
+        "label": "flow direction",
+        "px": [
+          932,
+          1035
+        ],
+        "bearing": 198
+      },
+      {
+        "type": "flow",
+        "label": "flow direction",
+        "px": [
+          645,
+          1835
+        ],
+        "bearing": 189
+      },
+      {
+        "type": "place-name",
+        "label": "13 Conc lake room",
+        "px": [
+          937,
+          853
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "59'",
+        "px": [
+          818,
+          428
+        ],
+        "value": 59
+      },
+      {
+        "type": "depth",
+        "label": "56'",
+        "px": [
+          985,
+          925
+        ],
+        "value": 56
+      },
+      {
+        "type": "depth",
+        "label": "45'",
+        "px": [
+          578,
+          1567
+        ],
+        "value": 45
+      },
+      {
+        "type": "depth",
+        "label": "46'",
+        "px": [
+          845,
+          1982
+        ],
+        "value": 46
+      }
+    ],
+    "fix": [
+      {
+        "px": [
+          454,
+          818
+        ],
+        "value": null,
+        "why": "'13' of the label '13 Conc lake room' (its leader runs under it like an underline), not a depth"
+      }
+    ]
+  },
+  "scaleBar": {
+    "from": [
+      1331,
+      722
+    ],
+    "to": [
+      1533,
+      722
+    ],
+    "metres": 200,
+    "why": "not used directly (no \"north\"): the placement keeps its scale (0.990 m/px; the 700 ft bar gives 0.988)"
+  },
+  "unverified": "No cenote of Nohoch Kiin has a position taken on site: the database's Nohoch Kiin point (shared with Chica Kiin) is Gerrard 2015, and Northwest, Quatro Entrances, Myrna's Gift, No Eye Stage, Breathold, Chupa Cabra's Retreat and Mak Mak have no position; no cenote pond shows on the imagery (closed canopy). The map is placed only by matching its passages to the QRSS 2012 overview (sac-actun-mpo-tulum), itself a coarse 9.5 m/px plot.",
+  "placementWhy": "Guess (unverified): the control points are spots of this map put through an ICP match of its traced walls onto the survey lines of the QRSS 2012 Sac Actun overview (sac-actun-mpo-tulum, placed on trusted cenotes elsewhere), scale held at the map's scale bar (0.990 m/px), searched over rotations -30..30 deg, scales 0.9-1.6 and shifts +-400 m: best at scale 1.0, map turned 7.6 deg clockwise of its north arrow. The shapes match unambiguously (the western ring passage with 45', the NW-entrance cluster, the two loops at the south end), but the 1997 drawing is distorted against the 2012 survey: with the arrow's north kept (-1.5 deg) the south half matches to 9-10 m median (walls against centrelines) and the north half to 22-28 m; at -7.6 deg the four bands are 11/20/11/13 m - kept. The scale bar and the overview agree (an extra scale didn't help). The whole cave lands about 450 m NE of where the database's Nohoch Kiin point would put a naive placement; that database point (Gerrard 2015) falls on the ring's north passage, between Breath hold and Myrna's gift, close to the overview's own Nohoch Kin dot (78 m off it). Imagery (Mapbox/Esri Maxar): continuous canopy, the power-line track south of the cave, highway 307 to the east; no pond to check against."
+}
