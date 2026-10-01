@@ -788,7 +788,8 @@ def main(config_path, output):
             # doesn't fill wide passages, so "inside" can't be trusted.
             near = cv2.distanceTransform((~wall_ink).astype(numpy.uint8), cv2.DIST_L2, 5) * scale <= trace.get('detailReachMetres', 25)
             inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
-        water = band > 0 if trace.get('method') == 'colour-fill' else None
+        # "water": false - the passages aren't filled, only their walls drawn.
+        water = band > 0 if trace.get('method') == 'colour-fill' and trace.get('water', True) else None
         # "detailInk": false - a drawing with no symbols between its walls
         # (a vector map's flat fill): only the water is kept.
         if not trace.get('detailInk', True):

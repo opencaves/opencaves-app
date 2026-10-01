@@ -6,6 +6,7 @@
    "latitude": 20.35944,
    "longitude": -87.413409,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -25,6 +26,7 @@
    "latitude": 20.37391,
    "longitude": -87.424261,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -39,6 +41,7 @@
    "latitude": 20.3701,
    "longitude": -87.427431,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -53,6 +56,7 @@
    "latitude": 20.368887,
    "longitude": -87.42059,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -67,6 +71,7 @@
    "latitude": 20.368025,
    "longitude": -87.425588,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -81,6 +86,7 @@
    "latitude": 20.366411,
    "longitude": -87.425125,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -95,6 +101,7 @@
    "latitude": 20.364293,
    "longitude": -87.425402,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -113,6 +120,7 @@
    "latitude": 20.363165,
    "longitude": -87.422995,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -127,6 +135,7 @@
    "latitude": 20.362696,
    "longitude": -87.424973,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -141,6 +150,7 @@
    "latitude": 20.362834,
    "longitude": -87.422819,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -155,6 +165,7 @@
    "latitude": 20.356965,
    "longitude": -87.411231,
    "accuracy": 40,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -169,6 +180,7 @@
    "latitude": 20.337431,
    "longitude": -87.385063,
    "accuracy": 15,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -187,6 +199,7 @@
    "latitude": 20.166136,
    "longitude": -87.497976,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -201,6 +214,7 @@
    "latitude": 20.164656,
    "longitude": -87.492281,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -215,6 +229,7 @@
    "latitude": 20.163545,
    "longitude": -87.482645,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -229,6 +244,7 @@
    "latitude": 20.162906,
    "longitude": -87.476858,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -243,6 +259,7 @@
    "latitude": 20.162985,
    "longitude": -87.492846,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -257,6 +274,7 @@
    "latitude": 20.16109,
    "longitude": -87.46456,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -271,6 +289,7 @@
    "latitude": 20.160319,
    "longitude": -87.467506,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -285,6 +304,7 @@
    "latitude": 20.15875,
    "longitude": -87.467683,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -299,6 +319,7 @@
    "latitude": 20.158808,
    "longitude": -87.476228,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -313,6 +334,7 @@
    "latitude": 20.159086,
    "longitude": -87.485862,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -327,6 +349,7 @@
    "latitude": 20.157363,
    "longitude": -87.460851,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -341,6 +364,7 @@
    "latitude": 20.157998,
    "longitude": -87.479966,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -355,6 +379,7 @@
    "latitude": 20.158798,
    "longitude": -87.495863,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -369,6 +394,7 @@
    "latitude": 20.157294,
    "longitude": -87.484594,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -383,6 +409,7 @@
    "latitude": 20.157748,
    "longitude": -87.496157,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -397,6 +424,7 @@
    "latitude": 20.156995,
    "longitude": -87.497883,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -411,6 +439,7 @@
    "latitude": 20.155207,
    "longitude": -87.477376,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -425,6 +454,7 @@
    "latitude": 20.153949,
    "longitude": -87.457816,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -439,6 +469,7 @@
    "latitude": 20.153817,
    "longitude": -87.461072,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -453,6 +484,7 @@
    "latitude": 20.154118,
    "longitude": -87.474708,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -467,6 +499,7 @@
    "latitude": 20.153095,
    "longitude": -87.4572,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -481,6 +514,7 @@
    "latitude": 20.153249,
    "longitude": -87.460275,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -498,6 +532,7 @@
    "latitude": 20.155451,
    "longitude": -87.500187,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -512,6 +547,7 @@
    "latitude": 20.152685,
    "longitude": -87.459036,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -526,6 +562,7 @@
    "latitude": 20.15371,
    "longitude": -87.479121,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -540,6 +577,7 @@
    "latitude": 20.154927,
    "longitude": -87.501729,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -554,6 +592,7 @@
    "latitude": 20.152059,
    "longitude": -87.456811,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -568,6 +607,7 @@
    "latitude": 20.153526,
    "longitude": -87.482976,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -582,6 +622,7 @@
    "latitude": 20.153347,
    "longitude": -87.482018,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -596,6 +637,7 @@
    "latitude": 20.152541,
    "longitude": -87.479129,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -610,6 +652,7 @@
    "latitude": 20.151852,
    "longitude": -87.470508,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -624,6 +667,7 @@
    "latitude": 20.151263,
    "longitude": -87.469485,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -638,6 +682,7 @@
    "latitude": 20.152211,
    "longitude": -87.485913,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -652,6 +697,7 @@
    "latitude": 20.151473,
    "longitude": -87.488482,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -666,6 +712,7 @@
    "latitude": 20.151292,
    "longitude": -87.489117,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -680,6 +727,7 @@
    "latitude": 20.142897,
    "longitude": -87.463771,
    "accuracy": 17,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -697,6 +745,7 @@
    "latitude": 20.318974,
    "longitude": -87.41027,
    "accuracy": 15,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-P2qrQPktuQPf2Sir0nb",
    "maps": [
@@ -711,6 +760,7 @@
    "latitude": 20.249946,
    "longitude": -87.473401,
    "accuracy": 14,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -725,6 +775,7 @@
    "latitude": 20.249152,
    "longitude": -87.470461,
    "accuracy": 14,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -739,6 +790,7 @@
    "latitude": 20.245323,
    "longitude": -87.460968,
    "accuracy": 14,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -753,6 +805,7 @@
    "latitude": 20.313337,
    "longitude": -87.426377,
    "accuracy": 78,
+   "validity": "unknown",
    "placement": "label",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -771,6 +824,7 @@
    "latitude": 20.175099,
    "longitude": -87.555692,
    "accuracy": 10,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -785,6 +839,7 @@
    "latitude": 20.174439,
    "longitude": -87.559445,
    "accuracy": 10,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -804,6 +859,7 @@
    "latitude": 20.290832,
    "longitude": -87.387572,
    "accuracy": 10,
+   "validity": "unknown",
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [

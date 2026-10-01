@@ -263,7 +263,9 @@ def main(review_path, config_paths, production):
             without_position = matches if doubtful else [m for m in matches if not cave_position(m)]
             row = {'Map': c['map'], 'Name on the map': c['name'], 'Latitude': round(c['latitude'], 6), 'Longitude': round(c['longitude'], 6),
                    'Accuracy (m)': c['accuracy'], 'Placed at': c['placement']}
-            base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'],
+            # A position read off a map is always to be verified on site
+            # (the app's "unknown" coordinate validity).
+            base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'], 'validity': 'unknown',
                     'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps']}
             if with_position and with_position[0][0] <= FAR_METRES:
                 d, match = with_position[0]
@@ -334,7 +336,7 @@ def main(review_path, config_paths, production):
             width = max([len(str(col))] + [len(str(', '.join(r[col]) if isinstance(r.get(col), list) else r.get(col, ''))) for r in rows])
             ws.column_dimensions[ws.cell(1, i).column_letter].width = min(60, width + 2)
     sheet('Kept aside', ['action', 'id', 'caveId', 'name', 'languageCode', 'sistemaName', 'sistemaId', 'area', 'latitude', 'longitude',
-                         'accuracy', 'placement', 'sourceId', 'maps'], kept, first=True)
+                         'accuracy', 'validity', 'placement', 'sourceId', 'maps'], kept, first=True)
     sheet('Review', ['Status', 'Map', 'Name on the map', 'Latitude', 'Longitude', 'Accuracy (m)', 'Placed at', 'Database id', 'Database name',
                      'Distance (m)', 'Note'], review)
     Path(review_path).parent.mkdir(parents=True, exist_ok=True)

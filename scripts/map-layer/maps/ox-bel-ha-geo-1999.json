@@ -557,7 +557,8 @@
         "keepHoles": true
       }
     ],
-    "detailInk": false
+    "detailInk": false,
+    "water": false
   },
   "symbols": {
     "units": "ft",
