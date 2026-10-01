@@ -553,8 +553,18 @@ def thin_walls(config_path, config, out, name):
                    or (re.fullmatch(r'[Cc]?ent[.,]?', wd['t']) and wd['box'][3] - wd['box'][1] <= 35)]
     # Labels OCR misses or reads too poorly to trust ("labelBoxes": [[x0, y0, x1, y1], ...]).
     label_words += [{'t': '', 'box': b, 'conf': 100} for b in trace.get('labelBoxes', [])]
+    # A label's ink only - the pieces lying inside its box (its letters), not
+    # a wall that runs through it.
+    pieces, _ = ndimage.label(ink & ~masked, structure=numpy.ones((3, 3)))
+    spans = ndimage.find_objects(pieces)
     for wd in label_words:
-        x0, y0, x1, y1 = wd['box']; masked[max(0, y0 - 4):y1 + 4, max(0, x0 - 4):x1 + 4] = True
+        x0, y0, x1, y1 = wd['box']
+        x0, y0, x1, y1 = max(0, x0 - 4), max(0, y0 - 4), x1 + 4, y1 + 4
+        window = pieces[y0:y1, x0:x1]
+        for i in numpy.unique(window[window > 0]):
+            sl = spans[i - 1]
+            if sl[0].start >= y0 and sl[0].stop <= y1 and sl[1].start >= x0 and sl[1].stop <= x1:
+                masked[sl] |= pieces[sl] == i
     symbol_ink = numpy.zeros_like(ink)
     sp = out / f'{name}-symbols-px.json'
     if sp.exists():
