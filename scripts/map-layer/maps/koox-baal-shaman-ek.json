@@ -1,0 +1,256 @@
+{
+  "image": "../../../_data/maps-import/images/koox-baal-sist-part-chemuil.webp",
+  "title": "Shaman Ek (K'oox Baal SW) - Czech Speleological Society 2012",
+  "credits": "Surveyed and drawn: R. Husák, D. Hutňan, R. Jančar, K. Kýška, M. Manhart, Z. Motyčka, S. Štěpánová, K. Svobodová, R. Teichmann. Digitalization: A. Hutňanová, 2012",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfwMz8Euzm1BP2BZ",
+  "utmEpsg": 32616,
+  "placementNote": "The same drawing as the SW part of the K'oox Baal map (koox-baal.json), at 1.5 times its resolution: SIFT matching of the two scans (758 inlier features, 1.8 px median residual on the K'oox Baal scan) gives scale 0.6591, rotation 0.15 deg; the control points are spots of this map put through that match and the K'oox Baal placement (scale bar, north up, 9 cenote labels). This map's own scale bar (200 m = 519 px, 0.385 m/px) is 1.2% shorter than the fit (0.390 m/px); the match to the whole map was kept.",
+  "trace": {
+    "method": "colour-fill",
+    "threshold": 8,
+    "minBandSqMetres": 8,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 30,
+        "minSizePx": 150,
+        "minFill": 0.5
+      }
+    ],
+    "cyanFill": true,
+    "fillColours": [
+      {
+        "why": "cenote basins drawn in olive",
+        "hue": [
+          30,
+          65
+        ],
+        "minSaturation": 30
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 100,
+      "gapMetres": 20
+    },
+    "minHoleSqMetres": 8,
+    "water": false
+  },
+  "water": false,
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        1479,
+        31,
+        3544,
+        231
+      ]
+    },
+    {
+      "why": "surveyors and digitalization",
+      "box": [
+        401,
+        222,
+        4592,
+        462
+      ],
+      "history": true
+    },
+    {
+      "why": "section AA",
+      "box": [
+        857,
+        610,
+        1356,
+        848
+      ]
+    },
+    {
+      "why": "section V",
+      "box": [
+        1880,
+        626,
+        2404,
+        900
+      ]
+    },
+    {
+      "why": "section W",
+      "box": [
+        4475,
+        1257,
+        4916,
+        1485
+      ]
+    },
+    {
+      "why": "section AB",
+      "box": [
+        55,
+        1751,
+        579,
+        1997
+      ]
+    },
+    {
+      "why": "section AD",
+      "box": [
+        3353,
+        2059,
+        4352,
+        2533
+      ]
+    },
+    {
+      "why": "section AC",
+      "box": [
+        499,
+        2687,
+        1023,
+        2965
+      ]
+    },
+    {
+      "why": "section X",
+      "box": [
+        2502,
+        2872,
+        2934,
+        3137
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3267,
+        3144,
+        3945,
+        3421
+      ]
+    },
+    {
+      "why": "compass",
+      "box": [
+        4191,
+        2774,
+        4823,
+        3473
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "W passage end (K'oox Baal map fit)",
+      "px": [
+        68,
+        1217
+      ],
+      "latitude": 20.361545,
+      "longitude": -87.439192
+    },
+    {
+      "name": "NW passage (K'oox Baal map fit)",
+      "px": [
+        586,
+        807
+      ],
+      "latitude": 20.36299,
+      "longitude": -87.437256
+    },
+    {
+      "name": "N passage (K'oox Baal map fit)",
+      "px": [
+        1510,
+        770
+      ],
+      "latitude": 20.36312,
+      "longitude": -87.433803
+    },
+    {
+      "name": "NE passage end (K'oox Baal map fit)",
+      "px": [
+        4299,
+        1248
+      ],
+      "latitude": 20.361435,
+      "longitude": -87.423382
+    },
+    {
+      "name": "S passage end (K'oox Baal map fit)",
+      "px": [
+        1140,
+        3421
+      ],
+      "latitude": 20.353778,
+      "longitude": -87.435186
+    },
+    {
+      "name": "SE passage (K'oox Baal map fit)",
+      "px": [
+        2897,
+        2388
+      ],
+      "latitude": 20.357418,
+      "longitude": -87.428621
+    },
+    {
+      "name": "Shaman Ek basin (K'oox Baal map fit)",
+      "px": [
+        3343,
+        1601
+      ],
+      "latitude": 20.360191,
+      "longitude": -87.426954
+    },
+    {
+      "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+      "name": "Shaman Ek (database, source map)",
+      "px": [
+        3343,
+        1601
+      ],
+      "latitude": 20.36018,
+      "longitude": -87.427,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+      "name": "Shaman Ek",
+      "px": [
+        3343,
+        1601
+      ]
+    },
+    {
+      "caveId": "-KPZkVGIbn9Z4SzAOQCP",
+      "name": "Chalat",
+      "px": [
+        3873,
+        952
+      ]
+    },
+    {
+      "name": "Unnamed cenote (NE of Shaman Ek)",
+      "px": [
+        3672,
+        1442
+      ],
+      "note": "small olive basin at the end of the passage NE of Shaman Ek, unnamed on this map and on the K'oox Baal map"
+    }
+  ],
+  "symbols": {
+    "why": "No depth, restriction, bones or flow symbol on this map (no text in the passages); the red marks are line arrows, the letters are cross-section marks.",
+    "units": "ft"
+  }
+}
