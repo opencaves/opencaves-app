@@ -237,6 +237,11 @@ def main(review_path, config_paths, production):
         titles.append(config.get('title', config_path.stem))
         sistema_id = config.get('sistemaId', '')
         source_id = (config.get('source') or {}).get('id', '')
+        # An unverified map ("unverified": why - its placement rests on no
+        # reliable position): its names and entrances count, its positions
+        # don't - no position proposed, and new cenotes without one.
+        unverified = config.get('unverified')
+        before = len(entries)
         for c in found:
             spot = (c['latitude'], c['longitude'])
             # Already found on another map of this run: one cenote.
@@ -321,6 +326,16 @@ def main(review_path, config_paths, production):
                 row['Note'] = '; '.join(notes)
             review.append(row)
 
+        if unverified:
+            kept = []
+            for entry in entries[before:]:
+                if entry['action'] == 'position':
+                    continue
+                if entry['action'] in ('create', 'fill'):
+                    entry = {k: v for k, v in entry.items() if k not in ('latitude', 'longitude', 'accuracy', 'validity', 'placement')}
+                    entry['why'] = f"position not given: the map is unverified ({unverified})"
+                kept.append(entry)
+            entries[before:] = kept
     # Accumulate: keep the entries from maps not in this run; keep known ids.
     def entry_key(e):
         return (e['action'], e.get('caveId') or key(e['name']))

@@ -66,6 +66,10 @@ Two things are **deliberately** computed client-side at read time, not stored in
 
 `scripts/migrate-sheet-to-firestore.js` is re-runnable and **fully replaces** each collection on every run (writes current Sheet data, deletes anything else already in that collection). The exception is fields the app owns - a sistema's `maps` (no Sheet column) and `explorations` (the app is now their source of truth; the Sheet's value only fills a sistema that has none): they're listed in its `APP_ONLY_FIELDS` and carried over, so add any new app-owned field there. — safe to re-run repeatedly, and intentionally lets a fresh Sheet import overwrite admin-made edits during this transitional period where both the Sheet and the admin UI can edit data.
 
+## Map layer
+
+Branch `feature/map-layers`: `scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, map entrances are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
+
 ## Auth & roles
 
 Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...` in `firestore.rules`). `ManageAuth.jsx` currently auto-grants `editor` to **any** signed-in non-anonymous user via the `ensureEditorRole` callable — this is intentionally permissive today, not a bug, but worth flagging if asked to tighten access control.
