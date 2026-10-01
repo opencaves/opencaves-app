@@ -913,6 +913,12 @@ def main(config_path, output):
             inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
         # "water": false - the passages aren't filled, only their walls drawn.
         water = band > 0 if trace.get('method') == 'colour-fill' and trace.get('water', True) else None
+        # "waterPolygons": [[[x, y], ...]] - the water fill only there (a
+        # cenote's open water at its entrance), not in every passage.
+        if water is not None and trace.get('waterPolygons'):
+            area = numpy.zeros(water.shape, numpy.uint8)
+            cv2.fillPoly(area, [numpy.array(polygon, numpy.int32) for polygon in trace['waterPolygons']], 1)
+            water &= area > 0
         # "detailInk": false - a drawing with no symbols between its walls
         # (a vector map's flat fill): only the water is kept.
         if not trace.get('detailInk', True):

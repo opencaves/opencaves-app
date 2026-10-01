@@ -88,7 +88,76 @@
         ]
       ]
     ],
-    "fillPolygonsWhy": "the lake at the south end: dashes on white, no grey fill"
+    "fillPolygonsWhy": "the lake at the south end: dashes on white, no grey fill",
+    "waterPolygons": [
+      [
+        [
+          2265,
+          4180
+        ],
+        [
+          2350,
+          4172
+        ],
+        [
+          2480,
+          4175
+        ],
+        [
+          2550,
+          4190
+        ],
+        [
+          2570,
+          4240
+        ],
+        [
+          2565,
+          4330
+        ],
+        [
+          2560,
+          4380
+        ],
+        [
+          2510,
+          4398
+        ],
+        [
+          2430,
+          4390
+        ],
+        [
+          2380,
+          4375
+        ],
+        [
+          2355,
+          4350
+        ],
+        [
+          2315,
+          4350
+        ],
+        [
+          2300,
+          4320
+        ],
+        [
+          2300,
+          4285
+        ],
+        [
+          2280,
+          4265
+        ],
+        [
+          2268,
+          4230
+        ]
+      ]
+    ],
+    "waterPolygonsWhy": "water only at the entrance: Tres Estrellas cenote's open water"
   },
   "exclude": [
     {
