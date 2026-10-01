@@ -113,7 +113,7 @@
       ],
       "latitude": 20.17318,
       "longitude": -87.47103,
-      "check": false
+      "check": true
     },
     {
       "caveId": "-KPZkVMsKKtbbEh9YSam",
@@ -212,6 +212,17 @@
       ],
       "latitude": 20.154887,
       "longitude": -87.474773,
+      "why": "pond visible on the satellite image"
+    },
+    {
+      "caveId": "-KPZkVSNwlj9lJBwtt7i",
+      "name": "Xux pool",
+      "px": [
+        6097,
+        3754
+      ],
+      "latitude": 20.155934,
+      "longitude": -87.476919,
       "why": "pond visible on the satellite image"
     }
   ],
@@ -382,7 +393,9 @@
         6097,
         3754
       ],
-      "caveId": "-KPZkVSNwlj9lJBwtt7i"
+      "caveId": "-KPZkVSNwlj9lJBwtt7i",
+      "latitude": 20.155934,
+      "longitude": -87.476919
     },
     {
       "name": "Zapata",
