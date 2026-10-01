@@ -92,7 +92,7 @@ def main(config_path, output):
     points = config['controlPoints']
     place, scale, rotation = raster_placement(config)
     print(f"scale {scale:.4f} m/px, rotation {rotation:.1f} deg, from {len([p for p in points if not p.get('check')])} point(s)"
-          + (' + scale bar, north up' if config.get('scaleBar') else ''))
+          + (' + scale bar, north up' if config.get('scaleBar') and config.get('north') else ''))
     markers = []
     for p in points:
         east, north = to_utm.transform(p['longitude'], p['latitude'])

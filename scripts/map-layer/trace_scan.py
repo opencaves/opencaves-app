@@ -449,7 +449,14 @@ def survey_line_paths(image_path, boxes, trace):
     to one pixel and traced into paths - centrelines, not walls."""
     rgb = numpy.asarray(Image.open(image_path).convert('RGB')).astype(int)
     r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
-    lines = (b - numpy.maximum(r, g) >= trace.get('minBlueExcess', 30)) & ~boxes
+    # "lineColours": the survey colours to take (blue by default; red for a
+    # second region drawn in red).
+    excess = trace.get('minBlueExcess', 30)
+    tests = {'blue': b - numpy.maximum(r, g), 'red': r - numpy.maximum(g, b), 'green': g - numpy.maximum(r, b)}
+    lines = numpy.zeros(b.shape, bool)
+    for colour in trace.get('lineColours', ['blue']):
+        lines |= tests[colour] >= excess
+    lines &= ~boxes
     # Thin lines on a compressed screenshot break up: bridge small gaps first.
     gap = trace.get('bridgePx', 3)
     lines = cv2.morphologyEx(lines.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (gap, gap))) > 0
