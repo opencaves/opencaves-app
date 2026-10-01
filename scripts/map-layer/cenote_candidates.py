@@ -250,6 +250,10 @@ def main(review_path, config_paths, production):
             # is doubtful): compared as a cave without a position, so the map's
             # is kept aside to replace it.
             doubtful = c.get('replacePosition') and c.get('caveId')
+            # A database position marked invalid is replaceable as it is.
+            if not doubtful and c.get('caveId') in by_id and (by_id[c['caveId']].get('location') or {}).get('validity') == 'invalid':
+                c['replacePosition'] = 'database position marked invalid'
+                doubtful = True
             # Except one taken on site (source "Open Caves"): trusted over any
             # map, so a disagreement is reported, not a replacement proposed.
             if doubtful and c['caveId'] in by_id and by_id[c['caveId']].get('source') in on_site_sources:
