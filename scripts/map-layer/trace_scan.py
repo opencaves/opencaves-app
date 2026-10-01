@@ -443,7 +443,38 @@ def box_spurs(ink, boxes, trace):
     return cv2.dilate(found.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
 
 
-def survey_line_paths(image_path, boxes, trace):
+def join_short_paths(paths, min_px):
+    """Short junction-to-junction pieces joined to a neighbour sharing an
+    end, so a minimum length only drops free spurs."""
+    changed = True
+    while changed:
+        changed = False
+        for i, p in enumerate(paths):
+            if len(p) >= min_px:
+                continue
+            for j, q in enumerate(paths):
+                if i == j:
+                    continue
+                if p[-1] == q[0]:
+                    joined = p + q[1:]
+                elif p[0] == q[-1]:
+                    joined = q + p[1:]
+                elif p[0] == q[0]:
+                    joined = p[::-1] + q[1:]
+                elif p[-1] == q[-1]:
+                    joined = q + p[::-1][1:]
+                else:
+                    continue
+                paths[j] = joined
+                paths.pop(i)
+                changed = True
+                break
+            if changed:
+                break
+    return paths
+
+
+def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
     """Survey line plots (config "trace": {"method": "survey-lines"}): the
     lines of the survey colour (blue on a Google Earth screenshot), thinned
     to one pixel and traced into paths - centrelines, not walls."""
@@ -455,8 +486,12 @@ def survey_line_paths(image_path, boxes, trace):
     tests = {'blue': b - numpy.maximum(r, g), 'red': r - numpy.maximum(g, b), 'green': g - numpy.maximum(r, b)}
     lines = numpy.zeros(b.shape, bool)
     for colour in trace.get('lineColours', ['blue']):
-        lines |= tests[colour] >= excess
+        lines |= ink if colour == 'black' else tests[colour] >= excess
     lines &= ~boxes
+    for line in trace.get('eraseLines', []):
+        stroke = numpy.zeros(lines.shape, numpy.uint8)
+        cv2.line(stroke, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 15))
+        lines &= ~(stroke > 0)
     # "addLines": [{"from": [x, y], "to": [x, y]}] - line pieces drawn in
     # another colour (a short blue stretch of a red guideline), added by hand.
     for piece in trace.get('addLines', []):
@@ -466,7 +501,24 @@ def survey_line_paths(image_path, boxes, trace):
     # Thin lines on a compressed screenshot break up: bridge small gaps first.
     gap = trace.get('bridgePx', 3)
     lines = cv2.morphologyEx(lines.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (gap, gap))) > 0
-    return trace_skeleton(skeletonize(lines))
+    # "poolInsides": {"maxHolePx", "reachPx", "closePx"} - the drawings
+    # inside a cenote pool's outline (hatching, rubble, water) aren't survey:
+    # the holes of closed outlines at the entrances (and "poolPoints"),
+    # joined over those drawings by a closing, are emptied.
+    if trace.get('poolInsides'):
+        rule = trace['poolInsides']
+        holes, count = ndimage.label(ndimage.binary_fill_holes(lines) & ~lines)
+        sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
+        near = numpy.zeros(lines.shape, numpy.uint8)
+        for x, y in list(pool_points) + trace.get('poolPoints', []):
+            cv2.circle(near, (int(x), int(y)), rule.get('reachPx', 40), 1, -1)
+        ids = numpy.unique(holes[(near > 0) & (holes > 0)])
+        pools = numpy.isin(holes, [i for i in ids if sizes[i - 1] <= rule.get('maxHolePx', 30000)])
+        k = rule.get('closePx', 25)
+        inside = cv2.morphologyEx(pools.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))) > 0
+        lines &= ~ndimage.binary_fill_holes(inside)
+    paths = trace_skeleton(skeletonize(lines))
+    return join_short_paths(paths, trace['joinShortPx']) if trace.get('joinShortPx') else paths
 
 
 def main(config_path, output):
@@ -576,7 +628,13 @@ def main(config_path, output):
         to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
         place, scale, _ = raster_placement(config)
         features = []
-        for path in survey_line_paths(config_path.parent.joinpath(config['image']).resolve(), boxes, trace):
+        # Black survey lines (a b/w line plot) share the ink with the labels
+        # and leaders: those are taken out too.
+        if 'black' in trace.get('lineColours', []):
+            boxes |= masked | leaders
+        paths = survey_line_paths(config_path.parent.joinpath(config['image']).resolve(), boxes, trace,
+                                  ink=ink, pool_points=[e['px'] for e in config.get('entrances', []) if 'px' in e])
+        for path in paths:
             line = LineString([(x, y) for y, x in path])
             if line.length * scale < MIN_OUTLINE_METRES:
                 continue

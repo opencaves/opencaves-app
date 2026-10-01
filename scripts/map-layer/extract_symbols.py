@@ -363,11 +363,13 @@ def main(config_path, output):
             symbols[i]['value'] = item['value']
             symbols[i]['label'] = str(item['value'])
 
-    # The map's entrances (config "entrances"): kept in the layer too, named.
+    # The map's entrances (config "entrances"): kept in the layer too.
     for entrance in config.get('entrances', []):
         if 'px' in entrance:
             x, y = entrance['px']
-            symbols.append({'type': 'entrance', 'label': entrance['name'], 'box': [x - 6, y - 6, x + 6, y + 6]})
+            # Shown as a dot, not by name: the cenote itself is on the map
+            # already (from the database); its name is kept as data.
+            symbols.append({'type': 'entrance', 'label': '', 'name': entrance['name'], 'box': [x - 6, y - 6, x + 6, y + 6]})
 
     # Symbols added by hand ("extra": [{"type", "label", "px", "value"?}]):
     # the ones recognition misses (a blurred letter on a photo).
@@ -385,6 +387,8 @@ def main(config_path, output):
         x0, y0, x1, y1 = s['box']
         lng, lat = to_lnglat.transform(*place((x0 + x1) / 2, (y0 + y1) / 2))
         properties = {'map': name, 'kind': 'symbol', 'type': s['type'], 'label': s['label'], 'sistemaId': config.get('sistemaId')}
+        if s.get('name'):
+            properties['name'] = s['name']
         if 'value' in s:
             properties['value'] = round(s['value'] * to_metres, 1)
             properties['unit'] = 'm'

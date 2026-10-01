@@ -1,0 +1,828 @@
+{
+  "image": "../../../_data/maps-import/images/ponderosa-sist-puerto-aventuras-mpo-playa-del-carmen.webp",
+  "title": "Sistema Ponderosa and Sistema X'tabay - line plot (AMCS Activities Newsletter 2001)",
+  "credits": "Line plot of Sistema Ponderosa (14,931 m surveyed, 16.6 m deep) and Sistema X'tabay (1386 m, 13.6 m), Puerto Aventuras, Quintana Roo; AMCS Activities Newsletter no. 24, p. 80, 2001 (no author printed on the map)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxfLSiPTfZPMzOp",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title Sistema X'tabay, length and depth",
+      "box": [
+        150,
+        355,
+        780,
+        620
+      ]
+    },
+    {
+      "why": "title Sistema Ponderosa, length and depth",
+      "box": [
+        2200,
+        245,
+        2970,
+        645
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        610,
+        1465,
+        770,
+        1620
+      ]
+    },
+    {
+      "why": "label Cenotes Xochacalico",
+      "box": [
+        514,
+        0,
+        933,
+        37
+      ]
+    },
+    {
+      "why": "label Cenote X'tabay",
+      "box": [
+        887,
+        245,
+        1155,
+        294
+      ]
+    },
+    {
+      "why": "label Cenote Chickin Ha",
+      "box": [
+        1074,
+        446,
+        1388,
+        496
+      ]
+    },
+    {
+      "why": "label Cenote Rainbow",
+      "box": [
+        1387,
+        656,
+        1667,
+        710
+      ]
+    },
+    {
+      "why": "label The Wizard's Den",
+      "box": [
+        925,
+        716,
+        1214,
+        771
+      ]
+    },
+    {
+      "why": "label Cenote Repair Shop",
+      "box": [
+        1414,
+        977,
+        1745,
+        1014
+      ]
+    },
+    {
+      "why": "label The Needles Room",
+      "box": [
+        740,
+        1111,
+        1053,
+        1158
+      ]
+    },
+    {
+      "why": "label Cenote Zacil",
+      "box": [
+        1450,
+        1302,
+        1677,
+        1344
+      ]
+    },
+    {
+      "why": "label The Chapel",
+      "box": [
+        2527,
+        1339,
+        2723,
+        1387
+      ]
+    },
+    {
+      "why": "label The Pool Hall",
+      "box": [
+        2270,
+        1440,
+        2528,
+        1488
+      ]
+    },
+    {
+      "why": "label The Dune Room",
+      "box": [
+        909,
+        1457,
+        1173,
+        1513
+      ]
+    },
+    {
+      "why": "label Cenote Little Joe",
+      "box": [
+        1463,
+        1515,
+        1770,
+        1568
+      ]
+    },
+    {
+      "why": "label Air Dome (north-east)",
+      "box": [
+        2749,
+        1522,
+        2915,
+        1557
+      ]
+    },
+    {
+      "why": "label Cenote Sask Leem Ha",
+      "box": [
+        2255,
+        1610,
+        2612,
+        1650
+      ]
+    },
+    {
+      "why": "label Cenote Uchil Ha",
+      "box": [
+        2000,
+        1712,
+        2290,
+        1773
+      ]
+    },
+    {
+      "why": "label Cenote Kantun Chi",
+      "box": [
+        2270,
+        1757,
+        2590,
+        1797
+      ]
+    },
+    {
+      "why": "label Cenote (Corral)",
+      "box": [
+        1723,
+        1780,
+        1845,
+        1815
+      ]
+    },
+    {
+      "why": "label Corral",
+      "box": [
+        1867,
+        1795,
+        1998,
+        1830
+      ]
+    },
+    {
+      "why": "label Air Dome (middle)",
+      "box": [
+        2476,
+        1855,
+        2573,
+        1922
+      ]
+    },
+    {
+      "why": "label Boa",
+      "box": [
+        2884,
+        1904,
+        2954,
+        1936
+      ]
+    },
+    {
+      "why": "label Cenote Escondido",
+      "box": [
+        1262,
+        1938,
+        1442,
+        2012
+      ]
+    },
+    {
+      "why": "label Cenote Ponderosa (Eden)",
+      "box": [
+        1481,
+        1908,
+        1669,
+        2019
+      ]
+    },
+    {
+      "why": "label Air Dome (by Boa)",
+      "box": [
+        2643,
+        1985,
+        2793,
+        2045
+      ]
+    },
+    {
+      "why": "label Cenote Cristalino",
+      "box": [
+        2821,
+        2100,
+        3015,
+        2168
+      ]
+    },
+    {
+      "why": "label Air Dome (south)",
+      "box": [
+        2345,
+        2247,
+        2514,
+        2295
+      ]
+    },
+    {
+      "why": "label Cenote Azul",
+      "box": [
+        2488,
+        2470,
+        2705,
+        2503
+      ]
+    },
+    {
+      "why": "Highway 307 label",
+      "box": [
+        2865,
+        2285,
+        3105,
+        2350
+      ]
+    },
+    {
+      "why": "Highway 307",
+      "box": [
+        3200,
+        2090,
+        3350,
+        2260
+      ]
+    },
+    {
+      "why": "Highway 307",
+      "box": [
+        3080,
+        2200,
+        3290,
+        2370
+      ]
+    },
+    {
+      "why": "Highway 307",
+      "box": [
+        2960,
+        2320,
+        3180,
+        2490
+      ]
+    },
+    {
+      "why": "Highway 307",
+      "box": [
+        2900,
+        2440,
+        3060,
+        2529
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha (pool)",
+      "px": [
+        1027,
+        428
+      ],
+      "latitude": 20.49919,
+      "longitude": -87.26082,
+      "why": "the map's hatched pool = the pool on the satellite image and OSM's 'Cenote Chikin-Ha' water (its centre); the database position is 74 m north-west of it, in the forest"
+    },
+    {
+      "caveId": "-KPZkVIaklDt26pJPBUX",
+      "name": "Ponderosa (Eden) pool",
+      "px": [
+        1585,
+        1805
+      ],
+      "latitude": 20.49174,
+      "longitude": -87.25827,
+      "why": "the pool on the satellite image = OSM's 'Cenote Jardine del Eden' water (its centre); the database position is 14 m from it"
+    },
+    {
+      "caveId": "-KPZkVECc1Lf7UiyD1bY",
+      "name": "Azul (north pool)",
+      "px": [
+        2680,
+        2315
+      ],
+      "latitude": 20.4885,
+      "longitude": -87.252,
+      "why": "the map's hatched north lobe = the open pool on the satellite image (north part of OSM's 'Cenote Azul' water); the database position is on it"
+    },
+    {
+      "caveId": "-KPZkVHTXN6r0jb39a_q",
+      "name": "Cristalino (middle of the arc)",
+      "px": [
+        2965,
+        2000
+      ],
+      "latitude": 20.49025,
+      "longitude": -87.2503,
+      "why": "middle of OSM's two 'Cenote Cristalino' water areas (the north-east one seen on the satellite image); the map's long arc is drawn larger than they are"
+    },
+    {
+      "caveId": "-KPZkVKpj5rVR_3YHebk",
+      "name": "Kantun Chi (database, Gerrard 2015)",
+      "px": [
+        2583,
+        1825
+      ],
+      "latitude": 20.49142,
+      "longitude": -87.25272,
+      "check": true,
+      "why": "pool not visible on the satellite image (park, tree cover)"
+    },
+    {
+      "caveId": "-KPZkVJ9erthreVgvKn7",
+      "name": "Escondido (database, map source)",
+      "px": [
+        1465,
+        1850
+      ],
+      "latitude": 20.49129,
+      "longitude": -87.2589,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha (database, Google Maps)",
+      "px": [
+        1027,
+        428
+      ],
+      "latitude": 20.49962,
+      "longitude": -87.26146,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVHTXN6r0jb39a_q",
+      "name": "Cristalino (database, Gerrard 2015)",
+      "px": [
+        2965,
+        2000
+      ],
+      "latitude": 20.49046,
+      "longitude": -87.25049,
+      "check": true
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "eraseLines": [
+      {
+        "why": "Cenote Escondido label arrow",
+        "from": [
+          1385,
+          1944
+        ],
+        "to": [
+          1428,
+          1885
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "Cenote Ponderosa label arrow",
+        "from": [
+          1580,
+          1912
+        ],
+        "to": [
+          1583,
+          1860
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "The Pool Hall leader and its dot",
+        "from": [
+          2443,
+          1438
+        ],
+        "to": [
+          2478,
+          1386
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "The Chapel arrow",
+        "from": [
+          2617,
+          1378
+        ],
+        "to": [
+          2629,
+          1430
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "line inside Xochacalico's pool, along its west wall",
+        "from": [
+          514,
+          146
+        ],
+        "to": [
+          530,
+          180
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "line inside Xochacalico's pool, along its west wall",
+        "from": [
+          530,
+          180
+        ],
+        "to": [
+          548,
+          206
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "line inside Xochacalico's pool, along its west wall",
+        "from": [
+          506,
+          151
+        ],
+        "to": [
+          525,
+          180
+        ],
+        "widthPx": 7
+      }
+    ],
+    "poolPoints": [
+      [
+        2625,
+        2415
+      ],
+      [
+        2895,
+        2075
+      ],
+      [
+        1385,
+        1475
+      ]
+    ],
+    "poolPointsWhy": "Cenote Azul's south lobe, Cristalino's south-west pocket and the hatched rim on Little Joe's north side: pool outlines without an entrance of their own",
+    "poolInsides": {
+      "maxHolePx": 30000,
+      "reachPx": 40,
+      "closePx": 25
+    },
+    "why": "b/w line plot: survey lines in black ink (no walls). Bold closed outlines are cenote pools; their hatching and drawings inside aren't traced (poolInsides). Leaders erased by hand (automatic leader removal off: it would take isolated survey lines near labels). Dashed air-dome outlines are partly kept (dashes over 8 m).",
+    "joinShortPx": 16,
+    "addLines": [
+      {
+        "why": "survey line above The Pool Hall, clipped by its label mask",
+        "from": [
+          2262,
+          1438
+        ],
+        "to": [
+          2290,
+          1428
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "survey line above The Pool Hall, clipped by its label mask",
+        "from": [
+          2290,
+          1428
+        ],
+        "to": [
+          2335,
+          1432
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "survey line above The Pool Hall, clipped by its label mask",
+        "from": [
+          2335,
+          1432
+        ],
+        "to": [
+          2362,
+          1418
+        ],
+        "widthPx": 5
+      }
+    ]
+  },
+  "entrances": [
+    {
+      "caveId": "-KPZkVSJqOGmMdM58DE2",
+      "name": "Xochacalico",
+      "px": [
+        560,
+        170
+      ]
+    },
+    {
+      "name": "Xochacalico (second pool)",
+      "px": [
+        745,
+        255
+      ]
+    },
+    {
+      "caveId": "-KPZkVS1KCXPM3C07EK7",
+      "name": "X'tabay",
+      "px": [
+        925,
+        350
+      ]
+    },
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha",
+      "px": [
+        1027,
+        428
+      ],
+      "latitude": 20.49919,
+      "longitude": -87.26082,
+      "replacePosition": "the database position (Google Maps) is 74 m north-west of the cenote's pool, in the forest; this is the pool on the satellite image and OSM"
+    },
+    {
+      "caveId": "-KPZkVOlJ3pNexyT6mMW",
+      "name": "Rainbow",
+      "px": [
+        1495,
+        745
+      ],
+      "replacePosition": "the database position is Ponderosa's (Eden's), 14 m from it; the map puts Rainbow 600 m further north"
+    },
+    {
+      "caveId": "-KPZkVP-i6syPXzi1BSf",
+      "name": "Repair Shop",
+      "px": [
+        1390,
+        1000
+      ]
+    },
+    {
+      "caveId": "-KPZkVSc6USxvTS9L-3A",
+      "name": "Zacil",
+      "px": [
+        1436,
+        1370
+      ]
+    },
+    {
+      "caveId": "-KPZkVLma9HoGaTwgamA",
+      "name": "Little Joe",
+      "px": [
+        1400,
+        1540
+      ]
+    },
+    {
+      "caveId": "-KPZkVJ9erthreVgvKn7",
+      "name": "Escondido",
+      "px": [
+        1465,
+        1850
+      ]
+    },
+    {
+      "caveId": "-KPZkVIaklDt26pJPBUX",
+      "name": "Ponderosa (Eden)",
+      "px": [
+        1585,
+        1805
+      ],
+      "latitude": 20.49174,
+      "longitude": -87.25827
+    },
+    {
+      "caveId": "-KPZkVHLhr3VbhOY-dDf",
+      "name": "Corral",
+      "px": [
+        1880,
+        1720
+      ]
+    },
+    {
+      "caveId": "-KPZkVRV4FCI8DSO1OnH",
+      "name": "Uchil Ha",
+      "px": [
+        2130,
+        1680
+      ]
+    },
+    {
+      "name": "Uchil Ha (small oval south of its label)",
+      "px": [
+        2150,
+        1785
+      ]
+    },
+    {
+      "caveId": "-KPZkVPfd8DVLRF_EjB1",
+      "name": "Sask Leem Ha",
+      "px": [
+        2345,
+        1585
+      ]
+    },
+    {
+      "caveId": "-KPZkVKpj5rVR_3YHebk",
+      "name": "Kantun Chi",
+      "px": [
+        2583,
+        1825
+      ]
+    },
+    {
+      "caveId": "-KPZkVEucxPMW7L7EQOm",
+      "name": "Boa",
+      "px": [
+        2828,
+        1950
+      ]
+    },
+    {
+      "caveId": "-KPZkVHTXN6r0jb39a_q",
+      "name": "Cristalino",
+      "px": [
+        2965,
+        2000
+      ],
+      "latitude": 20.49043,
+      "longitude": -87.25025,
+      "replacePosition": "the database position (Gerrard 2015) is 35 m west of the cenote's open water (satellite image, OSM 'Cenote Cristalino')"
+    },
+    {
+      "name": "Unnamed cenote east of Cristalino",
+      "px": [
+        3095,
+        1925
+      ]
+    },
+    {
+      "caveId": "-KPZkVECc1Lf7UiyD1bY",
+      "name": "Azul",
+      "px": [
+        2680,
+        2315
+      ],
+      "latitude": 20.4885,
+      "longitude": -87.252
+    },
+    {
+      "name": "Unnamed cenote east of Azul (north)",
+      "px": [
+        2735,
+        2340
+      ]
+    },
+    {
+      "name": "Unnamed cenote east of Azul (south)",
+      "px": [
+        2740,
+        2378
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "m",
+    "letters": {},
+    "why": "line plot: no depths, letter codes, leads or bones on this map; only named places, the cenotes (entrances) and the two sistema labels",
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "The Wizard's Den",
+        "px": [
+          1070,
+          756
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Needles Room",
+        "px": [
+          900,
+          1132
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dune Room",
+        "px": [
+          1155,
+          1445
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Pool Hall",
+        "px": [
+          2475,
+          1390
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Chapel",
+        "px": [
+          2625,
+          1425
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          2705,
+          1555
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          2595,
+          1910
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          2690,
+          1930
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          2358,
+          2222
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Air Dome",
+        "px": [
+          2472,
+          2215
+        ]
+      }
+    ]
+  },
+  "scaleBarWhy": "no scale bar on the map; north arrow points up, the fit gives -3.4 degrees. Highway 307 as drawn lies 48-67 m west of OSM's MEX 307 and 4.5 degrees off its bearing: drawn by eye, not used"
+}
