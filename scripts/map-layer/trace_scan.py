@@ -683,7 +683,12 @@ def thin_walls(config_path, config, out, name):
                         best = (d, j)
                 if best and best[0] > 0:
                     target = lines[best[1]].interpolate(lines[best[1]].project(end))
-                    bridges.append(LineString([end, target]))
+                    bridge = LineString([end, target])
+                    # Never through a wall: that's another passage.
+                    crossing = [strokes[min(int(p.y), h - 1), min(int(p.x), w - 1)]
+                                for p in (bridge.interpolate(d) for d in numpy.arange(3, bridge.length - 3, 1))]
+                    if not any(crossing):
+                        bridges.append(bridge)
         merged = linemerge(lines + bridges)
         # Inside the cave: the guideline runs between walls, a label's leader
         # out in the open.
