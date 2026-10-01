@@ -3,6 +3,15 @@
     "header": "Oups !",
     "description": "Désolé mais la page que vous recherchez n'existe pas.",
     "backBtn": "Aller à la page d'accueil",
+    "retryBtn": "Réessayer",
+    "offline": {
+      "header": "Vous êtes hors ligne",
+      "description": "Cette page a besoin d'une connexion pour s'afficher. Elle s'affichera dès que vous serez de nouveau en ligne."
+    },
+    "failed": {
+      "header": "Un problème est survenu",
+      "description": "Cette page n'a pas pu être chargée. Veuillez réessayer."
+    },
     "search": {
       "placeHolder": "Rechercher...",
       "btn": "Rechercher"
@@ -429,6 +438,7 @@
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
     "addressNotAvailable": "Adresse non disponible",
+    "addressOffline": "Adresse indisponible hors ligne",
     "locationNotAvailable": "Lieu non disponible",
     "coverImage": {
       "addImages": {
@@ -438,7 +448,6 @@
         "tooltip": "Voir les images"
       }
     },
-    "addressOffline": "Adresse indisponible hors ligne",
     "morePicturesBtn": "Plus d'images",
     "menu": {
       "ariaLabel": "Plus",

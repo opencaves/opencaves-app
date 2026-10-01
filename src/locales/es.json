@@ -3,6 +3,15 @@
     "header": "¡Ups!",
     "description": "Lo sentimos, pero la página que buscas no existe.",
     "backBtn": "Ir a la página de inicio",
+    "retryBtn": "Reintentar",
+    "offline": {
+      "header": "Estás sin conexión",
+      "description": "Esta página necesita conexión para cargarse. Se cargará en cuanto vuelvas a estar en línea."
+    },
+    "failed": {
+      "header": "Algo salió mal",
+      "description": "No se pudo cargar esta página. Inténtalo de nuevo."
+    },
     "search": {
       "placeHolder": "Buscar...",
       "btn": "Buscar"
@@ -430,6 +439,7 @@
     "addressLoading": "Cargando dirección…",
     "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
     "addressNotAvailable": "Dirección no disponible",
+    "addressOffline": "Dirección no disponible sin conexión",
     "locationNotAvailable": "Ubicación no disponible",
     "coverImage": {
       "addImages": {
@@ -439,7 +449,6 @@
         "tooltip": "Ver fotos"
       }
     },
-    "addressOffline": "Dirección no disponible sin conexión",
     "morePicturesBtn": "Más fotos",
     "menu": {
       "ariaLabel": "Más",
