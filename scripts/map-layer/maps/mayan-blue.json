@@ -302,7 +302,10 @@
     ],
     "metres": 152.4
   },
-  "north": "up",
+  "north": {
+    "angle": -6.4,
+    "why": "Fitted to Highway 307 (OpenStreetMap): with the map's north up, its highway ran 6.4 degrees off the real one"
+  },
   "controlPoints": [
     {
       "caveId": "-KPZkVJByjlbUaBg6uHP",
@@ -1024,6 +1027,114 @@
         "px": [
           3591,
           8684
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          1889,
+          1339
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          1772,
+          2729
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          3657,
+          2813
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          1404,
+          3331
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6134,
+          5572
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          4651,
+          6654
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          5784,
+          7706
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          4765,
+          8139
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "90",
+        "value": 90,
+        "px": [
+          3562,
+          8498
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          4845,
+          8845
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6617,
+          9508
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          7386,
+          10072
         ]
       }
     ]
