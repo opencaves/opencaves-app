@@ -1,0 +1,22 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-sac-aktun-google-satelitte-of-up-stream-nohoch-and-aktun-hu.jpg",
+  "title": "Sistema Sac Aktun - upstream Nohoch and Aktun Hu over Google Earth (2007)",
+  "credits": "Survey lines over a Google Earth screenshot (imagery 2007 DigitalGlobe)",
+  "source": { "id": "-KPZg4jsKUZe0Tf3lyro", "name": "QRSS" },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "utmEpsg": 32616,
+  "trace": { "method": "survey-lines" },
+  "exclude": [
+    { "why": "compass", "box": [0, 780, 100, 865] },
+    { "why": "credits and logo", "box": [370, 805, 940, 883] }
+  ],
+  "controlPoints": [
+    { "caveId": "-KPZkVLOg5GeHNMAgFtw", "name": "La Virgen (placemark)", "px": [325, 268], "latitude": 20.31185, "longitude": -87.42703 },
+    { "caveId": "-KPZkVQZCIinKTv-3ccE", "name": "Tamakas (placemark)", "px": [325, 440], "latitude": 20.30559, "longitude": -87.42722 },
+    { "caveId": "-KPZkVNP1gaVE-XoVTT1", "name": "Nariz (placemark)", "px": [121, 466], "latitude": 20.30478, "longitude": -87.43509 },
+    { "caveId": "-KPZkVDfSJ3JcxrBjG78", "name": "Aktun-Hu (placemark)", "px": [213, 506], "latitude": 20.30321, "longitude": -87.4316 },
+    { "caveId": "-KPZkVHbgtSH0-b5zj9Y", "name": "Cueva Seca (placemark)", "px": [240, 527], "latitude": 20.30249, "longitude": -87.43057 },
+    { "caveId": "-KPZkVFZW7SgdJ2EgTg1", "name": "Cabeza Azteca (placemark)", "px": [289, 655], "latitude": 20.29773, "longitude": -87.42875 }
+  ],
+  "entrances": []
+}

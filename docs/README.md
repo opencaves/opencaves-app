@@ -9,5 +9,8 @@ the project.
   local emulator troubleshooting.
 - [Importing cave maps](maps-import.md): bulk-import survey maps from a folder
   tree and attach them to their sistemas.
+- [Cave map symbols](map-symbols.md): the shared vocabulary for the symbols
+  taken from the cave maps (restrictions, depths, visibility...) and each
+  map author's conventions.
 - [Importing cave photos](photos-import.md): bulk-import cave photos from the
   `_data` folder and attach them to their caves.

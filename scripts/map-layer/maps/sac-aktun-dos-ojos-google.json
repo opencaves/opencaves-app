@@ -1,0 +1,30 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-sac-aktun-google-satelitte-of-dos-ojos-nohoch-and-aktun-hu.jpg",
+  "title": "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)",
+  "credits": "Survey lines over a Google Earth screenshot (imagery 2007 DigitalGlobe)",
+  "source": { "id": "-KPZg4jsKUZe0Tf3lyro", "name": "QRSS" },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "utmEpsg": 32616,
+  "trace": { "method": "survey-lines" },
+  "exclude": [
+    { "why": "the sea (deep blue)", "box": [735, 540, 940, 883] },
+    { "why": "compass", "box": [0, 780, 100, 865] },
+    { "why": "credits and logo", "box": [370, 795, 940, 883] }
+  ],
+  "controlPoints": [
+    { "caveId": "-KPZkVFZW7SgdJ2EgTg1", "name": "Cabeza Azteca (placemark)", "px": [213, 543], "latitude": 20.29773, "longitude": -87.42875 },
+    { "caveId": "-KPZkVDfSJ3JcxrBjG78", "name": "Aktun-Hu (placemark)", "px": [177, 474], "latitude": 20.30321, "longitude": -87.4316 },
+    { "caveId": "-KPZkVNP1gaVE-XoVTT1", "name": "Nariz (placemark)", "px": [137, 456], "latitude": 20.30478, "longitude": -87.43509 },
+    { "caveId": "-KPZkVQZCIinKTv-3ccE", "name": "Tamakas (placemark)", "px": [227, 443], "latitude": 20.30559, "longitude": -87.42722 },
+    { "caveId": "-KPZkVLOg5GeHNMAgFtw", "name": "La Virgen (placemark)", "px": [226, 365], "latitude": 20.31185, "longitude": -87.42703 },
+    { "caveId": "-KPZkVHbgtSH0-b5zj9Y", "name": "Cueva Seca (placemark)", "px": [190, 482], "latitude": 20.30249, "longitude": -87.43057 }
+  ],
+  "entrances": [
+    { "caveId": "-KPZkVFZW7SgdJ2EgTg1", "name": "Cabeza Azteca", "px": [213, 543] },
+    { "caveId": "-KPZkVDfSJ3JcxrBjG78", "name": "Aktun-Hu", "px": [177, 474] },
+    { "caveId": "-KPZkVNP1gaVE-XoVTT1", "name": "Nariz", "px": [137, 456] },
+    { "caveId": "-KPZkVQZCIinKTv-3ccE", "name": "Tamakas", "px": [227, 443] },
+    { "caveId": "-KPZkVLOg5GeHNMAgFtw", "name": "La Virgen", "px": [226, 365] },
+    { "caveId": "-KPZkVHbgtSH0-b5zj9Y", "name": "Cueva Seca", "px": [190, 482] }
+  ]
+}

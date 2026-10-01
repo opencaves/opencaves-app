@@ -116,9 +116,12 @@ def main(config_path, output):
     # The traced walls (trace_scan.py), when there are some yet.
     walls_path = out / f'{name}-walls.geojson'
     walls = walls_path.read_text(encoding='utf-8') if walls_path.exists() else '{"type":"FeatureCollection","features":[]}'
+    # The symbols (extract_symbols.py), when there are some yet.
+    symbols_path = out / f'{name}-symbols.geojson'
+    symbols = symbols_path.read_text(encoding='utf-8') if symbols_path.exists() else '{"type":"FeatureCollection","features":[]}'
     html = (PAGE.replace('__TOKEN__', env.get('REACT_APP_MAPBOX_ACCESS_TOKEN', '')).replace('__TITLE__', config.get('title', name))
             .replace('__IMAGE__', data_url).replace('__CORNERS__', json.dumps(corners))
-            .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls))
+            .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls).replace('__SYMBOLS__', symbols))
     (out / f'{name}-overlay.html').write_text(html, encoding='utf-8')
     print(f'preview: {out / f"{name}-overlay.html"}')
 
@@ -128,9 +131,10 @@ PAGE = """<!doctype html>
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
 <style>html,body,#map{margin:0;height:100%}#panel{position:absolute;top:10px;left:10px;background:#fff;padding:8px 10px;font:13px sans-serif;border-radius:6px;max-width:300px}
+.symbol{font:bold 11px sans-serif;color:#111;background:#ffd400;border-radius:3px;padding:0 3px;white-space:nowrap;cursor:default}
 .label{font:11px sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap;pointer-events:none}</style>
 </head><body><div id="map"></div>
-<div id="panel"><b>__TITLE__</b><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label>
+<div id="panel"><b>__TITLE__</b><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label>
 <p style="margin:6px 0 0"><span style="color:#ff3b30">&#9679;</span> database GPS &nbsp; <span style="color:#2f80ff">&#9632;</span> spot on the map<br>(fit points solid, check points hollow)</p></div>
 <script>
 mapboxgl.accessToken = '__TOKEN__'
@@ -141,6 +145,18 @@ map.on('load', () => {
   map.addLayer({ id: 'scan', type: 'raster', source: 'scan', paint: { 'raster-opacity': 0.35, 'raster-fade-duration': 0 } })
   map.addSource('walls', { type: 'geojson', data: __WALLS__ })
   map.addLayer({ id: 'walls', type: 'line', source: 'walls', paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })
+  // Symbols: a short label per type, the value in metres where there's one.
+  const SHORT = { 'restriction-minor': 'r', 'restriction-major': 'X', 'visibility-zero': 'z', 'silt': 's', 'depth': '↓', 'ceiling-height': '↕', 'penetration': 'p' }
+  const symbolMarkers = []
+  for (const f of (__SYMBOLS__).features) {
+    const p = f.properties
+    const el = document.createElement('div')
+    el.className = 'symbol'
+    el.textContent = (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
+    el.title = p.type + (p.value !== undefined ? ` ${p.value} m (map: ${p.label})` : '')
+    symbolMarkers.push(new mapboxgl.Marker({ element: el }).setLngLat(f.geometry.coordinates).addTo(map))
+  }
+  document.getElementById('symbols').onchange = (e) => symbolMarkers.forEach((m) => { m.getElement().style.display = e.target.checked ? '' : 'none' })
   const points = (key) => ({ type: 'FeatureCollection', features: markers.map((m) => ({ type: 'Feature', properties: m, geometry: { type: 'Point', coordinates: m[key] } })) })
   map.addSource('gps', { type: 'geojson', data: points('gps') })
   map.addSource('spots', { type: 'geojson', data: points('map') })
