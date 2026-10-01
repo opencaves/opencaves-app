@@ -313,50 +313,6 @@
       ],
       "latitude": 20.19413,
       "longitude": -87.49629
-    },
-    {
-      "caveId": "-KPZkVQIUmE-exDOoKQE",
-      "name": "Sunhole",
-      "px": [
-        3777,
-        6850
-      ],
-      "latitude": 20.19423,
-      "longitude": -87.49744,
-      "check": true
-    },
-    {
-      "caveId": "-KPZkVLrs80cfalEzD9z",
-      "name": "Lost Cenote",
-      "px": [
-        5538,
-        7672
-      ],
-      "latitude": 20.19144,
-      "longitude": -87.49353,
-      "check": true
-    },
-    {
-      "caveId": "-KPZkVMNaXw0oRR305Yi",
-      "name": "Maya Two",
-      "px": [
-        4488,
-        8006
-      ],
-      "latitude": 20.19132,
-      "longitude": -87.49415,
-      "check": true
-    },
-    {
-      "caveId": "-KPZkVG0pYan2AfIT795",
-      "name": "Cenote of the Sun",
-      "px": [
-        6765,
-        10003
-      ],
-      "latitude": 20.18994,
-      "longitude": -87.49346,
-      "check": true
     }
   ],
   "entrances": [
@@ -382,8 +338,7 @@
       "px": [
         5538,
         7672
-      ],
-      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
+      ]
     },
     {
       "caveId": "-KPZkVMNaXw0oRR305Yi",
@@ -391,8 +346,7 @@
       "px": [
         4488,
         8006
-      ],
-      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
+      ]
     },
     {
       "caveId": "-KPZkVG0pYan2AfIT795",
@@ -400,8 +354,7 @@
       "px": [
         6765,
         10003
-      ],
-      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
+      ]
     }
   ],
   "symbols": {
@@ -614,34 +567,493 @@
         "value": null,
         "why": "dotted-line dashes, not an x"
       }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          2957,
+          1968
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          2538,
+          2584
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          3084,
+          3098
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          2433,
+          3825
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          2640,
+          4309
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          5222,
+          4606
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          2502,
+          4643
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          5588,
+          5347
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          3801,
+          5625
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          4827,
+          5689
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6269,
+          6256
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          3401,
+          6331
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          5572,
+          6403
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          5139,
+          6746
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          4114,
+          7062
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          6291,
+          7172
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          6151,
+          7333
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6676,
+          7571
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          5204,
+          8058
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          4413,
+          8323
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          6484,
+          8806
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          6416,
+          9151
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          4596,
+          9240
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          7216,
+          10497
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Naharon, 854 m",
+        "px": [
+          1230,
+          2690
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "To Muknal",
+        "px": [
+          7530,
+          10070
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5118,
+          9564
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          2492,
+          1750
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          4735,
+          4889
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          6862,
+          8188
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "25",
+        "value": 25,
+        "px": [
+          4467,
+          8899
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5652,
+          8772
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          6419,
+          7871
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5194,
+          5890
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          2404,
+          4216
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          6409,
+          6905
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1353,
+          794
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          3210,
+          2268
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          6253,
+          9547
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          1567,
+          4084
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          6343,
+          5453
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          4179,
+          4401
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1774,
+          3650
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          5046,
+          4187
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3280,
+          3853
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          3935,
+          5135
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          7064,
+          9416
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3712,
+          8334
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          5471,
+          5598
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          2097,
+          413
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          3591,
+          8684
+        ]
+      }
     ]
   },
   "trace": {
-    "boxSpurs": true,
+    "boxSpurs": "labels",
     "eraseLines": [
       {
         "why": "Highway 307 (north line)",
         "from": [
           690,
-          1943
+          1944
         ],
         "to": [
-          1700,
-          1469
+          4320,
+          252
         ],
-        "widthPx": 17
+        "widthPx": 19
       },
       {
         "why": "Highway 307 (south line)",
         "from": [
-          700,
-          2022
+          600,
+          2066
         ],
         "to": [
-          1075,
-          1844
+          4320,
+          332
         ],
-        "widthPx": 17
+        "widthPx": 19
       },
       {
         "why": "section leader",
@@ -692,6 +1104,12 @@
         "widthPx": 11
       }
     ],
-    "spurReachPx": 80
+    "spurReachPx": 80,
+    "wallCentres": true,
+    "wallOpenPx": 4,
+    "wallSimplifyMetres": 0.15,
+    "symbolPadPx": 32,
+    "leaderMaxPx": 900,
+    "leaderReachPx": 110
   }
 }

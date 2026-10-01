@@ -511,7 +511,8 @@ def main(config_path, output):
     symbols_px = out / f'{name}-symbols-px.json'
     if symbols_px.exists():
         for x0, y0, x1, y1 in json.loads(symbols_px.read_text(encoding='utf-8')):
-            symbol_ink[max(0, y0 - 3):y1 + 3, max(0, x0 - 3):x1 + 3] = True
+            pad = trace.get('symbolPadPx', 3)  # enough to take a number's ring
+            symbol_ink[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
     # Leader lines (a label's line to what it names - "Entrada" to its
     # entrance): thin strokes standing alone, one end by a label. Entrances
     # get their own pins, so the lines go.
@@ -529,6 +530,9 @@ def main(config_path, output):
         leaders |= leader_lines(ink & ~masked & ~bold, anchors, height, width, trace)
     if trace.get('boxSpurs'):
         section_boxes = [item['box'] for item in config.get('exclude', []) if re.search(r'profile|section', item.get('why', ''), re.I)]
+        # And, with "boxSpurs": "labels", the name labels' leaders too.
+        if trace['boxSpurs'] == 'labels':
+            section_boxes += [word['box'] for word in labels_only]
         leaders |= box_spurs(ink & ~masked, section_boxes, trace)
     # Lines erased by hand ("eraseLines": [{"from": [x, y], "to": [x, y],
     # "widthPx": w}]): drawn features that aren't cave - a road, a path.
@@ -677,6 +681,42 @@ def main(config_path, output):
     review[masked] = (255, 236, 200)
     review[band > 0] = (200, 225, 255)
     features = []
+    wall_ink = None
+    if trace.get('wallCentres'):
+        # Walls drawn as bold strokes, as heavy as the boulders beside them
+        # ("wallCentres": true): the band's outlines run along both edges of
+        # each wall stroke, so they'd be double. The ink along the outlines is
+        # the wall stroke; its centreline is the wall, its short free spurs
+        # (slope hatching ticks) dropped.
+        edge = numpy.zeros((height, width), numpy.uint8)
+        for index, contour in enumerate(contours):
+            hole = hierarchy[0][index][3] != -1
+            area = abs(cv2.contourArea(contour)) * scale ** 2
+            if len(contour) >= 4 and cv2.arcLength(contour, True) * scale >= MIN_OUTLINE_METRES and area >= (MIN_HOLE_SQ_METRES if hole else trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)):
+                cv2.drawContours(edge, [contour], -1, 1, trace.get('strokePx', 7))
+        wall_ink = ink & (edge > 0) & ~masked & ~symbol_ink
+        # Plus the long bold strokes the band missed ("wallOpenPx": the radius
+        # an opening keeps walls but not boulder outlines).
+        if trace.get('wallOpenPx'):
+            r = trace['wallOpenPx']
+            bold = cv2.morphologyEx((ink & ~masked).astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1)))
+            parts, _ = ndimage.label(bold, structure=numpy.ones((3, 3)))
+            long_ids = [i + 1 for i, sl in enumerate(ndimage.find_objects(parts)) if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= trace.get('wallMinExtentPx', 200)]
+            # Grown back to the stroke's full width, within the ink.
+            wall_ink |= (cv2.dilate(numpy.isin(parts, long_ids).astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 3, 2 * r + 3))) > 0) & ink & ~symbol_ink
+        wall_ink = cv2.morphologyEx(wall_ink.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8)) > 0
+        skeleton = skeletonize(wall_ink)
+        neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+        for path in trace_skeleton(skeleton):
+            line = LineString([(x, y) for y, x in path])
+            free_end = any(neighbours[q] <= 1 for q in (path[0], path[-1]))
+            if line.length * scale < (trace.get('spurMetres', 2.5) if free_end else 0.3):
+                continue
+            line = smooth(line).simplify(trace.get('wallSimplifyMetres', SIMPLIFY_METRES) / scale)
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+        contours = []
     for index, contour in enumerate(contours):
         if len(contour) < 4:
             continue
@@ -739,6 +779,11 @@ def main(config_path, output):
             x0, y0, x1, y1 = area['box']
             inside[max(0, y0):y1, max(0, x0):x1] = True
         dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders & ~symbol_ink
+        if wall_ink is not None:
+            # Every other ink near the walls is detail: on such maps the band
+            # doesn't fill wide passages, so "inside" can't be trusted.
+            near = cv2.distanceTransform((~wall_ink).astype(numpy.uint8), cv2.DIST_L2, 5) * scale <= trace.get('detailReachMetres', 25)
+            inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
         water = band > 0 if trace.get('method') == 'colour-fill' else None
         features += detail_features(dark & inside & ~masked, water, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')
