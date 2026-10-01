@@ -41,7 +41,7 @@
       "box": [
         28,
         825,
-        476,
+        505,
         1003
       ]
     },
@@ -240,7 +240,7 @@
     "method": "wall-strokes",
     "openRadiusPx": 2,
     "minExtentPx": 50,
-    "boxSpurs": true,
+    "boxSpurs": false,
     "water": false,
     "eraseLines": [
       {
@@ -291,7 +291,13 @@
         ],
         "widthPx": 25
       }
-    ]
+    ],
+    "leaderMaxPx": 1,
+    "greyWalls": [
+      105,
+      150
+    ],
+    "greyMinExtentPx": 150
   },
   "symbols": {
     "units": "m",
@@ -458,6 +464,38 @@
         "px": [
           754,
           633
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          548,
+          82
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          1425,
+          474
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          2008,
+          995
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          625,
+          1085
         ]
       }
     ]

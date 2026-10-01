@@ -607,6 +607,19 @@ def main(config_path, output):
         weak_labels, _ = ndimage.label(weak, structure=numpy.ones((3, 3)))
         touching = numpy.unique(weak_labels[strong & (weak_labels > 0)])
         strokes = (strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)) & ~symbol_ink
+        # "greyWalls": [lo, hi] - walls drawn as a thin neutral-grey line
+        # (an underwater or underlying cave's outline): long lines of that
+        # tone count too.
+        if trace.get('greyWalls'):
+            lo, hi = trace['greyWalls']
+            rgb = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB')).astype(int)
+            neutral = (rgb.max(axis=2) - rgb.min(axis=2)) <= 30
+            tone = rgb.mean(axis=2)
+            grey_line = ((tone >= lo) & (tone <= hi) & neutral & ~masked).astype(numpy.uint8)
+            # Lines only: grey areas (boulder and pillar fills) taken out.
+            grey_line &= ~(cv2.dilate(cv2.morphologyEx(grey_line, cv2.MORPH_OPEN, numpy.ones((5, 5), numpy.uint8)), numpy.ones((5, 5), numpy.uint8)) > 0)
+            grey_line = cv2.morphologyEx(grey_line, cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8))
+            strokes |= long_parts(grey_line, trace.get('greyMinExtentPx', 2 * min_extent)) & ~symbol_ink
         to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
         place, scale, _ = raster_placement(config)
         features = []
