@@ -75,7 +75,7 @@ export default function EditMapDialog({ map, onClose, onRemove }) {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
             <MapSistemaField autoFocus value={details.title} onChange={(title) => setDetails((d) => ({ ...d, title }))} />
-            <PartialDateField size="small" allowRange={false} label={t('mapDate')} description={t('mapDateHint')} fullWidth value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
+            <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} fullWidth value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
             <AuthorsField value={details.authors} onChange={(authors) => setDetails((d) => ({ ...d, authors }))} />
             <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={details.note} onChange={(e) => setDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
           </Box>
@@ -90,7 +90,7 @@ export default function EditMapDialog({ map, onClose, onRemove }) {
         <Button onClick={onClose} disabled={saving}>
           {t('cancel')}
         </Button>
-        <Button variant="contained" onClick={confirmEdit} disabled={saving || !details.title.trim() || !isValidPartialDate(details.date, { allowRange: false })} startIcon={saving ? <CircularProgress size={16} /> : undefined}>
+        <Button variant="contained" onClick={confirmEdit} disabled={saving || !details.title.trim() || !isValidPartialDate(details.date)} startIcon={saving ? <CircularProgress size={16} /> : undefined}>
           {tEdit('save')}
         </Button>
       </DialogActions>

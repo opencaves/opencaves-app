@@ -141,7 +141,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
                   {pendingFile.name}
                 </Typography>
                 <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-                <PartialDateField size="small" allowRange={false} label={t('mapDate')} description={t('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+                <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
                 <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
                 <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
               </Box>
@@ -150,7 +150,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
               <Button size="small" onClick={cancelPendingUpload} disabled={uploading}>
                 {t('cancel')}
               </Button>
-              <Button size="small" variant="outlined" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim() || !isValidPartialDate(pendingDetails.date, { allowRange: false })} startIcon={uploading ? <CircularProgress size={16} /> : undefined} sx={{ minHeight: 48 }}>
+              <Button size="small" variant="outlined" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim() || !isValidPartialDate(pendingDetails.date)} startIcon={uploading ? <CircularProgress size={16} /> : undefined} sx={{ minHeight: 48 }}>
                 {t('add')}
               </Button>
             </Box>
