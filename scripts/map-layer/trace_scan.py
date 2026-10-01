@@ -688,13 +688,17 @@ def thin_walls(config_path, config, out, name):
         # Inside the cave: the guideline runs between walls, a label's leader
         # out in the open.
         to_wall = cv2.distanceTransform((~strokes).astype(numpy.uint8), cv2.DIST_L2, 5)
-        reach = trace.get('guidelineReachPx', 20)
+        reach = trace.get('guidelineReachPx', 45)
+        near_label = cv2.dilate(masked.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (31, 31))) > 0
         for line in getattr(merged, 'geoms', [merged]):
             if line.length * scale < trace.get('guidelineMinMetres', 10):
                 continue
             samples = [line.interpolate(d) for d in numpy.arange(0, line.length, 3)]
             inside = [to_wall[min(int(p.y), h - 1), min(int(p.x), w - 1)] <= reach for p in samples]
             if sum(inside) < 0.85 * len(inside):
+                continue
+            # A leader ends at its label.
+            if any(near_label[min(int(y), h - 1), min(int(x), w - 1)] for x, y in (line.coords[0], line.coords[-1])):
                 continue
             cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (220, 160, 0), 2)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
