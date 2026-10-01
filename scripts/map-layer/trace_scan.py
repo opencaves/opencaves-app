@@ -891,7 +891,8 @@ def main(config_path, output):
     if config.get('trace', {}).get('method') == 'thin-walls':
         return thin_walls(config_path, config, out, name)
     grey = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
-    ink = numpy.asarray(grey) < INK_LEVEL
+    # "inkLevel": ink is darker than this (a map on a dark background).
+    ink = numpy.asarray(grey) < config.get('trace', {}).get('inkLevel', INK_LEVEL)
     height, width = ink.shape
 
     masked = numpy.zeros_like(ink)
@@ -996,8 +997,25 @@ def main(config_path, output):
             boxes |= masked | leaders
         paths = survey_line_paths(config_path.parent.joinpath(config['image']).resolve(), boxes, trace,
                                   ink=ink, pool_points=[e['px'] for e in config.get('entrances', []) if 'px' in e])
-        for path in paths:
-            line = LineString([(x, y) for y, x in path])
+        lines = [LineString([(x, y) for y, x in path]) for path in paths if len(path) >= 2]
+        # "snapEndsPx": a line end within this of another line (a junction
+        # piece too short to keep, at a coarse scale) is carried onto it.
+        if trace.get('snapEndsPx'):
+            lines = [line for line in lines if line.length * scale >= MIN_OUTLINE_METRES]
+            from shapely.geometry import Point
+            from shapely.ops import nearest_points
+            snapped = []
+            for i, line in enumerate(lines):
+                coords = list(line.coords)
+                for end in (0, -1):
+                    p = Point(coords[end])
+                    best = min(((other.distance(p), j) for j, other in enumerate(lines) if j != i), default=(1e9, -1))
+                    if 0.3 < best[0] <= trace['snapEndsPx']:
+                        q = nearest_points(lines[best[1]], p)[0]
+                        coords.insert(0, (q.x, q.y)) if end == 0 else coords.append((q.x, q.y))
+                snapped.append(LineString(coords))
+            lines = snapped
+        for line in lines:
             if line.length * scale < MIN_OUTLINE_METRES:
                 continue
             line = line.simplify(max(SIMPLIFY_METRES, scale / 2) / scale)

@@ -106,7 +106,7 @@ def main(config_path, output):
     width, height = image.size
     factor = min(1, MAX_SIDE / max(width, height))
     small = image.resize((round(width * factor), round(height * factor)), Image.LANCZOS)
-    ink = numpy.asarray(small) < INK_LEVEL
+    ink = numpy.asarray(small) < config.get('trace', {}).get('inkLevel', INK_LEVEL)
     rgba = numpy.zeros((*ink.shape, 4), numpy.uint8)
     rgba[ink] = (*INK_COLOUR, 255)
     overlay = Image.fromarray(rgba, 'RGBA')
