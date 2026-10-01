@@ -297,10 +297,10 @@
     {
       "why": "X-Cacelito pool: drawn ~450 m south of the real cenote, at the sea's edge",
       "box": [
-        2200,
-        40,
-        2330,
-        150
+        2190,
+        30,
+        2380,
+        160
       ]
     },
     {
@@ -310,6 +310,15 @@
         370,
         2310,
         470
+      ]
+    },
+    {
+      "why": "label Salle corrodee (north)",
+      "box": [
+        1800,
+        460,
+        2075,
+        505
       ]
     }
   ],
