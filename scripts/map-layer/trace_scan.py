@@ -78,7 +78,16 @@ SIMPLIFY_METRES = 0.5
 SMOOTH_PASSES = 2
 
 
-def ocr_words(image, cache):
+def ocr_words(image, cache, config=None):
+    words = ocr_words_cached(image, cache)
+    # Ink OCR misreads as a label ("notLabelBoxes": [[x0, y0, x1, y1], ...],
+    # e.g. a wall tick read "Yor"): its mask would cut the wall it sits on.
+    boxes = ((config or {}).get('trace') or {}).get('notLabelBoxes', [])
+    inside = lambda wd, b: b[0] <= (wd['box'][0] + wd['box'][2]) / 2 <= b[2] and b[1] <= (wd['box'][1] + wd['box'][3]) / 2 <= b[3]  # noqa: E731
+    return [wd for wd in words if not any(inside(wd, b) for b in boxes)]
+
+
+def ocr_words_cached(image, cache):
     if cache.exists():
         return json.loads(cache.read_text(encoding='utf-8'))
     import pytesseract
@@ -599,7 +608,7 @@ def thin_walls(config_path, config, out, name):
     masked = numpy.zeros_like(ink)
     for item in config.get('exclude', []):
         x0, y0, x1, y1 = item['box']; masked[max(0, y0):y1, max(0, x0):x1] = True
-    words = ocr_words(Image.fromarray(grey), out / f'{name}-ocr-words.json')
+    words = ocr_words(Image.fromarray(grey), out / f'{name}-ocr-words.json', config)
     letters = lambda wd: sum(c.isalpha() for c in wd['t'])  # noqa: E731
     # OCR also "reads" wall wiggles as words ("Ny", "NES", "HOTS"): only letter words of a label's height, read confidently.
     label_words = [wd for wd in words if (letters(wd) >= 3 and letters(wd) >= 0.8 * len(wd['t']) and wd['conf'] >= trace.get('labelConf', 60) and wd['box'][3] - wd['box'][1] <= trace.get('labelMaxHeightPx', 30))
@@ -933,7 +942,7 @@ def main(config_path, output):
                     body = ndimage.binary_fill_holes(body).astype(numpy.uint8)
                 masked[window] |= cv2.dilate(body, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * pad + 1, 2 * pad + 1))) > 0
     colour_masked = masked.copy()
-    words = ocr_words(grey, out / f'{name}-ocr-words.json')
+    words = ocr_words(grey, out / f'{name}-ocr-words.json', config)
     labels_only = real_labels(words)
     for word in labels_only:
         x0, y0, x1, y1 = word['box']

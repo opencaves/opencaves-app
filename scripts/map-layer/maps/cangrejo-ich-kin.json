@@ -1,0 +1,879 @@
+{
+  "image": "../../../_data/maps-import/images/cangrejoich-kin-sist-tulum.webp",
+  "title": "Sistema Cangrejo - Ich Kin, Chemuyil - Czech Speleological Society",
+  "credits": "Explored and surveyed 2002-2006 by R. Jančar, L. P. Kronwich, R. Husák, D. Hutňan, J. Hurab, V. Kaman, M. Megela, T. Mokrý, Z. Motyčka, J. Sirotek, R. Schmitner, J. Žilina; drawn by R. Jančar, R. Husák, D. Hutňan, Z. Motyčka, J. Sirotek; digitised and edited by J. Sirotek. Czech Speleological Society",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfrQo9dmASXrYeb6",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      1069,
+      2997
+    ],
+    "to": [
+      1623,
+      2997
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "placementWhy": "Weak placement: scale from the 100 m bar (0.1805 m/px; the 'Chemuyil' version's 250 m bar gives 0.1812 m/px for the same drawing), north up (the arrow is magnetic, 'N mg', 2002-2006: about 1-2 degrees off true, ignored like on Dzonot Zebra by the same team - up to 20 m at Naibosh, 690 m away), shifted onto one point: Cenote Cangrejo's pool (the black fill at the end of the NNE passage, under its name) put on a dark hole at the foot of a tree island in a grassy clearing, 62 m NNW of the database's Cangrejo (Gerrard 2015, not taken on site; kept as a check point). Nothing else to check against: closed forest, no pond seen where Ich Kin (233 m N of Cangrejo on the map) or Naibosh (690 m WNW) fall, no OSM road or water closer than 1.2 km, and no already placed map overlaps (Dzonot Zebra ends about 500 m south, K'oox Baal about 1 km south). A white roof 95 m west of where Ich Kin falls might be a camp at a cenote. Uncertainty: tens of metres at best; a GPS fix of Cangrejo or Ich Kin on site would settle it.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVFoXnqN0g3nPjBX",
+      "name": "Cangrejo pool = dark hole by a tree island on the satellite",
+      "px": [
+        3775,
+        2360
+      ],
+      "latitude": 20.39226,
+      "longitude": -87.43518
+    },
+    {
+      "caveId": "-KPZkVFoXnqN0g3nPjBX",
+      "name": "Cangrejo (database, Gerrard 2015)",
+      "px": [
+        3775,
+        2360
+      ],
+      "latitude": 20.39176,
+      "longitude": -87.43491,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Naibosh",
+      "px": [
+        140,
+        340
+      ]
+    },
+    {
+      "caveId": "-KPZkVKKJ0jO6giWK0i0",
+      "name": "Cenote Ich Kin",
+      "px": [
+        3560,
+        1070
+      ]
+    },
+    {
+      "caveId": "-KPZkVFoXnqN0g3nPjBX",
+      "name": "Cenote Cangrejo",
+      "px": [
+        3775,
+        2360
+      ]
+    }
+  ],
+  "exclude": [
+    {
+      "why": "cenote name",
+      "box": [
+        80,
+        90,
+        900,
+        200
+      ]
+    },
+    {
+      "why": "north arrow (magnetic)",
+      "box": [
+        1280,
+        2490,
+        1560,
+        2860
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1040,
+        2880,
+        1760,
+        3020
+      ]
+    },
+    {
+      "why": "cenote name",
+      "box": [
+        3520,
+        1150,
+        4300,
+        1290
+      ]
+    },
+    {
+      "why": "cenote name",
+      "box": [
+        3680,
+        2130,
+        4600,
+        2240
+      ]
+    },
+    {
+      "why": "label",
+      "box": [
+        3735,
+        2780,
+        3990,
+        2880
+      ]
+    },
+    {
+      "why": "label",
+      "box": [
+        3100,
+        2990,
+        3350,
+        3090
+      ]
+    },
+    {
+      "why": "label",
+      "box": [
+        700,
+        2175,
+        1230,
+        2270
+      ]
+    },
+    {
+      "why": "label",
+      "box": [
+        1640,
+        2243,
+        1738,
+        2277
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2945,
+        1736,
+        3004,
+        1798
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2604,
+        156,
+        2700,
+        232
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2896,
+        164,
+        3024,
+        232
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1114,
+        319,
+        1259,
+        413
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3163,
+        322,
+        3306,
+        396
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2651,
+        336,
+        2807,
+        399
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1646,
+        399,
+        1796,
+        482
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        153,
+        420,
+        304,
+        494
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2526,
+        420,
+        2646,
+        505
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1967,
+        438,
+        2195,
+        537
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3278,
+        470,
+        3472,
+        541
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2620,
+        505,
+        2767,
+        605
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        407,
+        510,
+        500,
+        559
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2821,
+        540,
+        3081,
+        648
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1381,
+        609,
+        1436,
+        654
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1947,
+        608,
+        2246,
+        710
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2291,
+        741,
+        2660,
+        816
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2679,
+        766,
+        2832,
+        863
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3035,
+        817,
+        3254,
+        916
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4687,
+        876,
+        4747,
+        914
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3727,
+        882,
+        3824,
+        939
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        793,
+        888,
+        851,
+        929
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        951,
+        966,
+        1018,
+        1020
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3906,
+        1009,
+        4012,
+        1058
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1307,
+        1072,
+        1449,
+        1171
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1305,
+        1155,
+        1446,
+        1222
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1935,
+        1222,
+        2059,
+        1314
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3333,
+        1614,
+        3533,
+        1668
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3256,
+        1622,
+        3327,
+        1670
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2677,
+        1803,
+        2756,
+        1851
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2771,
+        1860,
+        2853,
+        1901
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2562,
+        1891,
+        2624,
+        1940
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3296,
+        1897,
+        3370,
+        1941
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2774,
+        1926,
+        2872,
+        1967
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        963,
+        1970,
+        1020,
+        2032
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2182,
+        2029,
+        2273,
+        2082
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1786,
+        2066,
+        1864,
+        2126
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        520,
+        2076,
+        572,
+        2121
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        758,
+        2096,
+        804,
+        2153
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        291,
+        2100,
+        347,
+        2140
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        349,
+        2102,
+        402,
+        2153
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1957,
+        2113,
+        2019,
+        2163
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1538,
+        2127,
+        1591,
+        2168
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1381,
+        2173,
+        1436,
+        2220
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2332,
+        2179,
+        2392,
+        2218
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3165,
+        2286,
+        3289,
+        2339
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1487,
+        2325,
+        1549,
+        2366
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2539,
+        2339,
+        2615,
+        2387
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1743,
+        2369,
+        1797,
+        2410
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2002,
+        2379,
+        2073,
+        2440
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3728,
+        2437,
+        3776,
+        2495
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2435,
+        2499,
+        2504,
+        2547
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2462,
+        2539,
+        2508,
+        2596
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2571,
+        2556,
+        2627,
+        2602
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2593,
+        2640,
+        2644,
+        2684
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3494,
+        2734,
+        3567,
+        2782
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3331,
+        2881,
+        3383,
+        2918
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3665,
+        2939,
+        3720,
+        2980
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3678,
+        3009,
+        3735,
+        3075
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3447,
+        3039,
+        3504,
+        3078
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        444,
+        2027,
+        487,
+        2067
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        439,
+        2177,
+        483,
+        2221
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1272,
+        2022,
+        1309,
+        2064
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2121,
+        1976,
+        2153,
+        2019
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2166,
+        2283,
+        2210,
+        2323
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2471,
+        2317,
+        2517,
+        2357
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2464,
+        2462,
+        2505,
+        2504
+      ]
+    },
+    {
+      "why": "longitudinal section (grey halo on the 'Chemuyil' version), drawn beside the passage",
+      "box": [
+        2865,
+        1175,
+        3075,
+        1265
+      ]
+    },
+    {
+      "why": "longitudinal section (grey halo on the 'Chemuyil' version), drawn beside the passage",
+      "box": [
+        2865,
+        1265,
+        2962,
+        1310
+      ]
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "fillStrokeHolesPx": 400,
+    "notLabelBoxes": [
+      [
+        2950,
+        1310,
+        3070,
+        1357
+      ]
+    ]
+  },
+  "symbols": {
+    "units": "m",
+    "letters": {},
+    "why": "No legend, no depth (no overlined/underlined number anywhere), no flow arrow. The small T/Y ticks on the walls are not explained on the map (cross-section marks in this team's maps; far more ticks than sections here). The names below are read on the 'Chemuyil' version of the same drawing (more labels, too small or missing on this one) and carried over to this scan's pixels (affine fit between the two, 2.8 px rms).",
+    "extra": [
+      {
+        "type": "bones",
+        "label": "Bones founded",
+        "px": [
+          2390,
+          2452
+        ]
+      },
+      {
+        "type": "restriction",
+        "label": "Restriction",
+        "px": [
+          1625,
+          2243
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "North continues",
+        "px": [
+          2642,
+          1880
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Upstream mainline",
+        "px": [
+          970,
+          2226
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "LP's first",
+        "px": [
+          3790,
+          2827
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Footprints",
+        "px": [
+          3226,
+          3043
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trubka line",
+        "px": [
+          1819,
+          1974
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tiger line",
+        "px": [
+          2461,
+          2648
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lost left",
+        "px": [
+          400,
+          2239
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Forgotten man",
+        "px": [
+          1596,
+          2358
+        ]
+      }
+    ]
+  },
+  "unverified": "placed on a guessed opening in the canopy as Cangrejo; no cenote of the map has a reliable position (Cangrejo's is from Gerrard, Ich Kin and Naibosh have none)"
+}
