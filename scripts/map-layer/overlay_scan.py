@@ -165,7 +165,7 @@ map.on('load', () => {
     const p = f.properties
     const el = document.createElement('div')
     el.className = 'symbol'
-    el.textContent = p.type === 'leads-to' ? `→ ${p.label}` : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
+    el.textContent = p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'place-name' ? p.label : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
     el.title = p.type + (p.value !== undefined ? ` ${p.value} m (map: ${p.label})` : '')
     symbolMarkers.push(new mapboxgl.Marker({ element: el }).setLngLat(f.geometry.coordinates).addTo(map))
   }

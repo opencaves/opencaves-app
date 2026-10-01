@@ -367,7 +367,9 @@ def main(config_path, output):
     # the ones recognition misses (a blurred letter on a photo).
     for item in legend.get('extra', []):
         x, y = item['px']
-        symbols.append({'type': item['type'], 'label': item.get('label', ''), 'box': [x - 5, y - 6, x + 5, y + 6],
+        # A number's box covers its digits and bar, so its ink isn't drawn too.
+        half = item.get('halfPx', 45 if 'value' in item else 6)
+        symbols.append({'type': item['type'], 'label': item.get('label', ''), 'box': [x - half, y - half, x + half, y + half],
                         **({'value': item['value']} if 'value' in item else {})})
 
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)

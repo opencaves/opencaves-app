@@ -31,6 +31,7 @@ Every symbol becomes a point with:
 | `passage-narrow` | Narrow passage (`a`, *pasaje angosto*) | - | a |
 | `bones` | Bones (animal or human remains) - of special interest: look for every one on each map, by hand where detection misses | - | `B` |
 | `leads-to` | The passage continues to another cave or cenote off the map ("To Muknal", "To Cenote Naharon 2800 ft"): kept on every map, labelled as on the map ("To Muknal") | - | → |
+| `place-name` | A named place in the cave ("A Tunnel", "The Ballcourt", "Battleship Room"): kept on every map, at its label; its leader line isn't drawn | - | name |
 | `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 

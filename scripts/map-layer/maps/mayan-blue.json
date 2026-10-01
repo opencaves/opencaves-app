@@ -1136,6 +1136,194 @@
           7386,
           10072
         ]
+      },
+      {
+        "type": "depth",
+        "label": "85",
+        "value": 85,
+        "px": [
+          5967,
+          8873
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          6907,
+          9033
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          7013,
+          10053
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p.510",
+        "value": 510,
+        "px": [
+          7307,
+          9020
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cenote Naharon Siphon Tunnel",
+        "px": [
+          1515,
+          480
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "C Tunnel",
+        "px": [
+          1729,
+          1110
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "C Tunnel",
+        "px": [
+          1640,
+          2330
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "F Tunnel",
+        "px": [
+          3470,
+          2470
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "A Tunnel",
+        "px": [
+          3150,
+          3715
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "E Tunnel",
+        "px": [
+          4356,
+          4040
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "K Tunnel",
+        "px": [
+          2898,
+          5130
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Time Tunnel",
+        "px": [
+          6468,
+          5220
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "B Tunnel",
+        "px": [
+          4620,
+          5508
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "A Tunnel",
+        "px": [
+          4626,
+          6840
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Battleship Room",
+        "px": [
+          2407,
+          2700
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Death Arrow Passage",
+        "px": [
+          4386,
+          5975
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dead Zone",
+        "px": [
+          5587,
+          6198
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dead Zone",
+        "px": [
+          6930,
+          7435
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Tubes",
+        "px": [
+          4742,
+          8293
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hostage Hall",
+        "px": [
+          3800,
+          8915
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Ballcourt",
+        "px": [
+          6234,
+          9932
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dark Domes",
+        "px": [
+          950,
+          4725
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Chunyaxche",
+        "px": [
+          987,
+          2187
+        ]
       }
     ]
   },
@@ -1213,6 +1401,30 @@
           8030
         ],
         "widthPx": 11
+      },
+      {
+        "why": "Cenote of the Sun entrance label leader",
+        "from": [
+          6587,
+          10187
+        ],
+        "to": [
+          6775,
+          9998
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "The Ballcourt label leader",
+        "from": [
+          6250,
+          9825
+        ],
+        "to": [
+          6342,
+          9718
+        ],
+        "widthPx": 13
       }
     ],
     "spurReachPx": 80,
