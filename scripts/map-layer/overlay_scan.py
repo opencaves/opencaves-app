@@ -106,10 +106,15 @@ def main(config_path, output):
     width, height = image.size
     factor = min(1, MAX_SIDE / max(width, height))
     small = image.resize((round(width * factor), round(height * factor)), Image.LANCZOS)
-    ink = numpy.asarray(small) < config.get('trace', {}).get('inkLevel', INK_LEVEL)
-    rgba = numpy.zeros((*ink.shape, 4), numpy.uint8)
-    rgba[ink] = (*INK_COLOUR, 255)
-    overlay = Image.fromarray(rgba, 'RGBA')
+    if config.get('scanInColour') or config.get('trace', {}).get('method') == 'survey-lines' and config.get('trace', {}).get('lineColours'):
+        # A map drawn over imagery (a satellite screenshot): its own colours,
+        # so the drawn lines can be told from the background they sit on.
+        overlay = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGBA').resize(small.size, Image.LANCZOS)
+    else:
+        ink = numpy.asarray(small) < config.get('trace', {}).get('inkLevel', INK_LEVEL)
+        rgba = numpy.zeros((*ink.shape, 4), numpy.uint8)
+        rgba[ink] = (*INK_COLOUR, 255)
+        overlay = Image.fromarray(rgba, 'RGBA')
     overlay.save(out / f'{name}-overlay.png')
     # Embedded in the page: opened from disk, it may not load a separate file.
     buffer = io.BytesIO()
