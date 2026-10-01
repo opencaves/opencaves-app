@@ -293,6 +293,24 @@
         3913
       ],
       "inside": true
+    },
+    {
+      "why": "X-Cacelito pool: drawn ~450 m south of the real cenote, at the sea's edge",
+      "box": [
+        2200,
+        40,
+        2330,
+        150
+      ]
+    },
+    {
+      "why": "sliver of the coastline left by the sea mask",
+      "box": [
+        2270,
+        370,
+        2310,
+        470
+      ]
     }
   ],
   "controlPoints": [
