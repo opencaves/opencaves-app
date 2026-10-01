@@ -108,6 +108,33 @@
         5345
       ],
       "history": true
+    },
+    {
+      "why": "label La Boca",
+      "box": [
+        1264,
+        896,
+        1696,
+        1216
+      ]
+    },
+    {
+      "why": "label Cavernas de Los Colmillos",
+      "box": [
+        784,
+        1776,
+        1664,
+        2112
+      ]
+    },
+    {
+      "why": "small surface sketch (grass, rocks)",
+      "box": [
+        1984,
+        3136,
+        2336,
+        3376
+      ]
     }
   ],
   "scaleBar": {
