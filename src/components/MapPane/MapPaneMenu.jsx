@@ -16,6 +16,15 @@ export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
     setAnchorEl(null)
   }
 
+  // Focus leaves the menu's button before a dialog opens: the closing menu
+  // hands focus back to it, and the dialog then hides the page (aria-hidden on
+  // #root) with focus still inside it, which the browser blocks.
+  function act(action) {
+    handleClose()
+    document.activeElement?.blur()
+    action(map)
+  }
+
   return (
     <>
       <IconButton
@@ -37,10 +46,7 @@ export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem
-          onClick={() => {
-            handleClose()
-            onEdit(map)
-          }}
+          onClick={() => act(onEdit)}
         >
           <ListItemIcon>
             <EditRounded fontSize="small" />
@@ -49,10 +55,7 @@ export default function MapPaneMenu({ map, onEdit, onDelete, ...props }) {
         </MenuItem>
         {onDelete && (
           <MenuItem
-            onClick={() => {
-              handleClose()
-              onDelete(map)
-            }}
+            onClick={() => act(onDelete)}
             sx={{ color: 'error.main' }}
           >
             <ListItemIcon sx={{ color: 'error.main' }}>

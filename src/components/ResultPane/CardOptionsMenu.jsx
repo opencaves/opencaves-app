@@ -41,6 +41,9 @@ export default function CardOptionsMenu({ ariaLabel, actions }) {
             to={action.to}
             onClick={() => {
               handleClose()
+              // Focus off the menu's button first: an action opening a dialog
+              // would otherwise hide the page with focus still inside it.
+              document.activeElement?.blur()
               action.onClick?.()
             }}
             sx={action.danger ? { color: 'error.main' } : undefined}
