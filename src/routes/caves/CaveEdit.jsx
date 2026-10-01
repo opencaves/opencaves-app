@@ -50,6 +50,7 @@ const emptyForm = {
   accessibilityDetails: '',
   description: '',
   direction: '',
+  cenoteEntrance: false,
   fees: false,
   facilities: false,
   activities: false,
@@ -132,6 +133,7 @@ export default function CaveEdit() {
         accessibilityDetails: cave?.accessibilityDetails || '',
         description: cave?.description || '',
         direction: cave?.direction || '',
+        cenoteEntrance: !!cave?.cenoteEntrance,
         fees: !!cave?.fees,
         facilities: !!cave?.facilities,
         activities: !!cave?.activities,
@@ -189,6 +191,7 @@ export default function CaveEdit() {
         accessibilityDetails: form.accessibilityDetails || undefined,
         description: form.description || undefined,
         direction: form.direction || undefined,
+        cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
         activities: form.activities,
@@ -403,6 +406,7 @@ export default function CaveEdit() {
         <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
           <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
           <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
           <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />

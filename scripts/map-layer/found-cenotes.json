@@ -2,11 +2,45 @@
  "note": "Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). Positions come from maps: never mark them as GPS.",
  "entries": [
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVI727bPAYLuZ57-",
+   "name": "Dos Ojos West",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "id": "-KPZkVI727bPAYLuZ57-"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVI6As-MTOD9BQ0C",
+   "name": "Dos Ojos East",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "id": "-KPZkVI6As-MTOD9BQ0C"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVIAQhUFjZdJ21BJ",
+   "name": "Dos Palmas",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "id": "-KPZkVIAQhUFjZdJ21BJ"
+  },
+  {
    "name": "Mott Mott",
    "latitude": 20.322975,
    "longitude": -87.38513,
    "accuracy": 105,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -22,6 +56,7 @@
    "longitude": -87.402159,
    "accuracy": 105,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -32,11 +67,23 @@
    "id": "-KPZkVQy9BtHOdENS8pe"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOHg9AafOTvAonr",
+   "name": "The Pit",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "id": "-KPZkVOHg9AafOTvAonr"
+  },
+  {
    "name": "Kentucky Castle",
    "latitude": 20.333251,
    "longitude": -87.411928,
    "accuracy": 105,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -52,6 +99,7 @@
    "longitude": -87.413659,
    "accuracy": 105,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -67,6 +115,7 @@
    "longitude": -87.41217,
    "accuracy": 105,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -77,11 +126,133 @@
    "id": "-KPZkVMCB5QB9-wEv7Ix"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOMZId8yVJJ2Bru",
+   "name": "Pet Cemetary",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+   ],
+   "id": "-KPZkVOMZId8yVJJ2Bru"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKJ_lfXl0ta-asY",
+   "name": "Ich Balam",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Hoyo Negro - Aktun-Hu (A. Nava Blank 2012)"
+   ],
+   "id": "-KPZkVKJ_lfXl0ta-asY"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKdh5s4r6q7OyiD",
+   "name": "K'oox Baal",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVKdh5s4r6q7OyiD"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVL3JsUJj2d1VxEq",
+   "name": "Kot Be",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVL3JsUJj2d1VxEq"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVEMpzHZkAcISBMH",
+   "name": "Balam Ts’al",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVEMpzHZkAcISBMH"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVHIOAQIZcGBVR5w",
+   "name": "Coop One",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVHIOAQIZcGBVR5w"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVPP0HdyLktP7wYu",
+   "name": "Sac Xiquin",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVPP0HdyLktP7wYu"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
+   "name": "Tres Estrellas",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVR7TVdfZ0Mn1y5x"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQ_EDwgC4Ip9o1A",
+   "name": "Tan Ich",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVQ_EDwgC4Ip9o1A"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNN67s9k-Ro6pUY",
+   "name": "Nai Tucha",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVNN67s9k-Ro6pUY"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+   "name": "Shaman Ek",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVPtkGgeUsJ0ehwP"
+  },
+  {
    "name": "Koi",
    "latitude": 20.35944,
    "longitude": -87.413409,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -102,6 +273,7 @@
    "longitude": -87.424261,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -112,11 +284,23 @@
    "id": "-KPZkVFsdd1DKJcHWlhE"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVGsoDbaSVnXkgu3",
+   "name": "Chun Che Chen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVGsoDbaSVnXkgu3"
+  },
+  {
    "name": "Sac Xib",
    "latitude": 20.3701,
    "longitude": -87.427431,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -132,6 +316,7 @@
    "longitude": -87.42059,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -147,6 +332,7 @@
    "longitude": -87.425588,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -162,6 +348,7 @@
    "longitude": -87.425125,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -172,11 +359,23 @@
    "id": "-KPZkVJt864q7iMnXKBe"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOiQxMT7H5QGe1B",
+   "name": "Quinnan",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVOiQxMT7H5QGe1B"
+  },
+  {
    "name": "Numya",
    "latitude": 20.364293,
    "longitude": -87.425402,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -196,6 +395,7 @@
    "longitude": -87.422995,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -211,6 +411,7 @@
    "longitude": -87.424973,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -226,6 +427,7 @@
    "longitude": -87.422819,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -241,6 +443,7 @@
    "longitude": -87.411231,
    "accuracy": 40,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -251,11 +454,78 @@
    "id": "-KPZkVI9l6v5rCfsRB4t"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVJByjlbUaBg6uHP",
+   "name": "Mayan Blue",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "id": "-KPZkVJByjlbUaBg6uHP"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQIUmE-exDOoKQE",
+   "name": "Sunhole",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "id": "-KPZkVQIUmE-exDOoKQE"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLrs80cfalEzD9z",
+   "name": "Lost Cenote",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "id": "-KPZkVLrs80cfalEzD9z"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVMNaXw0oRR305Yi",
+   "name": "Maya Two",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "id": "-KPZkVMNaXw0oRR305Yi"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVG0pYan2AfIT795",
+   "name": "Cenote of the Sun",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "id": "-KPZkVG0pYan2AfIT795"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVMjI64D9Glpfgqy",
+   "name": "Misterio Maya",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Misterio Maya - Sprouse 2015"
+   ],
+   "id": "-KPZkVMjI64D9Glpfgqy"
+  },
+  {
    "name": "Entrada Zapodilla",
    "latitude": 20.337431,
    "longitude": -87.385063,
    "accuracy": 15,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -270,11 +540,34 @@
    "id": "-KPZkVUdsf7b8XDBQo4d"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNqspWCKvlyjZui",
+   "name": "Odyssey",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVNqspWCKvlyjZui"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVMsKKtbbEh9YSam",
+   "name": "Moonpod",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVMsKKtbbEh9YSam"
+  },
+  {
    "name": "Crack",
    "latitude": 20.165326,
    "longitude": -87.497655,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -290,6 +583,7 @@
    "longitude": -87.492084,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -305,6 +599,7 @@
    "longitude": -87.482731,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -320,6 +615,7 @@
    "longitude": -87.477117,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -330,11 +626,23 @@
    "id": "-KPZkVM-v9OPgGiq5n4i"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLp_-_ss4LMh3MJ",
+   "name": "Los Canales",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVLp_-_ss4LMh3MJ"
+  },
+  {
    "name": "Yax Kai",
    "latitude": 20.162538,
    "longitude": -87.492537,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -350,6 +658,7 @@
    "longitude": -87.46516,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -365,6 +674,7 @@
    "longitude": -87.467958,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -375,11 +685,23 @@
    "id": "-KPZkVLJQAZV870ZrA75"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVJFcfn7QCh-s0yH",
+   "name": "Esmeralda (north)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVJFcfn7QCh-s0yH"
+  },
+  {
    "name": "La Mesa",
    "latitude": 20.159684,
    "longitude": -87.468042,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -395,6 +717,7 @@
    "longitude": -87.476284,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -410,6 +733,7 @@
    "longitude": -87.485589,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -425,6 +749,7 @@
    "longitude": -87.461379,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -440,6 +765,7 @@
    "longitude": -87.479845,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -455,6 +781,7 @@
    "longitude": -87.495216,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -470,6 +797,7 @@
    "longitude": -87.484269,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -485,6 +813,7 @@
    "longitude": -87.495443,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -500,6 +829,7 @@
    "longitude": -87.497066,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -515,6 +845,7 @@
    "longitude": -87.476919,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "satellite",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -530,6 +861,7 @@
    "longitude": -87.458266,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -545,6 +877,7 @@
    "longitude": -87.461398,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -560,6 +893,7 @@
    "longitude": -87.474773,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "satellite",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -575,6 +909,7 @@
    "longitude": -87.457625,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -590,6 +925,7 @@
    "longitude": -87.460599,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -608,6 +944,7 @@
    "longitude": -87.499202,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -623,6 +960,7 @@
    "longitude": -87.459373,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -638,6 +976,7 @@
    "longitude": -87.478795,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -648,11 +987,23 @@
    "id": "-KPZkVG502HXmcPKNRUV"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVHn5J6gyz85LeWf",
+   "name": "Del Mar",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVHn5J6gyz85LeWf"
+  },
+  {
    "name": "Sac Ek",
    "latitude": 20.154335,
    "longitude": -87.500661,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -668,6 +1019,7 @@
    "longitude": -87.457193,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -678,11 +1030,23 @@
    "id": "-KPZkVEsDqX5STfDBhTE"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLQedkqixb4C1tN",
+   "name": "Labyrinth",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVLQedkqixb4C1tN"
+  },
+  {
    "name": "Wakax",
    "latitude": 20.1539,
    "longitude": -87.482502,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -698,6 +1062,7 @@
    "longitude": -87.481568,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -713,6 +1078,7 @@
    "longitude": -87.478739,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -728,6 +1094,7 @@
    "longitude": -87.470389,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -743,6 +1110,7 @@
    "longitude": -87.46937,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -758,6 +1126,7 @@
    "longitude": -87.485262,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -773,6 +1142,7 @@
    "longitude": -87.487698,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -788,6 +1158,7 @@
    "longitude": -87.488301,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -803,6 +1174,7 @@
    "longitude": -87.463402,
    "accuracy": 26,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
@@ -816,11 +1188,57 @@
    "id": "-P2sADZQBWeVLH2g9hVs"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVI727bPAYLuZ57-",
+   "name": "Dos Ojos West",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVI727bPAYLuZ57-"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOMZId8yVJJ2Bru",
+   "name": "Pet Cemetary",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)",
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-KPZkVOMZId8yVJJ2Bru"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNzfSSmiBN1SU5j",
+   "name": "Outland",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVNzfSSmiBN1SU5j"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNge9HQ8UGSwzpG",
+   "name": "Nohoch Nah Chich",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVNge9HQ8UGSwzpG"
+  },
+  {
    "name": "Muul Ha",
    "latitude": 20.271837,
    "longitude": -87.407368,
    "accuracy": 49,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -831,11 +1249,145 @@
    "id": "-KPZkVNCd7yqsfE4UJrj"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVM5yUqQ3kX4bqt2",
+   "name": "Manatì",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVM5yUqQ3kX4bqt2"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNekiLd1IZHTGvl",
+   "name": "Nohoch Kiin",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVNekiLd1IZHTGvl"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQtjQNGd2uYJeMP",
+   "name": "Grand Cenote",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVQtjQNGd2uYJeMP"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNVCWECUVABfB5X",
+   "name": "Naval",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)",
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-KPZkVNVCWECUVABfB5X"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDMNEdChvNgOQi4",
+   "name": "Abejas",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVDMNEdChvNgOQi4"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVJNdAmA4o9vuJmX",
+   "name": "Esqueleto",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)"
+   ],
+   "id": "-KPZkVJNdAmA4o9vuJmX"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsQVkLjr5WlLxPYdR",
+   "name": "Pozo Profundo",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsQVkLjr5WlLxPYdR"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsQ_hV-utld3kcOLV",
+   "name": "Big Cenote",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsQ_hV-utld3kcOLV"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsQ_luJZL5ySUcHH5",
+   "name": "BFR",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsQ_luJZL5ySUcHH5"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsJZtju489wJLZVMp",
+   "name": "Sin Nombre",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsJZtju489wJLZVMp"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsKGb9sxO0XrcGrfg",
+   "name": "Sardinas",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsKGb9sxO0XrcGrfg"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsLAki6LsSGo9o9lS",
+   "name": "Dos Plumas de Toh",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsLAki6LsSGo9o9lS"
+  },
+  {
    "name": "The Link",
    "latitude": 20.318974,
    "longitude": -87.41027,
    "accuracy": 15,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-P2qrQPktuQPf2Sir0nb",
    "maps": [
@@ -846,11 +1398,89 @@
    "id": "-KPZkVQvy2EkEuQnZMe7"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsLzK5fb21w22Od-E",
+   "name": "Xibalbá",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsLzK5fb21w22Od-E"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsNWy9FpPLWde2te9",
+   "name": "Vainilla Norte",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsNWy9FpPLWde2te9"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsOSuylKGw7Z09una",
+   "name": "Vainilla Sur",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsOSuylKGw7Z09una"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2qsP-HWk1pgmZAy_H9",
+   "name": "Coralillo Falso",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2qsP-HWk1pgmZAy_H9"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2quOIn-0oKyNNp8xff",
+   "name": "Mosquitos",
+   "cenoteEntrance": true,
+   "sourceId": "-P2qrQPktuQPf2Sir0nb",
+   "maps": [
+    "Sistema Sac Actun - Pet Cemetery Area"
+   ],
+   "id": "-P2quOIn-0oKyNNp8xff"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFel2GxOOnCkQNr",
+   "name": "Calimba",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-KPZkVFel2GxOOnCkQNr"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFBE8Ux6KewqJS7",
+   "name": "Bosh Chen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-KPZkVFBE8Ux6KewqJS7"
+  },
+  {
    "name": "Pabilanny",
    "latitude": 20.249946,
    "longitude": -87.473401,
    "accuracy": 14,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -866,6 +1496,7 @@
    "longitude": -87.470461,
    "accuracy": 14,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -876,11 +1507,45 @@
    "id": "-KPZkVEAEspvQ6zbiN1r"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVK4Mmw4tY9i_ksA",
+   "name": "Ho-Tul",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-KPZkVK4Mmw4tY9i_ksA"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQtjQNGd2uYJeMP",
+   "name": "Grand Cenote",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-KPZkVQtjQNGd2uYJeMP"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2r73zJLOT8bjioeqm8",
+   "name": "Snake",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-P2r73zJLOT8bjioeqm8"
+  },
+  {
    "name": "Four Doors",
    "latitude": 20.245323,
    "longitude": -87.460968,
    "accuracy": 14,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -891,11 +1556,111 @@
    "id": "-KPZkVJgaYAcxWVY0yz6"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-P2r75MkhYQjjnQJWmtd",
+   "name": "Lil's",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-P2r75MkhYQjjnQJWmtd"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2r75Msvz8Gy4e08YlR",
+   "name": "Cenote of the Bones",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-P2r75Msvz8Gy4e08YlR"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-P2r75Mz73-Cq3Ar7mBk",
+   "name": "Capak",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Actun - QRSS 2000"
+   ],
+   "id": "-P2r75Mz73-Cq3Ar7mBk"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFZW7SgdJ2EgTg1",
+   "name": "Cabeza Azteca",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVFZW7SgdJ2EgTg1"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDfSJ3JcxrBjG78",
+   "name": "Aktun-Hu",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVDfSJ3JcxrBjG78"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNP1gaVE-XoVTT1",
+   "name": "Nariz",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVNP1gaVE-XoVTT1"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQZCIinKTv-3ccE",
+   "name": "Tamakas",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVQZCIinKTv-3ccE"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLOg5GeHNMAgFtw",
+   "name": "La Virgen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVLOg5GeHNMAgFtw"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVHbgtSH0-b5zj9Y",
+   "name": "Cueva Seca",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVHbgtSH0-b5zj9Y"
+  },
+  {
    "name": "Le Colapse Turn",
    "latitude": 20.313337,
    "longitude": -87.426377,
    "accuracy": 78,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "label",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -910,11 +1675,34 @@
    "id": "-KPZkVUfMUzXeQIvZUKB"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNP1gaVE-XoVTT1",
+   "name": "Nariz",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Aktun - upstream Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVNP1gaVE-XoVTT1"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVPFFmbPR9jvvo0F",
+   "name": "Sac Be Ha",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Be Ha - QRSS poster 2006"
+   ],
+   "id": "-KPZkVPFFmbPR9jvvo0F"
+  },
+  {
    "name": "K'ak Ha",
    "latitude": 20.175099,
    "longitude": -87.555692,
    "accuracy": 10,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -930,6 +1718,7 @@
    "longitude": -87.559445,
    "accuracy": 10,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4jsKUZe0Tf3lyro",
    "maps": [
@@ -950,6 +1739,7 @@
    "longitude": -87.387572,
    "accuracy": 10,
    "validity": "unknown",
+   "cenoteEntrance": true,
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [

@@ -170,6 +170,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const filteredCaves = useMemo(() => {
     const filters = {
       coordinates: [(cave) => searchOptions.showValidCoordinates && cave.location.validity === 'valid', (cave) => searchOptions.showInvalidCoordinates && cave.location.validity === 'invalid', (cave) => searchOptions.showUnconfirmedCoordinates && cave.location.validity === 'unknown'],
+      cenoteTypes: [(cave) => searchOptions.showCenoteEntrances !== false && !!cave.cenoteEntrance, (cave) => searchOptions.showOtherCenotes !== false && !cave.cenoteEntrance],
       accesses: [
         (cave) => {
           return searchOptions.showAccesses.some((access) => {
@@ -250,7 +251,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       }
     }
 
-    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.accesses), []).value()
+    return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).value()
   }
 
   // Stable for CaveMarker (memoized): they call this render's handlers.

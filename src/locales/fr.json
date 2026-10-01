@@ -416,6 +416,11 @@
           "description": "L'accès à cette zone varie en fonction de l'heure ou du point d'entrée."
         }
       ]
+    },
+    "cenoteType": {
+      "heading": "Type de cénote",
+      "showCenoteEntrances": "Afficher les cénotes d'entrée",
+      "showOtherCenotes": "Afficher les autres cénotes"
     }
   },
   "resultPane": {
@@ -558,7 +563,9 @@
         "error": "La recherche de lieux est indisponible pour le moment",
         "cenotes": "Cénotes",
         "places": "Lieux"
-      }
+      },
+      "cenoteEntrance": "Cénote d'entrée",
+      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)"
     },
     "closePane": "Fermer",
     "rating": {
@@ -571,7 +578,8 @@
       "yourRating": "Votre note",
       "rateThisCave": "Noter cette cénote",
       "saveError": "Impossible d’enregistrer votre note."
-    }
+    },
+    "cenoteEntrance": "Cénote d'entrée"
   },
   "mediaPane": {
     "header": "Cenote {{name}}",

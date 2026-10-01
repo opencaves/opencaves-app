@@ -417,6 +417,11 @@
           "description": "El acceso a esta zona varía según la hora o el punto de entrada."
         }
       ]
+    },
+    "cenoteType": {
+      "heading": "Tipo de cenote",
+      "showCenoteEntrances": "Mostrar cenotes de entrada",
+      "showOtherCenotes": "Mostrar otros cenotes"
     }
   },
   "resultPane": {
@@ -559,7 +564,9 @@
         "error": "No se pueden buscar lugares en este momento",
         "cenotes": "Cenotes",
         "places": "Lugares"
-      }
+      },
+      "cenoteEntrance": "Cenote de entrada",
+      "cenoteEntranceHint": "Un cenote por el que se entra al sistema de cuevas, como lo hacen los buzos de cuevas (no un cenote aislado en la selva)"
     },
     "closePane": "Cerrar",
     "rating": {
@@ -572,7 +579,8 @@
       "yourRating": "Tu calificación",
       "rateThisCave": "Califica este cenote",
       "saveError": "No se pudo guardar tu calificación."
-    }
+    },
+    "cenoteEntrance": "Cenote de entrada"
   },
   "mediaPane": {
     "header": "Cenote {{name}}",

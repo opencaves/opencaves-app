@@ -33,7 +33,7 @@ Every symbol becomes a point with:
 | `leads-to` | The passage continues to another cave or cenote off the map ("To Muknal", "To Cenote Naharon 2800 ft"): kept on every map, labelled as on the map ("To Muknal") | - | → |
 | `place-name` | A named place in the cave ("A Tunnel", "The Ballcourt", "Battleship Room"): kept on every map, at its label; its leader line isn't drawn | - | name |
 | `human-activity` | Signs of past human activity (Nava Blank's ☮-like symbol) | - | ☮ |
-| `entrance` | Cenote or cave entrance (also kept as a cenote, see `found-cenotes.json`) | - | dot |
+| `entrance` | Cenote or cave entrance: every one a map marks is kept, named or not. An entrance on a dive survey is a **cenote entrance** (a cenote used to enter the system, the caves' `cenoteEntrance` flag), kept aside in `found-cenotes.json` | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
 Not taken yet (drawn shapes, hard to recognise on scans and photos, and

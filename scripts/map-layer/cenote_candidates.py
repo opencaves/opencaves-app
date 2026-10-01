@@ -8,6 +8,9 @@ next to this script, for a later import straight into the database:
 - "fill": a missing cenote that may be one of the database's unnamed caves
   (a cave known in a sistema without a name, or named by its coordinates):
   that cave gets the name and position rather than a new one being created;
+- "cenote-entrance": a cave in the database the map draws as an entrance,
+  not yet flagged a cenote entrance (cenoteEntrance; every entry above is
+  one too);
 - "position": a cave in the database without a position, with the one the
   map gives it.
 
@@ -269,11 +272,17 @@ def main(review_path, config_paths, production):
             # A position read off a map is always to be verified on site
             # (the app's "unknown" coordinate validity).
             base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'], 'validity': 'unknown',
+                    # Drawn as an entrance on a dive survey: a cenote entrance.
+                    'cenoteEntrance': True,
                     'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps']}
             if with_position and with_position[0][0] <= FAR_METRES:
                 d, match = with_position[0]
                 row.update({'Status': 'matched' if d <= max(100, 3 * c['accuracy']) else 'matched, far', 'Database id': match['id'],
                             'Database name': cave_name(match), 'Distance (m)': round(d)})
+                if not match.get('cenoteEntrance'):
+                    # Matched, but not yet flagged as a cenote entrance.
+                    entries.append({'action': 'cenote-entrance', 'caveId': match['id'], 'name': cave_name(match), 'cenoteEntrance': True,
+                                    'sourceId': source_id, 'maps': c['maps']})
             elif without_position and (not with_position or c.get('caveId')):
                 match = without_position[0]
                 row.update({'Status': 'position to replace' if doubtful else 'in database, no position', 'Database id': match['id'], 'Database name': cave_name(match)})
@@ -339,7 +348,7 @@ def main(review_path, config_paths, production):
             width = max([len(str(col))] + [len(str(', '.join(r[col]) if isinstance(r.get(col), list) else r.get(col, ''))) for r in rows])
             ws.column_dimensions[ws.cell(1, i).column_letter].width = min(60, width + 2)
     sheet('Kept aside', ['action', 'id', 'caveId', 'name', 'languageCode', 'sistemaName', 'sistemaId', 'area', 'latitude', 'longitude',
-                         'accuracy', 'validity', 'placement', 'sourceId', 'maps'], kept, first=True)
+                         'accuracy', 'validity', 'cenoteEntrance', 'placement', 'sourceId', 'maps'], kept, first=True)
     sheet('Review', ['Status', 'Map', 'Name on the map', 'Latitude', 'Longitude', 'Accuracy (m)', 'Placed at', 'Database id', 'Database name',
                      'Distance (m)', 'Note'], review)
     Path(review_path).parent.mkdir(parents=True, exist_ok=True)

@@ -17,6 +17,7 @@ import NotSafeIcon from '@/images/accessibilities/not-safe.svg?react'
 import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg?react'
 import JungleIcon from '@/images/accessibilities/jungle.svg?react'
 import VariableIcon from '@/images/accessibilities/variable.svg?react'
+import ScubaDivingIcon from '@mui/icons-material/ScubaDiving'
 import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
 import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
@@ -135,6 +136,18 @@ export default function Access({ cave }) {
                   </Grid>
                   <Grid size="auto">
                     <IconText className="oc-access--icon-text">{getAccessibilityLabel()}</IconText>
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
+            {cave.cenoteEntrance && (
+              <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Grid container direction="column" spacing={1}>
+                  <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <ScubaDivingIcon aria-hidden className="oc-icon" />
+                  </Grid>
+                  <Grid size="auto">
+                    <IconText className="oc-access--icon-text">{t('cenoteEntrance')}</IconText>
                   </Grid>
                 </Grid>
               </Grid>

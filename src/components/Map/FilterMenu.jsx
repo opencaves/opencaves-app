@@ -5,7 +5,7 @@ import { Box, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, Li
 import { useTheme } from '@mui/material/styles'
 import { Close } from '@mui/icons-material'
 import { toggleFilterMenu, setResultPaneSmOpen } from '@/redux/slices/appSlice.jsx'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './FilterMenu.scss'
 
@@ -136,6 +136,8 @@ export default function MapFilterMenu({ props }) {
   const showValidCoordinates = useSelector((state) => state.search.showValidCoordinates)
   const showInvalidCoordinates = useSelector((state) => state.search.showInvalidCoordinates)
   const showUnconfirmedCoordinates = useSelector((state) => state.search.showUnconfirmedCoordinates)
+  const showCenoteEntrances = useSelector((state) => state.search.showCenoteEntrances) !== false
+  const showOtherCenotes = useSelector((state) => state.search.showOtherCenotes) !== false
   const showAccesses = useSelector((state) => state.search.showAccesses)
   const showAccessibilities = useSelector((state) => state.search.showAccessibilities)
 
@@ -154,6 +156,14 @@ export default function MapFilterMenu({ props }) {
 
   const handleShowUnconfirmedCoordinates = () => {
     dispatch(setShowUnconfirmedCoordinates(!showUnconfirmedCoordinates))
+  }
+
+  const handleShowCenoteEntrances = () => {
+    dispatch(setShowCenoteEntrances(!showCenoteEntrances))
+  }
+
+  const handleShowOtherCenotes = () => {
+    dispatch(setShowOtherCenotes(!showOtherCenotes))
   }
 
   function handleToggleFilterMenu(open) {
@@ -245,6 +255,12 @@ export default function MapFilterMenu({ props }) {
           <FilterMenuItem primary={t('coordinate.showValidCoordinates')} nb={getDataStat('location.validity', 'valid')} onClick={handleShowValidCoordinates} checked={showValidCoordinates} />
           <FilterMenuItem primary={t('coordinate.showInvalidCoordinates')} nb={getDataStat('location.validity', 'invalid')} onClick={handleShowInvalidCoordinates} checked={showInvalidCoordinates} />
           <FilterMenuItem primary={t('coordinate.showUnconfirmedCoordinates')} nb={getDataStat('location.validity', 'unknown')} onClick={handleShowUnconfirmedCoordinates} checked={showUnconfirmedCoordinates} />
+        </List>
+
+        <FilterMenuSectionHeader>{t('cenoteType.heading')}</FilterMenuSectionHeader>
+        <List disablePadding>
+          <FilterMenuItem primary={t('cenoteType.showCenoteEntrances')} nb={getDataStat('cenoteEntrance', true)} onClick={handleShowCenoteEntrances} checked={showCenoteEntrances} />
+          <FilterMenuItem primary={t('cenoteType.showOtherCenotes')} nb={getDataStat('cenoteEntrance', false) + getDataStat('cenoteEntrance', 'unknown')} onClick={handleShowOtherCenotes} checked={showOtherCenotes} />
         </List>
 
         <FilterMenuSectionHeader>{t('areas.heading')}</FilterMenuSectionHeader>

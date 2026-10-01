@@ -82,6 +82,8 @@ function collectionsToWrite(data) {
 // document that doesn't have the field yet.
 const APP_ONLY_FIELDS = {
   sistemas: ['maps', 'explorations'],
+  // Set in the app and from the survey maps' entrances; no Sheet column.
+  caves: ['cenoteEntrance'],
 }
 
 async function writeBatched(refs, apply) {
