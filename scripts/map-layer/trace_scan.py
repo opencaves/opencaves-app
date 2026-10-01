@@ -531,6 +531,108 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
     return join_short_paths(paths, trace['joinShortPx']) if trace.get('joinShortPx') else paths
 
 
+def thin_walls(config_path, config, out, name):
+    """Walls drawn as thin wiggly lines, the same weight as the guideline, the
+    passages left white ("method": "thin-walls"; Hutcheson's Nohoch Nah
+    Chich): ink minus labels, symbols and leaders; the straight lines
+    (guideline, leaders, section brackets: straight pieces of at least
+    straightMinPx after a Douglas-Peucker simplification - a scanned wall
+    wiggles every few px) erased; the long shapes kept as walls, with the small
+    closed outlines and solid blobs near them (pillars, boulders)."""
+    trace = config.get('trace', {})
+    grey = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L'))
+    ink = grey < trace.get('inkLevel', 160)
+    h, w = ink.shape
+    masked = numpy.zeros_like(ink)
+    for item in config.get('exclude', []):
+        x0, y0, x1, y1 = item['box']; masked[max(0, y0):y1, max(0, x0):x1] = True
+    words = ocr_words(Image.fromarray(grey), out / f'{name}-ocr-words.json')
+    letters = lambda wd: sum(c.isalpha() for c in wd['t'])  # noqa: E731
+    # OCR also "reads" wall wiggles as words ("Ny", "NES", "HOTS"): only letter words of a label's height, read confidently.
+    label_words = [wd for wd in words if (letters(wd) >= 3 and letters(wd) >= 0.8 * len(wd['t']) and wd['conf'] >= trace.get('labelConf', 60) and wd['box'][3] - wd['box'][1] <= trace.get('labelMaxHeightPx', 30))
+                   or (re.fullmatch(r'[Cc]?ent[.,]?', wd['t']) and wd['box'][3] - wd['box'][1] <= 35)]
+    # Labels OCR misses or reads too poorly to trust ("labelBoxes": [[x0, y0, x1, y1], ...]).
+    label_words += [{'t': '', 'box': b, 'conf': 100} for b in trace.get('labelBoxes', [])]
+    for wd in label_words:
+        x0, y0, x1, y1 = wd['box']; masked[max(0, y0 - 4):y1 + 4, max(0, x0 - 4):x1 + 4] = True
+    symbol_ink = numpy.zeros_like(ink)
+    sp = out / f'{name}-symbols-px.json'
+    if sp.exists():
+        for x0, y0, x1, y1 in (map(int, b) for b in json.loads(sp.read_text(encoding='utf-8'))):
+            symbol_ink[max(0, y0 - 3):y1 + 3, max(0, x0 - 3):x1 + 3] = True
+    drawn = ink & ~masked & ~symbol_ink
+    anchors = real_labels(words) + [{'box': item['box'], 'reach': trace.get('sectionReachPx', 120)} for item in config.get('exclude', []) if re.search(r'profile|section', item.get('why', ''), re.I)]
+    leaders = leader_lines(drawn, anchors, h, w, trace)
+    for line in trace.get('eraseLines', []):
+        stroke = numpy.zeros(ink.shape, numpy.uint8)
+        cv2.line(stroke, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 9)); leaders |= stroke > 0
+    drawn &= ~leaders
+    # 2. straight lines
+    straight = numpy.zeros(ink.shape, numpy.uint8)
+    eps, min_len = trace.get('straightEps', 1.3), trace.get('straightMinPx', 20)
+    for path in trace_skeleton(skeletonize(drawn)):
+        if len(path) < min_len: continue
+        pts = numpy.array([(x, y) for y, x in path], numpy.int32).reshape(-1, 1, 2)
+        approx = cv2.approxPolyDP(pts, eps, False).reshape(-1, 2)
+        for a, b in zip(approx[:-1], approx[1:]):
+            if numpy.hypot(*(b - a)) >= min_len:
+                cv2.line(straight, tuple(int(v) for v in a), tuple(int(v) for v in b), 1, trace.get('straightWidthPx', 4))
+    walls = drawn & ~(straight > 0)
+    # 3. long shapes and islands
+    # The scan breaks thin lines here and there: pieces "bridgePx" apart count as one shape.
+    k = trace.get('bridgePx', 3)
+    lab, n = ndimage.label(cv2.dilate(walls.astype(numpy.uint8), numpy.ones((k, k), numpy.uint8)) > 0, structure=numpy.ones((3, 3)))
+    lab[~walls] = 0
+    objs = ndimage.find_objects(lab)
+    min_ext, min_isl = trace.get('minExtentPx', 60), trace.get('minIslandPx', 8)
+    long_ids, small = [], []
+    for i, sl in enumerate(objs):
+        ext = max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start)
+        if ext >= min_ext: long_ids.append(i + 1)
+        elif ext >= min_isl:
+            m = lab[sl] == i + 1
+            if not m.any(): continue
+            # A hollow outline (pillar, island) or a solid blob (a boulder or
+            # dark rock drawn filled: kept as its outline, below).
+            if ndimage.binary_fill_holes(m).sum() >= 1.4 * m.sum() or (cv2.distanceTransform(numpy.pad(m, 1).astype(numpy.uint8), cv2.DIST_L2, 3).max() >= trace.get('solidHalfPx', 2.5) and m.mean() >= 0.35):
+                # (a section bracket is bold too, but a thin L in its box)
+                small.append(i + 1)
+    longs = numpy.isin(lab, long_ids)
+    near = cv2.distanceTransform((~longs).astype(numpy.uint8), cv2.DIST_L2, 5) <= trace.get('islandReachPx', 30)
+    isl_ok = [i for i in small if near[objs[i - 1]][lab[objs[i - 1]] == i].any()]
+    islands = numpy.isin(lab, isl_ok)
+    # Solid blobs (filled boulders, dark rock) traced along their outline, not their centre.
+    islands &= ~(cv2.erode(islands.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
+    strokes = longs | islands
+    # The scan's breaks in the thin lines (1-2 px) closed, so the lines run on.
+    strokes = (cv2.morphologyEx(strokes.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((k, k), numpy.uint8)) > 0) | strokes
+    print(f'{len(long_ids)} wall shapes, {len(isl_ok)} islands kept of {len(small)} closed small shapes')
+    # 4. lines
+    to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
+    place, scale, _ = raster_placement(config)
+    skeleton = skeletonize(strokes)
+    neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+    review = numpy.full((h, w, 3), 255, numpy.uint8)
+    review[masked] = (255, 236, 200)
+    review[ink & ~strokes] = (170, 170, 255)
+    review[ink & (straight > 0) & ~masked & ~symbol_ink] = (255, 120, 120)
+    features = []
+    for path in trace_skeleton(skeleton):
+        line = LineString([(x, y) for y, x in path])
+        free_end = any(neighbours[p] <= 1 for p in (path[0], path[-1]))
+        if free_end and line.length < trace.get('minSpurPx', 10):
+            continue
+        if line.length < 2: continue
+        line = smooth(line).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
+        cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    Image.fromarray(review).save(out / f'{name}-walls-review.png')
+    geojson = out / f'{name}-walls.geojson'
+    geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
+    print(f'{len(features)} wall lines -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -538,6 +640,8 @@ def main(config_path, output):
     out = Path(output)
     out.mkdir(parents=True, exist_ok=True)
 
+    if config.get('trace', {}).get('method') == 'thin-walls':
+        return thin_walls(config_path, config, out, name)
     grey = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
     ink = numpy.asarray(grey) < INK_LEVEL
     height, width = ink.shape
