@@ -614,6 +614,12 @@ def thin_walls(config_path, config, out, name):
     # Solid blobs (filled boulders, dark rock) traced along their outline, not their centre.
     islands &= ~(cv2.erode(islands.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
     strokes = longs | islands
+    # "wallLines": [[[x, y], ...]] - walls drawn by hand from the scan where
+    # the ink breaks into pieces too short to keep (stipple, tick marks).
+    for line in trace.get('wallLines', []):
+        drawn_line = numpy.zeros(strokes.shape, numpy.uint8)
+        cv2.polylines(drawn_line, [numpy.array(line, numpy.int32)], False, 1, 3)
+        strokes |= drawn_line > 0
     # The scan's breaks in the thin lines (1-2 px) closed, so the lines run on.
     strokes = (cv2.morphologyEx(strokes.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((k, k), numpy.uint8)) > 0) | strokes
     print(f'{len(long_ids)} wall shapes, {len(isl_ok)} islands kept of {len(small)} closed small shapes')

@@ -1428,6 +1428,39 @@
         790
       ]
     ],
-    "bridgePx": 3
+    "bridgePx": 3,
+    "wallLines": [
+      [
+        [
+          6548,
+          1198
+        ],
+        [
+          6575,
+          1185
+        ],
+        [
+          6600,
+          1170
+        ],
+        [
+          6612,
+          1152
+        ],
+        [
+          6640,
+          1128
+        ],
+        [
+          6668,
+          1110
+        ],
+        [
+          6700,
+          1100
+        ]
+      ]
+    ],
+    "wallLinesWhy": "the passage to depth 40 (east end): its north wall broken by the 38 depth"
   }
 }
