@@ -111,7 +111,8 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
         styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}
-        zoom={{ maxZoomPixelRatio: 5, doubleTapDelay: 300, doubleClickDelay: 300 }}
+        // scrollToZoom: the mouse wheel zooms the map instead of scrolling the pane.
+        zoom={{ maxZoomPixelRatio: 5, doubleTapDelay: 300, doubleClickDelay: 300, scrollToZoom: true }}
         render={{
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
