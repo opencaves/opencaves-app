@@ -165,6 +165,63 @@
    "id": "-KPZkVI9l6v5rCfsRB4t"
   },
   {
+   "name": "Lost Cenote",
+   "latitude": 20.193642,
+   "longitude": -87.496066,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLrs80cfalEzD9z",
+   "replaces": [
+    20.19144,
+    -87.49353
+   ],
+   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
+   "id": "-KPZkVLrs80cfalEzD9z"
+  },
+  {
+   "name": "Maya Two",
+   "latitude": 20.19334,
+   "longitude": -87.497062,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMNaXw0oRR305Yi",
+   "replaces": [
+    20.19132,
+    -87.49415
+   ],
+   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
+   "id": "-KPZkVMNaXw0oRR305Yi"
+  },
+  {
+   "name": "Cenote of the Sun",
+   "latitude": 20.191557,
+   "longitude": -87.494895,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVG0pYan2AfIT795",
+   "replaces": [
+    20.18994,
+    -87.49346
+   ],
+   "why": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun.",
+   "id": "-KPZkVG0pYan2AfIT795"
+  },
+  {
    "name": "Entrada Zapodilla",
    "latitude": 20.337431,
    "longitude": -87.385063,

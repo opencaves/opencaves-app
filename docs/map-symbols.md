@@ -65,6 +65,12 @@ breakdown.
 authors: it's trusted on every map, whatever its legend says. Only the units
 vary (feet on QRSS maps, metres on Mexican and Coke maps).
 
+On the QRSS Mayan Blue map (1993), the `x` of a major restriction is also the
+look of dotted-line dashes (unsurveyed passages) and slope hatching at letter
+size: only marks with two crossing strokes are kept, and the bold digits defeat
+OCR often enough that each number was checked by hand (`symbols.fix` in the
+config).
+
 ### James G. Coke IV maps (e.g. Sistema Yax Muul, 2007)
 
 Spanish legend, measurements in **metres**, always with one decimal:

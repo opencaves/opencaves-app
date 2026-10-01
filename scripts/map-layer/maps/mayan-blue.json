@@ -382,7 +382,8 @@
       "px": [
         5538,
         7672
-      ]
+      ],
+      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
     },
     {
       "caveId": "-KPZkVMNaXw0oRR305Yi",
@@ -390,7 +391,8 @@
       "px": [
         4488,
         8006
-      ]
+      ],
+      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
     },
     {
       "caveId": "-KPZkVG0pYan2AfIT795",
@@ -398,7 +400,8 @@
       "px": [
         6765,
         10003
-      ]
+      ],
+      "replacePosition": "Database position (diveseven.com) 230-380 m from the map's, which is placed by its scale bar on Mayan Blue's on-site position; the database's Lost, Maya Two and Sun are also spaced unlike the survey. Open water shows on the satellite image at the map's Cenote of the Sun."
     }
   ],
   "symbols": {
@@ -430,6 +433,187 @@
     "letterSizePx": [
       18,
       40
+    ],
+    "fix": [
+      {
+        "px": [
+          2178,
+          637
+        ],
+        "value": 70
+      },
+      {
+        "px": [
+          3378,
+          4835
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5784,
+          7349
+        ],
+        "value": 70
+      },
+      {
+        "px": [
+          5376,
+          8042
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          7286,
+          9279
+        ],
+        "value": 55
+      },
+      {
+        "px": [
+          1889,
+          2334
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          2339,
+          4731
+        ],
+        "value": 10
+      },
+      {
+        "px": [
+          3404,
+          5839
+        ],
+        "value": 25
+      },
+      {
+        "px": [
+          6114,
+          7172
+        ],
+        "value": 10
+      },
+      {
+        "px": [
+          6129,
+          8141
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          6994,
+          8870
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          4032,
+          4095
+        ],
+        "value": 75
+      },
+      {
+        "px": [
+          4309,
+          6217
+        ],
+        "value": 75
+      },
+      {
+        "px": [
+          1972,
+          1454
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2008,
+          1714
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2361,
+          1817
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1311,
+          2241
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1366,
+          2413
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2684,
+          3249
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1913,
+          3321
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          4327,
+          6550
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          5552,
+          6911
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          5640,
+          7175
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          7373,
+          10360
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      }
     ]
   },
   "trace": {
