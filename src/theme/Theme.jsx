@@ -274,7 +274,8 @@ const lightThemeOptions = {
     },
     MuiDialog: {
       styleOverrides: {
-        root: {
+        // Not around a full-screen dialog (phones): it must fill the screen.
+        root: ({ ownerState }) => ownerState.fullScreen ? {} : {
           paddingTop: 24,
           paddingBottom: 24,
         },

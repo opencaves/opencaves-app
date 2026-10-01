@@ -8,8 +8,10 @@ import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
+import { useSmall } from '@/hooks/useSmall.jsx'
 
 const mapsModel = createCollectionModel('maps')
+const PREVIEW_SIZE = 440
 const emptyDetails = { title: '', date: '', authors: [], note: '' }
 
 // Editing a map's title/date/authors, shared by every place a map can be
@@ -20,6 +22,7 @@ export default function EditMapDialog({ map, onClose }) {
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [details, setDetails] = useState(emptyDetails)
   const [saving, setSaving] = useState(false)
+  const isSmall = useSmall()
 
   useEffect(() => {
     if (map) {
@@ -47,15 +50,20 @@ export default function EditMapDialog({ map, onClose }) {
     }
   }
 
+  // Phones: full screen, the preview above the form at the screen's width,
+  // and no dragging (nothing to move a full-screen dialog to, and it would
+  // fight scrolling). The preview's size also drives its zoom limits.
+  const previewSize = isSmall ? Math.min(window.innerWidth - 48, PREVIEW_SIZE) : PREVIEW_SIZE
+
   return (
-    <Dialog className="oc-edit-map-dialog" open={!!map} onClose={onClose} maxWidth={false} PaperComponent={DraggableDialogPaper}>
-      <DialogTitle noWrap className="oc-draggable-dialog--handle" sx={{ cursor: 'move' }}>
+    <Dialog className="oc-edit-map-dialog" open={!!map} onClose={onClose} maxWidth={false} fullScreen={isSmall} PaperComponent={isSmall ? undefined : DraggableDialogPaper}>
+      <DialogTitle noWrap className={isSmall ? undefined : 'oc-draggable-dialog--handle'} sx={{ cursor: isSmall ? undefined : 'move' }}>
         {tEdit('editMap')}
       </DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 900 }}>
-        <Box sx={{ display: 'flex', gap: 1.5 }}>
-          <Box sx={{ width: 440, height: 440, flexShrink: 0 }}>
-            <PendingFilePreview existingUrl={map?.previewUrl || map?.url} existingContentType={map?.previewUrl ? undefined : map?.contentType} width={440} height={440} />
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: isSmall ? 'auto' : 900 }}>
+        <Box sx={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', gap: isSmall ? 2 : 1.5, pt: isSmall ? 1 : 0 }}>
+          <Box sx={{ width: previewSize, height: previewSize, flexShrink: 0, alignSelf: 'center' }}>
+            <PendingFilePreview existingUrl={map?.previewUrl || map?.url} existingContentType={map?.previewUrl ? undefined : map?.contentType} width={previewSize} height={previewSize} />
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
             <MapSistemaField autoFocus value={details.title} onChange={(title) => setDetails((d) => ({ ...d, title }))} />
