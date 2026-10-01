@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
@@ -53,12 +53,6 @@ export default class CaveAsset {
         reject(error)
       }
     })
-  }
-
-  static async countAssets(caveId) {
-    const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'))
-    const snapshot = await getCountFromServer(q)
-    return snapshot.data().count
   }
 
   // One-shot reads (no listener) used by the offline downloads.
@@ -339,4 +333,3 @@ export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
 export const getCoverImage = CaveAsset.getCoverImage
 export const getAssetList = CaveAsset.getAssetList
-export const countAssets = CaveAsset.countAssets

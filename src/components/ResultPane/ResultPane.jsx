@@ -8,7 +8,6 @@ import ResultPaneLg from './ResultPaneLg.jsx'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
 import CurrentCaveDetailsContentEdit from './CurrentCaveDetailsContentEdit.jsx'
-import { loadMediaCount, loadMediaList } from './MediaList.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -21,16 +20,6 @@ import './ResultPane.scss'
 
 // Phones only, and it brings Ionic along (see utils/ionic.js).
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
-
-export async function resultPaneLoader({ params }) {
-  const { caveId } = params
-  const [mediaList, mediaCount] = await Promise.all([
-    loadMediaList(caveId),
-    loadMediaCount(caveId)
-  ])
-
-  return { mediaList, mediaCount }
-}
 
 export default function ResultPane() {
   const { t } = useTranslation('resultPane')

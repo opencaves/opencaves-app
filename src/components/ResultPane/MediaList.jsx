@@ -8,7 +8,7 @@ import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import Picture from '@/components/Picture.jsx'
-import { countAssets, deleteById, getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
+import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
@@ -17,14 +17,6 @@ function getProp(which, theme) {
   if (which === 'color') {
     return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
   }
-}
-
-export function loadMediaList(caveId) {
-  return getAssetList(caveId, false)
-}
-
-export function loadMediaCount(caveId) {
-  return countAssets(caveId)
 }
 
 export default function MediaList({ caveId, editable = false, sx, className, ...props }) {

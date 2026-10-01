@@ -8,7 +8,7 @@ import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
-import ResultPane, { resultPaneLoader } from '@/components/ResultPane/ResultPane.jsx'
+import ResultPane from '@/components/ResultPane/ResultPane.jsx'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
@@ -294,8 +294,9 @@ const routes = [
           {
             path: ':caveId',
             id: 'result-pane',
+            // No loader: the pane reads its data from the store and the
+            // offline cache, so it must open without a network round trip.
             element: <ResultPane />,
-            loader: resultPaneLoader,
             children: [
               {
                 // ResultPane owns edit mode; this empty leaf makes the URL
