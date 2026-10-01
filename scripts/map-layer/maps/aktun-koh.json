@@ -1,0 +1,330 @@
+{
+  "image": "../../../_data/maps-import/images/aktun-koh-cen-puerto-aventuras-1.webp",
+  "title": "Cénote Aktun Koh - Expédition Yuc 96",
+  "credits": "Topographie: degré 4 UIS, Expédition Yuc 96 (French cave-diving expedition; north arrow dated 1997, magnetic north)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (about 20 m): free similarity fit on three points, residuals 13, 26 and 21 m; the fit gives 0.436 m/px (the 100 m scale bar says 0.454, 4% apart) and 0.2 degrees of rotation, so it agrees with the north arrow (magnetic north 1997, about 1 degree off true). Points: the Entrée on the database's Actun Koh (Google Maps source, tree-covered on all imageries); Cénote cultivé on the centre of the grass field that fills a clearing at the right distance and bearing (Mapbox/Maxar, Esri and Google imagery all show it); the hatched collapse east of it on the centre of OSM's 'Cenote' pond (way 405950395), where the database's Pakal Nah also is (15 m away). The map's own geometry doesn't fit all three exactly: on the ground the pond is 112 m from the grass field's centre, on the map the collapse's centre is 163 m from Cénote cultivé's - the pond sits in the west half of the drawn collapse, which was probably sketched, not surveyed. Cross-checked: the neighbouring placed maps (Ponderosa, Chikin Ha, Minotauro) don't overlap it; the Bear's Den Cenote of the 1998 Mafia Maps plan falls where this map has Cénote Dédale.",
+  "trace": {
+    "method": "colour-fill",
+    "why": "Passages filled in violet-blue (water) and pale cyan (air bells, surface pools), outlined in black; the collapses (cénotes, hatched outline) in orange are traced with the passages (fillColours, alone).",
+    "water": false,
+    "threshold": 25,
+    "weakThreshold": 15,
+    "regionThreshold": 15,
+    "paperWindowPx": 1500,
+    "details": true,
+    "fillColours": [
+      {
+        "why": "collapses (orange, hatched outline): part of the cave",
+        "hue": [
+          8,
+          30
+        ],
+        "minSaturation": 100,
+        "density": 0.3,
+        "alone": true
+      },
+      {
+        "why": "red dots (no legend; concretions or rocks) inside the passages: they break the blue fill",
+        "hue": [
+          0,
+          10
+        ],
+        "minSaturation": 120,
+        "density": 0.15
+      },
+      {
+        "why": "red dots (hue wrapping round)",
+        "hue": [
+          240,
+          255
+        ],
+        "minSaturation": 120,
+        "density": 0.15
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 60,
+      "gapMetres": 5
+    },
+    "fillOffInk": true,
+    "offInkSigmaPx": 1.5,
+    "fillPolygons": [
+      [
+        [
+          498,
+          632
+        ],
+        [
+          560,
+          632
+        ],
+        [
+          560,
+          683
+        ],
+        [
+          498,
+          683
+        ]
+      ],
+      [
+        [
+          411,
+          1362
+        ],
+        [
+          422,
+          1362
+        ],
+        [
+          423,
+          1394
+        ],
+        [
+          412,
+          1394
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "1: a cluster of white boulders in the room W of the Salle ébouleuse, read as a pillar (boulders, not rock wall); 2: the thin N-S passage W of the Grande salle, where the fill is a few pixels between continuous walls",
+    "eraseLines": [
+      {
+        "why": "label Cénote (inside the Cénote cultivé collapse): not cave detail; an exclude box would cut a hole in the fill",
+        "from": [
+          964,
+          2214
+        ],
+        "to": [
+          1102,
+          2214
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "label cultivé (same)",
+        "from": [
+          972,
+          2268
+        ],
+        "to": [
+          1096,
+          2268
+        ],
+        "widthPx": 46
+      }
+    ],
+    "wallMarginPx": 8,
+    "wallMarginWhy": "the black wall outlines are thick and soft-edged (6-8 px): with the default margin their inner edge came out as detail slivers doubling every wall"
+  },
+  "exclude": [
+    {
+      "why": "title Cénote Aktun Koh",
+      "box": [
+        600,
+        20,
+        1310,
+        175
+      ]
+    },
+    {
+      "why": "label Salle ébouleuse",
+      "box": [
+        850,
+        585,
+        1260,
+        655
+      ]
+    },
+    {
+      "why": "label Cénote Dédale",
+      "box": [
+        15,
+        912,
+        395,
+        985
+      ]
+    },
+    {
+      "why": "label Cloches d'air",
+      "box": [
+        862,
+        1022,
+        1200,
+        1090
+      ]
+    },
+    {
+      "why": "label Grande salle Concrétionnée",
+      "box": [
+        805,
+        1535,
+        1182,
+        1665
+      ]
+    },
+    {
+      "why": "label Entrée",
+      "box": [
+        562,
+        1808,
+        735,
+        1875
+      ]
+    },
+    {
+      "why": "label Trémie",
+      "box": [
+        1118,
+        2755,
+        1298,
+        2815
+      ]
+    },
+    {
+      "why": "north arrow (Nm 1997)",
+      "box": [
+        50,
+        2035,
+        290,
+        2465
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        30,
+        2510,
+        365,
+        2590
+      ]
+    },
+    {
+      "why": "credits Topographie: degré 4 UIS, Expédition Yuc 96",
+      "box": [
+        30,
+        2660,
+        640,
+        2810
+      ],
+      "history": true
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "name": "Entrée (DB Actun Koh, Google Maps)",
+      "px": [
+        755,
+        1732
+      ],
+      "latitude": 20.49186,
+      "longitude": -87.26911
+    },
+    {
+      "name": "Cénote cultivé: centre of the grass field in the collapse (satellite)",
+      "px": [
+        1029,
+        2229
+      ],
+      "latitude": 20.48981,
+      "longitude": -87.26763
+    },
+    {
+      "caveId": "-KPZkVOBeX3QR15-AhmN",
+      "name": "east collapse: centre of the OSM cenote pond (DB Pakal Nah nearby)",
+      "px": [
+        1361,
+        2093
+      ],
+      "latitude": 20.49026,
+      "longitude": -87.26667
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrée (Cenote Actun Koh)",
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "px": [
+        755,
+        1732
+      ]
+    },
+    {
+      "name": "Cénote Dédale (Bear's Den)",
+      "caveId": "-KPZkVEeR1D8YGimsxqc",
+      "px": [
+        416,
+        1022
+      ],
+      "why": "The 1998 Mafia Maps plan of Sistema Actun Koh puts Bear's Den Cenote where this map has Cénote Dédale: about 340 m north and 120-150 m west of the Actun Koh entrance on both maps. The database has Bear's Den in this sistema, without a position."
+    },
+    {
+      "name": "Cénote cultivé",
+      "px": [
+        1029,
+        2229
+      ]
+    },
+    {
+      "name": "unnamed small opening in the air bell NE of Cénote cultivé",
+      "px": [
+        1202,
+        2132
+      ]
+    },
+    {
+      "name": "unnamed collapse E of Cénote cultivé (database: Pakal Nah)",
+      "caveId": "-KPZkVOBeX3QR15-AhmN",
+      "px": [
+        1356,
+        2091
+      ],
+      "why": "OSM's cenote pond and the database's Pakal Nah (Gerrard, sistema Actun Koh) are on this collapse's west side"
+    }
+  ],
+  "symbols": {
+    "why": "French UIS map (Expédition Yuc 96, same style as the Nohoch Aktun and Xel-Ha maps): no depths, no letter codes, no legend, no bones, no flow arrows. Kept as place names: the Salle ébouleuse (boulder chamber), the Cloches d'air (air bells), the Grande salle Concrétionnée (decorated chamber) and the Trémie (boulder choke at the downstream end). The orange collapses are entrances. The red dots in the passages have no legend: not kept.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Salle ébouleuse",
+        "px": [
+          780,
+          640
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cloches d'air (air bells)",
+        "px": [
+          794,
+          1002
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Grande salle Concrétionnée",
+        "px": [
+          705,
+          1500
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trémie (boulder choke)",
+        "px": [
+          1114,
+          2832
+        ]
+      }
+    ]
+  }
+}
