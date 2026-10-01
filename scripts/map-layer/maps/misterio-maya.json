@@ -1,0 +1,27 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Misterio Maya, Cen., Tulum.pdf",
+  "page": 1,
+  "image": "images/misterio-maya-cen-tulum.svg",
+  "title": "Cenote Misterio Maya - Sprouse 2015",
+  "credits": "Surveyed by Mauro Bordignon, Aubri Jenson, Barbara Luke, Alessandro Reato, Steven Rehbein, Fernando del Valle Prieto, 2010 and 2014; drawn by Peter Sprouse (AMCS Activities Newsletter 38, p. 107, 2015)",
+  "source": { "id": "-KPZg4joZ9lZ2oVH-LhB", "name": "map" },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "walls": { "color": [0.013, 0.019, 0.02], "width": 0.55 },
+  "exclude": [
+    { "why": "north arrow", "box": [518, 100, 542, 196] },
+    { "why": "cross-section (top)", "box": [190, 118, 258, 160] },
+    { "why": "cross-section (middle)", "box": [168, 222, 242, 268] },
+    { "why": "cross-section (bottom right)", "box": [478, 342, 622, 392] },
+    { "why": "scale bar", "box": [205, 425, 385, 445] }
+  ],
+  "entrances": [
+    { "caveId": "-KPZkVMjI64D9Glpfgqy", "name": "Cenote Misterio Maya", "pdf": [142, 188] },
+    { "name": "Entrada Zapodilla", "pdf": [606, 220] }
+  ],
+  "scaleBar": { "from": [215.89, 433.03], "to": [372.8, 433.03], "metres": 50 },
+  "north": "grid",
+  "utmEpsg": 32616,
+  "controlPoints": [
+    { "caveId": "-KPZkVMjI64D9Glpfgqy", "name": "Misterio Maya (its stairs)", "pdf": [142, 188], "latitude": 20.33752, "longitude": -87.38648 }
+  ]
+}

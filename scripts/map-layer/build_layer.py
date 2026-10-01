@@ -115,9 +115,17 @@ def main(config_path, output):
     def kept(geometry):
         return excluded is None or not geometry.intersects(excluded)
 
-    def lines_of(style):
-        lines = [LineString(points) for d in drawings if d['type'] in ('s', 'fs') and matches_style(d, style) for points in stroke_lines(d)]
-        lines = [line for line in lines if line.length > 0 and kept(line)]
+    def lines_of(styles):
+        # One style, or a list: a map may draw its walls in several (the
+        # passage outline in one, pillars in another).
+        styles = styles if isinstance(styles, list) else [styles]
+        lines = [LineString(points) for d in drawings if d['type'] in ('s', 'fs') and any(matches_style(d, style) for style in styles) for points in stroke_lines(d)]
+        # Excluded areas are cut out of the lines, not lines touching them
+        # dropped: a passage outline is often one long path that runs close
+        # to a cross-section or the north arrow.
+        if excluded is not None:
+            lines = [part for line in lines for part in getattr(line.difference(excluded), 'geoms', [line.difference(excluded)])]
+        lines = [line for line in lines if not line.is_empty and line.length > 0 and line.geom_type == 'LineString']
         merged_lines = linemerge(unary_union(lines))
         return list(getattr(merged_lines, 'geoms', [merged_lines]))
 
