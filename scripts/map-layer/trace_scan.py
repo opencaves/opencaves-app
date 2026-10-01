@@ -397,6 +397,13 @@ def main(config_path, output):
     anchors = labels_only + [{'box': item['box'], 'reach': trace.get('sectionReachPx', 120)} for item in config.get('exclude', [])
                              if re.search(r'profile|section', item.get('why', ''), re.I)]
     leaders = leader_lines(ink & ~masked, anchors, height, width, trace)
+    if trace.get('method') == 'wall-strokes':
+        # A leader drawn up to a wall is one shape with it: looked for again in
+        # the thin ink alone, the bold wall strokes taken out.
+        r = trace.get('openRadiusPx', 3)
+        bold = cv2.morphologyEx((ink & ~masked).astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))) > 0
+        bold = cv2.dilate(bold.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
+        leaders |= leader_lines(ink & ~masked & ~bold, anchors, height, width, trace)
     near_anchor = numpy.zeros_like(ink)
     reach = trace.get('leaderReachPx', 60)
     for anchor in anchors:

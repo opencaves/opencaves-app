@@ -69,21 +69,39 @@
       ]
     },
     {
-      "why": "profile",
+      "why": "profile (small): depth scale",
       "box": [
-        4071,
-        854,
-        4574,
-        1147
+        4120,
+        860,
+        4270,
+        1020
+      ]
+    },
+    {
+      "why": "profile (small): drawing",
+      "box": [
+        4280,
+        880,
+        4625,
+        1052
+      ]
+    },
+    {
+      "why": "profile (small): scale bar",
+      "box": [
+        4300,
+        1062,
+        4500,
+        1122
       ]
     },
     {
       "why": "profile",
       "box": [
-        4815,
+        4830,
         290,
         5669,
-        1016
+        885
       ]
     },
     {

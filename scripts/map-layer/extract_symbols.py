@@ -62,6 +62,8 @@ SINGLE_CODE_CONF = 75
 NUMBER_CONF = 75
 # Digits read inside a circle or box.
 FRAME_CONF = 60
+# Digits read by a depth bar.
+BAR_CONF = 70
 # OCR words read at least this confidently mask the marks inside them.
 WORD_CONF = 60
 
@@ -155,6 +157,52 @@ def framed_numbers(grey, dark, excluded, legend):
         kind = 'pit-depth' if filled > 0.88 else 'ceiling-height'
         value = float(text) if '.' in text else int(text)
         found.append({'type': kind, 'value': value, 'label': text, 'box': [s[1].start, s[0].start, s[1].stop, s[0].stop]})
+    return found
+
+
+def barred_numbers(grey, dark, excluded, legend, known):
+    """Depths whose number OCR missed on the whole map: each short straight
+    horizontal bar ("barWidthPx": [min, max]) is a candidate; the strip just
+    below it (overline) then just above it (underline) is read alone as
+    digits. Bars by an already known symbol are skipped."""
+    import os
+    import pytesseract
+    pytesseract.pytesseract.tesseract_cmd = trace_scan.TESSERACT
+    os.environ['TESSDATA_PREFIX'] = trace_scan.TESSDATA
+    low, high = legend.get('barWidthPx', [12, 120])
+    labels, _ = ndimage.label(dark, structure=numpy.ones((3, 3)))
+    found = []
+
+    def near_known(box):
+        return any(not (box[2] < k[0] - 10 or box[0] > k[2] + 10 or box[3] < k[1] - 15 or box[1] > k[3] + 15) for k in known)
+
+    for i, s in enumerate(ndimage.find_objects(labels)):
+        h, w = s[0].stop - s[0].start, s[1].stop - s[1].start
+        if not (low <= w <= high and h <= max(3, 0.2 * w)):
+            continue
+        bar = labels[s] == i + 1
+        if bar.mean() < 0.7 or excluded[(s[0].start + s[0].stop) // 2, (s[1].start + s[1].stop) // 2]:
+            continue
+        x0, x1 = s[1].start - w // 4, s[1].stop + w // 4
+        digit_h = int(w * 0.9)
+        for y0, y1 in ((s[0].stop + 1, s[0].stop + 1 + digit_h), (s[0].start - 1 - digit_h, s[0].start - 1)):
+            if y0 < 0 or y1 > grey.shape[0] or x0 < 0 or x1 > grey.shape[1]:
+                continue
+            box = [x0, y0, x1, y1]
+            if near_known(box):
+                break
+            crop = Image.fromarray(grey[y0:y1, x0:x1].astype(numpy.uint8))
+            crop = ImageOps.expand(crop.resize((crop.width * 4, crop.height * 4), Image.LANCZOS), 20, fill=255)
+            read = pytesseract.image_to_data(crop, lang='eng', config='--psm 7 -c tessedit_char_whitelist=0123456789.,',
+                                             output_type=pytesseract.Output.DICT)
+            text = ''.join(t.strip() for t in read['text']).replace(',', '.')
+            confs = [float(c) for c, t in zip(read['conf'], read['text']) if t.strip()]
+            if re.fullmatch(r'\d{1,3}(\.\d)?', text) and confs and min(confs) >= BAR_CONF and (legend.get('decimals') is not True or '.' in text):
+                value = float(text) if '.' in text else int(text)
+                found.append({'type': 'depth', 'value': value, 'label': text, 'box': box,
+                              'ink': [x0, min(y0, s[0].start) - 2, x1, max(y1, s[0].stop) + 2]})
+                known.append(box)
+                break
     return found
 
 
@@ -274,6 +322,8 @@ def main(config_path, output):
     # the whole map misses most, the frame confusing it. Closed rings about
     # the size of a number are found, and each one's inside read alone.
     symbols += framed_numbers(grey, dark, excluded, legend)
+    # Overlined/underlined numbers OCR missed: found from their bar.
+    symbols += barred_numbers(grey, dark, excluded, legend, [s['box'] for s in symbols])
 
     # Symbols added by hand ("extra": [{"type", "label", "px", "value"?}]):
     # the ones recognition misses (a blurred letter on a photo).
