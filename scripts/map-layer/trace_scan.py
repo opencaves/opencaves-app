@@ -614,6 +614,18 @@ def thin_walls(config_path, config, out, name):
     # Solid blobs (filled boulders, dark rock) traced along their outline, not their centre.
     islands &= ~(cv2.erode(islands.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
     strokes = longs | islands
+    # "outlineAreas": [{"box": [x0, y0, x1, y1]}] - narrow passages whose two
+    # walls touch at the scan's resolution: their centrelines would tangle
+    # into beads, so there the walls are the outer edge of the inked band.
+    outline_bands = numpy.zeros(strokes.shape, numpy.uint8)
+    for area in trace.get('outlineAreas', []):
+        x0, y0, x1, y1 = area['box']
+        window = (slice(y0, y1), slice(x0, x1))
+        close = area.get('closePx', 9)
+        band = cv2.morphologyEx((ink & ~masked)[window].astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (close, close)))
+        band = cv2.morphologyEx(band, cv2.MORPH_OPEN, numpy.ones((3, 3), numpy.uint8))
+        outline_bands[window] = band
+        strokes[window] = False
     # "wallLines": [[[x, y], ...]] - walls drawn by hand from the scan where
     # the ink breaks into pieces too short to keep (stipple, tick marks).
     for line in trace.get('wallLines', []):
@@ -641,6 +653,15 @@ def thin_walls(config_path, config, out, name):
         if line.length < 2: continue
         line = smooth(line).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
         cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    contours, hierarchy = cv2.findContours(outline_bands, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    for index, contour in enumerate(contours):
+        if len(contour) < 4 or cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES:
+            continue
+        points = [tuple(p) for p in contour[:, 0, :].astype(float)]
+        line = smooth(LineString(points + points[:1])).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
+        cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 200), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')

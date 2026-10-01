@@ -1461,6 +1461,17 @@
         ]
       ]
     ],
-    "wallLinesWhy": "the passage to depth 40 (east end): its north wall broken by the 38 depth"
+    "wallLinesWhy": "the passage to depth 40 (east end): its north wall broken by the 38 depth",
+    "outlineAreas": [
+      {
+        "why": "narrow passages west of Burt's Crack House",
+        "box": [
+          5150,
+          1380,
+          5480,
+          1800
+        ]
+      }
+    ]
   }
 }
