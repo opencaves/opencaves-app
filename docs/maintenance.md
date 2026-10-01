@@ -16,7 +16,7 @@ gcloud auth application-default login
 ```
 node scripts/check-cave-images.js -l           # local emulators
 node scripts/check-cave-images.js -p           # production
-node scripts/check-cave-images.js -p --cave <caveId>
+node scripts/check-cave-images.js -p --cave=<caveId>      # = form: cave IDs start with "-"
 ```
 
 A read-only check that the cave photos (the `cavesAssets` collection) and

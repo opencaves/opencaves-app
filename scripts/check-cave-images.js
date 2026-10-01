@@ -21,7 +21,7 @@ const PROJECT_ID = 'opencaves'
 const cli = yargs(hideBin(process.argv))
   .usage('Check that the cave photos and their files in Storage agree.\n\nUsage: $0 [options]')
   .option('production', { alias: 'p', type: 'boolean', default: false, describe: 'The real opencaves project instead of the local emulators (needs `gcloud auth application-default login`)' })
-  .option('cave', { type: 'string', describe: 'Only this cave (its id)' })
+  .option('cave', { type: 'string', describe: 'Only this cave: --cave=<id> (with "=", since cave IDs start with "-")' })
   .option('local', { alias: 'l', type: 'boolean', describe: 'The local emulators - the default, named to run with no other option' })
   .check((args) => !(args.local && args.production) || 'Use --local or --production, not both')
   .example('$0 -l', 'Check the local emulators')

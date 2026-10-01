@@ -35,7 +35,11 @@ hold maps and documents, and are ignored.
   name says map (`map`, `carte`, `plan`, `sistema`, `directions`, `trajet`,
   `clé`…). Images that look like line art (mostly white paper, little colour)
   are kept as kind `map?`, and the upload skips them unless marked
-  `include=yes`.
+  `include=yes`. That check is made for scans: a phone photo of a printed map
+  passes as a photo. Add such images to
+  [`not-photos.csv`](../scripts/photos-import/not-photos.csv) (`source`, as in
+  the inventory, and a `reason`): they're skipped on every run. Removing one
+  already uploaded is a separate step: delete it from the cave's page.
 - **Photos are not re-encoded.** The upload function reads their EXIF (date,
   GPS, orientation) and 360° XMP data, which re-encoding would lose. The CSV
   points at the files where they are. Only TIFF and GIF files are converted

@@ -8,7 +8,9 @@ they have their own import (scripts/maps-import).
   and duplicates.csv), and images whose name says map (map, carte, plan,
   sistema, directions...). Images that look like line art (mostly white
   paper, little colour) are kept but marked kind "map?", for review: the
-  upload leaves them out unless marked include=yes.
+  upload leaves them out unless marked include=yes. Images reviewed as not
+  photos that the checks miss (a phone photo of a printed map) are listed in
+  not-photos.csv, next to this script, and skipped.
 - Photos are uploaded as they are, not re-encoded, so the upload function
   still finds their EXIF (date, GPS, orientation) and 360° panorama XMP. The
   CSV points at them in place (paths relative to the output folder); only
@@ -124,8 +126,18 @@ def looks_like_map(image):
     return (grey >= PAPER_LEVEL).mean() >= MAP_MIN_PAPER and saturation.mean() <= MAP_MAX_SATURATION
 
 
+def not_photos():
+    """Images reviewed as not photos of a cave (e.g. a photographed map, which
+    the line-art check can't tell from a photo): source -> reason."""
+    path = Path(__file__).with_name('not-photos.csv')
+    if not path.exists():
+        return {}
+    return {row['source']: row['reason'] for row in csv.DictReader(open(path, encoding='utf-8-sig'))}
+
+
 def candidates(root, out, maps_taken):
     """(path, rel, reason to skip or None) for every file in the cave folders."""
+    listed = not_photos()
     out = out.resolve()
     for folder in sorted(p for p in root.iterdir() if p.is_dir() and CAVE_FOLDER.match(ascii_name(p.name))):
         for path in sorted(folder.rglob('*')):
@@ -141,6 +153,8 @@ def candidates(root, out, maps_taken):
                 continue
             elif rel in maps_taken:
                 yield path, rel, 'map (map import)'
+            elif rel in listed:
+                yield path, rel, f'not a photo (not-photos.csv: {listed[rel]})'
             elif MAP_NAME_HINT.search(ascii_name(path.stem).replace('_', ' ')):
                 yield path, rel, 'map (name)'
             else:
