@@ -696,7 +696,7 @@ def main(config_path, output):
         for index, contour in enumerate(contours):
             hole = hierarchy[0][index][3] != -1
             area = abs(cv2.contourArea(contour)) * scale ** 2
-            if len(contour) >= 4 and cv2.arcLength(contour, True) * scale >= MIN_OUTLINE_METRES and area >= (MIN_HOLE_SQ_METRES if hole else trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)):
+            if len(contour) >= 4 and cv2.arcLength(contour, True) * scale >= MIN_OUTLINE_METRES and area >= (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)):
                 cv2.drawContours(edge, [contour], -1, 1, trace.get('strokePx', 7))
         wall_ink = ink & (edge > 0) & ~masked & ~symbol_ink
         # Plus the long bold strokes the band missed ("wallOpenPx": the radius
@@ -728,10 +728,10 @@ def main(config_path, output):
         area = abs(cv2.contourArea(contour)) * scale ** 2
         # Colour fill: passage ends cut off at a narrow neck are small but real.
         min_band = trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)
-        if cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES or area < (MIN_HOLE_SQ_METRES if hole else min_band):
+        if cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES or area < (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else min_band):
             continue
         points = [tuple(p) for p in contour[:, 0, :].astype(float)]
-        line = smooth(LineString(points + points[:1])).simplify(SIMPLIFY_METRES / scale)
+        line = smooth(LineString(points + points[:1])).simplify(trace.get('wallSimplifyMetres', SIMPLIFY_METRES) / scale)
         cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
