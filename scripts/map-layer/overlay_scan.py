@@ -175,10 +175,12 @@ map.on('load', () => {
     if (p.type === 'entrance') continue
     const el = document.createElement('div')
     el.className = 'symbol'
-    if (p.type === 'flow') { el.style.transform = `rotate(${p.bearing - 90}deg)`; el.style.background = '#4fc3f7' }
+    // Flow arrows: the marker's own rotation (Mapbox sets the element's
+    // transform to place it), the glyph pointing east at 0, aligned to the map.
+    if (p.type === 'flow') el.style.background = '#4fc3f7'
     el.textContent = p.type === 'flow' ? '➜' : p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'entrance' ? '●' : p.type === 'place-name' ? p.label : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
     el.title = p.type + (p.value !== undefined ? ` ${p.value} m (map: ${p.label})` : '')
-    symbolMarkers.push(new mapboxgl.Marker({ element: el }).setLngLat(f.geometry.coordinates).addTo(map))
+    symbolMarkers.push(new mapboxgl.Marker({ element: el, ...(p.type === 'flow' ? { rotation: p.bearing - 90, rotationAlignment: 'map' } : {}) }).setLngLat(f.geometry.coordinates).addTo(map))
   }
   document.getElementById('symbols').onchange = (e) => symbolMarkers.forEach((m) => { m.getElement().style.display = e.target.checked ? '' : 'none' })
   const points = (key) => ({ type: 'FeatureCollection', features: markers.map((m) => ({ type: 'Feature', properties: m, geometry: { type: 'Point', coordinates: m[key] } })) })
