@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
-import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, MapRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
+import { AccessibleRounded, AccountTreeRounded, LanguageRounded, LinkRounded, LockOpenRounded, PaletteRounded, PeopleRounded, PublicRounded, SourceRounded } from '@mui/icons-material'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import CaveIcon from '@/images/map/cave.svg?react'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
@@ -80,7 +81,10 @@ export default function AdminDashboard() {
                   <ListItem disablePadding>
                     <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
                       <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                        <MapRounded />
+                        {/* The cave drawn inside the map pins */}
+                        <SvgIcon inheritViewBox>
+                          <CaveIcon />
+                        </SvgIcon>
                       </ListItemIcon>
                       <ListItemText primary={t('manageCaves')} />
                     </ListItemButton>
