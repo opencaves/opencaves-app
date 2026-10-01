@@ -438,6 +438,7 @@
         "tooltip": "Voir les images"
       }
     },
+    "addressOffline": "Adresse indisponible hors ligne",
     "morePicturesBtn": "Plus d'images",
     "menu": {
       "ariaLabel": "Plus",

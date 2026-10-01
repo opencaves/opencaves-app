@@ -439,6 +439,7 @@
         "tooltip": "Ver fotos"
       }
     },
+    "addressOffline": "Dirección no disponible sin conexión",
     "morePicturesBtn": "Más fotos",
     "menu": {
       "ariaLabel": "Más",

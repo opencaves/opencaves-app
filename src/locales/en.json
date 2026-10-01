@@ -439,6 +439,7 @@
         "tooltip": "See pictures"
       }
     },
+    "addressOffline": "Address unavailable offline",
     "morePicturesBtn": "More pictures",
     "menu": {
       "ariaLabel": "More",
