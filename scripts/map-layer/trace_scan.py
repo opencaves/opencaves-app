@@ -668,6 +668,7 @@ def thin_walls(config_path, config, out, name):
         from shapely.geometry import Point
         from shapely.strtree import STRtree
         gap = trace.get('guidelineGapPx', 40)
+        ink_near = cv2.dilate((ink & ~masked).astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
         merged = linemerge(pieces)
         lines = list(getattr(merged, 'geoms', [merged]))
         tree = STRtree(lines)
@@ -687,7 +688,11 @@ def thin_walls(config_path, config, out, name):
                     # Never through a wall: that's another passage.
                     crossing = [strokes[min(int(p.y), h - 1), min(int(p.x), w - 1)]
                                 for p in (bridge.interpolate(d) for d in numpy.arange(3, bridge.length - 3, 1))]
-                    if not any(crossing):
+                    # Only where the map's line actually goes on (ink along
+                    # the bridge): two lines that don't touch are a jump.
+                    samples = [bridge.interpolate(d) for d in numpy.arange(0, bridge.length, 1)]
+                    on_ink = [ink_near[min(int(p.y), h - 1), min(int(p.x), w - 1)] for p in samples]
+                    if not any(crossing) and on_ink and sum(on_ink) >= 0.8 * len(on_ink):
                         bridges.append(bridge)
         merged = linemerge(lines + bridges)
         # Inside the cave: the guideline runs between walls, a label's leader
