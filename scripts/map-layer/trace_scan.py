@@ -579,6 +579,7 @@ def thin_walls(config_path, config, out, name):
     drawn &= ~leaders
     # 2. straight lines
     straight = numpy.zeros(ink.shape, numpy.uint8)
+    straight_pieces = []
     eps, min_len = trace.get('straightEps', 1.3), trace.get('straightMinPx', 20)
     for path in trace_skeleton(skeletonize(drawn)):
         if len(path) < min_len: continue
@@ -587,6 +588,7 @@ def thin_walls(config_path, config, out, name):
         for a, b in zip(approx[:-1], approx[1:]):
             if numpy.hypot(*(b - a)) >= min_len:
                 cv2.line(straight, tuple(int(v) for v in a), tuple(int(v) for v in b), 1, trace.get('straightWidthPx', 4))
+                straight_pieces.append((tuple(int(v) for v in a), tuple(int(v) for v in b)))
     walls = drawn & ~(straight > 0)
     # 3. long shapes and islands
     # The scan breaks thin lines here and there: pieces "bridgePx" apart count as one shape.
@@ -655,6 +657,25 @@ def thin_walls(config_path, config, out, name):
         cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    # "guideline": true - the straight runs erased above are the guideline:
+    # kept as survey lines (joined where their ends meet), not walls.
+    if trace.get('guideline'):
+        from shapely.ops import linemerge
+        merged = linemerge([LineString([a, b]) for a, b in straight_pieces])
+        # Inside the cave: the guideline runs between walls, a label's leader
+        # out in the open.
+        to_wall = cv2.distanceTransform((~strokes).astype(numpy.uint8), cv2.DIST_L2, 5)
+        reach = trace.get('guidelineReachPx', 20)
+        for line in getattr(merged, 'geoms', [merged]):
+            if line.length * scale < trace.get('guidelineMinMetres', 10):
+                continue
+            samples = [line.interpolate(d) for d in numpy.arange(0, line.length, 3)]
+            inside = [to_wall[min(int(p.y), h - 1), min(int(p.x), w - 1)] <= reach for p in samples]
+            if sum(inside) < 0.85 * len(inside):
+                continue
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (220, 160, 0), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     contours, hierarchy = cv2.findContours(outline_bands, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
     for index, contour in enumerate(contours):
         if len(contour) < 4 or cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES:
