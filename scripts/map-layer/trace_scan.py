@@ -661,7 +661,30 @@ def thin_walls(config_path, config, out, name):
     # kept as survey lines (joined where their ends meet), not walls.
     if trace.get('guideline'):
         from shapely.ops import linemerge
-        merged = linemerge([LineString([a, b]) for a, b in straight_pieces])
+        pieces = [LineString([a, b]) for a, b in straight_pieces]
+        # Gaps bridged: where the line ran close to a wall or bent, pieces are
+        # missing - each loose end is joined to the nearest other piece within
+        # "guidelineGapPx".
+        from shapely.geometry import Point
+        from shapely.strtree import STRtree
+        gap = trace.get('guidelineGapPx', 40)
+        merged = linemerge(pieces)
+        lines = list(getattr(merged, 'geoms', [merged]))
+        tree = STRtree(lines)
+        bridges = []
+        for i, line in enumerate(lines):
+            for end in (Point(line.coords[0]), Point(line.coords[-1])):
+                best = None
+                for j in tree.query(end.buffer(gap)):
+                    if j == i:
+                        continue
+                    d = lines[j].distance(end)
+                    if d <= gap and (best is None or d < best[0]):
+                        best = (d, j)
+                if best and best[0] > 0:
+                    target = lines[best[1]].interpolate(lines[best[1]].project(end))
+                    bridges.append(LineString([end, target]))
+        merged = linemerge(lines + bridges)
         # Inside the cave: the guideline runs between walls, a label's leader
         # out in the open.
         to_wall = cv2.distanceTransform((~strokes).astype(numpy.uint8), cv2.DIST_L2, 5)
