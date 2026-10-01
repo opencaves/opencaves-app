@@ -70,7 +70,7 @@ export default function NoMatch() {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className="oc-no-match no-match--container" direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}`} direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
       <Grid className="no-match--box">
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>

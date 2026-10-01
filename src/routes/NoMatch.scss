@@ -3,6 +3,13 @@
     background-color: #000;
     background-image: url('../images/404/bg.webp');
     background-size: cover;
+    background-position: center;
+
+    // A failure (a page that couldn't load, the map erroring) rather than a
+    // missing page: its own picture.
+    &.no-match--error {
+      background-image: url('../images/404/error-bg.webp');
+    }
 
     .no-match {
       &--box {
