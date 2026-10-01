@@ -50,21 +50,31 @@ def raster_placement(config):
     (place, metres per pixel, rotation in degrees).
 
     With a "scaleBar" ({"from": [x, y], "to": [x, y], "metres": m}) and
-    "north": "up" in the config, the scale comes from the bar and the map is
-    taken as north-up, then shifted onto the control points (their average:
-    one is enough). Otherwise a similarity fit (scale, rotation, shift)
+    "north": "up" (or {"angle": degrees clockwise from up, for a map whose
+    north arrow isn't up}), the scale comes from the bar and the orientation
+    from north, then the map is shifted onto the control points (their
+    average: one is enough). Otherwise a similarity fit (scale, rotation, shift)
     through at least two control points. Points marked "check" are left out."""
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     fitted = [p for p in config['controlPoints'] if not p.get('check')]
     utm = [to_utm.transform(p['longitude'], p['latitude']) for p in fitted]
-    if config.get('scaleBar') and config.get('north') == 'up':
+    north = config.get('north')
+    if config.get('scaleBar') and (north == 'up' or isinstance(north, dict)):
         if not fitted:
             sys.exit('At least one control point (not marked "check") is needed.')
         (x0, y0), (x1, y1) = config['scaleBar']['from'], config['scaleBar']['to']
         scale = config['scaleBar']['metres'] / math.hypot(x1 - x0, y1 - y0)
-        shift_e = sum(e - p['px'][0] * scale for p, (e, _) in zip(fitted, utm)) / len(fitted)
-        shift_n = sum(n + p['px'][1] * scale for p, (_, n) in zip(fitted, utm)) / len(fitted)
-        return (lambda x, y: (shift_e + x * scale, shift_n - y * scale)), scale, 0.0
+        # North's direction in the image, in degrees clockwise from up: 0 for a
+        # north-up map, 90 for one whose north arrow points right.
+        angle = math.radians(north['angle'] if isinstance(north, dict) else 0)
+        nx, ny = math.sin(angle), -math.cos(angle)
+        ex, ey = math.cos(angle), math.sin(angle)
+
+        def offset(x, y):
+            return scale * (x * ex + y * ey), scale * (x * nx + y * ny)
+        shift_e = sum(e - offset(*p['px'])[0] for p, (e, _) in zip(fitted, utm)) / len(fitted)
+        shift_n = sum(n - offset(*p['px'])[1] for p, (_, n) in zip(fitted, utm)) / len(fitted)
+        return (lambda x, y: (shift_e + offset(x, y)[0], shift_n + offset(x, y)[1])), scale, math.degrees(angle)
     if len(fitted) < 2:
         sys.exit('At least two control points (not marked "check") are needed, or a scale bar and "north": "up".')
     return fit_similarity([p['px'] for p in fitted], utm)
@@ -144,7 +154,9 @@ map.on('load', () => {
   map.addSource('scan', { type: 'image', url: '__IMAGE__', coordinates: __CORNERS__ })
   map.addLayer({ id: 'scan', type: 'raster', source: 'scan', paint: { 'raster-opacity': 0.35, 'raster-fade-duration': 0 } })
   map.addSource('walls', { type: 'geojson', data: __WALLS__ })
-  map.addLayer({ id: 'walls', type: 'line', source: 'walls', paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })
+  map.addLayer({ id: 'water', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'water'], paint: { 'fill-color': '#9ec3d6', 'fill-opacity': 0.55 } })
+  map.addLayer({ id: 'details', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'detail'], paint: { 'fill-color': '#ffffff', 'fill-opacity': 0.9 } })
+  map.addLayer({ id: 'walls', type: 'line', source: 'walls', filter: ['!', ['in', ['get', 'kind'], ['literal', ['detail', 'water']]]], paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })
   // Symbols: a short label per type, the value in metres where there's one.
   const SHORT = { 'restriction-minor': 'r', 'restriction-major': 'X', 'visibility-zero': 'z', 'silt': 's', 'depth': '↓', 'ceiling-height': '↕', 'penetration': 'p' }
   const symbolMarkers = []
@@ -170,7 +182,7 @@ map.on('load', () => {
     el.textContent = `${m.name} (${m.error} m${m.check ? ', check' : ''})`
     new mapboxgl.Marker({ element: el, anchor: 'left', offset: [9, 0] }).setLngLat(m.gps).addTo(map)
   }
-  document.getElementById('walls').onchange = (e) => map.setLayoutProperty('walls', 'visibility', e.target.checked ? 'visible' : 'none')
+  document.getElementById('walls').onchange = (e) => ['walls', 'details', 'water'].forEach((id) => map.setLayoutProperty(id, 'visibility', e.target.checked ? 'visible' : 'none'))
   document.getElementById('opacity').oninput = (e) => map.setPaintProperty('scan', 'raster-opacity', +e.target.value)
 })
 </script></body></html>

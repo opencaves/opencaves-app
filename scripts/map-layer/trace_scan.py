@@ -18,6 +18,8 @@ Writes <output>/<name>-walls-review.png (the bands tinted, the outlines
 black, masked areas pale orange) and <output>/<name>-walls.geojson, which
 overlay_scan.py's preview then shows over the satellite imagery.
 
+Fine line drawings (bold wall strokes, thinner stipple and boulders, e.g.
+James Coke's maps) use "trace": {"method": "wall-strokes"}.
 Survey line plots (a Google Earth screenshot with the survey lines drawn on
 it) use "trace": {"method": "survey-lines"}: centrelines, not walls.
 Maps whose passages are filled with a pale blue (e.g. a photographed QRSS
@@ -57,6 +59,9 @@ LONG_WORD_CONF = 30
 LONG_WORD_LETTERS = 3
 # Margin around each OCR word, in pixels.
 WORD_PAD = 4
+# Real labels (see real_labels): letters and OCR confidence.
+REAL_LABEL_LETTERS = 3
+REAL_LABEL_CONF = 70
 # Passage bands: the closing bridges the gap between a passage's walls and
 # its floor stipple; the opening removes strokes thinner than its size.
 CLOSE_PX = 9
@@ -219,80 +224,125 @@ def trace_skeleton(skeleton):
     return paths
 
 
-def main(config_path, output):
-    config_path = Path(config_path)
-    config = json.loads(config_path.read_text(encoding='utf-8'))
-    name = config_path.stem
-    out = Path(output)
-    out.mkdir(parents=True, exist_ok=True)
+def contrast_ink(grey, trace):
+    """Ink by contrast with its own surroundings (the median over a window
+    wider than any stroke), not a fixed level: symbols are often drawn in
+    grey, lighter than the walls, and on a grey fill (water) as well as on
+    the paper."""
+    window = trace.get('contrastWindowPx', 31) | 1
+    background = cv2.medianBlur(grey.astype(numpy.uint8), window).astype(numpy.int16)
+    return (background - grey.astype(numpy.int16)) >= trace.get('detailContrast', 35)
 
-    grey = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
-    ink = numpy.asarray(grey) < INK_LEVEL
-    height, width = ink.shape
 
-    masked = numpy.zeros_like(ink)
-    for item in config.get('exclude', []):
-        x0, y0, x1, y1 = item['box']
-        masked[max(0, y0):y1, max(0, x0):x1] = True
-    words = ocr_words(grey, out / f'{name}-ocr-words.json')
-    letters = lambda w: sum(c.isalpha() for c in w['t'])
-    labels_only = [w for w in words if (w['conf'] >= MIN_WORD_CONF and letters(w) >= MIN_WORD_LETTERS)
-                   or (w['conf'] >= LONG_WORD_CONF and letters(w) >= LONG_WORD_LETTERS)]
-    near_label = numpy.zeros_like(ink)
-    for word in labels_only:
-        x0, y0, x1, y1 = word['box']
-        near_label[max(0, y0 - LEADER_END_PX):y1 + LEADER_END_PX, max(0, x0 - LEADER_END_PX):x1 + LEADER_END_PX] = True
-    for word in labels_only:
-        x0, y0, x1, y1 = word['box']
-        masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
+def grey_fill_mask(grey, masked, trace):
+    """Grey fills (flooded passage, water on black-and-white maps): between
+    the paper and the ink, in large smooth areas."""
+    lo, hi = trace.get('greyRange', [150, 225])
+    fill = (grey >= lo) & (grey <= hi) & ~masked
+    fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7)))
+    return cv2.morphologyEx(fill, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
 
-    candidate = ink & ~masked
-    labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
-    extents = [max(s[0].stop - s[0].start, s[1].stop - s[1].start) for s in ndimage.find_objects(labels)]
-    keep_ids = [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX]
-    walls = numpy.isin(labels, keep_ids)
-    print(f'{len(labels_only)} of {len(words)} OCR words masked as labels; {count} ink shapes, {len(keep_ids)} kept as walls ({walls.sum()} px)')
 
-    # Review image: kept ink black, removed ink pale grey, masked areas tinted.
-    review = numpy.full((height, width, 3), 255, numpy.uint8)
-    review[masked] = (255, 236, 200)
-    review[ink & ~walls] = (190, 190, 190)
-    review[walls] = (0, 0, 0)
-    Image.fromarray(review).save(out / f'{name}-walls-review.png')
-
-    # Centrelines of the wall ink, traced and placed.
-    skeleton = skeletonize(walls)
-    paths = trace_skeleton(skeleton)
-    # Leader lines: branches with a free end (one neighbour) by a label.
-    neighbour_count = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
-    def is_leader(path):
-        ends = [p for p in (path[0], path[-1]) if neighbour_count[p] == 1]
-        return any(near_label[p] for p in ends)
-    leaders = [p for p in paths if is_leader(p)]
-    paths = [p for p in paths if not is_leader(p)]
-    print(f'{len(leaders)} leader-line branches dropped')
-    to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
-    to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
-    fitted = [p for p in config['controlPoints'] if not p.get('check')]
-    place, scale, rotation = fit_similarity([p['px'] for p in fitted], [to_utm.transform(p['longitude'], p['latitude']) for p in fitted])
+def detail_features(detail_ink, water, place, to_lnglat, scale, trace, properties):
+    """Everything drawn between the walls, as the map shows it: the inked
+    symbols (boulders, columns, stalagmites, stipple, slopes...) as filled
+    shapes - their ink outlines, holes included, so a ring stays a ring and a
+    solid column stays solid - and the grey areas (flooded passage, water) as
+    grey polygons. Kind "detail" and "water"."""
+    from shapely.geometry import Polygon
     features = []
-    for path in paths:
-        line = LineString([(x, y) for y, x in path])
-        if line.length * scale < MIN_LINE_METRES:
+    tolerance = trace.get('detailSimplifyMetres', 0.03) / scale
+
+    def polygons(mask, kind, min_px):
+        contours, hierarchy = cv2.findContours(mask.astype(numpy.uint8), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        if hierarchy is None:
+            return
+        for index, contour in enumerate(contours):
+            if hierarchy[0][index][3] != -1 or cv2.contourArea(contour) < min_px:
+                continue
+            holes = []
+            child = hierarchy[0][index][2]
+            while child != -1:
+                if len(contours[child]) >= 3:
+                    holes.append([tuple(p) for p in contours[child][:, 0, :].astype(float)])
+                child = hierarchy[0][child][0]
+            if len(contour) < 3:
+                continue
+            shape = Polygon([tuple(p) for p in contour[:, 0, :].astype(float)], holes).buffer(0).simplify(tolerance)
+            for part in getattr(shape, 'geoms', [shape]):
+                if part.is_empty or part.geom_type != 'Polygon':
+                    continue
+                exterior = [to_lnglat.transform(*place(x, y)) for x, y in part.exterior.coords]
+                interiors = [[to_lnglat.transform(*place(x, y)) for x, y in ring.coords] for ring in part.interiors]
+                features.append({'type': 'Feature', 'properties': {**properties, 'kind': kind},
+                                 'geometry': {'type': 'Polygon', 'coordinates': [exterior] + interiors}})
+
+    polygons(detail_ink, 'detail', trace.get('minDetailPx', 6))
+    if water is not None:
+        polygons(water, 'water', trace.get('minWaterPx', 4000))
+    return features
+
+
+def rounded(collection, digits=7):
+    """Coordinates rounded to ~1 cm (7 decimals of a degree): the file
+    otherwise carries 15 meaningless decimals per coordinate."""
+    def walk(c):
+        return round(c, digits) if isinstance(c, float) else [walk(v) for v in c]
+    for feature in collection['features']:
+        feature['geometry']['coordinates'] = walk(feature['geometry']['coordinates'])
+    return collection
+
+
+def real_labels(words):
+    """The OCR words that are real labels - masked, so they aren't traced as
+    walls or drawn as symbols: 3 letters or more, nearly all letters, read
+    confidently. On a dense drawing Tesseract also "reads" symbols ("(DA",
+    "GE)", "OO"), and short codes ("tb", "a", "tt") are themselves map
+    symbols: both stay, to be drawn."""
+    def letters(w):
+        return sum(c.isalpha() for c in w['t'])
+    return [w for w in words if letters(w) >= REAL_LABEL_LETTERS and letters(w) >= 0.8 * len(w['t']) and w['conf'] >= REAL_LABEL_CONF]
+
+
+def leader_lines(ink, labels, height, width, trace):
+    """Ink shapes that are a label's leader line: one open stroke - no loop
+    (pillars and wall outlines are closed or branched), exactly two ends,
+    its ink about its length times its width with no blob - between
+    "leaderMinPx" and "leaderMaxPx" long, one END within "leaderReachPx" of a
+    label. Stroke weight varies from map to map, so width is judged from the
+    stroke itself."""
+    reach = trace.get('leaderReachPx', 60)
+    near_label = numpy.zeros((height, width), bool)
+    for word in labels:
+        x0, y0, x1, y1 = word['box']
+        near_label[max(0, y0 - reach):y1 + reach, max(0, x0 - reach):x1 + reach] = True
+    shapes, _ = ndimage.label(ink, structure=numpy.ones((3, 3)))
+    depth = cv2.distanceTransform(ink.astype(numpy.uint8), cv2.DIST_L2, 3)
+    leaders = numpy.zeros_like(ink)
+    min_len, max_len = trace.get('leaderMinPx', 40), trace.get('leaderMaxPx', 400)
+    for i, s in enumerate(ndimage.find_objects(shapes)):
+        extent = max(s[0].stop - s[0].start, s[1].stop - s[1].start)
+        if not min_len <= extent <= max_len:
             continue
-        line = line.simplify(SIMPLIFY_METRES / scale)
-        coords = [to_lnglat.transform(*place(x, y)) for x, y in line.coords]
-        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
-                         'geometry': mapping(LineString(coords))})
-    collection = {'type': 'FeatureCollection', 'features': features}
-    geojson = out / f'{name}-walls.geojson'
-    geojson.write_text(json.dumps(collection, separators=(',', ':')), encoding='utf-8')
-    print(f'{len(paths)} skeleton paths -> {len(features)} wall lines -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
-
-
-if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        sys.exit(__doc__)
+        shape = shapes[s] == i + 1
+        if not near_label[s][shape].any():
+            continue
+        # No loop: the background around and inside the shape is one piece.
+        if ndimage.label(numpy.pad(~shape, 1, constant_values=True))[1] != 1:
+            continue
+        skeleton = skeletonize(shape)
+        neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+        ends = numpy.argwhere(skeleton & (neighbours == 1))
+        if len(ends) != 2:
+            continue
+        values = depth[s][shape]
+        half = float(numpy.median(values[values >= numpy.percentile(values, 75)]))
+        length = skeleton.sum()
+        if shape.sum() > length * 2 * half * 1.5 or values.max() > half * 1.4:
+            continue
+        if any(near_label[s][y, x] for y, x in ends):
+            leaders[s] |= shape
+    return leaders
 
 
 def survey_line_paths(image_path, boxes, trace):
@@ -324,14 +374,21 @@ def main(config_path, output):
         x0, y0, x1, y1 = item['box']
         masked[max(0, y0):y1, max(0, x0):x1] = True
     words = ocr_words(grey, out / f'{name}-ocr-words.json')
-    letters = lambda w: sum(c.isalpha() for c in w['t'])  # noqa: E731
-    labels_only = [w for w in words if (w['conf'] >= MIN_WORD_CONF and letters(w) >= MIN_WORD_LETTERS)
-                   or (w['conf'] >= LONG_WORD_CONF and letters(w) >= LONG_WORD_LETTERS)]
+    labels_only = real_labels(words)
     for word in labels_only:
         x0, y0, x1, y1 = word['box']
         masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
 
     trace = config.get('trace', {})
+    # Leader lines (a label's line to what it names - "Entrada" to its
+    # entrance): thin strokes standing alone, one end by a label. Entrances
+    # get their own pins, so the lines go.
+    leaders = leader_lines(ink & ~masked, labels_only, height, width, trace)
+    ink &= ~leaders
+    # The contrast-based detail detection sees a stroke's soft edge too.
+    grown_leaders = cv2.dilate(leaders.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))) > 0
+    if leaders.any():
+        print(f'{ndimage.label(leaders, structure=numpy.ones((3, 3)))[1]} leader lines removed')
     if trace.get('method') == 'survey-lines':
         boxes = numpy.zeros_like(ink)
         for item in config.get('exclude', []):
@@ -348,8 +405,73 @@ def main(config_path, output):
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         geojson = out / f'{name}-walls.geojson'
-        geojson.write_text(json.dumps({'type': 'FeatureCollection', 'features': features}, separators=(',', ':')), encoding='utf-8')
+        geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
         print(f'{len(features)} survey lines -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
+        return
+    if trace.get('method') == 'wall-strokes':
+        # Fine line drawings (walls as bold strokes around open passages, with
+        # thinner stipple, hatching and boulder outlines): an opening keeps the
+        # strokes at least as bold as the walls; of those, the long ones are
+        # walls (columns and stalagmites are bold but compact). Their
+        # centrelines are the wall lines.
+        drawn = (ink & ~masked).astype(numpy.uint8)
+
+        def opened(r):
+            return cv2.morphologyEx(drawn, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1)))
+
+        def long_parts(mask, min_extent):
+            labels, _ = ndimage.label(mask, structure=numpy.ones((3, 3)))
+            extents = [max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) for sl in ndimage.find_objects(labels)]
+            return numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= min_extent])
+
+        radius = trace.get('openRadiusPx', 3)
+        min_extent = trace.get('minExtentPx', 150)
+        strong = long_parts(opened(radius), min_extent)
+        # Walls aren't drawn equally bold everywhere: the thinner strokes
+        # (one radius less) count too when they touch a bold wall or are long
+        # on their own - stipple and boulders do neither.
+        weak = opened(radius - 1)
+        weak_labels, _ = ndimage.label(weak, structure=numpy.ones((3, 3)))
+        touching = numpy.unique(weak_labels[strong & (weak_labels > 0)])
+        strokes = strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)
+        to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
+        place, scale, _ = raster_placement(config)
+        features = []
+        review = numpy.full((height, width, 3), 255, numpy.uint8)
+        review[masked] = (255, 236, 200)
+        review[ink & ~strokes] = (200, 200, 255)
+        skeleton = skeletonize(strokes)
+        neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+        for path in trace_skeleton(skeleton):
+            line = LineString([(x, y) for y, x in path])
+            # The minimum length drops stray spurs only (a free end): a segment
+            # between two junctions - a column's ring with its spokes - is
+            # short but part of the drawing.
+            free_end = any(neighbours[p] <= 1 for p in (path[0], path[-1]))
+            if free_end and line.length * scale < trace.get('minLineMetres', 1):
+                continue
+            line = smooth(line).simplify(max(SIMPLIFY_METRES / 5, scale) / scale)
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 3)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+        walls_count = len(features)
+        if trace.get('details', True):
+            # Water only respects the excluded boxes: a label's mask would cut
+            # a hole in the grey fill it's printed on.
+            boxes = numpy.zeros_like(masked)
+            for item in config.get('exclude', []):
+                x0, y0, x1, y1 = item['box']
+                boxes[max(0, y0):y1, max(0, x0):x1] = True
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & ~strokes & ~grown_leaders, grey_fill_mask(numpy.asarray(grey), boxes, trace), place, to_lnglat, scale, trace,
+                                        {'map': name, 'sistemaId': config.get('sistemaId')})
+        Image.fromarray(review).save(out / f'{name}-walls-review.png')
+        geojson = out / f'{name}-walls.geojson'
+        geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
+        counts = {}
+        for feature in features[walls_count:]:
+            counts[feature['properties']['kind']] = counts.get(feature['properties']['kind'], 0) + 1
+        print(f'{walls_count} wall lines (bold strokes), ' + ', '.join(f'{n} {k}' for k, n in counts.items())
+              + f' -> {geojson} ({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
         return
     if trace.get('method') == 'colour-fill':
         # Only the excluded boxes: labels are dark text, never blue fill, and
@@ -426,11 +548,20 @@ def main(config_path, output):
                 cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (200, 0, 120), 2)
                 features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'from': 'ink', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    walls_count = len(features)
+    if trace.get('details', True):
+        # Between the walls: the ink inside the passage bands, kept back from
+        # their edges (the wall itself is the band's outline). On a colour-fill
+        # map the band is the passage's blue fill: water.
+        inside = cv2.erode(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * trace.get('wallMarginPx', 4) + 1,) * 2)) > 0
+        dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders
+        water = band > 0 if trace.get('method') == 'colour-fill' else None
+        features += detail_features(dark & inside & ~masked, water, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')
 
     geojson = out / f'{name}-walls.geojson'
-    geojson.write_text(json.dumps({'type': 'FeatureCollection', 'features': features}, separators=(',', ':')), encoding='utf-8')
-    print(f'{len(labels_only)} of {len(words)} OCR words masked as labels; {len(contours)} outlines -> {len(features)} wall lines -> {geojson} '
+    geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
+    print(f'{len(labels_only)} of {len(words)} OCR words masked as labels; {len(contours)} outlines -> {walls_count} wall lines, {len(features) - walls_count} details/water -> {geojson} '
           f'({geojson.stat().st_size // 1024} KB); scale {scale:.4f} m/px')
 
 

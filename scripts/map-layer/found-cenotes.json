@@ -89,6 +89,41 @@
    ],
    "why": "the database's position is 3.6 km from this map's: doubtful",
    "id": "-KPZkVPKbTGWDHL_8Y-Y"
+  },
+  {
+   "name": "Entrada Zapodilla",
+   "latitude": 20.337431,
+   "longitude": -87.385063,
+   "accuracy": 15,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Misterio Maya - Sprouse 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+   "sistemaName": "Sac Actun",
+   "area": "Nohoch Nah Chich",
+   "action": "fill",
+   "caveId": "-KPZkVUdsf7b8XDBQo4d",
+   "id": "-KPZkVUdsf7b8XDBQo4d"
+  },
+  {
+   "name": "Entrada Pequeña",
+   "latitude": 20.290832,
+   "longitude": -87.387572,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Yax Muul - James G. Coke IV, 2007"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxMC7X8AcLqXOtq",
+   "sistemaName": "Nohoch Nah Chich",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2rRUAA3P8t2-YMyu5S"
   }
  ]
 }

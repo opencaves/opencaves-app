@@ -1,0 +1,231 @@
+{
+  "image": "../../../_data/maps-import/images/yax-muul-sist-rancho-yax-muul-ejido-san-jacinto-pat-1.webp",
+  "title": "Sistema Yax Muul - James G. Coke IV, 2007",
+  "credits": "Surveyed with Suunto, tape, Disto A3 and depth timer, September 2004 - November 2006, by James G. Coke IV and Philipp Huber; drawn by James G. Coke IV, April 2007. (c) 2007 James G. Coke IV",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxMC7X8AcLqXOtq",
+  "utmEpsg": 32616,
+  "trace": { "method": "wall-strokes", "openRadiusPx": 3, "minExtentPx": 150 },
+  "exclude": [
+    {
+      "why": "frame top",
+      "box": [
+        0,
+        0,
+        8755,
+        197
+      ]
+    },
+    {
+      "why": "frame left",
+      "box": [
+        0,
+        0,
+        306,
+        6282
+      ]
+    },
+    {
+      "why": "frame right",
+      "box": [
+        8440,
+        0,
+        8755,
+        6282
+      ]
+    },
+    {
+      "why": "bottom caption and copyright",
+      "box": [
+        0,
+        5822,
+        8755,
+        6282
+      ]
+    },
+    {
+      "why": "title and datum",
+      "box": [
+        482,
+        219,
+        2057,
+        972
+      ]
+    },
+    {
+      "why": "profile (top left)",
+      "box": [
+        2561,
+        394,
+        3020,
+        657
+      ]
+    },
+    {
+      "why": "profile",
+      "box": [
+        4071,
+        854,
+        4574,
+        1147
+      ]
+    },
+    {
+      "why": "profile",
+      "box": [
+        4815,
+        394,
+        5669,
+        1016
+      ]
+    },
+    {
+      "why": "profile A-A'",
+      "box": [
+        5735,
+        569,
+        6444,
+        1191
+      ]
+    },
+    {
+      "why": "profile (tall)",
+      "box": [
+        6654,
+        744,
+        7376,
+        1313
+      ]
+    },
+    {
+      "why": "profile (top right)",
+      "box": [
+        7026,
+        394,
+        8230,
+        753
+      ]
+    },
+    {
+      "why": "profile (right)",
+      "box": [
+        7652,
+        2364,
+        8230,
+        2635
+      ]
+    },
+    {
+      "why": "profile Entrada Pequena",
+      "box": [
+        7652,
+        3765,
+        8252,
+        4224
+      ]
+    },
+    {
+      "why": "profile (right, low)",
+      "box": [
+        7595,
+        4399,
+        8230,
+        4719
+      ]
+    },
+    {
+      "why": "profile (bottom)",
+      "box": [
+        5625,
+        5113,
+        6400,
+        5787
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        4005,
+        4334,
+        4728,
+        4675
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3555,
+        5612,
+        5209,
+        5813
+      ]
+    },
+    {
+      "why": "legend",
+      "box": [
+        7083,
+        4693,
+        8501,
+        5805
+      ]
+    },
+    {
+      "why": "notes and credits",
+      "box": [
+        473,
+        5113,
+        1497,
+        5787
+      ]
+    },
+    {
+      "why": "inset map",
+      "box": [
+        1672,
+        5087,
+        2635,
+        5813
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      3620,
+      5651
+    ],
+    "to": [
+      5115,
+      5651
+    ],
+    "metres": 45
+  },
+  "north": {
+    "angle": 91
+  },
+  "controlPoints": [
+    {
+      "name": "Entrada Pequeña (the map's datum: WGS84 16Q 459532.7 2243712.8)",
+      "px": [
+        7722,
+        3580
+      ],
+      "latitude": 20.2908322,
+      "longitude": -87.3875719
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrada Pequeña",
+      "px": [
+        7722,
+        3580
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "m"
+  }
+}
