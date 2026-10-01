@@ -90,6 +90,15 @@
         2707,
         1673
       ]
+    },
+    {
+      "why": "west lake: open water, no walls",
+      "box": [
+        710,
+        829,
+        940,
+        1075
+      ]
     }
   ],
   "scaleBar": {

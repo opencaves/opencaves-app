@@ -747,7 +747,9 @@ def main(config_path, output):
             if near_ink is None:
                 wall_ink_near = cv2.dilate(ink.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
                 near_ink = wall_ink_near
-            on = [bool(near_ink[int(y), int(x)]) for x, y in points]
+            # Nor along an excluded area's edge: that's a cut, not a wall.
+            near_mask = cv2.dilate(masked.astype(numpy.uint8), numpy.ones((9, 9), numpy.uint8)) > 0
+            on = [bool(near_ink[int(y), int(x)]) and not near_mask[int(y), int(x)] for x, y in points]
             if not all(on):
                 # Runs of on-ink points, starting after an off-ink point so a
                 # run doesn't wrap around the start.
