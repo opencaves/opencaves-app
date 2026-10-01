@@ -1,0 +1,1868 @@
+{
+  "image": "../../../_data/maps-import/images/punto-sist-el.webp",
+  "title": "Sistema El Punto - Mafia Maps 1999",
+  "credits": "Sistema El Punto, Q.Roo, Mexico; surveyed passage to date 3,990 ft; exploration and survey Unknown Explorer, Fred Devos; Mafia Maps, January 1999 (c) F. Devos, 1998",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfviIj220GznSr2u",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of El Punto has a position taken on site: the database only has Gerrard's 'El Punto - Punto Soliman' point (validity unknown), and Sentry, Ka'tu A'k, I'ch and Alberca have none; the map has no scale bar and is schematic. The placement is a best guess from the shapes of the water near Gerrard's point (the caleta at Bahia Soliman, the pond south of it, the bay's shore).",
+  "placementWhy": "Guess (unverified): free similarity fit on four points, residuals 8, 19, 16 and 34 m; 0.305 m/px, map turned 6.4 degrees. Sentry Cenote, a long pool running east then turning north, on the caleta at the head of the lagoon north of Bahia Soliman (its west arm then the turn north into the lagoon; Gerrard's 'El Punto - Punto Soliman' point is at that turn): its west tip on the arm's west tip and its corner on the arm's turn (both read on the Mapbox/Maxar imagery). Cenote I'CH on the dark pond south of the caleta (OSM water way 1100734981), the one reached by a path from the dirt road as the database's directions say. The line's end at the sea (p. 0) on the top of the bulge of Bahia Soliman's north shore (OSM coastline vertex; the map draws the outlet at such a bulge, with the sea to the south). The four don't fit one similarity well (I'CH is the worst, 34 m): the map's Sentry-to-I'CH distance is about twice the caleta-to-pond one compared with the rest. Tried first: I'CH on the pond and the outlet on the shore alone (0.37 m/px, north kept): the lines then cross the caleta's open water twice, which the map, drawing every pool, doesn't show - rejected. At 0.305 m/px the drawn lines measure about 680 m against the 1,216 m (3,990 ft) the title gives: Mafia line plots are smoothed, and the stated length may include lines not drawn - a second sign the placement is approximate. K'a Tu A'ak falls on the wooded spit between the lagoon and the sea, Alberca by the beach houses: neither can be checked on the imagery. Nearest placed maps: Yax Muul (1.1 km west), Nohoch Nah Chich and the Sac Aktun Google plots (over 1 km): no overlap.",
+  "exclude": [
+    {
+      "why": "title block: Sistema El Punto, Q.Roo, surveyed passage to date 3,990 ft, exploration and survey Unknown Explorer, Fred Devos, Mafia Maps January 1999",
+      "box": [
+        688,
+        722,
+        1064,
+        1062
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F.Devos, 1998",
+      "box": [
+        818,
+        1424,
+        1048,
+        1464
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (compass rose)",
+      "box": [
+        150,
+        335,
+        312,
+        505
+      ]
+    },
+    {
+      "why": "the sea (Caribbean Sea p. 0 label, spring plume, coast) and page border bottom",
+      "box": [
+        0,
+        1172,
+        1140,
+        1487
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1140,
+        8
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        12,
+        1487
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1126,
+        0,
+        1140,
+        1487
+      ]
+    },
+    {
+      "why": "label Sentry Cenote",
+      "box": [
+        466,
+        128,
+        564,
+        184
+      ]
+    },
+    {
+      "why": "label Cenote K'a Tu A'ak",
+      "box": [
+        913,
+        43,
+        1044,
+        98
+      ]
+    },
+    {
+      "why": "label Cenote I'CH",
+      "box": [
+        416,
+        588,
+        514,
+        642
+      ]
+    },
+    {
+      "why": "label Cenote Alberca",
+      "box": [
+        293,
+        1058,
+        400,
+        1112
+      ]
+    },
+    {
+      "why": "penetration p.2345: the symbol's ink isn't a survey line",
+      "box": [
+        406,
+        292,
+        482,
+        322
+      ]
+    },
+    {
+      "why": "depth 28 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        486,
+        393,
+        520,
+        427
+      ]
+    },
+    {
+      "why": "depth 12 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        473,
+        993,
+        506,
+        1027
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVPoSop2GkQeUMkB",
+      "name": "Sentry Cenote west tip = caleta's west arm tip (imagery, guess)",
+      "px": [
+        420,
+        222
+      ],
+      "latitude": 20.28874,
+      "longitude": -87.37549
+    },
+    {
+      "caveId": "-KPZkVPoSop2GkQeUMkB",
+      "name": "Sentry Cenote corner = caleta arm's turn north (imagery, guess)",
+      "px": [
+        680,
+        225
+      ],
+      "latitude": 20.28845,
+      "longitude": -87.3748
+    },
+    {
+      "caveId": "-KPZkVKGJkfpAiSb9wR0",
+      "name": "Cenote I'CH = OSM pond way 1100734981 (guess)",
+      "px": [
+        612,
+        600
+      ],
+      "latitude": 20.287889,
+      "longitude": -87.375275
+    },
+    {
+      "name": "Outlet p. 0 = top of the bulge of Bahia Soliman's north shore (OSM coastline, guess)",
+      "px": [
+        520,
+        1165
+      ],
+      "latitude": 20.28597,
+      "longitude": -87.37551
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 60,
+    "leaderMaxPx": 1,
+    "joinShortPx": 16,
+    "why": "Colour line plot (guidelines only, no walls), traced as lines. inkLevel 60: the black lines' cores are about 22 grey, the cenote pools' dark blue fill about 71 and the grey flow arrows about 130, so the pools (open water, not survey) and the arrows aren't traced. The lines stop short of the I'CH, Sentry and Alberca pools on the map and are left so; the line into K'a Tu A'ak's pool ends at its edge.",
+    "eraseLines": [
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          516,
+          266
+        ],
+        "to": [
+          516,
+          266
+        ],
+        "widthPx": 45
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          478,
+          233
+        ],
+        "to": [
+          478,
+          233
+        ],
+        "widthPx": 42
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          618,
+          271
+        ],
+        "to": [
+          618,
+          271
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          529,
+          272
+        ],
+        "to": [
+          529,
+          272
+        ],
+        "widthPx": 38
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          634,
+          120
+        ],
+        "to": [
+          634,
+          120
+        ],
+        "widthPx": 39
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          541,
+          274
+        ],
+        "to": [
+          541,
+          274
+        ],
+        "widthPx": 38
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          678,
+          163
+        ],
+        "to": [
+          678,
+          163
+        ],
+        "widthPx": 36
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          570,
+          274
+        ],
+        "to": [
+          570,
+          274
+        ],
+        "widthPx": 38
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          605,
+          272
+        ],
+        "to": [
+          605,
+          272
+        ],
+        "widthPx": 36
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          552,
+          275
+        ],
+        "to": [
+          552,
+          275
+        ],
+        "widthPx": 36
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          692,
+          212
+        ],
+        "to": [
+          692,
+          212
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          683,
+          173
+        ],
+        "to": [
+          683,
+          173
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          581,
+          272
+        ],
+        "to": [
+          581,
+          272
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          590,
+          272
+        ],
+        "to": [
+          590,
+          272
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          505,
+          257
+        ],
+        "to": [
+          505,
+          257
+        ],
+        "widthPx": 33
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          489,
+          242
+        ],
+        "to": [
+          489,
+          242
+        ],
+        "widthPx": 32
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          623,
+          105
+        ],
+        "to": [
+          623,
+          105
+        ],
+        "widthPx": 32
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          670,
+          154
+        ],
+        "to": [
+          670,
+          154
+        ],
+        "widthPx": 21
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          676,
+          254
+        ],
+        "to": [
+          676,
+          254
+        ],
+        "widthPx": 32
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          634,
+          265
+        ],
+        "to": [
+          634,
+          265
+        ],
+        "widthPx": 32
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          657,
+          261
+        ],
+        "to": [
+          657,
+          261
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          668,
+          258
+        ],
+        "to": [
+          668,
+          258
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          689,
+          203
+        ],
+        "to": [
+          689,
+          203
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          688,
+          236
+        ],
+        "to": [
+          688,
+          236
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          427,
+          226
+        ],
+        "to": [
+          427,
+          226
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          465,
+          226
+        ],
+        "to": [
+          465,
+          226
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          685,
+          182
+        ],
+        "to": [
+          685,
+          182
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          689,
+          221
+        ],
+        "to": [
+          689,
+          221
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          619,
+          90
+        ],
+        "to": [
+          619,
+          90
+        ],
+        "widthPx": 29
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          434,
+          228
+        ],
+        "to": [
+          434,
+          228
+        ],
+        "widthPx": 29
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          684,
+          244
+        ],
+        "to": [
+          684,
+          244
+        ],
+        "widthPx": 29
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          642,
+          262
+        ],
+        "to": [
+          642,
+          262
+        ],
+        "widthPx": 29
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          496,
+          248
+        ],
+        "to": [
+          496,
+          248
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          618,
+          77
+        ],
+        "to": [
+          618,
+          77
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          642,
+          128
+        ],
+        "to": [
+          642,
+          128
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          687,
+          194
+        ],
+        "to": [
+          687,
+          194
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          649,
+          261
+        ],
+        "to": [
+          649,
+          261
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          618,
+          70
+        ],
+        "to": [
+          618,
+          70
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          645,
+          135
+        ],
+        "to": [
+          645,
+          135
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          662,
+          151
+        ],
+        "to": [
+          662,
+          151
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          454,
+          226
+        ],
+        "to": [
+          454,
+          226
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          442,
+          227
+        ],
+        "to": [
+          442,
+          227
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          448,
+          227
+        ],
+        "to": [
+          448,
+          227
+        ],
+        "widthPx": 26
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          656,
+          149
+        ],
+        "to": [
+          656,
+          149
+        ],
+        "widthPx": 24
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          648,
+          140
+        ],
+        "to": [
+          648,
+          140
+        ],
+        "widthPx": 23
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          651,
+          145
+        ],
+        "to": [
+          651,
+          145
+        ],
+        "widthPx": 23
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          422,
+          218
+        ],
+        "to": [
+          422,
+          218
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          620,
+          64
+        ],
+        "to": [
+          620,
+          64
+        ],
+        "widthPx": 20
+      },
+      {
+        "why": "Sentry pool's dark blue outline (not survey)",
+        "from": [
+          419,
+          214
+        ],
+        "to": [
+          419,
+          214
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue outline (not survey)",
+        "from": [
+          952,
+          176
+        ],
+        "to": [
+          952,
+          176
+        ],
+        "widthPx": 93
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue outline (not survey)",
+        "from": [
+          990,
+          175
+        ],
+        "to": [
+          990,
+          175
+        ],
+        "widthPx": 55
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue outline (not survey)",
+        "from": [
+          914,
+          175
+        ],
+        "to": [
+          914,
+          175
+        ],
+        "widthPx": 42
+      },
+      {
+        "why": "I'CH pool's dark blue outline (not survey)",
+        "from": [
+          610,
+          599
+        ],
+        "to": [
+          610,
+          599
+        ],
+        "widthPx": 56
+      },
+      {
+        "why": "I'CH pool's dark blue outline (not survey)",
+        "from": [
+          587,
+          599
+        ],
+        "to": [
+          587,
+          599
+        ],
+        "widthPx": 32
+      },
+      {
+        "why": "Alberca pool's dark blue outline (not survey)",
+        "from": [
+          461,
+          1108
+        ],
+        "to": [
+          461,
+          1108
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          951,
+          128
+        ],
+        "to": [
+          951,
+          128
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          944,
+          130
+        ],
+        "to": [
+          944,
+          130
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          937,
+          132
+        ],
+        "to": [
+          937,
+          132
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          930,
+          134
+        ],
+        "to": [
+          930,
+          134
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          916,
+          143
+        ],
+        "to": [
+          916,
+          143
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          910,
+          148
+        ],
+        "to": [
+          910,
+          148
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          903,
+          153
+        ],
+        "to": [
+          903,
+          153
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          898,
+          160
+        ],
+        "to": [
+          898,
+          160
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          895,
+          167
+        ],
+        "to": [
+          895,
+          167
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          894,
+          174
+        ],
+        "to": [
+          894,
+          174
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          894,
+          181
+        ],
+        "to": [
+          894,
+          181
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          906,
+          201
+        ],
+        "to": [
+          906,
+          201
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          913,
+          205
+        ],
+        "to": [
+          913,
+          205
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          919,
+          211
+        ],
+        "to": [
+          919,
+          211
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          926,
+          217
+        ],
+        "to": [
+          926,
+          217
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          933,
+          220
+        ],
+        "to": [
+          933,
+          220
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          940,
+          221
+        ],
+        "to": [
+          940,
+          221
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          947,
+          222
+        ],
+        "to": [
+          947,
+          222
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          954,
+          222
+        ],
+        "to": [
+          954,
+          222
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          961,
+          222
+        ],
+        "to": [
+          961,
+          222
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          968,
+          220
+        ],
+        "to": [
+          968,
+          220
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          982,
+          214
+        ],
+        "to": [
+          982,
+          214
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          989,
+          212
+        ],
+        "to": [
+          989,
+          212
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          996,
+          209
+        ],
+        "to": [
+          996,
+          209
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1001,
+          203
+        ],
+        "to": [
+          1001,
+          203
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1014,
+          192
+        ],
+        "to": [
+          1014,
+          192
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1015,
+          185
+        ],
+        "to": [
+          1015,
+          185
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1016,
+          178
+        ],
+        "to": [
+          1016,
+          178
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1017,
+          171
+        ],
+        "to": [
+          1017,
+          171
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1015,
+          164
+        ],
+        "to": [
+          1015,
+          164
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1011,
+          157
+        ],
+        "to": [
+          1011,
+          157
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1006,
+          150
+        ],
+        "to": [
+          1006,
+          150
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          1001,
+          145
+        ],
+        "to": [
+          1001,
+          145
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          995,
+          140
+        ],
+        "to": [
+          995,
+          140
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          988,
+          138
+        ],
+        "to": [
+          988,
+          138
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          974,
+          132
+        ],
+        "to": [
+          974,
+          132
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          967,
+          130
+        ],
+        "to": [
+          967,
+          130
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "K'a Tu A'ak pool's dark blue rim (not survey)",
+        "from": [
+          953,
+          128
+        ],
+        "to": [
+          953,
+          128
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          592,
+          578
+        ],
+        "to": [
+          592,
+          578
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          585,
+          583
+        ],
+        "to": [
+          585,
+          583
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          579,
+          590
+        ],
+        "to": [
+          579,
+          590
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          578,
+          597
+        ],
+        "to": [
+          578,
+          597
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          578,
+          604
+        ],
+        "to": [
+          578,
+          604
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          582,
+          610
+        ],
+        "to": [
+          582,
+          610
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          586,
+          616
+        ],
+        "to": [
+          586,
+          616
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          593,
+          623
+        ],
+        "to": [
+          593,
+          623
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          600,
+          627
+        ],
+        "to": [
+          600,
+          627
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          607,
+          627
+        ],
+        "to": [
+          607,
+          627
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          614,
+          627
+        ],
+        "to": [
+          614,
+          627
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          621,
+          624
+        ],
+        "to": [
+          621,
+          624
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          628,
+          621
+        ],
+        "to": [
+          628,
+          621
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          635,
+          617
+        ],
+        "to": [
+          635,
+          617
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          639,
+          611
+        ],
+        "to": [
+          639,
+          611
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          643,
+          604
+        ],
+        "to": [
+          643,
+          604
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          643,
+          597
+        ],
+        "to": [
+          643,
+          597
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          642,
+          590
+        ],
+        "to": [
+          642,
+          590
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          637,
+          583
+        ],
+        "to": [
+          637,
+          583
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          631,
+          578
+        ],
+        "to": [
+          631,
+          578
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          624,
+          574
+        ],
+        "to": [
+          624,
+          574
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "I'CH pool's dark blue rim (not survey)",
+        "from": [
+          617,
+          571
+        ],
+        "to": [
+          617,
+          571
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          459,
+          1086
+        ],
+        "to": [
+          459,
+          1086
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          452,
+          1091
+        ],
+        "to": [
+          452,
+          1091
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          448,
+          1098
+        ],
+        "to": [
+          448,
+          1098
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          446,
+          1105
+        ],
+        "to": [
+          446,
+          1105
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          447,
+          1112
+        ],
+        "to": [
+          447,
+          1112
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          451,
+          1119
+        ],
+        "to": [
+          451,
+          1119
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          455,
+          1125
+        ],
+        "to": [
+          455,
+          1125
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          462,
+          1125
+        ],
+        "to": [
+          462,
+          1125
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          469,
+          1123
+        ],
+        "to": [
+          469,
+          1123
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          474,
+          1117
+        ],
+        "to": [
+          474,
+          1117
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          475,
+          1110
+        ],
+        "to": [
+          475,
+          1110
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          474,
+          1103
+        ],
+        "to": [
+          474,
+          1103
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          472,
+          1096
+        ],
+        "to": [
+          472,
+          1096
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          469,
+          1089
+        ],
+        "to": [
+          469,
+          1089
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "Alberca pool's dark blue rim (not survey)",
+        "from": [
+          462,
+          1086
+        ],
+        "to": [
+          462,
+          1086
+        ],
+        "widthPx": 16
+      }
+    ],
+    "eraseLinesWhy": "The pools' outlines are a darker navy than their fill (about 12,13,45, as dark as the lines): erased by discs along each pool's medial axis (from = to), generated from the blue fill, each kept clear of the neutral black line ink."
+  },
+  "entrances": [
+    {
+      "name": "Sentry Cenote",
+      "caveId": "-KPZkVPoSop2GkQeUMkB",
+      "px": [
+        560,
+        262
+      ],
+      "why": "A long, curved pool on the map (east to west, then turning north), no line drawn into it; placed on the caleta north of Bahia Soliman, whose shape it resembles (a guess)."
+    },
+    {
+      "name": "Cenote K'a Tu A'ak",
+      "caveId": "-KPZkVKiEiNzt2-Rr8QN",
+      "px": [
+        955,
+        175
+      ],
+      "why": "The database's Ka'tu A'k (sistema El Punto, no position)."
+    },
+    {
+      "name": "Cenote I'CH",
+      "caveId": "-KPZkVKGJkfpAiSb9wR0",
+      "px": [
+        612,
+        600
+      ]
+    },
+    {
+      "name": "Cenote Alberca",
+      "caveId": "-KPZkVDkH_CFpBF8x2iN",
+      "px": [
+        461,
+        1105
+      ],
+      "why": "Drawn beside the main line near the sea, not connected to it."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: overlined numbers are depths and 'p.N' penetrations, in feet (Mafia Maps convention, as on Actun Koh's 'penetrations and water depths in feet'; no legend here). Two overlined depths (28, 12), two penetrations (p.2345 at the north-west line end, p. 0 at the sea), two wavy water-flow arrows, both pointing south (towards the sea). No letter codes, no bones. Added by hand (their exclude boxes hide them from extraction).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "28",
+        "px": [
+          503,
+          410
+        ],
+        "value": 28,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "px": [
+          489,
+          1011
+        ],
+        "value": 12,
+        "halfPx": 18
+      },
+      {
+        "type": "penetration",
+        "label": "p.2345",
+        "px": [
+          444,
+          306
+        ],
+        "value": 2345,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p. 0",
+        "px": [
+          520,
+          1163
+        ],
+        "value": 0,
+        "halfPx": 12
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea",
+        "px": [
+          520,
+          1168
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          700,
+          355
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          438,
+          900
+        ],
+        "bearing": 180
+      }
+    ]
+  }
+}
