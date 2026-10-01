@@ -18,6 +18,10 @@ Writes <output>/<name>-walls-review.png (the bands tinted, the outlines
 black, masked areas pale orange) and <output>/<name>-walls.geojson, which
 overlay_scan.py's preview then shows over the satellite imagery.
 
+Maps whose passages are filled with a pale blue (e.g. a photographed QRSS
+poster) use "trace": {"method": "colour-fill"} instead of steps 3-4: see
+colour_fill_band().
+
 Usage: python scripts/map-layer/trace_scan.py <config.json> <output folder>
 Needs Pillow, numpy, opencv, scipy, pyproj, shapely, pytesseract.
 """
@@ -33,7 +37,7 @@ from pyproj import Transformer
 from scipy import ndimage
 from shapely.geometry import LineString, mapping
 
-from overlay_scan import fit_similarity
+from overlay_scan import raster_placement
 from triage_maps import TESSDATA, TESSERACT
 
 Image.MAX_IMAGE_PIXELS = None
@@ -92,6 +96,32 @@ def smooth(line, passes=SMOOTH_PASSES):
     return LineString(coords)
 
 
+def colour_fill_band(image_path, masked, trace):
+    """Passage bands for maps whose passages are filled with a pale blue
+    (config "trace": {"method": "colour-fill"}): a pixel is passage where it's
+    bluer (blue minus red) than the paper around it by at least "threshold".
+    The paper's own blueness is estimated per area - the median over a wide
+    neighbourhood, smoothed - so uneven lighting across a photo, which
+    makes the pale fill and the paper overlap pixel by pixel, cancels out."""
+    rgb = numpy.asarray(Image.open(image_path).convert('RGB')).astype(numpy.float32)
+    blueness = cv2.GaussianBlur(rgb[..., 2] - rgb[..., 0], (0, 0), 3)
+    # The paper level, on a reduced copy (fast): the median over a window
+    # wider than twice any passage - the paper then fills most of it, even
+    # next to a large basin - then smoothed. (Not a minimum: the orange
+    # shadows along the walls are far less blue than the paper.)
+    factor = 8
+    small = cv2.resize(blueness, None, fx=1 / factor, fy=1 / factor, interpolation=cv2.INTER_AREA)
+    window = trace.get('paperWindowPx', 500) // factor | 1
+    paper = cv2.medianBlur(numpy.clip(small + 128, 0, 255).astype(numpy.uint8), window).astype(numpy.float32) - 128
+    paper = cv2.GaussianBlur(paper, (0, 0), window / 4)
+    paper = cv2.resize(paper, (blueness.shape[1], blueness.shape[0]), interpolation=cv2.INTER_LINEAR)
+    band = ((blueness - paper) >= trace.get('threshold', 8)) & ~masked
+    band = band.astype(numpy.uint8) * 255
+    # Fill specks and pinholes (the fill's texture, small symbols).
+    seal = trace.get('sealPx', 5)
+    return cv2.morphologyEx(band, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (seal, seal)))
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -115,19 +145,27 @@ def main(config_path, output):
         x0, y0, x1, y1 = word['box']
         masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
 
-    candidate = ink & ~masked
-    labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
-    extents = [max(s[0].stop - s[0].start, s[1].stop - s[1].start) for s in ndimage.find_objects(labels)]
-    walls = numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX])
-
-    band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (CLOSE_PX, CLOSE_PX)))
-    band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (OPEN_PX, OPEN_PX)))
+    trace = config.get('trace', {})
+    if trace.get('method') == 'colour-fill':
+        # Only the excluded boxes: labels are dark text, never blue fill, and
+        # their masks would cut notches into the passages they sit on.
+        boxes = numpy.zeros_like(ink)
+        for item in config.get('exclude', []):
+            x0, y0, x1, y1 = item['box']
+            boxes[max(0, y0):y1, max(0, x0):x1] = True
+        band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+    else:
+        candidate = ink & ~masked
+        labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
+        extents = [max(s[0].stop - s[0].start, s[1].stop - s[1].start) for s in ndimage.find_objects(labels)]
+        walls = numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX])
+        band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (CLOSE_PX, CLOSE_PX)))
+        band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (OPEN_PX, OPEN_PX)))
     contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
-    fitted = [p for p in config['controlPoints'] if not p.get('check')]
-    place, scale, _ = fit_similarity([p['px'] for p in fitted], [to_utm.transform(p['longitude'], p['latitude']) for p in fitted])
+    place, scale, _ = raster_placement(config)
 
     review = numpy.full((height, width, 3), 255, numpy.uint8)
     review[masked] = (255, 236, 200)

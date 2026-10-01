@@ -20,7 +20,8 @@ Also writes an Excel file to review everything found (every cenote, its
 status, the database's match and the distance) at the given path.
 
 Cenotes come from the map's config "entrances" (curated: name, spot on the
-map, optional caveId) or, for a scan without such a list, from its OCR'd
+map, optional caveId, and "replacePosition": a reason, when the cave's
+database position is doubtful and the map's should replace it) or, for a scan without such a list, from its OCR'd
 labels ("CENOTE X", "X CENOTE"), placed at the label: much less accurate.
 
 Usage: python scripts/map-layer/cenote_candidates.py <review.xlsx> <config.json>... [--production]
@@ -45,7 +46,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'maps-import'))
 from match_maps import fetch_collection, normalize  # noqa: E402
 
 from build_layer import vector_placement  # noqa: E402
-from overlay_scan import fit_similarity  # noqa: E402
+from overlay_scan import raster_placement  # noqa: E402
 
 FOUND_FILE = Path(__file__).resolve().parent / 'found-cenotes.json'
 # Position accuracy (metres) by how the cenote's spot on the map was found.
@@ -178,7 +179,7 @@ def map_candidates(config_path, output_dir):
         to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
         fitted = [p for p in config['controlPoints'] if not p.get('check')]
         utm = [to_utm.transform(p['longitude'], p['latitude']) for p in fitted]
-        fit, _, _ = fit_similarity([p['px'] for p in fitted], utm)
+        fit, _, _ = raster_placement(config)
         rms = math.sqrt(sum((fit(*p['px'])[0] - u[0]) ** 2 + (fit(*p['px'])[1] - u[1]) ** 2 for p, u in zip(fitted, utm)) / len(fitted))
         place = lambda x, y: to_lnglat.transform(*fit(x, y))  # noqa: E731
         if config.get('entrances'):
@@ -191,7 +192,7 @@ def map_candidates(config_path, output_dir):
             accuracy = LABEL_ON_SCAN + rms
             found = [{**label, 'position': place(*label['px']), 'placement': 'label'} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
     return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1], 'accuracy': round(accuracy),
-                     'placement': f['placement'], 'map': config.get('title', name)} for f in found]
+                     'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition')} for f in found]
 
 
 def main(review_path, config_paths, production):
@@ -240,8 +241,12 @@ def main(review_path, config_paths, production):
                 # A close spelling, nearby only: "Grande" is the Grand Cenote next to it.
                 similar = [cave for k, group in by_key.items() if difflib.SequenceMatcher(None, key(c['name']), k).ratio() >= SIMILAR_NAME for cave in group]
                 matches = [cave for cave in similar if cave_position(cave) and distance(spot, cave_position(cave)) <= FAR_METRES]
-            with_position = sorted(((distance(spot, cave_position(m)), m) for m in matches if cave_position(m)), key=lambda t: t[0])
-            without_position = [m for m in matches if not cave_position(m)]
+            # An entrance marked "replacePosition" (its cave's database position
+            # is doubtful): compared as a cave without a position, so the map's
+            # is kept aside to replace it.
+            doubtful = c.get('replacePosition') and c.get('caveId')
+            with_position = [] if doubtful else sorted(((distance(spot, cave_position(m)), m) for m in matches if cave_position(m)), key=lambda t: t[0])
+            without_position = matches if doubtful else [m for m in matches if not cave_position(m)]
             row = {'Map': c['map'], 'Name on the map': c['name'], 'Latitude': round(c['latitude'], 6), 'Longitude': round(c['longitude'], 6),
                    'Accuracy (m)': c['accuracy'], 'Placed at': c['placement']}
             base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'],
@@ -252,8 +257,11 @@ def main(review_path, config_paths, production):
                             'Database name': cave_name(match), 'Distance (m)': round(d)})
             elif without_position and (not with_position or c.get('caveId')):
                 match = without_position[0]
-                row.update({'Status': 'in database, no position', 'Database id': match['id'], 'Database name': cave_name(match)})
-                entries.append({**base, 'action': 'position', 'caveId': match['id'], 'name': cave_name(match)})
+                row.update({'Status': 'position to replace' if doubtful else 'in database, no position', 'Database id': match['id'], 'Database name': cave_name(match)})
+                if doubtful:
+                    row['Note'] = c['replacePosition']
+                entries.append({**base, 'action': 'position', 'caveId': match['id'], 'name': cave_name(match),
+                                **({'replaces': cave_position(match), 'why': c['replacePosition']} if doubtful else {})})
             else:
                 nearest = min(((distance(spot, cave_position(m)), m) for m in located), key=lambda t: t[0])
                 notes = [f"namesake {cave_name(with_position[0][1])} is {with_position[0][0] / 1000:.1f} km away"] if with_position else []

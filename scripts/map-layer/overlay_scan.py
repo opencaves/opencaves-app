@@ -45,6 +45,31 @@ def fit_similarity(pixels, metres):
     return lambda x, y: (a * x + b * y + tx, b * x - a * y + ty), math.hypot(a, b), math.degrees(math.atan2(b, a))
 
 
+def raster_placement(config):
+    """Pixels (y down) -> UTM metres for a scan or straightened photo:
+    (place, metres per pixel, rotation in degrees).
+
+    With a "scaleBar" ({"from": [x, y], "to": [x, y], "metres": m}) and
+    "north": "up" in the config, the scale comes from the bar and the map is
+    taken as north-up, then shifted onto the control points (their average:
+    one is enough). Otherwise a similarity fit (scale, rotation, shift)
+    through at least two control points. Points marked "check" are left out."""
+    to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
+    fitted = [p for p in config['controlPoints'] if not p.get('check')]
+    utm = [to_utm.transform(p['longitude'], p['latitude']) for p in fitted]
+    if config.get('scaleBar') and config.get('north') == 'up':
+        if not fitted:
+            sys.exit('At least one control point (not marked "check") is needed.')
+        (x0, y0), (x1, y1) = config['scaleBar']['from'], config['scaleBar']['to']
+        scale = config['scaleBar']['metres'] / math.hypot(x1 - x0, y1 - y0)
+        shift_e = sum(e - p['px'][0] * scale for p, (e, _) in zip(fitted, utm)) / len(fitted)
+        shift_n = sum(n + p['px'][1] * scale for p, (_, n) in zip(fitted, utm)) / len(fitted)
+        return (lambda x, y: (shift_e + x * scale, shift_n - y * scale)), scale, 0.0
+    if len(fitted) < 2:
+        sys.exit('At least two control points (not marked "check") are needed, or a scale bar and "north": "up".')
+    return fit_similarity([p['px'] for p in fitted], utm)
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -55,11 +80,9 @@ def main(config_path, output):
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
 
     points = config['controlPoints']
-    fitted = [p for p in points if not p.get('check')]
-    if len(fitted) < 2:
-        sys.exit('At least two control points (not marked "check") are needed.')
-    place, scale, rotation = fit_similarity([p['px'] for p in fitted], [to_utm.transform(p['longitude'], p['latitude']) for p in fitted])
-    print(f'scale {scale:.4f} m/px, rotation {rotation:.1f} deg, from {len(fitted)} points')
+    place, scale, rotation = raster_placement(config)
+    print(f"scale {scale:.4f} m/px, rotation {rotation:.1f} deg, from {len([p for p in points if not p.get('check')])} point(s)"
+          + (' + scale bar, north up' if config.get('scaleBar') else ''))
     markers = []
     for p in points:
         east, north = to_utm.transform(p['longitude'], p['latitude'])

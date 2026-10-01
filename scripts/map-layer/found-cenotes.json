@@ -56,6 +56,39 @@
    "action": "position",
    "caveId": "-KPZkVJgaYAcxWVY0yz6",
    "id": "-KPZkVJgaYAcxWVY0yz6"
+  },
+  {
+   "name": "K'ak Ha",
+   "latitude": 20.175099,
+   "longitude": -87.555692,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Be Ha - QRSS poster 2006"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKczddUHH8-cGcR",
+   "id": "-KPZkVKczddUHH8-cGcR"
+  },
+  {
+   "name": "Sac Luum",
+   "latitude": 20.174439,
+   "longitude": -87.559445,
+   "accuracy": 10,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Sac Be Ha - QRSS poster 2006"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPKbTGWDHL_8Y-Y",
+   "replaces": [
+    20.18796,
+    -87.52778
+   ],
+   "why": "the database's position is 3.6 km from this map's: doubtful",
+   "id": "-KPZkVPKbTGWDHL_8Y-Y"
   }
  ]
 }
