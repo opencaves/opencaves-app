@@ -361,7 +361,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
         const searchFieldBounding = document.querySelector('#oc-search-bar .oc-search-bar--field')?.getBoundingClientRect()
 
         const resultPaneHeight = resultPaneBounding ? viewportBounding.height - resultPaneBounding.y : 0
-        const searchFieldBottom = searchFieldBounding ? searchFieldBounding.bottom : 0
+        // Slid off-screen (sheet fully up), the bar is above the top: 0.
+        const searchFieldBottom = searchFieldBounding ? Math.max(0, searchFieldBounding.bottom) : 0
 
         centerPoint = currentPoint.add(new Point(0, (resultPaneHeight - searchFieldBottom) / 2))
       } else {
@@ -729,8 +730,11 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     if (mapLoaded && currentCave?.location) {
       flyToMarker({ animate: true })
     }
+    // isSmall too: switching between the phone and desktop layouts (a resize,
+    // or useSmall settling after its first render reports desktop) moves the
+    // pane from the side to the bottom, so the offset computed before is wrong.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isWidePaneEditMode])
+  }, [isWidePaneEditMode, isSmall])
 
   // A CoordinateField's own "center the map here" action.
   useEffect(() => {

@@ -234,13 +234,16 @@ export default function SearchBar() {
   // Slid off-screen (edit mode, or the phone sheet fully open): inert too,
   // so the hidden search landmark and its field leave the tab order and the
   // accessibility tree instead of being reachable while invisible.
+  // Edit mode only hides it on desktop, where the wide edit pane takes its
+  // place; on a phone the sheet is below it, so it stays until the sheet is
+  // fully up (searchBarOff), as when viewing a cave.
   useEffect(() => {
     if (searchBarRef) {
-      const off = searchBarOff || isEditMode
+      const off = searchBarOff || (isEditMode && !isSmall)
       searchBarRef.current.classList.toggle('off', off)
       searchBarRef.current.inert = off
     }
-  }, [searchBarOff, isEditMode])
+  }, [searchBarOff, isEditMode, isSmall])
 
   function onSearchbarInputChange(event) {
     // console.log('[onSearchbarInputChange¸%o', event)
