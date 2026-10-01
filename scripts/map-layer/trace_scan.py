@@ -132,6 +132,10 @@ def colour_fill_band(image_path, masked, trace):
     image = Image.open(image_path).convert('RGB')
     rgb = numpy.asarray(image).astype(numpy.float32)
     blueness = rgb[..., 2] - rgb[..., 0]
+    if trace.get('greyFill'):
+        # A grey fill ("greyFill": true, b/w maps): darkness plays the part
+        # of blueness - the passages are darker than the paper.
+        blueness = 255 - rgb.mean(axis=2)
     if trace.get('cyanFill'):
         # Cyan fill only ("cyanFill": true): green above red too. Survey lines
         # drawn in blue-violet (passages surveyed but not drawn) have green
