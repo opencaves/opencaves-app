@@ -18,7 +18,7 @@
 // the last good one.
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { cpSync, existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -133,6 +133,22 @@ async function save() {
   log(`saved Firestore, Auth, Database and Storage (changed; ${Math.round((Date.now() - started) / 1000)} s)`)
 }
 
+// A failed export (the emulators hanging) leaves the Firebase CLI's empty
+// working folder, firebase-export-<time><random>, in the project: removed
+// after each save - only when empty, so no data is ever lost.
+function removeLeftovers() {
+  for (const entry of readdirSync(ROOT, { withFileTypes: true })) {
+    if (!entry.isDirectory() || !/^firebase-export-\d+\w*$/.test(entry.name)) continue
+    const folder = path.join(ROOT, entry.name)
+    const isEmpty = (dir) => readdirSync(dir, { withFileTypes: true }).every((e) => e.isDirectory() && isEmpty(path.join(dir, e.name)))
+    try {
+      if (isEmpty(folder)) rmSync(folder, { recursive: true, force: true })
+    } catch {
+      // Still in use: removed after a later save.
+    }
+  }
+}
+
 log(`waiting for the emulators; then saving every ${INTERVAL_MINUTES} min`)
 while (!(await emulatorsUp())) await sleep(3000)
 // A first save once they're up: the data the emulators just imported is then
@@ -145,6 +161,7 @@ for (;;) {
     } catch (error) {
       log(`save failed: ${error.message}`)
     }
+    removeLeftovers()
   }
   await sleep(INTERVAL_MINUTES * 60 * 1000)
 }
