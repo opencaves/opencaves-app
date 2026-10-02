@@ -1,0 +1,598 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-xunaan-ha-hol-kin-section.jpg",
+  "title": "Xunaan Ha Cave System - Hol Kin Section (A. Reato 2011)",
+  "credits": "Explored and surveyed August 2009 - April 2011 by Alessandro Reato, Alain Pocobelli, Mauro Bordignon (map by Alessandro Reato; QRSS stamp of authenticity)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfz8Nounlz93hLBC",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "poster's top edge",
+      "box": [
+        0,
+        0,
+        2906,
+        22
+      ]
+    },
+    {
+      "why": "poster's left edge",
+      "box": [
+        0,
+        0,
+        18,
+        3138
+      ]
+    },
+    {
+      "why": "poster's right edge, shaded",
+      "box": [
+        2862,
+        0,
+        2906,
+        3138
+      ]
+    },
+    {
+      "why": "grommet",
+      "box": [
+        0,
+        0,
+        90,
+        90
+      ]
+    },
+    {
+      "why": "grommet",
+      "box": [
+        2810,
+        0,
+        2906,
+        90
+      ]
+    },
+    {
+      "why": "grommet",
+      "box": [
+        0,
+        1530,
+        95,
+        1640
+      ]
+    },
+    {
+      "why": "grommet",
+      "box": [
+        2830,
+        1580,
+        2906,
+        1690
+      ]
+    },
+    {
+      "why": "title, coordinates, totals, explorers",
+      "box": [
+        1420,
+        90,
+        2520,
+        800
+      ],
+      "history": true
+    },
+    {
+      "why": "QRSS stamp",
+      "box": [
+        1010,
+        205,
+        1325,
+        525
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2100,
+        900,
+        2420,
+        1000
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        2570,
+        700,
+        2800,
+        1135
+      ]
+    },
+    {
+      "why": "section M",
+      "box": [
+        350,
+        85,
+        655,
+        300
+      ]
+    },
+    {
+      "why": "section L",
+      "box": [
+        355,
+        385,
+        715,
+        560
+      ]
+    },
+    {
+      "why": "section K",
+      "box": [
+        945,
+        695,
+        1335,
+        945
+      ]
+    },
+    {
+      "why": "section J",
+      "box": [
+        220,
+        1125,
+        555,
+        1295
+      ]
+    },
+    {
+      "why": "section I",
+      "box": [
+        1455,
+        1005,
+        1835,
+        1245
+      ]
+    },
+    {
+      "why": "section F",
+      "box": [
+        530,
+        1450,
+        905,
+        1680
+      ]
+    },
+    {
+      "why": "section H",
+      "box": [
+        2160,
+        1285,
+        2465,
+        1525
+      ]
+    },
+    {
+      "why": "section G",
+      "box": [
+        2180,
+        1650,
+        2460,
+        1900
+      ]
+    },
+    {
+      "why": "section D",
+      "box": [
+        2465,
+        1945,
+        2745,
+        2135
+      ]
+    },
+    {
+      "why": "section E",
+      "box": [
+        1105,
+        1965,
+        1385,
+        2230
+      ]
+    },
+    {
+      "why": "section C",
+      "box": [
+        1988,
+        2483,
+        2142,
+        2622
+      ]
+    },
+    {
+      "why": "section B",
+      "box": [
+        1635,
+        2860,
+        1940,
+        3130
+      ]
+    },
+    {
+      "why": "section A",
+      "box": [
+        2420,
+        2675,
+        2815,
+        2905
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        90,
+        1765,
+        1018,
+        2160
+      ]
+    },
+    {
+      "why": "location map",
+      "box": [
+        55,
+        2235,
+        1068,
+        2945
+      ]
+    },
+    {
+      "why": "dedication and thanks",
+      "box": [
+        55,
+        2945,
+        1068,
+        3138
+      ],
+      "history": true
+    },
+    {
+      "why": "label Entrance Cenote Hol Kin",
+      "box": [
+        2485,
+        2920,
+        2730,
+        3005
+      ]
+    },
+    {
+      "why": "label to Cenote Renzo",
+      "box": [
+        2640,
+        2365,
+        2862,
+        2410
+      ]
+    },
+    {
+      "why": "label to Cenote Xunaan Ha",
+      "box": [
+        1135,
+        2705,
+        1315,
+        2790
+      ]
+    },
+    {
+      "why": "label to Cenote Xunaan Ha",
+      "box": [
+        1450,
+        2840,
+        1635,
+        2915
+      ]
+    },
+    {
+      "why": "blank paper, photo noise",
+      "box": [
+        18,
+        90,
+        160,
+        370
+      ]
+    },
+    {
+      "why": "blank paper, photo noise",
+      "box": [
+        55,
+        808,
+        175,
+        960
+      ]
+    },
+    {
+      "why": "blank paper, photo noise",
+      "box": [
+        30,
+        1215,
+        210,
+        1325
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2136,
+      950
+    ],
+    "to": [
+      2382,
+      950
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "northWhy": "The arrow is magnetic north 2011; the declination here was about 0 (Tixik K'una, 3 km south: 0 deg 02' E in 2006): north is up. Checked on the poster's own location map, whose north is true (its main road runs 29.0 deg below horizontal, the satellite's 28.8) and whose 'Hol Kin Area' box frames this map squarely.",
+  "controlPoints": [
+    {
+      "name": "printed coordinate (Hol Kin)",
+      "caveId": "-KPZkVK7UmAkrxhmzg1b",
+      "px": [
+        2575,
+        3098
+      ],
+      "latitude": 20.346439,
+      "longitude": -87.358919
+    }
+  ],
+  "placementWhy": "Scale bar (metres row: 0-100 m = 246 px; the feet row below it gives 3.7% more, 300 ft = 233.5 px) and north up, shifted onto the map's printed coordinate (20 20' 47.18\" N, 87 21' 32.11\" W), taken as the Hol Kin entrance the map points to. Hol Kin has no position in the database and the canopy hides it. Checks: on the poster's location map (1 km bar) Hol Kin lies 184 m E / 328 m N of Cenote Xunaan Ha; the printed coordinate lies 215 m E / 308 m N of the database's Xunaan Ha (Open Caves source, valid, a pond visible on the satellite) - 37 m apart; both put Hol Kin about 60 m south of the Chemuyil road. The location map's 'Hol Kin Area' box (1170 x 1340 m) matches this map's extent at the bar's scale (1181 x 1276 m). The 'to Cenote Xunaan Ha' leads end 420-530 m NW-W of Xunaan Ha, pointing SW toward it. No other placed map overlaps (koox-baal, dzonot-zebra, cangrejo-ich-kin, shoots-hool are 6-7 km west). Uncertainty: scale ~4% (up to ~50 m at the far NW end), a few metres of rotation per 100 m.",
+  "sistemaWhy": "Xunaan Ha (-KPZgfz8Nounlz93hLBC): this is its Hol Kin section; the sistema's length (10111 m) is this map's total and its explorations already hold this map's history (2009-2011, Reato, Pocobelli, Bordignon). The map's maximum depth is 55 ft (16.8 m); the sistema's maxDepth is 27.1 m.",
+  "entrances": [
+    {
+      "caveId": "-KPZkVK7UmAkrxhmzg1b",
+      "name": "Hol Kin",
+      "px": [
+        2575,
+        3098
+      ]
+    },
+    {
+      "name": "CE (unnamed cenote entrance)",
+      "px": [
+        2788,
+        3063
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "cyanFill": true,
+    "threshold": 6,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 20,
+        "minSizePx": 100,
+        "minFill": 0.5
+      }
+    ],
+    "eraseLines": [
+      {
+        "from": [
+          2615,
+          3005
+        ],
+        "to": [
+          2572,
+          3090
+        ],
+        "widthPx": 9
+      }
+    ],
+    "minHoleSqMetres": 2,
+    "minBandSqMetres": 4,
+    "wallSimplifyMetres": 0.1,
+    "inkTopHatPx": 25,
+    "inkContrast": 30,
+    "paperOutside": 4000,
+    "notOutside": true,
+    "paperGapPx": 5,
+    "inkBand": true,
+    "inkBandClosePx": 13,
+    "inkBandOpenPx": 7,
+    "dropIsolated": {
+      "maxSqMetres": 300,
+      "gapMetres": 6
+    },
+    "lowThresholdAreas": [
+      {
+        "box": [
+          940,
+          1635,
+          1070,
+          1705
+        ],
+        "threshold": 2
+      }
+    ]
+  },
+  "traceWhy": "A blurry photo of a poster (light blue passages with grey outlines, uneven light: the paper is bluish on the left): the blue fill alone floods the paper, so the paper is taken from the large regions outside the outlines (paperOutside, notOutside), united with the drawn walls' band (inkBand) for the narrow passages. Blank-paper boxes on the left mask photo noise. Close parallel passages sometimes merge and some short dead-end tips are lost.",
+  "symbols": {
+    "why": "A blurry photo of the poster: depths (plain numbers, 'line depth (feet)'), circled ceiling-to-floor heights and the small R/X/Z letters can't be read (one X found); penetrations, leads and flow arrows added by hand. No bones symbol in the legend and none seen.",
+    "units": "ft",
+    "letters": {
+      "x": "restriction-major"
+    },
+    "templates": {
+      "x": [
+        1790,
+        1307
+      ]
+    },
+    "fix": [
+      {
+        "px": [
+          2001,
+          1267
+        ],
+        "value": 3703
+      }
+    ],
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "p6715",
+        "px": [
+          850,
+          27
+        ],
+        "value": 6715
+      },
+      {
+        "type": "penetration",
+        "label": "p6187",
+        "px": [
+          100,
+          740
+        ],
+        "value": 6187
+      },
+      {
+        "type": "penetration",
+        "label": "p3910",
+        "px": [
+          1420,
+          1485
+        ],
+        "value": 3910
+      },
+      {
+        "type": "penetration",
+        "label": "p2346",
+        "px": [
+          2010,
+          2108
+        ],
+        "value": 2346
+      },
+      {
+        "type": "penetration",
+        "label": "p1963",
+        "px": [
+          1765,
+          2548
+        ],
+        "value": 1963
+      },
+      {
+        "type": "penetration",
+        "label": "p972",
+        "px": [
+          2240,
+          2802
+        ],
+        "value": 972
+      },
+      {
+        "type": "penetration",
+        "label": "P2600",
+        "px": [
+          2640,
+          2483
+        ],
+        "value": 2600
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Renzo",
+        "px": [
+          2665,
+          2412
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Xunaan Ha",
+        "px": [
+          1246,
+          2712
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Xunaan Ha",
+        "px": [
+          1540,
+          2833
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1320,
+          1790
+        ],
+        "bearing": 138,
+        "halfPx": 22
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2124,
+          2002
+        ],
+        "bearing": 138,
+        "halfPx": 22
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2587,
+          2582
+        ],
+        "bearing": 138,
+        "halfPx": 22
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          858,
+          1147
+        ],
+        "bearing": 123,
+        "halfPx": 22
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2363,
+          3117
+        ],
+        "bearing": 123,
+        "halfPx": 22
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1511,
+          2711
+        ],
+        "bearing": 228,
+        "halfPx": 22
+      }
+    ]
+  }
+}
