@@ -879,7 +879,7 @@
     "caveLayer": {
       "button": "Galeries",
       "title": "Galeries",
-      "show": "Afficher les galeries",
+      "show": "Afficher la couche des cartes",
       "scope": "Systèmes",
       "all": "Tous les systèmes",
       "selected": "Seulement le système de la cénote sélectionnée",

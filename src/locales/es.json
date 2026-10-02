@@ -880,7 +880,7 @@
     "caveLayer": {
       "button": "Galerías",
       "title": "Galerías",
-      "show": "Mostrar las galerías",
+      "show": "Mostrar la capa de mapas",
       "scope": "Sistemas",
       "all": "Todos los sistemas",
       "selected": "Solo el sistema del cenote seleccionado",

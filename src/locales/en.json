@@ -880,7 +880,7 @@
     "caveLayer": {
       "button": "Cave passages",
       "title": "Cave passages",
-      "show": "Show the passages",
+      "show": "Show the map layer",
       "scope": "Systems",
       "all": "All systems",
       "selected": "Only the selected cenote's system",

@@ -2,14 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // The cave layer's options (the map's layer button, CaveLayerButton), kept
 // between visits (persisted with the root state):
-// - visible: the passages traced from the cave maps shown or not;
+// - visible: the passages traced from the cave maps shown or not (off until
+//   the person turns them on);
 // - scope: 'all' systems, or only the 'selected' cenote's system (with the
 //   systems merged into it);
 // - colorBySistema: each system in its colour, or all in one colour;
 // - editMode: editors only - the map under the pointer highlighted and named,
 //   a click to hide its drawing (for everyone).
 const initialState = {
-  visible: true,
+  visible: false,
   scope: 'all',
   colorBySistema: true,
   editMode: false,
