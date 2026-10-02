@@ -117,6 +117,10 @@ export default defineConfig({
     // sibling runtime/ folder doesn't get copied alongside it - excluding it
     // keeps it served straight from node_modules, where the paths resolve.
     exclude: ['pdf-into-svg'],
+    // The Markdown length tag's parser (lengthDirective.js) is only reached
+    // from lazily loaded code: found late, its re-optimization left pages
+    // asking for outdated deps (504 "Outdated Optimize Dep").
+    include: ['micromark-extension-directive', 'mdast-util-directive'],
   },
   plugins: [
     react({
