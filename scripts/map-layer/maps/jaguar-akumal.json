@@ -361,8 +361,8 @@
         "widthPx": 5
       }
     ],
-    "minSpurPx": 24,
-    "minSpurPxWhy": "the collapse rim's hachures (ticks of 15-20 px) are dropped as spurs; the rim stays"
+    "minSpurPx": 8,
+    "minSpurPxWhy": "low enough to keep the collapse rim's hachures (ticks of 15-20 px) - the user wants them"
   },
   "symbols": {
     "why": "French expedition map (Yuc 95/96): depths written with a minus sign (-7, -12 in the west gallery), a halocline depth (-11, east passage), Impenetrable at the east end (marked with dots), Entrée at the collapse. No legend, no letter codes, no flow arrows and no bones (checked by eye; OCR words checked too).",
