@@ -1088,6 +1088,7 @@
   },
   "mapLayersAdmin": {
     "title": "Map layers",
+    "onlyHidden": "Show only hidden",
     "searchLabel": "Search maps",
     "count": "{{count}} map(s), {{hidden}} hidden",
     "undated": "Undated",

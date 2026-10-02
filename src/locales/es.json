@@ -1088,6 +1088,7 @@
   },
   "mapLayersAdmin": {
     "title": "Capas del mapa",
+    "onlyHidden": "Mostrar solo los ocultos",
     "searchLabel": "Buscar mapas",
     "count": "{{count}} mapa(s), {{hidden}} oculto(s)",
     "undated": "Sin fecha",

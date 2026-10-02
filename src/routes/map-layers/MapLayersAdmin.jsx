@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, IconButton, InputAdornment, List, ListItem, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, FormControlLabel, IconButton, InputAdornment, List, ListItem, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import ImageRounded from '@mui/icons-material/ImageRounded'
@@ -36,6 +36,9 @@ export default function MapLayersAdmin() {
   const [savingId, setSavingId] = useState(null)
   const [error, setError] = useState(null)
   const [scans, setScans] = useState(new Map())
+  // "Show only hidden": the maps hidden when it was turned on, so one shown
+  // again stays in the list (to hide it back) until it's turned off.
+  const [onlyHidden, setOnlyHidden] = useState(null)
 
   // The scans, by importKey: read once.
   useEffect(() => {
@@ -54,9 +57,10 @@ export default function MapLayersAdmin() {
     const needle = search.trim().toLowerCase()
     return Object.entries(maps)
       .map(([id, map]) => ({ id, ...map, sistema: sistemaNames.get(map.sistemaId) || '' }))
+      .filter((map) => !onlyHidden || onlyHidden.has(map.id) || hiddenMaps.includes(map.id))
       .filter((map) => !needle || [map.title, map.name, map.sistema, map.date].some((v) => String(v || '').toLowerCase().includes(needle)))
       .sort((a, b) => a.title.localeCompare(b.title))
-  }, [maps, search, sistemaNames])
+  }, [maps, search, sistemaNames, onlyHidden, hiddenMaps])
 
   async function toggle(id, shown) {
     setSavingId(id)
@@ -115,9 +119,18 @@ export default function MapLayersAdmin() {
         </Alert>
       )}
 
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        {t('count', { count: rows.length, hidden: rows.filter((map) => hiddenMaps.includes(map.id)).length })}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1, mb: 1 }}>
+        <Typography variant="body2" color="text.secondary">
+          {t('count', { count: rows.length, hidden: rows.filter((map) => hiddenMaps.includes(map.id)).length })}
+        </Typography>
+        <FormControlLabel
+          className="oc-map-layers-admin--only-hidden"
+          control={<Switch checked={!!onlyHidden} onChange={(e) => setOnlyHidden(e.target.checked ? new Set(hiddenMaps) : null)} />}
+          label={t('onlyHidden')}
+          labelPlacement="start"
+          sx={{ mr: 0 }}
+        />
+      </Box>
       <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
         {rows.map((map) => {
           const shown = !hiddenMaps.includes(map.id)

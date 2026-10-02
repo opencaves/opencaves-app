@@ -1087,6 +1087,7 @@
   },
   "mapLayersAdmin": {
     "title": "Couches de la carte",
+    "onlyHidden": "Afficher seulement les masquées",
     "searchLabel": "Rechercher une carte",
     "count": "{{count}} carte(s), {{hidden}} masquée(s)",
     "undated": "Non datée",
