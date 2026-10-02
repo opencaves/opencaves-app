@@ -687,7 +687,8 @@
       "lengthValue": "Length",
       "lengthUnit": "Unit",
       "lengthHint": "As measured; readers see it in their units.",
-      "lengthInsert": "Insert"
+      "lengthInsert": "Insert",
+      "linkText": "Link text"
     }
   },
   "creatableTextField": {

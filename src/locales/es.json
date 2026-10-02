@@ -687,7 +687,8 @@
       "lengthValue": "Longitud",
       "lengthUnit": "Unidad",
       "lengthHint": "Tal como se midió; cada lector la ve en sus unidades.",
-      "lengthInsert": "Insertar"
+      "lengthInsert": "Insertar",
+      "linkText": "Texto del enlace"
     }
   },
   "creatableTextField": {

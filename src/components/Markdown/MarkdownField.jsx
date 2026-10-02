@@ -4,8 +4,8 @@ import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton,
 import { useTheme } from '@mui/material/styles'
 import { ArrowDropDownRounded, StraightenRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
-import { TextSelection } from '@milkdown/prose/state'
-import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
+import { NodeSelection, TextSelection } from '@milkdown/prose/state'
+import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
@@ -13,6 +13,7 @@ import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
 import { milkdownLength } from './milkdownLength.js'
+import { parseLength } from './lengthDirective.js'
 import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
@@ -73,6 +74,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [headingMenuAnchor, setHeadingMenuAnchor] = useState(null)
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)
   const [linkHref, setLinkHref] = useState('')
+  const [linkText, setLinkText] = useState('')
   const [linkMenuAnchor, setLinkMenuAnchor] = useState(null)
   const [caveLinkDialogOpen, setCaveLinkDialogOpen] = useState(false)
   const [lengthDialog, setLengthDialog] = useState(null) // { value, unit } while inserting a length
@@ -177,11 +179,54 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     return href
   }
 
+  // The whole link (same href) around a cursor inside it: its range in the
+  // document, so editing it changes all of it.
+  function linkRangeAt(state, linkType) {
+    const { $from } = state.selection
+    const href = $from.marks().find((m) => m.type === linkType)?.attrs.href
+    if (!href) {
+      return null
+    }
+    const hasLink = (node) => node.marks.some((m) => m.type === linkType && m.attrs.href === href)
+    const parent = $from.parent
+    let pos = $from.start()
+    let from = null
+    let to = null
+    let found = false
+    for (let i = 0; i < parent.childCount; i++) {
+      const child = parent.child(i)
+      const childFrom = pos
+      pos += child.nodeSize
+      if (hasLink(child)) {
+        if (from === null) from = childFrom
+        to = pos
+        if ($from.pos >= childFrom && $from.pos <= pos) found = true
+      } else if (found) {
+        break
+      } else {
+        from = null
+      }
+    }
+    return found ? { from, to } : null
+  }
+
   // The link button offers a web link or a link to a cave. The selection and
-  // any existing link are captured here, before the menu takes focus.
+  // any existing link are captured here, before the menu takes focus. A
+  // cursor inside a link selects the whole link, so the dialog edits it (its
+  // URL and its text) instead of adding a link within it.
   function openLinkMenu(event) {
     const view = editorRef.current?.ctx.get(editorViewCtx)
-    savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
+    if (view) {
+      const { state } = view
+      const linkType = state.schema.marks.link
+      const range = state.selection.empty && linkType ? linkRangeAt(state, linkType) : null
+      const { from, to } = range || state.selection
+      savedSelectionRef.current = { from, to }
+      setLinkText(state.doc.textBetween(from, to, ' '))
+    } else {
+      savedSelectionRef.current = null
+      setLinkText('')
+    }
     setActiveHref(view ? getActiveLinkHref(view) : '')
     setLinkMenuAnchor(event.currentTarget)
   }
@@ -206,16 +251,20 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     const docSize = view.state.doc.content.size
     const from = Math.min(savedSelectionRef.current.from, docSize)
     const to = Math.min(savedSelectionRef.current.to, docSize)
-    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+    const selection = savedSelectionRef.current.node ? NodeSelection.create(view.state.doc, from) : TextSelection.create(view.state.doc, from, to)
+    view.dispatch(view.state.tr.setSelection(selection))
     view.focus()
   }
 
   // The Length button: a dialog for the value and its unit, then the tag
-  // (`:length[45 m]`, milkdownLength.js) at the cursor.
+  // (`:length[45 m]`, milkdownLength.js) at the cursor. With a length
+  // selected (clicked), the dialog starts from it and replaces it.
   function openLengthDialog() {
     const view = editorRef.current?.ctx.get(editorViewCtx)
-    savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
-    setLengthDialog({ value: '', unit: 'm' })
+    const selection = view?.state.selection
+    const selected = selection instanceof NodeSelection && selection.node.type.name === 'length_directive' ? parseLength(selection.node.attrs.text) : null
+    savedSelectionRef.current = selection ? { from: selection.from, to: selection.to, node: Boolean(selected) } : null
+    setLengthDialog(selected ? { value: String(selected.value), unit: selected.unit } : { value: '', unit: 'm' })
   }
 
   const lengthValue = lengthDialog && Number(String(lengthDialog.value).replace(',', '.'))
@@ -262,18 +311,24 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     }
   }
 
+  // The link's text replaces the selection (the URL itself when left
+  // empty), carrying the link.
   function confirmLink() {
     setLinkDialogOpen(false)
-    if (!isValidUrl(linkHref)) {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    const linkType = view?.state.schema.marks.link
+    if (!isValidUrl(linkHref) || !view || !linkType) {
       return
     }
 
-    const view = editorRef.current?.ctx.get(editorViewCtx)
-    if (view) {
-      restoreSelection(view)
-    }
-
-    runCommand(toggleLinkCommand, { href: linkHref })
+    restoreSelection(view)
+    const { state } = view
+    const { from, to } = state.selection
+    const text = linkText.trim() || linkHref
+    const marks = [...state.doc.resolve(from).marks().filter((m) => m.type !== linkType), linkType.create({ href: linkHref })]
+    const tr = state.tr.replaceWith(from, to, state.schema.text(text, marks))
+    view.dispatch(tr.setSelection(TextSelection.create(tr.doc, from + text.length)))
+    view.focus()
   }
 
   return (
@@ -360,6 +415,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
       <Dialog open={linkDialogOpen} onClose={() => setLinkDialogOpen(false)} maxWidth="xs" fullWidth>
         <DialogContent>
+          <TextField fullWidth label={t('toolbar.linkText')} value={linkText} onChange={(e) => setLinkText(e.target.value)} sx={{ mt: 1, mb: 2 }} />
           <TextField autoFocus fullWidth label={t('toolbar.linkPrompt')} value={linkHref} onChange={(e) => setLinkHref(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && isValidUrl(linkHref) && confirmLink()} placeholder="https://" error={!!linkHref && !isValidUrl(linkHref)} helperText={!!linkHref && !isValidUrl(linkHref) ? t('toolbar.linkInvalid') : ' '} />
         </DialogContent>
         <DialogActions>

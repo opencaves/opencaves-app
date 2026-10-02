@@ -39,6 +39,22 @@
 
     .ProseMirror {
       outline: none;
+
+      // A length tag (`:length[45 m]`): a chip, outlined once clicked
+      // (selected), ready for the Length button to edit.
+      .oc-length-chip {
+        display: inline-block;
+        padding: 0 0.4em;
+        border-radius: 0.5em;
+        background: var(--mui-palette-action-hover);
+        border-bottom: 1px dotted currentColor;
+        cursor: pointer;
+      }
+
+      .oc-length-chip.ProseMirror-selectednode {
+        outline: 2px solid var(--mui-palette-primary-main);
+        background: var(--mui-palette-action-selected);
+      }
       flex: 1;
       font-size: 1rem;
       line-height: 1.5;
