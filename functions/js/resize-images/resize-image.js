@@ -20,8 +20,11 @@ export function resize(file, { width, height, ...options }) {
 
   // failOn 'none': tolerate slightly malformed JPEGs ("Invalid SOS parameters")
   // that browsers display fine. sharp 0.35 ignores the older failOnError option.
+  // rotate(): the camera's EXIF orientation applied - a phone saves many
+  // photos sideways or upside down with a tag saying how to turn them, and the
+  // resized copies don't keep that tag.
   return sharp(file, { failOn: 'none', animated: config.animated })
-    // .rotate()
+    .rotate()
     .resize(width, height, options)
     .toBuffer()
 }

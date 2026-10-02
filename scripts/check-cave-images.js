@@ -45,7 +45,8 @@ initializeApp({ projectId: PROJECT_ID, storageBucket: BUCKET_NAME, ...(argv.prod
 const db = getFirestore()
 const bucket = getStorage().bucket()
 
-const THUMBNAIL_SUFFIXES = Object.keys(resizeConfig.imageSizes).flatMap((size) => resizeConfig.imageTypes.map((type) => `_${size}.${type}`))
+// A photo's copies redone carry a revision in their name (thumbnailRevision).
+const thumbnailSuffixes = (revision) => Object.keys(resizeConfig.imageSizes).flatMap((size) => resizeConfig.imageTypes.map((type) => `_${size}${revision > 1 ? `-r${revision}` : ''}.${type}`))
 
 const problems = {
   missingOriginal: [],
@@ -97,7 +98,7 @@ async function main() {
     knownPaths.add(original)
     if (!fileNames.has(original)) problems.missingOriginal.push(label(asset))
 
-    const thumbnails = THUMBNAIL_SUFFIXES.map((suffix) => `caves/${asset.caveId}/${THUMBNAILS_FOLDER}/${asset.id}${suffix}`)
+    const thumbnails = thumbnailSuffixes(asset.thumbnailRevision).map((suffix) => `caves/${asset.caveId}/${THUMBNAILS_FOLDER}/${asset.id}${suffix}`)
     thumbnails.forEach((path) => knownPaths.add(path))
     const missing = thumbnails.filter((path) => !fileNames.has(path)).map((path) => path.slice(path.lastIndexOf('_') + 1))
     if (missing.length) problems.missingThumbnails.push(`${label(asset)}: ${missing.length === thumbnails.length ? 'all' : missing.join(', ')}`)
