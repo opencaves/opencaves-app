@@ -86,6 +86,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   // focus, and restore it before applying the link.
   const savedSelectionRef = useRef(null)
   onChangeRef.current = onChange
+  // The editor's click handler, set up once, calls the current one.
+  const openLengthDialogRef = useRef(null)
 
   useEffect(() => {
     let cancelled = false
@@ -96,7 +98,28 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         ctx.set(defaultValueCtx, value || '')
         // The editable element is a bare contenteditable: name it after the
         // field's visible label so it reads as a labeled text box.
-        ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId } }))
+        ctx.update(editorViewOptionsCtx, (prev) => ({
+          ...prev,
+          attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId },
+          // A click on a length tag selects it and opens its Length dialog.
+          handleClickOn: (view, pos, node, nodePos, event, direct) => {
+            if (!direct || node.type.name !== 'length_directive') {
+              return false
+            }
+            view.dispatch(view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos)))
+            openLengthDialogRef.current?.()
+            return true
+          },
+          // Same with Enter on a length tag selected from the keyboard.
+          handleKeyDown: (view, event) => {
+            const { selection } = view.state
+            if (event.key !== 'Enter' || !(selection instanceof NodeSelection) || selection.node.type.name !== 'length_directive') {
+              return false
+            }
+            openLengthDialogRef.current?.()
+            return true
+          },
+        }))
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
           // Back to the loaded document: report the original text as is.
           const emitted = markdown === sourceMarkdownRef.current ? sourceValueRef.current : markdown
@@ -277,6 +300,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     savedSelectionRef.current = found ? { from: selection.from + found.index, to: selection.from + found.index + found.length } : { from: selection.from, to: selection.to, node: Boolean(tag) }
     setLengthDialog(length ? { value: String(length.value), unit: length.unit } : { value: '', unit: 'm' })
   }
+
+  openLengthDialogRef.current = openLengthDialog
 
   const lengthValue = lengthDialog && Number(String(lengthDialog.value).replace(',', '.'))
   const lengthValid = lengthDialog && lengthDialog.value !== '' && Number.isFinite(lengthValue) && lengthValue >= 0
