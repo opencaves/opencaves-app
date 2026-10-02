@@ -31,7 +31,8 @@ export const lengthSchema = $nodeSchema('length_directive', () => ({
 // The chip, edited in place: its value is a text field, its unit a dropdown
 // shown while the chip has the focus (the unit as text otherwise). Each change
 // is written to the tag at once. Enter and the arrows at either end of the
-// value go back to the text; leaving the chip with no value removes it.
+// value go back to the text; leaving the chip with no value removes it
+// (a tag just inserted gives back the text it replaced).
 // Escape cancels: a tag just inserted gives back the text it replaced and its
 // selection (options.cancelInsert), another gets its value back from when the
 // chip got the focus.
@@ -85,8 +86,10 @@ class LengthView {
     })
     this.dom.addEventListener('focusout', (event) => {
       if (this.dom.contains(event.relatedTarget)) return
+      // Left empty: a tag just inserted gives back the text it replaced,
+      // another is removed.
+      if (!this.input.value.trim() && !this.options.cancelInsert?.(this.view, this.getPos(), false)) this.remove()
       this.options.endInsert?.()
-      if (!this.input.value.trim()) this.remove()
     })
   }
 
@@ -193,7 +196,7 @@ class LengthView {
 }
 
 // The plugins, with the fields' accessible names.
-// options.cancelInsert(view, pos): Escape in a tag - undo its insertion if it
+// options.cancelInsert(view, pos, focus): Escape in (or an empty) tag - undo its insertion if it
 // was just inserted (true), or not (false); options.endInsert(): the chip left.
 export function milkdownLength(labels, options = {}) {
   const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels, options))

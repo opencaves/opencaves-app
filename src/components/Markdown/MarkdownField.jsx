@@ -115,7 +115,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       .use(history)
       .use(clipboard)
       // The `:length[45 m]` tag (milkdownLength.js), edited in place.
-      .use(milkdownLength({ value: t('toolbar.lengthValue'), unit: t('toolbar.lengthUnit') }, { cancelInsert: (view, pos) => cancelLengthInsert(view, pos), endInsert: () => (lengthInsertRef.current = null) }))
+      .use(milkdownLength({ value: t('toolbar.lengthValue'), unit: t('toolbar.lengthUnit') }, { cancelInsert: (view, pos, focus) => cancelLengthInsert(view, pos, focus), endInsert: () => (lengthInsertRef.current = null) }))
 
     editor.create().then(() => {
       if (cancelled) {
@@ -272,8 +272,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     // Within one paragraph, each character of the text is one position
     // (other inline nodes count as one placeholder character).
     const found = !selection.empty && selection.$from.sameParent(selection.$to) ? findLength(doc.textBetween(selection.from, selection.to, '\n', '￼')) : null
-    // Text with no length in it stays: the new tag goes after it.
-    const from = found ? selection.from + found.index : selection.to
+    // Text with no length in it is replaced by an empty tag (Escape, or
+    // leaving it empty, gives it back).
+    const from = found ? selection.from + found.index : selection.from
     const to = found ? from + found.length : selection.to
     // What Escape puts back (cancelLengthInsert): the text the tag replaced,
     // and the selection.
@@ -283,8 +284,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   }
 
   // Escape in a tag just inserted by the Length button: the text as it was
-  // before, with its selection. False for any other tag.
-  function cancelLengthInsert(view, pos) {
+  // before, with its selection (and the focus back in the editor, unless it
+  // went elsewhere). False for any other tag.
+  function cancelLengthInsert(view, pos, focus = true) {
     const insert = lengthInsertRef.current
     lengthInsertRef.current = null
     const node = pos != null && view.state.doc.nodeAt(pos)
@@ -293,7 +295,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     }
     const tr = view.state.tr.replace(pos, pos + node.nodeSize, insert.replaced)
     view.dispatch(tr.setSelection(TextSelection.create(tr.doc, insert.selection.from, insert.selection.to)))
-    view.focus()
+    if (focus) view.focus()
     return true
   }
 
