@@ -54,7 +54,4 @@ export const CAVE_LAYER = {
   // Water: the blue the map reviews used (overlay_scan.py), the same in every system.
   WATER_COLOR: '#9ec3d6',
   WATER_OPACITY: 0.55,
-  // Drawn details (boulders, slopes...): light, to read over the dark canopy.
-  DETAIL_COLOR: '#f0f0f0',
-  DETAIL_OPACITY: 0.85,
 }
