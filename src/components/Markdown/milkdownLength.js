@@ -30,13 +30,17 @@ export const lengthSchema = $nodeSchema('length_directive', () => ({
 
 // The chip, edited in place: its value is a text field, its unit a dropdown
 // shown while the chip has the focus (the unit as text otherwise). Each change
-// is written to the tag at once. Leaving the chip with no value removes it;
-// Enter, Escape and the arrows at either end of the value go back to the text.
+// is written to the tag at once. Enter and the arrows at either end of the
+// value go back to the text; leaving the chip with no value removes it.
+// Escape cancels: a tag just inserted gives back the text it replaced and its
+// selection (options.cancelInsert), another gets its value back from when the
+// chip got the focus.
 class LengthView {
-  constructor(node, view, getPos, labels) {
+  constructor(node, view, getPos, labels, options) {
     this.node = node
     this.view = view
     this.getPos = getPos
+    this.options = options
 
     this.dom = document.createElement('span')
     this.dom.className = 'oc-length-chip'
@@ -71,10 +75,18 @@ class LengthView {
     })
     this.input.addEventListener('keydown', (event) => this.keydown(event))
     this.select.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') this.leave(1)
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        this.cancel()
+      }
+    })
+    this.dom.addEventListener('focusin', (event) => {
+      if (!this.dom.contains(event.relatedTarget)) this.initialText = this.node.attrs.text
     })
     this.dom.addEventListener('focusout', (event) => {
-      if (!this.dom.contains(event.relatedTarget) && !this.input.value.trim()) this.remove()
+      if (this.dom.contains(event.relatedTarget)) return
+      this.options.endInsert?.()
+      if (!this.input.value.trim()) this.remove()
     })
   }
 
@@ -102,7 +114,10 @@ class LengthView {
 
   keydown(event) {
     const { selectionStart, selectionEnd, value } = this.input
-    if (event.key === 'Enter' || event.key === 'Escape') {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      this.cancel()
+    } else if (event.key === 'Enter') {
       event.preventDefault()
       this.leave(1)
     } else if (event.key === 'ArrowRight' && selectionStart === value.length && selectionEnd === value.length) {
@@ -115,6 +130,16 @@ class LengthView {
       event.preventDefault()
       this.remove()
     }
+  }
+
+  cancel() {
+    if (this.options.cancelInsert?.(this.view, this.getPos())) return
+    const pos = this.getPos()
+    if (pos != null && this.initialText != null && this.initialText !== this.node.attrs.text) {
+      this.view.dispatch(this.view.state.tr.setNodeMarkup(pos, null, { text: this.initialText }))
+      this.show(this.node)
+    }
+    this.leave(1)
   }
 
   // The cursor back in the text, after (1) or before (-1) the chip.
@@ -168,8 +193,10 @@ class LengthView {
 }
 
 // The plugins, with the fields' accessible names.
-export function milkdownLength(labels) {
-  const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels))
+// options.cancelInsert(view, pos): Escape in a tag - undo its insertion if it
+// was just inserted (true), or not (false); options.endInsert(): the chip left.
+export function milkdownLength(labels, options = {}) {
+  const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels, options))
   return [lengthRemark, lengthSchema, lengthView].flat()
 }
 

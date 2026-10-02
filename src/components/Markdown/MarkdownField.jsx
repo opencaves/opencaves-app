@@ -84,6 +84,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   // cleared" - snapshot the selected range here, while the editor still has
   // focus, and restore it before applying the link.
   const savedSelectionRef = useRef(null)
+  // The tag the Length button just inserted, while it's being typed in.
+  const lengthInsertRef = useRef(null)
   onChangeRef.current = onChange
 
   useEffect(() => {
@@ -113,7 +115,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       .use(history)
       .use(clipboard)
       // The `:length[45 m]` tag (milkdownLength.js), edited in place.
-      .use(milkdownLength({ value: t('toolbar.lengthValue'), unit: t('toolbar.lengthUnit') }))
+      .use(milkdownLength({ value: t('toolbar.lengthValue'), unit: t('toolbar.lengthUnit') }, { cancelInsert: (view, pos) => cancelLengthInsert(view, pos), endInsert: () => (lengthInsertRef.current = null) }))
 
     editor.create().then(() => {
       if (cancelled) {
@@ -273,8 +275,26 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     // Text with no length in it stays: the new tag goes after it.
     const from = found ? selection.from + found.index : selection.to
     const to = found ? from + found.length : selection.to
+    // What Escape puts back (cancelLengthInsert): the text the tag replaced,
+    // and the selection.
+    lengthInsertRef.current = { pos: from, replaced: doc.slice(from, to), selection: { from: selection.from, to: selection.to } }
     view.dispatch(view.state.tr.replaceWith(from, to, type.create({ text: found ? `${found.written} ${found.unit}` : ' m' })))
     focusLength(view, from)
+  }
+
+  // Escape in a tag just inserted by the Length button: the text as it was
+  // before, with its selection. False for any other tag.
+  function cancelLengthInsert(view, pos) {
+    const insert = lengthInsertRef.current
+    lengthInsertRef.current = null
+    const node = pos != null && view.state.doc.nodeAt(pos)
+    if (!insert || insert.pos !== pos || node?.type.name !== 'length_directive') {
+      return false
+    }
+    const tr = view.state.tr.replace(pos, pos + node.nodeSize, insert.replaced)
+    view.dispatch(tr.setSelection(TextSelection.create(tr.doc, insert.selection.from, insert.selection.to)))
+    view.focus()
+    return true
   }
 
   // Written as the same `oc:<caveId>` link the app already renders as an
