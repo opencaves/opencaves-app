@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
 import AddPhotoAlternateRounded from '@mui/icons-material/AddPhotoAlternateRounded'
@@ -16,38 +16,39 @@ export async function loadCoverImage(caveId) {
   return getCoverImage(caveId, false)
 }
 
+const ASPECT_RATIO = 1 / COVER_IMAGE_HEIGHT_RATIO
+
+// Declared outside CoverImage: a component declared inside it is a new type on
+// every render, so React rebuilt the whole picture - the image flickered each
+// time the pane re-rendered (e.g. on every map move, which updates the URL).
+function Container({ width, children }) {
+  return (
+    <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio: ASPECT_RATIO }}>
+      {children}
+    </Box>
+  )
+}
+
 // Fluid by default: fills whatever width its container gives it (so it
 // scales with the result pane - e.g. when quick-edit mode doubles the
 // pane's width) rather than being pinned to a fixed pixel size, keeping its
 // aspect ratio via CSS instead of a computed pixel height.
 export default function CoverImage({ caveId, width = '100%' }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
-  const [sources, setSources] = useState(null)
-  const [hasCoverImage, setHasCoverImage] = useState(null)
   const { promptForMedias } = useAddMedias()
   const [coverImage, coverImageLoading, coverImageError] = useCoverImage(caveId)
 
   const height = '100%'
-  const aspectRatio = 1 / COVER_IMAGE_HEIGHT_RATIO
-
-  function Container({ children }) {
-    return (
-      <Box className="oc-cover-image" sx={{ position: 'relative', width, aspectRatio }}>
-        {children}
-      </Box>
-    )
-  }
-
-  useEffect(() => {
-    // if (coverImage) {
-    setSources(coverImage ? coverImage.data().getSources('coverImage') : null)
-    setHasCoverImage(!!coverImage)
-    // }
-  }, [coverImage])
+  const hasCoverImage = !!coverImage
+  // Kept while the cover is the same photo: new sources would be a new
+  // <source> list for the browser to pick from again.
+  const coverKey = coverImage ? `${coverImage.id}-${coverImage.get('thumbnailRevision') || 1}` : null
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sources = useMemo(() => (coverImage ? coverImage.data().getSources('coverImage') : null), [coverKey])
 
   if (coverImageLoading) {
     return (
-      <Container>
+      <Container width={width}>
         <Picture
           src={transparentPixel}
           alt=""
@@ -63,7 +64,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
 
   if (coverImageError) {
     return (
-      <Container>
+      <Container width={width}>
         <Picture
           src={defaultMediaCardImage}
           alt=""
@@ -79,7 +80,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
 
   if (!hasCoverImage) {
     return (
-      <Container>
+      <Container width={width}>
         <Tooltip title={t('addImages.tooltip')}>
           <ButtonBase onClick={promptForMedias}>
             <Picture
@@ -110,7 +111,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
 
   return (
     coverImage && (
-      <Container>
+      <Container width={width}>
         <Tooltip title={t('seeImages.tooltip')}>
           <UnstyledLink
             to={`medias/${coverImage.id}`}

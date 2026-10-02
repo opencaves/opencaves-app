@@ -32,7 +32,8 @@ const sessionSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.authResolved = true
-      state.user = action.payload
+      // Same user: the old object kept, so its readers don't re-render.
+      if (JSON.stringify(state.user) !== JSON.stringify(action.payload)) state.user = action.payload
       state.isLoggedIn = !!action.payload && !action.payload.isAnonymous
       state.isAnonymous = !!action.payload?.isAnonymous
       if (!action.payload) {
@@ -40,7 +41,8 @@ const sessionSlice = createSlice({
       }
     },
     setUserRoles: (state, action) => {
-      state.roles = action.payload || []
+      const roles = action.payload || []
+      if (roles.join() !== state.roles.join()) state.roles = roles
     },
     setContinueUrl: (state, action) => {
       state.continueUrl = action.payload

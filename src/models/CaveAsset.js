@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
@@ -277,18 +277,11 @@ export function useCaveAssetsList(caveId) {
 }
 
 export function useCoverImage(caveId) {
-  const [coverImage, setCoverImage] = useState()
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
   const [snapshot, loading, error] = useCollection(q)
-
-  useEffect(() => {
-
-    if (snapshot && !snapshot.empty) {
-      setCoverImage(snapshot.docs[0])
-      return
-    }
-    setCoverImage()
-  }, [snapshot])
+  // Read from the snapshot, not copied to state by an effect: that took one
+  // more render, in which the cave seemed to have no cover.
+  const coverImage = snapshot && !snapshot.empty ? snapshot.docs[0] : undefined
 
   return [coverImage, loading, error]
 }

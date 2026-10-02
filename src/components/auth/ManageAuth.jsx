@@ -40,7 +40,11 @@ export default function ManageAuth() {
         }
       }
 
-      dispatch(setUser(user ? user.toJSON() : user))
+      // Without its tokens: they change on every refresh (every 30s below), and
+      // a new user object re-rendered everything that reads it - the cave's
+      // cover picture flickered. Nothing in the app reads them from the store.
+      const { stsTokenManager, ...userData } = user ? user.toJSON() : {}
+      dispatch(setUser(user ? userData : user))
       dispatch(setUserRoles(Array.isArray(roles) ? roles : []))
     }
 
