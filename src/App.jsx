@@ -14,6 +14,7 @@ import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
 import TitleBar from '@/components/App/TitleBar.jsx'
 import ManageAppUpdate from '@/components/App/ManageAppUpdate.jsx'
 import ManageAuth from '@/components/auth/ManageAuth.jsx'
+import AccountLinking from '@/components/auth/AccountLinking.jsx'
 import Splash from '@/components/utils/Splash.jsx'
 import getDevicePixelRatio from '@/utils/getDevicePixelRatio.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -120,6 +121,7 @@ const App = () => {
           <SnackbarProvider>
             <RouterProvider router={router} />
             <OfflineMediaSync />
+            <AccountLinking />
           </SnackbarProvider>
           <ManageAppUpdate />
           <ManageAuth />

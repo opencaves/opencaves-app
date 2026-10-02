@@ -236,6 +236,14 @@
         "btn": "Iniciar sesión"
       },
       "withMicrosoft": "Registrarse con Microsoft"
+    },
+    "linking": {
+      "title": "Este correo ya tiene una cuenta",
+      "text": "{{email}} ya tiene una cuenta de OpenCaves, creada de otra forma. Inicia sesión como la primera vez (o con el enlace por correo): {{provider}} se añadirá entonces a tu cuenta y cualquiera de los dos te permitirá entrar.",
+      "continueWith": "Continuar con {{provider}}",
+      "cancel": "Cancelar",
+      "linked": "{{provider}} añadido a tu cuenta: ahora también puedes iniciar sesión con él.",
+      "linkFailed": "No se pudo añadir este método de inicio de sesión a tu cuenta."
     }
   },
   "about": {
