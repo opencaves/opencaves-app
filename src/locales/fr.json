@@ -1023,7 +1023,12 @@
     "delete": "Supprimer",
     "deleteTitle": "Supprimer cet utilisateur?",
     "deleteConfirm": "{{email}} sera définitivement supprimé. Cette action est irréversible.",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "freeze": "Geler",
+    "unfreeze": "Dégeler",
+    "frozen": "Gelé",
+    "freezeTitle": "Geler ce compte ?",
+    "freezeConfirm": "{{email}} perdra tous ses droits de modification (éditeur et administrateur) jusqu’à ce qu’il soit dégelé ; il pourra toujours consulter la carte. Sa session en cours les garde jusqu’à une heure."
   },
   "offline": {
     "caveReady": "La cénote {{name}} est disponible hors ligne",

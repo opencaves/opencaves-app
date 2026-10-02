@@ -14,6 +14,11 @@ export const ensureEditorRole = onCall({ region: REGION }, async request => {
     ? currentUser.customClaims.roles
     : []
 
+  // Frozen by an admin (manageUsers' setUserFrozen): no editing until unfrozen.
+  if (currentUser.customClaims?.frozen) {
+    return { roles: currentRoles, frozen: true }
+  }
+
   if (currentRoles.includes('editor')) {
     return { roles: currentRoles }
   }

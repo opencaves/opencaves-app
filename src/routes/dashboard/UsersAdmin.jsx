@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { httpsCallable } from 'firebase/functions'
-import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import DeleteRounded from '@mui/icons-material/DeleteRounded'
+import AcUnitRounded from '@mui/icons-material/AcUnitRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
-import { functions } from '@/config/firebase.js'
+import { auth, functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
@@ -14,6 +15,7 @@ import { matchesId } from '@/utils/matchesId.js'
 const listUsersFn = httpsCallable(functions, 'listUsers')
 const setUserRolesFn = httpsCallable(functions, 'setUserRoles')
 const deleteUserFn = httpsCallable(functions, 'deleteUser')
+const setUserFrozenFn = httpsCallable(functions, 'setUserFrozen')
 
 const ASSIGNABLE_ROLES = ['editor', 'admin']
 
@@ -27,6 +29,9 @@ export default function UsersAdmin() {
   const [savingUid, setSavingUid] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  // Freezing an account (setUserFrozen): all its editing rights removed, the
+  // auto-granted editor role withheld, until it's unfrozen. Asked first.
+  const [freezeTarget, setFreezeTarget] = useState(null)
 
   useEffect(() => {
     setTitle(t('title'))
@@ -78,6 +83,19 @@ export default function UsersAdmin() {
     } catch (err) {
       setError(err.message)
       setUsers((prev) => prev.map((u) => (u.uid === user.uid ? { ...u, roles: user.roles } : u)))
+    } finally {
+      setSavingUid(null)
+    }
+  }
+
+  async function setFrozen(user, frozen) {
+    setFreezeTarget(null)
+    setSavingUid(user.uid)
+    try {
+      const { data } = await setUserFrozenFn({ uid: user.uid, frozen })
+      setUsers((prev) => prev.map((u) => (u.uid === user.uid ? { ...u, frozen: data.frozen, roles: data.roles } : u)))
+    } catch (err) {
+      setError(err.message)
     } finally {
       setSavingUid(null)
     }
@@ -148,11 +166,19 @@ export default function UsersAdmin() {
             {filtered.map((user) => (
               <ListItem key={user.uid} divider sx={{ py: 1.5, flexWrap: 'wrap', gap: 1 }}>
                 <ListItemText primary={user.email} secondary={user.disabled ? t('disabled') : null} sx={{ flexBasis: 260, flexGrow: 1 }} />
+                {user.frozen && <Chip className="oc-users-admin--frozen" size="small" color="info" icon={<AcUnitRounded />} label={t('frozen')} />}
                 <FormGroup row>
                   {ASSIGNABLE_ROLES.map((role) => (
-                    <FormControlLabel key={role} control={<Checkbox checked={user.roles.includes(role)} disabled={savingUid === user.uid} onChange={() => toggleRole(user, role)} />} label={t(`role.${role}`)} />
+                    <FormControlLabel key={role} control={<Checkbox checked={user.roles.includes(role)} disabled={savingUid === user.uid || user.frozen} onChange={() => toggleRole(user, role)} />} label={t(`role.${role}`)} />
                   ))}
                 </FormGroup>
+                {user.uid !== auth.currentUser?.uid && (
+                  <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
+                    <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
+                      <AcUnitRounded fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                )}
                 <Tooltip title={t('delete')}>
                   <IconButton edge="end" aria-label={t('delete')} onClick={() => setDeleteTarget(user)}>
                     <DeleteRounded fontSize="small" />
@@ -163,6 +189,19 @@ export default function UsersAdmin() {
           </List>
         </>
       )}
+
+      <Dialog className="oc-users-admin--freeze-dialog" open={!!freezeTarget} onClose={() => setFreezeTarget(null)}>
+        <DialogTitle>{t('freezeTitle')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('freezeConfirm', { email: freezeTarget?.email })}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setFreezeTarget(null)}>{t('cancel')}</Button>
+          <Button variant="contained" disableElevation onClick={() => setFrozen(freezeTarget, true)}>
+            {t('freeze')}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog className="oc-users-admin--delete-dialog" open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>{t('deleteTitle')}</DialogTitle>

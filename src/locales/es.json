@@ -1024,7 +1024,12 @@
     "delete": "Eliminar",
     "deleteTitle": "¿Eliminar este usuario?",
     "deleteConfirm": "{{email}} será eliminado permanentemente. Esta acción no se puede deshacer.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "freeze": "Congelar",
+    "unfreeze": "Descongelar",
+    "frozen": "Congelado",
+    "freezeTitle": "¿Congelar esta cuenta?",
+    "freezeConfirm": "{{email}} perderá todos sus permisos de edición (editor y administrador) hasta que se descongele; podrá seguir consultando el mapa. Su sesión actual los conserva hasta una hora."
   },
   "offline": {
     "caveReady": "El cenote {{name}} está disponible sin conexión",

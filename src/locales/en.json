@@ -1024,7 +1024,12 @@
     "delete": "Delete",
     "deleteTitle": "Delete this user?",
     "deleteConfirm": "{{email}} will be permanently deleted. This cannot be undone.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "freeze": "Freeze",
+    "unfreeze": "Unfreeze",
+    "frozen": "Frozen",
+    "freezeTitle": "Freeze this account?",
+    "freezeConfirm": "{{email}} will lose all editing rights (editor and admin) until unfrozen; it can still browse the map. Its current session keeps them for up to an hour."
   },
   "offline": {
     "caveReady": "Cenote {{name}} is available offline",
