@@ -18,7 +18,7 @@ export const LENGTH_DIRECTIVE = 'length'
 export const LENGTH_UNITS = {
   m: { metres: 1, system: 'metric', counterpart: 'ft', spellings: ['m', 'meters?', 'metres?'] },
   km: { metres: 1000, system: 'metric', counterpart: 'mi', spellings: ['km', 'kilometers?', 'kilometres?'] },
-  ft: { metres: 0.3048, system: 'imperial', counterpart: 'm', spellings: ['ft', 'feet', 'foot', "'"] },
+  ft: { metres: 0.3048, system: 'imperial', counterpart: 'm', spellings: ['ft', 'feets?', 'foot', "'"] },
   yd: { metres: 0.9144, system: 'imperial', counterpart: 'm', spellings: ['yd', 'yds', 'yards?'] },
   mi: { metres: 1609.344, system: 'imperial', counterpart: 'km', spellings: ['mi', 'miles?'], inText: ['miles?'] },
 }
