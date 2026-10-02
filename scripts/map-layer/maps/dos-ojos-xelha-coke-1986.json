@@ -1,0 +1,694 @@
+{
+  "image": "../../../_data/maps-import/images/dos-ojos-cen-xel-ha.webp",
+  "title": "Cenotes Dos Ojos, Xel-Ha (J. G. Coke IV 1986)",
+  "credits": "Cenotes Dos Ojos, Xel-Ha, Quintana Roo; compass & line survey, 1 July 1986, by James Coke, Johanna deGroot; length 958.6 m; drafted JGC/TTS; (c) 1986 James Guthrie Coke IV (AMCS Activities Newsletter no. 16)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      3445,
+      4305
+    ],
+    "to": [
+      4162,
+      4305
+    ],
+    "metres": 60,
+    "why": "0-30-60 meters; not used (no \"north\"): 0.0837 m/px, 14% more than the fit's 0.0735 (the ponds 162 m apart by the bar, 143 m on the satellite)"
+  },
+  "placementWhy": "Fair (about 10-20 m): free similarity fit on the two ponds, each on the bright-green canopy patch of its sinkhole on the satellite imagery (Bing and Mapbox; the ponds themselves are hidden under the trees): Ojo East on the patch carrying OpenStreetMap's '1st Eye' node (6104810812), Ojo West on the triangular patch 143 m WNW carrying its '2nd Eye' (node 6104810802). Two points fit exactly, so the checks are: the map's north arrow - drawn in Coke's style, its half-barbed end (towards the bottom right) is north, the 'N' standing at its tail, as on his 1987 Naharon map; the hand-drawn twin's arrowhead points the same way, and the twin's 'Xel-Ha 2.5 Km' arrow points along the jeep road to the ESE - is 5.3 degrees from the fit's north (magnetic, 1986); the map's 'East' pond comes out east and 'West' west; both OSM eye nodes fall on their pond outlines' edges; the pond outlines sit on the two canopy patches; the footpath's 'jeep road' is today's access track from Highway 307 (OSM way 59136197) - parallel within 1 degree (bearing 294 on both) and the footpath's end 27 m from where OSM's footpath to the eyes (way 83855802) leaves it at the Dos Ojos parking. Scale: the fit is 12% under the 60 m scale bar; the map's own penetrations don't settle it (p.465m - p.349m = 116 m along the passage: 104 m at the fit, 118 m at the bar; p.507.5m - p.349m = 158.5 m: 164 m at the fit, 187 m at the bar; p.158.5m from Ojo East: 150 m at the fit, 171 m at the bar), while the footpath's length to the road (153 m at the fit, 176 m on the ground) agrees better with the bar: the scale may be up to ~10% low, which would move the far ends of the west passages by up to 20-25 m. The database's Dos Ojos East and West (Google Maps positions) lie 74 m W and 77 m S of the ponds. Cross-checked loosely with the QRSS 1996 line plot (dos-ojos-qrss-1996.json, ~20 m accurate here): its lines around the eyes and west toward Taak Bi Ha run in the same corridor; the ADC sketch (dos-ojos-part.json) is too coarse here.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVI6As-MTOD9BQ0C",
+      "name": "Ojo East pond",
+      "px": [
+        1403,
+        3073
+      ],
+      "latitude": 20.324434,
+      "longitude": -87.390661,
+      "why": "the pond outline's centroid on the map; the centroid of the bright-green canopy patch of the east sinkhole (Bing z19), which carries OSM's '1st Eye' node at its NW edge"
+    },
+    {
+      "caveId": "-KPZkVI727bPAYLuZ57-",
+      "name": "Ojo West pond",
+      "px": [
+        3340,
+        2957
+      ],
+      "latitude": 20.324874,
+      "longitude": -87.391946,
+      "why": "the pond outline's centroid on the map; the centroid of the triangular bright-green canopy patch of the west sinkhole (Bing z19), which carries OSM's '2nd Eye' node at its SE edge"
+    },
+    {
+      "name": "Footpath meets the jeep road (OSM: footpath 83855802 leaves access track 59136197 at the Dos Ojos parking)",
+      "px": [
+        1590,
+        5135
+      ],
+      "latitude": 20.3259,
+      "longitude": -87.39001,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Ojo East",
+      "px": [
+        1403,
+        3073
+      ],
+      "caveId": "-KPZkVI6As-MTOD9BQ0C",
+      "latitude": 20.324434,
+      "longitude": -87.390661,
+      "why": "the east eye (OSM's 1st Eye, at the end of the footpath from the parking); the database's Dos Ojos East (Google Maps) is 74 m WNW of it"
+    },
+    {
+      "name": "Ojo West",
+      "px": [
+        3340,
+        2957
+      ],
+      "caveId": "-KPZkVI727bPAYLuZ57-",
+      "latitude": 20.324874,
+      "longitude": -87.391946,
+      "why": "the west eye (OSM's 2nd Eye); the database's Dos Ojos West (Google Maps) is 77 m south of it"
+    }
+  ],
+  "exclude": [
+    {
+      "why": "page frame (top)",
+      "box": [
+        0,
+        0,
+        6725,
+        135
+      ]
+    },
+    {
+      "why": "page frame (bottom) and the cut-off caption below it",
+      "box": [
+        0,
+        5380,
+        6725,
+        5542
+      ]
+    },
+    {
+      "why": "page frame (left)",
+      "box": [
+        0,
+        0,
+        135,
+        5542
+      ]
+    },
+    {
+      "why": "page frame (right)",
+      "box": [
+        6585,
+        0,
+        6725,
+        5542
+      ]
+    },
+    {
+      "why": "title block: Cenotes Dos Ojos, Xel-Ha, Quintana Roo; Compass & Line Survey 1 July 1986 by James Coke, Johanna deGroot; Length: 958.6 meters",
+      "box": [
+        4550,
+        200,
+        5850,
+        850
+      ],
+      "history": true
+    },
+    {
+      "why": "profile section A-B (Ojo East, Ojo West) with its 10-0-10 m scale",
+      "box": [
+        400,
+        1280,
+        4400,
+        1880
+      ]
+    },
+    {
+      "why": "section mark A and its leader",
+      "box": [
+        560,
+        3180,
+        700,
+        3245
+      ]
+    },
+    {
+      "why": "section mark B and its leader",
+      "box": [
+        4030,
+        3160,
+        4180,
+        3225
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        4380,
+        3280,
+        4660,
+        3880
+      ]
+    },
+    {
+      "why": "scale bar 0-30-60 meters",
+      "box": [
+        3380,
+        4170,
+        4250,
+        4460
+      ]
+    },
+    {
+      "why": "legend: Map Symbols as per NSS Cave Diving Section (P, R, X, S, Z)",
+      "box": [
+        5050,
+        3880,
+        6560,
+        4760
+      ]
+    },
+    {
+      "why": "footpath from the jeep road (dashed line from Ojo East)",
+      "box": [
+        1560,
+        3390,
+        1625,
+        5135
+      ]
+    },
+    {
+      "why": "footpath label 'Footpath from jeep road' and its pointers",
+      "box": [
+        1625,
+        4180,
+        2400,
+        4860
+      ]
+    },
+    {
+      "why": "jeep road and 'Xel-Ha 2.5 km.'",
+      "box": [
+        600,
+        4940,
+        1900,
+        5240
+      ]
+    },
+    {
+      "why": "drafter's initials JGC/TTS",
+      "box": [
+        140,
+        5280,
+        450,
+        5375
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright 1986 James Guthrie Coke IV",
+      "box": [
+        5650,
+        5270,
+        6560,
+        5375
+      ],
+      "history": true
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 3,
+    "minExtentPx": 150,
+    "fillStrokeHolesPx": 400,
+    "minLineMetres": 3,
+    "eraseLines": [
+      {
+        "why": "Air Pocket Chamber leader (west)",
+        "from": [
+          5800,
+          1745
+        ],
+        "to": [
+          5822,
+          1975
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Air Pocket Chamber leader (east)",
+        "from": [
+          6172,
+          1625
+        ],
+        "to": [
+          6130,
+          2000
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "ticked ledge line across the passage at p.349m (a drop in the floor, not a wall)",
+        "from": [
+          5012,
+          2876
+        ],
+        "to": [
+          4986,
+          2960
+        ],
+        "widthPx": 24
+      }
+    ],
+    "symbolPiecesOnly": true
+  },
+  "symbols": {
+    "units": "m",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "r": [
+        5185,
+        4208
+      ],
+      "x": [
+        5188,
+        4348
+      ],
+      "s": [
+        5189,
+        4444
+      ],
+      "z": [
+        5190,
+        4674
+      ]
+    },
+    "letterSizePx": [
+      35,
+      50
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          345,
+          2840
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          740,
+          3200
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1048,
+          3205
+        ],
+        "halfPx": 22,
+        "why": "not underlined on this copy; the twin's underlined 5' (feet)"
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          475,
+          2443
+        ],
+        "halfPx": 22,
+        "why": "not underlined on this copy; the twin's underlined 30' (feet)"
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1027,
+          2340
+        ],
+        "halfPx": 22,
+        "why": "not underlined on this copy; the twin's underlined 20' (feet)"
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          2016,
+          3276
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8,
+        "px": [
+          2314,
+          3484
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          2708,
+          3086
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2,
+        "px": [
+          2964,
+          3056
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2,
+        "px": [
+          3392,
+          3310
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "value": 3,
+        "px": [
+          3390,
+          3450
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "2",
+        "value": 2,
+        "px": [
+          3690,
+          2870
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          4140,
+          2840
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "value": 7,
+        "px": [
+          4804,
+          2956
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "value": 8,
+        "px": [
+          5666,
+          3010
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          757,
+          2323
+        ],
+        "halfPx": 26,
+        "why": "circled; the twin's circled 25'"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          6150,
+          3060
+        ],
+        "halfPx": 26
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          5690,
+          1844
+        ],
+        "why": "R drawn in two pieces, missed by the shape match"
+      },
+      {
+        "type": "penetration",
+        "label": "p.158.5m",
+        "value": 158.5,
+        "px": [
+          950,
+          2455
+        ],
+        "halfPx": 6,
+        "why": "at the end of the north-east loop's passage, where its walls trail off in dashes"
+      },
+      {
+        "type": "penetration",
+        "label": "p.349m",
+        "value": 349,
+        "px": [
+          4995,
+          2918
+        ],
+        "halfPx": 6,
+        "why": "at the junction of the two west passages, by the ledge the label sits under"
+      },
+      {
+        "type": "penetration",
+        "label": "p.465m",
+        "value": 465,
+        "px": [
+          6380,
+          2862
+        ],
+        "halfPx": 6,
+        "why": "at the end of the west passage"
+      },
+      {
+        "type": "penetration",
+        "label": "p.507.5m",
+        "value": 507.5,
+        "px": [
+          6285,
+          1365
+        ],
+        "halfPx": 6,
+        "why": "at the end of the north-west passage, past the Air Pocket Chamber"
+      },
+      {
+        "type": "place-name",
+        "label": "Air Pocket Chamber",
+        "px": [
+          6060,
+          1660
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Figure 4 Formation",
+        "px": [
+          3600,
+          3830
+        ],
+        "why": "named on the hand-drawn twin only (its leader points at the south passage's floor under the hatched area); left off this drafted copy"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          602,
+          2418
+        ],
+        "bearing": 350,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          940,
+          2340
+        ],
+        "bearing": 180,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          880,
+          3152
+        ],
+        "bearing": 285,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2280,
+          3380
+        ],
+        "bearing": 280,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2700,
+          3610
+        ],
+        "bearing": 330,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2795,
+          4170
+        ],
+        "bearing": 190,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3240,
+          3784
+        ],
+        "bearing": 275,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3420,
+          3920
+        ],
+        "bearing": 275,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          3940,
+          3840
+        ],
+        "bearing": 280,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4410,
+          2844
+        ],
+        "bearing": 270,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5310,
+          2250
+        ],
+        "bearing": 215,
+        "halfPx": 30
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          5930,
+          3010
+        ],
+        "bearing": 275,
+        "halfPx": 30
+      }
+    ],
+    "why": "NSS Cave Diving Section symbols (the map's legend: p = penetration, R minor and X major restriction, S silt, Z zero visibility); depths in metres, underlined (the hand-drawn twin 'Dos Ojos, Cenotes, Xel-Ha' says 'Floor depths in Feet' for its own numbers). All depths but one are single digits, which OCR doesn't take: they are added by hand. Three numbers lack their underline on this drafted copy but are underlined depths on the twin (2 by Ojo East = twin 5'; the two 10s of the north-east loop = twin 30' and 20'): kept as depths with the drafted value. Circled numbers (8, 7; twin 25') are ceiling heights. Twelve wavy flow arrows, bearings from the map's up (the water runs towards Ojo East and on east). No bones: no bones symbol in the legend, no bone shapes in the passages (the rocks are plain ovals, the four star shapes by Ojo West are speleothems - drawn as rocks on the twin), no 'bones' in the text. The passage ends trail off in dashed lines (unsurveyed continuations), without a written pointer.",
+    "fix": [
+      {
+        "px": [
+          757,
+          2323
+        ],
+        "value": null,
+        "why": "the circled 8 (a ceiling height, added below) read as an s"
+      },
+      {
+        "px": [
+          3780,
+          2876
+        ],
+        "value": 3,
+        "why": "underlined 3 east of Ojo West, read as 73"
+      }
+    ]
+  }
+}
