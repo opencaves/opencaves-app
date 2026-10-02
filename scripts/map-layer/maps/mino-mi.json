@@ -1,0 +1,179 @@
+{
+  "image": "../../../_data/maps-import/images/mino-mi-sist.webp",
+  "title": "Sistema Mino-Mi - Mafia Maps 2001",
+  "credits": "Exploration and survey Fred Devos; Mafia Maps, February 2001. (c) C. Le Maillot, F. Devos, 2000. Surveyed passage to date: 1,098 feet",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfwxk7DhYHBDXrto",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (the cenote within about 20 m; orientation uncertain by a few degrees, so the far NW end within about 30-40 m). Scale from the 300 ft bar (505 px, 0.1811 m/px): the traced line's plan length, 311 m, fits the 1,098 ft (334 m) surveyed with 47-52 ft depths. One point: Cenote Mino-Mi's pool on the centre of OSM's 'Cenote' pond (way 405950397), the pond the placed Yuc 97/98 Taj Mahal - Minotauro map's 'Mimo Mi' sits on (8 m off after its fit); the pond itself is hard to see under the canopy on the Mapbox imagery (a dark patch beside it). Rotation: the map's compass rose is turned 10 deg (north at 10 deg clockwise from up, i.e. the drawing rotated 10 deg counter-clockwise). The Yuc 97/98 map draws the same passage from Mimo Mi (same jogs: the westward step near the cenote, the step near the NW end, the S-bend midway): a similarity fit on 6 matching corners gives 10.3 deg counter-clockwise (residuals 2-13 m) but 1.22 times the size, which would make the plan length (about 380 m) exceed the surveyed 334 m, so the scale is the bar's, only the rotation is taken from it. Same direction and size as the 6.7 deg the placed Mafia Maps 1998 Actun Koh plan needed against its compass rose (fitted on three ground points). Check: placed this way the line runs 0-30 m NE of the Yuc 97/98 passage, ending about 30 m short of its NW end (the Yuc 97/98 drawing is the longer one). No other placed map overlaps; no other cenote on the map.",
+  "trace": {
+    "method": "survey-lines",
+    "lineColours": [
+      "black"
+    ],
+    "water": false,
+    "stickMap": true,
+    "why": "Mafia Maps stick map: one bold black guideline from Cenote Mino-Mi's pool, no walls, no jumps; traced as a line with no thickness. Labels are coloured (green depths, red note, blue-grey cenote name) and not taken as ink."
+  },
+  "exclude": [
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        8,
+        1354
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1344,
+        1022,
+        1354
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1014,
+        0,
+        1022,
+        1354
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1022,
+        6
+      ]
+    },
+    {
+      "why": "title, exploration and survey team, surveyed length, Mafia Maps, date",
+      "box": [
+        488,
+        36,
+        956,
+        330
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        28,
+        370,
+        232,
+        585
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        125,
+        1195,
+        730,
+        1242
+      ]
+    },
+    {
+      "why": "copyright",
+      "box": [
+        8,
+        1296,
+        380,
+        1332
+      ],
+      "history": true
+    },
+    {
+      "why": "label CENOTE MINO-MI",
+      "box": [
+        812,
+        1265,
+        912,
+        1318
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      135,
+      1221
+    ],
+    "to": [
+      640,
+      1221
+    ],
+    "metres": 91.44
+  },
+  "north": {
+    "angle": 10
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVMbZC3oAmDRhQ6U",
+      "name": "Cenote Mino-Mi: centre of OSM's 'Cenote' pond (way 405950397), Mimo Mi on the placed Yuc 97/98 map",
+      "px": [
+        968,
+        1318
+      ],
+      "latitude": 20.486863,
+      "longitude": -87.271412
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVMbZC3oAmDRhQ6U",
+      "name": "Cenote Mino-Mi",
+      "px": [
+        968,
+        1318
+      ],
+      "why": "the map's blue pool at the line's SE end; the database's Mino-mi has no position: this is OSM's 'Cenote' pond (way 405950397), named Mimo Mi on the Yuc 97/98 map"
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot, depths in feet (overlined green numbers, no legend; same author's convention as the other Mafia Maps plots): two depths, 52 and 47 ft, checked by eye. 'TAPER' (red, beside the line about 18 m west of it) is a note that the passage narrows there (the sistema's description: it 'soon narrowed and finally pinched shut'): kept as a place-name at its label. No letter codes, flow arrows, leads or bones.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "52",
+        "px": [
+          357,
+          402
+        ],
+        "value": 52,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "47",
+        "px": [
+          764,
+          921
+        ],
+        "value": 47,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "Taper",
+        "px": [
+          457,
+          756
+        ],
+        "halfPx": 40
+      }
+    ]
+  }
+}

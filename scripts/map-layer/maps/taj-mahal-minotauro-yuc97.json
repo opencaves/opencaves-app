@@ -521,11 +521,12 @@
     },
     {
       "name": "Mimo Mi",
+      "caveId": "-KPZkVMbZC3oAmDRhQ6U",
       "px": [
         3764,
         1673
       ],
-      "why": "on OSM's 'Cenote' pond (way 405950397), 8 m away after the fit; not in the database"
+      "why": "on OSM's 'Cenote' pond (way 405950397), 8 m away after the fit; the database's Mino-mi (no position), as on the Mafia Maps Mino-mi map"
     },
     {
       "name": "unnamed elongated collapse NE of Estrela",
