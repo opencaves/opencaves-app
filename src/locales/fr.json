@@ -856,6 +856,19 @@
       "location": "Emplacement de la cénote",
       "entrance": "Entrée de la cénote",
       "key": "Emplacement de la clé"
+    },
+    "caveLayer": {
+      "button": "Galeries",
+      "title": "Galeries",
+      "show": "Afficher les galeries",
+      "scope": "Systèmes",
+      "all": "Tous les systèmes",
+      "selected": "Seulement le système de la cénote sélectionnée",
+      "selectedHint": "Sélectionnez d'abord une cénote",
+      "colors": "Couleurs",
+      "bySystem": "Par système",
+      "single": "Une seule couleur",
+      "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée."
     }
   },
   "dashboard": {

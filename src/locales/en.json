@@ -857,6 +857,19 @@
       "location": "Cave location",
       "entrance": "Cave entrance",
       "key": "Key location"
+    },
+    "caveLayer": {
+      "button": "Cave passages",
+      "title": "Cave passages",
+      "show": "Show the passages",
+      "scope": "Systems",
+      "all": "All systems",
+      "selected": "Only the selected cenote's system",
+      "selectedHint": "Select a cenote first",
+      "colors": "Colours",
+      "bySystem": "By system",
+      "single": "One colour",
+      "disclaimer": "Traced from published cave survey maps. Not for dive planning."
     }
   },
   "dashboard": {

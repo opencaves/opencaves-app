@@ -778,7 +778,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDrop={onMapDrop}
         >
           <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
-            <CaveLayer />
+            <CaveLayer selectedSistemaId={selectedCave?.sistemaId} />
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}

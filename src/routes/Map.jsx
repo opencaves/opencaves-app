@@ -7,6 +7,7 @@ import SearchBar from '@/components/SearchBar/SearchBar.jsx'
 import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
+import CaveLayerButton from '@/components/Map/CaveLayerButton.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
@@ -81,6 +82,11 @@ export default function MapPage() {
               }}
             />
           )}
+          {/* Under the account button (desktop), or under the search bar
+              (phones, where the account button sits inside it). */}
+          <CaveLayerButton
+            sx={isLarge ? { position: 'absolute', top: 'calc(1rem + 56px + 0.75rem)', right: '1rem', width: 56, height: 56 } : { position: 'absolute', top: 'calc(48px + 1.5rem)', right: '0.5rem', width: 48, height: 48 }}
+          />
           <Outlet />
           <Dev
             sx={{

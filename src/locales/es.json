@@ -857,6 +857,19 @@
       "location": "Ubicación del cenote",
       "entrance": "Entrada del cenote",
       "key": "Ubicación de la llave"
+    },
+    "caveLayer": {
+      "button": "Galerías",
+      "title": "Galerías",
+      "show": "Mostrar las galerías",
+      "scope": "Sistemas",
+      "all": "Todos los sistemas",
+      "selected": "Solo el sistema del cenote seleccionado",
+      "selectedHint": "Selecciona primero un cenote",
+      "colors": "Colores",
+      "bySystem": "Por sistema",
+      "single": "Un solo color",
+      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones."
     }
   },
   "dashboard": {

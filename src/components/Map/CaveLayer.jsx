@@ -20,29 +20,45 @@ export function caveTileRequest(url) {
   return { url }
 }
 
+// Each sistema's top-level sistema (following the connections up), as the
+// cave pins use: a system merged into another shows in that one's colour.
+function rootSistemas(sistemas, connections) {
+  const parent = new Map((connections || []).filter((c) => c.sistemaId && c.parentSistemaId).map((c) => [c.sistemaId, c.parentSistemaId]))
+  const root = (id, seen = new Set()) => (parent.has(id) && !seen.has(id) ? root(parent.get(id), seen.add(id)) : id)
+  return new Map((sistemas || []).map((s) => [s.id, root(s.id)]))
+}
+
 // The cave layer: the passages traced from the cave survey maps (walls,
 // survey lines, water, drawn details) and their symbols (entrances, depths,
-// place names, flow). Options, for the map's layer menu:
-// - visible: shown or not;
-// - sistemaIds: only these sistemas (a sistema and the ones merged into it),
-//   or every one when empty;
-// - colorBySistema: each passage in its sistema's colour (from the database,
-//   so a colour changed in the admin UI shows without rebuilding the tiles),
-//   or all in one colour.
-export default function CaveLayer({ visible = true, sistemaIds = [], colorBySistema = true }) {
+// place names, flow), with the options of the map's layer button (the
+// caveLayer slice): shown or not; every system or only the selected cave's
+// (selectedSistemaId: its system and the ones merged into it); each system in
+// its colour (from the database: a colour changed in the admin UI shows
+// without rebuilding the tiles) or all in one colour.
+export default function CaveLayer({ selectedSistemaId }) {
   const theme = useTheme()
   const sistemas = useSelector((state) => state.data.sistemas)
+  const connections = useSelector((state) => state.data.connections)
+  const { visible, scope, colorBySistema } = useSelector((state) => state.caveLayer)
   const [ready, setReady] = useState(Boolean(tileIndex))
 
   useEffect(() => {
     if (!ready) tileIndexLoading.then(() => setReady(true))
   }, [ready])
 
+  const roots = useMemo(() => rootSistemas(sistemas, connections), [sistemas, connections])
   const single = theme.palette.primary.light
   const color = useMemo(() => {
-    const pairs = colorBySistema ? (sistemas || []).filter((s) => s.id && s.color).flatMap((s) => [s.id, s.color]) : []
+    const colors = new Map((sistemas || []).map((s) => [s.id, s.color]))
+    const pairs = colorBySistema ? [...roots].filter(([, root]) => colors.get(root)).flatMap(([id, root]) => [id, colors.get(root)]) : []
     return pairs.length ? ['match', ['get', 'sistemaId'], ...pairs, single] : single
-  }, [sistemas, colorBySistema, single])
+  }, [sistemas, roots, colorBySistema, single])
+  // Only the selected cave's system: every sistema under the same top-level one.
+  const sistemaIds = useMemo(() => {
+    if (scope !== 'selected' || !selectedSistemaId) return []
+    const root = roots.get(selectedSistemaId) || selectedSistemaId
+    return [...roots].filter(([, r]) => r === root).map(([id]) => id)
+  }, [scope, selectedSistemaId, roots])
 
   if (!ready) return null
   const visibility = visible ? 'visible' : 'none'
