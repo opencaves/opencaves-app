@@ -205,8 +205,10 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       value={validity || 'unknown'}
       disabled={!isSet}
       onChange={(e) => onValidityChange(e.target.value)}
-      sx={{ minWidth: 132 }}
-      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
+      // One width whatever the choice (fits the longest, "Non confirmée"),
+      // so the rows line up.
+      sx={{ width: 172 }}
+      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
     >
       {COORDINATE_VALIDITIES.map(({ value }) => (
         <MenuItem key={value} value={value} sx={{ gap: 1 }}>
