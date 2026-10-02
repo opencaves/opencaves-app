@@ -8,8 +8,8 @@
   },
   "sistemaId": "-KPZgfz4tNCel8OWyczw",
   "utmEpsg": 32616,
-  "unverified": "No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and the map is a schematic sketch with no scale bar or north arrow. Placed only by ground features on the satellite - the Plaza Principal building, the caleta's channel and mouth, the heart-shaped lagoon - which the Xcaret park has reshaped since; residuals 10-20 m, possibly 30-50 m off at the ends (the sketch's coast band lies 20-40 m inland of today's shore south of the lagoon).",
-  "placementWhy": "Free similarity fit on four ground features, none a cenote with a known position (Mapbox satellite and Mapbox Streets' OSM data; Overpass timed out): the walled square at the road's west end on the Plaza Principal courtyard building (11.6 m); B, at the narrow neck of the caleta's stippled north arm, on the north end of the caleta channel's open water (10.4 m); the tip of the land between the caleta channel and the north shore band on the rocky point east of the caleta's mouth, the 1979 map's 'Peninsula tip' ground point (20.4 m); the west tip of the U-shaped arm's west lobe on the west tip of the heart-shaped lagoon (19.5 m). Fit: 0.883 m/px, rotated 0.2 deg. Checks: the small walled square south of the big one lands 5 m from the Juego de pelota building south of Plaza Principal; the tongue of land between the U-shaped arm and the coast band ends 15 m from the rocky point south of the caleta's mouth; the north arm's lobes reach 26 m short of where the creek continuing the caleta north ends under the trees. The road east from the square follows the park's walkway east of Plaza Principal. The drawn routes measure Injection Site - A about 97 m (the map says 90 m), A - B about 170 m (210 m), A - C about 280 m (310 m): the sketch isn't to one scale. The south-west pool lands 30-40 m north of the coast, among the park's buildings: no open water shows there today (the earlier guess of the Rio Subterraneo exit pool for it is dropped). Compared with the unverified 1979 Cueva de Xcaret map (xcaret-1979.json), placed on the same caleta: this map's A lies about 65 m south-west of its cenote de Felipe, and this map's passage north-west of the black building (the 1979 map's Mayan ruins by cenote de los franceses) about 60 m north of cenote de los franceses; both are guesses on park landmarks and nothing is taken from the 1979 map's positions.",
+  "unverified": "No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and the map is a schematic sketch with no scale bar or north arrow. Placed only by ground features on the satellite - the Plaza Principal building, the caleta channel, the heart-shaped lagoon and the rocky tongue of land closing it from the south-east - which the Xcaret park has reshaped since; residuals 1-17 m, possibly 30-50 m off at the ends.",
+  "placementWhy": "Free similarity fit on nine ground points, none a cenote with a known position (Mapbox satellite and Mapbox Streets' OSM data; Overpass timed out): the walled square at the road's west end on the Plaza Principal courtyard building (6.8 m); B, at the narrow neck of the caleta's stippled north arm, on the north end of the caleta channel's open water (16.8 m); the west tip of the U-shaped arm on the west tip of the heart-shaped lagoon (6.6 m); and six points along the curved rocky tongue of land that closes the heart-shaped lagoon from the south-east, drawn on the map as the white tongue between the U-shaped arm and the sea's shore stipple - its tip (10.7 m), its sea shore east (5.9 m), south-east bend (11.0 m) and south (15.1 m), its lagoon shore south (1.4 m) and near the tip (10.9 m). Fit: 0.948 m/px, rotated 0.6 deg. Checks: the small walled square south of the big one lands 3 m from the Juego de pelota building; the point between the caleta's mouth and the north shore band is 42 m off (the sketch draws that wedge of land loosely; it was a fit point before the tongue was used); the north arm's lobes reach 31 m short of the north end of the creek continuing the caleta under the trees. The road east from the square follows the park's walkway east of Plaza Principal. At this scale the drawn routes measure roughly Injection Site - A 104 m (the map says 90 m), A - B 182 m (210 m), A - C 300 m (310 m). The south-west pool lands among the park's buildings near the coast, where no open water shows today. Compared with the unverified 1979 Cueva de Xcaret map (xcaret-1979.json), placed on the same caleta: this map's A lies some 60-80 m south-west of its cenote de Felipe, and this map's passage by the black building (the 1979 map's Mayan ruins by cenote de los franceses) some 50-70 m north of cenote de los franceses; both are guesses on park landmarks and nothing is taken from the 1979 map's positions.",
   "exclude": [
     {
       "why": "distances box: Injection Site - A = 90 m, A - B = 210 m, A - C = 310 m",
@@ -205,16 +205,6 @@
       "why": "B, where the dashed passage meets the caleta's north arm, at its narrow neck; on the north end of the caleta's open channel (Mapbox satellite), where a narrow creek goes on north under the trees as the map's arm goes on to its two lobes"
     },
     {
-      "name": "Point between the caleta's mouth and the sea",
-      "px": [
-        450,
-        425
-      ],
-      "latitude": 20.578723,
-      "longitude": -87.118394,
-      "why": "tip of the white land between the caleta channel and the north shore band, where the channel opens to the sea; on the rocky point east of the caleta's mouth (the same ground point as the 1979 map's 'Peninsula tip')"
-    },
-    {
       "name": "Heart-shaped lagoon, west tip",
       "px": [
         238,
@@ -223,6 +213,77 @@
       "latitude": 20.578067,
       "longitude": -87.120013,
       "why": "west tip of the west lobe of the lagoon's U-shaped west arm, on the west tip of the heart-shaped lagoon south-west of the caleta (Xcaret Waterpark)"
+    },
+    {
+      "name": "Rocky tongue, tip",
+      "px": [
+        432,
+        448
+      ],
+      "latitude": 20.578291,
+      "longitude": -87.118231,
+      "why": "tip of the map's tongue of land between the U-shaped arm and the sea's shore stipple, on the north-east tip of the curved rocky tongue of rocky land south-east of the heart-shaped lagoon (Mapbox satellite), south of the caleta's mouth"
+    },
+    {
+      "name": "Rocky tongue, outer (sea) shore east",
+      "px": [
+        443,
+        485
+      ],
+      "latitude": 20.57795,
+      "longitude": -87.118175,
+      "why": "the tongue's east (sea) shore line below its tip, on the rock's east shore facing the sea"
+    },
+    {
+      "name": "Rocky tongue, outer (sea) shore south-east bend",
+      "px": [
+        400,
+        532
+      ],
+      "latitude": 20.57742,
+      "longitude": -87.118564,
+      "why": "the tongue's sea shore where it bends from south to west, on the rock's south-east shore"
+    },
+    {
+      "name": "Rocky tongue, outer (sea) shore south",
+      "px": [
+        350,
+        560
+      ],
+      "latitude": 20.577168,
+      "longitude": -87.119154,
+      "why": "the lowest point of the map's coast line under the tongue, on the rock's southernmost shore"
+    },
+    {
+      "name": "Rocky tongue, inner (lagoon) shore south",
+      "px": [
+        340,
+        524
+      ],
+      "latitude": 20.577597,
+      "longitude": -87.119154,
+      "why": "the lowest point of the U-shaped arm's south shore (the tongue's lagoon side), on the south shore of the heart-shaped lagoon's south-east part (the dolphin pens)"
+    },
+    {
+      "name": "Rocky tongue, inner (lagoon) shore near the tip",
+      "px": [
+        402,
+        468
+      ],
+      "latitude": 20.578152,
+      "longitude": -87.118617,
+      "why": "the tongue's lagoon-side shore just inside its tip, on the lagoon's east shore by the rock's tip"
+    },
+    {
+      "name": "Point between the caleta's mouth and the sea (check)",
+      "px": [
+        450,
+        425
+      ],
+      "latitude": 20.578723,
+      "longitude": -87.118394,
+      "why": "tip of the white land between the caleta channel and the north shore band, where the channel opens to the sea; on the rocky point east of the caleta's mouth (the same ground point as the 1979 map's 'Peninsula tip'); it disagrees with the rocky tongue's points by about 40 m (the sketch draws the mouth's wedge of land loosely), so not used",
+      "check": true
     },
     {
       "name": "Juego de pelota (small walled square, check)",
@@ -245,17 +306,6 @@
       "longitude": -87.118791,
       "check": true,
       "why": "top of the north arm's lobes against the north end of the narrow creek that continues the caleta north under the trees; the sketch's lobes are schematic, not used"
-    },
-    {
-      "name": "Rocky point south of the caleta's mouth (check)",
-      "px": [
-        442,
-        452
-      ],
-      "latitude": 20.578283,
-      "longitude": -87.118231,
-      "check": true,
-      "why": "tip of the white tongue of land between the lagoon's U-shaped arm and the coast band, against the tip of the rocky point (Ruta Delfines) between the heart-shaped lagoon and the sea; the point carries modern dolphin pens, so not used"
     }
   ],
   "entrances": [
