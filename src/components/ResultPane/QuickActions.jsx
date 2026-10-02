@@ -57,7 +57,7 @@ function ButtonLg({ primary, children, ...props }) {
             return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
           },
           '--_border-color': (theme) => (theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light),
-          '--_shadow': primary ? 'var(--md-shadows-1)' : null,
+          '--_shadow': primary ? 'var(--mui-shadows-1)' : null,
           '--_background-color': (theme) => {
             if (primary) {
               return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light

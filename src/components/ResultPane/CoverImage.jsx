@@ -99,7 +99,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
                 color: '#fff',
                 opacity: 'var(--oc-cover-image-add-btn-opacity, .7)',
                 cursor: 'pointer',
-                transition: 'all var(--md-transition-duration-shortest) ease-in-out',
+                transition: 'all var(--mui-transition-duration-shortest) ease-in-out',
               }}
             />
           </ButtonBase>

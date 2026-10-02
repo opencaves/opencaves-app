@@ -18,7 +18,7 @@ const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONF
 // is a new component type every render, so React remounted the title button
 // each time - replaying the title's enter animation (a flicker).
 const StyledButton = styled(Button)({
-  color: 'var(--md-palette-primary-contrastText)',
+  color: 'var(--mui-palette-primary-contrastText)',
   whiteSpace: 'nowrap',
   borderColor: 'rgba(255 255 255 / 0.5)',
   ':hover': {

@@ -38,7 +38,7 @@ export default function ModeSwitcher({ className, ...props }) {
         padding: '0 1.5em',
         lineHeight: '2.5em',
         // zIndex: 1000000,
-        zIndex: 'calc(var(--md-zIndex-modal) - 1)',
+        zIndex: 'calc(var(--mui-zIndex-modal) - 1)',
         '&:hover': {
           opacity: 1
         }
