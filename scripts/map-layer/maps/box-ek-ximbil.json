@@ -401,7 +401,10 @@
         "threshold": 10
       }
     ],
-    "maxRegionPx": 60000
+    "maxRegionPx": 60000,
+    "detailContrast": 24,
+    "contrastWindowPx": 61,
+    "detailInHolesPx": 20000
   },
   "symbols": {
     "why": "Legend (QRSS-style, feet): overlined number = depth at floor, circled = passage height, 'p. N' = penetration from entrance, 'r' = minor restriction, a wavy line ending in an arrowhead = direction of flow; also cenote entrance, drip line, boulder, speleothem(s), breakdown, ceiling-to-floor column, slope, floor relief, zero datum (the triangle in the dry cave's surface water), halocline (three wavy bars), cross-section indicator - not typed. No bones: the legend has no bones symbol and no bones are written or drawn anywhere (OCR words and every passage checked on zoomed tiles). No 'To ...' pointers. OCR read almost nothing (blurred photo), so every symbol is added by hand ('extra'), only where the reading is certain; the north-west passage's numbers are confirmed on the sharper second shot (IMG_2990). Left out, unreadable on this photo (blur, glare): overlined numbers at about (2776,574) 15/16, (2877,826) and (2969,832) 35/45, (2456,1502) 40/46, (3450,644) 35/45, (3058,50), (2952,128), (2904,232), (3924,564), (3955,767); circled numbers at (1456,466) 1/4, (2697,1571) 0/8, (2754,527), (3072,116). Labels not kept: Western Section (a region), Collapse Zone (the surface collapse), two blurred names in the east, at (3790,630) 'Buddha's Pa...?' and (3640,425) 'The Sp...?'. Flow: the two wavy arrows in Box Ek's north room point down the map (south).",

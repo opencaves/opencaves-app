@@ -1383,6 +1383,14 @@ def main(config_path, output):
         # their edges (the wall itself is the band's outline). On a colour-fill
         # map the band is the passage's blue fill: water.
         inside = cv2.erode(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * trace.get('wallMarginPx', 4) + 1,) * 2)) > 0
+        # "detailInHolesPx": holes in the passage band smaller than this are
+        # symbols drawn solid (a black column or pool, not blue): their ink is
+        # detail too. Islands are larger and stay out.
+        if trace.get('detailInHolesPx'):
+            holes, count = ndimage.label(ndimage.binary_fill_holes(band > 0) & ~(band > 0))
+            if count:
+                sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
+                inside |= numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['detailInHolesPx']))
         # Drawn outside the passages but part of the cave (a cenote's
         # breakdown pile beside its passage): config "detailAreas" boxes.
         for area in trace.get('detailAreas', []):
