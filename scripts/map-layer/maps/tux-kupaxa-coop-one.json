@@ -1,0 +1,1508 @@
+{
+  "perspective": {
+    "photo": "../../../_data/maps-import/images/sistema-tux-kupaxa-coop-one-section.jpg",
+    "corners": [
+      [
+        304.0,
+        206.9
+      ],
+      [
+        4263.6,
+        173.3
+      ],
+      [
+        4358.0,
+        3078.8
+      ],
+      [
+        213.6,
+        2995.6
+      ]
+    ],
+    "k1": 0.0225,
+    "why": "corners: the outer edges of the decorative border's trapezoid rows, fitted as lines and intersected; k1: the photo's barrel distortion (fitted so the four rows are straight), undone first; flattenMaxPx: the laminated poster's glare divided out (each channel over its local paper level); denotch: the laminate's fine weave (periodic stripes that flood the fill detection in the glare) removed by zeroing its FFT peaks",
+    "denotch": true,
+    "flattenMaxPx": 72
+  },
+  "image": "../../../_data/map-layer/pilot/tux-kupaxa-coop-one-straight.png",
+  "title": "Coop One (Tam Hol), Sistema Tux Kupaxa - Czech survey 2009",
+  "sistemaId": "-NCB52nBApQkIuCms8mA",
+  "utmEpsg": 32616,
+  "credits": "Primary explorers Robert Schmittner, Steve Bogaerts, Daniel Hutnan, Miroslav Manhart; resurvey 2009 by Daniel Hutnan, Miroslav Manhart, Martin Hones, Miloslav Dvoracek, Petr Chmel, Martin Hutnan; cartography Daniel Hutnan, Anna Hutnan, Martin Hutnan (c) 2009, Czech Speleological Society",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "trace": {
+    "method": "colour-fill",
+    "greyFill": true,
+    "threshold": 12,
+    "weakThreshold": 10,
+    "regionThreshold": 8,
+    "inkContrast": 45,
+    "water": false,
+    "minHoleSqMetres": 1,
+    "minBandSqMetres": 3,
+    "wallSimplifyMetres": 0.1,
+    "paperWindowPx": 600,
+    "dropIsolated": {
+      "maxSqMetres": 40,
+      "gapMetres": 0.7
+    },
+    "fillPolygons": [
+      [
+        [
+          1998,
+          1640
+        ],
+        [
+          2040,
+          1628
+        ],
+        [
+          2080,
+          1615
+        ],
+        [
+          2110,
+          1600
+        ],
+        [
+          2160,
+          1605
+        ],
+        [
+          2200,
+          1610
+        ],
+        [
+          2240,
+          1622
+        ],
+        [
+          2270,
+          1640
+        ],
+        [
+          2295,
+          1660
+        ],
+        [
+          2300,
+          1700
+        ],
+        [
+          2255,
+          1720
+        ],
+        [
+          2245,
+          1760
+        ],
+        [
+          2240,
+          1790
+        ],
+        [
+          2200,
+          1770
+        ],
+        [
+          2150,
+          1745
+        ],
+        [
+          2100,
+          1735
+        ],
+        [
+          2050,
+          1748
+        ],
+        [
+          2000,
+          1748
+        ]
+      ],
+      [
+        [
+          2960,
+          2470
+        ],
+        [
+          3010,
+          2462
+        ],
+        [
+          3045,
+          2470
+        ],
+        [
+          3075,
+          2495
+        ],
+        [
+          3095,
+          2520
+        ],
+        [
+          3105,
+          2560
+        ],
+        [
+          3100,
+          2585
+        ],
+        [
+          3080,
+          2605
+        ],
+        [
+          3050,
+          2625
+        ],
+        [
+          3045,
+          2650
+        ],
+        [
+          3045,
+          2675
+        ],
+        [
+          3030,
+          2690
+        ],
+        [
+          3000,
+          2690
+        ],
+        [
+          2965,
+          2680
+        ],
+        [
+          2955,
+          2660
+        ],
+        [
+          2965,
+          2640
+        ],
+        [
+          2950,
+          2620
+        ],
+        [
+          2935,
+          2590
+        ],
+        [
+          2960,
+          2570
+        ],
+        [
+          3000,
+          2540
+        ],
+        [
+          2975,
+          2520
+        ],
+        [
+          2960,
+          2500
+        ]
+      ],
+      [
+        [
+          1010,
+          2565
+        ],
+        [
+          1060,
+          2560
+        ],
+        [
+          1095,
+          2550
+        ],
+        [
+          1110,
+          2590
+        ],
+        [
+          1130,
+          2630
+        ],
+        [
+          1150,
+          2670
+        ],
+        [
+          1160,
+          2700
+        ],
+        [
+          1140,
+          2712
+        ],
+        [
+          1100,
+          2712
+        ],
+        [
+          1085,
+          2720
+        ],
+        [
+          1075,
+          2700
+        ],
+        [
+          1050,
+          2670
+        ],
+        [
+          1030,
+          2640
+        ],
+        [
+          1015,
+          2610
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "by hand, along the drawn walls: the chamber in the photo's glare (its fill faded to the paper's grey, broken by boulders and stipple); Coop One's room, whose lake is drawn as dashes on white; the south-west passage's lower end (lake dashes, little fill)",
+    "excludeColours": [
+      {
+        "why": "cross-sections drawn on orange brick (their staircase shape, not their box: the passages run close by)",
+        "hue": [
+          16,
+          29
+        ],
+        "minSaturation": 50,
+        "minFill": 0.3,
+        "padPx": 10,
+        "minSizePx": 60
+      }
+    ]
+  },
+  "exclude": [
+    {
+      "why": "page border, top",
+      "box": [
+        0,
+        0,
+        4052,
+        75
+      ]
+    },
+    {
+      "why": "page border, bottom",
+      "box": [
+        0,
+        2775,
+        4052,
+        2849
+      ]
+    },
+    {
+      "why": "page border, left",
+      "box": [
+        0,
+        0,
+        75,
+        2849
+      ]
+    },
+    {
+      "why": "page border, right",
+      "box": [
+        3975,
+        0,
+        4052,
+        2849
+      ]
+    },
+    {
+      "why": "title Coop One (Tam Hol), its coordinates",
+      "box": [
+        248,
+        135,
+        855,
+        495
+      ]
+    },
+    {
+      "why": "Czech Speleological Society logo",
+      "box": [
+        1002,
+        214,
+        1486,
+        480
+      ]
+    },
+    {
+      "why": "title Tulum, Quintana Roo, Mexico",
+      "box": [
+        1475,
+        68,
+        2578,
+        360
+      ]
+    },
+    {
+      "why": "QRSS stamp",
+      "box": [
+        2600,
+        203,
+        2904,
+        520
+      ]
+    },
+    {
+      "why": "system title Sistema Tux Kupaxa",
+      "box": [
+        3118,
+        169,
+        3692,
+        416
+      ]
+    },
+    {
+      "why": "surveyed passage",
+      "box": [
+        146,
+        563,
+        934,
+        642
+      ]
+    },
+    {
+      "why": "total surveyed passage",
+      "box": [
+        2949,
+        563,
+        3895,
+        642
+      ]
+    },
+    {
+      "why": "primary explorers",
+      "box": [
+        146,
+        822,
+        529,
+        1103
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        630,
+        833,
+        1340,
+        1126
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        2172,
+        642,
+        2780,
+        1081
+      ]
+    },
+    {
+      "why": "exploration history",
+      "box": [
+        146,
+        1272,
+        1250,
+        2083
+      ],
+      "history": true
+    },
+    {
+      "why": "inset map of the whole system, compass, its scale bar",
+      "box": [
+        2904,
+        765,
+        3962,
+        2139
+      ]
+    },
+    {
+      "why": "resurvey team",
+      "box": [
+        146,
+        2285,
+        450,
+        2657
+      ],
+      "history": true
+    },
+    {
+      "why": "cartography",
+      "box": [
+        3613,
+        2398,
+        3906,
+        2702
+      ],
+      "history": true
+    },
+    {
+      "why": "thanks to",
+      "box": [
+        1981,
+        2566,
+        2645,
+        2702
+      ],
+      "history": true
+    },
+    {
+      "why": "section, Coop One entrance (trees, ladder)",
+      "box": [
+        3130,
+        2290,
+        3520,
+        2635
+      ]
+    },
+    {
+      "why": "section, south-west opening (trees)",
+      "box": [
+        655,
+        2495,
+        950,
+        2740
+      ]
+    },
+    {
+      "why": "label The Tres Estrelas connection",
+      "box": [
+        555,
+        2212,
+        842,
+        2265
+      ]
+    },
+    {
+      "why": "glare artefact: paper read as fill",
+      "box": [
+        1895,
+        1775,
+        1962,
+        1835
+      ]
+    },
+    {
+      "why": "glare artefact: paper read as fill",
+      "box": [
+        1963,
+        1630,
+        1996,
+        1800
+      ]
+    },
+    {
+      "why": "glare artefact: paper read as fill",
+      "box": [
+        1705,
+        1752,
+        1795,
+        1800
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2081,
+        497,
+        2106,
+        525
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1763,
+        583,
+        1789,
+        612
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2569,
+        1437,
+        2594,
+        1464
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2058,
+        1476,
+        2081,
+        1503
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2268,
+        1583,
+        2291,
+        1611
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1857,
+        1674,
+        1895,
+        1710
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1552,
+        1622,
+        1576,
+        1650
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2356,
+        1555,
+        2380,
+        1583
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1667,
+        1917,
+        1691,
+        1945
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1756,
+        2203,
+        1781,
+        2231
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2848,
+        2184,
+        2872,
+        2212
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2961,
+        2414,
+        2985,
+        2442
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1535,
+        2309,
+        1560,
+        2337
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        921,
+        2184,
+        946,
+        2213
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1074,
+        2280,
+        1099,
+        2308
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1230,
+        2335,
+        1268,
+        2376
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1218,
+        2531,
+        1243,
+        2560
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1673,
+        2635,
+        1698,
+        2664
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1495,
+        476,
+        1531,
+        511
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2668,
+        1255,
+        2704,
+        1288
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2690,
+        1625,
+        2739,
+        1670
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1682,
+        1486,
+        1709,
+        1518
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1839,
+        1346,
+        1886,
+        1393
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1706,
+        1846,
+        1755,
+        1885
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2864,
+        2252,
+        2900,
+        2286
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        3058,
+        2438,
+        3095,
+        2472
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2420,
+        2364,
+        2456,
+        2397
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1409,
+        2402,
+        1446,
+        2436
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1710,
+        2569,
+        1745,
+        2604
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1035,
+        2711,
+        1064,
+        2744
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2648,
+        1195,
+        2724,
+        1223
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2059,
+        2449,
+        2134,
+        2477
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1065,
+        2763,
+        1177,
+        2802
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2077,
+        409,
+        2154,
+        438
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2279,
+        1263,
+        2342,
+        1291
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        756,
+        2166,
+        832,
+        2193
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1591,
+        2668,
+        1669,
+        2695
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1403,
+        1008,
+        1427,
+        1036
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2567,
+        1188,
+        2592,
+        1216
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2219,
+        1255,
+        2244,
+        1283
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        1605,
+        1351,
+        1630,
+        1378
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2850,
+        1436,
+        2875,
+        1464
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2612,
+        1667,
+        2637,
+        1695
+      ]
+    },
+    {
+      "why": "label: depth, height or penetration (a symbol)",
+      "box": [
+        2718,
+        1897,
+        2743,
+        1927
+      ]
+    },
+    {
+      "why": "cross-section mark (cut line)",
+      "box": [
+        3082,
+        2462,
+        3120,
+        2498
+      ]
+    },
+    {
+      "why": "cross-section mark (cut line)",
+      "box": [
+        2898,
+        2598,
+        2940,
+        2632
+      ]
+    },
+    {
+      "why": "cross-section mark (cut line)",
+      "box": [
+        950,
+        2545,
+        998,
+        2608
+      ]
+    },
+    {
+      "why": "cross-section mark (cut line)",
+      "box": [
+        2843,
+        2203,
+        2892,
+        2248
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      656,
+      1010
+    ],
+    "to": [
+      1293.5,
+      1010
+    ],
+    "metres": 91.44
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVHIOAQIZcGBVR5w",
+      "name": "Coop One",
+      "px": [
+        3045,
+        2528
+      ],
+      "latitude": 20.36556,
+      "longitude": -87.41778,
+      "why": "Open Caves on-site position; the poster's own coordinates (N 20 21 56.7, W 087 25 04.4 = 20.36575, -87.41789) are 24 m NNW of it"
+    },
+    {
+      "name": "Tres Estrellas connection (p.2308), from the placed Tres Estrellas map",
+      "px": [
+        845,
+        2240
+      ],
+      "latitude": 20.36591,
+      "longitude": -87.42116,
+      "check": true,
+      "why": "the Tres Estrellas sheet's survey line leaves its passage end eastward then turns SSE along this sheet's passage from p.2308: its corner is taken as the same spot. Both sheets rest on one on-site point each"
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVHIOAQIZcGBVR5w",
+      "name": "Coop One",
+      "px": [
+        3045,
+        2528
+      ]
+    },
+    {
+      "name": "unnamed opening at the south-west end (p.2311)",
+      "px": [
+        1133,
+        2730
+      ],
+      "note": "olive-green patch with a white hole at the end of the south-west passage; the cross-section beside it shows a skylight opening between two trees. Not named on the map; no database cave near it"
+    }
+  ],
+  "symbols": {
+    "why": "Overlined numbers are depths in feet, circled ones ceiling-to-floor heights in feet, 'p.' penetrations in feet. On this photo OCR found 7 of the 25 depths, 4 of the 7 penetrations and none of the 12 circled heights; as their labels are excluded from the trace (their dark text read as fill), all are listed here by hand, each checked on a crop (the circled 19 in the glare and the circled 1 at the south-west end are blurred). One water-movement sign (wavy line with its head, pointing about south) in the passage west of 37. The only letter like the legend's B is a small blurred bold mark at a side passage's mouth (B or R: kept as bones, to check); an R by p.1062. 'The Tres Estrelas connection' is the leads-to at p.2308. The straight arrow by the circled 19 is taken for a cross-section mark (its section is just north), not water movement.",
+    "units": "ft",
+    "letters": {
+      "R": "restriction",
+      "B": "bones"
+    },
+    "templates": {
+      "R": [
+        2475,
+        773
+      ],
+      "B": [
+        2215,
+        1063
+      ]
+    },
+    "letterSizePx": [
+      8,
+      28
+    ],
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "p.1967",
+        "value": 1967,
+        "px": [
+          2115,
+          423
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "penetration",
+        "label": "p.865",
+        "value": 865,
+        "px": [
+          2310,
+          1277
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "penetration",
+        "label": "p.2308",
+        "value": 2308,
+        "px": [
+          794,
+          2180
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "penetration",
+        "label": "p.1955",
+        "value": 1955,
+        "px": [
+          1630,
+          2681
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          1415,
+          1021
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2579,
+          1201
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "23",
+        "value": 23,
+        "px": [
+          2232,
+          1269
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "39",
+        "value": 39,
+        "px": [
+          1617,
+          1364
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2862,
+          1449
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "value": 33,
+        "px": [
+          2625,
+          1680
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "23",
+        "value": 23,
+        "px": [
+          2730,
+          1913
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "13",
+        "value": 13,
+        "px": [
+          2096,
+          514
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "28",
+        "value": 28,
+        "px": [
+          1774,
+          600
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          2581,
+          1452
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "38",
+        "value": 38,
+        "px": [
+          2070,
+          1490
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "value": 17,
+        "px": [
+          2278,
+          1600
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1883,
+          1690
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "27",
+        "value": 27,
+        "px": [
+          1561,
+          1637
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "23",
+        "value": 23,
+        "px": [
+          2365,
+          1570
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1679,
+          1932
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "value": 33,
+        "px": [
+          1768,
+          2218
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "37",
+        "value": 37,
+        "px": [
+          2857,
+          2200
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "value": 16,
+        "px": [
+          2975,
+          2428
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "value": 18,
+        "px": [
+          1550,
+          2324
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          934,
+          2200
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          1086,
+          2297
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          1242,
+          2364
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "value": 29,
+        "px": [
+          1230,
+          2547
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "01",
+        "value": 1,
+        "px": [
+          1680,
+          2652
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          1512,
+          492
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          2685,
+          1272
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          2720,
+          1640
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1698,
+          1505
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "19",
+        "value": 19,
+        "px": [
+          1862,
+          1365
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1733,
+          1864
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "24",
+        "value": 24,
+        "px": [
+          2880,
+          2268
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "30",
+        "value": 30,
+        "px": [
+          3076,
+          2454
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          2436,
+          2375
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "30",
+        "value": 30,
+        "px": [
+          1426,
+          2419
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          1729,
+          2589
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1",
+        "value": 1,
+        "px": [
+          1050,
+          2726
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "penetration",
+        "label": "p.1062",
+        "value": 1062,
+        "px": [
+          2695,
+          1206
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "penetration",
+        "label": "p.1051",
+        "value": 1051,
+        "px": [
+          2107,
+          2460
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "penetration",
+        "label": "p.2311",
+        "value": 2311,
+        "px": [
+          1100,
+          2785
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2628,
+          1229
+        ]
+      },
+      {
+        "type": "bones",
+        "label": "B",
+        "px": [
+          2452,
+          2290
+        ],
+        "doubt": "a small bold letter at a side passage's mouth, blurred on the photo: B (bones) or R (restriction)"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2779,
+          2166
+        ],
+        "bearing": 171,
+        "halfPx": 18
+      },
+      {
+        "type": "leads-to",
+        "label": "The Tres Estrelas connection",
+        "px": [
+          845,
+          2240
+        ]
+      }
+    ]
+  }
+}
