@@ -1,8 +1,13 @@
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr'
 import { VitePWA } from 'vite-plugin-pwa'
+
+// The app's version (About, the console banner): package.json's, passed on
+// like the .env variables, in dev and in builds.
+process.env.VITE_APP_VERSION = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version
 
 // index.html paints its map shell (a static loading screen) from the HTML
 // alone. The tags Vite injects for the app - its stylesheets (which block
@@ -108,7 +113,9 @@ export default defineConfig({
       },
     },
   },
-  envPrefix: ['VITE_', 'REACT_APP_'],
+  // Only VITE_* variables reach the app (Vite's default; REACT_APP_* was
+  // Create React App's). VITE_APP_VERSION is set above, from package.json.
+  envPrefix: 'VITE_',
   optimizeDeps: {
     // pdf-into-svg resolves its .NET WASM runtime assets at request time via
     // relative import.meta.url paths (see node_modules/pdf-into-svg/dist/index.js).

@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material'
 export default function Splash() {
   const theme = useTheme()
   const splashLength = 100
-  const v = `v${import.meta.env.REACT_APP_VERSION}`
+  const v = `v${import.meta.env.VITE_APP_VERSION}`
   const splash = ` ██████╗ ██████╗ ███████╗███╗   ██╗ ██████╗ █████╗ ██╗   ██╗███████╗███████╗    ██████╗ ██████╗  ██████╗ 
 ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔════╝██╔══██╗██║   ██║██╔════╝██╔════╝   ██╔═══██╗██╔══██╗██╔════╝ 
 ██║   ██║██████╔╝█████╗  ██╔██╗ ██║██║     ███████║██║   ██║█████╗  ███████╗   ██║   ██║██████╔╝██║  ███╗

@@ -1,9 +1,9 @@
 export const FIREBASE_CONFIG = {
-  apiKey: import.meta.env.REACT_APP_FirebaseApiKey,
-  authDomain: import.meta.env.REACT_APP_FirebaseAuthDomain,
-  projectId: import.meta.env.REACT_APP_FirebaseProjectId,
-  location: import.meta.env.REACT_APP_FirebaseLocation ?? 'northamerica-northeast1',
-  storageBucket: import.meta.env.REACT_APP_FirebaseStorageBucket,
-  messagingSenderId: import.meta.env.REACT_APP_FirebaseMessagingSenderId,
-  appId: import.meta.env.REACT_APP_FirebaseAppId,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  location: import.meta.env.VITE_FIREBASE_LOCATION ?? 'northamerica-northeast1',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
