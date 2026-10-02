@@ -110,9 +110,12 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
       if (tags) {
         const { DateTime, DateTimeOriginal, ModifyDate, ImageHeight, ImageWidth, GPSLongitude, GPSLatitude, GPSAltitude, Orientation } = tags
 
+        // The size as shown: orientations 5-8 turn the photo a quarter, so
+        // the sensor's width is its height.
         if (ImageHeight) {
-          assetData.width = ImageWidth
-          assetData.height = ImageHeight
+          const quarterTurned = Orientation >= 5 && Orientation <= 8
+          assetData.width = quarterTurned ? ImageHeight : ImageWidth
+          assetData.height = quarterTurned ? ImageWidth : ImageHeight
         }
 
         if (DateTimeOriginal) {

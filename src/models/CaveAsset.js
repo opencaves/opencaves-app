@@ -155,7 +155,10 @@ export default class CaveAsset {
     const isProd = window.location.hostname !== 'localhost'
     const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
     const url = new URL(baseUrl)
-    const thumbnailPath = `caves/${this.caveId}/${THUMBNAIL_FOLDER}/${this.id}_${dimension}.${format}`
+    // Copies redone (scripts/fix-photo-orientation.js) carry their revision in
+    // their name: a new URL, so no cache keeps serving the old ones.
+    const revision = this.thumbnailRevision > 1 ? `-r${this.thumbnailRevision}` : ''
+    const thumbnailPath = `caves/${this.caveId}/${THUMBNAIL_FOLDER}/${this.id}_${dimension}${revision}.${format}`
 
     if (isProd) {
       url.pathname += `/${thumbnailPath}`
@@ -313,7 +316,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'originalName', 'type', 'fullPath']
+    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'originalName', 'type', 'fullPath', 'thumbnailRevision']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]
