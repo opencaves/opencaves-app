@@ -577,7 +577,8 @@
         "valid": "Válida",
         "unknown": "Sin confirmar",
         "invalid": "Inválida"
-      }
+      },
+      "exit": "Salir"
     },
     "closePane": "Cerrar",
     "rating": {

@@ -577,7 +577,8 @@
         "valid": "Valid",
         "unknown": "Unconfirmed",
         "invalid": "Invalid"
-      }
+      },
+      "exit": "Exit"
     },
     "closePane": "Close",
     "rating": {

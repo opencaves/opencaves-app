@@ -219,7 +219,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       invalidateData()
       await getData()
       openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }))
-      if (!leaving) exitEditMode()
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -263,12 +262,22 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
         {t('delete')}
       </Button>
-      <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
-        {t('cancel')}
-      </Button>
-      <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !form.name} sx={{ minWidth: 88 }}>
-        {t('save')}
-      </Button>
+      {/* Saving stays in edit mode; with nothing (left) to save, the main
+          button leaves it - Cancel only while there are changes to drop. */}
+      {isDirty && (
+        <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+          {t('cancel')}
+        </Button>
+      )}
+      {isDirty ? (
+        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+          {t('save')}
+        </Button>
+      ) : (
+        <Button variant="contained" onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+          {t('exit')}
+        </Button>
+      )}
     </Box>
   )
 
