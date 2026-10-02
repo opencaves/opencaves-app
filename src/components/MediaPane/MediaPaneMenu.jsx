@@ -11,6 +11,8 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const deleteMediaRef = useRef(null)
   const [anchorEl, setAnchorEl] = useState(null)
+  const popoverActions = useRef(null)
+  const resizeObserver = useRef(null)
   const open = Boolean(anchorEl)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   const setDeleteMediaMenuItem = useDeleteMedia()
@@ -22,6 +24,19 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
 
   function handleClose() {
     setAnchorEl(null)
+  }
+
+  // The menu is placed from its size when it opens, which its items haven't
+  // reached yet (it came out ~24px wide, so right-aligned to the button it
+  // ran off the screen): placed again whenever its size changes.
+  function watchSize(paper) {
+    resizeObserver.current = new ResizeObserver(() => popoverActions.current?.updatePosition())
+    resizeObserver.current.observe(paper)
+  }
+
+  function unwatchSize() {
+    resizeObserver.current?.disconnect()
+    resizeObserver.current = null
   }
 
   function onBeforeDeleteMedia() {
@@ -52,6 +67,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         id='media-pane-menu'
         open={open}
         onClose={handleClose}
+        action={popoverActions}
         onClick={() => {
           handleClose()
           // An item opening a dialog: focus off the menu's button first, or
@@ -67,6 +83,10 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
           },
           list: {
             sx: { py: .5 },
+          },
+          transition: {
+            onEntering: watchSize,
+            onExited: unwatchSize,
           },
         }}
 
