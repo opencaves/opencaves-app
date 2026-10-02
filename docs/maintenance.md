@@ -39,6 +39,24 @@ prints each group of problems with what to do about it:
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
+## Redo the photos' resized copies
+
+```
+node scripts/redo-thumbnails.js -l --dry-run          # lists the photos
+node scripts/redo-thumbnails.js -l --write            # every photo
+node scripts/redo-thumbnails.js -l --write --cave=<caveId>
+```
+
+The upload function makes each photo's resized copies (cover, thumbnails,
+1024, 1536, 4k) once, when the photo is uploaded. After changing their
+settings (`functions/js/resize-images/config.js`), this script redoes the
+existing photos' copies from their originals. `--turned` limits it to the
+photos uploaded turned whose copies weren't fixed yet. The copies are cached
+for a year, so they're written under new names (`<id>_<size>-r<n>.webp`, the
+photo's next `thumbnailRevision`), and the old ones are deleted. Run it on the
+local emulators, check with `node scripts/check-cave-images.js -l`, then
+[mirror local to production](#mirror-the-local-data-to-production).
+
 ## Sync the database from the Google Sheet
 
 ```

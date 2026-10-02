@@ -34,7 +34,7 @@ export const IMAGE_SIZES = {
   resultThumbnail: {
     width: Math.round(240 * MAGNIFICATION_FACTOR),
     height: Math.round(300 * MAGNIFICATION_FACTOR),
-    fit: 'outside'
+    fit: 'cover'
   },
   mediaThumbnail: {
     width: 400,

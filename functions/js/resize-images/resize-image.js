@@ -29,6 +29,12 @@ export function resize(file, { width, height, ...options }) {
     .toBuffer()
 }
 
+// The photo's size as shown: orientations 5-8 turn it a quarter.
+export async function shownSize(file) {
+  const { width, height, orientation } = await sharp(file, { failOn: 'none' }).metadata()
+  return orientation >= 5 && orientation <= 8 ? { width: height, height: width } : { width, height }
+}
+
 export function convertType(buffer, format) {
   const defaultOutputOptions = {
     jpeg: {},
@@ -199,10 +205,9 @@ export const modifyImage = async ({
       logs.imageConverted(format)
     }
 
-    // Generate a image file using Sharp.
-    await sharp(modifiedImageBuffer, { animated: config.animated }).toFile(
-      modifiedFile
-    )
+    // The buffer is the final image: written as is (sharp's toFile() encoded
+    // it again, at its default quality, making the copies 15-20% bigger).
+    fs.writeFileSync(modifiedFile, modifiedImageBuffer)
 
     // Uploading the modified image.
     logs.imageUploading(modifiedFilePath)

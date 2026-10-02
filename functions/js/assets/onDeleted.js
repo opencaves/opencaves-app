@@ -11,7 +11,7 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   const data = snap.data()
   const { imageSizes, imageTypes } = config
   const { caveId, fullPath, id: assetId = event.params.assetId, thumbnailRevision } = data
-  // Redone copies carry a revision in their name (scripts/fix-photo-orientation.js).
+  // Redone copies carry a revision in their name (scripts/redo-thumbnails.js).
   const revision = thumbnailRevision > 1 ? `-r${thumbnailRevision}` : ''
   if (!caveId || !fullPath) return
 

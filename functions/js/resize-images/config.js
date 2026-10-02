@@ -70,10 +70,12 @@ const config = {
       // height: 225,
       fit: 'cover'
     },
+    // Cropped to its box, as the result pane shows it (object-fit: cover):
+    // 'outside' kept a panorama's whole width, up to 2600px for a 240px slot.
     resultThumbnail: {
       width: Math.round(240 * magnificationFactor),
       height: Math.round(300 * magnificationFactor),
-      fit: 'outside'
+      fit: 'cover'
     },
     mediaThumbnail: {
       width: 400,
