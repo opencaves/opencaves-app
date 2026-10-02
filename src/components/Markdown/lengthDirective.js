@@ -24,6 +24,14 @@ export function parseLength(text) {
   return null
 }
 
+// The first length in some text ("about 200 meters!"): its place in the
+// text (index, length) and parseLength's result, or null.
+export function findLength(text) {
+  const match = /(\d[\d,.]*(?:\s\d{3})*)\s*(meters?|metres?|feet|foot|ft|m|')(?![a-z])/i.exec(text || '')
+  const parsed = match && parseLength(`${match[1]} ${match[2]}`)
+  return parsed ? { ...parsed, index: match.index, length: match[0].length } : null
+}
+
 const plainText = (node) => (node.children || []).map((child) => (child.type === 'text' ? child.value : plainText(child))).join('')
 
 // The directive as its author typed it, for every directive that isn't a

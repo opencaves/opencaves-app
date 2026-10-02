@@ -13,7 +13,7 @@ import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
 import { milkdownLength } from './milkdownLength.js'
-import { parseLength } from './lengthDirective.js'
+import { findLength, parseLength } from './lengthDirective.js'
 import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
@@ -258,13 +258,24 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
   // The Length button: a dialog for the value and its unit, then the tag
   // (`:length[45 m]`, milkdownLength.js) at the cursor. With a length
-  // selected (clicked), the dialog starts from it and replaces it.
+  // selected (clicked), the dialog starts from it and replaces it. With text
+  // selected ("200 meters!"), from the length found in it, which the tag
+  // then replaces (only it: "!" stays).
   function openLengthDialog() {
     const view = editorRef.current?.ctx.get(editorViewCtx)
     const selection = view?.state.selection
-    const selected = selection instanceof NodeSelection && selection.node.type.name === 'length_directive' ? parseLength(selection.node.attrs.text) : null
-    savedSelectionRef.current = selection ? { from: selection.from, to: selection.to, node: Boolean(selected) } : null
-    setLengthDialog(selected ? { value: String(selected.value), unit: selected.unit } : { value: '', unit: 'm' })
+    if (!selection) {
+      savedSelectionRef.current = null
+      setLengthDialog({ value: '', unit: 'm' })
+      return
+    }
+    const tag = selection instanceof NodeSelection && selection.node.type.name === 'length_directive' ? parseLength(selection.node.attrs.text) : null
+    // Within one paragraph, each character of the text is one position
+    // (other inline nodes count as one placeholder character).
+    const found = !tag && !selection.empty && selection.$from.sameParent(selection.$to) ? findLength(view.state.doc.textBetween(selection.from, selection.to, '\n', '￼')) : null
+    const length = tag || found
+    savedSelectionRef.current = found ? { from: selection.from + found.index, to: selection.from + found.index + found.length } : { from: selection.from, to: selection.to, node: Boolean(tag) }
+    setLengthDialog(length ? { value: String(length.value), unit: length.unit } : { value: '', unit: 'm' })
   }
 
   const lengthValue = lengthDialog && Number(String(lengthDialog.value).replace(',', '.'))
