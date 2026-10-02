@@ -868,11 +868,7 @@
       "colors": "Couleurs",
       "bySystem": "Par système",
       "single": "Une seule couleur",
-      "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée.",
-      "timeline": "Systèmes en",
-      "today": "Aujourd'hui",
-      "before": "Avant {{year}}",
-      "timelineHint": "Les connexions faites plus tard ne sont pas appliquées : un système fusionné depuis apparaît seul."
+      "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée."
     }
   },
   "dashboard": {

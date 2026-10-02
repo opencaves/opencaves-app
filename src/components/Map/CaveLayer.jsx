@@ -20,15 +20,10 @@ export function caveTileRequest(url) {
   return { url }
 }
 
-// The year a connection was made ("2011", "2011-04"...), or null when undated.
-export const connectionYear = (connection) => (/^\d{4}/.test(connection.connectionDate || '') ? Number(connection.connectionDate.slice(0, 4)) : null)
-
 // Each sistema's top-level sistema (following the connections up), as the
 // cave pins use: a system merged into another shows in that one's colour.
-// With a year, only the connections made by then (undated ones always).
-function rootSistemas(sistemas, connections, year) {
-  const made = (c) => year == null || connectionYear(c) == null || connectionYear(c) <= year
-  const parent = new Map((connections || []).filter((c) => c.sistemaId && c.parentSistemaId && made(c)).map((c) => [c.sistemaId, c.parentSistemaId]))
+function rootSistemas(sistemas, connections) {
+  const parent = new Map((connections || []).filter((c) => c.sistemaId && c.parentSistemaId).map((c) => [c.sistemaId, c.parentSistemaId]))
   const root = (id, seen = new Set()) => (parent.has(id) && !seen.has(id) ? root(parent.get(id), seen.add(id)) : id)
   return new Map((sistemas || []).map((s) => [s.id, root(s.id)]))
 }
@@ -44,14 +39,14 @@ export default function CaveLayer({ selectedSistemaId }) {
   const theme = useTheme()
   const sistemas = useSelector((state) => state.data.sistemas)
   const connections = useSelector((state) => state.data.connections)
-  const { visible, scope, colorBySistema, year } = useSelector((state) => state.caveLayer)
+  const { visible, scope, colorBySistema } = useSelector((state) => state.caveLayer)
   const [ready, setReady] = useState(Boolean(tileIndex))
 
   useEffect(() => {
     if (!ready) tileIndexLoading.then(() => setReady(true))
   }, [ready])
 
-  const roots = useMemo(() => rootSistemas(sistemas, connections, year), [sistemas, connections, year])
+  const roots = useMemo(() => rootSistemas(sistemas, connections), [sistemas, connections])
   const single = theme.palette.primary.light
   const color = useMemo(() => {
     const colors = new Map((sistemas || []).map((s) => [s.id, s.color]))
