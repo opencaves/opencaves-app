@@ -40,9 +40,11 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
           <AppMenuIcon
             logoColorScheme={logoColorScheme}
             logoSx={logoSx}
+            // The photo fills the button but for a small margin (the button's
+            // own colour around it).
             avatarSx={{
-              outline: isSmall ? null : `3px solid ${theme.palette.primary.main}`,
-              outlineOffset: 2,
+              width: 'calc(100% - 8px)',
+              height: 'calc(100% - 8px)',
             }}
           />
         </Button>
