@@ -587,7 +587,8 @@
         "unknown": "Non confirmée",
         "invalid": "Invalide"
       },
-      "exit": "Quitter"
+      "exit": "Quitter",
+      "closePicture": "Fermer la photo"
     },
     "closePane": "Fermer",
     "rating": {

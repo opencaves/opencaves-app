@@ -258,7 +258,7 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
       )}
       <Dialog className="oc-picture-viewer-dialog" open={viewerOpen} onClose={() => setViewerOpen(false)} maxWidth="lg" fullWidth>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-          <IconButton onClick={() => setViewerOpen(false)} aria-label={t('closeVideo', { defaultValue: 'Close' })}>
+          <IconButton onClick={() => setViewerOpen(false)} aria-label={t('closePicture')}>
             <CloseRounded />
           </IconButton>
         </DialogTitle>

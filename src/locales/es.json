@@ -444,7 +444,7 @@
     "videosHeader": "Vídeos",
     "videoFrameTitle": "Vídeo {{index}}",
     "playVideo": "Reproducir vídeo {{index}}",
-    "closeVideo": "Cerrar vídeo",
+    "closeVideo": "Cerrar el video",
     "openVideo": "Abrir vídeo {{index}}",
     "addVideos": "Añadir vídeos",
     "addVideoTitle": "Añadir un vídeo",
@@ -588,7 +588,8 @@
         "unknown": "Sin confirmar",
         "invalid": "Inválida"
       },
-      "exit": "Salir"
+      "exit": "Salir",
+      "closePicture": "Cerrar la foto"
     },
     "closePane": "Cerrar",
     "rating": {
