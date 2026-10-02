@@ -1,0 +1,440 @@
+{
+  "perspective": {
+    "photo": "../../../_data/maps-import/images/balam-aktun-ak.jpg",
+    "corners": [
+      [
+        29.1,
+        72.4
+      ],
+      [
+        3945.1,
+        78.6
+      ],
+      [
+        4007.2,
+        2146.3
+      ],
+      [
+        -19.3,
+        2146.8
+      ]
+    ],
+    "flattenPx": 41,
+    "why": "corners: the four standoff bolts' caps (a rectangle on the sign, their faces all in one plane parallel to it), the rectangle then extended outward through the same homography (70 px left, 20 px right and top, 130 px below) so the 49 at the left edge and the scale bar under the bottom bolts are inside; no k1 (no straight printed edge to fit it on; the scale bar is straight); flattenPx: the glare and the reflection of the trees and the photographer divided out (a closing wider than the 6-8 px lines)"
+  },
+  "image": "../../../_data/map-layer/pilot/balam-aktun-ak-straight.png",
+  "title": "Balam Aktun Ak (Sistema Balun Actun) - Reato 2010",
+  "credits": "Balam Aktun Ak, total surveyed passages 29,407 feet. Explorers: Simon Richards, Donna Richards, Alessandro Reato, Mauro Bordignon, Patrick Widmann. Cartography by Alessandro Reato, December 2010. Photo of the sign at the cenote. Depths in feet.",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfrCX7_mTK6MFffc",
+  "sistemaWhy": "The sign's 'Balam Aktun Ak' is Sistema Balun Actun (aka Balan Aktun; maps-import matched it, and 'Sistema Balun Actun.jpg' is a small copy of this same sign): same explorers, cartographer, date and 29,407 ft as the exploration already in db-sistemas. Its only cenote is El Toh (aka Balun Actun, 'Jaguar Cave'), the sistema's only cave in the database.",
+  "utmEpsg": 32616,
+  "wetDry": "Underwater: a cave-diving line plot (guidelines, depths 10-49 ft, restrictions), from a single cenote pool.",
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "symbolPiecesOnly": true
+  },
+  "exclude": [
+    {
+      "why": "title Balam Aktun Ak, total surveyed passages",
+      "box": [
+        2560,
+        50,
+        3720,
+        230
+      ]
+    },
+    {
+      "why": "explorers and cartography",
+      "box": [
+        2880,
+        260,
+        3390,
+        840
+      ],
+      "history": true
+    },
+    {
+      "why": "legend (depth, major restriction)",
+      "box": [
+        3080,
+        1720,
+        3660,
+        1850
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2950,
+        1890,
+        3790,
+        1990
+      ]
+    },
+    {
+      "why": "sign's standoff bolt, top left",
+      "box": [
+        0,
+        0,
+        150,
+        110
+      ]
+    },
+    {
+      "why": "sign's standoff bolt, top right",
+      "box": [
+        3850,
+        0,
+        3971,
+        120
+      ]
+    },
+    {
+      "why": "sign's standoff bolt, bottom left",
+      "box": [
+        0,
+        1860,
+        180,
+        2072
+      ]
+    },
+    {
+      "why": "sign's standoff bolt, bottom right",
+      "box": [
+        3800,
+        1850,
+        3971,
+        2072
+      ]
+    },
+    {
+      "why": "the cenote pool's blue fill (its skeleton isn't a survey line)",
+      "box": [
+        2405,
+        1585,
+        2535,
+        1720
+      ]
+    },
+    {
+      "why": "the photo's lower edge past the sign",
+      "box": [
+        0,
+        2030,
+        3971,
+        2072
+      ]
+    },
+    {
+      "why": "a red speck at the left edge",
+      "box": [
+        0,
+        1780,
+        30,
+        1880
+      ]
+    },
+    {
+      "why": "dirt or an insect on the sign's glass (a dark blob beside the east 20, not in the legend)",
+      "box": [
+        3608,
+        1408,
+        3645,
+        1458
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2981,
+      1962
+    ],
+    "to": [
+      3750,
+      1948
+    ],
+    "metres": 304.8,
+    "why": "the 1000 ft bar (769 px, 0.396 m/px): the traced lines total 8,530 m against the 8,963 m (29,407 ft) of survey the sign gives (a traced plan runs a little shorter than the survey's zigzag shots), and the shape fit to the QRSS 2012 line plot is best at this scale (x1.00; x1.05 and x1.10 worse)"
+  },
+  "north": {
+    "angle": 1.7,
+    "why": "no north arrow on the sign: taken from the same survey on the placed QRSS 2012 line plot (sac-actun-mpo-tulum.json), whose network north of the Dos Ojos main line - the stem north from it, the long west branch to the 48/49 ends, the northern loop, the north-east branches - is this sign's network. A chamfer fit of the traced lines to it (both ways, free shift, scale fixed by the bar) gives 1.7 deg (1.3-1.9 over scale x0.95-1.05; cost rises by 3-4% at +/-1.5 deg), i.e. the sign's up is about 2 deg east of true north; north-up as drawn fits clearly worse"
+  },
+  "placementWhy": "Fair (orientation +/-2 deg, about 10-20 m at the far ends; the cenote within a few metres): El Toh's position is an Open Caves on-site one (validity valid, cenoteEntrance) and sits on the satellite at the end of the dirt road, in its clearing, where the sign's blue pool and its lines meet; scale from the 1000 ft bar, north from the QRSS 2012 line plot (see north.why). Cross-check: on that QRSS 2012 plot the same network lies about 94 m north (and 10 m east) of this placement, but that coarse overview (9.5 m/px) is itself 40-100 m north of the other maps placed here (dos-ojos-qrss-1996, dos-ojos-part, sac-aktun-dos-ojos-google, fitted on the Dos Ojos main line south of El Toh), so the shift is put on it, not on El Toh; once shifted, the two plots agree to about 12 m on average. Its stem from the Dos Ojos main line (the 2011 connection, after this 2010 sign) reaches this sign's south branch below the 'x' line east of the pool. No other database cave lies within 250 m of the lines.",
+  "controlPoints": [
+    {
+      "name": "El Toh, the map's only cenote (blue pool)",
+      "caveId": "-KPZkVIisqJXjDOMGrJU",
+      "px": [
+        2450,
+        1632
+      ],
+      "latitude": 20.32942,
+      "longitude": -87.38308,
+      "why": "Open Caves on-site position (valid); on the satellite, the end of the dirt road and the clearing at the pool"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "El Toh (Balun Actun)",
+      "caveId": "-KPZkVIisqJXjDOMGrJU",
+      "px": [
+        2450,
+        1632
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "The legend: overlined red numbers are depths in feet, a red 'x' a major restriction. Extraction found only the 49 (the red ink is too pale for the dark-ink mark search): the other 11 depths and the 6 x's are listed by hand from the red marks' blobs, each checked on a crop. No flow arrows, no 'To ...' pointers, no named places in the cave, and no bones (no bones symbol in the legend and none drawn or written; the three dark specks on the glass are dirt or insects).",
+    "units": "ft",
+    "letters": {
+      "x": "restriction-major"
+    },
+    "templates": {
+      "x": [
+        1612,
+        299
+      ]
+    },
+    "extra": [
+      {
+        "type": "depth",
+        "label": "48",
+        "value": 48,
+        "px": [
+          744,
+          306
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          703,
+          285,
+          785,
+          328
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "13",
+        "value": 13,
+        "px": [
+          1755,
+          325
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          1720,
+          309,
+          1790,
+          341
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "24",
+        "value": 24,
+        "px": [
+          1176,
+          719
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          1144,
+          700,
+          1208,
+          738
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "13",
+        "value": 13,
+        "px": [
+          2212,
+          727
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          2177,
+          712,
+          2247,
+          743
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          562,
+          778
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          527,
+          761,
+          598,
+          795
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          2010,
+          909
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          1973,
+          895,
+          2048,
+          924
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1557,
+          985
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          1523,
+          969,
+          1591,
+          1001
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          2752,
+          1158
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          2713,
+          1143,
+          2791,
+          1174
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3621,
+          1508
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          3587,
+          1494,
+          3656,
+          1522
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "22",
+        "value": 22,
+        "px": [
+          1832,
+          1538
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          1794,
+          1522,
+          1871,
+          1554
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3141,
+          1620
+        ],
+        "halfPx": 24,
+        "inkBox": [
+          3102,
+          1605,
+          3180,
+          1635
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1612,
+          299
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1114,
+          712
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2291,
+          775
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2577,
+          958
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          3134,
+          1517
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2678,
+          1631
+        ],
+        "halfPx": 14
+      }
+    ]
+  }
+}
