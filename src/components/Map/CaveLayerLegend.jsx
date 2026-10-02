@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Paper, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material'
+import { CAVE_LAYER } from '@/config/map.js'
 
 // What the cave layer's marks mean (CaveLayer's styles), under the layer
 // button, while the passages are shown. On phones a chip that opens it,
@@ -18,12 +19,12 @@ export default function CaveLayerLegend({ isLarge }) {
   if (!visible) return null
 
   // One plain example colour: a system's (any) when coloured by system, the
-  // layer's single colour otherwise. Water is that colour as the map fills it.
+  // layer's single colour otherwise. Water has its own colour.
   const lineColor = colorBySistema ? '#76378a' : theme.palette.primary.light
   const swatch = { width: 28, height: 14, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }
   const items = [
     { key: 'walls', mark: <Box sx={{ width: 26, height: 3, borderRadius: 2, bgcolor: lineColor }} /> },
-    { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: lineColor, opacity: 0.35 }} /> },
+    { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: CAVE_LAYER.WATER_COLOR, opacity: CAVE_LAYER.WATER_OPACITY }} /> },
     { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1px solid', borderColor: lineColor, opacity: 0.7 }} /> },
     { key: 'entrance', mark: <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: 'info.main', border: '1px solid #fff' }} /> },
     { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>12 m</Typography> },

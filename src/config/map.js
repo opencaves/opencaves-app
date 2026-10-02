@@ -51,4 +51,7 @@ export const CAVE_LAYER = {
   MAX_ZOOM: 18,
   DETAIL_ZOOM: 15,
   SYMBOL_ZOOM: 16,
+  // Water: the blue the map reviews used (overlay_scan.py), the same in every system.
+  WATER_COLOR: '#9ec3d6',
+  WATER_OPACITY: 0.55,
 }
