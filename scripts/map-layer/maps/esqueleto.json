@@ -172,6 +172,15 @@
         2538,
         1468
       ]
+    },
+    {
+      "why": "label \"Cenote Esqueleto Entrance\" (pointing to the cenote)",
+      "box": [
+        980,
+        584,
+        1135,
+        628
+      ]
     }
   ],
   "controlPoints": [
@@ -895,7 +904,13 @@
           624,
           218
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          602,
+          208,
+          648,
+          229
+        ]
       },
       {
         "type": "penetration",
@@ -905,7 +920,13 @@
           473,
           397
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          451,
+          387,
+          495,
+          410
+        ]
       },
       {
         "type": "penetration",
@@ -915,7 +936,13 @@
           1006,
           847
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          983,
+          838,
+          1030,
+          860
+        ]
       },
       {
         "type": "penetration",
@@ -925,7 +952,13 @@
           1256,
           571
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          1228,
+          560,
+          1292,
+          584
+        ]
       },
       {
         "type": "penetration",
@@ -945,7 +978,13 @@
           1516,
           1061
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          1490,
+          1051,
+          1542,
+          1075
+        ]
       },
       {
         "type": "penetration",
@@ -955,7 +994,13 @@
           1795,
           694
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          1768,
+          684,
+          1823,
+          705
+        ]
       },
       {
         "type": "penetration",
@@ -965,7 +1010,13 @@
           2386,
           1046
         ],
-        "halfPx": 6
+        "halfPx": 6,
+        "inkBox": [
+          2362,
+          1037,
+          2415,
+          1059
+        ]
       },
       {
         "type": "flow",

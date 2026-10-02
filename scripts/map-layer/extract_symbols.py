@@ -379,6 +379,9 @@ def main(config_path, output):
         half = item.get('halfPx', 45 if 'value' in item else 6)
         symbols.append({'type': item['type'], 'label': item.get('label', ''), 'box': [x - half, y - half, x + half, y + half],
                         **({'value': item['value']} if 'value' in item else {}),
+                        # "inkBox" [x0, y0, x1, y1]: the label's ink when it isn't a
+                        # square around the point (a wide "p. 1,400"): not drawn.
+                        **({'ink': item['inkBox']} if 'inkBox' in item else {}),
                         # A flow arrow's direction, degrees clockwise from the map's up.
                         **({'bearing': item['bearing']} if 'bearing' in item else {})})
 
