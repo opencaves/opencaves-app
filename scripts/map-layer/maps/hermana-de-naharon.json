@@ -1,0 +1,269 @@
+{
+  "image": "../../../_data/maps-import/images/hermana-de-naharon-cen-tulum.webp",
+  "title": "Cenotes Hermana y Naharon, Tulum (J. G. Coke IV 1987)",
+  "credits": "Cenotes Hermana y Naharon, Tulum, Quintana Roo; compass & line survey drawn by James G. Coke IV, 1 March 1987; explored & surveyed by D. Atkinson, B. Becker, J. Coke, S. Decarlo, J. deGroot, P. DeLoach, N. DeRosa, S. Gerrard, H. Hiler, L. Hires, W. Jasper, K. Madden, M. Madden, T. Morris, J.J. Toucat, P. Turner, J. Zumrick (AMCS Activities Newsletter no. 16, p. 60, 1987)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        2302,
+        100
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        2685,
+        2302,
+        2791
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        100,
+        2791
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        2200,
+        0,
+        2302,
+        2791
+      ]
+    },
+    {
+      "why": "title: Cenotes Hermana y Naharon, Tulum, Quintana Roo",
+      "box": [
+        1170,
+        340,
+        1720,
+        430
+      ]
+    },
+    {
+      "why": "compass & line survey drawn by James G. Coke IV, 1 March 1987; explorers and surveyors",
+      "box": [
+        1170,
+        460,
+        1900,
+        870
+      ],
+      "history": true
+    },
+    {
+      "why": "MEX 307 shield",
+      "box": [
+        1600,
+        1205,
+        1685,
+        1295
+      ]
+    },
+    {
+      "why": "'Tulum' label and arrow",
+      "box": [
+        1750,
+        1225,
+        2010,
+        1375
+      ]
+    },
+    {
+      "why": "'Chunyaxche' label and arrow",
+      "box": [
+        235,
+        1880,
+        680,
+        2045
+      ]
+    },
+    {
+      "why": "north arrow and N",
+      "box": [
+        620,
+        2100,
+        700,
+        2490
+      ]
+    },
+    {
+      "why": "scale bar (0-300 m)",
+      "box": [
+        1520,
+        1740,
+        2130,
+        1900
+      ]
+    },
+    {
+      "why": "label Cenote Naharon",
+      "box": [
+        480,
+        1335,
+        790,
+        1400
+      ]
+    },
+    {
+      "why": "label Cenote Hermana",
+      "box": [
+        1645,
+        2525,
+        1960,
+        2585
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      1548,
+      1813
+    ],
+    "to": [
+      2078,
+      1813
+    ],
+    "metres": 300
+  },
+  "placementWhy": "Good (about 5-15 m): free similarity fit on the map's two cenote ponds, both on database positions taken on site (Open Caves source): Cenote Naharon = Cristal (-NS0mrbUnBOzH0J1kGkm, 9 m from OSM's 'Cenote escondido' pond, way 1069443685) and Cenote Hermana = Mayan Blue (-KPZkVJByjlbUaBg6uHP, on OSM's 'Cenote Mayan Blue (Escondido)' pond, way 404630054). Two points fit exactly, so the checks are: the fit's 0.575 m/px is 1.6% off the 300 m scale bar (0.566) and its -0.7 degree rotation is near the north arrow; the ponds' offsets from Highway 307 match (map 147 m NW for Naharon, 625 m SE for Hermana; OSM 136 m and 663 m); and the traced line lies on the passages of the two QRSS maps already placed here (naharon: the 1989 upstream section, placed on Cristal and the highway; mayan-blue: the 1993 Mayan Blue plan): median 2.9 m, 90% within 12.5 m of their walls, and an ICP fit onto those walls moves it by only 0.7 degrees, x0.985 and 9.5 m. The map's highway (drawn 22.3 degrees above horizontal, a bearing of 67.7) is 3.6 degrees off OSM's 71.3: a sketch, not used.",
+  "controlPoints": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cristal = the map's Cenote Naharon pond",
+      "px": [
+        872,
+        1352
+      ],
+      "latitude": 20.20041,
+      "longitude": -87.49999
+    },
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue = the map's Cenote Hermana pond",
+      "px": [
+        1555,
+        2555
+      ],
+      "latitude": 20.19413,
+      "longitude": -87.49629
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cenote Naharon (Cristal)",
+      "px": [
+        872,
+        1352
+      ],
+      "why": "Cenote Naharon: the database's Cristal (Open Caves), as on naharon.json. The database's cave named 'Naharon' (-KPZkVNJ7fvwm6_iETLk, 20.19884, -87.51311, on OSM's 'Cenote Naharón' pond) is 1.4 km WSW, 400 m off the highway: not this map's Cenote Naharon, which lies about 150 m NW of the highway (Cristal is 124 m)."
+    },
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Cenote Hermana (Mayan Blue)",
+      "px": [
+        1555,
+        2555
+      ],
+      "why": "Cenote Hermana ('sister' of Naharon) is Mayan Blue (aka Escondido): 778 m from Naharon at a bearing of 151 degrees on the map, 797 m at 151 degrees between the database's Cristal and Mayan Blue; Mayan Blue was first dived in August 1986 by N. DeRosa, S. Gerrard and H. Hiler, all three on this map's team; and the line from Naharon follows the 1993 Mayan Blue plan's passages into its Mayan Blue entrance."
+    }
+  ],
+  "symbols": {
+    "why": "Line plot of 1987 with no symbols: no depths (no overlined, underlined, circled or boxed numbers - the only digits are the scale bar's and the MEX 307 shield's; OCR's '7' and 'an' are the ponds' hatching), no letter codes, legend, flow arrows, 'To ...' pointers or bones. 'Tulum' and 'Chunyaxche' are the highway's directions, not cave leads. The two labelled cenotes are kept as entrances.",
+    "units": "m",
+    "letters": {},
+    "extra": []
+  },
+  "trace": {
+    "method": "survey-lines",
+    "why": "Line plot: one black survey line, no walls; the two cenote ponds are small hatched outlines.",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 128,
+    "poolInsides": {
+      "maxHolePx": 6000,
+      "reachPx": 40,
+      "closePx": 15
+    },
+    "eraseLines": [
+      {
+        "why": "Highway 307 (north line; stops at the survey line)",
+        "from": [
+          355,
+          1840
+        ],
+        "to": [
+          1088,
+          1541
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "Highway 307 (north line; stops at the survey line)",
+        "from": [
+          1112,
+          1531
+        ],
+        "to": [
+          1868,
+          1220
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "Highway 307 (south line; stops at the survey line)",
+        "from": [
+          355,
+          1857
+        ],
+        "to": [
+          1072,
+          1563
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "Highway 307 (south line; stops at the survey line)",
+        "from": [
+          1104,
+          1550
+        ],
+        "to": [
+          1868,
+          1237
+        ],
+        "widthPx": 9
+      }
+    ],
+    "addLines": [
+      {
+        "why": "survey line across Highway 307 (the highway's erase cuts it)",
+        "from": [
+          1104,
+          1515
+        ],
+        "to": [
+          1094,
+          1548
+        ],
+        "widthPx": 5
+      }
+    ]
+  }
+}
