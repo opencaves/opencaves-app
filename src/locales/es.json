@@ -954,7 +954,6 @@
       "name": "Nombre",
       "description": "Descripción"
     },
-    "usersSection": "Usuarios",
     "manageUsers": "Administrar usuarios",
     "noSections": "Aún no tienes acceso a ninguna sección del panel.",
     "title": "Panel",
@@ -1007,7 +1006,9 @@
     },
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
     "connectionOfSistema": "la conexión de {{name}}",
-    "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas."
+    "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
+    "adminSection": "Administración",
+    "manageMapLayers": "Capas del mapa"
   },
   "usersAdmin": {
     "title": "Usuarios",
@@ -1066,5 +1067,15 @@
     "caveDescriptionFallback": "Cenote {{name}} en Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
     "mapTitle": "Mapa de cenotes de Yucatán"
+  },
+  "mapLayersAdmin": {
+    "title": "Capas del mapa",
+    "searchLabel": "Buscar mapas",
+    "count": "{{count}} mapa(s), {{hidden}} oculto(s)",
+    "undated": "Sin fecha",
+    "show": "Mostrar el dibujo de este mapa",
+    "hide": "Ocultar el dibujo de este mapa",
+    "showOnMap": "Ver en el mapa",
+    "saveError": "No se pudo guardar el cambio."
   }
 }

@@ -954,7 +954,6 @@
       "name": "Name",
       "description": "Description"
     },
-    "usersSection": "Users",
     "manageUsers": "Manage users",
     "noSections": "You don't have access to any dashboard sections yet.",
     "title": "Dashboard",
@@ -1007,7 +1006,9 @@
     },
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
     "connectionOfSistema": "the connection of {{name}}",
-    "connectionDateHint": "When the connection between the two sistemas was established."
+    "connectionDateHint": "When the connection between the two sistemas was established.",
+    "adminSection": "Administration",
+    "manageMapLayers": "Map layers"
   },
   "usersAdmin": {
     "title": "Users",
@@ -1066,5 +1067,15 @@
     "caveDescriptionFallback": "Cenote {{name}} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
     "notFoundTitle": "Page not found",
     "mapTitle": "Cenote map of the Yucatán"
+  },
+  "mapLayersAdmin": {
+    "title": "Map layers",
+    "searchLabel": "Search maps",
+    "count": "{{count}} map(s), {{hidden}} hidden",
+    "undated": "Undated",
+    "show": "Show this map's drawing",
+    "hide": "Hide this map's drawing",
+    "showOnMap": "Show on the map",
+    "saveError": "Couldn't save the change."
   }
 }

@@ -1,0 +1,134 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { Alert, Box, IconButton, InputAdornment, List, ListItem, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
+import MapRounded from '@mui/icons-material/MapRounded'
+import SearchRounded from '@mui/icons-material/SearchRounded'
+import { useTitle } from '@/hooks/useTitle.jsx'
+import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
+import { setMapHidden } from '@/services/caveLayerSettings.js'
+import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
+
+// The zoom that fits a map's extent ([west, south, east, north]) on screen.
+function zoomFor(bounds) {
+  const span = Math.max(bounds[2] - bounds[0], bounds[3] - bounds[1], 0.0005)
+  return Math.min(17, Math.max(11, Math.floor(Math.log2(360 / span)) - 1))
+}
+
+// Admins: the maps in the cave layer (maps.json, from the tiles build), each
+// shown or hidden for everyone (settings/caveLayer.hiddenMaps - the same list
+// as the layer's edit mode on the map), with a link to it on the map.
+export default function MapLayersAdmin() {
+  const { t } = useTranslation(['mapLayersAdmin', 'dashboard'])
+  const { setTitle } = useTitle()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const sistemas = useSelector((state) => state.data.sistemas)
+  const { maps, hiddenMaps } = useCaveLayerMaps()
+  const [search, setSearch] = useState('')
+  const [savingName, setSavingName] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setTitle(t('title'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t])
+
+  const sistemaNames = useMemo(() => new Map((sistemas || []).map((s) => [s.id, s.name?.value || s.name])), [sistemas])
+  const rows = useMemo(() => {
+    const needle = search.trim().toLowerCase()
+    return Object.entries(maps)
+      .map(([name, map]) => ({ name, ...map, sistema: sistemaNames.get(map.sistemaId) || '' }))
+      .filter((map) => !needle || [map.title, map.name, map.sistema, map.date].some((v) => String(v || '').toLowerCase().includes(needle)))
+      .sort((a, b) => a.title.localeCompare(b.title))
+  }, [maps, search, sistemaNames])
+
+  async function toggle(name, shown) {
+    setSavingName(name)
+    try {
+      await setMapHidden(name, !shown)
+    } catch (err) {
+      console.error(err)
+      setError(t('saveError'))
+    } finally {
+      setSavingName(null)
+    }
+  }
+
+  // On the map, with the layer shown.
+  function showOnMap(map) {
+    dispatch(setCaveLayerVisible(true))
+    navigate(`/map#${zoomFor(map.bounds)}/${map.center[1]}/${map.center[0]}`)
+  }
+
+  return (
+    <Box className="oc-map-layers-admin" sx={{ minHeight: '100%', bgcolor: 'rgba(255, 255, 255, 0.9)' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -5 } }}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h5">
+          {t('title')}
+        </Typography>
+      </Box>
+
+      <TextField
+        fullWidth
+        size="small"
+        variant="outlined"
+        aria-label={t('searchLabel')}
+        placeholder={t('searchLabel')}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchRounded />
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
+
+      {error && (
+        <Alert className="oc-map-layers-admin--error" severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>
+          {error}
+        </Alert>
+      )}
+
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+        {t('count', { count: rows.length, hidden: rows.filter((map) => hiddenMaps.includes(map.name)).length })}
+      </Typography>
+      <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
+        {rows.map((map) => {
+          const shown = !hiddenMaps.includes(map.name)
+          return (
+            <ListItem key={map.name} divider sx={{ py: 1, gap: 1, opacity: shown ? 1 : 0.6 }}>
+              <ListItemText
+                primary={map.title}
+                secondary={[map.date || t('undated'), map.sistema, map.name].filter(Boolean).join(' · ')}
+                sx={{ flex: 1, minWidth: 0 }}
+              />
+              {map.center && (
+                <Tooltip title={t('showOnMap')}>
+                  <IconButton aria-label={t('showOnMap')} onClick={() => showOnMap(map)}>
+                    <MapRounded fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Tooltip title={shown ? t('hide') : t('show')}>
+                <Switch edge="end" checked={shown} disabled={savingName === map.name} onChange={(e) => toggle(map.name, e.target.checked)} slotProps={{ input: { 'aria-label': shown ? t('hide') : t('show') } }} />
+              </Tooltip>
+            </ListItem>
+          )
+        })}
+      </List>
+    </Box>
+  )
+}

@@ -9,7 +9,8 @@
 // depths, restrictions, flow, entrances...) to the "symbols" layer. Each
 // feature keeps its map's name ("map"), its sistema ("sistemaId": the app
 // filters and colours by it, colours from the database) and its kind or type.
-// maps.json lists the maps in the tiles by name, with their title, date and sistema
+// maps.json lists the maps in the tiles by name, with their title, date, sistema
+// and extent (center, bounds)
 // (the layer's edit mode names the map under the pointer).
 //
 // Runs tippecanoe in Docker (image opencaves-tippecanoe, built from
@@ -81,10 +82,19 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
   counts.maps++
   mapIndex[name] = { title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }) }
   const sistema = config.sistemaId ? { sistemaId: config.sistemaId } : {}
+  // The drawing's extent, for its centre (the admin's map layers page links
+  // to it on the map).
+  const box = [Infinity, Infinity, -Infinity, -Infinity]
+  const extend = (c) => (typeof c[0] === 'number' ? ((box[0] = Math.min(box[0], c[0])), (box[1] = Math.min(box[1], c[1])), (box[2] = Math.max(box[2], c[0])), (box[3] = Math.max(box[3], c[1]))) : c.forEach(extend))
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
+    if (feature.geometry?.coordinates) extend(feature.geometry.coordinates)
     const kind = feature.properties?.kind || 'wall'
     passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: name, ...sistema, kind }, tippecanoe: { minzoom: kind === 'detail' ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
     counts.passages++
+  }
+  if (Number.isFinite(box[0])) {
+    mapIndex[name].center = [+((box[0] + box[2]) / 2).toFixed(5), +((box[1] + box[3]) / 2).toFixed(5)]
+    mapIndex[name].bounds = box.map((v) => +v.toFixed(5))
   }
   const symbolFile = path.join(SCANS, `${name}-symbols.geojson`)
   if (existsSync(symbolFile)) {

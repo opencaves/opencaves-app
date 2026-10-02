@@ -953,7 +953,6 @@
       "name": "Nom",
       "description": "Description"
     },
-    "usersSection": "Utilisateurs",
     "manageUsers": "Gérer les utilisateurs",
     "noSections": "Vous n'avez encore accès à aucune section du tableau de bord.",
     "title": "Tableau de bord",
@@ -1006,7 +1005,9 @@
     },
     "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
     "connectionOfSistema": "la connexion de {{name}}",
-    "connectionDateHint": "Date à laquelle la connexion entre les deux sistemas a été établie."
+    "connectionDateHint": "Date à laquelle la connexion entre les deux sistemas a été établie.",
+    "adminSection": "Administration",
+    "manageMapLayers": "Couches de la carte"
   },
   "usersAdmin": {
     "title": "Utilisateurs",
@@ -1065,5 +1066,15 @@
     "caveDescriptionFallback": "Cénote {{name}} au Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
     "notFoundTitle": "Page introuvable",
     "mapTitle": "Carte des cénotes du Yucatán"
+  },
+  "mapLayersAdmin": {
+    "title": "Couches de la carte",
+    "searchLabel": "Rechercher une carte",
+    "count": "{{count}} carte(s), {{hidden}} masquée(s)",
+    "undated": "Non datée",
+    "show": "Afficher le dessin de cette carte",
+    "hide": "Masquer le dessin de cette carte",
+    "showOnMap": "Voir sur la carte",
+    "saveError": "Impossible d'enregistrer la modification."
   }
 }

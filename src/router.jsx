@@ -301,6 +301,10 @@ const routes = [
             path: 'users',
             ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
           },
+          {
+            path: 'map-layers',
+            ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
+          },
         ],
       },
       {

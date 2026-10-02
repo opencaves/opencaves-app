@@ -9,6 +9,7 @@ import LinkRounded from '@mui/icons-material/LinkRounded'
 import LockOpenRounded from '@mui/icons-material/LockOpenRounded'
 import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
+import LayersRounded from '@mui/icons-material/LayersRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -140,7 +141,7 @@ export default function AdminDashboard() {
           {isAdmin && (
             <Box component="section">
               <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
-                {t('usersSection')}
+                {t('adminSection')}
               </Typography>
               <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
                 <ListItem disablePadding>
@@ -149,6 +150,14 @@ export default function AdminDashboard() {
                       <PeopleRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageUsers')} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/map-layers" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <LayersRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageMapLayers')} />
                   </ListItemButton>
                 </ListItem>
               </List>
