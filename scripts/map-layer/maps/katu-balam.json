@@ -1,0 +1,587 @@
+{
+  "image": "../../../_data/map-layer/scans/katu-balam-filled.png",
+  "imageNote": "Same scan as _data/cartes/à traiter/Katu Balam, Sist., Akumal.pdf (its only image, 4009 x 2145); the passages tinted by fill_passages.py (see prep).",
+  "sourceImage": "../../../_data/maps-import/images/katu-balam-sist-akumal.webp",
+  "title": "Sistema Katu Balam, Akumal - Laden, Luke, Pugliese 2011",
+  "credits": "Sistema Katu Balam, Quintana Roo; topografiado con Suuntos y medidor láser 28-30 de marzo 2011 por Juan Laden, Barbara Luke y Mike Pugliese; longitud 861 m, profundidad 10 m; dibujado por Barbara Luke (Canadian Caver 75, p. 8, 2012)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": null,
+  "sistemaWhy": "Not in the database: no sistema or cave name or aka contains Katu (the import's 'Uxuxubi' match is only its aka 'Balam', another cave). Mapbox/OSM have no Katu Balam either.",
+  "utmEpsg": 32616,
+  "unverified": "No position at all: Sistema Katu Balam (West, East and Lord of the Ticks entrances) is in neither the database (names and akas), OpenStreetMap (Overpass name search over Quintana Roo) nor a web search (only the mexicancaves.org listing 'Katu Balam, Sist., Akumal'), and the map draws no road, coast, other cenote or coordinate. The single control point is a NOMINAL anchor (the East Entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' filing), so the pipeline can run: the geometry is NOT on the ground. It shares that anchor with maps/knock-out.json (also nominal), so the two overlap. To fix: field GPS of two of the three entrances (West to Lord of the Ticks is about 128 m).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). Scale from the 0-50 m bar: 0 at x 544.5, 50 at x 1422 (y 1436), 877.5 px = 50 m, 0.0570 m/px; its five 10 m ticks are evenly spaced (175.5 px). The section below, at the same scale, spans the plan's A-A' length. North: the 'Ng' arrow (norte geográfico) points straight up: angle 0. Position nominal.",
+  "scaleBar": {
+    "from": [
+      544.5,
+      1436
+    ],
+    "to": [
+      1422,
+      1436
+    ],
+    "metres": 50
+  },
+  "north": "up",
+  "exclude": [
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        60,
+        2146
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        3935,
+        0,
+        4010,
+        2146
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        4010,
+        40
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        2090,
+        4010,
+        2146
+      ]
+    },
+    {
+      "why": "title Sistema Katu Balam, Quintana Roo; survey credits (Suuntos y medidor láser, 28-30 de marzo 2011, Juan Laden, Barbara Luke, Mike Pugliese, longitud 861 m, profundidad 10 m, dibujado por Barbara Luke)",
+      "box": [
+        2660,
+        150,
+        3700,
+        760
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar 0-50 metros",
+      "box": [
+        500,
+        1360,
+        1460,
+        1490
+      ]
+    },
+    {
+      "why": "north arrow Ng",
+      "box": [
+        270,
+        1070,
+        360,
+        1550
+      ]
+    },
+    {
+      "why": "section A-A' (longitudinal profile with the three entrance shafts)",
+      "box": [
+        60,
+        1745,
+        2440,
+        2040
+      ]
+    },
+    {
+      "why": "section A-A', east part (below the Sink or Swim Passage's south end)",
+      "box": [
+        2440,
+        1755,
+        3900,
+        2040
+      ]
+    },
+    {
+      "why": "section mark A (west end)",
+      "box": [
+        150,
+        470,
+        200,
+        530
+      ]
+    },
+    {
+      "why": "section mark A' (east end)",
+      "box": [
+        3797,
+        1378,
+        3835,
+        1420
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor: East Entrance (dotted breakdown mound under the drip line) put on OpenStreetMap's Akumal village node 854200484 - a namesake only, not a real position (see 'unverified')",
+      "px": [
+        2000,
+        1350
+      ],
+      "latitude": 20.398797,
+      "longitude": -87.3173404
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Sistema Katu Balam - West Entrance",
+      "px": [
+        720,
+        470
+      ],
+      "why": "labelled West Entrance: the ladder (hatched rectangles) on the dry breakdown floor; the section shows the entrance shaft with a ladder above it. Not matched to a database cave."
+    },
+    {
+      "name": "Sistema Katu Balam - East Entrance",
+      "px": [
+        2000,
+        1350
+      ],
+      "why": "labelled East Entrance beside the south wall: the dotted breakdown mound under the dashed drip line; the section's middle shaft lands at this x. Not matched to a database cave."
+    },
+    {
+      "name": "Sistema Katu Balam - Lord of the Ticks Entrance",
+      "px": [
+        2960,
+        1240
+      ],
+      "why": "labelled Lord of the Ticks Entrance: the stippled breakdown patch in the south alcove; the section's eastern shaft lands at this x. Not matched to a database cave."
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "threshold": 1000,
+    "regionThreshold": 1000,
+    "weakThreshold": 1000,
+    "fillColours": [
+      {
+        "hue": [
+          145,
+          175
+        ],
+        "minSaturation": 50,
+        "density": 0.3,
+        "alone": true
+      }
+    ],
+    "minHoleSqMetres": 0.25,
+    "minHoleSqMetresWhy": "the pillars are small (0.3 to 12 m2); the default 60 m2 dropped them all",
+    "wallSimplifyMetres": 0.1,
+    "wallSimplifyMetresWhy": "a small map (0.057 m/px): the default 0.5 m cuts the scalloped walls into straight segments",
+    "minLineMetres": 0.3,
+    "minLineMetresWhy": "the small pillars' rings are 1-3 m long; the default 1 m dropped most",
+    "minOutlineMetres": 1,
+    "minOutlineMetresWhy": "PROPOSED KEY (trace_scan.py hard-codes MIN_OUTLINE_METRES = 8 m): the pillars' rings are 1.5-8 m long. Until the script reads it, trace with the prototype wrapper scratchpad kb/trace_kb.py",
+    "labelBoxes": [
+      [
+        662,
+        565,
+        800,
+        640
+      ],
+      [
+        168,
+        562,
+        248,
+        592
+      ]
+    ],
+    "labelBoxesWhy": "'West Entrance' and the west 'sump', which OCR misses (printed over the grey screen / beside the dashed end)"
+  },
+  "prep": {
+    "why": "b/w drawing: thin wall outline, flooded parts in a halftone grey screen, dry floor white with stipple, pillars as bold closed outlines. fill_passages.py tints the area enclosed by the outer wall.",
+    "closePx": 7,
+    "sealLines": [
+      {
+        "why": "open end of the Sink or Swim Passage (the 'low airspace dig', walls end with ticks)",
+        "from": [
+          2721,
+          1694
+        ],
+        "to": [
+          2732,
+          1728
+        ],
+        "widthPx": 4
+      },
+      {
+        "why": "the east wall where the 'calcite raft dunes' label touches it (the label's mask cut it)",
+        "from": [
+          2930,
+          1528
+        ],
+        "to": [
+          2916,
+          1572
+        ],
+        "widthPx": 4
+      }
+    ],
+    "islandPoints": [
+      [
+        515,
+        356
+      ],
+      [
+        759,
+        411
+      ],
+      [
+        936,
+        445
+      ],
+      [
+        421,
+        457
+      ],
+      [
+        839,
+        463
+      ],
+      [
+        476,
+        468
+      ],
+      [
+        421,
+        533
+      ],
+      [
+        1627,
+        542
+      ],
+      [
+        1119,
+        542
+      ],
+      [
+        1059,
+        571
+      ],
+      [
+        1670,
+        606
+      ],
+      [
+        524,
+        627
+      ],
+      [
+        584,
+        645
+      ],
+      [
+        457,
+        674
+      ],
+      [
+        1465,
+        673
+      ],
+      [
+        495,
+        682
+      ],
+      [
+        1039,
+        695
+      ],
+      [
+        955,
+        708
+      ],
+      [
+        520,
+        735
+      ],
+      [
+        681,
+        725
+      ],
+      [
+        2128,
+        720
+      ],
+      [
+        588,
+        775
+      ],
+      [
+        722,
+        807
+      ],
+      [
+        1632,
+        810
+      ],
+      [
+        2068,
+        842
+      ],
+      [
+        2233,
+        858
+      ],
+      [
+        1567,
+        885
+      ],
+      [
+        2206,
+        972
+      ],
+      [
+        1430,
+        980
+      ],
+      [
+        1769,
+        972
+      ],
+      [
+        1477,
+        977
+      ],
+      [
+        1890,
+        1042
+      ],
+      [
+        2042,
+        1028
+      ],
+      [
+        2406,
+        1047
+      ],
+      [
+        2273,
+        1052
+      ],
+      [
+        2117,
+        1091
+      ],
+      [
+        2811,
+        1095
+      ],
+      [
+        2928,
+        1145
+      ],
+      [
+        2862,
+        1154
+      ],
+      [
+        1900,
+        1169
+      ],
+      [
+        3536,
+        1188
+      ],
+      [
+        2355,
+        1186
+      ],
+      [
+        2830,
+        1183
+      ],
+      [
+        1970,
+        1236
+      ],
+      [
+        2037,
+        1244
+      ],
+      [
+        2766,
+        1268
+      ],
+      [
+        1982,
+        1277
+      ],
+      [
+        1958,
+        1278
+      ],
+      [
+        2672,
+        1290
+      ],
+      [
+        1659,
+        1293
+      ],
+      [
+        2573,
+        1304
+      ],
+      [
+        2623,
+        1311
+      ],
+      [
+        2822,
+        1372
+      ],
+      [
+        1904,
+        1393
+      ],
+      [
+        2941,
+        1411
+      ],
+      [
+        1978,
+        1440
+      ],
+      [
+        2883,
+        1469
+      ]
+    ],
+    "islandPointsWhy": "the rock pillars: closed outlines drawn with the walls' scalloped bold stroke, white inside (found by a prototype, scratchpad kb/isl.py: enclosed white areas of 90 px or more, at least 3.5 px deep, whose edge is mostly ink); fill_passages' own bold test needs strokes of 5 px or more and finds none here (strokes about 3-4 px). A few small pillars whose outline isn't closed on the scan stay as details.",
+    "closePxWhy": "5 leaves gaps in the thin outer wall (the cave is not enclosed); 7 closes it with no bridge across the exterior",
+    "labelBoxes": [
+      [
+        2926,
+        1546,
+        3070,
+        1576
+      ]
+    ],
+    "labelBoxesWhy": "'calcite raft' touches the east wall and isn't among the OCR labels fill_passages masks: its letters were tinted as passage"
+  },
+  "symbols": {
+    "why": "Barbara Luke's UIS-style drawing (Canadian Caver 2012): no legend, no letter codes, no depths in the plan (only the title's 'Profundidad: 10 m'), no water-flow arrows (the small wavy ticks scattered over the floor have no arrowheads and no legend: floor ripples or slopes, not flow), no bones (none drawn or written; every part of the plan checked by eye at full size), no 'To ...' pointers. Kept by hand: the three sumps, the named rooms and passages, and the feature notes (thick root masses, calcite rafts, smelly organics, calcite raft dunes) as place names at what they label; 'small swimming lead' as unexplored; 'low airspace dig' (the Sink or Swim Passage's dug end) as a place name.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "sump",
+        "px": [
+          228,
+          525
+        ],
+        "why": "the west end's dashed tail beside section mark A"
+      },
+      {
+        "type": "place-name",
+        "label": "sump",
+        "px": [
+          2205,
+          606
+        ],
+        "why": "the north passage's tip"
+      },
+      {
+        "type": "place-name",
+        "label": "sump",
+        "px": [
+          3553,
+          1300
+        ],
+        "why": "dashed line at the west end of the Root Mass Pass loop"
+      },
+      {
+        "type": "place-name",
+        "label": "Pygyd Past Room",
+        "px": [
+          1570,
+          470
+        ]
+      },
+      {
+        "type": "unexplored",
+        "label": "small swimming lead",
+        "px": [
+          2830,
+          1072
+        ],
+        "why": "the leader's tick on the north wall"
+      },
+      {
+        "type": "place-name",
+        "label": "thick root masses",
+        "px": [
+          3105,
+          1045
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "calcite rafts",
+        "px": [
+          3230,
+          1020
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "smelly organics",
+        "px": [
+          3579,
+          1116
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Root Mass Pass",
+        "px": [
+          3740,
+          1230
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sink or Swim Passage",
+        "px": [
+          2830,
+          1600
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "calcite raft dunes",
+        "px": [
+          2885,
+          1590
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "low airspace dig",
+        "px": [
+          2730,
+          1712
+        ],
+        "why": "the Sink or Swim Passage's open end"
+      }
+    ]
+  }
+}

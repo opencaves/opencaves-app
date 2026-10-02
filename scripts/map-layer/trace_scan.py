@@ -67,7 +67,7 @@ REAL_LABEL_CONF = 70
 # its floor stipple; the opening removes strokes thinner than its size.
 CLOSE_PX = 9
 OPEN_PX = 5
-# Outlines kept: at least MIN_OUTLINE_METRES long; an outer one enclosing at
+# Outlines kept: at least MIN_OUTLINE_METRES long (per map: "minOutlineMetres", for small pillars' rings); an outer one enclosing at
 # least MIN_BAND_SQ_METRES (smaller: a symbol); a hole (pillar, island) at
 # least MIN_HOLE_SQ_METRES (smaller: a gap in the stipple).
 MIN_OUTLINE_METRES = 8
@@ -823,7 +823,7 @@ def thin_walls(config_path, config, out, name):
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     contours, hierarchy = cv2.findContours(outline_bands, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
     for index, contour in enumerate(contours):
-        if len(contour) < 4 or cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES:
+        if len(contour) < 4 or cv2.arcLength(contour, True) * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
             continue
         points = [tuple(p) for p in contour[:, 0, :].astype(float)]
         line = smooth(LineString(points + points[:1])).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
@@ -1124,7 +1124,7 @@ def main(config_path, output):
         # "snapEndsPx": a line end within this of another line (a junction
         # piece too short to keep, at a coarse scale) is carried onto it.
         if trace.get('snapEndsPx'):
-            lines = [line for line in lines if line.length * scale >= MIN_OUTLINE_METRES]
+            lines = [line for line in lines if line.length * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES)]
             from shapely.geometry import Point
             from shapely.ops import nearest_points
             snapped = []
@@ -1139,7 +1139,7 @@ def main(config_path, output):
                 snapped.append(LineString(coords))
             lines = snapped
         for line in lines:
-            if line.length * scale < MIN_OUTLINE_METRES:
+            if line.length * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
                 continue
             line = line.simplify(max(SIMPLIFY_METRES, scale / 2) / scale)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
@@ -1323,7 +1323,7 @@ def main(config_path, output):
         for index, contour in enumerate(contours):
             hole = hierarchy[0][index][3] != -1
             area = abs(cv2.contourArea(contour)) * scale ** 2
-            if len(contour) >= 4 and cv2.arcLength(contour, True) * scale >= MIN_OUTLINE_METRES and area >= (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)):
+            if len(contour) >= 4 and cv2.arcLength(contour, True) * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES) and area >= (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)):
                 cv2.drawContours(edge, [contour], -1, 1, trace.get('strokePx', 7))
         wall_ink = ink & (edge > 0) & ~masked & ~symbol_ink
         # Plus the long bold strokes the band missed ("wallOpenPx": the radius
@@ -1360,7 +1360,7 @@ def main(config_path, output):
         area = abs(cv2.contourArea(contour)) * scale ** 2
         # Colour fill: passage ends cut off at a narrow neck are small but real.
         min_band = trace.get('minBandSqMetres', MIN_BAND_SQ_METRES)
-        if cv2.arcLength(contour, True) * scale < MIN_OUTLINE_METRES or area < (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else min_band):
+        if cv2.arcLength(contour, True) * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES) or area < (trace.get('minHoleSqMetres', MIN_HOLE_SQ_METRES) if hole else min_band):
             continue
         points = [tuple(p) for p in contour[:, 0, :].astype(float)]
         runs = [points + points[:1]]
