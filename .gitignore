@@ -37,3 +37,6 @@ functions/py/t.jpg
 
 # Python bytecode (maps-import scripts import each other)
 __pycache__/
+
+# The cave layer's vector tiles: built by `npm run build:tiles` from _data/ (not in git)
+/public/tiles/

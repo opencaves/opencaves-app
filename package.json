@@ -7,7 +7,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\" \"vite\" \"node scripts/emulator-autosave.js\"",
     "serve": "serve -p 4000 -s build",
-    "build": "vite build",
+    "build": "node scripts/map-layer/build-tiles.js --check && vite build",
+    "build:tiles": "node scripts/map-layer/build-tiles.js --build",
     "deploy": "firebase deploy",
     "deploy:beta": "firebase hosting:channel:deploy beta",
     "postinstall": "patch-package"

@@ -94,3 +94,15 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
   `cenoteEntrance` flag): matched caves not yet flagged are kept aside too.
 - A map's exploration history goes to its sistema through
   `explorations_from_maps.py`, unless it is already there.
+
+## The layer in the app
+
+`npm run build:tiles` turns every placed map's traced output (unverified maps
+left out) into vector tiles in `public/tiles/caves/` - layers `passages`
+(walls, survey lines, water, details) and `symbols`, each feature with its
+`map` and `sistemaId`. It runs tippecanoe in Docker (the image is built from
+`scripts/map-layer/tippecanoe.Dockerfile` the first time). The tiles aren't in
+git (they come from `_data/`): rebuild them after changing a map, before
+`npm run build`, which warns when they're missing; Hosting serves them with
+the app. The app draws them in `src/components/Map/CaveLayer.jsx`, coloured by
+sistema from the database.

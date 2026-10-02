@@ -24,6 +24,7 @@ import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
 import CaveMarker from './CaveMarker.jsx'
+import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
 
 // Decorative markers (a cave's entrance and keys, edited coordinates) keep
 // Mapbox's role="img", with a real label instead of its "Map marker". Cave
@@ -776,7 +777,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad}>
+          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
+            <CaveLayer />
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
               positionOptions={{ enableHighAccuracy: true }}
