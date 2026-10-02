@@ -566,7 +566,13 @@
         "places": "Places"
       },
       "cenoteEntrance": "Cenote entrance",
-      "cenoteEntranceHint": "A cenote used to enter the cave system, as cave divers do (not a cenote alone in the jungle)"
+      "cenoteEntranceHint": "A cenote used to enter the cave system, as cave divers do (not a cenote alone in the jungle)",
+      "validity": {
+        "label": "Validity",
+        "valid": "Valid",
+        "unknown": "Unconfirmed",
+        "invalid": "Invalid"
+      }
     },
     "closePane": "Close",
     "rating": {

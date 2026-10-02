@@ -565,7 +565,13 @@
         "places": "Lieux"
       },
       "cenoteEntrance": "Cénote d'entrée",
-      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)"
+      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)",
+      "validity": {
+        "label": "Validité",
+        "valid": "Valide",
+        "unknown": "Non confirmée",
+        "invalid": "Invalide"
+      }
     },
     "closePane": "Fermer",
     "rating": {

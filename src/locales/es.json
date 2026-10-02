@@ -566,7 +566,13 @@
         "places": "Lugares"
       },
       "cenoteEntrance": "Cenote de entrada",
-      "cenoteEntranceHint": "Un cenote por el que se entra al sistema de cuevas, como lo hacen los buzos de cuevas (no un cenote aislado en la selva)"
+      "cenoteEntranceHint": "Un cenote por el que se entra al sistema de cuevas, como lo hacen los buzos de cuevas (no un cenote aislado en la selva)",
+      "validity": {
+        "label": "Validez",
+        "valid": "Válida",
+        "unknown": "Sin confirmar",
+        "invalid": "Inválida"
+      }
     },
     "closePane": "Cerrar",
     "rating": {
