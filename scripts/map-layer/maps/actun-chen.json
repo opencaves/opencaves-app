@@ -8,58 +8,364 @@
   },
   "sistemaId": "-KPZgfr0yQOkgBZ5HfDJ",
   "utmEpsg": 32616,
-  "unverified": "No cenote of the map has a reliable position: the database has none for the map's cenotes (Media Luna, La Dune, Verde, Kep/Kop, Plus, Iglesias, Murd have no coordinates; Ventana and Dos Lados aren't in it) and its only point, Aktun Chen (Gerrard 2015), is a cenote the map doesn't name. No pool of the map shows through the canopy on the Esri imagery. Placed only by the printed scale bar, the compass (north up) and the map's Akumal-Tulum highway: Cenote Verde set 250 m west of highway 307 (its drawn distance), at the north end of the Bahia Principe golf course (the database says the course's 2007 construction altered Verde); the position along the highway is a guess, possibly off by several hundred metres.",
-  "placementWhy": "Guess, see unverified. Scale from the 1500 ft bar (417 px, 1.096 m/px), north up (decorative compass rose); one point, Cenote Verde, put 250 m (the map's distance) west of highway 307 near the golf course's north access road. The map's highway runs at 22 deg, the real 307 at 29-30 deg here: the drawn road is schematic or the map is rotated about 7 deg; not corrected. Check: the database's Aktun Chen point (Gerrard) lands about 400 m west of Cenote Dos Lados, west of the Tren Maya corridor, where a small dark opening shows in the canopy - possibly a cenote of the system not drawn, or a sign that the map belongs further west.",
+  "placementWhy": "Guess, see unverified. Scale from the 1500 ft bar (417 px, 1.096 m/px), north up (decorative compass rose); one point, Cenote Verde, put 250 m (the map's distance) west of highway 307 near the golf course's north access road. The map's highway runs at 22 deg, the real 307 at 29-30 deg here: the drawn road is schematic or the map is rotated about 7 deg; not corrected. Check: the database's Aktun Chen point (Gerrard) lands about 400 m west of Cenote Dos Lados, west of the Tren Maya corridor, where a small dark opening shows in the canopy - possibly a cenote of the system not drawn, or a sign that the map belongs further west. Reviewed on the satellite by the user (2026-10-02) and accepted: no longer unverified (it was: No cenote of the map has a reliable position: the database has none for the map's cenotes (Media Luna, La Dune, Verde, Kep/Kop, Plus, Iglesias, Murd have no coordinates; Ventana and Dos Lados aren't in it) and its only point, Aktun Chen (Gerrard 2015), is a cenote the map doesn't name. No pool of th).",
   "scaleBar": {
-    "from": [75, 988],
-    "to": [492, 988],
+    "from": [
+      75,
+      988
+    ],
+    "to": [
+      492,
+      988
+    ],
     "metres": 457.2
   },
   "north": "up",
   "exclude": [
-    {"why": "title block: Sistema Actun Chen, surveyed passage 17,046 ft, exploration and survey Christophe Le Maillot, Bernd Birnbach, Mafia Maps July 1998", "box": [40, 42, 500, 390], "history": true},
-    {"why": "copyright B. Birnbach, C. Le Maillot", "box": [55, 1080, 490, 1120], "history": true},
-    {"why": "compass rose", "box": [1150, 85, 1315, 252]},
-    {"why": "scale bar 0-1500 feet", "box": [60, 955, 572, 1006]},
-    {"why": "highway Akumal-Tulum (dashed band) and its labels (north part)", "box": [1290, 330, 1484, 700]},
-    {"why": "highway Akumal-Tulum (dashed band) and its labels (south part)", "box": [1140, 700, 1484, 1138]},
-    {"why": "page border", "box": [0, 0, 1484, 6]},
-    {"why": "page border", "box": [0, 1130, 1484, 1138]},
-    {"why": "page border", "box": [0, 0, 6, 1138]},
-    {"why": "page border", "box": [1478, 0, 1484, 1138]},
-    {"why": "label Fiesta Line", "box": [594, 89, 712, 115]},
-    {"why": "label Media Luna", "box": [762, 232, 874, 259]},
-    {"why": "label Cenote Ventana", "box": [745, 335, 832, 383]},
-    {"why": "depth 47 (ft)", "box": [676, 326, 703, 355]},
-    {"why": "label Arcachon Allee", "box": [569, 395, 686, 442]},
-    {"why": "label Corridor 1", "box": [1053, 382, 1177, 408]},
-    {"why": "label La Dune", "box": [882, 455, 942, 501]},
-    {"why": "depth 25 (ft)", "box": [1053, 518, 1081, 549]},
-    {"why": "label Corridor 2", "box": [1207, 473, 1332, 499]},
-    {"why": "depth 58 (ft)", "box": [848, 552, 876, 581]},
-    {"why": "label Dead Priest Section", "box": [52, 510, 184, 558]},
-    {"why": "label Candela", "box": [422, 582, 522, 608]},
-    {"why": "label Cenote Verde", "box": [1118, 645, 1198, 692]},
-    {"why": "depth 70 (ft)", "box": [330, 732, 358, 761]},
-    {"why": "label Iglesia", "box": [486, 735, 556, 756]},
-    {"why": "label La Mancha Section", "box": [594, 732, 789, 758]},
-    {"why": "label Cenote Kop", "box": [830, 767, 907, 811]},
-    {"why": "label Cenote Dos Lados", "box": [330, 833, 436, 877]},
-    {"why": "label Muro", "box": [519, 853, 577, 875]},
-    {"why": "label Cenote Plus", "box": [717, 880, 793, 923]},
-    {"why": "label Corridor 3", "box": [1007, 845, 1132, 871]},
-    {"why": "depth 38 (ft)", "box": [617, 1019, 646, 1047]},
-    {"why": "label Archway", "box": [719, 1029, 822, 1055]},
-    {"why": "water-flow arrow (Fiesta Line)", "box": [574, 174, 630, 225]},
-    {"why": "water-flow arrow (Ventana - La Dune)", "box": [812, 410, 870, 462]},
-    {"why": "water-flow arrow (Dead Priest)", "box": [262, 620, 316, 680]},
-    {"why": "water-flow arrow (Cenote Plus)", "box": [655, 870, 685, 945]}
+    {
+      "why": "title block: Sistema Actun Chen, surveyed passage 17,046 ft, exploration and survey Christophe Le Maillot, Bernd Birnbach, Mafia Maps July 1998",
+      "box": [
+        40,
+        42,
+        500,
+        390
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright B. Birnbach, C. Le Maillot",
+      "box": [
+        55,
+        1080,
+        490,
+        1120
+      ],
+      "history": true
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        1150,
+        85,
+        1315,
+        252
+      ]
+    },
+    {
+      "why": "scale bar 0-1500 feet",
+      "box": [
+        60,
+        955,
+        572,
+        1006
+      ]
+    },
+    {
+      "why": "highway Akumal-Tulum (dashed band) and its labels (north part)",
+      "box": [
+        1290,
+        330,
+        1484,
+        700
+      ]
+    },
+    {
+      "why": "highway Akumal-Tulum (dashed band) and its labels (south part)",
+      "box": [
+        1140,
+        700,
+        1484,
+        1138
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        1484,
+        6
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        1130,
+        1484,
+        1138
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        6,
+        1138
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        1478,
+        0,
+        1484,
+        1138
+      ]
+    },
+    {
+      "why": "label Fiesta Line",
+      "box": [
+        594,
+        89,
+        712,
+        115
+      ]
+    },
+    {
+      "why": "label Media Luna",
+      "box": [
+        762,
+        232,
+        874,
+        259
+      ]
+    },
+    {
+      "why": "label Cenote Ventana",
+      "box": [
+        745,
+        335,
+        832,
+        383
+      ]
+    },
+    {
+      "why": "depth 47 (ft)",
+      "box": [
+        676,
+        326,
+        703,
+        355
+      ]
+    },
+    {
+      "why": "label Arcachon Allee",
+      "box": [
+        569,
+        395,
+        686,
+        442
+      ]
+    },
+    {
+      "why": "label Corridor 1",
+      "box": [
+        1053,
+        382,
+        1177,
+        408
+      ]
+    },
+    {
+      "why": "label La Dune",
+      "box": [
+        882,
+        455,
+        942,
+        501
+      ]
+    },
+    {
+      "why": "depth 25 (ft)",
+      "box": [
+        1053,
+        518,
+        1081,
+        549
+      ]
+    },
+    {
+      "why": "label Corridor 2",
+      "box": [
+        1207,
+        473,
+        1332,
+        499
+      ]
+    },
+    {
+      "why": "depth 58 (ft)",
+      "box": [
+        848,
+        552,
+        876,
+        581
+      ]
+    },
+    {
+      "why": "label Dead Priest Section",
+      "box": [
+        52,
+        510,
+        184,
+        558
+      ]
+    },
+    {
+      "why": "label Candela",
+      "box": [
+        422,
+        582,
+        522,
+        608
+      ]
+    },
+    {
+      "why": "label Cenote Verde",
+      "box": [
+        1118,
+        645,
+        1198,
+        692
+      ]
+    },
+    {
+      "why": "depth 70 (ft)",
+      "box": [
+        330,
+        732,
+        358,
+        761
+      ]
+    },
+    {
+      "why": "label Iglesia",
+      "box": [
+        486,
+        735,
+        556,
+        756
+      ]
+    },
+    {
+      "why": "label La Mancha Section",
+      "box": [
+        594,
+        732,
+        789,
+        758
+      ]
+    },
+    {
+      "why": "label Cenote Kop",
+      "box": [
+        830,
+        767,
+        907,
+        811
+      ]
+    },
+    {
+      "why": "label Cenote Dos Lados",
+      "box": [
+        330,
+        833,
+        436,
+        877
+      ]
+    },
+    {
+      "why": "label Muro",
+      "box": [
+        519,
+        853,
+        577,
+        875
+      ]
+    },
+    {
+      "why": "label Cenote Plus",
+      "box": [
+        717,
+        880,
+        793,
+        923
+      ]
+    },
+    {
+      "why": "label Corridor 3",
+      "box": [
+        1007,
+        845,
+        1132,
+        871
+      ]
+    },
+    {
+      "why": "depth 38 (ft)",
+      "box": [
+        617,
+        1019,
+        646,
+        1047
+      ]
+    },
+    {
+      "why": "label Archway",
+      "box": [
+        719,
+        1029,
+        822,
+        1055
+      ]
+    },
+    {
+      "why": "water-flow arrow (Fiesta Line)",
+      "box": [
+        574,
+        174,
+        630,
+        225
+      ]
+    },
+    {
+      "why": "water-flow arrow (Ventana - La Dune)",
+      "box": [
+        812,
+        410,
+        870,
+        462
+      ]
+    },
+    {
+      "why": "water-flow arrow (Dead Priest)",
+      "box": [
+        262,
+        620,
+        316,
+        680
+      ]
+    },
+    {
+      "why": "water-flow arrow (Cenote Plus)",
+      "box": [
+        655,
+        870,
+        685,
+        945
+      ]
+    }
   ],
   "controlPoints": [
     {
       "caveId": "-KPZkVRicIaKg6TLYYJS",
       "name": "Cenote Verde - guess: 250 m west of highway 307 at the golf course's north access road (no database position)",
-      "px": [1097, 677],
+      "px": [
+        1097,
+        677
+      ],
       "latitude": 20.38503,
       "longitude": -87.33012
     }
@@ -67,44 +373,253 @@
   "trace": {
     "method": "survey-lines",
     "water": false,
-    "lineColours": ["black"],
+    "lineColours": [
+      "black"
+    ],
     "leaderMaxPx": 1,
     "why": "Colour stick map (guidelines only, no walls), traced as lines. Labels (red, slate blue), depths (green), flow arrows (grey), title, compass, scale bar and the highway band are boxed out. The blue pools are cenotes on the lines; the light grey areas around Dos Lados/Iglesia/Muro and Kop/Plus are open collapses or cenote basins, not traced."
   },
   "entrances": [
-    {"name": "Media Luna", "caveId": "-KPZkVMPfYu-dcCay_da", "px": [753, 258]},
-    {"name": "Cenote Ventana", "px": [870, 356], "why": "Not in the database."},
-    {"name": "La Dune", "caveId": "-KPZkVLItmjsrSPynxfl", "px": [976, 512]},
-    {"name": "Cenote Verde", "caveId": "-KPZkVRicIaKg6TLYYJS", "px": [1097, 677]},
-    {"name": "Iglesia", "caveId": "-KPZkVKM8jk6VpDyEctf", "px": [468, 770], "why": "Database 'Iglesias'."},
-    {"name": "Cenote Dos Lados", "px": [424, 819], "why": "Not in the database."},
-    {"name": "Muro", "caveId": "-KPZkVN9_nvzVqqu74JI", "px": [561, 817], "why": "Database 'Murd' (sistema Aktun Chen, Gerrard 2015) - likely the same cenote, misspelt."},
-    {"name": "Cenote Kop", "caveId": "-KPZkVKv_Kezj1PNbIro", "px": [900, 848], "why": "Database 'Kep' (aka Kop). Upper pool of the Kop collapse, under its label."},
-    {"name": "Cenote Plus", "caveId": "-KPZkVOTI-q0qza_7A_J", "px": [843, 882], "why": "West pool of the Kop collapse, the one nearest the 'Cenote Plus' label - the label could also mean the collapse as a whole."}
+    {
+      "name": "Media Luna",
+      "caveId": "-KPZkVMPfYu-dcCay_da",
+      "px": [
+        753,
+        258
+      ]
+    },
+    {
+      "name": "Cenote Ventana",
+      "px": [
+        870,
+        356
+      ],
+      "why": "Not in the database."
+    },
+    {
+      "name": "La Dune",
+      "caveId": "-KPZkVLItmjsrSPynxfl",
+      "px": [
+        976,
+        512
+      ]
+    },
+    {
+      "name": "Cenote Verde",
+      "caveId": "-KPZkVRicIaKg6TLYYJS",
+      "px": [
+        1097,
+        677
+      ]
+    },
+    {
+      "name": "Iglesia",
+      "caveId": "-KPZkVKM8jk6VpDyEctf",
+      "px": [
+        468,
+        770
+      ],
+      "why": "Database 'Iglesias'."
+    },
+    {
+      "name": "Cenote Dos Lados",
+      "px": [
+        424,
+        819
+      ],
+      "why": "Not in the database."
+    },
+    {
+      "name": "Muro",
+      "caveId": "-KPZkVN9_nvzVqqu74JI",
+      "px": [
+        561,
+        817
+      ],
+      "why": "Database 'Murd' (sistema Aktun Chen, Gerrard 2015) - likely the same cenote, misspelt."
+    },
+    {
+      "name": "Cenote Kop",
+      "caveId": "-KPZkVKv_Kezj1PNbIro",
+      "px": [
+        900,
+        848
+      ],
+      "why": "Database 'Kep' (aka Kop). Upper pool of the Kop collapse, under its label."
+    },
+    {
+      "name": "Cenote Plus",
+      "caveId": "-KPZkVOTI-q0qza_7A_J",
+      "px": [
+        843,
+        882
+      ],
+      "why": "West pool of the Kop collapse, the one nearest the 'Cenote Plus' label - the label could also mean the collapse as a whole."
+    }
   ],
   "symbols": {
     "why": "Mafia Maps line plot: depths are overlined green numbers in feet (no legend; same author's convention on Actun Koh). Five depths, four water-flow arrows (grey wavy arrows), named places at their labels. No letter codes, no bones.",
     "units": "ft",
     "letters": {},
     "extra": [
-      {"type": "depth", "label": "47", "px": [689, 342], "value": 47, "halfPx": 16},
-      {"type": "depth", "label": "25", "px": [1067, 536], "value": 25, "halfPx": 16},
-      {"type": "depth", "label": "58", "px": [862, 568], "value": 58, "halfPx": 16},
-      {"type": "depth", "label": "70", "px": [344, 748], "value": 70, "halfPx": 16},
-      {"type": "depth", "label": "38", "px": [631, 1034], "value": 38, "halfPx": 16},
-      {"type": "place-name", "label": "Fiesta Line", "px": [653, 102]},
-      {"type": "place-name", "label": "Arcachon Allee", "px": [627, 418]},
-      {"type": "place-name", "label": "Corridor 1", "px": [1115, 395]},
-      {"type": "place-name", "label": "Corridor 2", "px": [1269, 486]},
-      {"type": "place-name", "label": "Dead Priest Section", "px": [118, 534]},
-      {"type": "place-name", "label": "Candela", "px": [472, 595]},
-      {"type": "place-name", "label": "La Mancha Section", "px": [691, 745]},
-      {"type": "place-name", "label": "Corridor 3", "px": [1069, 858]},
-      {"type": "place-name", "label": "Archway", "px": [770, 1042]},
-      {"type": "flow", "label": "flow", "px": [602, 195], "bearing": 140},
-      {"type": "flow", "label": "flow", "px": [841, 436], "bearing": 135},
-      {"type": "flow", "label": "flow", "px": [289, 650], "bearing": 140},
-      {"type": "flow", "label": "flow", "px": [668, 908], "bearing": 180}
+      {
+        "type": "depth",
+        "label": "47",
+        "px": [
+          689,
+          342
+        ],
+        "value": 47,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "px": [
+          1067,
+          536
+        ],
+        "value": 25,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "58",
+        "px": [
+          862,
+          568
+        ],
+        "value": 58,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "px": [
+          344,
+          748
+        ],
+        "value": 70,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "38",
+        "px": [
+          631,
+          1034
+        ],
+        "value": 38,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "Fiesta Line",
+        "px": [
+          653,
+          102
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Arcachon Allee",
+        "px": [
+          627,
+          418
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Corridor 1",
+        "px": [
+          1115,
+          395
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Corridor 2",
+        "px": [
+          1269,
+          486
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dead Priest Section",
+        "px": [
+          118,
+          534
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Candela",
+        "px": [
+          472,
+          595
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "La Mancha Section",
+        "px": [
+          691,
+          745
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Corridor 3",
+        "px": [
+          1069,
+          858
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Archway",
+        "px": [
+          770,
+          1042
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          602,
+          195
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          841,
+          436
+        ],
+        "bearing": 135
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          289,
+          650
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          668,
+          908
+        ],
+        "bearing": 180
+      }
     ]
   }
 }
