@@ -28,7 +28,9 @@ Vector PDFs whose walls are separable strokes use `build_layer.py` instead.
 Two scripts prepare an image before tracing: `rectify_photo.py` straightens a
 photographed map (and can undo lens distortion, glare and a poster's weave),
 and `fill_passages.py` tints the white passages of a bold-wall scan so the
-`colour-fill` method can trace them.
+`colour-fill` method can trace them. A map that needs its own preparation
+has a script in `prep/` (e.g. `prep/joolis.py`, which merges two editions of
+the Joolis map); run it before tracing.
 Every script's docstring documents its options; the config keys are
 documented where the code reads them.
 

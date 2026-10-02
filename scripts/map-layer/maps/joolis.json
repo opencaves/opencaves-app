@@ -1,0 +1,933 @@
+{
+  "image": "../../../_data/map-layer/pilot/joolis-composite.png",
+  "imageNote": "composite in the frame of _data/maps-import/images/joolis-sist-tulum.webp (the 2004 scan, 3725 x 5370, = _data/cartes/à traiter/Joolis, Sist., Tulum.pdf; pixel coordinates unchanged, canvas 1000 px taller), made by prep/joolis.py. (1) The scan draws the Hoit line plot twice - at its true place, cut by the page bottom, and whole, moved up into the empty right half of the page (by +767, -1748 px), the copies joined by two dash-dot curves with arrowheads: the moved copy is put back on its duplicate (it covers it exactly) and the curves erased (_data/map-layer/pilot/joolis-hoit-placed.png). (2) The cave itself comes from the 2013 reprint (Joolis, Sist., Tulum (1).pdf, white on black, 3328 x 4380: the same drawing, sharp, with the survey line but without the depths and the line plots), inverted and warped onto the scan (similarity fitted on 364 SIFT matches, median residual 2.8 px, scale 1.158, rotation -0.19 deg), its thin straight strokes (section-mark shafts, survey legs, hatching) erased; the line plots' boxes (trace.lineTrace.boxes) keep the scan's content.",
+  "sourceImage": "../../../_data/maps-import/images/joolis-sist-tulum.webp",
+  "title": "Sistema Joolis - Czech Speleological Society / QRSS 2004",
+  "credits": "Sistema Joolis, Tulum, Quintana Roo, Mexico. Length 3,580 m (11,746 ft). Explored and surveyed 2002-2004 by M. Dvoracek, R. Husak, D. Hutnan, M. Megela, Z. Motycka, R. Jancar, B. Phillips, R. Schmittner, M. F. Silva. Scale 1:2000 / 1:1000. Drawn by Zdenek Motycka, Pavla Hazmukova; digitised by GEODIS BRNO spol. s r. o. Czech Speleological Society, QRSS 2004 (Bulletin of Slovak Speleological Society special edition 2005, p. 26; AMCS Activities Newsletter 29, p. 12, 2006)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfwJaF_etYMN5okj",
+  "utmEpsg": 32616,
+  "placementWhy": "Scale bar + north + one point. Scale from the 0-100 m bar (a tick every 10 m, 90.5 px; 0 at x 100, 100 m at x 1005: 0.1105 m/px), confirmed by the 2013 reprint's own 0-50 m bar (same drawing, 1.158x smaller: 50 m = 451 px at this scan's size). North: the arrow is magnetic north 2004 ('N mg 2004'), drawn straight up; the declination there was about 1 deg west in 2004 (estimated from the WMM trend, not measured), so true north is taken 1 deg clockwise of up. Shift: Dzonot Joolis' open-water end (px 3190, 2580) on the database's Joolis (Gerrard, 20.38467, -87.4251). Unchecked: nothing on the ground can be matched (see unverified). The 'Ta Tich' placed by maps/nohoch-aktun.json is another cave (Sistema Tatich, a.k.a. Nuhuch Actun, at Akumal, 8.5 km north-east, a different shape); this map's Tatich is a shaft entrance of Sistema Joolis, with no position in the database - so no overlap check was possible. Reviewed on the satellite by the user (2026-10-02) and accepted: no longer unverified (it was: No cenote of the map has a reliable position: only Dzonot Joolis has one, from Gerrard (not taken on site), and it falls on the dirt road at the gate of a ranch clearing - likely the access point (Gerrard's directions for the sistema end at a palapa hut and a locked gate, with a trail on to the ceno).",
+  "scaleBar": {
+    "from": [
+      100,
+      860
+    ],
+    "to": [
+      1005,
+      860
+    ],
+    "metres": 100
+  },
+  "north": {
+    "angle": 1
+  },
+  "exclude": [
+    {
+      "why": "title: Sistema Joolis, Tulum, Quintana Roo, Mexico, Length 3580 m (11 746 ft)",
+      "box": [
+        60,
+        0,
+        880,
+        300
+      ]
+    },
+    {
+      "why": "north arrow (N mg 2004)",
+      "box": [
+        480,
+        370,
+        800,
+        760
+      ]
+    },
+    {
+      "why": "scale bar 0-100 m and scale: 1:2000 / 1:1000",
+      "box": [
+        70,
+        780,
+        1100,
+        960
+      ]
+    },
+    {
+      "why": "credits: explored and surveyed 2002-2004 (M. Dvoracek, R. Husak, D. Hutnan, M. Megela, Z. Motycka, R. Jancar, B. Phillips, R. Schmittner, M. F. Silva), drawn by Z. Motycka and P. Hazmukova, digitised by GEODIS BRNO, Czech Speleological Society, QRSS 2004",
+      "box": [
+        70,
+        1040,
+        1260,
+        1940
+      ],
+      "history": true
+    },
+    {
+      "why": "label TATICH",
+      "box": [
+        2340,
+        985,
+        2515,
+        1050
+      ]
+    },
+    {
+      "why": "label CHU'MUC'CHO",
+      "box": [
+        3375,
+        1810,
+        3725,
+        1905
+      ]
+    },
+    {
+      "why": "label DZONOT JOOLIS",
+      "box": [
+        3155,
+        2680,
+        3540,
+        2730
+      ]
+    },
+    {
+      "why": "label POLO",
+      "box": [
+        150,
+        4780,
+        290,
+        4840
+      ]
+    },
+    {
+      "why": "2013 reprint's north arrow (N mg), in the composite",
+      "box": [
+        2780,
+        2890,
+        3060,
+        3310
+      ]
+    },
+    {
+      "why": "2013 reprint's scale bar (0-50 m), in the composite",
+      "box": [
+        2590,
+        3370,
+        3240,
+        3545
+      ]
+    },
+    {
+      "why": "2013 reprint's label To POLO, in the composite",
+      "box": [
+        225,
+        3770,
+        450,
+        3790
+      ]
+    },
+    {
+      "why": "label HOIT (moved with its line plot)",
+      "box": [
+        1555,
+        6085,
+        1675,
+        6145
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1161,
+        227,
+        1250,
+        294
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1203,
+        141,
+        1307,
+        211
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1293,
+        70,
+        1388,
+        145
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1368,
+        236,
+        1493,
+        333
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1736,
+        293,
+        1977,
+        426
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2835,
+        274,
+        2935,
+        360
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3073,
+        120,
+        3172,
+        201
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1796,
+        589,
+        2030,
+        716
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2758,
+        474,
+        2901,
+        583
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1240,
+        611,
+        1409,
+        734
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1280,
+        724,
+        1487,
+        924
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1957,
+        801,
+        2116,
+        911
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2358,
+        883,
+        2514,
+        980
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2371,
+        791,
+        2559,
+        889
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3116,
+        879,
+        3299,
+        989
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3137,
+        770,
+        3248,
+        866
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1565,
+        1014,
+        1671,
+        1186
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1671,
+        1051,
+        1776,
+        1120
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1862,
+        1046,
+        2015,
+        1134
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2117,
+        901,
+        2249,
+        1054
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2208,
+        965,
+        2335,
+        1082
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2494,
+        1023,
+        2716,
+        1166
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3132,
+        1019,
+        3262,
+        1127
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1296,
+        1234,
+        1506,
+        1327
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1846,
+        1225,
+        1961,
+        1311
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1954,
+        1263,
+        2045,
+        1332
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2058,
+        1302,
+        2175,
+        1385
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2123,
+        1422,
+        2352,
+        1536
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2484,
+        1484,
+        2813,
+        1578
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2632,
+        1400,
+        2870,
+        1482
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3307,
+        1459,
+        3521,
+        1572
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1178,
+        1680,
+        1395,
+        1756
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2041,
+        1730,
+        2417,
+        1967
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2485,
+        1569,
+        2714,
+        1667
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2896,
+        1514,
+        3024,
+        1590
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2960,
+        1607,
+        3151,
+        1702
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        763,
+        1913,
+        1131,
+        2081
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1996,
+        1966,
+        2089,
+        2034
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2783,
+        1874,
+        2941,
+        1965
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3011,
+        1983,
+        3128,
+        2054
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3144,
+        2083,
+        3243,
+        2154
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1005,
+        2150,
+        1121,
+        2270
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1530,
+        2261,
+        1850,
+        2400
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1774,
+        2326,
+        2405,
+        2480
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1784,
+        2131,
+        1886,
+        2200
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1888,
+        2152,
+        2089,
+        2289
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2335,
+        2279,
+        2601,
+        2388
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2540,
+        2221,
+        2614,
+        2286
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3144,
+        2270,
+        3287,
+        2343
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3168,
+        2380,
+        3371,
+        2460
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        44,
+        2530,
+        712,
+        2688
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        783,
+        2576,
+        994,
+        2665
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2383,
+        2464,
+        2640,
+        2601
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2726,
+        2519,
+        2824,
+        2590
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2814,
+        2561,
+        3021,
+        2693
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1620,
+        2735,
+        1924,
+        2886
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1726,
+        2930,
+        1988,
+        3027
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        197,
+        3253,
+        649,
+        3390
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        854,
+        3276,
+        1251,
+        3421
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        666,
+        3562,
+        844,
+        3669
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        764,
+        3425,
+        941,
+        3504
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1990,
+        3443,
+        2250,
+        3547
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        507,
+        3637,
+        718,
+        3715
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1980,
+        3718,
+        2130,
+        3815
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1256,
+        4040,
+        1652,
+        4303
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1892,
+        4028,
+        2068,
+        4147
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2185,
+        3957,
+        2351,
+        4041
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1245,
+        355,
+        1350,
+        410
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1740,
+        1230,
+        1840,
+        1295
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2700,
+        1305,
+        2940,
+        1405
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2885,
+        1700,
+        3010,
+        1785
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1810,
+        1830,
+        1920,
+        1920
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1388,
+        452,
+        1450,
+        498
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVKYtpQWz0ZIq8lS",
+      "name": "Dzonot Joolis (Gerrard; on the road at a ranch gate)",
+      "px": [
+        3190,
+        2580
+      ],
+      "latitude": 20.38467,
+      "longitude": -87.4251
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Tatich",
+      "caveId": "-KPZkVQhZKr_azlGNfTv",
+      "px": [
+        2420,
+        1095
+      ],
+      "why": "funnel-shaped shaft with water lines at its mouth, below the TATICH label"
+    },
+    {
+      "name": "Chu'muc'cho",
+      "caveId": "-KPZkVGmaa88LuhcNs8Q",
+      "px": [
+        3610,
+        1700
+      ],
+      "why": "east end of the Chu'muc'cho passage, an open basin drawn with contour lines (the label is below it)"
+    },
+    {
+      "name": "Dzonot Joolis",
+      "caveId": "-KPZkVKYtpQWz0ZIq8lS",
+      "px": [
+        3190,
+        2580
+      ],
+      "why": "south-east end of the cave, a sloping open-water basin (horizontal-line shading), above the DZONOT JOOLIS label"
+    },
+    {
+      "name": "Polo",
+      "caveId": "-KPZkVOVBKVvEY2uXixv",
+      "px": [
+        258,
+        4738
+      ],
+      "why": "end of the Polo line plot (stick map), above the POLO label"
+    },
+    {
+      "name": "Hoit",
+      "caveId": "-KPZkVKDE0XX3JmWy0oD",
+      "px": [
+        1636,
+        6072
+      ],
+      "why": "end of the Hoit line plot, at its true place (the moved copy put back: webp px 2408, 4320 + (-767, +1748)); the 2013 reprint calls it 'To HOYT'"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "why": "traced on the composite (see imageNote): the cave from the 2013 reprint, whose walls are bold strokes (about 7 px wide here) and whose cross-section marks, survey line, hatching and boulder outlines are thin (about 4 px) - an opening of radius 3 keeps the walls; the reprint's thin straight strokes were erased beforehand (prep/joolis.py) so they don't join the walls as the thinner wall pieces do. The 2004 scan itself draws everything at one weight, blurred.",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 70,
+    "fillStrokeHolesPx": 40,
+    "minLineMetres": 2,
+    "minDetailPx": 30,
+    "lineTrace": {
+      "why": "the Polo and Hoit line plots (stick maps, survey lines only) are traced as lines: trace_scan.py traces these boxes with these settings, the rest as walls (these boxes excluded), and merges the two",
+      "method": "survey-lines",
+      "lineColours": [
+        "black"
+      ],
+      "boxes": [
+        [
+          0,
+          3150,
+          265,
+          3650
+        ],
+        [
+          150,
+          3785,
+          900,
+          4860
+        ],
+        [
+          2100,
+          4745,
+          3000,
+          6250
+        ],
+        [
+          1500,
+          5000,
+          2100,
+          6250
+        ]
+      ],
+      "addLines": [
+        {
+          "from": [
+            270,
+            3655
+          ],
+          "to": [
+            482,
+            3795
+          ],
+          "widthPx": 3
+        }
+      ],
+      "bridgePx": 5,
+      "joinShortPx": 40
+    }
+  },
+  "symbols": {
+    "why": "Czech dive survey (no legend on the page). The station depths along the walls and line plots (-9.40 style) are about 6 px high on this scan, printed as blobs: unreadable, so none is kept (the 2013 reprint, Joolis, Sist., Tulum (1).pdf, is sharper but drops the depths and the line plots). No restriction codes, no flow arrows (the arrows along the 2013 reprint's survey line give the legs' direction; the dash-dot curves with arrowheads are the moved Hoit copy's links, not flow), no bones (searched: no bone icon, no text). The dotted outlines (a slope ending in a dotted line on the Chu'muc'cho passage's south wall, a small dotted arc at the north-east branch's head, a dotted edge along the hatched area south of the central passage) have no legend: not kept as entrances.",
+    "units": "m",
+    "letters": {}
+  },
+  "prep": {
+    "reprintWarp": [
+      [
+        1.1579971216976876,
+        0.0038920325132642346,
+        -33.09726497071019
+      ],
+      [
+        -0.0038920325132642346,
+        1.1579971216976876,
+        -39.44245648667866
+      ]
+    ],
+    "why": "the 2013 reprint warped onto the 2004 scan: similarity fitted on 364 SIFT matches (median residual 2.8 px); used by prep/joolis.py"
+  }
+}

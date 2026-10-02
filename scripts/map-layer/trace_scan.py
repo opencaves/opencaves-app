@@ -937,6 +937,59 @@ def compass_fill(config_path, config, out, name):
     print(f'{len(walls["features"]) - len(features)} wall/detail features + {len(features)} survey lines -> {out / (name + "-walls.geojson")}')
 
 
+def line_trace_areas(config_path, config, out, name):
+    """"lineTrace": {"boxes": [[x0, y0, x1, y1], ...], "method":
+    "survey-lines", ...} - parts of a wall map drawn as line plots (stick
+    maps of side passages): the walls are traced with these boxes excluded,
+    the boxes with the lineTrace settings (everything else excluded), and the
+    two outputs merged into <name>-walls.geojson."""
+    import shutil
+    import tempfile
+    line = config['trace']['lineTrace']
+    boxes = line['boxes']
+    width, height = Image.open(config_path.parent.joinpath(config['image']).resolve()).size
+    temp = Path(tempfile.mkdtemp())
+
+    def run(variant, folder):
+        # Same name (OCR cache, symbols), image path made absolute.
+        variant['image'] = str(config_path.parent.joinpath(config['image']).resolve())
+        (temp / folder).mkdir()
+        path = temp / folder / f'{name}.json'
+        path.write_text(json.dumps(variant), encoding='utf-8')
+        for cache in (f'{name}-ocr-words.json', f'{name}-symbols-px.json'):
+            if (out / cache).exists():
+                shutil.copy(out / cache, temp / folder / cache)
+        main(path, temp / folder)
+        return json.loads((temp / folder / f'{name}-walls.geojson').read_text(encoding='utf-8'))
+
+    walls_config = json.loads(json.dumps(config))
+    walls_config['trace'].pop('lineTrace')
+    walls_config['exclude'] = config.get('exclude', []) + [{'why': 'line plot', 'box': b} for b in boxes]
+    walls = run(walls_config, 'walls')
+    # Everything outside the boxes excluded, in horizontal bands.
+    edges = sorted({0, height} | {b[1] for b in boxes} | {b[3] for b in boxes})
+    outside = []
+    for y0, y1 in zip(edges, edges[1:]):
+        x = 0
+        for x0, x1 in sorted((b[0], b[2]) for b in boxes if b[1] <= y0 and b[3] >= y1):
+            if x0 > x:
+                outside.append([x, y0, x0, y1])
+            x = max(x, x1)
+        if x < width:
+            outside.append([x, y0, width, y1])
+    lines_config = json.loads(json.dumps(walls_config))
+    lines_config['exclude'] = config.get('exclude', []) + [{'why': 'not a line plot', 'box': b} for b in outside]
+    lines_config['trace'] = {k: v for k, v in line.items() if k != 'boxes'}
+    lines = run(lines_config, 'lines')
+    walls['features'] += lines['features']
+    (out / f'{name}-walls.geojson').write_text(json.dumps(walls, separators=(',', ':')), encoding='utf-8')
+    for produced in (f'{name}-walls-review.png', f'{name}-ocr-words.json'):
+        if (temp / 'walls' / produced).exists() and (produced.endswith('.png') or not (out / produced).exists()):
+            shutil.copy(temp / 'walls' / produced, out / produced)
+    shutil.rmtree(temp)
+    print(f"{len(walls['features']) - len(lines['features'])} wall features + {len(lines['features'])} line-plot survey lines -> {out / f'{name}-walls.geojson'}")
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -944,6 +997,8 @@ def main(config_path, output):
     out = Path(output)
     out.mkdir(parents=True, exist_ok=True)
 
+    if config.get('trace', {}).get('lineTrace'):
+        return line_trace_areas(config_path, config, out, name)
     if config.get('trace', {}).get('method') == 'compass-fill':
         return compass_fill(config_path, config, out, name)
     if config.get('trace', {}).get('method') == 'thin-walls':
