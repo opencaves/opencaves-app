@@ -174,13 +174,10 @@
         margin: 0.6em 0;
       }
 
-      // Links underlined in the secondary colour.
+      // Links: as everywhere (App.scss), the text's colour underlined in the
+      // secondary colour.
       a {
-        color: var(--mui-palette-primary-main);
         text-decoration: underline;
-        text-decoration-color: var(--mui-palette-secondary-main);
-        text-decoration-thickness: 2px;
-        text-underline-offset: 2px;
       }
 
       table {

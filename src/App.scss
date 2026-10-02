@@ -7,16 +7,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Links: the text's colour, underlined in the secondary colour.
 a:not(.MuiButtonBase-root) {
   color: inherit;
-  text-decoration-color: var(--md-palette-secondary-main);
+  text-decoration-color: var(--mui-palette-secondary-main);
   text-decoration-thickness: 2px;
-  transition: all var(--md-transition-duration-shortest) ease-in-out;
+  text-underline-offset: 2px;
+  transition: all 150ms ease-in-out;
 }
 
 a:not(.MuiButtonBase-root):hover {
-  color: var(--md-palette-secondary-dark);
-  text-decoration-color: var(--md-palette-secondary-dark);
+  color: var(--mui-palette-secondary-dark);
+  text-decoration-color: var(--mui-palette-secondary-dark);
 }
 
 code {
