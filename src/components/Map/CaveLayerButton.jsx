@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Fab, FormControlLabel, FormLabel, Popover, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
-import { LayersRounded } from '@mui/icons-material'
+import { LayersClearRounded, LayersRounded } from '@mui/icons-material'
 import { setCaveLayerColorBySistema, setCaveLayerScope, setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 
 // The map's layer button, under the account button: the cave layer's options
@@ -21,13 +21,13 @@ export default function CaveLayerButton({ sx }) {
     <>
       <Tooltip title={t('button')} placement="left">
         <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(event.currentTarget)}
-          sx={{ bgcolor: 'background.paper', color: visible ? 'primary.main' : 'text.secondary', '&:hover': { bgcolor: 'background.paper' }, ...sx }}>
-          <LayersRounded />
+          sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' }, ...sx }}>
+          {visible ? <LayersRounded /> : <LayersClearRounded />}
         </Fab>
       </Tooltip>
       <Popover open={Boolean(anchor)} anchorEl={anchor} onClose={() => setAnchor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        slotProps={{ paper: { role: 'dialog', 'aria-labelledby': titleId, sx: { mt: 1, borderRadius: 4, width: 'min(320px, calc(100vw - 16px))' } } }}>
-        <Box className="oc-cave-layer-menu" sx={{ p: 2 }}>
+        slotProps={{ paper: { role: 'dialog', 'aria-labelledby': titleId, elevation: 3, sx: (theme) => ({ mt: 1, borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, width: 'min(320px, calc(100vw - 16px))' }) } }}>
+        <Box className="oc-cave-layer-menu" sx={{ p: 2.5 }}>
           <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
             {t('title')}
           </Typography>
