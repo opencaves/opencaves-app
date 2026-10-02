@@ -1,0 +1,770 @@
+{
+  "image": "../../../_data/maps-import/images/mar-sist-del.webp",
+  "title": "Sistema Del Mar - Mafia Maps 1998",
+  "credits": "Sistema Del Mar, Q. Roo, Mexico; surveyed passage to date 62,333 feet; exploration and survey Christophe Le Maillot, Bernd Birnbach, Daniel Riordan, Ted Cole, Tamara Kendal; Mafia Maps, December 1998 (c) B. Birnbach, C. Le Maillot, 2000",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1001,
+        11
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        745,
+        1001,
+        767
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        4,
+        767
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        995,
+        0,
+        1001,
+        767
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        200,
+        26,
+        300,
+        130
+      ]
+    },
+    {
+      "why": "title block: Sistema Del Mar, Q. Roo, surveyed passage 62,333 ft, exploration and survey team, Mafia Maps December 1998",
+      "box": [
+        683,
+        20,
+        990,
+        276
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar (feet)",
+      "box": [
+        108,
+        600,
+        340,
+        640
+      ]
+    },
+    {
+      "why": "copyright B. Birnbach, C. Le Maillot, 2000",
+      "box": [
+        10,
+        708,
+        320,
+        742
+      ],
+      "history": true
+    },
+    {
+      "why": "label Caribbean Sea",
+      "box": [
+        950,
+        460,
+        985,
+        690
+      ]
+    },
+    {
+      "why": "penetration p 14,153 FT",
+      "box": [
+        14,
+        108,
+        86,
+        126
+      ]
+    },
+    {
+      "why": "penetration p 10,024 FT",
+      "box": [
+        418,
+        10,
+        492,
+        27
+      ]
+    },
+    {
+      "why": "label Exit 1",
+      "box": [
+        848,
+        568,
+        922,
+        594
+      ]
+    },
+    {
+      "why": "label Exit 2",
+      "box": [
+        828,
+        608,
+        902,
+        634
+      ]
+    },
+    {
+      "why": "label Exit 3",
+      "box": [
+        820,
+        650,
+        896,
+        676
+      ]
+    },
+    {
+      "why": "label Cenote Bo'ox",
+      "box": [
+        788,
+        680,
+        852,
+        720
+      ]
+    },
+    {
+      "why": "label - Del Mar",
+      "box": [
+        742,
+        634,
+        780,
+        670
+      ]
+    },
+    {
+      "why": "water-flow arrowhead",
+      "box": [
+        338,
+        234,
+        366,
+        262
+      ]
+    },
+    {
+      "why": "label Labyrinth Cenote",
+      "box": [
+        640,
+        684,
+        698,
+        716
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black",
+      "blue"
+    ],
+    "eraseLines": [
+      {
+        "why": "dotted water-flow arrow (pointing south-east)",
+        "from": [
+          264,
+          181
+        ],
+        "to": [
+          362,
+          258
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cenote Luz's pool (off the line): not survey",
+        "from": [
+          124,
+          333
+        ],
+        "to": [
+          133,
+          322
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Labyrinth Cenote's mark (a small elongated pool beside the lines, not survey)",
+        "from": [
+          697,
+          629
+        ],
+        "to": [
+          703,
+          643
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "Cenote La Mesa's pool (just above the line, not touching it): not survey",
+        "from": [
+          419,
+          411
+        ],
+        "to": [
+          432,
+          411
+        ],
+        "widthPx": 6
+      }
+    ],
+    "inkLevel": 92,
+    "minBlueExcess": 18,
+    "leaderMaxPx": 1,
+    "why": "Mafia Maps stick map (black survey lines, no walls) at about 3.2 m/px, traced as lines. Only the darkest ink is taken (inkLevel 92: the grey labels, leaders and the blue-grey sea labels are lighter), plus the blue cenote dots (lineColours blue, minBlueExcess 18) so that lines running through a cenote stay continuous; pools that sit beside a line (Luz, La Mesa) and the Labyrinth mark are erased. Leader removal is off (leaderMaxPx 1): the leaders are lighter than the ink level anyway, and it took the Black Hole line. The lines past the yellow coastline are the passages to the three sea exits, kept. Separate lines (Jaguar, the Sickman and El Tucan branches, the line N of Cenote Air) stay separate: jumps. The Black Hole line touches the Blind Wall loop through a 1-px antialiased pixel and is kept joined."
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVM8aDM1ar8Z4DSc",
+      "name": "Mangrove Cenote = dark pool on the satellite",
+      "px": [
+        718,
+        607
+      ],
+      "latitude": 20.154842,
+      "longitude": -87.458594,
+      "why": "the black pool in the mangrove W of the beach road (Mapbox/Maxar imagery); the database's Mangrove (diveseven, 20.15482,-87.4586) is on it"
+    },
+    {
+      "caveId": "-KPZkVShjH4nflQYwo6A",
+      "name": "Cenote Zapata (Tarpon) = OSM 'Cenote Tuuch'",
+      "px": [
+        710,
+        578
+      ],
+      "latitude": 20.155552,
+      "longitude": -87.459023,
+      "why": "the turquoise cenote inside the hotel N of the Mangrove pool (OSM node 11220741957 'Cenote Tuuch', 20.15551,-87.45902): the next dot N of Mangrove on the map, at the map's distance and bearing"
+    },
+    {
+      "caveId": "-KPZkVLLHW0GT-tB3i3L",
+      "name": "Cenote La Mesa = pond on the satellite",
+      "px": [
+        426,
+        411
+      ],
+      "latitude": 20.160111,
+      "longitude": -87.467925,
+      "why": "the only open pond along the La Mesa lines, S of the road"
+    },
+    {
+      "caveId": "-KPZkVM-v9OPgGiq5n4i",
+      "name": "Cenote Luz = pond on the satellite",
+      "px": [
+        128,
+        328
+      ],
+      "latitude": 20.162145,
+      "longitude": -87.477252,
+      "why": "the pond E of the Los Canales lagoon; fitted on the other three points alone, the map's Luz pool lands 4 m from it"
+    },
+    {
+      "caveId": "-KPZkVHn5J6gyz85LeWf",
+      "name": "Del Mar (database, diveseven)",
+      "px": [
+        735,
+        645
+      ],
+      "latitude": 20.15371,
+      "longitude": -87.45779,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVLQedkqixb4C1tN",
+      "name": "Labyrinth (database, diveseven)",
+      "px": [
+        700,
+        636
+      ],
+      "latitude": 20.15558,
+      "longitude": -87.45901,
+      "check": true
+    },
+    {
+      "name": "Air (as placed on the GEO 1999 map)",
+      "px": [
+        492,
+        367
+      ],
+      "latitude": 20.162093,
+      "longitude": -87.46516,
+      "check": true,
+      "caveId": "-KPZkVDYv2vnEsYYsj1w"
+    },
+    {
+      "name": "La Familia (as placed on the GEO 1999 map)",
+      "px": [
+        398,
+        372
+      ],
+      "latitude": 20.161206,
+      "longitude": -87.467958,
+      "check": true,
+      "caveId": "-KPZkVLJQAZV870ZrA75"
+    },
+    {
+      "name": "Victoria (as placed on the GEO 1999 map)",
+      "px": [
+        688,
+        508
+      ],
+      "latitude": 20.15868,
+      "longitude": -87.461379,
+      "check": true,
+      "caveId": "-KPZkVRmMtLfijr5WmES"
+    },
+    {
+      "name": "Hideaway (as placed on the GEO 1999 map)",
+      "px": [
+        657,
+        612
+      ],
+      "latitude": 20.154742,
+      "longitude": -87.460599,
+      "check": true
+    },
+    {
+      "name": "Blackfoot (as placed on the GEO 1999 map)",
+      "px": [
+        667,
+        622
+      ],
+      "latitude": 20.154259,
+      "longitude": -87.459373,
+      "check": true,
+      "caveId": "-KPZkVEqVOVZP9xumhMe"
+    },
+    {
+      "name": "Del Mar (as placed on the GEO 1999 map)",
+      "px": [
+        735,
+        645
+      ],
+      "latitude": 20.15398,
+      "longitude": -87.456861,
+      "check": true
+    },
+    {
+      "name": "Bo'ox (as placed on the GEO 1999 map)",
+      "px": [
+        726,
+        654
+      ],
+      "latitude": 20.153764,
+      "longitude": -87.457193,
+      "check": true
+    },
+    {
+      "name": "Twin Cenotes (as placed on the GEO 1999 map)",
+      "px": [
+        617,
+        580
+      ],
+      "latitude": 20.155251,
+      "longitude": -87.461398,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Luz",
+      "px": [
+        128,
+        328
+      ],
+      "caveId": "-KPZkVM-v9OPgGiq5n4i",
+      "why": "blue pool beside the line end (does not touch it)"
+    },
+    {
+      "name": "Cenote Air",
+      "px": [
+        492,
+        367
+      ],
+      "caveId": "-KPZkVDYv2vnEsYYsj1w"
+    },
+    {
+      "name": "Cenotes de la Familia (west)",
+      "px": [
+        393,
+        371
+      ],
+      "caveId": "-KPZkVLJQAZV870ZrA75",
+      "why": "\"Cenotes de la Familia\": two dots; the database has one La Familia"
+    },
+    {
+      "name": "Cenotes de la Familia (east)",
+      "px": [
+        404,
+        374
+      ],
+      "why": "second dot of \"Cenotes de la Familia\""
+    },
+    {
+      "name": "Cenote La Mesa",
+      "px": [
+        426,
+        411
+      ],
+      "caveId": "-KPZkVLLHW0GT-tB3i3L"
+    },
+    {
+      "name": "Cenote Victoria",
+      "px": [
+        688,
+        508
+      ],
+      "caveId": "-KPZkVRmMtLfijr5WmES",
+      "why": "the dot under the label; the GEO 1999 map draws Cenote Victoria about 250 m away (W of the Dom Line loop)"
+    },
+    {
+      "name": "Cenote Zapata (Tarpon)",
+      "px": [
+        710,
+        578
+      ],
+      "caveId": "-KPZkVShjH4nflQYwo6A",
+      "why": "labelled \"Cenote Zapata (Tarpon)\"; the database also has a Tarpon (Gerrard, Tulum South, no position) - on the GEO 1999 map \"Cenote Tarpon\" is the next dot south-east, which this map calls Mangrove"
+    },
+    {
+      "name": "Mangrove Cenote",
+      "px": [
+        718,
+        607
+      ],
+      "caveId": "-KPZkVM8aDM1ar8Z4DSc",
+      "why": "the dot the \"Mangrove Cenote\" leader points at; the GEO 1999 map calls it Cenote Tarpon"
+    },
+    {
+      "name": "Twin Cenotes (north)",
+      "px": [
+        614,
+        572
+      ],
+      "caveId": "-KPZkVRRvuwm0lnT8Q_D",
+      "why": "the two small marks the \"Twin Cenotes\" leaders point at"
+    },
+    {
+      "name": "Twin Cenotes (south)",
+      "px": [
+        619,
+        588
+      ]
+    },
+    {
+      "name": "Cenote Hideaway",
+      "px": [
+        657,
+        612
+      ]
+    },
+    {
+      "name": "Blackfoot Cenote",
+      "px": [
+        667,
+        622
+      ],
+      "caveId": "-KPZkVEqVOVZP9xumhMe"
+    },
+    {
+      "name": "Labyrinth Cenote",
+      "px": [
+        700,
+        636
+      ],
+      "caveId": "-KPZkVLQedkqixb4C1tN"
+    },
+    {
+      "name": "Del Mar",
+      "px": [
+        735,
+        645
+      ],
+      "caveId": "-KPZkVHn5J6gyz85LeWf"
+    },
+    {
+      "name": "Cenote Bo'ox",
+      "px": [
+        726,
+        654
+      ],
+      "caveId": "-KPZkVEsDqX5STfDBhTE"
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: green overlined numbers are depths in feet, 'p N FT' penetrations; no letter codes, no legend, no bones. One dotted water-flow arrow (south-east). The low resolution (1001 px) defeats OCR: every symbol is listed by hand. The blue triangles past the coastline are the cave's exits to the sea, kept as leads-to.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Orion",
+        "px": [
+          145,
+          139
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Rimet Section",
+        "px": [
+          527,
+          66
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "El Tucan",
+        "px": [
+          610,
+          143
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sickman",
+        "px": [
+          500,
+          178
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Jaguar",
+        "px": [
+          644,
+          232
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ballpark",
+        "px": [
+          252,
+          280
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "MB",
+        "px": [
+          314,
+          308
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Circle",
+        "px": [
+          364,
+          315
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Canal",
+        "px": [
+          436,
+          296
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "BSD",
+        "px": [
+          612,
+          326
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Rio Blanco",
+        "px": [
+          530,
+          376
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Blind Wall",
+        "px": [
+          237,
+          402
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Black Hole",
+        "px": [
+          198,
+          466
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chak’kan",
+        "px": [
+          372,
+          470
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dom Line",
+        "px": [
+          665,
+          418
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Magic Line",
+        "px": [
+          540,
+          522
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "KFC",
+        "px": [
+          634,
+          510
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Kite",
+        "px": [
+          684,
+          563
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          310,
+          217
+        ],
+        "bearing": 128
+      },
+      {
+        "type": "penetration",
+        "label": "p 14,153 FT",
+        "px": [
+          50,
+          118
+        ],
+        "value": 14153,
+        "halfPx": 36
+      },
+      {
+        "type": "penetration",
+        "label": "p 10,024 FT",
+        "px": [
+          455,
+          18
+        ],
+        "value": 10024,
+        "halfPx": 36
+      },
+      {
+        "type": "depth",
+        "label": "46",
+        "px": [
+          92,
+          187
+        ],
+        "value": 46,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "26",
+        "px": [
+          445,
+          95
+        ],
+        "value": 26,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "px": [
+          600,
+          396
+        ],
+        "value": 30,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "px": [
+          312,
+          526
+        ],
+        "value": 33,
+        "halfPx": 10
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit 1)",
+        "px": [
+          827,
+          580
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit 2)",
+        "px": [
+          812,
+          609
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit 2)",
+        "px": [
+          805,
+          625
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit 3)",
+        "px": [
+          802,
+          662
+        ]
+      }
+    ]
+  },
+  "placementWhy": "Good (about 10-20 m): free similarity fit on four ground features, residuals 10, 10, 1 and 1 m, leave-one-out 19, 19, 2 and 4 m; 3.227 m/px and 2.4 degrees. The printed 1500 ft scale bar (2.80 m/px) is 15% short: at the fitted scale the traced plan length is 17.3 km against the 62,333 ft (19.0 km) surveyed, at the bar's scale only 15.0 km. Points: Mangrove Cenote on the black mangrove pool W of the beach road (the database's diveseven Mangrove is on it); Cenote Zapata (Tarpon) on the hotel cenote OSM names Cenote Tuuch, at the map's distance and bearing from Mangrove; La Mesa on the only open pond along its lines; Luz on the pond E of the Los Canales lagoon (fitted on the other three alone, Luz falls 4 m from it). Checks: the map's coastline lies on the real beach along the three exits (it drifts offshore further N, where it is schematic); the database's Del Mar (diveseven) is 31 m away. The GEO 1999 Ox Bel Ha map, as placed (ox-bel-ha-geo-1999), puts this area about 90-130 m too far E (its beach also lies about 70 m offshore): its points here are listed as checks only."
+}

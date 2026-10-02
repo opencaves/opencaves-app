@@ -1,0 +1,509 @@
+{
+  "image": "../../../_data/maps-import/images/taj-mahal-cen-puerto-aventuras.webp",
+  "title": "Cenote Taj Mahal - Expédition Yuc 96",
+  "credits": "Topo degré 3 (UIS), Yuc 96 (FMAS, FFS, FFESSM; French cave-diving expedition). North arrow: magnetic north 1996; 100 m scale bar",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (about 20-25 m): free similarity fit on four points, residuals 24, 19, 5 and 5 m; 0.429 m/px (the 100 m scale bar says 0.400, 7% apart) and 2.3 degrees of rotation, close to the 1996 magnetic north. Ground points: Cenote Taj Mahal's pool on the database's Taj Mahal (Open Caves source, taken on site) and Mangrova on the centre of the ring-shaped pond on the satellite (the only open water; both used by the placed Gerrard 2001 and Yuc 97/98 maps). These two are only 210 m apart and the map's Taj - Mangrova bearing is 9 degrees off the ground's (a two-point fit turns the map 9 degrees and puts its far ends 100 m off), so the scale and rotation over the whole map are taken from the placed Yuc 97/98 map, which draws the same survey (its Taj Mahal part matches this plan passage for passage) and was fitted on five ground points over 1.6 km: its Vista Bonita pond and the NW tip of its Estrela collapse (this map's C9) are the other two points. As on the Yuc 97/98 map, the pool lands about 24 m N of the database's Taj Mahal point (on the sandy clearing S of it, as on the Gerrard map). The rest of the imagery is closed canopy (no other pond to check). Cross-checked: the traced walls run on the Yuc 97/98 walls within a few metres everywhere they both draw; the Gerrard 2001 map's Buena Vista lands 55 m from Vista Bonita, its Sacrado 71 m from Sagrada (C5), its Twin Cenotes 37 m from C6.",
+  "trace": {
+    "method": "thin-walls",
+    "water": false,
+    "straightMinPx": 2000,
+    "eraseLines": [
+      {
+        "why": "section line A",
+        "from": [
+          125,
+          2485
+        ],
+        "to": [
+          192,
+          2448
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line B",
+        "from": [
+          335,
+          2138
+        ],
+        "to": [
+          320,
+          2207
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line E (outside the passage, N)",
+        "from": [
+          1115,
+          2380
+        ],
+        "to": [
+          1129,
+          2396
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line F",
+        "from": [
+          1194,
+          1744
+        ],
+        "to": [
+          1178,
+          1914
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line G",
+        "from": [
+          1101,
+          1649
+        ],
+        "to": [
+          1206,
+          1572
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "dashed lead line beyond C9 (NE)",
+        "from": [
+          1903,
+          1652
+        ],
+        "to": [
+          1942,
+          1628
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "dashed lead line beyond C9 (E)",
+        "from": [
+          1897,
+          1733
+        ],
+        "to": [
+          1925,
+          1742
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line C (NE of the shaft)",
+        "from": [
+          701,
+          1950
+        ],
+        "to": [
+          668,
+          1995
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line C (SW of the shaft)",
+        "from": [
+          642,
+          2030
+        ],
+        "to": [
+          624,
+          2053
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line D (W of the passage)",
+        "from": [
+          850,
+          2244
+        ],
+        "to": [
+          862,
+          2243
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line D (inside the passage, between its walls)",
+        "from": [
+          884,
+          2241
+        ],
+        "to": [
+          920,
+          2238
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line D (E of the passage)",
+        "from": [
+          943,
+          2236
+        ],
+        "to": [
+          985,
+          2232
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "section line E (outside the collapse, SE)",
+        "from": [
+          1172,
+          2443
+        ],
+        "to": [
+          1208,
+          2479
+        ],
+        "widthPx": 7
+      }
+    ],
+    "labelBoxes": [
+      [
+        690,
+        915,
+        895,
+        958
+      ],
+      [
+        240,
+        1925,
+        395,
+        1966
+      ],
+      [
+        900,
+        2105,
+        1088,
+        2138
+      ],
+      [
+        1190,
+        2414,
+        1324,
+        2450
+      ],
+      [
+        1226,
+        2382,
+        1268,
+        2412
+      ],
+      [
+        1458,
+        2318,
+        1498,
+        2350
+      ],
+      [
+        1676,
+        2003,
+        1716,
+        2037
+      ],
+      [
+        1698,
+        1910,
+        1738,
+        1943
+      ],
+      [
+        1764,
+        1650,
+        1803,
+        1686
+      ],
+      [
+        180,
+        2432,
+        199,
+        2458
+      ],
+      [
+        318,
+        2210,
+        339,
+        2243
+      ],
+      [
+        678,
+        1934,
+        704,
+        1967
+      ],
+      [
+        1108,
+        2352,
+        1130,
+        2384
+      ],
+      [
+        1176,
+        1884,
+        1200,
+        1916
+      ],
+      [
+        1198,
+        1568,
+        1225,
+        1600
+      ],
+      [
+        960,
+        2214,
+        1002,
+        2256
+      ]
+    ],
+    "outlineAreas": [
+      {
+        "why": "Sagrada's hatched collapse: a solid band, traced along its outer edge (SW part)",
+        "box": [
+          1100,
+          2392,
+          1185,
+          2475
+        ]
+      },
+      {
+        "why": "Sagrada's hatched collapse (NE part, up to C5)",
+        "box": [
+          1185,
+          2362,
+          1230,
+          2450
+        ]
+      }
+    ],
+    "why": "b/w hand drawing (Yuc 96 style, like the Jaguar map): walls are bold smooth lines (4-6 px), passages white, boulders as small closed outlines, collapses hatched. The walls are smooth enough that the straight-line eraser took long runs of them: it is off (straightMinPx 2000) and the section lines A-G are erased by hand (eraseLines), leaving the pixels where they cross a wall. Sagrada's hatched collapse is a solid band: traced along its outer edge (outlineAreas). Mangrova's mangrove symbols (inside the pond) and the labels OCR misses are masked. keepEntranceInk: the entrance boxes would otherwise mask the C9 blob (a gap in the wall) and the section-C shaft.",
+    "keepEntranceInk": true
+  },
+  "exclude": [
+    {
+      "why": "section box (sections A to G and their 20 m bar)",
+      "box": [
+        1200,
+        0,
+        2000,
+        850
+      ]
+    },
+    {
+      "why": "north arrow (Nm 1996) and scale bar 0-100 m",
+      "box": [
+        1080,
+        880,
+        1450,
+        1340
+      ]
+    },
+    {
+      "why": "title CENOTE TAJ MAHAL",
+      "box": [
+        1450,
+        1000,
+        2138,
+        1260
+      ]
+    },
+    {
+      "why": "credits Topo degré 3 (UIS), Yuc 96, FMAS FFS FFESSM",
+      "box": [
+        1260,
+        2660,
+        2010,
+        2750
+      ],
+      "history": true
+    },
+    {
+      "why": "page rule (bottom)",
+      "box": [
+        0,
+        2780,
+        2138,
+        2859
+      ]
+    },
+    {
+      "why": "label MANGROVA (above the pond)",
+      "box": [
+        240,
+        1924,
+        394,
+        1952
+      ]
+    },
+    {
+      "why": "mangrove symbols in the Mangrova pond (not cave detail; the pond's outline stays)",
+      "box": [
+        285,
+        1975,
+        400,
+        2135
+      ]
+    },
+    {
+      "why": "mangrove symbols in the Mangrova pond (north-east part)",
+      "box": [
+        400,
+        1968,
+        425,
+        2040
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "name": "Cenote Taj Mahal (DB, Open Caves source)",
+      "px": [
+        836,
+        2115
+      ],
+      "latitude": 20.48341,
+      "longitude": -87.27686
+    },
+    {
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "name": "Mangrova: centre of the ring-shaped pond on the satellite",
+      "px": [
+        355,
+        2060
+      ],
+      "latitude": 20.48392,
+      "longitude": -87.2788
+    },
+    {
+      "name": "Vista Bonita pond as placed on the Yuc 97/98 map (same survey)",
+      "px": [
+        565,
+        955
+      ],
+      "latitude": 20.488097,
+      "longitude": -87.278225
+    },
+    {
+      "name": "C9 as placed on the Yuc 97/98 map (NW tip of its Estrela collapse; same survey)",
+      "px": [
+        1783,
+        1700
+      ],
+      "latitude": 20.485415,
+      "longitude": -87.273083
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Vista Bonita (Buena Vista)",
+      "caveId": "-KPZkVFP-E205SXTJxk5",
+      "px": [
+        565,
+        955
+      ],
+      "why": "The Yuc 97/98 map's Vista Bonita, Gerrard 2001's Cenote Buena Vista (the database's Buena Vista, aka Vista Bonita, sistema Tajma Ha, no position)."
+    },
+    {
+      "name": "Mangrova",
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "px": [
+        355,
+        2060
+      ]
+    },
+    {
+      "name": "Taj Mahal",
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "px": [
+        836,
+        2115
+      ]
+    },
+    {
+      "name": "unnamed shaft (section C)",
+      "px": [
+        655,
+        2018
+      ],
+      "why": "small oval in the passage W of Taj Mahal where section C is cut; the section draws a narrow shaft from the surface into the water-filled passage. 48 m from the placed Gerrard 2001 map's Cenote Sugarbowl and Points of Light: possibly one of them (the database's Taj Mahal description: a 200 ft traverse from Taj Mahal to Sugarbowl through a room with three holes)."
+    },
+    {
+      "name": "C5 Sagrada",
+      "caveId": "-KPZkVPSrb3uzdVxkXXm",
+      "px": [
+        1200,
+        2390
+      ],
+      "why": "The map's cenote C5, named Sagrada, at the NE end of a hatched collapse: the database's Sacrado ('Sacred', sistema Tajma Ha, no position). The placed Gerrard 2001 map's Cenote Sacrado lands 71 m S of it; the Yuc 97/98 map's small pool at the end of the passage SE of Taj Mahal 37 m."
+    },
+    {
+      "name": "C6",
+      "px": [
+        1425,
+        2330
+      ],
+      "why": "cenote at the end of the passage E of Sagrada; the Yuc 97/98 map's brown and orange pond pair 24 m away; the placed Gerrard 2001 map's Twin Cenotes 37 m - possibly the same."
+    },
+    {
+      "name": "C7",
+      "px": [
+        1665,
+        2015
+      ],
+      "why": "small cenote at a passage end, inside the SW lobe of the Yuc 97/98 map's Estrela collapse (Gerrard's City of Agre); not named."
+    },
+    {
+      "name": "C8",
+      "px": [
+        1670,
+        1918
+      ],
+      "why": "cenote on the W side of the Yuc 97/98 map's Estrela collapse; not named."
+    },
+    {
+      "name": "C9",
+      "px": [
+        1783,
+        1700
+      ],
+      "why": "small cenote at the NW tip of the Yuc 97/98 map's Estrela collapse; not named."
+    }
+  ],
+  "symbols": {
+    "why": "French UIS plan (Yuc 96, same style as the Yuc 95/96 Jaguar and the Yuc 96 Aktun Koh maps): no legend, no depths (no overlined, underlined or minus-sign numbers anywhere on the plan), no letter codes, no water-flow arrows, no bones symbol or bones text (checked by eye over the whole plan and in the OCR words). The section box (A-G) shows water levels only. Kept: two short dashed arrows leaving the passage ends beyond C9 (the survey goes on unsurveyed / passage continues), as leads-to. Cenotes C5-C9 are entrances.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "leads-to",
+        "label": "passage continues (dashed arrow, NE)",
+        "px": [
+          1925,
+          1640
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "passage continues (dashed arrow, E)",
+        "px": [
+          1915,
+          1738
+        ]
+      }
+    ]
+  }
+}

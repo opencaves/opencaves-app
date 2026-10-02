@@ -16,5 +16,30 @@
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     gap: 0 1rem;
+    // Columns start at the top, so every icon is on one line and every
+    // label on the line below it.
+    align-items: start;
+  }
+
+  &--item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  // The icon's box: the same size for every icon, the SVG files' and MUI's
+  // (whose own 1em sizing would otherwise win over .oc-icon).
+  &--icon {
+    display: flex;
+    width: 35px;
+    height: 35px;
+
+    .oc-icon {
+      width: 35px;
+      height: 35px;
+      font-size: 35px;
+    }
   }
 }

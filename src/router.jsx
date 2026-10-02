@@ -186,6 +186,24 @@ const routes = [
         element: <Navigate to="map" replace />,
         errorElement: <NoMatch />,
       },
+      // Development only: the error pages, to look at (/dev/error/map: the
+      // map failing; /dev/error/page: a page failing to load).
+      ...(import.meta.env.DEV
+        ? [
+            {
+              path: 'dev/error/map',
+              lazy: () => import('@/components/Map/MapState.jsx').then(({ MapError }) => ({ Component: () => <MapError error={new Error('Preview of the map error page')} /> })),
+            },
+            {
+              path: 'dev/error/page',
+              loader: () => {
+                throw new Error('Preview of a page failing to load')
+              },
+              element: null,
+              errorElement: <NoMatch />,
+            },
+          ]
+        : []),
       {
         element: <Layout />,
         children: [

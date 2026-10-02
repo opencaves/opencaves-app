@@ -1,0 +1,1151 @@
+{
+  "image": "../../../_data/map-layer/pilot/chac-mol-filled.png",
+  "imageNote": "positive (inverted) copy of the white-on-black scan embedded in _data/cartes/à traiter/Chac Mol, Cen..pdf (4688 x 1560); the photo _data/maps-import/images/cenote-chac-mol.jpg is a perspective shot of the coloured QRSS poster, lower resolution",
+  "title": "Cenote Chac Mol - QRSS 1997",
+  "credits": "Cenote Chac Mol, Puerto Aventuras, Q. Roo, Mexico: surveyed June 1996 to August 1997 by Andreas W. Matthes, Andrew Pitkin, Dan Lins; cartography by Andreas W. Matthes. Upstream length 5,040 ft (1,536 m), downstream length 6,460 ft (1,969 m). Principal explorers Dan Lins, Andreas W. Matthes, Gary Walten, Mike Madden, Andrew Pitkin, Kay Walten. Quintana Roo Speleological Survey (via wetworx.nl/Cavemaps, 2015)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfunLdOFpsjcVnHU",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      2293,
+      1505
+    ],
+    "to": [
+      2573,
+      1505
+    ],
+    "metres": 182.88
+  },
+  "north": {
+    "angle": -64
+  },
+  "exclude": [
+    {
+      "why": "title block: Cenote Chac Mol, Puerto Aventuras, Q. Roo, Mexico; surveyed June 1996 to August 1997 by Andreas W. Matthes, Andrew Pitkin, Dan Lins; upstream length 5,040 ft (1,536 m), downstream length 6,460 ft (1,969 m)",
+      "box": [
+        3220,
+        30,
+        3700,
+        450
+      ],
+      "history": true
+    },
+    {
+      "why": "principal explorers: Dan Lins, Mike Madden, Andreas W. Matthes, Andrew Pitkin, Gary Walten, Kay Walten",
+      "box": [
+        1716,
+        1346,
+        2184,
+        1547
+      ],
+      "history": true
+    },
+    {
+      "why": "notes (cave entirely submerged; fresh water from an inland karst area through fracture-controlled passages; white silt floor; halocline at about 35 ft (12 m); compass and knotted line survey; penetrations in ft from the main entrance; depth and ceiling heights in ft; sections and profiles enlarged 2:1)",
+      "box": [
+        1144,
+        1288,
+        1602,
+        1547
+      ]
+    },
+    {
+      "why": "index of symbols (legend)",
+      "box": [
+        840,
+        80,
+        1168,
+        485
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        2575,
+        32,
+        2881,
+        185
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2275,
+        1437,
+        2616,
+        1555
+      ]
+    },
+    {
+      "why": "Highway 307 (north part) with its labels (To Playa del Carmen, Highway 307)",
+      "box": [
+        4505,
+        30,
+        4688,
+        462
+      ]
+    },
+    {
+      "why": "Highway 307 (south part, past the junction) and the To Tulum label",
+      "box": [
+        4540,
+        462,
+        4688,
+        800
+      ]
+    },
+    {
+      "why": "To Tulum label",
+      "box": [
+        4390,
+        820,
+        4688,
+        880
+      ]
+    },
+    {
+      "why": "section (Chac Mol side entrance profile)",
+      "box": [
+        2071,
+        153,
+        2638,
+        381
+      ]
+    },
+    {
+      "why": "section (Kukulkan Passage)",
+      "box": [
+        1455,
+        214,
+        1726,
+        351
+      ]
+    },
+    {
+      "why": "section (upstream profile, Pakal)",
+      "box": [
+        229,
+        522,
+        815,
+        789
+      ]
+    },
+    {
+      "why": "section (west of Spring Tunnel)",
+      "box": [
+        904,
+        584,
+        1349,
+        827
+      ]
+    },
+    {
+      "why": "section (Spring Tunnel)",
+      "box": [
+        1450,
+        976,
+        1778,
+        1152
+      ]
+    },
+    {
+      "why": "section (Emergency Air profile)",
+      "box": [
+        1949,
+        857,
+        2443,
+        1103
+      ]
+    },
+    {
+      "why": "section (Cauac Na, Monsters House)",
+      "box": [
+        2501,
+        953,
+        2880,
+        1279
+      ]
+    },
+    {
+      "why": "section (west of Mojarra)",
+      "box": [
+        3073,
+        678,
+        3429,
+        858
+      ]
+    },
+    {
+      "why": "section (Mojarra)",
+      "box": [
+        3434,
+        682,
+        3718,
+        827
+      ]
+    },
+    {
+      "why": "section (Chicitito cenote)",
+      "box": [
+        2952,
+        997,
+        3188,
+        1168
+      ]
+    },
+    {
+      "why": "section (Mojarra downstream profile)",
+      "box": [
+        3214,
+        1136,
+        3634,
+        1359
+      ]
+    },
+    {
+      "why": "section (Miracle cenote, near the highway)",
+      "box": [
+        4193,
+        280,
+        4450,
+        486
+      ]
+    },
+    {
+      "why": "section (Beard's Passage)",
+      "box": [
+        4278,
+        922,
+        4616,
+        1083
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVG9GiEDZBuoD-Eo",
+      "name": "Cenote Chac Mool (DB, Google Maps source; OSM natural=sinkhole way 493566400 centre)",
+      "px": [
+        2095,
+        595
+      ],
+      "latitude": 20.51314,
+      "longitude": -87.24701
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVOA2xjtRRnuZkpn",
+      "name": "Pakal Cenote",
+      "px": [
+        545,
+        975
+      ],
+      "note": "the white pool ringed by passage (a section line and r/x marks cross it, so it is water, not an island); label leader to its north rim (03')"
+    },
+    {
+      "caveId": "-KPZkVG9GiEDZBuoD-Eo",
+      "name": "Chac Mol Cenote",
+      "px": [
+        2100,
+        590
+      ]
+    },
+    {
+      "name": "Chac Mol Side Entrance",
+      "px": [
+        2115,
+        420
+      ],
+      "note": "about 120 m north-east of the main pool on this map; the database has Little Brother (24 m away) and Kukulkan (50 m away) in this sistema, neither matches this distance - not linked"
+    },
+    {
+      "caveId": "-KPZkVIlkzDl19iyaIyP",
+      "name": "Emergency Air Cenote",
+      "px": [
+        2540,
+        785
+      ]
+    },
+    {
+      "caveId": "-KPZkVMlA28BpkafG5hK",
+      "name": "Mojarra Cenote",
+      "px": [
+        3250,
+        915
+      ]
+    },
+    {
+      "caveId": "-KPZkVGfnPJs-iZwREmi",
+      "name": "Chicitito Cenote",
+      "px": [
+        3105,
+        965
+      ]
+    },
+    {
+      "caveId": "-KPZkVMgv8MGLU6zhkNC",
+      "name": "Miracle Cenote",
+      "px": [
+        4430,
+        615
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "threshold": 1000,
+    "regionThreshold": 1000,
+    "weakThreshold": 1000,
+    "fillColours": [
+      {
+        "hue": [
+          145,
+          175
+        ],
+        "minSaturation": 50,
+        "density": 0.3,
+        "alone": true
+      }
+    ]
+  },
+  "sourceImage": "../../../_data/map-layer/pilot/chac-mol-positive.png",
+  "prep": {
+    "why": "the scan draws the passages white between bold walls: fill_passages.py tints every passage interior enclosed by the walls pale blue for the colour-fill trace; islands = enclosed white areas ringed by bold wall ink, away from the outside; the PDF scan is white on black",
+    "pdf": "../../../_data/cartes/à traiter/Chac Mol, Cen..pdf",
+    "invert": true,
+    "cutLines": [
+      {
+        "why": "dirt road from the highway junction (double line)",
+        "from": [
+          4148,
+          648
+        ],
+        "to": [
+          4395,
+          505
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "dirt road",
+        "from": [
+          4395,
+          505
+        ],
+        "to": [
+          4560,
+          462
+        ],
+        "widthPx": 14
+      }
+    ],
+    "islandPoints": [
+      [
+        425,
+        950
+      ]
+    ],
+    "passagePoints": []
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "s": [
+        876,
+        235
+      ],
+      "r": [
+        875,
+        417
+      ],
+      "z": [
+        875,
+        438
+      ],
+      "x": [
+        944,
+        393
+      ]
+    },
+    "letterSizePx": [
+      8,
+      14
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "48'",
+        "value": 48,
+        "px": [
+          1791,
+          249
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "40'",
+        "value": 40,
+        "px": [
+          1899,
+          331
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "45'",
+        "value": 45,
+        "px": [
+          1932,
+          436
+        ],
+        "halfPx": 20,
+        "why": "scan reads 48, the coloured poster 45'"
+      },
+      {
+        "type": "depth",
+        "label": "11'",
+        "value": 11,
+        "px": [
+          2299,
+          451
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "35'",
+        "value": 35,
+        "px": [
+          1806,
+          567
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "02'",
+        "value": 2,
+        "px": [
+          4518,
+          592
+        ],
+        "halfPx": 20,
+        "why": "blurred on the poster; scan 02'"
+      },
+      {
+        "type": "depth",
+        "label": "36'",
+        "value": 36,
+        "px": [
+          2730,
+          605
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "40'",
+        "value": 40,
+        "px": [
+          2224,
+          611
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "29'",
+        "value": 29,
+        "px": [
+          3746,
+          656
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "30'",
+        "value": 30,
+        "px": [
+          1956,
+          665
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "47'",
+        "value": 47,
+        "px": [
+          1688,
+          709
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "19'",
+        "value": 19,
+        "px": [
+          4001,
+          741
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "33'",
+        "value": 33,
+        "px": [
+          2420,
+          748
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "27'",
+        "value": 27,
+        "px": [
+          3872,
+          750
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "10'",
+        "value": 10,
+        "px": [
+          4475,
+          761
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "85'",
+        "value": 85,
+        "px": [
+          2854,
+          791
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "24'",
+        "value": 24,
+        "px": [
+          4375,
+          818
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "06'",
+        "value": 6,
+        "px": [
+          2588,
+          821
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "34'",
+        "value": 34,
+        "px": [
+          2680,
+          835
+        ],
+        "halfPx": 20,
+        "why": "scan reads 24, the poster 34'"
+      },
+      {
+        "type": "depth",
+        "label": "03'",
+        "value": 3,
+        "px": [
+          521,
+          858
+        ],
+        "halfPx": 20,
+        "why": "scan reads 02, the poster 03'"
+      },
+      {
+        "type": "depth",
+        "label": "35'",
+        "value": 35,
+        "px": [
+          3144,
+          871
+        ],
+        "halfPx": 20,
+        "why": "scan 35' (poster blurred)"
+      },
+      {
+        "type": "depth",
+        "label": "24'",
+        "value": 24,
+        "px": [
+          3606,
+          883
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "48'",
+        "value": 48,
+        "px": [
+          350,
+          885
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "24'",
+        "value": 24,
+        "px": [
+          3420,
+          901
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "20'",
+        "value": 20,
+        "px": [
+          1768,
+          912
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "23'",
+        "value": 23,
+        "px": [
+          1169,
+          922
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "93'",
+        "value": 93,
+        "px": [
+          2776,
+          923
+        ],
+        "halfPx": 20,
+        "why": "scan reads 22/92, the poster 93' (= the sistema's max depth 28.3 m)"
+      },
+      {
+        "type": "depth",
+        "label": "14'",
+        "value": 14,
+        "px": [
+          3039,
+          927
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "09'",
+        "value": 9,
+        "px": [
+          3890,
+          934
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "48'",
+        "value": 48,
+        "px": [
+          759,
+          944
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "16'",
+        "value": 16,
+        "px": [
+          4173,
+          981
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "30'",
+        "value": 30,
+        "px": [
+          2915,
+          1009
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "07'",
+        "value": 7,
+        "px": [
+          4014,
+          1054
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "10'",
+        "value": 10,
+        "px": [
+          3930,
+          1059
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "49'",
+        "value": 49,
+        "px": [
+          1313,
+          1068
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "15'",
+        "value": 15,
+        "px": [
+          368,
+          1073
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "48'",
+        "value": 48,
+        "px": [
+          1004,
+          1109
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "06'",
+        "value": 6,
+        "px": [
+          3666,
+          1112
+        ],
+        "halfPx": 20,
+        "why": "blurred on both copies: 06 or 05"
+      },
+      {
+        "type": "depth",
+        "label": "16'",
+        "value": 16,
+        "px": [
+          3541,
+          1117
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "11'",
+        "value": 11,
+        "px": [
+          4113,
+          1270
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "04'",
+        "value": 4,
+        "px": [
+          3893,
+          1297
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "53'",
+        "value": 53,
+        "px": [
+          453,
+          1390
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "56'",
+        "value": 56,
+        "px": [
+          1618,
+          78
+        ],
+        "halfPx": 20,
+        "why": "only on the coloured poster (_data/maps-import/images/cenote-chac-mol.jpg), at the end of Kukulkan Passage by p.1385; placed through the poster-to-scan homography"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "11",
+        "value": 11,
+        "px": [
+          1922,
+          143
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1608,
+          146
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1848,
+          337
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "27",
+        "value": 27,
+        "px": [
+          1918,
+          673
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          3037,
+          805
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "14",
+        "value": 14,
+        "px": [
+          879,
+          905
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "32",
+        "value": 32,
+        "px": [
+          2839,
+          919
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "26",
+        "value": 26,
+        "px": [
+          1546,
+          927
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          3495,
+          1116
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          413,
+          1163
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          496,
+          1358
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          3671,
+          849
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "21",
+        "value": 21,
+        "px": [
+          2390,
+          703
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          335,
+          1040
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "16",
+        "value": 16,
+        "px": [
+          1675,
+          771
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "32",
+        "value": 32,
+        "px": [
+          1338,
+          1031
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,385",
+        "value": 1385,
+        "px": [
+          1626,
+          33
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.3,600",
+        "value": 3600,
+        "px": [
+          632,
+          858
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.4,280",
+        "value": 4280,
+        "px": [
+          214,
+          894
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.5,040",
+        "value": 5040,
+        "px": [
+          277,
+          1340
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.2,000",
+        "value": 2000,
+        "px": [
+          1198,
+          1070
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,500",
+        "value": 1500,
+        "px": [
+          2804,
+          718
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Kukulkan Passage",
+        "px": [
+          1860,
+          130
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Siphon Tunnel",
+        "px": [
+          2400,
+          585
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Spring Tunnel",
+        "px": [
+          1458,
+          835
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Canyon",
+        "px": [
+          2795,
+          805
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Xix Ha Tunich (Drip Water Stone)",
+        "px": [
+          2830,
+          862
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chup's Flow Passage",
+        "px": [
+          3832,
+          668
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Beard's Passage",
+        "px": [
+          4052,
+          920
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Flat Dreams",
+        "px": [
+          3962,
+          1152
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dome to Nowhere",
+        "px": [
+          362,
+          1215
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          946,
+          1022
+        ],
+        "bearing": 100,
+        "why": "arrow in the passage east of Pakal, head to the east (downstream)"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1822,
+          654
+        ],
+        "bearing": 40,
+        "why": "arrow in the passage south-west of Chac Mol, head to the upper right (towards Chac Mol)"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2200,
+          555
+        ],
+        "bearing": 100,
+        "why": "arrow at the head of Siphon Tunnel, head to the east (clearer on the coloured poster)"
+      }
+    ],
+    "why": "Legend: underlined numbers are survey-station depths in feet (Survey Station Depth), circled numbers floor-to-ceiling heights in feet, s silty, r restriction, x major restriction, z zero visibility, p. penetration from the main entrance in feet, wavy arrow flow. The scan's bold bitonal digits defeat OCR: every underlined number was found from its bar and read by eye, checked against the coloured QRSS poster photo (cenote-chac-mol.jpg, placed on the scan by a SIFT homography, 1187 inlier matches); the poster's reading wins where they differ (noted per symbol). Circled heights: the ones legible on either copy (the poster's east half is out of focus). Letters: only the matcher's finds (5 x, 3 r); many more r/s/z/x/? marks along the walls were not added. No bones, skulls or fossils anywhere on the map or the poster (legend has no such symbol either); no 'To ...' cave pointers (the 'To Playa del Carmen' / 'To Tulum' labels are the highway's)."
+  },
+  "placementWhy": "Moderate (likely 20-50 m near Chac Mol, up to ~100-150 m at the far ends): scale from the printed scale bar (600 ft = 280 px, 0.653 m/px), orientation from the north arrow (64 deg left of up), shifted onto one point: Cenote Chac Mool (DB, Google Maps source, valid; OSM's Cenote Chac-Mool sinkhole polygon centred within 5 m, and OSM's access track from Highway 307 ends there). No pond is visible through the canopy and no cenote of the map has an Open Caves position, so no free fit was possible. Checks: the map's Highway 307 is drawn at the right bearing (upper part 57.7 vs OSM 57.5 deg, south part 40.6 vs 44.5 deg) and, placed this way, lies 24-26 m from OSM's carriageways over 1.6 km from the anchor (so scale and rotation agree with the ground across the highway direction); its dirt road from the highway runs parallel to OSM track 85619696 (312 vs 304 deg), 70-105 m off it. Not checked along the highway: the map's highway bend/junction lands 470 m south-west of today's bend at the Chac Mool entrance road (20.5025, -87.2356) and 175 m from the OSM track's end - the 1997 road sketch is schematic there. A 2-point fit forcing that junction onto today's bend would rotate the cave 16 deg off its north arrow and its own highway, so it was rejected. No other placed map overlaps (Ponderosa's walls end 1.5 km south-west)."
+}

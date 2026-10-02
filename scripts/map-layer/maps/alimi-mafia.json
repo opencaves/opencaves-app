@@ -1,0 +1,236 @@
+{
+  "image": "../../../_data/maps-import/images/alimi-sist.webp",
+  "title": "Sistema Alimi - Mafia Maps 1999",
+  "credits": "Sistema Alimi, Q. Roo, Mexico; surveyed passage to date 2,715 feet; exploration and survey Christophe Le Maillot, Bil Philips, Fred Devos; Mafia Maps, January 1999 (c) F. Devos, 1999",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfr7R5IIS3mt4tkg",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the sheet has a reliable position: the only one in the database is 'Alomo' (Gerrard 2015, not on site), taken as the map's Cenote Alimo; Mozzy, Mirror and Cambio have none, Cenote Alimi isn't in the database, and none is in OpenStreetMap. A dark opening in a clearing on the Mapbox/Maxar imagery lies 15 m from Alomo's point, just west of highway 307, but no pool of the map can be matched to a second feature (no pond shows through the canopy where Alimi, Mozzy, Mirror or Cambio would be). Scale from the surveyed lengths (no scale bar), north from the compass rose: both unchecked. At this placement the Alimo line runs under highway 307 and Mirror lands on its shoulder, so the rotation or the point is off. Sistema Alimi is placed only by its position on the sheet relative to Sistema Alimo (about 920 m to the south-east, under the north side of Pino Suarez village): the two systems are separate maps (January and February 1999) laid out around two title blocks, so that offset may not be geographic at all. To fix: field GPS positions of Cenote Alimi and Cenote Cambio (about 380 m apart at the derived scale), and of Alimo plus Mirror or Mozzy.",
+  "placementWhy": "Unverified (see 'unverified'). Scale bar: none on the map, 0.97 m/px derived from the surveyed lengths over the traced lines; north up from the compass rose; one point, Cenote Alimo on the database's Alomo (Gerrard 2015). Both systems share this placement (one sheet, one compass). No placed map overlaps (the nearest, Toh Ha / Chan Hol, is 5 km north-east).",
+  "scaleBar": {
+    "why": "not a drawn bar (the map has none): the scale derived from the surveyed lengths over the traced plan lines - Sistema Alimi 2,715 ft (827.5 m) over 876 px (0.945 m/px), Sistema Alimo 1,310 ft (399.3 m) over 392 px (1.02 m/px); both together 1,227 m over 1,268 px, 0.97 m/px, used for both systems (one sheet, one compass). Plan lines run shorter than surveyed lengths (Valet: 7%), so the true scale may be somewhat smaller.",
+    "from": [
+      0,
+      0
+    ],
+    "to": [
+      1000,
+      0
+    ],
+    "metres": 970
+  },
+  "north": "up",
+  "exclude": [
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        4,
+        1270
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1028,
+        0,
+        1033,
+        1270
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1033,
+        3
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1265,
+        1033,
+        1270
+      ]
+    },
+    {
+      "why": "compass rose (north up)",
+      "box": [
+        705,
+        435,
+        848,
+        585
+      ]
+    },
+    {
+      "why": "copyright F. Devos, 1999",
+      "box": [
+        25,
+        1230,
+        220,
+        1262
+      ],
+      "history": true
+    },
+    {
+      "why": "Sistema Alimo, the sheet's other system (its own config, alimi-mafia-2.json), and its title block",
+      "box": [
+        0,
+        0,
+        1033,
+        420
+      ]
+    },
+    {
+      "why": "title block: Sistema Alimi, Q. Roo, surveyed passage 2,715 ft, exploration and survey team, Mafia Maps January 1999",
+      "box": [
+        174,
+        576,
+        610,
+        892
+      ],
+      "history": true
+    },
+    {
+      "why": "label Cenote Alimi",
+      "box": [
+        858,
+        688,
+        942,
+        738
+      ]
+    },
+    {
+      "why": "label Cenote Cambio",
+      "box": [
+        712,
+        1041,
+        797,
+        1090
+      ]
+    },
+    {
+      "why": "depth 34 (ft), by Cenote Alimi",
+      "box": [
+        862,
+        882,
+        907,
+        920
+      ]
+    },
+    {
+      "why": "depth 34 (ft), W end",
+      "box": [
+        424,
+        1119,
+        468,
+        1157
+      ]
+    },
+    {
+      "why": "water-flow arrow (grey squiggle)",
+      "box": [
+        510,
+        1033,
+        583,
+        1074
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVDqOXwC5bVyvk1_",
+      "name": "Cenote Alimo = the database's Alomo (Gerrard 2015, not on site)",
+      "px": [
+        240,
+        148
+      ],
+      "latitude": 20.11622,
+      "longitude": -87.59047,
+      "why": "Gerrard's 'Alomo' (sistema Alomo aka Alimi, with Mirror, Mozzy and Cambio): taken as the map's Cenote Alimo. On the Mapbox/Maxar imagery a dark opening in a clearing lies right there, 15 m north of the point, just west of highway 307 (the database: 1 km north of Pino Suarez, west side of the highway)"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Alimi",
+      "px": [
+        958,
+        766
+      ],
+      "why": "the large pool at the line's NE end; not in the database (its 'Alomo' sistema has 'Alimi' as aka)"
+    },
+    {
+      "name": "Cenote Cambio",
+      "caveId": "-KPZkVFh2Qnr0R8oPYCS",
+      "px": [
+        683,
+        1043
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "excludeColours": [
+      {
+        "hue": [
+          148,
+          172
+        ],
+        "minSaturation": 80,
+        "keepHoles": true,
+        "padPx": 1,
+        "minSizePx": 6
+      }
+    ],
+    "joinShortPx": 12,
+    "why": "Mafia Maps stick map (black survey line, no walls) traced as lines with no thickness. The blue cenote pools are dropped by colour (excludeColours, hue 148-172) so they don't skeletonize into spurs; the line is continuous from the W end to Cenote Alimi through the Cambio junction. Labels, depths, the flow squiggle, the title block, the compass and the whole Sistema Alimo part (its own config) are excluded."
+  },
+  "symbols": {
+    "why": "Mafia Maps line plot: green overlined numbers are depths in feet; no letter codes, no legend, no bones, no place names. One grey squiggly water-flow arrow. Listed by hand (exclude boxes hide their ink).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "34",
+        "px": [
+          884,
+          903
+        ],
+        "value": 34,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "px": [
+          445,
+          1141
+        ],
+        "value": 34,
+        "halfPx": 18
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          547,
+          1055
+        ],
+        "bearing": 70
+      }
+    ]
+  }
+}

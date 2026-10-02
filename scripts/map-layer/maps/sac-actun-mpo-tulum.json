@@ -1,0 +1,309 @@
+{
+  "image": "../../../_data/maps-import/images/sac-actun-sist-mpo-tulum.webp",
+  "title": "Sistema Sac Actun - QRSS 2012 (Municipio de Tulum)",
+  "credits": "Quintana Roo Speleological Survey, October 2012 (AMCS Activities Newsletter no. 36, p. 87, 2013)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "blue",
+      "red"
+    ]
+  },
+  "exclude": [
+    {
+      "why": "north arrow (magnetic, 2012)",
+      "box": [
+        125,
+        180,
+        215,
+        425
+      ]
+    },
+    {
+      "why": "title, length and depth",
+      "box": [
+        70,
+        535,
+        505,
+        770
+      ]
+    },
+    {
+      "why": "Sac Actun Region label and its leaders",
+      "box": [
+        305,
+        680,
+        565,
+        950
+      ]
+    },
+    {
+      "why": "Dos Ojos Region label and leader",
+      "box": [
+        825,
+        205,
+        1025,
+        345
+      ]
+    },
+    {
+      "why": "Dos Ojos Region leader",
+      "box": [
+        1010,
+        355,
+        1088,
+        393
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        840,
+        1130,
+        1065,
+        1190
+      ]
+    },
+    {
+      "why": "date and credits",
+      "box": [
+        835,
+        1290,
+        1181,
+        1345
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      848,
+      1141
+    ],
+    "to": [
+      1056,
+      1141
+    ],
+    "metres": 2000,
+    "why": "not used for the placement (no \"north\"): the similarity fit through the trusted points gives 9.47 m/px, 1.5% smaller than this bar's 9.62"
+  },
+  "entrances": [
+    {
+      "name": "Dos Ojos",
+      "px": [
+        946,
+        181
+      ],
+      "caveId": "-KPZkVI727bPAYLuZ57-"
+    },
+    {
+      "name": "Pet Cemetery",
+      "px": [
+        726,
+        262
+      ],
+      "caveId": "-KPZkVOMZId8yVJJ2Bru"
+    },
+    {
+      "name": "Outland",
+      "px": [
+        548,
+        327
+      ],
+      "caveId": "-KPZkVNzfSSmiBN1SU5j"
+    },
+    {
+      "name": "Nohoch Nah Chich",
+      "px": [
+        805,
+        480
+      ],
+      "caveId": "-KPZkVNge9HQ8UGSwzpG"
+    },
+    {
+      "name": "Muul Ha",
+      "px": [
+        760,
+        796
+      ],
+      "caveId": "-KPZkVNCd7yqsfE4UJrj"
+    },
+    {
+      "name": "Manati",
+      "px": [
+        946,
+        860
+      ],
+      "caveId": "-KPZkVM5yUqQ3kX4bqt2"
+    },
+    {
+      "name": "Nohoch Kin",
+      "px": [
+        660,
+        935
+      ],
+      "caveId": "-KPZkVNekiLd1IZHTGvl"
+    },
+    {
+      "name": "Sac Actun (Grand Cenote)",
+      "px": [
+        134,
+        1088
+      ],
+      "caveId": "-KPZkVQtjQNGd2uYJeMP"
+    },
+    {
+      "name": "Naval",
+      "px": [
+        317,
+        1163
+      ],
+      "caveId": "-KPZkVNVCWECUVABfB5X"
+    },
+    {
+      "name": "Abejas",
+      "px": [
+        586,
+        1286
+      ],
+      "caveId": "-KPZkVDMNEdChvNgOQi4"
+    },
+    {
+      "name": "Calavera (Temple of Doom)",
+      "px": [
+        204,
+        1296
+      ],
+      "caveId": "-KPZkVJNdAmA4o9vuJmX"
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVOMZId8yVJJ2Bru",
+      "name": "Pet Cemetery",
+      "px": [
+        726,
+        262
+      ],
+      "latitude": 20.31808,
+      "longitude": -87.41059
+    },
+    {
+      "caveId": "-KPZkVNzfSSmiBN1SU5j",
+      "name": "Outland",
+      "px": [
+        548,
+        327
+      ],
+      "latitude": 20.31186,
+      "longitude": -87.42686
+    },
+    {
+      "caveId": "-KPZkVNge9HQ8UGSwzpG",
+      "name": "Nohoch Nah Chich",
+      "px": [
+        805,
+        480
+      ],
+      "latitude": 20.2984,
+      "longitude": -87.4038
+    },
+    {
+      "caveId": "-KPZkVQtjQNGd2uYJeMP",
+      "name": "Sac Actun (Grand Cenote)",
+      "px": [
+        134,
+        1088
+      ],
+      "latitude": 20.24634,
+      "longitude": -87.46394
+    },
+    {
+      "caveId": "-KPZkVJNdAmA4o9vuJmX",
+      "name": "Calavera (Temple of Doom) - Esqueleto",
+      "px": [
+        204,
+        1296
+      ],
+      "latitude": 20.2292,
+      "longitude": -87.45729
+    },
+    {
+      "caveId": "-KPZkVI727bPAYLuZ57-",
+      "name": "Dos Ojos (West)",
+      "px": [
+        946,
+        181
+      ],
+      "latitude": 20.3242,
+      "longitude": -87.39178,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVM5yUqQ3kX4bqt2",
+      "name": "Manati",
+      "px": [
+        946,
+        860
+      ],
+      "latitude": 20.26676,
+      "longitude": -87.39189,
+      "why": "database position on the Casa Cenote lagoon (satellite); the map dot is 140 m east of it, at the coast road",
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVNekiLd1IZHTGvl",
+      "name": "Nohoch Kin (Nohoch Kiin)",
+      "px": [
+        660,
+        935
+      ],
+      "latitude": 20.25959,
+      "longitude": -87.41567,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVNVCWECUVABfB5X",
+      "name": "Naval",
+      "px": [
+        317,
+        1163
+      ],
+      "latitude": 20.23936,
+      "longitude": -87.44703,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVDMNEdChvNgOQi4",
+      "name": "Abejas",
+      "px": [
+        586,
+        1286
+      ],
+      "latitude": 20.23299,
+      "longitude": -87.4217,
+      "check": true
+    },
+    {
+      "name": "Naval lagoon",
+      "px": [
+        317,
+        1163
+      ],
+      "latitude": 20.23976,
+      "longitude": -87.44741,
+      "why": "the map's black ellipse is Naval's lagoon, visible on the satellite image (its centre)"
+    }
+  ],
+  "symbols": {
+    "units": "m",
+    "letters": {},
+    "why": "overview plot: no depths, letters, pointers, place names or bones symbols on this map; the only labels are the cenote names (entrances) and the two region labels"
+  }
+}

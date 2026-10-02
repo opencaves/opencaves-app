@@ -1,0 +1,508 @@
+{
+  "image": "../../../_data/maps-import/images/yaxchen-sist-puerto-aventuras.webp",
+  "title": "Yaxchen cave system",
+  "credits": "Yaxchen cave system (web overview map, author and date not given)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "survey-lines",
+    "why": "a 541 x 292 px web overview (about 6.6 m/px): passages drawn as black strokes 1-6 px wide, a schematic width, so traced as lines (a stick map); cenotes in blue are part of the line. Needs ink = grey < 55 (overridden in a scratchpad wrapper; the stock path has no inkLevel option): the saturated green ground (0,128,0) is grey 75, under INK_LEVEL 140. Red 'drop points' sit on the line (taken with it so they don't leave a hole and a loop).",
+    "lineColours": [
+      "black",
+      "blue",
+      "red"
+    ],
+    "bridgePx": 1,
+    "water": false,
+    "addLines": [
+      {
+        "why": "pinholes (1-5 px) inside wide strokes and Luna's ring-drawn pool: filled so the skeleton doesn't loop around them",
+        "from": [
+          516,
+          77
+        ],
+        "to": [
+          516,
+          77
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          174,
+          103
+        ],
+        "to": [
+          174,
+          103
+        ],
+        "widthPx": 7
+      },
+      {
+        "from": [
+          224,
+          123
+        ],
+        "to": [
+          224,
+          123
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          351,
+          217
+        ],
+        "to": [
+          351,
+          217
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          388,
+          216
+        ],
+        "to": [
+          388,
+          216
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          388,
+          253
+        ],
+        "to": [
+          388,
+          253
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          386,
+          254
+        ],
+        "to": [
+          386,
+          254
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          382,
+          255
+        ],
+        "to": [
+          382,
+          255
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          398,
+          256
+        ],
+        "to": [
+          398,
+          256
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          518,
+          84
+        ],
+        "to": [
+          518,
+          84
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          311,
+          195
+        ],
+        "to": [
+          311,
+          195
+        ],
+        "widthPx": 3
+      },
+      {
+        "from": [
+          258,
+          183
+        ],
+        "to": [
+          258,
+          183
+        ],
+        "widthPx": 2
+      },
+      {
+        "from": [
+          260,
+          188
+        ],
+        "to": [
+          260,
+          188
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "the passage reaching the blue arc east of Luna: one antialiased pixel between them, the ink continuous on the map",
+        "from": [
+          248,
+          146
+        ],
+        "to": [
+          249,
+          150
+        ],
+        "widthPx": 2
+      }
+    ],
+    "joinShortPx": 3,
+    "joinShortWhy": "at 6.6 m/px a junction-to-junction piece of 1-2 px is under MIN_OUTLINE_METRES (8 m) and was dropped, leaving gaps at the junctions: joined to a neighbour instead",
+    "inkLevel": 55,
+    "snapEndsPx": 1.7
+  },
+  "exclude": [
+    {
+      "why": "title Yaxchen cave system",
+      "box": [
+        190,
+        3,
+        334,
+        55
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        374,
+        52,
+        399,
+        102
+      ]
+    },
+    {
+      "why": "legend (yellow entry point, red drop points, blue cenotes)",
+      "box": [
+        27,
+        182,
+        168,
+        231
+      ]
+    },
+    {
+      "why": "scale bar (one mile, one kilometer)",
+      "box": [
+        27,
+        232,
+        242,
+        288
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "OSM pond way 436892620",
+      "px": [
+        156,
+        84
+      ],
+      "latitude": 20.13904,
+      "longitude": -87.48588
+    },
+    {
+      "name": "OSM pond way 436892622",
+      "px": [
+        135,
+        85
+      ],
+      "latitude": 20.13921,
+      "longitude": -87.48721
+    },
+    {
+      "name": "OSM pond way 436892579",
+      "px": [
+        176,
+        103
+      ],
+      "latitude": 20.1374,
+      "longitude": -87.48441
+    },
+    {
+      "name": "OSM pond way 436892581",
+      "px": [
+        255,
+        153
+      ],
+      "latitude": 20.13419,
+      "longitude": -87.4802
+    },
+    {
+      "name": "OSM pond way 403387281",
+      "px": [
+        474,
+        188
+      ],
+      "latitude": 20.13111,
+      "longitude": -87.46718
+    },
+    {
+      "name": "OSM pond way 436892583",
+      "px": [
+        309,
+        196
+      ],
+      "latitude": 20.13089,
+      "longitude": -87.47693
+    },
+    {
+      "name": "OSM pond way 436892587",
+      "px": [
+        350,
+        206
+      ],
+      "latitude": 20.13037,
+      "longitude": -87.47417
+    },
+    {
+      "name": "OSM pond way 436892588",
+      "px": [
+        384,
+        219
+      ],
+      "latitude": 20.12928,
+      "longitude": -87.47242
+    },
+    {
+      "name": "OSM pond way 403387278",
+      "px": [
+        458,
+        219
+      ],
+      "latitude": 20.12902,
+      "longitude": -87.46794
+    },
+    {
+      "name": "OSM pond way 403387280",
+      "px": [
+        471,
+        222
+      ],
+      "latitude": 20.12865,
+      "longitude": -87.46676
+    },
+    {
+      "name": "OSM pond way 436892596",
+      "px": [
+        370,
+        237
+      ],
+      "latitude": 20.12819,
+      "longitude": -87.47336
+    },
+    {
+      "caveId": "-KPZkVJpIUdD9aCKBIkJ",
+      "name": "Gemini",
+      "px": [
+        147,
+        84
+      ],
+      "latitude": 20.13914,
+      "longitude": -87.48631,
+      "check": true,
+      "why": "between the map's two Gemini pools (OSM ways 436892620/436892622)"
+    },
+    {
+      "caveId": "-KPZkVLwXHBigu3gnpZd",
+      "name": "Luna",
+      "px": [
+        176,
+        103
+      ],
+      "latitude": 20.13747,
+      "longitude": -87.48415,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVST6SkV2RHx4mj0",
+      "name": "Yax Chen",
+      "px": [
+        474,
+        188
+      ],
+      "latitude": 20.13117,
+      "longitude": -87.46663,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVST6SkV2RHx4mj0",
+      "name": "Yax Chen",
+      "px": [
+        486,
+        184
+      ],
+      "why": "the map's yellow 'entry point', at the edge of Yax Chen's pool (Cenote Encantado on OSM)"
+    },
+    {
+      "caveId": "-KPZkVJpIUdD9aCKBIkJ",
+      "name": "Gemini",
+      "px": [
+        156,
+        84
+      ],
+      "why": "blue cenote; its western arc (135, 85) is the second pool of Gemini"
+    },
+    {
+      "name": "Gemini (west pool)",
+      "px": [
+        135,
+        85
+      ]
+    },
+    {
+      "caveId": "-KPZkVLwXHBigu3gnpZd",
+      "name": "Luna",
+      "px": [
+        176,
+        103
+      ]
+    },
+    {
+      "name": "Cenote (blue arc)",
+      "px": [
+        255,
+        153
+      ]
+    },
+    {
+      "name": "Cenote (long N-S pool)",
+      "px": [
+        309,
+        196
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        324,
+        212
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        350,
+        206
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        384,
+        219
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        370,
+        237
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        458,
+        219
+      ]
+    },
+    {
+      "name": "Cenote (blue arc)",
+      "px": [
+        477,
+        109
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        119,
+        55
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        26,
+        52
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        225,
+        123
+      ]
+    },
+    {
+      "name": "Cenote",
+      "px": [
+        499,
+        137
+      ]
+    }
+  ],
+  "placementWhy": "Free similarity fit on 11 cenote pools of OSM (traced from the satellite imagery) matched to the map's blue cenotes by shape and pattern: Gemini's arc and pool, Luna, the arc east of it, the long N-S pool with its east arm, the pool chain south-west of Yax Chen, and Yax Chen's own pool (Cenote Encantado on OSM). 6.57 m/px, rotated 6.3 degrees: the scale bar is not used - its kilometre (128 px) and mile (208 px) agree with each other but give 7.8 m/px, 19% off every pair of pools; the north arrow is about 6 degrees off.",
+  "symbols": {
+    "why": "A 541 px web overview: no depths, letters, bones, 'To ...' leads, place names or flow arrows are drawn (OCR read only the title, legend and scale text). Kept: the three red 'drop points' of the legend, as place names, and the entrances (the yellow entry point and the blue cenotes).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Drop point",
+        "px": [
+          73,
+          84
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Drop point",
+        "px": [
+          192,
+          111
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Drop point",
+        "px": [
+          338,
+          205
+        ]
+      }
+    ]
+  }
+}

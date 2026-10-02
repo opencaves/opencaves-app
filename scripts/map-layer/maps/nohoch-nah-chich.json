@@ -1,0 +1,1478 @@
+{
+  "image": "../../../_data/maps-import/images/nohoch-nah-chich-xel-ha-1.webp",
+  "title": "Nohoch Nah Chich Cave System - CEDAM Cave Diving Team (cartography Eric Hutcheson)",
+  "credits": "Exploration and survey by the CEDAM Cave Diving Team; director Mike Madden, downstream team leader Chuck Stevens; cartography Eric Hutcheson",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxMC7X8AcLqXOtq",
+  "utmEpsg": 32616,
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVNge9HQ8UGSwzpG",
+      "name": "Nohoch Nah Chich",
+      "px": [
+        3975,
+        1110
+      ],
+      "latitude": 20.2984,
+      "longitude": -87.4038
+    },
+    {
+      "caveId": "-KPZkVOMZId8yVJJ2Bru",
+      "name": "Pet Cemetery",
+      "px": [
+        1515,
+        300
+      ],
+      "latitude": 20.31808,
+      "longitude": -87.41059
+    },
+    {
+      "caveId": "-KPZkVNQF31EaqOK0wbH",
+      "name": "Natural Bridge",
+      "px": [
+        5005,
+        1700
+      ],
+      "latitude": 20.28943,
+      "longitude": -87.4023,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVERVV7DGyAS3s8k",
+      "name": "Balam Can Chee",
+      "px": [
+        6050,
+        1320
+      ],
+      "latitude": 20.28453,
+      "longitude": -87.39673,
+      "check": true
+    }
+  ],
+  "exclude": [
+    {
+      "why": "legend",
+      "box": [
+        0,
+        670,
+        700,
+        1115
+      ]
+    },
+    {
+      "why": "dedication to Sheck Exley, world's longest underwater cave",
+      "box": [
+        155,
+        1645,
+        565,
+        1895
+      ],
+      "history": true
+    },
+    {
+      "why": "authors Eric Hutcheson, Mike Madden",
+      "box": [
+        185,
+        2385,
+        520,
+        2425
+      ],
+      "history": true
+    },
+    {
+      "why": "title Nohoch Nah Chich Cave System",
+      "box": [
+        2680,
+        1440,
+        4115,
+        1760
+      ]
+    },
+    {
+      "why": "team: all passages under water, distance surveyed 129,543 ft, CEDAM Cave Diving Team, director, cartography, explorers",
+      "box": [
+        2930,
+        1715,
+        3820,
+        2420
+      ],
+      "history": true
+    },
+    {
+      "why": "caption Sistema Nohoch Nah Chich X'el Ha",
+      "box": [
+        3260,
+        2455,
+        3760,
+        2559
+      ]
+    },
+    {
+      "why": "corporate sponsors",
+      "box": [
+        5535,
+        160,
+        6095,
+        420
+      ],
+      "history": true
+    },
+    {
+      "why": "private sponsors",
+      "box": [
+        6115,
+        165,
+        6655,
+        365
+      ],
+      "history": true
+    },
+    {
+      "why": "institutional sponsor, research organizations",
+      "box": [
+        6730,
+        145,
+        7475,
+        365
+      ],
+      "history": true
+    },
+    {
+      "why": "logo Carlos n Charlies",
+      "box": [
+        5525,
+        470,
+        5845,
+        570
+      ]
+    },
+    {
+      "why": "logo Dacor",
+      "box": [
+        5945,
+        465,
+        6215,
+        630
+      ]
+    },
+    {
+      "why": "logo Henderson",
+      "box": [
+        6315,
+        485,
+        6610,
+        570
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        6900,
+        770,
+        7510,
+        1310
+      ]
+    },
+    {
+      "why": "Plan View box",
+      "box": [
+        6985,
+        1860,
+        7250,
+        1955
+      ]
+    },
+    {
+      "why": "plan view scale",
+      "box": [
+        6950,
+        2240,
+        7180,
+        2350
+      ]
+    },
+    {
+      "why": "cross section scale",
+      "box": [
+        6015,
+        2255,
+        6275,
+        2375
+      ]
+    },
+    {
+      "why": "signature",
+      "box": [
+        7305,
+        2295,
+        7480,
+        2385
+      ]
+    },
+    {
+      "why": "page right border",
+      "box": [
+        7570,
+        0,
+        7594,
+        2559
+      ]
+    },
+    {
+      "why": "section: I-Hop Cenote perspective drawing",
+      "box": [
+        400,
+        260,
+        830,
+        495
+      ]
+    },
+    {
+      "why": "section: Aunt Jemima Line vignette",
+      "box": [
+        1140,
+        240,
+        1270,
+        335
+      ]
+    },
+    {
+      "why": "section: Dark Side of the Moon vignette",
+      "box": [
+        660,
+        710,
+        795,
+        810
+      ]
+    },
+    {
+      "why": "section: Pet Cemetery block drawing",
+      "box": [
+        1635,
+        120,
+        2110,
+        500
+      ]
+    },
+    {
+      "why": "section: Nohoch Main Entrance block drawing",
+      "box": [
+        2420,
+        455,
+        3595,
+        712
+      ]
+    },
+    {
+      "why": "section: Lunas and Sombres vignette",
+      "box": [
+        4155,
+        175,
+        4380,
+        330
+      ]
+    },
+    {
+      "why": "section: Dinner Hole drawing",
+      "box": [
+        2055,
+        860,
+        2285,
+        1015
+      ]
+    },
+    {
+      "why": "section: Blue Abyss perspective drawing, with its depths 4 and 240",
+      "box": [
+        300,
+        1085,
+        910,
+        1560
+      ]
+    },
+    {
+      "why": "section: Far Point Station drawing",
+      "box": [
+        2010,
+        1690,
+        2445,
+        2010
+      ]
+    },
+    {
+      "why": "section: Upstream Dome Rooms vignette",
+      "box": [
+        340,
+        2020,
+        600,
+        2110
+      ]
+    },
+    {
+      "why": "section: Upstream Dome Rooms block drawing",
+      "box": [
+        1010,
+        2185,
+        1400,
+        2420
+      ]
+    },
+    {
+      "why": "section: Red Dog vignette",
+      "box": [
+        4390,
+        1020,
+        4505,
+        1135
+      ]
+    },
+    {
+      "why": "section: Natural Bridge block drawing",
+      "box": [
+        4790,
+        1245,
+        5135,
+        1540
+      ]
+    },
+    {
+      "why": "section: Hell's Gate block drawing",
+      "box": [
+        5380,
+        1965,
+        5845,
+        2265
+      ]
+    },
+    {
+      "why": "section: The Mega Molehole vignette",
+      "box": [
+        5435,
+        1720,
+        5645,
+        1800
+      ]
+    },
+    {
+      "why": "section: Vekingo's Suck Dome block drawing",
+      "box": [
+        6625,
+        1185,
+        7295,
+        1460
+      ]
+    },
+    {
+      "why": "section: The Mole Team's Revenge vignette",
+      "box": [
+        6035,
+        1640,
+        6185,
+        1715
+      ]
+    },
+    {
+      "why": "section: The Mole Team's Revenge vignette",
+      "box": [
+        6465,
+        1965,
+        6600,
+        2085
+      ]
+    },
+    {
+      "why": "section: The Guillotine Fracture vignette",
+      "box": [
+        6520,
+        1720,
+        6580,
+        1810
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1040,
+        820,
+        1125,
+        890
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1460,
+        540,
+        1540,
+        575
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1660,
+        805,
+        1755,
+        850
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3885,
+        510,
+        4040,
+        595
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4605,
+        520,
+        4715,
+        565
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4930,
+        510,
+        5070,
+        565
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        5445,
+        855,
+        5510,
+        905
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1520,
+        1160,
+        1565,
+        1210
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1745,
+        1270,
+        1820,
+        1315
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        1550,
+        1615,
+        1615,
+        1660
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        940,
+        1470,
+        1080,
+        1535
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        2815,
+        950,
+        2910,
+        1010
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        2625,
+        1060,
+        2705,
+        1125
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3015,
+        1255,
+        3160,
+        1315
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3230,
+        960,
+        3320,
+        1015
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3290,
+        1345,
+        3405,
+        1400
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3515,
+        1350,
+        3645,
+        1390
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3420,
+        840,
+        3485,
+        900
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        3625,
+        845,
+        3715,
+        895
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4615,
+        1260,
+        4670,
+        1295
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4680,
+        1245,
+        4730,
+        1295
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4155,
+        1320,
+        4200,
+        1380
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4375,
+        1435,
+        4435,
+        1490
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4510,
+        1505,
+        4560,
+        1555
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4625,
+        1580,
+        4670,
+        1615
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        5385,
+        855,
+        5505,
+        945
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        5225,
+        1070,
+        5370,
+        1115
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        6240,
+        1080,
+        6350,
+        1160
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        5805,
+        1635,
+        5945,
+        1685
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        6575,
+        930,
+        6700,
+        965
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        4785,
+        1795,
+        4835,
+        1820
+      ]
+    },
+    {
+      "why": "surface vignette (unlabelled drawing beside the cave)",
+      "box": [
+        6950,
+        1720,
+        7110,
+        1765
+      ]
+    },
+    {
+      "why": "page bottom border",
+      "box": [
+        0,
+        2548,
+        7594,
+        2559
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Nohoch Nah Chich (Nohoch Main Entrance)",
+      "caveId": "-KPZkVNge9HQ8UGSwzpG",
+      "px": [
+        3975,
+        1110
+      ]
+    },
+    {
+      "name": "Pet Cemetery",
+      "caveId": "-KPZkVOMZId8yVJJ2Bru",
+      "px": [
+        1515,
+        300
+      ]
+    },
+    {
+      "name": "I-Hop Cenote",
+      "px": [
+        1030,
+        400
+      ]
+    },
+    {
+      "name": "Dinner Hole",
+      "caveId": "-KPZkVHsEO4Za5qKiDEQ",
+      "px": [
+        2225,
+        1080
+      ]
+    },
+    {
+      "name": "Far Point Station",
+      "px": [
+        1800,
+        1725
+      ]
+    },
+    {
+      "name": "unnamed (Nohoch Proper)",
+      "px": [
+        3745,
+        1045
+      ]
+    },
+    {
+      "name": "Lunas and Sombres",
+      "caveId": "-KPZkVLyD8i8sTgFS4Xp",
+      "px": [
+        4065,
+        760
+      ]
+    },
+    {
+      "name": "Nohoch Peck",
+      "caveId": "-KPZkVNjugxkUCX5IkTY",
+      "px": [
+        4345,
+        460
+      ]
+    },
+    {
+      "name": "Big Don's Cenote",
+      "caveId": "-KPZkVEnPeU9M1NycyTe",
+      "px": [
+        4170,
+        845
+      ]
+    },
+    {
+      "name": "Mike's Mangrove Mudhole",
+      "caveId": "-KPZkVMX0_IHJwHCx4hz",
+      "px": [
+        4145,
+        918
+      ]
+    },
+    {
+      "name": "Dane's Delight",
+      "caveId": "-KPZkVHjUR4S2dHI6kkM",
+      "px": [
+        4140,
+        950
+      ]
+    },
+    {
+      "name": "Reptile Belly",
+      "caveId": "-KPZkVP0NYjg_UDcD0TR",
+      "px": [
+        4220,
+        1020
+      ]
+    },
+    {
+      "name": "Sunken Skull",
+      "caveId": "-KPZkVQKAXoeRM5b4w8E",
+      "px": [
+        4295,
+        1035
+      ]
+    },
+    {
+      "name": "Red Dog",
+      "caveId": "-KPZkVOvThWPfffDtOtN",
+      "px": [
+        4350,
+        1185
+      ]
+    },
+    {
+      "name": "Natural Bridge",
+      "caveId": "-KPZkVNQF31EaqOK0wbH",
+      "px": [
+        5005,
+        1700
+      ]
+    },
+    {
+      "name": "Fortress of Solitude",
+      "caveId": "-KPZkVJdUHDDGLXOjQuQ",
+      "px": [
+        5150,
+        1800
+      ]
+    },
+    {
+      "name": "Emmanuelle's Mudhole",
+      "caveId": "-KPZkVInt58pbaoRini1",
+      "px": [
+        5430,
+        1215
+      ]
+    },
+    {
+      "name": "Burt's Crack House",
+      "caveId": "-KPZkVFRtl3E7OrCmO4H",
+      "px": [
+        5430,
+        1580
+      ]
+    },
+    {
+      "name": "Mike's Promise",
+      "caveId": "-KPZkVM_QFvAz8svsIlb",
+      "px": [
+        5655,
+        940
+      ]
+    },
+    {
+      "name": "Chuck's Cenote",
+      "caveId": "-KPZkVGq38D7hksrAqXz",
+      "px": [
+        5655,
+        1120
+      ]
+    },
+    {
+      "name": "Mike's Hunch",
+      "caveId": "-KPZkVMV5ddZoiGV3Yy0",
+      "px": [
+        5660,
+        1165
+      ]
+    },
+    {
+      "name": "unnamed (near Chuck's Kamakazi Connection)",
+      "px": [
+        5690,
+        1435
+      ]
+    },
+    {
+      "name": "unnamed (south of Chuck's Kamakazi Connection)",
+      "px": [
+        5690,
+        1515
+      ]
+    },
+    {
+      "name": "Cenote De Weesh",
+      "caveId": "-KPZkVHlYrfZVt7jAzk5",
+      "px": [
+        5855,
+        1330
+      ]
+    },
+    {
+      "name": "Balam Can Chee",
+      "caveId": "-KPZkVERVV7DGyAS3s8k",
+      "px": [
+        6050,
+        1320
+      ]
+    },
+    {
+      "name": "unnamed (east of Balam Can Chee)",
+      "px": [
+        6105,
+        1300
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Overlined numbers are depths in feet (legend: water depth in feet): OCR found 42 of the 49, the 7 others (found from their overline bars, each checked on a crop) are added by hand. The legend has no letter codes and no bones symbol, and none is drawn. The hollow arrows are the legend's 'exploration and survey continues' (leads-to, labelled so). Place names are the cave's named lines and rooms; the cenotes marked 'ent.' are entrances.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9,
+        "px": [
+          4406,
+          350
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          3685,
+          1158
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "39",
+        "value": 39,
+        "px": [
+          5911,
+          1312
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "44",
+        "value": 44,
+        "px": [
+          5325,
+          1358
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          4530,
+          1365
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "value": 12,
+        "px": [
+          5236,
+          1483
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "42",
+        "value": 42,
+        "px": [
+          6455,
+          1872
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6840,
+          984
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6977,
+          1611
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          843,
+          779
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          4775,
+          544
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          1256,
+          2061
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5130,
+          2063
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6764,
+          1513
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5100,
+          435
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          4594,
+          1757
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6504,
+          1100
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          750,
+          2276
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          4991,
+          2067
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5295,
+          2056
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          4628,
+          327
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          935,
+          2316
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5610,
+          938
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          4299,
+          581
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5347,
+          1427
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6940,
+          1854
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6393,
+          1463
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6393,
+          1932
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6271,
+          1226
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          1183,
+          1333
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6776,
+          2092
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6912,
+          1973
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          1100,
+          1135
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          5795,
+          1225
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "leads-to",
+        "label": "Exploration and survey continues",
+        "px": [
+          6302,
+          1692
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Aunt Jemima Line",
+        "px": [
+          1100,
+          205
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "King Pong Restriction",
+        "px": [
+          1120,
+          630
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dark Side of the Moon",
+        "px": [
+          705,
+          625
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Blue Abyss",
+        "px": [
+          915,
+          970
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "X-Line",
+        "px": [
+          1595,
+          695
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Diaz Line",
+        "px": [
+          1460,
+          948
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Prez Line",
+        "px": [
+          668,
+          1708
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Carlson Line",
+        "px": [
+          1325,
+          1532
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Upstream Dome Rooms Area",
+        "px": [
+          575,
+          2335
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Mainline Upstream",
+        "px": [
+          1575,
+          2015
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Mainline Upstream",
+        "px": [
+          2470,
+          1300
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Nohoch Proper",
+        "px": [
+          3525,
+          1133
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lunas and Sombres Mainline",
+        "px": [
+          4020,
+          437
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Mainline Downstream",
+        "px": [
+          4390,
+          1570
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chuck's Kamakazi Connection",
+        "px": [
+          5530,
+          1342
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Mega Molehole",
+        "px": [
+          5720,
+          1695
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hell's Gate",
+        "px": [
+          5368,
+          1870
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Mole Team's Revenge",
+        "px": [
+          6150,
+          1937
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Guillotine Fracture",
+        "px": [
+          6425,
+          1712
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Vekingo's Suck Dome",
+        "px": [
+          6472,
+          1410
+        ]
+      }
+    ]
+  },
+  "trace": {
+    "method": "thin-walls",
+    "why": "b/w line drawing: walls are thin wiggly lines of the same weight as the guideline, passages left white. No method of trace_scan.py fits (wall-strokes needs walls bolder than the rest; the band method needs filled or stippled passages): traced with a prototype (scratchpad nnc-trace.py) that erases straight runs (guideline, leaders, section brackets) and keeps long shapes plus small closed or solid shapes beside them.",
+    "leaderMaxPx": 1,
+    "inkLevel": 160,
+    "straightEps": 1.3,
+    "straightMinPx": 20,
+    "minExtentPx": 60,
+    "minIslandPx": 8,
+    "islandReachPx": 30,
+    "minSpurPx": 10,
+    "wallSimplifyMetres": 0.5,
+    "water": false,
+    "labelBoxes": [
+      [
+        3905,
+        1085,
+        3960,
+        1132
+      ],
+      [
+        5380,
+        1310,
+        5685,
+        1372
+      ],
+      [
+        880,
+        295,
+        970,
+        325
+      ],
+      [
+        5310,
+        1858,
+        5372,
+        1884
+      ],
+      [
+        4020,
+        755,
+        4075,
+        790
+      ]
+    ],
+    "bridgePx": 3,
+    "wallLines": [
+      [
+        [
+          6548,
+          1198
+        ],
+        [
+          6575,
+          1185
+        ],
+        [
+          6600,
+          1170
+        ],
+        [
+          6612,
+          1152
+        ],
+        [
+          6640,
+          1128
+        ],
+        [
+          6668,
+          1110
+        ],
+        [
+          6700,
+          1100
+        ]
+      ]
+    ],
+    "wallLinesWhy": "the passage to depth 40 (east end): its north wall broken by the 38 depth",
+    "outlineAreas": [
+      {
+        "why": "narrow passages west of Burt's Crack House",
+        "box": [
+          5150,
+          1380,
+          5480,
+          1800
+        ]
+      }
+    ],
+    "guideline": true
+  }
+}

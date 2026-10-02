@@ -1,0 +1,376 @@
+{
+  "image": "../../../_data/maps-import/images/boca-paila-reserva-de-la-biosfera-sian-kaan.webp",
+  "imageNote": "Same map as _data/cartes/à traiter/Boca Paila, Reserva de la Biosfera Sian Ka’an.pdf (6001 x 3935).",
+  "title": "Entrada Boca Paila - Mexico Cave Exploration Project / Mafia Maps 2006",
+  "credits": "Boca Paila, Sian Kaan, Q.Roo, Mexico. 1702 m / 5584 ft. Exploracion y plano: Mexico Cave Exploration Project. Mafia Maps, Diciembre 2006. (c) F. Devos, 2006",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfvkYiKB2Wzm2LBt",
+  "utmEpsg": 32616,
+  "unverified": "No point of the map has a reliable position: the map draws no ground feature at all (no lagoon shore, coast, road or bridge - only the line plot, the entrance pool, two labels, a north arrow and a scale bar), Entrada Boca Paila has no position in the database, and OpenStreetMap's 'Entrada Boca Paila' (node 7319569752, 20.00878 N, 87.49087 W, 2020) carries fixme 'Unknown specific location'. Divers' reports put the entrance at a boil in the lagoon (GUE trip reports). The entrance pool is anchored NOMINALLY on the round dark hole at the tip of the mangrove point on the west shore of Laguna Boca Paila (Esri imagery, 20.01086 N, 87.49128 W, 245 m north of the OSM node): a plausible spring vent, not a confirmed one - another dark patch beside a moored boat 345 m south (20.00776 N, 87.49083 W) is as likely. To fix: a GPS position of the entrance boil (and ideally a second point, e.g. the end of the Ctenophore line).",
+  "placementWhy": "Scale bar + north + one nominal point. Scale from the 152 m / 500 ft bar (x 3170-4197 at y 2943: 0.148 m/px). North: the plain arrow beside RAICES, straight up (unchecked: no ground feature to check it against). Shift: the entrance pool (px 5590, 1040) on the nominal anchor (see unverified). The '10 M' with a bar above it beside the RAICES line is not a scale (its bar, 155 px, would be 23 m): an overlined depth, 10 m. No placed map overlaps (the nearest, Yax Chen, is 13 km north).",
+  "scaleBar": {
+    "from": [
+      3170,
+      2953
+    ],
+    "to": [
+      4197,
+      2953
+    ],
+    "metres": 152.4
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVIr4WnwsoBsV8ig",
+      "name": "Entrada Boca Paila (NOMINAL: dark hole at the mangrove point, west shore of Laguna Boca Paila)",
+      "px": [
+        5590,
+        1040
+      ],
+      "latitude": 20.01086,
+      "longitude": -87.491282
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Boca Paila, Sian Kaan, Q.Roo, Mexico, 1702 m / 5584 ft, Exploracion y plano Mexico Cave Exploration Project, Mafia Maps Diciembre 2006",
+      "box": [
+        690,
+        1940,
+        2190,
+        3725
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos, 2006",
+      "box": [
+        5080,
+        3540,
+        5770,
+        3650
+      ],
+      "history": true
+    },
+    {
+      "why": "Mexico Cave Exploration Project logo (compass rose)",
+      "box": [
+        560,
+        460,
+        1200,
+        1140
+      ]
+    },
+    {
+      "why": "scale bar 152 m / 500 ft and its labels",
+      "box": [
+        3150,
+        2760,
+        4220,
+        3170
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        5125,
+        1515,
+        5215,
+        1672
+      ]
+    },
+    {
+      "why": "label RAICES",
+      "box": [
+        4935,
+        1325,
+        5275,
+        1420
+      ]
+    },
+    {
+      "why": "label CTENOPHORE",
+      "box": [
+        3000,
+        1570,
+        3630,
+        1665
+      ]
+    },
+    {
+      "why": "overlined depth 10 M",
+      "box": [
+        5480,
+        1625,
+        5665,
+        1732
+      ]
+    },
+    {
+      "why": "entrance pool (stippled circle): not survey line",
+      "box": [
+        5500,
+        950,
+        5690,
+        1095
+      ]
+    },
+    {
+      "why": "entrance pool's stipple, east of the line's end",
+      "box": [
+        5578,
+        1095,
+        5690,
+        1125
+      ]
+    },
+    {
+      "why": "entrance pool's stipple, west of the line's end",
+      "box": [
+        5515,
+        1095,
+        5551,
+        1112
+      ]
+    },
+    {
+      "why": "dashed arrow: the passage continues south-west (not surveyed)",
+      "box": [
+        4505,
+        3030,
+        4668,
+        3215
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        5378,
+        1157,
+        5448,
+        1294
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        1577,
+        1278,
+        1720,
+        1346
+      ]
+    },
+    {
+      "why": "flow arrow (plain)",
+      "box": [
+        1395,
+        1385,
+        1538,
+        1495
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        1038,
+        1598,
+        1181,
+        1668
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        4411,
+        1787,
+        4576,
+        1857
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        3268,
+        2035,
+        3427,
+        2105
+      ]
+    },
+    {
+      "why": "flow arrow",
+      "box": [
+        4755,
+        2310,
+        4823,
+        2448
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        100,
+        100,
+        5900,
+        135
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        100,
+        3798,
+        5900,
+        3835
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        100,
+        100,
+        136,
+        3835
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        5864,
+        100,
+        5900,
+        3835
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrada Boca Paila",
+      "caveId": "-KPZkVIr4WnwsoBsV8ig",
+      "px": [
+        5590,
+        1040
+      ],
+      "why": "stippled circle at the north-east end of the line (the only pool drawn); every flow arrow on that side points to it: the cave's outflow, the boil in the lagoon"
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "joinShortPx": 40,
+    "joinNearEnds": true,
+    "why": "Stick map (Mafia Maps line plot, black guidelines only, no walls; lines about 9 px wide at 0.148 m/px): traced as lines, no thickness. The entrance pool, the dashed continuation arrow, the flow arrows, labels, logo, title block and scale bar are excluded."
+  },
+  "symbols": {
+    "why": "Mafia Maps line plot, no legend. One overlined depth (10 M, in metres, beside the RAICES line). Six wavy water-flow arrows (towards the entrance: east along the main line, north-north-east on the two legs that meet south of the entrance) and one plain arrow on the western upper branch pointing north-west, against the others - GUE's reports note opposite flows above and below the halocline in these caves; kept as flow with its own bearing. Line names RAICES and CTENOPHORE kept as place names; the dashed arrow at the south-west end as a leads-to (passage continues). No letter codes, no bones (searched: no icon, no text).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "10",
+        "px": [
+          5571,
+          1680
+        ],
+        "value": 10,
+        "halfPx": 50
+      },
+      {
+        "type": "place-name",
+        "label": "Raices",
+        "px": [
+          5105,
+          1372
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ctenophore",
+        "px": [
+          3315,
+          1617
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          4560,
+          3160
+        ],
+        "why": "dashed arrow beyond the south-west end of the line, pointing south-west"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          5416,
+          1225
+        ],
+        "bearing": 21
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1648,
+          1314
+        ],
+        "bearing": 102
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1454,
+          1429
+        ],
+        "bearing": 307
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1113,
+          1635
+        ],
+        "bearing": 102
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          4497,
+          1823
+        ],
+        "bearing": 102
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          3355,
+          2069
+        ],
+        "bearing": 102
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          4791,
+          2377
+        ],
+        "bearing": 20
+      }
+    ]
+  }
+}

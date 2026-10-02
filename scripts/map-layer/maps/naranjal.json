@@ -1,0 +1,381 @@
+{
+  "image": "../../../_data/maps-import/images/naranjal-sist-tulum.webp",
+  "title": "Sistema Naranjal - line plot",
+  "credits": "Sistema Naranjal survey line plot (Scale = 1071.84 Ft/In), undated and unsigned; the same plot as the Sistema Naranjal insets of James G. Coke IV's QRSS maps (Mayan Blue 1993, Muknal Remote Siphon 2001), drawn before the 2000 Muknal surveys (no Snakeman's Escape)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1460,
+        12
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1520,
+        1460,
+        1536
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        12,
+        1536
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1446,
+        0,
+        1460,
+        1536
+      ]
+    },
+    {
+      "why": "title 'Sistema Naranjal'",
+      "box": [
+        130,
+        158,
+        400,
+        194
+      ]
+    },
+    {
+      "why": "scale 'Scale'",
+      "box": [
+        155,
+        199,
+        232,
+        227
+      ]
+    },
+    {
+      "why": "scale '1071.84'",
+      "box": [
+        290,
+        202,
+        425,
+        228
+      ]
+    },
+    {
+      "why": "scale 'Ft' (F)",
+      "box": [
+        444,
+        202,
+        460,
+        226
+      ]
+    },
+    {
+      "why": "scale 'In' (n)",
+      "box": [
+        520,
+        208,
+        541,
+        227
+      ]
+    },
+    {
+      "why": "title 'Sistema Naranjal' ('a' of 'jal', above the survey line)",
+      "box": [
+        400,
+        158,
+        425,
+        187
+      ]
+    },
+    {
+      "why": "title 'Sistema Naranjal' ('l', above the survey line)",
+      "box": [
+        425,
+        158,
+        438,
+        181
+      ]
+    },
+    {
+      "why": "scale 'Scale' (top of the S; the survey line runs through its foot)",
+      "box": [
+        138,
+        199,
+        157,
+        212
+      ]
+    }
+  ],
+  "placementWhy": "No entrance, north arrow or surface feature on the plot. Jailhouse located on it by fitting the Muknal Remote Siphon map's passages onto the plot (they match line for line, rotation 0); Mayan Blue by fitting the plot onto the placed mayan-blue walls. Similarity fit through those two on-site GPS positions (1.688 m/px, 0.6 deg). Checks: the Sixth Cenote end of the Muknal section lands 128 m from Cenote of the Sun (the Muknal map: 131 m); the Highway 307 of the Mayan Blue map's Naranjal inset, carried over, runs 4 deg / 25 m off the real road. The mayan-blue walls sit ~7 deg clockwise of this placement: a whole-plot fit onto them puts Jailhouse 100 m off.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue",
+      "px": [
+        842,
+        943
+      ],
+      "latitude": 20.19413,
+      "longitude": -87.49629
+    },
+    {
+      "caveId": "-KPZkVKWYFuKF3wawGw0",
+      "name": "Jailhouse",
+      "px": [
+        1228,
+        1309
+      ],
+      "latitude": 20.1885,
+      "longitude": -87.4901
+    }
+  ],
+  "entrances": [],
+  "symbols": {
+    "units": "ft"
+  },
+  "trace": {
+    "method": "survey-lines",
+    "lineColours": [
+      "black"
+    ],
+    "water": false,
+    "stickMap": true,
+    "bridgePx": 4,
+    "joinShortPx": 8,
+    "leaderMaxPx": 1,
+    "why": "b/w computer line plot: survey lines only (a stick map), no walls, no symbols.",
+    "inkLevel": 230,
+    "addLines": [
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          192,
+          260
+        ],
+        "to": [
+          198,
+          262
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          969,
+          1232
+        ],
+        "to": [
+          977,
+          1237
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          291,
+          230
+        ],
+        "to": [
+          289,
+          231
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          1037,
+          1317
+        ],
+        "to": [
+          1039,
+          1319
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          377,
+          299
+        ],
+        "to": [
+          376,
+          301
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          533,
+          488
+        ],
+        "to": [
+          531,
+          490
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          612,
+          818
+        ],
+        "to": [
+          610,
+          819
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          1299,
+          1348
+        ],
+        "to": [
+          1300,
+          1350
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          460,
+          180
+        ],
+        "to": [
+          458,
+          179
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          469,
+          166
+        ],
+        "to": [
+          472,
+          166
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          766,
+          832
+        ],
+        "to": [
+          764,
+          831
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          1230,
+          1220
+        ],
+        "to": [
+          1227,
+          1219
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          613,
+          608
+        ],
+        "to": [
+          610,
+          607
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          834,
+          894
+        ],
+        "to": [
+          833,
+          896
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          890,
+          976
+        ],
+        "to": [
+          887,
+          977
+        ],
+        "widthPx": 2
+      },
+      {
+        "why": "line faded out of the scan (a few px; the plot's line runs on)",
+        "from": [
+          893,
+          977
+        ],
+        "to": [
+          890,
+          976
+        ],
+        "widthPx": 2
+      }
+    ],
+    "eraseLines": [
+      {
+        "why": "'=' of the scale text, touching the survey line",
+        "from": [
+          263,
+          209
+        ],
+        "to": [
+          268,
+          206
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "stem of the S of 'Scale', touching the survey line",
+        "from": [
+          138,
+          202
+        ],
+        "to": [
+          138,
+          212
+        ],
+        "widthPx": 3
+      }
+    ]
+  }
+}

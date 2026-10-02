@@ -1,0 +1,1404 @@
+{
+  "image": "../../../_data/maps-import/images/ox-bel-ha-sist-tulum-2.webp",
+  "title": "Sistema Ox Bel Ha - J. Coke 2011",
+  "credits": "Sistema Ox Bel Ha, Tulum, Quintana Roo: 221,252 m surveyed, 34.7 m deep; prepared by J. Coke, May 2011",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "survey-lines",
+    "why": "a 2051 x 2685 px line plot at about 4.7 m/px: passages drawn as black strokes 3-5 px wide (schematic), so traced as lines (a stick map)",
+    "lineColours": [
+      "black"
+    ],
+    "water": false,
+    "eraseLines": [
+      {
+        "from": [
+          2039,
+          1529
+        ],
+        "to": [
+          2025,
+          1544
+        ],
+        "widthPx": 5,
+        "why": "coastline (thin line; its short stretch touching Del Mar's passages left)"
+      },
+      {
+        "from": [
+          2025,
+          1544
+        ],
+        "to": [
+          2024,
+          1559
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          2024,
+          1559
+        ],
+        "to": [
+          2023,
+          1574
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          2023,
+          1574
+        ],
+        "to": [
+          2019,
+          1589
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          2019,
+          1589
+        ],
+        "to": [
+          2011,
+          1604
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          2011,
+          1604
+        ],
+        "to": [
+          1999,
+          1619
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1999,
+          1619
+        ],
+        "to": [
+          1988,
+          1634
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1988,
+          1634
+        ],
+        "to": [
+          1975,
+          1649
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1975,
+          1649
+        ],
+        "to": [
+          1962,
+          1664
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1962,
+          1664
+        ],
+        "to": [
+          1951,
+          1679
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1951,
+          1679
+        ],
+        "to": [
+          1940,
+          1694
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1940,
+          1694
+        ],
+        "to": [
+          1931,
+          1709
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1931,
+          1709
+        ],
+        "to": [
+          1922,
+          1724
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1922,
+          1724
+        ],
+        "to": [
+          1920,
+          1729
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1914,
+          1741
+        ],
+        "to": [
+          1910,
+          1756
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1910,
+          1756
+        ],
+        "to": [
+          1906,
+          1771
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1906,
+          1771
+        ],
+        "to": [
+          1902,
+          1786
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1902,
+          1786
+        ],
+        "to": [
+          1898,
+          1801
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1898,
+          1801
+        ],
+        "to": [
+          1892,
+          1816
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1892,
+          1816
+        ],
+        "to": [
+          1885,
+          1831
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1885,
+          1831
+        ],
+        "to": [
+          1879,
+          1846
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1879,
+          1846
+        ],
+        "to": [
+          1872,
+          1861
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1872,
+          1861
+        ],
+        "to": [
+          1867,
+          1876
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1867,
+          1876
+        ],
+        "to": [
+          1862,
+          1891
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1862,
+          1891
+        ],
+        "to": [
+          1860,
+          1906
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1860,
+          1906
+        ],
+        "to": [
+          1860,
+          1921
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1860,
+          1921
+        ],
+        "to": [
+          1860,
+          1936
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1860,
+          1936
+        ],
+        "to": [
+          1861,
+          1951
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1861,
+          1951
+        ],
+        "to": [
+          1861,
+          1966
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1861,
+          1966
+        ],
+        "to": [
+          1860,
+          1981
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1860,
+          1981
+        ],
+        "to": [
+          1858,
+          1996
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1858,
+          1996
+        ],
+        "to": [
+          1853,
+          2011
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1853,
+          2011
+        ],
+        "to": [
+          1846,
+          2026
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1846,
+          2026
+        ],
+        "to": [
+          1838,
+          2041
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1838,
+          2041
+        ],
+        "to": [
+          1829,
+          2056
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1829,
+          2056
+        ],
+        "to": [
+          1820,
+          2071
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1820,
+          2071
+        ],
+        "to": [
+          1812,
+          2086
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1812,
+          2086
+        ],
+        "to": [
+          1805,
+          2101
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1805,
+          2101
+        ],
+        "to": [
+          1801,
+          2116
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1801,
+          2116
+        ],
+        "to": [
+          1797,
+          2131
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1797,
+          2131
+        ],
+        "to": [
+          1794,
+          2146
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1794,
+          2146
+        ],
+        "to": [
+          1791,
+          2161
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1791,
+          2161
+        ],
+        "to": [
+          1789,
+          2176
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1789,
+          2176
+        ],
+        "to": [
+          1786,
+          2191
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1786,
+          2191
+        ],
+        "to": [
+          1783,
+          2206
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1783,
+          2206
+        ],
+        "to": [
+          1779,
+          2221
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1779,
+          2221
+        ],
+        "to": [
+          1774,
+          2236
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1774,
+          2236
+        ],
+        "to": [
+          1768,
+          2251
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1768,
+          2251
+        ],
+        "to": [
+          1761,
+          2266
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1761,
+          2266
+        ],
+        "to": [
+          1754,
+          2281
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1754,
+          2281
+        ],
+        "to": [
+          1746,
+          2296
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1746,
+          2296
+        ],
+        "to": [
+          1738,
+          2311
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1738,
+          2311
+        ],
+        "to": [
+          1731,
+          2326
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1731,
+          2326
+        ],
+        "to": [
+          1725,
+          2341
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1725,
+          2341
+        ],
+        "to": [
+          1719,
+          2356
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1719,
+          2356
+        ],
+        "to": [
+          1715,
+          2371
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1715,
+          2371
+        ],
+        "to": [
+          1711,
+          2386
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1711,
+          2386
+        ],
+        "to": [
+          1709,
+          2401
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1709,
+          2401
+        ],
+        "to": [
+          1707,
+          2416
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1707,
+          2416
+        ],
+        "to": [
+          1705,
+          2431
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1705,
+          2431
+        ],
+        "to": [
+          1703,
+          2446
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1703,
+          2446
+        ],
+        "to": [
+          1700,
+          2461
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1700,
+          2461
+        ],
+        "to": [
+          1697,
+          2476
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1697,
+          2476
+        ],
+        "to": [
+          1694,
+          2491
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1694,
+          2491
+        ],
+        "to": [
+          1688,
+          2506
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1688,
+          2506
+        ],
+        "to": [
+          1681,
+          2521
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1681,
+          2521
+        ],
+        "to": [
+          1670,
+          2536
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1670,
+          2536
+        ],
+        "to": [
+          1658,
+          2551
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1658,
+          2551
+        ],
+        "to": [
+          1647,
+          2566
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1647,
+          2566
+        ],
+        "to": [
+          1635,
+          2581
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1635,
+          2581
+        ],
+        "to": [
+          1624,
+          2596
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1624,
+          2596
+        ],
+        "to": [
+          1615,
+          2611
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1615,
+          2611
+        ],
+        "to": [
+          1609,
+          2626
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1609,
+          2626
+        ],
+        "to": [
+          1606,
+          2641
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1606,
+          2641
+        ],
+        "to": [
+          1607,
+          2656
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1607,
+          2656
+        ],
+        "to": [
+          1611,
+          2671
+        ],
+        "widthPx": 5
+      },
+      {
+        "from": [
+          1611,
+          2671
+        ],
+        "to": [
+          1612,
+          2674
+        ],
+        "widthPx": 5
+      }
+    ]
+  },
+  "exclude": [
+    {
+      "why": "page frame",
+      "box": [
+        0,
+        0,
+        2051,
+        9
+      ]
+    },
+    {
+      "why": "page frame",
+      "box": [
+        0,
+        2676,
+        2051,
+        2685
+      ]
+    },
+    {
+      "why": "page frame",
+      "box": [
+        0,
+        0,
+        9,
+        2685
+      ]
+    },
+    {
+      "why": "page frame",
+      "box": [
+        2042,
+        0,
+        2051,
+        2685
+      ]
+    },
+    {
+      "why": "coastline at the page frame",
+      "box": [
+        2028,
+        1440,
+        2051,
+        1535
+      ]
+    },
+    {
+      "why": "title, length and depth",
+      "box": [
+        1153,
+        88,
+        1869,
+        443
+      ]
+    },
+    {
+      "why": "north arrow (magnetic, 2011)",
+      "box": [
+        116,
+        197,
+        280,
+        671
+      ]
+    },
+    {
+      "why": "Cenote Hunpiit label and leader",
+      "box": [
+        499,
+        247,
+        863,
+        443
+      ]
+    },
+    {
+      "why": "Sistema Regina label and leader",
+      "box": [
+        392,
+        519,
+        715,
+        671
+      ]
+    },
+    {
+      "why": "Cenote Naharon label",
+      "box": [
+        1116,
+        529,
+        1282,
+        628
+      ]
+    },
+    {
+      "why": "Cenote Naharon leader",
+      "box": [
+        1008,
+        587,
+        1085,
+        635
+      ]
+    },
+    {
+      "why": "Naranjal Region label and leaders",
+      "box": [
+        1355,
+        526,
+        1702,
+        775
+      ]
+    },
+    {
+      "why": "Hatzutz and San Pedro label and leader",
+      "box": [
+        110,
+        828,
+        443,
+        985
+      ]
+    },
+    {
+      "why": "Maya Blue label and leader",
+      "box": [
+        673,
+        838,
+        970,
+        983
+      ]
+    },
+    {
+      "why": "2011 Connection label and leader",
+      "box": [
+        1313,
+        814,
+        1695,
+        1024
+      ]
+    },
+    {
+      "why": "Jailhouse label and leader",
+      "box": [
+        855,
+        982,
+        1103,
+        1124
+      ]
+    },
+    {
+      "why": "San Andres label and leader",
+      "box": [
+        1497,
+        1016,
+        1920,
+        1114
+      ]
+    },
+    {
+      "why": "Ayim label and leader",
+      "box": [
+        116,
+        1210,
+        265,
+        1443
+      ]
+    },
+    {
+      "why": "Corey label and leader",
+      "box": [
+        972,
+        1254,
+        1218,
+        1353
+      ]
+    },
+    {
+      "why": "Del Mar label and leader",
+      "box": [
+        1845,
+        1435,
+        1997,
+        1635
+      ]
+    },
+    {
+      "why": "Exodus label and leader",
+      "box": [
+        56,
+        1660,
+        252,
+        1819
+      ]
+    },
+    {
+      "why": "Yax Chen Region label and leaders",
+      "box": [
+        1277,
+        1858,
+        1581,
+        2081
+      ]
+    },
+    {
+      "why": "Jade Pearl Region label and leaders",
+      "box": [
+        284,
+        1882,
+        504,
+        2178
+      ]
+    },
+    {
+      "why": "2004 connection label and leader",
+      "box": [
+        576,
+        2019,
+        957,
+        2312
+      ]
+    },
+    {
+      "why": "Apocalypse label and leader",
+      "box": [
+        133,
+        2261,
+        356,
+        2470
+      ]
+    },
+    {
+      "why": "legend",
+      "box": [
+        593,
+        2405,
+        990,
+        2584
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1120,
+        2496,
+        1544,
+        2608
+      ]
+    },
+    {
+      "why": "Mar Caribe label",
+      "box": [
+        1767,
+        2472,
+        1957,
+        2594
+      ]
+    },
+    {
+      "why": "credits (J. Coke 05/2011)",
+      "box": [
+        19,
+        2613,
+        470,
+        2672
+      ],
+      "history": true
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Naharon (Cristal)",
+      "px": [
+        947,
+        648
+      ],
+      "latitude": 20.20041,
+      "longitude": -87.49999,
+      "why": "the map's 'Cenote Naharon' dot. Divers' Naharon is Cenote Cristal, just NW of Mayan Blue's upstream end by the highway (as on the placed QRSS Mayan Blue map, whose walls this map's trunk matches): the database's Cristal (Open Caves, on site). The database's 'Naharon' (Open Caves / dive log, 20.19884,-87.51311, OSM 'Cenote Naharon' pond) is 1.36 km W of this dot"
+    },
+    {
+      "caveId": "-KPZkVKWYFuKF3wawGw0",
+      "name": "Jailhouse",
+      "px": [
+        1173,
+        929
+      ],
+      "latitude": 20.1885,
+      "longitude": -87.4901,
+      "why": "Open Caves / dive log position, on site"
+    },
+    {
+      "caveId": "-KPZkVHn5J6gyz85LeWf",
+      "name": "Del Mar",
+      "px": [
+        1873,
+        1740
+      ],
+      "latitude": 20.15398,
+      "longitude": -87.456861,
+      "why": "Del Mar as placed on the GEO 1999 map (ox-bel-ha-geo-1999)"
+    },
+    {
+      "caveId": "-KPZkVE7k5u1D9M6GBHo",
+      "name": "Ayim pond",
+      "px": [
+        270,
+        1165
+      ],
+      "latitude": 20.17663,
+      "longitude": -87.5291,
+      "why": "centre of the OSM pond cluster (ways 1053645720-24) at the map's Ayim dot; the database's Ayim (Gerrard) is 200 m E"
+    },
+    {
+      "caveId": "-KPZkVST6SkV2RHx4mj0",
+      "name": "Yax Chen pool",
+      "px": [
+        1657,
+        2261
+      ],
+      "latitude": 20.13143,
+      "longitude": -87.46715,
+      "why": "OSM pond 403387281 (Cenote Encantado), Yax Chen's pool on the placed yax-chen map"
+    },
+    {
+      "caveId": "-KPZkVLp_-_ss4LMh3MJ",
+      "name": "Los Canales pond",
+      "px": [
+        1381,
+        1535
+      ],
+      "latitude": 20.16235,
+      "longitude": -87.48003,
+      "why": "OSM pond 436893991, on the passage blob where the placed GEO 1999 map has Los Canales"
+    },
+    {
+      "name": "Naharon (database / dive log)",
+      "px": [
+        947,
+        648
+      ],
+      "latitude": 20.198841,
+      "longitude": -87.513111,
+      "check": true,
+      "why": "the database's Naharon: 1.36 km off - not the cenote this map calls Naharon (see the Naharon (Cristal) point)"
+    },
+    {
+      "caveId": "-KPZkVOxe4MoL7H-KM_E",
+      "name": "Regina (database)",
+      "px": [
+        888,
+        747
+      ],
+      "latitude": 20.19764,
+      "longitude": -87.50696,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVNqspWCKvlyjZui",
+      "name": "Odyssey (database)",
+      "px": [
+        1553,
+        1275
+      ],
+      "latitude": 20.17318,
+      "longitude": -87.47103,
+      "check": true,
+      "why": "no dot on this map: px where the GEO 1999 map's Odyssey falls"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Hunpiit",
+      "px": [
+        928,
+        467
+      ],
+      "caveId": "-KPZkVKE9g25Jnk7RwZb"
+    },
+    {
+      "name": "Naharon (Cristal)",
+      "px": [
+        947,
+        648
+      ],
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "why": "labelled 'Cenote Naharon' on the map; Cristal in the database (see controlPoints)"
+    },
+    {
+      "name": "Regina",
+      "px": [
+        888,
+        747
+      ],
+      "caveId": "-KPZkVOxe4MoL7H-KM_E",
+      "why": "the dot under the 'Sistema Regina' leader"
+    },
+    {
+      "name": "Jailhouse",
+      "px": [
+        1173,
+        929
+      ],
+      "caveId": "-KPZkVKWYFuKF3wawGw0"
+    },
+    {
+      "name": "San Andres",
+      "px": [
+        1438,
+        1045
+      ],
+      "caveId": "-KPZkVPXcxviVsbBEKgQ"
+    },
+    {
+      "name": "Corey",
+      "px": [
+        1290,
+        1285
+      ],
+      "caveId": "-KPZkVHJBkl7OciMypqq"
+    },
+    {
+      "name": "Ayim",
+      "px": [
+        270,
+        1165
+      ],
+      "caveId": "-KPZkVE7k5u1D9M6GBHo"
+    },
+    {
+      "name": "Del Mar",
+      "px": [
+        1873,
+        1740
+      ],
+      "caveId": "-KPZkVHn5J6gyz85LeWf"
+    },
+    {
+      "name": "Exodus",
+      "px": [
+        275,
+        1630
+      ],
+      "caveId": "-KPZkVJUypwCG8rqy6G3",
+      "why": "no dot: the small cave the 'Cenote Exodus' leader points at"
+    },
+    {
+      "name": "Apocalypse",
+      "px": [
+        135,
+        2217
+      ]
+    },
+    {
+      "name": "Yax Chen",
+      "px": [
+        1657,
+        2261
+      ],
+      "caveId": "-KPZkVST6SkV2RHx4mj0"
+    },
+    {
+      "name": "Yax Chen region cenote (west)",
+      "px": [
+        1548,
+        2290
+      ]
+    },
+    {
+      "name": "Yax Chen region cenote (south-east)",
+      "px": [
+        1668,
+        2303
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "m",
+    "why": "a stick plot with no depths, codes, flow arrows or bones; the legend's 'major connections' asterisks kept as named places",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "2011 Connection (Naranjal - Ox Bel Ha)",
+        "px": [
+          1255,
+          1048
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "2004 Ox Bel Ha - Yax Chen Connection",
+        "px": [
+          910,
+          1966
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Major connection",
+        "px": [
+          1468,
+          2231
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Naranjal Region",
+        "px": [
+          1060,
+          790
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yax Chen Region",
+        "px": [
+          1456,
+          2077
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Jade Pearl Region",
+        "px": [
+          420,
+          1891
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sistema Regina",
+        "px": [
+          800,
+          720
+        ]
+      }
+    ]
+  }
+}

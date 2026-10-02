@@ -1,0 +1,438 @@
+{
+  "image": "../../../_data/maps-import/images/cubera-sist.webp",
+  "title": "Sistema Cubera - Mafia Maps 2001",
+  "credits": "Sistema Cubera, Q.Roo, Mexico; surveyed passage to date 2,569 ft; exploration and survey Fred Devos, Daniel Riordan; Mafia Maps, January 2001 (c) F. Devos, 2000",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfv9u6cxh2Mfw5E5",
+  "utmEpsg": 32616,
+  "unverified": "No cave of the map has a position in the database: only the sistema Cubera has one (Google Maps source, not a field GPS). It falls on a two-lobed cenote pond 110 m inland from the shore SW of the Calica port (between Xcaret and Punta Venado), and the map's Cubera pond is put there; the map's coastline (SE corner) runs the same way as the real shore (about 55 deg from north on both). Scale from the surveyed length, north from the compass rose: both unchecked. To fix: a field GPS position of Cenote Cubera and one other cenote of the map (Dobladillo, Garafon, Jig, Alta-Chico, Tunich Ha).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). The map has no scale bar: the scale, 0.26 m/px, comes from the title block's 'Surveyed passage to date: 2,569 ft' (783 m) over the drawn line's length (about 2,960 px of skeleton) - assumes the whole surveyed length is drawn; the 1998 edition of the same map (cubera-sist-1.webp, 1,240 ft) gives a consistent Cubera-Dobladillo distance (175 m vs 190 m here). North is the compass rose's (up), unchecked: the Mafia Maps Actun Koh map needed 6.5 deg. One point: Cenote Cubera's pond on the centre of the cenote pond the sistema's Google Maps position falls on (DB point 20.57016 N, 87.12898 W, at the pond's south lobe). The real pond (two lobes, about 65 m N-S) is larger and differently shaped than the map's (about 15 m, SW-NE), so it may not be Cubera. Placed this way the cave runs north under the Calica port's yard and its NE end (Jig, the line to Tunich Ha) under the quay of the dredged harbour basin (Calica dates from the late 1980s, before this 2001 survey), which argues against this placement: either the pond isn't Cubera, or the scale/orientation are off. The map's own coastline lands about 50 m inland of the real shore. No other cenote of the map is visible on the imagery. Nearest placed map: Grotte du Tigre (itself unverified), 1.7 km north; no overlap.",
+  "scaleBar": {
+    "why": "not a drawn bar: the scale derived from the surveyed length (2,569 ft over about 2,960 px of drawn line)",
+    "from": [
+      0,
+      0
+    ],
+    "to": [
+      1000,
+      0
+    ],
+    "metres": 260
+  },
+  "north": "up",
+  "exclude": [
+    {
+      "why": "north arrow (compass rose)",
+      "box": [
+        25,
+        50,
+        185,
+        210
+      ]
+    },
+    {
+      "why": "title block: Sistema Cubera, Q.Roo Mexico, surveyed passage to date 2,569 feet, exploration and survey Fred Devos, Daniel Riordan, Mafia Maps January 2001",
+      "box": [
+        990,
+        25,
+        1430,
+        340
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos, 2000",
+      "box": [
+        95,
+        1035,
+        300,
+        1072
+      ],
+      "history": true
+    },
+    {
+      "why": "the sea and its coastline (yellow), drawn in the SE corner: not cave",
+      "box": [
+        1020,
+        765,
+        1446,
+        1072
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1456,
+        8
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1072,
+        1456,
+        1082
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        8,
+        1082
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1446,
+        0,
+        1456,
+        1082
+      ]
+    },
+    {
+      "why": "grey wavy water-flow arrow W of Dobladillo (kept as a flow symbol)",
+      "box": [
+        222,
+        285,
+        330,
+        322
+      ]
+    },
+    {
+      "why": "grey wavy water-flow arrow W of Jig (kept as a flow symbol)",
+      "box": [
+        722,
+        198,
+        826,
+        242
+      ]
+    },
+    {
+      "why": "grey wavy water-flow arrow N of Tunich Ha, upper part (kept as a flow symbol)",
+      "box": [
+        1314,
+        505,
+        1382,
+        540
+      ]
+    },
+    {
+      "why": "grey wavy water-flow arrow N of Tunich Ha, lower part and head (two boxes clear of the line beside it)",
+      "box": [
+        1338,
+        540,
+        1382,
+        592
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Cenote Cubera = centre of the pond the sistema's Google Maps position falls on (guess)",
+      "px": [
+        720,
+        974
+      ],
+      "latitude": 20.570443,
+      "longitude": -87.128886
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "why": "Mafia Maps stick map (one bold black guideline, no walls), traced as lines with no thickness. The cenote pools are drawn in dark blue, dark enough to count as ink: erased by hand (eraseLines), so the lines stop at the pools' edges (their positions are the entrances). Labels are coloured (blue-grey cenote names, red notes, green depths) and the flow arrows grey; the arrows are masked by hand.",
+    "eraseLines": [
+      {
+        "why": "Cenote Dobladillo's pool (beside the line, not on it)",
+        "from": [
+          460,
+          235
+        ],
+        "to": [
+          482,
+          214
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Garafon's pool",
+        "from": [
+          331,
+          423
+        ],
+        "to": [
+          331,
+          434
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Jig's pool",
+        "from": [
+          883,
+          194
+        ],
+        "to": [
+          906,
+          203
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cenote Alta-Chico's pool",
+        "from": [
+          968,
+          618
+        ],
+        "to": [
+          990,
+          598
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Tunich Ha's pool",
+        "from": [
+          1339,
+          619
+        ],
+        "to": [
+          1339,
+          630
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Cubera's pool",
+        "from": [
+          703,
+          984
+        ],
+        "to": [
+          744,
+          957
+        ],
+        "widthPx": 18
+      }
+    ],
+    "joinShortPx": 40,
+    "joinShortWhy": "Garafon's short side line (about 6 m to its pool) is shorter than the minimum line length: joined to a neighbour at its junction rather than dropped.",
+    "addLines": [
+      {
+        "why": "Jig: the line's turn at the pool's SW corner, cut by the pool's eraser (the map's ink is continuous there)",
+        "from": [
+          876,
+          202
+        ],
+        "to": [
+          880,
+          212
+        ],
+        "widthPx": 4
+      }
+    ]
+  },
+  "entrances": [
+    {
+      "name": "Cenote Dobladillo",
+      "caveId": "-KPZkVHwIEyysS4OBKke",
+      "px": [
+        469,
+        226
+      ],
+      "why": "The database's Dobladillo (Gerrard, sistema Cubera) has no position."
+    },
+    {
+      "name": "Cenote Garafon",
+      "caveId": "-KPZkVJjc06FpBXZibYD",
+      "px": [
+        331,
+        428
+      ],
+      "why": "The database's Garafon (Gerrard, sistema Cubera) has no position."
+    },
+    {
+      "name": "Cenote Jig",
+      "px": [
+        893,
+        198
+      ],
+      "why": "Not in the database (two unnamed caves of sistema Cubera, -KPZkVV5-S7yN7RB6dbo and -KPZkVYOG6fmBtZNylXh, could be any of the map's unmatched cenotes)."
+    },
+    {
+      "name": "Cenote Alta-Chico",
+      "px": [
+        978,
+        609
+      ],
+      "why": "Not in the database."
+    },
+    {
+      "name": "Cenote Tunich Ha",
+      "px": [
+        1339,
+        624
+      ],
+      "why": "Not in the database."
+    },
+    {
+      "name": "Cenote Cubera",
+      "px": [
+        720,
+        974
+      ],
+      "why": "Not in the database as a cave: only the sistema Cubera (-KPZgfv9u6cxh2Mfw5E5) is, with a Google Maps position."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot, depths in feet (overlined numbers, green). No legend. '!R!' (red, four times: at Jig, Tunich Ha, on the line NE of Alta-Chico, and beside Garafon) is taken as a restriction, how much not said - an assumption, the map doesn't explain it. 'ANIMAL BONES' (red, south of Garafon) kept as bones; 'HYDROGEN SULPHIDE' (red, west passage) kept as a place-name at its label. Three grey wavy water-flow arrows, bearings read off the map. All added by hand: the map is small and clean, every depth checked by eye (five).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          446,
+          302
+        ],
+        "value": 18,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          838,
+          475
+        ],
+        "value": 18,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          1249,
+          558
+        ],
+        "value": 15,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "px": [
+          87,
+          793
+        ],
+        "value": 25,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          522,
+          948
+        ],
+        "value": 18,
+        "halfPx": 16
+      },
+      {
+        "type": "bones",
+        "label": "ANIMAL BONES",
+        "px": [
+          332,
+          480
+        ],
+        "halfPx": 30
+      },
+      {
+        "type": "place-name",
+        "label": "Hydrogen Sulphide",
+        "px": [
+          237,
+          795
+        ],
+        "halfPx": 30
+      },
+      {
+        "type": "restriction",
+        "label": "!R!",
+        "px": [
+          933,
+          215
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "restriction",
+        "label": "!R!",
+        "px": [
+          268,
+          436
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "restriction",
+        "label": "!R!",
+        "px": [
+          1096,
+          451
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "restriction",
+        "label": "!R!",
+        "px": [
+          1377,
+          631
+        ],
+        "halfPx": 12
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          275,
+          302
+        ],
+        "bearing": 85
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          773,
+          220
+        ],
+        "bearing": 105
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1346,
+          548
+        ],
+        "bearing": 150
+      }
+    ]
+  }
+}

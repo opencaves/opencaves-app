@@ -1,0 +1,1438 @@
+{
+  "image": "../../../_data/maps-import/images/mayan-blue-cen-tulum.webp",
+  "title": "Cenote Mayan Blue - QRSS 1993 (J. G. Coke IV)",
+  "credits": "Cave plan of the Mayan Blue upstream and Xibalba sections of Sistema Naranjal, surveyed 1990-1992 by James G. Coke IV, Lorie Conlin, Thomas M. Young; drafted by James G. Coke IV (QRSS, 1993)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        8220,
+        180
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        640,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        7570,
+        0,
+        8220,
+        12000
+      ]
+    },
+    {
+      "why": "outside the frame (bottom) and caption",
+      "box": [
+        0,
+        11100,
+        8220,
+        12000
+      ]
+    },
+    {
+      "why": "title",
+      "box": [
+        4830,
+        470,
+        7010,
+        1290
+      ]
+    },
+    {
+      "why": "survey credits",
+      "box": [
+        5260,
+        1700,
+        6580,
+        2760
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        4660,
+        2730,
+        4890,
+        3560
+      ]
+    },
+    {
+      "why": "penetration notations",
+      "box": [
+        5730,
+        3200,
+        6910,
+        3870
+      ]
+    },
+    {
+      "why": "principal explorers",
+      "box": [
+        6330,
+        4330,
+        7090,
+        4770
+      ],
+      "history": true
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        1210,
+        5750,
+        2650,
+        7170
+      ]
+    },
+    {
+      "why": "Sistema Naranjal inset and its scale",
+      "box": [
+        1230,
+        7640,
+        2670,
+        9190
+      ]
+    },
+    {
+      "why": "notes",
+      "box": [
+        1000,
+        9700,
+        3205,
+        10750
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3920,
+        10310,
+        5860,
+        10730
+      ]
+    },
+    {
+      "why": "QRSS logo",
+      "box": [
+        6660,
+        6000,
+        7360,
+        6600
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2400,
+        680,
+        2570,
+        820
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1030,
+        1030,
+        1420,
+        1190
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2180,
+        1190,
+        2610,
+        1500
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3370,
+        1870,
+        3965,
+        2095
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3965,
+        3000,
+        4335,
+        3105
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3620,
+        3310,
+        4090,
+        3555
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        4295,
+        4295,
+        4910,
+        4520
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        5325,
+        4400,
+        5735,
+        4540
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1480,
+        4910,
+        1870,
+        5200
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2650,
+        5385,
+        3185,
+        5690
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6535,
+        5445,
+        6965,
+        5610
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        6580,
+        6965,
+        7215,
+        7210
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3040,
+        7790,
+        3660,
+        8035
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        5055,
+        8530,
+        5610,
+        8960
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3660,
+        9410,
+        4400,
+        9865
+      ]
+    },
+    {
+      "why": "foot path to Cenote Naharon",
+      "box": [
+        860,
+        1290,
+        1045,
+        1800
+      ]
+    },
+    {
+      "why": "'To Cenote Naharon 2800 feet (854 meters)' label",
+      "box": [
+        700,
+        3080,
+        1250,
+        3210
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      4262,
+      10520
+    ],
+    "to": [
+      5799,
+      10520
+    ],
+    "metres": 152.4
+  },
+  "north": {
+    "angle": -6.4,
+    "why": "Fitted to Highway 307 (OpenStreetMap): with the map's north up, its highway ran 6.4 degrees off the real one"
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue",
+      "px": [
+        5304,
+        7127
+      ],
+      "latitude": 20.19413,
+      "longitude": -87.49629
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVJByjlbUaBg6uHP",
+      "name": "Mayan Blue",
+      "px": [
+        5304,
+        7127
+      ]
+    },
+    {
+      "caveId": "-KPZkVQIUmE-exDOoKQE",
+      "name": "Sunhole",
+      "px": [
+        3777,
+        6850
+      ]
+    },
+    {
+      "caveId": "-KPZkVLrs80cfalEzD9z",
+      "name": "Lost Cenote",
+      "px": [
+        5538,
+        7672
+      ]
+    },
+    {
+      "caveId": "-KPZkVMNaXw0oRR305Yi",
+      "name": "Maya Two",
+      "px": [
+        4488,
+        8006
+      ]
+    },
+    {
+      "caveId": "-KPZkVG0pYan2AfIT795",
+      "name": "Cenote of the Sun",
+      "px": [
+        6765,
+        10003
+      ]
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "z": "visibility-zero",
+      "s": "silt"
+    },
+    "templates": {
+      "s": [
+        1338,
+        6551
+      ],
+      "z": [
+        1336,
+        6605
+      ],
+      "r": [
+        1338,
+        6924
+      ],
+      "x": [
+        1333,
+        7033
+      ]
+    },
+    "letterSizePx": [
+      18,
+      40
+    ],
+    "fix": [
+      {
+        "px": [
+          2178,
+          637
+        ],
+        "value": 70
+      },
+      {
+        "px": [
+          3378,
+          4835
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          5784,
+          7349
+        ],
+        "value": 70
+      },
+      {
+        "px": [
+          5376,
+          8042
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          7286,
+          9279
+        ],
+        "value": 55
+      },
+      {
+        "px": [
+          1889,
+          2334
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          2339,
+          4731
+        ],
+        "value": 10
+      },
+      {
+        "px": [
+          3404,
+          5839
+        ],
+        "value": 25
+      },
+      {
+        "px": [
+          6114,
+          7172
+        ],
+        "value": 10
+      },
+      {
+        "px": [
+          6129,
+          8141
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          6994,
+          8870
+        ],
+        "value": 15
+      },
+      {
+        "px": [
+          4032,
+          4095
+        ],
+        "value": 75
+      },
+      {
+        "px": [
+          4309,
+          6217
+        ],
+        "value": 75
+      },
+      {
+        "px": [
+          1972,
+          1454
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2008,
+          1714
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2361,
+          1817
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1311,
+          2241
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1366,
+          2413
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          2684,
+          3249
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          1913,
+          3321
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          4327,
+          6550
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          5552,
+          6911
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          5640,
+          7175
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      },
+      {
+        "px": [
+          7373,
+          10360
+        ],
+        "value": null,
+        "why": "dotted-line dashes, not an x"
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          2957,
+          1968
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          2538,
+          2584
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          3084,
+          3098
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          2433,
+          3825
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          2640,
+          4309
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          5222,
+          4606
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          2502,
+          4643
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          5588,
+          5347
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          3801,
+          5625
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          4827,
+          5689
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6269,
+          6256
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          3401,
+          6331
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          5572,
+          6403
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          5139,
+          6746
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          4114,
+          7062
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          6291,
+          7172
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "value": 75,
+        "px": [
+          6151,
+          7333
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6676,
+          7571
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          5204,
+          8058
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          4413,
+          8323
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          6484,
+          8806
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          6416,
+          9151
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          4596,
+          9240
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          7216,
+          10497
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "To Cenote Naharon, 854 m",
+        "px": [
+          1230,
+          2690
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "To Muknal",
+        "px": [
+          7530,
+          10070
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5118,
+          9564
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          2492,
+          1750
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          4735,
+          4889
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          6862,
+          8188
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "25",
+        "value": 25,
+        "px": [
+          4467,
+          8899
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5652,
+          8772
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          6419,
+          7871
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          5194,
+          5890
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          2404,
+          4216
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          6409,
+          6905
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1353,
+          794
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          3210,
+          2268
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          6253,
+          9547
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          1567,
+          4084
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          6343,
+          5453
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          4179,
+          4401
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1774,
+          3650
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          5046,
+          4187
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3280,
+          3853
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          3935,
+          5135
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          7064,
+          9416
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "value": 20,
+        "px": [
+          3712,
+          8334
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          5471,
+          5598
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          2097,
+          413
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          3591,
+          8684
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          1889,
+          1339
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          1772,
+          2729
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          3657,
+          2813
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          1404,
+          3331
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6134,
+          5572
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "80",
+        "value": 80,
+        "px": [
+          4651,
+          6654
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          5784,
+          7706
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          4765,
+          8139
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "90",
+        "value": 90,
+        "px": [
+          3562,
+          8498
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          4845,
+          8845
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          6617,
+          9508
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          7386,
+          10072
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "85",
+        "value": 85,
+        "px": [
+          5967,
+          8873
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          6907,
+          9033
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          7013,
+          10053
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "p.510",
+        "value": 510,
+        "px": [
+          7307,
+          9020
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cenote Naharon Siphon Tunnel",
+        "px": [
+          1515,
+          480
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "C Tunnel",
+        "px": [
+          1729,
+          1110
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "C Tunnel",
+        "px": [
+          1640,
+          2330
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "F Tunnel",
+        "px": [
+          3470,
+          2470
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "A Tunnel",
+        "px": [
+          3150,
+          3715
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "E Tunnel",
+        "px": [
+          4356,
+          4040
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "K Tunnel",
+        "px": [
+          2898,
+          5130
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Time Tunnel",
+        "px": [
+          6468,
+          5220
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "B Tunnel",
+        "px": [
+          4620,
+          5508
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "A Tunnel",
+        "px": [
+          4626,
+          6840
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Battleship Room",
+        "px": [
+          2407,
+          2700
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Death Arrow Passage",
+        "px": [
+          4386,
+          5975
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dead Zone",
+        "px": [
+          5587,
+          6198
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Dead Zone",
+        "px": [
+          6930,
+          7435
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Tubes",
+        "px": [
+          4742,
+          8293
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hostage Hall",
+        "px": [
+          3800,
+          8915
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Ballcourt",
+        "px": [
+          6234,
+          9932
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dark Domes",
+        "px": [
+          950,
+          4725
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Chunyaxche",
+        "px": [
+          987,
+          2187
+        ]
+      }
+    ]
+  },
+  "trace": {
+    "boxSpurs": "labels",
+    "eraseLines": [
+      {
+        "why": "Highway 307 (north line)",
+        "from": [
+          690,
+          1944
+        ],
+        "to": [
+          4320,
+          252
+        ],
+        "widthPx": 19
+      },
+      {
+        "why": "Highway 307 (south line)",
+        "from": [
+          600,
+          2066
+        ],
+        "to": [
+          4320,
+          332
+        ],
+        "widthPx": 19
+      },
+      {
+        "why": "section leader",
+        "from": [
+          4380,
+          9760
+        ],
+        "to": [
+          4770,
+          9640
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "section leader",
+        "from": [
+          6345,
+          5685
+        ],
+        "to": [
+          6545,
+          5562
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "section leader (elbow)",
+        "from": [
+          6300,
+          5685
+        ],
+        "to": [
+          6345,
+          5685
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "section leader",
+        "from": [
+          3640,
+          7990
+        ],
+        "to": [
+          3810,
+          8030
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "Cenote of the Sun entrance label leader",
+        "from": [
+          6587,
+          10187
+        ],
+        "to": [
+          6775,
+          9998
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "The Ballcourt label leader",
+        "from": [
+          6250,
+          9825
+        ],
+        "to": [
+          6342,
+          9718
+        ],
+        "widthPx": 13
+      }
+    ],
+    "spurReachPx": 80,
+    "wallCentres": true,
+    "wallOpenPx": 4,
+    "wallSimplifyMetres": 0.15,
+    "symbolPadPx": 32,
+    "leaderMaxPx": 900,
+    "leaderReachPx": 110
+  }
+}

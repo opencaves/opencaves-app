@@ -52,7 +52,12 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         id='media-pane-menu'
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
+        onClick={() => {
+          handleClose()
+          // An item opening a dialog: focus off the menu's button first, or
+          // the dialog hides the page with focus still inside it.
+          document.activeElement?.blur()
+        }}
         slotProps={{
           paper: {
             elevation: 2,

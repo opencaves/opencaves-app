@@ -1,0 +1,242 @@
+{
+  "image": "../../../_data/map-layer/scans/knock-out-filled.png",
+  "sourceImage": "../../../_data/maps-import/images/knock-out-cen-akumal.webp",
+  "title": "Cenote Knock Out, Akumal - Expéditions Yuc 95/96",
+  "credits": "Cenote Knock Out (Akumal), plan and longitudinal section; topo J.A. Laclette, Edsel Rios, C. Thomas, Germano. Cenotes du Yucatan: Expéditions de 1995 et 1996, p. 65 (1996), reprinted in AMCS Activities Newsletter 35, p. 25 (2012)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": null,
+  "sistemaWhy": "No sistema or cave of the database is this cave: no name or aka contains Knock Out (nor Nocaut/Noqueo), and none of the database's Akumal caves matches it by name.",
+  "utmEpsg": 32616,
+  "unverified": "No position at all: Cenote Knock Out is in neither the database (names and akas), OpenStreetMap (Overpass name search over the Yucatán peninsula) nor a web search, and the map draws no road, coast, other cenote or coordinate - only the cave and a surface line with trees on the section. The single control point is a NOMINAL anchor (the entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' caption), so the pipeline can run: the geometry is NOT on the ground (it lands across the Akumal access road). To fix: a field GPS of the entrance and the bearing of the cave's long axis (about 160 m from the -21 end to the -27 end).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). Same map as _data/cartes/à traiter/Knock Out, Cen., Akumal.pdf (Cenotes du Yucatan p. 65; AMCS Activities Newsletter 35 p. 25). Scale from the 0-30 m bar: x 1266-1700 at y 1155, 434 px = 30 m, 0.0691 m/px (its 10 m dividers at 1413 and 1555 agree within 3%); the plan, about 160 m end to end, matches the section drawn below it at the same scale. North from the 'Nord mg.' arrow pointing right (magnetic, 1996: a degree or two off true, not corrected): angle 90. Position nominal. The nearest placed map (murena) is about 200 m from the anchor; the map can't be cross-checked with any.",
+  "scaleBar": {
+    "from": [
+      1266,
+      1155
+    ],
+    "to": [
+      1700,
+      1155
+    ],
+    "metres": 30
+  },
+  "north": {
+    "angle": 90
+  },
+  "exclude": [
+    {
+      "why": "section (longitudinal profile, with trees on the surface)",
+      "box": [
+        0,
+        1190,
+        2448,
+        1720
+      ]
+    },
+    {
+      "why": "title CENOTE KNOCK OUT",
+      "box": [
+        1290,
+        1225,
+        2260,
+        1335
+      ]
+    },
+    {
+      "why": "credits: Topo J.A Laclette Edsel Rios C.Thomas.Germano",
+      "box": [
+        0,
+        1760,
+        1330,
+        1845
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar 0-30 m",
+      "box": [
+        1240,
+        1095,
+        1720,
+        1185
+      ]
+    },
+    {
+      "why": "north arrow and Nord mg.",
+      "box": [
+        1850,
+        1040,
+        2200,
+        1190
+      ]
+    },
+    {
+      "why": "label Entrée (written on the dry chamber: the passage runs on under it)",
+      "box": [
+        780,
+        320,
+        955,
+        372
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Impenetrable",
+      "box": [
+        2095,
+        690,
+        2410,
+        745
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor: the entrance (centre of the breakdown mound under the opening) put on OpenStreetMap's Akumal village node 854200484 - a namesake only, not a real position (see 'unverified')",
+      "px": [
+        652,
+        505
+      ],
+      "latitude": 20.398797,
+      "longitude": -87.3173404
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Knock Out (Entrée)",
+      "px": [
+        652,
+        505
+      ],
+      "why": "The map's only opening to the surface, labelled Entrée: the ticked oval (drip line) over the breakdown mound, which the section shows under the entrance shaft. Not matched to a database cave: no cave or aka of the database is Knock Out."
+    }
+  ],
+  "prep": {
+    "why": "b/w hand drawing: the walls are bold closed outlines; dry parts left white, flooded parts hatched (the section shows water at both ends, air in the middle). fill_passages.py tints every enclosed interior pale blue for the colour-fill trace; the open passage ends are sealed by hand.",
+    "sealLines": [
+      {
+        "why": "gap in the east lobe's NE wall",
+        "from": [
+          1620,
+          284
+        ],
+        "to": [
+          1634,
+          304
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "open end of the east end's upper branch (narrow fissure, the Impenetrable end)",
+        "from": [
+          2254,
+          509
+        ],
+        "to": [
+          2273,
+          519
+        ],
+        "widthPx": 5
+      }
+    ],
+    "passagePoints": [
+      [
+        634,
+        540
+      ],
+      [
+        490,
+        560
+      ],
+      [
+        580,
+        562
+      ],
+      [
+        1757,
+        615
+      ]
+    ],
+    "passagePointsWhy": "boulders (outlined blocks) on the breakdown mound under the entrance and in the east lobe: details, not pillars"
+  },
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "threshold": 1000,
+    "regionThreshold": 1000,
+    "weakThreshold": 1000,
+    "fillColours": [
+      {
+        "hue": [
+          145,
+          175
+        ],
+        "minSaturation": 50,
+        "density": 0.3,
+        "alone": true
+      }
+    ],
+    "wallSimplifyMetres": 0.15,
+    "why": "fill_passages.py tints the passages (see prep); colour-fill then traces the tint's outline as the walls, the two white pillars (the block in the east lobe, the sliver at the sand slope) as inner walls; hatching, stipple, boulders and slope/step lines kept as details. wallSimplifyMetres 0.15: a small map (0.069 m/px), the default 0.5 m cut the walls into straight segments.",
+    "minHoleSqMetres": 4,
+    "minHoleSqMetresWhy": "the white sliver at the east sand slope (about 6.5 m2) is a pillar; the default 60 m2 dropped it",
+    "waterWhy": "mostly underwater: the hatching is water (the section shows air only in the entrance chamber, the passages dipping into water at both ends to -21 and -27); hatched passage is about 59% of the plan's area, plus all of its length beyond the entrance chamber. The white entrance chamber (breakdown mound under the opening, sand slopes stippled) is dry."
+  },
+  "symbols": {
+    "why": "French expedition map (Yuc 95/96), same authors and style as jaguar-akumal: depths written with a minus sign (-21 at the end of the SW passage, -27 at the east end), Impenetrable at the east end, Entrée at the collapse. No legend, no letter codes. No flow arrows and no bones (checked by eye at full size; the small ticked marks in the hatched water are slope/step lines, the outlined blocks are boulders).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "-21",
+        "px": [
+          204,
+          1066
+        ],
+        "value": 21,
+        "halfPx": 44
+      },
+      {
+        "type": "depth",
+        "label": "-27",
+        "px": [
+          2334,
+          561
+        ],
+        "value": 27,
+        "halfPx": 50
+      },
+      {
+        "type": "too-tight",
+        "label": "Impenetrable",
+        "px": [
+          2290,
+          628
+        ],
+        "why": "label written below the east end's two branches, at the lower branch's end"
+      }
+    ],
+    "fix": [
+      {
+        "px": [
+          618,
+          485
+        ],
+        "value": null,
+        "why": "a boulder on the breakdown mound read as a circled 4"
+      },
+      {
+        "px": [
+          1392,
+          593
+        ],
+        "value": null,
+        "why": "hatching tick read as a barred 4"
+      }
+    ]
+  }
+}

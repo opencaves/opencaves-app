@@ -1,0 +1,1559 @@
+{
+  "perspective": {
+    "photo": "../../../_data/maps-import/images/sistema-tux-kupaxa-nai-tucha-section.jpg",
+    "corners": [
+      [
+        -76.3,
+        14.8
+      ],
+      [
+        4325.2,
+        -85.0
+      ],
+      [
+        4237.9,
+        2975.8
+      ],
+      [
+        115.0,
+        2909.3
+      ]
+    ],
+    "k1": 0.026,
+    "why": "corners: the decorative border's triangle rows, fitted as lines and intersected (the top-right corner is off the photo); k1: the photo's barrel distortion (the border rows bowed ~10 px), undone first; flattenPx: the glare and uneven light flattened (each channel over its local paper level: a closing that wide, then a blur - wider than the passages, so their pale fill stays); destripePx: the canvas weave the glare shows (vertical stripes ~19 px apart) taken out - the fine horizontal detail that stays the same down a column that tall",
+    "flattenPx": 151,
+    "destripePx": 201
+  },
+  "image": "../../../_data/map-layer/pilot/tux-kupaxa-nai-tucha-straight.png",
+  "title": "Nai Tucha (Tux Kupaxa), Sistema Tux Kupaxa - Czech survey 2009",
+  "sistemaId": "-NCB52nBApQkIuCms8mA",
+  "utmEpsg": 32616,
+  "credits": "Primary explorers Gunnar Wagner, Robert Schmittner, Bil Phillips, Andres Labarte, Sabine Schnittger, Daniel Hutnan; resurvey 2009 by Daniel Hutnan, Petr Chmel, Martin Hones, Martin Hutnan, Miroslav Manhart, Miloslav Dvoracek; cartography Daniel Hutnan, Anna Hutnan, Martin Hutnan (c) 2009, Czech Speleological Society",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "trace": {
+    "method": "thin-walls",
+    "why": "The passages' pale grey fill is too faint on this glare-washed photo for colour-fill (it bled into the labels and paper); the dark wall outline is traced instead, as on the Hutcheson maps. No straight-line erasing (no guideline is drawn; straight wall runs would be lost). In the glare (east of the centre) the outline is faint: a few short gaps remain there.",
+    "inkLevel": 184,
+    "straightMinPx": 10000,
+    "minExtentPx": 80,
+    "bridgePx": 3,
+    "water": false,
+    "wallSimplifyMetres": 0.1,
+    "wallLines": [
+      [
+        [
+          652,
+          770
+        ],
+        [
+          660,
+          782
+        ],
+        [
+          678,
+          788
+        ],
+        [
+          688,
+          800
+        ],
+        [
+          690,
+          830
+        ],
+        [
+          692,
+          850
+        ],
+        [
+          698,
+          862
+        ]
+      ],
+      [
+        [
+          652,
+          770
+        ],
+        [
+          660,
+          764
+        ],
+        [
+          672,
+          764
+        ],
+        [
+          685,
+          775
+        ],
+        [
+          698,
+          782
+        ],
+        [
+          700,
+          800
+        ],
+        [
+          701,
+          825
+        ],
+        [
+          705,
+          845
+        ],
+        [
+          712,
+          855
+        ]
+      ]
+    ],
+    "wallLinesWhy": "the Tres Estrellas connection passage: its faint walls drawn by hand from the photo"
+  },
+  "exclude": [
+    {
+      "why": "title Nai Tucha (Tux Kupaxa), coordinates, surveyed passage",
+      "box": [
+        100,
+        150,
+        1000,
+        640
+      ]
+    },
+    {
+      "why": "Czech Speleological Society logo",
+      "box": [
+        1050,
+        280,
+        1580,
+        545
+      ]
+    },
+    {
+      "why": "title Tulum, Quintana Roo, Mexico",
+      "box": [
+        1480,
+        70,
+        2660,
+        380
+      ]
+    },
+    {
+      "why": "QRSS stamp",
+      "box": [
+        2700,
+        240,
+        3030,
+        545
+      ]
+    },
+    {
+      "why": "title Sistema Tux Kupaxa, total surveyed passage",
+      "box": [
+        3130,
+        110,
+        4180,
+        650
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2620,
+        810,
+        3080,
+        1130
+      ]
+    },
+    {
+      "why": "inset map of the whole system",
+      "box": [
+        3120,
+        795,
+        4200,
+        1810
+      ]
+    },
+    {
+      "why": "inset map's scale bar",
+      "box": [
+        3590,
+        2060,
+        3800,
+        2110
+      ]
+    },
+    {
+      "why": "primary explorers",
+      "box": [
+        115,
+        1490,
+        530,
+        1880
+      ],
+      "history": true
+    },
+    {
+      "why": "exploration history",
+      "box": [
+        100,
+        2060,
+        995,
+        2885
+      ],
+      "history": true
+    },
+    {
+      "why": "resurvey team",
+      "box": [
+        1360,
+        2185,
+        1690,
+        2570
+      ],
+      "history": true
+    },
+    {
+      "why": "compass",
+      "box": [
+        1780,
+        2065,
+        2150,
+        2465
+      ]
+    },
+    {
+      "why": "cartography",
+      "box": [
+        3010,
+        2335,
+        3320,
+        2660
+      ],
+      "history": true
+    },
+    {
+      "why": "thanks to",
+      "box": [
+        2575,
+        2740,
+        3260,
+        2885
+      ],
+      "history": true
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        4263,
+        115
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        2885,
+        1560,
+        2981
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        100,
+        2981
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        4195,
+        0,
+        4263,
+        2981
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1008,
+        736,
+        1233,
+        821
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2074,
+        738,
+        2210,
+        823
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (trees, bricks), west part",
+      "box": [
+        371,
+        800,
+        682,
+        1017
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2427,
+        841,
+        2563,
+        927
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2172,
+        901,
+        2308,
+        986
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1085,
+        1033,
+        1346,
+        1188
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1380,
+        1147,
+        1624,
+        1270
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        191,
+        1214,
+        392,
+        1316
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1714,
+        1289,
+        1958,
+        1393
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        672,
+        1291,
+        903,
+        1395
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        443,
+        1350,
+        572,
+        1434
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1296,
+        1367,
+        1433,
+        1453
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2284,
+        1398,
+        2561,
+        1520
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1228,
+        1646,
+        1454,
+        1750
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3096,
+        1668,
+        3250,
+        1736
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1661,
+        1764,
+        1869,
+        1850
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        868,
+        1802,
+        1143,
+        1905
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2047,
+        1913,
+        2309,
+        2037
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        530,
+        1926,
+        733,
+        2013
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2796,
+        1974,
+        3133,
+        2099
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1184,
+        2002,
+        1337,
+        2087
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1562,
+        2017,
+        1752,
+        2141
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2289,
+        2250,
+        2623,
+        2429
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2401,
+        2671,
+        2505,
+        2739
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2000,
+        2682,
+        2264,
+        2788
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1630,
+        2700,
+        1767,
+        2787
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2395,
+        1205,
+        2500,
+        1300
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1285,
+        2805,
+        1370,
+        2865
+      ]
+    },
+    {
+      "why": "page border, darker paper at the bottom edge",
+      "box": [
+        1625,
+        2885,
+        4263,
+        2981
+      ]
+    },
+    {
+      "why": "page border, below the south passage tip",
+      "box": [
+        1560,
+        2925,
+        1625,
+        2981
+      ]
+    },
+    {
+      "why": "label The Tres Estrelas connection",
+      "box": [
+        365,
+        765,
+        640,
+        800
+      ]
+    },
+    {
+      "why": "label The Sac Xiquin connections, arrows",
+      "box": [
+        1950,
+        590,
+        2235,
+        640
+      ]
+    },
+    {
+      "why": "label p.3311",
+      "box": [
+        1700,
+        540,
+        1760,
+        575
+      ]
+    },
+    {
+      "why": "inset map of the whole system, its south part",
+      "box": [
+        3500,
+        1810,
+        4200,
+        2120
+      ]
+    },
+    {
+      "why": "page border (top, beside the stamp)",
+      "box": [
+        2655,
+        100,
+        3135,
+        240
+      ]
+    },
+    {
+      "why": "page border (top left)",
+      "box": [
+        95,
+        110,
+        160,
+        160
+      ]
+    },
+    {
+      "why": "page border (top right)",
+      "box": [
+        4170,
+        100,
+        4263,
+        700
+      ]
+    },
+    {
+      "why": "label Cenote NAI TUCHA",
+      "box": [
+        555,
+        1010,
+        835,
+        1046
+      ]
+    },
+    {
+      "why": "label Cenote KOI",
+      "box": [
+        3415,
+        2130,
+        3595,
+        2180
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        3475,
+        2305,
+        4180,
+        2800
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (bricks), east part below the connection passage",
+      "box": [
+        682,
+        893,
+        733,
+        1017
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2649.5,
+      1020
+    ],
+    "to": [
+      3049,
+      1020
+    ],
+    "metres": 91.44
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVNN67s9k-Ro6pUY",
+      "name": "Nai Tucha",
+      "px": [
+        730,
+        1105
+      ],
+      "latitude": 20.36194,
+      "longitude": -87.41972
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVNN67s9k-Ro6pUY",
+      "name": "Nai Tucha",
+      "px": [
+        730,
+        1105
+      ]
+    },
+    {
+      "caveId": "-KPZkVL2GlrKZi7B58X9",
+      "name": "Koi",
+      "px": [
+        3397,
+        2115
+      ],
+      "replacePosition": "the database position (source map, validity unknown) is 574 m from this map, 87 m east of Nai Tucha over its passage; the 2013 K'oox Baal map puts Koi 66 m from this one"
+    }
+  ],
+  "symbols": {
+    "why": "Overlined numbers are depths in feet, circled ones ceiling-to-floor heights in feet (legend). The bar finder and OCR got 22 depths and 5 penetrations on the glare-washed photo; the rest added by hand, each read on a crop: 64 depths, 22 ceiling heights, 9 penetrations. R (restriction): 8, template-matched at the map size. B (bones): 2, both bold serif B like the legend - one in the south passage west of the 36, one by the circled 11 north of the 25 (washed out by the glare). Water-movement arrows: 5, bearing from the map up (north up). The two connection labels are leads-to at their passage ends (the Sac Xiquin label has two arrows).",
+    "units": "ft",
+    "letters": {
+      "R": "restriction",
+      "B": "bones"
+    },
+    "templates": {
+      "R": [
+        3822,
+        2458
+      ],
+      "B": [
+        2355,
+        2602
+      ]
+    },
+    "letterSizePx": [
+      8,
+      28
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "24",
+        "value": 24,
+        "px": [
+          652,
+          822
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "37",
+        "value": 37,
+        "px": [
+          965,
+          1070
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "value": 41,
+        "px": [
+          957,
+          885
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "11",
+        "value": 11,
+        "px": [
+          419,
+          1092
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "value": 29,
+        "px": [
+          224,
+          1174
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "44",
+        "value": 44,
+        "px": [
+          543,
+          1323
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "46",
+        "value": 46,
+        "px": [
+          1160,
+          1324
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          1998,
+          998
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          1982,
+          1285
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "value": 41,
+        "px": [
+          1384,
+          1617
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          2149,
+          1652
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          705,
+          1681
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          2573,
+          1745
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          587,
+          1839
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          2174,
+          1882
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          1214,
+          1975
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "value": 41,
+        "px": [
+          2068,
+          2505
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "43",
+        "value": 43,
+        "px": [
+          2013,
+          675
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1865,
+          585
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "value": 48,
+        "px": [
+          2526,
+          683
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "value": 48,
+        "px": [
+          2377,
+          805
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "39",
+        "value": 39,
+        "px": [
+          3160,
+          1858
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "38",
+        "value": 38,
+        "px": [
+          2311,
+          1568
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "28",
+        "value": 28,
+        "px": [
+          1953,
+          1523
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2052,
+          1693
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "value": 33,
+        "px": [
+          1344,
+          835
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          2443,
+          2548
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "26",
+        "value": 26,
+        "px": [
+          1686,
+          2810
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "42",
+        "value": 42,
+        "px": [
+          2360,
+          1894
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "44",
+        "value": 44,
+        "px": [
+          923,
+          1463
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "value": 29,
+        "px": [
+          843,
+          1430
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "46",
+        "value": 46,
+        "px": [
+          1040,
+          1643
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "43",
+        "value": 43,
+        "px": [
+          1901,
+          858
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "08",
+        "value": 8,
+        "px": [
+          2800,
+          2347
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2740,
+          2533
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "21",
+        "value": 21,
+        "px": [
+          3278,
+          2228
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "value": 41,
+        "px": [
+          3327,
+          1615
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "42",
+        "value": 42,
+        "px": [
+          2620,
+          1180
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "value": 17,
+        "px": [
+          2198,
+          1285
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1330,
+          2680
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1940,
+          2835
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "44",
+        "value": 44,
+        "px": [
+          705,
+          1400
+        ],
+        "halfPx": 16
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(15)",
+        "value": 15,
+        "px": [
+          498,
+          835
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(8)",
+        "value": 8,
+        "px": [
+          948,
+          762
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(10)",
+        "value": 10,
+        "px": [
+          918,
+          1075
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(16)",
+        "value": 16,
+        "px": [
+          1075,
+          1180
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(11)",
+        "value": 11,
+        "px": [
+          1930,
+          1195
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(8)",
+        "value": 8,
+        "px": [
+          1887,
+          1825
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(8)",
+        "value": 8,
+        "px": [
+          935,
+          1328
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(8)",
+        "value": 8,
+        "px": [
+          1287,
+          1952
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(6)",
+        "value": 6,
+        "px": [
+          1276,
+          1414
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(12)",
+        "value": 12,
+        "px": [
+          1482,
+          1121
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(7)",
+        "value": 7,
+        "px": [
+          2108,
+          865
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(5)",
+        "value": 5,
+        "px": [
+          2160,
+          990
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(7)",
+        "value": 7,
+        "px": [
+          2445,
+          992
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(5)",
+        "value": 5,
+        "px": [
+          670,
+          1372
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(7)",
+        "value": 7,
+        "px": [
+          675,
+          1890
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(10)",
+        "value": 10,
+        "px": [
+          922,
+          1935
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(9)",
+        "value": 9,
+        "px": [
+          1520,
+          2062
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(14)",
+        "value": 14,
+        "px": [
+          2128,
+          1872
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(20)",
+        "value": 20,
+        "px": [
+          2666,
+          2241
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(15)",
+        "value": 15,
+        "px": [
+          3080,
+          2107
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(16)",
+        "value": 16,
+        "px": [
+          2238,
+          1457
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "(5)",
+        "value": 5,
+        "px": [
+          3097,
+          1757
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "penetration",
+        "label": "p.3311",
+        "value": 3311,
+        "px": [
+          1735,
+          558
+        ],
+        "halfPx": 26
+      },
+      {
+        "type": "penetration",
+        "label": "p.1248",
+        "value": 1248,
+        "px": [
+          183,
+          1090
+        ],
+        "halfPx": 26
+      },
+      {
+        "type": "penetration",
+        "label": "p.2649",
+        "value": 2649,
+        "px": [
+          540,
+          1780
+        ],
+        "halfPx": 26
+      },
+      {
+        "type": "penetration",
+        "label": "p.4112",
+        "value": 4112,
+        "px": [
+          1265,
+          2725
+        ],
+        "halfPx": 26
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1083,
+          1029
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2240,
+          728
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          652,
+          789
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1108,
+          900
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1851,
+          725
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          806,
+          1738
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          1181,
+          1617
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "restriction",
+        "label": "R",
+        "px": [
+          2651,
+          1523
+        ],
+        "halfPx": 8
+      },
+      {
+        "type": "bones",
+        "label": "B",
+        "px": [
+          1984,
+          1222
+        ],
+        "halfPx": 13,
+        "why": "the second B (the glare washes it out: template match 0.78 on the photo, 1.0 on the ink)"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1745,
+          1610
+        ],
+        "bearing": 100,
+        "halfPx": 26
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2140,
+          1830
+        ],
+        "bearing": 115,
+        "halfPx": 26
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2402,
+          1730
+        ],
+        "bearing": 166,
+        "halfPx": 26
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          3060,
+          1793
+        ],
+        "bearing": 165,
+        "halfPx": 26
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          2678,
+          2068
+        ],
+        "bearing": 170,
+        "halfPx": 26
+      },
+      {
+        "type": "leads-to",
+        "label": "The Tres Estrelas connection",
+        "px": [
+          657,
+          767
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "The Sac Xiquin connection",
+        "px": [
+          1903,
+          640
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "The Sac Xiquin connection",
+        "px": [
+          2222,
+          700
+        ]
+      }
+    ]
+  },
+  "placementWhy": "Scale bar (0-300 ft, ticks measured: 399.5 px) and north up (the compass rose points straight up on the poster) through Nai Tucha, whose Open Caves position (taken on site) matches the coordinates printed on the poster. Check: the Tres Estrellas connection tip lands 23 m (12.7 m W, 19.5 m N) from the same tip on the placed tres-estrellas.json map (also scale bar + north + one cenote): within the two one-point placements, not enough to correct either. No pond is visible in the canopy to check against; OSM unreachable."
+}

@@ -417,6 +417,11 @@
           "description": "Access to this area varies depending on time or entry point."
         }
       ]
+    },
+    "cenoteType": {
+      "heading": "Cenote type",
+      "showCenoteEntrances": "Show cenote entrances",
+      "showOtherCenotes": "Show other cenotes"
     }
   },
   "resultPane": {
@@ -559,7 +564,9 @@
         "error": "Places can't be searched right now",
         "cenotes": "Cenotes",
         "places": "Places"
-      }
+      },
+      "cenoteEntrance": "Cenote entrance",
+      "cenoteEntranceHint": "A cenote used to enter the cave system, as cave divers do (not a cenote alone in the jungle)"
     },
     "closePane": "Close",
     "rating": {
@@ -572,7 +579,9 @@
       "yourRating": "Your rating",
       "rateThisCave": "Rate this cave",
       "saveError": "Could not save your rating."
-    }
+    },
+    "cenoteEntrance": "Cenote entrance",
+    "cenoteEntranceDescription": "A cenote divers use to enter a cave system."
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -825,10 +834,12 @@
   },
   "fees": {
     "yes": {
-      "label": "Has fees"
+      "label": "Has fees",
+      "description": "Entry to the site is charged."
     },
     "no": {
-      "label": "No fees"
+      "label": "No fees",
+      "description": "Entry to the site is free."
     }
   },
   "map": {

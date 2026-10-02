@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { SvgIcon } from '@mui/material'
-import { Grid } from '@mui/material'
+import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material'
 import { HelpOutlineRounded } from '@mui/icons-material'
 import Markdown from '../Markdown/Markdown.jsx'
@@ -17,6 +16,7 @@ import NotSafeIcon from '@/images/accessibilities/not-safe.svg?react'
 import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg?react'
 import JungleIcon from '@/images/accessibilities/jungle.svg?react'
 import VariableIcon from '@/images/accessibilities/variable.svg?react'
+import ScubaDivingIcon from '@mui/icons-material/ScubaDiving'
 import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
 import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
@@ -25,6 +25,11 @@ export default function Access({ cave }) {
   const { t } = useTranslation(['resultPane', 'accesses', 'accessibilities'])
   const accesses = useSelector((state) => state.data.accesses)
   const accessibilities = useSelector((state) => state.data.accessibilities)
+
+  // An icon in its fixed-size box (the same size for every item).
+  function iconBox(icon) {
+    return <span className="oc-access--icon">{icon}</span>
+  }
 
   function getAccessIcon() {
     const access = accesses.find((a) => a.id === cave.access) || { name: 'unknown' }
@@ -50,7 +55,7 @@ export default function Access({ cave }) {
     }
 
     const Icon = icon
-    return <Icon aria-label={t(`${access.name}.label`, { ns: 'accesses' })} className="oc-icon" />
+    return iconBox(<Icon aria-label={t(`${access.name}.label`, { ns: 'accesses' })} className="oc-icon" />)
   }
 
   function getAccessibilityIcon() {
@@ -80,12 +85,12 @@ export default function Access({ cave }) {
     }
 
     const Icon = icon
-    return <Icon aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} className="oc-icon" />
+    return iconBox(<Icon aria-label={t(`${accessibility.name}.label`, { ns: 'accessibilities' })} className="oc-icon" />)
   }
 
   function getFeesIcon() {
     const Icon = cave.fees ? FeesYesIcon : FeesNoIcon
-    return <Icon aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} className="oc-icon" />
+    return iconBox(<Icon aria-label={t(`${cave.fees ? 'yes' : 'no'}.label`, { ns: 'fees' })} className="oc-icon" />)
   }
 
   function getFeesLabel() {
@@ -108,6 +113,17 @@ export default function Access({ cave }) {
     color: theme.palette.primary.main,
   }))
 
+  // Each item explains itself on hover or focus (icon and label alike): its
+  // value's description.
+  const access = accesses.find((a) => a.id === cave.access) || { name: 'unknown' }
+  const accessibility = accessibilities.find((a) => a.id === cave.accessibility) || { name: '_' }
+  const items = [
+    { key: 'access', icon: getAccessIcon(), label: getAccessLabel(), tip: t(`${access.name}.description`, { ns: 'accesses' }) },
+    ...(cave.accessibility ? [{ key: 'accessibility', icon: getAccessibilityIcon(), label: getAccessibilityLabel(), tip: t(`${accessibility.name}.description`, { ns: 'accessibilities' }) }] : []),
+    ...(cave.cenoteEntrance ? [{ key: 'cenoteEntrance', icon: iconBox(<ScubaDivingIcon aria-hidden className="oc-icon" />), label: t('cenoteEntrance'), tip: t('cenoteEntranceDescription') }] : []),
+    ...(cave.fees ? [{ key: 'fees', icon: getFeesIcon(), label: getFeesLabel(), tip: t(`${cave.fees ? 'yes' : 'no'}.description`, { ns: 'fees' }) }] : []),
+  ]
+
   return (
     <>
       <div className="details-container oc-access">
@@ -115,44 +131,18 @@ export default function Access({ cave }) {
       </div>
 
       <div className="details-container oc-access">
-        <Grid container spacing={0} size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div className="oc-access--grid">
-            <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Grid container direction="column" spacing={1} sx={{ alignItems: 'center' }}>
-                <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center' }}>
-                  {getAccessIcon()}
-                </Grid>
-                <Grid size="auto">
-                  <IconText className="oc-access--icon-text">{getAccessLabel()}</IconText>
-                </Grid>
-              </Grid>
-            </Grid>
-            {cave.accessibility && (
-              <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {getAccessibilityIcon()}
-                  </Grid>
-                  <Grid size="auto">
-                    <IconText className="oc-access--icon-text">{getAccessibilityLabel()}</IconText>
-                  </Grid>
-                </Grid>
-              </Grid>
-            )}
-            {Reflect.has(cave, 'fees') && cave.fees && (
-              <Grid sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Grid container direction="column" spacing={1}>
-                  <Grid size="auto" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {getFeesIcon()}
-                  </Grid>
-                  <Grid size="auto">
-                    <IconText className="oc-access--icon-text">{getFeesLabel()}</IconText>
-                  </Grid>
-                </Grid>
-              </Grid>
-            )}
-          </div>
-        </Grid>
+        {/* One column per item, all built alike: the icons in boxes of the
+            same size on one line, their labels on the line below. */}
+        <div className="oc-access--grid">
+          {items.map(({ key, icon, label, tip }) => (
+            <Tooltip key={key} title={tip} describeChild>
+              <div className="oc-access--item" tabIndex={0}>
+                {icon}
+                <IconText className="oc-access--icon-text">{label}</IconText>
+              </div>
+            </Tooltip>
+          ))}
+        </div>
       </div>
 
       {(cave.accessDetails || cave.accessibilityDetails) && (

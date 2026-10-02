@@ -1,0 +1,1057 @@
+{
+  "image": "../../../_data/maps-import/images/carwash-cen-tulum.webp",
+  "title": "Cenote Carwash - J. G. Coke IV 1990",
+  "credits": "Cenote Carwash, Tulum, Q. Roo, Mexico: surveyed October 1988 to August 1990 by James G. Coke IV, Johanna de Groot, Thomas M. Young; drafted by James G. Coke IV. Upstream length 4,813 ft (1,467 m), downstream length 3,683 ft (1,122 m). Principal explorers J. Coke, M. Madden, P. Turner, T. Young. (c) J.G. Coke & T.M. Young, 1990",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfrSQEO7iYNUOret",
+  "utmEpsg": 32616,
+  "placementWhy": "Similarity fit on two cenotes seen on the Esri satellite: the Carwash pool (dark pond about 40 x 35 m by the Coba road) and Luke's Hope (a small dark round opening on the Zacil-Ha grounds); both database points are Google Maps, 15-25 m off these openings, none from Open Caves. Checks, all independent of the fit: the fitted scale (0.2353 m/px) matches the printed scale bar (300 ft = 388 px, 0.2357 m/px) within 0.2%; the fitted rotation is only 0.5 deg from the map's (magnetic 1990) north; the map's Coba road (double dashed line, bearing about 316 deg) lands parallel to and on the real road, and the pool's drawn distance to the road (about 50 m) matches the satellite. No other map placed nearby (Camilo's walls end 700 m south). Not checked on the ground: the Luke's Hope = Zacil-Ha identification rests on the database's English name for Zacil-Ha, and on the map and satellite giving the same distance (214 vs 212 m) and bearing to Carwash.",
+  "exclude": [
+    {
+      "why": "title block: Cenote Carwash, Tulum Q. Roo Mexico, surveyed October 1988 to August 1990 by James G. Coke IV, Johanna de Groot, Thomas M. Young, drafted by James G. Coke IV; upstream 4,813 ft (1,467 m), downstream 3,683 ft (1,122 m); (c) J.G. Coke & T.M. Young 1990",
+      "box": [
+        2540,
+        0,
+        3170,
+        450
+      ],
+      "history": true
+    },
+    {
+      "why": "notes (environment, survey method: Suunto compass and fiberglass tape, knotted-line survey (KLS), depths with a precision depth gauge)",
+      "box": [
+        2600,
+        490,
+        3170,
+        970
+      ]
+    },
+    {
+      "why": "principal explorers: J. Coke, M. Madden, P. Turner, T. Young",
+      "box": [
+        2690,
+        1000,
+        3170,
+        1160
+      ],
+      "history": true
+    },
+    {
+      "why": "index of symbols (legend)",
+      "box": [
+        0,
+        1360,
+        600,
+        2112
+      ]
+    },
+    {
+      "why": "north arrow (MAG 1990)",
+      "box": [
+        960,
+        1360,
+        1110,
+        1630
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        760,
+        1990,
+        1280,
+        2112
+      ]
+    },
+    {
+      "why": "cross-section (Dreamland, 20-60 ft)",
+      "box": [
+        30,
+        360,
+        400,
+        545
+      ]
+    },
+    {
+      "why": "cross-section (Aluxe's Key branch, 50-70 ft)",
+      "box": [
+        670,
+        930,
+        905,
+        1025
+      ]
+    },
+    {
+      "why": "cross-section (north of Adrianna's Room, 40-50 ft)",
+      "box": [
+        1125,
+        200,
+        1340,
+        290
+      ]
+    },
+    {
+      "why": "cross-section (Luke's Hope opening, surface to 20 ft)",
+      "box": [
+        1080,
+        990,
+        1390,
+        1150
+      ]
+    },
+    {
+      "why": "cross-section (Lower White Room, 60-90 ft)",
+      "box": [
+        1560,
+        1680,
+        1850,
+        1830
+      ]
+    },
+    {
+      "why": "cross-section (The Drain, 50-70 ft)",
+      "box": [
+        2360,
+        1840,
+        2520,
+        1925
+      ]
+    },
+    {
+      "why": "Coba pyramid symbol and its label",
+      "box": [
+        1770,
+        515,
+        1890,
+        630
+      ]
+    },
+    {
+      "why": "Tulum pyramid symbol and its label",
+      "box": [
+        2865,
+        1600,
+        2995,
+        1770
+      ]
+    },
+    {
+      "why": "arrow line towards Tulum",
+      "box": [
+        2920,
+        1780,
+        3070,
+        1935
+      ]
+    },
+    {
+      "why": "edge of the page frame (right)",
+      "box": [
+        3130,
+        0,
+        3170,
+        2112
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVFrNVdARmBd1gu9",
+      "name": "Cenote Carwash (pond on the satellite)",
+      "px": [
+        2060,
+        875
+      ],
+      "latitude": 20.274245,
+      "longitude": -87.486365,
+      "why": "centre of the map's dashed entrance pool, on the centre of the dark pond on the Esri satellite (about 40 x 35 m, 15 m west of the database point, Google Maps source); the map draws it 50 m from the Coba road's centre, as on the satellite"
+    },
+    {
+      "caveId": "-KPZkVSfwRa4U0d2QHVO",
+      "name": "Luke's Hope (Zacil-Ha)",
+      "px": [
+        1158,
+        790
+      ],
+      "latitude": 20.274436,
+      "longitude": -87.488396,
+      "why": "the opening the 'Luke's Hope' leader points to; on the dark round spot under the trees of the Zacil-Ha grounds on the Esri satellite (beside the two swimming pools, 25 m NW of the database point, Google Maps source). The database gives Zacil-Ha the English name Luke's Hope"
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVFrNVdARmBd1gu9",
+      "name": "Cenote Carwash (entrance)",
+      "px": [
+        2060,
+        875
+      ]
+    },
+    {
+      "caveId": "-KPZkVSfwRa4U0d2QHVO",
+      "name": "Luke's Hope (Zacil-Ha)",
+      "px": [
+        1158,
+        790
+      ],
+      "note": "small opening below the passage, with a surface cross-section (palms, slope down to the water)"
+    },
+    {
+      "name": "Cenote (unnamed)",
+      "px": [
+        845,
+        515
+      ],
+      "note": "dashed oval at the SW corner of Adrianna's Room, near P. 1,000; marked 'Cenote' on the 2009 AMCS redrawing of this map (Aktun Ha, Sist. (part), Tulum.pdf). Possibly the database's unnamed QRSS cave of the Carwash sistema (-KPZkVU3t9_8YXSoAJvi), which has no position"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "fillStrokeHolesPx": 40,
+    "eraseLines": [
+      {
+        "why": "Coba road, NE line",
+        "from": [
+          1603,
+          93
+        ],
+        "to": [
+          3105,
+          1688
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Coba road, SW line (north of the drive)",
+        "from": [
+          1560,
+          85
+        ],
+        "to": [
+          2242,
+          795
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Coba road, SW line (south of the drive)",
+        "from": [
+          2275,
+          830
+        ],
+        "to": [
+          3060,
+          1650
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "drive to the cenote, west edge",
+        "from": [
+          2242,
+          795
+        ],
+        "to": [
+          2230,
+          822
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, west edge",
+        "from": [
+          2230,
+          822
+        ],
+        "to": [
+          2200,
+          866
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, west edge",
+        "from": [
+          2200,
+          866
+        ],
+        "to": [
+          2165,
+          897
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, west edge",
+        "from": [
+          2165,
+          897
+        ],
+        "to": [
+          2148,
+          935
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, east edge",
+        "from": [
+          2275,
+          832
+        ],
+        "to": [
+          2250,
+          865
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, east edge",
+        "from": [
+          2250,
+          865
+        ],
+        "to": [
+          2205,
+          915
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "drive to the cenote, east edge",
+        "from": [
+          2205,
+          915
+        ],
+        "to": [
+          2162,
+          965
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Carwash Entrance leader",
+        "from": [
+          2125,
+          820
+        ],
+        "to": [
+          2047,
+          884
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Coba arrow line",
+        "from": [
+          1695,
+          330
+        ],
+        "to": [
+          1832,
+          472
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Luke's Hope cross-section leader",
+        "from": [
+          1156,
+          806
+        ],
+        "to": [
+          1164,
+          995
+        ],
+        "widthPx": 10
+      }
+    ],
+    "minLineMetres": 2.5
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "r": [
+        1150,
+        737
+      ],
+      "s": [
+        1298,
+        748
+      ],
+      "x": [
+        451,
+        197
+      ],
+      "z": [
+        2635,
+        1482
+      ]
+    },
+    "letterSizePx": [
+      8,
+      14
+    ],
+    "fix": [
+      {
+        "px": [
+          1957,
+          1192
+        ],
+        "value": 70,
+        "why": "overlined 70 read as 10"
+      },
+      {
+        "px": [
+          1729,
+          1406
+        ],
+        "value": 70,
+        "why": "overlined 70 read as 79"
+      },
+      {
+        "px": [
+          427,
+          259
+        ],
+        "value": 8,
+        "why": "circled 8 read as 3"
+      },
+      {
+        "px": [
+          377,
+          610
+        ],
+        "value": 5,
+        "why": "circled 5 read as 3"
+      },
+      {
+        "px": [
+          2308,
+          1438
+        ],
+        "value": 5,
+        "why": "circled 5 read as 3"
+      },
+      {
+        "px": [
+          944,
+          390
+        ],
+        "value": null,
+        "why": "boulder blob, not an s"
+      },
+      {
+        "px": [
+          570,
+          477
+        ],
+        "value": null,
+        "why": "stipple, not an s"
+      },
+      {
+        "px": [
+          777,
+          517
+        ],
+        "value": null,
+        "why": "part of the label P. 1,000"
+      },
+      {
+        "px": [
+          426,
+          660
+        ],
+        "value": null,
+        "why": "stipple, not an s"
+      },
+      {
+        "px": [
+          210,
+          762
+        ],
+        "value": null,
+        "why": "part of the label P. 1,600"
+      },
+      {
+        "px": [
+          1953,
+          856
+        ],
+        "value": null,
+        "why": "slope hatching"
+      },
+      {
+        "px": [
+          1955,
+          867
+        ],
+        "value": null,
+        "why": "slope hatching"
+      },
+      {
+        "px": [
+          2106,
+          889
+        ],
+        "value": null,
+        "why": "dashed outline of the pool"
+      },
+      {
+        "px": [
+          217,
+          1038
+        ],
+        "value": null,
+        "why": "part of the label P. 1,800"
+      },
+      {
+        "px": [
+          1936,
+          1108
+        ],
+        "value": null,
+        "why": "boulder, not an s"
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          530,
+          215
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          597,
+          270
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          500,
+          553
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          937,
+          162
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          1035,
+          392
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          377,
+          660
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          601,
+          719
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          352,
+          750
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          365,
+          848
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          977,
+          740
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          901,
+          813
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          1110,
+          702
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1253,
+          739
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          1708,
+          665
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          1582,
+          791
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          1882,
+          720
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "90",
+        "value": 90,
+        "px": [
+          1809,
+          1005
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          1992,
+          1052
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1775,
+          1181
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          2210,
+          1257
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          2145,
+          1473
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "value": 60,
+        "px": [
+          2312,
+          1081
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          2577,
+          1213
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "65",
+        "value": 65,
+        "px": [
+          2509,
+          1437
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "70",
+        "value": 70,
+        "px": [
+          2655,
+          1880
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          511,
+          365
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          265,
+          889
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          958,
+          512
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1073,
+          789
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          1420,
+          739
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "25",
+        "value": 25,
+        "px": [
+          1837,
+          873
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          1871,
+          1252
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          2559,
+          1379
+        ],
+        "halfPx": 20
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          639,
+          310
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          909,
+          140
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          967,
+          292
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          389,
+          681
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          471,
+          962
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          2670,
+          1680
+        ]
+      },
+      {
+        "type": "silt",
+        "label": "s",
+        "px": [
+          877,
+          669
+        ]
+      },
+      {
+        "type": "visibility-zero",
+        "label": "z",
+        "px": [
+          233,
+          829
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.1450",
+        "value": 1450,
+        "px": [
+          740,
+          43
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.2350",
+        "value": 2350,
+        "px": [
+          459,
+          160
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.2100",
+        "value": 2100,
+        "px": [
+          451,
+          353
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1750",
+        "value": 1750,
+        "px": [
+          652,
+          560
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1000",
+        "value": 1000,
+        "px": [
+          783,
+          517
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.800",
+        "value": 800,
+        "px": [
+          1077,
+          660
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1600",
+        "value": 1600,
+        "px": [
+          215,
+          760
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1800",
+        "value": 1800,
+        "px": [
+          222,
+          1037
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.750",
+        "value": 750,
+        "px": [
+          1490,
+          1331
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.700",
+        "value": 700,
+        "px": [
+          2055,
+          1539
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.500",
+        "value": 500,
+        "px": [
+          2619,
+          1459
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1180",
+        "value": 1180,
+        "px": [
+          2750,
+          2080
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2213,
+          1120
+        ],
+        "bearing": 90,
+        "why": "wavy direction-of-current arrow pointing east (coastward, as the 2009 AMCS redrawing assumes), in the passage running east from the junction south of the Carwash pool"
+      }
+    ],
+    "why": "Legend on the map (index of symbols): overlined numbers are floor depths in feet, circled numbers ceiling-to-floor heights in feet, r minor and x major restriction, z zero visibility, s silty, P. penetrations from the entrance in feet, wavy arrow direction of current. OCR read 8 of the 33 depths (two misread: 70 as 10 and 79); the other 25 were found by eye on gridded crops (extra). 10 of 18 circled heights found, three misread (8 and 5 as 3); the rest added. False silt matches (labels, stipple, hatching) dropped; missed s/z added where seen. Penetration labels added (OCR read only P.400). No bones, skulls or fossils on the map (searched the OCR words and the plan); no 'To ...' pointers. The ringed 'T80'-like mark east of the Chamber of Horrors (1921,787) is unclear (boulders or an unlisted symbol): not kept."
+  }
+}

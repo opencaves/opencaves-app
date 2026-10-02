@@ -1,0 +1,3678 @@
+{
+  "image": "../../../_data/maps-import/images/dzonot-zebra-chemuyil.webp",
+  "title": "Dzonot Zebra, Chemuyil - Czech Speleological Society 2005",
+  "credits": "Explored and surveyed 2005 by R. Husák, D. Hutňan, M. Megela, Z. Motyčka; drawn by Zdeněk Motyčka, Daniel Hutňan; digitised by Pavla Hazmuková. Czech Speleological Society. Length 1,819 m",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfzQMW7GyU9W1IJI",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      3502,
+      2799
+    ],
+    "to": [
+      4670,
+      2799
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "placementWhy": "Weak placement: scale from the 100 m bar (0.0856 m/px; the 'Dzonot Zebra, Tulum' version of the same survey gives the same size), north up (the arrow is magnetic north 2004, about 1-2 degrees off true: ignored, a few metres at the map's far end), shifted onto one point: Dzonot Werich's pool put on the only opening in the canopy near the database's Werich - a rocky clearing about 25 m across, 73 m NNW of it. The two database positions (Gerrard 2015, not taken on site) cannot both be right: they are 517 m apart, Zebra NNE of Werich, where the map has Zebra 185 m ESE of Werich; with Werich on the clearing, the database's Zebra is 512 m off (it sits by a grassy clearing with a dark hole at its west end, 22 m south of it - another cenote?). Nothing else to check against: closed forest, no OSM road or water, no already placed map overlaps (K'oox Baal's walls end about 500 m south, Shoot's Hool is 350 m south-west). Uncertainty: tens of metres at best; a GPS fix of either cenote on site would settle it.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVRsjSn1YIhTm1Dh",
+      "name": "Werich pool = rocky clearing on the satellite",
+      "px": [
+        620,
+        1367
+      ],
+      "latitude": 20.38621,
+      "longitude": -87.43324
+    },
+    {
+      "caveId": "-KPZkVRsjSn1YIhTm1Dh",
+      "name": "Werich (database, Gerrard 2015)",
+      "px": [
+        620,
+        1367
+      ],
+      "latitude": 20.38561,
+      "longitude": -87.43295,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVSlPTvnarSEFu7_",
+      "name": "Zebra (database, Gerrard 2015)",
+      "px": [
+        2410,
+        2572
+      ],
+      "latitude": 20.38983,
+      "longitude": -87.43087,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVRsjSn1YIhTm1Dh",
+      "name": "Werich",
+      "px": [
+        620,
+        1367
+      ]
+    },
+    {
+      "caveId": "-KPZkVSlPTvnarSEFu7_",
+      "name": "Zebra",
+      "px": [
+        2410,
+        2572
+      ]
+    }
+  ],
+  "exclude": [
+    {
+      "why": "cross-section",
+      "box": [
+        207,
+        306,
+        338,
+        406
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4072,
+        337,
+        4271,
+        480
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1817,
+        367,
+        1931,
+        483
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2053,
+        433,
+        2182,
+        525
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4480,
+        475,
+        4667,
+        591
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3365,
+        493,
+        3685,
+        654
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        706,
+        677,
+        1079,
+        875
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2540,
+        695,
+        2671,
+        790
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1644,
+        773,
+        2053,
+        981
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2885,
+        1042,
+        3052,
+        1134
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4253,
+        1194,
+        4377,
+        1267
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1084,
+        1341,
+        1537,
+        1563
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3341,
+        1439,
+        3517,
+        1543
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2305,
+        1595,
+        2434,
+        1677
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3219,
+        1784,
+        3349,
+        1922
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1806,
+        1786,
+        1997,
+        1890
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3607,
+        1886,
+        3743,
+        1962
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3983,
+        1899,
+        4133,
+        1980
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        734,
+        1928,
+        1165,
+        2115
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3348,
+        2083,
+        3476,
+        2174
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2131,
+        2132,
+        2276,
+        2212
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3792,
+        2174,
+        3955,
+        2266
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2945,
+        2467,
+        3076,
+        2555
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2148,
+        2755,
+        2665,
+        2990
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1586,
+        358,
+        1690,
+        507
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1505,
+        417,
+        1574,
+        566
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3472,
+        1806,
+        3601,
+        1899
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3660,
+        1168,
+        3791,
+        1267
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        3809,
+        1270,
+        3994,
+        1359
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        1952,
+        1389,
+        2122,
+        1562
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        2557,
+        1297,
+        2894,
+        1449
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4575,
+        781,
+        4674,
+        864
+      ]
+    },
+    {
+      "why": "cross-section",
+      "box": [
+        4674,
+        894,
+        4769,
+        978
+      ]
+    },
+    {
+      "why": "title, credits and length",
+      "box": [
+        292,
+        2200,
+        1097,
+        2331
+      ],
+      "history": true
+    },
+    {
+      "why": "title, credits and length",
+      "box": [
+        292,
+        2331,
+        1461,
+        2429
+      ],
+      "history": true
+    },
+    {
+      "why": "title, credits and length",
+      "box": [
+        292,
+        2429,
+        1759,
+        2996
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        4268,
+        2027,
+        4614,
+        2474
+      ]
+    },
+    {
+      "why": "scale bar and scale",
+      "box": [
+        3458,
+        2683,
+        4709,
+        2981
+      ]
+    },
+    {
+      "why": "label Dzonot Werich",
+      "box": [
+        256,
+        1171,
+        554,
+        1365
+      ]
+    },
+    {
+      "why": "label Dzonot Zebra",
+      "box": [
+        2534,
+        2408,
+        2861,
+        2599
+      ]
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 3,
+    "minExtentPx": 100,
+    "fillStrokeHolesPx": 400,
+    "eraseLines": [
+      {
+        "why": "leader from the cross-section to its place in the passage",
+        "from": [
+          1205,
+          2033
+        ],
+        "to": [
+          1607,
+          2323
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "leader from the cross-section to its place in the passage",
+        "from": [
+          1607,
+          2323
+        ],
+        "to": [
+          1666,
+          2255
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          367,
+          187
+        ],
+        "to": [
+          364,
+          186
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          373,
+          184
+        ],
+        "to": [
+          370,
+          187
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          363,
+          185
+        ],
+        "to": [
+          372,
+          166
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          369,
+          188
+        ],
+        "to": [
+          394,
+          203
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          352,
+          202
+        ],
+        "to": [
+          357,
+          191
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          357,
+          191
+        ],
+        "to": [
+          363,
+          186
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          368,
+          188
+        ],
+        "to": [
+          367,
+          192
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1855,
+          242
+        ],
+        "to": [
+          1853,
+          246
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1853,
+          246
+        ],
+        "to": [
+          1858,
+          263
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1864,
+          263
+        ],
+        "to": [
+          1859,
+          263
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1893,
+          257
+        ],
+        "to": [
+          1866,
+          262
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1857,
+          275
+        ],
+        "to": [
+          1858,
+          264
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1865,
+          263
+        ],
+        "to": [
+          1869,
+          268
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1635,
+          281
+        ],
+        "to": [
+          1634,
+          289
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1636,
+          280
+        ],
+        "to": [
+          1641,
+          280
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1674,
+          285
+        ],
+        "to": [
+          1643,
+          281
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1642,
+          282
+        ],
+        "to": [
+          1643,
+          287
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1640,
+          258
+        ],
+        "to": [
+          1635,
+          279
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1643,
+          279
+        ],
+        "to": [
+          1645,
+          275
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          331,
+          304
+        ],
+        "to": [
+          326,
+          304
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          326,
+          304
+        ],
+        "to": [
+          304,
+          290
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          304,
+          290
+        ],
+        "to": [
+          299,
+          288
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          304,
+          290
+        ],
+        "to": [
+          303,
+          296
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          309,
+          272
+        ],
+        "to": [
+          303,
+          277
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          303,
+          277
+        ],
+        "to": [
+          299,
+          288
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          299,
+          288
+        ],
+        "to": [
+          287,
+          303
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1507,
+          347
+        ],
+        "to": [
+          1507,
+          342
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1507,
+          348
+        ],
+        "to": [
+          1521,
+          351
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1501,
+          339
+        ],
+        "to": [
+          1506,
+          341
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1507,
+          340
+        ],
+        "to": [
+          1505,
+          313
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1508,
+          341
+        ],
+        "to": [
+          1512,
+          339
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1506,
+          348
+        ],
+        "to": [
+          1486,
+          349
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1569,
+          316
+        ],
+        "to": [
+          1568,
+          339
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1569,
+          340
+        ],
+        "to": [
+          1573,
+          338
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1564,
+          339
+        ],
+        "to": [
+          1567,
+          341
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1556,
+          346
+        ],
+        "to": [
+          1567,
+          347
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1568,
+          347
+        ],
+        "to": [
+          1589,
+          347
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1568,
+          342
+        ],
+        "to": [
+          1568,
+          346
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2249,
+          336
+        ],
+        "to": [
+          2245,
+          333
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2245,
+          333
+        ],
+        "to": [
+          2255,
+          316
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2245,
+          333
+        ],
+        "to": [
+          2232,
+          345
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2274,
+          355
+        ],
+        "to": [
+          2251,
+          338
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2254,
+          333
+        ],
+        "to": [
+          2251,
+          336
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1624,
+          338
+        ],
+        "to": [
+          1630,
+          339
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1623,
+          337
+        ],
+        "to": [
+          1624,
+          327
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1623,
+          338
+        ],
+        "to": [
+          1618,
+          356
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1632,
+          340
+        ],
+        "to": [
+          1660,
+          344
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1631,
+          341
+        ],
+        "to": [
+          1631,
+          345
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1874,
+          360
+        ],
+        "to": [
+          1872,
+          340
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1870,
+          329
+        ],
+        "to": [
+          1872,
+          339
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1873,
+          339
+        ],
+        "to": [
+          1908,
+          334
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2196,
+          401
+        ],
+        "to": [
+          2199,
+          393
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2199,
+          393
+        ],
+        "to": [
+          2204,
+          391
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2196,
+          402
+        ],
+        "to": [
+          2200,
+          405
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2195,
+          402
+        ],
+        "to": [
+          2182,
+          416
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2198,
+          408
+        ],
+        "to": [
+          2200,
+          405
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2200,
+          405
+        ],
+        "to": [
+          2224,
+          421
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4130,
+          502
+        ],
+        "to": [
+          4127,
+          511
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4127,
+          511
+        ],
+        "to": [
+          4124,
+          512
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4096,
+          486
+        ],
+        "to": [
+          4123,
+          498
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4129,
+          501
+        ],
+        "to": [
+          4124,
+          500
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4119,
+          503
+        ],
+        "to": [
+          4122,
+          500
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4125,
+          494
+        ],
+        "to": [
+          4123,
+          498
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4131,
+          501
+        ],
+        "to": [
+          4141,
+          483
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4452,
+          556
+        ],
+        "to": [
+          4448,
+          553
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4448,
+          553
+        ],
+        "to": [
+          4423,
+          538
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4448,
+          553
+        ],
+        "to": [
+          4449,
+          548
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4451,
+          565
+        ],
+        "to": [
+          4453,
+          557
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4454,
+          556
+        ],
+        "to": [
+          4463,
+          540
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4057,
+          634
+        ],
+        "to": [
+          4052,
+          632
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4051,
+          631
+        ],
+        "to": [
+          4026,
+          620
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4050,
+          653
+        ],
+        "to": [
+          4058,
+          635
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4054,
+          626
+        ],
+        "to": [
+          4052,
+          631
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4062,
+          631
+        ],
+        "to": [
+          4065,
+          630
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4391,
+          690
+        ],
+        "to": [
+          4398,
+          671
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4392,
+          666
+        ],
+        "to": [
+          4394,
+          662
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4403,
+          662
+        ],
+        "to": [
+          4399,
+          670
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4391,
+          666
+        ],
+        "to": [
+          4367,
+          656
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4393,
+          669
+        ],
+        "to": [
+          4397,
+          670
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2693,
+          697
+        ],
+        "to": [
+          2668,
+          684
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2666,
+          689
+        ],
+        "to": [
+          2666,
+          685
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2667,
+          683
+        ],
+        "to": [
+          2662,
+          681
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2666,
+          670
+        ],
+        "to": [
+          2669,
+          669
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2652,
+          693
+        ],
+        "to": [
+          2661,
+          681
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2661,
+          680
+        ],
+        "to": [
+          2665,
+          671
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1130,
+          704
+        ],
+        "to": [
+          1135,
+          702
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1136,
+          701
+        ],
+        "to": [
+          1136,
+          695
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1136,
+          704
+        ],
+        "to": [
+          1135,
+          732
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1114,
+          695
+        ],
+        "to": [
+          1135,
+          694
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1147,
+          693
+        ],
+        "to": [
+          1137,
+          694
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1142,
+          704
+        ],
+        "to": [
+          1137,
+          703
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1333,
+          733
+        ],
+        "to": [
+          1334,
+          705
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1333,
+          696
+        ],
+        "to": [
+          1322,
+          695
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1322,
+          695
+        ],
+        "to": [
+          1320,
+          698
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1329,
+          705
+        ],
+        "to": [
+          1333,
+          704
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1355,
+          696
+        ],
+        "to": [
+          1335,
+          696
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1334,
+          702
+        ],
+        "to": [
+          1334,
+          697
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1335,
+          703
+        ],
+        "to": [
+          1340,
+          705
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3484,
+          779
+        ],
+        "to": [
+          3480,
+          779
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3483,
+          794
+        ],
+        "to": [
+          3485,
+          780
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3493,
+          762
+        ],
+        "to": [
+          3485,
+          779
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3479,
+          771
+        ],
+        "to": [
+          3479,
+          777
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3479,
+          777
+        ],
+        "to": [
+          3451,
+          768
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3475,
+          782
+        ],
+        "to": [
+          3478,
+          779
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4544,
+          837
+        ],
+        "to": [
+          4541,
+          836
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4537,
+          846
+        ],
+        "to": [
+          4545,
+          843
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4546,
+          843
+        ],
+        "to": [
+          4564,
+          842
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4545,
+          836
+        ],
+        "to": [
+          4541,
+          807
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4545,
+          842
+        ],
+        "to": [
+          4545,
+          838
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4471,
+          858
+        ],
+        "to": [
+          4454,
+          862
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4471,
+          849
+        ],
+        "to": [
+          4467,
+          821
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4483,
+          858
+        ],
+        "to": [
+          4473,
+          858
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4473,
+          850
+        ],
+        "to": [
+          4476,
+          848
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4472,
+          857
+        ],
+        "to": [
+          4472,
+          852
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1612,
+          1051
+        ],
+        "to": [
+          1619,
+          1046
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1645,
+          1070
+        ],
+        "to": [
+          1624,
+          1050
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1623,
+          1050
+        ],
+        "to": [
+          1621,
+          1055
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1623,
+          1049
+        ],
+        "to": [
+          1619,
+          1046
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1633,
+          1030
+        ],
+        "to": [
+          1619,
+          1046
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1629,
+          1047
+        ],
+        "to": [
+          1625,
+          1049
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3646,
+          1063
+        ],
+        "to": [
+          3674,
+          1063
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3673,
+          1057
+        ],
+        "to": [
+          3675,
+          1062
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3684,
+          1042
+        ],
+        "to": [
+          3682,
+          1063
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3676,
+          1063
+        ],
+        "to": [
+          3682,
+          1063
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3685,
+          1072
+        ],
+        "to": [
+          3682,
+          1063
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3213,
+          1101
+        ],
+        "to": [
+          3209,
+          1102
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3215,
+          1093
+        ],
+        "to": [
+          3236,
+          1092
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3204,
+          1093
+        ],
+        "to": [
+          3213,
+          1093
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3214,
+          1100
+        ],
+        "to": [
+          3214,
+          1094
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3214,
+          1102
+        ],
+        "to": [
+          3217,
+          1129
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3123,
+          1106
+        ],
+        "to": [
+          3128,
+          1107
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3123,
+          1098
+        ],
+        "to": [
+          3134,
+          1096
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3122,
+          1099
+        ],
+        "to": [
+          3122,
+          1105
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3101,
+          1100
+        ],
+        "to": [
+          3121,
+          1098
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3125,
+          1135
+        ],
+        "to": [
+          3122,
+          1107
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4213,
+          1136
+        ],
+        "to": [
+          4210,
+          1135
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4198,
+          1130
+        ],
+        "to": [
+          4203,
+          1128
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4197,
+          1132
+        ],
+        "to": [
+          4200,
+          1138
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4203,
+          1128
+        ],
+        "to": [
+          4193,
+          1109
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4203,
+          1128
+        ],
+        "to": [
+          4209,
+          1134
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4196,
+          1132
+        ],
+        "to": [
+          4174,
+          1147
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4197,
+          1130
+        ],
+        "to": [
+          4193,
+          1127
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3684,
+          1166
+        ],
+        "to": [
+          3684,
+          1154
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3675,
+          1154
+        ],
+        "to": [
+          3648,
+          1154
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3685,
+          1144
+        ],
+        "to": [
+          3684,
+          1153
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3674,
+          1148
+        ],
+        "to": [
+          3676,
+          1153
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3677,
+          1154
+        ],
+        "to": [
+          3683,
+          1154
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4246,
+          1193
+        ],
+        "to": [
+          4243,
+          1194
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4242,
+          1196
+        ],
+        "to": [
+          4244,
+          1201
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4247,
+          1192
+        ],
+        "to": [
+          4243,
+          1183
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4239,
+          1182
+        ],
+        "to": [
+          4242,
+          1182
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4241,
+          1196
+        ],
+        "to": [
+          4218,
+          1211
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4248,
+          1193
+        ],
+        "to": [
+          4252,
+          1200
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          4238,
+          1191
+        ],
+        "to": [
+          4242,
+          1194
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1455,
+          1233
+        ],
+        "to": [
+          1452,
+          1236
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1473,
+          1257
+        ],
+        "to": [
+          1451,
+          1238
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1459,
+          1217
+        ],
+        "to": [
+          1447,
+          1231
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1450,
+          1236
+        ],
+        "to": [
+          1447,
+          1232
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1450,
+          1238
+        ],
+        "to": [
+          1447,
+          1242
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1446,
+          1232
+        ],
+        "to": [
+          1430,
+          1247
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3850,
+          1415
+        ],
+        "to": [
+          3878,
+          1413
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3879,
+          1412
+        ],
+        "to": [
+          3878,
+          1409
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3889,
+          1393
+        ],
+        "to": [
+          3887,
+          1412
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3879,
+          1414
+        ],
+        "to": [
+          3877,
+          1419
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3880,
+          1413
+        ],
+        "to": [
+          3886,
+          1413
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3889,
+          1425
+        ],
+        "to": [
+          3887,
+          1414
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2838,
+          1471
+        ],
+        "to": [
+          2836,
+          1460
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2798,
+          1462
+        ],
+        "to": [
+          2827,
+          1461
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2837,
+          1450
+        ],
+        "to": [
+          2836,
+          1459
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2829,
+          1460
+        ],
+        "to": [
+          2835,
+          1460
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2826,
+          1454
+        ],
+        "to": [
+          2828,
+          1459
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2828,
+          1462
+        ],
+        "to": [
+          2827,
+          1466
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2448,
+          1515
+        ],
+        "to": [
+          2467,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2473,
+          1541
+        ],
+        "to": [
+          2482,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2467,
+          1536
+        ],
+        "to": [
+          2463,
+          1539
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2472,
+          1542
+        ],
+        "to": [
+          2460,
+          1556
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2469,
+          1537
+        ],
+        "to": [
+          2472,
+          1540
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2472,
+          1533
+        ],
+        "to": [
+          2469,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3881,
+          1536
+        ],
+        "to": [
+          3853,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3890,
+          1556
+        ],
+        "to": [
+          3889,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3891,
+          1524
+        ],
+        "to": [
+          3889,
+          1535
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3880,
+          1541
+        ],
+        "to": [
+          3882,
+          1537
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3883,
+          1536
+        ],
+        "to": [
+          3888,
+          1536
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3882,
+          1535
+        ],
+        "to": [
+          3880,
+          1529
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3389,
+          1564
+        ],
+        "to": [
+          3387,
+          1573
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3388,
+          1563
+        ],
+        "to": [
+          3384,
+          1562
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3384,
+          1555
+        ],
+        "to": [
+          3384,
+          1561
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3383,
+          1561
+        ],
+        "to": [
+          3357,
+          1549
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3398,
+          1544
+        ],
+        "to": [
+          3394,
+          1558
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3394,
+          1558
+        ],
+        "to": [
+          3389,
+          1563
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2252,
+          1597
+        ],
+        "to": [
+          2232,
+          1587
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2229,
+          1592
+        ],
+        "to": [
+          2223,
+          1590
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2229,
+          1592
+        ],
+        "to": [
+          2214,
+          1617
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2232,
+          1587
+        ],
+        "to": [
+          2224,
+          1577
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          2232,
+          1587
+        ],
+        "to": [
+          2231,
+          1591
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3544,
+          1722
+        ],
+        "to": [
+          3547,
+          1732
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3534,
+          1717
+        ],
+        "to": [
+          3537,
+          1722
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3536,
+          1723
+        ],
+        "to": [
+          3509,
+          1730
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3538,
+          1724
+        ],
+        "to": [
+          3537,
+          1728
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3543,
+          1722
+        ],
+        "to": [
+          3539,
+          1722
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3541,
+          1700
+        ],
+        "to": [
+          3544,
+          1721
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1735,
+          1792
+        ],
+        "to": [
+          1733,
+          1797
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1735,
+          1790
+        ],
+        "to": [
+          1720,
+          1778
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1736,
+          1800
+        ],
+        "to": [
+          1733,
+          1797
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1726,
+          1795
+        ],
+        "to": [
+          1732,
+          1797
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1736,
+          1791
+        ],
+        "to": [
+          1754,
+          1801
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1717,
+          1820
+        ],
+        "to": [
+          1732,
+          1797
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3387,
+          1827
+        ],
+        "to": [
+          3385,
+          1832
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3367,
+          1824
+        ],
+        "to": [
+          3385,
+          1832
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3394,
+          1839
+        ],
+        "to": [
+          3385,
+          1832
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3384,
+          1823
+        ],
+        "to": [
+          3387,
+          1826
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3403,
+          1801
+        ],
+        "to": [
+          3389,
+          1825
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3389,
+          1826
+        ],
+        "to": [
+          3394,
+          1828
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3823,
+          1938
+        ],
+        "to": [
+          3817,
+          1939
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3795,
+          1941
+        ],
+        "to": [
+          3813,
+          1945
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3813,
+          1945
+        ],
+        "to": [
+          3815,
+          1940
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3809,
+          1935
+        ],
+        "to": [
+          3814,
+          1938
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3816,
+          1938
+        ],
+        "to": [
+          3819,
+          1915
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3269,
+          2009
+        ],
+        "to": [
+          3250,
+          2029
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3246,
+          2033
+        ],
+        "to": [
+          3250,
+          2029
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3250,
+          2029
+        ],
+        "to": [
+          3254,
+          2032
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3251,
+          2044
+        ],
+        "to": [
+          3245,
+          2034
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3229,
+          2022
+        ],
+        "to": [
+          3244,
+          2033
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3784,
+          2063
+        ],
+        "to": [
+          3785,
+          2058
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3777,
+          2065
+        ],
+        "to": [
+          3776,
+          2053
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3777,
+          2066
+        ],
+        "to": [
+          3778,
+          2085
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3786,
+          2068
+        ],
+        "to": [
+          3784,
+          2065
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3814,
+          2060
+        ],
+        "to": [
+          3809,
+          2063
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3809,
+          2063
+        ],
+        "to": [
+          3785,
+          2064
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3783,
+          2065
+        ],
+        "to": [
+          3778,
+          2065
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3312,
+          2087
+        ],
+        "to": [
+          3309,
+          2091
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3318,
+          2089
+        ],
+        "to": [
+          3313,
+          2087
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3308,
+          2091
+        ],
+        "to": [
+          3300,
+          2084
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3333,
+          2065
+        ],
+        "to": [
+          3313,
+          2086
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3322,
+          2105
+        ],
+        "to": [
+          3309,
+          2092
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3309,
+          2081
+        ],
+        "to": [
+          3312,
+          2086
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1815,
+          2089
+        ],
+        "to": [
+          1818,
+          2092
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1814,
+          2089
+        ],
+        "to": [
+          1809,
+          2095
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1821,
+          2092
+        ],
+        "to": [
+          1825,
+          2089
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1817,
+          2096
+        ],
+        "to": [
+          1818,
+          2093
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1826,
+          2073
+        ],
+        "to": [
+          1815,
+          2088
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          1843,
+          2109
+        ],
+        "to": [
+          1821,
+          2093
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3643,
+          2174
+        ],
+        "to": [
+          3639,
+          2171
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3653,
+          2186
+        ],
+        "to": [
+          3642,
+          2180
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3643,
+          2175
+        ],
+        "to": [
+          3642,
+          2179
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3644,
+          2173
+        ],
+        "to": [
+          3654,
+          2147
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3649,
+          2174
+        ],
+        "to": [
+          3645,
+          2175
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3622,
+          2175
+        ],
+        "to": [
+          3641,
+          2180
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3738,
+          2213
+        ],
+        "to": [
+          3739,
+          2208
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3738,
+          2214
+        ],
+        "to": [
+          3740,
+          2219
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3740,
+          2219
+        ],
+        "to": [
+          3750,
+          2222
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3747,
+          2208
+        ],
+        "to": [
+          3741,
+          2207
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3737,
+          2213
+        ],
+        "to": [
+          3731,
+          2210
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3752,
+          2222
+        ],
+        "to": [
+          3755,
+          2221
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3735,
+          2203
+        ],
+        "to": [
+          3739,
+          2207
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3749,
+          2181
+        ],
+        "to": [
+          3741,
+          2206
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3753,
+          2229
+        ],
+        "to": [
+          3751,
+          2223
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3038,
+          2445
+        ],
+        "to": [
+          3042,
+          2446
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3044,
+          2446
+        ],
+        "to": [
+          3050,
+          2439
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3050,
+          2438
+        ],
+        "to": [
+          3050,
+          2435
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3037,
+          2444
+        ],
+        "to": [
+          3012,
+          2430
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3037,
+          2445
+        ],
+        "to": [
+          3033,
+          2448
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3043,
+          2447
+        ],
+        "to": [
+          3032,
+          2465
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "cross-section mark",
+        "from": [
+          3039,
+          2439
+        ],
+        "to": [
+          3038,
+          2444
+        ],
+        "widthPx": 9
+      }
+    ]
+  },
+  "symbols": {
+    "units": "m",
+    "letters": {},
+    "why": "No legend, and nothing written in the plan but the two cenote names: no depths (no overlined/underlined numbers - checked tile by tile), no restriction or silt letters, no bones (no icon, no text), no flow arrows, no leads written (the passage ends are dashed walls, drawn as details). The small arrows on the walls are cross-section marks. OCR reads four boulders' '//' marks as circled numbers (7, 77, 7, 4): dropped (fix).",
+    "fix": [
+      {
+        "px": [
+          872,
+          1476
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1257,
+          1708
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1347,
+          1755
+        ],
+        "value": null
+      },
+      {
+        "px": [
+          1448,
+          1851
+        ],
+        "value": null
+      }
+    ]
+  },
+  "unverified": "placed on a guessed canopy clearing as Werich; no cenote of the map has a reliable position (both database ones are from Gerrard and disagree with the map by 500 m)"
+}

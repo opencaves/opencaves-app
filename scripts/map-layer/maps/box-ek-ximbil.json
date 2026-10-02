@@ -1,0 +1,888 @@
+{
+  "perspective": {
+    "photo": "../../../_data/maps-import/images/img-2985.jpg",
+    "corners": [
+      [
+        145.7,
+        76.0
+      ],
+      [
+        4316.7,
+        -48.6
+      ],
+      [
+        4284.6,
+        3242.7
+      ],
+      [
+        186.4,
+        3167.6
+      ]
+    ],
+    "k1": 0.034,
+    "why": "corners: the poster's black border (its thick line), traced along each side and fitted as straight lines after the lens correction, then intersected (the top-right corner is at the photo's edge); k1: the photo's barrel distortion (fitted so the four border lines are straight: 20-25 px bow before, 3-6 px after); flattenPx: the glossy poster's glare (the title band and the middle of the Box Ek room) and the uneven light divided out, with a closing wider than the Box Ek room (a narrower one, or flattenMaxPx, whitened the big rooms' blue); denotch: the laminate's fine weave, visible in the glare, removed",
+    "flattenPx": 801,
+    "denotch": true
+  },
+  "image": "../../../_data/map-layer/pilot/box-ek-ximbil-straight.png",
+  "title": "Cenotes Box Ek and Ximbil, a region of Sistema Taj Mahal - Schabbauer 2014",
+  "credits": "Cenotes Box Ek and Ximbil, a region of Sistema Taj Mahal, Xpu-Ha, Quintana Roo, Mexico. An underwater map of the Box Ek and Ximbil caves, (c) 2014 Anna Schabbauer and Martin Schabbauer, map revision 1. Explored by Federation Francaise de Speleologie, German Yanez Mendoza, Bil Phillips, Douglas Franquemont and Christophe Le Maillot, 1996-2012; data collection by Anna Schabbauer, Martin Schabbauer and Bil Phillips, 2012-2013; cartography by Anna Schabbauer and Martin Schabbauer, 2013-2014. Box Ek 1,246 ft (380 m) long, 71 ft (22 m) deep; Ximbil 511 ft (156 m) long, 56 ft (17 m) deep. Distances and depths in feet.",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+  "sistemaWhy": "The title says 'A Region of Sistema Taj Mahal' and the poster's text 'The Box Ek and Ximbil cenotes and underwater caves are part of the larger cave system Taj Mahal'; the database's Tajma Ha (aka Taj Mahal).",
+  "utmEpsg": 32616,
+  "wetDry": "Mostly underwater: the legend's 'cave water' blue fills both caves (Box Ek: the north-west and north-east branches, the big rooms and the passage east of the collapse; Ximbil: the west room and Stal Serpent / The River), with 'surface water' (paler) strips along the collapse's foot and the 'Entrance to Taj Mahal' pool. Dry parts are small: the tan 'Dry Cave' under the overhang on the collapse's east and south sides (between the drip line and the water), a few percent of the plan; the green 'Collapse Zone' in the middle is the open surface, not traced.",
+  "placementWhy": "Good (about 10 m): the poster's own GPS coordinate (20N 29' 16.8\", 87W 16' 40.0\", read on both photos; the information block says it is the circled-cross symbol, drawn at the top of the dirt road on the collapse's south rim), the 30 m scale bar (581 px; the 100 ft bar gives 0.0518 m/px, 0.4% apart) and north from the arrow ('Mag. 2013', drawn 1.8 deg left of up on the straightened poster; with the 2013 declination about 1 deg W - Reato 2013 Minotauro - true north is 0.8 deg left of up). No cenote of this map is in the database with a position (Buena Vista has none, Box Ek and Ximbil aren't there). Checks: the 'Entrance to Taj Mahal' pool lands 3 m from the pale rocky gap in the canopy that taj-mahal.json uses as its Buena Vista check point (where both Yuc 96 and Yuc 97/98 maps put the cenote), and the satellite's pale patch continues south from it, along the poster's dirt road; the Gerrard 2001 map's Cenote Buena Vista lands 29-31 m north of the Box Ek and Ximbil entrances, inside this map's collapse zone (that map's weak end), the Yuc 97/98 map's Vista Bonita pond 40-60 m west of them; Gerrard's guidelines run through the Box Ek rooms north and the collapse south toward Taj Mahal as this map's passages do. Everything else is canopy.",
+  "scaleBar": {
+    "from": [
+      99,
+      2691
+    ],
+    "to": [
+      680,
+      2691
+    ],
+    "metres": 30
+  },
+  "north": {
+    "angle": -0.8
+  },
+  "controlPoints": [
+    {
+      "name": "the poster's coordinate (20N 29' 16.8\", 87W 16' 40.0\"), at the circled-cross symbol the information block names for it (top of the dirt road, at the collapse's south end)",
+      "px": [
+        1524,
+        2506
+      ],
+      "latitude": 20.488,
+      "longitude": -87.277778
+    },
+    {
+      "name": "Buena Vista? the pale rocky gap in the canopy taj-mahal.json checks against (Yuc 96 / 97-98 position) - here the 'Entrance to Taj Mahal' pool",
+      "px": [
+        1575,
+        2635
+      ],
+      "latitude": 20.48794,
+      "longitude": -87.27778,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Box Ek",
+      "caveId": "-KPZkVFP-E205SXTJxk5",
+      "px": [
+        1755,
+        2228
+      ],
+      "why": "'Entrance Cenote Box Ek': the leader's end, the oval on the collapse's east rim where the walking path comes down. caveId: the database's Buena Vista (aka Vista Bonita; sistema Tajma Ha, no position): Gerrard 2001's Cenote Buena Vista lands 31 m north of it, inside this collapse, and the Yuc maps' Vista Bonita 40-60 m west; the pale canopy gap at their Buena Vista position is this map's south pool. Box Ek is most likely the same cenote under its current name - to confirm."
+    },
+    {
+      "name": "Cenote Ximbil",
+      "px": [
+        1345,
+        2215
+      ],
+      "why": "'Entrance Cenote Ximbil': the leader's end, the collapse's south-west rim where the walking path reaches the Ximbil side; the same collapse as Box Ek (Buena Vista), about 20 m west of it. Not in the database."
+    },
+    {
+      "name": "Entrance to Taj Mahal",
+      "px": [
+        1575,
+        2635
+      ],
+      "why": "the open-water pool at the collapse's south end, labelled 'Entrance to Taj Mahal': where the dive toward Taj Mahal starts (the poster: 'The cave system Taj Mahal can also be accessed via the cenote Taj Mahal'). Part of the same collapse, not a separate cenote."
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title: Cenotes Box Ek and Ximbil, A Region of Sistema Taj Mahal, Xpu-Ha, Quintana Roo, Mexico, latitude 20N 29' 16.8\", longitude 87W 16' 40.0\" (left part, above the NW passage)",
+      "box": [
+        1560,
+        60,
+        1700,
+        345
+      ]
+    },
+    {
+      "why": "title (rest, with the coordinate lines)",
+      "box": [
+        1700,
+        60,
+        2600,
+        445
+      ]
+    },
+    {
+      "why": "inset maps (Mexico, Yucatan peninsula, the local area with Cenotes Box Ek and Ximbil, Taj Mahal and Minotauro) and the line plot of Sistema Taj Mahal",
+      "box": [
+        70,
+        195,
+        1135,
+        845
+      ]
+    },
+    {
+      "why": "inset text: the caves are part of the larger cave system Taj Mahal; Box Ek is Maya for 'Black Star', Ximbil from the Maya word for walk and the name Bil; Taj Mahal can also be entered by cenote Taj Mahal",
+      "box": [
+        610,
+        845,
+        1135,
+        1005
+      ]
+    },
+    {
+      "why": "inset: the line plot of Sistema Taj Mahal (lower part)",
+      "box": [
+        70,
+        840,
+        610,
+        1095
+      ]
+    },
+    {
+      "why": "logo (top right)",
+      "box": [
+        3800,
+        110,
+        4010,
+        310
+      ]
+    },
+    {
+      "why": "section (cross-section A-A' and others west of the cave, with their scale marks)",
+      "box": [
+        240,
+        1210,
+        730,
+        1510
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1070,
+        1240,
+        1520,
+        1520
+      ]
+    },
+    {
+      "why": "section B-B'",
+      "box": [
+        1380,
+        1010,
+        1670,
+        1150
+      ]
+    },
+    {
+      "why": "section C-C'",
+      "box": [
+        2060,
+        790,
+        2355,
+        965
+      ]
+    },
+    {
+      "why": "section (north-east)",
+      "box": [
+        3240,
+        385,
+        3485,
+        555
+      ]
+    },
+    {
+      "why": "section (east)",
+      "box": [
+        3460,
+        880,
+        4005,
+        1105
+      ]
+    },
+    {
+      "why": "section (east, with breakdown)",
+      "box": [
+        3260,
+        1195,
+        3755,
+        1505
+      ]
+    },
+    {
+      "why": "section (south-east, 70 ft)",
+      "box": [
+        2880,
+        1590,
+        3565,
+        1950
+      ]
+    },
+    {
+      "why": "section: profile of Ximbil cenote",
+      "box": [
+        130,
+        1870,
+        580,
+        2240
+      ]
+    },
+    {
+      "why": "north arrow (Mag. 2013) and scale bars (100 ft, 30 m)",
+      "box": [
+        70,
+        2340,
+        770,
+        2730
+      ]
+    },
+    {
+      "why": "section: profile of Box Ek cenote, from the car park via the walking path",
+      "box": [
+        2250,
+        1995,
+        3455,
+        2520
+      ]
+    },
+    {
+      "why": "legend",
+      "box": [
+        1855,
+        2435,
+        2405,
+        2815
+      ]
+    },
+    {
+      "why": "information block: underwater map of the Box Ek and Ximbil caves, (c) 2014 Anna and Martin Schabbauer, explorers 1996-2012, data collection 2012-2013, cartography 2013-2014, lengths and depths",
+      "box": [
+        2405,
+        2435,
+        2985,
+        2815
+      ],
+      "history": true
+    },
+    {
+      "why": "notes (geology, the caves' connection, site, map specifics, warning)",
+      "box": [
+        3540,
+        2050,
+        4075,
+        2815
+      ]
+    },
+    {
+      "why": "section: master profile and its layout",
+      "box": [
+        70,
+        2790,
+        4136,
+        3192
+      ]
+    },
+    {
+      "why": "poster margin and frame (top, left of the north passage's tip)",
+      "box": [
+        0,
+        0,
+        2900,
+        50
+      ]
+    },
+    {
+      "why": "poster margin and frame (top, right of the north passage's tip)",
+      "box": [
+        3100,
+        0,
+        4136,
+        50
+      ]
+    },
+    {
+      "why": "poster frame (left edge)",
+      "box": [
+        0,
+        0,
+        60,
+        3192
+      ]
+    },
+    {
+      "why": "poster frame (right edge)",
+      "box": [
+        4080,
+        0,
+        4136,
+        3192
+      ]
+    },
+    {
+      "why": "the dirt road to the car park (tan, like the dry cave), beyond the cave's south wall",
+      "box": [
+        1470,
+        2650,
+        1535,
+        2760
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "why": "QRSS-style colour poster: passages filled with the legend's 'cave water' blue, outlined in black, so colour-fill. The photo is flattened with a wide closing (flattenPx 801), which leaves the paper buff (blue minus red about -15) and the passages blue (+20 to +40); thresholds 26/20/20 keep the glare-washed paper in the big room's islands (blue minus red about 0) out. fillOffInk (sigma 2) so the blur doesn't carry the passages' blue across the bold walls into the islands; inkLevel 150 (pale wall ink in the glare). The tan dry cave under the overhang is passage too (fillColours); the paler surface water strips around the collapse need lowThresholdAreas. minHoleSqMetres 5: smaller holes were bits of the boulder drawings and the tan dry cave's speleothem outlines; ceiling-to-floor columns (black dots in a ring, 1-2 m) are left as drawn details. The green Collapse Zone (the open surface) is not passage; the dirt road (tan, like the dry cave) is excluded.",
+    "water": false,
+    "paperWindowPx": 1601,
+    "threshold": 26,
+    "weakThreshold": 20,
+    "regionThreshold": 20,
+    "fillColours": [
+      {
+        "why": "the dry cave under the collapse's overhang, drawn in tan between the drip line and the wall (saturation and density high enough to leave out the paler brown shading drawn inside the islands along their walls)",
+        "hue": [
+          20,
+          42
+        ],
+        "minSaturation": 58,
+        "density": 0.6
+      }
+    ],
+    "wallSimplifyMetres": 0.05,
+    "minHoleSqMetres": 5,
+    "fillOffInk": true,
+    "inkLevel": 150,
+    "offInkSigmaPx": 2,
+    "lowThresholdAreas": [
+      {
+        "why": "the pale grey-blue surface water (open water under the sky) between the dry cave and Box Ek's wall",
+        "box": [
+          1760,
+          1780,
+          2020,
+          2400
+        ],
+        "threshold": 10
+      },
+      {
+        "why": "the surface water along the south of the collapse, round the Taj Mahal entrance",
+        "box": [
+          1330,
+          2300,
+          1880,
+          2730
+        ],
+        "threshold": 10
+      },
+      {
+        "why": "the surface water between the dry cave and Ximbil's wall",
+        "box": [
+          1240,
+          2130,
+          1440,
+          2620
+        ],
+        "threshold": 10
+      },
+      {
+        "why": "the surface water at the north-west corner of the dry cave",
+        "box": [
+          1480,
+          1680,
+          1640,
+          1830
+        ],
+        "threshold": 10
+      }
+    ],
+    "maxRegionPx": 60000,
+    "detailContrast": 24,
+    "contrastWindowPx": 61,
+    "detailInHolesPx": 20000
+  },
+  "symbols": {
+    "why": "Legend (QRSS-style, feet): overlined number = depth at floor, circled = passage height, 'p. N' = penetration from entrance, 'r' = minor restriction, a wavy line ending in an arrowhead = direction of flow; also cenote entrance, drip line, boulder, speleothem(s), breakdown, ceiling-to-floor column, slope, floor relief, zero datum (the triangle in the dry cave's surface water), halocline (three wavy bars), cross-section indicator - not typed. No bones: the legend has no bones symbol and no bones are written or drawn anywhere (OCR words and every passage checked on zoomed tiles). No 'To ...' pointers. OCR read almost nothing (blurred photo), so every symbol is added by hand ('extra'), only where the reading is certain; the north-west passage's numbers are confirmed on the sharper second shot (IMG_2990). Left out, unreadable on this photo (blur, glare): overlined numbers at about (2776,574) 15/16, (2877,826) and (2969,832) 35/45, (2456,1502) 40/46, (3450,644) 35/45, (3058,50), (2952,128), (2904,232), (3924,564), (3955,767); circled numbers at (1456,466) 1/4, (2697,1571) 0/8, (2754,527), (3072,116). Labels not kept: Western Section (a region), Collapse Zone (the surface collapse), two blurred names in the east, at (3790,630) 'Buddha's Pa...?' and (3640,425) 'The Sp...?'. Flow: the two wavy arrows in Box Ek's north room point down the map (south).",
+    "units": "ft",
+    "letters": {},
+    "fix": [
+      {
+        "px": [
+          1954,
+          1697
+        ],
+        "value": null,
+        "why": "duplicate of the hand-read 28 (OCR: 78)"
+      },
+      {
+        "px": [
+          2068,
+          1877
+        ],
+        "value": null,
+        "why": "duplicate of the hand-read 41 (OCR: 44)"
+      },
+      {
+        "px": [
+          1834,
+          1570
+        ],
+        "value": null,
+        "why": "duplicate of the hand-read 20"
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "value": 15,
+        "label": "15",
+        "px": [
+          1574,
+          374
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 26,
+        "label": "26",
+        "px": [
+          1636,
+          483
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 45,
+        "label": "45",
+        "px": [
+          1752,
+          748
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 40,
+        "label": "40",
+        "px": [
+          1835,
+          776
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 20,
+        "label": "20",
+        "px": [
+          1834,
+          1570
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 48,
+        "label": "48",
+        "px": [
+          1958,
+          1584
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 28,
+        "label": "28",
+        "px": [
+          1953,
+          1695
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 35,
+        "label": "35",
+        "px": [
+          2167,
+          1777
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 45,
+        "label": "45",
+        "px": [
+          2163,
+          1840
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 41,
+        "label": "41",
+        "px": [
+          2069,
+          1864
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 44,
+        "label": "44",
+        "px": [
+          2190,
+          2010
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 12,
+        "label": "12",
+        "px": [
+          2045,
+          2100
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 24,
+        "label": "24",
+        "px": [
+          2190,
+          1230
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 37,
+        "label": "37",
+        "px": [
+          2827,
+          1175
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 49,
+        "label": "49",
+        "px": [
+          2652,
+          1132
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 36,
+        "label": "36",
+        "px": [
+          2753,
+          1735
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 46,
+        "label": "46",
+        "px": [
+          2475,
+          1780
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 45,
+        "label": "45",
+        "px": [
+          2680,
+          1392
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 54,
+        "label": "54",
+        "px": [
+          724,
+          2076
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 45,
+        "label": "45",
+        "px": [
+          1080,
+          2014
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 62,
+        "label": "62",
+        "px": [
+          877,
+          2370
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 21,
+        "label": "21",
+        "px": [
+          1213,
+          2325
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 40,
+        "label": "40",
+        "px": [
+          721,
+          1727
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 56,
+        "label": "56",
+        "px": [
+          905,
+          1840
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 17,
+        "label": "17",
+        "px": [
+          575,
+          1868
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 43,
+        "label": "43",
+        "px": [
+          2616,
+          911
+        ]
+      },
+      {
+        "type": "depth",
+        "value": 32,
+        "label": "32",
+        "px": [
+          2947,
+          727
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "value": 3,
+        "label": "3",
+        "px": [
+          1603,
+          694
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "value": 8,
+        "label": "8",
+        "px": [
+          656,
+          1719
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "value": 3,
+        "label": "3",
+        "px": [
+          774,
+          1873
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "value": 4,
+        "label": "4",
+        "px": [
+          2941,
+          1182
+        ]
+      },
+      {
+        "type": "penetration",
+        "value": 748,
+        "label": "p. 748",
+        "px": [
+          1640,
+          430
+        ]
+      },
+      {
+        "type": "penetration",
+        "value": 511,
+        "label": "p. 511",
+        "px": [
+          300,
+          1660
+        ]
+      },
+      {
+        "type": "penetration",
+        "value": 393,
+        "label": "p. 393",
+        "px": [
+          1920,
+          1393
+        ]
+      },
+      {
+        "type": "penetration",
+        "value": 1243,
+        "label": "p. 1243",
+        "px": [
+          2950,
+          57
+        ]
+      },
+      {
+        "type": "penetration",
+        "value": 1246,
+        "label": "p. 1246",
+        "px": [
+          3810,
+          808
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The River",
+        "px": [
+          790,
+          1775
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Stal Serpent",
+        "px": [
+          510,
+          1737
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Loaf",
+        "px": [
+          1664,
+          1350
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Colosseum",
+        "px": [
+          2170,
+          1717
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Stal Wall",
+        "px": [
+          2770,
+          1212
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ballroom",
+        "px": [
+          2600,
+          875
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Perc Hall",
+        "px": [
+          2288,
+          1966
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Loop",
+        "px": [
+          3342,
+          592
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Desert Zone",
+        "px": [
+          1045,
+          1982
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cumulo Nimbus",
+        "px": [
+          853,
+          2460
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dry Cave",
+        "px": [
+          1565,
+          1799
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "bearing": 180,
+        "px": [
+          1996,
+          1055
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "bearing": 180,
+        "px": [
+          2029,
+          1068
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1764,
+          1326
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1739,
+          1588
+        ]
+      }
+    ]
+  }
+}

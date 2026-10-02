@@ -7,6 +7,10 @@ const initialState = {
   showInvalidCoordinates: false,
   showUnconfirmedCoordinates: false,
 
+  // Cenote type: entrances to a system (cave diving) and the others
+  showCenoteEntrances: true,
+  showOtherCenotes: true,
+
   // Areas
   showAreas: [
     { key: "Akumal", checked: true },
@@ -64,6 +68,12 @@ export const searchSlice = createSlice({
     setShowUnconfirmedCoordinates: (state, action) => {
       state.showUnconfirmedCoordinates = action.payload
     },
+    setShowCenoteEntrances: (state, action) => {
+      state.showCenoteEntrances = action.payload
+    },
+    setShowOtherCenotes: (state, action) => {
+      state.showOtherCenotes = action.payload
+    },
     setShowAreas: (state, action) => {
       state.showAreas = action.payload
     },
@@ -77,6 +87,6 @@ export const searchSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowAreas, setShowAccesses, setShowAccessibilities } = searchSlice.actions
+export const { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAreas, setShowAccesses, setShowAccessibilities } = searchSlice.actions
 
 export default searchSlice.reducer

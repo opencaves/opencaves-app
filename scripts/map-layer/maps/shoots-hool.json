@@ -1,0 +1,154 @@
+{
+  "image": "../../../_data/maps-import/images/shoot-s-hool-chemuyil.webp",
+  "title": "Cenote Shoot's Hool - Czech Speleological Society",
+  "credits": "Survey: Zdenek Motycka, Jan Sirotek, Radoslav Jancar; digitalization: Anna Hutnanova (Czech Speleological Society, QRSS stamp of authenticity)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfu-qGO-65rNWwr9",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title, coordinates, totals, credits",
+      "box": [
+        33,
+        84,
+        947,
+        845
+      ],
+      "history": true
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        998,
+        93,
+        1285,
+        414
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1032,
+        431,
+        1302,
+        524
+      ]
+    },
+    {
+      "why": "logos",
+      "box": [
+        2030,
+        50,
+        2571,
+        270
+      ]
+    },
+    {
+      "why": "section C",
+      "box": [
+        2030,
+        406,
+        2537,
+        786
+      ]
+    },
+    {
+      "why": "section A",
+      "box": [
+        431,
+        922,
+        693,
+        1116
+      ]
+    },
+    {
+      "why": "section B",
+      "box": [
+        1082,
+        1370,
+        1336,
+        1598
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        1877,
+        1302,
+        2216,
+        1598
+      ]
+    },
+    {
+      "why": "frame",
+      "box": [
+        0,
+        1649,
+        2707,
+        1673
+      ]
+    },
+    {
+      "why": "west lake: open water, no walls",
+      "box": [
+        710,
+        829,
+        940,
+        1075
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      1057,
+      500
+    ],
+    "to": [
+      1235,
+      500
+    ],
+    "metres": 15.24
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "printed coordinate (main cenote)",
+      "px": [
+        2022,
+        897
+      ],
+      "latitude": 20.382694,
+      "longitude": -87.435917
+    }
+  ],
+  "entrances": [],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 20,
+        "minSizePx": 100,
+        "minFill": 0.5
+      }
+    ],
+    "minHoleSqMetres": 1,
+    "minBandSqMetres": 2,
+    "wallSimplifyMetres": 0.05,
+    "wallsOnInk": true,
+    "wallInkReachPx": 14
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {}
+  }
+}

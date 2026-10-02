@@ -1,0 +1,952 @@
+{
+  "image": "../../../_data/maps-import/images/sac-actun-cen-tulum.webp",
+  "title": "Cenote Sac Actun - J. G. Coke IV 1988",
+  "credits": "Cenote Sac Actun, Tulum, Quintana Roo: compass and line survey, cartography James G. Coke IV, 1 February 1988; explored and surveyed by J. Coke, J. DeGroot, S. DeCarlo, R. Ribb, T. Young, C. Goulet. Length 10,200 ft (3,110 m), data in feet (c) 1988 J.G. Coke IV",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        7275,
+        80
+      ]
+    },
+    {
+      "why": "outside the frame (bottom)",
+      "box": [
+        0,
+        5725,
+        7275,
+        5854
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        100,
+        5854
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        7180,
+        0,
+        7275,
+        5854
+      ]
+    },
+    {
+      "why": "title",
+      "box": [
+        2410,
+        630,
+        4560,
+        1280
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        3130,
+        1700,
+        3950,
+        1840
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3150,
+        1990,
+        4050,
+        2220
+      ]
+    },
+    {
+      "why": "section B-B' (Cavernas de Los Colmillos)",
+      "box": [
+        590,
+        1880,
+        2050,
+        2960
+      ]
+    },
+    {
+      "why": "small section",
+      "box": [
+        2030,
+        3170,
+        2280,
+        3380
+      ]
+    },
+    {
+      "why": "section A-A' (Entrada, Calavera de Lagarto)",
+      "box": [
+        520,
+        4380,
+        2140,
+        5460
+      ]
+    },
+    {
+      "why": "survey credits",
+      "box": [
+        5320,
+        3970,
+        7060,
+        5345
+      ],
+      "history": true
+    },
+    {
+      "why": "label La Boca",
+      "box": [
+        1264,
+        896,
+        1696,
+        1216
+      ]
+    },
+    {
+      "why": "label Cavernas de Los Colmillos",
+      "box": [
+        784,
+        1776,
+        1664,
+        2112
+      ]
+    },
+    {
+      "why": "small surface sketch (grass, rocks)",
+      "box": [
+        1984,
+        3136,
+        2336,
+        3376
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      3203.5,
+      2099
+    ],
+    "to": [
+      3726.5,
+      2099
+    ],
+    "metres": 60.96
+  },
+  "north": {
+    "angle": 90,
+    "why": "Scale from the printed scale bar (200 ft = 523 px), orientation from the magnetic north arrow (pointing right), shifted onto Ho-Tul's opening seen on the satellite. Checked against the QRSS 2000 map already placed (its historic section is a reduction of this survey): a free chamfer fit of these walls on its walls moves them by only 1 degree, +4% scale and 8 m east (mean distance 3.6 m). Placed on the Grand Cenote database point instead, the cave came out about 25 m south of both the QRSS 2000 walls and the satellite opening."
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVK4Mmw4tY9i_ksA",
+      "name": "Ho-Tul (opening on the satellite)",
+      "px": [
+        3460,
+        4000
+      ],
+      "latitude": 20.24595,
+      "longitude": -87.46559,
+      "why": "the grass-rimmed opening the curved 'Opening' arrow points to; the only opening visible through the canopy on the satellite (dark hole ~10 m across, 52 m east of the database Ho-Tul position, which comes from diveseven.com)"
+    },
+    {
+      "caveId": "-KPZkVQtjQNGd2uYJeMP",
+      "name": "Grand Cenote",
+      "px": [
+        4000,
+        5400
+      ],
+      "latitude": 20.24634,
+      "longitude": -87.46394,
+      "check": true,
+      "why": "the Entrada pool (cut by the frame); database position (Open Caves) is on the cenote grounds, the pool is large"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "fillStrokeHolesPx": 400,
+    "eraseLines": [
+      {
+        "why": "Paso de Lagarto leader (to the A' junction)",
+        "from": [
+          3995,
+          4845
+        ],
+        "to": [
+          4781,
+          3512
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Paso de Lagarto leader (to the Much's junction)",
+        "from": [
+          4590,
+          2305
+        ],
+        "to": [
+          4804,
+          3272
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Much's leader (west)",
+        "from": [
+          4596,
+          2300
+        ],
+        "to": [
+          5094,
+          2966
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Much's leader (east)",
+        "from": [
+          5311,
+          2966
+        ],
+        "to": [
+          6055,
+          2048
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cuzan Nah leader (south)",
+        "from": [
+          2925,
+          3612
+        ],
+        "to": [
+          3301,
+          2668
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cuzan Nah leader (north)",
+        "from": [
+          2530,
+          2563
+        ],
+        "to": [
+          3177,
+          2552
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Paso de Los Dos Pozos leader (to the label)",
+        "from": [
+          6512,
+          2099
+        ],
+        "to": [
+          6752,
+          1205
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Paso de Los Dos Pozos leader (to the label, second)",
+        "from": [
+          6611,
+          1735
+        ],
+        "to": [
+          6760,
+          1180
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Paso de Los Dos Pozos leader (to the 20 ft pool)",
+        "from": [
+          6480,
+          1393
+        ],
+        "to": [
+          6758,
+          1198
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cavernas de Los Colmillos leader (to La Boca)",
+        "from": [
+          1047,
+          1834
+        ],
+        "to": [
+          1097,
+          800
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cavernas de Los Colmillos leader (to the cave)",
+        "from": [
+          1320,
+          1970
+        ],
+        "to": [
+          2185,
+          2104
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "section B-B' leaders",
+        "from": [
+          1373,
+          2341
+        ],
+        "to": [
+          1895,
+          1898
+        ],
+        "widthPx": 30
+      },
+      {
+        "why": "Opening arrow 1",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          2822,
+          4030
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening arrow 2",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          3040,
+          4035
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening arrow 3",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          3005,
+          4312
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening arrow 4",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          3135,
+          4395
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening arrow 5",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          3178,
+          4758
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening arrow 6",
+        "from": [
+          2710,
+          4255
+        ],
+        "to": [
+          3045,
+          4940
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening curved arrow",
+        "from": [
+          2915,
+          4110
+        ],
+        "to": [
+          3000,
+          4010
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening curved arrow",
+        "from": [
+          3000,
+          4010
+        ],
+        "to": [
+          3130,
+          3950
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening curved arrow",
+        "from": [
+          3130,
+          3950
+        ],
+        "to": [
+          3250,
+          3955
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Opening curved arrow",
+        "from": [
+          3250,
+          3955
+        ],
+        "to": [
+          3340,
+          3985
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "La Boca leader",
+        "from": [
+          1429,
+          1014
+        ],
+        "to": [
+          1580,
+          903
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "leader of the small section (to the cave)",
+        "from": [
+          2157,
+          3229
+        ],
+        "to": [
+          2305,
+          3015
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "section mark A' (tick)",
+        "from": [
+          3810,
+          4770
+        ],
+        "to": [
+          3835,
+          4840
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark A (tick)",
+        "from": [
+          4006,
+          5420
+        ],
+        "to": [
+          4022,
+          5458
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark A' (letter remains)",
+        "from": [
+          3805,
+          4705
+        ],
+        "to": [
+          3845,
+          4750
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "section mark A (letter remains)",
+        "from": [
+          4035,
+          5405
+        ],
+        "to": [
+          4075,
+          5450
+        ],
+        "widthPx": 40
+      },
+      {
+        "why": "grass blade at the Entrada (bold)",
+        "from": [
+          3872,
+          5305
+        ],
+        "to": [
+          3882,
+          5390
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "grass blade at the Entrada (bold)",
+        "from": [
+          3705,
+          5430
+        ],
+        "to": [
+          3722,
+          5510
+        ],
+        "widthPx": 16
+      }
+    ]
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "r": [
+        2964,
+        3660
+      ],
+      "s": [
+        1525,
+        1347
+      ],
+      "x": [
+        2195,
+        1572
+      ]
+    },
+    "letterSizePx": [
+      18,
+      40
+    ],
+    "why": "No legend on the map ('map symbols as per NSS Cave Diving Section'; QRSS 2000 legend for the same symbols): overlined numbers are depths in feet, circled numbers ceiling-to-floor heights in feet, r minor / x major restriction, s silt, wavy arrows the flow (wavy lines without a head are floor relief, not kept). OCR read 19 of the 28 depths; the 9 others were found from their overline bars and checked on crops (extra). The 'x'-like ticks around the openings (vegetation/edge marks) matched x and are dropped; two r's under OCR words added by hand. Bones: 'Calavera de Lagarto' (a crocodile skull) is written on section A-A' only; placed on the plan at its share of the A-A' line (58% from A, floor about 26 ft deep). Place names at the spots their leaders point to (two leaders each for Cuzan Nah, Paso de Lagarto, Much's and Paso de Los Dos Pozos).",
+    "fix": [
+      {
+        "px": [
+          4103,
+          3253
+        ],
+        "value": 25,
+        "why": "circled 25 read as 29"
+      },
+      {
+        "px": [
+          6299,
+          1560
+        ],
+        "value": null,
+        "why": "a boulder read as 77"
+      },
+      {
+        "px": [
+          3173,
+          4310
+        ],
+        "value": null,
+        "why": "edge tick, not an x"
+      },
+      {
+        "px": [
+          3204,
+          4320
+        ],
+        "value": null,
+        "why": "edge tick, not an x"
+      },
+      {
+        "px": [
+          3858,
+          4646
+        ],
+        "value": null,
+        "why": "edge tick, not an x"
+      },
+      {
+        "px": [
+          4022,
+          4683
+        ],
+        "value": null,
+        "why": "edge tick, not an x"
+      },
+      {
+        "px": [
+          4049,
+          4690
+        ],
+        "value": null,
+        "why": "edge tick, not an x"
+      },
+      {
+        "px": [
+          2314,
+          3024
+        ],
+        "value": null,
+        "why": "end of the small section's leader, not an r"
+      }
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          6495,
+          1039
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          6794,
+          1075
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          6455,
+          1566
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2050,
+          1799
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          2061,
+          2050
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "50",
+        "value": 50,
+        "px": [
+          2621,
+          2375
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          5360,
+          2518
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          2342,
+          3109
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          3648,
+          3692
+        ]
+      },
+      {
+        "type": "ceiling-height",
+        "label": "25",
+        "value": 25,
+        "px": [
+          2950,
+          3264
+        ],
+        "halfPx": 60
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          4120,
+          4964
+        ],
+        "halfPx": 60
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1660,
+          871
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          6399,
+          1556
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2524,
+          2326
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2483,
+          3300
+        ],
+        "bearing": 180,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4249,
+          3330
+        ],
+        "bearing": 200,
+        "halfPx": 40
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          4155,
+          4285
+        ],
+        "bearing": 220,
+        "halfPx": 40
+      },
+      {
+        "type": "bones",
+        "label": "Calavera de Lagarto (crocodile skull)",
+        "px": [
+          3906,
+          5087
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "La Boca",
+        "px": [
+          1593,
+          893
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cavernas de Los Colmillos",
+        "px": [
+          2207,
+          2104
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cuzan Nah",
+        "px": [
+          2493,
+          2564
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cuzan Nah",
+        "px": [
+          2921,
+          3629
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Paso de Lagarto",
+        "px": [
+          3976,
+          4878
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Paso de Lagarto",
+        "px": [
+          4583,
+          2294
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Much's",
+        "px": [
+          4600,
+          2300
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Much's",
+        "px": [
+          6083,
+          2013
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Paso de Los Dos Pozos",
+        "px": [
+          6766,
+          1160
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Paso de Los Dos Pozos",
+        "px": [
+          6446,
+          1417
+        ]
+      }
+    ]
+  },
+  "entrances": [
+    {
+      "caveId": "-KPZkVQtjQNGd2uYJeMP",
+      "name": "Grand Cenote (Entrada)",
+      "px": [
+        4000,
+        5400
+      ]
+    },
+    {
+      "caveId": "-KPZkVK4Mmw4tY9i_ksA",
+      "name": "Ho-Tul (Opening)",
+      "px": [
+        3460,
+        4000
+      ],
+      "note": "the opening the curved 'Opening' arrow points to; matches the opening on the satellite"
+    },
+    {
+      "name": "Opening 1",
+      "px": [
+        2840,
+        3995
+      ],
+      "note": "one of the 7 'Opening' arrows, in the Ho-Tul area"
+    },
+    {
+      "name": "Opening 2",
+      "px": [
+        3055,
+        4040
+      ]
+    },
+    {
+      "name": "Opening 3",
+      "px": [
+        3010,
+        4318
+      ]
+    },
+    {
+      "name": "Opening 4",
+      "px": [
+        3150,
+        4410
+      ]
+    },
+    {
+      "name": "Opening 5",
+      "px": [
+        3200,
+        4790
+      ],
+      "note": "south of the Entrada, by today's Coba road"
+    },
+    {
+      "name": "Opening 6",
+      "px": [
+        3060,
+        4968
+      ],
+      "note": "south of the Entrada, by today's Coba road"
+    }
+  ]
+}

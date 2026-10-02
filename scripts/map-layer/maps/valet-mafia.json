@@ -1,0 +1,466 @@
+{
+  "image": "../../../_data/maps-import/images/valet-sist-puerto-aventuras-1.webp",
+  "title": "Sistema Valet - Mafia Maps 1999",
+  "credits": "Sistema Valet, Q.Roo, Mexico; surveyed passage to date 4,088 ft; exploration and survey Luis Fernando Martinez, Alejandro Elizondo, Yair Azubel, Kate Lewis, Fred Devos, Bernd Birnbach; Mafia Maps, September 1999 (c) F. Devos, 1999",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfyk7sNR_o4iYgS6",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate near the marina (about 10-20 m), poorer at the far NE end (rotation uncertain by several degrees: tens of metres 700 m out). Free similarity fit on 7 points: the Dolphin Enclosure drawn on the map is the octagonal basin with an island at the west end of the Puerto Aventuras marina (satellite; OSM island way 414747152): its island centre and 5 shore corners (residuals 2-17 m; the map's shore is a sketch), plus Cenote Valet's database position (Gerrard, not on site; 15 m) which lies in the parking area north of the marina where the map draws the 'Parking Lot' cenote. Result 0.386 m/px, rotation -0.4 deg: the map's compass rose (north up) agrees. Without Valet the enclosure alone gives -7.3 deg (same scale), Valet then 30 m off; the cave's NE end moves about 65 m between the two. Checks: the drawn line length at this scale is about 1160 m vs 'surveyed passage to date 4,088 ft' (1246 m), 7% short (a length-based scale would be 0.415 m/px); the NE half runs under the golf course fairways as the map's 'Golf Course' label says. The map's surface sketch is loose away from the enclosure: its Omni Hotel and beach line land about 50-60 m north-west of the real Omni Puerto Aventuras (OSM node 4028736730, by its two connecting pools) and Fatima Bay beach - not used. No other placed map overlaps (Actun Koh/Ponderosa maps are 3-4 km west).",
+  "exclude": [
+    {
+      "why": "title block: Sistema Valet, surveyed length, exploration and survey team, Mafia Maps September 1999",
+      "box": [
+        95,
+        87,
+        448,
+        410
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos, 1999",
+      "box": [
+        1310,
+        1175,
+        1580,
+        1215
+      ],
+      "history": true
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        1190,
+        490,
+        1345,
+        650
+      ]
+    },
+    {
+      "why": "label Golf Course",
+      "box": [
+        570,
+        512,
+        660,
+        562
+      ]
+    },
+    {
+      "why": "label Parking",
+      "box": [
+        636,
+        706,
+        722,
+        730
+      ]
+    },
+    {
+      "why": "label Lot",
+      "box": [
+        660,
+        731,
+        704,
+        755
+      ]
+    },
+    {
+      "why": "Sports Bar (building drawn over the line) and its label",
+      "box": [
+        532,
+        813,
+        642,
+        866
+      ]
+    },
+    {
+      "why": "Aqua Exploration (building, yellow circle) and its label",
+      "box": [
+        272,
+        817,
+        469,
+        865
+      ]
+    },
+    {
+      "why": "label Dolphin Enclosure",
+      "box": [
+        495,
+        890,
+        612,
+        937
+      ]
+    },
+    {
+      "why": "the marina's island",
+      "box": [
+        500,
+        944,
+        659,
+        1014
+      ]
+    },
+    {
+      "why": "label Marina",
+      "box": [
+        652,
+        1032,
+        732,
+        1056
+      ]
+    },
+    {
+      "why": "label Solo Mio Restaurant",
+      "box": [
+        188,
+        940,
+        316,
+        989
+      ]
+    },
+    {
+      "why": "Solo Mio Restaurant (building drawn over the line)",
+      "box": [
+        333,
+        982,
+        400,
+        1007
+      ]
+    },
+    {
+      "why": "Omni Hotel (building) and its label",
+      "box": [
+        95,
+        1085,
+        282,
+        1151
+      ]
+    },
+    {
+      "why": "Omni Hotel annex (building drawn over the line's end)",
+      "box": [
+        153,
+        1067,
+        216,
+        1090
+      ]
+    },
+    {
+      "why": "label Beach and the beach line",
+      "box": [
+        0,
+        1150,
+        360,
+        1220
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        1604,
+        4
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        1226,
+        1604,
+        1230
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        0,
+        0,
+        4,
+        1230
+      ]
+    },
+    {
+      "why": "page border",
+      "box": [
+        1600,
+        0,
+        1604,
+        1230
+      ]
+    },
+    {
+      "why": "depth 18 (ft), NE end: the symbol's ink isn't a survey line",
+      "box": [
+        1385,
+        98,
+        1418,
+        130
+      ]
+    },
+    {
+      "why": "depth 18 (ft), NW branch: the symbol's ink isn't a survey line",
+      "box": [
+        438,
+        572,
+        468,
+        602
+      ]
+    },
+    {
+      "why": "depth 28 (ft), by the Omni Hotel: the symbol's ink isn't a survey line",
+      "box": [
+        143,
+        1017,
+        175,
+        1048
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "the marina's island = the dolphin enclosure's island on the satellite (OSM way 414747152, centre)",
+      "px": [
+        579,
+        979
+      ],
+      "latitude": 20.50024,
+      "longitude": -87.22654
+    },
+    {
+      "name": "dolphin enclosure: west end of its north shore (the map's blue line starts there)",
+      "px": [
+        483,
+        860
+      ],
+      "latitude": 20.500719,
+      "longitude": -87.226873
+    },
+    {
+      "name": "dolphin enclosure: east end of its north shore (solid line turns dotted)",
+      "px": [
+        688,
+        888
+      ],
+      "latitude": 20.500585,
+      "longitude": -87.226133
+    },
+    {
+      "name": "dolphin enclosure: west corner (bottom of its west shore)",
+      "px": [
+        432,
+        1045
+      ],
+      "latitude": 20.500244,
+      "longitude": -87.227132
+    },
+    {
+      "name": "dolphin enclosure: end of its south-west shore",
+      "px": [
+        508,
+        1052
+      ],
+      "latitude": 20.500052,
+      "longitude": -87.226822
+    },
+    {
+      "name": "dolphin enclosure: south end of the lower basin's west shore (solid line turns dotted)",
+      "px": [
+        522,
+        1088
+      ],
+      "latitude": 20.499855,
+      "longitude": -87.226798
+    },
+    {
+      "caveId": "-KPZkVRdySa6COZpd__3",
+      "name": "Cenote Valet (the Parking Lot cenote; DB, Gerrard - not on site, but in the parking lot the map names)",
+      "px": [
+        646,
+        752
+      ],
+      "latitude": 20.50117,
+      "longitude": -87.22645
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "excludeColours": [
+      {
+        "hue": [
+          150,
+          175
+        ],
+        "minSaturation": 30,
+        "keepHoles": true,
+        "padPx": 0,
+        "minSizePx": 8
+      }
+    ],
+    "joinShortPx": 16,
+    "addLines": [
+      {
+        "why": "junction W of the Sports Bar: black line under the marina's blue shore line, masked with it",
+        "from": [
+          478,
+          863
+        ],
+        "to": [
+          501,
+          856
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "same junction: the south branch's start, under the blue line",
+        "from": [
+          480,
+          863
+        ],
+        "to": [
+          486,
+          878
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "same junction: the short stub south to the shore line",
+        "from": [
+          514,
+          846
+        ],
+        "to": [
+          517,
+          868
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "junction where the marina's blue shore line crosses the black lines",
+        "from": [
+          455,
+          888
+        ],
+        "to": [
+          462,
+          898
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "black line crossing the blue shore line",
+        "from": [
+          437,
+          947
+        ],
+        "to": [
+          449,
+          941
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "under the Sports Bar (building drawn over the line): the N/E junction at its top edge to the line leaving its left edge",
+        "from": [
+          552,
+          814
+        ],
+        "to": [
+          533,
+          826
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "under the Solo Mio Restaurant (building drawn over the lines): west strand, straight on",
+        "from": [
+          361,
+          982
+        ],
+        "to": [
+          346,
+          1007
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "under the Solo Mio Restaurant: east strand, straight on",
+        "from": [
+          381,
+          982
+        ],
+        "to": [
+          366,
+          1007
+        ],
+        "widthPx": 5
+      }
+    ],
+    "addLinesWhy": "The marina's blue shore line is drawn over the black survey lines at three places and is masked with them; the Sports Bar and the Solo Mio Restaurant are drawn over the lines (yellow boxes on top of continuous lines running in and out of them): bridged straight across, entry to exit.",
+    "why": "Colour stick map (guidelines only, no walls), traced as lines with no thickness. The marina/dolphin-enclosure shore is drawn in dark blue over the black lines: dropped by colour (excludeColours, no padding), then the black line restored by hand where the blue ran over it. Yellow boxes (Sports Bar, Solo Mio Restaurant, Omni Hotel, Aqua Exploration) are surface buildings drawn over the line: excluded. The line ends at the Omni Hotel and its annex are left as drawn (what joins under the hotel isn't shown). No leaders. The Parking Lot cenote is a small blue blob at the end of a line."
+  },
+  "entrances": [
+    {
+      "name": "Cenote Valet (Parking Lot)",
+      "caveId": "-KPZkVRdySa6COZpd__3",
+      "px": [
+        646,
+        752
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: depths are overlined numbers in feet (the AMCS Activities Newsletter 25 printing of the same map adds 'water depth in feet'); no penetrations, letter codes, legend or bones. Three overlined depths, listed by hand (exclude boxes over their ink hide them from extraction). The colour version has no flow arrow; the AMCS printing (Valet, Sist., Puerto Aventuras.pdf) has one squiggly arrow NW of the main line pointing south-west, added here at its place. Buildings and the marina are surface features, not cave names.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          1400,
+          112
+        ],
+        "value": 18,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          452,
+          586
+        ],
+        "value": 18,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "28",
+        "px": [
+          158,
+          1031
+        ],
+        "value": 28,
+        "halfPx": 18
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          817,
+          381
+        ],
+        "bearing": 228
+      }
+    ]
+  }
+}

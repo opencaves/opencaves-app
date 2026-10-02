@@ -1,0 +1,1204 @@
+{
+  "image": "../../../_data/maps-import/images/tigre-grotte-du-playa-del-carmen.webp",
+  "title": "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001",
+  "credits": "Topographie: degré 4 UIS, Expéditions Yuc 2000/2001; Spelunca 98, p. 32, 2005",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfsda5emyrGbKgJb",
+  "sistemaWhy": "matched.csv matches the map to the sistema Cenote El Tigre (-KPZgfsda5emyrGbKgJb, QRSS name, 83.2 m), which already lists this map and its 2000-2001 Expéditions Yuc survey; the database has no cave in it and no position for it. The map is much larger (about 1.3 km across) than the QRSS length.",
+  "utmEpsg": 32616,
+  "placementWhy": "PROVISIONAL - NOT CONFIRMED, do not publish as is. Nothing on the map is in the database (no cave of the sistema has a position) and no published position of the Grotte du Tigre was found (web, OSM). What the map gives: the scale bar (0-200 m, 500 px: 0.40 m/px) and the highway (Autoroute) it draws across the cave. The only autoroute near Playa del Carmen in 2000-2001 is federal highway 307; its bearing matches the map's band (57 deg from the map's up, Nm magnetic north) only on the stretch between Xcaret and Playa del Carmen (20.56-20.62 N, 50-52 deg true; 51.4 deg at 20.585-20.606), so north is set 5.6 deg clockwise from up (map rotated like the same publication's Xel-Ha map, about 10 deg off its arrow). The band's centre (px 1500,597) is put on the highway's centreline, which fixes the offset across the highway. The position ALONG the highway is a guess: the big yellow 'Entrées' collapse is put on a dark gap in the canopy inside Xplor park (20.5930 N, 87.1220 W), a park built over natural caves with underground rivers; nothing confirms it. To fix: one cave of the map (an Entrée, the big collapse, the Puits) with a field GPS position, or a published position of Grotte du Tigre / Cenote El Tigre; Rio Secreto (20.589 N, 87.135 W, NW of the highway) and Xplor are candidates for the same cave area.",
+  "scaleBar": {
+    "from": [
+      240,
+      1499
+    ],
+    "to": [
+      740,
+      1499
+    ],
+    "metres": 200
+  },
+  "north": {
+    "angle": 5.6
+  },
+  "trace": {
+    "method": "colour-fill",
+    "why": "Passages outlined in black: water (lakes) filled blue, dry passages a very pale cyan (blue minus red about 8) that only shows as an average over each region the outlines enclose (regionThreshold 4, maxRegionPx large); collapses (effondrements, open to the sky) in yellow are traced with the passages (fillColours, alone). The highway band is pale blue too (blue minus red about 25, more than the dry passages), so the fill thresholds are kept above it (threshold and weakThreshold 40: only the blue water passes) and the band, joined to the paper outside, is never an enclosed region. lowThresholdAreas around passages whose fill is faintest; fillPolygons drawn by hand for the Tête maya cave (outline open, crossed by the Puits leaders), the grey-drawn part of Tigrino 4, Tigrino 1 and 3 and the Etroiture soufflante squeeze (grey, no fill). The big 'Entrées' collapse fades out to the south-west in a yellow gradient (an open depression with no drawn edge): its traced outline there follows where the yellow fades, not a wall.",
+    "water": false,
+    "threshold": 40,
+    "weakThreshold": 40,
+    "regionThreshold": 4,
+    "paperWindowPx": 1500,
+    "details": true,
+    "dropIsolated": {
+      "maxSqMetres": 60,
+      "gapMetres": 5
+    },
+    "fillOffInk": true,
+    "offInkSigmaPx": 1.5,
+    "fillColours": [
+      {
+        "why": "collapses (effondrements, open to the sky) drawn in yellow: part of the cave, outlined as walls",
+        "hue": [
+          25,
+          50
+        ],
+        "minSaturation": 100,
+        "density": 0.3,
+        "alone": true
+      }
+    ],
+    "maxRegionPx": 300000,
+    "lowThresholdAreas": [
+      {
+        "box": [
+          1440,
+          1230,
+          1830,
+          1360
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          1440,
+          1620,
+          1640,
+          1830
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          1150,
+          1000,
+          1450,
+          1250
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          100,
+          2100,
+          700,
+          2400
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          780,
+          2250,
+          1000,
+          2500
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          560,
+          2650,
+          700,
+          2750
+        ],
+        "threshold": 3
+      },
+      {
+        "box": [
+          780,
+          3000,
+          1100,
+          3250
+        ],
+        "threshold": 3
+      }
+    ],
+    "fillPolygons": [
+      [
+        [
+          1300,
+          1112
+        ],
+        [
+          1320,
+          1100
+        ],
+        [
+          1345,
+          1092
+        ],
+        [
+          1370,
+          1080
+        ],
+        [
+          1395,
+          1066
+        ],
+        [
+          1420,
+          1060
+        ],
+        [
+          1440,
+          1055
+        ],
+        [
+          1455,
+          1030
+        ],
+        [
+          1472,
+          1008
+        ],
+        [
+          1490,
+          993
+        ],
+        [
+          1508,
+          980
+        ],
+        [
+          1528,
+          978
+        ],
+        [
+          1525,
+          992
+        ],
+        [
+          1505,
+          1010
+        ],
+        [
+          1492,
+          1030
+        ],
+        [
+          1495,
+          1045
+        ],
+        [
+          1530,
+          1046
+        ],
+        [
+          1552,
+          1048
+        ],
+        [
+          1557,
+          1075
+        ],
+        [
+          1560,
+          1090
+        ],
+        [
+          1590,
+          1088
+        ],
+        [
+          1613,
+          1090
+        ],
+        [
+          1600,
+          1102
+        ],
+        [
+          1580,
+          1110
+        ],
+        [
+          1575,
+          1135
+        ],
+        [
+          1565,
+          1138
+        ],
+        [
+          1560,
+          1105
+        ],
+        [
+          1540,
+          1100
+        ],
+        [
+          1515,
+          1100
+        ],
+        [
+          1490,
+          1115
+        ],
+        [
+          1462,
+          1135
+        ],
+        [
+          1462,
+          1165
+        ],
+        [
+          1465,
+          1190
+        ],
+        [
+          1440,
+          1210
+        ],
+        [
+          1418,
+          1215
+        ],
+        [
+          1418,
+          1200
+        ],
+        [
+          1440,
+          1185
+        ],
+        [
+          1440,
+          1170
+        ],
+        [
+          1425,
+          1150
+        ],
+        [
+          1410,
+          1135
+        ],
+        [
+          1385,
+          1128
+        ],
+        [
+          1355,
+          1125
+        ],
+        [
+          1320,
+          1125
+        ],
+        [
+          1300,
+          1122
+        ]
+      ],
+      [
+        [
+          428,
+          2127
+        ],
+        [
+          462,
+          2127
+        ],
+        [
+          468,
+          2140
+        ],
+        [
+          455,
+          2165
+        ],
+        [
+          445,
+          2180
+        ],
+        [
+          430,
+          2200
+        ],
+        [
+          425,
+          2220
+        ],
+        [
+          410,
+          2228
+        ],
+        [
+          398,
+          2213
+        ],
+        [
+          405,
+          2195
+        ],
+        [
+          400,
+          2175
+        ],
+        [
+          415,
+          2160
+        ],
+        [
+          415,
+          2140
+        ]
+      ],
+      [
+        [
+          897,
+          2328
+        ],
+        [
+          912,
+          2325
+        ],
+        [
+          922,
+          2340
+        ],
+        [
+          935,
+          2352
+        ],
+        [
+          948,
+          2340
+        ],
+        [
+          955,
+          2333
+        ],
+        [
+          985,
+          2333
+        ],
+        [
+          990,
+          2345
+        ],
+        [
+          982,
+          2355
+        ],
+        [
+          960,
+          2355
+        ],
+        [
+          945,
+          2362
+        ],
+        [
+          930,
+          2368
+        ],
+        [
+          918,
+          2385
+        ],
+        [
+          912,
+          2402
+        ],
+        [
+          905,
+          2398
+        ],
+        [
+          908,
+          2375
+        ],
+        [
+          900,
+          2360
+        ],
+        [
+          893,
+          2345
+        ]
+      ],
+      [
+        [
+          815,
+          2447
+        ],
+        [
+          825,
+          2448
+        ],
+        [
+          832,
+          2460
+        ],
+        [
+          848,
+          2463
+        ],
+        [
+          850,
+          2470
+        ],
+        [
+          838,
+          2475
+        ],
+        [
+          825,
+          2480
+        ],
+        [
+          818,
+          2472
+        ],
+        [
+          812,
+          2458
+        ]
+      ],
+      [
+        [
+          700,
+          2697
+        ],
+        [
+          705,
+          2700
+        ],
+        [
+          703,
+          2715
+        ],
+        [
+          698,
+          2720
+        ],
+        [
+          694,
+          2732
+        ],
+        [
+          680,
+          2738
+        ],
+        [
+          670,
+          2735
+        ],
+        [
+          669,
+          2727
+        ],
+        [
+          680,
+          2722
+        ],
+        [
+          684,
+          2715
+        ],
+        [
+          690,
+          2706
+        ]
+      ],
+      [
+        [
+          1015,
+          3215
+        ],
+        [
+          1030,
+          3215
+        ],
+        [
+          1032,
+          3262
+        ],
+        [
+          1018,
+          3262
+        ]
+      ]
+    ]
+  },
+  "exclude": [
+    {
+      "why": "title Grotte du Tigre",
+      "box": [
+        2150,
+        250,
+        2830,
+        420
+      ]
+    },
+    {
+      "why": "survey credits (Topographie: degré 4 UIS, Expéditions Yuc 2000/2001)",
+      "box": [
+        2150,
+        430,
+        2830,
+        600
+      ],
+      "history": true
+    },
+    {
+      "why": "label Traces de tigre",
+      "box": [
+        380,
+        25,
+        670,
+        80
+      ]
+    },
+    {
+      "why": "label Puits d'accès",
+      "box": [
+        55,
+        365,
+        310,
+        425
+      ]
+    },
+    {
+      "why": "label Effondrement (NW)",
+      "box": [
+        625,
+        355,
+        910,
+        415
+      ]
+    },
+    {
+      "why": "label Lac (W)",
+      "box": [
+        935,
+        560,
+        1010,
+        605
+      ]
+    },
+    {
+      "why": "label Effondrement (by the highway)",
+      "box": [
+        1020,
+        570,
+        1305,
+        625
+      ]
+    },
+    {
+      "why": "label Autoroute (on the highway band)",
+      "box": [
+        1515,
+        455,
+        1730,
+        625
+      ]
+    },
+    {
+      "why": "label Maison",
+      "box": [
+        1725,
+        580,
+        1880,
+        632
+      ]
+    },
+    {
+      "why": "label Lac (by the highway)",
+      "box": [
+        1560,
+        662,
+        1638,
+        705
+      ]
+    },
+    {
+      "why": "label Maisons",
+      "box": [
+        640,
+        895,
+        815,
+        945
+      ]
+    },
+    {
+      "why": "label Autel maya (W)",
+      "box": [
+        1385,
+        855,
+        1505,
+        955
+      ]
+    },
+    {
+      "why": "label Entrées (NE)",
+      "box": [
+        1995,
+        828,
+        2145,
+        875
+      ]
+    },
+    {
+      "why": "label Puits",
+      "box": [
+        1255,
+        963,
+        1365,
+        1010
+      ]
+    },
+    {
+      "why": "label Tête maya gravée",
+      "box": [
+        1155,
+        1180,
+        1365,
+        1280
+      ]
+    },
+    {
+      "why": "label Trémie",
+      "box": [
+        2430,
+        893,
+        2580,
+        942
+      ]
+    },
+    {
+      "why": "label Sables mouvants",
+      "box": [
+        1918,
+        982,
+        2125,
+        1078
+      ]
+    },
+    {
+      "why": "label Autel maya (E)",
+      "box": [
+        2580,
+        953,
+        2808,
+        1000
+      ]
+    },
+    {
+      "why": "label Lac (E)",
+      "box": [
+        2373,
+        1230,
+        2447,
+        1275
+      ]
+    },
+    {
+      "why": "label Entrées (centre)",
+      "box": [
+        1852,
+        1257,
+        2003,
+        1305
+      ]
+    },
+    {
+      "why": "label Entrée (E)",
+      "box": [
+        2640,
+        1318,
+        2772,
+        1363
+      ]
+    },
+    {
+      "why": "label Entrées (big collapse)",
+      "box": [
+        1440,
+        1367,
+        1586,
+        1414
+      ]
+    },
+    {
+      "why": "label Salle du Raton laveur",
+      "box": [
+        2230,
+        1540,
+        2490,
+        1640
+      ]
+    },
+    {
+      "why": "label Entrées (SW)",
+      "box": [
+        1228,
+        1800,
+        1374,
+        1847
+      ]
+    },
+    {
+      "why": "label Galerie des stalagmites creuses",
+      "box": [
+        1268,
+        1968,
+        1492,
+        2115
+      ]
+    },
+    {
+      "why": "label Piscine",
+      "box": [
+        1963,
+        2088,
+        2112,
+        2135
+      ]
+    },
+    {
+      "why": "label Tigrino 4",
+      "box": [
+        190,
+        2100,
+        380,
+        2150
+      ]
+    },
+    {
+      "why": "label Tigrino 1",
+      "box": [
+        877,
+        2420,
+        1068,
+        2470
+      ]
+    },
+    {
+      "why": "label Tigrino 3",
+      "box": [
+        588,
+        2575,
+        775,
+        2625
+      ]
+    },
+    {
+      "why": "label Tigrino 2",
+      "box": [
+        805,
+        2950,
+        990,
+        2998
+      ]
+    },
+    {
+      "why": "label Lac aux sangsues",
+      "box": [
+        1090,
+        3025,
+        1268,
+        3125
+      ]
+    },
+    {
+      "why": "label Entrées (Tigrino 2)",
+      "box": [
+        674,
+        3208,
+        820,
+        3258
+      ]
+    },
+    {
+      "why": "label Etroiture soufflante",
+      "box": [
+        1048,
+        3240,
+        1258,
+        3340
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        215,
+        1420,
+        820,
+        1525
+      ]
+    },
+    {
+      "why": "north arrow (Nm, magnetic)",
+      "box": [
+        380,
+        1550,
+        615,
+        1955
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "PROVISIONAL: highway 307 centre where the map's Autoroute band crosses the cave; position along the highway guessed",
+      "px": [
+        1500,
+        597
+      ],
+      "latitude": 20.596244,
+      "longitude": -87.122711
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Puits d'accès (shaft 1, NW branch)",
+      "px": [
+        263,
+        197
+      ]
+    },
+    {
+      "name": "Puits d'accès (shaft 2, NW branch)",
+      "px": [
+        330,
+        212
+      ]
+    },
+    {
+      "name": "Puits d'accès (shaft 3, NW branch)",
+      "px": [
+        390,
+        310
+      ]
+    },
+    {
+      "name": "Puits d'accès (shaft 4, NW branch)",
+      "px": [
+        450,
+        395
+      ]
+    },
+    {
+      "name": "unnamed collapse, NW branch (Effondrement)",
+      "px": [
+        518,
+        560
+      ]
+    },
+    {
+      "name": "unnamed round collapse by the houses (Effondrement)",
+      "px": [
+        704,
+        730
+      ]
+    },
+    {
+      "name": "unnamed collapse NW of the highway (Effondrement)",
+      "px": [
+        1120,
+        772
+      ]
+    },
+    {
+      "name": "Entrées (NE): collapse SE of the highway",
+      "px": [
+        1790,
+        780
+      ]
+    },
+    {
+      "name": "Entrées (NE): second entrance",
+      "px": [
+        1797,
+        903
+      ]
+    },
+    {
+      "name": "Puits (shaft, Tête maya cave)",
+      "px": [
+        1320,
+        1068
+      ]
+    },
+    {
+      "name": "Puits (shaft, Tête maya cave, 2nd)",
+      "px": [
+        1490,
+        1083
+      ]
+    },
+    {
+      "name": "unnamed collapse by the Sables mouvants",
+      "px": [
+        2215,
+        1103
+      ]
+    },
+    {
+      "name": "Entrée (E)",
+      "px": [
+        2720,
+        1222
+      ]
+    },
+    {
+      "name": "Entrées (centre, 1st)",
+      "px": [
+        1935,
+        1368
+      ]
+    },
+    {
+      "name": "Entrées (centre, 2nd)",
+      "px": [
+        1995,
+        1370
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (1st)",
+      "px": [
+        1721,
+        1354
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (2nd)",
+      "px": [
+        1741,
+        1392
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (3rd)",
+      "px": [
+        1747,
+        1468
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (4th)",
+      "px": [
+        1726,
+        1506
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (5th)",
+      "px": [
+        1700,
+        1506
+      ]
+    },
+    {
+      "name": "Entrées: big collapse rim (6th)",
+      "px": [
+        1668,
+        1506
+      ]
+    },
+    {
+      "name": "Entrées: big collapse, SW side (1st)",
+      "px": [
+        1562,
+        1565
+      ]
+    },
+    {
+      "name": "Entrées: big collapse, SW side (2nd)",
+      "px": [
+        1452,
+        1624
+      ]
+    },
+    {
+      "name": "Entrées: SW end of the big collapse (hatched edge)",
+      "px": [
+        1305,
+        1773
+      ]
+    },
+    {
+      "name": "Tigrino 2 entrance (1st)",
+      "px": [
+        897,
+        3143
+      ]
+    },
+    {
+      "name": "Tigrino 2 entrance (2nd)",
+      "px": [
+        900,
+        3200
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "French UIS map (Expéditions Yuc 2000/2001, same publication style as nohoch-aktun and xel-ha): no depths, no letter codes, no flow arrows, no bones; no legend. Kept as place names: the named rooms and features (lakes, Maya altars, the carved head, quicksand, choke, blowing squeeze), the tiger tracks (Traces de tigre) and the four small Tigrino caves. Not kept: the houses on the surface (Maison, Maisons: black squares), the red dots and small yellow ovals inside passages (no legend).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Traces de tigre (tiger tracks)",
+        "px": [
+          200,
+          150
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lac",
+        "px": [
+          930,
+          662
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lac",
+        "px": [
+          1520,
+          815
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Autel maya (Maya altar)",
+        "px": [
+          1695,
+          875
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tête maya gravée (carved Maya head)",
+        "px": [
+          1440,
+          1090
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sables mouvants (quicksand)",
+        "px": [
+          2121,
+          1120
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Trémie (choke)",
+        "px": [
+          2470,
+          1018
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Autel maya (Maya altar)",
+        "px": [
+          2687,
+          1163
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lac",
+        "px": [
+          2357,
+          1143
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lac",
+        "px": [
+          2486,
+          1171
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Salle du Raton laveur",
+        "px": [
+          2155,
+          1630
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Galerie des stalagmites creuses",
+        "px": [
+          1714,
+          2058
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Piscine",
+        "px": [
+          1985,
+          1945
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lac aux sangsues",
+        "px": [
+          1052,
+          3068
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Etroiture soufflante (blowing squeeze)",
+        "px": [
+          1024,
+          3247
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tigrino 1",
+        "px": [
+          940,
+          2350
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tigrino 2",
+        "px": [
+          960,
+          3150
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tigrino 3",
+        "px": [
+          688,
+          2718
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tigrino 4",
+        "px": [
+          400,
+          2300
+        ]
+      }
+    ]
+  },
+  "unverified": "no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse"
+}

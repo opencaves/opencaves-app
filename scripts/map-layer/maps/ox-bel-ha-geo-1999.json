@@ -1,0 +1,719 @@
+{
+  "image": "../../../_data/maps-import/images/ox-bel-ha-sist-ejiodo-jose-maria-pino-suarez-tulum.webp",
+  "title": "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)",
+  "credits": "Grupo de Exploración Ox Bel Ha (GEO): B. Birnbach, F. Devos, C. Le Maillot, S. Meacham, B. Phillips, D. Riordan, S. Schnittger; mapping by Toporobot, 1999",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame",
+      "box": [
+        0,
+        0,
+        668,
+        6601
+      ]
+    },
+    {
+      "why": "outside the frame",
+      "box": [
+        10055,
+        0,
+        10690,
+        6601
+      ]
+    },
+    {
+      "why": "outside the frame",
+      "box": [
+        0,
+        6180,
+        10690,
+        6601
+      ]
+    },
+    {
+      "why": "outside the frame",
+      "box": [
+        0,
+        0,
+        10690,
+        106
+      ]
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        734,
+        100,
+        1737,
+        1002
+      ]
+    },
+    {
+      "why": "title, length, scale bar",
+      "box": [
+        2138,
+        133,
+        5077,
+        1369
+      ]
+    },
+    {
+      "why": "GEO logo",
+      "box": [
+        8017,
+        200,
+        9754,
+        1336
+      ]
+    },
+    {
+      "why": "GEO explorers, water samples, credits",
+      "box": [
+        8872,
+        1369,
+        9788,
+        2739
+      ],
+      "history": true
+    },
+    {
+      "why": "progress of exploration inset",
+      "box": [
+        788,
+        4543,
+        3140,
+        6066
+      ],
+      "history": true
+    },
+    {
+      "why": "exploration history",
+      "box": [
+        3240,
+        4810,
+        6814,
+        6146
+      ],
+      "history": true
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVNqspWCKvlyjZui",
+      "name": "Odyssey",
+      "px": [
+        6849,
+        843
+      ],
+      "latitude": 20.17318,
+      "longitude": -87.47103,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVMsKKtbbEh9YSam",
+      "name": "Moonpod",
+      "px": [
+        7267,
+        1504
+      ],
+      "latitude": 20.17008,
+      "longitude": -87.47138,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVLp_-_ss4LMh3MJ",
+      "name": "Los Canales",
+      "px": [
+        5688,
+        2687
+      ],
+      "latitude": 20.1625,
+      "longitude": -87.47978,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVJFcfn7QCh-s0yH",
+      "name": "Esmeralda",
+      "px": [
+        4476,
+        3011
+      ],
+      "latitude": 20.16094,
+      "longitude": -87.48803,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVHn5J6gyz85LeWf",
+      "name": "Del Mar",
+      "px": [
+        9253,
+        4013
+      ],
+      "latitude": 20.15371,
+      "longitude": -87.45779,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVLQedkqixb4C1tN",
+      "name": "Labyrinth",
+      "px": [
+        9052,
+        4082
+      ],
+      "latitude": 20.15558,
+      "longitude": -87.45901,
+      "check": true
+    },
+    {
+      "name": "Amber Sun pool",
+      "px": [
+        5375,
+        2409
+      ],
+      "latitude": 20.163831,
+      "longitude": -87.481691,
+      "why": "pool visible on the satellite image",
+      "check": false
+    },
+    {
+      "name": "Los Canales lagoon",
+      "px": [
+        5694,
+        2714
+      ],
+      "latitude": 20.162154,
+      "longitude": -87.479556,
+      "why": "pool visible on the satellite image",
+      "check": false
+    },
+    {
+      "name": "Esmeralda pool",
+      "px": [
+        4474,
+        3015
+      ],
+      "latitude": 20.160477,
+      "longitude": -87.487878,
+      "why": "pool visible on the satellite image",
+      "check": false
+    },
+    {
+      "caveId": "-KPZkVSG0vPec4Nnha7l",
+      "name": "Xiix pool",
+      "px": [
+        6507,
+        3900
+      ],
+      "latitude": 20.154887,
+      "longitude": -87.474773,
+      "why": "pond visible on the satellite image"
+    },
+    {
+      "caveId": "-KPZkVSNwlj9lJBwtt7i",
+      "name": "Xux pool",
+      "px": [
+        6097,
+        3754
+      ],
+      "latitude": 20.155934,
+      "longitude": -87.476919,
+      "why": "pond visible on the satellite image"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Odyssey",
+      "px": [
+        6849,
+        843
+      ],
+      "caveId": "-KPZkVNqspWCKvlyjZui"
+    },
+    {
+      "name": "Moonpod",
+      "px": [
+        7267,
+        1504
+      ],
+      "caveId": "-KPZkVMsKKtbbEh9YSam"
+    },
+    {
+      "name": "Crack",
+      "px": [
+        2906,
+        2228
+      ],
+      "caveId": "-KPZkVHPws6D5XInnV9Z"
+    },
+    {
+      "name": "Matchbox",
+      "px": [
+        3772,
+        2406
+      ],
+      "caveId": "-KPZkVMHHPRTNgtQ0j8N"
+    },
+    {
+      "name": "Amber Sun",
+      "px": [
+        5223,
+        2487
+      ],
+      "caveId": "-KPZkVDu1quRSyjniefg"
+    },
+    {
+      "name": "Luz",
+      "px": [
+        6094,
+        2531
+      ],
+      "caveId": "-KPZkVM-v9OPgGiq5n4i"
+    },
+    {
+      "name": "Los Canales",
+      "px": [
+        5688,
+        2687
+      ],
+      "caveId": "-KPZkVLp_-_ss4LMh3MJ"
+    },
+    {
+      "name": "Yax Kai",
+      "px": [
+        3705,
+        2676
+      ],
+      "caveId": "-KPZkVSUMIWfcW5uXpfb"
+    },
+    {
+      "name": "Air",
+      "px": [
+        7950,
+        2697
+      ],
+      "caveId": "-KPZkVDYv2vnEsYYsj1w"
+    },
+    {
+      "name": "La Familia",
+      "px": [
+        7518,
+        2848
+      ],
+      "caveId": "-KPZkVLJQAZV870ZrA75"
+    },
+    {
+      "name": "Esmeralda",
+      "px": [
+        4476,
+        3011
+      ],
+      "caveId": "-KPZkVJFcfn7QCh-s0yH"
+    },
+    {
+      "name": "La Mesa",
+      "px": [
+        7508,
+        3098
+      ],
+      "caveId": "-KPZkVLLHW0GT-tB3i3L"
+    },
+    {
+      "name": "Bat Hole",
+      "px": [
+        6231,
+        3173
+      ],
+      "caveId": "-KPZkVEcGZxx80-aTGeb"
+    },
+    {
+      "name": "Xeh",
+      "px": [
+        4789,
+        3224
+      ],
+      "caveId": "-KPZkVSC2KJsnzXP4t_8"
+    },
+    {
+      "name": "Victoria",
+      "px": [
+        8543,
+        3250
+      ],
+      "caveId": "-KPZkVRmMtLfijr5WmES"
+    },
+    {
+      "name": "Teapot",
+      "px": [
+        5681,
+        3338
+      ],
+      "caveId": "-KPZkVQjvXWUBDvCfGCC"
+    },
+    {
+      "name": "Kubil",
+      "px": [
+        3298,
+        3368
+      ],
+      "caveId": "-KPZkVL7X4tV7kqLLoRl"
+    },
+    {
+      "name": "Bronx",
+      "px": [
+        4997,
+        3495
+      ],
+      "caveId": "-KPZkVFNB8S1BqObCNsM"
+    },
+    {
+      "name": "Xaan Kuna",
+      "px": [
+        3265,
+        3537
+      ],
+      "caveId": "-KPZkVS3RpMvB26KLjOU"
+    },
+    {
+      "name": "Kupic",
+      "px": [
+        3015,
+        3673
+      ],
+      "caveId": "-KPZkVLB8Xm7gWBtyOVV"
+    },
+    {
+      "name": "Xux",
+      "px": [
+        6097,
+        3754
+      ],
+      "caveId": "-KPZkVSNwlj9lJBwtt7i",
+      "latitude": 20.155934,
+      "longitude": -87.476919
+    },
+    {
+      "name": "Zapata",
+      "px": [
+        9032,
+        3760
+      ],
+      "caveId": "-KPZkVShjH4nflQYwo6A"
+    },
+    {
+      "name": "Twin Cenotes",
+      "px": [
+        8547,
+        3813
+      ],
+      "caveId": "-KPZkVRRvuwm0lnT8Q_D"
+    },
+    {
+      "name": "Xiix",
+      "px": [
+        6507,
+        3900
+      ],
+      "caveId": "-KPZkVSG0vPec4Nnha7l",
+      "latitude": 20.154887,
+      "longitude": -87.474773
+    },
+    {
+      "name": "Tarpon",
+      "px": [
+        9133,
+        3889
+      ],
+      "caveId": "-KPZkVQfoQdlmcznaiyz"
+    },
+    {
+      "name": "Hideaway",
+      "px": [
+        8672,
+        3895
+      ]
+    },
+    {
+      "name": "Sac U",
+      "px": [
+        2687,
+        3940
+      ],
+      "caveId": "-KPZkVPM3d_IxNiHNZcy"
+    },
+    {
+      "name": "Blackfoot",
+      "px": [
+        8863,
+        3972
+      ],
+      "caveId": "-KPZkVEqVOVZP9xumhMe"
+    },
+    {
+      "name": "Chac Che",
+      "px": [
+        5852,
+        4008
+      ],
+      "caveId": "-KPZkVG502HXmcPKNRUV"
+    },
+    {
+      "name": "Del Mar",
+      "px": [
+        9253,
+        4013
+      ],
+      "caveId": "-KPZkVHn5J6gyz85LeWf"
+    },
+    {
+      "name": "Sac Ek",
+      "px": [
+        2462,
+        4038
+      ],
+      "caveId": "-KPZkVPHO3ktV1mt1uUQ"
+    },
+    {
+      "name": "Bo'ox",
+      "px": [
+        9202,
+        4049
+      ],
+      "caveId": "-KPZkVEsDqX5STfDBhTE"
+    },
+    {
+      "name": "Labyrinth",
+      "px": [
+        9052,
+        4082
+      ],
+      "caveId": "-KPZkVLQedkqixb4C1tN"
+    },
+    {
+      "name": "Wakax",
+      "px": [
+        5278,
+        4075
+      ],
+      "caveId": "-KPZkVRqh8I51amXSiFj"
+    },
+    {
+      "name": "Bend",
+      "px": [
+        5423,
+        4094
+      ],
+      "caveId": "-KPZkVEiou1aFokoqcnD"
+    },
+    {
+      "name": "Dim",
+      "px": [
+        5863,
+        4193
+      ],
+      "caveId": "-KPZkVHqUTW3htnFWc3c"
+    },
+    {
+      "name": "Perla",
+      "px": [
+        7158,
+        4217
+      ],
+      "caveId": "-KPZkVOLMXrPLEF_AMUm"
+    },
+    {
+      "name": "Este",
+      "px": [
+        7317,
+        4300
+      ],
+      "caveId": "-KPZkVJQ1BzDucY4RGYk"
+    },
+    {
+      "name": "Stilt",
+      "px": [
+        4853,
+        4312
+      ],
+      "caveId": "-KPZkVQ9DhTnGsYc9Z_o"
+    },
+    {
+      "name": "Tall Trees",
+      "px": [
+        4477,
+        4454
+      ],
+      "caveId": "-KPZkVQS1SuTErOLABMc"
+    },
+    {
+      "name": "Espejo",
+      "px": [
+        4384,
+        4489
+      ],
+      "caveId": "-KPZkVJJYMOVGp4TUg6O"
+    },
+    {
+      "name": "Lost Twin",
+      "px": [
+        8258,
+        5567
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "cyanFill": true,
+    "excludeColours": [
+      {
+        "why": "Caribbean Sea",
+        "hue": [
+          133,
+          155
+        ],
+        "minSaturation": 90,
+        "padPx": 4,
+        "minSizePx": 3000,
+        "minFill": 0,
+        "keepHoles": true
+      }
+    ],
+    "detailInk": false,
+    "water": false
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Aluxe's Plain",
+        "px": [
+          5986,
+          327
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Rimet Line",
+        "px": [
+          8146,
+          1397
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Jigsaw Reach",
+        "px": [
+          1199,
+          1410
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Orion Line",
+        "px": [
+          5996,
+          1718
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Coreys Canyons",
+        "px": [
+          2208,
+          2445
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Mayan Skyway",
+        "px": [
+          4681,
+          2597
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ice Palace",
+        "px": [
+          1602,
+          2892
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Igloo Line",
+        "px": [
+          4356,
+          3614
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Yaya'ax Pepem Line",
+        "px": [
+          1600,
+          3700
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Breakdown Line",
+        "px": [
+          8589,
+          5038
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ballpark",
+        "px": [
+          6770,
+          2460
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit #1)",
+        "px": [
+          9655,
+          3725
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit #2)",
+        "px": [
+          9595,
+          3842
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea (Exit #3)",
+        "px": [
+          9540,
+          4072
+        ]
+      }
+    ]
+  },
+  "_scaleBar": {
+    "from": [
+      3047,
+      1149
+    ],
+    "to": [
+      4162,
+      1149
+    ],
+    "metres": 762.0
+  },
+  "_north": "up"
+}

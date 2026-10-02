@@ -1,0 +1,1803 @@
+{
+  "image": "../../../_data/maps-import/images/xcaret-c-de-xcaret-mpo-playa-del-carmen.webp",
+  "title": "Cueva de Xcaret - NSS Cave Diving Section / AMCS 1979",
+  "credits": "Cueva de Xcaret, Quintana Roo, Mexico. Survey by NSS Cave Diving Section, Association for Mexican Cave Studies, August 1979: Ned DeLoach, Karan Exley, Sheck Exley (surface features after Andrews, 1975). Floor depths in metres. Property of Sr. Felipe Delgado. Published in Caving International Magazine 8, p. 39, 1980; AMCS Activities Newsletter 32, p. 103, 2009",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfz4tNCel8OWyczw",
+  "utmEpsg": 32616,
+  "placementWhy": "Scale bar (60 m = 424 px, 0.1415 m/px; the survey's own penetrations agree: cenote de los franceses to the airspace, 111 m = 780 px drawn, 0.142 m/px; the north end to the airspace, 135 m = 921 px, 0.147 m/px), north at 18.2 deg left of up, shifted onto eight points of the caleta and coast (surface features after Andrews 1975, matched on the Mapbox satellite and OSM's coastline/water): the channel's north-east and north-west corners, two points along the channel, the peninsula tip, the mouth's west point, the cove corner east of the point, the north end of the bay west of the mouth. Rotation and shift fitted by least squares at the bar's scale: residuals 1.6-9.0 m (RMS 5.7 m; worst the mouth's west point 9.0 m and the cove corner 8.7 m, both pulled in because the surface is drawn larger). The 18.2 deg rotation is 4.6 deg more than the north arrow (13.6 deg left of up): plausibly a magnetic arrow, the 1979 declination being a few degrees east (not checked). A free similarity fit on the same eight points fits them better (RMS 3.9 m, max 5.4 m) but at 0.158 m/px, 12% larger than the cave's scale bar and its written penetrations: the surface was redrawn at its own scale onto the survey, so the cave's scale rules (a free fit would stretch the cave by 12%, about 35 m at its north end). Checks, not fitted: the little bay in the caleta's east wall near the mouth (7.1 m off, where the footbridge lands today) and the tip of the north arm (17.7 m: on the satellite the arm is a dark channel under the trees, OSM water, running due north while the map draws it bending north-east). The west arm and the north-west lobe fall on land and canopy now (filled or hidden). Compared with the previous placement (scale bar, north arrow -13.6 deg, three points): the caleta moves 2 m, cenote de los franceses 9 m, the airspace 13 m, cenote de Felipe 18 m, the north end 25 m. Compared with the unverified Beddows 2003 sketch (x-caret.json): not re-checked here (being reworked separately). Reviewed on the satellite by the user (2026-10-02) and accepted: no longer unverified (it was: No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and none of its cenotes or its open Xcaret airspace shows on the satellite (park buildings and canopy now). Placed only by the surface features the map copies from Andrews 1975 - th).",
+  "scaleBar": {
+    "from": [
+      235,
+      1517
+    ],
+    "to": [
+      659,
+      1517
+    ],
+    "metres": 60
+  },
+  "north": {
+    "angle": -18.2
+  },
+  "exclude": [
+    {
+      "why": "title, survey credits, depth units, owner",
+      "history": true,
+      "box": [
+        140,
+        1000,
+        880,
+        1478
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        220,
+        1490,
+        700,
+        1580
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        320,
+        680,
+        460,
+        955
+      ]
+    },
+    {
+      "why": "legend: submerged passages (grey sample)",
+      "box": [
+        310,
+        2170,
+        720,
+        2262
+      ]
+    },
+    {
+      "why": "the Caribbean Sea and the coast beyond the caleta's mouth (surface features after Andrews 1975, hatched water): the caleta ends at this box's corner",
+      "box": [
+        1652,
+        2626,
+        2177,
+        2889
+      ]
+    },
+    {
+      "why": "the sea cove and the coast east of the caleta (surface features)",
+      "box": [
+        1810,
+        2030,
+        2177,
+        2626
+      ]
+    },
+    {
+      "why": "the small bay and coast west of the caleta's mouth (surface features)",
+      "box": [
+        1170,
+        2760,
+        1652,
+        2889
+      ]
+    },
+    {
+      "why": "label 'caleta de Xcaret (surface flow to sea)' and its leader",
+      "box": [
+        1512,
+        2298,
+        1860,
+        2342
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        14,
+        2889
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        2163,
+        0,
+        2177,
+        2889
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        2177,
+        14
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        2875,
+        2177,
+        2889
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Caleta north-east corner",
+      "px": [
+        1475,
+        2320
+      ],
+      "latitude": 20.579238,
+      "longitude": -87.118687,
+      "why": "the caleta channel's east wall where it turns north into the north arm (the bend the caleta label's leader points to) - the north-east corner of the open channel on the satellite, where the dark north arm (OSM river/water) leaves it (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Caleta north-west corner",
+      "px": [
+        1390,
+        2385
+      ],
+      "latitude": 20.579232,
+      "longitude": -87.118881,
+      "why": "the channel's west wall where the west arm leaves it - the north-west corner of the open channel on the satellite (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Mouth west point",
+      "px": [
+        1680,
+        2740
+      ],
+      "latitude": 20.578579,
+      "longitude": -87.118586,
+      "why": "the point on the caleta mouth's west side, where the shore turns south-west - the east edge of the rocks (round pool) west of the mouth on the satellite (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Peninsula tip",
+      "px": [
+        1790,
+        2645
+      ],
+      "latitude": 20.57873,
+      "longitude": -87.118398,
+      "why": "south end of the hooked point east of the caleta's mouth - the rock with a palapa at the end of the point today (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Cove corner",
+      "px": [
+        1925,
+        2210
+      ],
+      "latitude": 20.579226,
+      "longitude": -87.117989,
+      "why": "north-west corner of the sea cove east of the point, where the coast turns east, on the satellite's shore (the breakwaters further east are modern) (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Bay north shore",
+      "px": [
+        1400,
+        2795
+      ],
+      "latitude": 20.578705,
+      "longitude": -87.119049,
+      "why": "north end of the small bay at the map's bottom edge, west of the mouth - the north end of the beach bay's water on the satellite (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Caleta channel, upper",
+      "px": [
+        1505,
+        2430
+      ],
+      "latitude": 20.5791,
+      "longitude": -87.118734,
+      "why": "middle of the channel, a third of the way from its north-west end to the mouth, on the satellite's open channel (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Caleta channel, lower",
+      "px": [
+        1590,
+        2540
+      ],
+      "latitude": 20.578974,
+      "longitude": -87.118653,
+      "why": "middle of the channel where it widens towards its mouth, on the satellite's open channel (surface features after Andrews 1975; Mapbox satellite)"
+    },
+    {
+      "name": "Caleta east notch",
+      "px": [
+        1760,
+        2510
+      ],
+      "latitude": 20.578861,
+      "longitude": -87.118459,
+      "why": "the little bay in the caleta's east wall near the mouth - where the footbridge lands today; not fitted (unclear on the satellite) (surface features after Andrews 1975; Mapbox satellite)",
+      "check": true
+    },
+    {
+      "name": "North arm tip",
+      "px": [
+        1485,
+        2060
+      ],
+      "latitude": 20.579652,
+      "longitude": -87.118713,
+      "why": "the caleta's north arm's round end - on the satellite the arm is a dark channel under the trees (OSM water) running north, but bending less to the east than drawn; not fitted, 17-19 m off (surface features after Andrews 1975; Mapbox satellite)",
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "cenote de Felipe",
+      "px": [
+        1330,
+        880
+      ],
+      "note": "dotted pool on the east side of the main passage; '53 m to Xcaret airspace'"
+    },
+    {
+      "name": "Xcaret airspace (open water)",
+      "px": [
+        1240,
+        1330
+      ],
+      "note": "the cave's open-air stretch (edge of Xcaret airspace to edge of Xcaret airspace, ledge at surface on its east side): the open water of cenote Xcaret"
+    },
+    {
+      "name": "cenote de los franceses",
+      "px": [
+        928,
+        2733
+      ],
+      "note": "dotted pool at the south end of the main passage; 'p. 111 m to Xcaret airspace'"
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "greyFill": true,
+    "water": true,
+    "threshold": 30,
+    "weakThreshold": 30,
+    "regionThreshold": 35,
+    "inkContrast": 110,
+    "minHoleSqMetres": 1,
+    "minBandSqMetres": 3,
+    "wallSimplifyMetres": 0.1,
+    "fillOffInk": true,
+    "fillPolygons": [
+      [
+        [
+          1181,
+          1127
+        ],
+        [
+          1174,
+          1142
+        ],
+        [
+          1164,
+          1184
+        ],
+        [
+          1162,
+          1220
+        ],
+        [
+          1164,
+          1272
+        ],
+        [
+          1177,
+          1341
+        ],
+        [
+          1179,
+          1384
+        ],
+        [
+          1174,
+          1425
+        ],
+        [
+          1167,
+          1442
+        ],
+        [
+          1163,
+          1466
+        ],
+        [
+          1163,
+          1507
+        ],
+        [
+          1171,
+          1564
+        ],
+        [
+          1172,
+          1625
+        ],
+        [
+          1164,
+          1670
+        ],
+        [
+          1158,
+          1766
+        ],
+        [
+          1189,
+          1847
+        ],
+        [
+          1201,
+          1895
+        ],
+        [
+          1201,
+          1918
+        ],
+        [
+          1192,
+          1934
+        ],
+        [
+          1176,
+          1943
+        ],
+        [
+          1133,
+          1946
+        ],
+        [
+          1105,
+          1954
+        ],
+        [
+          1098,
+          1962
+        ],
+        [
+          1097,
+          1972
+        ],
+        [
+          1104,
+          1986
+        ],
+        [
+          1130,
+          1998
+        ],
+        [
+          1170,
+          2028
+        ],
+        [
+          1178,
+          2039
+        ],
+        [
+          1183,
+          2057
+        ],
+        [
+          1183,
+          2052
+        ],
+        [
+          1190,
+          2051
+        ],
+        [
+          1193,
+          2047
+        ],
+        [
+          1197,
+          2032
+        ],
+        [
+          1202,
+          2030
+        ],
+        [
+          1210,
+          2018
+        ],
+        [
+          1210,
+          2012
+        ],
+        [
+          1215,
+          2011
+        ],
+        [
+          1220,
+          2003
+        ],
+        [
+          1225,
+          1935
+        ],
+        [
+          1210,
+          1888
+        ],
+        [
+          1205,
+          1845
+        ],
+        [
+          1197,
+          1824
+        ],
+        [
+          1193,
+          1821
+        ],
+        [
+          1186,
+          1797
+        ],
+        [
+          1180,
+          1792
+        ],
+        [
+          1179,
+          1745
+        ],
+        [
+          1188,
+          1707
+        ],
+        [
+          1196,
+          1627
+        ],
+        [
+          1180,
+          1456
+        ],
+        [
+          1189,
+          1438
+        ],
+        [
+          1189,
+          1427
+        ],
+        [
+          1204,
+          1411
+        ],
+        [
+          1204,
+          1406
+        ],
+        [
+          1209,
+          1405
+        ],
+        [
+          1221,
+          1394
+        ],
+        [
+          1221,
+          1387
+        ],
+        [
+          1239,
+          1378
+        ],
+        [
+          1240,
+          1371
+        ],
+        [
+          1245,
+          1371
+        ],
+        [
+          1258,
+          1362
+        ],
+        [
+          1260,
+          1356
+        ],
+        [
+          1267,
+          1355
+        ],
+        [
+          1277,
+          1342
+        ],
+        [
+          1292,
+          1337
+        ],
+        [
+          1296,
+          1325
+        ],
+        [
+          1301,
+          1324
+        ],
+        [
+          1315,
+          1310
+        ],
+        [
+          1309,
+          1306
+        ],
+        [
+          1305,
+          1310
+        ],
+        [
+          1291,
+          1310
+        ],
+        [
+          1283,
+          1306
+        ],
+        [
+          1268,
+          1282
+        ],
+        [
+          1264,
+          1258
+        ],
+        [
+          1267,
+          1234
+        ],
+        [
+          1264,
+          1191
+        ],
+        [
+          1258,
+          1177
+        ],
+        [
+          1247,
+          1170
+        ],
+        [
+          1236,
+          1184
+        ],
+        [
+          1230,
+          1204
+        ],
+        [
+          1230,
+          1233
+        ],
+        [
+          1226,
+          1255
+        ],
+        [
+          1227,
+          1289
+        ],
+        [
+          1223,
+          1307
+        ],
+        [
+          1213,
+          1314
+        ],
+        [
+          1199,
+          1314
+        ],
+        [
+          1182,
+          1308
+        ],
+        [
+          1175,
+          1301
+        ],
+        [
+          1172,
+          1291
+        ],
+        [
+          1169,
+          1229
+        ],
+        [
+          1172,
+          1208
+        ],
+        [
+          1181,
+          1175
+        ],
+        [
+          1189,
+          1159
+        ],
+        [
+          1192,
+          1139
+        ],
+        [
+          1190,
+          1130
+        ]
+      ],
+      [
+        [
+          370,
+          478
+        ],
+        [
+          381,
+          458
+        ],
+        [
+          408,
+          437
+        ],
+        [
+          438,
+          414
+        ],
+        [
+          452,
+          432
+        ],
+        [
+          446,
+          462
+        ],
+        [
+          424,
+          484
+        ],
+        [
+          396,
+          494
+        ],
+        [
+          372,
+          490
+        ]
+      ],
+      [
+        [
+          1298,
+          890
+        ],
+        [
+          1328,
+          875
+        ],
+        [
+          1340,
+          889
+        ],
+        [
+          1312,
+          913
+        ],
+        [
+          1295,
+          900
+        ]
+      ],
+      [
+        [
+          903,
+          2735
+        ],
+        [
+          914,
+          2720
+        ],
+        [
+          936,
+          2717
+        ],
+        [
+          952,
+          2727
+        ],
+        [
+          950,
+          2742
+        ],
+        [
+          930,
+          2748
+        ],
+        [
+          908,
+          2747
+        ]
+      ],
+      [
+        [
+          1469,
+          2048
+        ],
+        [
+          1453,
+          2057
+        ],
+        [
+          1442,
+          2069
+        ],
+        [
+          1435,
+          2081
+        ],
+        [
+          1434,
+          2099
+        ],
+        [
+          1440,
+          2121
+        ],
+        [
+          1440,
+          2143
+        ],
+        [
+          1412,
+          2174
+        ],
+        [
+          1399,
+          2195
+        ],
+        [
+          1389,
+          2223
+        ],
+        [
+          1376,
+          2239
+        ],
+        [
+          1369,
+          2241
+        ],
+        [
+          1362,
+          2239
+        ],
+        [
+          1351,
+          2224
+        ],
+        [
+          1351,
+          2207
+        ],
+        [
+          1342,
+          2187
+        ],
+        [
+          1342,
+          2178
+        ],
+        [
+          1347,
+          2169
+        ],
+        [
+          1346,
+          2165
+        ],
+        [
+          1336,
+          2164
+        ],
+        [
+          1314,
+          2179
+        ],
+        [
+          1280,
+          2187
+        ],
+        [
+          1278,
+          2193
+        ],
+        [
+          1279,
+          2212
+        ],
+        [
+          1264,
+          2227
+        ],
+        [
+          1261,
+          2235
+        ],
+        [
+          1262,
+          2242
+        ],
+        [
+          1268,
+          2245
+        ],
+        [
+          1287,
+          2245
+        ],
+        [
+          1311,
+          2241
+        ],
+        [
+          1346,
+          2258
+        ],
+        [
+          1353,
+          2267
+        ],
+        [
+          1353,
+          2276
+        ],
+        [
+          1348,
+          2285
+        ],
+        [
+          1334,
+          2299
+        ],
+        [
+          1319,
+          2304
+        ],
+        [
+          1302,
+          2300
+        ],
+        [
+          1259,
+          2270
+        ],
+        [
+          1223,
+          2256
+        ],
+        [
+          1217,
+          2256
+        ],
+        [
+          1198,
+          2268
+        ],
+        [
+          1185,
+          2289
+        ],
+        [
+          1182,
+          2307
+        ],
+        [
+          1183,
+          2329
+        ],
+        [
+          1195,
+          2355
+        ],
+        [
+          1205,
+          2364
+        ],
+        [
+          1225,
+          2371
+        ],
+        [
+          1241,
+          2366
+        ],
+        [
+          1278,
+          2341
+        ],
+        [
+          1298,
+          2336
+        ],
+        [
+          1320,
+          2338
+        ],
+        [
+          1355,
+          2361
+        ],
+        [
+          1449,
+          2413
+        ],
+        [
+          1522,
+          2489
+        ],
+        [
+          1531,
+          2507
+        ],
+        [
+          1530,
+          2543
+        ],
+        [
+          1536,
+          2575
+        ],
+        [
+          1541,
+          2583
+        ],
+        [
+          1556,
+          2595
+        ],
+        [
+          1569,
+          2610
+        ],
+        [
+          1580,
+          2638
+        ],
+        [
+          1599,
+          2669
+        ],
+        [
+          1609,
+          2695
+        ],
+        [
+          1617,
+          2705
+        ],
+        [
+          1628,
+          2712
+        ],
+        [
+          1668,
+          2727
+        ],
+        [
+          1762,
+          2628
+        ],
+        [
+          1752,
+          2606
+        ],
+        [
+          1755,
+          2583
+        ],
+        [
+          1769,
+          2566
+        ],
+        [
+          1795,
+          2550
+        ],
+        [
+          1795,
+          2540
+        ],
+        [
+          1776,
+          2505
+        ],
+        [
+          1770,
+          2500
+        ],
+        [
+          1760,
+          2500
+        ],
+        [
+          1729,
+          2516
+        ],
+        [
+          1727,
+          2525
+        ],
+        [
+          1728,
+          2536
+        ],
+        [
+          1719,
+          2548
+        ],
+        [
+          1702,
+          2550
+        ],
+        [
+          1686,
+          2543
+        ],
+        [
+          1657,
+          2513
+        ],
+        [
+          1639,
+          2501
+        ],
+        [
+          1615,
+          2479
+        ],
+        [
+          1572,
+          2432
+        ],
+        [
+          1556,
+          2410
+        ],
+        [
+          1516,
+          2373
+        ],
+        [
+          1503,
+          2354
+        ],
+        [
+          1482,
+          2340
+        ],
+        [
+          1468,
+          2322
+        ],
+        [
+          1463,
+          2310
+        ],
+        [
+          1462,
+          2285
+        ],
+        [
+          1472,
+          2238
+        ],
+        [
+          1477,
+          2179
+        ],
+        [
+          1492,
+          2147
+        ],
+        [
+          1503,
+          2135
+        ],
+        [
+          1512,
+          2113
+        ],
+        [
+          1524,
+          2100
+        ],
+        [
+          1528,
+          2085
+        ],
+        [
+          1518,
+          2062
+        ],
+        [
+          1510,
+          2053
+        ],
+        [
+          1487,
+          2047
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "the Xcaret airspace: the open water between the submerged passage and the ledge at surface, white on the map (traced from the paper region the ledge, the rubble islands and the two 'edge of Xcaret airspace' marks enclose); the 4 metre pit, drawn white in the passage; cenote de Felipe's pool (a dotted outline open on the passage's east wall) and cenote de los franceses (a dotted ring in the passage): open water, part of the cave; the caleta de Xcaret (hatched surface water, the cave's surface outlet to the sea), traced from its drawn outline up to its mouth, closed there by the exclude box of the sea beyond",
+    "lowThresholdAreas": [
+      {
+        "box": [
+          60,
+          50,
+          200,
+          215
+        ],
+        "threshold": 12
+      }
+    ],
+    "wallsOnInk": true,
+    "waterPolygons": [
+      [
+        [
+          1469,
+          2042
+        ],
+        [
+          1450,
+          2052
+        ],
+        [
+          1432,
+          2073
+        ],
+        [
+          1428,
+          2084
+        ],
+        [
+          1428,
+          2101
+        ],
+        [
+          1434,
+          2123
+        ],
+        [
+          1434,
+          2141
+        ],
+        [
+          1400,
+          2181
+        ],
+        [
+          1393,
+          2193
+        ],
+        [
+          1383,
+          2221
+        ],
+        [
+          1373,
+          2234
+        ],
+        [
+          1365,
+          2234
+        ],
+        [
+          1357,
+          2222
+        ],
+        [
+          1357,
+          2205
+        ],
+        [
+          1348,
+          2185
+        ],
+        [
+          1353,
+          2165
+        ],
+        [
+          1347,
+          2159
+        ],
+        [
+          1333,
+          2159
+        ],
+        [
+          1311,
+          2174
+        ],
+        [
+          1284,
+          2179
+        ],
+        [
+          1274,
+          2185
+        ],
+        [
+          1272,
+          2191
+        ],
+        [
+          1273,
+          2210
+        ],
+        [
+          1258,
+          2225
+        ],
+        [
+          1255,
+          2233
+        ],
+        [
+          1256,
+          2244
+        ],
+        [
+          1268,
+          2251
+        ],
+        [
+          1287,
+          2251
+        ],
+        [
+          1311,
+          2247
+        ],
+        [
+          1343,
+          2263
+        ],
+        [
+          1347,
+          2269
+        ],
+        [
+          1347,
+          2274
+        ],
+        [
+          1342,
+          2283
+        ],
+        [
+          1331,
+          2294
+        ],
+        [
+          1319,
+          2298
+        ],
+        [
+          1305,
+          2295
+        ],
+        [
+          1262,
+          2265
+        ],
+        [
+          1226,
+          2251
+        ],
+        [
+          1217,
+          2250
+        ],
+        [
+          1198,
+          2260
+        ],
+        [
+          1189,
+          2270
+        ],
+        [
+          1179,
+          2287
+        ],
+        [
+          1176,
+          2305
+        ],
+        [
+          1177,
+          2331
+        ],
+        [
+          1185,
+          2351
+        ],
+        [
+          1198,
+          2366
+        ],
+        [
+          1210,
+          2373
+        ],
+        [
+          1225,
+          2377
+        ],
+        [
+          1244,
+          2371
+        ],
+        [
+          1281,
+          2346
+        ],
+        [
+          1298,
+          2342
+        ],
+        [
+          1320,
+          2344
+        ],
+        [
+          1352,
+          2366
+        ],
+        [
+          1446,
+          2418
+        ],
+        [
+          1516,
+          2491
+        ],
+        [
+          1525,
+          2509
+        ],
+        [
+          1524,
+          2545
+        ],
+        [
+          1530,
+          2577
+        ],
+        [
+          1535,
+          2585
+        ],
+        [
+          1553,
+          2600
+        ],
+        [
+          1563,
+          2612
+        ],
+        [
+          1574,
+          2640
+        ],
+        [
+          1593,
+          2671
+        ],
+        [
+          1603,
+          2697
+        ],
+        [
+          1614,
+          2710
+        ],
+        [
+          1625,
+          2717
+        ],
+        [
+          1668,
+          2733
+        ],
+        [
+          1692,
+          2711
+        ],
+        [
+          1768,
+          2630
+        ],
+        [
+          1768,
+          2625
+        ],
+        [
+          1760,
+          2612
+        ],
+        [
+          1758,
+          2604
+        ],
+        [
+          1761,
+          2585
+        ],
+        [
+          1772,
+          2571
+        ],
+        [
+          1801,
+          2552
+        ],
+        [
+          1801,
+          2538
+        ],
+        [
+          1787,
+          2510
+        ],
+        [
+          1775,
+          2496
+        ],
+        [
+          1770,
+          2494
+        ],
+        [
+          1757,
+          2495
+        ],
+        [
+          1727,
+          2510
+        ],
+        [
+          1722,
+          2516
+        ],
+        [
+          1722,
+          2534
+        ],
+        [
+          1716,
+          2543
+        ],
+        [
+          1702,
+          2544
+        ],
+        [
+          1689,
+          2538
+        ],
+        [
+          1660,
+          2508
+        ],
+        [
+          1647,
+          2500
+        ],
+        [
+          1621,
+          2477
+        ],
+        [
+          1578,
+          2430
+        ],
+        [
+          1562,
+          2408
+        ],
+        [
+          1522,
+          2371
+        ],
+        [
+          1506,
+          2349
+        ],
+        [
+          1481,
+          2334
+        ],
+        [
+          1481,
+          2319
+        ],
+        [
+          1473,
+          2315
+        ],
+        [
+          1469,
+          2308
+        ],
+        [
+          1468,
+          2287
+        ],
+        [
+          1478,
+          2240
+        ],
+        [
+          1483,
+          2181
+        ],
+        [
+          1498,
+          2149
+        ],
+        [
+          1509,
+          2137
+        ],
+        [
+          1518,
+          2115
+        ],
+        [
+          1530,
+          2102
+        ],
+        [
+          1534,
+          2083
+        ],
+        [
+          1524,
+          2060
+        ],
+        [
+          1513,
+          2048
+        ],
+        [
+          1504,
+          2044
+        ],
+        [
+          1487,
+          2041
+        ]
+      ]
+    ],
+    "waterPolygonsWhy": "water only in the caleta de Xcaret (its drawn outline, grown a few pixels to reach the band's edge): the cave's surface outlet, open water; the cave passages and the open Caribbean Sea are not filled",
+    "wallsOnInkWhy": "walls only where the map draws one: the caleta's mouth (cut by the sea's exclude box) gets no wall, and neither do the passages' dashed open ends"
+  },
+  "symbols": {
+    "why": "Overlined numbers are floor depths in metres (the map's own note). OCR found 8 of the 10; the two 8s on the east branch are added by hand. The plain (not overlined) numbers 2, 1, 3, 2 beside the passages have no legend: not kept (ceiling heights? see report). 'p. N m to Xcaret airspace' and cenote de Felipe's '53 m to Xcaret airspace' are penetrations from the open water of the Xcaret airspace; the 4 metre pit is a pit depth; 'passage blocked by boulders' at the north passage's end is the impassable end. Twelve wavy water-flow arrows, all pointing downstream towards the Xcaret airspace and on to cenote de los franceses and the sea, except one in the airspace pointing north-east (bearings from the map's up). No letter codes, no bones (none drawn or written).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "8",
+        "px": [
+          1537,
+          637
+        ],
+        "value": 8,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "8",
+        "px": [
+          1733,
+          731
+        ],
+        "value": 8,
+        "halfPx": 18
+      },
+      {
+        "type": "pit-depth",
+        "label": "4 metre pit",
+        "px": [
+          410,
+          455
+        ],
+        "value": 4
+      },
+      {
+        "type": "penetration",
+        "label": "p. 255 m to Xcaret airspace",
+        "px": [
+          150,
+          130
+        ],
+        "value": 255
+      },
+      {
+        "type": "penetration",
+        "label": "p. 135 m to Xcaret airspace",
+        "px": [
+          1172,
+          236
+        ],
+        "value": 135
+      },
+      {
+        "type": "penetration",
+        "label": "p. 111 m to Xcaret airspace",
+        "px": [
+          912,
+          2722
+        ],
+        "value": 111
+      },
+      {
+        "type": "penetration",
+        "label": "53 m to Xcaret airspace",
+        "px": [
+          1318,
+          893
+        ],
+        "value": 53
+      },
+      {
+        "type": "restriction-major",
+        "label": "passage blocked by boulders",
+        "px": [
+          1165,
+          225
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          205,
+          355
+        ],
+        "bearing": 155
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          681,
+          692
+        ],
+        "bearing": 130
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          985,
+          888
+        ],
+        "bearing": 110
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1200,
+          470
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1230,
+          850
+        ],
+        "bearing": 185
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1160,
+          1070
+        ],
+        "bearing": 175
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1192,
+          1332
+        ],
+        "bearing": 135
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1275,
+          1325
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1180,
+          1410
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1170,
+          1690
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1064,
+          2068
+        ],
+        "bearing": 185
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          988,
+          2330
+        ],
+        "bearing": 195
+      }
+    ]
+  }
+}

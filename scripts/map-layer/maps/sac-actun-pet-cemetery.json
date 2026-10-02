@@ -1,0 +1,35 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Sac Actun, Sist. (part), Tulum.pdf",
+  "page": 1,
+  "image": "images/sac-actun-sist-part-tulum.svg",
+  "title": "Sistema Sac Actun - Pet Cemetery Area",
+  "credits": "Suunto and laser rangefinder survey, August 2012, drawn by Peter Sprouse",
+  "source": { "id": "-P2qrQPktuQPf2Sir0nb", "name": "Sprouse 2012" },
+  "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+  "walls": { "color": [0, 0, 0], "width": 0.42 },
+  "surveyLines": { "color": [0, 0, 1], "width": 0.05 },
+  "exclude": [
+    { "why": "north arrow", "box": [785, 240, 812, 325] }
+  ],
+  "entrances": [
+    { "caveId": "-P2qsQVkLjr5WlLxPYdR", "name": "Entrada Pozo Profundo", "pdf": [196.5, 544.4] },
+    { "caveId": "-P2qsQ_hV-utld3kcOLV", "name": "Big Cenote", "pdf": [455.9, 512.2] },
+    { "caveId": "-P2qsQ_luJZL5ySUcHH5", "name": "Entrada BFR", "pdf": [860.1, 532.6] },
+    { "caveId": "-KPZkVOMZId8yVJJ2Bru", "name": "Colapso Pet Cemetery", "pdf": [894.3, 503.9] },
+    { "caveId": "-P2qsJZtju489wJLZVMp", "name": "Entrada Sin Nombre", "pdf": [947.5, 539.3] },
+    { "caveId": "-P2qsKGb9sxO0XrcGrfg", "name": "Entrada Sardinas", "pdf": [918.3, 450.1] },
+    { "caveId": "-P2qsLAki6LsSGo9o9lS", "name": "Entrada Dos Plumas de Toh", "pdf": [997.0, 396.2] },
+    { "caveId": "-KPZkVQvy2EkEuQnZMe7", "name": "Don's $100 Cenote", "pdf": [972.8, 270.0] },
+    { "caveId": "-P2qsLzK5fb21w22Od-E", "name": "Colapso Xibalbá", "pdf": [1031.4, 332.9] },
+    { "caveId": "-P2qsNWy9FpPLWde2te9", "name": "Entrada Vainilla Norte", "pdf": [1067.6, 359.5] },
+    { "caveId": "-P2qsOSuylKGw7Z09una", "name": "Entrada Vainilla Sur", "pdf": [1114.8, 425.9] },
+    { "caveId": "-P2qsP-HWk1pgmZAy_H9", "name": "Entrada Coralillo Falso", "pdf": [1107.8, 495.6] },
+    { "caveId": "-P2quOIn-0oKyNNp8xff", "name": "Entrada Mosquitos", "pdf": [1123.8, 560.5] }
+  ],
+  "scaleBar": { "from": [196.18, 308.12], "to": [314.05, 308.12], "metres": 50 },
+  "north": "grid",
+  "utmEpsg": 32616,
+  "controlPoints": [
+    { "caveId": "-KPZkVOMZId8yVJJ2Bru", "name": "Pet Cemetary (main entrance, guessed: the Colapso Pet Cemetery label)", "pdf": [893.5, 503], "latitude": 20.31808, "longitude": -87.41059 }
+  ]
+}

@@ -1,0 +1,958 @@
+{
+  "image": "../../../_data/maps-import/images/tres-estrellas-part-of-sistema-tux-kupaxa-tulum.webp",
+  "title": "Tres Estrellas (Ox-ek), Sistema Tux Kupaxa - Czech survey 2009",
+  "credits": "Primary explorers Robbie Schmittner, Steve Bogaerts, Daniel Hutnan, Miroslav Manhart; resurvey 2009 by Daniel Hutnan, Miroslav Manhart, Martin Hones, Miloslav Dvoracek, Petr Chmel, Martin Hutnan; cartography Daniel Hutnan, Anna Hutnan, Martin Hutnan (c) 2009",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-NCB52nBApQkIuCms8mA",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "colour-fill",
+    "greyFill": true,
+    "why": "b/w scan: passages are a grey halftone fill, not blue - needs a greyFill option in colour_fill_band (darkness instead of blueness); until then run on a derived image whose blue channel is 255",
+    "threshold": 60,
+    "weakThreshold": 60,
+    "regionThreshold": 200,
+    "inkContrast": 80,
+    "water": true,
+    "minHoleSqMetres": 1,
+    "minBandSqMetres": 2,
+    "dropIsolated": {
+      "maxSqMetres": 150,
+      "gapMetres": 1
+    },
+    "wallSimplifyMetres": 0.1,
+    "detailContrast": 60,
+    "minDetailPx": 30,
+    "wallMarginPx": 7,
+    "paperWindowPx": 2000,
+    "fillPolygons": [
+      [
+        [
+          3005,
+          5455
+        ],
+        [
+          3030,
+          5435
+        ],
+        [
+          3100,
+          5430
+        ],
+        [
+          3140,
+          5415
+        ],
+        [
+          3200,
+          5390
+        ],
+        [
+          3250,
+          5375
+        ],
+        [
+          3252,
+          5410
+        ],
+        [
+          3230,
+          5430
+        ],
+        [
+          3180,
+          5448
+        ],
+        [
+          3175,
+          5465
+        ],
+        [
+          3150,
+          5495
+        ],
+        [
+          3100,
+          5512
+        ],
+        [
+          3030,
+          5522
+        ],
+        [
+          3008,
+          5500
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "the lake at the south end: dashes on white, no grey fill",
+    "waterPolygons": [
+      [
+        [
+          2265,
+          4180
+        ],
+        [
+          2350,
+          4172
+        ],
+        [
+          2480,
+          4175
+        ],
+        [
+          2550,
+          4190
+        ],
+        [
+          2570,
+          4240
+        ],
+        [
+          2565,
+          4330
+        ],
+        [
+          2560,
+          4380
+        ],
+        [
+          2510,
+          4398
+        ],
+        [
+          2430,
+          4390
+        ],
+        [
+          2380,
+          4375
+        ],
+        [
+          2355,
+          4350
+        ],
+        [
+          2315,
+          4350
+        ],
+        [
+          2300,
+          4320
+        ],
+        [
+          2300,
+          4285
+        ],
+        [
+          2280,
+          4265
+        ],
+        [
+          2268,
+          4230
+        ]
+      ],
+      [
+        [
+          3003,
+          5445
+        ],
+        [
+          3015,
+          5425
+        ],
+        [
+          3035,
+          5410
+        ],
+        [
+          3060,
+          5415
+        ],
+        [
+          3065,
+          5435
+        ],
+        [
+          3100,
+          5430
+        ],
+        [
+          3165,
+          5430
+        ],
+        [
+          3185,
+          5445
+        ],
+        [
+          3180,
+          5475
+        ],
+        [
+          3155,
+          5498
+        ],
+        [
+          3100,
+          5512
+        ],
+        [
+          3030,
+          5522
+        ],
+        [
+          3005,
+          5505
+        ]
+      ]
+    ],
+    "waterPolygonsWhy": "water at the entrance (Tres Estrellas cenote's open water) and the south lake"
+  },
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        300,
+        40,
+        3580,
+        270
+      ]
+    },
+    {
+      "why": "cave title Tres Estrellas",
+      "box": [
+        90,
+        430,
+        1675,
+        700
+      ]
+    },
+    {
+      "why": "cave title (Ox - ek)",
+      "box": [
+        500,
+        700,
+        1130,
+        875
+      ]
+    },
+    {
+      "why": "surveyed passage",
+      "box": [
+        90,
+        1065,
+        1260,
+        1200
+      ]
+    },
+    {
+      "why": "system title Sistema Tux Kupaxa",
+      "box": [
+        2360,
+        430,
+        3760,
+        975
+      ]
+    },
+    {
+      "why": "total surveyed passage",
+      "box": [
+        2370,
+        1065,
+        3800,
+        1205
+      ]
+    },
+    {
+      "why": "primary explorers",
+      "box": [
+        70,
+        1350,
+        690,
+        1890
+      ],
+      "history": true
+    },
+    {
+      "why": "QRSS stamp",
+      "box": [
+        860,
+        1330,
+        1345,
+        1840
+      ]
+    },
+    {
+      "why": "inset map of the whole system, its scale bar",
+      "box": [
+        2500,
+        1320,
+        3720,
+        2810
+      ]
+    },
+    {
+      "why": "compass",
+      "box": [
+        2075,
+        1910,
+        2595,
+        2430
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        70,
+        2190,
+        910,
+        2650
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        35,
+        2900,
+        1135,
+        3780
+      ]
+    },
+    {
+      "why": "resurvey team",
+      "box": [
+        3215,
+        2940,
+        3825,
+        3650
+      ],
+      "history": true
+    },
+    {
+      "why": "exploration history title",
+      "box": [
+        45,
+        4185,
+        945,
+        4325
+      ],
+      "history": true
+    },
+    {
+      "why": "exploration history",
+      "box": [
+        45,
+        4415,
+        1515,
+        5575
+      ],
+      "history": true
+    },
+    {
+      "why": "cartography",
+      "box": [
+        3410,
+        4610,
+        3870,
+        5060
+      ],
+      "history": true
+    },
+    {
+      "why": "thanks to",
+      "box": [
+        1730,
+        5350,
+        2820,
+        5580
+      ],
+      "history": true
+    },
+    {
+      "why": "page bottom border",
+      "box": [
+        0,
+        5600,
+        3904,
+        5651
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1563,
+        724,
+        1742,
+        838
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1865,
+        1058,
+        2044,
+        1172
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1545,
+        1450,
+        1724,
+        1566
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2107,
+        1687,
+        2318,
+        1811
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1493,
+        1882,
+        1673,
+        1997
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1245,
+        2494,
+        1718,
+        2675
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2128,
+        2675,
+        2438,
+        2857
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1295,
+        3145,
+        1570,
+        3291
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2225,
+        3185,
+        2438,
+        3334
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2749,
+        3282,
+        3155,
+        3496
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2302,
+        3311,
+        2547,
+        3459
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1774,
+        3325,
+        1986,
+        3475
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2752,
+        3787,
+        2996,
+        3935
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2272,
+        3817,
+        2517,
+        3967
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3563,
+        3852,
+        3775,
+        3967
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1440,
+        3899,
+        1753,
+        4047
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1739,
+        4155,
+        1983,
+        4301
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1144,
+        4382,
+        1520,
+        4530
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1948,
+        4408,
+        2159,
+        4522
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2296,
+        4458,
+        2540,
+        4607
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2741,
+        4691,
+        2984,
+        4838
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1533,
+        4771,
+        1776,
+        4917
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2380,
+        4948,
+        2623,
+        5096
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2838,
+        5151,
+        3148,
+        5298
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (trees)",
+      "box": [
+        2612,
+        4135,
+        2910,
+        4345
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (small tree)",
+      "box": [
+        2905,
+        4270,
+        2955,
+        4345
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (top bricks)",
+      "box": [
+        2950,
+        4303,
+        3045,
+        4345
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (bricks)",
+      "box": [
+        2615,
+        4340,
+        3082,
+        4382
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (bricks)",
+      "box": [
+        2648,
+        4378,
+        3114,
+        4416
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (bricks)",
+      "box": [
+        2648,
+        4412,
+        3145,
+        4452
+      ]
+    },
+    {
+      "why": "section TE, Tres Estrellas cenote (bottom bricks)",
+      "box": [
+        2975,
+        4448,
+        3112,
+        4487
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      107,
+      2480
+    ],
+    "to": [
+      822,
+      2480
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
+      "name": "Tres Estrellas",
+      "px": [
+        2440,
+        4290
+      ],
+      "latitude": 20.36361,
+      "longitude": -87.42111
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
+      "name": "Tres Estrellas",
+      "px": [
+        2440,
+        4290
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Overlined numbers are depths in feet; OCR found 19 of the 40, the others added by hand (each checked on a crop). No R (restriction) is used in the plan, and the legend has no bones symbol: none drawn (the mastodon bones the history mentions are elsewhere in Sistema Tux Kupaxa). No place names or 'To ...' leads are written on this map.",
+    "units": "ft",
+    "letters": {
+      "R": "restriction"
+    },
+    "templates": {
+      "R": [
+        729,
+        3200
+      ]
+    },
+    "letterSizePx": [
+      20,
+      80
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "25",
+        "value": 25,
+        "px": [
+          1894,
+          1799
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          1838,
+          2049
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "27",
+        "value": 27,
+        "px": [
+          2190,
+          2904
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1483,
+          3402
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1937,
+          3527
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "value": 20,
+        "px": [
+          2751,
+          3715
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "37",
+        "value": 37,
+        "px": [
+          3431,
+          3691
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "value": 16,
+        "px": [
+          2242,
+          3814
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          2471,
+          3970
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "38",
+        "value": 38,
+        "px": [
+          2846,
+          3964
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "value": 36,
+        "px": [
+          1972,
+          3806
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "19",
+        "value": 19,
+        "px": [
+          1841,
+          4360
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "09",
+        "value": 9,
+        "px": [
+          1719,
+          4496
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "value": 40,
+        "px": [
+          3348,
+          4490
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "value": 33,
+        "px": [
+          2535,
+          4605
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "05",
+        "value": 5,
+        "px": [
+          1808,
+          4634
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "value": 30,
+        "px": [
+          2051,
+          4815
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          2690,
+          5065
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "44",
+        "value": 44,
+        "px": [
+          3345,
+          5036
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "27",
+        "value": 27,
+        "px": [
+          3511,
+          5190
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "09",
+        "value": 9,
+        "px": [
+          3081,
+          5324
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "37",
+        "value": 37,
+        "px": [
+          1663,
+          1212
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "value": 34,
+        "px": [
+          1080,
+          2301
+        ],
+        "halfPx": 22
+      },
+      {
+        "type": "depth",
+        "label": "31",
+        "value": 31,
+        "px": [
+          1852,
+          2427
+        ],
+        "halfPx": 22
+      }
+    ]
+  }
+}

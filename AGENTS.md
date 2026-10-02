@@ -38,7 +38,7 @@ How-to guides for people running and maintaining the app (maintenance tasks, bul
 
 The Node scripts in `scripts/` print their help when run with no arguments (or `-h`), and do nothing else: keep it that way in new ones. Scripts that target the local emulators by default take `-l`/`--local` to run with no other option, and `-p`/`--production` for the real project.
 
-- `npm run dev` — Vite + Firebase emulators together (imports seed data from `./.emulator-data` and exports back to it on a clean exit via `--export-on-exit`, so emulator state persists across restarts; this folder is **not** tracked in git — only `.emulator-data/.gitignore` is — so a fresh clone or a wiped `.emulator-data` starts with an empty database and needs `node scripts/migrate-sheet-to-firestore.js -l` run once against the emulator to populate it)
+- `npm run dev` — Vite + Firebase emulators together (imports seed data from `./.emulator-data`, and `scripts/emulator-autosave.js` saves the emulators' data back to it every minute while they run, so emulator state persists across restarts - not `--export-on-exit`: concurrently force-kills the emulators on Windows, and the emulators' export can't move its result from the temp folder to another drive, so it never saved anything; this folder is **not** tracked in git — only `.emulator-data/.gitignore` is — so a fresh clone or a wiped `.emulator-data` starts with an empty database and needs `node scripts/migrate-sheet-to-firestore.js -l` run once against the emulator to populate it)
 - `npm run build` — production build
 - `node scripts/migrate-sheet-to-firestore.js -l` — seed/sync Firestore from the Google Sheet against the local emulator (`127.0.0.1:8080` by default, overridable via `FIRESTORE_EMULATOR_HOST`); add `-p`/`--production` to run against the real project (requires `gcloud auth application-default login` first)
 - `node scripts/set-user-roles.js <email> --add admin` (or `--remove`, roles `editor`/`admin`) — changes an account's `roles` claim, keeping its others; the local Auth emulator by default, `-p`/`--production` for the real project (after `gcloud auth application-default login`). Needed to bootstrap the first admin, since the in-app Users page only works for existing admins. The user must sign out and back in to pick up the change.
@@ -65,6 +65,10 @@ Two things are **deliberately** computed client-side at read time, not stored in
 - Cave-name markdown auto-linking (`[cenote X](oc:id)`) — same file.
 
 `scripts/migrate-sheet-to-firestore.js` is re-runnable and **fully replaces** each collection on every run (writes current Sheet data, deletes anything else already in that collection). The exception is fields the app owns - a sistema's `maps` (no Sheet column) and `explorations` (the app is now their source of truth; the Sheet's value only fills a sistema that has none): they're listed in its `APP_ONLY_FIELDS` and carried over, so add any new app-owned field there. — safe to re-run repeatedly, and intentionally lets a fresh Sheet import overwrite admin-made edits during this transitional period where both the Sheet and the admin UI can edit data.
+
+## Map layer
+
+Branch `feature/map-layers`: `scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, map entrances are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
 
 ## Auth & roles
 

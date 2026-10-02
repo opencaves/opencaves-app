@@ -1,0 +1,239 @@
+{
+  "image": "../../../_data/maps-import/images/chun-che-chen-tulum-mpo-playa-del-carmen.webp",
+  "title": "Chun Che Chen (K'oox Baal NE) - Czech Speleological Society 2012",
+  "credits": "Surveyed and drawn: R. Husák, D. Hutňan, M. Hutňan, R. Jančar, K. Kýška, Z. Motyčka, B. Phillips, R. Schmittner, J. Sirotek, K. Svobodová. Digitalization: A. Hutňanová, 2012",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfsKmjYG3O8HUibD",
+  "utmEpsg": 32616,
+  "placementNote": "The same drawing as the NE part of the K'oox Baal map (koox-baal.json), at 2.5 times its resolution: SIFT matching of the two scans (892 inlier features, 0.9 px median residual on the K'oox Baal scan) gives scale 0.4039, rotation -0.2 deg; the control points are spots of this map put through that match and the K'oox Baal placement (scale bar, north up, 9 cenote labels, 3-34 m residuals). This map's own scale bar (200 m = 838 px, 0.2387 m/px) agrees within 0.1% (0.2390 m/px).",
+  "trace": {
+    "method": "colour-fill",
+    "threshold": 8,
+    "minBandSqMetres": 8,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 40,
+        "minSizePx": 250,
+        "minFill": 0.5
+      }
+    ],
+    "cyanFill": true,
+    "fillColours": [
+      {
+        "why": "cenote basins drawn in olive",
+        "hue": [
+          30,
+          65
+        ],
+        "minSaturation": 30
+      }
+    ],
+    "dropIsolated": {
+      "maxSqMetres": 100,
+      "gapMetres": 20
+    },
+    "minHoleSqMetres": 8,
+    "water": false
+  },
+  "water": false,
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        540,
+        60,
+        2800,
+        270
+      ]
+    },
+    {
+      "why": "surveyors and digitalization",
+      "box": [
+        370,
+        290,
+        3060,
+        600
+      ],
+      "history": true
+    },
+    {
+      "why": "section Y",
+      "box": [
+        2050,
+        1010,
+        2810,
+        1390
+      ]
+    },
+    {
+      "why": "section Z",
+      "box": [
+        1895,
+        3420,
+        2570,
+        3870
+      ]
+    },
+    {
+      "why": "compass",
+      "box": [
+        195,
+        3700,
+        830,
+        4495
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1980,
+        4170,
+        2950,
+        4590
+      ]
+    },
+    {
+      "why": "page border, top",
+      "box": [
+        0,
+        0,
+        3323,
+        62
+      ]
+    },
+    {
+      "why": "page border, bottom",
+      "box": [
+        0,
+        4700,
+        3323,
+        4757
+      ]
+    },
+    {
+      "why": "page border, left",
+      "box": [
+        0,
+        0,
+        95,
+        4757
+      ]
+    },
+    {
+      "why": "page border, right",
+      "box": [
+        3240,
+        0,
+        3323,
+        4757
+      ]
+    },
+    {
+      "why": "faint pale outline beside the south passage (not passage)",
+      "box": [
+        1418,
+        3515,
+        1505,
+        3605
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Chun Che Chen pond (K'oox Baal map fit)",
+      "px": [
+        1361,
+        3297
+      ],
+      "latitude": 20.371591,
+      "longitude": -87.419741
+    },
+    {
+      "name": "N passage end (K'oox Baal map fit)",
+      "px": [
+        1360,
+        660
+      ],
+      "latitude": 20.377286,
+      "longitude": -87.419781
+    },
+    {
+      "name": "NW branch (K'oox Baal map fit)",
+      "px": [
+        490,
+        1720
+      ],
+      "latitude": 20.374985,
+      "longitude": -87.421758
+    },
+    {
+      "name": "E branch (K'oox Baal map fit)",
+      "px": [
+        3250,
+        2050
+      ],
+      "latitude": 20.37431,
+      "longitude": -87.415433
+    },
+    {
+      "name": "W passage end (K'oox Baal map fit)",
+      "px": [
+        130,
+        3000
+      ],
+      "latitude": 20.372216,
+      "longitude": -87.422564
+    },
+    {
+      "name": "S passage end (K'oox Baal map fit)",
+      "px": [
+        1250,
+        4700
+      ],
+      "latitude": 20.36856,
+      "longitude": -87.419975
+    },
+    {
+      "caveId": "-KPZkVGsoDbaSVnXkgu3",
+      "name": "Chun Che Chen (database, source map)",
+      "px": [
+        1361,
+        3297
+      ],
+      "latitude": 20.37172,
+      "longitude": -87.41972,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVGsoDbaSVnXkgu3",
+      "name": "Chun Che Chen",
+      "px": [
+        1361,
+        3297
+      ]
+    },
+    {
+      "name": "Unnamed cenote (south)",
+      "px": [
+        1454,
+        4398
+      ],
+      "note": "olive basin on the south passage, unnamed on this map; on the K'oox Baal map it sits just NE of the 'Cenote KSEL K'AX' label (whose own entrance there is the small tan basin SW of the label), so it is likely not Ksel K'ax"
+    }
+  ],
+  "symbols": {
+    "why": "No depth, restriction, bones or flow symbol on this map (an upscaled scan, no text in the passages); only the cross-section marks Y and Z.",
+    "units": "ft"
+  }
+}

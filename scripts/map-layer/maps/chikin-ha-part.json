@@ -1,0 +1,1493 @@
+{
+  "image": "../../../_data/maps-import/images/chikin-ha-sist-part-puerto-aventuras.webp",
+  "title": "Sistema Chikin Ha (part) - cavern and cave entrance (Mafia Maps 2006)",
+  "credits": "Sistema Chikin Ha, Q.Roo, Mexico - cavern & cave entrance. Survey Richard Wylde, Fred Devos; principal explorers Bil Philips, Daniel Riordan; Mafia Maps, March 2006 (© R. Wylde, F. Devos, 2006); AMCS Activities Newsletter 30, p. 152, 2007",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfz00DZqwobbdPBN",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      948,
+      2560
+    ],
+    "to": [
+      2482,
+      2560
+    ],
+    "metres": 182.88
+  },
+  "north": "up",
+  "scaleBarWhy": "600 ft bar (948-2482 px). Only one printed coordinate (UTM 16 472752E 2266801N, beside Cenote Chikin Ha with no point marked) and no grid; taken at Chikin Ha it would put the cenote's pool 78 m off, in the forest. Placed instead by the scale bar, north arrow up and Chikin Ha's pool (satellite image, OSM); the open patch of water inside Cenote Rainbow's outline lands 5.9 m from the map's (check).",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha (pool)",
+      "px": [
+        5385,
+        2520
+      ],
+      "latitude": 20.49917,
+      "longitude": -87.26082,
+      "why": "the map's open water east of the dotted half-moon edge (AIR) = the dark pool on the satellite image (its centre) and OSM's 'Cenote Chikin-Ha' water; the dotted arc fits the pool's west edge"
+    },
+    {
+      "caveId": "-KPZkVE0j0RZXuBcuUOb",
+      "name": "Rainbow (Arcoiris) opening",
+      "px": [
+        4650,
+        1960
+      ],
+      "latitude": 20.4998,
+      "longitude": -87.26171,
+      "check": true,
+      "why": "the only open patch of water on the satellite image inside the map's Cenote Rainbow outline (mostly under trees); not precise enough to fit rotation on"
+    },
+    {
+      "name": "Printed UTM 16 472752E 2266801N",
+      "px": [
+        5385,
+        2520
+      ],
+      "latitude": 20.499696,
+      "longitude": -87.261318,
+      "check": true,
+      "why": "printed beside Cenote Chikin Ha with no point marked; taken as the cenote's position, it is 76 m north-west of its pool (a handheld GPS fix, likely taken at the path/X'tabay side): not used"
+    },
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha (database, Google Maps)",
+      "px": [
+        5385,
+        2520
+      ],
+      "latitude": 20.49962,
+      "longitude": -87.26146,
+      "check": true
+    }
+  ],
+  "exclude": [
+    {
+      "why": "cross sections IX and VIII",
+      "box": [
+        800,
+        380,
+        1620,
+        700
+      ]
+    },
+    {
+      "why": "cross sections title",
+      "box": [
+        2380,
+        270,
+        3350,
+        375
+      ]
+    },
+    {
+      "why": "cross section VII",
+      "box": [
+        1990,
+        380,
+        2400,
+        700
+      ]
+    },
+    {
+      "why": "cross sections VI to I",
+      "box": [
+        2480,
+        380,
+        5030,
+        810
+      ]
+    },
+    {
+      "why": "title block: name, survey and explorer credits, Mafia Maps 2006, depth units",
+      "box": [
+        300,
+        1120,
+        780,
+        2840
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright R. Wylde, F. Devos, 2006",
+      "box": [
+        900,
+        2690,
+        1490,
+        2800
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        2550,
+        920,
+        2990,
+        1410
+      ]
+    },
+    {
+      "why": "note: positions II and VI determined by fluxgate magnetometer",
+      "box": [
+        3650,
+        1030,
+        4400,
+        1190
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        920,
+        2430,
+        2730,
+        2610
+      ]
+    },
+    {
+      "why": "printed UTM coordinates",
+      "box": [
+        5400,
+        1970,
+        5770,
+        2175
+      ]
+    },
+    {
+      "why": "label p 2.345 ft (penetration)",
+      "box": [
+        270,
+        545,
+        520,
+        630
+      ]
+    },
+    {
+      "why": "label unstable",
+      "box": [
+        270,
+        770,
+        500,
+        850
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        6000,
+        135
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        2990,
+        6000,
+        3133
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        135,
+        3133
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        5860,
+        0,
+        6000,
+        3133
+      ]
+    },
+    {
+      "why": "cross-section numeral IX on the plan",
+      "box": [
+        2025,
+        1490,
+        2095,
+        1545
+      ]
+    },
+    {
+      "why": "cross-section numeral VIII on the plan",
+      "box": [
+        2280,
+        1672,
+        2362,
+        1722
+      ]
+    },
+    {
+      "why": "cross-section numeral VII on the plan",
+      "box": [
+        2562,
+        1805,
+        2632,
+        1852
+      ]
+    },
+    {
+      "why": "cross-section numeral IV on the plan",
+      "box": [
+        2928,
+        1888,
+        2982,
+        1938
+      ]
+    },
+    {
+      "why": "cross-section numeral III on the plan",
+      "box": [
+        3292,
+        1843,
+        3342,
+        1897
+      ]
+    },
+    {
+      "why": "cross-section numeral II on the plan",
+      "box": [
+        3384,
+        1825,
+        3420,
+        1872
+      ]
+    },
+    {
+      "why": "cross-section numeral VI on the plan",
+      "box": [
+        4462,
+        1713,
+        4522,
+        1757
+      ]
+    },
+    {
+      "why": "cross-section numeral V on the plan",
+      "box": [
+        4843,
+        2048,
+        4882,
+        2092
+      ]
+    },
+    {
+      "why": "cross-section numeral I on the plan",
+      "box": [
+        4430,
+        2085,
+        4456,
+        2127
+      ]
+    },
+    {
+      "why": "label Cenote Rainbow II",
+      "box": [
+        3570,
+        1560,
+        3890,
+        1685
+      ]
+    },
+    {
+      "why": "label Cenote Rainbow",
+      "box": [
+        4505,
+        2030,
+        4705,
+        2135
+      ]
+    },
+    {
+      "why": "label Cenote Chikin Ha",
+      "box": [
+        5365,
+        2478,
+        5600,
+        2585
+      ]
+    },
+    {
+      "why": "label Deli Shop",
+      "box": [
+        1540,
+        822,
+        1782,
+        880
+      ]
+    },
+    {
+      "why": "label AIR (west of Rainbow)",
+      "box": [
+        4118,
+        2168,
+        4215,
+        2210
+      ]
+    },
+    {
+      "why": "label AIR (Chikin Ha)",
+      "box": [
+        5283,
+        2453,
+        5352,
+        2490
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVGi_z4C_Wpo42V9",
+      "name": "Chikin Ha",
+      "px": [
+        5385,
+        2520
+      ],
+      "latitude": 20.49917,
+      "longitude": -87.26082,
+      "replacePosition": "the database position (Google Maps) is 83 m north-west of the cenote's pool, in the forest; this is the pool on the satellite image and OSM's 'Cenote Chikin-Ha' (the Ponderosa map gives the same spot)"
+    },
+    {
+      "caveId": "-KPZkVE0j0RZXuBcuUOb",
+      "name": "Rainbow (Arcoiris)",
+      "px": [
+        4650,
+        1960
+      ],
+      "why": "Cenote Rainbow of this map = Arcoiris, which Chikin Ha's description reaches by the halocline tunnel; no position in the database (and its sistemaId is Chi Keen, Tulum South). Not the 'Rainbow' record -KPZkVOlJ3pNexyT6mMW the Ponderosa map places 430 m south-east"
+    },
+    {
+      "name": "Rainbow II",
+      "px": [
+        3725,
+        1830
+      ],
+      "why": "dotted open-water outline marked AIR, named Cenote Rainbow II; not in the database"
+    },
+    {
+      "name": "Unnamed (dotted outline marked AIR, west of Rainbow)",
+      "px": [
+        4168,
+        2215
+      ],
+      "why": "drawn like the named cenotes (dotted outline, AIR) but unnamed and under tree cover on the satellite image: may be an air bell rather than an opening"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "leaderMaxPx": 1,
+    "openRadiusPx": 3,
+    "minExtentPx": 70,
+    "eraseLines": [
+      {
+        "why": "survey line",
+        "from": [
+          392,
+          697
+        ],
+        "to": [
+          700,
+          806
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          641,
+          786
+        ],
+        "to": [
+          767,
+          831
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          767,
+          871
+        ],
+        "to": [
+          892,
+          926
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          900,
+          930
+        ],
+        "to": [
+          1020,
+          969
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          989,
+          959
+        ],
+        "to": [
+          1226,
+          1039
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1104,
+          997
+        ],
+        "to": [
+          1225,
+          1038
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          465,
+          722
+        ],
+        "to": [
+          629,
+          780
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1300,
+          1098
+        ],
+        "to": [
+          1425,
+          1188
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1409,
+          1172
+        ],
+        "to": [
+          1519,
+          1339
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1466,
+          1259
+        ],
+        "to": [
+          1603,
+          1466
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1886,
+          757
+        ],
+        "to": [
+          1947,
+          872
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1801,
+          1202
+        ],
+        "to": [
+          1893,
+          1076
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1752,
+          1338
+        ],
+        "to": [
+          1806,
+          1190
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1098,
+          1177
+        ],
+        "to": [
+          1132,
+          1308
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1858,
+          1607
+        ],
+        "to": [
+          1977,
+          1690
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1951,
+          1672
+        ],
+        "to": [
+          2193,
+          1814
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1997,
+          1700
+        ],
+        "to": [
+          2178,
+          1806
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2183,
+          1870
+        ],
+        "to": [
+          2319,
+          1910
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2538,
+          1921
+        ],
+        "to": [
+          2750,
+          2089
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2868,
+          2115
+        ],
+        "to": [
+          3140,
+          2034
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2848,
+          2122
+        ],
+        "to": [
+          2982,
+          2082
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3447,
+          2009
+        ],
+        "to": [
+          3873,
+          1914
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3636,
+          1966
+        ],
+        "to": [
+          3868,
+          1914
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3470,
+          1995
+        ],
+        "to": [
+          3523,
+          1882
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3320,
+          1550
+        ],
+        "to": [
+          3376,
+          1685
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3318,
+          1548
+        ],
+        "to": [
+          3375,
+          1684
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3360,
+          1662
+        ],
+        "to": [
+          3483,
+          1767
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3468,
+          1750
+        ],
+        "to": [
+          3541,
+          1865
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3512,
+          2119
+        ],
+        "to": [
+          3675,
+          2219
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3662,
+          2221
+        ],
+        "to": [
+          3841,
+          2088
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3955,
+          1924
+        ],
+        "to": [
+          4084,
+          1925
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4110,
+          2165
+        ],
+        "to": [
+          4166,
+          2285
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4230,
+          1949
+        ],
+        "to": [
+          4345,
+          1987
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4215,
+          1921
+        ],
+        "to": [
+          4328,
+          1996
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4418,
+          1915
+        ],
+        "to": [
+          4548,
+          1873
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4567,
+          1827
+        ],
+        "to": [
+          4675,
+          1696
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4687,
+          2205
+        ],
+        "to": [
+          4799,
+          2041
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4812,
+          1951
+        ],
+        "to": [
+          4923,
+          1822
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4671,
+          2228
+        ],
+        "to": [
+          4798,
+          2308
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4866,
+          2360
+        ],
+        "to": [
+          5011,
+          2413
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          5053,
+          2443
+        ],
+        "to": [
+          5180,
+          2481
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "magnetometer mark VI (surface position): line through its circles",
+        "from": [
+          4498,
+          1790
+        ],
+        "to": [
+          4499,
+          1935
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2190,
+          1795
+        ],
+        "to": [
+          2200,
+          1868
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2200,
+          1868
+        ],
+        "to": [
+          2302,
+          1900
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2302,
+          1820
+        ],
+        "to": [
+          2405,
+          1830
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2405,
+          1830
+        ],
+        "to": [
+          2460,
+          1922
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2460,
+          1922
+        ],
+        "to": [
+          2535,
+          1906
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line (Rainbow, north-west side)",
+        "from": [
+          4440,
+          1890
+        ],
+        "to": [
+          4580,
+          1818
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line (Rainbow, north)",
+        "from": [
+          4667,
+          1705
+        ],
+        "to": [
+          4845,
+          1515
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line (Rainbow, east side)",
+        "from": [
+          4742,
+          1648
+        ],
+        "to": [
+          4905,
+          1830
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line (going north-east)",
+        "from": [
+          4785,
+          1640
+        ],
+        "to": [
+          4945,
+          1445
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section mark VII",
+        "from": [
+          2560,
+          1868
+        ],
+        "to": [
+          2532,
+          1918
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1588,
+          1440
+        ],
+        "to": [
+          1652,
+          1603
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1652,
+          1605
+        ],
+        "to": [
+          1872,
+          1614
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          2700,
+          2052
+        ],
+        "to": [
+          2848,
+          2128
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3135,
+          2033
+        ],
+        "to": [
+          3252,
+          2088
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3252,
+          2088
+        ],
+        "to": [
+          3342,
+          1983
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3335,
+          1982
+        ],
+        "to": [
+          3430,
+          2012
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "section mark IV",
+        "from": [
+          2955,
+          1945
+        ],
+        "to": [
+          3082,
+          2312
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark III",
+        "from": [
+          3332,
+          1888
+        ],
+        "to": [
+          3160,
+          2302
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3862,
+          1915
+        ],
+        "to": [
+          4105,
+          2160
+        ],
+        "widthPx": 17
+      },
+      {
+        "why": "section mark I",
+        "from": [
+          4456,
+          2282
+        ],
+        "to": [
+          4468,
+          2320
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section mark IX",
+        "from": [
+          2045,
+          1548
+        ],
+        "to": [
+          1862,
+          1842
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark VIII",
+        "from": [
+          2316,
+          1726
+        ],
+        "to": [
+          2317,
+          1782
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark II (above the passage)",
+        "from": [
+          3394,
+          1878
+        ],
+        "to": [
+          3408,
+          1928
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark II (below the passage)",
+        "from": [
+          3438,
+          2072
+        ],
+        "to": [
+          3468,
+          2142
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "section mark VI",
+        "from": [
+          4512,
+          1762
+        ],
+        "to": [
+          4562,
+          1795
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark V",
+        "from": [
+          4742,
+          1990
+        ],
+        "to": [
+          4792,
+          2012
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "section mark V",
+        "from": [
+          4806,
+          2046
+        ],
+        "to": [
+          4830,
+          2062
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section mark I (below the passage)",
+        "from": [
+          4508,
+          2372
+        ],
+        "to": [
+          4522,
+          2405
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4790,
+          2300
+        ],
+        "to": [
+          4880,
+          2362
+        ],
+        "widthPx": 13
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4150,
+          2300
+        ],
+        "to": [
+          4240,
+          2372
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3512,
+          2050
+        ],
+        "to": [
+          3528,
+          2120
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4090,
+          1925
+        ],
+        "to": [
+          4228,
+          1942
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line",
+        "from": [
+          3878,
+          1920
+        ],
+        "to": [
+          3950,
+          1922
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          4667,
+          1705
+        ],
+        "to": [
+          4740,
+          1660
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line (going north-east)",
+        "from": [
+          4825,
+          1600
+        ],
+        "to": [
+          4915,
+          1495
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1700,
+          1420
+        ],
+        "to": [
+          1752,
+          1340
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1172,
+          1038
+        ],
+        "to": [
+          1108,
+          1062
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1108,
+          1062
+        ],
+        "to": [
+          1100,
+          1170
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1960,
+          920
+        ],
+        "to": [
+          1888,
+          1067
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1812,
+          661
+        ],
+        "to": [
+          1878,
+          754
+        ],
+        "widthPx": 11
+      },
+      {
+        "why": "survey line",
+        "from": [
+          1214,
+          1034
+        ],
+        "to": [
+          1310,
+          1105
+        ],
+        "widthPx": 11
+      }
+    ],
+    "why": "b/w map: walls are bold strokes (10-14 px), the survey line is black too, thinner (5-10 px) but as bold as the walls in the east part, so it is erased by hand (eraseLines, its straight shots found by a Hough transform and checked one by one). Dotted outlines (open water/AIR edges of the cenotes, a dotted line from the Deli Shop junction) and the stalactite mark are kept as details. Cross-section marks and numerals on the plan erased/excluded; the magnetometer circles at II and VI touch the walls and are left as details. openRadiusPx 3, minExtentPx 70 so the small pillar by section VIII is a wall."
+  },
+  "symbols": {
+    "why": "No legend; depths in feet at line stations (title block). Overlined numbers = depths: OCR found 7 of the 12, the other 5 added by hand (each checked on a crop). No letter codes, no bones or other symbols besides one stalactite mark (kept as drawn detail). Penetration p 2,345 ft at the far end. One place name (Deli Shop); no 'To ...' leads.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "28",
+        "value": 28,
+        "px": [
+          3926,
+          2045
+        ],
+        "halfPx": 30
+      },
+      {
+        "type": "depth",
+        "label": "46",
+        "value": 46,
+        "px": [
+          1737,
+          720
+        ],
+        "halfPx": 42
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "value": 9,
+        "px": [
+          1992,
+          911
+        ],
+        "halfPx": 33
+      },
+      {
+        "type": "depth",
+        "label": "4",
+        "value": 4,
+        "px": [
+          1886,
+          1378
+        ],
+        "halfPx": 36
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "value": 41,
+        "px": [
+          1773,
+          1757
+        ],
+        "halfPx": 42
+      },
+      {
+        "type": "depth",
+        "label": "10",
+        "value": 10,
+        "px": [
+          4258,
+          2250
+        ],
+        "halfPx": 32
+      },
+      {
+        "type": "penetration",
+        "label": "p 2,345 ft",
+        "value": 2345,
+        "px": [
+          405,
+          668
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "place-name",
+        "label": "Deli Shop",
+        "px": [
+          1660,
+          851
+        ]
+      }
+    ],
+    "fix": [
+      {
+        "px": [
+          3926,
+          2049
+        ],
+        "value": null,
+        "why": "OCR's box for 28 reaches the wall notch drawn around it: replaced by a tighter one (extra)"
+      }
+    ]
+  }
+}

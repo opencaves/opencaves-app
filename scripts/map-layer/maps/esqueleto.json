@@ -1,0 +1,1153 @@
+{
+  "image": "../../../_data/maps-import/images/esqueleto-cen-tulum.webp",
+  "title": "Cenote Esqueleto - Sutton & Coke 1993",
+  "credits": "Cenote Esqueleto, Tulum, Q. Roo, Mexico (20 13' 44.7\" N, 87 27' 25.3\" W): surveyed June 1992 to March 1993 by Carl Sutton; drafted by James G. Coke IV and Carl Sutton. Length 9,236 ft (2,814 m), depth 60 ft (18 m). Principal explorers B. Carlson, P. DeLoach, M. Madden, C. Sutton, P. Turner. (c) J.G. Coke IV & C. Sutton, 1993. Quintana Roo Speleological Survey",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfvzDEcRyNp9b4ci",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title block: Cenote Esqueleto, Tulum Q. Roo Mexico, 20 13' 44.7\" latitude, 87 27' 25.3\" W longitude, surveyed June 1992 to March 1993 by Carl Sutton, drafted by James G. Coke IV and Carl Sutton; length 9,236 ft (2,814 m), depth 60 ft (18 m); (c) J.G. Coke IV & C. Sutton 1993",
+      "box": [
+        2750,
+        0,
+        3147,
+        300
+      ],
+      "history": true
+    },
+    {
+      "why": "principal explorers: B. Carlson, P. DeLoach, M. Madden, C. Sutton, P. Turner",
+      "box": [
+        0,
+        0,
+        270,
+        145
+      ],
+      "history": true
+    },
+    {
+      "why": "notes (environment: completely submerged in fresh and salt water, halocline at 45 ft (13.7 m); survey method: precision underwater instruments, fiberglass tape, knotted-line survey (KLS) where noted; penetrations from the entrance)",
+      "box": [
+        2750,
+        610,
+        3147,
+        945
+      ]
+    },
+    {
+      "why": "index of symbols (legend)",
+      "box": [
+        2750,
+        1250,
+        3147,
+        1790
+      ]
+    },
+    {
+      "why": "north arrow (true and magnetic 1993)",
+      "box": [
+        1735,
+        60,
+        1840,
+        335
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        1320,
+        1725,
+        1860,
+        1815
+      ]
+    },
+    {
+      "why": "Quintana Roo Speleological Survey logo",
+      "box": [
+        60,
+        1610,
+        320,
+        1810
+      ]
+    },
+    {
+      "why": "arrow and label towards Tulum",
+      "box": [
+        600,
+        1500,
+        760,
+        1640
+      ]
+    },
+    {
+      "why": "Tulum-Coba road (north part), the footpath's west end and the road's label",
+      "box": [
+        0,
+        370,
+        335,
+        1010
+      ]
+    },
+    {
+      "why": "Tulum-Coba road (south part)",
+      "box": [
+        0,
+        1010,
+        640,
+        1610
+      ]
+    },
+    {
+      "why": "section (cenote entrance, with the trees above)",
+      "box": [
+        835,
+        300,
+        1125,
+        418
+      ]
+    },
+    {
+      "why": "section (Upstream Plats)",
+      "box": [
+        1575,
+        528,
+        1768,
+        590
+      ]
+    },
+    {
+      "why": "section (north-east branch, beyond p. 1,400)",
+      "box": [
+        2044,
+        652,
+        2278,
+        714
+      ]
+    },
+    {
+      "why": "section (east branch)",
+      "box": [
+        2258,
+        902,
+        2453,
+        960
+      ]
+    },
+    {
+      "why": "section (The Canyons)",
+      "box": [
+        542,
+        938,
+        704,
+        988
+      ]
+    },
+    {
+      "why": "section (Hall of Giants)",
+      "box": [
+        1078,
+        1288,
+        1342,
+        1348
+      ]
+    },
+    {
+      "why": "section (south loop)",
+      "box": [
+        1596,
+        1456,
+        1764,
+        1514
+      ]
+    },
+    {
+      "why": "section (Downstream)",
+      "box": [
+        2356,
+        1406,
+        2538,
+        1468
+      ]
+    },
+    {
+      "why": "label \"Cenote Esqueleto Entrance\" (pointing to the cenote)",
+      "box": [
+        980,
+        584,
+        1135,
+        628
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVJNdAmA4o9vuJmX",
+      "name": "Cenote Esqueleto (DB, Open Caves source)",
+      "px": [
+        736,
+        620
+      ],
+      "latitude": 20.2292,
+      "longitude": -87.45729
+    },
+    {
+      "name": "Sinkhole pond south-east of Cenote Esqueleto (west end, where the cave's slope reaches the water)",
+      "px": [
+        1395,
+        995
+      ],
+      "latitude": 20.227812,
+      "longitude": -87.45524,
+      "why": "the passage south-east of the Hall of Giants ends in a breakdown slope (floor relief) rising east to an open circle; on the satellite, the slope lands on the pale rock at the west end of the dark pond (OSM natural=sinkhole way 1349755162, about 40 x 20 m), the circle at its west tip"
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVJNdAmA4o9vuJmX",
+      "name": "Cenote Esqueleto (Temple of Doom)",
+      "px": [
+        736,
+        620
+      ]
+    },
+    {
+      "name": "Sinkhole pond south-east of Cenote Esqueleto (unnamed on the map)",
+      "px": [
+        1395,
+        995
+      ],
+      "note": "not labelled: the passage east of the Hall of Giants ends in a breakdown slope (floor relief) rising to an open circle (pit symbol); on the satellite it is the west end of a dark open-water pond (OSM natural=sinkhole, way 1349755162), about 230 m south-east of Cenote Esqueleto. No cave in the database there"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "fillStrokeHolesPx": 40,
+    "minLineMetres": 2.5,
+    "eraseLines": [
+      {
+        "why": "footpath (double dashed line) from the road to the cenote",
+        "from": [
+          330,
+          645
+        ],
+        "to": [
+          648,
+          638
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "Upstream Plats label leader",
+        "from": [
+          1388,
+          436
+        ],
+        "to": [
+          1393,
+          480
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Upstream Plats label leader",
+        "from": [
+          1393,
+          480
+        ],
+        "to": [
+          1404,
+          540
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Cenote Esqueleto Entrance label leader",
+        "from": [
+          845,
+          591
+        ],
+        "to": [
+          865,
+          582
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Cenote Esqueleto Entrance label leader",
+        "from": [
+          865,
+          582
+        ],
+        "to": [
+          905,
+          582
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Cenote Esqueleto Entrance label leader",
+        "from": [
+          905,
+          582
+        ],
+        "to": [
+          935,
+          588
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Cenote Esqueleto Entrance label leader",
+        "from": [
+          935,
+          588
+        ],
+        "to": [
+          972,
+          602
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "kls leader (north-west, Sudden Land)",
+        "from": [
+          519,
+          509
+        ],
+        "to": [
+          548,
+          482
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "kls leader (north-west, Sudden Land)",
+        "from": [
+          548,
+          482
+        ],
+        "to": [
+          580,
+          482
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "kls arrow (north-west, Sudden Land)",
+        "from": [
+          483,
+          541
+        ],
+        "to": [
+          514,
+          519
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "Coliseum Room label leader",
+        "from": [
+          752,
+          1045
+        ],
+        "to": [
+          800,
+          1020
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "kls arrows (Big Bend): to the north-east line",
+        "from": [
+          2050,
+          1177
+        ],
+        "to": [
+          2088,
+          1102
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "kls arrows (Big Bend): to the east line",
+        "from": [
+          2050,
+          1177
+        ],
+        "to": [
+          2137,
+          1207
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "kls label arrow (Big Bend)",
+        "from": [
+          2020,
+          1177
+        ],
+        "to": [
+          2050,
+          1177
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Downstream section leader",
+        "from": [
+          2148,
+          1328
+        ],
+        "to": [
+          2360,
+          1440
+        ],
+        "widthPx": 8
+      }
+    ],
+    "sectionReachPx": 40,
+    "leaderReachPx": 35,
+    "notLabelBoxes": [
+      [
+        1200,
+        770,
+        1275,
+        845
+      ],
+      [
+        1180,
+        1045,
+        1290,
+        1095
+      ]
+    ]
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "s": [
+        2804,
+        1583
+      ],
+      "z": [
+        2804,
+        1604
+      ],
+      "r": [
+        2802,
+        1689
+      ],
+      "x": [
+        2804,
+        1731
+      ]
+    },
+    "letterSizePx": [
+      8,
+      14
+    ],
+    "extra": [
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          378,
+          322
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          856,
+          606
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "value": 55,
+        "px": [
+          1259,
+          423
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          1200,
+          860
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          1446,
+          815
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "value": 45,
+        "px": [
+          1184,
+          1134
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1682,
+          1104
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "value": 15,
+        "px": [
+          1777,
+          1183
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "35",
+        "value": 35,
+        "px": [
+          1967,
+          1221
+        ],
+        "halfPx": 14
+      },
+      {
+        "type": "depth",
+        "label": "38?",
+        "value": 38,
+        "px": [
+          702,
+          380
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "38?",
+        "value": 38,
+        "px": [
+          735,
+          843
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "30?",
+        "value": 30,
+        "px": [
+          1278,
+          652
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "38?",
+        "value": 38,
+        "px": [
+          1478,
+          577
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "15?",
+        "value": 15,
+        "px": [
+          988,
+          780
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "15?",
+        "value": 15,
+        "px": [
+          974,
+          1171
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          1646,
+          722
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          1940,
+          1016
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          2486,
+          1108
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          1451,
+          1261
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          1821,
+          1417
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "depth",
+        "label": "40?",
+        "value": 40,
+        "px": [
+          2151,
+          1372
+        ],
+        "halfPx": 14,
+        "why": "digits barely legible on this scan (about 10 px high, bitonal): best reading - 40 or 48"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          417,
+          446
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "14",
+        "value": 14,
+        "px": [
+          636,
+          479
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          567,
+          595
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "30",
+        "value": 30,
+        "px": [
+          653,
+          706
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          879,
+          750
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "value": 10,
+        "px": [
+          836,
+          793
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "17",
+        "value": 17,
+        "px": [
+          795,
+          1050
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "value": 6,
+        "px": [
+          1218,
+          822
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "value": 7,
+        "px": [
+          1625,
+          793
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          1628,
+          902
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2",
+        "value": 2,
+        "px": [
+          1777,
+          980
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "value": 3,
+        "px": [
+          1719,
+          1164
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "value": 5,
+        "px": [
+          2459,
+          1180
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "value": 12,
+        "px": [
+          1268,
+          1125
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "9",
+        "value": 9,
+        "px": [
+          1620,
+          1239
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          1072,
+          1202
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "value": 8,
+        "px": [
+          1715,
+          1359
+        ],
+        "halfPx": 18
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8?",
+        "value": 8,
+        "px": [
+          1331,
+          543
+        ],
+        "halfPx": 18,
+        "why": "filled single digit, most likely 8"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8?",
+        "value": 8,
+        "px": [
+          1867,
+          915
+        ],
+        "halfPx": 18,
+        "why": "filled single digit, most likely 8"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8?",
+        "value": 8,
+        "px": [
+          2033,
+          1128
+        ],
+        "halfPx": 18,
+        "why": "filled single digit, most likely 8"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8?",
+        "value": 8,
+        "px": [
+          1983,
+          1305
+        ],
+        "halfPx": 18,
+        "why": "filled single digit, most likely 8"
+      },
+      {
+        "type": "penetration",
+        "label": "P.430",
+        "value": 430,
+        "px": [
+          624,
+          218
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          602,
+          208,
+          648,
+          229
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.870",
+        "value": 870,
+        "px": [
+          473,
+          397
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          451,
+          387,
+          495,
+          410
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.500",
+        "value": 500,
+        "px": [
+          1006,
+          847
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          983,
+          838,
+          1030,
+          860
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.1400",
+        "value": 1400,
+        "px": [
+          1256,
+          571
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          1228,
+          560,
+          1292,
+          584
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.1050",
+        "value": 1050,
+        "px": [
+          1284,
+          838
+        ],
+        "halfPx": 6
+      },
+      {
+        "type": "penetration",
+        "label": "P.1050",
+        "value": 1050,
+        "px": [
+          1516,
+          1061
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          1490,
+          1051,
+          1542,
+          1075
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.1400",
+        "value": 1400,
+        "px": [
+          1795,
+          694
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          1768,
+          684,
+          1823,
+          705
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "P.2200",
+        "value": 2200,
+        "px": [
+          2386,
+          1046
+        ],
+        "halfPx": 6,
+        "inkBox": [
+          2362,
+          1037,
+          2415,
+          1059
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2020,
+          1232
+        ],
+        "bearing": 355,
+        "why": "zigzag line with a filled head (legend: direction of current), on the north wall of the passage north of the round room by Big Bend, pointing north"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1823,
+          1297
+        ],
+        "bearing": 80,
+        "why": "same symbol on the north wall of the room south-west of Big Bend, pointing east"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          2313,
+          1200
+        ],
+        "bearing": 80,
+        "why": "same symbol at the junction west of the Downstream Bedding Plane, pointing east (downstream)"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1240,
+          1070
+        ],
+        "bearing": 119,
+        "why": "wavy current arrow inside the Hall of Giants, pointing east-south-east"
+      },
+      {
+        "type": "place-name",
+        "label": "Sudden Land (side mount)",
+        "px": [
+          385,
+          430
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "False Dreams",
+        "px": [
+          560,
+          352
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Winter Wonderland",
+        "px": [
+          552,
+          580
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Canyons",
+        "px": [
+          760,
+          808
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Madonna Passage",
+        "px": [
+          897,
+          830
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Coliseum Room",
+        "px": [
+          805,
+          1018
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hall of Giants",
+        "px": [
+          1205,
+          1100
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Upstream Plats",
+        "px": [
+          1404,
+          540
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Old Florida Section",
+        "px": [
+          1425,
+          800
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Big Bend",
+        "px": [
+          1940,
+          1232
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Downstream Bedding Plane",
+        "px": [
+          2525,
+          1190
+        ]
+      }
+    ],
+    "why": "Legend (index of symbols): overlined numbers are floor depths in feet, circled numbers ceiling-to-floor heights in feet, s silty, z zero visibility, r minor and x major restriction, p. penetrations from the entrance in feet, zigzag/wavy arrow with filled head direction of current, kls knotted-line survey beyond the arrow. The scan is a bitonal fax-quality copy (digits about 10 px high): OCR and the bar detection found no number at all, every depth, height and penetration was added by eye. Depths marked '?' in their label are best readings of nearly illegible digits (the '40?' ones may be 48); two overlined marks read only as a single '1' (502,355 and 1393,1026) and one solid block (600,540) were left out. Circled heights '8?' are filled single digits. x and z are the same shape on this scan: the letter matching splits them arbitrarily, and catches only a part of the many x/z marks at passage ends; silt matches are small blobs, possibly columns. Flow: four current arrows, three of them drawn on a passage wall rather than in the passage. Place names at what their label or leader points to. NO BONES: no bones, skull or skeleton symbol or word anywhere on the map (legend, labels, OCR words and the plan searched); the name Esqueleto/Calavera is not explained on it. No 'To ...' pointers (Tulum and the Tulum-Coba road are surface features)."
+  },
+  "placementWhy": "Good (about 5 m at the two points, likely 5-15 m elsewhere): free similarity fit on two points 245 m apart, 0.3476 m/px, rotated 6.2 deg clockwise. Points: the cenote's opening (the map's dashed oval in the entrance ring) on the database's Esqueleto (Open Caves source, valid; on the small dark opening seen on the satellite and OSM's 'Cenote Calavera' node within 2 m); the end of the passage east of the Hall of Giants - a breakdown slope rising to an open circle - on the west end of the dark open-water pond 230 m south-east (OSM natural=sinkhole; on the imagery the drawn slope lands on the pale rock band at the pond's west tip). Independent checks: the fitted scale is 1.7% below the printed scale bar (500 ft = 431 px, 0.3536 m/px); the rotation (6.2 deg) agrees with the map's true-north arrow (5.3 deg left of up) and with its Tulum-Coba road (7.1 deg, against OSM's straight QR 109); with the scale bar and the road's rotation the two points fit within 3.1 m. The map's road and footpath are schematic: drawn about 40 m too far west of the cenote (map 187 m, OSM 146 m), not used. No other placed map overlaps (Sac Actun walls are 1 km north-east)."
+}

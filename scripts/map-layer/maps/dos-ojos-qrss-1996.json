@@ -1,0 +1,247 @@
+{
+  "image": "../../../_data/maps-import/images/dos-ojos-the-pit-area-sist-mpo-playa-del-carmen-1.webp",
+  "title": "Sistema Dos Ojos - QRSS line plot (July 1996)",
+  "credits": "Quintana Roo Speleological Survey, July 1996 (\"Many entrances have not been labeled\")",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "page border (left)",
+      "box": [
+        95,
+        0,
+        115,
+        1740
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        3445,
+        0,
+        3465,
+        1740
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1688,
+        3560,
+        1740
+      ]
+    },
+    {
+      "why": "label 'Maco's Marvel entrance'",
+      "box": [
+        530,
+        90,
+        915,
+        205
+      ]
+    },
+    {
+      "why": "leader of 'Maco's Marvel entrance'",
+      "box": [
+        860,
+        198,
+        997,
+        268
+      ]
+    },
+    {
+      "why": "label 'Cenote Kentucky Castle'",
+      "box": [
+        1180,
+        275,
+        1430,
+        455
+      ]
+    },
+    {
+      "why": "leader of 'Cenote Kentucky Castle'",
+      "box": [
+        1110,
+        432,
+        1192,
+        500
+      ]
+    },
+    {
+      "why": "label 'Maravilla section'",
+      "box": [
+        330,
+        715,
+        925,
+        810
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        2245,
+        410,
+        2385,
+        740
+      ]
+    },
+    {
+      "why": "scale bar '1 kilometer'",
+      "box": [
+        2750,
+        540,
+        3280,
+        672
+      ]
+    },
+    {
+      "why": "leader of 'Dos Ojos entrance'",
+      "box": [
+        2283,
+        910,
+        2332,
+        992
+      ]
+    },
+    {
+      "why": "label 'Dos Ojos entrance'",
+      "box": [
+        2300,
+        995,
+        2540,
+        1115
+      ]
+    },
+    {
+      "why": "title 'Sistema Dos Ojos, Quintana Roo, QRSS, July 1996 (Many entrances have not been labeled.)'",
+      "box": [
+        1400,
+        1220,
+        2600,
+        1555
+      ],
+      "history": true
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2765,
+      560
+    ],
+    "to": [
+      3262,
+      560
+    ],
+    "metres": 1000
+  },
+  "entrances": [
+    {
+      "name": "Dos Ojos",
+      "px": [
+        2277,
+        882
+      ],
+      "caveId": "-KPZkVI727bPAYLuZ57-"
+    },
+    {
+      "name": "Cenote Kentucky Castle",
+      "px": [
+        1102,
+        507
+      ],
+      "caveId": "-KPZkVKuN7tJlLCj8Pue"
+    },
+    {
+      "name": "Maco's Marvel (not in the database)",
+      "px": [
+        998,
+        276
+      ]
+    },
+    {
+      "name": "Dos Palmas (not labeled: the thick knot on the main line where its Open Caves position lands)",
+      "px": [
+        2712,
+        855
+      ],
+      "caveId": "-KPZkVIAQhUFjZdJ21BJ"
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVOHg9AafOTvAonr",
+      "name": "The Pit",
+      "px": [
+        1262,
+        1004
+      ],
+      "latitude": 20.32316,
+      "longitude": -87.40995,
+      "why": "Open Caves position, at the Pit's clearing (satellite); the plot doesn't label it: the bottom of the small loop where the SW branch turns SE toward Pet Cemetery (the ADC guideline map's Pit bend)"
+    },
+    {
+      "caveId": "-KPZkVIAQhUFjZdJ21BJ",
+      "name": "Dos Palmas",
+      "px": [
+        2712,
+        855
+      ],
+      "latitude": 20.32452,
+      "longitude": -87.3831,
+      "why": "Open Caves position; the plot's only unlabeled entrance dot, ~870 m east of Dos Ojos along the main line"
+    },
+    {
+      "caveId": "-KPZkVI727bPAYLuZ57-",
+      "name": "Dos Ojos (West)",
+      "px": [
+        2277,
+        882
+      ],
+      "latitude": 20.3242,
+      "longitude": -87.39178,
+      "why": "Google Maps position; the plot's 'Dos Ojos entrance' dot lands ~80 m east, between OpenStreetMap's 1st Eye (20.32451,-87.39076) and Bat Cave: which eye the dot marks and where each eye is are uncertain, so it only checks",
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVKuN7tJlLCj8Pue",
+      "name": "Kentucky Castle (\"KC\" placemark on the QRSS Google Earth line plot, placed by sac-aktun-dos-ojos-google.json)",
+      "px": [
+        1102,
+        507
+      ],
+      "latitude": 20.33226,
+      "longitude": -87.4123
+    }
+  ],
+  "symbols": {
+    "units": "ft",
+    "letters": {},
+    "why": "computer line plot: no depths, letter codes, flow arrows or bones; only the 'Maravilla section' name",
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Maravilla section",
+        "px": [
+          627,
+          760
+        ]
+      }
+    ]
+  },
+  "trace": {
+    "method": "survey-lines",
+    "lineColours": [
+      "black"
+    ],
+    "water": false,
+    "stickMap": true,
+    "bridgePx": 3,
+    "why": "b/w computer line plot: survey lines only (a stick map), no walls, no symbols"
+  },
+  "placementWhy": "Similarity fit (1.927 m/px, -3.4 deg) through The Pit and Dos Palmas (both Open Caves, on-site; neither labeled on the plot, identified by the Pit's loop and the knot on the main line ~870 m east of Dos Ojos) and Kentucky Castle (the QRSS Google Earth plot's KC placemark): residuals 18, 6, 16 m. The scale bar gives 2.01 m/px (+4%), the north arrow is 3.4 deg off. The 'Dos Ojos entrance' dot lands 76 m ENE of the database's Dos Ojos West (Google Maps), 36 m from OpenStreetMap's 1st Eye: a check only. Without Dos Palmas the fit puts Dos Palmas 110 m and Dos Ojos 130 m too far east. Checked against the placed sac-aktun-dos-ojos-google (Maravilla section and north branch line for line) and sac-actun-mpo-tulum (the SE branch toward Xel-Ha lies between the two, nearer QRSS 2012)."
+}

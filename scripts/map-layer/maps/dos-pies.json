@@ -1,0 +1,640 @@
+{
+  "image": "../../../_data/maps-import/images/dos-pies-sist-tulum-1.webp",
+  "title": "Sistema Dos Pies - Mafia Maps 1998",
+  "credits": "Sistema Dos Pies, Q.Roo, Mexico; surveyed passage to date 11,536 ft; exploration and survey Fred Devos, Kate M. Lewis, Daniel Riordan; Mafia Maps, July 1998 (c) F. Devos, 1998",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfvUMu0KCxcuHo7-",
+  "utmEpsg": 32616,
+  "copies": "Two copies of the same Mafia Maps plan (F. Devos, July 1998) in _data/cartes: 'Dos Pies, Sist., Tulum (1).pdf' (wetworx.nl cave maps page, colour, 1485x1135 px) and 'Dos Pies, Sist., Tulum.pdf' (AMCS Activities Newsletter 25, p. 132, 2002: smaller, 899x690 px, grey pools, with the note 'Penetrations and water depths in feet' under the scale bar). This uses the wetworx copy's import image (dos-pies-sist-tulum-1.webp, same 1486x1136 image), the best one.",
+  "placementWhy": "Moderate (about 20-40 m): free similarity fit on three points, residuals 9, 11 and 2 m; 0.837 m/px (the 1000 ft scale bar says 0.927, 10% more) and 3 degrees of rotation from the map's compass rose. Points: West Foot and East Foot on the two lobes of the large two-lobed pond (OSM water way 258846494, open water on the Mapbox/Maxar imagery) north of the track to the sea - the 'two feet' the sistema is named for; the database's Dos Pies East (diveseven) is on it, 30 m from the map's East Foot; and the line's end at the coast (where the map's line meets its drawn shore, before running offshore to the outlet pool) on the OSM coastline vertex at 20.29453, -87.37162, where the shore runs north-east to south-west with the sea to the south-east, as drawn. Checked: the map's coast then lies along the real one, the upstream lines pass under highway 307 towards Cenote Yax Kin, and the map's pools lie on no conflicting feature (Tarpon, Mesa and Los Flacos are small pools under the canopy, not visible on the imagery). Scale doubt: the bar scale (0.927 m/px) gives 3,560 m of traced line, as the title's 11,536 ft (3,516 m) surveyed; the fit's 0.837 gives 3,216 m. With the bar's scale the coast end would lie about 45 m offshore, so either the map's shore or its scale bar is off by about 10%; the fit was kept. Rejected: West Foot on the pond 430 m south (OSM way 1069406876, the database's Dos Pies West position): at the bar's scale and north the line's last 200 m then run out into the sea north of Bahia Soliman, and no pond there matches the map's second foot.",
+  "exclude": [
+    {
+      "why": "title block: Sistema Dos Pies, Q.Roo, Mexico, surveyed passage to date 11,536 feet, exploration and survey Fred Devos, Kate M. Lewis, Daniel Riordan, Mafia Maps, July 1998",
+      "box": [
+        930,
+        60,
+        1412,
+        406
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F.Devos, 1998",
+      "box": [
+        30,
+        1066,
+        256,
+        1104
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (compass rose)",
+      "box": [
+        108,
+        390,
+        243,
+        533
+      ]
+    },
+    {
+      "why": "scale bar (feet, 0-1000)",
+      "box": [
+        430,
+        962,
+        850,
+        1000
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1486,
+        7
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1127,
+        1486,
+        1136
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        7,
+        1136
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1477,
+        0,
+        1486,
+        1136
+      ]
+    },
+    {
+      "why": "label Tarpon Cenote",
+      "box": [
+        934,
+        499,
+        1034,
+        550
+      ]
+    },
+    {
+      "why": "label Cenote Mesa",
+      "box": [
+        1102,
+        581,
+        1199,
+        632
+      ]
+    },
+    {
+      "why": "label West Foot",
+      "box": [
+        681,
+        606,
+        752,
+        657
+      ]
+    },
+    {
+      "why": "label East Foot",
+      "box": [
+        802,
+        705,
+        868,
+        757
+      ]
+    },
+    {
+      "why": "label Los Flacos",
+      "box": [
+        1016,
+        716,
+        1108,
+        768
+      ]
+    },
+    {
+      "why": "label Caribbean Sea p. 0",
+      "box": [
+        1313,
+        1011,
+        1446,
+        1095
+      ]
+    },
+    {
+      "why": "penetration p.6,380: the symbol's ink isn't a survey line",
+      "box": [
+        182,
+        73,
+        261,
+        103
+      ]
+    },
+    {
+      "why": "depth 42 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        170,
+        204,
+        203,
+        236
+      ]
+    },
+    {
+      "why": "depth 30 (ft, north): the symbol's ink isn't a survey line",
+      "box": [
+        573,
+        310,
+        604,
+        342
+      ]
+    },
+    {
+      "why": "depth 7 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        1175,
+        771,
+        1207,
+        803
+      ]
+    },
+    {
+      "why": "depth 30 (ft, south): the symbol's ink isn't a survey line",
+      "box": [
+        1047,
+        848,
+        1079,
+        880
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVIDfnt0oMxTJs8F",
+      "name": "West Foot = NW lobe of the two-lobed pond (OSM water way 258846494, imagery)",
+      "px": [
+        807,
+        645
+      ],
+      "latitude": 20.297077,
+      "longitude": -87.375295
+    },
+    {
+      "caveId": "-KPZkVIB8G_BgVPKt-_T",
+      "name": "East Foot = SE lobe of the same pond (imagery)",
+      "px": [
+        890,
+        691
+      ],
+      "latitude": 20.296699,
+      "longitude": -87.374839
+    },
+    {
+      "name": "Line's end at the coast = OSM coastline vertex",
+      "px": [
+        1290,
+        958
+      ],
+      "latitude": 20.29453,
+      "longitude": -87.37162
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 60,
+    "leaderMaxPx": 1,
+    "joinShortPx": 16,
+    "eraseLines": [
+      {
+        "why": "Tarpon Cenote pool (north): its dark navy rim and fill (not survey)",
+        "from": [
+          904,
+          538
+        ],
+        "to": [
+          904,
+          538
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Tarpon Cenote pool (north): its dark navy rim and fill (not survey)",
+        "from": [
+          904,
+          544
+        ],
+        "to": [
+          904,
+          544
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "Tarpon Cenote pool (south): its dark navy rim and fill (not survey)",
+        "from": [
+          921,
+          555
+        ],
+        "to": [
+          921,
+          555
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Cenote Mesa pool: its dark navy rim and fill (not survey)",
+        "from": [
+          1077,
+          627
+        ],
+        "to": [
+          1077,
+          627
+        ],
+        "widthPx": 12
+      },
+      {
+        "why": "Cenote Mesa pool: its dark navy rim and fill (not survey)",
+        "from": [
+          1075,
+          641
+        ],
+        "to": [
+          1075,
+          641
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "West Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          801,
+          640
+        ],
+        "to": [
+          801,
+          640
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "West Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          809,
+          648
+        ],
+        "to": [
+          809,
+          648
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          888,
+          684
+        ],
+        "to": [
+          888,
+          684
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          866,
+          690
+        ],
+        "to": [
+          866,
+          690
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          912,
+          700
+        ],
+        "to": [
+          912,
+          700
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          892,
+          682
+        ],
+        "to": [
+          892,
+          682
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          914,
+          696
+        ],
+        "to": [
+          914,
+          696
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "East Foot pool: its dark navy rim and fill (not survey)",
+        "from": [
+          918,
+          696
+        ],
+        "to": [
+          918,
+          696
+        ],
+        "widthPx": 4
+      },
+      {
+        "why": "Los Flacos pool (north): its dark navy rim and fill (not survey)",
+        "from": [
+          1138,
+          724
+        ],
+        "to": [
+          1138,
+          724
+        ],
+        "widthPx": 4
+      },
+      {
+        "why": "Los Flacos pool (south): its dark navy rim and fill (not survey)",
+        "from": [
+          1129,
+          740
+        ],
+        "to": [
+          1129,
+          740
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1361,
+          927
+        ],
+        "to": [
+          1361,
+          927
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1361,
+          977
+        ],
+        "to": [
+          1361,
+          977
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1343,
+          941
+        ],
+        "to": [
+          1343,
+          941
+        ],
+        "widthPx": 20
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1343,
+          965
+        ],
+        "to": [
+          1343,
+          965
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1383,
+          911
+        ],
+        "to": [
+          1383,
+          911
+        ],
+        "widthPx": 28
+      },
+      {
+        "why": "outlet pool at sea: its dark navy rim and fill (not survey)",
+        "from": [
+          1367,
+          979
+        ],
+        "to": [
+          1367,
+          979
+        ],
+        "widthPx": 28
+      }
+    ],
+    "why": "Colour line plot (guidelines only, no walls), traced as lines. inkLevel 60: the black lines' cores are about 22 grey, the cenote pools' blue fill about 72 and the grey flow arrows about 130, so the fill and the arrows aren't traced; the sea's cyan is lighter still. The line runs on past the drawn shore to the outlet pool and is kept to its edge (the cave's last stretch, offshore). Lines that stop beside the Tarpon and Los Flacos pools are left so (no ink joins them).",
+    "eraseLinesWhy": "The pools' rims are a dark navy (about 5,35,73), as dark as the lines: erased by discs covering each pool's rim and fill (from = to), generated from the blue fill by a greedy cover, each kept clear of the neutral black line ink."
+  },
+  "entrances": [
+    {
+      "name": "West Foot",
+      "caveId": "-KPZkVIDfnt0oMxTJs8F",
+      "px": [
+        807,
+        645
+      ],
+      "why": "The database's Dos Pies West; its position (diveseven) is on another pond about 430 m south (OSM water way 1069406876), not on this one."
+    },
+    {
+      "name": "East Foot",
+      "caveId": "-KPZkVIB8G_BgVPKt-_T",
+      "px": [
+        891,
+        692
+      ],
+      "why": "The database's Dos Pies East (diveseven), about 20-30 m from where the map lands it, on the same two-lobed pond as West Foot."
+    },
+    {
+      "name": "Tarpon Cenote",
+      "caveId": "-KPZkVQeNSGl0E3H6gQB",
+      "px": [
+        904,
+        540
+      ],
+      "why": "North of the two small pools labelled Tarpon Cenote; the database's Tarpon (sistema Dos Pies) has no position. The lines pass beside both pools without entering them."
+    },
+    {
+      "name": "Tarpon Cenote (second pool)",
+      "px": [
+        918,
+        556
+      ],
+      "why": "South of the two small pools labelled Tarpon Cenote: a second opening of the same cenote."
+    },
+    {
+      "name": "Cenote Mesa",
+      "caveId": "-KPZkVMTTJ72Rg3L-2b3",
+      "px": [
+        1078,
+        635
+      ],
+      "why": "The line runs through the pool. The database's Mesa (Gerrard 2015) is several hundred metres south of where the map lands it."
+    },
+    {
+      "name": "Los Flacos",
+      "px": [
+        1128,
+        742
+      ],
+      "why": "The larger of the two small pools labelled Los Flacos; a side line ends beside it. Not in the database."
+    },
+    {
+      "name": "Los Flacos (second pool)",
+      "px": [
+        1139,
+        727
+      ],
+      "why": "The smaller pool labelled Los Flacos, not connected by a line on the map."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: overlined numbers are depths and 'p.N' penetrations, in feet (Mafia Maps convention, as on Actun Koh's 'penetrations and water depths in feet' and the Dos Pies copy in AMCS Activities Newsletter 25, which carries that note). Four overlined depths (42, 30, 7, 30), two penetrations (p.6,380 at the upstream end, p. 0 at the sea), two wavy grey water-flow arrows pointing south-east (towards the sea). No legend, no letter codes, no bones. Added by hand (their exclude boxes hide them from extraction).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "42",
+        "px": [
+          187,
+          220
+        ],
+        "value": 42,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "px": [
+          588,
+          326
+        ],
+        "value": 30,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "7",
+        "px": [
+          1191,
+          787
+        ],
+        "value": 7,
+        "halfPx": 18
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "px": [
+          1063,
+          864
+        ],
+        "value": 30,
+        "halfPx": 18
+      },
+      {
+        "type": "penetration",
+        "label": "p.6,380",
+        "px": [
+          221,
+          88
+        ],
+        "value": 6380,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p. 0",
+        "px": [
+          1380,
+          1078
+        ],
+        "value": 0,
+        "halfPx": 12
+      },
+      {
+        "type": "leads-to",
+        "label": "Caribbean Sea",
+        "px": [
+          1364,
+          951
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          385,
+          367
+        ],
+        "bearing": 121
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1152,
+          983
+        ],
+        "bearing": 112
+      }
+    ]
+  }
+}

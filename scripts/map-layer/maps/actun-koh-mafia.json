@@ -1,0 +1,555 @@
+{
+  "image": "../../../_data/maps-import/images/actun-koh-sist-puerto-aventuras.webp",
+  "title": "Sistema Actun Koh - Mafia Maps 1998",
+  "credits": "Sistema Actun Koh, Q.Roo, Mexico; surveyed passage to date 16,917 ft; exploration and survey German Mendosa, Edsel Rios del Rios, Christian Thomas, Claude Touloumdjian, Bernd Birnbach, Yair Azubel, Christophe Le Maillot, Fred Devos; Mafia Maps, January 1998 (c) B. Birnbach, Y. Azubel, C. LeMaillot, F. Devos",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (about 10-20 m): free similarity fit on three points, residuals 4, 2 and 2 m; 0.658 m/px (the 1000 ft scale bar says 0.673, 2% apart) and 6.5 degrees of rotation from the map's compass rose (a decorative rose, not a dated magnetic north). Points: Cenote Actun Koh's black pool on the database's Actun Koh (Google Maps source, tree-covered - the same point the Yuc 96 map is placed on); Overpass Cenote's black pool on the centre of OSM's 'Cenote' pond (way 405950395): on the Mapbox/Maxar imagery that collapse holds two dark pools with a strip of rock between them (the 'overpass'), and the map's pool lands on that strip; Bear's Den on the Cenote Dedale of the placed Expedition Yuc 96 map (same cave, same position on both maps). Not independent of the Yuc 96 placement (it shares the Actun Koh and pond points), but the two surveys agree: with Actun Koh and the pond alone this map puts Bear's Den within a few metres of the Yuc 96 Cenote Dedale, and its main lines run inside the Yuc 96 passages (the Bear's Den loop, the east loop under the Salle ebouleuse, the downstream passage to the collapses). No overlap with the neighbouring Ponderosa line plot (324 m apart).",
+  "exclude": [
+    {
+      "why": "north arrow",
+      "box": [
+        130,
+        0,
+        345,
+        215
+      ]
+    },
+    {
+      "why": "title block: Sistema Actun Koh, surveyed length, exploration and survey team, Mafia Maps January 1998",
+      "box": [
+        838,
+        252,
+        1346,
+        885
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar and 'penetrations and water depths in feet'",
+      "box": [
+        555,
+        1035,
+        1112,
+        1128
+      ]
+    },
+    {
+      "why": "copyright B.Birnbach, Y.Azubel, C.LeMaillot, F.Devos, 1998",
+      "box": [
+        140,
+        1708,
+        1120,
+        1770
+      ],
+      "history": true
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        80,
+        1346,
+        96
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        80,
+        26,
+        1784
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1236,
+        80,
+        1346,
+        1784
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1770,
+        1346,
+        1784
+      ]
+    },
+    {
+      "why": "label The Attic",
+      "box": [
+        240,
+        408,
+        325,
+        472
+      ]
+    },
+    {
+      "why": "label Bear's Den Cenote",
+      "box": [
+        68,
+        798,
+        226,
+        862
+      ]
+    },
+    {
+      "why": "label Dreamland",
+      "box": [
+        72,
+        1104,
+        238,
+        1136
+      ]
+    },
+    {
+      "why": "label Cenote Actun Koh p. 0",
+      "box": [
+        228,
+        1278,
+        384,
+        1374
+      ]
+    },
+    {
+      "why": "label Section Six",
+      "box": [
+        388,
+        1405,
+        478,
+        1470
+      ]
+    },
+    {
+      "why": "label Wonderland",
+      "box": [
+        796,
+        1216,
+        986,
+        1246
+      ]
+    },
+    {
+      "why": "label Teens",
+      "box": [
+        898,
+        1544,
+        990,
+        1576
+      ]
+    },
+    {
+      "why": "label Overpass Cenote",
+      "box": [
+        752,
+        1628,
+        898,
+        1694
+      ]
+    },
+    {
+      "why": "depth 45 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        67,
+        381,
+        115,
+        424
+      ]
+    },
+    {
+      "why": "depth 3 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        45,
+        477,
+        83,
+        510
+      ]
+    },
+    {
+      "why": "depth 48 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        621,
+        227,
+        663,
+        261
+      ]
+    },
+    {
+      "why": "depth 43 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        243,
+        696,
+        281,
+        730
+      ]
+    },
+    {
+      "why": "depth 40 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        656,
+        1423,
+        695,
+        1457
+      ]
+    },
+    {
+      "why": "depth 15 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        1027,
+        1502,
+        1074,
+        1544
+      ]
+    },
+    {
+      "why": "penetration p.2,818: the symbol's ink isn't a survey line",
+      "box": [
+        580,
+        135,
+        668,
+        166
+      ]
+    },
+    {
+      "why": "penetration p.1,716: the symbol's ink isn't a survey line",
+      "box": [
+        1046,
+        1605,
+        1137,
+        1641
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "name": "Cenote Actun Koh (DB, Google Maps)",
+      "px": [
+        440,
+        1276
+      ],
+      "latitude": 20.49186,
+      "longitude": -87.26911
+    },
+    {
+      "caveId": "-KPZkVEeR1D8YGimsxqc",
+      "name": "Bear's Den = Cenote Dedale of the placed Yuc 96 map",
+      "px": [
+        285,
+        808
+      ],
+      "latitude": 20.494552,
+      "longitude": -87.270465
+    },
+    {
+      "caveId": "-KPZkVO0jhypiyLoVr29",
+      "name": "Overpass Cenote = centre of OSM's 'Cenote' pond (way 405950395; DB Pakal Nah there)",
+      "px": [
+        802,
+        1594
+      ],
+      "latitude": 20.49026,
+      "longitude": -87.26666
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "eraseLines": [
+      {
+        "why": "dashed water-flow arrow (east, pointing south)",
+        "from": [
+          531,
+          832
+        ],
+        "to": [
+          533,
+          976
+        ],
+        "widthPx": 24
+      },
+      {
+        "why": "dash-dot water-flow arrow (north of Section Six, pointing south-east)",
+        "from": [
+          558,
+          1287
+        ],
+        "to": [
+          688,
+          1374
+        ],
+        "widthPx": 22
+      }
+    ],
+    "joinShortPx": 16,
+    "addLines": [
+      {
+        "why": "Section Six: the main line's junction with a dotted line, lost as a short skeleton piece",
+        "from": [
+          521,
+          1357
+        ],
+        "to": [
+          529,
+          1366
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "Section Six: junction where a dotted line crosses",
+        "from": [
+          518,
+          1385
+        ],
+        "to": [
+          518,
+          1405
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "Section Six: main line where the dotted loop meets it",
+        "from": [
+          585,
+          1395
+        ],
+        "to": [
+          586,
+          1409
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "Section Six: junction of the inner loop",
+        "from": [
+          549,
+          1408
+        ],
+        "to": [
+          556,
+          1404
+        ],
+        "widthPx": 5
+      }
+    ],
+    "why": "b/w stick map (guidelines only, no walls), traced as lines: bold lines are the main lines, thin ones the side lines, both kept. Black cenote pools are left as drawn (short skeleton lines inside them). The light grey dotted lines (The Attic, Section Six) are lighter than the ink level and not traced: their meaning isn't in the map (no legend) - probably unsurveyed or estimated line. Leaders: none; the two flow arrows are erased by hand.",
+    "addLinesWhy": "Section Six: where the dotted lines touch the solid ones, the junction pieces of the skeleton came out shorter than the minimum length and were dropped, leaving 4 gaps in continuous ink."
+  },
+  "entrances": [
+    {
+      "name": "Bear's Den Cenote",
+      "caveId": "-KPZkVEeR1D8YGimsxqc",
+      "px": [
+        285,
+        808
+      ],
+      "why": "The database has Bear's Den in sistema Actun Koh, without a position; the Yuc 96 map's Cenote Dedale is the same place."
+    },
+    {
+      "name": "Cenote Actun Koh",
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "px": [
+        440,
+        1276
+      ]
+    },
+    {
+      "name": "Overpass Cenote",
+      "caveId": "-KPZkVO0jhypiyLoVr29",
+      "px": [
+        802,
+        1594
+      ],
+      "why": "The map's black pool lands on the collapse east of the Yuc 96 Cenote cultive, where OSM has a 'Cenote' pond and the database has Pakal Nah (Gerrard, sistema Actun Koh, 15 m away); the database's Overpass (same sistema) has no position. Two pools with a rock strip between them on the imagery: Overpass and Pakal Nah may be two names for this collapse, or one pool each."
+    },
+    {
+      "name": "unnamed cenote W of Overpass (line end)",
+      "px": [
+        655,
+        1614
+      ]
+    },
+    {
+      "name": "unnamed cenote W of Overpass (off the line)",
+      "px": [
+        724,
+        1592
+      ]
+    },
+    {
+      "name": "unnamed cenote NE of Overpass, W of Teens",
+      "px": [
+        862,
+        1534
+      ]
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: depths are overlined numbers and penetrations 'p.N', both in feet (\"penetrations and water depths in feet\"); no letter codes, no legend, no bones. Two water-flow arrows (dashed, dash-dot). Named places kept at their labels. OCR doesn't read the penetrations (thousands comma): added by hand. The six overlined depths (all found by the bar search) are also listed here by hand, because exclude boxes over their ink (survey-lines tracing doesn't skip the symbols' ink) hide them from extraction.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "The Attic",
+        "px": [
+          282,
+          440
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dreamland",
+        "px": [
+          156,
+          1120
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Section Six",
+        "px": [
+          448,
+          1437
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Wonderland",
+        "px": [
+          890,
+          1231
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Teens",
+        "px": [
+          944,
+          1560
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          532,
+          905
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          622,
+          1330
+        ],
+        "bearing": 124
+      },
+      {
+        "type": "penetration",
+        "label": "p.2,818",
+        "px": [
+          624,
+          151
+        ],
+        "value": 2818,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,716",
+        "px": [
+          1091,
+          1622
+        ],
+        "value": 1716,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "p. 0",
+        "px": [
+          305,
+          1358
+        ],
+        "value": 0,
+        "halfPx": 12
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "px": [
+          91,
+          402
+        ],
+        "value": 45,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "15",
+        "px": [
+          1050,
+          1523
+        ],
+        "value": 15,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "px": [
+          642,
+          244
+        ],
+        "value": 48,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "3",
+        "px": [
+          64,
+          493
+        ],
+        "value": 3,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "43",
+        "px": [
+          262,
+          713
+        ],
+        "value": 43,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "40",
+        "px": [
+          675,
+          1440
+        ],
+        "value": 40,
+        "halfPx": 20
+      }
+    ]
+  }
+}

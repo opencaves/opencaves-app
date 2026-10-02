@@ -1,0 +1,402 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-sac-aktun-fenomeno-cave.png",
+  "title": "Fenomeno Cave - Aktun-Hu Cave System (Nov 2009)",
+  "credits": "Fenomeno Cave, Aktun-Hu Cave System, Q.Roo, Mexico, Nov 2009; explored and surveyed by Alex Alvarez, Franco Attolini, Alberto Nava, Chris Le Maillot, Fred Devos, Devin MacKenzie, Danny Riordan, Susan Bird (spelled \"Le Malliot\" and \"Riodan\" on the map)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfr32-S5uVCsT9hQ",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "title: Fenomeno Cave, Aktun-Hu Cave System, Q.Roo, Mexico, Nov 2009",
+      "box": [
+        935,
+        160,
+        1365,
+        320
+      ],
+      "history": true
+    },
+    {
+      "why": "explored and surveyed by (Alvarez, Attolini, Nava, Le Malliot, Devos, MacKenzie, Riodan, Bird)",
+      "box": [
+        1096,
+        874,
+        1330,
+        1070
+      ],
+      "history": true
+    },
+    {
+      "why": "label White River",
+      "box": [
+        377,
+        142,
+        479,
+        160
+      ]
+    },
+    {
+      "why": "label 2500ft",
+      "box": [
+        399,
+        196,
+        443,
+        211
+      ]
+    },
+    {
+      "why": "label 1600ft",
+      "box": [
+        562,
+        161,
+        604,
+        175
+      ]
+    },
+    {
+      "why": "label Vasija",
+      "box": [
+        563,
+        190,
+        616,
+        212
+      ]
+    },
+    {
+      "why": "label 3300ft",
+      "box": [
+        38,
+        308,
+        82,
+        323
+      ]
+    },
+    {
+      "why": "label 1500ft",
+      "box": [
+        643,
+        434,
+        684,
+        449
+      ]
+    },
+    {
+      "why": "label Feno Main Tunnel",
+      "box": [
+        773,
+        423,
+        883,
+        462
+      ]
+    },
+    {
+      "why": "label Feno Down-Stream",
+      "box": [
+        1189,
+        579,
+        1312,
+        618
+      ]
+    },
+    {
+      "why": "label 2000ft",
+      "box": [
+        1406,
+        709,
+        1452,
+        721
+      ]
+    },
+    {
+      "why": "label 2200ft",
+      "box": [
+        228,
+        709,
+        272,
+        723
+      ]
+    },
+    {
+      "why": "label Concha Main Tunnel",
+      "box": [
+        547,
+        729,
+        657,
+        768
+      ]
+    },
+    {
+      "why": "label Fenomeno",
+      "box": [
+        978,
+        732,
+        1071,
+        750
+      ]
+    },
+    {
+      "why": "label D. Concha",
+      "box": [
+        885,
+        848,
+        977,
+        866
+      ]
+    },
+    {
+      "why": "label 400ft",
+      "box": [
+        790,
+        946,
+        825,
+        961
+      ]
+    },
+    {
+      "why": "label Concha Down-Stream",
+      "box": [
+        765,
+        1029,
+        888,
+        1068
+      ]
+    },
+    {
+      "why": "label 2900ft",
+      "box": [
+        435,
+        1170,
+        479,
+        1185
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVJYrlkuqXqIz0Zl",
+      "name": "Fenomeno (DB, Open Caves source - on site)",
+      "px": [
+        987,
+        701
+      ],
+      "latitude": 20.3198,
+      "longitude": -87.4273
+    },
+    {
+      "caveId": "-KPZkVRuf1rLXfmlMGFL",
+      "name": "White River (DB, Gerrard 2015)",
+      "px": [
+        422,
+        171
+      ],
+      "latitude": 20.32363,
+      "longitude": -87.4315
+    },
+    {
+      "caveId": "-KPZkVHGxSRsSISPDSd4",
+      "name": "Concha (DB, Open Caves source - on site)",
+      "px": [
+        896,
+        826
+      ],
+      "latitude": 20.319,
+      "longitude": -87.4274,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Fenomeno",
+      "caveId": "-KPZkVJYrlkuqXqIz0Zl",
+      "px": [
+        987,
+        701
+      ]
+    },
+    {
+      "name": "D. Concha",
+      "caveId": "-KPZkVHGxSRsSISPDSd4",
+      "px": [
+        896,
+        826
+      ]
+    },
+    {
+      "name": "D. Concha, north pool",
+      "px": [
+        900,
+        802
+      ],
+      "why": "Small blue dot 24 px (about 20 m) north of the D. Concha dot, the start of the line north to the 1500ft loop; the label 'D. Concha' is under the lower dot only - probably the cenote's second pool or a separate small opening."
+    },
+    {
+      "name": "Vasija",
+      "caveId": "-KPZkVRgdn4I1_qS5nSt",
+      "px": [
+        592,
+        181
+      ]
+    },
+    {
+      "name": "White River",
+      "caveId": "-KPZkVRuf1rLXfmlMGFL",
+      "px": [
+        422,
+        171
+      ]
+    },
+    {
+      "name": "unnamed cenote (north)",
+      "px": [
+        451,
+        51
+      ],
+      "why": "Unlabelled blue dot at the end of the line north-east of White River."
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "addLines": [
+      {
+        "from": [
+          816,
+          960
+        ],
+        "to": [
+          826,
+          954
+        ],
+        "widthPx": 2
+      }
+    ],
+    "why": "b/w stick map (guidelines only), traced as lines. Cenotes are blue dots on the lines (ink too: their skeleton is a short line through the dot). Every label is boxed out (survey-lines tracing doesn't skip symbol ink) and listed by hand under symbols. Penetration labels touch the line ends (2000ft, 2200ft, 1500ft, 400ft, the '1' of 1600ft): their boxes cut 1-2 px off those ends; at 400ft the SW line runs along the base of the 't' into the junction, restored by addLines. Jumps kept as drawn: the line west of Vasija stops 10 px under the junction north of Vasija (the gap is blank, the '1' of 1600ft sits on it); White River's eastern line stops 16 px short of that junction; the line from the left at the 2000ft end stops 3 px short of the bend under the '2'; the D. Concha dots are two separate line starts (north one to the 1500ft loop, south one to the Concha tunnels), and Fenomeno's lines don't touch the Concha ones."
+  },
+  "symbols": {
+    "units": "ft",
+    "letters": {},
+    "why": "Line plot (2009): the only numbers are penetrations in feet, at line ends and at White River (2500ft) and Vasija (1600ft) - no depths, no restrictions, no flow arrows, no legend and no bones. Every label is excluded from the trace and listed here by hand. The cenote names (White River, Vasija, Fenomeno, D. Concha) are entrances, not place-names.",
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "2500ft",
+        "px": [
+          421,
+          204
+        ],
+        "value": 2500,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "1600ft",
+        "px": [
+          583,
+          168
+        ],
+        "value": 1600,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "3300ft",
+        "px": [
+          60,
+          316
+        ],
+        "value": 3300,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "1500ft",
+        "px": [
+          664,
+          442
+        ],
+        "value": 1500,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Feno Main Tunnel",
+        "px": [
+          828,
+          442
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Feno Down-Stream",
+        "px": [
+          1250,
+          598
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "2000ft",
+        "px": [
+          1429,
+          715
+        ],
+        "value": 2000,
+        "halfPx": 20
+      },
+      {
+        "type": "penetration",
+        "label": "2200ft",
+        "px": [
+          250,
+          716
+        ],
+        "value": 2200,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Concha Main Tunnel",
+        "px": [
+          602,
+          748
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "400ft",
+        "px": [
+          808,
+          954
+        ],
+        "value": 400,
+        "halfPx": 20
+      },
+      {
+        "type": "place-name",
+        "label": "Concha Down-Stream",
+        "px": [
+          826,
+          1048
+        ]
+      },
+      {
+        "type": "penetration",
+        "label": "2900ft",
+        "px": [
+          457,
+          1178
+        ],
+        "value": 2900,
+        "halfPx": 20
+      }
+    ]
+  },
+  "placementWhy": "Moderate (about 20-60 m): free similarity fit on Fenomeno (Open Caves source, located on site) and White River (Gerrard 2015, not trusted alone): 0.787 m/px, rotation -1.0 deg (north up, as the fit confirms). The map has no scale bar and no north arrow. Checks of scale and rotation independent of White River: (1) a free ICP fit of the traced lines onto the lines of the QRSS 2012 overview (sac-actun-mpo-tulum, placed independently on other cenotes) gives 0.73-0.75 m/px and -4 to +3 deg depending on the start (the overview is coarse, so the fit is loose); after this placement the two line sets are a median 21 m apart, with no systematic shift (-4 m E, 0 m N overall; under 15 m in each part: White River/Vasija, Fenomeno, Feno Down-Stream, Concha); (2) the map's penetrations (ft, measured along the drawn lines from Fenomeno for 2000ft and 1600ft, from D. Concha for 400/2200/2900ft and from the north D. Concha dot for 1500ft) scatter from 0.64 to 1.0 m/px, 0.79 m/px overall. Concha (Open Caves source) is a check point: the map's D. Concha dot lands 63 m WSW of it; a fit through Fenomeno and Concha would need 0.58 m/px and a 29 deg rotation, which White River, the overview and the penetrations all reject. On the Maxar imagery the database Concha is at the end of a sandy track (likely the parking/dive base, the cenote itself may be some tens of metres away); Fenomeno is under canopy, 40 m SE of a sandy clearing; White River shows no pond (canopy everywhere), and OSM has no water or cave feature here. The outland map (placed on Outland + its scale bar) draws the same passages as Concha Main Tunnel and Concha Down-Stream: they match its passages' centrelines to a median 4 m after a 61 m shift (50 m W, 36 m S), i.e. this placement is about 60 m NE of outland's there, the same offset outland's own placementWhy notes between its La Concha end and the database Concha, and outland's ICP onto the overview wanted outland 42 m further north - so the two maps differ about 60 m in that area, the overview lying between them."
+}

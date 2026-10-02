@@ -1,0 +1,574 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-camilo.png",
+  "title": "Sistema Camilo - The Cambrian Foundation 2006",
+  "credits": "Exploration & survey 2000-2006 by the Cambrian Foundation; map created using Compass cave survey software. (c) 2006 The Cambrian Foundation, www.cambrianfoundation.org",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfrOHYegF4cn-9nw",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "compass-fill",
+    "compassFill": true,
+    "why": "Compass plot: no wall lines, passages are a pure cyan LRUD fill with the dark teal survey line on or beside it, and every line has a 1-2 px cyan edging. Needs a 'compassFill' mode (prototyped in the scratchpad's camilo/camilo_hybrid.py): walls = outlines of the pure cyan (line slit closed, fill narrower than minFillPx dropped), no blur or 2 px band growth; the survey lines running outside any fill kept as kind 'survey'. Stock colour-fill widens every passage by the blur and growth and turns the edged survey lines into ~4 m bands.",
+    "fillClosePx": 5,
+    "minFillPx": 4,
+    "surveyOffFillPx": 2,
+    "surveyMinMetres": 3,
+    "minBandSqMetres": 4,
+    "minHoleSqMetres": 4,
+    "wallSimplifyMetres": 0.3,
+    "water": false,
+    "detailInk": false,
+    "stickMap": true
+  },
+  "exclude": [
+    {
+      "why": "title",
+      "box": [
+        742,
+        0,
+        1354,
+        130
+      ]
+    },
+    {
+      "why": "exploration dates and team, surveyed length, software, sponsors, copyright",
+      "box": [
+        742,
+        130,
+        1354,
+        824
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        40,
+        1490,
+        300,
+        2010
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2160,
+        1990,
+        2790,
+        2065
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2181,
+      2042
+    ],
+    "to": [
+      2688,
+      2042
+    ],
+    "metres": 304.8
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVN2UvD2PorODPdH",
+      "name": "Mud",
+      "px": [
+        2519,
+        505
+      ],
+      "latitude": 20.26393,
+      "longitude": -87.48069
+    },
+    {
+      "caveId": "-KPZkVFbveDljX5Jw3gt",
+      "name": "Raphael (Calavera)",
+      "px": [
+        2850,
+        514
+      ],
+      "latitude": 20.26387,
+      "longitude": -87.47877
+    },
+    {
+      "caveId": "-KPZkVN1VShuQZ8UJ1a-",
+      "name": "Muchachos",
+      "px": [
+        2467,
+        550
+      ],
+      "latitude": 20.2638,
+      "longitude": -87.48075
+    },
+    {
+      "caveId": "-KPZkVFp_TvUQbzACRP-",
+      "name": "Carri's Loft",
+      "px": [
+        1514,
+        1557
+      ],
+      "latitude": 20.25826,
+      "longitude": -87.48647,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVLjgxZlDUtm7AVc",
+      "name": "Little Cave",
+      "px": [
+        1818,
+        1591
+      ],
+      "latitude": 20.25807,
+      "longitude": -87.48472,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVKl6DkQ8mbH1ZOR",
+      "name": "Kaibab",
+      "px": [
+        2057,
+        1597
+      ],
+      "latitude": 20.25803,
+      "longitude": -87.48334,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVH5xnCtJP1acFYN",
+      "name": "Coati Mundi",
+      "px": [
+        2452,
+        1638
+      ],
+      "latitude": 20.25781,
+      "longitude": -87.48107,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVFi5A_QwSm764QC",
+      "name": "Camilo",
+      "px": [
+        1605,
+        1662
+      ],
+      "latitude": 20.25767,
+      "longitude": -87.48594,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-KPZkVN2UvD2PorODPdH",
+      "name": "Mud",
+      "px": [
+        2519,
+        505
+      ]
+    },
+    {
+      "caveId": "-KPZkVFbveDljX5Jw3gt",
+      "name": "Raphael (Calavera)",
+      "px": [
+        2850,
+        514
+      ]
+    },
+    {
+      "caveId": "-KPZkVN1VShuQZ8UJ1a-",
+      "name": "Muchachos",
+      "px": [
+        2467,
+        550
+      ]
+    },
+    {
+      "caveId": "-KPZkVFp_TvUQbzACRP-",
+      "name": "Carri's Loft",
+      "px": [
+        1514,
+        1557
+      ]
+    },
+    {
+      "caveId": "-KPZkVLjgxZlDUtm7AVc",
+      "name": "Little Cave",
+      "px": [
+        1818,
+        1591
+      ]
+    },
+    {
+      "caveId": "-KPZkVKl6DkQ8mbH1ZOR",
+      "name": "Kaibab",
+      "px": [
+        2057,
+        1597
+      ]
+    },
+    {
+      "caveId": "-KPZkVH5xnCtJP1acFYN",
+      "name": "Coati Mundi",
+      "px": [
+        2452,
+        1638
+      ]
+    },
+    {
+      "caveId": "-KPZkVFi5A_QwSm764QC",
+      "name": "Camilo",
+      "px": [
+        1605,
+        1662
+      ]
+    }
+  ],
+  "north": "up",
+  "symbols": {
+    "why": "Compass plot: no depths, letter codes, legend, bones, 'To ...' leads or flow arrows are drawn (checked on crops of every digit OCR read: all were line or text fragments). Kept: the 42 named places (passages, lines, rooms), at their labels; the 8 entrances (blue dots).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Dark Side of the Moon",
+        "px": [
+          1634,
+          232
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Milk Line",
+        "px": [
+          1784,
+          263
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Raphael Deep Section",
+        "px": [
+          2891,
+          314
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Off Ramp",
+        "px": [
+          1965,
+          387
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Lookdown Line",
+        "px": [
+          1799,
+          465
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Death Star Room",
+        "px": [
+          2261,
+          503
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Grand Canyon Passage",
+        "px": [
+          1523,
+          543
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Corey's Corridor",
+        "px": [
+          2061,
+          527
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Go Back Line",
+        "px": [
+          1993,
+          610
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cindy Side",
+        "px": [
+          2211,
+          606
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "House of Wax",
+        "px": [
+          68,
+          617
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Little Grand Canyon Passage",
+        "px": [
+          468,
+          719
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hass Line",
+        "px": [
+          1645,
+          721
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Nan's Bypass",
+        "px": [
+          2038,
+          729
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cindy's Passage",
+        "px": [
+          2288,
+          770
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "House of the Gods",
+        "px": [
+          1759,
+          800
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Sandy's Line",
+        "px": [
+          2110,
+          988
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Palace",
+        "px": [
+          383,
+          1010
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Low Silt Line",
+        "px": [
+          1654,
+          1097
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Black Forest Line",
+        "px": [
+          2125,
+          1201
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Wrap",
+        "px": [
+          2818,
+          1196
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Rafters Peak",
+        "px": [
+          1233,
+          1224
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Loft",
+        "px": [
+          1063,
+          1266
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Denial Line",
+        "px": [
+          1390,
+          1266
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Shawn's Room",
+        "px": [
+          1801,
+          1273
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Time Line",
+        "px": [
+          1567,
+          1288
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Soda Shop",
+        "px": [
+          1942,
+          1300
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tres Amigos",
+        "px": [
+          756,
+          1348
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Carla's Line",
+        "px": [
+          1876,
+          1358
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Kilimanjaro Line",
+        "px": [
+          2216,
+          1400
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Koos K'u' (The Falcon's Nest)",
+        "px": [
+          870,
+          1438
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Halocline Hall & The Rafters",
+        "px": [
+          1071,
+          1476
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Blind Cave Fish Line",
+        "px": [
+          2370,
+          1519
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "H.H.Lemley Room",
+        "px": [
+          1198,
+          1555
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Molly's Offshoot",
+        "px": [
+          1923,
+          1570
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Capitol Room",
+        "px": [
+          1740,
+          1610
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Wormhole",
+        "px": [
+          1297,
+          1625
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Thecia's Line",
+        "px": [
+          2143,
+          1630
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Saguaro Room",
+        "px": [
+          1533,
+          1733
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Saguaro Line",
+        "px": [
+          1189,
+          1763
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Allison's Room",
+        "px": [
+          1457,
+          1870
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Allison's Passage",
+        "px": [
+          1356,
+          1982
+        ]
+      }
+    ]
+  },
+  "placementWhy": "Scale bar (507 px = 1000 ft, 0.6012 m/px) and north up, shifted onto the three validated entrances. Mud-Raphael (both valid, 200.6 m apart in the DB) give 0.6058 m/px and -0.3 deg: the bar and north up hold; the free 3-point fit (0.560 m/px, -1.9 deg) is pulled by Muchachos, whose DB spot is only 15 m from Mud (41 m on the map). The plan length of the survey lines at the bar's scale (~9.8 km) matches the 9691 m surveyed. Checks: the 5 map-sourced DB points (validity unknown) all within 10 m (a consistent older georeference); the open-water pond by the N-S track (20.2593,-87.4862) sits on the Time Line passage's loop, and OSM's Cenote Santa Cruz pond is right beside the Muchachos/Mud entrances."
+}

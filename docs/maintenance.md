@@ -102,8 +102,14 @@ $env:FUNCTIONS_DISCOVERY_TIMEOUT=60; firebase deploy --only functions
 
 ## Local emulators
 
-`npm run dev` starts Vite and the Firebase emulators together. The emulator
-data is saved to `.emulator-data/` on a clean exit and loaded at the next start.
+`npm run dev` starts Vite and the Firebase emulators together, and loads the
+emulator data saved in `.emulator-data/`. While they run,
+`scripts/emulator-autosave.js` saves their data back there every minute
+(`EMULATOR_AUTOSAVE_MINUTES` to change it), so stopping them any way you like
+loses at most the last minute of changes. The emulators' own
+`--export-on-exit` isn't used: on Windows, `npm run dev`'s Ctrl+C force-kills
+them before they can export, and their export fails anyway when the project
+isn't on the same drive as the system's temp folder.
 
 - **A callable function fails with a CORS error** (`No 'Access-Control-Allow-Origin'
   header…`): the functions emulator may have gone stale and lost its

@@ -58,6 +58,7 @@ export const mapSlice = createSlice({
 
       const props = [
         'location.validity',
+        'cenoteEntrance',
         'access',
         'accessibility',
         'area'

@@ -1,0 +1,1288 @@
+{
+  "image": "../../../_data/maps-import/images/tixik-k-una-sist-rancho-esperanza-x-cacel.webp",
+  "title": "Sistema Tixik K'una - James G. Coke IV, 2008",
+  "credits": "Sistema Tixik K'una, Rancho Esperanza, X'cacel, Quintana Roo; length 2942.2 m, depth -21.0 m; surveyed with Suunto, clinometer, tape and Disto A3, March 2006 - November 2007, by James G. Coke IV, Lorie Conlin, Rolf Pfister, Donna Richards, Simon Richards, Dominic Roth; drawn by James G. Coke IV, March 2008. (c) 2008 James G. Coke IV (AMCS Activities Newsletter 31, p. 39, 2008)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfySFFmEXg_2MfP8",
+  "wetDry": "Mostly wet: the medium grey fill ('Agua' in the legend) covers most of the passages; the white floor between them is dry breakdown, sand and slopes around the entrances. The cross-sections show low air-filled passages over water (ceiling heights 1-3 m in circles, water depths 0.2-10 m overlined).",
+  "utmEpsg": 32616,
+  "trace": {
+    "method": "wall-strokes",
+    "openRadiusPx": 2,
+    "minExtentPx": 100,
+    "eraseLines": [
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          2910,
+          860
+        ],
+        "to": [
+          2940,
+          895
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          2940,
+          895
+        ],
+        "to": [
+          3000,
+          935
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3000,
+          935
+        ],
+        "to": [
+          3045,
+          975
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3045,
+          975
+        ],
+        "to": [
+          3065,
+          1030
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3065,
+          1030
+        ],
+        "to": [
+          3095,
+          1065
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3095,
+          1065
+        ],
+        "to": [
+          3150,
+          1100
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3150,
+          1100
+        ],
+        "to": [
+          3210,
+          1135
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3210,
+          1135
+        ],
+        "to": [
+          3260,
+          1170
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3260,
+          1170
+        ],
+        "to": [
+          3310,
+          1220
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Las Ruinas (double dashed)",
+        "from": [
+          3310,
+          1220
+        ],
+        "to": [
+          3345,
+          1290
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4030,
+          2195
+        ],
+        "to": [
+          4097,
+          2237
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4097,
+          2237
+        ],
+        "to": [
+          4170,
+          2270
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4170,
+          2270
+        ],
+        "to": [
+          4217,
+          2343
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4217,
+          2343
+        ],
+        "to": [
+          4283,
+          2377
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4283,
+          2377
+        ],
+        "to": [
+          4350,
+          2417
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4350,
+          2417
+        ],
+        "to": [
+          4410,
+          2483
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4410,
+          2483
+        ],
+        "to": [
+          4443,
+          2577
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4443,
+          2577
+        ],
+        "to": [
+          4483,
+          2657
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4483,
+          2657
+        ],
+        "to": [
+          4550,
+          2710
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4550,
+          2710
+        ],
+        "to": [
+          4617,
+          2777
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4617,
+          2777
+        ],
+        "to": [
+          4657,
+          2843
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "surface trail Brecha a Carretera Federal 307 (double dashed)",
+        "from": [
+          4657,
+          2843
+        ],
+        "to": [
+          4680,
+          2910
+        ],
+        "widthPx": 34
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2386,
+          708
+        ],
+        "to": [
+          2535,
+          919
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1069,
+          1663
+        ],
+        "to": [
+          1307,
+          1570
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2795,
+          3437
+        ],
+        "to": [
+          3009,
+          3376
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3745,
+          1614
+        ],
+        "to": [
+          3929,
+          1497
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2654,
+          1355
+        ],
+        "to": [
+          2699,
+          1569
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3555,
+          1403
+        ],
+        "to": [
+          3673,
+          1230
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3302,
+          3010
+        ],
+        "to": [
+          3459,
+          3154
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3480,
+          2671
+        ],
+        "to": [
+          3668,
+          2832
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1675,
+          2838
+        ],
+        "to": [
+          1856,
+          2768
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2914,
+          2751
+        ],
+        "to": [
+          3083,
+          2686
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2667,
+          3055
+        ],
+        "to": [
+          2848,
+          3073
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          2126,
+          3264
+        ],
+        "to": [
+          2294,
+          3296
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1405,
+          1012
+        ],
+        "to": [
+          1493,
+          1156
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3025,
+          2027
+        ],
+        "to": [
+          3133,
+          2128
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1149,
+          1213
+        ],
+        "to": [
+          1191,
+          1339
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1086,
+          1954
+        ],
+        "to": [
+          1301,
+          1897
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          4270,
+          1933
+        ],
+        "to": [
+          4301,
+          1810
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1469,
+          2458
+        ],
+        "to": [
+          1493,
+          2583
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3698,
+          1856
+        ],
+        "to": [
+          3799,
+          1788
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1426,
+          746
+        ],
+        "to": [
+          1648,
+          880
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          3471,
+          2288
+        ],
+        "to": [
+          3491,
+          2197
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1086,
+          1955
+        ],
+        "to": [
+          1230,
+          1918
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "cross-section leader",
+        "from": [
+          1648,
+          880
+        ],
+        "to": [
+          1726,
+          884
+        ],
+        "widthPx": 7
+      }
+    ],
+    "inkLevel": 175,
+    "greyWalls": [
+      20,
+      80
+    ],
+    "greyWallsBoxes": [
+      [
+        1480,
+        280,
+        1850,
+        580
+      ]
+    ],
+    "greyMinExtentPx": 60,
+    "water": false,
+    "detailLines": [
+      {
+        "why": "Entrada Eb Tun Ha: ticked 'Limite de cueva' (the roof edge over the entrance), north line - detail, not wall",
+        "from": [
+          2152,
+          748
+        ],
+        "to": [
+          2205,
+          716
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "Entrada Eb Tun Ha: ticked 'Limite de cueva', south line",
+        "from": [
+          2182,
+          754
+        ],
+        "to": [
+          2220,
+          728
+        ],
+        "widthPx": 22
+      }
+    ]
+  },
+  "exclude": [
+    {
+      "why": "page frame top",
+      "box": [
+        0,
+        0,
+        5177,
+        150
+      ]
+    },
+    {
+      "why": "page frame left",
+      "box": [
+        0,
+        0,
+        410,
+        4058
+      ]
+    },
+    {
+      "why": "page frame right",
+      "box": [
+        4800,
+        0,
+        5177,
+        4058
+      ]
+    },
+    {
+      "why": "page frame bottom and the caption under it (Sistema Tixik K'una, Rancho Esperanza, X'cacel, Quintana Roo, AMCS Activities Newsletter 31 p. 39, 2008)",
+      "box": [
+        0,
+        3730,
+        5177,
+        4058
+      ],
+      "history": true
+    },
+    {
+      "why": "title, length and depth",
+      "box": [
+        3790,
+        280,
+        4600,
+        650
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (N mag 2006, 0 deg 02' E)",
+      "box": [
+        4340,
+        890,
+        4550,
+        1265
+      ]
+    },
+    {
+      "why": "inset map (Sistema Tixik K'una, El Area Mostrada)",
+      "box": [
+        550,
+        2170,
+        1150,
+        2720
+      ]
+    },
+    {
+      "why": "legend (Simbologia) and the note on the cross-sections' scale",
+      "box": [
+        520,
+        2930,
+        1030,
+        3600
+      ]
+    },
+    {
+      "why": "copyright",
+      "box": [
+        440,
+        3660,
+        900,
+        3720
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        3280,
+        3530,
+        3995,
+        3640
+      ]
+    },
+    {
+      "why": "survey method, dates and team",
+      "box": [
+        4200,
+        3125,
+        4690,
+        3350
+      ],
+      "history": true
+    },
+    {
+      "why": "drawn by James G. Coke IV, March 2008",
+      "box": [
+        4340,
+        3540,
+        4700,
+        3615
+      ],
+      "history": true
+    },
+    {
+      "why": "section",
+      "box": [
+        938,
+        568,
+        1427,
+        802
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1183,
+        878,
+        1420,
+        1067
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        943,
+        1093,
+        1162,
+        1257
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        678,
+        1618,
+        1062,
+        1782
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        838,
+        1918,
+        1087,
+        2097
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1418,
+        2578,
+        1572,
+        2737
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        1283,
+        2803,
+        1687,
+        2997
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2218,
+        1163,
+        2702,
+        1367
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2478,
+        908,
+        2837,
+        1092
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2238,
+        2548,
+        2452,
+        2727
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2633,
+        2718,
+        2927,
+        2902
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2523,
+        2968,
+        2677,
+        3127
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2283,
+        3183,
+        2582,
+        3372
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        2998,
+        3253,
+        3232,
+        3457
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3448,
+        3123,
+        3737,
+        3347
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3658,
+        2788,
+        4087,
+        2967
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3078,
+        2118,
+        3372,
+        2287
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3348,
+        2278,
+        3502,
+        2432
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3788,
+        1673,
+        3977,
+        1842
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3658,
+        1043,
+        3932,
+        1242
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        3918,
+        1348,
+        4272,
+        1547
+      ]
+    },
+    {
+      "why": "section",
+      "box": [
+        4258,
+        1593,
+        4612,
+        1822
+      ]
+    },
+    {
+      "why": "label Eb (Entrada Eb Tun Ha)",
+      "box": [
+        2280,
+        848,
+        2316,
+        870
+      ]
+    },
+    {
+      "why": "label Ha (Entrada Eb Tun Ha)",
+      "box": [
+        2368,
+        848,
+        2403,
+        870
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Entrada Tixik K'una (the map's datum, WGS84 16Q 462536 2248847 on the 2008-07 edition)",
+      "px": [
+        4215,
+        2200
+      ],
+      "latitude": 20.337287,
+      "longitude": -87.358915
+    },
+    {
+      "name": "Templo Dry Cave (Gerrard 2015) = Entrada Tixik K'una",
+      "px": [
+        4215,
+        2200
+      ],
+      "latitude": 20.33734,
+      "longitude": -87.35903,
+      "check": true
+    },
+    {
+      "name": "Templo (Gerrard 2015) = Entradas Las Ruinas",
+      "px": [
+        1895,
+        850
+      ],
+      "latitude": 20.3381,
+      "longitude": -87.36083,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrada Tixik K'una",
+      "px": [
+        4215,
+        2200
+      ],
+      "caveId": "-KPZkVQnfgyrG42Xr6q6",
+      "why": "the open collapse under the drip line at the end of the Brecha a Carretera Federal 307; the map's datum. caveId: the database's 'Templo Dry Cave' (Gerrard 2015: on the sascab road, 400 m in from the service road; 13 m from the datum) - filed under sistema Templo, not Tixik K'una"
+    },
+    {
+      "name": "Entradas Las Ruinas (north)",
+      "px": [
+        1895,
+        850
+      ],
+      "caveId": "-KPZkVQl0twS5114IwnF",
+      "why": "one of the two openings the label's leaders point to, west of the Maya ruin. caveId: the database's 'Templo' (Gerrard: a dry cenote behind a Maya temple, walk back to the water; 39 m off the placed map) - the dive into Sifón Templo starts here"
+    },
+    {
+      "name": "Entradas Las Ruinas (south)",
+      "px": [
+        1905,
+        945
+      ],
+      "why": "the second opening the label's leaders point to"
+    },
+    {
+      "name": "Entrada Eb Tun Ha (Escalera Maya)",
+      "px": [
+        2195,
+        735
+      ],
+      "why": "the drop with a Maya stairway east of the ruin; no database cave"
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      3315,
+      3558
+    ],
+    "to": [
+      3964,
+      3558
+    ],
+    "metres": 45
+  },
+  "north": {
+    "angle": 0
+  },
+  "northWhy": "The arrow is magnetic north 2006 with a declination of 0 deg 02' E: north is up. Checked against the database's Templo (see controlPoints).",
+  "symbols": {
+    "units": "m",
+    "decimals": true,
+    "words": {
+      "tb": "ceiling-low",
+      "tt": "too-tight"
+    },
+    "why": "Overlined numbers are depths (the legend has two: profundidad del piso and profundidad del agua, both typed depth), circled ones ceiling heights, all in metres. Every number checked against the map by eye: OCR found all the depths; the circled heights and the tb/tt codes it missed are in extra. No bones on this map (no legend icon, no word); no flow arrows. The small bent arrows by some passages are cross-section marks.",
+    "extra": [
+      {
+        "type": "ceiling-height",
+        "label": "2.6",
+        "px": [
+          3306,
+          1367
+        ],
+        "value": 2.6
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.7",
+        "px": [
+          2875,
+          1587
+        ],
+        "value": 2.7
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.0",
+        "px": [
+          2898,
+          1685
+        ],
+        "value": 2.0
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.4",
+        "px": [
+          3470,
+          1548
+        ],
+        "value": 2.4
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1.2",
+        "px": [
+          2304,
+          2247
+        ],
+        "value": 1.2
+      },
+      {
+        "type": "ceiling-height",
+        "label": "1.3",
+        "px": [
+          2027,
+          2589
+        ],
+        "value": 1.3
+      },
+      {
+        "type": "ceiling-height",
+        "label": "0.7",
+        "px": [
+          3453,
+          2779
+        ],
+        "value": 0.7
+      },
+      {
+        "type": "ceiling-height",
+        "label": "0.9",
+        "px": [
+          1530,
+          3042
+        ],
+        "value": 0.9
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.4",
+        "px": [
+          3103,
+          3051
+        ],
+        "value": 2.4
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3.5",
+        "px": [
+          2690,
+          3560
+        ],
+        "value": 3.5
+      },
+      {
+        "type": "ceiling-height",
+        "label": "2.1",
+        "px": [
+          3957,
+          1921
+        ],
+        "value": 2.1
+      },
+      {
+        "type": "too-tight",
+        "label": "tt",
+        "px": [
+          2470,
+          1930
+        ]
+      },
+      {
+        "type": "too-tight",
+        "label": "tt",
+        "px": [
+          2634,
+          2693
+        ]
+      },
+      {
+        "type": "too-tight",
+        "label": "tt",
+        "px": [
+          3046,
+          2775
+        ]
+      },
+      {
+        "type": "too-tight",
+        "label": "tt",
+        "px": [
+          4121,
+          1889
+        ]
+      },
+      {
+        "type": "too-tight",
+        "label": "tt",
+        "px": [
+          3964,
+          2098
+        ]
+      },
+      {
+        "type": "ceiling-low",
+        "label": "tb",
+        "px": [
+          3815,
+          2233
+        ]
+      },
+      {
+        "type": "ceiling-low",
+        "label": "tb",
+        "px": [
+          2343,
+          3013
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Sifón Templo (Cueva Inundada)",
+        "px": [
+          1500,
+          410
+        ],
+        "why": "the west branch runs on to the flooded cave of Cenote Templo"
+      },
+      {
+        "type": "leads-to",
+        "label": "Pasaje Continúa",
+        "px": [
+          1720,
+          330
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Sifón Dos (Cueva Inundada)",
+        "px": [
+          2125,
+          365
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Pasaje Continúa",
+        "px": [
+          2700,
+          250
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Pasaje Continúa",
+        "px": [
+          1335,
+          3285
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Pasaje Continúa",
+        "px": [
+          1715,
+          3500
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Pasaje Continúa",
+        "px": [
+          2339,
+          3616
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ruinas Maya",
+        "px": [
+          2060,
+          615
+        ],
+        "why": "a Maya structure on the surface between the Las Ruinas and Eb Tun Ha entrances"
+      },
+      {
+        "type": "place-name",
+        "label": "La Bodega",
+        "px": [
+          2694,
+          2325
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dzibaan Tunich Be",
+        "px": [
+          2751,
+          2566
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cruzob Tun Be",
+        "px": [
+          2047,
+          2882
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ka'chihol",
+        "px": [
+          1621,
+          3412
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Los Tubos",
+        "px": [
+          2920,
+          2966
+        ]
+      }
+    ]
+  },
+  "placementWhy": "Scale bar (45 m) and north (magnetic 2006, declination 0 deg 02' E: up), shifted onto Entrada Tixik K'una, the map's datum. This edition gives no coordinate; the later edition (July 2008, 4978.8 m, -27.6 m; photo _data/cartes/Sistema Tixik K'una.jpg) prints 'WGS84 Datum 16Q 0462536 UTM 2248847' at the entrance, blurry: the easting's third digit reads as 3 as easily as 2, but 463536 would put the entrance 300 m from the beach east of highway 307, against the map's own note (1.2 km from the sea) and its trail SE to the highway; 462536 lands 13 m from the database's Templo Dry Cave (Gerrard). Check: the database's Templo (Gerrard: a dry cenote behind a Maya temple) falls 39 m from Entradas Las Ruinas (bearing 294 vs 300 deg, 206 vs 186 m). The canopy hides everything on the satellite; no other placed map overlaps. A field GPS of either entrance would settle it.",
+  "sistemaWhy": "Tixik K'una (-KPZgfySFFmEXg_2MfP8), no position or caves in the database. Its two entrances seem to be the database's Templo and Templo Dry Cave (Gerrard), filed under sistema Templo (-KPZgfyNcD9jUSzJuPQu, 1680 m, 21 m): Sifon Templo, at this map's NW end, is the sump into Templo's flooded cave. The user may want to link the two sistemas.",
+  "notWalls": "Thin lines: floor detail (stipple, slopes, boulders, drip-line ticks), cross-section leaders (erased); the double-dashed surface trails Brecha a Las Ruinas and Brecha a Carretera Federal 307 (erased). Grey fills: medium grey = water, light grey = rock halo outside the walls and pillars."
+}
