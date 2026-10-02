@@ -568,9 +568,9 @@
         580
       ]
     ],
-    "greyMinExtentPx": 60
+    "greyMinExtentPx": 60,
+    "water": false
   },
-  "water": false,
   "exclude": [
     {
       "why": "page frame top",
