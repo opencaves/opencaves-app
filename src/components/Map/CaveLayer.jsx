@@ -110,7 +110,9 @@ function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
 // editors hid (caveLayerSettings) are left out for everyone - shown in grey in
 // the edit mode (editors), where the map under the pointer is outlined and
 // named, and a click on it offers to hide its drawing, or show it again.
-export default function CaveLayer({ selectedSistemaId }) {
+// mapId: that map's drawing only, always shown (even hidden for everyone) and
+// never in the edit mode - the admin's original-vs-drawing viewer.
+export default function CaveLayer({ selectedSistemaId, mapId }) {
   const theme = useTheme()
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
   const [openSnackbar] = useSnackbar()
@@ -119,7 +121,7 @@ export default function CaveLayer({ selectedSistemaId }) {
   const connections = useSelector((state) => state.data.connections)
   const roles = useSelector((state) => state.session.roles)
   const { visible, scope, colorBySistema, editMode: editModeChosen } = useSelector((state) => state.caveLayer)
-  const editMode = editModeChosen && visible && roles.includes('editor')
+  const editMode = !mapId && editModeChosen && visible && roles.includes('editor')
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const units = useUnits()
   const [ready, setReady] = useState(Boolean(tileIndex))
@@ -206,11 +208,11 @@ export default function CaveLayer({ selectedSistemaId }) {
   }, [scope, selectedSistemaId, roots])
 
   if (!ready) return null
-  const visibility = visible ? 'visible' : 'none'
-  const only = sistemaIds.length ? [['in', ['get', 'sistemaId'], ['literal', sistemaIds]]] : []
+  const visibility = visible || mapId ? 'visible' : 'none'
+  const only = mapId ? [['==', ['get', 'map'], mapId]] : sistemaIds.length ? [['in', ['get', 'sistemaId'], ['literal', sistemaIds]]] : []
   // Hidden drawings: left out - but in the edit mode, kept in grey and faded.
   const isHidden = ['in', ['get', 'map'], ['literal', hiddenMaps]]
-  const shown = hiddenMaps.length && !editMode ? [['!', isHidden]] : []
+  const shown = hiddenMaps.length && !editMode && !mapId ? [['!', isHidden]] : []
   const filter = (...conditions) => ['all', ...conditions, ...only, ...shown]
   const greyed = editMode && hiddenMaps.length
   const ifHidden = (hidden, normal) => (greyed ? ['case', isHidden, hidden, normal] : normal)

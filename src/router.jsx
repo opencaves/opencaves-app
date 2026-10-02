@@ -302,7 +302,9 @@ const routes = [
             ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
           },
           {
-            path: 'map-layers',
+            // With a map's id: its original next to its drawing, over the
+            // list (one route, so the list keeps its search and scroll).
+            path: 'map-layers/:mapId?',
             ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
           },
         ],

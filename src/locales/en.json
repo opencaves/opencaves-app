@@ -1096,6 +1096,14 @@
     "hide": "Hide this map's drawing",
     "showOnMap": "Show on the map",
     "saveError": "Couldn't save the change.",
-    "openScan": "Open the original map"
+    "showOriginal": "Show the original of {{title}}",
+    "viewer": {
+      "hint": "Drag the divider: the original on the left, the drawing on the right",
+      "back": "Back to the map layers",
+      "original": "Original",
+      "drawing": "Drawing",
+      "divider": "Divider between the original and the drawing",
+      "dividerValue": "{{original}}% original, {{drawing}}% drawing"
+    }
   }
 }

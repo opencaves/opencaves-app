@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, FormControlLabel, IconButton, InputAdornment, List, ListItem, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, FormControlLabel, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
-import ImageRounded from '@mui/icons-material/ImageRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
@@ -13,6 +12,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
+import MapCompareViewer from './MapCompareViewer.jsx'
 
 // The zoom that fits a map's extent ([west, south, east, north]) on screen.
 function zoomFor(bounds) {
@@ -29,28 +29,32 @@ function belowAppBar(theme) {
 
 // Admins: the maps in the cave layer (maps.json, from the tiles build, by the
 // configs' ids), each shown or hidden for everyone (settings/caveLayer.hiddenMaps
-// - the same list as the layer's edit mode on the map), with links to it on the
-// map and to the scan it was traced from (the "maps" document with its
+// - the same list as the layer's edit mode on the map), with a link to it on the
+// map. A row opens its original next to its drawing (MapCompareViewer); on a
+// wide screen it shows the scan's thumbnail (the "maps" document with its
 // mapImportKey).
 export default function MapLayersAdmin() {
   const { t } = useTranslation(['mapLayersAdmin', 'dashboard'])
   const { setTitle } = useTitle()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+  // The map whose original is shown (/map-layers/<id>).
+  const { mapId } = useParams()
   const sistemas = useSelector((state) => state.data.sistemas)
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const [search, setSearch] = useState('')
   const [savingId, setSavingId] = useState(null)
   const [error, setError] = useState(null)
-  const [scans, setScans] = useState(new Map())
+  const [thumbnails, setThumbnails] = useState(new Map())
   // "Show only hidden": the maps hidden when it was turned on, so one shown
   // again stays in the list (to hide it back) until it's turned off.
   const [onlyHidden, setOnlyHidden] = useState(null)
 
-  // The scans, by importKey: read once.
+  // The scans' thumbnails, by importKey: read once.
   useEffect(() => {
     getDocs(collection(db, 'maps'))
-      .then((snapshot) => setScans(new Map(snapshot.docs.map((doc) => [doc.get('importKey'), doc.get('url')]))))
+      .then((snapshot) => setThumbnails(new Map(snapshot.docs.map((doc) => [doc.get('importKey'), doc.get('thumbnailUrl') || doc.get('previewUrl')]))))
       .catch((err) => console.error(err))
   }, [])
 
@@ -79,6 +83,15 @@ export default function MapLayersAdmin() {
     } finally {
       setSavingId(null)
     }
+  }
+
+  const viewing = mapId && maps[mapId] ? { id: mapId, ...maps[mapId] } : null
+
+  // Back to the list: through the history when the list opened it (so the
+  // browser's back button and this one agree), else to the list's address.
+  function closeViewer() {
+    if (location.state?.fromList) navigate(-1)
+    else navigate('/map-layers', { replace: true })
   }
 
   // On the map, with the layer shown.
@@ -163,26 +176,29 @@ export default function MapLayersAdmin() {
       <List disablePadding>
         {rows.map((map) => {
           const shown = !hiddenMaps.includes(map.id)
-          const scan = scans.get(map.mapImportKey)
+          // The scan's thumbnail, or the (larger) image the drawing was traced from.
+          const thumbnail = thumbnails.get(map.mapImportKey) || (map.scan && `/tiles/caves/scans/${map.id}.webp`)
           return (
             // MD3: 40dp icon buttons with 24dp icons, 8dp apart (the row's gap)
             // so their 48dp touch targets don't overlap. No side padding: the
             // titles start with the page's content, leaving them more room;
             // the switch keeps its own, or its thumb would be cut.
             <ListItem key={map.id} divider sx={{ py: 1, px: 0, gap: 1, opacity: shown ? 1 : 0.6 }}>
-              <ListItemText
-                primary={map.title}
-                secondary={[map.date || t('undated'), map.sistema, map.name].filter(Boolean).join(' · ')}
-                slotProps={{ primary: { sx: { fontSize: 15 } }, secondary: { sx: { fontSize: 13 } } }}
-                sx={{ flex: 1, minWidth: 0 }}
-              />
-              {scan && (
-                <Tooltip title={t('openScan')}>
-                  <IconButton component="a" href={scan} target="_blank" rel="noopener" aria-label={t('openScan')}>
-                    <ImageRounded />
-                  </IconButton>
-                </Tooltip>
-              )}
+              {/* The thumbnail and text: the original next to the drawing. */}
+              <ListItemButton className="oc-map-layers-admin--open" disabled={!map.scan} onClick={() => navigate(`/map-layers/${map.id}`, { state: { fromList: true } })} aria-label={t('showOriginal', { title: map.title })} sx={{ flex: 1, minWidth: 0, gap: 2, px: 1, ml: -1, borderRadius: 2 }}>
+                <Box
+                  className="oc-map-layers-admin--thumbnail"
+                  sx={{ display: { xs: 'none', md: 'block' }, flex: 'none', width: 80, height: 60, borderRadius: 1, overflow: 'hidden', bgcolor: 'action.hover' }}
+                >
+                  {thumbnail && <img src={thumbnail} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
+                </Box>
+                <ListItemText
+                  primary={map.title}
+                  secondary={[map.date || t('undated'), map.sistema, map.name].filter(Boolean).join(' · ')}
+                  slotProps={{ primary: { sx: { fontSize: 15 } }, secondary: { sx: { fontSize: 13 } } }}
+                  sx={{ minWidth: 0 }}
+                />
+              </ListItemButton>
               {map.center && (
                 <Tooltip title={t('showOnMap')}>
                   <IconButton aria-label={t('showOnMap')} onClick={() => showOnMap(map)}>
@@ -197,6 +213,7 @@ export default function MapLayersAdmin() {
           )
         })}
       </List>
+      <MapCompareViewer map={viewing} open={!!viewing} onClose={closeViewer} />
     </Box>
   )
 }

@@ -12,7 +12,10 @@
 // maps.json lists the maps in the tiles by id, with their config file's name,
 // title, date, sistema, scan (mapImportKey: the "maps" document's importKey)
 // and extent (center, bounds)
-// (the layer's edit mode names the map under the pointer).
+// (the layer's edit mode names the map under the pointer), and the image it
+// was traced from as laid on the ground ("scan": its four corners; the image
+// is scans/<id>.webp, from georef_scans.py - the admin's original-vs-drawing
+// viewer).
 //
 // Runs tippecanoe in Docker (image opencaves-tippecanoe, built from
 // tippecanoe.Dockerfile when missing). The tiles are build output: not in git,
@@ -28,6 +31,8 @@ import { hideBin } from 'yargs/helpers'
 const ROOT = path.resolve(import.meta.dirname, '../..')
 const MAPS = path.join(import.meta.dirname, 'maps')
 const SCANS = path.join(ROOT, '_data/map-layer/scans')
+// The maps' images laid on the ground (georef_scans.py), kept between builds.
+const GEOREF = path.join(ROOT, '_data/map-layer/georef')
 const OUT = path.join(ROOT, 'public/tiles/caves')
 const IMAGE = 'opencaves-tippecanoe'
 // Zooms: the whole region's walls from MIN_ZOOM; drawn details and symbols
@@ -138,6 +143,15 @@ rmSync(work, { recursive: true, force: true })
 // so the app asks only for these.
 const tiles = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith('.pbf')).map((f) => f.replaceAll(path.sep, '/').replace(/\.pbf$/, '')).sort()
 writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(tiles))
+// The maps' images on the ground (Python, like the tracing scripts).
+execFileSync('python', [path.join(import.meta.dirname, 'georef_scans.py'), GEOREF], { stdio: 'inherit' })
+mkdirSync(path.join(OUT, 'scans'))
+for (const id of Object.keys(mapIndex)) {
+  const corners = path.join(GEOREF, `${id}.json`)
+  if (!existsSync(corners)) continue
+  cpSync(path.join(GEOREF, `${id}.webp`), path.join(OUT, 'scans', `${id}.webp`))
+  mapIndex[id].scan = JSON.parse(readFileSync(corners, 'utf8')).corners
+}
 writeFileSync(path.join(OUT, 'maps.json'), JSON.stringify(mapIndex))
 // An empty tile (no layers), what the app gets for the tiles not listed.
 writeFileSync(path.join(OUT, 'empty.pbf'), Buffer.alloc(0))

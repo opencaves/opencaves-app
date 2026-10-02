@@ -118,3 +118,12 @@ git (they come from `_data/`): rebuild them after changing a map, before
 `npm run build`, which warns when they're missing; Hosting serves them with
 the app. The app draws them in `src/components/Map/CaveLayer.jsx`, coloured by
 sistema from the database.
+
+The build also lays each map's image on the ground, for the admin's Map layers
+page, where a map opens its original next to its drawing (a divider dragged
+sideways): `scripts/map-layer/georef_scans.py` (Python, like the tracing
+scripts) writes the image the drawing was traced from, reduced to 2048 px, and
+its four corners, placed like the drawing - in `_data/map-layer/georef/`,
+redone only for a map whose config or image changed. They're copied to
+`public/tiles/caves/scans/<id>.webp`, and `maps.json` gives each map's corners
+(`scan`).

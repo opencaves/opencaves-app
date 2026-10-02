@@ -1095,6 +1095,14 @@
     "hide": "Masquer le dessin de cette carte",
     "showOnMap": "Voir sur la carte",
     "saveError": "Impossible d'enregistrer la modification.",
-    "openScan": "Ouvrir la carte d’origine"
+    "showOriginal": "Afficher l’original de {{title}}",
+    "viewer": {
+      "hint": "Glissez le séparateur : l’original à gauche, le dessin à droite",
+      "back": "Retour aux couches de la carte",
+      "original": "Original",
+      "drawing": "Dessin",
+      "divider": "Séparateur entre l’original et le dessin",
+      "dividerValue": "{{original}} % original, {{drawing}} % dessin"
+    }
   }
 }

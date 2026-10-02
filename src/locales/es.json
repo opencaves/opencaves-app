@@ -1096,6 +1096,14 @@
     "hide": "Ocultar el dibujo de este mapa",
     "showOnMap": "Ver en el mapa",
     "saveError": "No se pudo guardar el cambio.",
-    "openScan": "Abrir el mapa original"
+    "showOriginal": "Mostrar el original de {{title}}",
+    "viewer": {
+      "hint": "Arrastre el divisor: el original a la izquierda, el dibujo a la derecha",
+      "back": "Volver a las capas del mapa",
+      "original": "Original",
+      "drawing": "Dibujo",
+      "divider": "Divisor entre el original y el dibujo",
+      "dividerValue": "{{original}} % original, {{drawing}} % dibujo"
+    }
   }
 }
