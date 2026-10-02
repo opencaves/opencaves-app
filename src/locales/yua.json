@@ -428,7 +428,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Kaxt",
-    "length": "U chowakil xak'alta'an (m)",
+    "length": "U chowakil xak'alta'an ({{unit}})",
     "aka": "U láak' k'aaba'",
     "addAka": "Ts'áa u láak' k'aaba'",
     "removeAka": "Luk'es le k'aaba'",
@@ -448,7 +448,7 @@
     "color": "Boon",
     "source": "Tu'ux u taal",
     "location": "Tu'ux yaan",
-    "maxDepth": "U asab taamil (m)",
+    "maxDepth": "U asab taamil ({{unit}})",
     "description": "Tsolil",
     "direction": "Bix u k'uchul",
     "maps": "Mapao'ob",

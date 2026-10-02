@@ -119,7 +119,12 @@
     "language": "Langue",
     "languageAutomatic": "Automatique ({{language}})",
     "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil.",
-    "personalInfo": "Informations personnelles"
+    "personalInfo": "Informations personnelles",
+    "units": "Unités",
+    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des systèmes.",
+    "unitsAutomatic": "Automatique ({{units}})",
+    "units_metric": "Métrique (m)",
+    "units_imperial": "Impérial (pi)"
   },
   "auth": {
     "dialog": {
@@ -565,7 +570,14 @@
         "places": "Lieux"
       },
       "cenoteEntrance": "Cénote d'entrée",
-      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)"
+      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)",
+      "validity": {
+        "label": "Validité",
+        "valid": "Valide",
+        "unknown": "Non confirmée",
+        "invalid": "Invalide"
+      },
+      "exit": "Quitter"
     },
     "closePane": "Fermer",
     "rating": {
@@ -670,7 +682,11 @@
       "redo": "Rétablir",
       "viewSource": "Voir la source Markdown",
       "viewFormatted": "Voir le texte formaté",
-      "ariaLabel": "Mise en forme : {{field}}"
+      "ariaLabel": "Mise en forme : {{field}}",
+      "length": "Longueur (dans les unités du lecteur)",
+      "lengthValue": "Longueur",
+      "lengthUnit": "Unité",
+      "linkText": "Texte du lien"
     }
   },
   "creatableTextField": {
@@ -694,7 +710,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Rechercher",
-    "length": "Distance explorée (m)",
+    "length": "Distance explorée ({{unit}})",
     "aka": "Également connu sous le nom de",
     "addAka": "Ajouter un autre nom",
     "removeAka": "Supprimer ce nom",
@@ -714,7 +730,7 @@
     "color": "Couleur",
     "source": "Source",
     "location": "Emplacement",
-    "maxDepth": "Profondeur max. (m)",
+    "maxDepth": "Profondeur max. ({{unit}})",
     "description": "Description",
     "direction": "Comment s’y rendre",
     "maps": "Cartes",
@@ -856,6 +872,31 @@
       "location": "Emplacement de la cénote",
       "entrance": "Entrée de la cénote",
       "key": "Emplacement de la clé"
+    },
+    "caveLayer": {
+      "button": "Galeries",
+      "title": "Galeries",
+      "show": "Afficher les galeries",
+      "scope": "Systèmes",
+      "all": "Tous les systèmes",
+      "selected": "Seulement le système de la cénote sélectionnée",
+      "selectedHint": "Sélectionnez d'abord une cénote",
+      "colors": "Couleurs",
+      "bySystem": "Par système",
+      "single": "Une seule couleur",
+      "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée.",
+      "legend": {
+        "title": "Légende",
+        "walls": "Parois et lignes de topo",
+        "water": "Eau",
+        "details": "Détails dessinés",
+        "entrance": "Cénote d'entrée",
+        "depth": "Profondeur",
+        "placeName": "Lieu nommé",
+        "flow": "Sens du courant",
+        "bySystem": "Chaque système dans sa couleur",
+        "single": "Tous les systèmes dans une couleur"
+      }
     }
   },
   "dashboard": {

@@ -39,6 +39,57 @@
 
     .ProseMirror {
       outline: none;
+
+      // A length tag (`:length[45 m]`): a chip, outlined once clicked
+      // (selected), ready for the Length button to edit.
+      .oc-length-chip {
+        display: inline-block;
+        padding: 0 0.4em;
+        border-radius: 0.5em;
+        background: var(--mui-palette-action-hover);
+        border-bottom: 1px dotted currentColor;
+        cursor: pointer;
+      }
+
+      .oc-length-chip.ProseMirror-selectednode,
+      .oc-length-chip:focus-within {
+        outline: 2px solid var(--mui-palette-primary-main);
+        background: var(--mui-palette-action-selected);
+      }
+
+      // Edited in place: the value a borderless field, the unit as text -
+      // its dropdown only while the chip has the focus.
+      .oc-length-chip--value,
+      .oc-length-chip--select {
+        font: inherit;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        outline: none;
+      }
+
+      .oc-length-chip--value {
+        text-align: right;
+      }
+
+      .oc-length-chip--unit {
+        margin-left: 0.25em;
+      }
+
+      .oc-length-chip--select {
+        display: none;
+        margin-left: 0.25em;
+        cursor: pointer;
+      }
+
+      .oc-length-chip:focus-within .oc-length-chip--unit {
+        display: none;
+      }
+
+      .oc-length-chip:focus-within .oc-length-chip--select {
+        display: inline;
+      }
       flex: 1;
       font-size: 1rem;
       line-height: 1.5;

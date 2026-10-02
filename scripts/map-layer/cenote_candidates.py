@@ -78,6 +78,10 @@ ENGLISH_WORDS = {'the', 'of', 'snake', 'bones', 'door', 'doors', 'road', 'well',
 PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
 
 
+# A database cave this close to a map's cenote is that cenote, whatever their names.
+SAME_SPOT_METRES = 15
+
+
 def push_id():
     """A Firebase push ID, like the database's other ids: time-ordered."""
     now = int(time.time() * 1000)
@@ -175,7 +179,9 @@ def map_candidates(config_path, output_dir):
     """The map's cenotes: [{name, latitude, longitude, accuracy, placement, caveId?}]."""
     config = json.loads(config_path.read_text(encoding='utf-8'))
     name = config_path.stem
-    if config.get('pdf'):
+    # A vector map gives its entrances in PDF points; a raster map may name
+    # its source PDF too ("pdf"), but places them in pixels.
+    if config.get('pdf') and all('pdf' in e for e in config.get('entrances', [])):
         place, _, residuals = vector_placement(config)
         accuracy = LABEL_ON_VECTOR + (max(residuals) if len(residuals) > 1 else 0)
         found = [{**e, 'position': place(*e['pdf']), 'placement': 'label'} for e in config.get('entrances', [])]
@@ -257,6 +263,11 @@ def main(review_path, config_paths, production):
                 # A close spelling, nearby only: "Grande" is the Grand Cenote next to it.
                 similar = [cave for k, group in by_key.items() if difflib.SequenceMatcher(None, key(c['name']), k).ratio() >= SIMILAR_NAME for cave in group]
                 matches = [cave for cave in similar if cave_position(cave) and distance(spot, cave_position(cave)) <= FAR_METRES]
+            if not matches:
+                # Any cave on the very same spot: a generic or empty name
+                # ("Cenote", an unnamed dot) can't match by name, and would
+                # otherwise be proposed as new again once imported.
+                matches = [cave for cave in caves if cave_position(cave) and distance(spot, cave_position(cave)) <= SAME_SPOT_METRES]
             # An entrance marked "replacePosition" (its cave's database position
             # is doubtful): compared as a cave without a position, so the map's
             # is kept aside to replace it.
@@ -337,11 +348,24 @@ def main(review_path, config_paths, production):
                 kept.append(entry)
             entries[before:] = kept
     # Accumulate: keep the entries from maps not in this run; keep known ids.
+    # A new cenote is known by its name, maps and position: several unnamed or
+    # generically named dots ("Cenote") on one map are different cenotes.
     def entry_key(e):
-        return (e['action'], e.get('caveId') or key(e['name']))
-    known_ids = {entry_key(e): e.get('id') for e in previous['entries']}
+        if e.get('caveId'):
+            return (e['action'], e['caveId'])
+        position = (round(e['latitude'], 4), round(e['longitude'], 4)) if e.get('latitude') is not None else None
+        return (e['action'], key(e['name']), tuple(sorted(e.get('maps', []))), position)
+    known_ids = {}
+    for e in previous['entries']:
+        known_ids.setdefault(entry_key(e), e.get('id'))
+    used = set()
     for entry in entries:
         entry['id'] = known_ids.get(entry_key(entry)) or (push_id() if entry['action'] == 'create' else entry['caveId'])
+        # Ids are unique per new cenote, even where an earlier run gave one id to several.
+        if entry['action'] == 'create':
+            while entry['id'] in used or entry['id'] in by_id:
+                entry['id'] = push_id()
+            used.add(entry['id'])
     others = [e for e in previous['entries'] if not set(e['maps']) & set(titles)]
     kept = others + [e for e in entries if entry_key(e) not in {entry_key(o) for o in others}]
     FOUND_FILE.write_text(json.dumps({'note': 'Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). '

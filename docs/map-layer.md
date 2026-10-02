@@ -82,6 +82,11 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
   `scripts/map-layer/found-cenotes.json`, for a later direct import: new
   cenotes, positions for caves without one, names for unnamed caves.
   Nothing is written to the database, and nothing goes to the Google Sheet.
+  `found_cenotes_map.py <out.html>` shows them on a map for review;
+  `node scripts/map-layer/import-found-cenotes.js -l` (or `-p`) then imports
+  them: new caves, positions (validity `unknown`), names and cenote-entrance
+  flags - only what is missing, so it can be rerun. A Google Sheet sync
+  replaces the caves collection: run it again afterwards.
 - A position read off a map is always to be verified on site (`validity`
   `unknown`). A database position marked `invalid` may be replaced by a map's;
   one taken on site (*Open Caves* source) never is.
@@ -89,3 +94,15 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
   `cenoteEntrance` flag): matched caves not yet flagged are kept aside too.
 - A map's exploration history goes to its sistema through
   `explorations_from_maps.py`, unless it is already there.
+
+## The layer in the app
+
+`npm run build:tiles` turns every placed map's traced output (unverified maps
+left out) into vector tiles in `public/tiles/caves/` - layers `passages`
+(walls, survey lines, water, details) and `symbols`, each feature with its
+`map` and `sistemaId`. It runs tippecanoe in Docker (the image is built from
+`scripts/map-layer/tippecanoe.Dockerfile` the first time). The tiles aren't in
+git (they come from `_data/`): rebuild them after changing a map, before
+`npm run build`, which warns when they're missing; Hosting serves them with
+the app. The app draws them in `src/components/Map/CaveLayer.jsx`, coloured by
+sistema from the database.

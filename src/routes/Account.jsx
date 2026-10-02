@@ -10,6 +10,7 @@ import { setUser } from '@/redux/slices/sessionSlice.jsx'
 import SavedCavesList from '@/components/SavedCaves/SavedCavesList.jsx'
 import OfflineStorageSection from '@/components/Offline/OfflineStorageSection.jsx'
 import LanguageSection from '@/components/Account/LanguageSection.jsx'
+import UnitsSection from '@/components/Account/UnitsSection.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 
@@ -179,10 +180,13 @@ export default function Account() {
               {t('saveName')}
             </Button>
           </Box>
+          {/* The language and units, as fields of the personal info. */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2.5 }}>
+            <LanguageSection asField />
+            <UnitsSection asField />
+          </Box>
         </Box>
 
-        <Divider sx={formSectionDividerSx} />
-        <LanguageSection headingProps={sectionHeadingProps} />
 
         {isLoggedIn && (
           <>

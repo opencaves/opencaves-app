@@ -2,16 +2,18 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { ArrowDropDownRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
+import { ArrowDropDownRounded, StraightenRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
-import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
+import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
+import { focusLength, milkdownLength } from './milkdownLength.js'
+import { findLength } from './lengthDirective.js'
 import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
@@ -72,6 +74,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [headingMenuAnchor, setHeadingMenuAnchor] = useState(null)
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)
   const [linkHref, setLinkHref] = useState('')
+  const [linkText, setLinkText] = useState('')
   const [linkMenuAnchor, setLinkMenuAnchor] = useState(null)
   const [caveLinkDialogOpen, setCaveLinkDialogOpen] = useState(false)
   // href of the link under the cursor/selection when the link menu opened.
@@ -81,6 +84,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   // cleared" - snapshot the selected range here, while the editor still has
   // focus, and restore it before applying the link.
   const savedSelectionRef = useRef(null)
+  // The tag the Length button just inserted, while it's being typed in.
+  const lengthInsertRef = useRef(null)
   onChangeRef.current = onChange
 
   useEffect(() => {
@@ -92,7 +97,10 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         ctx.set(defaultValueCtx, value || '')
         // The editable element is a bare contenteditable: name it after the
         // field's visible label so it reads as a labeled text box.
-        ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId } }))
+        ctx.update(editorViewOptionsCtx, (prev) => ({
+          ...prev,
+          attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId },
+        }))
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
           // Back to the loaded document: report the original text as is.
           const emitted = markdown === sourceMarkdownRef.current ? sourceValueRef.current : markdown
@@ -106,6 +114,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       .use(listener)
       .use(history)
       .use(clipboard)
+      // The `:length[45 m]` tag (milkdownLength.js), edited in place.
+      .use(milkdownLength({ value: t('toolbar.lengthValue'), unit: t('toolbar.lengthUnit') }, { cancelInsert: (view, pos, focus) => cancelLengthInsert(view, pos, focus), endInsert: () => (lengthInsertRef.current = null) }))
 
     editor.create().then(() => {
       if (cancelled) {
@@ -173,11 +183,54 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     return href
   }
 
+  // The whole link (same href) around a cursor inside it: its range in the
+  // document, so editing it changes all of it.
+  function linkRangeAt(state, linkType) {
+    const { $from } = state.selection
+    const href = $from.marks().find((m) => m.type === linkType)?.attrs.href
+    if (!href) {
+      return null
+    }
+    const hasLink = (node) => node.marks.some((m) => m.type === linkType && m.attrs.href === href)
+    const parent = $from.parent
+    let pos = $from.start()
+    let from = null
+    let to = null
+    let found = false
+    for (let i = 0; i < parent.childCount; i++) {
+      const child = parent.child(i)
+      const childFrom = pos
+      pos += child.nodeSize
+      if (hasLink(child)) {
+        if (from === null) from = childFrom
+        to = pos
+        if ($from.pos >= childFrom && $from.pos <= pos) found = true
+      } else if (found) {
+        break
+      } else {
+        from = null
+      }
+    }
+    return found ? { from, to } : null
+  }
+
   // The link button offers a web link or a link to a cave. The selection and
-  // any existing link are captured here, before the menu takes focus.
+  // any existing link are captured here, before the menu takes focus. A
+  // cursor inside a link selects the whole link, so the dialog edits it (its
+  // URL and its text) instead of adding a link within it.
   function openLinkMenu(event) {
     const view = editorRef.current?.ctx.get(editorViewCtx)
-    savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
+    if (view) {
+      const { state } = view
+      const linkType = state.schema.marks.link
+      const range = state.selection.empty && linkType ? linkRangeAt(state, linkType) : null
+      const { from, to } = range || state.selection
+      savedSelectionRef.current = { from, to }
+      setLinkText(state.doc.textBetween(from, to, ' '))
+    } else {
+      savedSelectionRef.current = null
+      setLinkText('')
+    }
     setActiveHref(view ? getActiveLinkHref(view) : '')
     setLinkMenuAnchor(event.currentTarget)
   }
@@ -204,6 +257,46 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     const to = Math.min(savedSelectionRef.current.to, docSize)
     view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
     view.focus()
+  }
+
+  // The Length button: a tag (`:length[45 m]`, milkdownLength.js) at the
+  // cursor, its value ready to type. With text selected ("200 meters!"), the
+  // length found in it becomes the tag (only it: "!" stays).
+  function insertLength() {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    const type = view?.state.schema.nodes.length_directive
+    if (!view || !type) {
+      return
+    }
+    const { selection, doc } = view.state
+    // Within one paragraph, each character of the text is one position
+    // (other inline nodes count as one placeholder character).
+    const found = !selection.empty && selection.$from.sameParent(selection.$to) ? findLength(doc.textBetween(selection.from, selection.to, '\n', '￼')) : null
+    // Text with no length in it is replaced by an empty tag (Escape, or
+    // leaving it empty, gives it back).
+    const from = found ? selection.from + found.index : selection.from
+    const to = found ? from + found.length : selection.to
+    // What Escape puts back (cancelLengthInsert): the text the tag replaced,
+    // and the selection.
+    lengthInsertRef.current = { pos: from, replaced: doc.slice(from, to), selection: { from: selection.from, to: selection.to } }
+    view.dispatch(view.state.tr.replaceWith(from, to, type.create({ text: found ? `${found.written} ${found.unit}` : ' m' })))
+    focusLength(view, from)
+  }
+
+  // Escape in a tag just inserted by the Length button: the text as it was
+  // before, with its selection (and the focus back in the editor, unless it
+  // went elsewhere). False for any other tag.
+  function cancelLengthInsert(view, pos, focus = true) {
+    const insert = lengthInsertRef.current
+    lengthInsertRef.current = null
+    const node = pos != null && view.state.doc.nodeAt(pos)
+    if (!insert || insert.pos !== pos || node?.type.name !== 'length_directive') {
+      return false
+    }
+    const tr = view.state.tr.replace(pos, pos + node.nodeSize, insert.replaced)
+    view.dispatch(tr.setSelection(TextSelection.create(tr.doc, insert.selection.from, insert.selection.to)))
+    if (focus) view.focus()
+    return true
   }
 
   // Written as the same `oc:<caveId>` link the app already renders as an
@@ -236,18 +329,24 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     }
   }
 
+  // The link's text replaces the selection (the URL itself when left
+  // empty), carrying the link.
   function confirmLink() {
     setLinkDialogOpen(false)
-    if (!isValidUrl(linkHref)) {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    const linkType = view?.state.schema.marks.link
+    if (!isValidUrl(linkHref) || !view || !linkType) {
       return
     }
 
-    const view = editorRef.current?.ctx.get(editorViewCtx)
-    if (view) {
-      restoreSelection(view)
-    }
-
-    runCommand(toggleLinkCommand, { href: linkHref })
+    restoreSelection(view)
+    const { state } = view
+    const { from, to } = state.selection
+    const text = linkText.trim() || linkHref
+    const marks = [...state.doc.resolve(from).marks().filter((m) => m.type !== linkType), linkType.create({ href: linkHref })]
+    const tr = state.tr.replaceWith(from, to, state.schema.text(text, marks))
+    view.dispatch(tr.setSelection(TextSelection.create(tr.doc, from + text.length)))
+    view.focus()
   }
 
   return (
@@ -284,6 +383,14 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           <MenuItem onClick={insertLink}>{t('toolbar.linkWeb')}</MenuItem>
           <MenuItem onClick={insertCaveLink}>{t('toolbar.linkCave')}</MenuItem>
         </Menu>
+
+        <Tooltip title={t('toolbar.length')} describeChild>
+          <span>
+            <IconButton size="small" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
+              <StraightenRounded fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
 
         <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
 
@@ -326,6 +433,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
       <Dialog open={linkDialogOpen} onClose={() => setLinkDialogOpen(false)} maxWidth="xs" fullWidth>
         <DialogContent>
+          <TextField fullWidth label={t('toolbar.linkText')} value={linkText} onChange={(e) => setLinkText(e.target.value)} sx={{ mt: 1, mb: 2 }} />
           <TextField autoFocus fullWidth label={t('toolbar.linkPrompt')} value={linkHref} onChange={(e) => setLinkHref(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && isValidUrl(linkHref) && confirmLink()} placeholder="https://" error={!!linkHref && !isValidUrl(linkHref)} helperText={!!linkHref && !isValidUrl(linkHref) ? t('toolbar.linkInvalid') : ' '} />
         </DialogContent>
         <DialogActions>

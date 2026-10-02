@@ -119,7 +119,12 @@
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",
     "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo.",
-    "personalInfo": "Información personal"
+    "personalInfo": "Información personal",
+    "units": "Unidades",
+    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cenotes y sistemas.",
+    "unitsAutomatic": "Automático ({{units}})",
+    "units_metric": "Métrico (m)",
+    "units_imperial": "Imperial (pies)"
   },
   "auth": {
     "dialog": {
@@ -566,7 +571,14 @@
         "places": "Lugares"
       },
       "cenoteEntrance": "Cenote de entrada",
-      "cenoteEntranceHint": "Un cenote por el que se entra al sistema de cuevas, como lo hacen los buzos de cuevas (no un cenote aislado en la selva)"
+      "cenoteEntranceHint": "Un cenote por el que se entra al sistema de cuevas, como lo hacen los buzos de cuevas (no un cenote aislado en la selva)",
+      "validity": {
+        "label": "Validez",
+        "valid": "Válida",
+        "unknown": "Sin confirmar",
+        "invalid": "Inválida"
+      },
+      "exit": "Salir"
     },
     "closePane": "Cerrar",
     "rating": {
@@ -671,7 +683,11 @@
       "redo": "Rehacer",
       "viewSource": "Ver el origen Markdown",
       "viewFormatted": "Ver el texto formateado",
-      "ariaLabel": "Formato: {{field}}"
+      "ariaLabel": "Formato: {{field}}",
+      "length": "Longitud (en las unidades del lector)",
+      "lengthValue": "Longitud",
+      "lengthUnit": "Unidad",
+      "linkText": "Texto del enlace"
     }
   },
   "creatableTextField": {
@@ -695,7 +711,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Buscar",
-    "length": "Distancia explorada (m)",
+    "length": "Distancia explorada ({{unit}})",
     "aka": "También conocido como",
     "addAka": "Añadir nombre alternativo",
     "removeAka": "Eliminar nombre",
@@ -715,7 +731,7 @@
     "color": "Color",
     "source": "Fuente",
     "location": "Ubicación",
-    "maxDepth": "Profundidad máx. (m)",
+    "maxDepth": "Profundidad máx. ({{unit}})",
     "description": "Descripción",
     "direction": "Cómo llegar",
     "maps": "Mapas",
@@ -857,6 +873,31 @@
       "location": "Ubicación del cenote",
       "entrance": "Entrada del cenote",
       "key": "Ubicación de la llave"
+    },
+    "caveLayer": {
+      "button": "Galerías",
+      "title": "Galerías",
+      "show": "Mostrar las galerías",
+      "scope": "Sistemas",
+      "all": "Todos los sistemas",
+      "selected": "Solo el sistema del cenote seleccionado",
+      "selectedHint": "Selecciona primero un cenote",
+      "colors": "Colores",
+      "bySystem": "Por sistema",
+      "single": "Un solo color",
+      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones.",
+      "legend": {
+        "title": "Leyenda",
+        "walls": "Paredes y líneas de topografía",
+        "water": "Agua",
+        "details": "Detalles dibujados",
+        "entrance": "Cenote de entrada",
+        "depth": "Profundidad",
+        "placeName": "Lugar con nombre",
+        "flow": "Sentido de la corriente",
+        "bySystem": "Cada sistema en su color",
+        "single": "Todos los sistemas en un color"
+      }
     }
   },
   "dashboard": {

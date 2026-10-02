@@ -5,6 +5,8 @@ import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
+import { loadAccountUnits } from '@/services/unitsPreference.js'
+import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
 const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
 
@@ -80,6 +82,13 @@ export default function ManageAuth() {
       } catch (error) {
         console.warn('[ManageAuth] Unable to load the account language:', error)
       }
+      // Its units too (UnitsSection).
+      try {
+        const units = await loadAccountUnits(user.uid)
+        if (units) dispatch(setUnits(units))
+      } catch (error) {
+        console.warn('[ManageAuth] Unable to load the account units:', error)
+      }
     })
-  }, [])
+  }, [dispatch])
 }

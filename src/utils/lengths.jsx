@@ -44,7 +44,13 @@ export function formatLength(length, { unit, locale } = { unit: 'meter', locale:
 
 }
 
+// The text outside the `:length[...]` tags (Markdown's lengthDirective.js):
+// a tagged length is shown in the reader's units by the tag, not rewritten here.
 export function normalizeLengths(str, locale = 'en') {
+  return str.split(/(:length\[[^\]]*\])/).map((part, i) => (i % 2 ? part : normalizeUntaggedLengths(part, locale))).join('')
+}
+
+function normalizeUntaggedLengths(str, locale = 'en') {
 
   const lengthPart = re(
     /*

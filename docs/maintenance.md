@@ -56,6 +56,22 @@ maps, or users' data.
 A fresh clone, or a wiped `.emulator-data/` folder, starts with an empty local
 database: run it once against the emulators.
 
+## Tag the lengths in the descriptions
+
+```
+node scripts/tag-lengths.js -l           # local emulators: dry run, lists the changes
+node scripts/tag-lengths.js -l --write   # saves them
+node scripts/tag-lengths.js -p           # production (dry run; add --write to save)
+```
+
+Turns the lengths and depths written as plain text in the Markdown fields
+(caves' and sistemas' descriptions, directions, access and accessibility
+details, explorations) into the length tag - `40 ft` becomes `:length[40 ft]` -
+which each reader sees in their units. A conversion written next to a length
+(`40 ft (12 m)`) is dropped, and a range gets a tag at each end. Without
+`--write` it only lists the changes: read them before saving. Re-runnable.
+A sync from the Google Sheet brings the untagged text back: run it again after.
+
 ## Give someone a role
 
 ```

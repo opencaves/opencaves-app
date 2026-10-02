@@ -1,0 +1,378 @@
+{
+  "image": "../../../_data/maps-import/images/borges-sist-rancho-borges-tulum.webp",
+  "imageNote": "The import's render of _data/cartes/à traiter/Borges, Sist., Rancho Borges, Tulum.pdf (AMCS Activities Newsletter 33, p. 62, 2010): the PDF holds one CMYK raster (4039 x 3165 once turned upright), which this webp shows 1.276x larger with nothing more in it - no better copy exists.",
+  "title": "Sistema Borges - James G. Coke IV, 2010",
+  "credits": "Sistema Borges, Rancho Borges, Tulum, Quintana Roo, Mexico; length 319.9 m, depth -4.5 m; surveyed with Suunto, clinometer, tape and Disto A3, February 2010, by James G. Coke IV; drawn by James G. Coke IV, April 2010. (c) 2010 James G. Coke IV (AMCS Activities Newsletter 33, p. 62, 2010)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-P2wO0lWi6bVVkqUN16Q",
+  "sistemaWhy": "Sistema created in the local database at the user's request (2026-10-02) from this map: Borges. No Sistema Borges in the database (nor any cave named Borges): sistemaId left empty for the user to create it. Its sump leads to 'Cenote Garza (Cueva Inundada)': the database's only Garza (-KPZkVJm0TntehY0DgPo, Gerrard 2015, no position) is filed under Swan Lake Spring (-KPZgfyGw3nChUfwqTYa, 1257.9 m, 14.9 m, 'located 650 m southeast of Sistema Dos Pisos') - perhaps the flooded cave meant here, but nothing on the map confirms it.",
+  "unverified": "No cenote of the map has a position: Sistema Borges and Rancho Borges are in neither the database nor OpenStreetMap (OSM's only 'Borges' near Tulum is a restaurant on Avenida Tulum), and the database's Garza has no position. The map is put, by its scale bar and north, with its Garza sump on a guessed spot for Swan Lake Spring (650 m south-east of Dos Pisos' position, from Gerrard's direction) - a guess only, which falls among houses and canopy.",
+  "wetDry": "Shallow water cave, kept by the user's decision: the pale blue fill ('Agua' in the legend) covers most of the passages, 1.0-2.0 m deep (blue overlined numbers), under 1.2-2.9 m of ceiling (circled); the rest is mud, sand and breakdown floor around the entrance collapse. The west end sumps ('Sifon a Cenote Garza (Cueva Inundada)'), the way on to the flooded cave.",
+  "utmEpsg": 32616,
+  "scaleBar": {
+    "from": [
+      1285,
+      3034
+    ],
+    "to": [
+      2512,
+      3034
+    ],
+    "metres": 45
+  },
+  "north": {
+    "angle": 0
+  },
+  "northWhy": "The arrow is magnetic north 2006 with a declination of 0 deg 02' E (as on Coke's Tixik K'una map of 2008): north is up. Nothing on the ground could check it.",
+  "placementWhy": "Scale bar (0-45 m, 1227 px: 0.0367 m/px; the cross-sections' 6 m bars, 'at the map's scale', agree within 1%) and north (magnetic 2006, 0 deg 02' E: up), shifted so the sump to Cenote Garza (west end) lands on a guessed position for the database's Swan Lake Spring: 650 m south-east of Sistema Dos Pisos (20.18979, -87.54207), from Gerrard's direction. Unchecked: no point of the map has a known position (see unverified); the nearest placed map is Ox Bel Ha 2011, 600 m away, which doesn't overlap.",
+  "exclude": [
+    {
+      "why": "page frame top",
+      "box": [
+        0,
+        0,
+        5155,
+        40
+      ]
+    },
+    {
+      "why": "page frame left",
+      "box": [
+        0,
+        0,
+        40,
+        4040
+      ]
+    },
+    {
+      "why": "page frame right",
+      "box": [
+        5115,
+        0,
+        5155,
+        4040
+      ]
+    },
+    {
+      "why": "page frame bottom",
+      "box": [
+        0,
+        4005,
+        5155,
+        4040
+      ]
+    },
+    {
+      "why": "title: Sistema Borges, Rancho Borges, Tulum, Quintana Roo, Mexico, Longitud 319.9 m, Profundidad -4.5 m",
+      "box": [
+        3680,
+        110,
+        4960,
+        730
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (N mag 2006, 0 deg 02' E)",
+      "box": [
+        4630,
+        2250,
+        4950,
+        2960
+      ]
+    },
+    {
+      "why": "scale bar 0-45 m (Metros)",
+      "box": [
+        1250,
+        3000,
+        2600,
+        3180
+      ]
+    },
+    {
+      "why": "legend (Simbologia)",
+      "box": [
+        120,
+        1780,
+        1110,
+        2620
+      ]
+    },
+    {
+      "why": "note (cross-sections at the map's scale) and survey credits: Topografiada con Suunto, Clinometro, Cinta y Disto A3, Febrero 2010, James G. Coke IV",
+      "box": [
+        180,
+        2680,
+        1080,
+        3170
+      ],
+      "history": true
+    },
+    {
+      "why": "section: profile A-A' (Perfil) with its two depth bars",
+      "box": [
+        300,
+        3200,
+        5115,
+        3940
+      ]
+    },
+    {
+      "why": "second label ENTRADA SISTEMA BORGES / Datum (over the profile) and its leader",
+      "box": [
+        4000,
+        3040,
+        4560,
+        3200
+      ]
+    },
+    {
+      "why": "credits: (c) 2010 James G. Coke IV; Dibujado por James G. Coke IV, Abril 2010",
+      "box": [
+        40,
+        3940,
+        5115,
+        4005
+      ],
+      "history": true
+    },
+    {
+      "why": "section (6 m bar), top centre",
+      "box": [
+        1855,
+        330,
+        2410,
+        560
+      ]
+    },
+    {
+      "why": "section's 6 m bar, top centre (the 1.7 depth beside it is kept)",
+      "box": [
+        2050,
+        560,
+        2250,
+        650
+      ]
+    },
+    {
+      "why": "section (6 m bar) with the surface vegetation, top right",
+      "box": [
+        2900,
+        420,
+        3760,
+        890
+      ]
+    },
+    {
+      "why": "section (6 m bar), left",
+      "box": [
+        380,
+        1360,
+        1150,
+        1720
+      ]
+    },
+    {
+      "why": "section (3 m bar), left centre",
+      "box": [
+        1475,
+        1540,
+        1860,
+        1830
+      ]
+    },
+    {
+      "why": "section (6 m bar), centre left",
+      "box": [
+        1200,
+        1925,
+        2005,
+        2280
+      ]
+    },
+    {
+      "why": "section (3 m bar), centre",
+      "box": [
+        3005,
+        1960,
+        3405,
+        2260
+      ]
+    },
+    {
+      "why": "section (6 m bar), bottom left",
+      "box": [
+        1570,
+        2475,
+        2165,
+        2845
+      ]
+    },
+    {
+      "why": "section (6 m bar), bottom right",
+      "box": [
+        3845,
+        2250,
+        4500,
+        2570
+      ]
+    },
+    {
+      "why": "section (6 m bar) with the surface vegetation, right",
+      "box": [
+        4345,
+        1605,
+        4985,
+        2085
+      ]
+    },
+    {
+      "why": "section mark A' (profile end)",
+      "box": [
+        300,
+        600,
+        575,
+        705
+      ]
+    },
+    {
+      "why": "section mark A (profile end)",
+      "box": [
+        4495,
+        1425,
+        4765,
+        1535
+      ]
+    },
+    {
+      "why": "label ENTRADA SISTEMA BORGES, Datum, and its leader",
+      "box": [
+        4410,
+        1020,
+        4980,
+        1265
+      ]
+    },
+    {
+      "why": "label Sifon a Cenote Garza (Cueva Inundada) and its leader",
+      "box": [
+        130,
+        830,
+        720,
+        1115
+      ]
+    },
+    {
+      "why": "label Plataforma Maya and its leader",
+      "box": [
+        2490,
+        690,
+        2810,
+        868
+      ]
+    },
+    {
+      "why": "word Plan",
+      "box": [
+        3070,
+        1780,
+        3260,
+        1875
+      ]
+    },
+    {
+      "why": "label Sifon a Cenote Garza, first line (left of the sump)",
+      "box": [
+        130,
+        720,
+        560,
+        830
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "GUESS: the sump to Cenote Garza (west end) put on the database's Swan Lake Spring, 650 m south-east of Sistema Dos Pisos (Gerrard's direction; the sistema of the database's only Garza, which has no position)",
+      "px": [
+        700,
+        715
+      ],
+      "latitude": 20.18565,
+      "longitude": -87.53767
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrada Sistema Borges",
+      "px": [
+        4275,
+        1255
+      ],
+      "caveId": null,
+      "why": "the open collapse at the east end (boulders and plants inside the ticked 'Limite de cueva' line), the map's datum (Ø Datum); not in the database"
+    }
+  ],
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 3,
+    "minExtentPx": 100,
+    "fillStrokeHolesPx": 600,
+    "minLineMetres": 1.5,
+    "detailLines": [
+      {
+        "why": "skylight (spoked ring with a plant) in the mud east of 4.1: a roof opening, not a pillar",
+        "from": [
+          3900,
+          1421
+        ],
+        "to": [
+          3912,
+          1421
+        ],
+        "widthPx": 130
+      }
+    ]
+  },
+  "symbols": {
+    "units": "m",
+    "decimals": true,
+    "words": {
+      "tb": "ceiling-low"
+    },
+    "why": "Coke's legend: overlined numbers are depths - black ones the floor depth below the datum (profundidad del piso: 4.1, 4.5, 4.5), blue ones the water's depth (profundidad del agua, 1.0-2.0) - both typed depth, as on Tixik K'una; circled ones ceiling heights; tb low ceiling. Checked by eye against the map: 14 depths, 12 ceiling heights, 1 tb; OCR missed the 1.7 (once masked by the top section's box, now cut back) and the circled 2.7 (in extra). No bones (no legend icon, none drawn, no word), no flow arrows, no '?': the small bent arrows beside the passages are the cross-sections' marks. The spoked rings with a plant (east of 4.1, and two in the sand south of it) are skylights, not typed. The dashed lines at tb are 'pasaje sin topografia' (unsurveyed passage), left as drawn.",
+    "extra": [
+      {
+        "type": "ceiling-height",
+        "label": "2.7",
+        "px": [
+          1350,
+          495
+        ],
+        "value": 2.7
+      },
+      {
+        "type": "leads-to",
+        "label": "Sifón a Cenote Garza (Cueva Inundada)",
+        "px": [
+          700,
+          715
+        ],
+        "why": "the west end's sump, drawn as a short water passage beyond the wall with the legend's sifon mark; the label's leader points to it"
+      },
+      {
+        "type": "place-name",
+        "label": "Plataforma Maya",
+        "px": [
+          2470,
+          1235
+        ],
+        "why": "the label's leader points down at the outlined block with a square stone, by the north wall west of 2.9"
+      }
+    ]
+  }
+}

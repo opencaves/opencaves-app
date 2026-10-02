@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, ButtonBase, CircularProgress, Grid, IconButton, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
-import { AddLocationAltRounded, CenterFocusStrongRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
+import { Box, ButtonBase, CircularProgress, Grid, IconButton, MenuItem, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
+import { AddLocationAltRounded, CenterFocusStrongRounded, CircleRounded, CloseRounded, FenceRounded, MyLocationRounded, VpnKeyRounded } from '@mui/icons-material'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap, startCrossPick, endCrossPick } from '@/redux/slices/mapSlice.jsx'
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
@@ -19,6 +19,13 @@ const FIELD_BADGE_ICONS = {
   entrance: FenceRounded,
   key: VpnKeyRounded,
 }
+
+// A coordinate's validity (location.validity...), each with its clue colour.
+export const COORDINATE_VALIDITIES = [
+  { value: 'valid', color: 'success.main' },
+  { value: 'unknown', color: 'warning.main' },
+  { value: 'invalid', color: 'error.main' },
+]
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
 // be dropped on the map (see Map.jsx's onDrop) to choose a coordinate. Once
@@ -63,7 +70,10 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 // location and Remove. mapBelowOnPhones: on phones, "Place on map" opens a
 // map right below this field instead (for a page whose own map preview is
 // hidden on phones, see CoordinatesMapPreview's hideOnPhones).
-export default function CoordinateField({ field, label, longitude, latitude, onChange, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
+// validity / onValidityChange: the coordinate's validity, as a dropdown with a
+// colour clue; a new value - typed, picked on the map or "my location" - makes
+// it valid.
+export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
@@ -73,6 +83,12 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const [locating, setLocating] = useState(false)
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
   const isSmall = useSmall()
+
+  // Every change the user makes to the coordinate: a new position is valid.
+  function change(coordinates) {
+    onChange(coordinates)
+    if (onValidityChange && coordinates.longitude !== '' && coordinates.latitude !== '') onValidityChange('valid')
+  }
 
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
@@ -85,7 +101,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
 
   useEffect(() => {
     if (pickedCoordinate?.field === field) {
-      onChange({ longitude: pickedCoordinate.longitude, latitude: pickedCoordinate.latitude })
+      change({ longitude: pickedCoordinate.longitude, latitude: pickedCoordinate.latitude })
       dispatch(clearPickedCoordinate())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,12 +114,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   // instead of only when the field truly goes away.
   useEffect(() => {
     if (isSet) {
-      dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude) }))
+      // With its validity, so the map's pin shows it (valid or not) live.
+      dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude), validity }))
     } else {
       dispatch(clearEditFieldCoordinate(field))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [field, longitude, latitude, isSet])
+  }, [field, longitude, latitude, isSet, validity])
 
   // Only clear this field's marker on a real unmount (leaving edit mode
   // entirely), not on every value change.
@@ -122,7 +139,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     setLocating(true)
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        onChange({ longitude: normalizeCoordinateValue(position.coords.longitude), latitude: normalizeCoordinateValue(position.coords.latitude) })
+        change({ longitude: normalizeCoordinateValue(position.coords.longitude), latitude: normalizeCoordinateValue(position.coords.latitude) })
         setLocating(false)
       },
       (error) => {
@@ -177,12 +194,35 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
   }
 
-  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
-  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => onChange({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
+  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
+  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
+  const dot = (value) => <CircleRounded sx={{ fontSize: 12, color: COORDINATE_VALIDITIES.find((v) => v.value === value)?.color, flex: 'none' }} />
+  const validityInput = onValidityChange && (
+    <TextField
+      select
+      size="small"
+      label={t('validity.label')}
+      value={validity || 'unknown'}
+      disabled={!isSet}
+      onChange={(e) => onValidityChange(e.target.value)}
+      // One width whatever the choice (fits the longest, "Non confirmée"),
+      // so the rows line up.
+      sx={{ width: 172 }}
+      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
+    >
+      {COORDINATE_VALIDITIES.map(({ value }) => (
+        <MenuItem key={value} value={value} sx={{ gap: 1 }}>
+          {dot(value)}
+          {t(`validity.${value}`)}
+        </MenuItem>
+      ))}
+    </TextField>
+  )
   const inputs = (
     <>
       <Grid size="auto">{longitudeInput}</Grid>
       <Grid size="auto">{latitudeInput}</Grid>
+      {validityInput && <Grid size="auto">{validityInput}</Grid>}
     </>
   )
 

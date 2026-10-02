@@ -66,6 +66,9 @@ const emptyForm = {
   entranceLatitude: '',
   keyLongitude: '',
   keyLatitude: '',
+  locationValidity: 'valid',
+  entranceValidity: 'valid',
+  keyValidity: 'valid',
 }
 
 export default function CaveEdit() {
@@ -152,6 +155,10 @@ export default function CaveEdit() {
         entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
         keyLongitude: normalizeCoordinateValue(cave?.keys?.[0]?.longitude ?? ''),
         keyLatitude: normalizeCoordinateValue(cave?.keys?.[0]?.latitude ?? ''),
+        // Each coordinate's validity: one without it is unconfirmed.
+        locationValidity: cave?.location?.validity || 'unknown',
+        entranceValidity: cave?.entrance?.validity || 'unknown',
+        keyValidity: cave?.keys?.[0]?.validity || 'unknown',
       }
       setForm(loaded)
       setBaseline(loaded)
@@ -203,15 +210,15 @@ export default function CaveEdit() {
       }
 
       if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
+        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
       }
 
       if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
-        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)) }
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)), validity: form.entranceValidity }
       }
 
       if (form.keyLongitude !== '' && form.keyLatitude !== '') {
-        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)) }]
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)), validity: form.keyValidity }]
       }
 
       const nameTranslationsUpdate = {}
@@ -242,7 +249,7 @@ export default function CaveEdit() {
       // baseline for the next save's nameTranslations diff.
       setOriginalCave(await CaveModel.getById(caveId))
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }))
+      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -303,9 +310,9 @@ export default function CaveEdit() {
               the stacking context would trap a field's own full-screen map
               under the page's action bar. */}
           <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, position: { md: 'relative' }, zIndex: { md: 1 } }}>
-            <CoordinateField field="location" mapBelowOnPhones label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
-            <CoordinateField field="entrance" mapBelowOnPhones label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
-            <CoordinateField field="key" mapBelowOnPhones label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
+            <CoordinateField field="location" mapBelowOnPhones label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} validity={form.locationValidity} onValidityChange={(locationValidity) => setForm((f) => ({ ...f, locationValidity }))} />
+            <CoordinateField field="entrance" mapBelowOnPhones label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} validity={form.entranceValidity} onValidityChange={(entranceValidity) => setForm((f) => ({ ...f, entranceValidity }))} />
+            <CoordinateField field="key" mapBelowOnPhones label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} validity={form.keyValidity} onValidityChange={(keyValidity) => setForm((f) => ({ ...f, keyValidity }))} />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
             <CoordinatesMapPreview hideOnPhones />

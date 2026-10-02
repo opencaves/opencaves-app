@@ -1,0 +1,749 @@
+{
+ "image": "../../../_data/map-layer/pilot/aluxes-nored.png",
+ "imageWhy": "Made by scripts/map-layer/prep/aluxes.py: the Spelunca figure (the PDF's embedded 4277x3479 PNG) with its red ink (the motorway and road, the village grid, survey stations, 'Antenne', 'Autoroute') inpainted away (OpenCV Telea, radius 5) so the black walls run on where the red lines crossed them. Same pixels as the PDF's image: every px is valid on both.",
+ "title": "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+ "credits": "Grotte des Aluxes, Puerto Aventuras. Topographie degré 4 UIS, Expéditions Yuc 2001 / 2005 (French expeditions). Spelunca 98, p. 35, 2005 (Figure 15: Plan de la grotte des Aluxes). North arrow: magnetic north; 200 m scale bar",
+ "source": {
+  "id": "-KPZg4joZ9lZ2oVH-LhB",
+  "name": "map"
+ },
+ "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+ "sistemaWhy": "The database's sistema 'Alux' (area Puerto Aventuras) - the Grutas de los Aluxes. Not the Cueva Alux of Xpuha (maps/alux.json).",
+ "utmEpsg": 32616,
+ "otherEditions": "Same cave: 'Aluxes, Grutas de los, Puerto Aventuras (2).pdf' (Mafia Maps, F. Devos, July 2001: Gruta Norte only, 775 m, stick map with water pools, Entrances 1-3, Rancho, 'Footprints'), '(1).pdf' (Mafia Maps, August 2002, colour: Gruta Norte 775 m, Este 508 m, Oeste 1,032 m, Sur 1,498 m, total 3,814 m, stick map with the village (Poblado) and Carretera Federal 307) and 'Aluxes, Grutas de los, Puerto Aventuras.pdf' (the same 2002 map in grey, AMCS Activities Newsletter 26, p. 41, 2003). All md5-distinct; _data/maps-import/images holds webp copies of the Spelunca and the two wetworx maps. This Spelunca plan is the only one with walls.",
+ "placementWhy": "No cave of this map has a database or OpenStreetMap position (the sistema 'Alux' has no cave). Placed by the surface features the map draws in red: the motorway (Autoroute = MEX 307) and the village road (Calle Vivoros, Puerto Aventuras' main entrance road, OSM 158026443) meeting it at a T - the map's two straight double lines, measured with a Hough fit. Three points: the junction of the two centrelines, a point 1,200 m NE along the motorway and one 500 m NW along the road (both at the scale bar's 0.4515 m/px). Free similarity fit: 0.4562 m/px (1% from the bar), rotation -2.0 deg; residuals 14.6, 5.4 and 13.1 m (the map's road-motorway angle is 84 deg against 81 on the ground: the road is drawn with a ruler). Checks: the 'Entrée du terrain de basket' (basketball court entrance) lands at the edge of the covered basketball court of the village (about 30 m from its centre) - the strongest confirmation; the map's village grid lies NE of the road's NW end, where the old village is; the SE branch straddles the motorway as drawn, and the concrete foundations (Fondations en béton) are under it. Doubt: the long 'Effondrement' collapse (NW branch) lands about 100 m NE of a NE-SW wooded strip in the town (two unbuilt blocks either side of an avenue, 210 m long, bearing 44 deg against the collapse's 280 m and 51 deg) - if that strip is the collapse, the NW branch is that far off (survey closure or drawing). Expect 20-40 m near the motorway, up to about 100 m at the NE ends of the north branch. The 2002 Mafia Maps line plot (another survey of the same cave, with Carretera Federal 307 and the Poblado) agrees in layout: Gruta Sur crossing the highway, Oeste in the village, Norte/Este 400-700 m NW of the highway.",
+ "exclude": [
+  {
+   "why": "section (55 m and 36 m cross-sections, top left)",
+   "box": [
+    0,
+    0,
+    1600,
+    580
+   ]
+  },
+  {
+   "why": "section (38 m, below the grand couloir)",
+   "box": [
+    1880,
+    1100,
+    2370,
+    1370
+   ]
+  },
+  {
+   "why": "section (3 m / 14 m)",
+   "box": [
+    1940,
+    1530,
+    2340,
+    1710
+   ]
+  },
+  {
+   "why": "sections (17 m, 22 m: Le labyrinthe sec; 40 m: Le grand lac, Dunes de sable)",
+   "box": [
+    2900,
+    80,
+    3640,
+    975
+   ]
+  },
+  {
+   "why": "sections (Les lacs noirs 7 m, Vase noire; La galerie cristalline 14 m)",
+   "box": [
+    3500,
+    1990,
+    4110,
+    2420
+   ]
+  },
+  {
+   "why": "title Grotte des Aluxes, Topographie degré 4 UIS, Expéditions Yuc 2001 / 2005",
+   "box": [
+    3080,
+    2530,
+    3770,
+    2880
+   ],
+   "history": true
+  },
+  {
+   "why": "north arrow (Nm)",
+   "box": [
+    370,
+    2130,
+    620,
+    2560
+   ]
+  },
+  {
+   "why": "scale bar 0-200 m",
+   "box": [
+    270,
+    2600,
+    810,
+    2710
+   ]
+  },
+  {
+   "why": "figure caption (Figure 15 : Plan de la grotte des Aluxes)",
+   "box": [
+    1440,
+    3230,
+    2520,
+    3350
+   ]
+  }
+ ],
+ "controlPoints": [
+  {
+   "name": "junction of the village road with the motorway (map: the road's centreline met with the motorway's centreline; ground: Calle Vivoros (OSM 158026443) extended to the MEX 307 centreline, between its two carriageways)",
+   "px": [
+    1770.5,
+    2772.5
+   ],
+   "latitude": 20.505477,
+   "longitude": -87.230693
+  },
+  {
+   "name": "motorway centreline 1,200 m NE of the junction (at the scale bar's 0.4515 m/px on the map; on the ground along MEX 307's centreline, bearing 57.8)",
+   "px": [
+    3954.5,
+    1257.5
+   ],
+   "latitude": 20.511267,
+   "longitude": -87.220963
+  },
+  {
+   "name": "village road centreline 500 m NW of the junction (map at the scale bar's scale; ground along Calle Vivoros, bearing 318.5)",
+   "px": [
+    1049.3,
+    1932.1
+   ],
+   "latitude": 20.508843,
+   "longitude": -87.233888
+  },
+  {
+   "name": "Entrée du terrain de basket: the covered basketball court (white curved roof) S of the grand couloir, centre - the entrance is at its edge, so a loose check",
+   "px": [
+    1385,
+    1250
+   ],
+   "latitude": 20.511788,
+   "longitude": -87.232517,
+   "check": true
+  }
+ ],
+ "trace": {
+  "method": "thin-walls",
+  "water": false,
+  "inkLevel": 120,
+  "bridgePx": 5,
+  "labelMaxHeightPx": 90,
+  "straightMinPx": 50,
+  "leaderMaxPx": 700,
+  "labelBoxes": [
+   [
+    1880,
+    180,
+    2180,
+    265
+   ],
+   [
+    1370,
+    615,
+    1540,
+    700
+   ],
+   [
+    2310,
+    760,
+    2480,
+    810
+   ],
+   [
+    3030,
+    1175,
+    3210,
+    1235
+   ],
+   [
+    2815,
+    1565,
+    2995,
+    1620
+   ],
+   [
+    1825,
+    2085,
+    2000,
+    2140
+   ],
+   [
+    1400,
+    1000,
+    1900,
+    1235
+   ],
+   [
+    1485,
+    1240,
+    1700,
+    1400
+   ],
+   [
+    1110,
+    1290,
+    1370,
+    1460
+   ],
+   [
+    830,
+    1385,
+    1020,
+    1450
+   ],
+   [
+    3840,
+    775,
+    4050,
+    920
+   ],
+   [
+    3370,
+    1010,
+    3640,
+    1100
+   ],
+   [
+    3470,
+    1555,
+    3770,
+    1655
+   ],
+   [
+    3940,
+    1440,
+    4140,
+    1570
+   ],
+   [
+    3600,
+    1740,
+    3850,
+    1850
+   ],
+   [
+    2245,
+    1870,
+    2495,
+    1975
+   ],
+   [
+    2640,
+    2300,
+    2910,
+    2430
+   ],
+   [
+    1180,
+    2560,
+    1430,
+    2665
+   ],
+   [
+    1300,
+    2755,
+    1530,
+    2860
+   ],
+   [
+    1070,
+    1440,
+    1100,
+    1500
+   ]
+  ],
+  "eraseLines": [
+   {
+    "why": "36 m section's leader (bold vertical)",
+    "from": [
+     1307,
+     440
+    ],
+    "to": [
+     1307,
+     800
+    ],
+    "widthPx": 9
+   },
+   {
+    "why": "'Entrées' (west) leaders through the pool",
+    "from": [
+     1330,
+     845
+    ],
+    "to": [
+     1368,
+     940
+    ],
+    "widthPx": 7
+   },
+   {
+    "why": "'Entrées' (west) leaders through the pool",
+    "from": [
+     1345,
+     845
+    ],
+    "to": [
+     1288,
+     962
+    ],
+    "widthPx": 7
+   },
+   {
+    "why": "'Entrées' (lower middle) leaders to the yellow collapse",
+    "from": [
+     2840,
+     1585
+    ],
+    "to": [
+     2672,
+     1785
+    ],
+    "widthPx": 9
+   },
+   {
+    "why": "'Entrées' (lower middle) leaders to the yellow collapse",
+    "from": [
+     2860,
+     1590
+    ],
+    "to": [
+     2692,
+     1800
+    ],
+    "widthPx": 9
+   },
+   {
+    "why": "'Entrées' (lower middle) leaders to the yellow collapse",
+    "from": [
+     2850,
+     1580
+    ],
+    "to": [
+     2700,
+     1760
+    ],
+    "widthPx": 9
+   }
+  ]
+ },
+ "entrances": [
+  {
+   "name": "Entrée (south group 1)",
+   "px": [
+    2162,
+    2192
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (south group 2)",
+   "px": [
+    2070,
+    2282
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (south group 3)",
+   "px": [
+    2046,
+    2416
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (south group 4)",
+   "px": [
+    1907,
+    2427
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (south group 5)",
+   "px": [
+    1791,
+    2454
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (south group 6)",
+   "px": [
+    1875,
+    2530
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured), one of the 'Entrées' leaders' targets near the Galerie des colonnes"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    3075,
+    1290
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: W end of the yellow collapse bar"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    3110,
+    1380
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: the bar's arm going south"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    3200,
+    1300
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: middle of the bar"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    3270,
+    1280
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: E end of the bar"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    2870,
+    1378
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: leader end (no yellow): a passage tip SW of the bar, approximate"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "px": [
+    3285,
+    1240
+   ],
+   "why": "'Entrées' label above the Lacs noirs area: leader end (no yellow), approximate"
+  },
+  {
+   "name": "Entrée (middle group, lower label)",
+   "px": [
+    3000,
+    1665
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured)"
+  },
+  {
+   "name": "Entrée (middle group, lower label)",
+   "px": [
+    2712,
+    1780
+   ],
+   "why": "a yellow collapse (the map colours the entrance collapses yellow, hachured)"
+  },
+  {
+   "name": "Entrée (middle group, lower label)",
+   "px": [
+    2945,
+    1465
+   ],
+   "why": "leader end (no yellow), approximate"
+  },
+  {
+   "name": "Entrée (middle group, lower label)",
+   "px": [
+    2995,
+    1495
+   ],
+   "why": "leader end (no yellow), approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2615,
+    731
+   ],
+   "why": "'Entrées' label S of the Effondrement: a yellow collapse (the map colours the entrance collapses yellow, hachured)"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2656,
+    776
+   ],
+   "why": "'Entrées' label S of the Effondrement: a yellow collapse (the map colours the entrance collapses yellow, hachured)"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2686,
+    840
+   ],
+   "why": "'Entrées' label S of the Effondrement: a yellow collapse (the map colours the entrance collapses yellow, hachured)"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2255,
+    620
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end at a passage S of the big collapse, approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2300,
+    600
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end, approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2372,
+    505
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end at the big collapse's S edge, approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2398,
+    495
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end at the big collapse's S edge, approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2210,
+    640
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end, approximate"
+  },
+  {
+   "name": "Entrée (north group)",
+   "px": [
+    2160,
+    755
+   ],
+   "why": "'Entrées' label S of the Effondrement: leader end, approximate"
+  },
+  {
+   "name": "Entrée (west group)",
+   "px": [
+    1305,
+    885
+   ],
+   "why": "'Entrées' label NW of the grand couloir: the pool at the village grid's NE corner, where two dotted leaders end"
+  },
+  {
+   "name": "Entrée (west group)",
+   "px": [
+    1560,
+    830
+   ],
+   "why": "'Entrées' label NW of the grand couloir: leader end, approximate"
+  },
+  {
+   "name": "Entrée (west group)",
+   "px": [
+    1650,
+    775
+   ],
+   "why": "'Entrées' label NW of the grand couloir: leader end, approximate"
+  },
+  {
+   "name": "Effondrement",
+   "px": [
+    2279,
+    491
+   ],
+   "why": "the big yellow hachured collapse labelled 'Effondrement' (collapse): same colour and hachures as the entrance collapses"
+  },
+  {
+   "name": "Entrée du terrain de basket",
+   "px": [
+    1385,
+    1250
+   ],
+   "why": "the label's leader ends at the passage tip S of the grand couloir (the basketball court entrance)"
+  },
+  {
+   "name": "Collapse at the Siphon",
+   "px": [
+    534,
+    1669
+   ],
+   "why": "the yellow hachured collapse of the isolated SW part (no 'Entrées' label; the 55 m section drawn from it shows a doline open between two wooded rims)"
+  }
+ ],
+ "symbols": {
+  "why": "No legend. No depths in the plan (the m figures are the cross-sections' heights and widths: 14, 8, 6, 3, 2.5 m); no bones (searched: no bones icon, no 'os'/'ossements' text); no water-flow arrows. The red dots (survey stations or speleothems, no legend) and the red surface features (motorway, village road and grid, 'Antenne') are not cave symbols. Place names at their labels; the 'Siphon' leaders end at the two ends of the isolated SW part's water.",
+  "units": "m",
+  "letters": {},
+  "extra": [
+   {
+    "type": "place-name",
+    "label": "Le grand couloir",
+    "px": [
+     1650,
+     1110
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Le labyrinthe sec",
+    "px": [
+     2950,
+     415
+    ],
+    "why": "its leader runs to the NE end of the north branch"
+   },
+   {
+    "type": "place-name",
+    "label": "Le grand lac",
+    "px": [
+     3505,
+     1035
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Le lac des cristaux",
+    "px": [
+     3940,
+     845
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Les lacs noirs",
+    "px": [
+     3620,
+     1600
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Etroiture noyée",
+    "px": [
+     4040,
+     1505
+    ],
+    "why": "flooded squeeze"
+   },
+   {
+    "type": "place-name",
+    "label": "Galerie des Zariguellas",
+    "px": [
+     3730,
+     1795
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Lac des murcielagos",
+    "px": [
+     2770,
+     2370
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Galerie des colonnes",
+    "px": [
+     2370,
+     1925
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Salle ébouleuse",
+    "px": [
+     1415,
+     2810
+    ]
+   },
+   {
+    "type": "place-name",
+    "label": "Fondations en béton",
+    "px": [
+     1305,
+     2612
+    ],
+    "why": "concrete foundations (of the motorway) reached in the cave"
+   },
+   {
+    "type": "place-name",
+    "label": "Eau putride polluée",
+    "px": [
+     1240,
+     1420
+    ],
+    "why": "putrid polluted water"
+   },
+   {
+    "type": "place-name",
+    "label": "La galerie cristalline",
+    "px": [
+     2855,
+     2310
+    ],
+    "why": "cross-section title; its leader ends at the Lac des murcielagos passage"
+   },
+   {
+    "type": "leads-to",
+    "label": "Siphon",
+    "px": [
+     625,
+     1520
+    ],
+    "why": "sump: leader end at the NE end of the SW part's water"
+   },
+   {
+    "type": "leads-to",
+    "label": "Siphon",
+    "px": [
+     715,
+     1605
+    ],
+    "why": "sump: leader end at the SW part's water"
+   }
+  ],
+  "fix": [
+   {
+    "px": [
+     1753,
+     1232
+    ],
+    "value": null,
+    "why": "'14' misread in the label 'Entrée du terrain de basket' / 'Le grand couloir' area: no depth"
+   }
+  ]
+ },
+ "scaleBarCheck": {
+  "from": [
+   284,
+   2693
+  ],
+  "to": [
+   727,
+   2693
+  ],
+  "metres": 200,
+  "why": "0.4515 m/px; not used by the fit (no 'scaleBar' key), compared with it"
+ }
+}

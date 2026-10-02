@@ -37,3 +37,21 @@ export const MARKER_CONFIG = {
     }
   }
 }
+// The cave layer: the passages traced from the cave survey maps, as vector
+// tiles built by scripts/map-layer/build-tiles.js (npm run build:tiles) and
+// served with the app. Layers "passages" (walls, survey lines, water, drawn
+// details) and "symbols" (depths, flow, entrances...); every feature has its
+// map and its sistemaId. INDEX lists the tiles that exist (no file for empty
+// ones); EMPTY_TILE is what the others are answered with.
+export const CAVE_LAYER = {
+  TILES: '/tiles/caves/{z}/{x}/{y}.pbf',
+  INDEX: '/tiles/caves/index.json',
+  EMPTY_TILE: '/tiles/caves/empty.pbf',
+  MIN_ZOOM: 10,
+  MAX_ZOOM: 18,
+  DETAIL_ZOOM: 15,
+  SYMBOL_ZOOM: 16,
+  // Water: the blue the map reviews used (overlay_scan.py), the same in every system.
+  WATER_COLOR: '#9ec3d6',
+  WATER_OPACITY: 0.55,
+}

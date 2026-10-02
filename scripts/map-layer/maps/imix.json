@@ -1,0 +1,50 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Imix, C., Xpuha.pdf",
+  "page": 1,
+  "image": "../../../_data/maps-import/images/imix-c-xpuha.svg",
+  "title": "Cueva Imix - Allison 2014",
+  "credits": "Cueva Imix, Xpuha, Quintana Roo; surveyed 24 and 29 December 2013 and 2 January 2014 by Stan Allison, Gosia Allison-Kosior, Barbara Luke; drawn by Stan Allison. Length 494 m, depth 7 m (AMCS Activities Newsletter 37, p. 158, 2014)",
+  "source": { "id": "-KPZg4joZ9lZ2oVH-LhB", "name": "map" },
+  "sistemaId": "-KPZgfywrNDltccYvqVE",
+  "sistemaWhy": "X-pu Ha: the sistema the database files the Xpuha AMCS surveys under. Cueva Imix is the Entrada Imix half of Sistema Dos Amores (Imix + Xibalba, joined later by a 16 m deep dive; AMCS 2015 map, dropped by the user).",
+  "wetDry": "Shallow water cave: most of the floor is water (pale blue), with dry breakdown and flowstone mounds in the entrance room and the Sala de los Dos Sergio; six sumps (darker blue, 'sifón?'/'sifón!') at the passage ends, not dived. Included by the user's decision.",
+  "walls": [
+    { "color": [0.01, 0.02, 0.02], "width": 0.514, "why": "passage walls and pillars (bold black; one short dashed piece at 357-363, 429-447)" }
+  ],
+  "notWalls": "0.257 black: floor detail (breakdown, rubble, flowstone mounds and their ticked slopes), the ticked dashed drip line of the entrance doline, the cross-sections and their leaders; 0.257 dark grey: stipple (sand); 0.129 dark grey: the water's edge; black fills: stalagmites (triangles) and columns (hourglasses, in white flowstone 'clover' bases); 0.36: scale bar; 1.0: page frame. No survey lines are drawn.",
+  "exclude": [
+    { "why": "title, survey team, dates, length 494 m and depth 7 m", "box": [90, 45, 250, 135], "history": true },
+    { "why": "page caption (Cueva Imix, Xpuha, Quintana Roo, AMCS Activities Newsletter 37, p. 158, 2014)", "box": [160, 670, 455, 760], "history": true },
+    { "why": "north arrow (Ngrid)", "box": [86, 512, 112, 596] },
+    { "why": "scale bar (0-50 metros)", "box": [88, 630, 246, 660] },
+    { "why": "section: cross-section east of the entrance room, with its leader", "box": [378, 165, 465, 200] },
+    { "why": "section: cross-section west of the upper water passage", "box": [150, 250, 264, 282] },
+    { "why": "section: long cross-section east of the middle passage, with its leader", "box": [392, 355, 555, 383] },
+    { "why": "section: cross-section SE of Casita del Doggy, with its leader", "box": [445, 473, 490, 488] }
+  ],
+  "entrances": [
+    { "name": "Entrada Imix", "pdf": [326, 180], "why": "the open doline NW of the ticked dashed drip line, labelled 'Entrada' (Entrada Imix of Sistema Dos Amores); no database cave - Imix is not in the database nor in OpenStreetMap" }
+  ],
+  "symbols": {
+    "why": "Vector map: labels are real PDF text (page.get_text), positions in PDF points. build_layer.py doesn't read symbols yet. No depth numbers on the plan (only 'Profundidad 7 m' in the title), no ceiling heights, no flow arrows, no bones (no legend; every small icon checked: black triangles are stalagmites, hourglasses are columns, the white 'clover' outlines around them flowstone bases). The sumps' leads-to are placed on the sumps (darker blue fills), not on their labels.",
+    "extra": [
+      { "type": "place-name", "label": "Sala de los Dos Sergio", "pdf": [185, 407], "why": "label west of the big water room, as spelled on the map" },
+      { "type": "place-name", "label": "Casita del Doggy", "pdf": [422, 437] },
+      { "type": "leads-to", "label": "sifón?", "pdf": [285, 293] },
+      { "type": "leads-to", "label": "sifón?", "pdf": [355, 311] },
+      { "type": "leads-to", "label": "sifón?", "pdf": [361, 379] },
+      { "type": "leads-to", "label": "sifón?", "pdf": [268, 486] },
+      { "type": "leads-to", "label": "sifón?", "pdf": [415, 579] },
+      { "type": "leads-to", "label": "sifón!", "pdf": [380, 603], "why": "the south sump - the way on toward Xibalba, the 16 m deep dive of the Dos Amores map" }
+    ]
+  },
+  "scaleBar": { "from": [93.28, 646.68], "to": [239.13, 646.68], "metres": 50 },
+  "north": "grid",
+  "northWhy": "The arrow is labelled 'Ngrid' (grid north) and is vertical.",
+  "utmEpsg": 32616,
+  "water": false,
+  "unverified": "No position for any part of this cave: Entrada Imix is not in the database or OpenStreetMap, the sistema X-pu Ha has no position, and no placed map overlaps it (the 1999 Mafia map of Sistema X-pu Ha is the caleta, with no Imix). The single control point below is a NOMINAL anchor (the OpenStreetMap 'XPuha' node, 20.473665 N, 87.257026 W) only so the pipeline can run: the geometry is NOT on the ground. To fix: a field GPS of Entrada Imix (or of Entrada Xibalba, about 245 m SE of Imix on the Dos Amores map).",
+  "controlPoints": [
+    { "name": "NOMINAL anchor at Entrada Imix (not a real position: see 'unverified')", "pdf": [326, 180], "latitude": 20.473665, "longitude": -87.2570255 }
+  ]
+}

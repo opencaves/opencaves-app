@@ -104,6 +104,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
     keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
     keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
+    // Each coordinate's validity (valid / unknown / invalid): one without it is unconfirmed.
+    locationValidity: cave.location?.validity || 'unknown',
+    entranceValidity: cave.entrance?.validity || 'unknown',
+    keyValidity: cave.keys?.[0]?.validity || 'unknown',
     nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
       lang,
       value: (values || []).join(', '),
@@ -172,19 +176,19 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       if (form.longitude === '' && form.latitude === '' && cave.location) {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
-        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
+        fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
         fields.entrance = deleteField()
       } else if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
-        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)) }
+        fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)), validity: form.entranceValidity }
       }
 
       if (form.keyLongitude === '' && form.keyLatitude === '' && cave.keys?.length) {
         fields.keys = deleteField()
       } else if (form.keyLongitude !== '' && form.keyLatitude !== '') {
-        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)) }]
+        fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)), validity: form.keyValidity }]
       }
 
       // setDoc's merge:true merges nested map fields key-by-key rather than
@@ -214,8 +218,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       setBaseline(savedForm)
       invalidateData()
       await getData()
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }))
-      if (!leaving) exitEditMode()
+      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -259,12 +262,22 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
         {t('delete')}
       </Button>
-      <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
-        {t('cancel')}
-      </Button>
-      <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !form.name} sx={{ minWidth: 88 }}>
-        {t('save')}
-      </Button>
+      {/* Saving stays in edit mode; with nothing (left) to save, the main
+          button leaves it - Cancel only while there are changes to drop. */}
+      {isDirty && (
+        <Button onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+          {t('cancel')}
+        </Button>
+      )}
+      {isDirty ? (
+        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+          {t('save')}
+        </Button>
+      ) : (
+        <Button variant="contained" onClick={exitEditMode} disabled={saving} sx={{ minWidth: 88 }}>
+          {t('exit')}
+        </Button>
+      )}
     </Box>
   )
 
@@ -293,9 +306,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Typography variant="subtitle2" component="h2">{t('coordinates')}</Typography>
 
-      <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} />
-      <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} />
-      <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} />
+      <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} validity={form.locationValidity} onValidityChange={(locationValidity) => setForm((f) => ({ ...f, locationValidity }))} />
+      <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} validity={form.entranceValidity} onValidityChange={(entranceValidity) => setForm((f) => ({ ...f, entranceValidity }))} />
+      <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} validity={form.keyValidity} onValidityChange={(keyValidity) => setForm((f) => ({ ...f, keyValidity }))} />
 
       <Divider />
 
