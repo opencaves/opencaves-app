@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
-import { Avatar, Box, Button, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Avatar, Box, Button, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { AccountCircleOutlined, CloseRounded, InfoOutlined, LogoutRounded, SettingsRounded } from '@mui/icons-material'
 import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
@@ -110,6 +110,18 @@ export default function AppMenuPanel({ onClose, titleId }) {
         </List>
       )}
 
+      {/* The dashboard above the offline toggle, in its own section. */}
+      {isLoggedIn && roles.includes('editor') && (
+        <List component="div" disablePadding sx={{ ...sectionSx, mb: 0.5 }}>
+          <ListItemButton component={Link} to="/dashboard" onClick={onClose} sx={rowSx}>
+            <ListItemIcon>
+              <SettingsRounded />
+            </ListItemIcon>
+            <ListItemText primary={t('admin')} />
+          </ListItemButton>
+        </List>
+      )}
+
       {offlineSupported && (
         <List component="div" disablePadding sx={{ ...sectionSx, mb: 0.5 }}>
           <OfflinePreviewsToggle sx={rowSx} />
@@ -117,17 +129,6 @@ export default function AppMenuPanel({ onClose, titleId }) {
       )}
 
       <List component="div" disablePadding sx={sectionSx}>
-        {isLoggedIn && roles.includes('editor') && (
-          <ListItemButton component={Link} to="/dashboard" onClick={onClose} sx={rowSx}>
-            <ListItemIcon>
-              <SettingsRounded />
-            </ListItemIcon>
-            <ListItemText primary={t('admin')} />
-          </ListItemButton>
-        )}
-        {/* About apart from what's above it in this section (the dashboard);
-            alone, the section's own edge already sets it apart. */}
-        {isLoggedIn && roles.includes('editor') && <Divider component="div" role="presentation" />}
         <ListItemButton component={Link} to="/about" state={{ backgroundLocation: location }} onClick={onClose} sx={rowSx}>
           <ListItemIcon>
             <InfoOutlined />

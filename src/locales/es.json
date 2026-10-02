@@ -580,7 +580,8 @@
       "rateThisCave": "Califica este cenote",
       "saveError": "No se pudo guardar tu calificación."
     },
-    "cenoteEntrance": "Cenote de entrada"
+    "cenoteEntrance": "Cenote de entrada",
+    "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas."
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -833,10 +834,12 @@
   },
   "fees": {
     "yes": {
-      "label": "Tiene costos"
+      "label": "Tiene costos",
+      "description": "La entrada al sitio tiene costo."
     },
     "no": {
-      "label": "Sin costos"
+      "label": "Sin costos",
+      "description": "La entrada al sitio es gratuita."
     }
   },
   "map": {

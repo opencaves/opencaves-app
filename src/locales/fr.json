@@ -579,7 +579,8 @@
       "rateThisCave": "Noter cette cénote",
       "saveError": "Impossible d’enregistrer votre note."
     },
-    "cenoteEntrance": "Cénote d'entrée"
+    "cenoteEntrance": "Cénote d'entrée",
+    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un système de grottes."
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -832,10 +833,12 @@
   },
   "fees": {
     "yes": {
-      "label": "A des frais"
+      "label": "A des frais",
+      "description": "L'accès au site est payant."
     },
     "no": {
-      "label": "Pas de frais"
+      "label": "Pas de frais",
+      "description": "L'accès au site est gratuit."
     }
   },
   "map": {
