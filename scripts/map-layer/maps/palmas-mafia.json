@@ -1,0 +1,484 @@
+{
+  "image": "../../../_data/maps-import/images/palmas-grutas-de-las-playa-del-carmen.webp",
+  "title": "Grutas de las Palmas - Mafia Maps 2002",
+  "credits": "Grutas de las Palmas, Q.Roo, Mexico; passage 2,665 pies (feet); exploración y plano Rosendo Cauich, Don Marciano Uc May, Benja Sacristian, Fred Devos, Jose Mis; Mafia Maps, noviembre 2002 (c) F. Devos, 2002",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). Same map as _data/cartes/à traiter/Palmas, Grutas de las, Playa del Carmen.pdf. Scale from the drawn 0-300 pies bar: 1,648 px = 91.44 m, 0.0555 m/px (its 100/200 dividers agree within 2%). Check: the traced lines total about 2,415 ft at that scale against the title block's 'Passage: 2,665 pies' (91%: Mafia line plots are smoothed, and short legs may be missing). North from the compass rose (up), unchecked. Position nominal. Checked and rejected: the two OSM 'Cenote' ponds by the highway north of Playa (20.6730 N, 87.1055 W, an eco-park) are a 110 m lagoon and paired pools, nothing like the map's pools (the largest 28 m). No placed map can overlap it, since its position is unknown.",
+  "scaleBar": {
+    "why": "the drawn 0-300 pies bar (outer border ends; its 100 and 200 dividers at 4274 and 4829 agree within 2%)",
+    "from": [
+      3723,
+      3963
+    ],
+    "to": [
+      5371,
+      3963
+    ],
+    "metres": 91.44
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor: the large cenote pool put on Parque Las Palmas, Las Palmas I, Playa del Carmen (namesake only, not a real position: see 'unverified')",
+      "px": [
+        3662,
+        2141
+      ],
+      "latitude": 20.65413,
+      "longitude": -87.10361
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Grutas de las Palmas, Q.Roo Mexico, passage 2,665 pies, exploración y plano Rosendo Cauich, Don Marciano Uc May, Benja Sacristian, Fred Devos, Jose Mis, Mafia Maps noviembre 2002",
+      "box": [
+        400,
+        1760,
+        1975,
+        3340
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos, 2002",
+      "box": [
+        515,
+        3897,
+        1500,
+        4004
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (compass rose)",
+      "box": [
+        4385,
+        260,
+        5020,
+        940
+      ]
+    },
+    {
+      "why": "scale bar 0-300 pies",
+      "box": [
+        3700,
+        3795,
+        5600,
+        4040
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        6001,
+        140
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        4150,
+        6001,
+        4278
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        125,
+        4278
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        5875,
+        0,
+        6001,
+        4278
+      ]
+    },
+    {
+      "why": "label MI PIATCHE",
+      "box": [
+        1400,
+        810,
+        1880,
+        888
+      ]
+    },
+    {
+      "why": "label RAIS LOOP",
+      "box": [
+        2487,
+        957,
+        2945,
+        1034
+      ]
+    },
+    {
+      "why": "label MAIN LINE (west)",
+      "box": [
+        1003,
+        1148,
+        1426,
+        1225
+      ]
+    },
+    {
+      "why": "label EL BRINCO",
+      "box": [
+        2999,
+        1287,
+        3466,
+        1364
+      ]
+    },
+    {
+      "why": "label MAIN LINE (middle)",
+      "box": [
+        2790,
+        1947,
+        3214,
+        2023
+      ]
+    },
+    {
+      "why": "label PALO LOOP",
+      "box": [
+        5081,
+        1808,
+        5557,
+        1885
+      ]
+    },
+    {
+      "why": "label RAFT",
+      "box": [
+        4213,
+        2146,
+        4446,
+        2223
+      ]
+    },
+    {
+      "why": "label BRILLANTE",
+      "box": [
+        2999,
+        2867,
+        3466,
+        2943
+      ]
+    },
+    {
+      "why": "label MAIN LINE (south-east)",
+      "box": [
+        5281,
+        2867,
+        5705,
+        2943
+      ]
+    },
+    {
+      "why": "label LITTLE ROOM",
+      "box": [
+        4491,
+        3136,
+        5054,
+        3212
+      ]
+    },
+    {
+      "why": "cenote pool at the north-west line's start (not joined to it)",
+      "box": [
+        612,
+        541,
+        698,
+        635
+      ]
+    },
+    {
+      "why": "cenote pool under MI PIATCHE (no line)",
+      "box": [
+        1749,
+        1053,
+        1886,
+        1147
+      ]
+    },
+    {
+      "why": "cenote pool west of the El Brinco loop (no line)",
+      "box": [
+        2226,
+        1452,
+        2442,
+        1668
+      ]
+    },
+    {
+      "why": "cenote pool inside the El Brinco loop (no line)",
+      "box": [
+        3016,
+        1556,
+        3310,
+        1833
+      ]
+    },
+    {
+      "why": "large cenote pool where the Main Line, El Brinco and Brillante lines meet: an entrance, not a survey line (west part)",
+      "box": [
+        3395,
+        1925,
+        3670,
+        2357
+      ]
+    },
+    {
+      "why": "large cenote pool (east part, below the El Brinco line's end on its rim)",
+      "box": [
+        3670,
+        1990,
+        3930,
+        2357
+      ]
+    },
+    {
+      "why": "cenote pool north of the Raft line (no line)",
+      "box": [
+        4569,
+        1764,
+        4646,
+        1893
+      ]
+    },
+    {
+      "why": "cenote pool beside the Raft line (not joined to it)",
+      "box": [
+        4456,
+        2355,
+        4533,
+        2449
+      ]
+    },
+    {
+      "why": "cenote pool at the south-east Main Line's end",
+      "box": [
+        5612,
+        3055,
+        5730,
+        3200
+      ]
+    },
+    {
+      "why": "double-headed arrow between the cenote north of Raft and the Palo Loop line's west end (a symbol, not a survey line)",
+      "box": [
+        4610,
+        1980,
+        4910,
+        2138
+      ]
+    },
+    {
+      "why": "arrow east of Palo Loop: the line continues (a symbol)",
+      "box": [
+        5470,
+        2085,
+        5620,
+        2155
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "joinShortPx": 150,
+    "joinNearEnds": true,
+    "why": "Stick map (Mafia Maps line plot, black guidelines only, no walls): traced as lines, no thickness. The scan is a 4x upscale of a small image: at the default ink level the lines' blurred edges make a jagged skeleton whose tiny spurs split the Mi Piatche line and the Rais Loop's east corner (the joining then dropped the pieces between them, leaving 1-1.5 m gaps in continuous ink); inkLevel 200 takes the whole blurred stroke and gives a clean skeleton. Pools, labels, the compass, the scale bar and the two arrows are masked (the grey pool fills are ink at that level). The large pool is masked in two boxes so the El Brinco line reaches its rim (a ~1 m piece of the rim between the boxes is traced with it). Gaps kept as drawn (jumps): every pool but the large and the south-east ones stands apart from the lines; the Raft line ends free; the Palo Loop line starts free at its west end, linked to the cenote north of Raft only by the double-headed arrow.",
+    "inkLevel": 200
+  },
+  "entrances": [
+    {
+      "name": "cenote at the north-west end of the Main Line",
+      "px": [
+        655,
+        588
+      ],
+      "why": "Grey pool just beyond the Main Line's north-west end (the line stops about 5 m short of it). Unnamed; no database cave."
+    },
+    {
+      "name": "cenote under Mi Piatche",
+      "px": [
+        1817,
+        1100
+      ],
+      "why": "Grey pool between the Mi Piatche and Main lines, no line drawn to it. Unnamed; no database cave."
+    },
+    {
+      "name": "cenote west of El Brinco",
+      "px": [
+        2334,
+        1560
+      ],
+      "why": "Grey pool beside the line south of Rais Loop, not joined to it. Unnamed; no database cave."
+    },
+    {
+      "name": "cenote inside the El Brinco loop",
+      "px": [
+        3163,
+        1694
+      ],
+      "why": "Grey pool inside the El Brinco / Main Line loop, no line drawn to it. Unnamed; no database cave."
+    },
+    {
+      "name": "large cenote (main entrance)",
+      "px": [
+        3662,
+        2141
+      ],
+      "why": "The largest pool, where the Main Line, the El Brinco loop and the Brillante / Little Room lines start: likely the system's main cenote. Unnamed; no database cave."
+    },
+    {
+      "name": "cenote north of Raft",
+      "px": [
+        4607,
+        1828
+      ],
+      "why": "Grey pool at the head of the double-headed arrow to the Palo Loop line. Unnamed; no database cave."
+    },
+    {
+      "name": "cenote beside the Raft line",
+      "px": [
+        4494,
+        2402
+      ],
+      "why": "Grey pool just west of the Raft line, not joined to it. Unnamed; no database cave."
+    },
+    {
+      "name": "cenote at the south-east end of the Main Line",
+      "px": [
+        5670,
+        3127
+      ],
+      "why": "Grey pool at the Main Line's south-east end. Unnamed; no database cave."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot without depths (no overlined, circled or boxed numbers anywhere: checked on the OCR and by eye), letter codes, legend, flow arrows or bones. Line names kept as place names (Main Line three times, as printed). Two arrows: east of Palo Loop a plain arrow (the passage continues, leads-to), and a grey double-headed arrow between the Palo Loop line's west end and the cenote north of Raft (an unsurveyed link - kept as a leads-to at its middle, not drawn as a line). Units ft (pies).",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Main Line",
+        "px": [
+          1214,
+          1186
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Mi Piatche",
+        "px": [
+          1640,
+          849
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Rais Loop",
+        "px": [
+          2716,
+          995
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "El Brinco",
+        "px": [
+          3232,
+          1325
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Main Line",
+        "px": [
+          3002,
+          1985
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Palo Loop",
+        "px": [
+          5319,
+          1846
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Raft",
+        "px": [
+          4329,
+          2184
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Brillante",
+        "px": [
+          3232,
+          2905
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Main Line",
+        "px": [
+          5493,
+          2905
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Little Room",
+        "px": [
+          4772,
+          3174
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Passage continues",
+        "px": [
+          5545,
+          2120
+        ],
+        "why": "arrow east of the Palo Loop line's east end: the passage continues"
+      },
+      {
+        "type": "leads-to",
+        "label": "To the cenote north of Raft",
+        "px": [
+          4860,
+          2098
+        ],
+        "why": "double-headed arrow from the Palo Loop line's west end to the cenote north of Raft: a link not surveyed (a jump), not drawn as a line"
+      }
+    ]
+  }
+}
