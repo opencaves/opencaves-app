@@ -56,6 +56,24 @@ maps, or users' data.
 A fresh clone, or a wiped `.emulator-data/` folder, starts with an empty local
 database: run it once against the emulators.
 
+## Mirror the local data to production
+
+```
+node scripts/sync-to-production.js --dry-run   # what would change
+node scripts/sync-to-production.js --write     # back up production's documents, then mirror
+```
+
+The local emulators hold the original data; production (users' tests) is
+refreshed from them. The script makes production identical to local -
+every collection and the `caves/` (photos) and `maps/` (scans) files - except
+its users (accounts and `users/*`: saved caves, ratings, settings), which stay
+untouched. What's only in production is deleted, files included. Production's
+documents are first saved to `_data/backups/production-<date>/`; its deleted
+files are not. Copied files carry `ocSync=true`, so the upload functions
+don't rebuild them. Run it with the emulators up, after
+`gcloud auth application-default login`, then check with
+`node scripts/check-cave-images.js -p`.
+
 ## Tag the lengths in the descriptions
 
 ```

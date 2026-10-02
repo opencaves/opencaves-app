@@ -56,9 +56,10 @@ function webpThumbnail(input, { svg = false } = {}) {
 }
 
 export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSeconds: 300 }, async event => {
-  const { bucket: bucketName, name: originalPath, contentType } = event.data
+  const { bucket: bucketName, name: originalPath, contentType, metadata } = event.data
   const match = /^maps\/original-pdf\/([^/]+)$/.exec(originalPath || '')
-  if (!match || contentType !== 'application/pdf') return
+  // A file copied by scripts/sync-to-production.js comes with its derived files.
+  if (!match || contentType !== 'application/pdf' || metadata?.ocSync === 'true') return
 
   const [, mapId] = match
   const bucket = getStorage().bucket(bucketName)
@@ -109,9 +110,10 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
 // SVG uploads get only the thumbnail: the SVG itself is the best viewing copy
 // (sharp at any zoom), but can weigh megabytes - too much for a card.
 export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSeconds: 300 }, async event => {
-  const { bucket: bucketName, name: originalPath, contentType } = event.data
+  const { bucket: bucketName, name: originalPath, contentType, metadata } = event.data
   const match = /^maps\/([^/]+)$/.exec(originalPath || '')
-  if (!match || !contentType?.startsWith('image/')) return
+  // A file copied by scripts/sync-to-production.js comes with its derived files.
+  if (!match || !contentType?.startsWith('image/') || metadata?.ocSync === 'true') return
 
   const [, mapId] = match
   const bucket = getStorage().bucket(bucketName)
