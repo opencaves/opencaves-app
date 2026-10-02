@@ -25,7 +25,7 @@ export default function CaveLayerLegend({ isLarge }) {
   const items = [
     { key: 'walls', mark: <Box sx={{ width: 26, height: 3, borderRadius: 2, bgcolor: lineColor }} /> },
     { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: CAVE_LAYER.WATER_COLOR, opacity: CAVE_LAYER.WATER_OPACITY }} /> },
-    { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1px solid', borderColor: lineColor, opacity: 0.7 }} /> },
+    { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1.5px solid', borderColor: CAVE_LAYER.DETAIL_COLOR, opacity: CAVE_LAYER.DETAIL_OPACITY, filter: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.6))' }} /> },
     { key: 'entrance', mark: <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: 'info.main', border: '1px solid #fff' }} /> },
     { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>12 m</Typography> },
     { key: 'placeName', mark: <Typography component="span" sx={{ fontSize: 11, fontStyle: 'italic' }}>Aa</Typography> },
