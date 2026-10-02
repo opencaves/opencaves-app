@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getDownloadURL, ref } from 'firebase/storage'
-import { Box, ButtonBase, IconButton, Menu, MenuItem, useTheme } from '@mui/material'
+import { Box, ButtonBase, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, useTheme } from '@mui/material'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { MoreVert } from '@mui/icons-material'
 import Picture from '@/components/Picture.jsx'
 import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
@@ -160,7 +161,12 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             onClose={handleClose}
           >
             <UseAsCoverImage mediaAsset={mediaAsset} onClick={onMenuClick} />
-            <MenuItem component='a' href={downloadUrl} target='_blank' sx={{ '&:hover': { color: 'unset' } }} onClick={onMenuClick}>{t('menu.viewOriginalImage')}</MenuItem>
+            <MenuItem component='a' href={downloadUrl} target='_blank' sx={{ '&:hover': { color: 'unset' } }} onClick={onMenuClick}>
+              <ListItemIcon>
+                <OpenInNewRounded fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{t('menu.viewOriginalImage')}</ListItemText>
+            </MenuItem>
             <DeleteMedia onClick={() => {
               onMenuClick()
               requestDelete(mediaAsset)

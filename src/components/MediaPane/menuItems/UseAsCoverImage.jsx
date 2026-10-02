@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MenuItem } from '@mui/material'
+import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
+import WallpaperRounded from '@mui/icons-material/WallpaperRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import useRoles from '@/hooks/useRoles.jsx'
 import noop from '@/utils/noop.jsx'
@@ -32,6 +33,11 @@ export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
   }
 
   return isEditor && (
-    <MenuItem className="oc-use-as-cover-image" onClick={onSetAsCoverImageClick} disabled={mediaAsset.isCover}>{t('useAsCoverImage')}</MenuItem>
+    <MenuItem className="oc-use-as-cover-image" onClick={onSetAsCoverImageClick} disabled={mediaAsset.isCover}>
+      <ListItemIcon>
+        <WallpaperRounded fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>{t('useAsCoverImage')}</ListItemText>
+    </MenuItem>
   )
 }

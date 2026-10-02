@@ -1,6 +1,7 @@
 import { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemIcon, ListItemText, MenuItem } from '@mui/material'
+import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import Message from '@/components/Message.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import useRoles from '@/hooks/useRoles.jsx'
@@ -65,7 +66,10 @@ export default forwardRef(function DeleteMedia({ onClick }, ref) {
 
   return isAdmin && (
     <MenuItem ref={ref} className="oc-delete-media" onClick={onClick} sx={{ color: 'error.main' }}>
-      {t('deleteAction')}
+      <ListItemIcon sx={{ color: 'inherit' }}>
+        <DeleteOutlineRounded fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>{t('deleteAction')}</ListItemText>
     </MenuItem>
   )
 })
