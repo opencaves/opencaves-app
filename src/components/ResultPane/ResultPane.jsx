@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
@@ -13,7 +13,7 @@ import { getCaveById } from '@/models/Cave.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { PANE_INITIAL_BREAKPOINT } from '@/config/app.js'
-import { setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
+import { setResultPaneSmCaveId, setResultPaneSmCurrentBreakpoint, setResultPaneSmOpen, toggleFilterMenu } from '@/redux/slices/appSlice.jsx'
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
@@ -21,11 +21,16 @@ import './ResultPane.scss'
 // Phones only, and it brings Ionic along (see utils/ionic.js).
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
 
+// Once per page load: whether the phone sheet's restored breakpoint was
+// kept or reset (the effect below).
+let sheetRestoreChecked = false
+
 export default function ResultPane() {
   const { t } = useTranslation('resultPane')
   const { t: tApp } = useTranslation('app')
   const { caveId } = useParams()
   const dispatch = useDispatch()
+  const store = useStore()
   const navigate = useNavigate()
   const location = useLocation()
   const caves = useSelector(state => state.map.data)
@@ -56,8 +61,14 @@ export default function ResultPane() {
 
     dispatch(toggleFilterMenu(false))
     dispatch(setResultPaneSmOpen(true))
-    dispatch(setResultPaneSmCurrentBreakpoint(PANE_INITIAL_BREAKPOINT))
-  }, [caveId, dispatch, isSmall])
+    // Another cave: the sheet at its initial height. The first one after a
+    // page load, if it's the cave the sheet was on: where it was (restored
+    // with the app slice).
+    const restoring = !sheetRestoreChecked && store.getState().app.resultPaneSmCaveId === caveId
+    sheetRestoreChecked = true
+    if (!restoring) dispatch(setResultPaneSmCurrentBreakpoint(PANE_INITIAL_BREAKPOINT))
+    dispatch(setResultPaneSmCaveId(caveId))
+  }, [caveId, dispatch, isSmall, store])
 
   useEffect(() => {
 
