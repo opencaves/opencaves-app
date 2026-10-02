@@ -1,0 +1,343 @@
+{
+  "image": "../../../_data/maps-import/images/paachil-nah-chemuil.webp",
+  "imageNote": "same drawing as _data/cartes/à traiter/Paachil Nah, Chemuil.pdf",
+  "title": "Sistema Paachil Nah - Czech Speleological Society 2015",
+  "credits": "Explored and surveyed by Zoltán Agh, Daniel Hutňan, Radek Jančar, Erik Kapucian, Karol Kýška, Miroslav Manhart, Zdeněk Motyčka, Bil Phillips, Michal Plankenbuchler, Ivan Poláček, Jan Sirotek, Tomáš Urban, Martin Vrábel'; digitalized by Anna Hutnanova, 2015 (Czech and Slovak Speleological Society, QRSS stamp of authenticity)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": null,
+  "sistemaWhy": "Sistema Paachil Nah is not in the database. Related database records: sistema 'Cenote Nauatilostotl' (-KPZgftMFrHGeCMrWIms, 1061 m, explored 2015-08 by the Czech and Slovak Speleo. Soc.) - its cenote is one of this system's entrances, so it is probably an earlier, smaller stage of this system; sistema 'Cenote Luuk Hool' (-KPZgftDF3IAbIioC48u, 114 m, 2014-04), drawn here only as a survey line; caves 'Nauatilostotl 1' and 'Nauatilostotl 2' (no position, no sistema).",
+  "wetDry": "Underwater: every passage is filled with the legend's 'lake' blue (flooded), and the cenotes are pale open water. Sections A-F show water-filled passages. No dry passage is drawn.",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "logos",
+      "box": [
+        150,
+        170,
+        2200,
+        560
+      ]
+    },
+    {
+      "why": "title, location, total length, GPS, digitizer",
+      "box": [
+        2980,
+        80,
+        4560,
+        780
+      ],
+      "history": true
+    },
+    {
+      "why": "explorers and surveyors",
+      "box": [
+        3280,
+        1000,
+        3960,
+        2090
+      ],
+      "history": true
+    },
+    {
+      "why": "compass rose",
+      "box": [
+        2550,
+        3510,
+        3100,
+        4250
+      ]
+    },
+    {
+      "why": "scale bar",
+      "box": [
+        2650,
+        4270,
+        3000,
+        4400
+      ]
+    },
+    {
+      "why": "symbol index",
+      "box": [
+        3650,
+        3500,
+        4500,
+        4300
+      ]
+    },
+    {
+      "why": "section A",
+      "box": [
+        1397,
+        1168,
+        1585,
+        1300
+      ]
+    },
+    {
+      "why": "section C",
+      "box": [
+        1218,
+        1964,
+        1385,
+        2060
+      ]
+    },
+    {
+      "why": "section B",
+      "box": [
+        232,
+        1976,
+        400,
+        2105
+      ]
+    },
+    {
+      "why": "section D",
+      "box": [
+        2084,
+        2960,
+        2230,
+        3090
+      ]
+    },
+    {
+      "why": "section E",
+      "box": [
+        1279,
+        4114,
+        1425,
+        4245
+      ]
+    },
+    {
+      "why": "section F",
+      "box": [
+        844,
+        4683,
+        990,
+        4812
+      ]
+    },
+    {
+      "why": "label LUUK HOOL",
+      "box": [
+        2360,
+        230,
+        2660,
+        282
+      ]
+    },
+    {
+      "why": "label NAUATILOSTOTL",
+      "box": [
+        1236,
+        1509,
+        1631,
+        1553
+      ]
+    },
+    {
+      "why": "label TU'",
+      "box": [
+        1040,
+        2070,
+        1115,
+        2113
+      ]
+    },
+    {
+      "why": "label PAACHIL NAH",
+      "box": [
+        1150,
+        2289,
+        1468,
+        2332
+      ]
+    },
+    {
+      "why": "label BEH ET OOX HA'",
+      "box": [
+        2829,
+        2464,
+        3216,
+        2516
+      ]
+    },
+    {
+      "why": "label NAH BAAK",
+      "box": [
+        3645,
+        2638,
+        3892,
+        2680
+      ]
+    },
+    {
+      "why": "label NAH SOOTS'",
+      "box": [
+        4117,
+        3040,
+        4406,
+        3085
+      ]
+    },
+    {
+      "why": "label STYX",
+      "box": [
+        4455,
+        2988,
+        4580,
+        3027
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      2691,
+      4378
+    ],
+    "to": [
+      2951,
+      4378
+    ],
+    "metres": 60
+  },
+  "north": "up",
+  "placementWhy": "Placed by the printed GPS (N 20 24 27.5, W 87 24 43 - whole seconds of longitude, about +-15 m), the 60 m scale bar (259.5 px, 0.231 m/px) and the compass rose (drawn straight up). Nothing on the ground can check it: Mapbox and Esri imagery show unbroken canopy over the whole system (no pond or canopy gap at any of its cenotes), OSM has no road, track or water within 1.5 km, the database has no cave with a position within 2 km, and no placed map is within 2.8 km (Koox Baal 3.4 km, Shoot's Hool farther). The map doesn't say which cenote the GPS is: taken here as Paachil Nah, the cenote the system is named after, at the centre of the map; if it is another one (Nauatilostotl is 190 m north, Tu' 75 m west) the whole map moves by that much.",
+  "controlPoints": [
+    {
+      "name": "printed GPS (Paachil Nah cenote)",
+      "px": [
+        1400,
+        2235
+      ],
+      "latitude": 20.407639,
+      "longitude": -87.411944
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Paachil Nah",
+      "px": [
+        1410,
+        2235
+      ],
+      "why": "the pale open water with boulders below the passage, above its label"
+    },
+    {
+      "name": "Tu'",
+      "px": [
+        1078,
+        2148
+      ],
+      "why": "pale open water (fan of slope marks) beside its label"
+    },
+    {
+      "name": "Nauatilostotl",
+      "px": [
+        1110,
+        1430
+      ],
+      "why": "the pale open water inside the dotted cenote rim, above its label. The database has caves 'Nauatilostotl 1' (-KPZkVNSPeIk-YHWtqMM) and 'Nauatilostotl 2' (-KPZkVNT3EhuBwEPhNuP), both without position: probably this one and the pool just north-west, but the map doesn't say which is which"
+    },
+    {
+      "name": "",
+      "px": [
+        1092,
+        1305
+      ],
+      "why": "unnamed pale open-water pool with an unreadable label, 30 m north-west of Nauatilostotl (maybe 'Nauatilostotl 2' of the database)"
+    },
+    {
+      "name": "Beh Et Óox Ha'",
+      "px": [
+        2645,
+        2385
+      ],
+      "why": "the pale open water at the west end of the small cave left of its label"
+    },
+    {
+      "name": "Nah Soots'",
+      "px": [
+        4320,
+        2975
+      ],
+      "why": "the boulder-strewn south end of the small separate cave above its label"
+    },
+    {
+      "name": "Styx",
+      "px": [
+        4450,
+        2945
+      ],
+      "why": "the boulder-strewn south-west end of the small separate cave above its label"
+    },
+    {
+      "name": "",
+      "px": [
+        1640,
+        3725
+      ],
+      "why": "unnamed cenote at the south: large pale open water inside a dotted rim, with a dotted island in it"
+    },
+    {
+      "name": "Luuk Hool",
+      "px": [
+        2510,
+        255
+      ],
+      "atLabel": true,
+      "why": "label only: its cave is drawn as a survey line (no walls), not traced; the database's sistema 'Cenote Luuk Hool' (114 m) has no cave with a position"
+    },
+    {
+      "name": "Nah Baak",
+      "px": [
+        3765,
+        2660
+      ],
+      "atLabel": true,
+      "why": "label only: its cave is drawn as a survey line (no walls), not traced"
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "threshold": 8,
+    "excludeColours": [
+      {
+        "why": "cross-sections on orange brick",
+        "hue": [
+          5,
+          25
+        ],
+        "minSaturation": 120,
+        "padPx": 20,
+        "minSizePx": 100,
+        "minFill": 0.5
+      }
+    ],
+    "cyanFill": true,
+    "minBandSqMetres": 2,
+    "minHoleSqMetres": 1,
+    "wallMarginPx": 10,
+    "detailContrast": 50,
+    "minDetailPx": 30,
+    "paperIslands": {
+      "minPx": 40,
+      "maxPx": 20000,
+      "ringPx": 10,
+      "ringInBand": 0.8,
+      "minGrey": 215
+    },
+    "why": "Colour fill (cyan-blue 'lake' fill, as Koox Baal by the same digitizer). Sections A-F boxed out; big labels boxed (their colour fringes read as fill). Thin blue-grey survey lines with station ticks outside the walls (Luuk Hool, Nah Baak, lines leaving Nauatilostotl and towards Beh Et Óox Ha') are not traced by colour-fill. 'paperIslands' is a prototype (scratchpad wrapper trace_islands.py, not in trace_scan.py yet): small white pillars ringed by wall ink are filled as passage by colour_fill_band, this carves them back out (32 pillars); without it they show only as detail rings."
+  },
+  "symbols": {
+    "why": "No legend entry or drawing for bones, and no bones written anywhere (OCR words and every passage checked on full-resolution tiles). The plan has no depth numbers (overlined or otherwise), no ceiling heights, no letter codes, no flow arrows, no 'To ...' pointers. The legend's symbols (boulders, columns, steps, slopes, pits, chimneys, sinter pools, speleothems, rock/sand/loam/swamp fills) are drawn but not typed. The small black flags beside passages mark where sections A-F are cut. Place names are the cenote labels (entrances).",
+    "units": "m",
+    "letters": {}
+  }
+}

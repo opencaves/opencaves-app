@@ -125,6 +125,34 @@ def local_level(values, window_px, factor=8):
     return cv2.resize(level, (values.shape[1], values.shape[0]), interpolation=cv2.INTER_LINEAR)
 
 
+def carve_paper_islands(band, image_path, masked, rule):
+    """"paperIslands": small white (paper) islands inside a passage are
+    pillars, but the band's enclosed/blur steps fill them as passage: cut
+    back out (so they become hole outlines, walls) when "ringInBand" of a
+    "ringPx" ring around them is passage. {"minGrey", "maxBlue" (blue over
+    red, for paper), "minPx", "maxPx", "ringPx", "ringInBand"}."""
+    rgb = numpy.asarray(Image.open(image_path).convert('RGB')).astype(numpy.int16)
+    white = (rgb.mean(axis=2) >= rule.get('minGrey', 225)) & ((rgb[..., 2] - rgb[..., 0]) <= rule.get('maxBlue', 12)) & ~masked
+    white = cv2.morphologyEx(white.astype(numpy.uint8), cv2.MORPH_OPEN, numpy.ones((3, 3), numpy.uint8)) > 0
+    parts, count = ndimage.label(white)
+    sizes = ndimage.sum(numpy.ones_like(parts), parts, numpy.arange(1, count + 1))
+    inside = band > 0
+    out = band.copy()
+    k = rule.get('ringPx', 10)
+    outer = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k + 1,) * 2)
+    inner = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k - 5,) * 2)
+    for i, window in enumerate(ndimage.find_objects(parts)):
+        if not rule.get('minPx', 60) <= sizes[i] <= rule.get('maxPx', 20000):
+            continue
+        y0, y1 = max(0, window[0].start - k - 2), window[0].stop + k + 2
+        x0, x1 = max(0, window[1].start - k - 2), window[1].stop + k + 2
+        island = (parts[y0:y1, x0:x1] == i + 1).astype(numpy.uint8)
+        ring = (cv2.dilate(island, outer) > 0) & ~(cv2.dilate(island, inner) > 0)
+        if inside[y0:y1, x0:x1][ring].mean() >= rule.get('ringInBand', 0.9) and inside[y0:y1, x0:x1][island > 0].mean() > 0.5:
+            out[y0:y1, x0:x1][cv2.dilate(island, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))) > 0] = 0
+    return out
+
+
 def colour_fill_band(image_path, masked, trace):
     """Passage bands for maps whose passages are filled with a pale blue
     (config "trace": {"method": "colour-fill"}). Blueness is blue minus red,
@@ -1166,6 +1194,8 @@ def main(config_path, output):
                 x0, y0, x1, y1 = item['box']
                 boxes[max(0, y0):y1, max(0, x0):x1] = False
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+        if trace.get('paperIslands'):
+            band = carve_paper_islands(band, config_path.parent.joinpath(config['image']).resolve(), boxes, trace['paperIslands'])
         for item in config.get('exclude', []):
             if item.get('inside'):
                 x0, y0, x1, y1 = item['box']
