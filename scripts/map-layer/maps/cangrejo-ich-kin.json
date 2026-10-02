@@ -20,7 +20,7 @@
     "metres": 100
   },
   "north": "up",
-  "placementWhy": "Weak placement: scale from the 100 m bar (0.1805 m/px; the 'Chemuyil' version's 250 m bar gives 0.1812 m/px for the same drawing), north up (the arrow is magnetic, 'N mg', 2002-2006: about 1-2 degrees off true, ignored like on Dzonot Zebra by the same team - up to 20 m at Naibosh, 690 m away), shifted onto one point: Cenote Cangrejo's pool (the black fill at the end of the NNE passage, under its name) put on a dark hole at the foot of a tree island in a grassy clearing, 62 m NNW of the database's Cangrejo (Gerrard 2015, not taken on site; kept as a check point). Nothing else to check against: closed forest, no pond seen where Ich Kin (233 m N of Cangrejo on the map) or Naibosh (690 m WNW) fall, no OSM road or water closer than 1.2 km, and no already placed map overlaps (Dzonot Zebra ends about 500 m south, K'oox Baal about 1 km south). A white roof 95 m west of where Ich Kin falls might be a camp at a cenote. Uncertainty: tens of metres at best; a GPS fix of Cangrejo or Ich Kin on site would settle it.",
+  "placementWhy": "Weak placement: scale from the 100 m bar (0.1805 m/px; the 'Chemuyil' version's 250 m bar gives 0.1812 m/px for the same drawing), north up (the arrow is magnetic, 'N mg', 2002-2006: about 1-2 degrees off true, ignored like on Dzonot Zebra by the same team - up to 20 m at Naibosh, 690 m away), shifted onto one point: Cenote Cangrejo's pool (the black fill at the end of the NNE passage, under its name) put on a dark hole at the foot of a tree island in a grassy clearing, 62 m NNW of the database's Cangrejo (Gerrard 2015, not taken on site; kept as a check point). Nothing else to check against: closed forest, no pond seen where Ich Kin (233 m N of Cangrejo on the map) or Naibosh (690 m WNW) fall, no OSM road or water closer than 1.2 km, and no already placed map overlaps (Dzonot Zebra ends about 500 m south, K'oox Baal about 1 km south). A white roof 95 m west of where Ich Kin falls might be a camp at a cenote. Uncertainty: tens of metres at best; a GPS fix of Cangrejo or Ich Kin on site would settle it. Reviewed on the satellite by the user (2026-10-02) and accepted: no longer unverified (it was: placed on a guessed opening in the canopy as Cangrejo; no cenote of the map has a reliable position (Cangrejo's is from Gerrard, Ich Kin and Naibosh have none)).",
   "controlPoints": [
     {
       "caveId": "-KPZkVFoXnqN0g3nPjBX",
@@ -874,6 +874,5 @@
         ]
       }
     ]
-  },
-  "unverified": "placed on a guessed opening in the canopy as Cangrejo; no cenote of the map has a reliable position (Cangrejo's is from Gerrard, Ich Kin and Naibosh have none)"
+  }
 }
