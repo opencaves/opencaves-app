@@ -1,7 +1,8 @@
 """Places a scanned cave map on the ground and writes a satellite preview to
 check the placement (prototype, for the map layer pilot): the scan's ink
-over satellite imagery, semi-transparent, with each control point's GPS
-(red) and its spot on the map (blue).
+over satellite imagery, semi-transparent, with each control point's ground
+position (red: a database position, with its source; orange: anything else -
+a pond or road on the satellite, a guess) and its spot on the map (blue).
 
 Placement: a similarity transform (scale, rotation, shift) fitted by least
 squares through the config's control points (pixel -> UTM); points marked
@@ -138,9 +139,10 @@ def main(config_path, output):
         # A red dot on the database's own position shows that position's source.
         label = p['name']
         db = database.get(p.get('caveId'))
-        if db and math.hypot((db[0] - p['longitude']) * 111320 * math.cos(math.radians(p['latitude'])), (db[1] - p['latitude']) * 111320) < 1:
+        on_database = bool(db) and math.hypot((db[0] - p['longitude']) * 111320 * math.cos(math.radians(p['latitude'])), (db[1] - p['latitude']) * 111320) < 1
+        if on_database:
             label += f" [DB: {db[2]}{'' if db[3] in ('', 'valid') else ', ' + db[3]}]"
-        markers.append({'name': label, 'gps': [p['longitude'], p['latitude']], 'map': list(to_lnglat.transform(map_e, map_n)), 'error': round(error, 1), 'check': bool(p.get('check'))})
+        markers.append({'name': label, 'db': on_database, 'gps': [p['longitude'], p['latitude']], 'map': list(to_lnglat.transform(map_e, map_n)), 'error': round(error, 1), 'check': bool(p.get('check'))})
 
     # The ink only, coloured, on transparency; scaled to fit a texture.
     image = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
@@ -247,7 +249,7 @@ map.on('load', () => {
   map.addSource('links', { type: 'geojson', data: { type: 'FeatureCollection', features: markers.map((m) => ({ type: 'Feature', geometry: { type: 'LineString', coordinates: [m.gps, m.map] } })) } })
   map.addLayer({ id: 'links', type: 'line', source: 'links', paint: { 'line-color': '#ffffff', 'line-width': 1, 'line-dasharray': [2, 2] } })
   map.addLayer({ id: 'spots', type: 'circle', source: 'spots', paint: { 'circle-radius': 5, 'circle-color': ['case', ['get', 'check'], 'rgba(0,0,0,0)', '#2f80ff'], 'circle-stroke-color': '#2f80ff', 'circle-stroke-width': 2 } })
-  map.addLayer({ id: 'gps', type: 'circle', source: 'gps', paint: { 'circle-radius': 6, 'circle-color': ['case', ['get', 'check'], 'rgba(0,0,0,0)', '#ff3b30'], 'circle-stroke-color': '#ff3b30', 'circle-stroke-width': 2.5 } })
+  map.addLayer({ id: 'gps', type: 'circle', source: 'gps', paint: { 'circle-radius': 6, 'circle-color': ['case', ['get', 'check'], 'rgba(0,0,0,0)', ['get', 'db'], '#ff3b30', '#ff9500'], 'circle-stroke-color': ['case', ['get', 'db'], '#ff3b30', '#ff9500'], 'circle-stroke-width': 2.5 } })
   for (const m of markers) {
     const el = document.createElement('div')
     el.className = 'label'
