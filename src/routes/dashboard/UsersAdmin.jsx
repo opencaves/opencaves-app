@@ -165,19 +165,35 @@ export default function UsersAdmin() {
           <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {filtered.map((user) => (
               <ListItem key={user.uid} divider sx={{ py: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                <ListItemText primary={user.email} secondary={user.disabled ? t('disabled') : null} sx={{ flexBasis: 260, flexGrow: 1 }} />
-                {user.frozen && <Chip className="oc-users-admin--frozen" size="small" color="info" icon={<AcUnitRounded />} label={t('frozen')} />}
+                {/* The frozen chip under the email, and an empty slot where an
+                    account has no freeze button (its own): the role boxes stay
+                    in the same place on every row. */}
+                <ListItemText
+                  primary={user.email}
+                  secondary={
+                    (user.disabled || user.frozen) && (
+                      <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                        {user.frozen && <Chip className="oc-users-admin--frozen" size="small" color="info" icon={<AcUnitRounded />} label={t('frozen')} />}
+                        {user.disabled && t('disabled')}
+                      </Box>
+                    )
+                  }
+                  slotProps={{ secondary: { component: 'span', sx: { display: 'block' } } }}
+                  sx={{ flexBasis: 260, flexGrow: 1 }}
+                />
                 <FormGroup row>
                   {ASSIGNABLE_ROLES.map((role) => (
                     <FormControlLabel key={role} control={<Checkbox checked={user.roles.includes(role)} disabled={savingUid === user.uid || user.frozen} onChange={() => toggleRole(user, role)} />} label={t(`role.${role}`)} />
                   ))}
                 </FormGroup>
-                {user.uid !== auth.currentUser?.uid && (
+                {user.uid !== auth.currentUser?.uid ? (
                   <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
                     <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
                       <AcUnitRounded fontSize="small" />
                     </IconButton>
                   </Tooltip>
+                ) : (
+                  <Box className="oc-users-admin--no-freeze" aria-hidden="true" sx={{ width: 36, flex: 'none' }} />
                 )}
                 <Tooltip title={t('delete')}>
                   <IconButton edge="end" aria-label={t('delete')} onClick={() => setDeleteTarget(user)}>
