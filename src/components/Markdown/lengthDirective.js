@@ -10,24 +10,45 @@ export const plainTextOf = (node) => plainText(node)
 // component); Markdown viewers that don't know it show the raw tag.
 export const LENGTH_DIRECTIVE = 'length'
 
-const FEET = /^(ft|feet|foot|')$/i
-const METRES = /^(m|meters?|metres?)$/i
-
-// "45 m", "13.7m", "148 ft", "148'", "1,234 ft" -> { metres, value, unit } or null.
-export function parseLength(text) {
-  const match = /^\s*(\d[\d\s,.]*)\s*([a-z']+)\s*$/i.exec(text || '')
-  if (!match) return null
-  const value = Number(match[1].replace(/[\s,]/g, ''))
-  if (!Number.isFinite(value)) return null
-  if (FEET.test(match[2])) return { value, unit: 'ft', metres: value * 0.3048 }
-  if (METRES.test(match[2])) return { value, unit: 'm', metres: value }
-  return null
+// The units a length can be written in: their size, their system, and the
+// unit a reader of the other system sees them in (mi <-> km, ft <-> m...).
+// `spellings` is matched whole and case-insensitively; `inText` are the
+// spellings also looked for in free text (findLength): not "in" or "mi",
+// which are common words there.
+export const LENGTH_UNITS = {
+  mm: { metres: 0.001, system: 'metric', counterpart: 'in', spellings: ['mm', 'millimeters?', 'millimetres?'] },
+  cm: { metres: 0.01, system: 'metric', counterpart: 'in', spellings: ['cm', 'centimeters?', 'centimetres?'] },
+  m: { metres: 1, system: 'metric', counterpart: 'ft', spellings: ['m', 'meters?', 'metres?'] },
+  km: { metres: 1000, system: 'metric', counterpart: 'mi', spellings: ['km', 'kilometers?', 'kilometres?'] },
+  in: { metres: 0.0254, system: 'imperial', counterpart: 'cm', spellings: ['in', 'inch', 'inches', '"'], inText: ['inch', 'inches', '"'] },
+  ft: { metres: 0.3048, system: 'imperial', counterpart: 'm', spellings: ['ft', 'feet', 'foot', "'"] },
+  yd: { metres: 0.9144, system: 'imperial', counterpart: 'm', spellings: ['yd', 'yds', 'yards?'] },
+  mi: { metres: 1609.344, system: 'imperial', counterpart: 'km', spellings: ['mi', 'miles?'], inText: ['miles?'] },
 }
+
+const unitOf = (spelling) => Object.keys(LENGTH_UNITS).find((unit) => LENGTH_UNITS[unit].spellings.some((s) => new RegExp(`^${s}$`, 'i').test(spelling)))
+const toNumber = (digits) => Number(digits.replace(/[\s,]/g, ''))
+
+// "45 m", "13.7m", "148 ft", "148'", "1,234 ft", "2 miles" -> { value, unit,
+// metres } or null.
+export function parseLength(text) {
+  const match = /^\s*(\d[\d\s,.]*)\s*([a-z'"]+)\s*$/i.exec(text || '')
+  const unit = match && unitOf(match[2])
+  const value = match && toNumber(match[1])
+  if (!unit || !Number.isFinite(value)) return null
+  return { value, unit, metres: value * LENGTH_UNITS[unit].metres }
+}
+
+// Longest spellings first, so "km" isn't read as "k" + "m".
+const TEXT_SPELLINGS = Object.values(LENGTH_UNITS)
+  .flatMap((u) => u.inText || u.spellings)
+  .sort((a, b) => b.length - a.length)
+  .join('|')
 
 // The first length in some text ("about 200 meters!"): its place in the
 // text (index, length) and parseLength's result, or null.
 export function findLength(text) {
-  const match = /(\d[\d,.]*(?:\s\d{3})*)\s*(meters?|metres?|feet|foot|ft|m|')(?![a-z])/i.exec(text || '')
+  const match = new RegExp(`(\\d[\\d,.]*(?:\\s\\d{3})*)\\s*(${TEXT_SPELLINGS})(?![a-z])`, 'i').exec(text || '')
   const parsed = match && parseLength(`${match[1]} ${match[2]}`)
   return parsed ? { ...parsed, index: match.index, length: match[0].length } : null
 }

@@ -13,7 +13,7 @@ import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
 import { milkdownLength } from './milkdownLength.js'
-import { findLength, parseLength } from './lengthDirective.js'
+import { findLength, LENGTH_UNITS, parseLength } from './lengthDirective.js'
 import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
@@ -466,8 +466,11 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         <DialogContent sx={{ display: 'flex', gap: 1.5, pt: 3 }}>
           <TextField autoFocus label={t('toolbar.lengthValue')} type="text" inputMode="decimal" value={lengthDialog?.value ?? ''} onChange={(e) => setLengthDialog((d) => ({ ...d, value: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && lengthValid && confirmLength()} error={!!lengthDialog?.value && !lengthValid} helperText={t('toolbar.lengthHint')} sx={{ flex: 1 }} />
           <TextField select label={t('toolbar.lengthUnit')} value={lengthDialog?.unit ?? 'm'} onChange={(e) => setLengthDialog((d) => ({ ...d, unit: e.target.value }))} sx={{ width: 110 }}>
-            <MenuItem value="m">m</MenuItem>
-            <MenuItem value="ft">ft</MenuItem>
+            {Object.keys(LENGTH_UNITS).map((unit) => (
+              <MenuItem key={unit} value={unit}>
+                {unit}
+              </MenuItem>
+            ))}
           </TextField>
         </DialogContent>
         <DialogActions>
