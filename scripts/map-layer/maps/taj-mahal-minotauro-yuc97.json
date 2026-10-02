@@ -1,0 +1,593 @@
+{
+  "image": "../../../_data/maps-import/images/minotauro-puerto-aventuras.webp",
+  "title": "Taj Mahal - Minotauro - Expéditions Yuc 97/98",
+  "credits": "Topographie: degré 4 UIS, Expéditions Yuc 97/98 (French cave-diving expeditions; published in Spelunca 1998). North arrow: magnetic north 1997; 200 m scale bar",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+  "utmEpsg": 32616,
+  "placementWhy": "Moderate (about 20 m; the map is a compilation of several surveys - Taj Mahal, Minotauro, Cuzel - whose relative positions are a little off): free similarity fit on five points, residuals 23, 20, 14, 9 and 8 m; 0.276 m/px (the 200 m scale bar says 0.2685, 3% apart) and 2.8 degrees of rotation, consistent with the 1997 magnetic north (Reato 2013 gives 1.0 deg W, moving 0.13 deg/year). Points: the pond of Taj Mahal and Minotauro's orange pond on their database positions (both Open Caves source, taken on site); Manglar on the ring-shaped pond the placed Gerrard 2001 Taj Mahal map also uses (Mangrova); Mimo Mi on OSM's 'Cenote' pond (way 405950397), the only one in its area; Cuzel's east collapse on OSM's cenote pond (way 405950395, the database's Pakal Nah), as on the placed Yuc 96 Aktun Koh map. Taj Mahal and Minotauro alone give 0.263 m/px and 3.6 deg but put the Cuzel ponds 77-120 m off; on this map Taj - Minotauro is 2% short of the ground, Taj - Cuzel 4% long. Checks: OSM's Minotaur node 9 m; the placed Reato 2013 map's Cenote Estrella 10 m from the small pond its passage ends at here (both maps draw the same passage); the Yuc 96 map's Cénote cultivé (grass-field centre) 57 m, in the west half of the drawn collapse (the Yuc 96 map's own fit has the same problem); the dark pool on the satellite the Gerrard map's City of Agre SW pool is placed on lies just S of Estrela's south tip (34 m from the point checked). Cross-checked against the placed maps: Reato 2013's Minotauro walls run along this map's Minotauro passages (its main N-S trunk 20-40 m W of this one's), its Piedra and Escalera fall on Estrela's east and south lobes, Gerrard's Nachich on its east edge; the Yuc 96 Aktun Koh walls overlap the Cuzel passages.",
+  "trace": {
+    "method": "colour-fill",
+    "why": "Passages filled in violet-blue (water) and pale cyan (air bells, surface pools), outlined in black; the collapses and ponds (orange, hatched outline, and one dark brown pool) are traced with the passages. The red dots in the passages have no legend: filled over. The white blocks in the passages (Couloir des Géants, Estrela's NW passage...) are kept as details; Estrela's inner hatched slope lines too. The 'Couloir des Géants' and other black labels on the paper picked up a bluish fringe: dropIsolated (250 m2) removes them, while the smallest real isolated part (a pond, 330 m2) stays. The page border is excluded, so the Cuzel passages and the east collapse that run off the top and right edges end on a straight cut.",
+    "water": false,
+    "threshold": 25,
+    "weakThreshold": 15,
+    "regionThreshold": 15,
+    "paperWindowPx": 2000,
+    "details": true,
+    "fillColours": [
+      {
+        "why": "collapses and cenote ponds (orange, hatched outline): part of the cave",
+        "hue": [
+          12,
+          34
+        ],
+        "minSaturation": 110,
+        "density": 0.3,
+        "alone": true
+      },
+      {
+        "why": "the dark brown pool at the end of the passage SE of Taj Mahal",
+        "hue": [
+          20,
+          34
+        ],
+        "minSaturation": 100,
+        "density": 0.3
+      },
+      {
+        "why": "red dots (no legend) inside the passages: they break the blue fill",
+        "hue": [
+          0,
+          10
+        ],
+        "minSaturation": 120,
+        "density": 0.15
+      },
+      {
+        "why": "red dots (hue wrapping round)",
+        "hue": [
+          240,
+          255
+        ],
+        "minSaturation": 120,
+        "density": 0.15
+      }
+    ],
+    "fillOffInk": true,
+    "offInkSigmaPx": 2,
+    "dropIsolated": {
+      "maxSqMetres": 250,
+      "gapMetres": 4
+    },
+    "wallMarginPx": 10,
+    "fillPolygons": [
+      [
+        [
+          1709,
+          2853
+        ],
+        [
+          1707,
+          2868
+        ],
+        [
+          1701,
+          2882
+        ],
+        [
+          1692,
+          2894
+        ],
+        [
+          1680,
+          2903
+        ],
+        [
+          1666,
+          2909
+        ],
+        [
+          1651,
+          2911
+        ],
+        [
+          1636,
+          2909
+        ],
+        [
+          1622,
+          2903
+        ],
+        [
+          1610,
+          2894
+        ],
+        [
+          1601,
+          2882
+        ],
+        [
+          1595,
+          2868
+        ],
+        [
+          1593,
+          2853
+        ],
+        [
+          1595,
+          2838
+        ],
+        [
+          1601,
+          2824
+        ],
+        [
+          1610,
+          2812
+        ],
+        [
+          1622,
+          2803
+        ],
+        [
+          1636,
+          2797
+        ],
+        [
+          1651,
+          2795
+        ],
+        [
+          1666,
+          2797
+        ],
+        [
+          1680,
+          2803
+        ],
+        [
+          1692,
+          2812
+        ],
+        [
+          1701,
+          2824
+        ],
+        [
+          1707,
+          2838
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "Cenote Taj Mahal's pond (a small orange disc with spokes, ringed in black inside the cyan pool): its outline ring would be traced as a thin island"
+  },
+  "exclude": [
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        6001,
+        195
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        4735,
+        6001,
+        4928
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        238,
+        4928
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        5786,
+        0,
+        6001,
+        4928
+      ]
+    },
+    {
+      "why": "title Taj Mahal - Minotauro",
+      "box": [
+        780,
+        4140,
+        2560,
+        4440
+      ]
+    },
+    {
+      "why": "credits Topographie: degré 4 UIS, Expéditions Yuc 97/98",
+      "box": [
+        5040,
+        4060,
+        5740,
+        4660
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (Nm 1997)",
+      "box": [
+        2240,
+        470,
+        2700,
+        1310
+      ]
+    },
+    {
+      "why": "scale bar 0-100-200 m",
+      "box": [
+        2040,
+        1370,
+        3030,
+        1515
+      ]
+    },
+    {
+      "why": "label Vista Bonita",
+      "box": [
+        280,
+        850,
+        985,
+        955
+      ]
+    },
+    {
+      "why": "label Manglar (on the paper)",
+      "box": [
+        455,
+        2690,
+        792,
+        2795
+      ]
+    },
+    {
+      "why": "label Manglar (on the pond): the pond runs on under it",
+      "box": [
+        792,
+        2690,
+        975,
+        2795
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Taj Mahal",
+      "box": [
+        1785,
+        2800,
+        2345,
+        2905
+      ]
+    },
+    {
+      "why": "label Estrela (on the collapse): the collapse runs on under it",
+      "box": [
+        2925,
+        2600,
+        3010,
+        2745
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Estrela (on the collapse): the collapse runs on under it (part 2)",
+      "box": [
+        2975,
+        2530,
+        3080,
+        2660
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Estrela (on the collapse): the collapse runs on under it (part 3)",
+      "box": [
+        3045,
+        2440,
+        3160,
+        2580
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Estrela (on the collapse): the collapse runs on under it (part 4)",
+      "box": [
+        3120,
+        2350,
+        3260,
+        2480
+      ],
+      "inside": true
+    },
+    {
+      "why": "label Mimo Mi",
+      "box": [
+        3530,
+        1775,
+        3950,
+        1875
+      ]
+    },
+    {
+      "why": "label Minotauro",
+      "box": [
+        4110,
+        3660,
+        4735,
+        3765
+      ]
+    },
+    {
+      "why": "label Pica Piedra",
+      "box": [
+        3000,
+        3718,
+        3380,
+        3922
+      ]
+    },
+    {
+      "why": "label Cuzel Aktun Koh",
+      "box": [
+        5065,
+        875,
+        5680,
+        1095
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "name": "Cenote Taj Mahal (DB, Open Caves source)",
+      "px": [
+        1651,
+        2853
+      ],
+      "latitude": 20.48341,
+      "longitude": -87.27686
+    },
+    {
+      "caveId": "-KPZkVMdCXwoq2pMSkyA",
+      "name": "Cenote Minotauro (DB, Open Caves source)",
+      "px": [
+        3808,
+        3716
+      ],
+      "latitude": 20.4817,
+      "longitude": -87.2713
+    },
+    {
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "name": "Manglar (Mangrova): centre of the ring-shaped pond on the satellite",
+      "px": [
+        936,
+        2738
+      ],
+      "latitude": 20.48392,
+      "longitude": -87.2788
+    },
+    {
+      "caveId": "-KPZkVOBeX3QR15-AhmN",
+      "name": "Cuzel east collapse: centre of OSM's cenote pond (way 405950395)",
+      "px": [
+        5654,
+        422
+      ],
+      "latitude": 20.49026,
+      "longitude": -87.26667
+    },
+    {
+      "name": "Mimo Mi: centre of OSM's 'Cenote' pond (way 405950397)",
+      "px": [
+        3764,
+        1673
+      ],
+      "latitude": 20.486858,
+      "longitude": -87.271434
+    },
+    {
+      "name": "Cenote Minotaur, OSM node 4119697081",
+      "px": [
+        3808,
+        3716
+      ],
+      "latitude": 20.4816505,
+      "longitude": -87.2711369,
+      "check": true
+    },
+    {
+      "name": "Cenote Estrella of the placed Reato 2013 map (its passage ends at this small pond)",
+      "px": [
+        2968,
+        3230
+      ],
+      "latitude": 20.482896,
+      "longitude": -87.273329,
+      "check": true
+    },
+    {
+      "name": "Cuzel west collapse = Cénote cultivé of the placed Yuc 96 Aktun Koh map (grass field)",
+      "px": [
+        5102,
+        645
+      ],
+      "latitude": 20.48981,
+      "longitude": -87.26763,
+      "check": true
+    },
+    {
+      "name": "Cenote City of Agre SW pool as placed on the Gerrard 2001 map (dark pool on the satellite)",
+      "px": [
+        2950,
+        2920
+      ],
+      "latitude": 20.48338,
+      "longitude": -87.27327,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Vista Bonita (Buena Vista)",
+      "caveId": "-KPZkVFP-E205SXTJxk5",
+      "px": [
+        1251,
+        1027
+      ],
+      "why": "The orange pond NW of Taj Mahal: Gerrard 2001's Cenote Buena Vista (same place, 'nice view' in both names; Gerrard's placed map puts it 60 m NE of this pond). The database has Buena Vista in sistema Tajma Ha, without a position."
+    },
+    {
+      "name": "Manglar (Mangrova)",
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "px": [
+        936,
+        2738
+      ]
+    },
+    {
+      "name": "Taj Mahal",
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "px": [
+        1651,
+        2853
+      ]
+    },
+    {
+      "name": "Estrela (City of Agre)",
+      "caveId": "-KPZkVH1JsSUeVtkRp0N",
+      "px": [
+        3130,
+        2584
+      ],
+      "why": "The large hatched collapse this map calls Estrela is Gerrard 2001's Cenote City of Agre: the placed Gerrard map's City of Agre south-west pool falls 14 m from its south tip, its Nachich on its east edge, as do the Reato 2013 map's Cenotes Piedra and Escalera. Not the Reato map's Cenote Estrella, which is the small pond 70 m south-west (next entrance)."
+    },
+    {
+      "name": "unnamed pond SW of Estrela (Cenote Estrella of the Reato 2013 map)",
+      "caveId": "-KPZkVJTSCITforYsDef",
+      "px": [
+        2968,
+        3230
+      ],
+      "why": "The placed Reato 2013 Minotauro map's Cenote Estrella lands 10 m from it, its passage ending at this pond as here."
+    },
+    {
+      "name": "unnamed pond pair (brown and orange) between Taj Mahal and Estrela",
+      "px": [
+        2505,
+        3165
+      ],
+      "why": "at the end of the passage from Taj Mahal; possibly Gerrard 2001's Twin Cenotes (placed 45-50 m SE of it)"
+    },
+    {
+      "name": "unnamed pond between Taj Mahal and Estrela (middle)",
+      "px": [
+        2629,
+        3078
+      ]
+    },
+    {
+      "name": "unnamed pond between Taj Mahal and Estrela (east)",
+      "px": [
+        2745,
+        2978
+      ]
+    },
+    {
+      "name": "unnamed small pool at the end of the passage SE of Taj Mahal",
+      "px": [
+        2156,
+        3387
+      ],
+      "why": "a small orange spot at a passage end, with pale-cyan open water; possibly Gerrard 2001's Cenote Sacrado (placed 60 m SE)"
+    },
+    {
+      "name": "Mimo Mi",
+      "px": [
+        3764,
+        1673
+      ],
+      "why": "on OSM's 'Cenote' pond (way 405950397), 8 m away after the fit; not in the database"
+    },
+    {
+      "name": "unnamed elongated collapse NE of Estrela",
+      "px": [
+        4471,
+        2296
+      ],
+      "why": "hatched collapse 140 m x 40 m at the end of the NE passage from Minotauro; not the Reato 2013 map's Cenote Winz (120 m further S)"
+    },
+    {
+      "name": "Minotauro",
+      "caveId": "-KPZkVMdCXwoq2pMSkyA",
+      "px": [
+        3808,
+        3716
+      ]
+    },
+    {
+      "name": "Pica Piedra",
+      "px": [
+        3412,
+        3900
+      ],
+      "why": "no entrance drawn: the name labels this isolated 100 m passage S of Estrela; the position is the passage's middle (its cenote could be anywhere along it, about +-50 m). Not in the database. The Reato 2013 map has an isolated passage fragment 40-100 m north of it, perhaps the same cave."
+    },
+    {
+      "name": "Cuzel west collapse (Cénote cultivé of the Yuc 96 Aktun Koh map)",
+      "px": [
+        5102,
+        645
+      ]
+    },
+    {
+      "name": "unnamed small opening in the air bell between the Cuzel collapses",
+      "px": [
+        5397,
+        505
+      ]
+    },
+    {
+      "name": "Cuzel east collapse (database: Pakal Nah)",
+      "caveId": "-KPZkVOBeX3QR15-AhmN",
+      "px": [
+        5654,
+        422
+      ],
+      "why": "OSM's cenote pond and the database's Pakal Nah are on this collapse, as on the Yuc 96 Aktun Koh map"
+    }
+  ],
+  "symbols": {
+    "why": "French UIS map (Expéditions Yuc 97/98, the Yuc 96 Aktun Koh map's style): no depths, no letter codes, no legend, no bones, no flow arrows (checked by eye and in the OCR words). Kept as a place name: the Couloir des Géants (giants' corridor, the boulder-strewn passage from Vista Bonita towards Estrela). The orange collapses and ponds are entrances; the red dots in the passages have no legend: not kept.",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Couloir des Géants",
+        "px": [
+          2000,
+          1850
+        ]
+      }
+    ]
+  }
+}
