@@ -79,6 +79,7 @@ Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...`
 ## Routing conventions
 
 - `/map`, `/map/:caveId` — public browsing (crawlable, listed in the dynamic `/sitemap.xml` Cloud Function)
+- `/map/:caveId` is served by the `cavePage` Cloud Function (`functions/js/seo/cavePage.js`, a Hosting rewrite): the site's `index.html` with the cave's title, description, canonical link and text already in it, because Google's renderer doesn't run the app. The app then replaces `#root` and reuses those `<head>` tags (`src/utils/headTags.js`); keep the two in step when changing a cave page's SEO. CDN-cached for an hour (`firebase.json` headers).
 - `/caves`, `/caves/:caveId/edit`, `/sistemas`, `/sistemas/:sistemaId/edit` — editor-only CRUD, gated by the `RequireEditor` wrapper in `router.jsx`
 - `/dashboard`, `/:collectionName` (`/accesses`, `/accessibilities`, etc.) — dashboard + reference-data CRUD (also editor-only)
 - Route **component files live under `src/routes/` mirroring their URL** (e.g. `routes/caves/CaveEdit.jsx`, not `routes/dashboard/AdminCaveEdit.jsx`) — keep new pages consistent with this rather than dumping everything under `routes/dashboard/`.

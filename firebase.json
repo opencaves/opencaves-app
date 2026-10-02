@@ -22,6 +22,10 @@
           "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         },
         {
+          "source": "/map/*",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
           "source": "/tiles/**",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
         },
@@ -34,6 +38,10 @@
         {
           "source": "/sitemap.xml",
           "function": "sitemap"
+        },
+        {
+          "source": "/map/*",
+          "function": "cavePage"
         },
         {
           "source": "**",
