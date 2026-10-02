@@ -143,7 +143,8 @@
       "goToSignup": {
         "invite": "Don't have an account?",
         "btn": "Sign up"
-      }
+      },
+      "withMicrosoft": "Log in with Microsoft"
     },
     "loginWithEmailPrompt": {
       "header": "Log in"
@@ -233,7 +234,8 @@
       "goToLogIn": {
         "invite": "Already have an account?",
         "btn": "Log in"
-      }
+      },
+      "withMicrosoft": "Sign up with Microsoft"
     }
   },
   "about": {

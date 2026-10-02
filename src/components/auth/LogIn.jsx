@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Stack, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import LogInWithGoogle from './LogInWithGoogle.jsx'
+import LogInWithMicrosoft from './LogInWithMicrosoft.jsx'
 import LogInWithEmail from './LogInWithEmail.jsx'
 import Or from '../utils/Or.jsx'
 
@@ -34,6 +35,7 @@ export default function LogIn() {
           }}
         >
           <LogInWithGoogle onSuccess={onSuccess} />
+          <LogInWithMicrosoft onSuccess={onSuccess} />
 
           <Or>
             <Typography variant="caption" sx={{ textTransform: 'uppercase' }}>
