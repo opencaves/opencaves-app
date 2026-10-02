@@ -551,7 +551,7 @@
       "confirm": "Confirm",
       "coordinateActions": {
         "placeOnMap": "Place on map",
-        "myLocation": "My location",
+        "myLocation": "Use my location",
         "remove": "Remove",
         "crossPickHint": "Move the map to put the cross on the spot, then confirm"
       },

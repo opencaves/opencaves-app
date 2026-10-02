@@ -550,7 +550,7 @@
       "confirm": "Confirmer",
       "coordinateActions": {
         "placeOnMap": "Placer sur la carte",
-        "myLocation": "Ma position",
+        "myLocation": "Utiliser ma position",
         "remove": "Retirer",
         "crossPickHint": "Déplacez la carte pour placer la croix sur l'endroit, puis confirmez"
       },
