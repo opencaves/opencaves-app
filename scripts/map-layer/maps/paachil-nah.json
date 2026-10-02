@@ -7,8 +7,8 @@
     "id": "-KPZg4joZ9lZ2oVH-LhB",
     "name": "map"
   },
-  "sistemaId": null,
-  "sistemaWhy": "Sistema Paachil Nah is not in the database. Related database records: sistema 'Cenote Nauatilostotl' (-KPZgftMFrHGeCMrWIms, 1061 m, explored 2015-08 by the Czech and Slovak Speleo. Soc.) - its cenote is one of this system's entrances, so it is probably an earlier, smaller stage of this system; sistema 'Cenote Luuk Hool' (-KPZgftDF3IAbIioC48u, 114 m, 2014-04), drawn here only as a survey line; caves 'Nauatilostotl 1' and 'Nauatilostotl 2' (no position, no sistema).",
+  "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+  "sistemaWhy": "Sistema created in the local database at the user's request (2026-10-02) from this map: Paachil Nah. Sistema Paachil Nah is not in the database. Related database records: sistema 'Cenote Nauatilostotl' (-KPZgftMFrHGeCMrWIms, 1061 m, explored 2015-08 by the Czech and Slovak Speleo. Soc.) - its cenote is one of this system's entrances, so it is probably an earlier, smaller stage of this system; sistema 'Cenote Luuk Hool' (-KPZgftDF3IAbIioC48u, 114 m, 2014-04), drawn here only as a survey line; caves 'Nauatilostotl 1' and 'Nauatilostotl 2' (no position, no sistema).",
   "wetDry": "Underwater: every passage is filled with the legend's 'lake' blue (flooded), and the cenotes are pale open water. Sections A-F show water-filled passages. No dry passage is drawn.",
   "utmEpsg": 32616,
   "exclude": [

@@ -7,8 +7,8 @@
     "id": "-KPZg4joZ9lZ2oVH-LhB",
     "name": "map"
   },
-  "sistemaId": null,
-  "sistemaWhy": "No sistema or cave of the database is this cave: no name or aka contains Knock Out (nor Nocaut/Noqueo), and none of the database's Akumal caves matches it by name.",
+  "sistemaId": "-P2wNKZaT5lmImjedBjm",
+  "sistemaWhy": "Sistema created in the local database at the user's request (2026-10-02) from this map: Cenote Knock Out. No sistema or cave of the database is this cave: no name or aka contains Knock Out (nor Nocaut/Noqueo), and none of the database's Akumal caves matches it by name.",
   "utmEpsg": 32616,
   "unverified": "No position at all: Cenote Knock Out is in neither the database (names and akas), OpenStreetMap (Overpass name search over the Yucatán peninsula) nor a web search, and the map draws no road, coast, other cenote or coordinate - only the cave and a surface line with trees on the section. The single control point is a NOMINAL anchor (the entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' caption), so the pipeline can run: the geometry is NOT on the ground (it lands across the Akumal access road). To fix: a field GPS of the entrance and the bearing of the cave's long axis (about 160 m from the -21 end to the -27 end).",
   "placementWhy": "UNVERIFIED (see 'unverified'). Same map as _data/cartes/à traiter/Knock Out, Cen., Akumal.pdf (Cenotes du Yucatan p. 65; AMCS Activities Newsletter 35 p. 25). Scale from the 0-30 m bar: x 1266-1700 at y 1155, 434 px = 30 m, 0.0691 m/px (its 10 m dividers at 1413 and 1555 agree within 3%); the plan, about 160 m end to end, matches the section drawn below it at the same scale. North from the 'Nord mg.' arrow pointing right (magnetic, 1996: a degree or two off true, not corrected): angle 90. Position nominal. The nearest placed map (murena) is about 200 m from the anchor; the map can't be cross-checked with any.",
