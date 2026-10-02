@@ -16,8 +16,20 @@ import { METRES_PER_FOOT } from '@/utils/units.js'
 const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-details', 'oc-caves-water']
 // How far from the pointer (px) a drawing answers: most are thin lines.
 const HOVER_PADDING = 8
-// The drawn lines' dark halo (the *-halo layers).
+// The drawn lines' halo (the *-halo layers): dark behind a light colour,
+// light behind a dark one, so every system's lines stand out over the imagery.
 const HALO_OPACITY = 0.55
+const DARK_HALO = '#000'
+const LIGHT_HALO = '#fff'
+
+// A colour's relative luminance (0 black - 1 white), from #rgb or #rrggbb.
+function luminance(hex) {
+  const value = String(hex || '').replace('#', '')
+  const full = value.length === 3 ? [...value].map((c) => c + c).join('') : value
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+  return Number.isFinite(r + g + b) ? 0.2126 * r + 0.7152 * g + 0.0722 * b : 1
+}
+const haloFor = (hex) => (luminance(hex) < 0.12 ? LIGHT_HALO : DARK_HALO)
 
 // The tiles that exist ("z/x/y"), loaded once: empty tiles have no file, and
 // Hosting would answer them with the app's index.html (its catch-all rewrite).
@@ -135,6 +147,12 @@ export default function CaveLayer({ selectedSistemaId }) {
     const pairs = colorBySistema ? [...roots].filter(([, root]) => colors.get(root)).flatMap(([id, root]) => [id, colors.get(root)]) : []
     return pairs.length ? ['match', ['get', 'sistemaId'], ...pairs, single] : single
   }, [sistemas, roots, colorBySistema, single])
+  // Each line's halo, from its colour's lightness.
+  const halo = useMemo(() => {
+    const colors = new Map((sistemas || []).map((s) => [s.id, s.color]))
+    const pairs = colorBySistema ? [...roots].filter(([, root]) => colors.get(root)).flatMap(([id, root]) => [id, haloFor(colors.get(root))]) : []
+    return pairs.length ? ['match', ['get', 'sistemaId'], ...pairs, haloFor(single)] : haloFor(single)
+  }, [sistemas, roots, colorBySistema, single])
   // Only the selected cave's system: every sistema under the same top-level one.
   const sistemaIds = useMemo(() => {
     if (scope !== 'selected' || !selectedSistemaId) return []
@@ -163,15 +181,15 @@ export default function CaveLayer({ selectedSistemaId }) {
   return (
     <Source id="oc-caves" type="vector" tiles={tiles} minzoom={CAVE_LAYER.MIN_ZOOM} maxzoom={CAVE_LAYER.MAX_ZOOM}>
       <Layer id="oc-caves-water" source-layer="passages" type="fill" filter={filter(kind('water'))} layout={{ visibility }} paint={{ 'fill-color': ifHidden(HIDDEN_COLOR, CAVE_LAYER.WATER_COLOR), 'fill-opacity': ifHidden(CAVE_LAYER.WATER_OPACITY * HIDDEN_OPACITY, CAVE_LAYER.WATER_OPACITY) }} />
-      {/* A dark halo under the drawn lines (a wider, blurred, translucent
-          black copy beneath them), so they stand out over any imagery -
-          some maps' colours are close to the forest's. */}
+      {/* A halo under the drawn lines (a wider, blurred, translucent copy
+          beneath them: dark, or light behind a dark colour), so they stand
+          out over any imagery - some maps' colours are close to the forest's. */}
       <Layer id="oc-caves-details-halo" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
-        paint={{ 'line-color': '#000', 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2.8, 18, 3.4] }} />
+        paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2.8, 18, 3.4] }} />
       <Layer id="oc-caves-details" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.8, 18, 1.4] }} />
       <Layer id="oc-caves-walls-halo" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
-        paint={{ 'line-color': '#000', 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
+        paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
       <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2, 18, 2.5] }} />
       <Layer id="oc-caves-entrances" source-layer="symbols" type="circle" filter={filter(type('entrance'))} layout={{ visibility }}
