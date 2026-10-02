@@ -5,7 +5,7 @@ import { LENGTH_UNITS, parseLength } from './lengthDirective.js'
 
 // A description's `:length[45 m]` tag, shown in the reader's units: a length
 // written in the other system shows in its counterpart unit (mi -> km,
-// ft -> m, in -> cm..., rounded: whole units, or one decimal under 10), with
+// ft -> m..., rounded: whole units, or one decimal under 10), with
 // the value as written in a tooltip. An unreadable value shows as written.
 export default function Length({ text }) {
   const { i18n } = useTranslation()
