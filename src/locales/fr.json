@@ -917,7 +917,9 @@
         "date": "Date : {{date}}",
         "undated": "Non datée"
       },
-      "panelTitle": "Couches de la carte"
+      "panelTitle": "Couches de la carte",
+      "turnOn": "Activer les couches de la carte",
+      "turnOff": "Désactiver les couches de la carte"
     }
   },
   "dashboard": {

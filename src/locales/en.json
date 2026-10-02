@@ -918,7 +918,9 @@
         "date": "Date: {{date}}",
         "undated": "Undated"
       },
-      "panelTitle": "Map layers"
+      "panelTitle": "Map layers",
+      "turnOn": "Turn on map layers",
+      "turnOff": "Turn off map layers"
     }
   },
   "dashboard": {

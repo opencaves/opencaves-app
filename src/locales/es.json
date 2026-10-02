@@ -918,7 +918,9 @@
         "date": "Fecha: {{date}}",
         "undated": "Sin fecha"
       },
-      "panelTitle": "Capas del mapa"
+      "panelTitle": "Capas del mapa",
+      "turnOn": "Activar las capas del mapa",
+      "turnOff": "Desactivar las capas del mapa"
     }
   },
   "dashboard": {

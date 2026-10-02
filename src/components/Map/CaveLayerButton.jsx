@@ -2,31 +2,17 @@ import { useId, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, ButtonBase, Divider, Fab, FormControlLabel, FormLabel, Popover, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Divider, Fab, FormControlLabel, FormLabel, Popover, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import { setCaveLayerColorBySistema, setCaveLayerEditMode, setCaveLayerScope, setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
-// A sketch of traced cave passages over the forest, for the layer's tile.
-function CavePassagesThumbnail() {
-  return (
-    <svg viewBox="0 0 72 72" width="100%" height="100%" aria-hidden="true">
-      <rect width="72" height="72" fill="#3b5a3e" />
-      <path d="M0 52 L72 38" stroke="#6f8a62" strokeWidth="5" />
-      <ellipse cx="44" cy="30" rx="9" ry="6" fill="#9ec3d6" opacity="0.6" />
-      <path d="M6 20 C18 26 22 14 34 22 S50 34 66 24" fill="none" stroke="#5ec4b6" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M14 60 C22 48 30 56 38 44 S52 46 60 58" fill="none" stroke="#c07ad6" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M34 22 L38 44" stroke="#5ec4b6" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  )
-}
-
 // The map's layer button, under the account button: white, or in the primary
 // colour while the cave layer (the passages traced from the cave maps,
-// CaveLayer) is shown. It opens the layers panel, Google Maps style: a tile
-// that shows or hides the layer, then its options - every system or only the
+// CaveLayer) is shown. It opens the layers panel: a switch that shows or
+// hides the layer, then its options - every system or only the
 // selected cenote's, coloured by system or in one colour - and, for editors,
 // the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
 // everyone), with the hidden drawings to show again.
@@ -67,16 +53,7 @@ export default function CaveLayerButton({ sx }) {
           <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
             {t('panelTitle')}
           </Typography>
-          {/* The layer's tile: outlined in the primary colour while shown. */}
-          <ButtonBase className="oc-cave-layer-menu--tile" aria-pressed={visible} onClick={() => dispatch(setCaveLayerVisible(!visible))}
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.75, width: 88, borderRadius: 3, p: 0.5, mb: 1.5 }}>
-            <Box sx={{ width: 72, height: 72, borderRadius: 3, overflow: 'hidden', outline: '2px solid', outlineOffset: 2, outlineColor: visible ? 'primary.main' : 'transparent', transition: 'outline-color 150ms' }}>
-              <CavePassagesThumbnail />
-            </Box>
-            <Typography variant="caption" sx={{ fontWeight: visible ? 600 : 400, color: visible ? 'primary.main' : 'text.primary', lineHeight: 1.2, textAlign: 'center' }}>
-              {t('title')}
-            </Typography>
-          </ButtonBase>
+          <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={visible ? t('turnOff') : t('turnOn')} sx={{ mb: 1 }} />
           <Divider sx={{ mb: 1.5 }} />
           <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
           <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => dispatch(setCaveLayerScope(event.target.value))}>
