@@ -78,7 +78,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
         const center = mapRef.current?.getCenter()
         const params = new URLSearchParams({
           q: query,
-          access_token: import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+          access_token: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
           autocomplete: 'true',
           limit: String(PLACE_LIMIT),
           // Results outside the app's region are of no use here.
