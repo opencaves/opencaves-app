@@ -619,9 +619,12 @@
       "useAsCoverSuccess": "Image de couverture modifiée.",
       "useAsCoverFail": "La modification de l'image de couverture à échoué.",
       "viewOriginalImage": "Afficher l'image originale",
-      "deleteAction": "Supprimer",
-      "deleteSuccess": "Fichier supprimé.",
-      "deleteFail": "La suppression du fichier a échoué."
+      "deleteAction": "Supprimer la photo",
+      "deleteSuccess": "Photo supprimée.",
+      "deleteFail": "Impossible de supprimer la photo.",
+      "deleteConfirmTitle": "Supprimer cette photo ?",
+      "deleteConfirm": "La photo et ses miniatures seront supprimées définitivement. Cette action est irréversible.",
+      "deleteCancel": "Annuler"
     },
     "mediaThumbnailItem": {
       "openBtn": {

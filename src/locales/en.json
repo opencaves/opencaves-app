@@ -620,9 +620,12 @@
       "useAsCoverSuccess": "Cover image changed.",
       "useAsCoverFail": "Failed to change cover image.",
       "viewOriginalImage": "View original image",
-      "deleteAction": "Delete",
-      "deleteSuccess": "File deleted.",
-      "deleteFail": "Failed to delete file."
+      "deleteAction": "Delete photo",
+      "deleteSuccess": "Photo deleted.",
+      "deleteFail": "Couldn't delete the photo.",
+      "deleteConfirmTitle": "Delete this photo?",
+      "deleteConfirm": "The photo and its thumbnails will be permanently deleted. This cannot be undone.",
+      "deleteCancel": "Cancel"
     },
     "mediaThumbnailItem": {
       "openBtn": {

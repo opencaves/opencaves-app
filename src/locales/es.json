@@ -620,9 +620,12 @@
       "useAsCoverSuccess": "Imagen de portada cambiada.",
       "useAsCoverFail": "No se pudo cambiar la imagen de portada.",
       "viewOriginalImage": "Ver imagen original",
-      "deleteAction": "Eliminar",
-      "deleteSuccess": "Archivo eliminado.",
-      "deleteFail": "No se pudo eliminar el archivo."
+      "deleteAction": "Eliminar la foto",
+      "deleteSuccess": "Foto eliminada.",
+      "deleteFail": "No se pudo eliminar la foto.",
+      "deleteConfirmTitle": "¿Eliminar esta foto?",
+      "deleteConfirm": "La foto y sus miniaturas se eliminarán de forma permanente. Esta acción no se puede deshacer.",
+      "deleteCancel": "Cancelar"
     },
     "mediaThumbnailItem": {
       "openBtn": {

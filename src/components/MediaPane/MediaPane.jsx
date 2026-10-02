@@ -102,7 +102,7 @@ export default function MediaPane() {
     >
       {
         mediaId && mediaListSnapshot && !mediaListSnapshot.empty && (
-          <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} />
+          <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} onBeforeDelete={onBeforeDeleteMedia} />
         )
       }
     </Box>
@@ -183,7 +183,7 @@ export default function MediaPane() {
       </Drawer>
       {
         mediaId && mediaListSnapshot && !mediaListSnapshot.empty && (
-          <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} />
+          <MediaPaneDetails mediaId={mediaId} medias={mediaListSnapshot} onBeforeDelete={onBeforeDeleteMedia} />
         )
       }
       <Dropzone open={dropzoneOpen} onDrop={onDropzoneDrop} />

@@ -33,7 +33,7 @@ const Main = styled('main')(
   },
 )
 
-export default function MediaPaneDetails({ mediaId, medias }) {
+export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
@@ -106,7 +106,7 @@ export default function MediaPaneDetails({ mediaId, medias }) {
 
   function Menu({ augment }) {
     augment(({ toolbar, ...restProps }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MediaPaneMenu mediaAsset={currentMedia} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MediaPaneMenu mediaAsset={currentMedia} onBeforeDelete={(mediaAsset) => onBeforeDelete?.(mediaAsset, true)} />),
       ...restProps,
     }))
   }

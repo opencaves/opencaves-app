@@ -6,7 +6,7 @@ import { Box, ButtonBase, IconButton, Menu, MenuItem, useTheme } from '@mui/mate
 import { MoreVert } from '@mui/icons-material'
 import Picture from '@/components/Picture.jsx'
 import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
-import DeleteMedia from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
+import DeleteMedia, { useDeleteMediaConfirm } from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
 import noop from '@/utils/noop.jsx'
 import { storage } from '@/config/firebase.js'
 import { mediaItemPadding, mediaItemRadius } from './config.js'
@@ -49,6 +49,8 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   function onBeforeDeleteMedia() {
     onBeforeDelete(mediaAsset, isActive)
   }
+
+  const { requestDelete, dialog: deleteDialog } = useDeleteMediaConfirm({ onBeforeDelete: onBeforeDeleteMedia })
 
   function onMenuClick() {
     setAnchorEl(null)
@@ -159,8 +161,12 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
           >
             <UseAsCoverImage mediaAsset={mediaAsset} onClick={onMenuClick} />
             <MenuItem component='a' href={downloadUrl} target='_blank' sx={{ '&:hover': { color: 'unset' } }} onClick={onMenuClick}>{t('menu.viewOriginalImage')}</MenuItem>
-            <DeleteMedia mediaAsset={mediaAsset} onBeforeDelete={onBeforeDeleteMedia} onClick={onMenuClick} />
+            <DeleteMedia onClick={() => {
+              onMenuClick()
+              requestDelete(mediaAsset)
+            }} />
           </Menu>
+          {deleteDialog}
         </Box>
       </Box>
     </Box>

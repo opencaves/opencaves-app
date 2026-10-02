@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Menu } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
 import UseAsCoverImage, { useUseAsCoverImage } from './menuItems/UseAsCoverImage.jsx'
-import DeleteMedia, { useDeleteMedia } from './menuItems/DeleteMedia.jsx'
+import DeleteMedia, { useDeleteMedia, useDeleteMediaConfirm } from './menuItems/DeleteMedia.jsx'
 
-export default function MediaPaneMenu({ mediaAsset, ...props }) {
+export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
-  const deleteMediaRef = useRef(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const popoverActions = useRef(null)
   const resizeObserver = useRef(null)
@@ -17,6 +16,7 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
   const setDeleteMediaMenuItem = useDeleteMedia()
   const setUseAsCoverImageMenuItem = useUseAsCoverImage()
+  const { requestDelete, dialog: deleteDialog } = useDeleteMediaConfirm({ onBeforeDelete })
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
@@ -37,12 +37,6 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
   function unwatchSize() {
     resizeObserver.current?.disconnect()
     resizeObserver.current = null
-  }
-
-  function onBeforeDeleteMedia() {
-    // onBeforeDelete(mediaAsset, isActive)
-    const deleteEvent = new CustomEvent('media:delete', { detail: { mediaAsset, isActive: true } })
-    deleteMediaRef.current.dispatchEvent(deleteEvent)
   }
 
   return (setDeleteMediaMenuItem || setUseAsCoverImageMenuItem) && (
@@ -94,8 +88,9 @@ export default function MediaPaneMenu({ mediaAsset, ...props }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <UseAsCoverImage mediaAsset={mediaAsset} />
-        <DeleteMedia ref={deleteMediaRef} mediaAsset={mediaAsset} onBeforeDelete={onBeforeDeleteMedia} />
+        <DeleteMedia onClick={() => requestDelete(mediaAsset)} />
       </Menu>
+      {deleteDialog}
     </>
   )
 }
