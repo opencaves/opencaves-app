@@ -1,0 +1,411 @@
+{
+  "image": "../../../_data/maps-import/images/jaguar-cen-akumal.webp",
+  "title": "Cenote Jaguar, Akumal - Expéditions Yuc 95/96",
+  "credits": "Cenote Jaguar (Akumal), plan and sections; topo J.A. Laclette, Edsel Rios, C. Thomas, Germano; développement 800 m. Cenotes du Yucatan: Expéditions de 1995 et 1996, p. 61 (1996), reprinted in AMCS Activities Newsletter 35, p. 26 (2012)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": null,
+  "sistemaWhy": "No sistema of the database is this cave for sure. The database's only 'Jaguar' (-KPZkVKT85x9cn3QFrQ8, aka Zacate, Ejido Jacinto Pat, area Nohoch Nah Chich, sistema Sac Actun) is OSM's 'Cenote El Jaguar' collapse, about 8 km SW of Akumal; the import already rejected Sac Actun for this map. The database's 'Casa del Jaguar' (2,419 m, 2012), 'Cenote Jaguar 2' (65 m, 2014) and 'Cenote Balam' sistemas have no caves and no position; Chac Mool ('The Jaguar Cenote' in Gerrard, halocline 12 m) is in Puerto Aventuras and already has its own map.",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the map has a reliable position, and nothing but the name links it to a place: the map shows no road, coast or other cenote, only the one collapse (about 75 x 60 m). The database has no Cenote Jaguar near Akumal (none of Akumal's caves is named Jaguar or Balam), and no placed map near Akumal (murena, nohoch-aktun, actun-chen) draws it. Placed as a guess, by the scale bar and 'Nord mg.' up, with the collapse on the north pond of the Ejido Jacinto Pat 'Jaguar' collapse (OSM sinkhole way 1051115917, 45 m S of the database's Jaguar point): the only cenote of that name in the area, but 8 km SW of Akumal, and its collapse (about 100 x 220 m, two ponds) does not look like the map's single round one. Possibly a different cave.",
+  "placementWhy": "Guess, see unverified. Scale from the 0-100 m bar (x 177-625 at y 1133: 0.2232 m/px; its 50 m tick at x 400 agrees; the traced plan, about 480 x 100 m with its branches, fits the 800 m développement), north up ('Nord mg.', magnetic, 1996: a degree or two off true, not corrected). One point: the centre of the map's hatched collapse (Entrée) put on the north pond of the Jacinto Pat Jaguar collapse; the database's Jaguar point falls 49 m N of it, on the parking clearing. Checks, neither confirming nor ruling out the guess: the real collapse runs about 200 m further south to a second pond (OSM 'Cenote El Jaguar') that the map does not show; at this placement the map's west gallery crosses, without a junction, the NE line of the QRSS 2012 Sac Actun overview (sac-actun-mpo-tulum, a 9 m/px small-scale map), whose line ends about 20 m north of it; no other placed map is within 440 m.",
+  "scaleBar": {
+    "from": [
+      177,
+      1133
+    ],
+    "to": [
+      625,
+      1133
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "exclude": [
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        2305,
+        3
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        1230,
+        2305,
+        1234
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        3,
+        1234
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        2301,
+        0,
+        2305,
+        1234
+      ]
+    },
+    {
+      "why": "title CENOTE JAGUAR",
+      "box": [
+        100,
+        110,
+        950,
+        215
+      ]
+    },
+    {
+      "why": "section box COUPE (sections A, B, C and their 10 m bar)",
+      "box": [
+        1270,
+        30,
+        2255,
+        425
+      ]
+    },
+    {
+      "why": "north arrow and Nord mg.",
+      "box": [
+        300,
+        730,
+        545,
+        1025
+      ]
+    },
+    {
+      "why": "scale bar 0-100 m",
+      "box": [
+        150,
+        1085,
+        700,
+        1150
+      ]
+    },
+    {
+      "why": "dév. 800m (surveyed length)",
+      "box": [
+        740,
+        1090,
+        995,
+        1140
+      ],
+      "history": true
+    },
+    {
+      "why": "credits: Topo J.A Laclette Edsel Rios C.Thomas.Germano",
+      "box": [
+        1150,
+        1125,
+        2265,
+        1175
+      ],
+      "history": true
+    },
+    {
+      "why": "label PLAN",
+      "box": [
+        1250,
+        885,
+        1465,
+        950
+      ]
+    },
+    {
+      "why": "label Entrée",
+      "box": [
+        1790,
+        545,
+        1940,
+        595
+      ]
+    },
+    {
+      "why": "label Impenetrable",
+      "box": [
+        1970,
+        1005,
+        2245,
+        1055
+      ]
+    },
+    {
+      "why": "label (halocline) after the depth -11",
+      "box": [
+        2075,
+        700,
+        2295,
+        770
+      ]
+    },
+    {
+      "why": "section C mark (letter)",
+      "box": [
+        1030,
+        575,
+        1070,
+        610
+      ]
+    },
+    {
+      "why": "section A mark (letter)",
+      "box": [
+        1955,
+        670,
+        1985,
+        705
+      ]
+    },
+    {
+      "why": "section B mark (letter)",
+      "box": [
+        1610,
+        925,
+        1645,
+        955
+      ]
+    },
+    {
+      "why": "letters FE (or FÉ) at the collapse's west rim, no legend",
+      "box": [
+        1430,
+        724,
+        1470,
+        780
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVKT85x9cn3QFrQ8",
+      "name": "map collapse centre - GUESS: north pond of the Jacinto Pat Jaguar collapse (OSM sinkhole)",
+      "px": [
+        1450,
+        720
+      ],
+      "latitude": 20.32509,
+      "longitude": -87.36977
+    },
+    {
+      "caveId": "-KPZkVKT85x9cn3QFrQ8",
+      "name": "database Jaguar (Zacate), check only",
+      "px": [
+        1450,
+        720
+      ],
+      "latitude": 20.3255,
+      "longitude": -87.36995,
+      "check": true
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Jaguar (the hatched collapse, Entrée)",
+      "px": [
+        1450,
+        720
+      ],
+      "why": "The map's only opening to the surface, labelled Entrée. Not matched to a database cave: the database's Jaguar (-KPZkVKT85x9cn3QFrQ8, Ejido Jacinto Pat) is probably another cenote."
+    }
+  ],
+  "trace": {
+    "method": "thin-walls",
+    "water": false,
+    "why": "b/w hand drawing: walls are smooth bold lines (about 5 px), passages left white; the collapse is a hatched outline (ticks inward) with an inner hatched cliff line, traced as walls with their ticks. The walls are smooth enough that the straight-line eraser took long runs of them: it is off (straightMinPx 2000) and the three section lines (A, B, C) are erased by hand instead (eraseLines), leaving the few pixels where they cross a wall.",
+    "straightMinPx": 2000,
+    "eraseLines": [
+      {
+        "why": "section line C, above the gallery",
+        "from": [
+          1022,
+          580
+        ],
+        "to": [
+          1022,
+          632
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line C, inside the gallery",
+        "from": [
+          1022,
+          648
+        ],
+        "to": [
+          1022,
+          661
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line C, below the gallery",
+        "from": [
+          1022,
+          675
+        ],
+        "to": [
+          1022,
+          734
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line A, above the passage",
+        "from": [
+          1952,
+          706
+        ],
+        "to": [
+          1943,
+          759
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line A, inside the passage",
+        "from": [
+          1941,
+          776
+        ],
+        "to": [
+          1938,
+          789
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line A, below the passage",
+        "from": [
+          1936,
+          803
+        ],
+        "to": [
+          1928,
+          854
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line B, inside the collapse",
+        "from": [
+          1576,
+          798
+        ],
+        "to": [
+          1579,
+          829
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line B, below the passage",
+        "from": [
+          1599,
+          906
+        ],
+        "to": [
+          1601,
+          963
+        ],
+        "widthPx": 9
+      },
+      {
+        "why": "section line B, through the hollow under the collapse (between the walls it crosses)",
+        "from": [
+          1584,
+          849
+        ],
+        "to": [
+          1585,
+          854
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "section line B, same",
+        "from": [
+          1589,
+          879
+        ],
+        "to": [
+          1590,
+          887
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "section line B, same",
+        "from": [
+          1591,
+          894
+        ],
+        "to": [
+          1591,
+          897
+        ],
+        "widthPx": 5
+      }
+    ],
+    "minSpurPx": 24,
+    "minSpurPxWhy": "the collapse rim's hachures (ticks of 15-20 px) are dropped as spurs; the rim stays"
+  },
+  "symbols": {
+    "why": "French expedition map (Yuc 95/96): depths written with a minus sign (-7, -12 in the west gallery), a halocline depth (-11, east passage), Impenetrable at the east end (marked with dots), Entrée at the collapse. No legend, no letter codes, no flow arrows and no bones (checked by eye; OCR words checked too).",
+    "units": "m",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "-7",
+        "px": [
+          103,
+          698
+        ],
+        "value": 7,
+        "halfPx": 20
+      },
+      {
+        "type": "depth",
+        "label": "-12",
+        "px": [
+          689,
+          732
+        ],
+        "value": 12,
+        "halfPx": 29
+      },
+      {
+        "type": "place-name",
+        "label": "halocline at -11 m",
+        "px": [
+          2016,
+          737
+        ],
+        "halfPx": 24
+      },
+      {
+        "type": "too-tight",
+        "label": "Impenetrable",
+        "px": [
+          2075,
+          972
+        ]
+      }
+    ]
+  }
+}
