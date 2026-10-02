@@ -16,6 +16,8 @@ import { METRES_PER_FOOT } from '@/utils/units.js'
 const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-details', 'oc-caves-water']
 // How far from the pointer (px) a drawing answers: most are thin lines.
 const HOVER_PADDING = 8
+// The drawn lines' dark halo (the *-halo layers).
+const HALO_OPACITY = 0.55
 
 // The tiles that exist ("z/x/y"), loaded once: empty tiles have no file, and
 // Hosting would answer them with the app's index.html (its catch-all rewrite).
@@ -161,8 +163,15 @@ export default function CaveLayer({ selectedSistemaId }) {
   return (
     <Source id="oc-caves" type="vector" tiles={tiles} minzoom={CAVE_LAYER.MIN_ZOOM} maxzoom={CAVE_LAYER.MAX_ZOOM}>
       <Layer id="oc-caves-water" source-layer="passages" type="fill" filter={filter(kind('water'))} layout={{ visibility }} paint={{ 'fill-color': ifHidden(HIDDEN_COLOR, CAVE_LAYER.WATER_COLOR), 'fill-opacity': ifHidden(CAVE_LAYER.WATER_OPACITY * HIDDEN_OPACITY, CAVE_LAYER.WATER_OPACITY) }} />
+      {/* A dark halo under the drawn lines (a wider, blurred, translucent
+          black copy beneath them), so they stand out over any imagery -
+          some maps' colours are close to the forest's. */}
+      <Layer id="oc-caves-details-halo" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
+        paint={{ 'line-color': '#000', 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2.8, 18, 3.4] }} />
       <Layer id="oc-caves-details" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.8, 18, 1.4] }} />
+      <Layer id="oc-caves-walls-halo" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
+        paint={{ 'line-color': '#000', 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
       <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2, 18, 2.5] }} />
       <Layer id="oc-caves-entrances" source-layer="symbols" type="circle" filter={filter(type('entrance'))} layout={{ visibility }}
