@@ -56,6 +56,87 @@
         2486
       ],
       "history": true
+    },
+    {
+      "why": "label North west entrance and its leader",
+      "box": [
+        1035,
+        490,
+        1450,
+        535
+      ]
+    },
+    {
+      "why": "label 13 Conc lake room and its leader",
+      "box": [
+        435,
+        800,
+        925,
+        862
+      ]
+    },
+    {
+      "why": "label Quatro hermanos entrances and its leader",
+      "box": [
+        15,
+        940,
+        548,
+        992
+      ]
+    },
+    {
+      "why": "Quatro hermanos leader, the piece beyond the passage end",
+      "box": [
+        605,
+        972,
+        686,
+        992
+      ]
+    },
+    {
+      "why": "label Myrna's gift cenote and its leader",
+      "box": [
+        148,
+        1192,
+        640,
+        1236
+      ]
+    },
+    {
+      "why": "label Breath hold cenote and its leader",
+      "box": [
+        0,
+        1262,
+        300,
+        1300
+      ]
+    },
+    {
+      "why": "label No eye stage cenote and its leader",
+      "box": [
+        1072,
+        1198,
+        1575,
+        1248
+      ]
+    },
+    {
+      "why": "label Chupa Cabra's retreat cenote and its leader",
+      "box": [
+        825,
+        1528,
+        1505,
+        1565
+      ]
+    },
+    {
+      "why": "label Mak-Mak Cenote and its leader",
+      "box": [
+        0,
+        1612,
+        335,
+        1652
+      ]
     }
   ],
   "controlPoints": [
