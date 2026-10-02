@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { IconButton, Tooltip } from '@mui/material'
-import { AddRounded, EditOutlined, EditRounded } from '@mui/icons-material'
+import AddRounded from '@mui/icons-material/AddRounded'
+import EditOutlined from '@mui/icons-material/EditOutlined'
+import EditRounded from '@mui/icons-material/EditRounded'
 import { useEditCaveActions } from './EditCaveFab.jsx'
 
 // The edit FAB's two actions as separate icon buttons, for the mobile result

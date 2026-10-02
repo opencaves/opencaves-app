@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MenuItem, TextField } from '@mui/material'
-import { AddRounded } from '@mui/icons-material'
+import AddRounded from '@mui/icons-material/AddRounded'
 import NewSourceDialog from '@/components/NewSourceDialog.jsx'
 
 // Not a real source id: picking it opens NewSourceDialog instead of

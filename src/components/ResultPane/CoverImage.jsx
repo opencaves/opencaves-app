@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
-import { AddPhotoAlternateRounded } from '@mui/icons-material'
+import AddPhotoAlternateRounded from '@mui/icons-material/AddPhotoAlternateRounded'
 
 import { useAddMedias } from '@/components/AddMedias/useAddMedias.jsx'
 import UnstyledLink from '@/components/UnstyledLink.jsx'

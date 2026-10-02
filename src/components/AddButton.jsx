@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { AddRounded } from '@mui/icons-material'
+import AddRounded from '@mui/icons-material/AddRounded'
 
 // The edit forms' "+ Add something" button, sized per M3's outlined button
 // with a leading icon: 40dp tall (16dp before the icon, 24dp after the

@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon, speedDialActionClasses } from '@mui/material'
-import { AddRounded, EditOffRounded, EditRounded } from '@mui/icons-material'
+import AddRounded from '@mui/icons-material/AddRounded'
+import EditOffRounded from '@mui/icons-material/EditOffRounded'
+import EditRounded from '@mui/icons-material/EditRounded'
 
 // Sits directly above the map's "find my location" control (bottom-right,
 // same margin from the edge) - only shown to editors, since both actions

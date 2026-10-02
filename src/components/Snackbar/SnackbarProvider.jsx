@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react'
 import { Box, IconButton } from '@mui/material'
-import { CheckCircleRounded, Close } from '@mui/icons-material'
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
+import Close from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import Snackbar from './Snackbar.jsx'
 

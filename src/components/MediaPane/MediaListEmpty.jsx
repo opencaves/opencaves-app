@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AddAPhotoOutlined } from '@mui/icons-material'
+import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
 import { Box, Typography } from '@mui/material'
 import AddMediasButton from './AddMediasButton.jsx'
 

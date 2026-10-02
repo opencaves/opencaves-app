@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box, CircularProgress } from '@mui/material'
-import { PictureAsPdfRounded } from '@mui/icons-material'
+import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 
 const MIN_SCALE = 1
 const MAX_SCALE = 5

@@ -16,7 +16,7 @@ import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
 import MediaViewer from '@/components/MediaViewer/MediaViewer.jsx'
 import MediaPaneMenu from './MediaPaneMenu.jsx'
-import { ArrowBackRounded } from '@mui/icons-material'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
 

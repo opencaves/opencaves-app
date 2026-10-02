@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Menu } from '@mui/material'
-import { MoreVert } from '@mui/icons-material'
+import MoreVert from '@mui/icons-material/MoreVert'
 import UseAsCoverImage, { useUseAsCoverImage } from './menuItems/UseAsCoverImage.jsx'
 import DeleteMedia, { useDeleteMedia, useDeleteMediaConfirm } from './menuItems/DeleteMedia.jsx'
 

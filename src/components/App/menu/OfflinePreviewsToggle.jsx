@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Box, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material'
-import { CloudDownloadOutlined } from '@mui/icons-material'
+import CloudDownloadOutlined from '@mui/icons-material/CloudDownloadOutlined'
 import { setOfflinePreviewsEnabled, useOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, previewsStatusKey } from '@/services/offline/offlineMedia.js'

@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material'
+import Search from '@mui/icons-material/Search'
 import './SearchBarMockup.scss'
 
 // A still picture of the map page's search bar (SearchBar), for loading

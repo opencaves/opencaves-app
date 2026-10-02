@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { Grid } from '@mui/material'
-import { CheckCircleOutlineRounded, WarningRounded } from '@mui/icons-material'
+import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 
 /**
  * The type of an alert

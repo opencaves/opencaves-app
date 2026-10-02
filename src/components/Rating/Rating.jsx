@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Rating, Typography } from '@mui/material'
-import { Star } from '@mui/icons-material'
+import Star from '@mui/icons-material/Star'
 import { setUserRating, useCaveRatings } from '@/models/Rating.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import './Rating.scss'

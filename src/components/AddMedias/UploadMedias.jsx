@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Box, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
-import { PictureAsPdfRounded } from '@mui/icons-material'
+import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { ReportProblemRounded } from '@mui/icons-material'
+import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
 
 export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, children }) {
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)

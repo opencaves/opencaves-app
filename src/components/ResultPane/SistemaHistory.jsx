@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
-import { ExpandMore } from '@mui/icons-material'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '@/models/Sistema.js'

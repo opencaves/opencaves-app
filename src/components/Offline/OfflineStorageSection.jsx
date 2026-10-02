@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
-import { DeleteSweepOutlined } from '@mui/icons-material'
+import DeleteSweepOutlined from '@mui/icons-material/DeleteSweepOutlined'
 import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineMedia.js'
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'

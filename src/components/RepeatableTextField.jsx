@@ -1,5 +1,5 @@
 import { Box, IconButton, TextField, Typography } from '@mui/material'
-import { CloseRounded } from '@mui/icons-material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import AddButton from '@/components/AddButton.jsx'
 
 export default function RepeatableTextField({ label, values, onChange, addLabel, removeLabel, labelProps = {} }) {

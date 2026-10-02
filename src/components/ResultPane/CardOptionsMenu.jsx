@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
-import { MoreVertRounded } from '@mui/icons-material'
+import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 
 // A single "more options" trigger (vertical three dots, top-right of a
 // media/map/video card) opening a menu of actions - replaces what used to

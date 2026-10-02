@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Dialog, DialogContent, IconButton } from '@mui/material'
-import { CloseRounded } from '@mui/icons-material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import About from './About.jsx'
 import { APP_NAME } from '@/config/app.js'
 

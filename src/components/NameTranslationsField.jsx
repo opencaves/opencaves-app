@@ -1,5 +1,5 @@
 import { Box, IconButton, MenuItem, TextField, Typography } from '@mui/material'
-import { CloseRounded } from '@mui/icons-material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import AddButton from '@/components/AddButton.jsx'
 
 // One row per language, each language selectable in at most one row at a

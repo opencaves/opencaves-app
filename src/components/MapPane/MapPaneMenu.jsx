@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
-import { DeleteOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
+import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
+import EditRounded from '@mui/icons-material/EditRounded'
+import MoreVert from '@mui/icons-material/MoreVert'
 
 // Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
 // injected into the Lightbox with the same edit/delete actions already

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Snackbar as MUISnackbar, Portal } from '@mui/material'
 import Slide from '@mui/material/Slide'
-import { Close } from '@mui/icons-material'
+import Close from '@mui/icons-material/Close'
 import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 
 export default function Snackbar({ open = false, message, autoHide = true, autoHideDuration = null, hideOnClickAway = false, action = null, showCloseButton = false, children, sx = {} }) {
