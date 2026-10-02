@@ -186,20 +186,27 @@ export default function UsersAdmin() {
                     <FormControlLabel key={role} control={<Checkbox checked={user.roles.includes(role)} disabled={savingUid === user.uid || user.frozen} onChange={() => toggleRole(user, role)} />} label={t(`role.${role}`)} />
                   ))}
                 </FormGroup>
-                {user.uid !== auth.currentUser?.uid ? (
-                  <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
-                    <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
-                      <AcUnitRounded fontSize="small" />
+                {/* Pushed to the row's end: on a phone, where the roles wrap
+                    under the email, they'd otherwise sit right after them.
+                    MD3 standard icon buttons: 40dp, 24dp icon, 8dp apart so
+                    their 48dp touch targets don't overlap; the last icon 24dp
+                    from the row's edge (the list's 16dp padding + 8dp). */}
+                <Box className="oc-users-admin--actions" sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+                  {user.uid !== auth.currentUser?.uid ? (
+                    <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
+                      <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
+                        <AcUnitRounded />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <Box className="oc-users-admin--no-freeze" aria-hidden="true" sx={{ width: 40, flex: 'none' }} />
+                  )}
+                  <Tooltip title={t('delete')}>
+                    <IconButton aria-label={t('delete')} onClick={() => setDeleteTarget(user)}>
+                      <DeleteRounded />
                     </IconButton>
                   </Tooltip>
-                ) : (
-                  <Box className="oc-users-admin--no-freeze" aria-hidden="true" sx={{ width: 36, flex: 'none' }} />
-                )}
-                <Tooltip title={t('delete')}>
-                  <IconButton edge="end" aria-label={t('delete')} onClick={() => setDeleteTarget(user)}>
-                    <DeleteRounded fontSize="small" />
-                  </IconButton>
-                </Tooltip>
+                </Box>
               </ListItem>
             ))}
           </List>
