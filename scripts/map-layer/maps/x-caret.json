@@ -8,8 +8,8 @@
   },
   "sistemaId": "-KPZgfz4tNCel8OWyczw",
   "utmEpsg": 32616,
-  "unverified": "No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and the map is a schematic sketch with no scale bar or north arrow. Placed only by park landmarks on the satellite, which the Xcaret park has reshaped since: the map's walled square = Plaza Principal, the lagoon's north arm and its west (U-shaped) arm = the caleta's north channel and the heart-shaped lagoon. Residuals 16-25 m; possibly 30-50 m off at the ends.",
-  "placementWhy": "Free similarity fit on three landmarks, none a cenote with a known position: the walled square drawn at the west end of the road (the Injection Site road) on the walled courtyard building of the Xcaret park's Plaza Principal; the top of the lagoon's stippled north arm (where B is) on the north end of the caleta's narrow north channel (by La Isla); the west tip of the lagoon's U-shaped west arm on the west end of the heart-shaped lagoon (Xcaret Waterpark). Fit: 0.99 m/px, rotated 5 deg, residuals 16, 20 and 25 m. Independent check: with this scale the drawn route A - C measures about 313 m (the map says 310 m) and A - B about 190 m (210 m); Injection Site - A about 109 m (90 m). The road east from the square lands on the park's east-west walkway south of Plaza Principal (about 20 m off). The big south-west pool at the end of both western passages lands about 70 m west of the Rio Subterraneo exit pool by the coast; not used. The map shows the same caleta, Mayan wall (hatched line) and ruins as the 1979 Cueva de Xcaret map, whose cave (cenote de Felipe to the caleta) is this map's Injection Site - A - B passage.",
+  "unverified": "No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and the map is a schematic sketch with no scale bar or north arrow. Placed only by ground features on the satellite - the Plaza Principal building, the caleta's channel and mouth, the heart-shaped lagoon - which the Xcaret park has reshaped since; residuals 10-20 m, possibly 30-50 m off at the ends (the sketch's coast band lies 20-40 m inland of today's shore south of the lagoon).",
+  "placementWhy": "Free similarity fit on four ground features, none a cenote with a known position (Mapbox satellite and Mapbox Streets' OSM data; Overpass timed out): the walled square at the road's west end on the Plaza Principal courtyard building (11.6 m); B, at the narrow neck of the caleta's stippled north arm, on the north end of the caleta channel's open water (10.4 m); the tip of the land between the caleta channel and the north shore band on the rocky point east of the caleta's mouth, the 1979 map's 'Peninsula tip' ground point (20.4 m); the west tip of the U-shaped arm's west lobe on the west tip of the heart-shaped lagoon (19.5 m). Fit: 0.883 m/px, rotated 0.2 deg. Checks: the small walled square south of the big one lands 5 m from the Juego de pelota building south of Plaza Principal; the tongue of land between the U-shaped arm and the coast band ends 15 m from the rocky point south of the caleta's mouth; the north arm's lobes reach 26 m short of where the creek continuing the caleta north ends under the trees. The road east from the square follows the park's walkway east of Plaza Principal. The drawn routes measure Injection Site - A about 97 m (the map says 90 m), A - B about 170 m (210 m), A - C about 280 m (310 m): the sketch isn't to one scale. The south-west pool lands 30-40 m north of the coast, among the park's buildings: no open water shows there today (the earlier guess of the Rio Subterraneo exit pool for it is dropped). Compared with the unverified 1979 Cueva de Xcaret map (xcaret-1979.json), placed on the same caleta: this map's A lies about 65 m south-west of its cenote de Felipe, and this map's passage north-west of the black building (the 1979 map's Mayan ruins by cenote de los franceses) about 60 m north of cenote de los franceses; both are guesses on park landmarks and nothing is taken from the 1979 map's positions.",
   "exclude": [
     {
       "why": "distances box: Injection Site - A = 90 m, A - B = 210 m, A - C = 310 m",
@@ -30,15 +30,6 @@
       ]
     },
     {
-      "why": "label A and its arrow",
-      "box": [
-        315,
-        138,
-        360,
-        172
-      ]
-    },
-    {
       "why": "label B and its arrow",
       "box": [
         400,
@@ -48,30 +39,12 @@
       ]
     },
     {
-      "why": "label C and its arrow",
-      "box": [
-        135,
-        380,
-        180,
-        422
-      ]
-    },
-    {
       "why": "label X-Caret Lagoon",
       "box": [
         445,
         395,
         548,
         452
-      ]
-    },
-    {
-      "why": "walled square (Plaza Principal?) at the road's west end",
-      "box": [
-        118,
-        18,
-        214,
-        110
       ]
     },
     {
@@ -88,17 +61,17 @@
       "box": [
         212,
         162,
-        306,
-        268
+        300,
+        266
       ]
     },
     {
-      "why": "black building north-west of the lagoon",
+      "why": "black buildings or ruins west of A (north-east corner)",
       "box": [
-        282,
-        312,
-        323,
-        364
+        300,
+        162,
+        308,
+        252
       ]
     },
     {
@@ -120,39 +93,12 @@
       ]
     },
     {
-      "why": "lagoon: stippled north arm (B)",
-      "box": [
-        378,
-        244,
-        446,
-        418
-      ]
-    },
-    {
       "why": "lagoon: stippled north shore",
       "box": [
         440,
         300,
         645,
         405
-      ]
-    },
-    {
-      "why": "lagoon: stippled island",
-      "box": [
-        352,
-        298,
-        380,
-        336
-      ]
-    },
-    {
-      "why": "lagoon: U-shaped west arm",
-      "box": [
-        243,
-        352,
-        418,
-        530
       ]
     },
     {
@@ -180,33 +126,6 @@
         418,
         456,
         528
-      ]
-    },
-    {
-      "why": "stippled pond at C (open water), east part",
-      "box": [
-        205,
-        380,
-        300,
-        482
-      ]
-    },
-    {
-      "why": "stippled pond at C (open water) and its maze of drawn ink along the passage (the passage across it is redrawn by addLines)",
-      "box": [
-        168,
-        384,
-        206,
-        482
-      ]
-    },
-    {
-      "why": "stippled south-west pool (open water)",
-      "box": [
-        5,
-        527,
-        112,
-        615
       ]
     },
     {
@@ -244,6 +163,132 @@
         755,
         665
       ]
+    },
+    {
+      "why": "walled square (Plaza Principal) at the road's west end",
+      "box": [
+        118,
+        18,
+        214,
+        110
+      ]
+    },
+    {
+      "why": "road east of the walled square (west of the Injection Site dot)",
+      "box": [
+        212,
+        55,
+        384,
+        71
+      ]
+    },
+    {
+      "why": "road east of the walled square (east of the Injection Site dot)",
+      "box": [
+        400,
+        55,
+        480,
+        71
+      ]
+    },
+    {
+      "why": "Injection Site arrow",
+      "box": [
+        362,
+        38,
+        384,
+        84
+      ]
+    },
+    {
+      "why": "label A and its arrow",
+      "box": [
+        315,
+        138,
+        357,
+        170
+      ]
+    },
+    {
+      "why": "label C and its arrow",
+      "box": [
+        135,
+        380,
+        172,
+        420
+      ]
+    },
+    {
+      "why": "black building north-west of the lagoon",
+      "box": [
+        286,
+        316,
+        323,
+        364
+      ]
+    },
+    {
+      "why": "lagoon: stippled north arm (B), above B",
+      "box": [
+        384,
+        244,
+        446,
+        302
+      ]
+    },
+    {
+      "why": "lagoon: stippled north arm (B), from B down",
+      "box": [
+        378,
+        316,
+        446,
+        418
+      ]
+    },
+    {
+      "why": "lagoon: stippled north arm (B), its neck at B",
+      "box": [
+        392,
+        300,
+        446,
+        318
+      ]
+    },
+    {
+      "why": "lagoon: stippled island west of B",
+      "box": [
+        350,
+        303,
+        378,
+        338
+      ]
+    },
+    {
+      "why": "lagoon: U-shaped west arm (its west lobe and south part)",
+      "box": [
+        238,
+        446,
+        420,
+        532
+      ]
+    },
+    {
+      "why": "lagoon: U-shaped west arm (its north part)",
+      "box": [
+        318,
+        388,
+        420,
+        446
+      ]
+    },
+    {
+      "why": "lagoon: south shore (coast), its west end",
+      "box": [
+        96,
+        622,
+        114,
+        648
+      ]
     }
   ],
   "controlPoints": [
@@ -253,40 +298,72 @@
         166,
         65
       ],
-      "latitude": 20.581515,
-      "longitude": -87.120617,
-      "why": "centre of the map's square with thick walls, on the centre of the Xcaret park's Plaza Principal courtyard building (Mapbox satellite); the map's road runs east from it as the park's walkway does"
+      "latitude": 20.581532,
+      "longitude": -87.120633,
+      "why": "centre of the map's square with thick walls, on the centre of the Xcaret park's Plaza Principal courtyard building (Mapbox satellite); the map's road runs east from it as the park's walkway does (OSM path east of Plaza principal, in Mapbox Streets)"
     },
     {
-      "name": "Caleta north channel, north end (B arm top)",
+      "name": "Caleta channel, open water's north end (B)",
       "px": [
-        400,
-        251
+        398,
+        322
       ],
-      "latitude": 20.579383,
-      "longitude": -87.11876,
-      "why": "top of the lagoon's stippled north arm, where B is; on the north end of the caleta's narrow north channel by La Isla"
+      "latitude": 20.5793,
+      "longitude": -87.118769,
+      "why": "B, where the dashed passage meets the caleta's north arm, at its narrow neck; on the north end of the caleta's open channel (Mapbox satellite), where a narrow creek goes on north under the trees as the map's arm goes on to its two lobes"
     },
     {
-      "name": "Heart-shaped lagoon, west tip (U arm west tip)",
+      "name": "Point between the caleta's mouth and the sea",
       "px": [
-        245,
-        431
+        450,
+        425
       ],
-      "latitude": 20.578036,
-      "longitude": -87.12,
-      "why": "west tip of the lagoon's U-shaped west arm, on the west end of the heart-shaped lagoon (Xcaret Waterpark)"
+      "latitude": 20.578723,
+      "longitude": -87.118394,
+      "why": "tip of the white land between the caleta channel and the north shore band, where the channel opens to the sea; on the rocky point east of the caleta's mouth (the same ground point as the 1979 map's 'Peninsula tip')"
     },
     {
-      "name": "Rio Subterraneo exit pool (check)",
+      "name": "Heart-shaped lagoon, west tip",
       "px": [
-        100,
-        600
+        238,
+        468
       ],
-      "latitude": 20.577247,
-      "longitude": -87.121393,
+      "latitude": 20.578067,
+      "longitude": -87.120013,
+      "why": "west tip of the west lobe of the lagoon's U-shaped west arm, on the west tip of the heart-shaped lagoon south-west of the caleta (Xcaret Waterpark)"
+    },
+    {
+      "name": "Juego de pelota (small walled square, check)",
+      "px": [
+        149,
+        139
+      ],
+      "latitude": 20.580879,
+      "longitude": -87.12088,
       "check": true,
-      "why": "the south tail of the map's south-west pool, against the dark exit pool of the park's underground river by the coast; an identification guess, not used"
+      "why": "the map's small walled square south of the Plaza Principal square, against the ball court building south of Plaza principal; its identity is a guess, not used"
+    },
+    {
+      "name": "Caleta creek north end (check)",
+      "px": [
+        402,
+        252
+      ],
+      "latitude": 20.579731,
+      "longitude": -87.118791,
+      "check": true,
+      "why": "top of the north arm's lobes against the north end of the narrow creek that continues the caleta north under the trees; the sketch's lobes are schematic, not used"
+    },
+    {
+      "name": "Rocky point south of the caleta's mouth (check)",
+      "px": [
+        442,
+        452
+      ],
+      "latitude": 20.578283,
+      "longitude": -87.118231,
+      "check": true,
+      "why": "tip of the white tongue of land between the lagoon's U-shaped arm and the coast band, against the tip of the rocky point (Ruta Delfines) between the heart-shaped lagoon and the sea; the point carries modern dolphin pens, so not used"
     }
   ],
   "entrances": [
@@ -340,123 +417,38 @@
     }
   ],
   "trace": {
-    "method": "survey-lines",
+    "method": "thin-walls",
     "water": false,
-    "lineColours": [
-      "black"
-    ],
-    "bridgePx": 5,
-    "eraseLines": [
+    "why": "Not a stick map: each passage is drawn as a narrow double line (its two walls, a few metres apart at the sketch's scale), and the ponds and pools on the passages as outlined stippled water. At this resolution the two walls of a passage often touch, so the walls are traced as the outer edge of the inked band (outlineAreas: the double line closed into one band, its outline = the walls, so each passage keeps its width), the stippled ponds closed harder so their dots fill in and only their shore is drawn. Every passage and pond toward the caleta and the sea is kept: the pond complex at C and the stippled pond east of it, the south-west pool and its tail toward the coast, and the dashed passage from the bend south of A to B (an inferred route, drawn dashed on the map). The caleta (its north arm with B, the island west of B, the U-shaped west arm), the coast, the road, the walled squares, the buildings and ruins and the labels are boxed out: surface features, not cave.",
+    "outlineAreas": [
       {
-        "why": "road east of the square",
-        "from": [
-          212,
-          63
+        "box": [
+          0,
+          0,
+          755,
+          665
         ],
-        "to": [
-          480,
-          66
-        ],
-        "widthPx": 14
+        "closePx": 7
       },
       {
-        "why": "Injection Site arrow",
-        "from": [
-          364,
-          47
+        "box": [
+          5,
+          518,
+          114,
+          636
         ],
-        "to": [
-          381,
-          80
-        ],
-        "widthPx": 5
+        "closePx": 11,
+        "why": "south-west pool: stipple filled"
       },
       {
-        "why": "dashed line from the passage to B (inferred route, not surveyed)",
-        "from": [
-          342,
-          258
+        "box": [
+          168,
+          378,
+          302,
+          492
         ],
-        "to": [
-          398,
-          318
-        ],
-        "widthPx": 9
-      }
-    ],
-    "why": "Schematic sketch: every passage is drawn as the same narrow double line, a symbol rather than measured walls, so it is traced as centrelines (no thickness); the double line is closed into one stroke (bridgePx) before thinning. The dashed line from the passage to B is an inferred connection: not drawn. Lagoon, ponds, pool, buildings, ruins and the road are boxed or erased out.",
-    "addLines": [
-      {
-        "why": "passage from the Injection Site dot across the (erased) road",
-        "from": [
-          393,
-          58
-        ],
-        "to": [
-          392,
-          76
-        ],
-        "widthPx": 3
-      },
-      {
-        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
-        "from": [
-          214,
-          379
-        ],
-        "to": [
-          196,
-          397
-        ],
-        "widthPx": 3
-      },
-      {
-        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
-        "from": [
-          196,
-          397
-        ],
-        "to": [
-          184,
-          422
-        ],
-        "widthPx": 3
-      },
-      {
-        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
-        "from": [
-          184,
-          422
-        ],
-        "to": [
-          171,
-          438
-        ],
-        "widthPx": 3
-      },
-      {
-        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
-        "from": [
-          171,
-          438
-        ],
-        "to": [
-          167,
-          460
-        ],
-        "widthPx": 3
-      },
-      {
-        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
-        "from": [
-          167,
-          460
-        ],
-        "to": [
-          160,
-          467
-        ],
-        "widthPx": 3
+        "closePx": 11,
+        "why": "pond complex at C and the stippled pond east of it: stipple filled"
       }
     ]
   },
