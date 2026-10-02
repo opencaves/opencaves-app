@@ -128,6 +128,11 @@ export default defineConfig({
     // from lazily loaded code: found late, its re-optimization left pages
     // asking for outdated deps (504 "Outdated Optimize Dep").
     include: ['micromark-extension-directive', 'mdast-util-directive'],
+    // Every source file scanned for dependencies at startup, not only what's
+    // reachable from index.html: a lazily loaded page importing one not seen
+    // yet (e.g. an @mui/icons-material/<Name> file) made Vite re-optimize and
+    // reload the page - clicking Map layers on /dashboard just reloaded it.
+    entries: ['index.html', 'src/**/*.{js,jsx}'],
   },
   plugins: [
     react({
