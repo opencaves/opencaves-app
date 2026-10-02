@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Source, Layer } from 'react-map-gl/mapbox'
+import { useTranslation } from 'react-i18next'
+import { Source, Layer, Popup, useMap } from 'react-map-gl/mapbox'
+import { Button, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { CAVE_LAYER } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
+import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
+import { setMapHidden } from '@/services/caveLayerSettings.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { METRES_PER_FOOT } from '@/utils/units.js'
+
+// The layers the edit mode answers to: a map's drawing (its symbols are too small).
+const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-details', 'oc-caves-water']
 
 // The tiles that exist ("z/x/y"), loaded once: empty tiles have no file, and
 // Hosting would answer them with the app's index.html (its catch-all rewrite).
@@ -36,18 +44,75 @@ function rootSistemas(sistemas, connections) {
 // caveLayer slice): shown or not; every system or only the selected cave's
 // (selectedSistemaId: its system and the ones merged into it); each system in
 // its colour (from the database: a colour changed in the admin UI shows
-// without rebuilding the tiles) or all in one colour.
+// without rebuilding the tiles) or all in one colour. The maps whose drawing
+// editors hid (caveLayerSettings) are left out for everyone. In the edit mode
+// (editors), the map under the pointer is outlined and named; a click on it
+// offers to hide its drawing.
 export default function CaveLayer({ selectedSistemaId }) {
   const theme = useTheme()
+  const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
+  const [openSnackbar] = useSnackbar()
+  const { current: map } = useMap()
   const sistemas = useSelector((state) => state.data.sistemas)
   const connections = useSelector((state) => state.data.connections)
-  const { visible, scope, colorBySistema } = useSelector((state) => state.caveLayer)
+  const roles = useSelector((state) => state.session.roles)
+  const { visible, scope, colorBySistema, editMode: editModeChosen } = useSelector((state) => state.caveLayer)
+  const editMode = editModeChosen && visible && roles.includes('editor')
+  const { maps, hiddenMaps } = useCaveLayerMaps()
   const units = useUnits()
   const [ready, setReady] = useState(Boolean(tileIndex))
+  // Edit mode: the map under the pointer ({ name, lngLat }), and the one clicked.
+  const [hovered, setHovered] = useState(null)
+  const [picked, setPicked] = useState(null)
 
   useEffect(() => {
     if (!ready) tileIndexLoading.then(() => setReady(true))
   }, [ready])
+
+  useEffect(() => {
+    if (!editMode || !ready || !map) {
+      setHovered(null)
+      setPicked(null)
+      return undefined
+    }
+    const target = (event) => ({ name: event.features?.[0]?.properties?.map, lngLat: event.lngLat })
+    const onMove = (event) => {
+      map.getCanvas().style.cursor = 'pointer'
+      const next = target(event)
+      setHovered((current) => (current?.name === next.name ? { ...current, lngLat: next.lngLat } : next))
+    }
+    const onLeave = () => {
+      map.getCanvas().style.cursor = ''
+      setHovered(null)
+    }
+    const onClick = (event) => setPicked(target(event))
+    for (const layer of EDITABLE_LAYERS) {
+      map.on('mousemove', layer, onMove)
+      map.on('mouseleave', layer, onLeave)
+      map.on('click', layer, onClick)
+    }
+    return () => {
+      for (const layer of EDITABLE_LAYERS) {
+        map.off('mousemove', layer, onMove)
+        map.off('mouseleave', layer, onLeave)
+        map.off('click', layer, onClick)
+      }
+      map.getCanvas().style.cursor = ''
+    }
+  }, [editMode, ready, map])
+
+  async function hidePicked() {
+    const { name } = picked
+    setPicked(null)
+    setHovered(null)
+    try {
+      await setMapHidden(name, true)
+      openSnackbar(t('hidden', { title: maps[name]?.title || name }), { severity: 'success' })
+    } catch (error) {
+      console.error(error)
+      openSnackbar(t('hideError'))
+    }
+  }
 
   const roots = useMemo(() => rootSistemas(sistemas, connections), [sistemas, connections])
   const single = theme.palette.primary.light
@@ -66,7 +131,11 @@ export default function CaveLayer({ selectedSistemaId }) {
   if (!ready) return null
   const visibility = visible ? 'visible' : 'none'
   const only = sistemaIds.length ? [['in', ['get', 'sistemaId'], ['literal', sistemaIds]]] : []
-  const filter = (...conditions) => ['all', ...conditions, ...only]
+  const shown = hiddenMaps.length ? [['!', ['in', ['get', 'map'], ['literal', hiddenMaps]]]] : []
+  const filter = (...conditions) => ['all', ...conditions, ...only, ...shown]
+  // Edit mode: the hovered and the clicked map, outlined.
+  const outlined = [...new Set([hovered?.name, picked?.name].filter(Boolean))]
+  const sistemaName = (id) => (sistemas || []).find((s) => s.id === id)?.name?.value
   const kind = (...kinds) => ['in', ['get', 'kind'], ['literal', kinds]]
   const type = (t) => ['==', ['get', 'type'], t]
   const tiles = [new URL(CAVE_LAYER.TILES, window.location.origin).href.replace(/%7B/g, '{').replace(/%7D/g, '}')]
@@ -89,6 +158,31 @@ export default function CaveLayer({ selectedSistemaId }) {
       <Layer id="oc-caves-flow" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(type('flow'))}
         layout={{ visibility, 'text-field': '➜', 'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'], 'text-size': 16, 'text-rotate': ['-', ['get', 'bearing'], 90], 'text-rotation-alignment': 'map', 'text-allow-overlap': true }}
         paint={{ 'text-color': theme.palette.info.light, 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1 }} />
+      {editMode && (
+        <Layer id="oc-caves-edit-outline" source-layer="passages" type="line" filter={['all', ['in', ['get', 'map'], ['literal', outlined]], ['!=', ['get', 'kind'], 'water'], ...shown]}
+          layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': theme.palette.warning.light, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 18, 4] }} />
+      )}
+      {editMode && hovered && !picked && (
+        <Popup className="oc-cave-layer-edit-hover" longitude={hovered.lngLat.lng} latitude={hovered.lngLat.lat} closeButton={false} closeOnClick={false} anchor="bottom" offset={12}>
+          <Typography variant="body2">{maps[hovered.name]?.title || hovered.name}</Typography>
+        </Popup>
+      )}
+      {editMode && picked && (
+        <Popup className="oc-cave-layer-edit-card" longitude={picked.lngLat.lng} latitude={picked.lngLat.lat} closeOnClick={false} onClose={() => setPicked(null)} anchor="bottom" offset={12} maxWidth="280px">
+          <Typography variant="subtitle2" sx={{ pr: 2 }}>{maps[picked.name]?.title || picked.name}</Typography>
+          {sistemaName(maps[picked.name]?.sistemaId) && (
+            <Typography variant="caption" color="text.secondary" component="p">
+              {t('system', { name: sistemaName(maps[picked.name].sistemaId) })}
+            </Typography>
+          )}
+          <Typography variant="caption" color="text.secondary" component="p">
+            {t('file', { name: picked.name })}
+          </Typography>
+          <Button size="small" color="error" onClick={hidePicked} sx={{ mt: 1 }}>
+            {t('hide')}
+          </Button>
+        </Popup>
+      )}
     </Source>
   )
 }

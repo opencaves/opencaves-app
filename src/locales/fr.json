@@ -896,6 +896,19 @@
         "flow": "Sens du courant",
         "bySystem": "Chaque système dans sa couleur",
         "single": "Tous les systèmes dans une couleur"
+      },
+      "edit": {
+        "mode": "Mode édition",
+        "modeHint": "Pointez un dessin pour voir de quelle carte il vient ; cliquez dessus pour le masquer pour tout le monde.",
+        "hiddenTitle": "Dessins masqués",
+        "show": "Afficher",
+        "noneHidden": "Aucun dessin masqué",
+        "hide": "Masquer ce dessin",
+        "hidden": "« {{title}} » masqué",
+        "hideError": "Impossible de masquer le dessin",
+        "showError": "Impossible d'afficher le dessin",
+        "system": "Système : {{name}}",
+        "file": "Fichier de la carte : {{name}}"
       }
     }
   },

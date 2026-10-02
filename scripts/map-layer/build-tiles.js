@@ -9,6 +9,8 @@
 // depths, restrictions, flow, entrances...) to the "symbols" layer. Each
 // feature keeps its map's name ("map"), its sistema ("sistemaId": the app
 // filters and colours by it, colours from the database) and its kind or type.
+// maps.json lists the maps in the tiles by name, with their title and sistema
+// (the layer's edit mode names the map under the pointer).
 //
 // Runs tippecanoe in Docker (image opencaves-tippecanoe, built from
 // tippecanoe.Dockerfile when missing). The tiles are build output: not in git,
@@ -62,6 +64,7 @@ mkdirSync(work, { recursive: true })
 const passages = createWriteStream(path.join(work, 'passages.geojsonl'))
 const symbols = createWriteStream(path.join(work, 'symbols.geojsonl'))
 const counts = { maps: 0, passages: 0, symbols: 0, unverified: 0, untraced: 0 }
+const mapIndex = {}
 
 for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) {
   const name = file.slice(0, -5)
@@ -76,6 +79,7 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
     continue
   }
   counts.maps++
+  mapIndex[name] = { title: config.title || name, ...(config.sistemaId && { sistemaId: config.sistemaId }) }
   const sistema = config.sistemaId ? { sistemaId: config.sistemaId } : {}
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
     const kind = feature.properties?.kind || 'wall'
@@ -118,6 +122,7 @@ rmSync(work, { recursive: true, force: true })
 // so the app asks only for these.
 const tiles = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith('.pbf')).map((f) => f.replaceAll(path.sep, '/').replace(/\.pbf$/, '')).sort()
 writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(tiles))
+writeFileSync(path.join(OUT, 'maps.json'), JSON.stringify(mapIndex))
 // An empty tile (no layers), what the app gets for the tiles not listed.
 writeFileSync(path.join(OUT, 'empty.pbf'), Buffer.alloc(0))
 console.log(`[tiles] ${tiles.length} tiles -> ${path.relative(ROOT, OUT)}`)

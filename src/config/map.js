@@ -47,6 +47,10 @@ export const CAVE_LAYER = {
   TILES: '/tiles/caves/{z}/{x}/{y}.pbf',
   INDEX: '/tiles/caves/index.json',
   EMPTY_TILE: '/tiles/caves/empty.pbf',
+  // The maps in the tiles: name -> { title, sistemaId } (build-tiles.js).
+  MAPS: '/tiles/caves/maps.json',
+  // The layer's settings shared by everyone (Firestore): { hiddenMaps: [name] }.
+  SETTINGS_DOC: 'settings/caveLayer',
   MIN_ZOOM: 10,
   MAX_ZOOM: 18,
   DETAIL_ZOOM: 15,

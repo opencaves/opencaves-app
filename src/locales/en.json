@@ -897,6 +897,19 @@
         "flow": "Water flow",
         "bySystem": "Each system in its colour",
         "single": "All systems in one colour"
+      },
+      "edit": {
+        "mode": "Edit mode",
+        "modeHint": "Point at a drawing to see which map it comes from; click it to hide it for everyone.",
+        "hiddenTitle": "Hidden drawings",
+        "show": "Show",
+        "noneHidden": "No hidden drawing",
+        "hide": "Hide this drawing",
+        "hidden": "“{{title}}” hidden",
+        "hideError": "Couldn't hide the drawing",
+        "showError": "Couldn't show the drawing",
+        "system": "System: {{name}}",
+        "file": "Map file: {{name}}"
       }
     }
   },
