@@ -111,8 +111,8 @@ export const mapSlice = createSlice({
       state.pickedCoordinate = null
     },
     setEditFieldCoordinate: (state, action) => {
-      const { field, longitude, latitude } = action.payload
-      state.editFieldCoordinates[field] = { longitude, latitude }
+      const { field, longitude, latitude, validity } = action.payload
+      state.editFieldCoordinates[field] = { longitude, latitude, ...(validity && { validity }) }
     },
     clearEditFieldCoordinate: (state, action) => {
       delete state.editFieldCoordinates[action.payload]

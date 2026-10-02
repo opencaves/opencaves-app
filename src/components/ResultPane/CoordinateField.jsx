@@ -114,12 +114,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   // instead of only when the field truly goes away.
   useEffect(() => {
     if (isSet) {
-      dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude) }))
+      // With its validity, so the map's pin shows it (valid or not) live.
+      dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude), validity }))
     } else {
       dispatch(clearEditFieldCoordinate(field))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [field, longitude, latitude, isSet])
+  }, [field, longitude, latitude, isSet, validity])
 
   // Only clear this field's marker on a real unmount (leaving edit mode
   // entirely), not on every value change.

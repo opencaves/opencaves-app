@@ -209,6 +209,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           ...cave.location,
           longitude: editFieldCoordinates.location.longitude,
           latitude: editFieldCoordinates.location.latitude,
+          // The form's validity, so the pin's icon follows its dropdown.
+          ...(editFieldCoordinates.location.validity && { validity: editFieldCoordinates.location.validity }),
         },
       }
     })
