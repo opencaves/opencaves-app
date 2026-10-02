@@ -1,6 +1,7 @@
-import { $nodeSchema, $remark, $view } from '@milkdown/utils'
+import { $inputRule, $nodeSchema, $remark, $view } from '@milkdown/utils'
 import { TextSelection } from '@milkdown/prose/state'
-import remarkLengthDirective, { LENGTH_DIRECTIVE, LENGTH_UNITS, parseLength, plainTextOf } from './lengthDirective.js'
+import { InputRule } from '@milkdown/prose/inputrules'
+import remarkLengthDirective, { LENGTH_DIRECTIVE, LENGTH_UNITS, TEXT_SPELLINGS, parseLength, plainTextOf } from './lengthDirective.js'
 
 // The `:length[45 m]` tag in the Markdown editor (MarkdownField): parsed by
 // the same remark plugin as the page, shown as a chip, and written back as
@@ -195,12 +196,31 @@ class LengthView {
   }
 }
 
+// A length typed by hand ("Drive 200 m" and a space or punctuation) becomes a
+// tag as the next character is typed; Backspace right after gives the text
+// back (MarkdownField: undoInputRule). The number stays as written, the unit
+// becomes its symbol. Not in code, and not "in" or "mi", common words.
+const TYPED_LENGTH = new RegExp(`(?:^|[^\\w.,])((?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?)\\s?(${TEXT_SPELLINGS})([\\s.,;:!?)])$`, 'i')
+
+export const lengthInputRule = $inputRule((ctx) =>
+  new InputRule(TYPED_LENGTH, (state, match, start, end) => {
+    const [whole, number, spelling, after] = match
+    const length = parseLength(`${number} ${spelling}`)
+    const type = state.schema.nodes.length_directive
+    if (!length || !type) return null
+    // The match may start with the character before the number.
+    const from = start + whole.indexOf(number)
+    const tr = state.tr.replaceWith(from, end, type.create({ text: `${number} ${length.unit}` }))
+    return tr.insertText(after, from + 1)
+  }),
+)
+
 // The plugins, with the fields' accessible names.
 // options.cancelInsert(view, pos, focus): Escape in (or an empty) tag - undo its insertion if it
 // was just inserted (true), or not (false); options.endInsert(): the chip left.
 export function milkdownLength(labels, options = {}) {
   const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels, options))
-  return [lengthRemark, lengthSchema, lengthView].flat()
+  return [lengthRemark, lengthSchema, lengthView, lengthInputRule].flat()
 }
 
 // The chip's editor at a position (after inserting a tag): focus its value.
