@@ -2,6 +2,7 @@
  "image": "../../../_data/map-layer/pilot/aluxes-nored.png",
  "imageWhy": "Made by scripts/map-layer/prep/aluxes.py: the Spelunca figure (the PDF's embedded 4277x3479 PNG) with its red ink (the motorway and road, the village grid, survey stations, 'Antenne', 'Autoroute') inpainted away (OpenCV Telea, radius 5) so the black walls run on where the red lines crossed them. Same pixels as the PDF's image: every px is valid on both.",
  "title": "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+ "date": "2001–2005",
  "credits": "Grotte des Aluxes, Puerto Aventuras. Topographie degré 4 UIS, Expéditions Yuc 2001 / 2005 (French expeditions). Spelunca 98, p. 35, 2005 (Figure 15: Plan de la grotte des Aluxes). North arrow: magnetic north; 200 m scale bar",
  "source": {
   "id": "-KPZg4joZ9lZ2oVH-LhB",

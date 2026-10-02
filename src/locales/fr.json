@@ -550,7 +550,7 @@
       "confirm": "Confirmer",
       "coordinateActions": {
         "placeOnMap": "Placer sur la carte",
-        "myLocation": "Ma position",
+        "myLocation": "Utiliser ma position",
         "remove": "Retirer",
         "crossPickHint": "Déplacez la carte pour placer la croix sur l'endroit, puis confirmez"
       },
@@ -896,6 +896,24 @@
         "flow": "Sens du courant",
         "bySystem": "Chaque système dans sa couleur",
         "single": "Tous les systèmes dans une couleur"
+      },
+      "edit": {
+        "mode": "Mode édition",
+        "modeHint": "Pointez un dessin pour voir de quelle carte il vient ; cliquez dessus pour le masquer pour tout le monde. Les dessins masqués sont en gris.",
+        "hiddenTitle": "Dessins masqués",
+        "show": "Afficher",
+        "noneHidden": "Aucun dessin masqué",
+        "hide": "Masquer ce dessin",
+        "hidden": "« {{title}} » masqué",
+        "hideError": "Impossible de masquer le dessin",
+        "showError": "Impossible d'afficher le dessin",
+        "system": "Système : {{name}}",
+        "file": "Fichier de la carte : {{name}}",
+        "showDrawing": "Afficher ce dessin",
+        "shown": "« {{title}} » affiché",
+        "hiddenTag": "masqué",
+        "date": "Date : {{date}}",
+        "undated": "Non datée"
       }
     }
   },
