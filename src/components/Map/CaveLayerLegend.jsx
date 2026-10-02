@@ -5,11 +5,10 @@ import { Box, ButtonBase, Paper, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material'
 
-// What the cave layer's marks mean (CaveLayer's styles), bottom-right beside
-// the "find my location" control, while the passages are shown. On phones a
-// chip that opens it, riding above the result pane's sheet and fading with the
-// other map controls (ResultPaneSm's --oc-result-pane-sm-height and
-// --oc-map-controls-* variables).
+// What the cave layer's marks mean (CaveLayer's styles), under the layer
+// button, while the passages are shown. On phones a chip that opens it,
+// fading with the other map controls as the result pane's sheet opens
+// (ResultPaneSm's --oc-map-controls-* variables).
 export default function CaveLayerLegend({ isLarge }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.legend' })
   const theme = useTheme()
@@ -40,12 +39,13 @@ export default function CaveLayerLegend({ isLarge }) {
       elevation={2}
       sx={{
         position: 'absolute',
-        // Beside the geolocate control (16px margin + 56px) with the same 16px gap.
-        right: 'calc(16px + 56px + 16px)',
-        bottom: isLarge ? '16px' : 'calc(var(--oc-result-pane-sm-height, 0px) + 16px)',
+        // Under the layer button (CaveLayerButton's place in routes/Map.jsx:
+        // under the account button on desktop, the search bar on phones).
+        top: isLarge ? 'calc(1rem + 56px + 0.75rem + 56px + 0.75rem)' : 'calc(48px + 1.5rem + 48px + 0.75rem)',
+        right: isLarge ? '1rem' : '0.5rem',
         borderRadius: 4,
         bgcolor: (th) => th.sys.color.surfaceContainerHigh,
-        maxWidth: 'calc(100vw - 104px)',
+        maxWidth: 'calc(100vw - 16px)',
         ...(!isLarge && { opacity: 'var(--oc-map-controls-opacity, 1)', visibility: 'var(--oc-map-controls-visibility, visible)', transition: 'opacity 150ms ease, visibility 150ms ease' }),
       }}
     >
@@ -53,7 +53,7 @@ export default function CaveLayerLegend({ isLarge }) {
         <Typography variant="subtitle2" component="h2">
           {t('title')}
         </Typography>
-        {open ? <ExpandMoreRounded fontSize="small" /> : <ExpandLessRounded fontSize="small" />}
+        {open ? <ExpandLessRounded fontSize="small" /> : <ExpandMoreRounded fontSize="small" />}
       </ButtonBase>
       {open && (
         <Box component="ul" sx={{ listStyle: 'none', m: 0, px: 1.5, pb: 1.5, pt: 0, display: 'grid', gap: 0.75 }}>
