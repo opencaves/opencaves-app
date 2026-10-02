@@ -8,8 +8,8 @@
     "id": "-KPZg4joZ9lZ2oVH-LhB",
     "name": "map"
   },
-  "sistemaId": null,
-  "sistemaWhy": "Not in the database: no sistema or cave name or aka contains Katu (the import's 'Uxuxubi' match is only its aka 'Balam', another cave). Mapbox/OSM have no Katu Balam either.",
+  "sistemaId": "-P2wO0mWT41S-kE5ROsk",
+  "sistemaWhy": "Sistema created in the local database at the user's request (2026-10-02) from this map: Katu Balam. Not in the database: no sistema or cave name or aka contains Katu (the import's 'Uxuxubi' match is only its aka 'Balam', another cave). Mapbox/OSM have no Katu Balam either.",
   "utmEpsg": 32616,
   "unverified": "No position at all: Sistema Katu Balam (West, East and Lord of the Ticks entrances) is in neither the database (names and akas), OpenStreetMap (Overpass name search over Quintana Roo) nor a web search (only the mexicancaves.org listing 'Katu Balam, Sist., Akumal'), and the map draws no road, coast, other cenote or coordinate. The single control point is a NOMINAL anchor (the East Entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' filing), so the pipeline can run: the geometry is NOT on the ground. It shares that anchor with maps/knock-out.json (also nominal), so the two overlap. To fix: field GPS of two of the three entrances (West to Lord of the Ticks is about 128 m).",
   "placementWhy": "UNVERIFIED (see 'unverified'). Scale from the 0-50 m bar: 0 at x 544.5, 50 at x 1422 (y 1436), 877.5 px = 50 m, 0.0570 m/px; its five 10 m ticks are evenly spaced (175.5 px). The section below, at the same scale, spans the plan's A-A' length. North: the 'Ng' arrow (norte geográfico) points straight up: angle 0. Position nominal.",

@@ -7,8 +7,8 @@
     "id": "-KPZg4joZ9lZ2oVH-LhB",
     "name": "map"
   },
-  "sistemaId": null,
-  "sistemaWhy": "No Sistema Borges in the database (nor any cave named Borges): sistemaId left empty for the user to create it. Its sump leads to 'Cenote Garza (Cueva Inundada)': the database's only Garza (-KPZkVJm0TntehY0DgPo, Gerrard 2015, no position) is filed under Swan Lake Spring (-KPZgfyGw3nChUfwqTYa, 1257.9 m, 14.9 m, 'located 650 m southeast of Sistema Dos Pisos') - perhaps the flooded cave meant here, but nothing on the map confirms it.",
+  "sistemaId": "-P2wO0lWi6bVVkqUN16Q",
+  "sistemaWhy": "Sistema created in the local database at the user's request (2026-10-02) from this map: Borges. No Sistema Borges in the database (nor any cave named Borges): sistemaId left empty for the user to create it. Its sump leads to 'Cenote Garza (Cueva Inundada)': the database's only Garza (-KPZkVJm0TntehY0DgPo, Gerrard 2015, no position) is filed under Swan Lake Spring (-KPZgfyGw3nChUfwqTYa, 1257.9 m, 14.9 m, 'located 650 m southeast of Sistema Dos Pisos') - perhaps the flooded cave meant here, but nothing on the map confirms it.",
   "unverified": "No cenote of the map has a position: Sistema Borges and Rancho Borges are in neither the database nor OpenStreetMap (OSM's only 'Borges' near Tulum is a restaurant on Avenida Tulum), and the database's Garza has no position. The map is put, by its scale bar and north, with its Garza sump on a guessed spot for Swan Lake Spring (650 m south-east of Dos Pisos' position, from Gerrard's direction) - a guess only, which falls among houses and canopy.",
   "wetDry": "Shallow water cave, kept by the user's decision: the pale blue fill ('Agua' in the legend) covers most of the passages, 1.0-2.0 m deep (blue overlined numbers), under 1.2-2.9 m of ceiling (circled); the rest is mud, sand and breakdown floor around the entrance collapse. The west end sumps ('Sifon a Cenote Garza (Cueva Inundada)'), the way on to the flooded cave.",
   "utmEpsg": 32616,
