@@ -1,0 +1,54 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Mul Tun, Cen., Tulum.pdf",
+  "page": 1,
+  "image": "../../../_data/maps-import/images/mul-tun-cen-tulum.svg",
+  "title": "Cenote Mul Tun - Roser, Vesely 2016",
+  "credits": "Cenote Mul Tun, Tulum, Quintana Roo; surveyed April 2, 2016 by Nathan Roser and Carol Vesely; drawn by Juliana Rincón and Peter Sprouse (AMCS Activities Newsletter 39, p. 11, 2016). Length 180 m, depth 6 m.",
+  "source": { "id": "-KPZg4joZ9lZ2oVH-LhB", "name": "map" },
+  "sistemaId": "-KPZgftK2jzo0nw0kG41",
+  "sistemaWhy": "'Cenote Mul Tun Siphon' (QRSS: 109.7 m, 8.5 m deep, explored 2015-07 by Leal, Reato): this map's cenote has a sump ('sump / sifón') at its south end, which is most likely that siphon. The database also has 'Mul Tun Spring' (-KPZgfx6HrT4lGgouidJ, QRSS: 3084 m, 14.6 m, 2016-01, Leal, Reato), probably the upstream side of the same cenote; the map shows neither passage beyond the sump. Neither sistema has a cave or a position.",
+  "wetDry": "Mostly underwater: an open collapse (the drip line of T ticks around the white centre, about 35 x 40 m) holds a dry breakdown mound, 'El Mul Tun'; the cave is the ring of overhang around it, flooded (pale blue) except for the stippled breakdown slope at the mound's foot, with a deeper sump (darker blue) at its south end. Water is about half of the whole plan and about three quarters of the roofed part.",
+  "walls": [
+    { "color": [0, 0, 0], "width": 0.74, "why": "the cave's outer wall (dashed where low or unsurveyed: 'low / bajo' on the east side, the sump's walls) and the small black columns" },
+    { "color": [0.137, 0.122, 0.125], "width": 0.74, "why": "pillars and islands standing in the water (dark grey)" }
+  ],
+  "notWalls": "width 0.18 black: the water's edge along the breakdown slope (not a wall); 0.37 black and dark grey: floor detail (boulders, stipple, stalagmite triangles, speleothem 'flowers', drip-line and ledge ticks), the four cross-sections drawn outside the cave with their leaders, the north arrow's head; 0.51: scale bar; 0.74 black also draws the page frame (excluded); 2.94: an outer border outside the visible page. Blue fills: water (pale) and the sump (darker). The 0.74 black circled cross with 'E' on a boulder at the mound's east foot is a survey station / benchmark symbol, excluded.",
+  "exclude": [
+    { "why": "title, survey team and drafters", "box": [115, 85, 265, 215], "history": true },
+    { "why": "north arrow (Ngrid / Ncuadrícula: grid north) and its label", "box": [470, 75, 540, 180] },
+    { "why": "scale bar", "box": [115, 580, 340, 616] },
+    { "why": "length and depth", "box": [420, 535, 530, 562], "history": true },
+    { "why": "page title block (Cenote Mul Tun, Tulum, Quintana Roo, AMCS Activities Newsletter 39, p.11, 2016)", "box": [160, 670, 450, 760], "history": true },
+    { "why": "section west of the cave (upper left, with its pool)", "box": [150, 238, 232, 282] },
+    { "why": "section NE of the cave (with its pool)", "box": [398, 205, 470, 246] },
+    { "why": "section west of the cave (lower left)", "box": [165, 395, 238, 430] },
+    { "why": "the 'Diveline tie' leader arrow", "box": [317.6, 494.6, 322.6, 499.5] },
+    { "why": "circled cross 'E' (survey station / benchmark on a boulder)", "box": [404.4, 353.8, 412.5, 362.4] },
+    { "why": "black dot in a speleothem symbol", "box": [391.8, 382.1, 393.9, 385.4] },
+    { "why": "page frame (top)", "box": [65, 55, 560, 64] },
+    { "why": "page frame (bottom)", "box": [65, 649, 560, 658] },
+    { "why": "page frame (left)", "box": [65, 55, 74, 658] },
+    { "why": "page frame (right)", "box": [550, 55, 560, 658] }
+  ],
+  "entrances": [
+    { "name": "Cenote Mul Tun", "pdf": [335, 362], "why": "the open collapse: the drip line (ring of T ticks) around the white centre, with the breakdown mound 'El Mul Tun' in it; the map marks no other opening. No database cave (the database's Multum-Ha near Cobá, -LVKvqj2rgtw2DMCyEnJ, is a different cenote: a closed dome reached by an 18 m staircase, its water up to 17 m deep, vs this open cenote 6 m deep in all)" }
+  ],
+  "symbols": {
+    "why": "Vector map: the labels are real PDF text (page.get_text), positions in PDF points. build_layer.py doesn't read symbols yet. No depth numbers on the plan (only 'Depth / Profundidad: 6 m' in the title block), no ceiling heights, no bones (no legend, no bone icon or word), no flow arrows (the only arrow is the diveline tie's leader). The small black triangles are stalagmites.",
+    "extra": [
+      { "type": "place-name", "label": "The Mul Tun / El Mul Tun", "pdf": [352, 328], "why": "the breakdown mound in the open collapse" },
+      { "type": "leads-to", "label": "sump / sifón", "pdf": [306, 507], "why": "the darker blue sump between dashed walls at the south end, going on west (probably the QRSS 'Cenote Mul Tun Siphon')" },
+      { "type": "place-name", "label": "Amarre de línea de vida / Diveline tie", "pdf": [323, 499], "why": "the arrow's tip: where the dive line starts, at the sump" },
+      { "type": "ceiling-low", "label": "low / bajo", "pdf": [452, 410], "why": "the low, dashed-walled bay on the east side, beside its label" }
+    ]
+  },
+  "scaleBar": { "from": [122.8, 601.5], "to": [331.3, 601.5], "metres": 50 },
+  "north": "grid",
+  "northWhy": "The arrow is labelled 'Ngrid / Ncuadrícula' (UTM grid north) and is vertical.",
+  "utmEpsg": 32616,
+  "water": false,
+  "unverified": "No position for this cenote: it isn't in the database (its sistemas 'Cenote Mul Tun Siphon' and 'Mul Tun Spring' have no cave or position), nor in OpenStreetMap, and no placed map shows it; the map only says 'Tulum' (the municipality, which also holds Cobá). The single control point below is a NOMINAL anchor (Tulum town centre, 20.2114 N, 87.4654 W) only so the pipeline can run: the geometry is NOT on the ground. To fix: a field GPS of the cenote (an open collapse about 35 x 40 m with a rock mound in it, which should show as a canopy gap on the satellite once its area is known).",
+  "controlPoints": [
+    { "name": "NOMINAL anchor at the Cenote Mul Tun collapse (not a real position: see 'unverified')", "pdf": [335, 362], "latitude": 20.2114, "longitude": -87.4654 }
+  ]
+}
