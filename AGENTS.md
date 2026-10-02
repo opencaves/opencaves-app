@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository. Read this before makin
 
 ## What this is
 
-OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatán, backed by Firebase (Firestore, Auth, Storage, Cloud Functions, Hosting). Branch `feature/db` currently holds a recent migration off a Google Sheet onto Firestore, plus a new in-app admin UI — see "Data model" below before assuming caves/sistemas data still comes from a spreadsheet.
+OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatán, backed by Firebase (Firestore, Auth, Storage, Cloud Functions, Hosting). Its data moved off a Google Sheet onto Firestore, edited in an in-app admin UI — see "Data model" below before assuming caves/sistemas data still comes from a spreadsheet.
 
 ## Stack
 
@@ -44,6 +44,7 @@ The Node scripts in `scripts/` print their help when run with no arguments (or `
 - `node scripts/migrate-sheet-to-firestore.js -l` — seed/sync Firestore from the Google Sheet against the local emulator (`127.0.0.1:8080` by default, overridable via `FIRESTORE_EMULATOR_HOST`); add `-p`/`--production` to run against the real project (requires `gcloud auth application-default login` first)
 - `node scripts/set-user-roles.js <email> --add admin` (or `--remove`, roles `editor`/`admin`) — changes an account's `roles` claim, keeping its others; the local Auth emulator by default, `-p`/`--production` for the real project (after `gcloud auth application-default login`). Needed to bootstrap the first admin, since the in-app Users page only works for existing admins. The user must sign out and back in to pick up the change.
 - `node scripts/check-cave-images.js -l` (`-p` for production, `--cave=<id>` for one cave - with "=", since cave IDs start with "-") — read-only integrity check of the cave photos: every `cavesAssets` photo has its original and all its thumbnails in Storage, belongs to an existing cave, each cave has exactly one cover, and no file is left without a photo (including `images/failed/` copies the resize leaves when it fails). Exits 1 when it finds problems. Run it after a bulk photo import (see `docs/photos-import.md`) or a change to the asset functions.
+- `node scripts/tag-lengths.js -l` (`-p` for production) — turns the plain-text lengths in the Markdown fields into `:length[...]` tags, shown in each reader's units; a dry run that lists the changes unless `--write`. Rerun after a Google Sheet sync, which brings the untagged text back.
 - `firebase deploy` — deploys everything; scope with `--only hosting`, `--only functions`, or `--only functions:js:<name>` for a single function
 - `gcloud storage buckets update gs://opencaves.appspot.com --cors-file=storage.cors.json` — applies the Storage bucket's CORS config, which `firebase deploy` does **not** carry. The app loads bucket images with `crossOrigin="anonymous"` (so the service worker caches them at real size instead of as opaque responses), so without this CORS config those images fail to load entirely.
 - No test suite currently exists in this repo.
@@ -69,7 +70,7 @@ Two things are **deliberately** computed client-side at read time, not stored in
 
 ## Map layer
 
-Branch `feature/map-layers`: `scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, map entrances are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
+`scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`), shown in the app as vector tiles (`npm run build:tiles`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, map entrances are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
 
 ## Auth & roles
 
