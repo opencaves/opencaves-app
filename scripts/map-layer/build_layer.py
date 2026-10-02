@@ -160,7 +160,7 @@ def main(config_path, output):
         path = ROOT / env_file
         if path.exists():
             env.update(dict(re.findall(r'^\s*([A-Z0-9_]+)\s*=\s*"?([^"\n]*)"?', path.read_text(encoding='utf-8'), re.M)))
-    token = env.get('REACT_APP_MAPBOX_ACCESS_TOKEN', '')
+    token = env.get('VITE_MAPBOX_ACCESS_TOKEN', '')
     anchors = [{'type': 'Feature', 'properties': {'name': p['name']}, 'geometry': {'type': 'Point', 'coordinates': [p['longitude'], p['latitude']]}} for p in config['controlPoints']]
     centre = place(*unary_union(walls).centroid.coords[0]) if walls else (config['controlPoints'][0]['longitude'], config['controlPoints'][0]['latitude'])
     (out / f'{name}-preview.html').write_text(PREVIEW.replace('__TOKEN__', token).replace('__TITLE__', config.get('title', name))

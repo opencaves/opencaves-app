@@ -185,7 +185,7 @@ def main(config_path, output):
     # The symbols (extract_symbols.py), when there are some yet.
     symbols_path = out / f'{name}-symbols.geojson'
     symbols = symbols_path.read_text(encoding='utf-8') if symbols_path.exists() else '{"type":"FeatureCollection","features":[]}'
-    html = (PAGE.replace('__TOKEN__', env.get('REACT_APP_MAPBOX_ACCESS_TOKEN', '')).replace('__TITLE__', config.get('title', name) + (' - UNVERIFIED placement' if config.get('unverified') else ''))
+    html = (PAGE.replace('__TOKEN__', env.get('VITE_MAPBOX_ACCESS_TOKEN', '')).replace('__TITLE__', config.get('title', name) + (' - UNVERIFIED placement' if config.get('unverified') else ''))
             .replace('__IMAGE__', data_url).replace('__CORNERS__', json.dumps(corners))
             .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls).replace('__SYMBOLS__', symbols))
     (out / f'{name}-overlay.html').write_text(html, encoding='utf-8')

@@ -29,7 +29,7 @@ export default function Address({ latitude, longitude }) {
   const { t, i18n } = useTranslation('resultPane')
   const online = useOnline()
   // SWR looks the address up again when the connection comes back.
-  const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.REACT_APP_GOOGLE_GEOCODING_API_KEY}&language=${toServiceLanguage(i18n.resolvedLanguage)}&result_type=${resultTypes.join('|')}`, fetcher)
+  const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.VITE_GOOGLE_GEOCODING_API_KEY}&language=${toServiceLanguage(i18n.resolvedLanguage)}&result_type=${resultTypes.join('|')}`, fetcher)
 
   if (!online && !data) {
     return <span className="oc-address">{t('addressOffline')}</span>
