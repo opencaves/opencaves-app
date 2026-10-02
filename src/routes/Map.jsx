@@ -83,9 +83,24 @@ export default function MapPage() {
             />
           )}
           {/* Under the account button (desktop), or under the search bar
-              (phones, where the account button sits inside it). */}
+              (phones, where the account button sits inside it - and where it
+              fades out with the other map controls as the result pane's
+              sheet opens: ResultPaneSm's --oc-map-controls-* variables). */}
           <CaveLayerButton
-            sx={isLarge ? { position: 'absolute', top: 'calc(1rem + 56px + 0.75rem)', right: '1rem', width: 56, height: 56 } : { position: 'absolute', top: 'calc(48px + 1.5rem)', right: '0.5rem', width: 48, height: 48 }}
+            sx={
+              isLarge
+                ? { position: 'absolute', top: 'calc(1rem + 56px + 0.75rem)', right: '1rem', width: 56, height: 56 }
+                : {
+                    position: 'absolute',
+                    top: 'calc(48px + 1.5rem)',
+                    right: '0.5rem',
+                    width: 48,
+                    height: 48,
+                    opacity: 'var(--oc-map-controls-opacity, 1)',
+                    visibility: 'var(--oc-map-controls-visibility, visible)',
+                    transition: 'opacity 150ms ease, visibility 150ms ease',
+                  }
+            }
           />
           <Outlet />
           <Dev
