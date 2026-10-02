@@ -33,7 +33,7 @@ export function parseLength(text) {
   const unit = match && unitOf(match[2])
   const value = match && toNumber(match[1])
   if (!unit || !Number.isFinite(value)) return null
-  return { value, unit, metres: value * LENGTH_UNITS[unit].metres, significantDigits: significantDigits(match[1]) }
+  return { value, unit, metres: value * LENGTH_UNITS[unit].metres, significantDigits: significantDigits(match[1]), written: match[1].trim() }
 }
 
 // How precise the written value is: its significant digits. "200" -> 1,

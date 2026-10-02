@@ -686,8 +686,6 @@
       "length": "Longueur (dans les unités du lecteur)",
       "lengthValue": "Longueur",
       "lengthUnit": "Unité",
-      "lengthHint": "Telle que mesurée ; chacun la voit dans ses unités.",
-      "lengthInsert": "Insérer",
       "linkText": "Texte du lien"
     }
   },
