@@ -1,0 +1,419 @@
+{
+  "image": "../../../_data/maps-import/images/naharon-cen-tulum-2.webp",
+  "title": "Cenote Naharon, Tulum (J. G. Coke IV 1987)",
+  "credits": "Cenote Naharon, Tulum, Quintana Roo; compass & line survey, 1 June 1987, by James G. Coke, Johanna deGroot, Paul DeLoach, John Zumrick; length 1794 m (J. G. Coke IV 1987; AMCS Activities Newsletter no. 16, p. 60, 1987)",
+  "source": {
+    "id": "-KPZg4jsKUZe0Tf3lyro",
+    "name": "QRSS"
+  },
+  "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        2064,
+        98
+      ]
+    },
+    {
+      "why": "outside the frame (bottom)",
+      "box": [
+        0,
+        2950,
+        2064,
+        3055
+      ]
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        92,
+        3055
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        1950,
+        0,
+        2064,
+        3055
+      ]
+    },
+    {
+      "why": "title: Cenote Naharon, Tulum, Quintana Roo",
+      "box": [
+        280,
+        240,
+        940,
+        390
+      ]
+    },
+    {
+      "why": "compass & line survey, 1 June 1987, by J. G. Coke, J. deGroot, P. DeLoach, J. Zumrick; length 1794 m; map symbols as per NSS Cave Diving Section",
+      "box": [
+        285,
+        405,
+        1035,
+        705
+      ],
+      "history": true
+    },
+    {
+      "why": "scale bar (0-60 m)",
+      "box": [
+        740,
+        1075,
+        1030,
+        1205
+      ]
+    },
+    {
+      "why": "north arrow and N",
+      "box": [
+        700,
+        2190,
+        750,
+        2610
+      ]
+    },
+    {
+      "why": "copyright 1987 James Guthrie Coke IV",
+      "box": [
+        125,
+        2860,
+        630,
+        2925
+      ],
+      "history": true
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      767,
+      1131
+    ],
+    "to": [
+      1010,
+      1131
+    ],
+    "metres": 60
+  },
+  "placementWhy": "Fair (about 10-25 m): free similarity fit on six points - the map's Entrance on Cristal's database position (Open Caves, on site; the map's Cenote Naharon, as on naharon.json and hermana-de-naharon.json) and five passage features matched on the 1989 upstream plan (naharon.json) as placed: Chac's Room, the Halocline Room loop's south junction, the west-passage junction near the entrance, Jump Dome and Double Domes. Residuals 10-25 m (RMS 18 m): the 1987 sketch survey is distorted against the 1989 one, so no similarity fits it better. Checks: the traced walls lie on the 1989 plan's walls, median 2.9 m, 90% within 11 m, and an ICP fit onto them moves the map by only 3 m on average (8 m at most; scale x1.015, 0.4 degrees); rotation 2.3 degrees from the north arrow. The printed 0-60 m scale bar is wrong: the fit gives 0.2885 m/px against the bar's 0.247 (bar 14% short); the map's own penetrations agree with the fit, not the bar - measured along the passages from the entrance, p. 821m (north end) comes to about 824 m and p. 696m (west end) to about 710 m at the fitted scale, against 700 m and 600 m with the bar.",
+  "controlPoints": [
+    {
+      "name": "Chac's Room (centre of the dome mound)",
+      "px": [
+        1452,
+        1378
+      ],
+      "latitude": 20.204473,
+      "longitude": -87.500664,
+      "why": "position read off the 1989 plan (naharon.json) as placed: 1989 plan's Chac's Room mound summit, px [5620, 4000]"
+    },
+    {
+      "name": "Halocline Room loop, south junction with the main line",
+      "px": [
+        1610,
+        2045
+      ],
+      "latitude": 20.202663,
+      "longitude": -87.500317,
+      "why": "position read off the 1989 plan (naharon.json) as placed: 1989 plan: south end of the Halo-Line loop on the Main Line, px [6030, 6030]"
+    },
+    {
+      "name": "Double Domes",
+      "px": [
+        330,
+        1240
+      ],
+      "latitude": 20.204446,
+      "longitude": -87.503853,
+      "why": "position read off the 1989 plan (naharon.json) as placed: 1989 plan's Double Domes, px [2230, 4100]"
+    },
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cristal = the map's Entrance (Cenote Naharon)",
+      "px": [
+        1740,
+        2830
+      ],
+      "latitude": 20.20041,
+      "longitude": -87.49999,
+      "why": "database position, Open Caves source (valid); the 1989 plan's entrance as placed is 6 m from it"
+    },
+    {
+      "name": "junction of the main line and the west passage (small dome symbol)",
+      "px": [
+        1585,
+        2450
+      ],
+      "latitude": 20.201591,
+      "longitude": -87.500228,
+      "why": "position read off the 1989 plan (naharon.json) as placed: 1989 plan: the pit-like dome where the Desconocido Dome passage meets the main line, px [6150, 7235]"
+    },
+    {
+      "name": "Jump Dome",
+      "px": [
+        835,
+        1590
+      ],
+      "latitude": 20.203479,
+      "longitude": -87.502567,
+      "why": "position read off the 1989 plan (naharon.json) as placed: 1989 plan: the contoured dome room by p.1500 west of the Merry-Go-Round, px [3620, 5160] (match less sure)"
+    }
+  ],
+  "entrances": [
+    {
+      "caveId": "-NS0mrbUnBOzH0J1kGkm",
+      "name": "Cenote Naharon (Cristal)",
+      "px": [
+        1740,
+        2830
+      ],
+      "why": "the map's Entrance: Cenote Naharon, i.e. the database's Cristal (Open Caves), as on naharon.json and hermana-de-naharon.json - not the database's 'Naharon' record (-KPZkVNJ7fvwm6_iETLk, 1.4 km WSW)."
+    }
+  ],
+  "symbols": {
+    "units": "m",
+    "letters": {
+      "r": "restriction-minor"
+    },
+    "templates": {
+      "r": [
+        1644,
+        1689
+      ]
+    },
+    "letterSizePx": [
+      12,
+      22
+    ],
+    "extra": [
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          906,
+          1591
+        ],
+        "value": 6,
+        "halfPx": 20,
+        "why": "circled 6 at Jump Dome, touching the wall: not found"
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          1649,
+          2194
+        ],
+        "value": 15,
+        "halfPx": 26
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          1470,
+          2437
+        ],
+        "value": 10,
+        "halfPx": 26,
+        "why": "circled 10 drawn inside the passage, its ring merged with the walls"
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          433,
+          1246
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1666,
+          2675
+        ],
+        "bearing": 141,
+        "halfPx": 24,
+        "why": "wavy arrow, head to the south-east (towards the entrance)"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1396,
+          1005
+        ],
+        "bearing": 180,
+        "halfPx": 20,
+        "why": "wavy arrow south of the north passage's breakdown, head down (towards Chac's Room)"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          650,
+          1447
+        ],
+        "bearing": 154,
+        "halfPx": 24,
+        "why": "wavy arrow in the west passage, head to the south-east (towards Jump Dome)"
+      },
+      {
+        "type": "flow",
+        "label": "",
+        "px": [
+          1243,
+          2110
+        ],
+        "bearing": 140,
+        "halfPx": 20,
+        "why": "wavy arrow in the diagonal passage, head to the south-east"
+      },
+      {
+        "type": "penetration",
+        "label": "p. 821m",
+        "px": [
+          1335,
+          215
+        ],
+        "value": 821,
+        "halfPx": 6,
+        "why": "at the end of the north passage the label sits by"
+      },
+      {
+        "type": "penetration",
+        "label": "p. 696m",
+        "px": [
+          195,
+          1162
+        ],
+        "value": 696,
+        "halfPx": 6,
+        "why": "at the end of the west passage (past Double Domes)"
+      },
+      {
+        "type": "penetration",
+        "label": "p. 314m",
+        "px": [
+          1628,
+          1688
+        ],
+        "value": 314,
+        "halfPx": 6,
+        "why": "label inside the loop; 314 m fits the main line (east passage) from the entrance at the fitted scale, not the inner loop"
+      },
+      {
+        "type": "place-name",
+        "label": "Double Domes",
+        "px": [
+          395,
+          1228
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Jump Dome",
+        "px": [
+          872,
+          1600
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chac's Room",
+        "px": [
+          1452,
+          1380
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Halocline Room",
+        "px": [
+          1440,
+          1820
+        ],
+        "why": "label west of the loop; the 1989 plan names the loop's west passage The Halocline Room"
+      }
+    ],
+    "fix": [
+      {
+        "px": [
+          1213,
+          1987
+        ],
+        "value": 15,
+        "why": "circled 15 read as 1"
+      }
+    ],
+    "why": "'Map symbols as per NSS Cave Diving Section', no legend: underlined numbers are depths in metres (all 13 found by OCR), circled numbers ceiling-to-floor heights in metres (OCR found 3 of 6, one read as 1; the other 3 added), r minor restrictions (11), one wavy flow arrow near the entrance, penetrations 'p. 821m', 'p. 696m', 'p. 314m' (OCR splits them: added by hand at the passage ends they label - both ends' distances along the passages from the entrance match the penetrations at the fitted scale, within 2%). Chac's Room's contoured mound and the slope ticks are drawn details. No bones (no icon or written mention), no 'To ...' pointers."
+  },
+  "trace": {
+    "method": "wall-strokes",
+    "water": false,
+    "openRadiusPx": 2,
+    "minExtentPx": 60,
+    "symbolPiecesOnly": true,
+    "eraseLines": [
+      {
+        "why": "ring of the circled 10 (left arc), drawn between the passage walls",
+        "from": [
+          1456,
+          2424
+        ],
+        "to": [
+          1450,
+          2437
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "ring of the circled 10 (left arc)",
+        "from": [
+          1450,
+          2437
+        ],
+        "to": [
+          1456,
+          2450
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "ring of the circled 10 (right arc)",
+        "from": [
+          1483,
+          2424
+        ],
+        "to": [
+          1489,
+          2437
+        ],
+        "widthPx": 6
+      },
+      {
+        "why": "ring of the circled 10 (right arc)",
+        "from": [
+          1489,
+          2437
+        ],
+        "to": [
+          1483,
+          2450
+        ],
+        "widthPx": 6
+      }
+    ],
+    "why": "Bold wall strokes (James Coke's drawing): wall-strokes. symbolPiecesOnly keeps walls running by a symbol; the circled 10 drawn inside the west passage by the entrance junction touches both walls, so its ring's side arcs are erased (eraseLines). Chac's Room's contoured mound, the ledge at its south end, stipple and boulders are details; the north passage's breakdown block (by the 11) is an island. The dotted pond outline at the Entrance and the dashed unsurveyed leads are not walls."
+  }
+}
