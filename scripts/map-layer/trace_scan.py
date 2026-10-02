@@ -541,9 +541,16 @@ def box_spurs(ink, boxes, trace):
     return cv2.dilate(found.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
 
 
-def join_short_paths(paths, min_px):
+def join_short_paths(paths, min_px, near_ends=False):
     """Short junction-to-junction pieces joined to a neighbour sharing an
-    end, so a minimum length only drops free spurs."""
+    end, so a minimum length only drops free spurs. With near_ends
+    ("joinNearEnds"), ends one pixel apart count as shared too - a junction
+    drawn as a cluster of node pixels - which keeps more short spurs."""
+    def near(a, b):
+        if not near_ends:
+            return a == b
+        return abs(int(a[0]) - int(b[0])) <= 1 and abs(int(a[1]) - int(b[1])) <= 1
+
     changed = True
     while changed:
         changed = False
@@ -553,14 +560,14 @@ def join_short_paths(paths, min_px):
             for j, q in enumerate(paths):
                 if i == j:
                     continue
-                if p[-1] == q[0]:
-                    joined = p + q[1:]
-                elif p[0] == q[-1]:
-                    joined = q + p[1:]
-                elif p[0] == q[0]:
-                    joined = p[::-1] + q[1:]
-                elif p[-1] == q[-1]:
-                    joined = q + p[::-1][1:]
+                if near(p[-1], q[0]):
+                    joined = p + q[(1 if p[-1] == q[0] else 0):]
+                elif near(p[0], q[-1]):
+                    joined = q + p[(1 if p[0] == q[-1] else 0):]
+                elif near(p[0], q[0]):
+                    joined = p[::-1] + q[(1 if p[0] == q[0] else 0):]
+                elif near(p[-1], q[-1]):
+                    joined = q + p[::-1][(1 if p[-1] == q[-1] else 0):]
                 else:
                     continue
                 paths[j] = joined
@@ -618,7 +625,7 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
         inside = cv2.morphologyEx(pools.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))) > 0
         lines &= ~ndimage.binary_fill_holes(inside)
     paths = trace_skeleton(skeletonize(lines))
-    return join_short_paths(paths, trace['joinShortPx']) if trace.get('joinShortPx') else paths
+    return join_short_paths(paths, trace['joinShortPx'], trace.get('joinNearEnds')) if trace.get('joinShortPx') else paths
 
 
 def thin_walls(config_path, config, out, name):

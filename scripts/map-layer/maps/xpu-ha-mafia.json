@@ -1,0 +1,508 @@
+{
+  "image": "../../../_data/maps-import/images/sistema-xpu-ha.jpg",
+  "title": "Sistema X-pu Ha - Mafia Maps 1999",
+  "credits": "Sistema X-pu Ha, Q. Roo, Mexico; surveyed passage to date 4,803 ft; exploration and survey Fred Devos, Bernd Birnbach, Matt Matten, Dan Lins, F.F.F.S.M. divers (sic, as printed; the database history has F.F.E.S.M.); Mafia Maps, August 1999 (c) F. Devos, B. Birnbach 1999",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfywrNDltccYvqVE",
+  "utmEpsg": 32616,
+  "placementWhy": "Same map as _data/cartes/à traiter/X-pu Ha, Sist., Puerto Aventuras.pdf. No scale bar and no cenote with a database position: placed by the drawn X-pu Ha Caleta and coastline. A free similarity fit (chamfer distance) of the caleta's green shoreline (above the page's cut-off edge) to the lagoon of the imagery and OSM ('Cenote Xpu ha', way 482291792, plus its dark open water on the Esri imagery), and of the yellow coastline to OSM's coastline (which follows the imagery within a few metres here), gives 0.40 m/px and 1 degree of rotation (the map's north is good); rms 11 m on the caleta shore and 10 m on the coast. Rotation is held to about +-3 degrees (cost rises fast outside -2..+4) and scale to about +-5%. The control points below are features of the map snapped to the nearest shore/coast in the fit (residuals 0-13 m; the caleta's west tip is a 'check' point: the OSM lagoon runs 70 m further west than the map's west lobe and the imagery's open water, so its nearest-edge match is ambiguous). Check: the passage length at 0.40 m/px is about 1,130 m, against the title's 4,803 ft (1,464 m) - the drawn lines are about 23% shorter than stated (a scale of 0.52 m/px would match it, but the caleta and coast then don't fit: possibly passages surveyed but not drawn, or a sketched caleta and coast). No overlap with placed maps: Ponderosa's line plot ends 450 m north of the Mango line; Dos Amores (same sistema) is unverified; Cech Chen isn't placed.",
+  "exclude": [
+    {
+      "why": "title block: Sistema X-pu Ha, Q. Roo Mexico, surveyed passage to date 4,803 feet, exploration and survey team, Mafia Maps August 1999",
+      "box": [
+        25,
+        28,
+        480,
+        408
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos, B. Birnbach 1999",
+      "box": [
+        12,
+        884,
+        335,
+        914
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (compass rose) and its underline",
+      "box": [
+        1015,
+        68,
+        1190,
+        262
+      ]
+    },
+    {
+      "why": "label OCEAN",
+      "box": [
+        1232,
+        70,
+        1325,
+        100
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        1436,
+        12
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        8,
+        923
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        914,
+        1436,
+        923
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        1428,
+        0,
+        1436,
+        923
+      ]
+    },
+    {
+      "why": "label MANGO",
+      "box": [
+        697,
+        80,
+        768,
+        102
+      ]
+    },
+    {
+      "why": "label BRITTLE",
+      "box": [
+        540,
+        320,
+        618,
+        344
+      ]
+    },
+    {
+      "why": "label CONCH LOOP",
+      "box": [
+        785,
+        335,
+        856,
+        378
+      ]
+    },
+    {
+      "why": "label BB",
+      "box": [
+        294,
+        508,
+        325,
+        529
+      ]
+    },
+    {
+      "why": "label FREAK",
+      "box": [
+        515,
+        507,
+        580,
+        529
+      ]
+    },
+    {
+      "why": "label FRENCH FRY",
+      "box": [
+        796,
+        619,
+        874,
+        665
+      ]
+    },
+    {
+      "why": "label PYRAMID",
+      "box": [
+        1138,
+        400,
+        1223,
+        422
+      ]
+    },
+    {
+      "why": "label X-PU HA CALETA",
+      "box": [
+        588,
+        734,
+        686,
+        786
+      ]
+    },
+    {
+      "why": "depth 28 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        609,
+        88,
+        643,
+        115
+      ]
+    },
+    {
+      "why": "depth 32 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        525,
+        263,
+        560,
+        291
+      ]
+    },
+    {
+      "why": "depth 6 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        379,
+        437,
+        414,
+        466
+      ]
+    },
+    {
+      "why": "depth 20 (ft) by the Freak line's end: the symbol's ink isn't a survey line",
+      "box": [
+        369,
+        576,
+        404,
+        606
+      ]
+    },
+    {
+      "why": "depth 20 (ft) on the French Fry line: the symbol's ink isn't a survey line",
+      "box": [
+        722,
+        601,
+        757,
+        630
+      ]
+    },
+    {
+      "why": "depth 17 (ft) at the Pyramid, in the sea: the symbol's ink isn't a survey line",
+      "box": [
+        1229,
+        345,
+        1263,
+        372
+      ]
+    },
+    {
+      "why": "water-flow arrow in the caleta's west lobe (a symbol)",
+      "box": [
+        228,
+        705,
+        295,
+        765
+      ]
+    },
+    {
+      "why": "water-flow arrow in the caleta's east lobe (a symbol)",
+      "box": [
+        722,
+        812,
+        765,
+        884
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "caleta west tip (nearest lagoon edge; ambiguous)",
+      "px": [
+        102,
+        752
+      ],
+      "latitude": 20.480866,
+      "longitude": -87.249719,
+      "check": true
+    },
+    {
+      "name": "caleta loop arm, north tip",
+      "px": [
+        470,
+        633
+      ],
+      "latitude": 20.481296,
+      "longitude": -87.248499
+    },
+    {
+      "name": "caleta east lobe, NE corner",
+      "px": [
+        748,
+        684
+      ],
+      "latitude": 20.481082,
+      "longitude": -87.247485
+    },
+    {
+      "name": "caleta east lobe, east shore",
+      "px": [
+        802,
+        780
+      ],
+      "latitude": 20.480773,
+      "longitude": -87.24727
+    },
+    {
+      "name": "caleta south shore",
+      "px": [
+        450,
+        830
+      ],
+      "latitude": 20.480572,
+      "longitude": -87.248603
+    },
+    {
+      "name": "coast north (OSM coastline)",
+      "px": [
+        905,
+        110
+      ],
+      "latitude": 20.483175,
+      "longitude": -87.246919
+    },
+    {
+      "name": "coast bend (OSM coastline)",
+      "px": [
+        1066,
+        420
+      ],
+      "latitude": 20.482022,
+      "longitude": -87.246243
+    },
+    {
+      "name": "coast step (OSM coastline)",
+      "px": [
+        1165,
+        612
+      ],
+      "latitude": 20.481351,
+      "longitude": -87.24583
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "joinShortPx": 24,
+    "excludeColours": [
+      {
+        "why": "the caleta's blue water and green shore, and the sea",
+        "hue": [
+          85,
+          145
+        ],
+        "minSaturation": 100,
+        "padPx": 3,
+        "keepHoles": true
+      },
+      {
+        "why": "the yellow coastline",
+        "hue": [
+          20,
+          45
+        ],
+        "minSaturation": 150,
+        "padPx": 3,
+        "keepHoles": true
+      }
+    ],
+    "why": "Stick map (Mafia Maps line plot, black guidelines only, no walls): traced as lines, no thickness. The caleta (blue, green shore), the sea and the coast are drawn but aren't cave: masked by colour. Line names are red, depths green overlined numbers, both masked. The French Fry line's east end (887, 573) and the line starting at (893, 592) don't touch: a jump, not bridged. The junction south of Conch Loop (865-876, 528-531) needs join_short_paths to treat 8-adjacent ends as shared (a 12 px junction-to-junction piece between two node-pixel clusters is otherwise dropped as too short, leaving a 4 m gap in continuous ink); the BB line's 5 m tick at its west end (183, 512) is below the minimum line length and dropped.",
+    "joinNearEnds": true
+  },
+  "entrances": [
+    {
+      "name": "X-pu Ha Caleta (BB line)",
+      "px": [
+        177,
+        654
+      ],
+      "why": "The BB line starts on the caleta's north shore (west lobe). The caleta (OSM 'Cenote Xpu ha') has no database cave."
+    },
+    {
+      "name": "X-pu Ha Caleta (French Fry line)",
+      "px": [
+        614,
+        666
+      ],
+      "why": "The line to French Fry starts on the caleta's north shore (east lobe). Same caleta, no database cave."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: depths are overlined numbers in feet (green), all six listed here by hand because their exclude boxes hide them from extraction. Line names (red) kept as place names. Two wavy water-flow arrows in the caleta (surface water flow, both towards the south-east, the caleta's way to the sea). No legend, no letter codes, no bones. The line east of the junction at (1010, 557) runs to the coastline (1080, 518): the system's outlet to the sea, with the Pyramid (17 ft) offshore.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "28",
+        "px": [
+          625,
+          103
+        ],
+        "value": 28,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "32",
+        "px": [
+          541,
+          279
+        ],
+        "value": 32,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "px": [
+          396,
+          455
+        ],
+        "value": 6,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "px": [
+          386,
+          594
+        ],
+        "value": 20,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "px": [
+          739,
+          619
+        ],
+        "value": 20,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "17",
+        "px": [
+          1245,
+          361
+        ],
+        "value": 17,
+        "halfPx": 16
+      },
+      {
+        "type": "place-name",
+        "label": "Mango",
+        "px": [
+          731,
+          91
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Brittle",
+        "px": [
+          578,
+          332
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Conch Loop",
+        "px": [
+          819,
+          356
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "BB",
+        "px": [
+          309,
+          518
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Freak",
+        "px": [
+          546,
+          518
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "French Fry",
+        "px": [
+          834,
+          641
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Pyramid",
+        "px": [
+          1179,
+          411
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Ocean",
+        "px": [
+          1078,
+          519
+        ],
+        "why": "the line reaches the drawn coastline: the cave's outlet to the sea"
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          262,
+          735
+        ],
+        "bearing": 131
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          744,
+          850
+        ],
+        "bearing": 157
+      }
+    ]
+  }
+}
