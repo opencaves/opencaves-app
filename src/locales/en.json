@@ -682,7 +682,12 @@
       "redo": "Redo",
       "viewSource": "View Markdown source",
       "viewFormatted": "View formatted text",
-      "ariaLabel": "{{field}} formatting"
+      "ariaLabel": "{{field}} formatting",
+      "length": "Length (in the reader's units)",
+      "lengthValue": "Length",
+      "lengthUnit": "Unit",
+      "lengthHint": "As measured; readers see it in their units.",
+      "lengthInsert": "Insert"
     }
   },
   "creatableTextField": {

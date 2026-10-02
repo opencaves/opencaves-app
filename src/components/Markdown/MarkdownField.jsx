@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, Divider, IconButton, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { ArrowDropDownRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
+import { ArrowDropDownRounded, StraightenRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
 import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
@@ -12,6 +12,7 @@ import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { callCommand, replaceAll, getMarkdown } from '@milkdown/utils'
 import CaveLinkDialog from './CaveLinkDialog.jsx'
+import { milkdownLength } from './milkdownLength.js'
 import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
@@ -74,6 +75,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
   const [linkHref, setLinkHref] = useState('')
   const [linkMenuAnchor, setLinkMenuAnchor] = useState(null)
   const [caveLinkDialogOpen, setCaveLinkDialogOpen] = useState(false)
+  const [lengthDialog, setLengthDialog] = useState(null) // { value, unit } while inserting a length
   // href of the link under the cursor/selection when the link menu opened.
   const [activeHref, setActiveHref] = useState('')
   // Focusing the dialog's text field moves the browser's DOM selection out
@@ -106,6 +108,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       .use(listener)
       .use(history)
       .use(clipboard)
+      // The `:length[45 m]` tag (milkdownLength.js).
+      .use(milkdownLength)
 
     editor.create().then(() => {
       if (cancelled) {
@@ -206,6 +210,28 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     view.focus()
   }
 
+  // The Length button: a dialog for the value and its unit, then the tag
+  // (`:length[45 m]`, milkdownLength.js) at the cursor.
+  function openLengthDialog() {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    savedSelectionRef.current = view ? { from: view.state.selection.from, to: view.state.selection.to } : null
+    setLengthDialog({ value: '', unit: 'm' })
+  }
+
+  const lengthValue = lengthDialog && Number(String(lengthDialog.value).replace(',', '.'))
+  const lengthValid = lengthDialog && lengthDialog.value !== '' && Number.isFinite(lengthValue) && lengthValue >= 0
+
+  function confirmLength() {
+    const view = editorRef.current?.ctx.get(editorViewCtx)
+    const type = view?.state.schema.nodes.length_directive
+    if (view && type && lengthValid) {
+      restoreSelection(view)
+      view.dispatch(view.state.tr.replaceSelectionWith(type.create({ text: `${lengthValue} ${lengthDialog.unit}` }), false))
+      view.focus()
+    }
+    setLengthDialog(null)
+  }
+
   // Written as the same `oc:<caveId>` link the app already renders as an
   // in-app link to that cave (see uri-transformer.js). With nothing
   // selected, the cave's name is inserted as the link text.
@@ -285,6 +311,14 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           <MenuItem onClick={insertCaveLink}>{t('toolbar.linkCave')}</MenuItem>
         </Menu>
 
+        <Tooltip title={t('toolbar.length')} describeChild>
+          <span>
+            <IconButton size="small" aria-label={t('toolbar.length')} aria-haspopup="dialog" disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLengthDialog}>
+              <StraightenRounded fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+
         <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
 
         <Tooltip title={t('toolbar.heading')} describeChild>
@@ -336,6 +370,21 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         </DialogActions>
       </Dialog>
 
+      <Dialog open={Boolean(lengthDialog)} onClose={() => setLengthDialog(null)} maxWidth="xs" fullWidth>
+        <DialogContent sx={{ display: 'flex', gap: 1.5, pt: 3 }}>
+          <TextField autoFocus label={t('toolbar.lengthValue')} type="text" inputMode="decimal" value={lengthDialog?.value ?? ''} onChange={(e) => setLengthDialog((d) => ({ ...d, value: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && lengthValid && confirmLength()} error={!!lengthDialog?.value && !lengthValid} helperText={t('toolbar.lengthHint')} sx={{ flex: 1 }} />
+          <TextField select label={t('toolbar.lengthUnit')} value={lengthDialog?.unit ?? 'm'} onChange={(e) => setLengthDialog((d) => ({ ...d, unit: e.target.value }))} sx={{ width: 110 }}>
+            <MenuItem value="m">m</MenuItem>
+            <MenuItem value="ft">ft</MenuItem>
+          </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setLengthDialog(null)}>{t('toolbar.linkCancel')}</Button>
+          <Button variant="contained" disableElevation onClick={confirmLength} disabled={!lengthValid}>
+            {t('toolbar.lengthInsert')}
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CaveLinkDialog open={caveLinkDialogOpen} initialCaveId={activeHref.startsWith(CAVE_LINK_PREFIX) ? activeHref.slice(CAVE_LINK_PREFIX.length) : null} onClose={() => setCaveLinkDialogOpen(false)} onConfirm={confirmCaveLink} />
 
       {sourceMode && <TextField fullWidth multiline minRows={minRows} value={value} onChange={onChange} slotProps={{ htmlInput: { 'aria-labelledby': labelId } }} sx={{ '& textarea': { ...theme.typography.md3Input, resize: resizable ? 'vertical' : 'none' } }} />}

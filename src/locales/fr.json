@@ -681,7 +681,12 @@
       "redo": "Rétablir",
       "viewSource": "Voir la source Markdown",
       "viewFormatted": "Voir le texte formaté",
-      "ariaLabel": "Mise en forme : {{field}}"
+      "ariaLabel": "Mise en forme : {{field}}",
+      "length": "Longueur (dans les unités du lecteur)",
+      "lengthValue": "Longueur",
+      "lengthUnit": "Unité",
+      "lengthHint": "Telle que mesurée ; chacun la voit dans ses unités.",
+      "lengthInsert": "Insérer"
     }
   },
   "creatableTextField": {
