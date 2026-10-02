@@ -1,17 +1,17 @@
 .oc-markdown-field {
   &--editor-wrap {
-    border: 1px solid var(--md-palette-divider, rgba(0, 0, 0, 0.23));
+    border: 1px solid var(--mui-palette-divider, rgba(0, 0, 0, 0.23));
     border-radius: 4px;
     transition: border-color 0.15s ease;
     padding: 8.5px 14px;
     box-sizing: border-box;
 
     &:hover:not(:focus-within) {
-      border-color: var(--md-palette-text-primary);
+      border-color: var(--mui-palette-text-primary);
     }
 
     &:focus-within {
-      border-color: var(--md-palette-primary-main, #1976d2);
+      border-color: var(--mui-palette-primary-main, #1976d2);
       border-width: 2px;
       padding: 7.5px 13px;
     }
@@ -141,14 +141,14 @@
       blockquote {
         margin: 0;
         padding-left: 1em;
-        border-left: 3px solid var(--md-palette-divider);
-        color: var(--md-palette-text-secondary);
+        border-left: 3px solid var(--mui-palette-divider);
+        color: var(--mui-palette-text-secondary);
       }
 
       pre {
         margin: 0;
         padding: 0.6em 0.8em;
-        background: color-mix(in srgb, var(--md-palette-text-primary) 5%, var(--md-palette-background-paper));
+        background: color-mix(in srgb, var(--mui-palette-text-primary) 5%, var(--mui-palette-background-paper));
         border-radius: 4px;
         overflow-x: auto;
         font-family: 'Roboto Mono', ui-monospace, monospace;
@@ -157,7 +157,7 @@
 
       code {
         font-family: 'Roboto Mono', ui-monospace, monospace;
-        background: color-mix(in srgb, var(--md-palette-text-primary) 5%, var(--md-palette-background-paper));
+        background: color-mix(in srgb, var(--mui-palette-text-primary) 5%, var(--mui-palette-background-paper));
         border-radius: 3px;
         padding: 0.1em 0.3em;
         font-size: 0.9em;
@@ -170,12 +170,17 @@
 
       hr {
         border: none;
-        border-top: 1px solid var(--md-palette-divider);
+        border-top: 1px solid var(--mui-palette-divider);
         margin: 0.6em 0;
       }
 
+      // Links underlined in the secondary colour.
       a {
-        color: var(--md-sys-color-primary, #1976d2);
+        color: var(--mui-palette-primary-main);
+        text-decoration: underline;
+        text-decoration-color: var(--mui-palette-secondary-main);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
       }
 
       table {
@@ -185,13 +190,13 @@
 
       th,
       td {
-        border: 1px solid var(--md-palette-divider);
+        border: 1px solid var(--mui-palette-divider);
         padding: 0.3em 0.6em;
         text-align: left;
       }
 
       th {
-        background: color-mix(in srgb, var(--md-palette-text-primary) 4%, var(--md-palette-background-paper));
+        background: color-mix(in srgb, var(--mui-palette-text-primary) 4%, var(--mui-palette-background-paper));
       }
     }
   }
