@@ -1119,6 +1119,12 @@ def main(config_path, output):
         weak_labels, _ = ndimage.label(weak, structure=numpy.ones((3, 3)))
         touching = numpy.unique(weak_labels[strong & (weak_labels > 0)])
         strokes = (strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)) & ~symbol_ink
+        # "detailLines": [{"from", "to", "widthPx"}] - bold strokes that aren't
+        # walls (a ticked cave-limit line at an entrance): drawn as detail.
+        for line in trace.get('detailLines', []):
+            band = numpy.zeros(strokes.shape, numpy.uint8)
+            cv2.line(band, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 15))
+            strokes &= band == 0
         # "greyWalls": [lo, hi] - walls drawn as a thin neutral-grey line
         # (an underwater or underlying cave's outline): long lines of that
         # tone count too.

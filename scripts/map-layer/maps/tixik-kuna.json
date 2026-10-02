@@ -569,7 +569,33 @@
       ]
     ],
     "greyMinExtentPx": 60,
-    "water": false
+    "water": false,
+    "detailLines": [
+      {
+        "why": "Entrada Eb Tun Ha: ticked 'Limite de cueva' (the roof edge over the entrance), north line - detail, not wall",
+        "from": [
+          2152,
+          748
+        ],
+        "to": [
+          2205,
+          716
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "Entrada Eb Tun Ha: ticked 'Limite de cueva', south line",
+        "from": [
+          2182,
+          754
+        ],
+        "to": [
+          2220,
+          728
+        ],
+        "widthPx": 22
+      }
+    ]
   },
   "exclude": [
     {
@@ -881,6 +907,24 @@
         1593,
         4612,
         1822
+      ]
+    },
+    {
+      "why": "label Eb (Entrada Eb Tun Ha)",
+      "box": [
+        2280,
+        848,
+        2316,
+        870
+      ]
+    },
+    {
+      "why": "label Ha (Entrada Eb Tun Ha)",
+      "box": [
+        2368,
+        848,
+        2403,
+        870
       ]
     }
   ],
