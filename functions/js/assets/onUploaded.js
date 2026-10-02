@@ -45,6 +45,11 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
     // Only caves/{caveId}/{type}s/{assetId}: the resize also copies originals it
     // fails on to caves/{caveId}/images/failed/{assetId}, which would otherwise
     // come back here as an asset with the id "failed".
+    // A file copied by scripts/sync-to-production.js (its record and resized
+    // copies come with it): nothing to do.
+    if (metadata?.ocSync === 'true') {
+      return
+    }
     if (!filePath?.startsWith('caves/') || filePath.includes(`/${THUMBNAILS_FOLDER}/`) || filePath.split('/').length !== 4) {
       return
     }
