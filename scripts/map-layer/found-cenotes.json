@@ -2,6 +2,1036 @@
  "note": "Cenotes found on the cave maps, kept aside for a direct database import (see cenote_candidates.py). Positions come from maps: never mark them as GPS.",
  "entries": [
   {
+   "name": "Media Luna",
+   "latitude": 20.389174,
+   "longitude": -87.333743,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMPfYu-dcCay_da",
+   "id": "-KPZkVMPfYu-dcCay_da"
+  },
+  {
+   "name": "Cenote Ventana",
+   "latitude": 20.388206,
+   "longitude": -87.332512,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfr0yQOkgBZ5HfDJ",
+   "sistemaName": "Aktun Chen",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnP2Oumqah2160C"
+  },
+  {
+   "name": "La Dune",
+   "latitude": 20.386662,
+   "longitude": -87.331395,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLItmjsrSPynxfl",
+   "id": "-KPZkVLItmjsrSPynxfl"
+  },
+  {
+   "name": "Verde",
+   "latitude": 20.38503,
+   "longitude": -87.33012,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRicIaKg6TLYYJS",
+   "id": "-KPZkVRicIaKg6TLYYJS"
+  },
+  {
+   "name": "Iglesias",
+   "latitude": 20.384096,
+   "longitude": -87.336727,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKM8jk6VpDyEctf",
+   "id": "-KPZkVKM8jk6VpDyEctf"
+  },
+  {
+   "name": "Cenote Dos Lados",
+   "latitude": 20.38361,
+   "longitude": -87.337188,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfr0yQOkgBZ5HfDJ",
+   "sistemaName": "Aktun Chen",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPLHPKZeHExJKo"
+  },
+  {
+   "name": "Murd",
+   "latitude": 20.383632,
+   "longitude": -87.335749,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVN9_nvzVqqu74JI",
+   "id": "-KPZkVN9_nvzVqqu74JI"
+  },
+  {
+   "name": "Kep",
+   "latitude": 20.383332,
+   "longitude": -87.332186,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKv_Kezj1PNbIro",
+   "id": "-KPZkVKv_Kezj1PNbIro"
+  },
+  {
+   "name": "Plus",
+   "latitude": 20.382994,
+   "longitude": -87.332784,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Chen - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOTI-q0qza_7A_J",
+   "id": "-KPZkVOTI-q0qza_7A_J"
+  },
+  {
+   "name": "Bear's Den",
+   "latitude": 20.494537,
+   "longitude": -87.270453,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998",
+    "X-Tun X-Koh (Sistema Actun Koh line plot) - Up Loop part"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEeR1D8YGimsxqc",
+   "id": "-KPZkVEeR1D8YGimsxqc"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDRyqNfcQwwFS_9",
+   "name": "Actun Koh",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998"
+   ],
+   "id": "-KPZkVDRyqNfcQwwFS_9"
+  },
+  {
+   "name": "Overpass",
+   "latitude": 20.490253,
+   "longitude": -87.266641,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998",
+    "X-Tun X-Koh (Sistema Actun Koh line plot) - Down Loop part"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVO0jhypiyLoVr29",
+   "id": "-KPZkVO0jhypiyLoVr29"
+  },
+  {
+   "name": "unnamed cenote W of Overpass (line end)",
+   "latitude": 20.490034,
+   "longitude": -87.267548,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPvaXi_b-JUIcF"
+  },
+  {
+   "name": "unnamed cenote W of Overpass (off the line)",
+   "latitude": 20.490211,
+   "longitude": -87.267131,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPUpgYtgu2Qe7G"
+  },
+  {
+   "name": "unnamed cenote NE of Overpass, W of Teens",
+   "latitude": 20.490648,
+   "longitude": -87.266309,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Actun Koh - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP2B0kLOxSzo9P"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDfSJ3JcxrBjG78",
+   "name": "Aktun-Hu",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Aktun-Hu - Rancho Tamakas, Ejido Jacinto Pat (PET 2007)",
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVDfSJ3JcxrBjG78"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVHbgtSH0-b5zj9Y",
+   "name": "Cueva Seca",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Aktun-Hu - Rancho Tamakas, Ejido Jacinto Pat (PET 2007)",
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVHbgtSH0-b5zj9Y"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFZW7SgdJ2EgTg1",
+   "name": "Cabeza Azteca",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Aktun-Hu - Rancho Tamakas, Ejido Jacinto Pat (PET 2007)",
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVFZW7SgdJ2EgTg1"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDRyqNfcQwwFS_9",
+   "name": "Actun Koh",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cénote Aktun Koh - Expédition Yuc 96"
+   ],
+   "id": "-KPZkVDRyqNfcQwwFS_9"
+  },
+  {
+   "name": "Bear's Den",
+   "latitude": 20.494552,
+   "longitude": -87.270465,
+   "accuracy": 21,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cénote Aktun Koh - Expédition Yuc 96"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVEeR1D8YGimsxqc",
+   "id": "-KPZkVEeR1D8YGimsxqc"
+  },
+  {
+   "name": "Cénote cultivé",
+   "latitude": 20.489812,
+   "longitude": -87.26788,
+   "accuracy": 21,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cénote Aktun Koh - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPFe_3kwf13Hm5"
+  },
+  {
+   "name": "unnamed small opening in the air bell NE of Cénote cultivé",
+   "latitude": 20.490198,
+   "longitude": -87.267159,
+   "accuracy": 21,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cénote Aktun Koh - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPTRsARBhIiGwU"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOBeX3QR15-AhmN",
+   "name": "Pakal Nah",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cénote Aktun Koh - Expédition Yuc 96"
+   ],
+   "id": "-KPZkVOBeX3QR15-AhmN"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDqOXwC5bVyvk1_",
+   "name": "Alomo",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Alimo - Mafia Maps 1999"
+   ],
+   "id": "-KPZkVDqOXwC5bVyvk1_"
+  },
+  {
+   "name": "Cenote Alimi",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Alimi - Mafia Maps 1999"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfr7R5IIS3mt4tkg",
+   "sistemaName": "Alomo",
+   "area": "Tulum South",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the sheet has a reliable position: the only one in the database is 'Alomo' (Gerrard 2015, not on site), taken as the map's Cenote Alimo; Mozzy, Mirror and Cambio have none, Cenote Alimi isn't in the database, and none is in OpenStreetMap. A dark opening in a clearing on the Mapbox/Maxar imagery lies 15 m from Alomo's point, just west of highway 307, but no pool of the map can be matched to a second feature (no pond shows through the canopy where Alimi, Mozzy, Mirror or Cambio would be). Scale from the surveyed lengths (no scale bar), north from the compass rose: both unchecked. At this placement the Alimo line runs under highway 307 and Mirror lands on its shoulder, so the rotation or the point is off. Sistema Alimi is placed only by its position on the sheet relative to Sistema Alimo (about 920 m to the south-east, under the north side of Pino Suarez village): the two systems are separate maps (January and February 1999) laid out around two title blocks, so that offset may not be geographic at all. To fix: field GPS positions of Cenote Alimi and Cenote Cambio (about 380 m apart at the derived scale), and of Alimo plus Mirror or Mozzy.)",
+   "id": "-P2wOMnP6O7VLxXbK44H"
+  },
+  {
+   "name": "Entrée (south group 1)",
+   "latitude": 20.507699,
+   "longitude": -87.228964,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP6sROLWjPL_Ka"
+  },
+  {
+   "name": "Entrée (south group 2)",
+   "latitude": 20.507341,
+   "longitude": -87.229379,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPGLaiCYx8phKa"
+  },
+  {
+   "name": "Entrée (south group 3)",
+   "latitude": 20.506792,
+   "longitude": -87.229503,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPmqNnJmwQdSQ1"
+  },
+  {
+   "name": "Entrée (south group 4)",
+   "latitude": 20.506765,
+   "longitude": -87.230113,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPeQ94EFUqavVv"
+  },
+  {
+   "name": "Entrée (south group 5)",
+   "latitude": 20.50667,
+   "longitude": -87.230624,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPjW5lnkgpu3ot"
+  },
+  {
+   "name": "Entrée (south group 6)",
+   "latitude": 20.506345,
+   "longitude": -87.230267,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPIcFcV1H2uufb"
+  },
+  {
+   "name": "Entrée (middle group)",
+   "latitude": 20.511292,
+   "longitude": -87.224843,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP8xNiVQ4NsWlh"
+  },
+  {
+   "name": "Entrée (middle group, lower label)",
+   "latitude": 20.509757,
+   "longitude": -87.225225,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPuIyl2RJ5ogiu"
+  },
+  {
+   "name": "Entrée (north group)",
+   "latitude": 20.513657,
+   "longitude": -87.226775,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPjAboKQimHEYe"
+  },
+  {
+   "name": "Entrée (north group)",
+   "latitude": 20.513619,
+   "longitude": -87.228768,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPu41s7O3a6VVz"
+  },
+  {
+   "name": "Entrée (west group)",
+   "latitude": 20.513199,
+   "longitude": -87.232525,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005",
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPuAbqMF-ydgCQ"
+  },
+  {
+   "name": "Effondrement",
+   "latitude": 20.514691,
+   "longitude": -87.22821,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPw-94jG_ZiQVF"
+  },
+  {
+   "name": "Entrée du terrain de basket",
+   "latitude": 20.511684,
+   "longitude": -87.232227,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPN9V11LJgnkBN"
+  },
+  {
+   "name": "Collapse at the Siphon",
+   "latitude": 20.510073,
+   "longitude": -87.236008,
+   "accuracy": 12,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte des Aluxes - Expéditions Yuc 2001/2005"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-L_4G8qOQnGiPrcgqUaD",
+   "sistemaName": "Alux",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPRmK-_dnhXuz_"
+  },
+  {
+   "name": "Entrada Sistema Borges",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Borges - James G. Coke IV, 2010"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wO0lWi6bVVkqUN16Q",
+   "sistemaName": "Borges",
+   "area": "Tulum South",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: Sistema Borges and Rancho Borges are in neither the database nor OpenStreetMap (OSM's only 'Borges' near Tulum is a restaurant on Avenida Tulum), and the database's Garza has no position. The map is put, by its scale bar and north, with its Garza sump on a guessed spot for Swan Lake Spring (650 m south-east of Dos Pisos' position, from Gerrard's direction) - a guess only, which falls among houses and canopy.)",
+   "id": "-P2wOMnP5JMQ2HVPpmPZ"
+  },
+  {
+   "name": "Buena Vista",
+   "latitude": 20.488128,
+   "longitude": -87.277662,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenotes Box Ek and Ximbil, a region of Sistema Taj Mahal - Schabbauer 2014"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFP-E205SXTJxk5",
+   "id": "-KPZkVFP-E205SXTJxk5"
+  },
+  {
+   "name": "Cenote Ximbil",
+   "latitude": 20.488137,
+   "longitude": -87.277865,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenotes Box Ek and Ximbil, a region of Sistema Taj Mahal - Schabbauer 2014"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPZgjcg2Fozjn6"
+  },
+  {
+   "name": "Entrada Caapechen",
+   "latitude": 20.0672,
+   "longitude": -87.5605,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Entrada Caapechen - QRSS 2007"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVIue1_wPhikDSGz",
+   "id": "-KPZkVIue1_wPhikDSGz"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVN2UvD2PorODPdH",
+   "name": "Mud",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVN2UvD2PorODPdH"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFbveDljX5Jw3gt",
+   "name": "Calavera",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVFbveDljX5Jw3gt"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVN1VShuQZ8UJ1a-",
+   "name": "Muchachos",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVN1VShuQZ8UJ1a-"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFp_TvUQbzACRP-",
+   "name": "Carri's Loft",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVFp_TvUQbzACRP-"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLjgxZlDUtm7AVc",
+   "name": "Little Cave",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVLjgxZlDUtm7AVc"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKl6DkQ8mbH1ZOR",
+   "name": "Kaibab",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVKl6DkQ8mbH1ZOR"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVH5xnCtJP1acFYN",
+   "name": "Coati Mundi",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVH5xnCtJP1acFYN"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFi5A_QwSm764QC",
+   "name": "Camilo",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Camilo - The Cambrian Foundation 2006"
+   ],
+   "id": "-KPZkVFi5A_QwSm764QC"
+  },
+  {
+   "name": "Cenote Naibosh",
+   "latitude": 20.395539,
+   "longitude": -87.441477,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cangrejo - Ich Kin, Chemuyil - Czech Speleological Society"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfrQo9dmASXrYeb6",
+   "sistemaName": "Cangrejo",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPqbFbxmaKSzfq"
+  },
+  {
+   "name": "Ich Kin",
+   "latitude": 20.394363,
+   "longitude": -87.435558,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cangrejo - Ich Kin, Chemuyil - Czech Speleological Society"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKKJ0jO6giWK0i0",
+   "id": "-KPZkVKKJ0jO6giWK0i0"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVFoXnqN0g3nPjBX",
+   "name": "Cangrejo",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cangrejo - Ich Kin, Chemuyil - Czech Speleological Society"
+   ],
+   "id": "-KPZkVFoXnqN0g3nPjBX"
+  },
+  {
+   "name": "unnamed cenote south of Turtle Dump",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Carrillo - Mafia Maps 2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfrROj8s2qysscFG",
+   "sistemaName": "Carrillo",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: the eight caves of the sistema in the database (Cow Dump, Turtle Dump, Pajaro, Ojo Rojo, Chan Pek, Chupa Hoop, Choco Pol, Air Bell; all Gerrard 2015, area Puerto Aventuras) have none, the sistema has none, none of their names is in OpenStreetMap (Overpass search 20.30-20.65 N, 87.10-87.45 W) or found on the web, and the map draws no road, coast line or pond to match - only the word BEACH south-east of the cave. The single control point is a NOMINAL anchor (Cenote Pajaro put on Puerto Aventuras, 20.5003 N, 87.2309 W) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (Pajaro and Choco Pol are about 690 m apart at the derived scale, at the two ends).)",
+   "id": "-P2wOMnPV9pO5txNGQ01"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVSfwRa4U0d2QHVO",
+   "name": "Zacil-Ha",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Carwash - J. G. Coke IV 1990"
+   ],
+   "id": "-KPZkVSfwRa4U0d2QHVO"
+  },
+  {
+   "name": "Cenote (unnamed)",
+   "latitude": 20.275024,
+   "longitude": -87.489098,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Carwash - J. G. Coke IV 1990"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfrSQEO7iYNUOret",
+   "sistemaName": "Carwash",
+   "area": "Coba Road",
+   "action": "fill",
+   "caveId": "-KPZkVU3t9_8YXSoAJvi",
+   "id": "-KPZkVU3t9_8YXSoAJvi"
+  },
+  {
+   "name": "Pakal",
+   "latitude": 20.52037,
+   "longitude": -87.253418,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOA2xjtRRnuZkpn",
+   "id": "-KPZkVOA2xjtRRnuZkpn"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVG9GiEDZBuoD-Eo",
+   "name": "Chac Mool",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "id": "-KPZkVG9GiEDZBuoD-Eo"
+  },
+  {
+   "name": "Chac Mol Side Entrance",
+   "latitude": 20.513488,
+   "longitude": -87.24597,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfunLdOFpsjcVnHU",
+   "sistemaName": "Chac Mool",
+   "area": "Puerto Aventuras",
+   "action": "fill",
+   "caveId": "-KPZkVV3B8dnq8oRUqaJ",
+   "id": "-KPZkVV3B8dnq8oRUqaJ"
+  },
+  {
+   "name": "Emergency Air",
+   "latitude": 20.510288,
+   "longitude": -87.246853,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVIlkzDl19iyaIyP",
+   "id": "-KPZkVIlkzDl19iyaIyP"
+  },
+  {
+   "name": "Mojarra",
+   "latitude": 20.506187,
+   "longitude": -87.245629,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMlA28BpkafG5hK",
+   "id": "-KPZkVMlA28BpkafG5hK"
+  },
+  {
+   "name": "Chicitito",
+   "latitude": 20.506826,
+   "longitude": -87.24631,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGfnPJs-iZwREmi",
+   "id": "-KPZkVGfnPJs-iZwREmi"
+  },
+  {
+   "name": "Miracle",
+   "latitude": 20.500711,
+   "longitude": -87.240691,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenote Chac Mol - QRSS 1997"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMgv8MGLU6zhkNC",
+   "id": "-KPZkVMgv8MGLU6zhkNC"
+  },
+  {
    "name": "Chikin Ha",
    "latitude": 20.49917,
    "longitude": -87.26082,
@@ -78,6 +1108,195 @@
    "id": "-P2smHpDMXV7xDy4SkDg"
   },
   {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVGsoDbaSVnXkgu3",
+   "name": "Chun Che Chen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Chun Che Chen (K'oox Baal NE) - Czech Speleological Society 2012"
+   ],
+   "id": "-KPZkVGsoDbaSVnXkgu3"
+  },
+  {
+   "name": "Unnamed cenote (south)",
+   "latitude": 20.369215,
+   "longitude": -87.419512,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Chun Che Chen (K'oox Baal NE) - Czech Speleological Society 2012"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsKmjYG3O8HUibD",
+   "sistemaName": "Cenote Chun Che Chen",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPCBsyYM_PI5hq"
+  },
+  {
+   "name": "Cenote Jig",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cubera - Mafia Maps 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfv9u6cxh2Mfw5E5",
+   "sistemaName": "Cubera",
+   "area": "Puerto Aventuras",
+   "action": "fill",
+   "caveId": "-KPZkVV5-S7yN7RB6dbo",
+   "why": "position not given: the map is unverified (No cave of the map has a position in the database: only the sistema Cubera has one (Google Maps source, not a field GPS). It falls on a two-lobed cenote pond 110 m inland from the shore SW of the Calica port (between Xcaret and Punta Venado), and the map's Cubera pond is put there; the map's coastline (SE corner) runs the same way as the real shore (about 55 deg from north on both). Scale from the surveyed length, north from the compass rose: both unchecked. To fix: a field GPS position of Cenote Cubera and one other cenote of the map (Dobladillo, Garafon, Jig, Alta-Chico, Tunich Ha).)",
+   "id": "-KPZkVV5-S7yN7RB6dbo"
+  },
+  {
+   "name": "Cenote Alta-Chico",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cubera - Mafia Maps 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfv9u6cxh2Mfw5E5",
+   "sistemaName": "Cubera",
+   "area": "Puerto Aventuras",
+   "action": "fill",
+   "caveId": "-KPZkVYOG6fmBtZNylXh",
+   "why": "position not given: the map is unverified (No cave of the map has a position in the database: only the sistema Cubera has one (Google Maps source, not a field GPS). It falls on a two-lobed cenote pond 110 m inland from the shore SW of the Calica port (between Xcaret and Punta Venado), and the map's Cubera pond is put there; the map's coastline (SE corner) runs the same way as the real shore (about 55 deg from north on both). Scale from the surveyed length, north from the compass rose: both unchecked. To fix: a field GPS position of Cenote Cubera and one other cenote of the map (Dobladillo, Garafon, Jig, Alta-Chico, Tunich Ha).)",
+   "id": "-KPZkVYOG6fmBtZNylXh"
+  },
+  {
+   "name": "Cenote Tunich Ha",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cubera - Mafia Maps 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfv9u6cxh2Mfw5E5",
+   "sistemaName": "Cubera",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cave of the map has a position in the database: only the sistema Cubera has one (Google Maps source, not a field GPS). It falls on a two-lobed cenote pond 110 m inland from the shore SW of the Calica port (between Xcaret and Punta Venado), and the map's Cubera pond is put there; the map's coastline (SE corner) runs the same way as the real shore (about 55 deg from north on both). Scale from the surveyed length, north from the compass rose: both unchecked. To fix: a field GPS position of Cenote Cubera and one other cenote of the map (Dobladillo, Garafon, Jig, Alta-Chico, Tunich Ha).)",
+   "id": "-P2wOMnPXuT5QUhDeHH5"
+  },
+  {
+   "name": "Cenote Cubera",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Cubera - Mafia Maps 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfv9u6cxh2Mfw5E5",
+   "sistemaName": "Cubera",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cave of the map has a position in the database: only the sistema Cubera has one (Google Maps source, not a field GPS). It falls on a two-lobed cenote pond 110 m inland from the shore SW of the Calica port (between Xcaret and Punta Venado), and the map's Cubera pond is put there; the map's coastline (SE corner) runs the same way as the real shore (about 55 deg from north on both). Scale from the surveyed length, north from the compass rose: both unchecked. To fix: a field GPS position of Cenote Cubera and one other cenote of the map (Dobladillo, Garafon, Jig, Alta-Chico, Tunich Ha).)",
+   "id": "-P2wOMnP7aYjQSf1G8uS"
+  },
+  {
+   "name": "Entrance (sea shore, Cozumel Channel)",
+   "latitude": 20.4422,
+   "longitude": -86.99513,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+   "sistemaName": "Quebrada",
+   "area": "Cozumel Island",
+   "action": "fill",
+   "caveId": "-KPZkVUIgeBLyt4VBvm2",
+   "id": "-KPZkVUIgeBLyt4VBvm2"
+  },
+  {
+   "name": "Opening (west passage, north)",
+   "latitude": 20.439011,
+   "longitude": -86.994614,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+   "sistemaName": "Quebrada",
+   "area": "Cozumel Island",
+   "action": "fill",
+   "caveId": "-KPZkVUKgJE5BE-bQrjO",
+   "id": "-KPZkVUKgJE5BE-bQrjO"
+  },
+  {
+   "name": "Opening (west passage, south)",
+   "latitude": 20.438515,
+   "longitude": -86.994767,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+   "sistemaName": "Quebrada",
+   "area": "Cozumel Island",
+   "action": "create",
+   "id": "-P2wOMnP3siNjq9EXJBc"
+  },
+  {
+   "name": "Opening (east end)",
+   "latitude": 20.439765,
+   "longitude": -86.989001,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+   "sistemaName": "Quebrada",
+   "area": "Cozumel Island",
+   "action": "create",
+   "id": "-P2wOMnPWp7K1xMTHPh_"
+  },
+  {
+   "name": "Window",
+   "latitude": 20.438296,
+   "longitude": -86.991133,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+   "sistemaName": "Quebrada",
+   "area": "Cozumel Island",
+   "action": "create",
+   "id": "-P2wOMnPBGc2pya6Cylw"
+  },
+  {
    "name": "Mott Mott",
    "latitude": 20.322975,
    "longitude": -87.38513,
@@ -119,7 +1338,8 @@
    "placement": "opening",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
-    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map"
+    "Sistema Dos Ojos (part) - Akumal Dive Center guideline map",
+    "Sistema Dos Ojos - QRSS line plot (July 1996)"
    ],
    "action": "position",
    "caveId": "-KPZkVKuN7tJlLCj8Pue",
@@ -158,15 +1378,472 @@
    "id": "-KPZkVMCB5QB9-wEv7Ix"
   },
   {
+   "name": "Maco's Marvel (not in the database)",
+   "latitude": 20.336242,
+   "longitude": -87.414039,
+   "accuracy": 15,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Dos Ojos - QRSS line plot (July 1996)"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfvSh9WU8mR_ryec",
+   "sistemaName": "Dos Ojos",
+   "area": "Nohoch Nah Chich",
+   "action": "fill",
+   "caveId": "-KPZkVUdsf7b8XDBQo4d",
+   "id": "-KPZkVUdsf7b8XDBQo4d"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVIDfnt0oMxTJs8F",
+   "name": "Dos Pies West",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "id": "-KPZkVIDfnt0oMxTJs8F"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVIB8G_BgVPKt-_T",
+   "name": "Dos Pies East",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "id": "-KPZkVIB8G_BgVPKt-_T"
+  },
+  {
+   "name": "Tarpon",
+   "latitude": 20.297834,
+   "longitude": -87.374563,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQeNSGl0E3H6gQB",
+   "id": "-KPZkVQeNSGl0E3H6gQB"
+  },
+  {
+   "name": "Tarpon Cenote (second pool)",
+   "latitude": 20.297708,
+   "longitude": -87.374458,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvUMu0KCxcuHo7-",
+   "sistemaName": "Dos Pies",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPBWp59mUWbSBj"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVMTTJ72Rg3L-2b3",
+   "name": "Mesa",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "id": "-KPZkVMTTJ72Rg3L-2b3"
+  },
+  {
+   "name": "Los Flacos",
+   "latitude": 20.296224,
+   "longitude": -87.372849,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvUMu0KCxcuHo7-",
+   "sistemaName": "Dos Pies",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnP6x67xfQj6iEs"
+  },
+  {
+   "name": "Los Flacos (second pool)",
+   "latitude": 20.296333,
+   "longitude": -87.372755,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Dos Pies - Mafia Maps 1998"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvUMu0KCxcuHo7-",
+   "sistemaName": "Dos Pies",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnP6Suml9HJO7sM"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVRsjSn1YIhTm1Dh",
+   "name": "Werich",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Dzonot Zebra, Chemuyil - Czech Speleological Society 2005"
+   ],
+   "id": "-KPZkVRsjSn1YIhTm1Dh"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVSlPTvnarSEFu7_",
+   "name": "Zebra",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Dzonot Zebra, Chemuyil - Czech Speleological Society 2005"
+   ],
+   "id": "-KPZkVSlPTvnarSEFu7_"
+  },
+  {
+   "name": "Sinkhole pond south-east of Cenote Esqueleto (unnamed on the map)",
+   "latitude": 20.227812,
+   "longitude": -87.45524,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Esqueleto - Sutton & Coke 1993"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfvzDEcRyNp9b4ci",
+   "sistemaName": "Esqueleto",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPalj__A2VD3qH"
+  },
+  {
+   "name": "D. Concha, north pool",
+   "latitude": 20.319091,
+   "longitude": -87.427967,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Fenomeno Cave - Aktun-Hu Cave System (Nov 2009)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfr32-S5uVCsT9hQ",
+   "sistemaName": "Aktun-Hu",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPkbwN0OluyHnd"
+  },
+  {
+   "name": "Vasija",
+   "latitude": 20.323541,
+   "longitude": -87.430219,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Fenomeno Cave - Aktun-Hu Cave System (Nov 2009)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRgdn4I1_qS5nSt",
+   "id": "-KPZkVRgdn4I1_qS5nSt"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVRuf1rLXfmlMGFL",
+   "name": "White River",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Fenomeno Cave - Aktun-Hu Cave System (Nov 2009)"
+   ],
+   "id": "-KPZkVRuf1rLXfmlMGFL"
+  },
+  {
+   "name": "unnamed cenote (north)",
+   "latitude": 20.32448,
+   "longitude": -87.431268,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Fenomeno Cave - Aktun-Hu Cave System (Nov 2009)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfr32-S5uVCsT9hQ",
+   "sistemaName": "Aktun-Hu",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPHEEGhwj_kTLS"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-NS0mrbUnBOzH0J1kGkm",
+   "name": "Cristal",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Cenotes Hermana y Naharon, Tulum (J. G. Coke IV 1987)",
+    "Cenote Naharon, Tulum (J. G. Coke IV 1987)",
+    "Cenote Naharon, Tulum - upstream section (J. G. Coke, T. M. Young 1989)",
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "id": "-NS0mrbUnBOzH0J1kGkm"
+  },
+  {
    "action": "cenote-entrance",
    "caveId": "-KPZkVKJ_lfXl0ta-asY",
    "name": "Ich Balam",
    "cenoteEntrance": true,
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
-    "Hoyo Negro - Aktun-Hu (A. Nava Blank 2012)"
+    "Hoyo Negro - Aktun-Hu (A. Nava Blank 2012)",
+    "Outland Cave - Hoyo Negro, Aktun-Hu (A. Nava Blank)"
    ],
    "id": "-KPZkVKJ_lfXl0ta-asY"
+  },
+  {
+   "name": "Entrada Imix",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva Imix - Allison 2014"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfywrNDltccYvqVE",
+   "sistemaName": "X-pu Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (No position for any part of this cave: Entrada Imix is not in the database or OpenStreetMap, the sistema X-pu Ha has no position, and no placed map overlaps it (the 1999 Mafia map of Sistema X-pu Ha is the caleta, with no Imix). The single control point below is a NOMINAL anchor (the OpenStreetMap 'XPuha' node, 20.473665 N, 87.257026 W) only so the pipeline can run: the geometry is NOT on the ground. To fix: a field GPS of Entrada Imix (or of Entrada Xibalba, about 245 m SE of Imix on the Dos Amores map).)",
+   "id": "-P2wOMnP_EQI6ekgUio8"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKT85x9cn3QFrQ8",
+   "name": "Jaguar",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Jaguar, Akumal - Expéditions Yuc 95/96"
+   ],
+   "id": "-KPZkVKT85x9cn3QFrQ8"
+  },
+  {
+   "name": "Tatich",
+   "latitude": 20.386137,
+   "longitude": -87.425947,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Joolis - Czech Speleological Society / QRSS 2004"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQhZKr_azlGNfTv",
+   "id": "-KPZkVQhZKr_azlGNfTv"
+  },
+  {
+   "name": "Chu' Muc Cho",
+   "latitude": 20.385557,
+   "longitude": -87.424674,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Joolis - Czech Speleological Society / QRSS 2004"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGmaa88LuhcNs8Q",
+   "id": "-KPZkVGmaa88LuhcNs8Q"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKYtpQWz0ZIq8lS",
+   "name": "Joolis",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Joolis - Czech Speleological Society / QRSS 2004"
+   ],
+   "id": "-KPZkVKYtpQWz0ZIq8lS"
+  },
+  {
+   "name": "Polo",
+   "latitude": 20.382457,
+   "longitude": -87.428158,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Joolis - Czech Speleological Society / QRSS 2004"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOVBKVvEY2uXixv",
+   "id": "-KPZkVOVBKVvEY2uXixv"
+  },
+  {
+   "name": "Hoyt",
+   "latitude": 20.381153,
+   "longitude": -87.426671,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Joolis - Czech Speleological Society / QRSS 2004"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVKDE0XX3JmWy0oD",
+   "id": "-KPZkVKDE0XX3JmWy0oD"
+  },
+  {
+   "name": "Sistema Katu Balam - West Entrance",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Katu Balam, Akumal - Laden, Luke, Pugliese 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wO0mWT41S-kE5ROsk",
+   "sistemaName": "Katu Balam",
+   "area": "Akumal",
+   "action": "create",
+   "why": "position not given: the map is unverified (No position at all: Sistema Katu Balam (West, East and Lord of the Ticks entrances) is in neither the database (names and akas), OpenStreetMap (Overpass name search over Quintana Roo) nor a web search (only the mexicancaves.org listing 'Katu Balam, Sist., Akumal'), and the map draws no road, coast, other cenote or coordinate. The single control point is a NOMINAL anchor (the East Entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' filing), so the pipeline can run: the geometry is NOT on the ground. It shares that anchor with maps/knock-out.json (also nominal), so the two overlap. To fix: field GPS of two of the three entrances (West to Lord of the Ticks is about 128 m).)",
+   "id": "-P2wOMnPBa18536F78fT"
+  },
+  {
+   "name": "Sistema Katu Balam - East Entrance",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Katu Balam, Akumal - Laden, Luke, Pugliese 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wO0mWT41S-kE5ROsk",
+   "sistemaName": "Katu Balam",
+   "area": "Akumal",
+   "action": "create",
+   "why": "position not given: the map is unverified (No position at all: Sistema Katu Balam (West, East and Lord of the Ticks entrances) is in neither the database (names and akas), OpenStreetMap (Overpass name search over Quintana Roo) nor a web search (only the mexicancaves.org listing 'Katu Balam, Sist., Akumal'), and the map draws no road, coast, other cenote or coordinate. The single control point is a NOMINAL anchor (the East Entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' filing), so the pipeline can run: the geometry is NOT on the ground. It shares that anchor with maps/knock-out.json (also nominal), so the two overlap. To fix: field GPS of two of the three entrances (West to Lord of the Ticks is about 128 m).)",
+   "id": "-P2wOMnPgiolS_6sskXi"
+  },
+  {
+   "name": "Sistema Katu Balam - Lord of the Ticks Entrance",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Katu Balam, Akumal - Laden, Luke, Pugliese 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wO0mWT41S-kE5ROsk",
+   "sistemaName": "Katu Balam",
+   "area": "Akumal",
+   "action": "create",
+   "why": "position not given: the map is unverified (No position at all: Sistema Katu Balam (West, East and Lord of the Ticks entrances) is in neither the database (names and akas), OpenStreetMap (Overpass name search over Quintana Roo) nor a web search (only the mexicancaves.org listing 'Katu Balam, Sist., Akumal'), and the map draws no road, coast, other cenote or coordinate. The single control point is a NOMINAL anchor (the East Entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' filing), so the pipeline can run: the geometry is NOT on the ground. It shares that anchor with maps/knock-out.json (also nominal), so the two overlap. To fix: field GPS of two of the three entrances (West to Lord of the Ticks is about 128 m).)",
+   "id": "-P2wOMnPYI3T2r1o7XmZ"
+  },
+  {
+   "name": "Cenote Knock Out (Entrée)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Knock Out, Akumal - Expéditions Yuc 95/96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKZaT5lmImjedBjm",
+   "sistemaName": "Cenote Knock Out",
+   "area": "Akumal",
+   "action": "create",
+   "why": "position not given: the map is unverified (No position at all: Cenote Knock Out is in neither the database (names and akas), OpenStreetMap (Overpass name search over the Yucatán peninsula) nor a web search, and the map draws no road, coast, other cenote or coordinate - only the cave and a surface line with trees on the section. The single control point is a NOMINAL anchor (the entrance put on OpenStreetMap's Akumal village node, from the map's 'Akumal' caption), so the pipeline can run: the geometry is NOT on the ground (it lands across the Akumal access road). To fix: a field GPS of the entrance and the bearing of the cave's long axis (about 160 m from the -21 end to the -27 end).)",
+   "id": "-P2wOMnPFqfVTcIIgnTZ"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVPtkGgeUsJ0ehwP",
+   "name": "Shaman Ek",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Shaman Ek (K'oox Baal SW) - Czech Speleological Society 2012",
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "id": "-KPZkVPtkGgeUsJ0ehwP"
+  },
+  {
+   "name": "Chalat",
+   "latitude": 20.362478,
+   "longitude": -87.424973,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Shaman Ek (K'oox Baal SW) - Czech Speleological Society 2012",
+    "Sistema K'oox Baal - Czech Speleological Society 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGIbn9Z4SzAOQCP",
+   "id": "-KPZkVGIbn9Z4SzAOQCP"
+  },
+  {
+   "name": "Unnamed cenote (NE of Shaman Ek)",
+   "latitude": 20.360751,
+   "longitude": -87.425725,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Shaman Ek (K'oox Baal SW) - Czech Speleological Society 2012"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfwMz8Euzm1BP2BZ",
+   "sistemaName": "K'oox Baal",
+   "area": "Chemuyil",
+   "action": "fill",
+   "caveId": "-KPZkVTIE2C7TXPvJ0FN",
+   "id": "-KPZkVTIE2C7TXPvJ0FN"
   },
   {
    "action": "cenote-entrance",
@@ -224,17 +1901,6 @@
    "id": "-KPZkVQ_EDwgC4Ip9o1A"
   },
   {
-   "action": "cenote-entrance",
-   "caveId": "-KPZkVPtkGgeUsJ0ehwP",
-   "name": "Shaman Ek",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Sistema K'oox Baal - Czech Speleological Society 2013"
-   ],
-   "id": "-KPZkVPtkGgeUsJ0ehwP"
-  },
-  {
    "name": "Koi",
    "latitude": 20.35944,
    "longitude": -87.413409,
@@ -244,7 +1910,8 @@
    "placement": "label",
    "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
    "maps": [
-    "Sistema K'oox Baal - Czech Speleological Society 2013"
+    "Sistema K'oox Baal - Czech Speleological Society 2013",
+    "Nai Tucha (Tux Kupaxa), Sistema Tux Kupaxa - Czech survey 2009"
    ],
    "action": "position",
    "caveId": "-KPZkVL2GlrKZi7B58X9",
@@ -374,8 +2041,8 @@
    "sistemaName": "K'oox Baal",
    "area": "Chemuyil",
    "action": "fill",
-   "caveId": "-KPZkVTIE2C7TXPvJ0FN",
-   "id": "-KPZkVTIE2C7TXPvJ0FN"
+   "caveId": "-KPZkVTJfiicQx35HyCW",
+   "id": "-KPZkVTJfiicQx35HyCW"
   },
   {
    "name": "Sac Ktu Cha",
@@ -392,22 +2059,6 @@
    "action": "position",
    "caveId": "-KPZkVPIPv70urq0p8Os",
    "id": "-KPZkVPIPv70urq0p8Os"
-  },
-  {
-   "name": "Chalat",
-   "latitude": 20.362696,
-   "longitude": -87.424973,
-   "accuracy": 40,
-   "validity": "unknown",
-   "cenoteEntrance": true,
-   "placement": "label",
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Sistema K'oox Baal - Czech Speleological Society 2013"
-   ],
-   "action": "position",
-   "caveId": "-KPZkVGIbn9Z4SzAOQCP",
-   "id": "-KPZkVGIbn9Z4SzAOQCP"
   },
   {
    "name": "Chuuh",
@@ -486,6 +2137,106 @@
    "id": "-KPZkVG0pYan2AfIT795"
   },
   {
+   "name": "Mino-mi",
+   "latitude": 20.486863,
+   "longitude": -87.271412,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Mino-Mi - Mafia Maps 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMbZC3oAmDRhQ6U",
+   "id": "-KPZkVMbZC3oAmDRhQ6U"
+  },
+  {
+   "name": "Piedra",
+   "latitude": 20.484142,
+   "longitude": -87.272345,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOOkG0Wb0_BVKI9",
+   "id": "-KPZkVOOkG0Wb0_BVKI9"
+  },
+  {
+   "name": "Escalera",
+   "latitude": 20.483841,
+   "longitude": -87.272685,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJ2CQfi8R5qJ1p3",
+   "id": "-KPZkVJ2CQfi8R5qJ1p3"
+  },
+  {
+   "name": "Estrella",
+   "latitude": 20.482896,
+   "longitude": -87.273329,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJTSCITforYsDef",
+   "id": "-KPZkVJTSCITforYsDef"
+  },
+  {
+   "name": "Unnamed Cenote Entrance",
+   "latitude": 20.483082,
+   "longitude": -87.273836,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfwz5bv3l8SRmrUt",
+   "sistemaName": "Minotauro",
+   "area": "Puerto Aventuras",
+   "action": "fill",
+   "caveId": "-KPZkVYQGBSC0KpBmkkf",
+   "id": "-KPZkVYQGBSC0KpBmkkf"
+  },
+  {
+   "name": "Winz",
+   "latitude": 20.48425,
+   "longitude": -87.269384,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Minotauro, Rancho San Miguel - Alessandro Reato 2013"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRwuPctLahiiUPx",
+   "id": "-KPZkVRwuPctLahiiUPx"
+  },
+  {
    "action": "cenote-entrance",
    "caveId": "-KPZkVMjI64D9Glpfgqy",
    "name": "Misterio Maya",
@@ -513,8 +2264,588 @@
    "sistemaName": "Sac Actun",
    "area": "Nohoch Nah Chich",
    "action": "fill",
-   "caveId": "-KPZkVUdsf7b8XDBQo4d",
-   "id": "-KPZkVUdsf7b8XDBQo4d"
+   "caveId": "-KPZkVUfMUzXeQIvZUKB",
+   "id": "-KPZkVUfMUzXeQIvZUKB"
+  },
+  {
+   "name": "Sixth Cenote Entrance",
+   "latitude": 20.190858,
+   "longitude": -87.493975,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Naranjal - Muknal Remote Siphon - QRSS 2001 (J. G. Coke IV)"
+   ],
+   "action": "position",
+   "caveId": "-KS3tVF0Wad0I0OTKtbB",
+   "id": "-KS3tVF0Wad0I0OTKtbB"
+  },
+  {
+   "name": "Dead Cenote",
+   "latitude": 20.19046,
+   "longitude": -87.49359,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Naranjal - Muknal Remote Siphon - QRSS 2001 (J. G. Coke IV)"
+   ],
+   "action": "position",
+   "caveId": "-KS3tV8PvWHg9xojnDG0",
+   "id": "-KS3tV8PvWHg9xojnDG0"
+  },
+  {
+   "name": "Fenceline Cenote",
+   "latitude": 20.190201,
+   "longitude": -87.493445,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
+   "maps": [
+    "Sistema Naranjal - Muknal Remote Siphon - QRSS 2001 (J. G. Coke IV)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxGo-R8NnJWSKaX",
+   "sistemaName": "Naranjal",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPgdzpCrOA9FPb"
+  },
+  {
+   "name": "Cenote 82",
+   "latitude": 20.432744,
+   "longitude": -87.292056,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+   "sistemaName": "Murena",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPKEIJqQDVEfdG"
+  },
+  {
+   "name": "Spray",
+   "latitude": 20.430889,
+   "longitude": -87.293375,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQ8_aEC9Hts08nX",
+   "id": "-KPZkVQ8_aEC9Hts08nX"
+  },
+  {
+   "name": "Cenote Theater",
+   "latitude": 20.428954,
+   "longitude": -87.294432,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+   "sistemaName": "Murena",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPfDyAXkp3zict"
+  },
+  {
+   "name": "Cenote Bella Mama",
+   "latitude": 20.426135,
+   "longitude": -87.296173,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+   "sistemaName": "Murena",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnP66WuVGQzqU5w"
+  },
+  {
+   "name": "Brick",
+   "latitude": 20.422221,
+   "longitude": -87.299793,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFMSKSIvpEgivQo",
+   "id": "-KPZkVFMSKSIvpEgivQo"
+  },
+  {
+   "name": "Shaky Condo",
+   "latitude": 20.42166,
+   "longitude": -87.298142,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPrKkha0SafvQ_Q",
+   "id": "-KPZkVPrKkha0SafvQ_Q"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVEU5pleoLRFFLeO",
+   "name": "Ballena",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "id": "-KPZkVEU5pleoLRFFLeO"
+  },
+  {
+   "name": "Verde",
+   "latitude": 20.414434,
+   "longitude": -87.304749,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRicIaKg6TLYYJS",
+   "id": "-KPZkVRicIaKg6TLYYJS"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVIzDXBDxmqtjY34",
+   "name": "Entrada Maurena",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "id": "-KPZkVIzDXBDxmqtjY34"
+  },
+  {
+   "name": "Entrada Reserva",
+   "latitude": 20.410525,
+   "longitude": -87.306016,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+   "sistemaName": "Murena",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPMpkmCd-dUzmF"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVIolUgS0NOQGC9D",
+   "name": "Entrada Aak Kimin",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "id": "-KPZkVIolUgS0NOQGC9D"
+  },
+  {
+   "name": "Cenote Backdoor",
+   "latitude": 20.39989,
+   "longitude": -87.312802,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Murena, Akumal - survey lines over satellite imagery (2014)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfx8cp2Q_VWlJBBh",
+   "sistemaName": "Murena",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPfZFegFwX9HrH"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVNaIeV915IYvoMm",
+   "name": "Nohoch Aktun",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "id": "-KPZkVNaIeV915IYvoMm"
+  },
+  {
+   "name": "unnamed collapse S of Ta Tich (1st) (Effondrement)",
+   "latitude": 20.433718,
+   "longitude": -87.345622,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "fill",
+   "caveId": "-KPZkVT54yZMGjqgKju-",
+   "id": "-KPZkVT54yZMGjqgKju-"
+  },
+  {
+   "name": "unnamed collapse S of Ta Tich (2nd) (Effondrement)",
+   "latitude": 20.432566,
+   "longitude": -87.345846,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "fill",
+   "caveId": "-KPZkVT7sOD2N64kqUWV",
+   "id": "-KPZkVT7sOD2N64kqUWV"
+  },
+  {
+   "name": "unnamed collapse S of Ta Tich (3rd) (Effondrement)",
+   "latitude": 20.431723,
+   "longitude": -87.345233,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "fill",
+   "caveId": "-KPZkVT8-dldcFvfBTnN",
+   "id": "-KPZkVT8-dldcFvfBTnN"
+  },
+  {
+   "name": "unnamed collapse S of Ta Tich (4th) (Effondrement)",
+   "latitude": 20.430502,
+   "longitude": -87.345072,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "fill",
+   "caveId": "-KPZkVT9mSf9trxHUjHQ",
+   "id": "-KPZkVT9mSf9trxHUjHQ"
+  },
+  {
+   "name": "unnamed Nohoch Aktun upstream collapse (Effondrement)",
+   "latitude": 20.429543,
+   "longitude": -87.343489,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "fill",
+   "caveId": "-KPZkVTB7u6e7kNSmhoi",
+   "id": "-KPZkVTB7u6e7kNSmhoi"
+  },
+  {
+   "name": "unnamed Nohoch Aktun central collapse (Effondrement)",
+   "latitude": 20.424765,
+   "longitude": -87.339338,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPXwD_A8c2CxM7"
+  },
+  {
+   "name": "unnamed collapse S of the central one (Effondrement)",
+   "latitude": 20.423149,
+   "longitude": -87.339209,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPsH5707FTRM2k"
+  },
+  {
+   "name": "unnamed collapse W of the south branch (Effondrement)",
+   "latitude": 20.422122,
+   "longitude": -87.339842,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPjeUtCrvHAYg5"
+  },
+  {
+   "name": "unnamed small collapse in the south chamber (Effondrement)",
+   "latitude": 20.420705,
+   "longitude": -87.338752,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPTIFadvIqfFCt"
+  },
+  {
+   "name": "unnamed south chamber collapse (Effondrement)",
+   "latitude": 20.420193,
+   "longitude": -87.338349,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPagVgQrYw5PG9"
+  },
+  {
+   "name": "unnamed south-east collapse (drawn open to the east) (Effondrement)",
+   "latitude": 20.419888,
+   "longitude": -87.337085,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Ta Tich, Nohoch Aktun et Miss Aktun (Figure 13: Plan des réseaux) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxIjCFs_05eB3oM",
+   "sistemaName": "Nohoch Aktun",
+   "area": "Akumal",
+   "action": "create",
+   "id": "-P2wOMnPZ7J5_ickv3wk"
+  },
+  {
+   "name": "Northwest",
+   "latitude": 20.265848,
+   "longitude": -87.411274,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVNk1iFm7oxpmADE",
+   "id": "-KPZkVNk1iFm7oxpmADE"
+  },
+  {
+   "name": "Quatro Entrances",
+   "latitude": 20.262073,
+   "longitude": -87.414169,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVOe6YBkP_jRUuBN",
+   "id": "-KPZkVOe6YBkP_jRUuBN"
+  },
+  {
+   "name": "Myrna's Gift",
+   "latitude": 20.259864,
+   "longitude": -87.414696,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVNE9LKZhhJu71oo",
+   "id": "-KPZkVNE9LKZhhJu71oo"
+  },
+  {
+   "name": "No Eye Stage",
+   "latitude": 20.259603,
+   "longitude": -87.411118,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVNZc_-K1ppWepoc",
+   "id": "-KPZkVNZc_-K1ppWepoc"
+  },
+  {
+   "name": "Breathold",
+   "latitude": 20.259982,
+   "longitude": -87.418064,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFKpmEZIteeaCBQ",
+   "id": "-KPZkVFKpmEZIteeaCBQ"
+  },
+  {
+   "name": "Chupa Cabra's Retreat",
+   "latitude": 20.256927,
+   "longitude": -87.413927,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVGw0MYZYro79FLR",
+   "id": "-KPZkVGw0MYZYro79FLR"
+  },
+  {
+   "name": "Mak Mak",
+   "latitude": 20.25671,
+   "longitude": -87.417428,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Nohoch Kiin - Matthes 1997/2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVM279R3uUQrMKpG",
+   "id": "-KPZkVM279R3uUQrMKpG"
   },
   {
    "name": "I-Hop Cenote",
@@ -910,6 +3241,196 @@
    "area": "Nohoch Nah Chich",
    "action": "create",
    "id": "-P2smHpDH6XrKg2pH_FX"
+  },
+  {
+   "name": "Oasis",
+   "latitude": 20.313452,
+   "longitude": -87.426895,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Outland Cave - Hoyo Negro, Aktun-Hu (A. Nava Blank)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVNpXE4ibKk4N_o9",
+   "id": "-KPZkVNpXE4ibKk4N_o9"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLOg5GeHNMAgFtw",
+   "name": "La Virgen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Outland Cave - Hoyo Negro, Aktun-Hu (A. Nava Blank)",
+    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
+   ],
+   "id": "-KPZkVLOg5GeHNMAgFtw"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVKE9g25Jnk7RwZb",
+   "name": "Hunplit",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "id": "-KPZkVKE9g25Jnk7RwZb"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOxe4MoL7H-KM_E",
+   "name": "Regina",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "id": "-KPZkVOxe4MoL7H-KM_E"
+  },
+  {
+   "name": "San Andres",
+   "latitude": 20.183299,
+   "longitude": -87.477508,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPXcxviVsbBEKgQ",
+   "id": "-KPZkVPXcxviVsbBEKgQ"
+  },
+  {
+   "name": "Corey",
+   "latitude": 20.17297,
+   "longitude": -87.483983,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVHJBkl7OciMypqq",
+   "id": "-KPZkVHJBkl7OciMypqq"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVE7k5u1D9M6GBHo",
+   "name": "Ayim",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "id": "-KPZkVE7k5u1D9M6GBHo"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVHn5J6gyz85LeWf",
+   "name": "Del Mar",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011",
+    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
+   ],
+   "id": "-KPZkVHn5J6gyz85LeWf"
+  },
+  {
+   "name": "Exodus",
+   "latitude": 20.157497,
+   "longitude": -87.529444,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJUypwCG8rqy6G3",
+   "id": "-KPZkVJUypwCG8rqy6G3"
+  },
+  {
+   "name": "Apocalypse",
+   "latitude": 20.132405,
+   "longitude": -87.535264,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+   "sistemaName": "Ox Bel Ha",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPZiPl9smaddFS"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVST6SkV2RHx4mj0",
+   "name": "Yax Chen",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011",
+    "Yaxchen cave system"
+   ],
+   "id": "-KPZkVST6SkV2RHx4mj0"
+  },
+  {
+   "name": "Yax Chen region cenote (west)",
+   "latitude": 20.130398,
+   "longitude": -87.471534,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+   "sistemaName": "Ox Bel Ha",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnP0zbgPDVY9MQG"
+  },
+  {
+   "name": "Yax Chen region cenote (south-east)",
+   "latitude": 20.129937,
+   "longitude": -87.466117,
+   "accuracy": 74,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Ox Bel Ha - J. Coke 2011"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxVUsGBh6Jx9z7d",
+   "sistemaName": "Ox Bel Ha",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPG2rYo6CVMyqc"
   },
   {
    "action": "cenote-entrance",
@@ -1359,17 +3880,6 @@
    "id": "-KPZkVG502HXmcPKNRUV"
   },
   {
-   "action": "cenote-entrance",
-   "caveId": "-KPZkVHn5J6gyz85LeWf",
-   "name": "Del Mar",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
-   "maps": [
-    "Sistema Ox Bel Ha - GEO 1999 (Ejido José María Pino Suárez)"
-   ],
-   "id": "-KPZkVHn5J6gyz85LeWf"
-  },
-  {
    "name": "Sac Ek",
    "latitude": 20.154335,
    "longitude": -87.500661,
@@ -1560,9 +4070,316 @@
    "id": "-P2sADZQBWeVLH2g9hVs"
   },
   {
+   "name": "Paachil Nah",
+   "latitude": 20.407639,
+   "longitude": -87.411922,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPbg3i7SPKP5IZ"
+  },
+  {
+   "name": "Tu",
+   "latitude": 20.407819,
+   "longitude": -87.412657,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRH4GbDpXJoKayU",
+   "id": "-KPZkVRH4GbDpXJoKayU"
+  },
+  {
+   "name": "Nauatilostotl",
+   "latitude": 20.409316,
+   "longitude": -87.41259,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPwNXBpJl9lPea"
+  },
+  {
+   "name": "",
+   "latitude": 20.409577,
+   "longitude": -87.41263,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPaaZ3lZSJlR-n"
+  },
+  {
+   "name": "Beh Et Óox Ha'",
+   "latitude": 20.407333,
+   "longitude": -87.409189,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPqaXW7yZqRYCl"
+  },
+  {
+   "name": "Nah Soots'",
+   "latitude": 20.406111,
+   "longitude": -87.405482,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPJyqUYQvL61eQ"
+  },
+  {
+   "name": "Styx",
+   "latitude": 20.406174,
+   "longitude": -87.405194,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPA6x6SH07BpQd"
+  },
+  {
+   "name": "",
+   "latitude": 20.404533,
+   "longitude": -87.411405,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPX5yUFwAwjD4_"
+  },
+  {
+   "name": "Luuk Hool",
+   "latitude": 20.411774,
+   "longitude": -87.4095,
+   "accuracy": 40,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnP5aonTN7Lu9hl"
+  },
+  {
+   "name": "Nah Baak",
+   "latitude": 20.406765,
+   "longitude": -87.406711,
+   "accuracy": 40,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "label",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Paachil Nah - Czech Speleological Society 2015"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKXAgW0ocP7_f70E",
+   "sistemaName": "Paachil Nah",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPQWeifNRaZNZq"
+  },
+  {
+   "name": "cenote at the north-west end of the Main Line",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnP4HSOnkP785zz"
+  },
+  {
+   "name": "cenote under Mi Piatche",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPlU8SwCnHZQT5"
+  },
+  {
+   "name": "cenote west of El Brinco",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPm1bcu7CDQfMu"
+  },
+  {
+   "name": "cenote inside the El Brinco loop",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPhdOyU7iOMCN_"
+  },
+  {
+   "name": "large cenote (main entrance)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPoVjtVAWOw8bH"
+  },
+  {
+   "name": "cenote north of Raft",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPKio-5TzCgDHJ"
+  },
+  {
+   "name": "cenote beside the Raft line",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPD0uvYPr7gFuX"
+  },
+  {
+   "name": "cenote at the south-east end of the Main Line",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grutas de las Palmas - Mafia Maps 2002"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-P2wNKYcEhQBIX_EHd7J",
+   "sistemaName": "Grutas de las Palmas",
+   "area": "Playa Del Carmen North",
+   "action": "create",
+   "why": "position not given: the map is unverified (No cenote of the map has a position: none of its eight cenote pools is named, the map's only names are line names (Main Line, Mi Piatche, Rais Loop, El Brinco, Palo Loop, Raft, Brillante, Little Room), and neither those nor 'Grutas de las Palmas' / 'Palmas' match any cave or sistema of the database (the only Palmas there are Dos Palmas, Nohoch Nah Chich area, and Jailhouse's aka Las Palmas, Tulum South) or any cave/water feature of OpenStreetMap around Playa del Carmen (Overpass name and natural=water/sinkhole/cave_entrance searches, 20.40-20.85 N); a web search found nothing either. The map draws no road, coast or other ground feature. The single control point is a NOMINAL anchor (the largest pool put on Parque Las Palmas in the Las Palmas I neighbourhood of Playa del Carmen, a namesake only - the pools don't match anything on the imagery there) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (e.g. the large pool and the south-east pool, about 120 m apart).)",
+   "id": "-P2wOMnPWu_OX0sT8suX"
+  },
+  {
    "name": "Xochacalico",
-   "latitude": 20.500786,
-   "longitude": -87.263455,
+   "latitude": 20.50079,
+   "longitude": -87.263447,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1577,8 +4394,8 @@
   },
   {
    "name": "Xochacalico (second pool)",
-   "latitude": 20.500271,
-   "longitude": -87.262426,
+   "latitude": 20.500278,
+   "longitude": -87.262418,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1597,8 +4414,8 @@
   },
   {
    "name": "X'tabay",
-   "latitude": 20.499703,
-   "longitude": -87.26143,
+   "latitude": 20.499712,
+   "longitude": -87.261424,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1613,8 +4430,8 @@
   },
   {
    "name": "Rainbow",
-   "latitude": 20.497399,
-   "longitude": -87.258304,
+   "latitude": 20.497413,
+   "longitude": -87.258301,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1634,8 +4451,8 @@
   },
   {
    "name": "Repair Shop",
-   "latitude": 20.496059,
-   "longitude": -87.258988,
+   "latitude": 20.49606,
+   "longitude": -87.258986,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1650,8 +4467,8 @@
   },
   {
    "name": "Zacil",
-   "latitude": 20.494053,
-   "longitude": -87.258848,
+   "latitude": 20.494042,
+   "longitude": -87.258845,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1666,8 +4483,8 @@
   },
   {
    "name": "Little Joe",
-   "latitude": 20.493149,
-   "longitude": -87.25911,
+   "latitude": 20.493133,
+   "longitude": -87.259108,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1704,8 +4521,8 @@
   },
   {
    "name": "Corral",
-   "latitude": 20.492031,
-   "longitude": -87.256427,
+   "latitude": 20.492022,
+   "longitude": -87.256428,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1721,7 +4538,7 @@
   {
    "name": "Uchil Ha",
    "latitude": 20.492168,
-   "longitude": -87.254986,
+   "longitude": -87.254987,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1736,8 +4553,8 @@
   },
   {
    "name": "Uchil Ha (small oval south of its label)",
-   "latitude": 20.491597,
-   "longitude": -87.254907,
+   "latitude": 20.491595,
+   "longitude": -87.254908,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1756,8 +4573,8 @@
   },
   {
    "name": "Sask Leem Ha",
-   "latitude": 20.492612,
-   "longitude": -87.253726,
+   "latitude": 20.492623,
+   "longitude": -87.253728,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1783,8 +4600,8 @@
   },
   {
    "name": "Boa",
-   "latitude": 20.490497,
-   "longitude": -87.251088,
+   "latitude": 20.49051,
+   "longitude": -87.251091,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1820,8 +4637,8 @@
   },
   {
    "name": "Unnamed cenote east of Cristalino",
-   "latitude": 20.490548,
-   "longitude": -87.249555,
+   "latitude": 20.490571,
+   "longitude": -87.249558,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1851,8 +4668,8 @@
   },
   {
    "name": "Unnamed cenote east of Azul (north)",
-   "latitude": 20.488427,
-   "longitude": -87.251749,
+   "latitude": 20.488423,
+   "longitude": -87.251752,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1871,8 +4688,8 @@
   },
   {
    "name": "Unnamed cenote east of Azul (south)",
-   "latitude": 20.488221,
-   "longitude": -87.251733,
+   "latitude": 20.488215,
+   "longitude": -87.251738,
    "accuracy": 11,
    "validity": "unknown",
    "cenoteEntrance": true,
@@ -1888,6 +4705,131 @@
    "action": "fill",
    "caveId": "-KPZkVVYxkjv3ARxrbmG",
    "id": "-KPZkVVYxkjv3ARxrbmG"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVK4Mmw4tY9i_ksA",
+   "name": "Ho-Tul",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "id": "-KPZkVK4Mmw4tY9i_ksA"
+  },
+  {
+   "name": "Opening 1",
+   "latitude": 20.245297,
+   "longitude": -87.465594,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPztpBlAGYkFJw"
+  },
+  {
+   "name": "Opening 2",
+   "latitude": 20.245524,
+   "longitude": -87.465544,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPWQJN8QStR1T1"
+  },
+  {
+   "name": "Opening 3",
+   "latitude": 20.245477,
+   "longitude": -87.465234,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPR0ev27UC-k_R"
+  },
+  {
+   "name": "Opening 4",
+   "latitude": 20.245625,
+   "longitude": -87.465131,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPWL5-zzMZdSy-"
+  },
+  {
+   "name": "Opening 5",
+   "latitude": 20.245678,
+   "longitude": -87.464708,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPGGRp4U0U6aEx"
+  },
+  {
+   "name": "Opening 6",
+   "latitude": 20.245532,
+   "longitude": -87.464508,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Sac Actun - J. G. Coke IV 1988"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfxuMwwzBTvKYaMt",
+   "sistemaName": "Sac Actun",
+   "area": "Coba Road",
+   "action": "create",
+   "id": "-P2wOMnPKo6aFrGiy5Mq"
   },
   {
    "name": "Muul Ha",
@@ -2203,28 +5145,6 @@
   },
   {
    "action": "cenote-entrance",
-   "caveId": "-KPZkVFZW7SgdJ2EgTg1",
-   "name": "Cabeza Azteca",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
-   ],
-   "id": "-KPZkVFZW7SgdJ2EgTg1"
-  },
-  {
-   "action": "cenote-entrance",
-   "caveId": "-KPZkVDfSJ3JcxrBjG78",
-   "name": "Aktun-Hu",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
-   ],
-   "id": "-KPZkVDfSJ3JcxrBjG78"
-  },
-  {
-   "action": "cenote-entrance",
    "caveId": "-KPZkVQZCIinKTv-3ccE",
    "name": "Tamakas",
    "cenoteEntrance": true,
@@ -2233,28 +5153,6 @@
     "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
    ],
    "id": "-KPZkVQZCIinKTv-3ccE"
-  },
-  {
-   "action": "cenote-entrance",
-   "caveId": "-KPZkVLOg5GeHNMAgFtw",
-   "name": "La Virgen",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
-   ],
-   "id": "-KPZkVLOg5GeHNMAgFtw"
-  },
-  {
-   "action": "cenote-entrance",
-   "caveId": "-KPZkVHbgtSH0-b5zj9Y",
-   "name": "Cueva Seca",
-   "cenoteEntrance": true,
-   "sourceId": "-KPZg4jsKUZe0Tf3lyro",
-   "maps": [
-    "Sistema Sac Aktun - Dos Ojos, Nohoch and Aktun Hu over Google Earth (2007)"
-   ],
-   "id": "-KPZkVHbgtSH0-b5zj9Y"
   },
   {
    "name": "Le Colapse Turn",
@@ -2273,8 +5171,8 @@
    "sistemaName": "Sac Actun",
    "area": "Nohoch Nah Chich",
    "action": "fill",
-   "caveId": "-KPZkVUfMUzXeQIvZUKB",
-   "id": "-KPZkVUfMUzXeQIvZUKB"
+   "caveId": "-KPZkVUgaRQjWqXeZwe_",
+   "id": "-KPZkVUgaRQjWqXeZwe_"
   },
   {
    "name": "K'ak Ha",
@@ -2312,6 +5210,1667 @@
    ],
    "why": "the database's position is 3.6 km from this map's: doubtful",
    "id": "-KPZkVPKbTGWDHL_8Y-Y"
+  },
+  {
+   "name": "Buena Vista",
+   "latitude": 20.488111,
+   "longitude": -87.278242,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98",
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFP-E205SXTJxk5",
+   "id": "-KPZkVFP-E205SXTJxk5"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVM6rftke9u9it4v",
+   "name": "Mangrova",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "id": "-KPZkVM6rftke9u9it4v"
+  },
+  {
+   "name": "City of Agre",
+   "latitude": 20.484468,
+   "longitude": -87.273058,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVH1JsSUeVtkRp0N",
+   "id": "-KPZkVH1JsSUeVtkRp0N"
+  },
+  {
+   "name": "Estrella",
+   "latitude": 20.482837,
+   "longitude": -87.273399,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVJTSCITforYsDef",
+   "id": "-KPZkVJTSCITforYsDef"
+  },
+  {
+   "name": "unnamed pond pair (brown and orange) between Taj Mahal and Estrela",
+   "latitude": 20.48294,
+   "longitude": -87.274633,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPOs4FCoHwvBq9"
+  },
+  {
+   "name": "unnamed pond between Taj Mahal and Estrela (middle)",
+   "latitude": 20.483172,
+   "longitude": -87.274317,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPhM_-i4Nxv8nw"
+  },
+  {
+   "name": "unnamed pond between Taj Mahal and Estrela (east)",
+   "latitude": 20.483437,
+   "longitude": -87.274024,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP-uutsPD_MbiY"
+  },
+  {
+   "name": "unnamed small pool at the end of the passage SE of Taj Mahal",
+   "latitude": 20.482341,
+   "longitude": -87.275527,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPWCBKD6FsgrU1"
+  },
+  {
+   "name": "Mino-mi",
+   "latitude": 20.486821,
+   "longitude": -87.271503,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVMbZC3oAmDRhQ6U",
+   "id": "-KPZkVMbZC3oAmDRhQ6U"
+  },
+  {
+   "name": "unnamed elongated collapse NE of Estrela",
+   "latitude": 20.485358,
+   "longitude": -87.269548,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPf-u-VRoxAMFX"
+  },
+  {
+   "name": "Pica Piedra",
+   "latitude": 20.481222,
+   "longitude": -87.272133,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPMZAcLXxC6gYL"
+  },
+  {
+   "name": "Cuzel west collapse (Cénote cultivé of the Yuc 96 Aktun Koh map)",
+   "latitude": 20.489556,
+   "longitude": -87.268102,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPFVkAu-XvWMws"
+  },
+  {
+   "name": "unnamed small opening in the air bell between the Cuzel collapses",
+   "latitude": 20.489942,
+   "longitude": -87.26734,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP-wjLMWMzaTm2"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVOBeX3QR15-AhmN",
+   "name": "Pakal Nah",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Minotauro - Expéditions Yuc 97/98"
+   ],
+   "id": "-KPZkVOBeX3QR15-AhmN"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVM6rftke9u9it4v",
+   "name": "Mangrova",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96",
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "id": "-KPZkVM6rftke9u9it4v"
+  },
+  {
+   "name": "unnamed shaft (section C)",
+   "latitude": 20.48397,
+   "longitude": -87.277634,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPSWELNZeLrKIM"
+  },
+  {
+   "name": "Sacrado",
+   "latitude": 20.482616,
+   "longitude": -87.275329,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPSrb3uzdVxkXXm",
+   "id": "-KPZkVPSrb3uzdVxkXXm"
+  },
+  {
+   "name": "C6",
+   "latitude": 20.482885,
+   "longitude": -87.274414,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPhAwM39Shv73P"
+  },
+  {
+   "name": "C7",
+   "latitude": 20.484144,
+   "longitude": -87.273481,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnP_mOFDQXV7uUZ"
+  },
+  {
+   "name": "C8",
+   "latitude": 20.484521,
+   "longitude": -87.273477,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPjCUUktgIr8sl"
+  },
+  {
+   "name": "C9",
+   "latitude": 20.485384,
+   "longitude": -87.273049,
+   "accuracy": 16,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cenote Taj Mahal - Expédition Yuc 96"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPxMJoFYPHAe7g"
+  },
+  {
+   "name": "Buena Vista",
+   "latitude": 20.488394,
+   "longitude": -87.277778,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVFP-E205SXTJxk5",
+   "id": "-KPZkVFP-E205SXTJxk5"
+  },
+  {
+   "name": "Sugarbowl",
+   "latitude": 20.484156,
+   "longitude": -87.278046,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVQFY40hCA8LPFjN",
+   "id": "-KPZkVQFY40hCA8LPFjN"
+  },
+  {
+   "name": "Points of Light",
+   "latitude": 20.483648,
+   "longitude": -87.277326,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPM190JnjhIsne"
+  },
+  {
+   "name": "City of Agre",
+   "latitude": 20.483345,
+   "longitude": -87.273266,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVH1JsSUeVtkRp0N",
+   "id": "-KPZkVH1JsSUeVtkRp0N"
+  },
+  {
+   "name": "Nachich",
+   "latitude": 20.484743,
+   "longitude": -87.272295,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVNHyz8bXESN46xt",
+   "id": "-KPZkVNHyz8bXESN46xt"
+  },
+  {
+   "name": "Twin",
+   "latitude": 20.482645,
+   "longitude": -87.274167,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVRPwZdYVbZQ8tyl",
+   "id": "-KPZkVRPwZdYVbZQ8tyl"
+  },
+  {
+   "name": "Twin Cenotes (south)",
+   "latitude": 20.482514,
+   "longitude": -87.274164,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+   "sistemaName": "Tajma Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPion7VuQcUGYq"
+  },
+  {
+   "name": "Sacrado",
+   "latitude": 20.482028,
+   "longitude": -87.275064,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Taj Mahal - Steve Gerrard 2001"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVPSrb3uzdVxkXXm",
+   "id": "-KPZkVPSrb3uzdVxkXXm"
+  },
+  {
+   "name": "Puits d'accès (shaft 1, NW branch)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPXZjEMIwSZ4RW"
+  },
+  {
+   "name": "Puits d'accès (shaft 2, NW branch)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPkXSDoxKFNUZa"
+  },
+  {
+   "name": "Puits d'accès (shaft 3, NW branch)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPs65G4TRFuZMt"
+  },
+  {
+   "name": "Puits d'accès (shaft 4, NW branch)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPEf0MA_TSi6cn"
+  },
+  {
+   "name": "unnamed collapse, NW branch (Effondrement)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPTraJs1PmKLdA"
+  },
+  {
+   "name": "unnamed round collapse by the houses (Effondrement)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPmY-UCneepxGr"
+  },
+  {
+   "name": "unnamed collapse NW of the highway (Effondrement)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPwo3PiIwyZbTB"
+  },
+  {
+   "name": "Entrées (NE): collapse SE of the highway",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnP0VoTYjJBfZfL"
+  },
+  {
+   "name": "Entrées (NE): second entrance",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnP99g7_PtN3LBI"
+  },
+  {
+   "name": "Puits (shaft, Tête maya cave)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPMbC9mRPcHTqY"
+  },
+  {
+   "name": "Puits (shaft, Tête maya cave, 2nd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPE4fmuZybrc2y"
+  },
+  {
+   "name": "unnamed collapse by the Sables mouvants",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPEBXk50LhYktR"
+  },
+  {
+   "name": "Entrée (E)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPH7n-AYq8Z-xw"
+  },
+  {
+   "name": "Entrées (centre, 1st)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPGlWoi1jvrkf5"
+  },
+  {
+   "name": "Entrées (centre, 2nd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPejlsqzOP7dS4"
+  },
+  {
+   "name": "Entrées: big collapse rim (1st)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPbgEG0aRBEWza"
+  },
+  {
+   "name": "Entrées: big collapse rim (2nd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPHqyelXSCD5Xn"
+  },
+  {
+   "name": "Entrées: big collapse rim (3rd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPwyAI1jZO3X1c"
+  },
+  {
+   "name": "Entrées: big collapse rim (4th)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPc1qWj9KmsT8G"
+  },
+  {
+   "name": "Entrées: big collapse rim (5th)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPV0ElEeOzWy-3"
+  },
+  {
+   "name": "Entrées: big collapse rim (6th)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPd0PSAc1MV8p6"
+  },
+  {
+   "name": "Entrées: big collapse, SW side (1st)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnP7tPq4v4faTJC"
+  },
+  {
+   "name": "Entrées: big collapse, SW side (2nd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPEfEXEcRbTThj"
+  },
+  {
+   "name": "Entrées: SW end of the big collapse (hatched edge)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPpHbHFkP0c1hH"
+  },
+  {
+   "name": "Tigrino 2 entrance (1st)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPKe0ZQd-b7Cum"
+  },
+  {
+   "name": "Tigrino 2 entrance (2nd)",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Grotte du Tigre (Playa del Carmen) and Tigrino 1-4 - Expéditions Yuc 2000/2001"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfsda5emyrGbKgJb",
+   "sistemaName": "Cenote El Tigre",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "why": "position not given: the map is unverified (no entrance has a known position: placed on the drawn highway (bearing matched to MEX 307 between Xcaret and Playa) and a guessed canopy gap for the big collapse)",
+   "id": "-P2wOMnPD2pIdsEcklCy"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQnfgyrG42Xr6q6",
+   "name": "Templo Dry Cave",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Tixik K'una - James G. Coke IV, 2008"
+   ],
+   "id": "-KPZkVQnfgyrG42Xr6q6"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVQl0twS5114IwnF",
+   "name": "Templo",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Tixik K'una - James G. Coke IV, 2008"
+   ],
+   "id": "-KPZkVQl0twS5114IwnF"
+  },
+  {
+   "name": "Entradas Las Ruinas (south)",
+   "latitude": 20.33807,
+   "longitude": -87.360451,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Tixik K'una - James G. Coke IV, 2008"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfySFFmEXg_2MfP8",
+   "sistemaName": "Tixik K'una",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPkaD4OQVmLHtE"
+  },
+  {
+   "name": "Entrada Eb Tun Ha (Escalera Maya)",
+   "latitude": 20.338202,
+   "longitude": -87.360259,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Tixik K'una - James G. Coke IV, 2008"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfySFFmEXg_2MfP8",
+   "sistemaName": "Tixik K'una",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPkLRNkZiIbWZM"
+  },
+  {
+   "name": "unnamed opening at the south-west end (p.2311)",
+   "latitude": 20.365292,
+   "longitude": -87.420407,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Coop One (Tam Hol), Sistema Tux Kupaxa - Czech survey 2009"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-NCB52nBApQkIuCms8mA",
+   "sistemaName": "Tux Kupaxa",
+   "area": "Chemuyil",
+   "action": "create",
+   "id": "-P2wOMnPPuk9pPEkAhmh"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVRdySa6COZpd__3",
+   "name": "Valet",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema Valet - Mafia Maps 1999"
+   ],
+   "id": "-KPZkVRdySa6COZpd__3"
+  },
+  {
+   "name": "Injection Site",
+   "latitude": 20.581571,
+   "longitude": -87.118632,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "fill",
+   "caveId": "-KPZkVVagbtwXAzbr7HR",
+   "id": "-KPZkVVagbtwXAzbr7HR"
+  },
+  {
+   "name": "Cenote (black dot, north end of the western loop)",
+   "latitude": 20.581297,
+   "longitude": -87.119554,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPt0Hmvvo9vYba"
+  },
+  {
+   "name": "A (pool on the passage)",
+   "latitude": 20.580777,
+   "longitude": -87.118849,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPpQoBTkROGoan"
+  },
+  {
+   "name": "B (passage outlet to the caleta)",
+   "latitude": 20.579335,
+   "longitude": -87.118608,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPV-P4cq8gzn_m"
+  },
+  {
+   "name": "C (stippled pond)",
+   "latitude": 20.578555,
+   "longitude": -87.120507,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPTiTUR8p4SEw9"
+  },
+  {
+   "name": "South-west pool",
+   "latitude": 20.577297,
+   "longitude": -87.121702,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Caret System - P. Beddows 2003 (dye-trace sketch)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPwrVadJ4p0Exs"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVDRyqNfcQwwFS_9",
+   "name": "Actun Koh",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Tun X-Koh (Sistema Actun Koh line plot) - Down Loop part"
+   ],
+   "id": "-KPZkVDRyqNfcQwwFS_9"
+  },
+  {
+   "name": "unnamed cenote SW of the Down Loop (X)",
+   "latitude": 20.490336,
+   "longitude": -87.267221,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Tun X-Koh (Sistema Actun Koh line plot) - Down Loop part"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPs2SL_gG1wXay"
+  },
+  {
+   "name": "unnamed cenote E of the Down Loop, W of Teen (x)",
+   "latitude": 20.490729,
+   "longitude": -87.266369,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "X-Tun X-Koh (Sistema Actun Koh line plot) - Down Loop part"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+   "sistemaName": "Actun Koh",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPPrdB-PTgwM8n"
+  },
+  {
+   "name": "cenote de Felipe",
+   "latitude": 20.581057,
+   "longitude": -87.118274,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva de Xcaret - NSS Cave Diving Section / AMCS 1979"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPboKbSoK3hKkG"
+  },
+  {
+   "name": "Xcaret airspace (open water)",
+   "latitude": 20.580546,
+   "longitude": -87.118581,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva de Xcaret - NSS Cave Diving Section / AMCS 1979"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPTa8xlFVTHEHP"
+  },
+  {
+   "name": "cenote de los franceses",
+   "latitude": 20.578965,
+   "longitude": -87.119577,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Cueva de Xcaret - NSS Cave Diving Section / AMCS 1979"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz4tNCel8OWyczw",
+   "sistemaName": "Xcaret",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPj0mWtrFRL9f9"
+  },
+  {
+   "name": "Laguna Negra",
+   "latitude": 20.320453,
+   "longitude": -87.35557,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLVL4uGzw1Wi_J-",
+   "id": "-KPZkVLVL4uGzw1Wi_J-"
+  },
+  {
+   "name": "Laguna Grande",
+   "latitude": 20.318565,
+   "longitude": -87.356219,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVLT_OU7UXw83JvY",
+   "id": "-KPZkVLT_OU7UXw83JvY"
+  },
+  {
+   "name": "Caleta de Xel-Ha",
+   "latitude": 20.316117,
+   "longitude": -87.356285,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPiIDlQIyxQfu_"
+  },
+  {
+   "name": "unnamed pool S of caleta",
+   "latitude": 20.314589,
+   "longitude": -87.36048,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPMsVBYjccl_q-"
+  },
+  {
+   "name": "unnamed hatched pool S of caleta",
+   "latitude": 20.314079,
+   "longitude": -87.35886,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPiMFF2zDA29w5"
+  },
+  {
+   "name": "unnamed pool in the collapse (Collecteur sud)",
+   "latitude": 20.31377,
+   "longitude": -87.362679,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPjlvVNqcbteoC"
+  },
+  {
+   "name": "unnamed small pool N",
+   "latitude": 20.312036,
+   "longitude": -87.35826,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPHbYoMUflDWcN"
+  },
+  {
+   "name": "unnamed small pool S",
+   "latitude": 20.311137,
+   "longitude": -87.358593,
+   "accuracy": 11,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "satellite",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz6GVeyyTSXrFHT",
+   "sistemaName": "Xel-Há Norte",
+   "area": "Nohoch Nah Chich",
+   "action": "create",
+   "id": "-P2wOMnPiBJ1R0eqUr5q"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVS7lM8UvE0pn8mY",
+   "name": "Xcacelito",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xel-Ha (Figure 10: Plan des réseaux de Xel-Ha) - Expéditions Yuc 97/2000"
+   ],
+   "id": "-KPZkVS7lM8UvE0pn8mY"
+  },
+  {
+   "name": "X-pu Ha Caleta (BB line)",
+   "latitude": 20.481198,
+   "longitude": -87.249647,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema X-pu Ha - Mafia Maps 1999"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfywrNDltccYvqVE",
+   "sistemaName": "X-pu Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPEkaD_B0HojYH"
+  },
+  {
+   "name": "X-pu Ha Caleta (French Fry line)",
+   "latitude": 20.48116,
+   "longitude": -87.247977,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Sistema X-pu Ha - Mafia Maps 1999"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfywrNDltccYvqVE",
+   "sistemaName": "X-pu Ha",
+   "area": "Puerto Aventuras",
+   "action": "create",
+   "id": "-P2wOMnPhV80mbn1tMcA"
+  },
+  {
+   "name": "Hol Kin",
+   "latitude": 20.346439,
+   "longitude": -87.358919,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xunaan Ha Cave System - Hol Kin Section (A. Reato 2011)"
+   ],
+   "action": "position",
+   "caveId": "-KPZkVK7UmAkrxhmzg1b",
+   "id": "-KPZkVK7UmAkrxhmzg1b"
+  },
+  {
+   "name": "CE (unnamed cenote entrance)",
+   "latitude": 20.346569,
+   "longitude": -87.35809,
+   "accuracy": 10,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Xunaan Ha Cave System - Hol Kin Section (A. Reato 2011)"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfz8Nounlz93hLBC",
+   "sistemaName": "Xunaan Ha",
+   "area": "Chemuyil",
+   "action": "fill",
+   "caveId": "-KPZkVTdKSU_4hRIQ_jl",
+   "id": "-KPZkVTdKSU_4hRIQ_jl"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVJpIUdD9aCKBIkJ",
+   "name": "Gemini",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "id": "-KPZkVJpIUdD9aCKBIkJ"
+  },
+  {
+   "name": "Gemini (west pool)",
+   "latitude": 20.138918,
+   "longitude": -87.487129,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPspTpVRHpbBZl"
+  },
+  {
+   "action": "cenote-entrance",
+   "caveId": "-KPZkVLwXHBigu3gnpZd",
+   "name": "Luna",
+   "cenoteEntrance": true,
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "id": "-KPZkVLwXHBigu3gnpZd"
+  },
+  {
+   "name": "Cenote (blue arc)",
+   "latitude": 20.134139,
+   "longitude": -87.480073,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPRmRrgZkzYiZA"
+  },
+  {
+   "name": "Cenote (long N-S pool)",
+   "latitude": 20.131255,
+   "longitude": -87.476981,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPz4DsiMkYURvR"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.130214,
+   "longitude": -87.47615,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system",
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPQ21ykJ_ky6gk"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.129421,
+   "longitude": -87.472441,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system",
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnP91XPHZkqBAx0"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.128952,
+   "longitude": -87.467809,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPJr3NIJeBTEmZ"
+  },
+  {
+   "name": "Cenote (blue arc)",
+   "latitude": 20.135335,
+   "longitude": -87.465883,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "eng",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnP-8vCwNuvjvz_"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.140793,
+   "longitude": -87.487929,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPdxM-rKsddWyM"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.141558,
+   "longitude": -87.49373,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPgvxP5UhkvSCG"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.136102,
+   "longitude": -87.48175,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPgmOk_0lkfvaa"
+  },
+  {
+   "name": "Cenote",
+   "latitude": 20.13354,
+   "longitude": -87.464693,
+   "accuracy": 35,
+   "validity": "unknown",
+   "cenoteEntrance": true,
+   "placement": "opening",
+   "sourceId": "-KPZg4joZ9lZ2oVH-LhB",
+   "maps": [
+    "Yaxchen cave system"
+   ],
+   "languageCode": "spa",
+   "sistemaId": "-KPZgfzBXXwyh4tZZq64",
+   "sistemaName": "Yax Chen",
+   "area": "Tulum South",
+   "action": "create",
+   "id": "-P2wOMnPz4tYKzYlfnnx"
   },
   {
    "name": "Entrada Pequeña",

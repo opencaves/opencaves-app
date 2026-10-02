@@ -175,7 +175,9 @@ def map_candidates(config_path, output_dir):
     """The map's cenotes: [{name, latitude, longitude, accuracy, placement, caveId?}]."""
     config = json.loads(config_path.read_text(encoding='utf-8'))
     name = config_path.stem
-    if config.get('pdf'):
+    # A vector map gives its entrances in PDF points; a raster map may name
+    # its source PDF too ("pdf"), but places them in pixels.
+    if config.get('pdf') and all('pdf' in e for e in config.get('entrances', [])):
         place, _, residuals = vector_placement(config)
         accuracy = LABEL_ON_VECTOR + (max(residuals) if len(residuals) > 1 else 0)
         found = [{**e, 'position': place(*e['pdf']), 'placement': 'label'} for e in config.get('entrances', [])]
