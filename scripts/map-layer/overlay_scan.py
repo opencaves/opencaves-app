@@ -80,6 +80,41 @@ def raster_placement(config):
     return fit_similarity([p['px'] for p in fitted], utm)
 
 
+# Database sources, shortened for the red dots' labels.
+SHORT_SOURCES = {'Open Caves': 'OC', 'Gerrard 2015': 'Gerrard', 'Google Maps': 'Google', 'diveseven.com': 'diveseven',
+                 'Cave and Karst Studies': 'CKS', 'map': 'map'}
+
+
+def database_positions(cave_ids):
+    """{caveId: (lng, lat, short source, validity)} from the local Firestore
+    emulator (FIRESTORE_EMULATOR_HOST, default 127.0.0.1:8080); empty when
+    it isn't running - the labels then stay as the config names them."""
+    import os
+    import urllib.request
+    base = f"http://{os.environ.get('FIRESTORE_EMULATOR_HOST', '127.0.0.1:8080')}/v1/projects/opencaves/databases/(default)/documents"
+
+    def get(path):
+        with urllib.request.urlopen(f'{base}/{path}', timeout=3) as response:
+            return json.loads(response.read())['fields']
+    found, sources = {}, {}
+    try:
+        for cave_id in cave_ids:
+            fields = get(f'caves/{cave_id}')
+            location = fields.get('location', {}).get('mapValue', {}).get('fields', {})
+            if 'latitude' not in location:
+                continue
+            source = fields.get('source', {}).get('stringValue')
+            if source and source not in sources:
+                name = get(f'sources/{source}').get('name', {}).get('stringValue', '')
+                sources[source] = SHORT_SOURCES.get(name, name)
+            value = lambda f: next(iter(location[f].values()))  # noqa: E731
+            found[cave_id] = (float(value('longitude')), float(value('latitude')), sources.get(source, '?'),
+                              location.get('validity', {}).get('stringValue', ''))
+    except OSError:
+        pass
+    return found
+
+
 def main(config_path, output):
     config_path = Path(config_path)
     config = json.loads(config_path.read_text(encoding='utf-8'))
@@ -94,12 +129,18 @@ def main(config_path, output):
     print(f"scale {scale:.4f} m/px, rotation {rotation:.1f} deg, from {len([p for p in points if not p.get('check')])} point(s)"
           + (' + scale bar, north up' if config.get('scaleBar') and config.get('north') else ''))
     markers = []
+    database = database_positions({p['caveId'] for p in points if p.get('caveId')})
     for p in points:
         east, north = to_utm.transform(p['longitude'], p['latitude'])
         map_e, map_n = place(*p['px'])
         error = math.hypot(map_e - east, map_n - north)
         print(f"  {p['name']:14} {'check' if p.get('check') else 'fit  '} {error:6.1f} m")
-        markers.append({'name': p['name'], 'gps': [p['longitude'], p['latitude']], 'map': list(to_lnglat.transform(map_e, map_n)), 'error': round(error, 1), 'check': bool(p.get('check'))})
+        # A red dot on the database's own position shows that position's source.
+        label = p['name']
+        db = database.get(p.get('caveId'))
+        if db and math.hypot((db[0] - p['longitude']) * 111320 * math.cos(math.radians(p['latitude'])), (db[1] - p['latitude']) * 111320) < 1:
+            label += f" [DB: {db[2]}{'' if db[3] in ('', 'valid') else ', ' + db[3]}]"
+        markers.append({'name': label, 'gps': [p['longitude'], p['latitude']], 'map': list(to_lnglat.transform(map_e, map_n)), 'error': round(error, 1), 'check': bool(p.get('check'))})
 
     # The ink only, coloured, on transparency; scaled to fit a texture.
     image = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')
