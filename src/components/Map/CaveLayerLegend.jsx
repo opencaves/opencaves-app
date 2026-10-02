@@ -17,14 +17,14 @@ export default function CaveLayerLegend({ isLarge }) {
 
   if (!visible) return null
 
-  // A line in the layer's colour: a few systems' colours when coloured by
-  // system, the single colour otherwise.
-  const lineColor = colorBySistema ? `linear-gradient(90deg, #76378a, #00bfa2, #b25d5d)` : theme.palette.primary.light
+  // One plain example colour: a system's (any) when coloured by system, the
+  // layer's single colour otherwise. Water is that colour as the map fills it.
+  const lineColor = colorBySistema ? '#76378a' : theme.palette.primary.light
   const swatch = { width: 28, height: 14, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }
   const items = [
-    { key: 'walls', mark: <Box sx={{ width: 26, height: 3, borderRadius: 2, background: lineColor }} /> },
-    { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, background: lineColor, opacity: 0.35 }} /> },
-    { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1px solid', borderColor: colorBySistema ? '#00bfa2' : theme.palette.primary.light, opacity: 0.7 }} /> },
+    { key: 'walls', mark: <Box sx={{ width: 26, height: 3, borderRadius: 2, bgcolor: lineColor }} /> },
+    { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: lineColor, opacity: 0.35 }} /> },
+    { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1px solid', borderColor: lineColor, opacity: 0.7 }} /> },
     { key: 'entrance', mark: <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: 'info.main', border: '1px solid #fff' }} /> },
     { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>12 m</Typography> },
     { key: 'placeName', mark: <Typography component="span" sx={{ fontSize: 11, fontStyle: 'italic' }}>Aa</Typography> },
