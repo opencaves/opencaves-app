@@ -869,7 +869,19 @@
       "colors": "Colours",
       "bySystem": "By system",
       "single": "One colour",
-      "disclaimer": "Traced from published cave survey maps. Not for dive planning."
+      "disclaimer": "Traced from published cave survey maps. Not for dive planning.",
+      "legend": {
+        "title": "Legend",
+        "walls": "Walls and survey lines",
+        "water": "Water",
+        "details": "Drawn details",
+        "entrance": "Cenote entrance",
+        "depth": "Depth",
+        "placeName": "Named place",
+        "flow": "Water flow",
+        "bySystem": "Each system in its colour",
+        "single": "All systems in one colour"
+      }
     }
   },
   "dashboard": {

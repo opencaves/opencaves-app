@@ -8,6 +8,7 @@ import FilterMenu from '@/components/Map/FilterMenu.jsx'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import CaveLayerButton from '@/components/Map/CaveLayerButton.jsx'
+import CaveLayerLegend from '@/components/Map/CaveLayerLegend.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
@@ -102,6 +103,7 @@ export default function MapPage() {
                   }
             }
           />
+          <CaveLayerLegend isLarge={isLarge} />
           <Outlet />
           <Dev
             sx={{

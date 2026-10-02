@@ -869,7 +869,19 @@
       "colors": "Colores",
       "bySystem": "Por sistema",
       "single": "Un solo color",
-      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones."
+      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones.",
+      "legend": {
+        "title": "Leyenda",
+        "walls": "Paredes y líneas de topografía",
+        "water": "Agua",
+        "details": "Detalles dibujados",
+        "entrance": "Cenote de entrada",
+        "depth": "Profundidad",
+        "placeName": "Lugar con nombre",
+        "flow": "Sentido de la corriente",
+        "bySystem": "Cada sistema en su color",
+        "single": "Todos los sistemas en un color"
+      }
     }
   },
   "dashboard": {
