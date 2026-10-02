@@ -8,16 +8,20 @@ import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import { CAVE_LAYER } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 
-// What the cave layer's marks mean (CaveLayer's styles), under the layer
-// button, while the passages are shown. On phones a chip that opens it,
-// fading with the other map controls as the result pane's sheet opens
-// (ResultPaneSm's --oc-map-controls-* variables).
+// What the cave layer's marks mean (CaveLayer's styles), while the passages
+// are shown. Bottom right, over the map's corner buttons (the locate button,
+// and for editors the edit FAB, rising with its actions when it opens:
+// EditCaveFab's --oc-edit-fab-actions-height) - not under the layer button,
+// where it read as that button's menu. On phones a chip that opens it, riding
+// above the result pane's sheet and fading with the other map controls as it
+// opens (ResultPaneSm's --oc-result-pane-sm-height and --oc-map-controls-*).
 export default function CaveLayerLegend({ isLarge }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.legend' })
   const theme = useTheme()
   const { visible, colorBySistema } = useSelector((state) => state.caveLayer)
   const units = useUnits()
   const [open, setOpen] = useState(isLarge)
+  const isEditor = useSelector((state) => state.session.roles).includes('editor')
 
   if (!visible) return null
 
@@ -43,14 +47,16 @@ export default function CaveLayerLegend({ isLarge }) {
       elevation={2}
       sx={{
         position: 'absolute',
-        // Under the layer button (CaveLayerButton's place in routes/Map.jsx:
-        // under the account button on desktop, the search bar on phones).
-        top: isLarge ? 'calc(1rem + 56px + 0.75rem + 56px + 0.75rem)' : 'calc(48px + 1.5rem + 48px + 0.75rem)',
-        right: isLarge ? '1rem' : '0.5rem',
+        // Over the locate button (16px from the bottom, 56px tall) and, for
+        // editors, the edit FAB (56px, 16px above it) and its open actions;
+        // 16px between each, as between those two.
+        right: 16,
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + 16px + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
+        transition: 'bottom 200ms ease, opacity 150ms ease, visibility 150ms ease',
         borderRadius: 4,
         bgcolor: (th) => th.sys.color.surfaceContainerHigh,
         maxWidth: 'calc(100vw - 16px)',
-        ...(!isLarge && { opacity: 'var(--oc-map-controls-opacity, 1)', visibility: 'var(--oc-map-controls-visibility, visible)', transition: 'opacity 150ms ease, visibility 150ms ease' }),
+        ...(!isLarge && { opacity: 'var(--oc-map-controls-opacity, 1)', visibility: 'var(--oc-map-controls-visibility, visible)' }),
       }}
     >
       <ButtonBase onClick={() => setOpen((o) => !o)} aria-expanded={open} sx={{ width: '100%', justifyContent: 'space-between', gap: 1, px: 1.5, py: 1, borderRadius: 4 }}>

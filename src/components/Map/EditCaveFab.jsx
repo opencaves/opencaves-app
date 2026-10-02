@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -39,6 +39,16 @@ export default function EditCaveFab() {
   const { canEdit, caveId, isEditingCave, editCave: goEditCave, exitEditMode: goExitEditMode, addNewCave: goAddNewCave } = useEditCaveActions()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
+  const dialRef = useRef(null)
+
+  // The height its open actions take above it, for what sits over it (the
+  // cave layer's legend, CaveLayerLegend): --oc-edit-fab-actions-height.
+  useEffect(() => {
+    const actions = dialRef.current?.querySelector('.MuiSpeedDial-actions')
+    const height = open && actions ? actions.scrollHeight : 0
+    document.documentElement.style.setProperty('--oc-edit-fab-actions-height', `${height}px`)
+    return () => document.documentElement.style.setProperty('--oc-edit-fab-actions-height', '0px')
+  }, [open])
 
   if (!canEdit) {
     return null
@@ -64,6 +74,7 @@ export default function EditCaveFab() {
   return (
     <Box component="section" className="oc-edit-cave-fab--section" aria-label={t('ariaLabel')}>
     <SpeedDial
+      ref={dialRef}
       className="oc-edit-cave-fab"
       ariaLabel={t('ariaLabel')}
       icon={<SpeedDialIcon icon={<EditRounded />} />}
