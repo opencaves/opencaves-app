@@ -1,0 +1,466 @@
+{
+  "image": "../../../_data/maps-import/images/x-caret-system-xcaret.webp",
+  "title": "X-Caret System - P. Beddows 2003 (dye-trace sketch)",
+  "credits": "X-Caret System, X'Caret, Quintana Roo: sketch map of the dye-tracing test (injection site, sampling points A, B, C; Injection Site - A = 90 m, A - B = 210 m, A - C = 310 m), in P. A. Beddows, Cave Hydrogeology of the Caribbean Yucatan Coast (PhD thesis, University of Bristol, 2003), p. 46",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfz4tNCel8OWyczw",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the map has a position in the database (the Xcaret sistema's only cave has neither name nor coordinates), and the map is a schematic sketch with no scale bar or north arrow. Placed only by park landmarks on the satellite, which the Xcaret park has reshaped since: the map's walled square = Plaza Principal, the lagoon's north arm and its west (U-shaped) arm = the caleta's north channel and the heart-shaped lagoon. Residuals 16-25 m; possibly 30-50 m off at the ends.",
+  "placementWhy": "Free similarity fit on three landmarks, none a cenote with a known position: the walled square drawn at the west end of the road (the Injection Site road) on the walled courtyard building of the Xcaret park's Plaza Principal; the top of the lagoon's stippled north arm (where B is) on the north end of the caleta's narrow north channel (by La Isla); the west tip of the lagoon's U-shaped west arm on the west end of the heart-shaped lagoon (Xcaret Waterpark). Fit: 0.99 m/px, rotated 5 deg, residuals 16, 20 and 25 m. Independent check: with this scale the drawn route A - C measures about 313 m (the map says 310 m) and A - B about 190 m (210 m); Injection Site - A about 109 m (90 m). The road east from the square lands on the park's east-west walkway south of Plaza Principal (about 20 m off). The big south-west pool at the end of both western passages lands about 70 m west of the Rio Subterraneo exit pool by the coast; not used. The map shows the same caleta, Mayan wall (hatched line) and ruins as the 1979 Cueva de Xcaret map, whose cave (cenote de Felipe to the caleta) is this map's Injection Site - A - B passage.",
+  "exclude": [
+    {
+      "why": "distances box: Injection Site - A = 90 m, A - B = 210 m, A - C = 310 m",
+      "box": [
+        412,
+        528,
+        755,
+        637
+      ]
+    },
+    {
+      "why": "label Injection Site",
+      "box": [
+        368,
+        20,
+        532,
+        48
+      ]
+    },
+    {
+      "why": "label A and its arrow",
+      "box": [
+        315,
+        138,
+        360,
+        172
+      ]
+    },
+    {
+      "why": "label B and its arrow",
+      "box": [
+        400,
+        308,
+        458,
+        338
+      ]
+    },
+    {
+      "why": "label C and its arrow",
+      "box": [
+        135,
+        380,
+        180,
+        422
+      ]
+    },
+    {
+      "why": "label X-Caret Lagoon",
+      "box": [
+        445,
+        395,
+        548,
+        452
+      ]
+    },
+    {
+      "why": "walled square (Plaza Principal?) at the road's west end",
+      "box": [
+        118,
+        18,
+        214,
+        110
+      ]
+    },
+    {
+      "why": "small walled square (ruin or building)",
+      "box": [
+        120,
+        112,
+        178,
+        166
+      ]
+    },
+    {
+      "why": "black buildings or ruins west of A",
+      "box": [
+        212,
+        162,
+        306,
+        268
+      ]
+    },
+    {
+      "why": "black building north-west of the lagoon",
+      "box": [
+        282,
+        312,
+        323,
+        364
+      ]
+    },
+    {
+      "why": "hatched wall (V) north-west of the lagoon",
+      "box": [
+        324,
+        300,
+        364,
+        364
+      ]
+    },
+    {
+      "why": "ruin and hatched Mayan wall east of A",
+      "box": [
+        408,
+        112,
+        540,
+        198
+      ]
+    },
+    {
+      "why": "lagoon: stippled north arm (B)",
+      "box": [
+        378,
+        244,
+        446,
+        418
+      ]
+    },
+    {
+      "why": "lagoon: stippled north shore",
+      "box": [
+        440,
+        300,
+        645,
+        405
+      ]
+    },
+    {
+      "why": "lagoon: stippled island",
+      "box": [
+        352,
+        298,
+        380,
+        336
+      ]
+    },
+    {
+      "why": "lagoon: U-shaped west arm",
+      "box": [
+        243,
+        352,
+        418,
+        530
+      ]
+    },
+    {
+      "why": "lagoon: south shore (coast), west part",
+      "box": [
+        112,
+        535,
+        260,
+        662
+      ]
+    },
+    {
+      "why": "lagoon: south shore (coast), middle part",
+      "box": [
+        255,
+        525,
+        412,
+        600
+      ]
+    },
+    {
+      "why": "lagoon: south shore (coast), east part",
+      "box": [
+        405,
+        418,
+        456,
+        528
+      ]
+    },
+    {
+      "why": "stippled pond at C (open water), east part",
+      "box": [
+        205,
+        380,
+        300,
+        482
+      ]
+    },
+    {
+      "why": "stippled pond at C (open water) and its maze of drawn ink along the passage (the passage across it is redrawn by addLines)",
+      "box": [
+        168,
+        384,
+        206,
+        482
+      ]
+    },
+    {
+      "why": "stippled south-west pool (open water)",
+      "box": [
+        5,
+        527,
+        112,
+        615
+      ]
+    },
+    {
+      "why": "page border (left)",
+      "box": [
+        0,
+        0,
+        7,
+        665
+      ]
+    },
+    {
+      "why": "page border (right)",
+      "box": [
+        747,
+        0,
+        755,
+        665
+      ]
+    },
+    {
+      "why": "page border (top)",
+      "box": [
+        0,
+        0,
+        755,
+        5
+      ]
+    },
+    {
+      "why": "page border (bottom)",
+      "box": [
+        0,
+        659,
+        755,
+        665
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Plaza Principal (walled square at the road's west end)",
+      "px": [
+        166,
+        65
+      ],
+      "latitude": 20.581515,
+      "longitude": -87.120617,
+      "why": "centre of the map's square with thick walls, on the centre of the Xcaret park's Plaza Principal courtyard building (Mapbox satellite); the map's road runs east from it as the park's walkway does"
+    },
+    {
+      "name": "Caleta north channel, north end (B arm top)",
+      "px": [
+        400,
+        251
+      ],
+      "latitude": 20.579383,
+      "longitude": -87.11876,
+      "why": "top of the lagoon's stippled north arm, where B is; on the north end of the caleta's narrow north channel by La Isla"
+    },
+    {
+      "name": "Heart-shaped lagoon, west tip (U arm west tip)",
+      "px": [
+        245,
+        431
+      ],
+      "latitude": 20.578036,
+      "longitude": -87.12,
+      "why": "west tip of the lagoon's U-shaped west arm, on the west end of the heart-shaped lagoon (Xcaret Waterpark)"
+    },
+    {
+      "name": "Rio Subterraneo exit pool (check)",
+      "px": [
+        100,
+        600
+      ],
+      "latitude": 20.577247,
+      "longitude": -87.121393,
+      "check": true,
+      "why": "the south tail of the map's south-west pool, against the dark exit pool of the park's underground river by the coast; an identification guess, not used"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Injection Site",
+      "px": [
+        393,
+        58
+      ],
+      "note": "black dot on the road where the dye was injected: an opening to the water"
+    },
+    {
+      "name": "Cenote (black dot, north end of the western loop)",
+      "px": [
+        292,
+        91
+      ],
+      "note": "black dot at the north end of the western passage"
+    },
+    {
+      "name": "A (pool on the passage)",
+      "px": [
+        370,
+        151
+      ],
+      "note": "sampling point A: an oval pool on the passage, 90 m from the injection site; probably the 1979 map's cenote de Felipe"
+    },
+    {
+      "name": "B (passage outlet to the caleta)",
+      "px": [
+        398,
+        319
+      ],
+      "note": "sampling point B, where the passage reaches the lagoon's north arm (dashed: inferred route)"
+    },
+    {
+      "name": "C (stippled pond)",
+      "px": [
+        190,
+        412
+      ],
+      "note": "sampling point C, at the open-water pond on the western passage, 310 m from A"
+    },
+    {
+      "name": "South-west pool",
+      "px": [
+        60,
+        560
+      ],
+      "note": "large open-water pool where both western passages end"
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "bridgePx": 5,
+    "eraseLines": [
+      {
+        "why": "road east of the square",
+        "from": [
+          212,
+          63
+        ],
+        "to": [
+          480,
+          66
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Injection Site arrow",
+        "from": [
+          364,
+          47
+        ],
+        "to": [
+          381,
+          80
+        ],
+        "widthPx": 5
+      },
+      {
+        "why": "dashed line from the passage to B (inferred route, not surveyed)",
+        "from": [
+          342,
+          258
+        ],
+        "to": [
+          398,
+          318
+        ],
+        "widthPx": 9
+      }
+    ],
+    "why": "Schematic sketch: every passage is drawn as the same narrow double line, a symbol rather than measured walls, so it is traced as centrelines (no thickness); the double line is closed into one stroke (bridgePx) before thinning. The dashed line from the passage to B is an inferred connection: not drawn. Lagoon, ponds, pool, buildings, ruins and the road are boxed or erased out.",
+    "addLines": [
+      {
+        "why": "passage from the Injection Site dot across the (erased) road",
+        "from": [
+          393,
+          58
+        ],
+        "to": [
+          392,
+          76
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
+        "from": [
+          214,
+          379
+        ],
+        "to": [
+          196,
+          397
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
+        "from": [
+          196,
+          397
+        ],
+        "to": [
+          184,
+          422
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
+        "from": [
+          184,
+          422
+        ],
+        "to": [
+          171,
+          438
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
+        "from": [
+          171,
+          438
+        ],
+        "to": [
+          167,
+          460
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "passage along the west edge of the C pond (the pond's ink is boxed out)",
+        "from": [
+          167,
+          460
+        ],
+        "to": [
+          160,
+          467
+        ],
+        "widthPx": 3
+      }
+    ]
+  },
+  "symbols": {
+    "why": "No depths, heights, letter codes, flow arrows, 'To ...' pointers or bones on this sketch (only the sampling letters A, B, C, the Injection Site and the distances box, which are kept as entrances / in the credits)."
+  }
+}
