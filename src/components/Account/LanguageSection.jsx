@@ -10,7 +10,7 @@ const AUTOMATIC = 'auto'
 // The account page's language setting: a fixed language, or Automatic (the
 // browser's). Kept on this device, and in the signed-in account so it follows
 // the person (see services/languagePreference.js).
-export default function LanguageSection({ headingProps = {} }) {
+export default function LanguageSection({ headingProps = {}, asField = false }) {
   const { t, i18n } = useTranslation('account')
   const user = useSelector((state) => state.session.user)
   const [choice, setChoice] = useState(() => readDeviceLanguage() || AUTOMATIC)
@@ -37,11 +37,14 @@ export default function LanguageSection({ headingProps = {} }) {
   const automaticLanguage = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
 
   return (
-    <Box component="section" className="oc-language-section">
-      <Typography component="h2" variant="h6" {...headingProps} id="oc-language-section-title">
-        {t('language')}
-      </Typography>
-      <TextField select size="small" fullWidth value={choice} onChange={handleChange} helperText={t('languageHint')} slotProps={{ select: { labelId: 'oc-language-section-title' } }}>
+    <Box component={asField ? 'div' : 'section'} className="oc-language-section">
+      {/* asField: a labelled field inside another section (the account's personal info). */}
+      {!asField && (
+        <Typography component="h2" variant="h6" {...headingProps} id="oc-language-section-title">
+          {t('language')}
+        </Typography>
+      )}
+      <TextField select size="small" value={choice} onChange={handleChange} helperText={t('languageHint')} sx={{ width: 280, maxWidth: '100%' }} label={asField ? t('language') : undefined} slotProps={{ select: asField ? {} : { labelId: 'oc-language-section-title' } }}>
         <MenuItem value={AUTOMATIC}>{t('languageAutomatic', { language: automaticLanguage })}</MenuItem>
         {APP_LANGUAGES.map(({ code, nativeName }) => (
           <MenuItem key={code} value={code} lang={code}>

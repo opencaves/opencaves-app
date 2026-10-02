@@ -18,6 +18,8 @@ import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import AddButton from '@/components/AddButton.jsx'
+import { useUnits } from '@/hooks/useUnits.jsx'
+import { fromMetres, lengthUnit, toMetres } from '@/utils/units.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
@@ -127,6 +129,9 @@ const emptyForm = {
 // fields, for the standalone page (the pane already has the map behind it).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange, showMapPreview = false }) {
   const { t, i18n } = useTranslation('sistemaEditForm')
+  // Length and depth are stored in metres, shown and entered in the person's units.
+  const units = useUnits()
+  const shown = (metres) => (metres === '' || metres == null ? '' : Math.round(fromMetres(Number(metres), units) * 10) / 10)
   const isSmall = useSmall()
   const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
@@ -177,8 +182,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
       area: sistema?.area || '',
       description: sistema?.description || '',
       direction: sistema?.direction || '',
-      length: sistema?.length ?? '',
-      maxDepth: sistema?.maxDepth ?? '',
+      length: shown(sistema?.length ?? ''),
+      maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
       explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e })),
       aka: sistema?.aka || [],
@@ -222,8 +227,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
         area: form.area || undefined,
         description: form.description || undefined,
         direction: form.direction || undefined,
-        length: form.length === '' ? undefined : length,
-        maxDepth: form.maxDepth === '' ? undefined : maxDepth,
+        // Back to metres; a value left as shown keeps its stored metres exactly.
+        length: form.length === '' ? undefined : length === shown(sistema?.length ?? '') ? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        maxDepth: form.maxDepth === '' ? undefined : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
         source: form.source || undefined,
         explorations: trimmedExplorations.length > 0 ? trimmedExplorations : undefined,
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
@@ -367,10 +373,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
 
         {/* Wider screens: just wide enough for their labels. */}
         <Grid size={{ xs: 7, sm: 'auto' }} sx={{ width: { sm: 240 } }}>
-          <TextField label={t('length')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
         <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
-          <TextField label={t('maxDepth')} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
         <Grid size={12}>

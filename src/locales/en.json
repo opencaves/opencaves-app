@@ -119,7 +119,12 @@
     "language": "Language",
     "languageAutomatic": "Automatic ({{language}})",
     "languageHint": "Automatic follows your browser's language. Your choice is kept on this device.",
-    "personalInfo": "Personal info"
+    "personalInfo": "Personal info",
+    "units": "Units",
+    "unitsHint": "For lengths and depths: on the map, in cave and system details.",
+    "unitsAutomatic": "Automatic ({{units}})",
+    "units_metric": "Metric (m)",
+    "units_imperial": "Imperial (ft)"
   },
   "auth": {
     "dialog": {
@@ -701,7 +706,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Search",
-    "length": "Total distance explored (m)",
+    "length": "Total distance explored ({{unit}})",
     "aka": "Also known as",
     "addAka": "Add alternate name",
     "removeAka": "Remove name",
@@ -721,7 +726,7 @@
     "color": "Color",
     "source": "Source",
     "location": "Location",
-    "maxDepth": "Max depth (m)",
+    "maxDepth": "Max depth ({{unit}})",
     "description": "Description",
     "direction": "Getting there",
     "maps": "Maps",

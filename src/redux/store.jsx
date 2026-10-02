@@ -7,6 +7,7 @@ import sessionReducer from './slices/sessionSlice.jsx'
 import searchReducer from './slices/searchSlice.jsx'
 import mapSlice from './slices/mapSlice.jsx'
 import caveLayerReducer from './slices/caveLayerSlice.jsx'
+import preferencesReducer from './slices/preferencesSlice.jsx'
 
 const persistStorage = localforage.createInstance({
   name: 'OpenCaves',
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   map: persistReducer(mapPersistConfig, mapSlice),
   data: dataReducer,
   caveLayer: caveLayerReducer,
+  preferences: preferencesReducer,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

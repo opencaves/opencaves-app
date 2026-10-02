@@ -119,7 +119,12 @@
     "language": "Langue",
     "languageAutomatic": "Automatique ({{language}})",
     "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil.",
-    "personalInfo": "Informations personnelles"
+    "personalInfo": "Informations personnelles",
+    "units": "Unités",
+    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des systèmes.",
+    "unitsAutomatic": "Automatique ({{units}})",
+    "units_metric": "Métrique (m)",
+    "units_imperial": "Impérial (pi)"
   },
   "auth": {
     "dialog": {
@@ -700,7 +705,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Rechercher",
-    "length": "Distance explorée (m)",
+    "length": "Distance explorée ({{unit}})",
     "aka": "Également connu sous le nom de",
     "addAka": "Ajouter un autre nom",
     "removeAka": "Supprimer ce nom",
@@ -720,7 +725,7 @@
     "color": "Couleur",
     "source": "Source",
     "location": "Emplacement",
-    "maxDepth": "Profondeur max. (m)",
+    "maxDepth": "Profondeur max. ({{unit}})",
     "description": "Description",
     "direction": "Comment s’y rendre",
     "maps": "Cartes",

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { Source, Layer } from 'react-map-gl/mapbox'
 import { useTheme } from '@mui/material/styles'
 import { CAVE_LAYER } from '@/config/map.js'
+import { useUnits } from '@/hooks/useUnits.jsx'
+import { METRES_PER_FOOT } from '@/utils/units.js'
 
 // The tiles that exist ("z/x/y"), loaded once: empty tiles have no file, and
 // Hosting would answer them with the app's index.html (its catch-all rewrite).
@@ -40,6 +42,7 @@ export default function CaveLayer({ selectedSistemaId }) {
   const sistemas = useSelector((state) => state.data.sistemas)
   const connections = useSelector((state) => state.data.connections)
   const { visible, scope, colorBySistema } = useSelector((state) => state.caveLayer)
+  const units = useUnits()
   const [ready, setReady] = useState(Boolean(tileIndex))
 
   useEffect(() => {
@@ -78,7 +81,7 @@ export default function CaveLayer({ selectedSistemaId }) {
       <Layer id="oc-caves-entrances" source-layer="symbols" type="circle" filter={filter(type('entrance'))} layout={{ visibility }}
         paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 16, 5], 'circle-color': theme.palette.info.main, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1 }} />
       <Layer id="oc-caves-depths" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(type('depth'))}
-        layout={{ visibility, 'text-field': ['concat', ['to-string', ['get', 'value']], ' m'], 'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'], 'text-size': 11 }}
+        layout={{ visibility, 'text-field': units === 'imperial' ? ['concat', ['to-string', ['round', ['/', ['get', 'value'], METRES_PER_FOOT]]], ' ft'] : ['concat', ['to-string', ['get', 'value']], ' m'], 'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'], 'text-size': 11 }}
         paint={{ 'text-color': '#fff', 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1.2 }} />
       <Layer id="oc-caves-names" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(['in', ['get', 'type'], ['literal', ['place-name', 'leads-to']]])}
         layout={{ visibility, 'text-field': ['coalesce', ['get', 'label'], ['get', 'name']], 'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'], 'text-size': 11 }}

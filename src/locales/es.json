@@ -119,7 +119,12 @@
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",
     "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo.",
-    "personalInfo": "Información personal"
+    "personalInfo": "Información personal",
+    "units": "Unidades",
+    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cenotes y sistemas.",
+    "unitsAutomatic": "Automático ({{units}})",
+    "units_metric": "Métrico (m)",
+    "units_imperial": "Imperial (pies)"
   },
   "auth": {
     "dialog": {
@@ -701,7 +706,7 @@
   },
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Buscar",
-    "length": "Distancia explorada (m)",
+    "length": "Distancia explorada ({{unit}})",
     "aka": "También conocido como",
     "addAka": "Añadir nombre alternativo",
     "removeAka": "Eliminar nombre",
@@ -721,7 +726,7 @@
     "color": "Color",
     "source": "Fuente",
     "location": "Ubicación",
-    "maxDepth": "Profundidad máx. (m)",
+    "maxDepth": "Profundidad máx. ({{unit}})",
     "description": "Descripción",
     "direction": "Cómo llegar",
     "maps": "Mapas",

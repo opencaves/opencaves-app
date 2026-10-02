@@ -5,6 +5,7 @@ import { Box, ButtonBase, Paper, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material'
 import { CAVE_LAYER } from '@/config/map.js'
+import { useUnits } from '@/hooks/useUnits.jsx'
 
 // What the cave layer's marks mean (CaveLayer's styles), under the layer
 // button, while the passages are shown. On phones a chip that opens it,
@@ -14,6 +15,7 @@ export default function CaveLayerLegend({ isLarge }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.legend' })
   const theme = useTheme()
   const { visible, colorBySistema } = useSelector((state) => state.caveLayer)
+  const units = useUnits()
   const [open, setOpen] = useState(isLarge)
 
   if (!visible) return null
@@ -27,7 +29,7 @@ export default function CaveLayerLegend({ isLarge }) {
     { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: CAVE_LAYER.WATER_COLOR, opacity: CAVE_LAYER.WATER_OPACITY }} /> },
     { key: 'details', mark: <Box sx={{ width: 26, height: 0, borderTop: '1.5px solid', borderColor: lineColor }} /> },
     { key: 'entrance', mark: <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: 'info.main', border: '1px solid #fff' }} /> },
-    { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>12 m</Typography> },
+    { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>{units === 'imperial' ? '40 ft' : '12 m'}</Typography> },
     { key: 'placeName', mark: <Typography component="span" sx={{ fontSize: 11, fontStyle: 'italic' }}>Aa</Typography> },
     { key: 'flow', mark: <Typography component="span" sx={{ fontSize: 15, lineHeight: 1, color: 'info.dark' }}>➜</Typography> },
   ]
