@@ -878,9 +878,8 @@
       "key": "Ubicación de la llave"
     },
     "caveLayer": {
-      "button": "Galerías",
+      "button": "Mostrar/ocultar la capa de mapas",
       "title": "Galerías",
-      "show": "Mostrar la capa de mapas",
       "scope": "Sistemas",
       "all": "Todos los sistemas",
       "selected": "Solo el sistema del cenote seleccionado",
@@ -918,7 +917,8 @@
         "hiddenTag": "oculto",
         "date": "Fecha: {{date}}",
         "undated": "Sin fecha"
-      }
+      },
+      "options": "Opciones de la capa de mapas"
     }
   },
   "dashboard": {

@@ -4,17 +4,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Divider, Fab, FormControlLabel, FormLabel, Popover, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
 import LayersRounded from '@mui/icons-material/LayersRounded'
+import TuneRounded from '@mui/icons-material/TuneRounded'
 import { setCaveLayerColorBySistema, setCaveLayerEditMode, setCaveLayerScope, setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
-// The map's layer button, under the account button: the cave layer's options
-// (the passages traced from the cave maps, CaveLayer) - shown or not, every
-// system or only the selected cenote's, coloured by system or in one colour.
+// The map's layer button, under the account button: a switch showing or
+// hiding the cave layer (the passages traced from the cave maps, CaveLayer);
+// turning it on opens the layer's options, which a small button beside it
+// opens again while it's on:
+// every system or only the selected cenote's, coloured by system or in one
+// colour.
 // For editors, the edit mode
 // (CaveLayer: which map a drawing comes from, and hiding it for everyone),
 // with the hidden drawings to show again.
+// sx places the layer button (position, top, right, width, height); the
+// options button goes on its left, centred on it, and fades with it.
 export default function CaveLayerButton({ sx }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer' })
   const dispatch = useDispatch()
@@ -35,11 +41,34 @@ export default function CaveLayerButton({ sx }) {
     }
   }
 
+  // Off: on, with its options open. On: off.
+  function onLayerButtonClick(event) {
+    if (visible) {
+      dispatch(setCaveLayerVisible(false))
+      setAnchor(null)
+    } else {
+      dispatch(setCaveLayerVisible(true))
+      setAnchor(event.currentTarget)
+    }
+  }
+
+  const OPTIONS_SIZE = 40
+  const { position, top, right, width, height, ...fade } = sx || {}
+  const optionsSx = { position, top: `calc(${top} + ${(height - OPTIONS_SIZE) / 2}px)`, right: `calc(${right} + ${width}px + 0.5rem)`, width: OPTIONS_SIZE, height: OPTIONS_SIZE, minHeight: OPTIONS_SIZE, ...fade }
+
   return (
     <>
+      {visible && (
+        <Tooltip title={t('options')} placement="left">
+          <Fab className="oc-cave-layer-options-button" size="small" aria-label={t('options')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(event.currentTarget)}
+            sx={{ bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' }, ...optionsSx }}>
+            <TuneRounded fontSize="small" />
+          </Fab>
+        </Tooltip>
+      )}
       <Tooltip title={t('button')} placement="left">
         {/* Off: white, like the map's other buttons; on: in the primary colour. */}
-        <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(event.currentTarget)}
+        <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-pressed={visible} onClick={onLayerButtonClick}
           sx={visible
             ? { bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' }, ...sx }
             : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' }, ...sx }}>
@@ -52,8 +81,6 @@ export default function CaveLayerButton({ sx }) {
           <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
             {t('title')}
           </Typography>
-          <FormControlLabel control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={t('show')} />
-          <Divider sx={{ my: 1.5 }} />
           <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
           <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => dispatch(setCaveLayerScope(event.target.value))}>
             <FormControlLabel value="all" control={<Radio size="small" />} label={t('all')} disabled={!visible} />

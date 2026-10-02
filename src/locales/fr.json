@@ -877,9 +877,8 @@
       "key": "Emplacement de la clé"
     },
     "caveLayer": {
-      "button": "Galeries",
+      "button": "Afficher/masquer la couche des cartes",
       "title": "Galeries",
-      "show": "Afficher la couche des cartes",
       "scope": "Systèmes",
       "all": "Tous les systèmes",
       "selected": "Seulement le système de la cénote sélectionnée",
@@ -917,7 +916,8 @@
         "hiddenTag": "masqué",
         "date": "Date : {{date}}",
         "undated": "Non datée"
-      }
+      },
+      "options": "Options de la couche des cartes"
     }
   },
   "dashboard": {

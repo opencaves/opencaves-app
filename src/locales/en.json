@@ -878,9 +878,8 @@
       "key": "Key location"
     },
     "caveLayer": {
-      "button": "Cave passages",
+      "button": "Show/hide map layer",
       "title": "Cave passages",
-      "show": "Show the map layer",
       "scope": "Systems",
       "all": "All systems",
       "selected": "Only the selected cenote's system",
@@ -918,7 +917,8 @@
         "hiddenTag": "hidden",
         "date": "Date: {{date}}",
         "undated": "Undated"
-      }
+      },
+      "options": "Map layer options"
     }
   },
   "dashboard": {
