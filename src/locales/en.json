@@ -143,7 +143,8 @@
       "goToSignup": {
         "invite": "Don't have an account?",
         "btn": "Sign up"
-      }
+      },
+      "withMicrosoft": "Log in with Microsoft"
     },
     "loginWithEmailPrompt": {
       "header": "Log in"
@@ -233,7 +234,16 @@
       "goToLogIn": {
         "invite": "Already have an account?",
         "btn": "Log in"
-      }
+      },
+      "withMicrosoft": "Sign up with Microsoft"
+    },
+    "linking": {
+      "title": "This email already has an account",
+      "text": "{{email}} already has an OpenCaves account, created another way. Sign in the way you did before (or with the email link): {{provider}} will then be added to your account, and either will sign you in.",
+      "continueWith": "Continue with {{provider}}",
+      "cancel": "Cancel",
+      "linked": "{{provider}} added to your account: you can now sign in with it too.",
+      "linkFailed": "Couldn't add this sign-in method to your account."
     }
   },
   "about": {

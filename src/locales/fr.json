@@ -143,7 +143,8 @@
       "goToSignup": {
         "invite": "Vous n'avez pas de compte ?",
         "btn": "S'inscrire"
-      }
+      },
+      "withMicrosoft": "Se connecter avec Microsoft"
     },
     "loginWithEmailPrompt": {
       "header": "Se connecter"
@@ -232,7 +233,16 @@
       "goToLogIn": {
         "invite": "Vous avez déjà un compte?",
         "btn": "Connectez-vous"
-      }
+      },
+      "withMicrosoft": "S'inscrire avec Microsoft"
+    },
+    "linking": {
+      "title": "Ce courriel a déjà un compte",
+      "text": "{{email}} a déjà un compte OpenCaves, créé d’une autre façon. Connectez-vous comme la première fois (ou avec le lien par courriel) : {{provider}} sera alors ajouté à votre compte, et l’un ou l’autre vous connectera.",
+      "continueWith": "Continuer avec {{provider}}",
+      "cancel": "Annuler",
+      "linked": "{{provider}} ajouté à votre compte : vous pouvez aussi vous connecter avec.",
+      "linkFailed": "Impossible d’ajouter ce mode de connexion à votre compte."
     }
   },
   "about": {

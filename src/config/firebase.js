@@ -8,6 +8,7 @@ import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 import i18n from '../i18n.js'
 import { toServiceLanguage } from '../utils/lang.jsx'
 import { FIREBASE_CONFIG } from './firebase.config.js'
+import { savePendingLink } from '../services/pendingLink.js'
 
 // Initialize Firebase
 const app = initializeApp(FIREBASE_CONFIG)
@@ -78,5 +79,9 @@ try {
   // No storage: nothing was flagged.
 }
 if (redirectPending) {
-  getRedirectResult(auth, browserPopupRedirectResolver).catch((error) => console.error('Provider sign-in failed', error))
+  getRedirectResult(auth, browserPopupRedirectResolver).catch((error) => {
+    // The email already has an account: kept to add to it (AccountLinking).
+    if (error.code === 'auth/account-exists-with-different-credential' && savePendingLink(error)) return
+    console.error('Provider sign-in failed', error)
+  })
 }
