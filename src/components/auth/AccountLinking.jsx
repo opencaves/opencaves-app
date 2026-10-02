@@ -6,11 +6,12 @@ import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/con
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { clearPendingLink, linkPendingCredential, PENDING_LINK_EVENT, readPendingLink } from '@/services/pendingLink.js'
-import { googleProvider, microsoftProvider } from './providers.jsx'
+import { facebookProvider, googleProvider, microsoftProvider } from './providers.jsx'
 
 const PROVIDERS = {
   'google.com': { name: 'Google', provider: googleProvider },
   'microsoft.com': { name: 'Microsoft', provider: microsoftProvider },
+  'facebook.com': { name: 'Facebook', provider: facebookProvider },
 }
 
 // When a provider sign-in is refused because its email already has an

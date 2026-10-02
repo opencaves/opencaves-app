@@ -14,7 +14,16 @@ export class MicrosoftAuthProvider extends OAuthProvider {
 
 export const googleProvider = new GoogleAuthProvider()
 
-export const facebookProvider = new FacebookAuthProvider()
+// Facebook, its email asked for so an existing account can be recognized. A
+// class, like MicrosoftAuthProvider, for the sign-in components.
+export class FacebookEmailAuthProvider extends FacebookAuthProvider {
+  constructor() {
+    super()
+    this.addScope('email')
+  }
+}
+
+export const facebookProvider = new FacebookEmailAuthProvider()
 
 export const microsoftProvider = new MicrosoftAuthProvider()
 
@@ -22,6 +31,7 @@ export function getProviderForProviderId(providerId) {
   switch (providerId) {
     case 'google.com': return googleProvider
     case 'microsoft.com': return microsoftProvider
+    case 'facebook.com': return facebookProvider
     default: return null
   }
 }

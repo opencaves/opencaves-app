@@ -7,6 +7,7 @@ import { Grid } from '@mui/material'
 import AuthButton from './AuthButton.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
 import AuthWithMicrosoft from './AuthWithMicrosoft.jsx'
+import AuthWithFacebook from './AuthWithFacebook.jsx'
 import Or from '../utils/Or.jsx'
 import Logo from '../App/Logo.jsx'
 
@@ -44,6 +45,7 @@ export default function Signup() {
         <Stack spacing={3} sx={{ width: '32ch' }}>
           <AuthWithGoogle onSuccess={onSuccess} />
           <AuthWithMicrosoft onSuccess={onSuccess} />
+          <AuthWithFacebook onSuccess={onSuccess} />
 
           <Or>
             <Typography variant="caption">{t('or')}</Typography>
