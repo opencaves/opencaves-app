@@ -25,6 +25,8 @@ export function isIndexable(pathname) {
 // descriptions: link text kept, syntax dropped, whitespace collapsed.
 export function markdownToPlainText(markdown = '') {
   return markdown
+    // Length tags (:length[45 m]) as their value, as written.
+    .replace(/:length\[([^\]]*)]/g, '$1')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')
