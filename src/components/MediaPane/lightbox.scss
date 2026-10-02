@@ -130,3 +130,16 @@
 .oc-media-viewer-content {
   // height: 100%;
 }
+
+// The photo and map viewers: the picture can be dragged (to the next one,
+// or to pan when zoomed in) - an open hand, closed while dragging.
+.oc-media-pane-details,
+.oc-map-pane-details {
+  .yarl__container {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}

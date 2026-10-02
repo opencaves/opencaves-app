@@ -123,6 +123,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const [isDraggingCurrentMarker, setIsDraggingCurrentMarker] = useState(false)
   const [mapBounds, setMapBounds] = useState()
   const [mapLoaded, setMapLoaded] = useState(false)
+  // The map being dragged: the closed-hand cursor (the open one otherwise).
+  const [isDragging, setIsDragging] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -491,6 +493,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   function onDragEnd() {
+    setIsDragging(false)
     // Set current map bounds
     updateMapBounds()
   }
@@ -799,7 +802,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : 'grab'} onClick={onMapClick} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
+          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
             <CaveLayer selectedSistemaId={selectedCave?.sistemaId} />
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
