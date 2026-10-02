@@ -145,7 +145,9 @@
       ],
       "latitude": 20.20041,
       "longitude": -87.49999,
-      "why": "database position, Open Caves source (valid); the 1989 plan's entrance as placed is 6 m from it"
+      "why": "database position, Open Caves source (valid); the 1989 plan's entrance as placed is 6 m from it",
+      "anchor": true,
+      "anchorWhy": "Cristal is an Open Caves position taken on site (trusted): the map sits on it exactly; the passage matches on the 1989 plan only set scale and rotation"
     },
     {
       "name": "junction of the main line and the west passage (small dome symbol)",
