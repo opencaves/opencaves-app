@@ -87,14 +87,14 @@ get the change.
 
 An admin can also **freeze** an account from the Users page: all its editing
 rights are removed (kept for unfreezing), the editor role every account gets
-automatically is withheld while it's frozen, and the person is told by email,
-every admin in blind copy.
+automatically is withheld while it's frozen, and the person is told by email
+(and again when it's unfrozen).
 
 ## Emails
 
 The Cloud Functions send email with [Resend](https://resend.com) from
 `noreply@opencaves.org` (`functions/js/email/sendEmail.js`); today only the
-freeze notice. The opencaves.org domain must be verified in the Resend account
+freeze and unfreeze notices. The opencaves.org domain must be verified in the Resend account
 (its DNS records), or Resend refuses to send. The API key (a send-only key) is
 the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
 

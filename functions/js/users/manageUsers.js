@@ -107,17 +107,14 @@ const UNFROZEN_EMAIL = {
 }
 
 // Tells the account it was frozen or unfrozen (emails: FROZEN_EMAIL or
-// UNFROZEN_EMAIL), every admin in blind copy. A failure is logged, not thrown:
+// UNFROZEN_EMAIL), to it alone. A failure is logged, not thrown:
 // the change is made either way.
 async function emailAccount(user, emails) {
   if (!user.email) return false
   try {
     const language = (await db.collection(USERS_COLL_NAME).doc(user.uid).get()).get('language')
     const { subject, text } = emails[language] || emails.en
-    const admins = (await listAllAuthUsers())
-      .filter((u) => u.email && u.uid !== user.uid && Array.isArray(u.customClaims?.roles) && u.customClaims.roles.includes('admin'))
-      .map((u) => u.email)
-    const result = await sendEmail({ to: user.email, bcc: admins, subject, text })
+    const result = await sendEmail({ to: user.email, subject, text })
     return result.sent
   } catch (error) {
     logger.error('[setUserFrozen] the email could not be sent', { uid: user.uid, error: error.message })
@@ -130,7 +127,7 @@ async function emailAccount(user, emails) {
 // (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
 // current ID token still works until it expires (up to an hour), then it
 // signs in again without them. Unfreezing gives its roles back. The account
-// is told both times by email, every admin in blind copy.
+// is told both times by email.
 export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 
