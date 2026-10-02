@@ -21,13 +21,13 @@ ACTIONS = {
     'create': ('#ffd400', 'New cenote (not in the database)'),
     'position': ('#34c759', 'Position for a cave without one'),
     'fill': ('#af52de', 'Name for an unnamed cave'),
-    'cenote-entrance': ('#0a84ff', 'Cenote-entrance flag for a cave'),
+    'cenote-entrance': ('#0a84ff', 'Cave a map shows as an entrance (cenote-entrance flag to set)'),
 }
 
 
 def database_caves():
-    """[(name, lng, lat)] of the database's positioned caves; [] without the emulator."""
-    caves, token = [], ''
+    """{caveId: (name, lng, lat)} of the database's positioned caves; {} without the emulator."""
+    caves, token = {}, ''
     try:
         while True:
             url = f'{DATABASE}?pageSize=300&mask.fieldPaths=name&mask.fieldPaths=location' + (f'&pageToken={token}' if token else '')
@@ -38,21 +38,27 @@ def database_caves():
                 if 'latitude' in location:
                     value = lambda f: float(next(iter(location[f].values())))  # noqa: E731
                     name = fields.get('name', {}).get('mapValue', {}).get('fields', {}).get('value', {}).get('stringValue', '')
-                    caves.append((name, value('longitude'), value('latitude')))
+                    caves[doc['name'].split('/')[-1]] = (name, value('longitude'), value('latitude'))
             token = page.get('nextPageToken')
             if not token:
                 return caves
     except OSError:
-        return []
+        return {}
 
 
 def main(output):
     entries = json.loads(FOUND.read_text(encoding='utf-8'))['entries']
+    database = database_caves()
+    # A cenote-entrance flag is for a cave already placed: drawn at its database position.
+    for e in entries:
+        if e.get('latitude') is None and e.get('caveId') in database:
+            e['longitude'], e['latitude'] = database[e['caveId']][1:]
+            e.setdefault('placement', 'database position')
     features = [{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [e['longitude'], e['latitude']]},
                  'properties': {'action': e.get('action'), 'name': e.get('name') or '(unnamed)', 'maps': ', '.join(e.get('maps', [])),
                                 'accuracy': e.get('accuracy'), 'placement': e.get('placement', ''), 'caveId': e.get('caveId', '')}}
                 for e in entries if e.get('latitude') is not None]
-    known = [{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [lng, lat]}, 'properties': {'name': name}} for name, lng, lat in database_caves()]
+    known = [{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [lng, lat]}, 'properties': {'name': name}} for name, lng, lat in database.values()]
     env = {}
     for name in ('.env', '.env.local'):
         if (ROOT / name).exists():
@@ -85,7 +91,7 @@ map.on('load', () => {
     map.addLayer({ id: action, type: 'circle', source: 'found', filter: ['==', ['get', 'action'], action], paint: { 'circle-radius': 6, 'circle-color': colour, 'circle-stroke-color': '#000', 'circle-stroke-width': 1 } })
     map.on('click', action, (e) => {
       const p = e.features[0].properties
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(`<b>${p.name}</b><br>${actions[p.action][1]}<br>maps: ${p.maps}<br>accuracy ~${p.accuracy} m (${p.placement})${p.caveId ? '<br>cave ' + p.caveId : ''}`).addTo(map)
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(`<b>${p.name}</b><br>${actions[p.action][1]}<br>maps: ${p.maps}<br>${p.accuracy ? 'accuracy ~' + p.accuracy + ' m ' : ''}(${p.placement})${p.caveId ? '<br>cave ' + p.caveId : ''}`).addTo(map)
     })
     map.on('mouseenter', action, () => { map.getCanvas().style.cursor = 'pointer' })
     map.on('mouseleave', action, () => { map.getCanvas().style.cursor = '' })
