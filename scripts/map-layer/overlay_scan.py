@@ -190,8 +190,17 @@ PAGE = """<!doctype html>
 .symbol{font:bold 11px sans-serif;color:#111;background:#ffd400;border-radius:3px;padding:0 3px;white-space:nowrap;cursor:default}
 .label{font:11px sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap;pointer-events:none}</style>
 </head><body><div id="map"></div>
-<div id="panel"><b>__TITLE__</b><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (blue dots)</label>
+<div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (blue dots)</label>
 <p style="margin:6px 0 0"><span style="color:#ff3b30">&#9679;</span> database GPS &nbsp; <span style="color:#2f80ff">&#9632;</span> spot on the map<br>(fit points solid, check points hollow)</p></div>
+<script>
+// The title copied to the clipboard on a click (a review note's heading).
+document.getElementById('title').addEventListener('click', () => {
+  const text = document.getElementById('title').textContent
+  const done = () => { const c = document.getElementById('copied'); c.textContent = 'copied'; setTimeout(() => { c.textContent = '' }, 1500) }
+  const fallback = () => { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done() }
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback); else fallback()
+})
+</script>
 <script>
 mapboxgl.accessToken = '__TOKEN__'
 const markers = __MARKERS__
