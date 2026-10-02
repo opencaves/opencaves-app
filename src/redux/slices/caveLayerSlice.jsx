@@ -5,11 +5,14 @@ import { createSlice } from '@reduxjs/toolkit'
 // - visible: the passages traced from the cave maps shown or not;
 // - scope: 'all' systems, or only the 'selected' cenote's system (with the
 //   systems merged into it);
-// - colorBySistema: each system in its colour, or all in one colour.
+// - colorBySistema: each system in its colour, or all in one colour;
+// - year: the systems as they were that year - connections made later not
+//   applied yet (a system merged since shows as its own) - or null for today.
 const initialState = {
   visible: true,
   scope: 'all',
   colorBySistema: true,
+  year: null,
 }
 
 export const caveLayerSlice = createSlice({
@@ -25,9 +28,12 @@ export const caveLayerSlice = createSlice({
     setCaveLayerColorBySistema: (state, action) => {
       state.colorBySistema = action.payload
     },
+    setCaveLayerYear: (state, action) => {
+      state.year = action.payload
+    },
   },
 })
 
-export const { setCaveLayerVisible, setCaveLayerScope, setCaveLayerColorBySistema } = caveLayerSlice.actions
+export const { setCaveLayerVisible, setCaveLayerScope, setCaveLayerColorBySistema, setCaveLayerYear } = caveLayerSlice.actions
 
 export default caveLayerSlice.reducer

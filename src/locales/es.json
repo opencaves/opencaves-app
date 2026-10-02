@@ -869,7 +869,11 @@
       "colors": "Colores",
       "bySystem": "Por sistema",
       "single": "Un solo color",
-      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones."
+      "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones.",
+      "timeline": "Sistemas en",
+      "today": "Hoy",
+      "before": "Antes de {{year}}",
+      "timelineHint": "Las conexiones hechas después no se aplican: un sistema fusionado desde entonces aparece solo."
     }
   },
   "dashboard": {

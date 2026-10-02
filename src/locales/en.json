@@ -869,7 +869,11 @@
       "colors": "Colours",
       "bySystem": "By system",
       "single": "One colour",
-      "disclaimer": "Traced from published cave survey maps. Not for dive planning."
+      "disclaimer": "Traced from published cave survey maps. Not for dive planning.",
+      "timeline": "Systems as of",
+      "today": "Today",
+      "before": "Before {{year}}",
+      "timelineHint": "Connections made later are not applied: a system merged since shows on its own."
     }
   },
   "dashboard": {
