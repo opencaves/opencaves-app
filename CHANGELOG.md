@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 (2026-10-02)
+
+
+### Features
+
+* Added a logo ([d05d012](https://github.com/opencaves/opencaves-app/commit/d05d012b09bb8bdc2fd845fcb0e5c8f940e5312a))
+
 ## [1.2.0](https://github.com/opencaves/opencaves-app/compare/v1.1.0...v1.2.0) (2023-07-23)
 
 
