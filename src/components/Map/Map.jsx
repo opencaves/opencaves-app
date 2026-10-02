@@ -384,6 +384,23 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     }
   }
 
+  // Whether a point shows in the part of the map the pane and the search bar
+  // leave visible, with a margin.
+  function isInFreeArea({ longitude, latitude }) {
+    const map = mapRef.current
+    const container = mapContainerRef.current?.getBoundingClientRect()
+    if (!map || !container) return false
+    const { x, y } = map.project([longitude, latitude])
+    const margin = 48
+    if (isSmall) {
+      const resultPaneTop = document.querySelector('#oc-result-pane')?.getBoundingClientRect().y ?? container.bottom
+      const searchFieldBottom = document.querySelector('#oc-search-bar .oc-search-bar--field')?.getBoundingClientRect().bottom ?? 0
+      return x >= margin && x <= container.width - margin && y >= Math.max(0, searchFieldBottom) + margin && y <= resultPaneTop - container.y - margin
+    }
+    const effectivePaneWidth = isWidePaneEditMode ? Math.min(PANE_WIDTH * 2, window.innerWidth * 0.8) : PANE_WIDTH
+    return x >= effectivePaneWidth + margin && x <= container.width - margin && y >= margin && y <= container.height - margin
+  }
+
   // Phone: the layout the offset was measured against is often still moving
   // - the sheet sliding in (or not rendered yet, on a direct load), the
   // keyboard closing after picking a search result, Ionic's sheet dropping
@@ -697,7 +714,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     }
 
     // A newly selected route must fly even if Redux already holds this cave.
-    if (persistedViewStateAvailable && _currentCave?.id === caveId && !caveRouteChanged && routeCave.location) {
+    // A reload keeps the remembered view - unless the pin isn't in sight in
+    // it (the map was moved away from it before this link was opened).
+    if (persistedViewStateAvailable && _currentCave?.id === caveId && !caveRouteChanged && routeCave.location && isInFreeArea(routeCave.location)) {
       const currentMarker = mapRef.current?.getMap()._markers.find((marker) => {
         const markerLngLat = marker.getLngLat()
         return markerLngLat.lng === routeCave.location.longitude && markerLngLat.lat === routeCave.location.latitude
