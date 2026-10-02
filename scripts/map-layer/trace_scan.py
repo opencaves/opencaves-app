@@ -78,6 +78,19 @@ SIMPLIFY_METRES = 0.5
 SMOOTH_PASSES = 2
 
 
+def symbol_boxes(path, config):
+    """The ink boxes of extract_symbols.py's typed points. With
+    "keepEntranceInk", an entrance's box (its dot, +-6 px) is left out, so the
+    cenote ring or shaft it sits on stays drawn."""
+    if not path.exists():
+        return []
+    boxes = [tuple(map(int, b)) for b in json.loads(path.read_text(encoding='utf-8'))]
+    if config.get('trace', {}).get('keepEntranceInk'):
+        entrances = {(x - 6, y - 6, x + 6, y + 6) for x, y in (e['px'] for e in config.get('entrances', []) if 'px' in e)}
+        boxes = [b for b in boxes if b not in entrances]
+    return boxes
+
+
 def ocr_words(image, cache, config=None):
     words = ocr_words_cached(image, cache)
     # Ink OCR misreads as a label ("notLabelBoxes": [[x0, y0, x1, y1], ...],
@@ -663,10 +676,8 @@ def thin_walls(config_path, config, out, name):
             if sl[0].start >= y0 and sl[0].stop <= y1 and sl[1].start >= x0 and sl[1].stop <= x1:
                 masked[sl] |= pieces[sl] == i
     symbol_ink = numpy.zeros_like(ink)
-    sp = out / f'{name}-symbols-px.json'
-    if sp.exists():
-        for x0, y0, x1, y1 in (map(int, b) for b in json.loads(sp.read_text(encoding='utf-8'))):
-            symbol_ink[max(0, y0 - 3):y1 + 3, max(0, x0 - 3):x1 + 3] = True
+    for x0, y0, x1, y1 in symbol_boxes(out / f'{name}-symbols-px.json', config):
+        symbol_ink[max(0, y0 - 3):y1 + 3, max(0, x0 - 3):x1 + 3] = True
     drawn = ink & ~masked & ~symbol_ink
     anchors = real_labels(words) + [{'box': item['box'], 'reach': trace.get('sectionReachPx', 120)} for item in config.get('exclude', []) if re.search(r'profile|section', item.get('why', ''), re.I)]
     leaders = leader_lines(drawn, anchors, h, w, trace)
@@ -989,7 +1000,7 @@ def main(config_path, output):
     symbol_ink = numpy.zeros_like(ink)
     symbols_px = out / f'{name}-symbols-px.json'
     if symbols_px.exists():
-        for x0, y0, x1, y1 in (map(int, b) for b in json.loads(symbols_px.read_text(encoding='utf-8'))):
+        for x0, y0, x1, y1 in symbol_boxes(symbols_px, config):
             pad = trace.get('symbolPadPx', 3)  # enough to take a number's ring
             symbol_ink[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
         # "symbolPiecesOnly": a symbol's box takes only the ink pieces lying
