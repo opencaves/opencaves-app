@@ -249,7 +249,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
       await getData()
       // Stays on the form after saving; only cancel/delete leave it.
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved', { name: t('sistemaTitle', { name: form.name || sistemaId }) }))
+      openSnackbar(tApp('snackbar.saved', { name: t('sistemaTitle', { name: form.name || sistemaId }) }), { severity: 'success' })
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)

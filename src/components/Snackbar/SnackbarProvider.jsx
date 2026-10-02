@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
-import { IconButton } from '@mui/material'
-import { Close } from '@mui/icons-material'
+import { Box, IconButton } from '@mui/material'
+import { CheckCircleRounded, Close } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import Snackbar from './Snackbar.jsx'
 
@@ -16,11 +16,13 @@ export default function SnackbarProvider({ children }) {
   const [_sx, setSx] = useState({})
   const [_autoHide, setAutoHide] = useState(true)
   const [_hideOnClickAway, setHideOnClickAway] = useState(false)
+  const [_severity, setSeverity] = useState(null)
   const { t } = useTranslation('app', { keyPrefix: 'snackbar' })
 
   // 
 
-  function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {} }) {
+  // severity 'success': a green check before the message (e.g. "saved").
+  function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {}, severity = null }) {
 
     if (children) {
       setChildren(children)
@@ -33,6 +35,7 @@ export default function SnackbarProvider({ children }) {
       setHideOnClickAway(hideOnClickAway)
     }
 
+    setSeverity(severity)
     setMessage(message)
     setOpen(true)
   }
@@ -60,7 +63,19 @@ export default function SnackbarProvider({ children }) {
       {children}
       <Snackbar
         open={open}
-        message={!_children && _message}
+        message={
+          !_children &&
+          (_severity === 'success' ? (
+            <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
+              {/* On the snackbar's inverse surface: the lighter green in the
+                  light theme (dark surface), the darker in the dark theme. */}
+              <CheckCircleRounded fontSize="small" sx={(theme) => ({ color: 'success.light', flex: 'none', ...theme.applyStyles('dark', { color: 'success.dark' }) })} />
+              {_message}
+            </Box>
+          ) : (
+            _message
+          ))
+        }
         autoHide={_autoHide}
         hideOnClickAway={_hideOnClickAway}
         action={

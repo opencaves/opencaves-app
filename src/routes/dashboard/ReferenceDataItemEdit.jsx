@@ -127,7 +127,7 @@ export default function ReferenceDataItemEdit() {
       // descriptions are merged against.
       if (isNew && !leaving) navigate(`/${collectionName}/${id}/edit`, { replace: true })
       else setItem((current) => ({ ...current, ...fields }))
-      openSnackbar(tApp('snackbar.saved', { name: itemLabel || t(`collections.${collectionName}.title`) }))
+      openSnackbar(tApp('snackbar.saved', { name: itemLabel || t(`collections.${collectionName}.title`) }), { severity: 'success' })
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)

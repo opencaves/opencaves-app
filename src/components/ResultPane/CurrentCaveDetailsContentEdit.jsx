@@ -218,7 +218,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       setBaseline(savedForm)
       invalidateData()
       await getData()
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }))
+      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
