@@ -877,7 +877,7 @@
       "key": "Emplacement de la clé"
     },
     "caveLayer": {
-      "button": "Afficher/masquer la couche des cartes",
+      "button": "Couches de la carte",
       "title": "Galeries",
       "scope": "Systèmes",
       "all": "Tous les systèmes",
@@ -917,7 +917,7 @@
         "date": "Date : {{date}}",
         "undated": "Non datée"
       },
-      "options": "Options de la couche des cartes"
+      "panelTitle": "Couches de la carte"
     }
   },
   "dashboard": {

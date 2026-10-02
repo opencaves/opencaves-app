@@ -878,7 +878,7 @@
       "key": "Ubicación de la llave"
     },
     "caveLayer": {
-      "button": "Mostrar/ocultar la capa de mapas",
+      "button": "Capas del mapa",
       "title": "Galerías",
       "scope": "Sistemas",
       "all": "Todos los sistemas",
@@ -918,7 +918,7 @@
         "date": "Fecha: {{date}}",
         "undated": "Sin fecha"
       },
-      "options": "Opciones de la capa de mapas"
+      "panelTitle": "Capas del mapa"
     }
   },
   "dashboard": {

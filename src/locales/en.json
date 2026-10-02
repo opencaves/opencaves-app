@@ -878,7 +878,7 @@
       "key": "Key location"
     },
     "caveLayer": {
-      "button": "Show/hide map layer",
+      "button": "Map layers",
       "title": "Cave passages",
       "scope": "Systems",
       "all": "All systems",
@@ -918,7 +918,7 @@
         "date": "Date: {{date}}",
         "undated": "Undated"
       },
-      "options": "Map layer options"
+      "panelTitle": "Map layers"
     }
   },
   "dashboard": {
