@@ -1,0 +1,42 @@
+{
+  "pdf": "../../../_data/cartes/à traiter/Alux, C., Xpuha.pdf",
+  "page": 1,
+  "image": "../../../_data/maps-import/images/alux-c-xpuha.svg",
+  "title": "Cueva Alux - Sprouse 2014",
+  "credits": "Cueva Alux, Xpuha, Quintana Roo. Surveyed 14-22 August 2013 by Aaron Addison, Alan Chuc, Nico Hauwert, Mike Lace, Scott Linn, Barbara Luke, Peter Sprouse, Terri Sprouse, Liliana Viola; drawn by Guinevere McDaid, Sam Meacham and Peter Sprouse. Length 494 m (AMCS Activities Newsletter 37, p. 123, 2014)",
+  "source": { "id": "-KPZg4joZ9lZ2oVH-LhB", "name": "map" },
+  "sistemaId": "-KPZgfywrNDltccYvqVE",
+  "sistemaWhy": "As in the database's history (its 2013-08 'Survey of Cueva Alux' entry is on X-pu Ha) and the other AMCS Xpuha caves (Imix, Dos Amores). The map itself only says 'Xpuha, Quintana Roo': nothing on it ties Cueva Alux to Sistema X-pu Ha, nor to the sistema 'Alux' (-L_4G8qOQnGiPrcgqUaD), which is the Grutas de los Aluxes at Puerto Aventuras (maps/aluxes.json) - a different cave.",
+  "walls": { "color": [0.011, 0.016, 0.017], "width": 0.57, "why": "plan walls, pillars and islands (dashed where uncertain or open)" },
+  "notWalls": "width 0.29 black: floor detail (breakdown, slopes, flowstone), the cross-sections and their brackets, leaders; 0.29 grey: stipple; 0.14: the water's edge inside the passages, the long profile at the bottom left; 0.4: scale bar; 1.0 and 2.29: page frames; pale blue fills: water, bright blue: the sumps",
+  "water": false,
+  "exclude": [
+    { "why": "north arrow (N cuadricula: grid north)", "box": [675, 75, 692, 168] },
+    { "why": "title and credits", "history": true, "box": [430, 78, 625, 178] },
+    { "why": "scale bar 0-50 m", "box": [135, 424, 310, 450] },
+    { "why": "page caption (Cueva Alux, Xpuha, AMCS Activities Newsletter 37)", "box": [250, 508, 545, 592] }
+  ],
+  "entrances": [
+    { "name": "Entrada", "pdf": [287, 250.6], "why": "the yellow ladder (with the drip line of the entrance below it), right of the 'Entrada' label; the only entrance on the map. No database cave." }
+  ],
+  "symbols": {
+    "why": "Vector map: labels are real PDF text (page.get_text), positions in PDF points; build_layer.py doesn't read symbols yet. No depths (shallow lakes), no bones (searched: no bones icon, no bone text, no legend), no water-flow arrows (the small flag-like ticks are UIS slope/ledge marks, not flow). The four 'sump' labels sit at the bright-blue sump ends.",
+    "extra": [
+      { "type": "leads-to", "label": "sump", "pdf": [178, 172], "why": "NW sump (bright blue)" },
+      { "type": "leads-to", "label": "sump", "pdf": [193, 198], "why": "W sump (bright blue)" },
+      { "type": "leads-to", "label": "sump", "pdf": [271, 147], "why": "the north passage's end, beside 'goes'" },
+      { "type": "leads-to", "label": "goes", "pdf": [262, 160], "why": "dashed walls: the north passage continues" },
+      { "type": "leads-to", "label": "sump", "pdf": [635, 348], "why": "E end (bright blue)" },
+      { "type": "leads-to", "label": "low, wet", "pdf": [570, 341], "why": "dashed walls south of the east lake: a low wet continuation" },
+      { "type": "place-name", "label": "Band Aid Lake", "pdf": [413, 226] }
+    ]
+  },
+  "scaleBar": { "from": [140.5, 438.4], "to": [302.8, 438.4], "metres": 50 },
+  "north": "grid",
+  "northWhy": "N cuadricula: the arrow is vertical, grid north (UTM convergence here about 0.1 degrees).",
+  "utmEpsg": 32616,
+  "unverified": "No position for any part of this cave: Entrada Alux is not in the database or OpenStreetMap, the sistema X-pu Ha has no position, and no placed map shows it. The single control point below is a NOMINAL anchor (the OpenStreetMap 'XPuha' node, 20.473665 N, 87.257026 W, the same one maps/imix.json uses) only so the pipeline can run: the geometry is NOT on the ground. To fix: a field GPS of the Entrada (its ladder).",
+  "controlPoints": [
+    { "name": "NOMINAL anchor at the Entrada's ladder (not a real position: see 'unverified')", "pdf": [287, 250.6], "latitude": 20.473665, "longitude": -87.2570255 }
+  ]
+}
