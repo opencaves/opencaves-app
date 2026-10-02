@@ -33,7 +33,17 @@ export function parseLength(text) {
   const unit = match && unitOf(match[2])
   const value = match && toNumber(match[1])
   if (!unit || !Number.isFinite(value)) return null
-  return { value, unit, metres: value * LENGTH_UNITS[unit].metres }
+  return { value, unit, metres: value * LENGTH_UNITS[unit].metres, significantDigits: significantDigits(match[1]) }
+}
+
+// How precise the written value is: its significant digits. "200" -> 1,
+// "1,240" -> 3, "21.0" -> 3, "7.25" -> 3. Trailing zeros of a whole number
+// count as placeholders, not as measured.
+function significantDigits(written) {
+  const digits = written.replace(/[\s,]/g, '')
+  const [whole, decimals = ''] = digits.split('.')
+  const significant = digits.includes('.') ? (whole + decimals).replace(/^0+/, '') : whole.replace(/^0+/, '').replace(/0+$/, '')
+  return Math.max(1, significant.length)
 }
 
 // Longest spellings first, so "km" isn't read as "k" + "m".
