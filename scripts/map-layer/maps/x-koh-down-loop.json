@@ -1,0 +1,472 @@
+{
+  "image": "../../../_data/maps-import/images/x-koh-edo-pino-suarez.webp",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+  "utmEpsg": 32616,
+  "title": "X-Tun X-Koh (Sistema Actun Koh line plot) - Down Loop part",
+  "credits": "X-Tun X-Koh: line plot of Sistema Actun Koh (Puerto Aventuras), Up Loop 4,068 ft and Down Loop 2,108 ft, grid in feet from station 0 at Cenote Actun Koh; author and date not on the map. Filed as 'X-tun and X-koh, Ejo. Pino Suarez' from wetworx.nl/Cavemaps (accessed May 2015).",
+  "placementWhy": "Moderate (about 10-20 m; it inherits the placement of the Mafia Maps 1998 plan, maps/actun-koh-mafia.json): see maps/x-koh.json for why this line plot is placed in two parts. Free similarity fit on seven junctions read off the placed Mafia plan's lines (Section Six, the Down Loop, Grin, Hook/Rebel, Teen/Gossip), residuals 0.2-1.8 m; 0.603 m/px, 5.7 degrees. Checks: station 0 lands 14 m from the database's Actun Koh (Google Maps source, on which the Mafia and Yuc 96 maps put their Actun Koh pool), and the X south of the Down Loop (Overpass Cenote on the Mafia plan) lands on the north edge of the dark pond visible on the Mapbox/Maxar imagery, 17 m from the centre of OSM's 'Cenote' pond (way 405950395).",
+  "exclude": [
+    {
+      "why": "title X-TUN X-KOH",
+      "box": [
+        395,
+        0,
+        705,
+        28
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        815,
+        555,
+        850,
+        825
+      ]
+    },
+    {
+      "why": "the Up Loop part: placed separately (maps/x-koh.json) - the plot's two parts don't fit one placement",
+      "box": [
+        0,
+        0,
+        1160,
+        1062
+      ]
+    },
+    {
+      "why": "the Up Loop part (Dreamland, west of the main line)",
+      "box": [
+        0,
+        1062,
+        412,
+        1160
+      ]
+    },
+    {
+      "why": "grid label 0 (north axis)",
+      "box": [
+        388,
+        1156,
+        406,
+        1175
+      ]
+    },
+    {
+      "why": "X (entrance mark) at station 0, Cenote Actun Koh",
+      "box": [
+        435,
+        1176,
+        463,
+        1206
+      ]
+    },
+    {
+      "why": "east grid axis labels -750 to 1,5..",
+      "box": [
+        0,
+        1186,
+        1160,
+        1214
+      ]
+    },
+    {
+      "why": "grid label -250",
+      "box": [
+        357,
+        1275,
+        404,
+        1296
+      ]
+    },
+    {
+      "why": "grid label -500",
+      "box": [
+        356,
+        1396,
+        404,
+        1417
+      ]
+    },
+    {
+      "why": "label Wonderland",
+      "box": [
+        732,
+        1123,
+        900,
+        1145
+      ]
+    },
+    {
+      "why": "label Down Loop",
+      "box": [
+        574,
+        1271,
+        752,
+        1297
+      ]
+    },
+    {
+      "why": "label 2,108 feet (Down Loop length)",
+      "box": [
+        610,
+        1301,
+        715,
+        1325
+      ]
+    },
+    {
+      "why": "label Six",
+      "box": [
+        432,
+        1303,
+        471,
+        1323
+      ]
+    },
+    {
+      "why": "label 2nd Floor",
+      "box": [
+        431,
+        1366,
+        563,
+        1388
+      ]
+    },
+    {
+      "why": "label Foxloop",
+      "box": [
+        551,
+        1413,
+        664,
+        1437
+      ]
+    },
+    {
+      "why": "label Cause",
+      "box": [
+        806,
+        1258,
+        886,
+        1279
+      ]
+    },
+    {
+      "why": "label Hook",
+      "box": [
+        903,
+        1266,
+        972,
+        1290
+      ]
+    },
+    {
+      "why": "label Rebel",
+      "box": [
+        1014,
+        1285,
+        1090,
+        1308
+      ]
+    },
+    {
+      "why": "label Grin",
+      "box": [
+        799,
+        1312,
+        857,
+        1333
+      ]
+    },
+    {
+      "why": "label Teen",
+      "box": [
+        911,
+        1428,
+        974,
+        1451
+      ]
+    },
+    {
+      "why": "label Gossip",
+      "box": [
+        1063,
+        1456,
+        1149,
+        1478
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "name": "Six / 2nd Floor junction (Mafia 1998 plan, Section Six)",
+      "px": [
+        473,
+        1351
+      ],
+      "latitude": 20.490873,
+      "longitude": -87.26856
+    },
+    {
+      "name": "main line junction east of Six (Mafia 1998 plan)",
+      "px": [
+        563,
+        1325
+      ],
+      "latitude": 20.491078,
+      "longitude": -87.26807
+    },
+    {
+      "name": "Down Loop west junction (Mafia 1998 plan)",
+      "px": [
+        692,
+        1395
+      ],
+      "latitude": 20.490746,
+      "longitude": -87.267271
+    },
+    {
+      "name": "Down Loop east side, Grin junction (Mafia 1998 plan)",
+      "px": [
+        787,
+        1337
+      ],
+      "latitude": 20.491127,
+      "longitude": -87.266771
+    },
+    {
+      "name": "Down Loop SE junction, line to Overpass (Mafia 1998 plan)",
+      "px": [
+        791,
+        1414
+      ],
+      "latitude": 20.490711,
+      "longitude": -87.266681
+    },
+    {
+      "name": "Hook / Rebel junction (Mafia 1998 plan)",
+      "px": [
+        960,
+        1349
+      ],
+      "latitude": 20.491151,
+      "longitude": -87.265773
+    },
+    {
+      "name": "Teen / Gossip junction (Mafia 1998 plan, Teens)",
+      "px": [
+        1018,
+        1419
+      ],
+      "latitude": 20.490805,
+      "longitude": -87.265391
+    },
+    {
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "name": "station 0 X: DB Actun Koh (Google Maps)",
+      "px": [
+        420,
+        1165
+      ],
+      "latitude": 20.49186,
+      "longitude": -87.26911,
+      "check": true
+    },
+    {
+      "caveId": "-KPZkVO0jhypiyLoVr29",
+      "name": "X S of the Down Loop: Overpass Cenote on the OSM pond (way 405950395)",
+      "px": [
+        788,
+        1468
+      ],
+      "latitude": 20.49026,
+      "longitude": -87.26666,
+      "check": true
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "eraseLines": [
+      {
+        "why": "grid axis (north)",
+        "from": [
+          420,
+          60
+        ],
+        "to": [
+          420,
+          1504
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "grid axis (east; 2 px thick, at y 1166-1167)",
+        "from": [
+          0,
+          1167
+        ],
+        "to": [
+          1160,
+          1167
+        ],
+        "widthPx": 4
+      }
+    ],
+    "addLines": [
+      {
+        "why": "Wonderland line: crossing of the east axis",
+        "from": [
+          762,
+          1162
+        ],
+        "to": [
+          761,
+          1172
+        ],
+        "widthPx": 3
+      }
+    ],
+    "addLinesWhy": "where a line crosses the dashed grid axis, erased with it",
+    "joinShortPx": 16,
+    "why": "b/w line plot (guidelines only, no walls), traced as lines; the dashed grid axes are erased and the lines re-joined where they cross or run along them (addLines); grid labels, place labels and the X entrance marks excluded. Lines that stop short of another (C-Y by the north axis, Exploration's foot by the Up Loop, Dreamland's north end) are left as drawn (jumps)."
+  },
+  "entrances": [
+    {
+      "name": "Cenote Actun Koh (station 0)",
+      "caveId": "-KPZkVDRyqNfcQwwFS_9",
+      "px": [
+        420,
+        1165
+      ],
+      "why": "X at the grid's origin: station 0, the Mafia Maps 1998 plan's 'Cenote Actun Koh p. 0'"
+    },
+    {
+      "name": "Overpass Cenote",
+      "caveId": "-KPZkVO0jhypiyLoVr29",
+      "px": [
+        788,
+        1468
+      ],
+      "why": "X at the end of the line S of the Down Loop's SE junction: where the Mafia Maps 1998 plan has Overpass Cenote"
+    },
+    {
+      "name": "unnamed cenote SW of the Down Loop (X)",
+      "px": [
+        694,
+        1473
+      ],
+      "why": "X at a line end; the Mafia Maps 1998 plan has an unnamed black pool W of Overpass about 15 m from it"
+    },
+    {
+      "name": "unnamed cenote E of the Down Loop, W of Teen (x)",
+      "px": [
+        848,
+        1416
+      ],
+      "why": "lower-case x by the Teen line; the Mafia Maps 1998 plan has an unnamed black pool NE of Overpass about 10 m from it"
+    }
+  ],
+  "symbols": {
+    "why": "Line plot with no depths, codes, flow arrows or bones: only named lines, kept as place names at their labels.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Wonderland",
+        "px": [
+          816,
+          1134
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Down Loop (2,108 ft)",
+        "px": [
+          662,
+          1296
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Six",
+        "px": [
+          451,
+          1313
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "2nd Floor",
+        "px": [
+          497,
+          1377
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Foxloop",
+        "px": [
+          607,
+          1425
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cause",
+        "px": [
+          846,
+          1268
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Hook",
+        "px": [
+          937,
+          1278
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Rebel",
+        "px": [
+          1052,
+          1296
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Grin",
+        "px": [
+          828,
+          1322
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Teen",
+        "px": [
+          942,
+          1439
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Gossip",
+        "px": [
+          1106,
+          1467
+        ]
+      }
+    ]
+  }
+}

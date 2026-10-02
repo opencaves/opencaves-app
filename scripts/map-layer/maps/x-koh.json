@@ -1,0 +1,545 @@
+{
+  "image": "../../../_data/maps-import/images/x-koh-edo-pino-suarez.webp",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfqvGzDgv-wVzvJY",
+  "utmEpsg": 32616,
+  "title": "X-Tun X-Koh (Sistema Actun Koh line plot) - Up Loop part",
+  "credits": "X-Tun X-Koh: line plot of Sistema Actun Koh (Puerto Aventuras), Up Loop 4,068 ft and Down Loop 2,108 ft, grid in feet from station 0 at Cenote Actun Koh; author and date not on the map. Filed as 'X-tun and X-koh, Ejo. Pino Suarez' from wetworx.nl/Cavemaps (accessed May 2015).",
+  "placementWhy": "Moderate (about 10-20 m; it inherits the placement of the Mafia Maps 1998 plan, maps/actun-koh-mafia.json, itself tied to the Expedition Yuc 96 map). This line plot is the same survey area as that plan (Bear's Den, Attic, Dreamland, Section Six, Wonderland, Teens; X at station 0 = 'Cenote Actun Koh p. 0'), but its two halves don't fit one placement: matching its lines to the Mafia plan's (ICP), the Down Loop part fits with 0.603 m/px and 5.7 degrees (93% of the line within 8 m, median 2.4 m), the Up Loop part with 0.669 m/px and 10.1 degrees (median 5 m) - one placement for the whole plot leaves 20-50 m errors at the far ends. The Expedition Yuc 96 walls (an independent survey) agree with the Mafia plan, so the error is in this plot, probably on the main line between the Up Loop and station 0 (the grid itself is unequal too: 123.5 px per 250 ft across, 118 px up). The map is therefore placed in two parts: this config (the Up Loop part, north of y 1062 and Dreamland) and maps/x-koh-down-loop.json. Free similarity fit on six points: Bears' Den X on the Mafia plan's Bear's Den Cenote (= Yuc 96 Cenote Dedale), residual 12 m (the X is drawn beside the line), and five Up Loop corners and junctions read off the placed Mafia plan's lines, residuals 2-6 m. The grid's own scale (0.62-0.645 m/px) and north are not used: they disagree with both placed surveys by 4-10% and 6-10 degrees.",
+  "exclude": [
+    {
+      "why": "title X-TUN X-KOH",
+      "box": [
+        395,
+        0,
+        705,
+        28
+      ]
+    },
+    {
+      "why": "north arrow",
+      "box": [
+        815,
+        555,
+        850,
+        825
+      ]
+    },
+    {
+      "why": "ink smudge (no meaning, not a line)",
+      "box": [
+        138,
+        338,
+        178,
+        385
+      ]
+    },
+    {
+      "why": "grid label 2,250",
+      "box": [
+        345,
+        90,
+        403,
+        111
+      ]
+    },
+    {
+      "why": "grid label 2,000",
+      "box": [
+        345,
+        208,
+        404,
+        231
+      ]
+    },
+    {
+      "why": "grid label 1,750 ('1,'; the C-Y line runs through the 7)",
+      "box": [
+        348,
+        328,
+        371,
+        350
+      ]
+    },
+    {
+      "why": "grid label 1,750 ('50')",
+      "box": [
+        386,
+        329,
+        402,
+        348
+      ]
+    },
+    {
+      "why": "grid label 1,500",
+      "box": [
+        348,
+        445,
+        405,
+        467
+      ]
+    },
+    {
+      "why": "grid label 1,250",
+      "box": [
+        348,
+        562,
+        405,
+        583
+      ]
+    },
+    {
+      "why": "grid label 1,000 (the S2 line runs through the last 0)",
+      "box": [
+        348,
+        680,
+        391,
+        701
+      ]
+    },
+    {
+      "why": "grid label 750",
+      "box": [
+        366,
+        800,
+        405,
+        821
+      ]
+    },
+    {
+      "why": "grid label 500 ('00'; the main line runs through the 5)",
+      "box": [
+        382,
+        919,
+        402,
+        940
+      ]
+    },
+    {
+      "why": "grid label 250 ('2'; the main line runs through the 5)",
+      "box": [
+        365,
+        1036,
+        382,
+        1058
+      ]
+    },
+    {
+      "why": "grid label 250 ('0')",
+      "box": [
+        393,
+        1037,
+        404,
+        1058
+      ]
+    },
+    {
+      "why": "label Exploration",
+      "box": [
+        574,
+        237,
+        737,
+        258
+      ]
+    },
+    {
+      "why": "label C-Y",
+      "box": [
+        309,
+        382,
+        350,
+        403
+      ]
+    },
+    {
+      "why": "label ..AR (cut by the page edge)",
+      "box": [
+        0,
+        426,
+        35,
+        446
+      ]
+    },
+    {
+      "why": "label Attic",
+      "box": [
+        146,
+        422,
+        213,
+        443
+      ]
+    },
+    {
+      "why": "label Loft",
+      "box": [
+        88,
+        494,
+        146,
+        515
+      ]
+    },
+    {
+      "why": "label Cut",
+      "box": [
+        192,
+        619,
+        242,
+        641
+      ]
+    },
+    {
+      "why": "label S2",
+      "box": [
+        349,
+        639,
+        379,
+        660
+      ]
+    },
+    {
+      "why": "label S1",
+      "box": [
+        317,
+        736,
+        343,
+        756
+      ]
+    },
+    {
+      "why": "X (entrance mark) at Bears' Den",
+      "box": [
+        205,
+        751,
+        231,
+        781
+      ]
+    },
+    {
+      "why": "label Bears' Den",
+      "box": [
+        78,
+        789,
+        215,
+        811
+      ]
+    },
+    {
+      "why": "label Up Loop",
+      "box": [
+        275,
+        831,
+        403,
+        856
+      ]
+    },
+    {
+      "why": "label 4,068 feet (Up Loop length)",
+      "box": [
+        283,
+        862,
+        386,
+        886
+      ]
+    },
+    {
+      "why": "label Dreamland",
+      "box": [
+        25,
+        1030,
+        167,
+        1051
+      ]
+    },
+    {
+      "why": "the Down Loop part: placed separately (maps/x-koh-down-loop.json) - the plot's two parts don't fit one placement",
+      "box": [
+        412,
+        1062,
+        1160,
+        1504
+      ]
+    },
+    {
+      "why": "the Down Loop part and the east grid axis' labels (see above)",
+      "box": [
+        0,
+        1160,
+        412,
+        1504
+      ]
+    }
+  ],
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVEeR1D8YGimsxqc",
+      "name": "Bears' Den X = Bear's Den Cenote of the placed Mafia Maps 1998 plan",
+      "px": [
+        218,
+        765
+      ],
+      "latitude": 20.494537,
+      "longitude": -87.270453
+    },
+    {
+      "name": "Up Loop top corner (Mafia 1998 plan)",
+      "px": [
+        387,
+        510
+      ],
+      "latitude": 20.496188,
+      "longitude": -87.269822
+    },
+    {
+      "name": "Up Loop NE corner (Mafia 1998 plan)",
+      "px": [
+        482,
+        540
+      ],
+      "latitude": 20.496122,
+      "longitude": -87.26917
+    },
+    {
+      "name": "Up Loop SE junction (Mafia 1998 plan)",
+      "px": [
+        461,
+        730
+      ],
+      "latitude": 20.494908,
+      "longitude": -87.26905
+    },
+    {
+      "name": "S1 line end on the Up Loop east side (Mafia 1998 plan)",
+      "px": [
+        385,
+        920
+      ],
+      "latitude": 20.493722,
+      "longitude": -87.26931
+    },
+    {
+      "name": "Up Loop south junction (Mafia 1998 plan)",
+      "px": [
+        345,
+        989
+      ],
+      "latitude": 20.49325,
+      "longitude": -87.269545
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "eraseLines": [
+      {
+        "why": "grid axis (north)",
+        "from": [
+          420,
+          60
+        ],
+        "to": [
+          420,
+          1504
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "grid axis (east; 2 px thick, at y 1166-1167)",
+        "from": [
+          0,
+          1167
+        ],
+        "to": [
+          1160,
+          1167
+        ],
+        "widthPx": 4
+      },
+      {
+        "why": "grid label 1,000: left half of the last 0 (the S2 line runs along its right side)",
+        "from": [
+          392,
+          684
+        ],
+        "to": [
+          392,
+          696
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "grid label 500: the 5's top bar (the main line runs through the 5)",
+        "from": [
+          364,
+          922
+        ],
+        "to": [
+          376,
+          922
+        ],
+        "widthPx": 7
+      },
+      {
+        "why": "grid label 500: the 5's middle and lower curve",
+        "from": [
+          363,
+          927
+        ],
+        "to": [
+          372,
+          934
+        ],
+        "widthPx": 5
+      }
+    ],
+    "addLines": [
+      {
+        "why": "Up Loop top: the loop line where it crosses the north axis",
+        "from": [
+          416,
+          532
+        ],
+        "to": [
+          423,
+          535
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "S2 line: runs along the north axis from its 1,000 ft end down to the line east to the Up Loop",
+        "from": [
+          418,
+          697
+        ],
+        "to": [
+          420,
+          717
+        ],
+        "widthPx": 4
+      },
+      {
+        "why": "Up Loop east side: runs along the north axis for 20 px",
+        "from": [
+          420,
+          778
+        ],
+        "to": [
+          420,
+          801
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Up Loop east side: crossing of the north axis",
+        "from": [
+          417,
+          873
+        ],
+        "to": [
+          423,
+          871
+        ],
+        "widthPx": 3
+      }
+    ],
+    "addLinesWhy": "where the loop lines cross or run along the dashed grid axis, erased with it",
+    "joinShortPx": 16,
+    "why": "b/w line plot (guidelines only, no walls), traced as lines; the dashed grid axes are erased and the lines re-joined where they cross or run along them (addLines); grid labels, place labels and the X entrance marks excluded. Lines that stop short of another (C-Y by the north axis, Exploration's foot by the Up Loop, Dreamland's north end) are left as drawn (jumps)."
+  },
+  "entrances": [
+    {
+      "name": "Bears' Den",
+      "caveId": "-KPZkVEeR1D8YGimsxqc",
+      "px": [
+        218,
+        765
+      ],
+      "why": "X on the map; the Bear's Den Cenote of the Mafia Maps 1998 plan and the Cenote Dedale of the Yuc 96 map"
+    }
+  ],
+  "symbols": {
+    "why": "Line plot with no depths, codes, flow arrows or bones: only named lines, kept as place names at their labels.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "place-name",
+        "label": "Exploration",
+        "px": [
+          655,
+          247
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "C-Y",
+        "px": [
+          329,
+          392
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Attic",
+        "px": [
+          180,
+          432
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Loft",
+        "px": [
+          117,
+          504
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Cut",
+        "px": [
+          217,
+          630
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "S2",
+        "px": [
+          364,
+          650
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "S1",
+        "px": [
+          330,
+          746
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Up Loop (4,068 ft)",
+        "px": [
+          339,
+          858
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Dreamland",
+        "px": [
+          96,
+          1040
+        ]
+      }
+    ]
+  }
+}
