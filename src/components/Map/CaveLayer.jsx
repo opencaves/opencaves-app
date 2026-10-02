@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Source, Layer, Popup, useMap } from 'react-map-gl/mapbox'
-import { Button, Typography } from '@mui/material'
+import { Box, Button, IconButton, Link, Typography } from '@mui/material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import { useTheme } from '@mui/material/styles'
 import { CAVE_LAYER } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
+import { useMapScan } from '@/hooks/useMapScan.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { METRES_PER_FOOT } from '@/utils/units.js'
@@ -53,6 +55,49 @@ function rootSistemas(sistemas, connections) {
   const parent = new Map((connections || []).filter((c) => c.sistemaId && c.parentSistemaId).map((c) => [c.sistemaId, c.parentSistemaId]))
   const root = (id, seen = new Set()) => (parent.has(id) && !seen.has(id) ? root(parent.get(id), seen.add(id)) : id)
   return new Map((sistemas || []).map((s) => [s.id, root(s.id)]))
+}
+
+// The edit mode's card for a clicked drawing: its map (title, date, system,
+// config file, the scan it was traced from), and hiding or showing it - the
+// primary action - or closing.
+function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
+  const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
+  const scan = useMapScan(map?.mapImportKey)
+  const system = sistemaName(map?.sistemaId)
+  return (
+    <Box className="oc-cave-layer-edit-card--content" sx={{ position: 'relative' }}>
+      <IconButton aria-label={t('close')} onClick={onClose} sx={{ position: 'absolute', top: -10, right: -12 }}>
+        <CloseRounded />
+      </IconButton>
+      <Typography variant="subtitle2" sx={{ pr: 4 }}>
+        {map?.title}
+      </Typography>
+      <Typography variant="caption" color="text.secondary" component="p">
+        {map?.date ? t('date', { date: map.date }) : t('undated')}
+      </Typography>
+      {system && (
+        <Typography variant="caption" color="text.secondary" component="p">
+          {t('system', { name: system })}
+        </Typography>
+      )}
+      <Typography variant="caption" color="text.secondary" component="p">
+        {t('file', { name: map?.name })}
+      </Typography>
+      {scan?.url && (
+        <Link href={scan.url} target="_blank" rel="noopener" variant="caption" sx={{ display: 'inline-block', mt: 0.5 }}>
+          {t('openScan')}
+        </Link>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1.5 }}>
+        <Button size="small" onClick={onClose}>
+          {t('close')}
+        </Button>
+        <Button size="small" variant="contained" disableElevation onClick={hidden ? onShow : onHide}>
+          {hidden ? t('showDrawing') : t('hide')}
+        </Button>
+      </Box>
+    </Box>
+  )
 }
 
 // The cave layer: the passages traced from the cave survey maps (walls,
@@ -173,7 +218,7 @@ export default function CaveLayer({ selectedSistemaId }) {
   const HIDDEN_OPACITY = 0.45
   // Edit mode: the hovered and the clicked map, outlined.
   const outlined = [...new Set([hovered?.name, picked?.name].filter(Boolean))]
-  const sistemaName = (id) => (sistemas || []).find((s) => s.id === id)?.name?.value
+  const sistemaName = (id) => { const name = (sistemas || []).find((s) => s.id === id)?.name; return typeof name === 'string' ? name : name?.value }
   const kind = (...kinds) => ['in', ['get', 'kind'], ['literal', kinds]]
   const type = (t) => ['==', ['get', 'type'], t]
   const tiles = [new URL(CAVE_LAYER.TILES, window.location.origin).href.replace(/%7B/g, '{').replace(/%7D/g, '}')]
@@ -210,7 +255,7 @@ export default function CaveLayer({ selectedSistemaId }) {
       {editMode && hovered && !picked && (
         <Popup className="oc-cave-layer-edit-hover" longitude={hovered.lngLat.lng} latitude={hovered.lngLat.lat} closeButton={false} closeOnClick={false} anchor="bottom" offset={12}>
           <Typography variant="body2">
-            {maps[hovered.name]?.title || hovered.name}
+            {maps[hovered.name]?.title}
             {hiddenMaps.includes(hovered.name) && ` (${t('hiddenTag')})`}
           </Typography>
           <Typography variant="caption" color="text.secondary" component="p">
@@ -219,28 +264,8 @@ export default function CaveLayer({ selectedSistemaId }) {
         </Popup>
       )}
       {editMode && picked && (
-        <Popup className="oc-cave-layer-edit-card" longitude={picked.lngLat.lng} latitude={picked.lngLat.lat} closeOnClick={false} onClose={() => setPicked(null)} anchor="bottom" offset={12} maxWidth="280px">
-          <Typography variant="subtitle2" sx={{ pr: 2 }}>{maps[picked.name]?.title || picked.name}</Typography>
-          <Typography variant="caption" color="text.secondary" component="p">
-            {maps[picked.name]?.date ? t('date', { date: maps[picked.name].date }) : t('undated')}
-          </Typography>
-          {sistemaName(maps[picked.name]?.sistemaId) && (
-            <Typography variant="caption" color="text.secondary" component="p">
-              {t('system', { name: sistemaName(maps[picked.name].sistemaId) })}
-            </Typography>
-          )}
-          <Typography variant="caption" color="text.secondary" component="p">
-            {t('file', { name: picked.name })}
-          </Typography>
-          {hiddenMaps.includes(picked.name) ? (
-            <Button size="small" onClick={() => setPickedHidden(false)} sx={{ mt: 1 }}>
-              {t('showDrawing')}
-            </Button>
-          ) : (
-            <Button size="small" color="error" onClick={() => setPickedHidden(true)} sx={{ mt: 1 }}>
-              {t('hide')}
-            </Button>
-          )}
+        <Popup className="oc-cave-layer-edit-card" longitude={picked.lngLat.lng} latitude={picked.lngLat.lat} closeButton={false} closeOnClick={false} onClose={() => setPicked(null)} anchor="bottom" offset={12} maxWidth="300px">
+          <EditCard map={maps[picked.name]} hidden={hiddenMaps.includes(picked.name)} sistemaName={sistemaName} onHide={() => setPickedHidden(true)} onShow={() => setPickedHidden(false)} onClose={() => setPicked(null)} />
         </Popup>
       )}
     </Source>

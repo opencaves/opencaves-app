@@ -113,3 +113,13 @@
     fill: var(--oc-pin-glyph-color, #fff);
   }
 }
+
+// The cave layer's edit-mode popups (CaveLayer): rounder, M3 large corners.
+.oc-cave-layer-edit-card .mapboxgl-popup-content {
+  border-radius: 16px;
+  padding: 14px 16px 12px;
+}
+
+.oc-cave-layer-edit-hover .mapboxgl-popup-content {
+  border-radius: 12px;
+}

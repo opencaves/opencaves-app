@@ -1,5 +1,8 @@
 {
+ "id": "-P2xDvxh9FgfR96MK7wy",
+ "mapImportKey": "cbf109ede1ab",
  "image": "../../../_data/map-layer/pilot/aluxes-nored.png",
+ "importImage": "../../../_data/maps-import/images/aluxes-grotte-des-puerto-aventuras.webp",
  "imageWhy": "Made by scripts/map-layer/prep/aluxes.py: the Spelunca figure (the PDF's embedded 4277x3479 PNG) with its red ink (the motorway and road, the village grid, survey stations, 'Antenne', 'Autoroute') inpainted away (OpenCV Telea, radius 5) so the black walls run on where the red lines crossed them. Same pixels as the PDF's image: every px is valid on both.",
  "title": "Grotte des Aluxes - Expéditions Yuc 2001/2005",
  "date": "2001–2005",

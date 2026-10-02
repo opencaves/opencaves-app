@@ -916,7 +916,9 @@
         "shown": "«{{title}}» visible",
         "hiddenTag": "oculto",
         "date": "Fecha: {{date}}",
-        "undated": "Sin fecha"
+        "undated": "Sin fecha",
+        "close": "Cerrar",
+        "openScan": "Abrir el mapa original"
       },
       "panelTitle": "Capas del mapa",
       "turnOn": "Activar las capas del mapa",
@@ -1076,6 +1078,7 @@
     "show": "Mostrar el dibujo de este mapa",
     "hide": "Ocultar el dibujo de este mapa",
     "showOnMap": "Ver en el mapa",
-    "saveError": "No se pudo guardar el cambio."
+    "saveError": "No se pudo guardar el cambio.",
+    "openScan": "Abrir el mapa original"
   }
 }

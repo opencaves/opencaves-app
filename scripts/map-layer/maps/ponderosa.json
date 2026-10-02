@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvxzUbXTMVIe0sek",
+  "mapImportKey": "8287fac230bc",
   "image": "../../../_data/map-layer/pilot/ponderosa-clean.png",
   "imageNote": "made by prep/ponderosa.py from _data/maps-import/images/sistema-ponderosa.jpg (8368 x 6780; pixel coordinates unchanged), the sharp scan of the original poster: the same line plot and cave labels as the AMCS newsletter copy traced before (ponderosa-sist-puerto-aventuras-mpo-playa-del-carmen.webp, 3350 x 2529), which re-set the title blocks, dropped the explorer lists and moved the north arrow. All pixel coordinates were carried over by an affine fit of the two scans' line work (SIFT then ECC; scale 2.35, 1.0 deg rotation, 0.7% anisotropy and slight shear; local residuals under 1 px of the new scan). Cleaned: toner specks dropped, stroke edges smoothed - otherwise the thinned lines get thousands of spurs.",
   "title": "Sistema Ponderosa and Sistema X'tabay - line plot (AMCS Activities Newsletter 2001)",

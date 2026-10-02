@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvxsrUejDQFTICvR",
+  "mapImportKey": "1f964aebf3a0",
   "image": "../../../_data/map-layer/scans/katu-balam-filled.png",
   "imageNote": "Same scan as _data/cartes/à traiter/Katu Balam, Sist., Akumal.pdf (its only image, 4009 x 2145); the passages tinted by fill_passages.py (see prep).",
   "sourceImage": "../../../_data/maps-import/images/katu-balam-sist-akumal.webp",

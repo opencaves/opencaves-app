@@ -97,7 +97,19 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
 
 ## The layer in the app
 
-`npm run build:tiles` turns every placed map's traced output (unverified maps
+Each map config has a stable `"id"` (a push id, the drawing's key in the app:
+the tiles' `map` property, `maps.json`, the hidden drawings list) and, when
+it was traced from an imported scan, a `"mapImportKey"` (that scan's `maps`
+document's `importKey`, the same in every database). A config traced from a
+cleaned-up or straightened copy names the imported scan in `"importImage"`.
+After adding a config, give it its id - never change one afterwards:
+
+```
+node scripts/map-layer/assign-ids.js --dry-run   # what would be added
+node scripts/map-layer/assign-ids.js --write
+```
+
+`npm run build:tiles` stops on a config without an id. It turns every placed map's traced output (unverified maps
 left out) into vector tiles in `public/tiles/caves/` - layers `passages`
 (walls, survey lines, water, details) and `symbols`, each feature with its
 `map` and `sistemaId`. It runs tippecanoe in Docker (the image is built from

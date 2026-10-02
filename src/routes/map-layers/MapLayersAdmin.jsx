@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Alert, Box, IconButton, InputAdornment, List, ListItem, ListItemText, Switch, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
+import ImageRounded from '@mui/icons-material/ImageRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
@@ -17,9 +20,11 @@ function zoomFor(bounds) {
   return Math.min(17, Math.max(11, Math.floor(Math.log2(360 / span)) - 1))
 }
 
-// Admins: the maps in the cave layer (maps.json, from the tiles build), each
-// shown or hidden for everyone (settings/caveLayer.hiddenMaps - the same list
-// as the layer's edit mode on the map), with a link to it on the map.
+// Admins: the maps in the cave layer (maps.json, from the tiles build, by the
+// configs' ids), each shown or hidden for everyone (settings/caveLayer.hiddenMaps
+// - the same list as the layer's edit mode on the map), with links to it on the
+// map and to the scan it was traced from (the "maps" document with its
+// mapImportKey).
 export default function MapLayersAdmin() {
   const { t } = useTranslation(['mapLayersAdmin', 'dashboard'])
   const { setTitle } = useTitle()
@@ -28,8 +33,16 @@ export default function MapLayersAdmin() {
   const sistemas = useSelector((state) => state.data.sistemas)
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const [search, setSearch] = useState('')
-  const [savingName, setSavingName] = useState(null)
+  const [savingId, setSavingId] = useState(null)
   const [error, setError] = useState(null)
+  const [scans, setScans] = useState(new Map())
+
+  // The scans, by importKey: read once.
+  useEffect(() => {
+    getDocs(collection(db, 'maps'))
+      .then((snapshot) => setScans(new Map(snapshot.docs.map((doc) => [doc.get('importKey'), doc.get('url')]))))
+      .catch((err) => console.error(err))
+  }, [])
 
   useEffect(() => {
     setTitle(t('title'))
@@ -40,20 +53,20 @@ export default function MapLayersAdmin() {
   const rows = useMemo(() => {
     const needle = search.trim().toLowerCase()
     return Object.entries(maps)
-      .map(([name, map]) => ({ name, ...map, sistema: sistemaNames.get(map.sistemaId) || '' }))
+      .map(([id, map]) => ({ id, ...map, sistema: sistemaNames.get(map.sistemaId) || '' }))
       .filter((map) => !needle || [map.title, map.name, map.sistema, map.date].some((v) => String(v || '').toLowerCase().includes(needle)))
       .sort((a, b) => a.title.localeCompare(b.title))
   }, [maps, search, sistemaNames])
 
-  async function toggle(name, shown) {
-    setSavingName(name)
+  async function toggle(id, shown) {
+    setSavingId(id)
     try {
-      await setMapHidden(name, !shown)
+      await setMapHidden(id, !shown)
     } catch (err) {
       console.error(err)
       setError(t('saveError'))
     } finally {
-      setSavingName(null)
+      setSavingId(null)
     }
   }
 
@@ -103,18 +116,26 @@ export default function MapLayersAdmin() {
       )}
 
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        {t('count', { count: rows.length, hidden: rows.filter((map) => hiddenMaps.includes(map.name)).length })}
+        {t('count', { count: rows.length, hidden: rows.filter((map) => hiddenMaps.includes(map.id)).length })}
       </Typography>
       <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
         {rows.map((map) => {
-          const shown = !hiddenMaps.includes(map.name)
+          const shown = !hiddenMaps.includes(map.id)
+          const scan = scans.get(map.mapImportKey)
           return (
-            <ListItem key={map.name} divider sx={{ py: 1, gap: 1, opacity: shown ? 1 : 0.6 }}>
+            <ListItem key={map.id} divider sx={{ py: 1, gap: 1, opacity: shown ? 1 : 0.6 }}>
               <ListItemText
                 primary={map.title}
                 secondary={[map.date || t('undated'), map.sistema, map.name].filter(Boolean).join(' · ')}
                 sx={{ flex: 1, minWidth: 0 }}
               />
+              {scan && (
+                <Tooltip title={t('openScan')}>
+                  <IconButton component="a" href={scan} target="_blank" rel="noopener" aria-label={t('openScan')}>
+                    <ImageRounded fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
               {map.center && (
                 <Tooltip title={t('showOnMap')}>
                   <IconButton aria-label={t('showOnMap')} onClick={() => showOnMap(map)}>
@@ -123,7 +144,7 @@ export default function MapLayersAdmin() {
                 </Tooltip>
               )}
               <Tooltip title={shown ? t('hide') : t('show')}>
-                <Switch edge="end" checked={shown} disabled={savingName === map.name} onChange={(e) => toggle(map.name, e.target.checked)} slotProps={{ input: { 'aria-label': shown ? t('hide') : t('show') } }} />
+                <Switch edge="end" checked={shown} disabled={savingId === map.id} onChange={(e) => toggle(map.id, e.target.checked)} slotProps={{ input: { 'aria-label': shown ? t('hide') : t('show') } }} />
               </Tooltip>
             </ListItem>
           )

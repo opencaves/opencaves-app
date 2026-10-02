@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvy6J-1NBWer_M6Z",
+  "mapImportKey": "9cc9e7da869a",
   "perspective": {
     "photo": "../../../_data/maps-import/images/sistema-tux-kupaxa-coop-one-section.jpg",
     "corners": [
@@ -25,6 +27,7 @@
     "flattenMaxPx": 72
   },
   "image": "../../../_data/map-layer/pilot/tux-kupaxa-coop-one-straight.png",
+  "importImage": "../../../_data/maps-import/images/sistema-tux-kupaxa-coop-one-section.jpg",
   "title": "Coop One (Tam Hol), Sistema Tux Kupaxa - Czech survey 2009",
   "date": "2009",
   "sistemaId": "-NCB52nBApQkIuCms8mA",

@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvxiio0FkvQFUdw_",
+  "mapImportKey": "15a441da9e26",
   "perspective": {
     "photo": "../../../_data/maps-import/images/balam-aktun-ak.jpg",
     "corners": [
@@ -23,6 +25,7 @@
     "why": "corners: the four standoff bolts' caps (a rectangle on the sign, their faces all in one plane parallel to it), the rectangle then extended outward through the same homography (70 px left, 20 px right and top, 130 px below) so the 49 at the left edge and the scale bar under the bottom bolts are inside; no k1 (no straight printed edge to fit it on; the scale bar is straight); flattenPx: the glare and the reflection of the trees and the photographer divided out (a closing wider than the 6-8 px lines)"
   },
   "image": "../../../_data/map-layer/pilot/balam-aktun-ak-straight.png",
+  "importImage": "../../../_data/maps-import/images/balam-aktun-ak.jpg",
   "title": "Balam Aktun Ak (Sistema Balun Actun) - Reato 2010",
   "date": "2010",
   "credits": "Balam Aktun Ak, total surveyed passages 29,407 feet. Explorers: Simon Richards, Donna Richards, Alessandro Reato, Mauro Bordignon, Patrick Widmann. Cartography by Alessandro Reato, December 2010. Photo of the sign at the cenote. Depths in feet.",

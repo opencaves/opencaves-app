@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvy6J-1NBWer_M6_",
+  "mapImportKey": "81eb3983b2af",
   "perspective": {
     "photo": "../../../_data/maps-import/images/sistema-tux-kupaxa-nai-tucha-section.jpg",
     "corners": [
@@ -25,6 +27,7 @@
     "destripePx": 201
   },
   "image": "../../../_data/map-layer/pilot/tux-kupaxa-nai-tucha-straight.png",
+  "importImage": "../../../_data/maps-import/images/sistema-tux-kupaxa-nai-tucha-section.jpg",
   "title": "Nai Tucha (Tux Kupaxa), Sistema Tux Kupaxa - Czech survey 2009",
   "date": "2009",
   "sistemaId": "-NCB52nBApQkIuCms8mA",

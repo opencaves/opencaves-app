@@ -915,7 +915,9 @@
         "shown": "« {{title}} » affiché",
         "hiddenTag": "masqué",
         "date": "Date : {{date}}",
-        "undated": "Non datée"
+        "undated": "Non datée",
+        "close": "Fermer",
+        "openScan": "Ouvrir la carte d’origine"
       },
       "panelTitle": "Couches de la carte",
       "turnOn": "Activer les couches de la carte",
@@ -1075,6 +1077,7 @@
     "show": "Afficher le dessin de cette carte",
     "hide": "Masquer le dessin de cette carte",
     "showOnMap": "Voir sur la carte",
-    "saveError": "Impossible d'enregistrer la modification."
+    "saveError": "Impossible d'enregistrer la modification.",
+    "openScan": "Ouvrir la carte d’origine"
   }
 }

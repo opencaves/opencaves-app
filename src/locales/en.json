@@ -916,7 +916,9 @@
         "shown": "“{{title}}” shown",
         "hiddenTag": "hidden",
         "date": "Date: {{date}}",
-        "undated": "Undated"
+        "undated": "Undated",
+        "close": "Close",
+        "openScan": "Open the original map"
       },
       "panelTitle": "Map layers",
       "turnOn": "Turn on map layers",
@@ -1076,6 +1078,7 @@
     "show": "Show this map's drawing",
     "hide": "Hide this map's drawing",
     "showOnMap": "Show on the map",
-    "saveError": "Couldn't save the change."
+    "saveError": "Couldn't save the change.",
+    "openScan": "Open the original map"
   }
 }

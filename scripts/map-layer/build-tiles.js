@@ -7,9 +7,10 @@
 // details (<map>-walls.geojson, or <map>.geojson for a vector map) to the
 // "passages" tile layer, and its typed symbols (<map>-symbols.geojson:
 // depths, restrictions, flow, entrances...) to the "symbols" layer. Each
-// feature keeps its map's name ("map"), its sistema ("sistemaId": the app
+// feature keeps its map's id ("map": the config's "id", assign-ids.js), its sistema ("sistemaId": the app
 // filters and colours by it, colours from the database) and its kind or type.
-// maps.json lists the maps in the tiles by name, with their title, date, sistema
+// maps.json lists the maps in the tiles by id, with their config file's name,
+// title, date, sistema, scan (mapImportKey: the "maps" document's importKey)
 // and extent (center, bounds)
 // (the layer's edit mode names the map under the pointer).
 //
@@ -79,8 +80,13 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
     counts.untraced++
     continue
   }
+  if (!config.id) {
+    console.error(`[tiles] ${file} has no "id": run node scripts/map-layer/assign-ids.js --write first.`)
+    process.exit(1)
+  }
   counts.maps++
-  mapIndex[name] = { title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }) }
+  const id = config.id
+  mapIndex[id] = { name, title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }), ...(config.mapImportKey && { mapImportKey: config.mapImportKey }) }
   const sistema = config.sistemaId ? { sistemaId: config.sistemaId } : {}
   // The drawing's extent, for its centre (the admin's map layers page links
   // to it on the map).
@@ -89,18 +95,18 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
     if (feature.geometry?.coordinates) extend(feature.geometry.coordinates)
     const kind = feature.properties?.kind || 'wall'
-    passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: name, ...sistema, kind }, tippecanoe: { minzoom: kind === 'detail' ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
+    passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: id, ...sistema, kind }, tippecanoe: { minzoom: kind === 'detail' ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
     counts.passages++
   }
   if (Number.isFinite(box[0])) {
-    mapIndex[name].center = [+((box[0] + box[2]) / 2).toFixed(5), +((box[1] + box[3]) / 2).toFixed(5)]
-    mapIndex[name].bounds = box.map((v) => +v.toFixed(5))
+    mapIndex[id].center = [+((box[0] + box[2]) / 2).toFixed(5), +((box[1] + box[3]) / 2).toFixed(5)]
+    mapIndex[id].bounds = box.map((v) => +v.toFixed(5))
   }
   const symbolFile = path.join(SCANS, `${name}-symbols.geojson`)
   if (existsSync(symbolFile)) {
     for (const feature of JSON.parse(readFileSync(symbolFile, 'utf8')).features) {
       const p = feature.properties || {}
-      const properties = { map: name, ...sistema, type: p.type, ...(p.label && { label: p.label }), ...(p.name && { name: p.name }), ...(p.value != null && { value: p.value }), ...(p.bearing != null && { bearing: p.bearing }) }
+      const properties = { map: id, ...sistema, type: p.type, ...(p.label && { label: p.label }), ...(p.name && { name: p.name }), ...(p.value != null && { value: p.value }), ...(p.bearing != null && { bearing: p.bearing }) }
       symbols.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties, tippecanoe: { minzoom: p.type === 'entrance' ? MIN_ZOOM : SYMBOL_ZOOM } })}\n`)
       counts.symbols++
     }

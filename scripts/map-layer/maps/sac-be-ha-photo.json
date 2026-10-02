@@ -1,4 +1,6 @@
 {
+  "id": "-P2xDvy1q6FqoXDyArHi",
+  "mapImportKey": "87ebb2c6b2cc",
   "perspective": {
     "photo": "../../../_data/maps-import/images/sac-be-ha.jpg",
     "corners": [
@@ -9,6 +11,7 @@
     ]
   },
   "image": "../../../_data/map-layer/pilot/sac-be-ha-straight.png",
+  "importImage": "../../../_data/maps-import/images/sac-be-ha.jpg",
   "title": "Sistema Sac Be Ha - QRSS poster 2006",
   "date": "2006",
   "credits": "Surveyed by Nadia Berni and Dave Sieff; mapping and cartography Nadia, 2006 (QRSS poster)",
