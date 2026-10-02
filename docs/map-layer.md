@@ -82,6 +82,11 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
   `scripts/map-layer/found-cenotes.json`, for a later direct import: new
   cenotes, positions for caves without one, names for unnamed caves.
   Nothing is written to the database, and nothing goes to the Google Sheet.
+  `found_cenotes_map.py <out.html>` shows them on a map for review;
+  `node scripts/map-layer/import-found-cenotes.js -l` (or `-p`) then imports
+  them: new caves, positions (validity `unknown`), names and cenote-entrance
+  flags - only what is missing, so it can be rerun. A Google Sheet sync
+  replaces the caves collection: run it again afterwards.
 - A position read off a map is always to be verified on site (`validity`
   `unknown`). A database position marked `invalid` may be replaced by a map's;
   one taken on site (*Open Caves* source) never is.
