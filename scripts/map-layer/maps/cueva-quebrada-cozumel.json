@@ -1,0 +1,230 @@
+{
+  "image": "../../../_data/maps-import/images/quebrada-c-parque-chankanaab-mpo-cozumel.webp",
+  "title": "Cueva Quebrada, Parque Chankanaab, Cozumel (Dennis Williams 1986)",
+  "credits": "Cueva Quebrada, Parque Chankanaab, Cozumel, Quintana Roo; line plot by Dennis Williams, June 1986; length 2759 m; entire cave is underwater (AMCS Activities Newsletter no. 16, p. 12, 1987)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfxkYBlAIaE0cOxe",
+  "utmEpsg": 32616,
+  "exclude": [
+    {
+      "why": "outside the frame (top)",
+      "box": [
+        0,
+        0,
+        1906,
+        96
+      ]
+    },
+    {
+      "why": "outside the frame (bottom), with the caption: Cueva Quebrada, Parque Chankanaab, Mpo. Cozumel, Quintana Roo; AMCS Activities Newsletter no. 16, p. 12, 1987",
+      "box": [
+        0,
+        2040,
+        1906,
+        2791
+      ],
+      "history": true
+    },
+    {
+      "why": "outside the frame (left)",
+      "box": [
+        0,
+        0,
+        104,
+        2791
+      ]
+    },
+    {
+      "why": "outside the frame (right)",
+      "box": [
+        1830,
+        0,
+        1906,
+        2791
+      ]
+    },
+    {
+      "why": "title: Cueva Quebrada, Parque Chankanaab, Cozumel, Quintana Roo",
+      "box": [
+        1020,
+        150,
+        1420,
+        290
+      ]
+    },
+    {
+      "why": "line plot by Dennis Williams, length 2759 meters, June 1986, entire cave is underwater",
+      "box": [
+        1020,
+        320,
+        1545,
+        490
+      ],
+      "history": true
+    },
+    {
+      "why": "the sea shore (Cozumel Channel) and its labels, with the Entrance label",
+      "box": [
+        170,
+        150,
+        470,
+        344
+      ]
+    },
+    {
+      "why": "the sea shore south of the Entrance (with its inlet)",
+      "box": [
+        170,
+        344,
+        270,
+        430
+      ]
+    },
+    {
+      "why": "label: Opening",
+      "box": [
+        396,
+        1052,
+        535,
+        1092
+      ]
+    },
+    {
+      "why": "label: Opening",
+      "box": [
+        362,
+        1166,
+        500,
+        1202
+      ]
+    },
+    {
+      "why": "label: Window",
+      "box": [
+        1156,
+        1220,
+        1275,
+        1252
+      ]
+    },
+    {
+      "why": "label: Opening",
+      "box": [
+        1606,
+        880,
+        1745,
+        920
+      ]
+    },
+    {
+      "why": "scale bar (0-100 meters)",
+      "box": [
+        460,
+        1255,
+        720,
+        1370
+      ]
+    },
+    {
+      "why": "north arrow and N",
+      "box": [
+        670,
+        1510,
+        735,
+        1770
+      ]
+    },
+    {
+      "why": "inset map: Cancun, Cozumel, Tulum, Cueva Quebrada",
+      "box": [
+        1050,
+        1485,
+        1550,
+        1990
+      ]
+    }
+  ],
+  "scaleBar": {
+    "from": [
+      479,
+      1314
+    ],
+    "to": [
+      685,
+      1314
+    ],
+    "metres": 100
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "Entrance (in a notch of the sea shore)",
+      "px": [
+        273,
+        350
+      ],
+      "latitude": 20.4422,
+      "longitude": -86.99513,
+      "why": "the map's Entrance sits in a small inlet of the drawn Cozumel Channel shore: put on the only such notch of the real coast by Chankanaab lagoon - the rocky corner where the park's beach turns from NE to WSW, 40 m west of the lagoon (Mapbox/Maxar imagery; OSM coastline way 1391920585 bends there, 20.4421-20.4424)"
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Entrance (sea shore, Cozumel Channel)",
+      "px": [
+        273,
+        350
+      ],
+      "why": "the map's Entrance: a sea-shore entrance on the Cozumel Channel, by Chankanaab lagoon; no database cave for it"
+    },
+    {
+      "name": "Opening (west passage, north)",
+      "px": [
+        384,
+        1077
+      ],
+      "why": "'Opening': the end of the short side line by the label"
+    },
+    {
+      "name": "Opening (west passage, south)",
+      "px": [
+        351,
+        1190
+      ],
+      "why": "'Opening': the end of the short side line by the label"
+    },
+    {
+      "name": "Opening (east end)",
+      "px": [
+        1590,
+        905
+      ],
+      "why": "'Opening': the stub east of the small loop at the east end"
+    },
+    {
+      "name": "Window",
+      "px": [
+        1132,
+        1240
+      ],
+      "why": "'Window' (a karst window, an opening to the surface): the small hook on the south-east passage by the label"
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ]
+  },
+  "symbols": {
+    "units": "m",
+    "letters": {},
+    "why": "Line plot with no symbols: no depths (no overlined/underlined numbers), no codes, no water-flow arrows, no 'To ...' pointers or named places, and no bones (no icon, no written mention; the map has no legend). Its only labels are the Entrance, three Openings and a Window, kept as entrances."
+  },
+  "placementWhy": "Fair to weak (about 30-60 m): 0-100 m scale bar + north up + one point, the Entrance on the coast. The map draws the Cozumel Channel shore with an inlet at the Entrance; it is put on the rocky corner of the real coast 40 m west of Chankanaab lagoon, the only notch of this coast (Mapbox/Maxar; OSM coastline). Checks: the drawn shore north of the Entrance runs at 36.6 degrees from the map's north, the OSM coast there at 36.8 (so the north arrow is right to about 1-2 degrees; the short stretch drawn south of the inlet is 10 degrees off the real one); the traced plan length is 2530 m against the 2759 m surveyed (plan vs line length with depth and wiggles, so the scale bar is plausible to a few %). Not checked: the position along the coast (one point only - an error along the shore would move the whole cave), and the three Openings and the Window, which fall in unbroken canopy (no visible cenote at any of them; two dark tree-ringed spots near the main passage are not marked on the map). With this placement the passage from the Entrance runs along and under the west edge of the lagoon, which fits the lagoon's known underwater connection to the sea. No other placed map or database position nearby to cross-check: the database's Quebrada caves with positions (Km 1, Roka Bomba - Gerrard; Cilpa - Cave and Karst Studies) are rounded to 5 arc-seconds and lie 250-450 m north of this map's passages.",
+  "entrancesWhy": "None of these is matched to a database cave: the Quebrada sistema's caves are mostly without position (Abeja, C-1, C-2, Camino Maya, DW, Sac Be, Sifa, two unnamed) and those with one (Km 1, Roka Bomba, Cilpa) are coarse and 250-450 m away; the names may belong to some of these Openings, but the map gives no names."
+}
