@@ -22,7 +22,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   const open = Boolean(anchorEl)
   const mediaThumbnailItemId = `media-thumbnail-item-${mediaAsset.id}`
   const activeStyles = isActive ? {
-    outline: `1px solid var(--md-palette-secondary-${palette.mode})`,
+    outline: `1px solid var(--mui-palette-secondary-${palette.mode})`,
     outlineOffset: '4px',
     position: 'relative',
     ':before': {
@@ -32,7 +32,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
       right: -4,
       top: -4,
       bottom: -4,
-      background: 'rgb(var(--md-palette-secondary-mainChannel) / 35%)',
+      background: 'rgb(var(--mui-palette-secondary-mainChannel) / 35%)',
       zIndex: -1,
       borderRadius: mediaItemRadius
     }
@@ -64,12 +64,12 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
       className={`oc-media-thumbnail ${props.className || ''}`.trim()}
       sx={{
         '--_menu-opacity': 0,
-        '--_menu-transition-duration': 'var(--md-transition-duration-complex)',
+        '--_menu-transition-duration': 'var(--mui-transition-duration-complex)',
         '--_menu-transition-delay': '.5s',
         px: `${mediaItemPadding}px`,
         '&:hover': {
           '--_menu-opacity': 1,
-          '--_menu-transition-duration': 'var(--md-transition-duration-shortest)',
+          '--_menu-transition-duration': 'var(--mui-transition-duration-shortest)',
           '--_menu-transition-delay': '0s',
         }
       }}

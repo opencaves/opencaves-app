@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import { ArrowDropDownRounded, StraightenRounded, CodeRounded, DataObjectRounded, FormatBoldRounded, FormatItalicRounded, FormatListBulletedRounded, FormatListNumberedRounded, FormatQuoteRounded, FormatStrikethroughRounded, HorizontalRuleRounded, LinkRounded, TitleRounded, Redo, Undo } from '@mui/icons-material'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
+import { undoInputRule } from '@milkdown/prose/inputrules'
 import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
@@ -100,6 +101,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         ctx.update(editorViewOptionsCtx, (prev) => ({
           ...prev,
           attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': labelId },
+          // Backspace right after a typed length became a tag (milkdownLength.js'
+          // input rule): the text as typed.
+          handleKeyDown: (view, event) => event.key === 'Backspace' && undoInputRule(view.state, view.dispatch),
         }))
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
           // Back to the loaded document: report the original text as is.

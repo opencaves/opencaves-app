@@ -78,6 +78,9 @@ const lightThemeOptions = {
       easing: {
         emphasizedAccelerate: 'cubic-bezier(0.3, 0, 0.8, 0.15)',
         emphasizedDecelerate: 'cubic-bezier(0.05, 0.7, 0.1, 1)',
+        standard: 'cubic-bezier(0.2, 0, 0, 1)',
+        standardAccelerate: 'cubic-bezier(0.3, 0, 1, 1)',
+        standardDecelerate: 'cubic-bezier(0, 0, 0, 1)',
       },
     },
   },
@@ -131,7 +134,7 @@ const lightThemeOptions = {
     },
     caveDetailsSubHeader: {
       // color: 'theme.text.secondary'
-      color: 'var(--md-palette-text-secondary)',
+      color: 'var(--mui-palette-text-secondary)',
       fontSize: 'var(--oc-map-text-secondary-font-size)',
       fontWeight: 400,
       lineHeight: '1.25rem',
@@ -155,7 +158,7 @@ const lightThemeOptions = {
     },
     sistemaHistoryTextSecondary: {
       fontSize: 'var(--oc-map-text-secondary-font-size)',
-      color: 'var(--md-palette-text-secondary)',
+      color: 'var(--mui-palette-text-secondary)',
     },
     fontTitleLarge: {
       fontSize: '1.125rem',
@@ -168,14 +171,14 @@ const lightThemeOptions = {
       fontWeight: 400,
       lineHeight: '1.5rem',
       letterSpacing: '0.03125rem',
-      color: 'var(--md-palette-text-primary)',
+      color: 'var(--mui-palette-text-primary)',
     },
     md3Placeholder: {
       fontSize: '1rem',
       fontWeight: 400,
       lineHeight: '1.5rem',
       letterSpacing: '0.03125rem',
-      color: 'var(--md-palette-text-secondary)',
+      color: 'var(--mui-palette-text-secondary)',
     },
   },
   components: {

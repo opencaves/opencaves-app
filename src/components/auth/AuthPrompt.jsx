@@ -55,7 +55,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
       sx={{
-        '--swiper-pagination-color': 'var(--md-palette-secondary-main)',
+        '--swiper-pagination-color': 'var(--mui-palette-secondary-main)',
       }}
       // TransitionComponent={Grow}
       transitionDuration={{

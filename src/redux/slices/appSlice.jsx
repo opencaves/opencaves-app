@@ -9,6 +9,9 @@ const initialState = {
   filterMenuOpen: false,
   resultPaneSmOpen: true,
   resultPaneSmCurrentBreakpoint: PANE_INITIAL_BREAKPOINT,
+  // The cave the phone sheet's breakpoint is for: a reload of that cave's
+  // page opens the sheet where it was (the app slice is kept per tab).
+  resultPaneSmCaveId: null,
   // Which of the Pictures/Videos/Maps tabs was last open, per cave - lets a
   // reload of the same cave's pane come back to the tab the person was on.
   caveMediaTabByCaveId: {},
@@ -33,6 +36,9 @@ export const appSlice = createSlice({
     setResultPaneSmCurrentBreakpoint: (state, action) => {
       state.resultPaneSmCurrentBreakpoint = action.payload
     },
+    setResultPaneSmCaveId: (state, action) => {
+      state.resultPaneSmCaveId = action.payload
+    },
     setCaveMediaTab: (state, action) => {
       const { caveId, tab } = action.payload
       state.caveMediaTabByCaveId[caveId] = tab
@@ -41,6 +47,6 @@ export const appSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmCurrentBreakpoint, setCaveMediaTab } = appSlice.actions
+export const { setTitle, setSearchBarOff, toggleFilterMenu, setResultPaneSmOpen, setResultPaneSmCurrentBreakpoint, setResultPaneSmCaveId, setCaveMediaTab } = appSlice.actions
 
 export default appSlice.reducer

@@ -24,7 +24,7 @@ function FilterMenuHead({ title, children, ...props }) {
         sx={{
           gap: 1,
           alignItems: 'center',
-          boxShadow: 'var(--md-shadows-2)',
+          boxShadow: 'var(--mui-shadows-2)',
           position: 'relative',
           zIndex: '1',
           py: 1.5,
@@ -79,11 +79,11 @@ function FilterMenuSectionHeader({ children, ...props }) {
         component="h3"
         sx={{
           lineHeight: 1,
-          color: 'var(--md-palette-text-primary)',
+          color: 'var(--mui-palette-text-primary)',
           fontWeight: 500,
           fontSize: '1.125rem',
           px: '1rem',
-          bgcolor: 'var(--md-palette-background-paper)',
+          bgcolor: 'var(--mui-palette-background-paper)',
         }}
       >
         {children}

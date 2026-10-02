@@ -47,7 +47,7 @@ function significantDigits(written) {
 }
 
 // Longest spellings first, so "km" isn't read as "k" + "m".
-const TEXT_SPELLINGS = Object.values(LENGTH_UNITS)
+export const TEXT_SPELLINGS = Object.values(LENGTH_UNITS)
   .flatMap((u) => u.inText || u.spellings)
   .sort((a, b) => b.length - a.length)
   .join('|')

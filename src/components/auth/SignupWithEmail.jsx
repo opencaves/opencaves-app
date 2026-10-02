@@ -453,7 +453,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
       sx={{
-        '--swiper-pagination-color': 'var(--md-palette-secondary-main)',
+        '--swiper-pagination-color': 'var(--mui-palette-secondary-main)',
       }}
       // TransitionComponent={Grow}
       transitionDuration={{
