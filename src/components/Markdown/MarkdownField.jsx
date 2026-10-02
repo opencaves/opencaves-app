@@ -270,7 +270,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
     // Within one paragraph, each character of the text is one position
     // (other inline nodes count as one placeholder character).
     const found = !selection.empty && selection.$from.sameParent(selection.$to) ? findLength(doc.textBetween(selection.from, selection.to, '\n', '￼')) : null
-    const from = found ? selection.from + found.index : selection.from
+    // Text with no length in it stays: the new tag goes after it.
+    const from = found ? selection.from + found.index : selection.to
     const to = found ? from + found.length : selection.to
     view.dispatch(view.state.tr.replaceWith(from, to, type.create({ text: found ? `${found.written} ${found.unit}` : ' m' })))
     focusLength(view, from)
