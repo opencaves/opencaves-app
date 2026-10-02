@@ -1,0 +1,472 @@
+{
+  "image": "../../../_data/maps-import/images/carrillo-sist.webp",
+  "title": "Sistema Carrillo - Mafia Maps 2000",
+  "credits": "Sistema Carrillo, Q. Roo, Mexico; surveyed passage to date 6,293 feet; exploration and survey Christophe Le Maillot, Fred Devos; Mafia Maps, September 2000 (c) F. Devos 2000",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfrROj8s2qysscFG",
+  "utmEpsg": 32616,
+  "unverified": "No cenote of the map has a position: the eight caves of the sistema in the database (Cow Dump, Turtle Dump, Pajaro, Ojo Rojo, Chan Pek, Chupa Hoop, Choco Pol, Air Bell; all Gerrard 2015, area Puerto Aventuras) have none, the sistema has none, none of their names is in OpenStreetMap (Overpass search 20.30-20.65 N, 87.10-87.45 W) or found on the web, and the map draws no road, coast line or pond to match - only the word BEACH south-east of the cave. The single control point is a NOMINAL anchor (Cenote Pajaro put on Puerto Aventuras, 20.5003 N, 87.2309 W) so the pipeline can run: the geometry is NOT on the ground. To fix: field GPS positions of two of its cenotes (Pajaro and Choco Pol are about 690 m apart at the derived scale, at the two ends).",
+  "placementWhy": "UNVERIFIED (see 'unverified'). No scale bar: the scale, 0.643 m/px, comes from the title block's 'Surveyed passage to date: 6,293 feet' (1,918 m) over the traced lines' length (about 2,985 px) - assumes the whole surveyed length is drawn (Mafia line plots are smoothed: the real scale is likely a little smaller). North from the compass rose (up), unchecked. Position nominal. No placed map can overlap it, since its position is unknown.",
+  "scaleBar": {
+    "why": "not a drawn bar: the scale derived from the surveyed length (6,293 ft = 1,918 m over about 2,985 px of traced line: 0.643 m/px)",
+    "from": [
+      0,
+      0
+    ],
+    "to": [
+      1000,
+      0
+    ],
+    "metres": 643
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "name": "NOMINAL anchor at Cenote Pajaro (not a real position: see 'unverified')",
+      "caveId": "-KPZkVO8OLF5BCFiZvnM",
+      "px": [
+        1265,
+        432
+      ],
+      "latitude": 20.5003,
+      "longitude": -87.2309
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Sistema Carrillo, Q.Roo Mexico, surveyed passage to date 6,293 feet, exploration and survey Christophe Le Maillot, Fred Devos, Mafia Maps September 2000",
+      "box": [
+        85,
+        55,
+        668,
+        535
+      ],
+      "history": true
+    },
+    {
+      "why": "copyright F. Devos 2000",
+      "box": [
+        1530,
+        1278,
+        1880,
+        1322
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (compass rose)",
+      "box": [
+        1618,
+        895,
+        1840,
+        1152
+      ]
+    },
+    {
+      "why": "label CENOTE COW DUMP",
+      "box": [
+        1165,
+        112,
+        1348,
+        185
+      ]
+    },
+    {
+      "why": "label CENOTE TURTLE DUMP",
+      "box": [
+        1478,
+        203,
+        1615,
+        315
+      ]
+    },
+    {
+      "why": "label CENOTE PAJARO",
+      "box": [
+        1328,
+        443,
+        1462,
+        515
+      ]
+    },
+    {
+      "why": "label CENOTE OJO ROJO",
+      "box": [
+        598,
+        782,
+        765,
+        853
+      ]
+    },
+    {
+      "why": "label AIR BELLE",
+      "box": [
+        298,
+        913,
+        398,
+        985
+      ]
+    },
+    {
+      "why": "label CENOTE CHAN PEK",
+      "box": [
+        842,
+        910,
+        1004,
+        983
+      ]
+    },
+    {
+      "why": "label CENOTE CHUPA HOOP",
+      "box": [
+        543,
+        1018,
+        756,
+        1090
+      ]
+    },
+    {
+      "why": "label CENOTE CHOCO POL",
+      "box": [
+        236,
+        1075,
+        372,
+        1185
+      ]
+    },
+    {
+      "why": "label BEACH",
+      "box": [
+        1283,
+        1133,
+        1392,
+        1165
+      ]
+    },
+    {
+      "why": "depth 22 (ft) north of the Pajaro loop: the symbol's ink isn't a survey line",
+      "box": [
+        1052,
+        433,
+        1097,
+        478
+      ]
+    },
+    {
+      "why": "depth 24 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        1192,
+        597,
+        1236,
+        640
+      ]
+    },
+    {
+      "why": "depth 26 (ft): the symbol's ink isn't a survey line",
+      "box": [
+        852,
+        665,
+        895,
+        708
+      ]
+    },
+    {
+      "why": "depth 22 (ft) north of Chan Pek: the symbol's ink isn't a survey line",
+      "box": [
+        943,
+        830,
+        987,
+        872
+      ]
+    },
+    {
+      "why": "depth 20 (ft) south of Chan Pek: the symbol's ink isn't a survey line",
+      "box": [
+        1050,
+        988,
+        1094,
+        1031
+      ]
+    },
+    {
+      "why": "depth 18 (ft) by Choco Pol: the symbol's ink isn't a survey line",
+      "box": [
+        470,
+        1085,
+        512,
+        1128
+      ]
+    },
+    {
+      "why": "water-flow arrow (dashed, west; a symbol)",
+      "box": [
+        494,
+        655,
+        531,
+        868
+      ]
+    },
+    {
+      "why": "water-flow arrow (dashed, east; a symbol)",
+      "box": [
+        1088,
+        618,
+        1147,
+        805
+      ]
+    },
+    {
+      "why": "Cenote Pajaro's pool (filled blob and its outline): an entrance, not a survey line",
+      "box": [
+        1240,
+        380,
+        1285,
+        456
+      ]
+    },
+    {
+      "why": "Cenote Chan Pek's pool (filled blob): an entrance, not a survey line",
+      "box": [
+        985,
+        882,
+        1042,
+        921
+      ]
+    },
+    {
+      "why": "Cenote Chupa Hoop's pool (filled blob, off the line): an entrance, not a survey line",
+      "box": [
+        516,
+        976,
+        566,
+        1016
+      ]
+    },
+    {
+      "why": "Cenote Choco Pol's pool (filled blob)",
+      "box": [
+        400,
+        1066,
+        424,
+        1091
+      ]
+    },
+    {
+      "why": "Air Belle's cenote dot",
+      "box": [
+        382,
+        1008,
+        401,
+        1025
+      ]
+    },
+    {
+      "why": "Cenote Cow Dump's dot (no line)",
+      "box": [
+        1383,
+        172,
+        1404,
+        193
+      ]
+    },
+    {
+      "why": "Cenote Turtle Dump's dot (no line)",
+      "box": [
+        1407,
+        250,
+        1428,
+        271
+      ]
+    },
+    {
+      "why": "unnamed cenote dot south of Turtle Dump (no line)",
+      "box": [
+        1428,
+        339,
+        1449,
+        360
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "leaderMaxPx": 1,
+    "joinShortPx": 24,
+    "joinNearEnds": true,
+    "why": "Stick map (Mafia Maps line plot, black guidelines only, no walls): traced as lines, no thickness. Cenote pools (filled blobs), dots, depths, labels and the two dashed flow arrows are masked. The Chan Pek box stops short of the line running along the pool's east edge. Gaps kept as drawn (jumps): Air Belle's dot and the west spur's end (391, 1017)-(392, 1028); Chupa Hoop's pool isn't joined to the line."
+  },
+  "entrances": [
+    {
+      "name": "Cenote Cow Dump",
+      "caveId": "-KPZkVHOfLIRWEadyN_P",
+      "px": [
+        1393,
+        182
+      ],
+      "why": "Dot, no line drawn to it."
+    },
+    {
+      "name": "Cenote Turtle Dump",
+      "caveId": "-KPZkVRMzBC5hV2BAUUQ",
+      "px": [
+        1417,
+        260
+      ],
+      "why": "Dot beside the label (no line drawn to it)."
+    },
+    {
+      "name": "unnamed cenote south of Turtle Dump",
+      "px": [
+        1438,
+        349
+      ],
+      "why": "A third cenote dot with no label and no line; no database cave to match."
+    },
+    {
+      "name": "Cenote Pajaro",
+      "caveId": "-KPZkVO8OLF5BCFiZvnM",
+      "px": [
+        1265,
+        432
+      ],
+      "why": "Pool (filled blob with an outline) where the lines start."
+    },
+    {
+      "name": "Cenote Ojo Rojo",
+      "caveId": "-KPZkVNtJbk-kyES_ALi",
+      "px": [
+        787,
+        828
+      ],
+      "why": "Dot on the main line."
+    },
+    {
+      "name": "Cenote Chan Pek",
+      "caveId": "-KPZkVGP2ULkvBdnL-fu",
+      "px": [
+        1018,
+        902
+      ],
+      "why": "Pool beside the south-east line."
+    },
+    {
+      "name": "Cenote Chupa Hoop",
+      "caveId": "-KPZkVGxuqE2z4MR-pmM",
+      "px": [
+        541,
+        995
+      ],
+      "why": "Pool just off the main line (no connection drawn)."
+    },
+    {
+      "name": "Cenote Choco Pol",
+      "caveId": "-KPZkVGkZh5WXAU56ixS",
+      "px": [
+        413,
+        1079
+      ],
+      "why": "Pool at the end of a short spur."
+    },
+    {
+      "name": "Air Belle",
+      "caveId": "-KPZkVD_SZp2b6h4abu-",
+      "px": [
+        391,
+        1017
+      ],
+      "why": "Dot at the end of the west spur, under the AIR BELLE label (the map doesn't say 'cenote'; the database has Air Bell as a cave of the sistema). The line ending at (425, 968) right of the label is the other candidate."
+    }
+  ],
+  "symbols": {
+    "why": "Mafia Maps line plot: depths are overlined numbers in feet, all six listed here by hand because their exclude boxes hide them from extraction. Two dashed water-flow arrows, both running south (slightly west): towards the BEACH written south-east of the cave. No legend, no letter codes, no line names, no bones.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "22",
+        "px": [
+          1074,
+          458
+        ],
+        "value": 22,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "24",
+        "px": [
+          1214,
+          622
+        ],
+        "value": 24,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "26",
+        "px": [
+          873,
+          690
+        ],
+        "value": 26,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "22",
+        "px": [
+          965,
+          853
+        ],
+        "value": 22,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "20",
+        "px": [
+          1071,
+          1013
+        ],
+        "value": 20,
+        "halfPx": 16
+      },
+      {
+        "type": "depth",
+        "label": "18",
+        "px": [
+          491,
+          1110
+        ],
+        "value": 18,
+        "halfPx": 16
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          514,
+          760
+        ],
+        "bearing": 185
+      },
+      {
+        "type": "flow",
+        "label": "flow",
+        "px": [
+          1118,
+          710
+        ],
+        "bearing": 194
+      }
+    ]
+  }
+}
