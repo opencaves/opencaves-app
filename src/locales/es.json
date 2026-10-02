@@ -912,7 +912,9 @@
         "file": "Archivo del mapa: {{name}}",
         "showDrawing": "Mostrar este dibujo",
         "shown": "«{{title}}» visible",
-        "hiddenTag": "oculto"
+        "hiddenTag": "oculto",
+        "date": "Fecha: {{date}}",
+        "undated": "Sin fecha"
       }
     }
   },

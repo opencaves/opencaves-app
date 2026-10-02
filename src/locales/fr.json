@@ -911,7 +911,9 @@
         "file": "Fichier de la carte : {{name}}",
         "showDrawing": "Afficher ce dessin",
         "shown": "« {{title}} » affiché",
-        "hiddenTag": "masqué"
+        "hiddenTag": "masqué",
+        "date": "Date : {{date}}",
+        "undated": "Non datée"
       }
     }
   },

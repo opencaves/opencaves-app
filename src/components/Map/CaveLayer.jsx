@@ -176,11 +176,17 @@ export default function CaveLayer({ selectedSistemaId }) {
             {maps[hovered.name]?.title || hovered.name}
             {hiddenMaps.includes(hovered.name) && ` (${t('hiddenTag')})`}
           </Typography>
+          <Typography variant="caption" color="text.secondary" component="p">
+            {maps[hovered.name]?.date || t('undated')}
+          </Typography>
         </Popup>
       )}
       {editMode && picked && (
         <Popup className="oc-cave-layer-edit-card" longitude={picked.lngLat.lng} latitude={picked.lngLat.lat} closeOnClick={false} onClose={() => setPicked(null)} anchor="bottom" offset={12} maxWidth="280px">
           <Typography variant="subtitle2" sx={{ pr: 2 }}>{maps[picked.name]?.title || picked.name}</Typography>
+          <Typography variant="caption" color="text.secondary" component="p">
+            {maps[picked.name]?.date ? t('date', { date: maps[picked.name].date }) : t('undated')}
+          </Typography>
           {sistemaName(maps[picked.name]?.sistemaId) && (
             <Typography variant="caption" color="text.secondary" component="p">
               {t('system', { name: sistemaName(maps[picked.name].sistemaId) })}

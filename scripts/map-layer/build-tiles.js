@@ -9,7 +9,7 @@
 // depths, restrictions, flow, entrances...) to the "symbols" layer. Each
 // feature keeps its map's name ("map"), its sistema ("sistemaId": the app
 // filters and colours by it, colours from the database) and its kind or type.
-// maps.json lists the maps in the tiles by name, with their title and sistema
+// maps.json lists the maps in the tiles by name, with their title, date and sistema
 // (the layer's edit mode names the map under the pointer).
 //
 // Runs tippecanoe in Docker (image opencaves-tippecanoe, built from
@@ -79,7 +79,7 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
     continue
   }
   counts.maps++
-  mapIndex[name] = { title: config.title || name, ...(config.sistemaId && { sistemaId: config.sistemaId }) }
+  mapIndex[name] = { title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }) }
   const sistema = config.sistemaId ? { sistemaId: config.sistemaId } : {}
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
     const kind = feature.properties?.kind || 'wall'

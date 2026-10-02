@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { CAVE_LAYER } from '@/config/map.js'
 import { subscribeHiddenMaps } from '@/services/caveLayerSettings.js'
 
-// The maps in the cave layer's tiles (maps.json: name -> { title, sistemaId }),
+// The maps in the cave layer's tiles (maps.json: name -> { title, date, sistemaId }),
 // loaded once.
 let mapIndex = null
 const mapIndexLoading = fetch(CAVE_LAYER.MAPS)

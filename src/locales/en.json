@@ -912,7 +912,9 @@
         "file": "Map file: {{name}}",
         "showDrawing": "Show this drawing",
         "shown": "“{{title}}” shown",
-        "hiddenTag": "hidden"
+        "hiddenTag": "hidden",
+        "date": "Date: {{date}}",
+        "undated": "Undated"
       }
     }
   },
