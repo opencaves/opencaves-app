@@ -580,7 +580,8 @@
       "rateThisCave": "Rate this cave",
       "saveError": "Could not save your rating."
     },
-    "cenoteEntrance": "Cenote entrance"
+    "cenoteEntrance": "Cenote entrance",
+    "cenoteEntranceDescription": "A cenote divers use to enter a cave system."
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -833,10 +834,12 @@
   },
   "fees": {
     "yes": {
-      "label": "Has fees"
+      "label": "Has fees",
+      "description": "Entry to the site is charged."
     },
     "no": {
-      "label": "No fees"
+      "label": "No fees",
+      "description": "Entry to the site is free."
     }
   },
   "map": {
