@@ -27,6 +27,9 @@ export default function CaveLayerButton({ sx }) {
   const [anchor, setAnchor] = useState(null)
   const titleId = useId()
 
+  // A hidden drawing's map: its title and date (its id only while maps.json loads).
+  const mapLabel = (id) => (maps[id] ? [maps[id].title, maps[id].date].filter(Boolean).join(' · ') : id)
+
   async function showMap(name) {
     try {
       await setMapHidden(name, false)
@@ -93,8 +96,8 @@ export default function CaveLayerButton({ sx }) {
                     <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, maxHeight: 160, overflowY: 'auto' }}>
                       {hiddenMaps.map((name) => (
                         <Box component="li" key={name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={maps[name]?.title || name}>
-                            {maps[name]?.title || name}
+                          <Typography variant="body2" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={mapLabel(name)}>
+                            {mapLabel(name)}
                           </Typography>
                           <Button size="small" onClick={() => showMap(name)}>
                             {t('edit.show')}
