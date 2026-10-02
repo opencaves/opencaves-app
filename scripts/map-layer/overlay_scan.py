@@ -156,6 +156,14 @@ def main(config_path, output):
         rgba = numpy.zeros((*ink.shape, 4), numpy.uint8)
         rgba[ink] = (*INK_COLOUR, 255)
         overlay = Image.fromarray(rgba, 'RGBA')
+    # Excluded boxes marked "otherPart": a part of the sheet placed by another
+    # config - left out, or it would show there misplaced and untraced.
+    pixels = numpy.asarray(overlay).copy()
+    for item in config.get('exclude', []):
+        if item.get('otherPart'):
+            x0, y0, x1, y1 = (round(v * factor) for v in item['box'])
+            pixels[max(0, y0):y1, max(0, x0):x1, 3] = 0
+    overlay = Image.fromarray(pixels, 'RGBA')
     overlay.save(out / f'{name}-overlay.png')
     # Embedded in the page: opened from disk, it may not load a separate file.
     buffer = io.BytesIO()

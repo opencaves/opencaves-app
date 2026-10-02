@@ -35,7 +35,8 @@
         0,
         1160,
         1062
-      ]
+      ],
+      "otherPart": true
     },
     {
       "why": "the Up Loop part (Dreamland, west of the main line)",
@@ -44,7 +45,8 @@
         1062,
         412,
         1160
-      ]
+      ],
+      "otherPart": true
     },
     {
       "why": "grid label 0 (north axis)",
@@ -330,6 +332,30 @@
         "to": [
           761,
           1172
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Wonderland line where it crosses the east grid axis and the 750 label (erased with them)",
+        "from": [
+          750,
+          1183
+        ],
+        "to": [
+          742,
+          1196
+        ],
+        "widthPx": 3
+      },
+      {
+        "why": "Wonderland line, continued below the 750 label",
+        "from": [
+          742,
+          1196
+        ],
+        "to": [
+          739,
+          1215
         ],
         "widthPx": 3
       }

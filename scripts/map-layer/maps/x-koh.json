@@ -260,7 +260,8 @@
         1062,
         1160,
         1504
-      ]
+      ],
+      "otherPart": true
     },
     {
       "why": "the Down Loop part and the east grid axis' labels (see above)",
@@ -269,7 +270,8 @@
         1160,
         412,
         1504
-      ]
+      ],
+      "otherPart": true
     }
   ],
   "controlPoints": [
