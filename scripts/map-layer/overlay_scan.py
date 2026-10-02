@@ -34,14 +34,13 @@ INK_LEVEL = 140
 INK_COLOUR = (255, 214, 0)
 
 
-def fit_similarity(pixels, metres, weights=None):
-    """Scale, rotation and shift from pixels (y down) to UTM metres; a
-    point's weight pulls the fit toward it (an anchor: exactly onto it)."""
+def fit_similarity(pixels, metres):
+    """Scale, rotation and shift from pixels (y down) to UTM metres."""
     rows, values = [], []
-    for (x, y), (east, north), w in zip(pixels, metres, weights or [1] * len(pixels)):
+    for (x, y), (east, north) in zip(pixels, metres):
         X, Y = x, -y
-        rows += [[w * X, -w * Y, w, 0], [w * Y, w * X, 0, w]]
-        values += [w * east, w * north]
+        rows += [[X, -Y, 1, 0], [Y, X, 0, 1]]
+        values += [east, north]
     a, b, tx, ty = numpy.linalg.lstsq(numpy.array(rows, float), numpy.array(values, float), rcond=None)[0]
     return lambda x, y: (a * x + b * y + tx, b * x - a * y + ty), math.hypot(a, b), math.degrees(math.atan2(b, a))
 
@@ -55,8 +54,7 @@ def raster_placement(config):
     north arrow isn't up}), the scale comes from the bar and the orientation
     from north, then the map is shifted onto the control points (their
     average: one is enough). Otherwise a similarity fit (scale, rotation, shift)
-    through at least two control points; one marked "anchor" is fitted
-    exactly. Points marked "check" are left out."""
+    through at least two control points. Points marked "check" are left out."""
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     fitted = [p for p in config['controlPoints'] if not p.get('check')]
     utm = [to_utm.transform(p['longitude'], p['latitude']) for p in fitted]
@@ -79,9 +77,7 @@ def raster_placement(config):
         return (lambda x, y: (shift_e + offset(x, y)[0], shift_n + offset(x, y)[1])), scale, math.degrees(angle)
     if len(fitted) < 2:
         sys.exit('At least two control points (not marked "check") are needed, or a scale bar and "north": "up".')
-    # "anchor": true - a trusted position (taken on site) the map must sit on;
-    # the other points then only set the scale and rotation.
-    return fit_similarity([p['px'] for p in fitted], utm, [1000 if p.get('anchor') else 1 for p in fitted])
+    return fit_similarity([p['px'] for p in fitted], utm)
 
 
 # Database sources, shortened for the red dots' labels.
