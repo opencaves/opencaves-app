@@ -12,7 +12,10 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { METRES_PER_FOOT } from '@/utils/units.js'
 
 // The layers the edit mode answers to: a map's drawing (its symbols are too small).
+// Lines first: a wall within reach wins over the water around it.
 const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-details', 'oc-caves-water']
+// How far from the pointer (px) a drawing answers: most are thin lines.
+const HOVER_PADDING = 8
 
 // The tiles that exist ("z/x/y"), loaded once: empty tiles have no file, and
 // Hosting would answer them with the app's index.html (its catch-all rewrite).
@@ -75,28 +78,35 @@ export default function CaveLayer({ selectedSistemaId }) {
       setPicked(null)
       return undefined
     }
-    const target = (event) => ({ name: event.features?.[0]?.properties?.map, lngLat: event.lngLat })
+    // The map drawn nearest the pointer: the drawings within HOVER_PADDING of
+    // it, lines before water.
+    const target = (event) => {
+      const { x, y } = event.point
+      const layers = EDITABLE_LAYERS.filter((id) => map.getLayer(id))
+      const features = layers.length ? map.queryRenderedFeatures([[x - HOVER_PADDING, y - HOVER_PADDING], [x + HOVER_PADDING, y + HOVER_PADDING]], { layers }) : []
+      const feature = features.find((f) => f.layer.id !== 'oc-caves-water') || features[0]
+      return feature ? { name: feature.properties.map, lngLat: event.lngLat } : null
+    }
     const onMove = (event) => {
-      map.getCanvas().style.cursor = 'pointer'
       const next = target(event)
-      setHovered((current) => (current?.name === next.name ? { ...current, lngLat: next.lngLat } : next))
+      map.getCanvas().style.cursor = next ? 'pointer' : ''
+      setHovered((current) => (next && current?.name === next.name ? { ...current, lngLat: next.lngLat } : next))
     }
     const onLeave = () => {
       map.getCanvas().style.cursor = ''
       setHovered(null)
     }
-    const onClick = (event) => setPicked(target(event))
-    for (const layer of EDITABLE_LAYERS) {
-      map.on('mousemove', layer, onMove)
-      map.on('mouseleave', layer, onLeave)
-      map.on('click', layer, onClick)
+    const onClick = (event) => {
+      const next = target(event)
+      if (next) setPicked(next)
     }
+    map.on('mousemove', onMove)
+    map.on('mouseout', onLeave)
+    map.on('click', onClick)
     return () => {
-      for (const layer of EDITABLE_LAYERS) {
-        map.off('mousemove', layer, onMove)
-        map.off('mouseleave', layer, onLeave)
-        map.off('click', layer, onClick)
-      }
+      map.off('mousemove', onMove)
+      map.off('mouseout', onLeave)
+      map.off('click', onClick)
       map.getCanvas().style.cursor = ''
     }
   }, [editMode, ready, map])
