@@ -25,6 +25,10 @@ python cenote_candidates.py <out>/cenote-review.xlsx maps/*.json   # the cenotes
 ```
 
 Vector PDFs whose walls are separable strokes use `build_layer.py` instead.
+Two scripts prepare an image before tracing: `rectify_photo.py` straightens a
+photographed map (and can undo lens distortion, glare and a poster's weave),
+and `fill_passages.py` tints the white passages of a bold-wall scan so the
+`colour-fill` method can trace them.
 Every script's docstring documents its options; the config keys are
 documented where the code reads them.
 
