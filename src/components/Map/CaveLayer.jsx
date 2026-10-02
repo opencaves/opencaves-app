@@ -45,9 +45,9 @@ function rootSistemas(sistemas, connections) {
 // (selectedSistemaId: its system and the ones merged into it); each system in
 // its colour (from the database: a colour changed in the admin UI shows
 // without rebuilding the tiles) or all in one colour. The maps whose drawing
-// editors hid (caveLayerSettings) are left out for everyone. In the edit mode
-// (editors), the map under the pointer is outlined and named; a click on it
-// offers to hide its drawing.
+// editors hid (caveLayerSettings) are left out for everyone - shown in grey in
+// the edit mode (editors), where the map under the pointer is outlined and
+// named, and a click on it offers to hide its drawing, or show it again.
 export default function CaveLayer({ selectedSistemaId }) {
   const theme = useTheme()
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
@@ -101,18 +101,20 @@ export default function CaveLayer({ selectedSistemaId }) {
     }
   }, [editMode, ready, map])
 
-  async function hidePicked() {
+  // The clicked map's drawing hidden for everyone, or shown again.
+  async function setPickedHidden(hidden) {
     const { name } = picked
     setPicked(null)
     setHovered(null)
     try {
-      await setMapHidden(name, true)
-      openSnackbar(t('hidden', { title: maps[name]?.title || name }), { severity: 'success' })
+      await setMapHidden(name, hidden)
+      openSnackbar(t(hidden ? 'hidden' : 'shown', { title: maps[name]?.title || name }), { severity: 'success' })
     } catch (error) {
       console.error(error)
-      openSnackbar(t('hideError'))
+      openSnackbar(t(hidden ? 'hideError' : 'showError'))
     }
   }
+
 
   const roots = useMemo(() => rootSistemas(sistemas, connections), [sistemas, connections])
   const single = theme.palette.primary.light
@@ -131,8 +133,14 @@ export default function CaveLayer({ selectedSistemaId }) {
   if (!ready) return null
   const visibility = visible ? 'visible' : 'none'
   const only = sistemaIds.length ? [['in', ['get', 'sistemaId'], ['literal', sistemaIds]]] : []
-  const shown = hiddenMaps.length ? [['!', ['in', ['get', 'map'], ['literal', hiddenMaps]]]] : []
+  // Hidden drawings: left out - but in the edit mode, kept in grey and faded.
+  const isHidden = ['in', ['get', 'map'], ['literal', hiddenMaps]]
+  const shown = hiddenMaps.length && !editMode ? [['!', isHidden]] : []
   const filter = (...conditions) => ['all', ...conditions, ...only, ...shown]
+  const greyed = editMode && hiddenMaps.length
+  const ifHidden = (hidden, normal) => (greyed ? ['case', isHidden, hidden, normal] : normal)
+  const HIDDEN_COLOR = theme.palette.grey[500]
+  const HIDDEN_OPACITY = 0.45
   // Edit mode: the hovered and the clicked map, outlined.
   const outlined = [...new Set([hovered?.name, picked?.name].filter(Boolean))]
   const sistemaName = (id) => (sistemas || []).find((s) => s.id === id)?.name?.value
@@ -142,29 +150,32 @@ export default function CaveLayer({ selectedSistemaId }) {
 
   return (
     <Source id="oc-caves" type="vector" tiles={tiles} minzoom={CAVE_LAYER.MIN_ZOOM} maxzoom={CAVE_LAYER.MAX_ZOOM}>
-      <Layer id="oc-caves-water" source-layer="passages" type="fill" filter={filter(kind('water'))} layout={{ visibility }} paint={{ 'fill-color': CAVE_LAYER.WATER_COLOR, 'fill-opacity': CAVE_LAYER.WATER_OPACITY }} />
+      <Layer id="oc-caves-water" source-layer="passages" type="fill" filter={filter(kind('water'))} layout={{ visibility }} paint={{ 'fill-color': ifHidden(HIDDEN_COLOR, CAVE_LAYER.WATER_COLOR), 'fill-opacity': ifHidden(CAVE_LAYER.WATER_OPACITY * HIDDEN_OPACITY, CAVE_LAYER.WATER_OPACITY) }} />
       <Layer id="oc-caves-details" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
-        paint={{ 'line-color': color, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.8, 18, 1.4] }} />
+        paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.8, 18, 1.4] }} />
       <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
-        paint={{ 'line-color': color, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2, 18, 2.5] }} />
+        paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2, 18, 2.5] }} />
       <Layer id="oc-caves-entrances" source-layer="symbols" type="circle" filter={filter(type('entrance'))} layout={{ visibility }}
-        paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 16, 5], 'circle-color': theme.palette.info.main, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1 }} />
+        paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 16, 5], 'circle-color': ifHidden(HIDDEN_COLOR, theme.palette.info.main), 'circle-opacity': ifHidden(HIDDEN_OPACITY, 1), 'circle-stroke-color': '#fff', 'circle-stroke-width': 1, 'circle-stroke-opacity': ifHidden(HIDDEN_OPACITY, 1) }} />
       <Layer id="oc-caves-depths" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(type('depth'))}
         layout={{ visibility, 'text-field': units === 'imperial' ? ['concat', ['to-string', ['round', ['/', ['get', 'value'], METRES_PER_FOOT]]], ' ft'] : ['concat', ['to-string', ['get', 'value']], ' m'], 'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'], 'text-size': 11 }}
-        paint={{ 'text-color': '#fff', 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1.2 }} />
+        paint={{ 'text-color': '#fff', 'text-opacity': ifHidden(HIDDEN_OPACITY, 1), 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1.2 }} />
       <Layer id="oc-caves-names" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(['in', ['get', 'type'], ['literal', ['place-name', 'leads-to']]])}
         layout={{ visibility, 'text-field': ['coalesce', ['get', 'label'], ['get', 'name']], 'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'], 'text-size': 11 }}
-        paint={{ 'text-color': '#fff', 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1.2 }} />
+        paint={{ 'text-color': '#fff', 'text-opacity': ifHidden(HIDDEN_OPACITY, 1), 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1.2 }} />
       <Layer id="oc-caves-flow" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(type('flow'))}
         layout={{ visibility, 'text-field': '➜', 'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'], 'text-size': 16, 'text-rotate': ['-', ['get', 'bearing'], 90], 'text-rotation-alignment': 'map', 'text-allow-overlap': true }}
-        paint={{ 'text-color': theme.palette.info.light, 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1 }} />
+        paint={{ 'text-color': ifHidden(HIDDEN_COLOR, theme.palette.info.light), 'text-opacity': ifHidden(HIDDEN_OPACITY, 1), 'text-halo-color': 'rgba(0, 0, 0, 0.7)', 'text-halo-width': 1 }} />
       {editMode && (
         <Layer id="oc-caves-edit-outline" source-layer="passages" type="line" filter={['all', ['in', ['get', 'map'], ['literal', outlined]], ['!=', ['get', 'kind'], 'water'], ...shown]}
           layout={{ 'line-join': 'round', 'line-cap': 'round' }} paint={{ 'line-color': theme.palette.warning.light, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 18, 4] }} />
       )}
       {editMode && hovered && !picked && (
         <Popup className="oc-cave-layer-edit-hover" longitude={hovered.lngLat.lng} latitude={hovered.lngLat.lat} closeButton={false} closeOnClick={false} anchor="bottom" offset={12}>
-          <Typography variant="body2">{maps[hovered.name]?.title || hovered.name}</Typography>
+          <Typography variant="body2">
+            {maps[hovered.name]?.title || hovered.name}
+            {hiddenMaps.includes(hovered.name) && ` (${t('hiddenTag')})`}
+          </Typography>
         </Popup>
       )}
       {editMode && picked && (
@@ -178,9 +189,15 @@ export default function CaveLayer({ selectedSistemaId }) {
           <Typography variant="caption" color="text.secondary" component="p">
             {t('file', { name: picked.name })}
           </Typography>
-          <Button size="small" color="error" onClick={hidePicked} sx={{ mt: 1 }}>
-            {t('hide')}
-          </Button>
+          {hiddenMaps.includes(picked.name) ? (
+            <Button size="small" onClick={() => setPickedHidden(false)} sx={{ mt: 1 }}>
+              {t('showDrawing')}
+            </Button>
+          ) : (
+            <Button size="small" color="error" onClick={() => setPickedHidden(true)} sx={{ mt: 1 }}>
+              {t('hide')}
+            </Button>
+          )}
         </Popup>
       )}
     </Source>

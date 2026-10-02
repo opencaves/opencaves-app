@@ -899,7 +899,7 @@
       },
       "edit": {
         "mode": "Mode édition",
-        "modeHint": "Pointez un dessin pour voir de quelle carte il vient ; cliquez dessus pour le masquer pour tout le monde.",
+        "modeHint": "Pointez un dessin pour voir de quelle carte il vient ; cliquez dessus pour le masquer pour tout le monde. Les dessins masqués sont en gris.",
         "hiddenTitle": "Dessins masqués",
         "show": "Afficher",
         "noneHidden": "Aucun dessin masqué",
@@ -908,7 +908,10 @@
         "hideError": "Impossible de masquer le dessin",
         "showError": "Impossible d'afficher le dessin",
         "system": "Système : {{name}}",
-        "file": "Fichier de la carte : {{name}}"
+        "file": "Fichier de la carte : {{name}}",
+        "showDrawing": "Afficher ce dessin",
+        "shown": "« {{title}} » affiché",
+        "hiddenTag": "masqué"
       }
     }
   },

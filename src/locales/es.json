@@ -900,7 +900,7 @@
       },
       "edit": {
         "mode": "Modo edición",
-        "modeHint": "Señala un dibujo para ver de qué mapa viene; haz clic para ocultarlo para todos.",
+        "modeHint": "Señala un dibujo para ver de qué mapa viene; haz clic para ocultarlo para todos. Los dibujos ocultos se ven en gris.",
         "hiddenTitle": "Dibujos ocultos",
         "show": "Mostrar",
         "noneHidden": "Ningún dibujo oculto",
@@ -909,7 +909,10 @@
         "hideError": "No se pudo ocultar el dibujo",
         "showError": "No se pudo mostrar el dibujo",
         "system": "Sistema: {{name}}",
-        "file": "Archivo del mapa: {{name}}"
+        "file": "Archivo del mapa: {{name}}",
+        "showDrawing": "Mostrar este dibujo",
+        "shown": "«{{title}}» visible",
+        "hiddenTag": "oculto"
       }
     }
   },

@@ -900,7 +900,7 @@
       },
       "edit": {
         "mode": "Edit mode",
-        "modeHint": "Point at a drawing to see which map it comes from; click it to hide it for everyone.",
+        "modeHint": "Point at a drawing to see which map it comes from; click it to hide it for everyone. Hidden drawings show in grey.",
         "hiddenTitle": "Hidden drawings",
         "show": "Show",
         "noneHidden": "No hidden drawing",
@@ -909,7 +909,10 @@
         "hideError": "Couldn't hide the drawing",
         "showError": "Couldn't show the drawing",
         "system": "System: {{name}}",
-        "file": "Map file: {{name}}"
+        "file": "Map file: {{name}}",
+        "showDrawing": "Show this drawing",
+        "shown": "“{{title}}” shown",
+        "hiddenTag": "hidden"
       }
     }
   },
