@@ -74,7 +74,8 @@ export const setUserRoles = onCall({ region: REGION }, async request => {
   return { roles }
 })
 
-// The email to a frozen account, in its language (users/{uid}.language).
+// The emails to a frozen, then unfrozen, account, in its language
+// (users/{uid}.language).
 const FROZEN_EMAIL = {
   en: {
     subject: 'Your OpenCaves editing rights are suspended',
@@ -90,13 +91,29 @@ const FROZEN_EMAIL = {
   },
 }
 
-// Tells the frozen account by email, every admin in blind copy. A failure is
-// logged, not thrown: the account is frozen either way.
-async function emailFrozenAccount(user) {
+const UNFROZEN_EMAIL = {
+  en: {
+    subject: 'Your OpenCaves editing rights are restored',
+    text: 'Hello,\n\nAn OpenCaves administrator has restored your editing rights on opencaves.org: you can edit cenotes, systems and photos again. Sign out and back in if the editing tools don\u2019t show yet.\n\nThe OpenCaves team',
+  },
+  fr: {
+    subject: 'Vos droits de modification OpenCaves sont rétablis',
+    text: 'Bonjour,\n\nUn administrateur d\u2019OpenCaves a rétabli vos droits de modification sur opencaves.org : vous pouvez de nouveau modifier les cénotes, les systèmes et les photos. Déconnectez-vous puis reconnectez-vous si les outils de modification n\u2019apparaissent pas encore.\n\nL\u2019équipe OpenCaves',
+  },
+  es: {
+    subject: 'Tus permisos de edición en OpenCaves están restablecidos',
+    text: 'Hola:\n\nUn administrador de OpenCaves ha restablecido tus permisos de edición en opencaves.org: puedes volver a editar cenotes, sistemas y fotos. Cierra la sesión y vuelve a iniciarla si las herramientas de edición aún no aparecen.\n\nEl equipo de OpenCaves',
+  },
+}
+
+// Tells the account it was frozen or unfrozen (emails: FROZEN_EMAIL or
+// UNFROZEN_EMAIL), every admin in blind copy. A failure is logged, not thrown:
+// the change is made either way.
+async function emailAccount(user, emails) {
   if (!user.email) return false
   try {
     const language = (await db.collection(USERS_COLL_NAME).doc(user.uid).get()).get('language')
-    const { subject, text } = FROZEN_EMAIL[language] || FROZEN_EMAIL.en
+    const { subject, text } = emails[language] || emails.en
     const admins = (await listAllAuthUsers())
       .filter((u) => u.email && u.uid !== user.uid && Array.isArray(u.customClaims?.roles) && u.customClaims.roles.includes('admin'))
       .map((u) => u.email)
@@ -112,8 +129,8 @@ async function emailFrozenAccount(user) {
 // in frozenRoles for unfreezing), and the auto-granted editor role
 // (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
 // current ID token still works until it expires (up to an hour), then it
-// signs in again without them. It's told by email, every admin in blind copy.
-// Unfreezing gives its roles back.
+// signs in again without them. Unfreezing gives its roles back. The account
+// is told both times by email, every admin in blind copy.
 export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 
@@ -137,14 +154,18 @@ export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] 
     if (!wasFrozen) {
       await auth.setCustomUserClaims(uid, { ...claims, roles: [], frozen: true, frozenRoles: roles })
       await auth.revokeRefreshTokens(uid)
-      emailed = await emailFrozenAccount(user)
+      emailed = await emailAccount(user, FROZEN_EMAIL)
     }
     return { frozen: true, roles: [], emailed }
   }
 
+  if (!wasFrozen) {
+    return { frozen: false, roles, emailed: false }
+  }
   const restored = Array.isArray(frozenRoles) && frozenRoles.length ? frozenRoles : ['editor']
   await auth.setCustomUserClaims(uid, { ...claims, roles: restored })
-  return { frozen: false, roles: restored }
+  const emailed = await emailAccount(user, UNFROZEN_EMAIL)
+  return { frozen: false, roles: restored, emailed }
 })
 
 export const deleteUser = onCall({ region: REGION }, async request => {
