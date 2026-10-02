@@ -85,6 +85,28 @@ other roles. Use it to make the first admin: the app's Users page only works
 for someone who's already an admin. The person must sign out and back in to
 get the change.
 
+An admin can also **freeze** an account from the Users page: all its editing
+rights are removed (kept for unfreezing), the editor role every account gets
+automatically is withheld while it's frozen, and the person is told by email,
+every admin in blind copy.
+
+## Emails
+
+The Cloud Functions send email with [Resend](https://resend.com) from
+`noreply@opencaves.org` (`functions/js/email/sendEmail.js`); today only the
+freeze notice. The opencaves.org domain must be verified in the Resend account
+(its DNS records), or Resend refuses to send. The API key (a send-only key) is
+the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
+
+```
+firebase functions:secrets:set RESEND_API_KEY   # set or replace it (paste the key)
+firebase deploy --only functions                 # the functions use the new version
+```
+
+Replace it in Resend (create a new key, set it, delete the old one) if it was
+ever shared. In the emulators nothing is sent: the email is written to the
+functions' log. Each send shows in the Resend dashboard's logs.
+
 ## Apply the Storage CORS config
 
 ```

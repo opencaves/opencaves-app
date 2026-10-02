@@ -40,3 +40,6 @@ __pycache__/
 
 # The cave layer's vector tiles: built by `npm run build:tiles` from _data/ (not in git)
 /public/tiles/
+
+# Local values of the Cloud Functions secrets (the emulator reads them): never committed.
+.secret.local
