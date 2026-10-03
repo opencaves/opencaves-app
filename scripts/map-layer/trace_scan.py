@@ -1567,6 +1567,25 @@ def main(config_path, output):
         if trace.get('dottedLine') is not None:
             main_lines, main_ink = dotted_line(drawn.astype(bool) & ~symbol_ink & ~strokes, strokes, trace['dottedLine'] or {})
             print(f'{len(main_lines)} main line pieces (dash-dot)')
+        # Erase lines marked "arianne": true are the Arianne line drawn
+        # straight between stations: erased from the walls (above) and kept
+        # as the Arianne line, its shots joined where they meet.
+        ends = [(tuple(item['from']), tuple(item['to'])) for item in trace.get('eraseLines', []) if item.get('arianne')]
+        shots = []
+        if ends:
+            from shapely.ops import linemerge
+            # Shots picked one by one stop a few pixels short of each other:
+            # ends within 8 px snapped to their mean, so they join.
+            points = numpy.array([p for pair in ends for p in pair], float)
+            snapped = points.copy()
+            for i in range(len(points)):
+                close = numpy.hypot(*(points - points[i]).T) <= trace.get('arianneSnapPx', 8)
+                snapped[i] = points[close].mean(axis=0)
+            shots = [LineString([tuple(snapped[2 * i]), tuple(snapped[2 * i + 1])]) for i in range(len(ends))]
+        if shots:
+            merged = linemerge(shots)
+            main_lines += [list(g.coords) for g in getattr(merged, 'geoms', [merged])]
+            print(f'{len(shots)} Arianne line shots (erase lines) -> {len(getattr(merged, "geoms", [merged]))} lines')
         # Reliefs redrawn as the map's symbol (a line and even ticks), not
         # the scan's ragged ink: those found, and "reliefLines" [{"points":
         # [[x, y], ...], "side": 1 | -1, "widthPx"}] - ones drawn by hand
