@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// Craft rules based on data in your Firestore database
+// allow write: if firestore.get(
+//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{path=**} {
+      allow read;
+    }
+
+    // Original asset uploads only: caves/{caveId}/{type}s/{assetId}
+    // (server-generated thumbnails are written via the Admin SDK, which bypasses these rules)
+    match /caves/{caveId}/{typePlural}/{assetId} {
+      // Keep in sync with acceptedMimeTypes in src/config/mediaPane.js.
+      allow create: if request.auth != null
+                      && 'editor' in request.auth.token.roles
+                      && request.resource.size < 30 * 1024 * 1024
+                      && request.resource.contentType in ['image/avif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+                      && (!('userId' in request.resource.metadata) || request.resource.metadata.userId == request.auth.uid);
+
+      // Only admins delete photos (as in firestore.rules).
+      allow delete: if request.auth != null && 'admin' in request.auth.token.roles
+    }
+
+    // Sistema map files (survey maps): shared across all sistemas, not
+    // scoped to a single cave/sistema like the photo uploads above.
+    match /maps/{mapId} {
+      allow create: if request.auth != null
+                      && 'editor' in request.auth.token.roles
+                      && request.resource.size < 30 * 1024 * 1024
+                      && request.resource.contentType.matches('image/.*');
+
+      allow delete: if request.auth != null && 'admin' in request.auth.token.roles
+    }
+
+    match /maps/original-pdf/{mapId} {
+      allow create: if request.auth != null
+                      && 'editor' in request.auth.token.roles
+                      && request.resource.size < 30 * 1024 * 1024
+                      && request.resource.contentType == 'application/pdf';
+
+      allow delete: if request.auth != null && 'admin' in request.auth.token.roles
+    }
+  }
+}

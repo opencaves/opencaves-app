@@ -1,0 +1,146 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Roles come from the account's custom claims (functions/js/users). A
+    // rule's "write" would also cover delete (rules are OR'ed), so writes are
+    // granted as create/update and delete separately everywhere.
+    function isSignedIn() {
+      return request.auth != null
+    }
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.roles is list && role in request.auth.token.roles
+    }
+    function isEditor() {
+      return hasRole('editor')
+    }
+    function isAdmin() {
+      return hasRole('admin')
+    }
+
+    // Photo records: created and filled by the server (onAssetUploaded, Admin
+    // SDK - these rules don't apply to it). Editors may only change which
+    // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
+    match /cavesAssets/{document} {
+      allow read: if true
+      allow update: if isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])
+        && request.resource.data.isCover is bool
+      // Every signed-in user can add and edit photos; only admins delete them.
+      allow delete: if isAdmin()
+    }
+
+    // Cave ratings live in each user's own data (users/{uid}/ratings/{caveId},
+    // one per cave). Everyone can read them - a cave's average is a
+    // collection-group query over every user's ratings - but only editors
+    // and admins can rate, and only as themselves, with a 1-5 integer.
+    match /{path=**}/ratings/{caveId} {
+      allow read: if true
+    }
+
+    match /caves/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /sistemas/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /connections/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /accesses/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /accessibilities/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /sources/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /areas/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /colors/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    match /maps/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    // App settings shared by everyone (settings/caveLayer: the cave layer's
+    // hidden map drawings), set by editors.
+    match /settings/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+    }
+
+    match /languages/{document} {
+      allow read: if true
+      allow create, update: if isEditor()
+      allow delete: if isAdmin()
+    }
+
+    // Caves a user saved from the result pane's Save quick action. Private
+    // to that user; anonymous sessions are prompted to create an account
+    // instead of saving.
+    match /users/{uid}/ratings/{caveId} {
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && ('editor' in request.auth.token.roles || 'admin' in request.auth.token.roles)
+        && request.resource.data.keys().hasOnly(['caveId', 'value', 'updatedAt'])
+        && request.resource.data.caveId == caveId
+        && request.resource.data.value is int
+        && request.resource.data.value >= 1 && request.resource.data.value <= 5
+      allow delete: if request.auth != null && request.auth.uid == uid
+    }
+
+    // An account's own document (created at sign-up by the beforeUserCreated
+    // blocking function, with email and savedPlaces). The person may only
+    // change their UI language and units in it (the account page's settings;
+    // absent for Automatic) - the other fields stay server-managed.
+    match /users/{uid} {
+      function isAccountOwner() {
+        return request.auth != null && request.auth.uid == uid
+          && request.auth.token.firebase.sign_in_provider != 'anonymous'
+      }
+      function hasValidLanguage() {
+        return !('language' in request.resource.data) || request.resource.data.language in ['en', 'fr', 'es']
+      }
+      allow read: if request.auth != null && request.auth.uid == uid
+      function hasValidUnits() {
+        return !('units' in request.resource.data) || request.resource.data.units in ['metric', 'imperial']
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
+    }
+
+    match /users/{uid}/savedCaves/{caveId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.resource.data.keys().hasOnly(['savedAt'])
+    }
+  }
+}

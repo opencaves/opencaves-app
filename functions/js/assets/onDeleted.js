@@ -14,6 +14,11 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   // Redone copies carry a revision in their name (scripts/fix-photo-orientation.js).
   const revision = thumbnailRevision > 1 ? `-r${thumbnailRevision}` : ''
   if (!caveId || !fullPath) return
+  // Ids that can't step out of their folder (thumbnail paths are built from them).
+  if (/[/.]/.test(caveId) || /[/.]/.test(String(assetId))) return
+  // An original is only ever a cave photo's (caves/<caveId>/<type>s/<assetId>):
+  // a record naming any other path (a map...) never gets that file deleted.
+  const isCaveOriginal = /^caves\/[^/.]+\/[a-z]+s\/[^/.]+$/.test(fullPath)
 
   const assets = db.collection(CAVES_ASSETS_COLL_NAME)
   // Originals are shared by path; thumbnails are addressed by cave and asset ID.
@@ -25,7 +30,7 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   const deleteFilesPromises = []
 
   // A missing thumbnail or repeated deletion event must not block cleanup.
-  if (originalReferences.empty) {
+  if (originalReferences.empty && isCaveOriginal) {
     deleteFilesPromises.push(bucket.file(fullPath).delete({ ignoreNotFound: true }))
   }
 

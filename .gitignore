@@ -21,7 +21,7 @@ npm-debug.log*
 
 # OpenCaves related
 /.firebase
-*.rules
+# *.rules - firestore.rules and storage.rules are tracked: they are the app's access control
 /cenotes
 firebase-export-*
 .env
