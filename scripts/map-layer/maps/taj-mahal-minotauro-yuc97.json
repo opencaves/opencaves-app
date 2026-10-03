@@ -480,7 +480,7 @@
     },
     {
       "name": "Estrela (City of Agre)",
-      "written": true,
+      "written": false,
       "caveId": "-KPZkVH1JsSUeVtkRp0N",
       "px": [
         3130,
@@ -563,7 +563,7 @@
     },
     {
       "name": "Pica Piedra",
-      "written": true,
+      "written": false,
       "px": [
         3412,
         3900

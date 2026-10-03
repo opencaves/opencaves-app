@@ -944,7 +944,7 @@
     },
     {
       "name": "Opening 5",
-      "written": true,
+      "written": false,
       "px": [
         3200,
         4790
@@ -953,7 +953,7 @@
     },
     {
       "name": "Opening 6",
-      "written": true,
+      "written": false,
       "px": [
         3060,
         4968
