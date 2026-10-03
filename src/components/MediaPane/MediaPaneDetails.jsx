@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link, resolvePath, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -44,6 +44,38 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const [touchAction, setTouchAction] = useState('none')
   const ref = useRef(null)
 
+  // Built once per set of photos: the lightbox resets itself (and rebuilds
+  // every slide - the photos flickered) whenever it gets a new slides array,
+  // which each re-render made, e.g. the URL change after moving to a photo.
+  // So each slide's share link is its own photo's, not the address at the time.
+  const mediasPath = location.pathname.replace(/[^/]+$/, '')
+  const slides = useMemo(() => medias.docs.map(doc => {
+    const media = doc.data()
+    const { id, url, usePanoramaViewer, originalName: filename } = media
+    const slide = {
+      mediaId: id,
+      type: usePanoramaViewer ? 'panorama' : 'image',
+      download: {
+        url,
+        filename
+      },
+      ratio: media.width / media.height,
+      share: {
+        url: `${window.location.origin}${mediasPath}${id}`,
+        title: t('share.title', { title: document.title }),
+        text: t('share.text', { title: document.title })
+      }
+    }
+
+    if (usePanoramaViewer) {
+      slide.src = url
+    } else {
+      slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })
+    }
+
+    return slide
+  }), [medias, mediasPath, t])
+
   if (!currentMedia) {
     return (
       <Main
@@ -59,32 +91,6 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
     )
   }
 
-  const slides = medias.docs.map(doc => {
-    const media = doc.data()
-    const { id, url, usePanoramaViewer, originalName: filename } = media
-    const slide = {
-      mediaId: id,
-      type: usePanoramaViewer ? 'panorama' : 'image',
-      download: {
-        url,
-        filename
-      },
-      ratio: media.width / media.height,
-      share: {
-        url: window.location.href,
-        title: t('share.title', { title: document.title }),
-        text: t('share.text', { title: document.title })
-      }
-    }
-
-    if (usePanoramaViewer) {
-      slide.src = url
-    } else {
-      slide.sources = media.getSources(['1024', '1536', '4k'], { sizes: true })
-    }
-
-    return slide
-  })
 
   const isFullscreenEnabled = () =>
     document.fullscreenEnabled ??
