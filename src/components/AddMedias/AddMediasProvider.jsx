@@ -1,10 +1,9 @@
-import { createContext, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fileOpen } from 'browser-fs-access'
 import UploadMedias from './UploadMedias.jsx'
+import { AddMediasContext } from './AddMediasContext.js'
 import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
-
-export const AddMediasContext = createContext(null)
 
 export default function AddMediasProvider({ children, caveId }) {
   const [medias, setMedias] = useState([])

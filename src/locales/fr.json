@@ -660,7 +660,19 @@
       "unknownError": "Quelque chose s'est mal passé. Veuillez réessayer.",
       "unknownErrorBtn": "OK",
       "uploadingTo": "Téléchargement vers",
-      "countMedias": "{{index}} de {{total}}"
+      "countMedias": "{{index}} de {{total}}",
+      "gpsCheck": {
+        "title_one": "Cette photo a été prise loin de la cénote",
+        "title_other": "{{count}} photos ont été prises loin de la cénote",
+        "text_one": "Sa position GPS est à plus de {{distance}} de {{cave}}. S’agit-il bien d’une photo de cette cénote ?",
+        "text_other": "Leurs positions GPS sont à plus de {{distance}} de {{cave}}. S’agit-il bien de photos de cette cénote ?",
+        "distance": "à {{distance}}",
+        "skip_one": "Ignorer cette photo",
+        "skip_other": "Ignorer ces photos",
+        "uploadAnyway": "Ajouter quand même",
+        "cancelButton": "Annuler",
+        "cancel": "Annuler l’envoi"
+      }
     },
     "details": {
       "empty": "Il n'y a rien ici"
