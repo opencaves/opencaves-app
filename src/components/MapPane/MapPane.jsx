@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link, Outlet, useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Drawer, IconButton, List, ListItemButton, ListSubheader, Typography, styled, useTheme } from '@mui/material'
+import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu, MenuItem, Typography, styled, useTheme } from '@mui/material'
+import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
+import EditRounded from '@mui/icons-material/EditRounded'
+import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import MapOutlined from '@mui/icons-material/MapOutlined'
@@ -47,11 +50,47 @@ function MapThumbnail({ map }) {
   )
 }
 
+// An item's options (editors): Edit, and Delete for a map of the cave's own
+// sistema (one inherited from a parent sistema is removed there). Shown on
+// hover, keyboard focus or while open - always on touch screens.
+function MapListItemMenu({ map, onEdit, onDelete }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const [anchorEl, setAnchorEl] = useState(null)
+  function act(action) {
+    setAnchorEl(null)
+    document.activeElement?.blur()
+    action(map)
+  }
+  return (
+    <>
+      <IconButton className="oc-map-pane--item-menu" aria-label={t('mapOptions')} aria-haspopup="true" onClick={(event) => setAnchorEl(event.currentTarget)} sx={{ opacity: anchorEl ? 1 : undefined }}>
+        <MoreVertRounded />
+      </IconButton>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} transformOrigin={{ horizontal: 'right', vertical: 'top' }} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+        <MenuItem onClick={() => act(onEdit)}>
+          <ListItemIcon>
+            <EditRounded fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{t('editMap')}</ListItemText>
+        </MenuItem>
+        {onDelete && (
+          <MenuItem onClick={() => act(onDelete)} sx={{ color: 'error.main' }}>
+            <ListItemIcon sx={{ color: 'error.main' }}>
+              <DeleteOutlineRounded fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('removeMap')}</ListItemText>
+          </MenuItem>
+        )}
+      </Menu>
+    </>
+  )
+}
+
 // One map: its thumbnail, its name (two lines at most) and, under it, its
 // date and authors - enough to tell apart maps that share a name.
-function MapListItem({ map, caveId, selected, state }) {
+function MapListItem({ map, caveId, selected, state, onEdit, onDelete }) {
   const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
-  return (
+  const item = (
     <ListItemButton
       className="oc-map-pane--item"
       component={Link}
@@ -67,6 +106,8 @@ function MapListItem({ map, caveId, selected, state }) {
         px: 1,
         py: 1,
         borderRadius: 3,
+        // Room for the options menu at the right.
+        ...(onEdit && { pr: 6 }),
         '&.Mui-selected, &.Mui-selected:hover': { bgcolor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.12)` },
       }}
     >
@@ -82,6 +123,23 @@ function MapListItem({ map, caveId, selected, state }) {
         )}
       </Box>
     </ListItemButton>
+  )
+  if (!onEdit) return item
+  return (
+    <ListItem
+      className="oc-map-pane--item-row"
+      disablePadding
+      secondaryAction={<MapListItemMenu map={map} onEdit={onEdit} onDelete={onDelete} />}
+      sx={{
+        '& .MuiListItemSecondaryAction-root': { right: 16 },
+        '@media (hover: hover)': {
+          '& .oc-map-pane--item-menu': { opacity: 0 },
+          '&:hover .oc-map-pane--item-menu, & .oc-map-pane--item-menu:focus-visible': { opacity: 1 },
+        },
+      }}
+    >
+      {item}
+    </ListItem>
   )
 }
 
@@ -108,6 +166,7 @@ export default function MapPane() {
   const navigate = useNavigate()
   const location = useLocation()
   const currentCave = useSelector((state) => state.map.currentCave)
+  const isEditor = useSelector((state) => state.session.roles).includes('editor')
   const initial = useLoaderData()
   const returnTo = location.state?.from || `/map/${caveId}`
   const [sistemas] = SistemaModel.useAll()
@@ -144,6 +203,20 @@ export default function MapPane() {
     else groups.push({ sistemaId: map.sistemaId, maps: [map] })
   }
   const sistemaName = (id) => sistemas.find((s) => s.id === id)?.name
+
+  function editMap(map) {
+    navigate(`/map/${caveId}/maps/${map.id}/edit`, { state: location.state })
+  }
+
+  // Off the cave's sistema (the map itself stays); the one being viewed: on
+  // to the next one (none left: the effect above goes back).
+  async function removeMap(map) {
+    const remaining = maps.filter((m) => m.id !== map.id)
+    await SistemaModel.save(sistemaId, { maps: remaining.filter((m) => m.sistemaId === sistemaId).map((m) => m.id) })
+    if (map.id === mapId && remaining.length > 0) {
+      navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
+    }
+  }
   const list = (
     <List className="oc-map-pane--list" disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, pb: 2 }}>
       {groups.map((group) => [
@@ -152,7 +225,7 @@ export default function MapPane() {
             {`${tEdit('sistema')} ${sistemaName(group.sistemaId)}`}
           </ListSubheader>
         ),
-        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} />),
+        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} onEdit={isEditor ? editMap : undefined} onDelete={isEditor && map.sistemaId === sistemaId ? removeMap : undefined} />),
       ])}
     </List>
   )
