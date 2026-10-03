@@ -949,12 +949,19 @@ def faint_guideline(rgb, rule):
     k = rule.get('hatPx', 9)
     hat = cv2.morphologyEx(smoothed, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
     mask = (hat >= rule.get('contrast', 6)) & (smoothed > 80)
-    fill = (rgb[..., 2].astype(int) - rgb[..., 0].astype(int)) >= rule.get('fillBlueMin', 50)
+    if rule.get('fillGrey'):
+        # A grey (halftone) fill: its blurred level within this range.
+        lo, hi = rule['fillGrey']
+        level = cv2.GaussianBlur(grey, (0, 0), 3)
+        fill = (level >= lo) & (level <= hi)
+    else:
+        fill = (rgb[..., 2].astype(int) - rgb[..., 0].astype(int)) >= rule.get('fillBlueMin', 50)
     fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((7, 7), numpy.uint8))
     m = rule.get('middlePx', 7)
     middle = cv2.erode(fill, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * m + 1,) * 2)) > 0
     drawn = cv2.dilate(((smoothed < 150) | (fill > 0)).astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (17, 17))) > 0
-    mask = ((mask & (middle | ~drawn)).astype(numpy.uint8)) * 255
+    # "insideOnly": not on the open paper (cross-section brackets there).
+    mask = ((mask & (middle if rule.get('insideOnly') else middle | ~drawn)).astype(numpy.uint8)) * 255
     length = rule.get('minLengthPx', 50)
     found = cv2.HoughLinesP(mask, 1, numpy.pi / 360, threshold=int(length * 0.6), minLineLength=int(length), maxLineGap=int(rule.get('gapPx', 8)))
     drawn_lines = numpy.zeros(grey.shape, numpy.uint8)
@@ -2244,10 +2251,18 @@ def main(config_path, output):
                 features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'slope', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in v]))})
             print(f'{len(guide_lines)} Arianne lines, {len(ticks)} slope ticks -> {len(vs)} slope Vs')
+    # "arianneLines": [[[x, y], ...]] - Arianne lines drawn by hand from the scan.
+    for line in trace.get('arianneLines', []):
+        cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 0, 255), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
     # "faintGuideline": {...} - the Arianne line, faint and thin (see faint_guideline).
     if trace.get('faintGuideline'):
         rgb_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB'))
         for line in faint_guideline(rgb_image, trace['faintGuideline']):
+            # Not in the legend, labels or other masked areas.
+            if numpy.mean([masked[min(int(y), height - 1), min(int(x), width - 1)] for x, y in line]) > 0.2:
+                continue
             simple = LineString(line).simplify(1.5)
             cv2.polylines(review, [numpy.array(simple.coords, numpy.int32)], False, (0, 0, 255), 2)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
