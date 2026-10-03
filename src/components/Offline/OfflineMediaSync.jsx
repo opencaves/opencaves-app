@@ -66,7 +66,7 @@ export default function OfflineMediaSync() {
             if (!consumeJustSaved(caveId)) return
             const { t, tMap, openSnackbar, caves } = latest.current
             const name = caves.find((cave) => cave.id === caveId)?.name?.value || tMap('caveNameUnknown')
-            openSnackbar(failed > 0 ? t('caveIncomplete', { name }) : t('caveReady', { name }))
+            openSnackbar(failed > 0 ? t('caveIncomplete', { name }) : t('caveReady', { name }), failed > 0 ? undefined : { severity: 'success' })
           },
         })
       } catch (error) {
@@ -104,7 +104,7 @@ export default function OfflineMediaSync() {
         // everything already there.
         if (result && result.downloaded + result.failed > 0) {
           const { t, openSnackbar } = latest.current
-          openSnackbar(result.failed > 0 ? t('previewsIncomplete') : t('previewsReady'))
+          openSnackbar(result.failed > 0 ? t('previewsIncomplete') : t('previewsReady'), result.failed > 0 ? undefined : { severity: 'success' })
         }
       } catch (error) {
         console.warn('[offline] Previews sync failed: %o', error)

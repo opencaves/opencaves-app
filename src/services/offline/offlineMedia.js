@@ -31,7 +31,7 @@ export function canDownload() {
 
 // Download status for the UI (useSyncExternalStore), keyed by
 // previewsStatusKey / savedCaveStatusKey(caveId):
-// { state: 'waiting' | 'downloading' | 'ready' | 'incomplete', done, total, failed }
+// { state: 'waiting' | 'downloading' | 'ready' | 'incomplete' | 'removing', done, total, failed }
 export const previewsStatusKey = 'previews'
 export const savedCaveStatusKey = (caveId) => `savedCave:${caveId}`
 
@@ -123,6 +123,7 @@ async function openAndPrune(cacheName, wanted) {
 // Makes the previews cache hold exactly `urls`.
 export async function syncPreviews(urls, { signal } = {}) {
   if (!offlineSupported) return null
+  clearRun++ // stops a removal still running
 
   const wanted = new Set(urls)
   const { cache, cachedUrls } = await openAndPrune(OFFLINE_PREVIEWS_CACHE, wanted)
@@ -140,8 +141,32 @@ export async function syncPreviews(urls, { signal } = {}) {
   return result
 }
 
+// Removes the previews, file by file with its progress (state 'removing':
+// done files removed of total), taking at least CLEAR_MIN_MS so the bar can
+// be seen deflating. A sync started meanwhile (the option turned back on)
+// stops it.
+const CLEAR_MIN_MS = 1200
+let clearRun = 0
+
 export async function clearPreviews() {
   if (!offlineSupported) return
+  const run = ++clearRun
+  const cache = await caches.open(OFFLINE_PREVIEWS_CACHE)
+  const keys = await cache.keys()
+  if (keys.length) {
+    const started = Date.now()
+    setStatus(previewsStatusKey, { state: 'removing', done: 0, total: keys.length, failed: 0 })
+    const batch = Math.max(1, Math.ceil(keys.length / 30))
+    for (let i = 0; i < keys.length; i += batch) {
+      await Promise.all(keys.slice(i, i + batch).map((request) => cache.delete(request)))
+      if (run !== clearRun) return
+      const done = Math.min(keys.length, i + batch)
+      setStatus(previewsStatusKey, { done })
+      const behind = (CLEAR_MIN_MS * done) / keys.length - (Date.now() - started)
+      if (behind > 0) await new Promise((resolve) => setTimeout(resolve, behind))
+      if (run !== clearRun) return
+    }
+  }
   await caches.delete(OFFLINE_PREVIEWS_CACHE)
   clearStatus(previewsStatusKey)
 }
