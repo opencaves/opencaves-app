@@ -4,9 +4,10 @@
   // icons 16dp from the edges (8dp padding + the button's own 8dp).
   --oc-media-viewer-toolbar-height: 64px;
   --oc-media-viewer-toolbar-padding: 8px;
-  --oc-media-viewer-button-size: 40px;
-  --oc-media-viewer-button-padding: 8px;
-  --oc-media-viewer-button-gap: 8px;
+  // From the theme's MD3 icon button tokens (Theme.jsx, oc.iconButton).
+  --oc-media-viewer-button-size: var(--mui-oc-iconButton-size, 40px);
+  --oc-media-viewer-button-padding: var(--mui-oc-iconButton-padding, 8px);
+  --oc-media-viewer-button-gap: var(--mui-oc-iconButton-gap, 8px);
 }
 
 @keyframes lightbox-toolbar-fadein {

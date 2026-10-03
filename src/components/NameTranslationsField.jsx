@@ -47,7 +47,7 @@ export default function NameTranslationsField({ label, rows, languages, onChange
             </TextField>
             <TextField size="small" label={valueLabel} fullWidth value={row.value} onChange={(e) => updateAt(index, { value: e.target.value })} />
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
           </Box>
         ))}

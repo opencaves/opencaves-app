@@ -50,7 +50,6 @@ export default function SnackbarProvider({ children }) {
       <IconButton
         aria-label={t('close.ariaLabel')}
         color='inherit'
-        sx={{ p: 0.5 }}
         onClick={closeSnackbar}
       >
         <Close />

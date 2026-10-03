@@ -79,7 +79,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
         {values.map((exploration, index) => (
           <Box key={index} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1.5, position: 'relative' }}>
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel} sx={{ position: 'absolute', top: 4, right: 4 }}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
               <Grid size={12}>

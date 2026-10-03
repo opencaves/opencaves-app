@@ -330,7 +330,7 @@ export default function CaveEdit() {
           </Typography>
           <Tooltip title={t('editSistemas')}>
             <IconButton component={Link} to="/sistemas" size="small" aria-label={t('editSistemas')}>
-              <EditRounded fontSize="small" />
+              <EditRounded />
             </IconButton>
           </Tooltip>
         </Box>

@@ -25,7 +25,7 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
           <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
             <TextField size="small" fullWidth value={value} onChange={(e) => updateAt(index, e.target.value)} />
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
           </Box>
         ))}

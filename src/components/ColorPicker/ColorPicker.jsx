@@ -118,7 +118,7 @@ export default function ColorPicker({ label, value, onChange, saveOnAdd = true }
               }}
               sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}
             >
-              <AddRounded fontSize="small" />
+              <AddRounded />
             </IconButton>
           </Tooltip>
         </Box>

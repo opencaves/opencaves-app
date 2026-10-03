@@ -487,9 +487,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
             <IconButton
               aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')}
               onClick={onClose}
-              sx={{
-                p: 0,
-              }}
             >
               {isSmall ? <ArrowBack /> : <Close />}
             </IconButton>

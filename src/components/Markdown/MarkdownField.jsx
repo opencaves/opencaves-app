@@ -382,8 +382,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
           <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
             <span>
-              <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                <Icon fontSize="small" />
+              <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                <Icon />
               </IconButton>
             </span>
           </Tooltip>
@@ -391,9 +391,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.link')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
-              <LinkRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
+              <LinkRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -404,8 +404,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.length')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
-              <StraightenRounded fontSize="small" />
+            <IconButton size="compact" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
+              <StraightenRounded />
             </IconButton>
           </span>
         </Tooltip>
@@ -414,9 +414,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.heading')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
-              <TitleRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
+              <TitleRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -434,8 +434,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           ) : (
             <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
               <span>
-                <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                  <Icon fontSize="small" />
+                <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                  <Icon />
                 </IconButton>
               </span>
             </Tooltip>
@@ -443,8 +443,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         )}
         <Box sx={{ flex: 1 }} />
         <Tooltip title={sourceMode ? t('toolbar.viewFormatted') : t('toolbar.viewSource')}>
-          <IconButton size="small" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
-            <CodeRounded fontSize="small" />
+          <IconButton size="compact" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
+            <CodeRounded />
           </IconButton>
         </Tooltip>
       </Box>

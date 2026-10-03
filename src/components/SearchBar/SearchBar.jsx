@@ -125,12 +125,11 @@ function searchIds(caves, searchTerm) {
     .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: cave.id.replace(regexp, '<mark>$1</mark>') } }))
 }
 
+// Stacked (the search and back buttons cross-fade), centred in the 48dp slot.
 const ActionButton = styled(IconButton)({
-  width: '48px',
-  height: '48px',
   position: 'absolute',
-  left: 0,
-  top: 0,
+  left: 4,
+  top: 4,
 })
 
 const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
@@ -416,6 +415,8 @@ export default function SearchBar() {
             <Box
               sx={{
                 width: '48px',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             >
               {showClearBtn && (
@@ -423,10 +424,6 @@ export default function SearchBar() {
                   <IconButton
                     disableRipple
                     aria-label={t('actionButton.clear.ariaLabel')}
-                    sx={{
-                      width: '48px',
-                      height: '48px',
-                    }}
                     onClick={onSearchbarInputClear}
                   >
                     <ClearIcon />
@@ -452,10 +449,7 @@ export default function SearchBar() {
                 disableRipple
                 id="oc-search-filter-btn"
                 aria-label={t('actionButton.filter.ariaLabel')}
-                sx={{
-                  width: '48px',
-                  height: '48px',
-                }}
+                sx={{ m: 0.5 }}
                 onClick={onFilterBtnClick}
               >
                 <TuneIcon />

@@ -282,11 +282,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   )
 
   // M3 touch sizing for the whole form on phones (it's built from dense,
-  // desktop-sized controls shared with the admin pages): 48dp targets with
-  // 24dp icons for icon buttons, 40dp-tall buttons, standard-size switches.
+  // desktop-sized controls shared with the admin pages): 40dp-tall buttons.
+  // Icon buttons get their 48dp touch target from the theme (MuiIconButton).
   const phoneTouchSizing = {
-    '& .MuiIconButton-root': { width: 48, height: 48, p: 0 },
-    '& .MuiIconButton-root .MuiSvgIcon-root': { fontSize: 24 },
     '& .MuiButton-root': { minHeight: 40 },
   }
 
@@ -316,7 +314,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
         <Tooltip title={t('editSistemas')}>
           <IconButton component={Link} to="sistemas" size="small" aria-label={t('editSistemas')}>
-            <EditRounded fontSize="small" />
+            <EditRounded />
           </IconButton>
         </Tooltip>
       </Box>

@@ -138,8 +138,8 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
       }
     >
       <Tooltip title={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')}>
-        <IconButton size={fullscreen || isSmall ? 'medium' : 'small'} aria-label={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')} onClick={() => setFullscreen((v) => !v)} sx={{ ...(isSmall && { width: 48, height: 48 }), position: 'absolute', top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, right: fullscreen ? 12 : 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
-          {fullscreen ? <FullscreenExitRounded /> : <FullscreenRounded fontSize={isSmall ? 'medium' : 'small'} />}
+        <IconButton size={fullscreen || isSmall ? 'medium' : 'small'} aria-label={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')} onClick={() => setFullscreen((v) => !v)} sx={{ position: 'absolute', top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, right: fullscreen ? 12 : 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
+          {fullscreen ? <FullscreenExitRounded /> : <FullscreenRounded />}
         </IconButton>
       </Tooltip>
       {/* Top left, up to the full-screen button (48dp + margins). */}
