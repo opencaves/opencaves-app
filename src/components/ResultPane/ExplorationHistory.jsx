@@ -2,6 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
+// The timeline's geometry: a dot centred on an entry's first line (body2,
+// 20px), the text this far from the section's left.
+const TIMELINE_DOT = 10
+const TIMELINE_DOT_TOP = 5
+const TIMELINE_INSET = 24
+
 // A partial date's sort key: its own text (ISO, so "2004" < "2004-10" <
 // "2004-10-16" < "2004-11"), a range ("2004-2006") by its first year.
 // Undated last.
@@ -44,7 +50,40 @@ export default function ExplorationHistory({ sistemas }) {
       <Typography variant="subtitle2" component="h3" sx={{ mb: 1 }}>
         {t('explorationHistory')}
       </Typography>
-      <Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+      {/* A vertical timeline at the left: a line through every entry, a dot
+          beside each one's first line (its date). */}
+      <Box
+        component="ol"
+        sx={(theme) => ({
+          listStyle: 'none',
+          m: 0,
+          p: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+          '& > li': { position: 'relative', pl: `${TIMELINE_INSET}px` },
+          // The line: from the first dot to the last one.
+          '& > li:not(:last-child)::before': {
+            content: '""',
+            position: 'absolute',
+            left: TIMELINE_DOT / 2 - 1,
+            top: TIMELINE_DOT_TOP + TIMELINE_DOT / 2,
+            bottom: `calc(${theme.spacing(-1.5)} - ${TIMELINE_DOT_TOP + TIMELINE_DOT / 2}px)`,
+            width: 2,
+            bgcolor: theme.vars.sys.color.outlineVariant,
+          },
+          '& > li::after': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: TIMELINE_DOT_TOP,
+            width: TIMELINE_DOT,
+            height: TIMELINE_DOT,
+            borderRadius: '50%',
+            bgcolor: 'primary.main',
+          },
+        })}
+      >
         {entries.map((entry, index) => (
           <Box component="li" key={index} className="oc-exploration-history--entry">
             {(entry.date || severalSistemas) && (
