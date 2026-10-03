@@ -1,8 +1,8 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Divider, Fab, FormControlLabel, FormLabel, Popover, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
+import { Box, Button, ClickAwayListener, Collapse, Divider, Fab, FormControlLabel, FormLabel, Paper, Popper, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import { setCaveLayerColorBySistema, setCaveLayerEditMode, setCaveLayerScope, setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
@@ -11,7 +11,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 // The map's layer button, under the account button: white, or in the primary
 // colour while the cave layer (the passages traced from the cave maps,
-// CaveLayer) is shown. It opens the layers panel: a switch that shows or
+// CaveLayer) is shown. It opens and closes the layers panel (not modal): a switch that shows or
 // hides the layer, then its options - every system or only the
 // selected cenote's, coloured by system or in one colour - and, for editors,
 // the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
@@ -30,6 +30,29 @@ export default function CaveLayerButton({ sx }) {
   // A hidden drawing's map: its title and date (its id only while maps.json loads).
   const mapLabel = (id) => (maps[id] ? [maps[id].title, maps[id].date].filter(Boolean).join(' · ') : id)
 
+  // Not modal: the map stays usable while it's open (its changes show at
+  // once); the button opens and closes it, Esc or a click outside closes it -
+  // not a drag outside (the map panned).
+  const pressedAt = useRef(null)
+  useEffect(() => {
+    if (!anchor) return
+    const onKey = (event) => event.key === 'Escape' && setAnchor(null)
+    const onDown = (event) => (pressedAt.current = [event.clientX, event.clientY])
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('pointerdown', onDown, true)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('pointerdown', onDown, true)
+    }
+  }, [anchor])
+
+  function onClickAway(event) {
+    if (anchor?.contains(event.target)) return // the button toggles it itself
+    const [x, y] = pressedAt.current || [event.clientX, event.clientY]
+    if (Math.hypot(event.clientX - x, event.clientY - y) > 5) return
+    setAnchor(null)
+  }
+
   async function showMap(name) {
     try {
       await setMapHidden(name, false)
@@ -43,82 +66,88 @@ export default function CaveLayerButton({ sx }) {
     <>
       <Tooltip title={t('button')} placement="left">
         {/* Off: white, like the map's other buttons; on: in the primary colour. */}
-        <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(event.currentTarget)}
+        <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(anchor ? null : event.currentTarget)}
           sx={visible
             ? { bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' }, ...sx }
             : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' }, ...sx }}>
           <LayersRounded />
         </Fab>
       </Tooltip>
-      <Popover open={Boolean(anchor)} anchorEl={anchor} onClose={() => setAnchor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        slotProps={{ paper: { role: 'dialog', 'aria-labelledby': titleId, elevation: 3, sx: (theme) => ({ mt: 1, borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, width: 'min(320px, calc(100vw - 16px))' }) } }}>
-        <Box className="oc-cave-layer-menu" sx={{ p: 2.5 }}>
-          <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
-            {t('panelTitle')}
-          </Typography>
-          <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={visible ? t('turnOff') : t('turnOn')} sx={{ mb: 1 }} />
-          <Divider sx={{ mb: 1.5 }} />
-          <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
-          <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => dispatch(setCaveLayerScope(event.target.value))}>
-            <FormControlLabel value="all" control={<Radio size="small" />} label={t('all')} disabled={!visible} />
-            <FormControlLabel value="selected" control={<Radio size="small" />} disabled={!visible}
-              label={
-                <span>
-                  {t('selected')}
-                  {!caveId && (
-                    <Typography component="span" variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-                      {t('selectedHint')}
-                    </Typography>
-                  )}
-                </span>
-              }
-            />
-          </RadioGroup>
-          <Divider sx={{ my: 1.5 }} />
-          <FormLabel id={`${titleId}-colors`}>{t('colors')}</FormLabel>
-          <RadioGroup aria-labelledby={`${titleId}-colors`} value={colorBySistema ? 'system' : 'single'} onChange={(event) => dispatch(setCaveLayerColorBySistema(event.target.value === 'system'))}>
-            <FormControlLabel value="system" control={<Radio size="small" />} label={t('bySystem')} disabled={!visible} />
-            <FormControlLabel value="single" control={<Radio size="small" />} label={t('single')} disabled={!visible} />
-          </RadioGroup>
-          {isEditor && (
-            <Box className="oc-cave-layer-menu--edit">
-              <Divider sx={{ my: 1.5 }} />
-              <FormControlLabel control={<Switch checked={editMode} onChange={(event) => dispatch(setCaveLayerEditMode(event.target.checked))} />} label={t('edit.mode')} disabled={!visible} />
-              <Typography variant="caption" color="text.secondary" component="p">
-                {t('edit.modeHint')}
+      <Popper open={Boolean(anchor)} anchorEl={anchor} placement="bottom-end" modifiers={[{ name: 'offset', options: { offset: [0, 8] } }]} sx={{ zIndex: 'var(--oc-searchbar-z-index)' }}>
+        <ClickAwayListener onClickAway={onClickAway}>
+          <Paper role="dialog" aria-modal="false" aria-labelledby={titleId} elevation={3} sx={(theme) => ({ borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, width: 'min(320px, calc(100vw - 16px))' })}>
+            <Box className="oc-cave-layer-menu" sx={{ p: 2.5 }}>
+              <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
+                {t('panelTitle')}
               </Typography>
-              {editMode && (
-                <>
-                  <FormLabel component="p" sx={{ mt: 1.5 }}>
-                    {t('edit.hiddenTitle')}
-                  </FormLabel>
-                  {hiddenMaps.length ? (
-                    <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, maxHeight: 160, overflowY: 'auto' }}>
-                      {hiddenMaps.map((name) => (
-                        <Box component="li" key={name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={mapLabel(name)}>
-                            {mapLabel(name)}
+              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={visible ? t('turnOff') : t('turnOn')} sx={{ mb: 1 }} />
+              {/* The layer's options, only while it's shown. */}
+              <Collapse in={visible} className="oc-cave-layer-menu--options">
+                <Divider sx={{ mb: 1.5 }} />
+                <FormLabel id={`${titleId}-scope`}>{t('scope')}</FormLabel>
+                <RadioGroup aria-labelledby={`${titleId}-scope`} value={scope} onChange={(event) => dispatch(setCaveLayerScope(event.target.value))}>
+                  <FormControlLabel value="all" control={<Radio size="small" />} label={t('all')} />
+                  <FormControlLabel value="selected" control={<Radio size="small" />}
+                    label={
+                      <span>
+                        {t('selected')}
+                        {!caveId && (
+                          <Typography component="span" variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                            {t('selectedHint')}
                           </Typography>
-                          <Button size="small" onClick={() => showMap(name)}>
-                            {t('edit.show')}
-                          </Button>
-                        </Box>
-                      ))}
-                    </Box>
-                  ) : (
+                        )}
+                      </span>
+                    }
+                  />
+                </RadioGroup>
+                <Divider sx={{ my: 1.5 }} />
+                <FormLabel id={`${titleId}-colors`}>{t('colors')}</FormLabel>
+                <RadioGroup aria-labelledby={`${titleId}-colors`} value={colorBySistema ? 'system' : 'single'} onChange={(event) => dispatch(setCaveLayerColorBySistema(event.target.value === 'system'))}>
+                  <FormControlLabel value="system" control={<Radio size="small" />} label={t('bySystem')} />
+                  <FormControlLabel value="single" control={<Radio size="small" />} label={t('single')} />
+                </RadioGroup>
+                {isEditor && (
+                  <Box className="oc-cave-layer-menu--edit">
+                    <Divider sx={{ my: 1.5 }} />
+                    <FormControlLabel control={<Switch checked={editMode} onChange={(event) => dispatch(setCaveLayerEditMode(event.target.checked))} />} label={t('edit.mode')} />
                     <Typography variant="caption" color="text.secondary" component="p">
-                      {t('edit.noneHidden')}
+                      {t('edit.modeHint')}
                     </Typography>
-                  )}
-                </>
-              )}
+                    {editMode && (
+                      <>
+                        <FormLabel component="p" sx={{ mt: 1.5 }}>
+                          {t('edit.hiddenTitle')}
+                        </FormLabel>
+                        {hiddenMaps.length ? (
+                          <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, maxHeight: 160, overflowY: 'auto' }}>
+                            {hiddenMaps.map((name) => (
+                              <Box component="li" key={name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Typography variant="body2" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={mapLabel(name)}>
+                                  {mapLabel(name)}
+                                </Typography>
+                                <Button size="small" onClick={() => showMap(name)}>
+                                  {t('edit.show')}
+                                </Button>
+                              </Box>
+                            ))}
+                          </Box>
+                        ) : (
+                          <Typography variant="caption" color="text.secondary" component="p">
+                            {t('edit.noneHidden')}
+                          </Typography>
+                        )}
+                      </>
+                    )}
+                  </Box>
+                )}
+              </Collapse>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
+                {t('disclaimer')}
+              </Typography>
             </Box>
-          )}
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
-            {t('disclaimer')}
-          </Typography>
-        </Box>
-      </Popover>
+          </Paper>
+        </ClickAwayListener>
+      </Popper>
     </>
   )
 }
