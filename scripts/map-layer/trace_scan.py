@@ -1429,6 +1429,21 @@ def main(config_path, output):
             grown = cv2.dilate(tone, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
             shapes = ndimage.binary_fill_holes((tone > 0) | (grown & ink))
             fill_shapes |= shapes
+        # "fillLoops": {"maxExtentPx", "minExtentPx"} - boulders drawn as small
+        # closed outlines (or solid blobs), standing apart: filled details,
+        # not wall loops. Larger outlines are pillars - walls.
+        if trace.get('fillLoops'):
+            rule_ = trace['fillLoops']
+            parts, count = ndimage.label(strokes, structure=numpy.ones((3, 3)))
+            for i, sl in enumerate(ndimage.find_objects(parts)):
+                extent = max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start)
+                if not rule_.get('minExtentPx', 8) <= extent <= rule_.get('maxExtentPx', 120):
+                    continue
+                piece = parts[sl] == i + 1
+                filled = ndimage.binary_fill_holes(piece)
+                if filled.sum() >= 1.3 * piece.sum() or piece.mean() >= 0.6:
+                    fill_shapes[sl] |= filled
+                    strokes[sl] &= ~piece
         strokes &= ~fill_shapes
         # "reliefTicks": floor reliefs (lines with ticks) aren't walls: their
         # ink goes to the details, line and ticks (relief_lines).

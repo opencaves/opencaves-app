@@ -390,8 +390,11 @@
         "widthPx": 20
       }
     ],
-    "why": "b/w line drawing: walls are bold strokes (about 5-7 px), boulders, columns and speleothems thinner - wall-strokes with a smaller opening than the default. Cross-section marks (A-J) and flow arrows erased by hand; dashed walls come out as details. Needs the stroke clean-up of the scratchpad wrapper ch-trace.py (pin-holes in the ragged strokes otherwise give 63k tiny skeleton loops).",
-    "fillStrokeHolesPx": 400
+    "why": "b/w line drawing: walls are bold strokes (about 5-7 px), boulders, columns and speleothems thinner - wall-strokes with a smaller opening than the default. Cross-section marks (A-J) and flow arrows erased by hand; dashed walls come out as details. Boulders are drawn as bold closed outlines (the legend's), standing apart: up to 160 px (about 16 m) they're filled details (fillLoops); larger closed outlines are rock pillars, walls.",
+    "fillStrokeHolesPx": 400,
+    "fillLoops": {
+      "maxExtentPx": 160
+    }
   },
   "exclude": [
     {
