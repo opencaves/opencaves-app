@@ -1110,12 +1110,12 @@
     "saveError": "No se pudo guardar el cambio.",
     "showOriginal": "Mostrar el original de {{title}}",
     "viewer": {
-      "hint": "Arrastre el divisor: el original a la izquierda, el dibujo a la derecha",
+      "hint": "Deslice para pasar del original al dibujo",
       "back": "Volver a las capas del mapa",
       "original": "Original",
       "drawing": "Dibujo",
-      "divider": "Divisor entre el original y el dibujo",
-      "dividerValue": "{{original}} % original, {{drawing}} % dibujo"
+      "blend": "Mezcla del original y el dibujo",
+      "blendValue": "{{drawing}} % dibujo"
     }
   }
 }

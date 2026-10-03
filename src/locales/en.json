@@ -1110,12 +1110,12 @@
     "saveError": "Couldn't save the change.",
     "showOriginal": "Show the original of {{title}}",
     "viewer": {
-      "hint": "Drag the divider: the original on the left, the drawing on the right",
+      "hint": "Slide to fade from the original to the drawing",
       "back": "Back to the map layers",
       "original": "Original",
       "drawing": "Drawing",
-      "divider": "Divider between the original and the drawing",
-      "dividerValue": "{{original}}% original, {{drawing}}% drawing"
+      "blend": "Blend between the original and the drawing",
+      "blendValue": "{{drawing}}% drawing"
     }
   }
 }

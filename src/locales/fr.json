@@ -1109,12 +1109,12 @@
     "saveError": "Impossible d'enregistrer la modification.",
     "showOriginal": "Afficher l’original de {{title}}",
     "viewer": {
-      "hint": "Glissez le séparateur : l’original à gauche, le dessin à droite",
+      "hint": "Glissez pour passer de l’original au dessin",
       "back": "Retour aux couches de la carte",
       "original": "Original",
       "drawing": "Dessin",
-      "divider": "Séparateur entre l’original et le dessin",
-      "dividerValue": "{{original}} % original, {{drawing}} % dessin"
+      "blend": "Mélange de l’original et du dessin",
+      "blendValue": "{{drawing}} % dessin"
     }
   }
 }
