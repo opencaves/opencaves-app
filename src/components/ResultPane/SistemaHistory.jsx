@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -7,11 +8,25 @@ import { getSistemaById } from '@/models/Sistema.js'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import ExplorationHistory from './ExplorationHistory.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
 export default function Sistema({ sistemaHistory }) {
   const { t: t2 } = useTranslation('resultPane')
 
   const hasSistemaAncestry = sistemaHistory.length > 1
+  // Whether the header is stuck under the search bar (its top at the sticky line).
+  const summaryRef = useRef(null)
+  const [stuck, setStuck] = useState(false)
+  useEffect(() => {
+    const node = summaryRef.current
+    if (!node) return undefined
+    const observer = new IntersectionObserver(([entry]) => setStuck(entry.intersectionRatio < 1 && entry.boundingClientRect.top <= RESULT_PANE_STICKY_TOP + 1), {
+      rootMargin: `-${RESULT_PANE_STICKY_TOP + 1}px 0px 0px 0px`,
+      threshold: [1],
+    })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [hasSistemaAncestry])
   const latestSistema = sistemaHistory[sistemaHistory.length - 1]
   const currentSistema = getSistemaById(latestSistema.id) ?? latestSistema
   // Every system of the tree, as loaded (with its explorations).
@@ -22,7 +37,31 @@ export default function Sistema({ sistemaHistory }) {
       <>
         {/* h2: a section of the cave (whose name is the h1), like "Access". */}
         <Accordion className="oc-sistema-history" variant="sistemaHistory" disableGutters elevation={0} square slotProps={{ heading: { component: 'h2' } }}>
-          <AccordionSummary expandIcon={<ExpandMore />} disableRipple={false} variant="sistemaHistory">
+          {/* Desktop pane: sticky under the floating search bar while the open
+              tree and its history scroll by. */}
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            disableRipple={false}
+            variant="sistemaHistory"
+            ref={summaryRef}
+            sx={(theme) => ({
+              '.oc-result-pane-lg &': {
+                position: 'sticky',
+                top: RESULT_PANE_STICKY_TOP,
+                zIndex: 1,
+                bgcolor: 'background.paper',
+                // Stuck: the space above it (behind and under the search bar)
+                // filled, so the text scrolling by doesn't show there; and the
+                // header floats like the search bar - its card (inset as the
+                // bar is), rounded and shadowed, behind its content.
+                ...(stuck && {
+                  bgcolor: 'transparent',
+                  '&::before': { content: '""', position: 'absolute', left: 0, right: 0, bottom: '100%', height: RESULT_PANE_STICKY_TOP, bgcolor: theme.vars.palette.background.paper },
+                  '&::after': { content: '""', position: 'absolute', inset: '0 8px', zIndex: -1, borderRadius: SEARCH_BAR_RADIUS, boxShadow: SEARCH_BAR_SHADOW, bgcolor: theme.vars.palette.background.paper },
+                }),
+              },
+            })}
+          >
             <Box
               sx={{
                 minWidth: 'var(--oc-details-icon-min-width)',

@@ -18,6 +18,7 @@ import { observeStore } from '@/utils/observeStore.js'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.js'
 import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
+import { SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 import './SearchBar.scss'
 
 const SearchIcon = () => <Search aria-hidden="true" />
@@ -381,8 +382,8 @@ export default function SearchBar() {
       >
         <Box
           sx={{
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)',
-            borderRadius: '24px',
+            boxShadow: SEARCH_BAR_SHADOW,
+            borderRadius: SEARCH_BAR_RADIUS,
             bgcolor: 'background.paper',
             borderColor: (theme) => (theme.palette.mode === 'light' ? 'background.paper' : 'divider'),
             borderWidth: 1,

@@ -43,6 +43,8 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
         autoHeightMin={editMode ? '100vh' : 0}
         autoHeightMax="100vh"
         style={{ transition: heightTransition }}
+        // Above the pane's sticky headers (the Sistema accordion's, z-index 1).
+        renderTrackVertical={({ style, ...props }) => <div {...props} style={{ ...style, position: 'absolute', width: 6, right: 2, bottom: 2, top: 2, borderRadius: 3, zIndex: 2 }} />}
         renderThumbVertical={({ style, ...props }) => (
           <div
             {...props}
