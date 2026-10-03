@@ -22,7 +22,7 @@
   "sistemaId": "-KPZgfyTGVmYHh6q8rl9",
   "utmEpsg": 32616,
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "water": false, "wallCentres": true, "strokePx": 15, "labelBoxes": [{"box": [672, 1718, 700, 1745], "why": "depth 1 by Sac Luum's west tip"}, {"box": [740, 1740, 840, 1775], "why": "'Cenote' of Cenote SAC LUUM (OCR missed it)"}, {"box": [880, 1815, 912, 1840], "why": "cross-section leader's arrowhead"}, {"box": [968, 1838, 1002, 1875], "why": "cross-section letter B"}], "detailsBesideTracedWalls": true, "wallMarginPx": 5, "detailsWhy": "on this faint photo the wall ink takes in the boulders too: details are kept back from the traced walls only", "wallCentresWhy": "a photographed poster: the pale fill barely stands out from the paper, its outline cut corners and ran inside the walls - the walls are the drawn wall line's centreline beside it",
     "threshold": 8,
     "minBandSqMetres": 8,
     "lowThresholdAreas": [
@@ -220,7 +220,7 @@
       "z": [427, 2185],
       "s": [427, 2204]
     },
-    "extra": [
+    "extra": [{"why": "place name on the map", "type": "place-name", "label": "Natty Sky Line", "px": [1572, 582]}, {"why": "place name on the map", "type": "place-name", "label": "Kaya Connection", "px": [1987, 699]}, {"why": "place name on the map", "type": "place-name", "label": "No More Tears Loop", "px": [1619, 961]}, {"why": "place name on the map", "type": "place-name", "label": "Tipuli Link", "px": [2078, 1217]}, {"why": "place name on the map", "type": "place-name", "label": "Twister Corridor", "px": [1615, 1654]}, {"why": "place name on the map", "type": "place-name", "label": "San-cho's Silt Cellar", "px": [2656, 1236]}, {"why": "place name on the map", "type": "place-name", "label": "T.V. Tan Area", "px": [2035, 249]}, 
       {
         "why": "blurred s west of Sac Luum (scores 0.63)",
         "type": "silt",

@@ -2003,6 +2003,9 @@ def main(config_path, output):
             drawn_line = numpy.zeros(wall_ink.shape, numpy.uint8)
             cv2.polylines(drawn_line, [numpy.array(line, numpy.int32)], False, 1, 3)
             wall_ink |= drawn_line > 0
+        # The walls actually traced (wall_ink can take in more: on a faint
+        # photo every ink near a band piece), kept back from by the details.
+        wall_lines = numpy.zeros((height, width), numpy.uint8)
         skeleton = skeletonize(wall_ink)
         neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
         for path in trace_skeleton(skeleton):
@@ -2012,6 +2015,7 @@ def main(config_path, output):
                 continue
             line = smooth(line).simplify(trace.get('wallSimplifyMetres', SIMPLIFY_METRES) / scale)
             cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 2)
+            cv2.polylines(wall_lines, [numpy.array(line.coords, numpy.int32)], False, 1, 3)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         contours = []
@@ -2127,9 +2131,12 @@ def main(config_path, output):
             # doesn't fill wide passages, so "inside" can't be trusted.
             near = cv2.distanceTransform((~wall_ink).astype(numpy.uint8), cv2.DIST_L2, 5) * scale <= trace.get('detailReachMetres', 25)
             # Kept back from the wall ink by "wallMarginPx" when set (a wall's
-            # shading beside its stroke isn't detail), else 2 px.
+            # shading beside its stroke isn't detail), else 2 px - or, with
+            # "detailsBesideTracedWalls", from the traced walls only (on a
+            # faint photo the wall ink takes in the boulders too).
             margin = 2 * trace.get('wallMarginPx', 2) + 1
-            inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
+            kept_back = wall_lines if trace.get('detailsBesideTracedWalls') else wall_ink.astype(numpy.uint8)
+            inside = near & ~(cv2.dilate(kept_back, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
         # "water": false - the passages aren't filled, only their walls drawn.
         water = band > 0 if trace.get('method') == 'colour-fill' and trace.get('water', True) else None
         # "waterPolygons": [[[x, y], ...]] - the water fill only there (a
