@@ -37,6 +37,9 @@ const rootPersistConfig = {
 const appPersistConfig = {
   key: 'app',
   storage: sessionPersistStorage,
+  // searchBarOff follows the phone sheet live: restored after a reload with
+  // no sheet to clear it, it kept the search bar hidden.
+  blacklist: ['searchBarOff'],
 }
 
 const sessionPersistConfig = {

@@ -240,6 +240,9 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     () => () => {
       const root = document.documentElement.style
       ;['--oc-result-pane-sm-height', '--oc-map-controls-opacity', '--oc-map-controls-visibility'].forEach((name) => root.removeProperty(name))
+      // Gone while fully up (a cave closed, its edit pane left): the search
+      // bar it slid away comes back.
+      dispatch(setSearchBarOff(false))
     },
     [],
   )
