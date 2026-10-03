@@ -19,6 +19,14 @@ const isLocalhost = Boolean(
 )
 
 export function register(config) {
+  // Development never registers one, but a service worker left on this
+  // origin (a production build once served here) would keep serving its
+  // cached, stale files: removed, along with its caches, and the page reloaded
+  // once so it comes straight from the dev server.
+  if (!import.meta.env.PROD && 'serviceWorker' in navigator) {
+    removeLeftoverServiceWorkers()
+    return
+  }
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(import.meta.env.BASE_URL, window.location.href)
@@ -160,5 +168,20 @@ export function unregister() {
       .catch((error) => {
         console.error(error.message)
       })
+  }
+}
+
+async function removeLeftoverServiceWorkers() {
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations()
+    if (registrations.length === 0) return
+    await Promise.all(registrations.map((registration) => registration.unregister()))
+    // Its precache (the app's own files) only; the other caches and the
+    // offline downloads (photos, maps) stay.
+    const names = await caches.keys()
+    await Promise.all(names.filter((name) => /precache/i.test(name)).map((name) => caches.delete(name)))
+    window.location.reload()
+  } catch (error) {
+    console.error(error)
   }
 }
