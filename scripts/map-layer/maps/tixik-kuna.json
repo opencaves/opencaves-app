@@ -556,6 +556,18 @@
           884
         ],
         "widthPx": 7
+      },
+      {
+        "why": "cross-section mark (L with arrow) in the dry area west of the boulders",
+        "from": [
+          3452,
+          1600
+        ],
+        "to": [
+          3478,
+          1616
+        ],
+        "widthPx": 26
       }
     ],
     "inkLevel": 175,
@@ -597,6 +609,17 @@
           728
         ],
         "widthPx": 22
+      }
+    ],
+    "fillTones": [
+      {
+        "why": "boulders drawn filled in grey (about 135, darker faces down to about 70; passages 181, walls black)",
+        "tone": [
+          70,
+          150
+        ],
+        "minPx": 40,
+        "outlinePx": 6
       }
     ]
   },

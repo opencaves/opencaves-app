@@ -1412,6 +1412,24 @@ def main(config_path, output):
                 thickness = 2 * cv2.distanceTransform(numpy.pad(piece, 1).astype(numpy.uint8), cv2.DIST_L2, 5).max()
                 if skeletonize(piece).sum() <= trace.get('solidMaxElongation', 2.5) * thickness:
                     strokes[sl] &= ~piece
+        # "fillTones": [{"tone": [lo, hi], "minPx", "outlinePx"}] - shapes drawn
+        # filled with a grey tone (boulders, on a map whose walls are black):
+        # the tone's patches with their black outline, filled, are details -
+        # not walls (their ink came out as a web of centrelines).
+        fill_shapes = numpy.zeros_like(strokes)
+        for rule_ in trace.get('fillTones', []):
+            lo, hi = rule_['tone']
+            tone = ((numpy.asarray(grey) >= lo) & (numpy.asarray(grey) <= hi) & ~masked).astype(numpy.uint8)
+            tone = cv2.morphologyEx(tone, cv2.MORPH_OPEN, numpy.ones((3, 3), numpy.uint8))
+            parts, count = ndimage.label(tone)
+            if count:
+                sizes = ndimage.sum(tone, parts, numpy.arange(1, count + 1))
+                tone = numpy.isin(parts, 1 + numpy.flatnonzero(sizes >= rule_.get('minPx', 40))).astype(numpy.uint8)
+            reach = rule_.get('outlinePx', 4)
+            grown = cv2.dilate(tone, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0
+            shapes = ndimage.binary_fill_holes((tone > 0) | (grown & ink))
+            fill_shapes |= shapes
+        strokes &= ~fill_shapes
         # "reliefTicks": floor reliefs (lines with ticks) aren't walls: their
         # ink goes to the details, line and ticks (relief_lines).
         reliefs = numpy.zeros_like(strokes)
@@ -1641,7 +1659,7 @@ def main(config_path, output):
             # stroke's soft edge, which would come out as slivers along it.
             margin = 2 * (radius + trace.get('wallMarginPx', 3)) + 1
             off_walls = ~(cv2.dilate(strokes.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
-            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink & ~(cv2.dilate(relief_area.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0) & ~slope_area, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink & ~(cv2.dilate(relief_area.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0) & ~slope_area | fill_shapes, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
                                         {'map': name, 'sistemaId': config.get('sistemaId')})
         Image.fromarray(review).save(out / f'{name}-walls-review.png')
         geojson = out / f'{name}-walls.geojson'
