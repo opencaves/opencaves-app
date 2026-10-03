@@ -1,4 +1,4 @@
-import { Link, resolvePath, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
 import Inline from 'yet-another-react-lightbox/plugins/inline'
@@ -38,6 +38,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
   const currentMap = maps.find((map) => map.id === mapId)
   const navigate = useNavigate()
   const location = useLocation()
+  const { caveId } = useParams()
   const theme = useTheme()
 
   if (!currentMap) {
@@ -56,12 +57,13 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
 
   const isFullscreenEnabled = () => document.fullscreenEnabled ?? document.webkitFullscreenEnabled ?? document.mozFullScreenEnabled ?? document.msFullscreenEnabled
 
+  // The URL follows the map shown - compared by id and written from the
+  // cave's: the path may also end in /edit (the Edit dialog, over the viewer),
+  // which a path relative to it would get wrong (and close the dialog).
   function onView({ index }) {
     const { mapId: nextMapId } = slides[index]
-    const from = location.pathname
-    const to = resolvePath(`../${nextMapId}`, from).pathname
-    if (to !== from) {
-      setTimeout(() => navigate(`../${nextMapId}`, { replace: true, relative: 'path', state: location.state }))
+    if (nextMapId !== mapId) {
+      setTimeout(() => navigate(`/map/${caveId}/maps/${nextMapId}`, { replace: true, state: location.state }))
     }
   }
 
@@ -73,7 +75,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
     if (remaining.length === 0) {
       navigate(returnTo, { replace: true })
     } else {
-      navigate(`../${remaining[0].id}`, { replace: true, relative: 'path', state: location.state })
+      navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
     }
   }
 
