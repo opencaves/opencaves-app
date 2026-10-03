@@ -59,7 +59,7 @@ points, or by its scale bar and north plus one or more points.
 
 - The passages' **water** fill is decided per map by the user (`"water"`;
   `waterPolygons` limits it to some areas, e.g. a cenote's open water).
-- A **stick map** (survey lines only) is traced as lines, with no thickness.
+- A **stick map** (survey lines only) is traced as lines, with no thickness: they are the Arianne line (the guideline laid in the cave), kind `arianne`, drawn on its own (a continuous yellow line).
 - Two lines that don't touch on a map are a **jump**, not a tracing gap:
   gaps are closed only where the map's ink runs on.
 - Leader lines, cross-sections and their marks, labels and the page border are
@@ -111,7 +111,7 @@ node scripts/map-layer/assign-ids.js --write
 
 `npm run build:tiles` stops on a config without an id. It turns every placed map's traced output (unverified maps
 left out) into vector tiles in `public/tiles/caves/` - layers `passages`
-(walls, survey lines, water, details) and `symbols`, each feature with its
+(walls, Arianne lines, water, details, reliefs, slopes) and `symbols`, each feature with its
 `map` and `sistemaId`. It runs tippecanoe in Docker (the image is built from
 `scripts/map-layer/tippecanoe.Dockerfile` the first time). The tiles aren't in
 git (they come from `_data/`): rebuild them after changing a map, before

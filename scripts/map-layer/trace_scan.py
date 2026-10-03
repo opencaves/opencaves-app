@@ -812,6 +812,58 @@ def slope_drawings(area, downhill, scale, rule):
     return lines
 
 
+def dotted_line(ink, walls, rule):
+    """The main line (guideline) drawn as a dash-dot line, straight from
+    station to station: the small ink pieces (up to "maxPiecePx"), grown a
+    little so their gaps close, give straight runs (Hough, at least
+    "minLengthPx", gaps up to "gapPx"). Runs lying along a wall (more than
+    "onWallShare" of their length within a few pixels of one: stippled wall
+    edges, hatching) are dropped; run ends within "joinPx" of another run
+    are joined (the stations break the dash pattern). Returns the lines (pixel
+    coordinates) and the small pieces' ink used."""
+    from shapely.geometry import LineString, Point
+    from shapely.ops import linemerge, unary_union
+    labels, _ = ndimage.label(ink, structure=numpy.ones((3, 3)))
+    small = numpy.zeros_like(ink)
+    for i, sl in enumerate(ndimage.find_objects(labels)):
+        if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) <= rule.get('maxPiecePx', 10):
+            small[sl] |= labels[sl] == i + 1
+    grown = cv2.dilate(small.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
+    found = cv2.HoughLinesP(grown * 255, 1, numpy.pi / 360, rule.get('threshold', 40),
+                            minLineLength=rule.get('minLengthPx', 60), maxLineGap=rule.get('gapPx', 14))
+    near_wall = cv2.dilate(walls.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0
+    h, w = ink.shape
+    runs = []
+    for x0, y0, x1, y1 in ([] if found is None else found.reshape(-1, 4)):
+        line = LineString([(x0, y0), (x1, y1)])
+        samples = [line.interpolate(d) for d in numpy.arange(0, line.length, 2)]
+        on_wall = sum(near_wall[min(int(q.y), h - 1), min(int(q.x), w - 1)] for q in samples)
+        if on_wall <= rule.get('onWallShare', 0.4) * len(samples):
+            runs.append(line)
+    if not runs:
+        return [], small
+    # The runs drawn on a mask, its centreline the line (Hough gives many
+    # overlapping copies of each run).
+    band = numpy.zeros(ink.shape, numpy.uint8)
+    for line in runs:
+        cv2.line(band, tuple(int(v) for v in line.coords[0]), tuple(int(v) for v in line.coords[-1]), 1, 5)
+    paths = trace_skeleton(skeletonize(band > 0))
+    lines = [LineString([(x, y) for y, x in path]) for path in paths if len(path) >= 2]
+    lines = [line.simplify(1.5) for line in linemerge(unary_union(lines)).geoms] if len(lines) > 1 else lines
+    # Ends within "joinPx" of another line joined (a station breaks the
+    # pattern), the short spurs of the skeleton dropped.
+    join = rule.get('joinPx', 20)
+    bridges = []
+    for i, line in enumerate(lines):
+        for end in (Point(line.coords[0]), Point(line.coords[-1])):
+            best = min(((other.distance(end), j) for j, other in enumerate(lines) if j != i), default=(None, None))
+            if best[0] is not None and 1 < best[0] <= join:
+                bridges.append(LineString([end, lines[best[1]].interpolate(lines[best[1]].project(end))]))
+    merged = linemerge(unary_union(lines + bridges))
+    lines = [list(g.coords) for g in getattr(merged, 'geoms', [merged]) if g.length >= rule.get('minPiecePx', 15)]
+    return lines, small
+
+
 def thin_walls(config_path, config, out, name):
     """Walls drawn as thin wiggly lines, the same weight as the guideline, the
     passages left white ("method": "thin-walls"; Hutcheson's Nohoch Nah
@@ -990,7 +1042,7 @@ def thin_walls(config_path, config, out, name):
             if any(near_label[min(int(y), h - 1), min(int(x), w - 1)] for x, y in (line.coords[0], line.coords[-1])):
                 continue
             cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (220, 160, 0), 2)
-            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     contours, hierarchy = cv2.findContours(outline_bands, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
     for index, contour in enumerate(contours):
@@ -1098,7 +1150,7 @@ def compass_fill(config_path, config, out, name):
             if ls.length * scale < min_m:
                 continue
             ls = ls.simplify(max(0.5, scale / 2) / scale)
-            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in ls.coords]))})
     walls['features'] += rounded({'type': 'FeatureCollection', 'features': features})['features']
     out.mkdir(parents=True, exist_ok=True)
@@ -1332,7 +1384,7 @@ def main(config_path, output):
             if line.length * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
                 continue
             line = line.simplify(max(SIMPLIFY_METRES, scale / 2) / scale)
-            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'survey', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         geojson = out / f'{name}-walls.geojson'
         geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
@@ -1508,6 +1560,13 @@ def main(config_path, output):
             bold = cv2.morphologyEx(strokes.astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * rule.get('keepWallHalfPx', 3) + 1,) * 2)) > 0
             strokes &= ~(slope_area & ~bold)
             print(f"{len(trace['slopeAreas'])} slopes, {len(slope_lines)} V's drawn")
+        # "dottedLine": {} - the main line drawn as a dash-dot line between
+        # stations: kept as survey lines (dotted_line), its dots out of the
+        # details.
+        main_lines, main_ink = [], numpy.zeros_like(strokes)
+        if trace.get('dottedLine') is not None:
+            main_lines, main_ink = dotted_line(drawn.astype(bool) & ~symbol_ink & ~strokes, strokes, trace['dottedLine'] or {})
+            print(f'{len(main_lines)} main line pieces (dash-dot)')
         # Reliefs redrawn as the map's symbol (a line and even ticks), not
         # the scan's ragged ink: those found, and "reliefLines" [{"points":
         # [[x, y], ...], "side": 1 | -1, "widthPx"}] - ones drawn by hand
@@ -1661,6 +1720,10 @@ def main(config_path, output):
         # thin detail lines lost them).
         features += [{'type': 'Feature', 'properties': {'map': name, 'kind': 'relief', 'sistemaId': config.get('sistemaId')},
                       'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in drawing]))} for drawing in relief_drawings]
+        for drawing in main_lines:
+            cv2.polylines(review, [numpy.array(drawing, numpy.int32)], False, (220, 60, 0), 2)
+        features += [{'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                      'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in drawing]))} for drawing in main_lines]
         features += [{'type': 'Feature', 'properties': {'map': name, 'kind': 'slope', 'sistemaId': config.get('sistemaId')},
                       'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in drawing]))} for drawing in slope_lines]
         if trace.get('details', True):
@@ -1674,7 +1737,7 @@ def main(config_path, output):
             # stroke's soft edge, which would come out as slivers along it.
             margin = 2 * (radius + trace.get('wallMarginPx', 3)) + 1
             off_walls = ~(cv2.dilate(strokes.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
-            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink & ~(cv2.dilate(relief_area.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0) & ~slope_area | fill_shapes, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink & ~(cv2.dilate(relief_area.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0) & ~slope_area & ~(cv2.dilate(main_ink.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0) | fill_shapes, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
                                         {'map': name, 'sistemaId': config.get('sistemaId')})
         Image.fromarray(review).save(out / f'{name}-walls-review.png')
         geojson = out / f'{name}-walls.geojson'

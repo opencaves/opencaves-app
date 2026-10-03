@@ -99,7 +99,8 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
   const extend = (c) => (typeof c[0] === 'number' ? ((box[0] = Math.min(box[0], c[0])), (box[1] = Math.min(box[1], c[1])), (box[2] = Math.max(box[2], c[0])), (box[3] = Math.max(box[3], c[1]))) : c.forEach(extend))
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
     if (feature.geometry?.coordinates) extend(feature.geometry.coordinates)
-    const kind = feature.properties?.kind || 'wall'
+    // "survey" is the Arianne line's former kind name (outputs traced before).
+    const kind = feature.properties?.kind === 'survey' ? 'arianne' : feature.properties?.kind || 'wall'
     passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: id, ...sistema, kind }, tippecanoe: { minzoom: ['detail', 'relief', 'slope'].includes(kind) ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
     counts.passages++
   }

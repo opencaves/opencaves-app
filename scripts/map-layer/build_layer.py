@@ -137,7 +137,7 @@ def main(config_path, output):
     tolerance = SIMPLIFY_METRES / metres_per_point
     properties = {'map': name, 'sistemaId': config.get('sistemaId'), 'title': config.get('title'), 'credits': config.get('credits')}
     features = []
-    for kind, geometries in (('wall', walls), ('survey', survey)):
+    for kind, geometries in (('wall', walls), ('arianne', survey)):
         for geometry in geometries:
             placed = transform(place, geometry.simplify(tolerance))
             features.append({'type': 'Feature', 'properties': {**properties, 'kind': kind}, 'geometry': mapping(placed)})
@@ -207,7 +207,7 @@ map.on('load', () => {
   map.addSource('cave', { type: 'geojson', data })
   map.addSource('anchors', { type: 'geojson', data: anchorsData })
   map.addLayer({ id: 'walls', type: 'line', source: 'cave', filter: ['==', ['get', 'kind'], 'wall'], paint: { 'line-color': '#ffffff', 'line-width': 1.2, 'line-opacity': 0.9 } })
-  map.addLayer({ id: 'survey', type: 'line', source: 'cave', filter: ['==', ['get', 'kind'], 'survey'], paint: { 'line-color': '#ffd400', 'line-width': 1, 'line-dasharray': [2, 1] } })
+  map.addLayer({ id: 'survey', type: 'line', source: 'cave', filter: ['==', ['get', 'kind'], 'arianne'], paint: { 'line-color': '#ffd400', 'line-width': 1, 'line-dasharray': [2, 1] } })
   map.addLayer({ id: 'entrances', type: 'circle', source: 'cave', filter: ['==', ['get', 'kind'], 'entrance'], paint: { 'circle-radius': 5, 'circle-color': '#9e9e9e', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1.5 } })
   // Names as HTML markers: the satellite style has no fonts for map labels.
   const labels = []

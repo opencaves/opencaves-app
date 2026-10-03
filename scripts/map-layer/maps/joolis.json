@@ -857,7 +857,7 @@
   ],
   "trace": {
     "method": "wall-strokes",
-    "why": "traced on the composite (see imageNote): the cave from the 2013 reprint, whose walls are bold strokes (about 7 px wide here) and whose cross-section marks, survey line, hatching and boulder outlines are thin (about 4 px) - an opening of radius 3 keeps the walls; the reprint's thin straight strokes were erased beforehand (prep/joolis.py) so they don't join the walls as the thinner wall pieces do. The 2004 scan itself draws everything at one weight, blurred.",
+    "why": "traced on the composite (see imageNote): the cave from the 2013 reprint, whose walls are bold strokes (about 7 px wide here) and whose cross-section marks, survey line, hatching and boulder outlines are thin (about 4 px) - an opening of radius 3 keeps the walls; the reprint's thin straight strokes were erased beforehand (prep/joolis.py) so they don't join the walls as the thinner wall pieces do. The 2004 scan itself draws everything at one weight, blurred. The main line, drawn as a dash-dot line between stations in the mapped passages, is kept as survey lines (dottedLine): its small pieces' straight runs, those along a wall dropped, joined across the stations.",
     "water": false,
     "openRadiusPx": 2,
     "minExtentPx": 70,
@@ -911,7 +911,8 @@
       ],
       "bridgePx": 5,
       "joinShortPx": 40
-    }
+    },
+    "dottedLine": {}
   },
   "symbols": {
     "why": "Czech dive survey (no legend on the page). The station depths along the walls and line plots (-9.40 style) are about 6 px high on this scan, printed as blobs: unreadable, so none is kept (the 2013 reprint, Joolis, Sist., Tulum (1).pdf, is sharper but drops the depths and the line plots). No restriction codes, no flow arrows (the arrows along the 2013 reprint's survey line give the legs' direction; the dash-dot curves with arrowheads are the moved Hoit copy's links, not flow), no bones (searched: no bone icon, no text). The dotted outlines (a slope ending in a dotted line on the Chu'muc'cho passage's south wall, a small dotted arc at the north-east branch's head, a dotted edge along the hatched area south of the central passage) have no legend: not kept as entrances.",

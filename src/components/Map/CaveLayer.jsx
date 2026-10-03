@@ -15,7 +15,7 @@ import { METRES_PER_FOOT } from '@/utils/units.js'
 
 // The layers the edit mode answers to: a map's drawing (its symbols are too small).
 // Lines first: a wall within reach wins over the water around it.
-const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-details', 'oc-caves-water']
+const EDITABLE_LAYERS = ['oc-caves-walls', 'oc-caves-arianne', 'oc-caves-details', 'oc-caves-water']
 // How far from the pointer (px) a drawing answers: most are thin lines.
 const HOVER_PADDING = 8
 // The drawn lines' halo (the *-halo layers): dark behind a light colour,
@@ -242,10 +242,16 @@ export default function CaveLayer({ selectedSistemaId, mapId }) {
         paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 3, 18, 4.5] }} />
       <Layer id="oc-caves-reliefs" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('relief', 'slope'))} layout={{ visibility, 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 1.2, 18, 2.5] }} />
-      <Layer id="oc-caves-walls-halo" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
+      <Layer id="oc-caves-walls-halo" source-layer="passages" type="line" filter={filter(kind('wall'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
-      <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
+      <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2, 18, 2.5] }} />
+      {/* The Arianne line (the guideline laid in the cave): its own drawing,
+          a continuous line in its own colour over the walls. */}
+      <Layer id="oc-caves-arianne-halo" source-layer="passages" type="line" filter={filter(kind('arianne'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
+        paint={{ 'line-color': ifHidden(DARK_HALO, DARK_HALO), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
+      <Layer id="oc-caves-arianne" source-layer="passages" type="line" filter={filter(kind('arianne'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
+        paint={{ 'line-color': ifHidden(HIDDEN_COLOR, CAVE_LAYER.ARIANNE_COLOR), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 14, 1.4, 18, 2.5] }} />
       <Layer id="oc-caves-entrances" source-layer="symbols" type="circle" filter={filter(type('entrance'))} layout={{ visibility }}
         paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 16, 5], 'circle-color': ifHidden(HIDDEN_COLOR, theme.palette.info.main), 'circle-opacity': ifHidden(HIDDEN_OPACITY, 1), 'circle-stroke-color': '#fff', 'circle-stroke-width': 1, 'circle-stroke-opacity': ifHidden(HIDDEN_OPACITY, 1) }} />
       <Layer id="oc-caves-depths" source-layer="symbols" type="symbol" minzoom={CAVE_LAYER.SYMBOL_ZOOM} filter={filter(type('depth'))}
