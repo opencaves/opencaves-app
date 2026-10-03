@@ -140,7 +140,7 @@
   }
  ],
  "trace": {
-  "method": "thin-walls",
+  "method": "thin-walls", "boulderLoops": {"maxExtentPx": 40, "maxStrokePx": 5, "closePx": 5, "ringPx": 3, "heapClosePx": 15, "blueMin": 30, "blueReachPx": 6, "boulderMaxPx": 22, "why": "the boulders, small thin outlines (2-4 px; the pillars are bold), lie in heaps touching each other and the walls: each heap taken out, its outline a wall where it faces the rock; the boulders (compact, up to 22 px, about 10 m - the rock islands are larger) drawn filled"},
   "water": false,
   "inkLevel": 120,
   "bridgePx": 5,
@@ -599,7 +599,7 @@
   },
   {
    "name": "Effondrement",
-   "written": true,
+   "written": false,
    "px": [
     2279,
     491
@@ -617,7 +617,7 @@
   },
   {
    "name": "Collapse at the Siphon",
-   "written": true,
+   "written": false,
    "px": [
     534,
     1669

@@ -200,7 +200,7 @@ PAGE = """<!doctype html>
 .symbol{font:bold 11px sans-serif;color:#111;background:#ffd400;border-radius:3px;padding:0 3px;white-space:nowrap;cursor:default}
 .label{font:11px sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap;pointer-events:none}</style>
 </head><body><div id="map"></div>
-<div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (blue dots)</label>
+<div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="range" id="satellite" min="0" max="1" step="0.05" value="1"> satellite</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (green dots)</label>
 <p style="margin:6px 0 0"><span style="color:#ff3b30">&#9679;</span> database GPS &nbsp; <span style="color:#2f80ff">&#9632;</span> spot on the map<br>(fit points solid, check points hollow)</p></div>
 <script>
 // The title copied to the clipboard on a click (a review note's heading).
@@ -230,7 +230,7 @@ map.on('load', () => {
   const symbolMarkers = []
   // Cenote entrances: their own layer, a dot like a cenote's on the map.
   map.addSource('entrance-dots', { type: 'geojson', data: { type: 'FeatureCollection', features: (__SYMBOLS__).features.filter((f) => f.properties.type === 'entrance') } })
-  map.addLayer({ id: 'entrance-dots', type: 'circle', source: 'entrance-dots', paint: { 'circle-radius': 6, 'circle-color': '#1e88e5', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 } })
+  map.addLayer({ id: 'entrance-dots', type: 'circle', source: 'entrance-dots', paint: { 'circle-radius': 6, 'circle-color': '#2e7d32', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 } })
   document.getElementById('entrances').onchange = (e) => map.setLayoutProperty('entrance-dots', 'visibility', e.target.checked ? 'visible' : 'none')
   for (const f of (__SYMBOLS__).features) {
     const p = f.properties
@@ -260,6 +260,8 @@ map.on('load', () => {
   }
   document.getElementById('walls').onchange = (e) => ['walls', 'details', 'water'].forEach((id) => map.setLayoutProperty(id, 'visibility', e.target.checked ? 'visible' : 'none'))
   document.getElementById('opacity').oninput = (e) => map.setPaintProperty('scan', 'raster-opacity', +e.target.value)
+  // The satellite faded out over a white page, to see the map and the trace alone.
+  document.getElementById('satellite').oninput = (e) => map.getStyle().layers.filter((l) => l.type === 'raster' && l.id !== 'scan').forEach((l) => map.setPaintProperty(l.id, 'raster-opacity', +e.target.value))
 })
 </script></body></html>
 """

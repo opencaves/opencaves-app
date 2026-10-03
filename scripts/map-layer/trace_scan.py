@@ -921,6 +921,64 @@ def thin_walls(config_path, config, out, name):
                 cv2.line(straight, tuple(int(v) for v in a), tuple(int(v) for v in b), 1, trace.get('straightWidthPx', 4))
                 straight_pieces.append((tuple(int(v) for v in a), tuple(int(v) for v in b)))
     walls = drawn & ~(straight > 0)
+    # "boulderLoops": {"maxExtentPx", "maxStrokePx", "closePx", "ringPx",
+    # "heapClosePx", "blueMin", "blueReachPx", "minSolidity", "boulderMaxPx", "pillarBlueShare"} - boulders drawn as small thin
+    # outlines, in heaps touching each other and the walls (Aluxes' grand
+    # couloir). Each small enclosed white area whose ring is drawn thin
+    # (pillars are bold) is a boulder or a gap between boulders; together,
+    # closed over "heapClosePx", they make a heap, whose ink is all taken out.
+    # The heap's outline is a wall where it faces the rock (paper), not where
+    # it faces the passage's blue water (within "blueReachPx").
+    boulders = numpy.zeros(ink.shape, bool)
+    if trace.get('boulderLoops'):
+        rule = trace['boulderLoops']
+        # The scan breaks thin outlines here and there: closed first
+        # ("closePx"), or a boulder's inside leaks into the passage.
+        c = rule.get('closePx', 3)
+        holes, _ = ndimage.label(~(cv2.morphologyEx(walls.astype(numpy.uint8), cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (c, c))) > 0))
+        width = cv2.distanceTransform(numpy.pad(walls, 1).astype(numpy.uint8), cv2.DIST_L2, 3)[1:-1, 1:-1] * 2
+        rgb = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB')).astype(int)
+        water = (rgb[..., 2] - rgb[..., 0]) >= rule.get('blueMin', 25)
+        heap = numpy.zeros(ink.shape, numpy.uint8)
+        n_boulders = 0
+        pad = rule.get('ringPx', 3)
+        for i, sl in enumerate(ndimage.find_objects(holes)):
+            if sl[0].start == 0 or sl[1].start == 0 or sl[0].stop == h or sl[1].stop == w:
+                continue
+            if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) > rule.get('maxExtentPx', 30):
+                continue
+            window = (slice(max(0, sl[0].start - pad), sl[0].stop + pad), slice(max(0, sl[1].start - pad), sl[1].stop + pad))
+            grown = cv2.dilate((holes[window] == i + 1).astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * pad + 1, 2 * pad + 1))) > 0
+            ring = grown & walls[window]
+            # A rock island in the water (blue all around) is a pillar.
+            around = (cv2.dilate(grown.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))) > 0) & ~grown
+            if water[window][around].mean() > rule.get('pillarBlueShare', 0.5):
+                continue
+            if ring.any() and numpy.percentile(width[window][ring], 75) <= rule.get('maxStrokePx', 4):
+                heap[window] |= grown.astype(numpy.uint8)
+                n_boulders += 1
+                # A boulder is compact; a gap between boulders is concave
+                # (a star between their sides): only boulders are drawn,
+                # filled up to the middle of their outline.
+                inside = (holes[window] == i + 1).astype(numpy.uint8)
+                contour = max(cv2.findContours(inside, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0], key=cv2.contourArea)
+                hull = cv2.contourArea(cv2.convexHull(contour))
+                extent = max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start)
+                if hull > 0 and inside.sum() / hull >= rule.get('minSolidity', 0.8) and extent <= rule.get('boulderMaxPx', 22):
+                    boulders[window] |= cv2.dilate(inside, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))) > 0
+        hc = rule.get('heapClosePx', 9)
+        heap = cv2.morphologyEx(heap, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (hc, hc)))
+        heap = ndimage.binary_fill_holes(heap > 0)
+        # Bold ink in a heap (pillars, the rock outlines) stays a wall.
+        bold = cv2.morphologyEx(walls.astype(numpy.uint8), cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
+        bold = cv2.dilate(bold, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))) > 0
+        walls &= ~heap | bold
+        blue = water & ~heap
+        r = rule.get('blueReachPx', 6)
+        near_blue = cv2.dilate(blue.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))) > 0
+        edge = heap & ~(cv2.erode(heap.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0)
+        walls |= edge & ~near_blue
+        print(f'{n_boulders} boulders and gaps between them taken out of the walls')
     # 3. long shapes and islands
     # The scan breaks thin lines here and there: pieces "bridgePx" apart count as one shape.
     k = trace.get('bridgePx', 3)
@@ -1053,6 +1111,10 @@ def thin_walls(config_path, config, out, name):
         cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 200), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    # The boulders found in the heaps ("boulderLoops"), filled details.
+    if boulders.any():
+        review[boulders & ~(review.sum(axis=2) < 60)] = (120, 200, 120)
+        features += detail_features(boulders, None, place, to_lnglat, scale, trace, {'map': name, 'sistemaId': config.get('sistemaId')})
     Image.fromarray(review).save(out / f'{name}-walls-review.png')
     geojson = out / f'{name}-walls.geojson'
     geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
