@@ -221,7 +221,7 @@
   "controlPoints": [
     {
       "caveId": "-KPZkVDRyqNfcQwwFS_9",
-      "name": "Entrée (DB Actun Koh, Google Maps)",
+      "name": "Cenote Actun Koh (DB Actun Koh, Google Maps)",
       "px": [
         755,
         1732
@@ -251,7 +251,7 @@
   ],
   "entrances": [
     {
-      "name": "Entrée (Cenote Actun Koh)",
+      "name": "Cenote Actun Koh",
       "written": true,
       "caveId": "-KPZkVDRyqNfcQwwFS_9",
       "px": [
@@ -278,7 +278,7 @@
       ]
     },
     {
-      "name": "unnamed small opening in the air bell NE of Cénote cultivé",
+      "name": "unnamed small opening in the air bell NE of Cénote cultivé", "caveId": "-P2wOMnPUpgYtgu2Qe7G",
       "written": false,
       "px": [
         1202,

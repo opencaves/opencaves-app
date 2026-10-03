@@ -86,6 +86,38 @@ SHORT_SOURCES = {'Open Caves': 'OC', 'Gerrard 2015': 'Gerrard', 'Google Maps': '
                  'Cave and Karst Studies': 'CKS', 'map': 'map'}
 
 
+def database_caves_within(corners):
+    """The local database's caves inside the map's area (its four corners, on
+    the ground), as GeoJSON points with their names - pins on the overlay to
+    compare with the map's cenotes. Empty when the emulator isn't running."""
+    import os
+    import urllib.request
+    from shapely.geometry import Point, Polygon
+    url = f"http://{os.environ.get('FIRESTORE_EMULATOR_HOST', '127.0.0.1:8080')}/v1/projects/opencaves/databases/(default)/documents:runQuery"
+    query = {'structuredQuery': {'from': [{'collectionId': 'caves'}], 'select': {'fields': [{'fieldPath': 'name'}, {'fieldPath': 'location'}, {'fieldPath': 'cenoteEntrance'}]}}}
+    request = urllib.request.Request(url, json.dumps(query).encode(), {'Content-Type': 'application/json', 'Authorization': 'Bearer owner'})
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            rows = json.loads(response.read())
+    except OSError:
+        return {'type': 'FeatureCollection', 'features': []}
+    area = Polygon(corners)
+    features = []
+    for row in rows:
+        fields = row.get('document', {}).get('fields', {})
+        location = fields.get('location', {}).get('mapValue', {}).get('fields', {})
+        if 'latitude' not in location or 'longitude' not in location:
+            continue
+        lng, lat = (float(next(iter(location[k].values()))) for k in ('longitude', 'latitude'))
+        if not area.contains(Point(lng, lat)):
+            continue
+        name = fields.get('name', {}).get('mapValue', {}).get('fields', {}).get('value', {}).get('stringValue', '')
+        entrance = fields.get('cenoteEntrance', {}).get('booleanValue', False)
+        features.append({'type': 'Feature', 'properties': {'name': name + (' (entrance)' if entrance else ''), 'validity': location.get('validity', {}).get('stringValue', '')},
+                         'geometry': {'type': 'Point', 'coordinates': [lng, lat]}})
+    return {'type': 'FeatureCollection', 'features': features}
+
+
 def database_positions(cave_ids):
     """{caveId: (lng, lat, short source, validity)} from the local Firestore
     emulator (FIRESTORE_EMULATOR_HOST, default 127.0.0.1:8080); empty when
@@ -185,9 +217,15 @@ def main(config_path, output):
     # The symbols (extract_symbols.py), when there are some yet.
     symbols_path = out / f'{name}-symbols.geojson'
     symbols = symbols_path.read_text(encoding='utf-8') if symbols_path.exists() else '{"type":"FeatureCollection","features":[]}'
+    # The map's other cenotes (its entrances not written as such, and not
+    # known): blue dots with their names, beside the green entrances.
+    cenotes = {'type': 'FeatureCollection', 'features': [
+        {'type': 'Feature', 'properties': {'name': e.get('name', '')}, 'geometry': {'type': 'Point', 'coordinates': list(to_lnglat.transform(*place(*e['px'])))}}
+        for e in config.get('entrances', []) if e.get('px') and not (e.get('written') or e.get('knownEntrance'))]}
     html = (PAGE.replace('__TOKEN__', env.get('VITE_MAPBOX_ACCESS_TOKEN', '')).replace('__TITLE__', config.get('title', name) + (' - UNVERIFIED placement' if config.get('unverified') else ''))
             .replace('__IMAGE__', data_url).replace('__CORNERS__', json.dumps(corners))
-            .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls).replace('__SYMBOLS__', symbols))
+            .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls).replace('__SYMBOLS__', symbols).replace('__CENOTES__', json.dumps(cenotes, ensure_ascii=False))
+            .replace('__DBCAVES__', json.dumps(database_caves_within(corners), ensure_ascii=False)))
     (out / f'{name}-overlay.html').write_text(html, encoding='utf-8')
     print(f'preview: {out / f"{name}-overlay.html"}')
 
@@ -200,7 +238,7 @@ PAGE = """<!doctype html>
 .symbol{font:bold 11px sans-serif;color:#111;background:#ffd400;border-radius:3px;padding:0 3px;white-space:nowrap;cursor:default}
 .label{font:11px sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap;pointer-events:none}</style>
 </head><body><div id="map"></div>
-<div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="range" id="satellite" min="0" max="1" step="0.05" value="1"> satellite</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (green dots)</label>
+<div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="range" id="satellite" min="0" max="1" step="0.05" value="1"> satellite</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (green rings)</label><br><label><input type="checkbox" id="cenotes" checked> other cenotes (blue dots)</label><br><label><input type="checkbox" id="dbcaves" checked> database caves (purple pins)</label>
 <p style="margin:6px 0 0"><span style="color:#ff3b30">&#9679;</span> database GPS &nbsp; <span style="color:#2f80ff">&#9632;</span> spot on the map<br>(fit points solid, check points hollow)</p></div>
 <script>
 // The title copied to the clipboard on a click (a review note's heading).
@@ -228,10 +266,28 @@ map.on('load', () => {
   // Symbols: a short label per type, the value in metres where there's one.
   const SHORT = { 'restriction-minor': 'r', 'restriction-major': 'X', 'visibility-zero': 'z', 'silt': 's', 'depth': '↓', 'ceiling-height': '↕', 'penetration': 'p' }
   const symbolMarkers = []
-  // Cenote entrances: their own layer, a dot like a cenote's on the map.
+  // Cenote entrances: their own layer, a green ring - wide enough to show
+  // around a control point's markers on the same cenote.
   map.addSource('entrance-dots', { type: 'geojson', data: { type: 'FeatureCollection', features: (__SYMBOLS__).features.filter((f) => f.properties.type === 'entrance') } })
-  map.addLayer({ id: 'entrance-dots', type: 'circle', source: 'entrance-dots', paint: { 'circle-radius': 6, 'circle-color': '#2e7d32', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 } })
+  map.addLayer({ id: 'entrance-dots', type: 'circle', source: 'entrance-dots', paint: { 'circle-radius': 12, 'circle-color': 'rgba(46, 125, 50, 0.35)', 'circle-stroke-color': '#2e7d32', 'circle-stroke-width': 3 } })
   document.getElementById('entrances').onchange = (e) => map.setLayoutProperty('entrance-dots', 'visibility', e.target.checked ? 'visible' : 'none')
+  // The map's other cenotes: not entrances (not written as such on the map).
+  map.addSource('cenote-dots', { type: 'geojson', data: __CENOTES__ })
+  map.addLayer({ id: 'cenote-dots', type: 'circle', source: 'cenote-dots', paint: { 'circle-radius': 5, 'circle-color': '#1e88e5', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 } })
+  map.addLayer({ id: 'cenote-names', type: 'symbol', source: 'cenote-dots', layout: { 'text-field': ['get', 'name'], 'text-size': 12, 'text-offset': [0, 1.1], 'text-anchor': 'top' }, paint: { 'text-color': '#ffffff', 'text-halo-color': '#1e88e5', 'text-halo-width': 1.5 } })
+  // The database's caves within the map: pins, to compare with its cenotes.
+  const dbPins = (__DBCAVES__).features.map((f) => {
+    const el = document.createElement('div')
+    el.style.cssText = 'display:flex;flex-direction:column;align-items:center;pointer-events:none'
+    el.innerHTML = '<svg width="22" height="30" viewBox="0 0 24 34"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 22 12 22s12-13 12-22C24 5.4 18.6 0 12 0z" fill="#8e24aa" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>'
+    const label = document.createElement('div')
+    label.textContent = f.properties.name + (f.properties.validity && f.properties.validity !== 'valid' ? ' [' + f.properties.validity + ']' : '')
+    label.style.cssText = 'font:600 11px sans-serif;color:#fff;background:#8e24aa;padding:1px 4px;border-radius:3px;white-space:nowrap;margin-top:1px'
+    el.appendChild(label)
+    return new mapboxgl.Marker({ element: el, anchor: 'top', offset: [0, -30] }).setLngLat(f.geometry.coordinates).addTo(map)
+  })
+  document.getElementById('dbcaves').onchange = (e) => dbPins.forEach((m) => (m.getElement().style.display = e.target.checked ? 'flex' : 'none'))
+  document.getElementById('cenotes').onchange = (e) => ['cenote-dots', 'cenote-names'].forEach((id) => map.setLayoutProperty(id, 'visibility', e.target.checked ? 'visible' : 'none'))
   for (const f of (__SYMBOLS__).features) {
     const p = f.properties
     if (p.type === 'entrance') continue

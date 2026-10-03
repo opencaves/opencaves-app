@@ -73,7 +73,7 @@ Kept on every map: overlined or underlined numbers (depths), circled ones
 codes, "To ..." and "passage continues" pointers (`leads-to`), named places in
 the cave (`place-name`), water-flow arrows (`flow`, with their true
 `bearing`), and **bones**, searched for carefully on every map. An entrance is
-kept as an `entrance` (a green dot in the overlay) only when the map **writes**
+kept as an `entrance` (a green ring in the overlay; the map's other cenotes are blue dots) only when the map **writes**
 it as one - "Entrance", "Entrada", "Entrée", "Ent." (config `"written": true`)
 - or it's known to be one (`"knownEntrance": true`: the user's first-hand
 knowledge, such as the cenotes of their dive log). A cenote dot, an outline or
