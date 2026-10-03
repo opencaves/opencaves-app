@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMatches } from 'react-router-dom'
-import waitForDom from '@/utils/wait-for-dom.jsx'
+import waitForDom from '@/utils/wait-for-dom.js'
 
 export function useMapUiReady(mapLoaded, currentMarkerElem) {
   const hasMarker = arguments.length === 2

@@ -3,7 +3,7 @@ import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import WallpaperRounded from '@mui/icons-material/WallpaperRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import useRoles from '@/hooks/useRoles.jsx'
-import noop from '@/utils/noop.jsx'
+import noop from '@/utils/noop.js'
 
 export function useUseAsCoverImage() {
   return useRoles('editor')

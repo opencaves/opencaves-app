@@ -7,7 +7,7 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
 import { matchesId } from '@/utils/matchesId.js'
-import { toServiceLanguage } from '@/utils/lang.jsx'
+import { toServiceLanguage } from '@/utils/lang.js'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
 const PLACE_LIMIT = 5

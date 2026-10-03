@@ -8,7 +8,7 @@ import MoreVert from '@mui/icons-material/MoreVert'
 import Picture from '@/components/Picture.jsx'
 import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
 import DeleteMedia, { useDeleteMediaConfirm } from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
-import noop from '@/utils/noop.jsx'
+import noop from '@/utils/noop.js'
 import { storage } from '@/config/firebase.js'
 import { mediaItemPadding, mediaItemRadius } from './config.js'
 

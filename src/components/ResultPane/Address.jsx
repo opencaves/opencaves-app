@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { useTranslation } from 'react-i18next'
-import { toServiceLanguage } from '@/utils/lang.jsx'
+import { toServiceLanguage } from '@/utils/lang.js'
 import { useOnline } from '@/hooks/useOnline.jsx'
 
 const fetcher = (...args) =>

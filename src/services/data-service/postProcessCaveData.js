@@ -1,5 +1,5 @@
 import { findPhoneNumbersInText } from 'libphonenumber-js'
-import { normalizeLengths } from '@/utils/lengths.jsx'
+import { normalizeLengths } from '../../utils/lengths.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map'
 
 // Builds a markdown transformer that phone-number-links and cave-name-links

@@ -6,7 +6,7 @@ import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistent
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 // import { getAnalytics } from 'firebase/analytics'
 import i18n from '../i18n.js'
-import { toServiceLanguage } from '../utils/lang.jsx'
+import { toServiceLanguage } from '../utils/lang.js'
 import { FIREBASE_CONFIG } from './firebase.config.js'
 import { savePendingLink } from '../services/pendingLink.js'
 

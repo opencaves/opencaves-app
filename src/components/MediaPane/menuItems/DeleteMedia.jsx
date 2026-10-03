@@ -5,7 +5,7 @@ import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import Message from '@/components/Message.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import useRoles from '@/hooks/useRoles.jsx'
-import { noopAsync } from '@/utils/noop.jsx'
+import { noopAsync } from '@/utils/noop.js'
 import { deleteById } from '@/models/CaveAsset.js'
 
 // Deleting a photo: admins only.
