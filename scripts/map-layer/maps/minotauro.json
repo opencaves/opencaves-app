@@ -12,7 +12,7 @@
   "sistemaId": "-KPZgfwz5bv3l8SRmrUt",
   "utmEpsg": 32616,
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "bandGrowPx": 3, "bandGrowWhy": "the default 5 px growth put the walls 2-3 px outside the thin black stroke",
     "why": "Photographed poster with passages filled in pale blue-grey to purple by depth, dark wall lines, soft focus. greyFill+blueWeight: darkness plus 2x blueness (a tan shadow along the walls' outer side is dark but not blue). Options not yet in trace_scan.py (prototyped in the session scratchpad mino_trace.py): fillOffInk (fill level averaged off the ink), inkTopHatPx (ink as thin strokes, so the purple deep fill isn't ink), paperOutside/notOutside/paperGapPx (paper level from the large areas outside the walls, never filled), inkBand (union with the default band of the drawn walls, for narrow stippled passages). Plain trace_scan.py ignores them and floods/loses passages.",
     "greyFill": true,
     "water": false,
@@ -45,6 +45,11 @@
     "inkBand": true
   },
   "exclude": [
+    {"why": "isolated drawing right of E': hooked to the cave by a bracket line, not a passage of it (user, 2026-10-03)", "box": [1046, 980, 1129, 1045]},
+    {"why": "isolated drawing near the \"2\", its bracket line to the passage: hooked to the cave by a bracket line, not a passage of it (user, 2026-10-03)", "box": [1121, 1170, 1197, 1232]},
+    {"why": "isolated drawing right of G, bracket line: hooked to the cave by a bracket line, not a passage of it (user, 2026-10-03)", "box": [1191, 1235, 1260, 1307]},
+    {"why": "isolated drawing left of p478, line to the passage: hooked to the cave by a bracket line, not a passage of it (user, 2026-10-03)", "box": [696, 1298, 767, 1369]},
+    {"why": "isolated drawing next to the 25 by G': hooked to the cave by a bracket line, not a passage of it (user, 2026-10-03)", "box": [719, 1425, 804, 1565]},
     {
       "why": "screw, top left",
       "box": [

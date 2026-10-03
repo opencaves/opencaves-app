@@ -288,9 +288,13 @@ def colour_fill_band(image_path, masked, trace):
     joined, _ = ndimage.label(weak | core)
     touching = numpy.unique(joined[core])
     band = numpy.isin(joined, touching[touching > 0]).astype(numpy.uint8)
-    # Specks off, then grown over the wall ink so the band reaches the drawn wall.
+    # Specks off, then grown over the wall ink so the band reaches the drawn wall
+    # ("bandGrowPx": the growth's size, 5 by default - less where a thin wall
+    # stroke put the outline outside it; 1 leaves the band as found).
     band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)))
-    band = cv2.dilate(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
+    grow = trace.get('bandGrowPx', 5)
+    if grow > 1:
+        band = cv2.dilate(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (grow, grow)))
     # "inkBand": true - united with the default band of the drawn walls (long
     # ink shapes, closed, then opened): narrow passages whose fill is mostly
     # stipple and wall ink read there, wide pale ones in the fill.
