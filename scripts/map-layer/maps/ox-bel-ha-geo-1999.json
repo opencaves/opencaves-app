@@ -230,6 +230,7 @@
     }
   ],
   "entrances": [
+    {"name": "Cenote Barrier", "written": false, "caveId": "-KPZkVEa5x4D96pmi9iL", "px": [6535, 525], "why": "'Cenote Barrier' label, its leader ending on this passage's inner wall; the database's Barrier (Ox Bel Ha) has no position"},
     {
       "name": "Odyssey",
       "written": false,
