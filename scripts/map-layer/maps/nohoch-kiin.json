@@ -190,10 +190,7 @@
     }
   ],
   "trace": {
-    "method": "wall-strokes",
     "water": false,
-    "openRadiusPx": 2,
-    "minExtentPx": 30,
     "eraseLines": [
       {
         "why": "North west entrance leader (bold part by the daylight symbol)",
@@ -255,7 +252,11 @@
         ],
         "widthPx": 24
       }
-    ]
+    ],
+    "why": "Small-scale drawing: each passage's two thin walls a few px apart, often touching at the scan's resolution - tracing each wall stroke left them collapsed into one line. Traced as passage bands instead (the default method: the walls closed into a band, its outlines the walls), holes the closing missed filled (bandHoleMaxPx) so they aren't traced as tiny pillars. A closing of 11 px (not 9) spans the wider passages, whose walls otherwise became thin bands of their own (two lines, gaps, small loops at junctions), without merging neighbouring passages (13 px did). No floor details: the map draws none, and its walls' ink came out as white fill.",
+    "bandHoleMaxPx": 400,
+    "bandClosePx": 11,
+    "details": false
   },
   "entrances": [
     {

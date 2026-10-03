@@ -1780,7 +1780,11 @@ def main(config_path, output):
         labels, count = ndimage.label(candidate, structure=numpy.ones((3, 3)))
         extents = [max(s[0].stop - s[0].start, s[1].stop - s[1].start) for s in ndimage.find_objects(labels)]
         walls = numpy.isin(labels, [i + 1 for i, extent in enumerate(extents) if extent >= MIN_WALL_EXTENT_PX])
-        band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (CLOSE_PX, CLOSE_PX)))
+        # "bandClosePx": the closing's size - wide enough to span a passage
+        # between its walls (a wider one isn't filled: each wall becomes a
+        # thin band of its own, two lines for one wall).
+        close_px = trace.get('bandClosePx', CLOSE_PX)
+        band = cv2.morphologyEx(walls.astype(numpy.uint8) * 255, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (close_px, close_px)))
         band = cv2.morphologyEx(band, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (OPEN_PX, OPEN_PX)))
     place, scale, _ = raster_placement(config)
     # Small pieces far from any passage ("dropIsolated": {"maxSqMetres",
@@ -1794,6 +1798,14 @@ def main(config_path, output):
         gap = cv2.distanceTransform(((band > 0) & ~small).astype(numpy.uint8) ^ 1, cv2.DIST_L2, 5) * scale
         near = numpy.unique(pieces[small & (gap <= rule.get('gapMetres', 20))])
         band[small & ~numpy.isin(pieces, near)] = 0
+    # "bandHoleMaxPx": holes in the band smaller than this filled - spots the
+    # closing missed between two walls far apart, which would be traced as
+    # tiny pillars (a real pillar encloses far more).
+    if trace.get('bandHoleMaxPx'):
+        holes, count = ndimage.label(ndimage.binary_fill_holes(band > 0) & ~(band > 0))
+        if count:
+            sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
+            band[numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['bandHoleMaxPx']))] = 255
     contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
