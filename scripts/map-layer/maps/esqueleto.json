@@ -413,6 +413,78 @@
           1440
         ],
         "widthPx": 8
+      },
+      {
+        "why": "The Canyons label leader (curved, to the wall)",
+        "from": [
+          671,
+          781
+        ],
+        "to": [
+          693,
+          798
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "The Canyons label leader (curved, to the wall)",
+        "from": [
+          693,
+          798
+        ],
+        "to": [
+          716,
+          808
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "The Canyons label leader (curved, to the wall)",
+        "from": [
+          716,
+          808
+        ],
+        "to": [
+          749,
+          812
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "leader by circle 12 (Madonna Passage)",
+        "from": [
+          904,
+          801
+        ],
+        "to": [
+          930,
+          766
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Hall of Giants label leader (west)",
+        "from": [
+          1207,
+          1110
+        ],
+        "to": [
+          1172,
+          1192
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Hall of Giants label leader (east)",
+        "from": [
+          1207,
+          1110
+        ],
+        "to": [
+          1248,
+          1192
+        ],
+        "widthPx": 8
       }
     ],
     "sectionReachPx": 40,
@@ -430,6 +502,270 @@
         1290,
         1095
       ]
+    ],
+    "weakBridgePx": 5,
+    "leaderStraightPx": 4,
+    "why": "Bold wall strokes (James Coke style). Thin walls the scan breaks into pieces are joined across 5 px gaps (weakBridgePx) and kept from 40 px (weakMinExtentPx); walls drawn with a 2 px pen, gone with the opening, are kept from 25 px (thinWallMinExtentPx). A leader drawn up to a thin wall takes only its straight run from the label (leaderStraightPx). Labels OCR misses are boxed (labelBoxes, their letters only). Floor reliefs (a line with a row of ticks) are found as rows of parallel ticks against the walls (reliefTicks), plus three drawn by hand (reliefLines), and redrawn as the symbol, not kept as scanned ink. Two narrow passages whose walls touch are traced along their outline (wideStrokes, boxes only: the entrance's bold ledges are as wide).",
+    "reliefTicks": {
+      "minTicks": 4,
+      "spacingMaxPx": 12
+    },
+    "labelBoxes": [
+      {
+        "why": "Sudden Land (Side Mount)",
+        "box": [
+          219,
+          321,
+          321,
+          361
+        ]
+      },
+      {
+        "why": "False Dreams",
+        "box": [
+          727,
+          304,
+          793,
+          340
+        ]
+      },
+      {
+        "why": "Winter Wonderland",
+        "box": [
+          370,
+          580,
+          555,
+          626
+        ]
+      },
+      {
+        "why": "Footpath",
+        "box": [
+          368,
+          683,
+          448,
+          700
+        ]
+      },
+      {
+        "why": "Madonna Passage",
+        "box": [
+          827,
+          786,
+          926,
+          841
+        ]
+      },
+      {
+        "why": "Coliseum Room",
+        "box": [
+          619,
+          1042,
+          754,
+          1091
+        ]
+      },
+      {
+        "why": "Hall of Giants",
+        "box": [
+          1121,
+          1211,
+          1184,
+          1246
+        ]
+      },
+      {
+        "why": "Upstream Plats",
+        "box": [
+          1358,
+          375,
+          1466,
+          424
+        ]
+      },
+      {
+        "why": "Old Florida Section",
+        "box": [
+          1482,
+          825,
+          1583,
+          859
+        ]
+      },
+      {
+        "why": "Big Bend",
+        "box": [
+          1827,
+          1171,
+          1921,
+          1199
+        ]
+      },
+      {
+        "why": "Downstream Bedding Plane",
+        "box": [
+          2337,
+          1203,
+          2533,
+          1272
+        ]
+      },
+      {
+        "why": "p. 430",
+        "box": [
+          603,
+          209,
+          646,
+          228
+        ]
+      },
+      {
+        "why": "p. 870",
+        "box": [
+          434,
+          388,
+          494,
+          409
+        ]
+      },
+      {
+        "why": "p. 500",
+        "box": [
+          984,
+          839,
+          1028,
+          859
+        ]
+      },
+      {
+        "why": "p. 1,400 (west)",
+        "box": [
+          1232,
+          562,
+          1306,
+          583
+        ]
+      },
+      {
+        "why": "p. 1,050 (west)",
+        "box": [
+          1263,
+          829,
+          1314,
+          849
+        ]
+      },
+      {
+        "why": "p. 1,400 (east)",
+        "box": [
+          1769,
+          685,
+          1822,
+          705
+        ]
+      },
+      {
+        "why": "p. 1,050 (east)",
+        "box": [
+          1491,
+          1052,
+          1541,
+          1074
+        ]
+      },
+      {
+        "why": "p. 2,200",
+        "box": [
+          2363,
+          1038,
+          2414,
+          1058
+        ]
+      },
+      {
+        "why": "kls (west)",
+        "box": [
+          550,
+          463,
+          577,
+          482
+        ]
+      }
+    ],
+    "weakMinExtentPx": 40,
+    "thinWallMinExtentPx": 25,
+    "wideStrokes": {
+      "halfPx": 3.5,
+      "minLengthPx": 15,
+      "elongation": 2,
+      "boxes": [
+        [
+          1035,
+          880,
+          1085,
+          965
+        ],
+        [
+          1105,
+          885,
+          1205,
+          950
+        ]
+      ],
+      "why": "narrow passages whose two walls touch on the scan (marked in review, 2026-10-03): traced along the band's outline"
+    },
+    "reliefLines": [
+      {
+        "why": "floor relief south-west of Madonna Passage (ticks merge into the line)",
+        "points": [
+          [
+            808,
+            962
+          ],
+          [
+            835,
+            962
+          ],
+          [
+            862,
+            962
+          ]
+        ]
+      },
+      {
+        "why": "floor relief south-west of Madonna Passage, diagonal",
+        "points": [
+          [
+            822,
+            1014
+          ],
+          [
+            851,
+            1006
+          ],
+          [
+            880,
+            997
+          ]
+        ]
+      },
+      {
+        "why": "floor relief beside the pillars east of Madonna Passage",
+        "points": [
+          [
+            940,
+            905
+          ],
+          [
+            941,
+            930
+          ],
+          [
+            943,
+            957
+          ]
+        ]
+      }
     ]
   },
   "symbols": {

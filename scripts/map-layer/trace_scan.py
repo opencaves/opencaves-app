@@ -507,8 +507,38 @@ def leader_lines(ink, labels, height, width, trace):
         length = skeleton.sum()
         if shape.sum() > length * 2 * half * 1.5 or values.max() > half * 1.6:
             continue
-        if any(near_label[s][y, x] for y, x in ends):
-            leaders[s] |= shape
+        if not any(near_label[s][y, x] for y, x in ends):
+            continue
+        # "leaderStraightPx": only the leader's straight run from its label
+        # end goes - the shape can be a leader and the thin wall it was drawn
+        # up to (the wall's bold parts taken out first), which stays.
+        straight = trace.get('leaderStraightPx')
+        if straight:
+            start = next((y, x) for y, x in ends if near_label[s][y, x])
+            path, previous, current = [start], None, start
+            while True:
+                step = next(((current[0] + dy, current[1] + dx) for dy in (-1, 0, 1) for dx in (-1, 0, 1)
+                             if (dy or dx) and 0 <= current[0] + dy < skeleton.shape[0] and 0 <= current[1] + dx < skeleton.shape[1]
+                             and skeleton[current[0] + dy, current[1] + dx] and (current[0] + dy, current[1] + dx) != previous
+                             and (current[0] + dy, current[1] + dx) not in path[-3:]), None)
+                if step is None:
+                    break
+                previous, current = current, step
+                path.append(current)
+            run = 2
+            for k in range(2, len(path)):
+                (y0, x0), (y1, x1) = path[0], path[k]
+                chord = numpy.hypot(y1 - y0, x1 - x0) or 1
+                if max(abs((x1 - x0) * (y0 - py) - (x0 - px) * (y1 - y0)) / chord for py, px in path[1:k]) > straight:
+                    break
+                run = k + 1
+            if run < len(path) - 1:
+                stroke = numpy.zeros(shape.shape, numpy.uint8)
+                pts = numpy.array([(x, y) for y, x in path[:run]], numpy.int32).reshape(-1, 1, 2)
+                cv2.polylines(stroke, [pts], False, 1, int(2 * half + 3))
+                leaders[s] |= shape & (stroke > 0)
+                continue
+        leaders[s] |= shape
     return leaders
 
 
@@ -639,6 +669,110 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
         lines &= ~ndimage.binary_fill_holes(inside)
     paths = trace_skeleton(skeletonize(lines))
     return join_short_paths(paths, trace['joinShortPx'], trace.get('joinNearEnds')) if trace.get('joinShortPx') else paths
+
+
+def relief_lines(drawn, rule):
+    """Floor reliefs (a slope or ledge: a line with a row of short ticks along
+    it). Along the ink's centrelines a tick is a short branch with a free end
+    ("tickMinPx" to "tickMaxPx" long); ticks in a row, each at most
+    "spacingMaxPx" from the next, at least "minTicks" of them, make a relief.
+    A ragged wall edge has short branches too, but scattered and pointing
+    every way: a relief's ticks point the same way ("alignment": how much
+    their directions agree, 0 to 1 - the length of their mean unit vector).
+    Returns the relief's ink: its line and ticks."""
+    tick_min, tick_max = rule.get('tickMinPx', 2), rule.get('tickMaxPx', 9)
+    spacing, min_ticks = rule.get('spacingMaxPx', 10), rule.get('minTicks', 5)
+    skeleton = skeletonize(drawn)
+    degree = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+    joints = numpy.zeros(skeleton.shape, numpy.uint8)
+    directions = {}
+    for path in trace_skeleton(skeleton):
+        a, b = path[0], path[-1]
+        if (degree[a] <= 1) != (degree[b] <= 1) and tick_min <= len(path) <= tick_max:
+            joint, tip = (b, a) if degree[a] <= 1 else (a, b)
+            joints[joint] = 1
+            v = numpy.array(tip, float) - numpy.array(joint, float)
+            directions[joint] = v / (numpy.hypot(*v) or 1)
+    # Ticks within "spacingMaxPx" of each other join up into rows.
+    rows, count = ndimage.label(cv2.dilate(joints, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (spacing + 1, spacing + 1))), structure=numpy.ones((3, 3)))
+    if not count:
+        return numpy.zeros_like(drawn)
+    members = {}
+    for joint, v in directions.items():
+        members.setdefault(rows[joint], []).append(v)
+    agree = rule.get('alignment', 0.6)
+    kept = [i for i, vs in members.items() if i and len(vs) >= min_ticks and numpy.hypot(*numpy.mean(vs, axis=0)) >= agree]
+    keep = numpy.isin(rows, kept)
+    # The row's ink: its line and its ticks, a few pixels around the joints.
+    reach = rule.get('reachPx', 4)
+    keep = cv2.dilate(keep.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1, 2 * reach + 1))) > 0
+    return keep & drawn
+
+
+def longest_path(mask):
+    """The longest path through a thin shape's skeleton (its ends found by
+    two breadth-first searches): a relief's line, its ticks left off."""
+    skeleton = skeletonize(mask)
+    pixels = set(zip(*numpy.nonzero(skeleton)))
+    if len(pixels) < 2:
+        return []
+
+    def farthest(start):
+        previous, queue, last = {start: None}, [start], start
+        while queue:
+            nxt = []
+            for y, x in queue:
+                for dy in (-1, 0, 1):
+                    for dx in (-1, 0, 1):
+                        q = (y + dy, x + dx)
+                        if q in pixels and q not in previous:
+                            previous[q] = (y, x)
+                            nxt.append(q)
+            if nxt:
+                last = nxt[0]
+            queue = nxt
+        return last, previous
+    a, _ = farthest(next(iter(pixels)))
+    b, previous = farthest(a)
+    path, p = [], b
+    while p is not None:
+        path.append(p)
+        p = previous[p]
+    return [(x, y) for y, x in path]
+
+
+def redrawn_relief(points, ink, rule):
+    """A relief redrawn as the map's symbol: its line (pixel points,
+    smoothed) and evenly spaced ticks on the side the scan's ticks are on
+    (or "side": 1 or -1, the left or right of the line's direction).
+    Returns lines in pixel coordinates."""
+    if len(points) < 2:
+        return []
+    line = smooth(LineString(points)).simplify(1)
+    spacing, length = rule.get('tickSpacingPx', 7), rule.get('tickLengthPx', 5)
+
+    def normal_at(d):
+        a, b = line.interpolate(max(0, d - 2)), line.interpolate(min(line.length, d + 2))
+        tx, ty = b.x - a.x, b.y - a.y
+        n = numpy.hypot(tx, ty) or 1
+        return -ty / n, tx / n
+    side = rule.get('side')
+    if side is None:
+        h, w = ink.shape
+        score = 0
+        for d in numpy.arange(2, line.length - 2, 2):
+            p, (nx, ny) = line.interpolate(d), normal_at(d)
+            for sgn in (1, -1):
+                for r in (3, 4, 5):
+                    x, y = int(round(p.x + sgn * r * nx)), int(round(p.y + sgn * r * ny))
+                    if 0 <= x < w and 0 <= y < h and ink[y, x]:
+                        score += sgn
+        side = 1 if score >= 0 else -1
+    lines = [list(line.coords)]
+    for d in numpy.arange(spacing / 2, line.length, spacing):
+        p, (nx, ny) = line.interpolate(d), normal_at(d)
+        lines.append([(p.x, p.y), (p.x + side * length * nx, p.y + side * length * ny)])
+    return lines
 
 
 def thin_walls(config_path, config, out, name):
@@ -1012,6 +1146,19 @@ def main(config_path, output):
     for item in config.get('exclude', []):
         x0, y0, x1, y1 = item['box']
         masked[max(0, y0):y1, max(0, x0):x1] = True
+    # "labelBoxes": [{"box": [x0, y0, x1, y1], "why"}] - labels OCR misses: only
+    # the ink pieces lying wholly inside a box (its letters) are masked, not a
+    # wall running through it.
+    if config.get('trace', {}).get('labelBoxes'):
+        pieces, _ = ndimage.label(ink, structure=numpy.ones((3, 3)))
+        spans = ndimage.find_objects(pieces)
+        for item in config['trace']['labelBoxes']:
+            x0, y0, x1, y1 = item['box'] if isinstance(item, dict) else item
+            window = pieces[max(0, y0):y1, max(0, x0):x1]
+            for i in numpy.unique(window[window > 0]):
+                sl = spans[i - 1]
+                if sl[0].start >= y0 and sl[0].stop <= y1 and sl[1].start >= x0 and sl[1].stop <= x1:
+                    masked[sl] |= pieces[sl] == i
     # Areas excluded by colour (config "trace": {"excludeColours": [{"hue":
     # [h0, h1], "minSaturation": s}]}): e.g. cross-sections drawn on orange
     # brick - each patch of that colour, grown, and its bounding box.
@@ -1173,7 +1320,67 @@ def main(config_path, output):
         weak = opened(radius - 1)
         weak_labels, _ = ndimage.label(weak, structure=numpy.ones((3, 3)))
         touching = numpy.unique(weak_labels[strong & (weak_labels > 0)])
-        strokes = (strong | numpy.isin(weak_labels, touching[touching > 0]) | long_parts(weak, 2 * min_extent)) & ~symbol_ink
+        # "weakMinExtentPx": how long a thinner stroke must be to count on its
+        # own (default twice minExtentPx); "weakBridgePx": its pieces this
+        # close count as one - a scan breaks a thin wall into short pieces,
+        # each too short alone (narrow passages lost a wall).
+        weak_extent = trace.get('weakMinExtentPx', 2 * min_extent)
+        bridge = trace.get('weakBridgePx', 0)
+        if bridge:
+            joined, _ = ndimage.label(cv2.dilate(weak, numpy.ones((bridge, bridge), numpy.uint8)) > 0, structure=numpy.ones((3, 3)))
+            spans = ndimage.find_objects(joined)
+            long_ids = [i + 1 for i, sl in enumerate(spans) if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= weak_extent]
+            weak_long = numpy.isin(joined, long_ids) & (weak > 0)
+        else:
+            weak_long = long_parts(weak, weak_extent)
+        strokes = (strong | numpy.isin(weak_labels, touching[touching > 0]) | weak_long) & ~symbol_ink
+        # "thinWallMinExtentPx": walls drawn thinner still (a pen's 2 px,
+        # gone with the opening): the raw ink's pieces at least this long,
+        # pieces "weakBridgePx" apart counting as one.
+        thin_added = numpy.zeros_like(strokes)
+        if trace.get('thinWallMinExtentPx'):
+            raw = (drawn.astype(bool) & ~symbol_ink & ~strokes).astype(numpy.uint8)
+            k = max(trace.get('weakBridgePx', 3), 1)
+            joined, _ = ndimage.label(cv2.dilate(raw, numpy.ones((k, k), numpy.uint8)) > 0, structure=numpy.ones((3, 3)))
+            spans = ndimage.find_objects(joined)
+            ids = [i + 1 for i, sl in enumerate(spans) if max(sl[0].stop - sl[0].start, sl[1].stop - sl[1].start) >= trace['thinWallMinExtentPx']]
+            thin_added = numpy.isin(joined, ids) & (raw > 0)
+            strokes |= thin_added
+        # "reliefTicks": floor reliefs (lines with ticks) aren't walls: their
+        # ink goes to the details, line and ticks (relief_lines).
+        reliefs = numpy.zeros_like(strokes)
+        if trace.get('reliefTicks'):
+            reliefs = relief_lines(drawn.astype(bool) & ~symbol_ink, trace['reliefTicks'])
+            # Only those drawn against the cave's walls: a label's letters or a
+            # section's hatching can line up like ticks, but stand apart.
+            groups, count = ndimage.label(reliefs, structure=numpy.ones((3, 3)))
+            if count:
+                touching = numpy.unique(groups[(cv2.dilate(strokes.astype(numpy.uint8) & ~reliefs.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0) & (groups > 0)])
+                reliefs = numpy.isin(groups, touching[touching > 0])
+            strokes &= ~(cv2.dilate(reliefs.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0)
+        # Reliefs redrawn as the map's symbol (a line and even ticks), not
+        # the scan's ragged ink: those found, and "reliefLines" [{"points":
+        # [[x, y], ...], "side": 1 | -1, "widthPx"}] - ones drawn by hand
+        # where the ticks merge into the line - whose ink is taken out of the
+        # walls along the line.
+        relief_drawings = []
+        relief_area = reliefs.copy()
+        rule = trace.get('reliefTicks') or {}
+        if trace.get('reliefTicks'):
+            groups, count = ndimage.label(cv2.dilate(reliefs.astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)), structure=numpy.ones((3, 3)))
+            for i, sl in enumerate(ndimage.find_objects(groups)):
+                part = numpy.zeros_like(reliefs)
+                part[sl] = groups[sl] == i + 1
+                relief_drawings += redrawn_relief(longest_path(part & reliefs), reliefs, rule)
+        for item in trace.get('reliefLines', []):
+            band = numpy.zeros(strokes.shape, numpy.uint8)
+            cv2.polylines(band, [numpy.array(item['points'], numpy.int32)], False, 1, item.get('widthPx', 14))
+            band = band > 0
+            relief_area |= band & drawn.astype(bool)
+            strokes &= ~band
+            relief_drawings += redrawn_relief([tuple(p) for p in item['points']], drawn.astype(bool) & band, {**rule, **item})
+        if relief_drawings:
+            print(f'{len(relief_drawings)} relief lines and ticks redrawn')
         # "detailLines": [{"from", "to", "widthPx"}] - bold strokes that aren't
         # walls (a ticked cave-limit line at an entrance): drawn as detail.
         for line in trace.get('detailLines', []):
@@ -1206,6 +1413,8 @@ def main(config_path, output):
         review = numpy.full((height, width, 3), 255, numpy.uint8)
         review[masked] = (255, 236, 200)
         review[ink & ~strokes] = (200, 200, 255)
+        review[relief_area] = (190, 230, 200)
+        review[thin_added & ~reliefs] = (220, 0, 0)
         # "fillStrokeHolesPx": pin-holes in ragged scanned strokes would each
         # become a tiny skeleton loop: closed, and holes smaller than this
         # filled (a pillar's ring encloses far more).
@@ -1215,8 +1424,49 @@ def main(config_path, output):
             if count:
                 sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
                 strokes |= numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['fillStrokeHolesPx']))
+        # "wideStrokes": {"halfPx", "minLengthPx", "insetPx", "elongation", "boxes"} - a narrow
+        # passage whose two walls touch at the scan's resolution is one
+        # stroke about twice a wall's width: its centreline would be one
+        # line for two walls. Along a centreline, where the stroke's half
+        # width reaches "halfPx" for "minLengthPx" or more, the band's outline
+        # (set in by "insetPx", about half a wall's width) is traced instead.
+        wide_outlines = []
+        if trace.get('wideStrokes'):
+            rule = trace['wideStrokes']
+            half = rule.get('halfPx', 3.5)
+            depth = cv2.distanceTransform(strokes.astype(numpy.uint8), cv2.DIST_L2, 5)
+            centre = skeletonize(strokes) & (depth >= half)
+            # "boxes": [[x0, y0, x1, y1], ...] - only there (bold strokes
+            # elsewhere, an entrance's ledges, are as wide).
+            if rule.get('boxes'):
+                inside = numpy.zeros_like(centre)
+                for x0, y0, x1, y1 in rule['boxes']:
+                    inside[y0:y1, x0:x1] = True
+                centre &= inside
+            runs, count = ndimage.label(centre, structure=numpy.ones((3, 3)))
+            if count:
+                lengths = ndimage.sum(centre, runs, numpy.arange(1, count + 1))
+                widths = 2 * ndimage.maximum(depth, runs, numpy.arange(1, count + 1))
+                # Long and narrow: a filled symbol (a triangle) or a junction's
+                # blob is about as long as it is wide.
+                kept = numpy.isin(runs, 1 + numpy.flatnonzero((lengths >= rule.get('minLengthPx', 15)) & (lengths >= rule.get('elongation', 4) * widths)))
+                reach = int(numpy.ceil(half)) + 2
+                band = (cv2.dilate(kept.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1, 2 * reach + 1))) > 0) & strokes
+                inset = rule.get('insetPx', 2)
+                core = cv2.erode(band.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * inset + 1, 2 * inset + 1)))
+                contours, _ = cv2.findContours(core, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+                wide_outlines = [c[:, 0, :] for c in contours if len(c) >= 8]
+                strokes = strokes & ~band
+                review[band & ~masked] = (255, 200, 120)
+                print(f'{len(wide_outlines)} merged-wall bands traced along their outline')
         skeleton = skeletonize(strokes)
         neighbours = ndimage.convolve(skeleton.astype(int), numpy.ones((3, 3), int), mode='constant') - skeleton
+        for contour in wide_outlines:
+            line = LineString([tuple(map(float, p)) for p in contour] + [tuple(map(float, contour[0]))])
+            line = smooth(line).simplify(max(SIMPLIFY_METRES / 5, scale) / scale)
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (180, 60, 0), 3)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         for path in trace_skeleton(skeleton):
             line = LineString([(x, y) for y, x in path])
             # The minimum length drops stray spurs only (a free end): a segment
@@ -1233,7 +1483,11 @@ def main(config_path, output):
             cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 0), 3)
             features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+        for drawing in relief_drawings:
+            cv2.polylines(review, [numpy.array(drawing, numpy.int32)], False, (0, 140, 60), 1)
         walls_count = len(features)
+        features += [{'type': 'Feature', 'properties': {'map': name, 'kind': 'detail', 'sistemaId': config.get('sistemaId')},
+                      'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in drawing]))} for drawing in relief_drawings]
         if trace.get('details', True):
             # Water only respects the excluded boxes: a label's mask would cut
             # a hole in the grey fill it's printed on.
@@ -1245,7 +1499,7 @@ def main(config_path, output):
             # stroke's soft edge, which would come out as slivers along it.
             margin = 2 * (radius + trace.get('wallMarginPx', 3)) + 1
             off_walls = ~(cv2.dilate(strokes.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
-            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink, grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
+            features += detail_features(contrast_ink(numpy.asarray(grey), trace) & ~masked & off_walls & ~grown_leaders & ~symbol_ink & ~(cv2.dilate(relief_area.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0), grey_fill_mask(numpy.asarray(grey), boxes, trace) if trace.get('water', True) else None, place, to_lnglat, scale, trace,
                                         {'map': name, 'sistemaId': config.get('sistemaId')})
         Image.fromarray(review).save(out / f'{name}-walls-review.png')
         geojson = out / f'{name}-walls.geojson'
