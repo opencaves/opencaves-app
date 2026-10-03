@@ -1111,6 +1111,12 @@ def thin_walls(config_path, config, out, name):
         cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 200), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+    # "arianneLines": [[[x, y], ...]] - Arianne lines drawn by hand from the
+    # scan, where the map's own line is lost among other lines.
+    for line in trace.get('arianneLines', []):
+        cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 0, 255), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
     # The boulders found in the heaps ("boulderLoops"), filled details.
     if boulders.any():
         review[boulders & ~(review.sum(axis=2) < 60)] = (120, 200, 120)
