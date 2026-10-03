@@ -661,7 +661,19 @@
       "unknownError": "Something went wrong. Please try again.",
       "unknownErrorBtn": "Dismiss",
       "uploadingTo": "Uploading to",
-      "countMedias": "{{index}} of {{total}}"
+      "countMedias": "{{index}} of {{total}}",
+      "gpsCheck": {
+        "title_one": "This photo was taken far from the cenote",
+        "title_other": "{{count}} photos were taken far from the cenote",
+        "text_one": "Its GPS position is more than {{distance}} from {{cave}}. Is it really a photo of this cenote?",
+        "text_other": "Their GPS positions are more than {{distance}} from {{cave}}. Are they really photos of this cenote?",
+        "distance": "{{distance}} away",
+        "skip_one": "Skip this photo",
+        "skip_other": "Skip these photos",
+        "uploadAnyway": "Add anyway",
+        "cancelButton": "Cancel",
+        "cancel": "Cancel the upload"
+      }
     },
     "details": {
       "empty": "There is nothing here"

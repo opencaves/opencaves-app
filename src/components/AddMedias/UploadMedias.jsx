@@ -1,11 +1,14 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { Alert, Box, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import { useUploadCaveImages } from './useUploadCaveImages.jsx'
+import PhotoGpsCheckDialog from './PhotoGpsCheckDialog.jsx'
+import { photosFarFromCave } from '@/utils/photoGps.js'
 import { APP_NAME } from '@/config/app.js'
 import { UPLOAD_COMPLETE_HIDE_DURATION, UPLOADING_DONE_HIDE_DELAY } from '@/config/mediaPane.js'
 
@@ -19,15 +22,35 @@ export default function UploadMedias({ medias, caveId }) {
   const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
+  // The cave the photos go to: its position and entrance, for the GPS check.
+  const cave = useSelector((state) => (caveId && state.map.data?.find?.((c) => c.id === caveId)) || state.map.currentCave)
+  // Photos taken far from the cave, waiting for the person's choice: { files, far }.
+  const [review, setReview] = useState(null)
+  const [uploadTotal, setUploadTotal] = useState(0)
 
   function onErrorAlertClose() {
     setErrorAlertOpen(false)
   }
 
   async function uploadMedias(files) {
+    setUploadTotal(files.length)
     setUploading(true)
     await uploadCaveImages(files)
     setMedias([])
+  }
+
+  // Before uploading: the photos whose GPS position (EXIF) is far from the
+  // cave are shown first; the others, and photos without GPS, pass.
+  async function checkThenUpload(files) {
+    const far = await photosFarFromCave(files, cave)
+    if (far.length) setReview({ files, far })
+    else await uploadMedias(files)
+  }
+
+  function reviewed(files) {
+    setReview(null)
+    if (files.length) uploadMedias(files)
+    else setMedias([])
   }
 
   useEffect(() => {
@@ -50,7 +73,7 @@ export default function UploadMedias({ medias, caveId }) {
 
   useEffect(() => {
     async function doUploadMedias() {
-      await uploadMedias(_medias)
+      await checkThenUpload(_medias)
     }
     if (_medias.length > 0) {
       doUploadMedias()
@@ -83,8 +106,17 @@ export default function UploadMedias({ medias, caveId }) {
   return (
     <>
       <Snackbar className="oc-upload-medias" open={uploading} autoHide={false}>
-        <UploadInfo total={medias.length} progress={progress} current={current} />
+        <UploadInfo total={uploadTotal} progress={progress} current={current} />
       </Snackbar>
+
+      {review && (
+        <PhotoGpsCheckDialog
+          caveName={cave?.name?.value ?? cave?.name}
+          far={review.far}
+          onDone={(skipped) => reviewed(review.files.filter((file) => !skipped.includes(file)))}
+          onCancel={() => reviewed([])}
+        />
+      )}
 
       {errorAlertOpen && (
         <ErrorAlert className="oc-upload-medias--error-alert" open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
