@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { Box, Fab, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Tooltip, Typography } from '@mui/material'
 import ConnectionModel from '@/models/ConnectionModel.js'
@@ -19,7 +18,7 @@ export default function ConnectionList() {
   const [connections, loading] = ConnectionModel.useAll()
   const [sistemas] = SistemaModel.useAll()
   const [search, setSearch] = useState('')
-  const [sortBy, setSortBy] = useState('child')
+  const [sortBy, setSortBy] = useState('parent')
   const [sortDirection, setSortDirection] = useState('asc')
   const sistemaNames = new Map(sistemas.map((sistema) => [sistema.id, sistema.name || sistema.id]))
   const filtered = connections
@@ -94,15 +93,15 @@ export default function ConnectionList() {
             <Table stickyHeader size="small" aria-label={t('manageSistemaConnections')} sx={{ tableLayout: 'fixed' }}>
               <TableHead>
                 <TableRow>
-                  <TableCell sortDirection={sortBy === 'child' ? sortDirection : false} sx={{ width: 'calc((100% - 48px) / 2)' }}>
-                    <TableSortLabel active={sortBy === 'child'} direction={sortBy === 'child' ? sortDirection : 'asc'} onClick={() => handleSort('child')}>
-                      {t('childSistema')}
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell aria-hidden="true" sx={{ width: 48 }} />
                   <TableCell sortDirection={sortBy === 'parent' ? sortDirection : false} sx={{ width: 'calc((100% - 48px) / 2)' }}>
                     <TableSortLabel active={sortBy === 'parent'} direction={sortBy === 'parent' ? sortDirection : 'asc'} onClick={() => handleSort('parent')}>
                       {t('parentSistema')}
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell aria-hidden="true" sx={{ width: 48 }} />
+                  <TableCell sortDirection={sortBy === 'child' ? sortDirection : false} sx={{ width: 'calc((100% - 48px) / 2)' }}>
+                    <TableSortLabel active={sortBy === 'child'} direction={sortBy === 'child' ? sortDirection : 'asc'} onClick={() => handleSort('child')}>
+                      {t('childSistema')}
                     </TableSortLabel>
                   </TableCell>
                 </TableRow>
@@ -122,11 +121,12 @@ export default function ConnectionList() {
                     }}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell sx={{ width: 'calc((100% - 48px) / 2)' }}>{sistemaNames.get(connection.sistemaId) || connection.sistemaId}</TableCell>
-                    <TableCell aria-hidden="true" sx={{ width: 48, textAlign: 'center' }}>
-                      <ArrowForwardRounded fontSize="small" color="action" />
-                    </TableCell>
                     <TableCell sx={{ width: 'calc((100% - 48px) / 2)' }}>{sistemaNames.get(connection.parentSistemaId) || connection.parentSistemaId || t('noParentSistema')}</TableCell>
+                    {/* The child joins its parent: the arrow points from it to the parent. */}
+                    <TableCell aria-hidden="true" sx={{ width: 48, textAlign: 'center' }}>
+                      <ArrowBackRounded fontSize="small" color="action" />
+                    </TableCell>
+                    <TableCell sx={{ width: 'calc((100% - 48px) / 2)' }}>{sistemaNames.get(connection.sistemaId) || connection.sistemaId}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
