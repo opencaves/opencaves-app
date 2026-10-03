@@ -60,6 +60,11 @@ points, or by its scale bar and north plus one or more points.
 - The passages' **water** fill is decided per map by the user (`"water"`;
   `waterPolygons` limits it to some areas, e.g. a cenote's open water).
 - A **stick map** (survey lines only) is traced as lines, with no thickness: they are the Arianne line (the guideline laid in the cave), kind `arianne`, drawn on its own (a continuous yellow line).
+- An Arianne line the tracing can't find (faint, or drawn like the rest) is
+  drawn by hand: `python line_editor.py maps/<map>.json` opens the scan in the
+  browser, with the config's `arianneLines` and the traced walls; draw, edit
+  or delete lines there, and Save writes them into the config and retraces
+  the map.
 - Two lines that don't touch on a map are a **jump**, not a tracing gap:
   gaps are closed only where the map's ink runs on.
 - Leader lines, cross-sections and their marks, labels and the page border are
