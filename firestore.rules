@@ -9,6 +9,7 @@ service cloud.firestore {
     }
     function hasRole(role) {
       return isSignedIn() && request.auth.token.roles is list && role in request.auth.token.roles
+        && !exists(/databases/$(database)/documents/frozenUsers/$(request.auth.uid))
     }
     function isEditor() {
       return hasRole('editor')
@@ -17,14 +18,27 @@ service cloud.firestore {
       return hasRole('admin')
     }
 
-    // Photo records: created and filled by the server (onAssetUploaded, Admin
-    // SDK - these rules don't apply to it). Editors may only change which
-    // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
     // A photo's uploader and original file name (onAssetUploaded): admins only.
     match /cavesAssetsPrivate/{document} {
       allow read: if isAdmin()
     }
 
+    // Who changed or deleted what, from the app (functions/js/audit), and the
+    // admins' user management: admins read it, only the server writes it.
+    match /auditLog/{document} {
+      allow read: if isAdmin()
+    }
+
+    // Frozen accounts (setUserFrozen) have no role from the moment they're
+    // frozen - not only once their token, which still carries their roles,
+    // expires (up to an hour). Only the server reads and writes it.
+    match /frozenUsers/{uid} {
+      allow read, write: if false
+    }
+
+    // Photo records: created and filled by the server (onAssetUploaded, Admin
+    // SDK - these rules don't apply to it). Editors may only change which
+    // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
     match /cavesAssets/{document} {
       allow read: if true
       allow update: if isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])
@@ -113,7 +127,7 @@ service cloud.firestore {
     // instead of saving.
     match /users/{uid}/ratings/{caveId} {
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && ('editor' in request.auth.token.roles || 'admin' in request.auth.token.roles)
+        && (isEditor() || isAdmin())
         && request.resource.data.keys().hasOnly(['caveId', 'value', 'updatedAt'])
         && request.resource.data.caveId == caveId
         && request.resource.data.value is int

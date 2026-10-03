@@ -121,7 +121,27 @@ get the change.
 An admin can also **freeze** an account from the Users page: all its editing
 rights are removed (kept for unfreezing), the editor role every account gets
 automatically is withheld while it's frozen, and the person is told by email
-(and again when it's unfrozen).
+(and again when it's unfrozen). It takes effect at once: the security rules
+check the `frozenUsers` collection, not only the account's sign-in token.
+
+From the Users page, an admin can't remove their own admin role (another
+admin must), and nobody can remove the last admin's.
+
+## Who changed what
+
+The `auditLog` collection, which only admins can read (Firebase console >
+Firestore), records:
+
+- each change made from the app to the cave data (caves, sistemas,
+  connections, reference data, maps, photos, settings): who, which document,
+  created, updated (the fields changed) or deleted - a deleted document is
+  kept whole there, so it can be restored;
+- the admins' user management: roles changed, accounts frozen, unfrozen or
+  deleted, and by whom.
+
+Changes made by scripts and functions (the Google Sheet sync, the mirror to
+production) aren't recorded. The emulators don't say who made a change, so
+the local `auditLog` only has the user management.
 
 ## Emails
 

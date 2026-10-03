@@ -7,7 +7,7 @@ the project.
 - [Maintenance](maintenance.md): checking the cave photos, keeping their
   uploaders private, syncing the
   database from the Google Sheet, user roles, Storage CORS, deploying, and
-  local emulator troubleshooting.
+  local emulator troubleshooting, and who changed what (the audit log).
 - [Importing cave maps](maps-import.md): bulk-import survey maps from a folder
   tree and attach them to their sistemas.
 - [The cave map layer](map-layer.md): turning survey maps into placed vector
