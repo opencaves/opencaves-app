@@ -69,6 +69,14 @@ export const store = configureStore({
   devTools: import.meta.env.DEV,
   middleware: (getDefaultMiddleware) => {
     const defaultMiddlewares = getDefaultMiddleware({
+      // Development only. The datasets from Firestore (every cave, sistema,
+      // connection...) are replaced whole, never changed in place: walking
+      // them on every action took ~50ms ("ImmutableStateInvariantMiddleware
+      // took 47ms"). The serializable check still covers them - it caught
+      // Firestore Timestamps stored in them.
+      immutableCheck: {
+        ignoredPaths: ['map.data', 'data'],
+      },
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
