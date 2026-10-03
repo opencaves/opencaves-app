@@ -30,6 +30,7 @@ Usage: python scripts/map-layer/trace_scan.py <config.json> <output folder>
 Needs Pillow, numpy, opencv, scipy, pyproj, shapely, pytesseract.
 """
 import json
+import math
 import re
 import os
 import sys
@@ -820,6 +821,118 @@ def slope_drawings(area, downhill, scale, rule):
             back = (gx - dx * depth / 2, gy - dy * depth / 2)
             lines.append([(back[0] + px * width / 2, back[1] + py * width / 2), apex, (back[0] - px * width / 2, back[1] - py * width / 2)])
     return lines
+
+
+def coloured_lines(rgb, rule):
+    """Lines drawn in a dark colour over a bright fill, apart from the black
+    walls (Shoot's Hool: navy over bright blue): the Arianne line and slope
+    lines with ticks. Navy = blue minus red >= "blueMinusRed" and darker than
+    "greyMax", not within "haloPx" of black ink (a wall's anti-aliased edge).
+    Ticks are the short spurs (up to "tickMaxPx") pruned off its skeleton,
+    each kept as (foot, tip); the remaining pieces are slope lines where tick
+    feet sit on them often ("ticksPer100Px"), else the Arianne line - unless
+    they run along grey fill (a boulder's outline). Returns (navy mask, Arianne pixel polylines,
+    ticks)."""
+    grey = rgb.mean(axis=2)
+    blue = rgb[..., 2].astype(int) - rgb[..., 0].astype(int)
+    black = (grey < 60) & (blue < 50)
+    halo = rule.get('haloPx', 3)
+    near_black = cv2.dilate(black.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * halo + 1,) * 2)) > 0
+    navy = (blue >= rule.get('blueMinusRed', 60)) & (grey < rule.get('greyMax', 110)) & ~near_black
+    navy = cv2.morphologyEx(navy.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((3, 3), numpy.uint8)) > 0
+    skeleton = skeletonize(navy)
+    kernel = numpy.ones((3, 3), int)
+
+    def neighbours(mask):
+        return ndimage.convolve(mask.astype(int), kernel, mode='constant') - mask
+
+    ticks = []
+    for _ in range(2):
+        nb = neighbours(skeleton)
+        joints = cv2.dilate((skeleton & (nb >= 3)).astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
+        for path in trace_skeleton(skeleton & ~joints):
+            if len(path) > rule.get('tickMaxPx', 30):
+                continue
+            ends = [path[0], path[-1]]
+            free = [nb[e] <= 1 for e in ends]
+            touch = [bool(joints[max(0, e[0] - 1):e[0] + 2, max(0, e[1] - 1):e[1] + 2].any()) for e in ends]
+            if free[0] and touch[1]:
+                foot, tip = path[-1], path[0]
+            elif free[1] and touch[0]:
+                foot, tip = path[0], path[-1]
+            else:
+                continue
+            ticks.append(((foot[1], foot[0]), (tip[1], tip[0])))
+            for y, x in path:
+                skeleton[y, x] = False
+    # The stubs left where ticks were cut off.
+    for _ in range(3):
+        skeleton &= ~(skeleton & (neighbours(skeleton) <= 1))
+    feet = numpy.zeros(skeleton.shape, numpy.uint8)
+    for (fx, fy), _ in ticks:
+        feet[fy, fx] = 1
+    feet_near = cv2.dilate(feet, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9)))
+    grey_fill = (numpy.abs(blue) < 25) & (grey > 120) & (grey < 225)
+    r = rule.get('boulderReachPx', 7)
+    grey_near = cv2.dilate(grey_fill.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))) > 0
+    nb = neighbours(skeleton)
+    joints = cv2.dilate((skeleton & (nb >= 3)).astype(numpy.uint8), numpy.ones((3, 3), numpy.uint8)) > 0
+    pieces = []
+    for path in trace_skeleton(skeleton & ~joints):
+        if len(path) < rule.get('minPiecePx', 15):
+            continue
+        # A slope line carries a tick every few metres, the Arianne line only
+        # meets one where it crosses a slope ("ticksPer100Px": the most
+        # tick feet on a piece of Arianne line per 100 px).
+        feet_on = ndimage.label(numpy.array([feet_near[y, x] for y, x in path]))[1]
+        if feet_on / len(path) * 100 > rule.get('ticksPer100Px', 4) or numpy.mean([grey_near[y, x] for y, x in path]) >= 0.2:
+            continue
+        pieces.append(LineString([(x, y) for y, x in path]))
+    # Joined again across the junctions they were cut at, and across the
+    # slope lines they cross: two ends up to "bridgePx" apart, the gap in line
+    # with both pieces (within "bridgeAngle" degrees) and drawn in navy
+    # along most of it.
+    from shapely.ops import linemerge, unary_union
+    navy_near = cv2.dilate(navy.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0
+
+    def heading(line, at_start):
+        coords = list(line.coords)
+        end, inner = (coords[0], line.interpolate(min(15, line.length)).coords[0]) if at_start else (coords[-1], line.interpolate(max(0, line.length - 15)).coords[0])
+        return numpy.subtract(end, inner)
+
+    def angle(u, v):
+        return math.degrees(math.acos(max(-1, min(1, numpy.dot(u, v) / max(1e-6, numpy.hypot(*u) * numpy.hypot(*v))))))
+    bridges = []
+    reach, max_angle = rule.get('bridgePx', 60), rule.get('bridgeAngle', 25)
+    for i, a in enumerate(pieces):
+        for a_start in (True, False):
+            end = a.coords[0] if a_start else a.coords[-1]
+            out = heading(a, a_start)
+            best = None
+            for j, b in enumerate(pieces):
+                if i == j:
+                    continue
+                for b_start in (True, False):
+                    other = b.coords[0] if b_start else b.coords[-1]
+                    gap = math.dist(end, other)
+                    if gap <= 6:
+                        best = (gap, other)
+                        break
+                    if gap > reach:
+                        continue
+                    step = numpy.subtract(other, end)
+                    if angle(out, step) > max_angle or angle(-heading(b, b_start), step) > max_angle:
+                        continue
+                    samples = [(int(end[0] + step[0] * t), int(end[1] + step[1] * t)) for t in numpy.linspace(0, 1, max(2, int(gap)))]
+                    if numpy.mean([navy_near[y, x] for x, y in samples]) < rule.get('bridgeInk', 0.6):
+                        continue
+                    if best is None or gap < best[0]:
+                        best = (gap, other)
+            if best:
+                bridges.append(LineString([end, best[1]]))
+    merged = linemerge(unary_union(pieces + bridges)) if pieces else None
+    lines = [list(g.coords) for g in getattr(merged, 'geoms', [merged]) if g is not None and g.length >= rule.get('minLinePx', 25)]
+    return navy, lines, ticks
 
 
 def faint_guideline(rgb, rule):
@@ -2099,6 +2212,38 @@ def main(config_path, output):
                 features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'from': 'ink', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     walls_count = len(features)
+    # "colouredLines": {...} - the Arianne line and slopes drawn in navy over
+    # the fill (see coloured_lines): the line kept, each slope redrawn as
+    # V's over the ground its ticks cover, pointing as they hang (downhill).
+    navy_ink = None
+    if trace.get('colouredLines'):
+        rule = trace['colouredLines']
+        rgb_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB'))
+        navy_ink, guide_lines, ticks = coloured_lines(rgb_image, rule)
+        for line in guide_lines:
+            simple = LineString(line).simplify(1.5)
+            cv2.polylines(review, [numpy.array(simple.coords, numpy.int32)], False, (0, 0, 255), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in simple.coords]))})
+        if ticks:
+            from scipy.spatial import cKDTree
+            area = numpy.zeros(navy_ink.shape, numpy.uint8)
+            for foot, tip in ticks:
+                cv2.line(area, foot, tip, 1, max(3, int(math.dist(foot, tip))))
+            area = cv2.morphologyEx(area, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15)))
+            middles = numpy.array([((f[0] + t[0]) / 2, (f[1] + t[1]) / 2) for f, t in ticks])
+            directions = numpy.array([(t[0] - f[0], t[1] - f[1]) for f, t in ticks], float)
+            directions /= numpy.maximum(numpy.hypot(*directions.T), 1e-6)[:, None]
+            tree = cKDTree(middles)
+
+            def downhill(x, y):
+                return tuple(directions[tree.query((x, y))[1]])
+            vs = slope_drawings(area > 0, downhill, scale, rule.get('slope', {}))
+            for v in vs:
+                cv2.polylines(review, [numpy.array(v, numpy.int32)], False, (0, 150, 0), 2)
+                features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'slope', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                                 'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in v]))})
+            print(f'{len(guide_lines)} Arianne lines, {len(ticks)} slope ticks -> {len(vs)} slope Vs')
     # "faintGuideline": {...} - the Arianne line, faint and thin (see faint_guideline).
     if trace.get('faintGuideline'):
         rgb_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB'))
@@ -2126,6 +2271,9 @@ def main(config_path, output):
             x0, y0, x1, y1 = area['box']
             inside[max(0, y0):y1, max(0, x0):x1] = True
         dark = contrast_ink(numpy.asarray(grey), trace) & ~grown_leaders & ~symbol_ink
+        if navy_ink is not None:
+            # The navy lines are the Arianne line and slopes, not detail.
+            dark &= ~(cv2.dilate(navy_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
         if wall_ink is not None:
             # Every other ink near the walls is detail: on such maps the band
             # doesn't fill wide passages, so "inside" can't be trusted.

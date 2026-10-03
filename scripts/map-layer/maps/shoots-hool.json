@@ -11,7 +11,7 @@
   "sistemaId": "-KPZgfu-qGO-65rNWwr9",
   "utmEpsg": 32616,
   "exclude": [
-    {
+    {"why": "page edge: a stray mark along the scan's right border", "box": [2680, 1250, 2707, 1673]}, {
       "why": "title, coordinates, totals, credits",
       "box": [
         33,
@@ -128,7 +128,7 @@
   ],
   "entrances": [],
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "inkLevel": 70, "inkLevelWhy": "the bright blue fill is darker than the default 140: only the black walls and navy lines are ink", "bandShrinkPx": 9, "bandHoleMaxPx": 150, "bandShrinkWhy": "walls on the black stroke (median 1 px off it, 5 px before)", "colouredLines": {"tickMaxPx": 45, "why": "the Arianne line and the slopes (lines with ticks) are drawn in navy over the blue fill"},
     "water": false,
     "excludeColours": [
       {
