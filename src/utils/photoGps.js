@@ -23,17 +23,18 @@ export async function photoPosition(file) {
   }
 }
 
-// The cave's known points: its position (unless marked invalid) and its entrance.
+// The cave's known points - every coordinate field it has: its position, its
+// entrance and where its key is (a photo can be of the gate or fence there),
+// those marked invalid left out.
 function cavePoints(cave) {
-  const points = []
-  const { location, entrance } = cave || {}
-  if (Number.isFinite(location?.latitude) && Number.isFinite(location?.longitude) && location.validity !== 'invalid') points.push(location)
-  if (Number.isFinite(entrance?.latitude) && Number.isFinite(entrance?.longitude)) points.push(entrance)
-  return points
+  const { location, entrance, keys } = cave || {}
+  return [location, entrance, ...(Array.isArray(keys) ? keys : [])].filter(
+    (point) => Number.isFinite(point?.latitude) && Number.isFinite(point?.longitude) && point.validity !== 'invalid',
+  )
 }
 
-// The photos taken farther than PHOTO_GPS_MAX_DISTANCE from the cave, with
-// their distance to its nearest point: [{ file, distance }]. A photo without
+// The photos taken farther than PHOTO_GPS_MAX_DISTANCE from every one of the
+// cave's points, with their distance to the nearest one: [{ file, distance }]. A photo without
 // GPS tags, or a cave without coordinates, passes.
 export async function photosFarFromCave(files, cave) {
   const points = cavePoints(cave)

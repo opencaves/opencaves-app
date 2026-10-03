@@ -22,7 +22,7 @@ export default function UploadMedias({ medias, caveId }) {
   const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
-  // The cave the photos go to: its position and entrance, for the GPS check.
+  // The cave the photos go to: its coordinates (position, entrance, key), for the GPS check.
   const cave = useSelector((state) => (caveId && state.map.data?.find?.((c) => c.id === caveId)) || state.map.currentCave)
   // Photos taken far from the cave, waiting for the person's choice: { files, far }.
   const [review, setReview] = useState(null)
