@@ -295,6 +295,12 @@ def colour_fill_band(image_path, masked, trace):
     grow = trace.get('bandGrowPx', 5)
     if grow > 1:
         band = cv2.dilate(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (grow, grow)))
+    # "bandShrinkPx": then shrunk by this (an erosion's size): where the wall
+    # stroke itself reads as fill (drawn in dark blue), the grown band ends
+    # past it - shrunk back, the outline runs along the stroke. Growing
+    # less would leave holes at the dark symbols the growth closes.
+    if trace.get('bandShrinkPx', 0) > 1:
+        band = cv2.erode(band, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (trace['bandShrinkPx'],) * 2))
     # "inkBand": true - united with the default band of the drawn walls (long
     # ink shapes, closed, then opened): narrow passages whose fill is mostly
     # stipple and wall ink read there, wide pale ones in the fill.

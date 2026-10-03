@@ -164,7 +164,7 @@
     }
   ],
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "bandShrinkPx": 7, "bandHoleMaxPx": 150, "bandShrinkWhy": "the dark blue wall stroke reads as fill, so the grown band ended outside it: shrunk back onto the stroke; the small holes that opens at the dark flow arrows filled (rock islands are larger)",
     "why": "Passages filled pale cyan (blue minus red about 38) inside bold dark-blue wall strokes. Thresholds 20/15/10, well above the white islands' blur (default 8 filled the small islands at Ich Balam). wallsOnInk: no wall across the faded La Concha end or the dotted 'passage continues' ends. wallMarginPx 7: the wall strokes' inner soft edge isn't a detail.",
     "water": false,
     "threshold": 20,
