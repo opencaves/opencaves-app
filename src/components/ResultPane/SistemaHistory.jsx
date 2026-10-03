@@ -39,15 +39,16 @@ export default function Sistema({ sistemaHistory }) {
               )}
             </Box>
           </AccordionSummary>
+          {/* Under the header ("… system"): the names alone. */}
           <AccordionDetails variant="sistemaHistory">
             {sistemaHistory.map((sistema, i) => {
               const sistemaName =
                 i === 0 ? (
-                  <Typography variant="caveDetailsItemText">{t2('sistema', { system: sistema.name })}</Typography>
+                  <Typography variant="caveDetailsItemText">{sistema.name}</Typography>
                 ) : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
-                    <Typography variant="caveDetailsItemText">{t2('sistema', { system: sistema.name })}</Typography>{' '}
+                    <Typography variant="caveDetailsItemText">{sistema.name}</Typography>{' '}
                     {sistema.date && (
                       <Typography variant="mapTextSmall" sx={(theme) => ({ ml: theme.spacing(0.5) })}>
                         {sistema.date}
