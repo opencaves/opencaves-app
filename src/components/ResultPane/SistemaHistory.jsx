@@ -5,6 +5,7 @@ import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '@/models/Sistema.js'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
+import ExplorationHistory from './ExplorationHistory.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
 export default function Sistema({ sistemaHistory }) {
@@ -13,6 +14,8 @@ export default function Sistema({ sistemaHistory }) {
   const hasSistemaAncestry = sistemaHistory.length > 1
   const latestSistema = sistemaHistory[sistemaHistory.length - 1]
   const currentSistema = getSistemaById(latestSistema.id) ?? latestSistema
+  // Every system of the tree, as loaded (with its explorations).
+  const sistemas = sistemaHistory.map((sistema) => getSistemaById(sistema.id) ?? sistema)
 
   if (hasSistemaAncestry) {
     return (
@@ -62,6 +65,7 @@ export default function Sistema({ sistemaHistory }) {
                 </div>
               )
             })}
+            <ExplorationHistory sistemas={sistemas} />
           </AccordionDetails>
         </Accordion>
       </>

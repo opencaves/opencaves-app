@@ -456,6 +456,7 @@
     "directionsHeader": "Getting there",
     "cenote": "Cenote",
     "sistema": "{{ system }} system",
+    "explorationHistory": "Exploration history",
     "coordinateValidityUnknown": "unconfirmed",
     "copiedToClipboard": "Copied to clipboard",
     "copyAddress": "Copy address",

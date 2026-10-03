@@ -1,0 +1,75 @@
+import { useTranslation } from 'react-i18next'
+import { Box, Typography } from '@mui/material'
+import Markdown from '@/components/Markdown/Markdown.jsx'
+
+// A partial date's sort key: its own text (ISO, so "2004" < "2004-10" <
+// "2004-10-16" < "2004-11"), a range ("2004-2006") by its first year.
+// Undated last.
+function sortKey(date) {
+  if (!date) return '￿'
+  return /^\d{4}-\d{4}$/.test(date) ? date.slice(0, 4) : date
+}
+
+// A partial date as the reader writes it: a year, a month and year, a day,
+// or a range of years.
+function formatDate(date, language) {
+  if (!date) return ''
+  const range = /^(\d{4})-(\d{4})$/.exec(date)
+  if (range) return `${range[1]}–${range[2]}`
+  const [year, month, day] = date.split('-').map(Number)
+  if (!month) return String(year)
+  const value = new Date(Date.UTC(year, month - 1, day || 1))
+  const options = day ? { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' } : { year: 'numeric', month: 'long', timeZone: 'UTC' }
+  return new Intl.DateTimeFormat(language, options).format(value)
+}
+
+// The exploration history of a cave's systems (its own and those it joined),
+// in calendar order where the dates allow, each entry with its system's name
+// when there's more than one system.
+export default function ExplorationHistory({ sistemas }) {
+  const { t, i18n } = useTranslation('resultPane')
+  const entries = sistemas
+    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name })))
+    .filter((e) => e.date || e.team || e.description || e.notes)
+    .map((entry, index) => ({ entry, index }))
+    .sort((a, b) => sortKey(a.entry.date).localeCompare(sortKey(b.entry.date)) || a.index - b.index)
+    .map(({ entry }) => entry)
+  if (entries.length === 0) return null
+  const severalSistemas = new Set(entries.map((e) => e.sistemaName)).size > 1
+
+  return (
+    // Under the tree but not indented like it: lined up with the section's
+    // system icon (the accordion details' left padding back to the pane's).
+    <Box className="oc-exploration-history" sx={{ mt: 2, ml: 'calc(var(--oc-pane-padding-inline) - var(--oc-details-icon-min-width) - 24px)' }}>
+      <Typography variant="subtitle2" component="h3" sx={{ mb: 1 }}>
+        {t('explorationHistory')}
+      </Typography>
+      <Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        {entries.map((entry, index) => (
+          <Box component="li" key={index} className="oc-exploration-history--entry">
+            {(entry.date || severalSistemas) && (
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                {[formatDate(entry.date, i18n.language), severalSistemas && entry.sistemaName].filter(Boolean).join(' · ')}
+              </Typography>
+            )}
+            {entry.team && (
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {entry.team}
+              </Typography>
+            )}
+            {entry.description && (
+              <Box sx={{ typography: 'body2', '& .oc-markdown p': { my: 0.5 } }}>
+                <Markdown>{entry.description}</Markdown>
+              </Box>
+            )}
+            {entry.notes && (
+              <Typography variant="caption" component="p" sx={{ color: 'text.secondary' }}>
+                {entry.notes}
+              </Typography>
+            )}
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  )
+}

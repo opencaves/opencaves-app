@@ -456,6 +456,7 @@
     "directionsHeader": "Cómo llegar",
     "cenote": "Cenote",
     "sistema": "Sistema {{ system }}",
+    "explorationHistory": "Historia de la exploración",
     "coordinateValidityUnknown": "sin confirmar",
     "copiedToClipboard": "Copiado al portapapeles",
     "copyAddress": "Copiar dirección",
