@@ -74,7 +74,7 @@ Two things are **deliberately** computed client-side at read time, not stored in
 
 ## Auth & roles
 
-Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...` in `firestore.rules`). `ManageAuth.jsx` currently auto-grants `editor` to **any** signed-in non-anonymous user via the `ensureEditorRole` callable — this is intentionally permissive today, not a bug, but worth flagging if asked to tighten access control.
+Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...` in `firestore.rules`). Every registered user is an editor **by design** (`assignRole` at sign-up, or `ManageAuth.jsx`'s call to the `ensureEditorRole` callable) — as long as their email is verified (`functions/js/users/verifiedEmail.js`: the app's emailed sign-up link verifies it; Google and Microsoft sign-ins are trusted). Anonymous sessions (every visitor gets one, to keep their choices until they sign up) never get it, and deletes are admin-only: caves, sistemas, reference data and photos, in `firestore.rules`/`storage.rules` and in the UI.
 
 ## Routing conventions
 
