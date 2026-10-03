@@ -53,6 +53,9 @@
     // }
 
     .oc-results-copy-list {
+      // MD3: the trailing icon 24dp from the edge (a 40px button, its icon 8px
+      // in), 16dp between it and the copy icon.
+      --oc-directions-inset: 16px;
       padding-top: var(--oc-pane-padding-block);
       padding-bottom: var(--oc-pane-padding-block);
 
@@ -79,6 +82,41 @@
       .oc-icon-copy-container {
         justify-content: flex-end;
         min-width: 18px;
+      }
+
+      // Rows with a Directions button at their right: room for it, so the
+      // copy icon shows beside it, not under it; the button a little in from
+      // the pane's edge.
+      .MuiListItem-root:has(.oc-results-copy-list--directions) > .MuiListItemButton-root {
+        padding-right: calc(var(--oc-directions-inset) + 40px - 8px + 16px);
+      }
+
+      .MuiListItemSecondaryAction-root {
+        right: var(--oc-directions-inset);
+      }
+
+      // Pointing at the Directions button keeps the line highlighted.
+      .MuiListItem-root:has(.oc-results-copy-list--directions:hover) > .MuiListItemButton-root {
+        background-color: var(--mui-palette-action-hover);
+      }
+
+      // On a large pane, shown only while its row is hovered (or the button
+      // focused), as the copy icon.
+      .oc-result-pane:not(.oc-result-pane-sm) & {
+        // The whole line's hover, its Directions button included (it sits
+        // outside the line's button): the copy icon stays shown.
+        .MuiListItem-root:hover .oc-icon-copy {
+          display: inline-block;
+        }
+
+        .oc-results-copy-list--directions {
+          opacity: 0;
+        }
+
+        .MuiListItem-root:hover .oc-results-copy-list--directions,
+        .oc-results-copy-list--directions:focus-visible {
+          opacity: 1;
+        }
       }
     }
   }

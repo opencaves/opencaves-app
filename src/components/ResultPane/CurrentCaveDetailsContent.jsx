@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
 import Close from '@mui/icons-material/Close'
 import ContentCopy from '@mui/icons-material/ContentCopy'
+import DirectionsOutlined from '@mui/icons-material/DirectionsOutlined'
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
 import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
 import LocationDisabledOutlined from '@mui/icons-material/LocationDisabledOutlined'
@@ -13,6 +14,7 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { getOS } from '@/utils/getOS.js'
+import { openDirections } from '@/utils/directions.js'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
@@ -20,6 +22,18 @@ import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
+
+// Driving directions to a row's point, at the row's right (in the copy
+// icon's colour).
+function DirectionsAction({ point, label }) {
+  return (
+    <Tooltip title={label}>
+      <IconButton className="oc-results-copy-list--directions" aria-label={label} onClick={() => openDirections(point)}>
+        <DirectionsOutlined />
+      </IconButton>
+    </Tooltip>
+  )
+}
 
 export default function CurrentCaveDetailsContent({ cave }) {
   const { t } = useTranslation('resultPane')
@@ -33,6 +47,29 @@ export default function CurrentCaveDetailsContent({ cave }) {
   const [coordinatesTooltipOpen, setCoordinatesTooltipOpen] = useState(false)
   const [keyCoordinatesTooltipOpen, setKeyCoordinatesTooltipOpen] = useState(false)
   const [entranceTooltipOpen, setEntranceTooltipOpen] = useState(false)
+  // Each line's copy icon: its "Copy …" tooltip is centred under it, not
+  // under the whole line, and as low as the Directions button's tooltip (the
+  // icon's left and width, the button's top and height).
+  const addressCopyRef = useRef(null)
+  const coordinatesCopyRef = useRef(null)
+  const keyCopyRefs = useRef([])
+  const entranceCopyRef = useRef(null)
+  const underCopyIcon = (getIcon) => ({
+    popper: {
+      anchorEl: () => {
+        const icon = getIcon()
+        const directions = icon?.closest('.MuiListItem-root')?.querySelector('.oc-results-copy-list--directions')
+        if (!icon || !directions) return icon
+        return {
+          getBoundingClientRect: () => {
+            const { left, width } = icon.getBoundingClientRect()
+            const { top, height } = directions.getBoundingClientRect()
+            return new DOMRect(left, top, width, height)
+          },
+        }
+      },
+    },
+  })
 
   const isAndroid = getOS() === 'Android'
 
@@ -134,11 +171,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <>
             {address && (
               <CopyToClipboard text={addressText} placement="bottom-end" onCopy={handleAddressCopy}>
-                <ListItem disablePadding>
+                <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
                   <ConditionalWrapper
                     condition={!isSmall}
                     wrapper={(children) => (
-                      <Tooltip title={t('copyAddress')} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+                      <Tooltip title={t('copyAddress')} slotProps={underCopyIcon(() => addressCopyRef.current)} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
                         {children}
                       </Tooltip>
                     )}
@@ -148,7 +185,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                         <LocationOnOutlined color="primary" />
                       </ListItemIcon>
                       <ListItemText primary={address} />
-                      <ListItemIcon className="oc-icon-copy-container">
+                      <ListItemIcon ref={addressCopyRef} className="oc-icon-copy-container">
                         <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
                       </ListItemIcon>
                     </ListItemButton>
@@ -159,11 +196,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
             {coordinatesText && (
               <CopyToClipboard text={coordinatesTextCopy} placement="bottom-end" onCopy={handleCoordinatesCopy}>
-                <ListItem disablePadding>
+                <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
                   <ConditionalWrapper
                     condition={!isSmall}
                     wrapper={(children) => (
-                      <Tooltip title={t('copyCoordinates')} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
+                      <Tooltip title={t('copyCoordinates')} slotProps={underCopyIcon(() => coordinatesCopyRef.current)} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
                         {children}
                       </Tooltip>
                     )}
@@ -173,7 +210,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                         <MyLocationOutlined color="primary" />
                       </ListItemIcon>
                       <ListItemText primary={coordinatesText} />
-                      <ListItemIcon className="oc-icon-copy-container">
+                      <ListItemIcon ref={coordinatesCopyRef} className="oc-icon-copy-container">
                         <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
                       </ListItemIcon>
                     </ListItemButton>
@@ -196,13 +233,13 @@ export default function CurrentCaveDetailsContent({ cave }) {
         )}
 
         {keysTexts &&
-          keysTexts.map((keyText) => (
+          keysTexts.map((keyText, index) => (
             <CopyToClipboard key={keyText} text={keyText} placement="bottom-end" onCopy={handleKeyCoordinatesCopy}>
-              <ListItem disablePadding>
+              <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.keys[index]} label={t('directionsToKey')} />}>
                 <ConditionalWrapper
                   condition={!isSmall}
                   wrapper={(children) => (
-                    <Tooltip title={t('copyCoordinates')} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
+                    <Tooltip title={t('copyCoordinates')} slotProps={underCopyIcon(() => keyCopyRefs.current[index])} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
                       {children}
                     </Tooltip>
                   )}
@@ -212,7 +249,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                       <KeyRounded color="primary" />
                     </ListItemIcon>
                     <ListItemText primary={keyText} />
-                    <ListItemIcon className="oc-icon-copy-container">
+                    <ListItemIcon ref={(element) => (keyCopyRefs.current[index] = element)} className="oc-icon-copy-container">
                       <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
                     </ListItemIcon>
                   </ListItemButton>
@@ -223,11 +260,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
         {entranceText && (
           <CopyToClipboard text={entranceText} placement="bottom-end" onCopy={handleEntranceCopy}>
-            <ListItem disablePadding>
+            <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.entrance} label={t('directionsToEntrance')} />}>
               <ConditionalWrapper
                 condition={!isSmall}
                 wrapper={(children) => (
-                  <Tooltip title={t('copyEntranceCoordinates')} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
+                  <Tooltip title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
                     {children}
                   </Tooltip>
                 )}
@@ -237,7 +274,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                     <FenceRounded color="primary" />
                   </ListItemIcon>
                   <ListItemText primary={entranceText} />
-                  <ListItemIcon className="oc-icon-copy-container">
+                  <ListItemIcon ref={entranceCopyRef} className="oc-icon-copy-container">
                     <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
                   </ListItemIcon>
                 </ListItemButton>

@@ -18,23 +18,8 @@ import { requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
 import { isMeteredConnection, markJustSaved, offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { openDirections } from '@/utils/directions.js'
 import './QuickActions.scss'
-
-function openDirections(cave) {
-  const url = new URL('https://www.google.com/maps/dir/?api=1&travelmode=driving')
-  url.searchParams.append('destination', `${cave.location.latitude},${cave.location.longitude}`)
-  if (cave.entrance) {
-    url.searchParams.append('waypoints', `${cave.entrance.latitude},${cave.entrance.longitude}`)
-  }
-
-  if ('platform' in navigator) {
-    if (/* if we're on iOS, open in Apple Maps */ navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPad') !== -1 || navigator.platform.indexOf('iPod') !== -1) {
-      url.protocol = 'maps:'
-    }
-  }
-
-  window.open(url)
-}
 
 function ButtonLg({ primary, children, ...props }) {
   return (
@@ -248,7 +233,7 @@ export default function QuickActions({ cave }) {
               >
                 {cave.location && (
                   <QuickActionsItem>
-                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={() => openDirections(cave)}>
+                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={() => openDirections(cave.location, cave.entrance)}>
                       {t('directions')}
                     </Button>
                   </QuickActionsItem>
@@ -283,7 +268,7 @@ export default function QuickActions({ cave }) {
             {cave.location && (
               <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid container sx={{ justifyContent: 'center' }}>
-                  <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave)}>
+                  <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave.location, cave.entrance)}>
                     <Grid container direction="column">
                       <Grid>
                         <IconLg>
