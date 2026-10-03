@@ -822,6 +822,45 @@ def slope_drawings(area, downhill, scale, rule):
     return lines
 
 
+def faint_guideline(rgb, rule):
+    """The Arianne line drawn as a faint thin line over a halftone passage fill
+    and across the paper between cenotes (Paachil Nah): the halftone blurred
+    off ("sigmaPx"), thin dark lines by black-hat ("hatPx", "contrast"),
+    looked for only in the passages' middle ("middlePx" back from their
+    walls - the fill is blue minus red >= "fillBlueMin") or on paper away from
+    any drawing; straight runs (Hough: "minLengthPx", "gapPx") and long
+    curved pieces ("minCurvePx") rasterized, thinned and traced. Returns pixel
+    polylines."""
+    grey = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(numpy.float32)
+    smoothed = cv2.GaussianBlur(grey, (0, 0), rule.get('sigmaPx', 1.5))
+    k = rule.get('hatPx', 9)
+    hat = cv2.morphologyEx(smoothed, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+    mask = (hat >= rule.get('contrast', 6)) & (smoothed > 80)
+    fill = (rgb[..., 2].astype(int) - rgb[..., 0].astype(int)) >= rule.get('fillBlueMin', 50)
+    fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_CLOSE, numpy.ones((7, 7), numpy.uint8))
+    m = rule.get('middlePx', 7)
+    middle = cv2.erode(fill, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * m + 1,) * 2)) > 0
+    drawn = cv2.dilate(((smoothed < 150) | (fill > 0)).astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (17, 17))) > 0
+    mask = ((mask & (middle | ~drawn)).astype(numpy.uint8)) * 255
+    length = rule.get('minLengthPx', 50)
+    found = cv2.HoughLinesP(mask, 1, numpy.pi / 360, threshold=int(length * 0.6), minLineLength=int(length), maxLineGap=int(rule.get('gapPx', 8)))
+    drawn_lines = numpy.zeros(grey.shape, numpy.uint8)
+    for x0, y0, x1, y1 in ([] if found is None else found.reshape(-1, 4).tolist()):
+        cv2.line(drawn_lines, (x0, y0), (x1, y1), 1, 3)
+    # Its curves too: the thin pieces, small breaks closed ("bridgePx"), long
+    # enough not to be the halftone's specks ("minCurvePx").
+    b = rule.get('bridgePx', 5)
+    curves = skeletonize(cv2.morphologyEx(mask, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (b, b))) > 0)
+    for path in trace_skeleton(curves):
+        if len(path) >= rule.get('minCurvePx', 60):
+            cv2.polylines(drawn_lines, [numpy.array([(x, y) for y, x in path], numpy.int32)], False, 1, 3)
+    lines = []
+    for path in trace_skeleton(skeletonize(drawn_lines > 0)):
+        if len(path) >= rule.get('minPiecePx', 40):
+            lines.append([(x, y) for y, x in path])
+    return lines
+
+
 def dotted_line(ink, walls, rule):
     """The main line (guideline) drawn as a dash-dot line, straight from
     station to station: the small ink pieces (up to "maxPiecePx"), grown a
@@ -2056,6 +2095,14 @@ def main(config_path, output):
                 features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'from': 'ink', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                                  'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     walls_count = len(features)
+    # "faintGuideline": {...} - the Arianne line, faint and thin (see faint_guideline).
+    if trace.get('faintGuideline'):
+        rgb_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB'))
+        for line in faint_guideline(rgb_image, trace['faintGuideline']):
+            simple = LineString(line).simplify(1.5)
+            cv2.polylines(review, [numpy.array(simple.coords, numpy.int32)], False, (0, 0, 255), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in simple.coords]))})
     if trace.get('details', True):
         # Between the walls: the ink inside the passage bands, kept back from
         # their edges (the wall itself is the band's outline). On a colour-fill

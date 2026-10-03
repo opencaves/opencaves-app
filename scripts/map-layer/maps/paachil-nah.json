@@ -317,7 +317,7 @@
     }
   ],
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "bandShrinkPx": 9, "bandHoleMaxPx": 150, "bandShrinkWhy": "as Outland: the dark wall stroke reads as fill, so the grown band ended outside it (walls a median 4 px off the ink) - shrunk back onto the stroke (median 1 px); small holes that opens filled", "faintGuideline": {"contrast": 6, "gapPx": 8, "why": "the Arianne line: a faint thin line over the halftone passage fill, continuing across the paper to the other cenotes (Luuk Hool, Beh et Óox Ha', Nah Baak)"},
     "water": false,
     "threshold": 8,
     "excludeColours": [
