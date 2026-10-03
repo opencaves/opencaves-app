@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getDownloadURL, ref } from 'firebase/storage'
@@ -12,6 +12,9 @@ import noop from '@/utils/noop.js'
 import { storage } from '@/config/firebase.js'
 import { mediaItemPadding, mediaItemRadius } from './config.js'
 
+// How long the active thumbnail follows the list's growth after it becomes active.
+const FOLLOW_GROWTH_MS = 2000
+
 export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
 
   const { direction, palette } = useTheme()
@@ -19,6 +22,36 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   const [anchorEl, setAnchorEl] = useState(null)
   const [downloadUrl, setDownloadUrl] = useState(null)
 
+
+  const rootRef = useRef(null)
+
+  // The photo shown in the viewer is kept in sight in the list, scrolled to
+  // smoothly - when the pane opens on it, and as the viewer moves on. When
+  // the pane opens, the thumbnails above are still unfolding (Collapse) and
+  // loading: the scroll follows the list's growth for a moment, unless the
+  // user scrolls it meanwhile.
+  useEffect(() => {
+    const node = rootRef.current
+    if (!isActive || !node) {
+      return
+    }
+    const reveal = () => node.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    const frame = requestAnimationFrame(reveal)
+    const content = node.closest('.MuiCollapse-root')?.parentElement
+    const observer = content && new ResizeObserver(reveal)
+    observer?.observe(content)
+    const stop = () => observer?.disconnect()
+    const timer = setTimeout(stop, FOLLOW_GROWTH_MS)
+    content?.addEventListener('wheel', stop, { once: true, passive: true })
+    content?.addEventListener('touchstart', stop, { once: true, passive: true })
+    return () => {
+      cancelAnimationFrame(frame)
+      clearTimeout(timer)
+      stop()
+      content?.removeEventListener('wheel', stop)
+      content?.removeEventListener('touchstart', stop)
+    }
+  }, [isActive])
 
   const open = Boolean(anchorEl)
   const mediaThumbnailItemId = `media-thumbnail-item-${mediaAsset.id}`
@@ -64,6 +97,7 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   return (
     <Box
       {...props}
+      ref={rootRef}
       className={`oc-media-thumbnail ${props.className || ''}`.trim()}
       sx={{
         '--_menu-opacity': 0,
@@ -125,7 +159,11 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
             opacity: 'var(--_menu-opacity)',
             backgroundImage: 'linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,.4))',
             transition: 'opacity var(--_menu-transition-duration) linear var(--_menu-transition-delay)',
-            borderRadius: `${mediaItemRadius} ${mediaItemRadius} 0 0`
+            borderRadius: `${mediaItemRadius} ${mediaItemRadius} 0 0`,
+            // Only its buttons take clicks: the gradient strip lets them
+            // through to the photo's link below.
+            pointerEvents: 'none',
+            '& > *': { pointerEvents: 'auto' },
           }}
         >
           <IconButton
