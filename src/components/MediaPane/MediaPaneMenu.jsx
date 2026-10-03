@@ -53,7 +53,7 @@ export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) 
         }}
         className='oc-media-pane-menu yarl__button'
       >
-        <MoreVert sx={{ fontSize: '1.75rem' }} />
+        <MoreVert />
       </IconButton>
       <Menu
         className="oc-media-pane-menu--menu"

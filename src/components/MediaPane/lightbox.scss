@@ -1,8 +1,12 @@
 :root {
+  // MD3 top app bar: 64dp high; standard icon buttons of 40dp (24dp icon),
+  // 8dp apart so their 48dp touch targets don't overlap, the first and last
+  // icons 16dp from the edges (8dp padding + the button's own 8dp).
   --oc-media-viewer-toolbar-height: 64px;
   --oc-media-viewer-toolbar-padding: 8px;
-  --oc-media-viewer-button-size: 48px;
-  --oc-media-viewer-button-padding: 12px;
+  --oc-media-viewer-button-size: 40px;
+  --oc-media-viewer-button-padding: 8px;
+  --oc-media-viewer-button-gap: 8px;
 }
 
 @keyframes lightbox-toolbar-fadein {
@@ -31,9 +35,22 @@
   }
 
   &__toolbar {
+    box-sizing: border-box;
     width: 100%;
+    height: var(--oc-media-viewer-toolbar-height);
+    align-items: center;
+    gap: var(--oc-media-viewer-button-gap);
     background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
-    padding: var(--oc-media-viewer-toolbar-padding);
+    padding: 0 var(--oc-media-viewer-toolbar-padding);
+
+    // Weighs more than MUI's own IconButton padding (the back arrow is one),
+    // which otherwise won or lost by stylesheet order.
+    .yarl__button {
+      box-sizing: border-box;
+      width: var(--oc-media-viewer-button-size);
+      height: var(--oc-media-viewer-button-size);
+      padding: var(--oc-media-viewer-button-padding);
+    }
 
     @media (hover: hover) {
       // opacity: 0;
@@ -99,10 +116,11 @@
 .psv {
   &-navbar {
     box-sizing: border-box;
-    padding: var(--oc-media-viewer-toolbar-padding);
+    padding: 0 var(--oc-media-viewer-toolbar-padding);
     height: var(--oc-media-viewer-toolbar-height);
     display: flex;
     align-items: center;
+    gap: var(--oc-media-viewer-button-gap);
   }
 
   &-button {
