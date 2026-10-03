@@ -107,58 +107,72 @@
     {
       "caveId": "-KPZkVFel2GxOOnCkQNr",
       "name": "Calimba",
+      "written": false,
+      "knownEntrance": true,
       "px": [1730, 915]
     },
     {
       "caveId": "-KPZkVFBE8Ux6KewqJS7",
       "name": "Bosh Chen",
+      "written": false,
       "px": [2099, 1042]
     },
     {
       "caveId": "-KPZkVO4g2jTLMSWJuhH",
       "name": "Pabilanny",
+      "written": false,
       "px": [684, 1575]
     },
     {
       "caveId": "-KPZkVEAEspvQ6zbiN1r",
       "name": "Azteca",
+      "written": false,
       "px": [1289, 1538]
     },
     {
       "caveId": "-KPZkVK4Mmw4tY9i_ksA",
       "name": "Ho-Tul",
+      "written": false,
       "px": [2545, 1875]
     },
     {
       "caveId": "-KPZkVQtjQNGd2uYJeMP",
       "name": "Grand Cenote",
+      "written": false,
+      "knownEntrance": true,
       "px": [2733, 1645]
     },
     {
       "name": "Snake",
+      "written": false,
       "px": [3106, 1626]
     },
     {
       "caveId": "-KPZkVJgaYAcxWVY0yz6",
       "name": "Four Doors",
+      "written": false,
       "px": [3331, 1669],
       "note": "four openings along the passage; the first one"
     },
     {
       "name": "Lil's",
+      "written": false,
       "px": [5335, 1588]
     },
     {
       "name": "Cenote of the Bones",
+      "written": false,
       "px": [5873, 1871]
     },
     {
       "name": "Capak",
+      "written": false,
       "px": [6015, 1896]
     },
     {
       "caveId": "-KPZkVNVCWECUVABfB5X",
       "name": "Naval",
+      "written": false,
       "px": [6350, 1935]
     }
   ],

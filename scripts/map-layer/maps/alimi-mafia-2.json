@@ -172,6 +172,7 @@
   "entrances": [
     {
       "name": "Cenote Alimo",
+      "written": false,
       "caveId": "-KPZkVDqOXwC5bVyvk1_",
       "px": [
         240,
@@ -181,6 +182,7 @@
     },
     {
       "name": "Mozzy Cenote",
+      "written": false,
       "caveId": "-KPZkVN-svGeeYyycI6J",
       "px": [
         201,
@@ -190,6 +192,7 @@
     },
     {
       "name": "Mirror Cenote",
+      "written": false,
       "caveId": "-KPZkVMhgxd5-7djVjow",
       "px": [
         204,

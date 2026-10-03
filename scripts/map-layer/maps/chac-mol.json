@@ -244,6 +244,7 @@
     {
       "caveId": "-KPZkVOA2xjtRRnuZkpn",
       "name": "Pakal Cenote",
+      "written": false,
       "px": [
         545,
         975
@@ -253,6 +254,7 @@
     {
       "caveId": "-KPZkVG9GiEDZBuoD-Eo",
       "name": "Chac Mol Cenote",
+      "written": false,
       "px": [
         2100,
         590
@@ -260,6 +262,7 @@
     },
     {
       "name": "Chac Mol Side Entrance",
+      "written": true,
       "px": [
         2115,
         420
@@ -269,6 +272,7 @@
     {
       "caveId": "-KPZkVIlkzDl19iyaIyP",
       "name": "Emergency Air Cenote",
+      "written": false,
       "px": [
         2540,
         785
@@ -277,6 +281,7 @@
     {
       "caveId": "-KPZkVMlA28BpkafG5hK",
       "name": "Mojarra Cenote",
+      "written": false,
       "px": [
         3250,
         915
@@ -285,6 +290,7 @@
     {
       "caveId": "-KPZkVGfnPJs-iZwREmi",
       "name": "Chicitito Cenote",
+      "written": false,
       "px": [
         3105,
         965
@@ -293,6 +299,7 @@
     {
       "caveId": "-KPZkVMgv8MGLU6zhkNC",
       "name": "Miracle Cenote",
+      "written": false,
       "px": [
         4430,
         615

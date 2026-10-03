@@ -163,6 +163,7 @@
   "entrances": [
     {
       "name": "Cenote Alimi",
+      "written": false,
       "px": [
         958,
         766
@@ -171,6 +172,7 @@
     },
     {
       "name": "Cenote Cambio",
+      "written": false,
       "caveId": "-KPZkVFh2Qnr0R8oPYCS",
       "px": [
         683,

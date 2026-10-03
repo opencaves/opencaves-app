@@ -261,6 +261,7 @@
   "entrances": [
     {
       "name": "North west entrance",
+      "written": true,
       "caveId": "-KPZkVNk1iFm7oxpmADE",
       "px": [
         943,
@@ -270,6 +271,7 @@
     },
     {
       "name": "Quatro hermanos entrances",
+      "written": true,
       "caveId": "-KPZkVOe6YBkP_jRUuBN",
       "px": [
         695,
@@ -279,6 +281,7 @@
     },
     {
       "name": "Myrna's gift cenote",
+      "written": false,
       "caveId": "-KPZkVNE9LKZhhJu71oo",
       "px": [
         672,
@@ -288,6 +291,7 @@
     },
     {
       "name": "No eye stage cenote",
+      "written": false,
       "caveId": "-KPZkVNZc_-K1ppWepoc",
       "px": [
         1050,
@@ -297,6 +301,7 @@
     },
     {
       "name": "Breath hold cenote",
+      "written": false,
       "caveId": "-KPZkVFKpmEZIteeaCBQ",
       "px": [
         318,
@@ -306,6 +311,7 @@
     },
     {
       "name": "Chupa Cabra's retreat cenote",
+      "written": false,
       "caveId": "-KPZkVGw0MYZYro79FLR",
       "px": [
         795,
@@ -315,6 +321,7 @@
     },
     {
       "name": "Mak-Mak Cenote",
+      "written": false,
       "caveId": "-KPZkVM279R3uUQrMKpG",
       "px": [
         432,

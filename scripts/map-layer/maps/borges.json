@@ -311,6 +311,7 @@
   "entrances": [
     {
       "name": "Entrada Sistema Borges",
+      "written": true,
       "px": [
         4275,
         1255

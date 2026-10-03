@@ -413,6 +413,7 @@
   "entrances": [
     {
       "name": "Vista Bonita (Buena Vista)",
+      "written": false,
       "caveId": "-KPZkVFP-E205SXTJxk5",
       "px": [
         565,
@@ -422,6 +423,7 @@
     },
     {
       "name": "Mangrova",
+      "written": false,
       "caveId": "-KPZkVM6rftke9u9it4v",
       "px": [
         355,
@@ -430,6 +432,8 @@
     },
     {
       "name": "Taj Mahal",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVQL4G3Sw3UmAF-h",
       "px": [
         836,
@@ -438,6 +442,7 @@
     },
     {
       "name": "unnamed shaft (section C)",
+      "written": false,
       "px": [
         655,
         2018
@@ -446,6 +451,7 @@
     },
     {
       "name": "C5 Sagrada",
+      "written": false,
       "caveId": "-KPZkVPSrb3uzdVxkXXm",
       "px": [
         1200,
@@ -455,6 +461,7 @@
     },
     {
       "name": "C6",
+      "written": false,
       "px": [
         1425,
         2330
@@ -463,6 +470,7 @@
     },
     {
       "name": "C7",
+      "written": false,
       "px": [
         1665,
         2015
@@ -471,6 +479,7 @@
     },
     {
       "name": "C8",
+      "written": false,
       "px": [
         1670,
         1918
@@ -479,6 +488,7 @@
     },
     {
       "name": "C9",
+      "written": false,
       "px": [
         1783,
         1700

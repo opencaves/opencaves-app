@@ -145,6 +145,8 @@
   "entrances": [
     {
       "name": "Dos Ojos",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         2277,
         882
@@ -153,6 +155,7 @@
     },
     {
       "name": "Cenote Kentucky Castle",
+      "written": false,
       "px": [
         1102,
         507
@@ -161,6 +164,7 @@
     },
     {
       "name": "Maco's Marvel (not in the database)",
+      "written": false,
       "px": [
         998,
         276
@@ -168,6 +172,8 @@
     },
     {
       "name": "Dos Palmas (not labeled: the thick knot on the main line where its Open Caves position lands)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         2712,
         855

@@ -693,6 +693,8 @@
     {
       "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
       "name": "Tres Estrellas",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         2440,
         4290

@@ -343,6 +343,7 @@
   "entrances": [
     {
       "name": "X-pu Ha Caleta (BB line)",
+      "written": false,
       "px": [
         177,
         654
@@ -351,6 +352,7 @@
     },
     {
       "name": "X-pu Ha Caleta (French Fry line)",
+      "written": false,
       "px": [
         614,
         666

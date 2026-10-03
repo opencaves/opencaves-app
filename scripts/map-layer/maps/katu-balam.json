@@ -144,6 +144,7 @@
   "entrances": [
     {
       "name": "Sistema Katu Balam - West Entrance",
+      "written": true,
       "px": [
         720,
         470
@@ -152,6 +153,7 @@
     },
     {
       "name": "Sistema Katu Balam - East Entrance",
+      "written": true,
       "px": [
         2000,
         1350
@@ -160,6 +162,7 @@
     },
     {
       "name": "Sistema Katu Balam - Lord of the Ticks Entrance",
+      "written": true,
       "px": [
         2960,
         1240

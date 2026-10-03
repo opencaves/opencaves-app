@@ -308,6 +308,7 @@
   "entrances": [
     {
       "name": "Cenote Cow Dump",
+      "written": false,
       "caveId": "-KPZkVHOfLIRWEadyN_P",
       "px": [
         1393,
@@ -317,6 +318,7 @@
     },
     {
       "name": "Cenote Turtle Dump",
+      "written": false,
       "caveId": "-KPZkVRMzBC5hV2BAUUQ",
       "px": [
         1417,
@@ -326,6 +328,7 @@
     },
     {
       "name": "unnamed cenote south of Turtle Dump",
+      "written": false,
       "px": [
         1438,
         349
@@ -334,6 +337,7 @@
     },
     {
       "name": "Cenote Pajaro",
+      "written": false,
       "caveId": "-KPZkVO8OLF5BCFiZvnM",
       "px": [
         1265,
@@ -343,6 +347,7 @@
     },
     {
       "name": "Cenote Ojo Rojo",
+      "written": false,
       "caveId": "-KPZkVNtJbk-kyES_ALi",
       "px": [
         787,
@@ -352,6 +357,7 @@
     },
     {
       "name": "Cenote Chan Pek",
+      "written": false,
       "caveId": "-KPZkVGP2ULkvBdnL-fu",
       "px": [
         1018,
@@ -361,6 +367,7 @@
     },
     {
       "name": "Cenote Chupa Hoop",
+      "written": false,
       "caveId": "-KPZkVGxuqE2z4MR-pmM",
       "px": [
         541,
@@ -370,6 +377,7 @@
     },
     {
       "name": "Cenote Choco Pol",
+      "written": false,
       "caveId": "-KPZkVGkZh5WXAU56ixS",
       "px": [
         413,
@@ -379,6 +387,7 @@
     },
     {
       "name": "Air Belle",
+      "written": false,
       "caveId": "-KPZkVD_SZp2b6h4abu-",
       "px": [
         391,

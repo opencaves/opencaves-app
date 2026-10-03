@@ -325,6 +325,8 @@
     {
       "caveId": "-KPZkVJByjlbUaBg6uHP",
       "name": "Mayan Blue",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         5304,
         7127
@@ -333,6 +335,7 @@
     {
       "caveId": "-KPZkVQIUmE-exDOoKQE",
       "name": "Sunhole",
+      "written": false,
       "px": [
         3777,
         6850
@@ -341,6 +344,7 @@
     {
       "caveId": "-KPZkVLrs80cfalEzD9z",
       "name": "Lost Cenote",
+      "written": true,
       "px": [
         5538,
         7672
@@ -349,6 +353,7 @@
     {
       "caveId": "-KPZkVMNaXw0oRR305Yi",
       "name": "Maya Two",
+      "written": false,
       "px": [
         4488,
         8006
@@ -357,6 +362,7 @@
     {
       "caveId": "-KPZkVG0pYan2AfIT795",
       "name": "Cenote of the Sun",
+      "written": false,
       "px": [
         6765,
         10003

@@ -684,6 +684,8 @@
     {
       "caveId": "-KPZkVNN67s9k-Ro6pUY",
       "name": "Nai Tucha",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         730,
         1105
@@ -692,6 +694,7 @@
     {
       "caveId": "-KPZkVL2GlrKZi7B58X9",
       "name": "Koi",
+      "written": false,
       "px": [
         3397,
         2115

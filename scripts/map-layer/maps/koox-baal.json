@@ -218,6 +218,7 @@
     {
       "caveId": "-KPZkVKdh5s4r6q7OyiD",
       "name": "K'oox Baal",
+      "written": false,
       "px": [
         1418,
         249
@@ -227,6 +228,7 @@
     {
       "caveId": "-KPZkVL3JsUJj2d1VxEq",
       "name": "Kot Be",
+      "written": false,
       "px": [
         2203,
         2191
@@ -236,6 +238,7 @@
     {
       "caveId": "-KPZkVEMpzHZkAcISBMH",
       "name": "Balam Ts'al",
+      "written": false,
       "px": [
         2025,
         2561
@@ -245,6 +248,8 @@
     {
       "caveId": "-KPZkVHIOAQIZcGBVR5w",
       "name": "Coop One",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         3839,
         2898
@@ -254,6 +259,7 @@
     {
       "caveId": "-KPZkVPP0HdyLktP7wYu",
       "name": "Sac Xiquin",
+      "written": false,
       "px": [
         4119,
         3075
@@ -263,6 +269,8 @@
     {
       "caveId": "-KPZkVR7TVdfZ0Mn1y5x",
       "name": "Tres Estrellas",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         3241,
         3225
@@ -272,6 +280,7 @@
     {
       "caveId": "-KPZkVQ_EDwgC4Ip9o1A",
       "name": "Tan Ich",
+      "written": false,
       "px": [
         2935,
         3639
@@ -281,6 +290,8 @@
     {
       "caveId": "-KPZkVNN67s9k-Ro6pUY",
       "name": "Nai Tucha",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         3484,
         3621
@@ -290,6 +301,7 @@
     {
       "caveId": "-KPZkVPtkGgeUsJ0ehwP",
       "name": "Shaman Ek",
+      "written": false,
       "px": [
         2219,
         3920
@@ -298,6 +310,7 @@
     },
     {
       "name": "Koi",
+      "written": false,
       "px": [
         4612,
         4060
@@ -308,6 +321,7 @@
     },
     {
       "name": "Castillo",
+      "written": false,
       "px": [
         2705,
         1349
@@ -317,6 +331,7 @@
     },
     {
       "name": "Chun Chechem",
+      "written": false,
       "px": [
         3608,
         1829
@@ -326,6 +341,7 @@
     },
     {
       "name": "Sac Xib",
+      "written": false,
       "px": [
         2144,
         2060
@@ -335,6 +351,7 @@
     },
     {
       "name": "Ksel K'ax",
+      "written": false,
       "px": [
         3350,
         2290
@@ -344,6 +361,7 @@
     },
     {
       "name": "Muk Wakal",
+      "written": false,
       "px": [
         2468,
         2449
@@ -353,6 +371,7 @@
     },
     {
       "name": "Ha'ak Kak",
+      "written": false,
       "px": [
         2549,
         2751
@@ -362,6 +381,7 @@
     },
     {
       "name": "Quintan",
+      "written": false,
       "px": [
         4051,
         2973
@@ -370,6 +390,7 @@
     },
     {
       "name": "Numya",
+      "written": false,
       "px": [
         2499,
         3147
@@ -378,6 +399,7 @@
     },
     {
       "name": "Sac Ktu Cha",
+      "written": false,
       "px": [
         2923,
         3359
@@ -387,6 +409,7 @@
     },
     {
       "name": "Chalat",
+      "written": false,
       "px": [
         2574,
         3446
@@ -396,6 +419,7 @@
     },
     {
       "name": "Chuuh",
+      "written": false,
       "px": [
         2954,
         3421
@@ -405,6 +429,7 @@
     },
     {
       "name": "Dos Pallapas",
+      "written": false,
       "px": [
         4995,
         4524

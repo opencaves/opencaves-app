@@ -167,6 +167,7 @@
     {
       "caveId": "-KPZkVN2UvD2PorODPdH",
       "name": "Mud",
+      "written": false,
       "px": [
         2519,
         505
@@ -175,6 +176,7 @@
     {
       "caveId": "-KPZkVFbveDljX5Jw3gt",
       "name": "Raphael (Calavera)",
+      "written": false,
       "px": [
         2850,
         514
@@ -183,6 +185,7 @@
     {
       "caveId": "-KPZkVN1VShuQZ8UJ1a-",
       "name": "Muchachos",
+      "written": false,
       "px": [
         2467,
         550
@@ -191,6 +194,7 @@
     {
       "caveId": "-KPZkVFp_TvUQbzACRP-",
       "name": "Carri's Loft",
+      "written": false,
       "px": [
         1514,
         1557
@@ -199,6 +203,7 @@
     {
       "caveId": "-KPZkVLjgxZlDUtm7AVc",
       "name": "Little Cave",
+      "written": false,
       "px": [
         1818,
         1591
@@ -207,6 +212,7 @@
     {
       "caveId": "-KPZkVKl6DkQ8mbH1ZOR",
       "name": "Kaibab",
+      "written": false,
       "px": [
         2057,
         1597
@@ -215,6 +221,7 @@
     {
       "caveId": "-KPZkVH5xnCtJP1acFYN",
       "name": "Coati Mundi",
+      "written": false,
       "px": [
         2452,
         1638
@@ -223,6 +230,7 @@
     {
       "caveId": "-KPZkVFi5A_QwSm764QC",
       "name": "Camilo",
+      "written": false,
       "px": [
         1605,
         1662

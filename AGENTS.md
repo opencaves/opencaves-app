@@ -70,7 +70,7 @@ Two things are **deliberately** computed client-side at read time, not stored in
 
 ## Map layer
 
-`scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`), shown in the app as vector tiles (`npm run build:tiles`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, map entrances are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
+`scripts/map-layer/` turns cave survey maps into vector data placed on the ground (configs in `scripts/map-layer/maps/`, outputs in `_data/map-layer/`), shown in the app as vector tiles (`npm run build:tiles`). Read [docs/map-layer.md](docs/map-layer.md) before processing a map - several rules there are not obvious: the north arrow and scale bar are never trusted alone, `"unverified"` maps never reach the database, two lines that don't touch are a jump, only entrances a map writes as such (or known ones) are cenote entrances, cenotes found on maps go to `found-cenotes.json` (never straight to the database or the Google Sheet), and the layer is for underwater caves.
 
 ## Auth & roles
 

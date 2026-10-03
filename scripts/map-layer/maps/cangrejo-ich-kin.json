@@ -50,6 +50,7 @@
   "entrances": [
     {
       "name": "Cenote Naibosh",
+      "written": false,
       "px": [
         140,
         340
@@ -58,6 +59,7 @@
     {
       "caveId": "-KPZkVKKJ0jO6giWK0i0",
       "name": "Cenote Ich Kin",
+      "written": false,
       "px": [
         3560,
         1070
@@ -66,6 +68,7 @@
     {
       "caveId": "-KPZkVFoXnqN0g3nPjBX",
       "name": "Cenote Cangrejo",
+      "written": false,
       "px": [
         3775,
         2360

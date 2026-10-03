@@ -451,6 +451,7 @@
   "entrances": [
     {
       "name": "Vista Bonita (Buena Vista)",
+      "written": false,
       "caveId": "-KPZkVFP-E205SXTJxk5",
       "px": [
         1251,
@@ -460,6 +461,7 @@
     },
     {
       "name": "Manglar (Mangrova)",
+      "written": false,
       "caveId": "-KPZkVM6rftke9u9it4v",
       "px": [
         936,
@@ -468,6 +470,8 @@
     },
     {
       "name": "Taj Mahal",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVQL4G3Sw3UmAF-h",
       "px": [
         1651,
@@ -476,6 +480,7 @@
     },
     {
       "name": "Estrela (City of Agre)",
+      "written": true,
       "caveId": "-KPZkVH1JsSUeVtkRp0N",
       "px": [
         3130,
@@ -485,6 +490,7 @@
     },
     {
       "name": "unnamed pond SW of Estrela (Cenote Estrella of the Reato 2013 map)",
+      "written": false,
       "caveId": "-KPZkVJTSCITforYsDef",
       "px": [
         2968,
@@ -494,6 +500,7 @@
     },
     {
       "name": "unnamed pond pair (brown and orange) between Taj Mahal and Estrela",
+      "written": false,
       "px": [
         2505,
         3165
@@ -502,6 +509,7 @@
     },
     {
       "name": "unnamed pond between Taj Mahal and Estrela (middle)",
+      "written": false,
       "px": [
         2629,
         3078
@@ -509,6 +517,7 @@
     },
     {
       "name": "unnamed pond between Taj Mahal and Estrela (east)",
+      "written": false,
       "px": [
         2745,
         2978
@@ -516,6 +525,7 @@
     },
     {
       "name": "unnamed small pool at the end of the passage SE of Taj Mahal",
+      "written": false,
       "px": [
         2156,
         3387
@@ -524,6 +534,7 @@
     },
     {
       "name": "Mimo Mi",
+      "written": false,
       "caveId": "-KPZkVMbZC3oAmDRhQ6U",
       "px": [
         3764,
@@ -533,6 +544,7 @@
     },
     {
       "name": "unnamed elongated collapse NE of Estrela",
+      "written": false,
       "px": [
         4471,
         2296
@@ -541,6 +553,8 @@
     },
     {
       "name": "Minotauro",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVMdCXwoq2pMSkyA",
       "px": [
         3808,
@@ -549,6 +563,7 @@
     },
     {
       "name": "Pica Piedra",
+      "written": true,
       "px": [
         3412,
         3900
@@ -557,6 +572,7 @@
     },
     {
       "name": "Cuzel west collapse (Cénote cultivé of the Yuc 96 Aktun Koh map)",
+      "written": false,
       "px": [
         5102,
         645
@@ -564,6 +580,7 @@
     },
     {
       "name": "unnamed small opening in the air bell between the Cuzel collapses",
+      "written": false,
       "px": [
         5397,
         505
@@ -571,6 +588,7 @@
     },
     {
       "name": "Cuzel east collapse (database: Pakal Nah)",
+      "written": false,
       "caveId": "-KPZkVOBeX3QR15-AhmN",
       "px": [
         5654,

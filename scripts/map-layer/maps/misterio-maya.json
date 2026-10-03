@@ -18,8 +18,8 @@
     { "why": "scale bar", "box": [205, 425, 385, 445] }
   ],
   "entrances": [
-    { "caveId": "-KPZkVMjI64D9Glpfgqy", "name": "Cenote Misterio Maya", "pdf": [142, 188] },
-    { "name": "Entrada Zapodilla", "pdf": [606, 220] }
+    { "caveId": "-KPZkVMjI64D9Glpfgqy", "name": "Cenote Misterio Maya", "written": false, "pdf": [142, 188] },
+    { "name": "Entrada Zapodilla", "written": true, "pdf": [606, 220] }
   ],
   "scaleBar": { "from": [215.89, 433.03], "to": [372.8, 433.03], "metres": 50 },
   "north": "grid",

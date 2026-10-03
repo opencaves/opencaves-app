@@ -811,6 +811,7 @@
   "entrances": [
     {
       "name": "Tatich",
+      "written": false,
       "caveId": "-KPZkVQhZKr_azlGNfTv",
       "px": [
         2420,
@@ -820,6 +821,7 @@
     },
     {
       "name": "Chu'muc'cho",
+      "written": false,
       "caveId": "-KPZkVGmaa88LuhcNs8Q",
       "px": [
         3610,
@@ -829,6 +831,7 @@
     },
     {
       "name": "Dzonot Joolis",
+      "written": false,
       "caveId": "-KPZkVKYtpQWz0ZIq8lS",
       "px": [
         3190,
@@ -838,6 +841,7 @@
     },
     {
       "name": "Polo",
+      "written": false,
       "caveId": "-KPZkVOVBKVvEY2uXixv",
       "px": [
         258,
@@ -847,6 +851,7 @@
     },
     {
       "name": "Hoit",
+      "written": false,
       "caveId": "-KPZkVKDE0XX3JmWy0oD",
       "px": [
         1636,

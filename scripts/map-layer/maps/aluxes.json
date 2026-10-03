@@ -347,6 +347,7 @@
  "entrances": [
   {
    "name": "Entrée (south group 1)",
+   "written": true,
    "px": [
     2162,
     2192
@@ -355,6 +356,7 @@
   },
   {
    "name": "Entrée (south group 2)",
+   "written": true,
    "px": [
     2070,
     2282
@@ -363,6 +365,7 @@
   },
   {
    "name": "Entrée (south group 3)",
+   "written": true,
    "px": [
     2046,
     2416
@@ -371,6 +374,7 @@
   },
   {
    "name": "Entrée (south group 4)",
+   "written": true,
    "px": [
     1907,
     2427
@@ -379,6 +383,7 @@
   },
   {
    "name": "Entrée (south group 5)",
+   "written": true,
    "px": [
     1791,
     2454
@@ -387,6 +392,7 @@
   },
   {
    "name": "Entrée (south group 6)",
+   "written": true,
    "px": [
     1875,
     2530
@@ -395,6 +401,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     3075,
     1290
@@ -403,6 +410,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     3110,
     1380
@@ -411,6 +419,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     3200,
     1300
@@ -419,6 +428,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     3270,
     1280
@@ -427,6 +437,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     2870,
     1378
@@ -435,6 +446,7 @@
   },
   {
    "name": "Entrée (middle group)",
+   "written": true,
    "px": [
     3285,
     1240
@@ -443,6 +455,7 @@
   },
   {
    "name": "Entrée (middle group, lower label)",
+   "written": true,
    "px": [
     3000,
     1665
@@ -451,6 +464,7 @@
   },
   {
    "name": "Entrée (middle group, lower label)",
+   "written": true,
    "px": [
     2712,
     1780
@@ -459,6 +473,7 @@
   },
   {
    "name": "Entrée (middle group, lower label)",
+   "written": true,
    "px": [
     2945,
     1465
@@ -467,6 +482,7 @@
   },
   {
    "name": "Entrée (middle group, lower label)",
+   "written": true,
    "px": [
     2995,
     1495
@@ -475,6 +491,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2615,
     731
@@ -483,6 +500,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2656,
     776
@@ -491,6 +509,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2686,
     840
@@ -499,6 +518,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2255,
     620
@@ -507,6 +527,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2300,
     600
@@ -515,6 +536,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2372,
     505
@@ -523,6 +545,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2398,
     495
@@ -531,6 +554,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2210,
     640
@@ -539,6 +563,7 @@
   },
   {
    "name": "Entrée (north group)",
+   "written": true,
    "px": [
     2160,
     755
@@ -547,6 +572,7 @@
   },
   {
    "name": "Entrée (west group)",
+   "written": true,
    "px": [
     1305,
     885
@@ -555,6 +581,7 @@
   },
   {
    "name": "Entrée (west group)",
+   "written": true,
    "px": [
     1560,
     830
@@ -563,6 +590,7 @@
   },
   {
    "name": "Entrée (west group)",
+   "written": true,
    "px": [
     1650,
     775
@@ -571,6 +599,7 @@
   },
   {
    "name": "Effondrement",
+   "written": true,
    "px": [
     2279,
     491
@@ -579,6 +608,7 @@
   },
   {
    "name": "Entrée du terrain de basket",
+   "written": true,
    "px": [
     1385,
     1250
@@ -587,6 +617,7 @@
   },
   {
    "name": "Collapse at the Siphon",
+   "written": true,
    "px": [
     534,
     1669

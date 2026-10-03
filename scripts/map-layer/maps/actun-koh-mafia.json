@@ -354,6 +354,7 @@
   "entrances": [
     {
       "name": "Bear's Den Cenote",
+      "written": false,
       "caveId": "-KPZkVEeR1D8YGimsxqc",
       "px": [
         285,
@@ -363,6 +364,7 @@
     },
     {
       "name": "Cenote Actun Koh",
+      "written": false,
       "caveId": "-KPZkVDRyqNfcQwwFS_9",
       "px": [
         440,
@@ -371,6 +373,7 @@
     },
     {
       "name": "Overpass Cenote",
+      "written": false,
       "caveId": "-KPZkVO0jhypiyLoVr29",
       "px": [
         802,
@@ -380,6 +383,7 @@
     },
     {
       "name": "unnamed cenote W of Overpass (line end)",
+      "written": false,
       "px": [
         655,
         1614
@@ -387,6 +391,7 @@
     },
     {
       "name": "unnamed cenote W of Overpass (off the line)",
+      "written": false,
       "px": [
         724,
         1592
@@ -394,6 +399,7 @@
     },
     {
       "name": "unnamed cenote NE of Overpass, W of Teens",
+      "written": false,
       "px": [
         862,
         1534

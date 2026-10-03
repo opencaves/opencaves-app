@@ -251,6 +251,7 @@
   "entrances": [
     {
       "name": "Cenote Dobladillo",
+      "written": false,
       "caveId": "-KPZkVHwIEyysS4OBKke",
       "px": [
         469,
@@ -260,6 +261,7 @@
     },
     {
       "name": "Cenote Garafon",
+      "written": false,
       "caveId": "-KPZkVJjc06FpBXZibYD",
       "px": [
         331,
@@ -269,6 +271,7 @@
     },
     {
       "name": "Cenote Jig",
+      "written": false,
       "px": [
         893,
         198
@@ -277,6 +280,7 @@
     },
     {
       "name": "Cenote Alta-Chico",
+      "written": false,
       "px": [
         978,
         609
@@ -285,6 +289,7 @@
     },
     {
       "name": "Cenote Tunich Ha",
+      "written": false,
       "px": [
         1339,
         624
@@ -293,6 +298,7 @@
     },
     {
       "name": "Cenote Cubera",
+      "written": false,
       "px": [
         720,
         974

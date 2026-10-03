@@ -177,6 +177,7 @@
   "entrances": [
     {
       "name": "Entrance (sea shore, Cozumel Channel)",
+      "written": true,
       "px": [
         273,
         350
@@ -185,6 +186,7 @@
     },
     {
       "name": "Opening (west passage, north)",
+      "written": false,
       "px": [
         384,
         1077
@@ -193,6 +195,7 @@
     },
     {
       "name": "Opening (west passage, south)",
+      "written": false,
       "px": [
         351,
         1190
@@ -201,6 +204,7 @@
     },
     {
       "name": "Opening (east end)",
+      "written": false,
       "px": [
         1590,
         905
@@ -209,6 +213,7 @@
     },
     {
       "name": "Window",
+      "written": false,
       "px": [
         1132,
         1240

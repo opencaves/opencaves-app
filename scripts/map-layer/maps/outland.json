@@ -138,6 +138,7 @@
     {
       "caveId": "-KPZkVKJ_lfXl0ta-asY",
       "name": "Ich Balam",
+      "written": false,
       "px": [
         509,
         596
@@ -146,6 +147,7 @@
     {
       "caveId": "-KPZkVNpXE4ibKk4N_o9",
       "name": "Oasis",
+      "written": false,
       "px": [
         1062,
         800
@@ -154,6 +156,7 @@
     {
       "caveId": "-KPZkVLOg5GeHNMAgFtw",
       "name": "La Virgen",
+      "written": false,
       "px": [
         1062,
         998

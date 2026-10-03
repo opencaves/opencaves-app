@@ -395,6 +395,8 @@
     {
       "caveId": "-KPZkVMdCXwoq2pMSkyA",
       "name": "Cenote Minotauro",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         1022,
         1592
@@ -403,6 +405,7 @@
     {
       "caveId": "-KPZkVOOkG0Wb0_BVKI9",
       "name": "Cenote Piedra",
+      "written": false,
       "px": [
         640,
         640
@@ -411,6 +414,7 @@
     {
       "caveId": "-KPZkVJ2CQfi8R5qJ1p3",
       "name": "Cenote Escalera",
+      "written": false,
       "px": [
         515,
         757
@@ -419,6 +423,7 @@
     {
       "caveId": "-KPZkVJTSCITforYsDef",
       "name": "Cenote Estrella",
+      "written": true,
       "px": [
         278,
         1125
@@ -426,6 +431,7 @@
     },
     {
       "name": "Unnamed Cenote Entrance",
+      "written": true,
       "px": [
         92,
         1052
@@ -435,6 +441,7 @@
     {
       "caveId": "-KPZkVRwuPctLahiiUPx",
       "name": "Cenote Winz",
+      "written": false,
       "px": [
         1727,
         600

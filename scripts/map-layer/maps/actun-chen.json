@@ -386,6 +386,7 @@
   "entrances": [
     {
       "name": "Media Luna",
+      "written": false,
       "caveId": "-KPZkVMPfYu-dcCay_da",
       "px": [
         753,
@@ -394,6 +395,7 @@
     },
     {
       "name": "Cenote Ventana",
+      "written": false,
       "px": [
         870,
         356
@@ -402,6 +404,7 @@
     },
     {
       "name": "La Dune",
+      "written": false,
       "caveId": "-KPZkVLItmjsrSPynxfl",
       "px": [
         976,
@@ -410,6 +413,7 @@
     },
     {
       "name": "Cenote Verde",
+      "written": false,
       "caveId": "-KPZkVRicIaKg6TLYYJS",
       "px": [
         1097,
@@ -418,6 +422,7 @@
     },
     {
       "name": "Iglesia",
+      "written": false,
       "caveId": "-KPZkVKM8jk6VpDyEctf",
       "px": [
         468,
@@ -427,6 +432,7 @@
     },
     {
       "name": "Cenote Dos Lados",
+      "written": false,
       "px": [
         424,
         819
@@ -435,6 +441,7 @@
     },
     {
       "name": "Muro",
+      "written": false,
       "caveId": "-KPZkVN9_nvzVqqu74JI",
       "px": [
         561,
@@ -444,6 +451,7 @@
     },
     {
       "name": "Cenote Kop",
+      "written": false,
       "caveId": "-KPZkVKv_Kezj1PNbIro",
       "px": [
         900,
@@ -453,6 +461,7 @@
     },
     {
       "name": "Cenote Plus",
+      "written": false,
       "caveId": "-KPZkVOTI-q0qza_7A_J",
       "px": [
         843,

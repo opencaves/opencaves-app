@@ -244,6 +244,7 @@
   "entrances": [
     {
       "name": "cenote de Felipe",
+      "written": false,
       "px": [
         1330,
         880
@@ -252,6 +253,7 @@
     },
     {
       "name": "Xcaret airspace (open water)",
+      "written": false,
       "px": [
         1240,
         1330
@@ -260,6 +262,7 @@
     },
     {
       "name": "cenote de los franceses",
+      "written": false,
       "px": [
         928,
         2733

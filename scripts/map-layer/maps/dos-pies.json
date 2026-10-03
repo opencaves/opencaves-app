@@ -488,6 +488,7 @@
   "entrances": [
     {
       "name": "West Foot",
+      "written": false,
       "caveId": "-KPZkVIDfnt0oMxTJs8F",
       "px": [
         807,
@@ -497,6 +498,7 @@
     },
     {
       "name": "East Foot",
+      "written": false,
       "caveId": "-KPZkVIB8G_BgVPKt-_T",
       "px": [
         891,
@@ -506,6 +508,7 @@
     },
     {
       "name": "Tarpon Cenote",
+      "written": false,
       "caveId": "-KPZkVQeNSGl0E3H6gQB",
       "px": [
         904,
@@ -515,6 +518,7 @@
     },
     {
       "name": "Tarpon Cenote (second pool)",
+      "written": false,
       "px": [
         918,
         556
@@ -523,6 +527,7 @@
     },
     {
       "name": "Cenote Mesa",
+      "written": false,
       "caveId": "-KPZkVMTTJ72Rg3L-2b3",
       "px": [
         1078,
@@ -532,6 +537,7 @@
     },
     {
       "name": "Los Flacos",
+      "written": false,
       "px": [
         1128,
         742
@@ -540,6 +546,7 @@
     },
     {
       "name": "Los Flacos (second pool)",
+      "written": false,
       "px": [
         1139,
         727

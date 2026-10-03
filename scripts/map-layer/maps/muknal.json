@@ -356,6 +356,8 @@
     {
       "caveId": "-KPZkVKWYFuKF3wawGw0",
       "name": "Jailhouse",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         4965,
         3560
@@ -364,6 +366,7 @@
     {
       "caveId": "-KS3tVF0Wad0I0OTKtbB",
       "name": "Sixth Cenote Entrance",
+      "written": true,
       "px": [
         1330,
         1180
@@ -372,6 +375,7 @@
     {
       "caveId": "-KS3tV8PvWHg9xojnDG0",
       "name": "Dead Cenote",
+      "written": false,
       "px": [
         1690,
         1580
@@ -379,6 +383,7 @@
     },
     {
       "name": "Fenceline Cenote",
+      "written": false,
       "px": [
         1825,
         1840

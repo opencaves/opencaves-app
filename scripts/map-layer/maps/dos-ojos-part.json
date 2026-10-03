@@ -77,6 +77,8 @@
   "entrances": [
     {
       "name": "Dos Ojos (West eye)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         606.7,
         323.9
@@ -85,6 +87,8 @@
     },
     {
       "name": "Dos Ojos (East eye)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         634.9,
         320.0
@@ -93,6 +97,8 @@
     },
     {
       "name": "Dos Palmas",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         777.5,
         257.2
@@ -101,6 +107,7 @@
     },
     {
       "name": "Mott Mott",
+      "written": false,
       "px": [
         756.2,
         321.7
@@ -109,6 +116,7 @@
     },
     {
       "name": "Tikimich",
+      "written": false,
       "px": [
         366.5,
         285.4
@@ -117,6 +125,8 @@
     },
     {
       "name": "The Pit",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         199.2,
         378.3
@@ -125,6 +135,7 @@
     },
     {
       "name": "Kentucky Castle",
+      "written": false,
       "px": [
         129.0,
         156.3
@@ -133,6 +144,7 @@
     },
     {
       "name": "M1 (Maraville I)",
+      "written": false,
       "px": [
         77.3,
         58.7
@@ -141,6 +153,7 @@
     },
     {
       "name": "M2 (Maraville II)",
+      "written": false,
       "px": [
         112.6,
         71.5
@@ -149,6 +162,8 @@
     },
     {
       "name": "Pet Cemetery",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         366.7,
         528.3

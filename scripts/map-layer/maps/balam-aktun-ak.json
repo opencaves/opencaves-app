@@ -189,6 +189,8 @@
   "entrances": [
     {
       "name": "El Toh (Balun Actun)",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVIisqJXjDOMGrJU",
       "px": [
         2450,

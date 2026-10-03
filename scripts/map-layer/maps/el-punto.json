@@ -1761,6 +1761,7 @@
   "entrances": [
     {
       "name": "Sentry Cenote",
+      "written": false,
       "caveId": "-KPZkVPoSop2GkQeUMkB",
       "px": [
         560,
@@ -1770,6 +1771,7 @@
     },
     {
       "name": "Cenote K'a Tu A'ak",
+      "written": false,
       "caveId": "-KPZkVKiEiNzt2-Rr8QN",
       "px": [
         955,
@@ -1779,6 +1781,7 @@
     },
     {
       "name": "Cenote I'CH",
+      "written": false,
       "caveId": "-KPZkVKGJkfpAiSb9wR0",
       "px": [
         612,
@@ -1787,6 +1790,7 @@
     },
     {
       "name": "Cenote Alberca",
+      "written": false,
       "caveId": "-KPZkVDkH_CFpBF8x2iN",
       "px": [
         461,

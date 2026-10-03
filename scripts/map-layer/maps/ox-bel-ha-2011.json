@@ -1238,6 +1238,7 @@
   "entrances": [
     {
       "name": "Hunpiit",
+      "written": false,
       "px": [
         928,
         467
@@ -1246,6 +1247,7 @@
     },
     {
       "name": "Naharon (Cristal)",
+      "written": false,
       "px": [
         947,
         648
@@ -1255,6 +1257,7 @@
     },
     {
       "name": "Regina",
+      "written": false,
       "px": [
         888,
         747
@@ -1264,6 +1267,8 @@
     },
     {
       "name": "Jailhouse",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         1173,
         929
@@ -1272,6 +1277,7 @@
     },
     {
       "name": "San Andres",
+      "written": false,
       "px": [
         1438,
         1045
@@ -1280,6 +1286,7 @@
     },
     {
       "name": "Corey",
+      "written": false,
       "px": [
         1290,
         1285
@@ -1288,6 +1295,7 @@
     },
     {
       "name": "Ayim",
+      "written": false,
       "px": [
         270,
         1165
@@ -1296,6 +1304,7 @@
     },
     {
       "name": "Del Mar",
+      "written": false,
       "px": [
         1873,
         1740
@@ -1304,6 +1313,7 @@
     },
     {
       "name": "Exodus",
+      "written": false,
       "px": [
         275,
         1630
@@ -1313,6 +1323,7 @@
     },
     {
       "name": "Apocalypse",
+      "written": false,
       "px": [
         135,
         2217
@@ -1320,6 +1331,7 @@
     },
     {
       "name": "Yax Chen",
+      "written": false,
       "px": [
         1657,
         2261
@@ -1328,6 +1340,7 @@
     },
     {
       "name": "Yax Chen region cenote (west)",
+      "written": false,
       "px": [
         1548,
         2290
@@ -1335,6 +1348,7 @@
     },
     {
       "name": "Yax Chen region cenote (south-east)",
+      "written": false,
       "px": [
         1668,
         2303

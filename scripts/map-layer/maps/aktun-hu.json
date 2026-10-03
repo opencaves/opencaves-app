@@ -632,6 +632,8 @@
   "entrances": [
     {
       "name": "Cenote Nariz",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVNP1gaVE-XoVTT1",
       "px": [
         930,
@@ -640,6 +642,7 @@
     },
     {
       "name": "Cenote Aktun-Hu",
+      "written": false,
       "caveId": "-KPZkVDfSJ3JcxrBjG78",
       "px": [
         1228,
@@ -648,6 +651,7 @@
     },
     {
       "name": "Cenote Cueva Seca",
+      "written": false,
       "caveId": "-KPZkVHbgtSH0-b5zj9Y",
       "px": [
         1314,
@@ -656,6 +660,7 @@
     },
     {
       "name": "Cenote Cabeza Azteca",
+      "written": false,
       "caveId": "-KPZkVFZW7SgdJ2EgTg1",
       "px": [
         1414,

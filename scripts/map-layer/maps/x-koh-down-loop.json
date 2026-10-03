@@ -369,6 +369,7 @@
   "entrances": [
     {
       "name": "Cenote Actun Koh (station 0)",
+      "written": false,
       "caveId": "-KPZkVDRyqNfcQwwFS_9",
       "px": [
         420,
@@ -378,6 +379,7 @@
     },
     {
       "name": "Overpass Cenote",
+      "written": false,
       "caveId": "-KPZkVO0jhypiyLoVr29",
       "px": [
         788,
@@ -387,6 +389,7 @@
     },
     {
       "name": "unnamed cenote SW of the Down Loop (X)",
+      "written": false,
       "px": [
         694,
         1473
@@ -395,6 +398,7 @@
     },
     {
       "name": "unnamed cenote E of the Down Loop, W of Teen (x)",
+      "written": false,
       "px": [
         848,
         1416

@@ -252,6 +252,7 @@
   "entrances": [
     {
       "name": "Entrada Boca Paila",
+      "written": true,
       "caveId": "-KPZkVIr4WnwsoBsV8ig",
       "px": [
         5590,

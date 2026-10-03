@@ -225,6 +225,7 @@
   "entrances": [
     {
       "name": "Paachil Nah",
+      "written": false,
       "px": [
         1410,
         2235
@@ -233,6 +234,7 @@
     },
     {
       "name": "Tu'",
+      "written": false,
       "px": [
         1078,
         2148
@@ -241,6 +243,7 @@
     },
     {
       "name": "Nauatilostotl",
+      "written": false,
       "px": [
         1110,
         1430
@@ -249,6 +252,7 @@
     },
     {
       "name": "",
+      "written": false,
       "px": [
         1092,
         1305
@@ -257,6 +261,7 @@
     },
     {
       "name": "Beh Et Óox Ha'",
+      "written": false,
       "px": [
         2645,
         2385
@@ -265,6 +270,7 @@
     },
     {
       "name": "Nah Soots'",
+      "written": false,
       "px": [
         4320,
         2975
@@ -273,6 +279,7 @@
     },
     {
       "name": "Styx",
+      "written": false,
       "px": [
         4450,
         2945
@@ -281,6 +288,7 @@
     },
     {
       "name": "",
+      "written": false,
       "px": [
         1640,
         3725
@@ -289,6 +297,7 @@
     },
     {
       "name": "Luuk Hool",
+      "written": false,
       "px": [
         2510,
         255
@@ -298,6 +307,7 @@
     },
     {
       "name": "Nah Baak",
+      "written": false,
       "px": [
         3765,
         2660

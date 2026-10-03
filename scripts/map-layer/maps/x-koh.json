@@ -459,6 +459,7 @@
   "entrances": [
     {
       "name": "Bears' Den",
+      "written": false,
       "caveId": "-KPZkVEeR1D8YGimsxqc",
       "px": [
         218,

@@ -863,6 +863,7 @@
   "entrances": [
     {
       "name": "Puits d'accès (shaft 1, NW branch)",
+      "written": false,
       "px": [
         263,
         197
@@ -870,6 +871,7 @@
     },
     {
       "name": "Puits d'accès (shaft 2, NW branch)",
+      "written": false,
       "px": [
         330,
         212
@@ -877,6 +879,7 @@
     },
     {
       "name": "Puits d'accès (shaft 3, NW branch)",
+      "written": false,
       "px": [
         390,
         310
@@ -884,6 +887,7 @@
     },
     {
       "name": "Puits d'accès (shaft 4, NW branch)",
+      "written": false,
       "px": [
         450,
         395
@@ -891,6 +895,7 @@
     },
     {
       "name": "unnamed collapse, NW branch (Effondrement)",
+      "written": false,
       "px": [
         518,
         560
@@ -898,6 +903,7 @@
     },
     {
       "name": "unnamed round collapse by the houses (Effondrement)",
+      "written": false,
       "px": [
         704,
         730
@@ -905,6 +911,7 @@
     },
     {
       "name": "unnamed collapse NW of the highway (Effondrement)",
+      "written": false,
       "px": [
         1120,
         772
@@ -912,6 +919,7 @@
     },
     {
       "name": "Entrées (NE): collapse SE of the highway",
+      "written": true,
       "px": [
         1790,
         780
@@ -919,6 +927,7 @@
     },
     {
       "name": "Entrées (NE): second entrance",
+      "written": true,
       "px": [
         1797,
         903
@@ -926,6 +935,7 @@
     },
     {
       "name": "Puits (shaft, Tête maya cave)",
+      "written": false,
       "px": [
         1320,
         1068
@@ -933,6 +943,7 @@
     },
     {
       "name": "Puits (shaft, Tête maya cave, 2nd)",
+      "written": false,
       "px": [
         1490,
         1083
@@ -940,6 +951,7 @@
     },
     {
       "name": "unnamed collapse by the Sables mouvants",
+      "written": false,
       "px": [
         2215,
         1103
@@ -947,6 +959,7 @@
     },
     {
       "name": "Entrée (E)",
+      "written": true,
       "px": [
         2720,
         1222
@@ -954,6 +967,7 @@
     },
     {
       "name": "Entrées (centre, 1st)",
+      "written": true,
       "px": [
         1935,
         1368
@@ -961,6 +975,7 @@
     },
     {
       "name": "Entrées (centre, 2nd)",
+      "written": true,
       "px": [
         1995,
         1370
@@ -968,6 +983,7 @@
     },
     {
       "name": "Entrées: big collapse rim (1st)",
+      "written": true,
       "px": [
         1721,
         1354
@@ -975,6 +991,7 @@
     },
     {
       "name": "Entrées: big collapse rim (2nd)",
+      "written": true,
       "px": [
         1741,
         1392
@@ -982,6 +999,7 @@
     },
     {
       "name": "Entrées: big collapse rim (3rd)",
+      "written": true,
       "px": [
         1747,
         1468
@@ -989,6 +1007,7 @@
     },
     {
       "name": "Entrées: big collapse rim (4th)",
+      "written": true,
       "px": [
         1726,
         1506
@@ -996,6 +1015,7 @@
     },
     {
       "name": "Entrées: big collapse rim (5th)",
+      "written": true,
       "px": [
         1700,
         1506
@@ -1003,6 +1023,7 @@
     },
     {
       "name": "Entrées: big collapse rim (6th)",
+      "written": true,
       "px": [
         1668,
         1506
@@ -1010,6 +1031,7 @@
     },
     {
       "name": "Entrées: big collapse, SW side (1st)",
+      "written": true,
       "px": [
         1562,
         1565
@@ -1017,6 +1039,7 @@
     },
     {
       "name": "Entrées: big collapse, SW side (2nd)",
+      "written": true,
       "px": [
         1452,
         1624
@@ -1024,6 +1047,7 @@
     },
     {
       "name": "Entrées: SW end of the big collapse (hatched edge)",
+      "written": true,
       "px": [
         1305,
         1773
@@ -1031,6 +1055,7 @@
     },
     {
       "name": "Tigrino 2 entrance (1st)",
+      "written": true,
       "px": [
         897,
         3143
@@ -1038,6 +1063,7 @@
     },
     {
       "name": "Tigrino 2 entrance (2nd)",
+      "written": true,
       "px": [
         900,
         3200

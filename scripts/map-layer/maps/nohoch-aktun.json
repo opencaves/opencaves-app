@@ -431,6 +431,7 @@
   "entrances": [
     {
       "name": "Ta Tich collapse (Effondrement; database: Cenote Nohoch Aktun)",
+      "written": false,
       "caveId": "-KPZkVNaIeV915IYvoMm",
       "px": [
         545,
@@ -442,6 +443,7 @@
     },
     {
       "name": "unnamed collapse S of Ta Tich (1st) (Effondrement)",
+      "written": false,
       "px": [
         679,
         1161
@@ -449,6 +451,7 @@
     },
     {
       "name": "unnamed collapse S of Ta Tich (2nd) (Effondrement)",
+      "written": false,
       "px": [
         652,
         1307
@@ -456,6 +459,7 @@
     },
     {
       "name": "unnamed collapse S of Ta Tich (3rd) (Effondrement)",
+      "written": false,
       "px": [
         725,
         1414
@@ -463,6 +467,7 @@
     },
     {
       "name": "unnamed collapse S of Ta Tich (4th) (Effondrement)",
+      "written": false,
       "px": [
         744,
         1569
@@ -470,6 +475,7 @@
     },
     {
       "name": "unnamed Nohoch Aktun upstream collapse (Effondrement)",
+      "written": false,
       "px": [
         933,
         1691
@@ -477,6 +483,7 @@
     },
     {
       "name": "unnamed Nohoch Aktun central collapse (Effondrement)",
+      "written": false,
       "px": [
         1428,
         2298
@@ -484,6 +491,7 @@
     },
     {
       "name": "unnamed collapse S of the central one (Effondrement)",
+      "written": false,
       "px": [
         1443,
         2503
@@ -491,6 +499,7 @@
     },
     {
       "name": "unnamed collapse W of the south branch (Effondrement)",
+      "written": false,
       "px": [
         1367,
         2633
@@ -498,6 +507,7 @@
     },
     {
       "name": "unnamed small collapse in the south chamber (Effondrement)",
+      "written": false,
       "px": [
         1497,
         2813
@@ -505,6 +515,7 @@
     },
     {
       "name": "unnamed south chamber collapse (Effondrement)",
+      "written": false,
       "px": [
         1545,
         2878
@@ -512,6 +523,7 @@
     },
     {
       "name": "unnamed south-east collapse (drawn open to the east) (Effondrement)",
+      "written": false,
       "px": [
         1696,
         2917

@@ -26,7 +26,7 @@
     { "why": "section: cross-section SE of Casita del Doggy, with its leader", "box": [445, 473, 490, 488] }
   ],
   "entrances": [
-    { "name": "Entrada Imix", "pdf": [326, 180], "why": "the open doline NW of the ticked dashed drip line, labelled 'Entrada' (Entrada Imix of Sistema Dos Amores); no database cave - Imix is not in the database nor in OpenStreetMap" }
+    { "name": "Entrada Imix", "written": true, "pdf": [326, 180], "why": "the open doline NW of the ticked dashed drip line, labelled 'Entrada' (Entrada Imix of Sistema Dos Amores); no database cave - Imix is not in the database nor in OpenStreetMap" }
   ],
   "symbols": {
     "why": "Vector map: labels are real PDF text (page.get_text), positions in PDF points. build_layer.py doesn't read symbols yet. No depth numbers on the plan (only 'Profundidad 7 m' in the title), no ceiling heights, no flow arrows, no bones (no legend; every small icon checked: black triangles are stalagmites, hourglasses are columns, the white 'clover' outlines around them flowstone bases). The sumps' leads-to are placed on the sumps (darker blue fills), not on their labels.",

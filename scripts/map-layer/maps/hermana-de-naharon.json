@@ -169,6 +169,7 @@
     {
       "caveId": "-NS0mrbUnBOzH0J1kGkm",
       "name": "Cenote Naharon (Cristal)",
+      "written": false,
       "px": [
         872,
         1352
@@ -178,6 +179,8 @@
     {
       "caveId": "-KPZkVJByjlbUaBg6uHP",
       "name": "Cenote Hermana (Mayan Blue)",
+      "written": true,
+      "knownEntrance": true,
       "px": [
         1555,
         2555

@@ -76,6 +76,7 @@
   "entrances": [
     {
       "name": "Cenote Box Ek",
+      "written": true,
       "caveId": "-KPZkVFP-E205SXTJxk5",
       "px": [
         1755,
@@ -85,6 +86,7 @@
     },
     {
       "name": "Cenote Ximbil",
+      "written": true,
       "px": [
         1345,
         2215
@@ -93,6 +95,7 @@
     },
     {
       "name": "Entrance to Taj Mahal",
+      "written": true,
       "px": [
         1575,
         2635

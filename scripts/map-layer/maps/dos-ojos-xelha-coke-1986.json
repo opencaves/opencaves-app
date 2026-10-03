@@ -61,6 +61,8 @@
   "entrances": [
     {
       "name": "Ojo East",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         1403,
         3073
@@ -72,6 +74,8 @@
     },
     {
       "name": "Ojo West",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         3340,
         2957

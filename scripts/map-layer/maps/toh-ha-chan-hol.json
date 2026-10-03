@@ -889,6 +889,8 @@
     {
       "caveId": "-KPZkVGOjIHwy7bURUrt",
       "name": "Chan Hol",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         6805,
         2687

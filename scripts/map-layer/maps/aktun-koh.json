@@ -252,6 +252,7 @@
   "entrances": [
     {
       "name": "Entrée (Cenote Actun Koh)",
+      "written": true,
       "caveId": "-KPZkVDRyqNfcQwwFS_9",
       "px": [
         755,
@@ -260,6 +261,7 @@
     },
     {
       "name": "Cénote Dédale (Bear's Den)",
+      "written": true,
       "caveId": "-KPZkVEeR1D8YGimsxqc",
       "px": [
         416,
@@ -269,6 +271,7 @@
     },
     {
       "name": "Cénote cultivé",
+      "written": false,
       "px": [
         1029,
         2229
@@ -276,6 +279,7 @@
     },
     {
       "name": "unnamed small opening in the air bell NE of Cénote cultivé",
+      "written": false,
       "px": [
         1202,
         2132
@@ -283,6 +287,7 @@
     },
     {
       "name": "unnamed collapse E of Cénote cultivé (database: Pakal Nah)",
+      "written": false,
       "caveId": "-KPZkVOBeX3QR15-AhmN",
       "px": [
         1356,

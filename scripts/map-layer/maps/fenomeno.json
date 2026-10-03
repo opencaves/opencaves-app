@@ -213,6 +213,8 @@
   "entrances": [
     {
       "name": "Fenomeno",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVJYrlkuqXqIz0Zl",
       "px": [
         987,
@@ -221,6 +223,8 @@
     },
     {
       "name": "D. Concha",
+      "written": false,
+      "knownEntrance": true,
       "caveId": "-KPZkVHGxSRsSISPDSd4",
       "px": [
         896,
@@ -229,6 +233,7 @@
     },
     {
       "name": "Vasija",
+      "written": false,
       "caveId": "-KPZkVRgdn4I1_qS5nSt",
       "px": [
         592,
@@ -237,6 +242,7 @@
     },
     {
       "name": "White River",
+      "written": false,
       "caveId": "-KPZkVRuf1rLXfmlMGFL",
       "px": [
         422,
@@ -245,6 +251,7 @@
     },
     {
       "name": "unnamed cenote (north)",
+      "written": false,
       "px": [
         451,
         51

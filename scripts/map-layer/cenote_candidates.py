@@ -208,7 +208,9 @@ def map_candidates(config_path, output_dir):
             found = [{**label, 'position': place(*label['px']), 'placement': 'label'} for label in scan_labels(config, json.loads(words_path.read_text(encoding='utf-8')))]
     return config, [{'name': f['name'], 'caveId': f.get('caveId'), 'longitude': f['position'][0], 'latitude': f['position'][1],
                      'accuracy': round(max(accuracy, LABEL_ON_RASTER) if f.get('atLabel') else accuracy),
-                     'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition')} for f in found]
+                     'placement': f['placement'], 'map': config.get('title', name), 'replacePosition': f.get('replacePosition'),
+                     # An entrance only when the map writes it as one, or it's known to be one.
+                     'entrance': bool(f.get('written') or f.get('knownEntrance'))} for f in found]
 
 
 def main(review_path, config_paths, production):
@@ -254,6 +256,7 @@ def main(review_path, config_paths, production):
             same = next((s for s in seen if key(s['name']) == key(c['name']) and distance((s['latitude'], s['longitude']), spot) < SAME_CANDIDATE_METRES), None)
             if same:
                 same['maps'].append(c['map'])
+                same['entrance'] = same.get('entrance') or c.get('entrance')
                 continue
             c['maps'] = [c['map']]
             seen.append(c)
@@ -288,14 +291,15 @@ def main(review_path, config_paths, production):
             # A position read off a map is always to be verified on site
             # (the app's "unknown" coordinate validity).
             base = {'name': c['name'], 'latitude': row['Latitude'], 'longitude': row['Longitude'], 'accuracy': c['accuracy'], 'validity': 'unknown',
-                    # Drawn as an entrance on a dive survey: a cenote entrance.
-                    'cenoteEntrance': True,
+                    # Written as an entrance on a dive survey (or known to be
+                    # one): a cenote entrance. A cenote dot alone isn't.
+                    'cenoteEntrance': bool(c.get('entrance')),
                     'placement': c['placement'], 'sourceId': source_id, 'maps': c['maps']}
             if with_position and with_position[0][0] <= FAR_METRES:
                 d, match = with_position[0]
                 row.update({'Status': 'matched' if d <= max(100, 3 * c['accuracy']) else 'matched, far', 'Database id': match['id'],
                             'Database name': cave_name(match), 'Distance (m)': round(d)})
-                if not match.get('cenoteEntrance'):
+                if c.get('entrance') and not match.get('cenoteEntrance'):
                     # Matched, but not yet flagged as a cenote entrance.
                     entries.append({'action': 'cenote-entrance', 'caveId': match['id'], 'name': cave_name(match), 'cenoteEntrance': True,
                                     'sourceId': source_id, 'maps': c['maps']})

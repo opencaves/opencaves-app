@@ -62,6 +62,7 @@
     {
       "caveId": "-KPZkVRsjSn1YIhTm1Dh",
       "name": "Werich",
+      "written": false,
       "px": [
         620,
         1367
@@ -70,6 +71,7 @@
     {
       "caveId": "-KPZkVSlPTvnarSEFu7_",
       "name": "Zebra",
+      "written": false,
       "px": [
         2410,
         2572

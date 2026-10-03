@@ -988,6 +988,7 @@
   "entrances": [
     {
       "name": "Entrada Tixik K'una",
+      "written": true,
       "px": [
         4215,
         2200
@@ -997,6 +998,7 @@
     },
     {
       "name": "Entradas Las Ruinas (north)",
+      "written": true,
       "px": [
         1895,
         850
@@ -1006,6 +1008,7 @@
     },
     {
       "name": "Entradas Las Ruinas (south)",
+      "written": true,
       "px": [
         1905,
         945
@@ -1014,6 +1017,7 @@
     },
     {
       "name": "Entrada Eb Tun Ha (Escalera Maya)",
+      "written": true,
       "px": [
         2195,
         735

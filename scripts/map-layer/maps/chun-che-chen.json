@@ -221,6 +221,7 @@
     {
       "caveId": "-KPZkVGsoDbaSVnXkgu3",
       "name": "Chun Che Chen",
+      "written": false,
       "px": [
         1361,
         3297
@@ -228,6 +229,7 @@
     },
     {
       "name": "Unnamed cenote (south)",
+      "written": true,
       "px": [
         1454,
         4398

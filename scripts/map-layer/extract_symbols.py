@@ -363,9 +363,12 @@ def main(config_path, output):
             symbols[i]['value'] = item['value']
             symbols[i]['label'] = str(item['value'])
 
-    # The map's entrances (config "entrances"): kept in the layer too.
+    # The map's entrances (config "entrances"): kept in the layer too - only
+    # those the map writes as an entrance ("written": "Entrance", "Entrada",
+    # "Entrée", "Ent." by it) or known to be one ("knownEntrance": the user's
+    # first-hand knowledge). A cenote dot or outline alone isn't an entrance.
     for entrance in config.get('entrances', []):
-        if 'px' in entrance:
+        if 'px' in entrance and (entrance.get('written') or entrance.get('knownEntrance')):
             x, y = entrance['px']
             # Shown as a dot, not by name: the cenote itself is on the map
             # already (from the database); its name is kept as data.

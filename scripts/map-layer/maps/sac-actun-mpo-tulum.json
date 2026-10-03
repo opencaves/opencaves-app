@@ -99,6 +99,8 @@
   "entrances": [
     {
       "name": "Dos Ojos",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         946,
         181
@@ -107,6 +109,8 @@
     },
     {
       "name": "Pet Cemetery",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         726,
         262
@@ -115,6 +119,8 @@
     },
     {
       "name": "Outland",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         548,
         327
@@ -123,6 +129,8 @@
     },
     {
       "name": "Nohoch Nah Chich",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         805,
         480
@@ -131,6 +139,7 @@
     },
     {
       "name": "Muul Ha",
+      "written": false,
       "px": [
         760,
         796
@@ -139,6 +148,7 @@
     },
     {
       "name": "Manati",
+      "written": false,
       "px": [
         946,
         860
@@ -147,6 +157,7 @@
     },
     {
       "name": "Nohoch Kin",
+      "written": false,
       "px": [
         660,
         935
@@ -155,6 +166,8 @@
     },
     {
       "name": "Sac Actun (Grand Cenote)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         134,
         1088
@@ -163,6 +176,7 @@
     },
     {
       "name": "Naval",
+      "written": false,
       "px": [
         317,
         1163
@@ -171,6 +185,7 @@
     },
     {
       "name": "Abejas",
+      "written": false,
       "px": [
         586,
         1286
@@ -179,6 +194,8 @@
     },
     {
       "name": "Calavera (Temple of Doom)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         204,
         1296

@@ -230,6 +230,7 @@
     {
       "caveId": "-KPZkVPtkGgeUsJ0ehwP",
       "name": "Shaman Ek",
+      "written": false,
       "px": [
         3343,
         1601
@@ -238,6 +239,7 @@
     {
       "caveId": "-KPZkVGIbn9Z4SzAOQCP",
       "name": "Chalat",
+      "written": false,
       "px": [
         3873,
         952
@@ -245,6 +247,7 @@
     },
     {
       "name": "Unnamed cenote (NE of Shaman Ek)",
+      "written": false,
       "px": [
         3672,
         1442

@@ -232,6 +232,7 @@
   "entrances": [
     {
       "name": "Odyssey",
+      "written": false,
       "px": [
         6849,
         843
@@ -240,6 +241,7 @@
     },
     {
       "name": "Moonpod",
+      "written": false,
       "px": [
         7267,
         1504
@@ -248,6 +250,7 @@
     },
     {
       "name": "Crack",
+      "written": false,
       "px": [
         2906,
         2228
@@ -256,6 +259,7 @@
     },
     {
       "name": "Matchbox",
+      "written": false,
       "px": [
         3772,
         2406
@@ -264,6 +268,7 @@
     },
     {
       "name": "Amber Sun",
+      "written": false,
       "px": [
         5223,
         2487
@@ -272,6 +277,7 @@
     },
     {
       "name": "Luz",
+      "written": false,
       "px": [
         6094,
         2531
@@ -280,6 +286,7 @@
     },
     {
       "name": "Los Canales",
+      "written": false,
       "px": [
         5688,
         2687
@@ -288,6 +295,7 @@
     },
     {
       "name": "Yax Kai",
+      "written": false,
       "px": [
         3705,
         2676
@@ -296,6 +304,7 @@
     },
     {
       "name": "Air",
+      "written": false,
       "px": [
         7950,
         2697
@@ -304,6 +313,7 @@
     },
     {
       "name": "La Familia",
+      "written": false,
       "px": [
         7518,
         2848
@@ -312,6 +322,7 @@
     },
     {
       "name": "Esmeralda",
+      "written": false,
       "px": [
         4476,
         3011
@@ -320,6 +331,7 @@
     },
     {
       "name": "La Mesa",
+      "written": false,
       "px": [
         7508,
         3098
@@ -328,6 +340,7 @@
     },
     {
       "name": "Bat Hole",
+      "written": false,
       "px": [
         6231,
         3173
@@ -336,6 +349,7 @@
     },
     {
       "name": "Xeh",
+      "written": false,
       "px": [
         4789,
         3224
@@ -344,6 +358,7 @@
     },
     {
       "name": "Victoria",
+      "written": false,
       "px": [
         8543,
         3250
@@ -352,6 +367,7 @@
     },
     {
       "name": "Teapot",
+      "written": false,
       "px": [
         5681,
         3338
@@ -360,6 +376,7 @@
     },
     {
       "name": "Kubil",
+      "written": false,
       "px": [
         3298,
         3368
@@ -368,6 +385,7 @@
     },
     {
       "name": "Bronx",
+      "written": false,
       "px": [
         4997,
         3495
@@ -376,6 +394,7 @@
     },
     {
       "name": "Xaan Kuna",
+      "written": false,
       "px": [
         3265,
         3537
@@ -384,6 +403,7 @@
     },
     {
       "name": "Kupic",
+      "written": false,
       "px": [
         3015,
         3673
@@ -392,6 +412,7 @@
     },
     {
       "name": "Xux",
+      "written": false,
       "px": [
         6097,
         3754
@@ -402,6 +423,7 @@
     },
     {
       "name": "Zapata",
+      "written": false,
       "px": [
         9032,
         3760
@@ -410,6 +432,7 @@
     },
     {
       "name": "Twin Cenotes",
+      "written": false,
       "px": [
         8547,
         3813
@@ -418,6 +441,7 @@
     },
     {
       "name": "Xiix",
+      "written": false,
       "px": [
         6507,
         3900
@@ -428,6 +452,7 @@
     },
     {
       "name": "Tarpon",
+      "written": false,
       "px": [
         9133,
         3889
@@ -436,6 +461,7 @@
     },
     {
       "name": "Hideaway",
+      "written": false,
       "px": [
         8672,
         3895
@@ -443,6 +469,7 @@
     },
     {
       "name": "Sac U",
+      "written": false,
       "px": [
         2687,
         3940
@@ -451,6 +478,7 @@
     },
     {
       "name": "Blackfoot",
+      "written": false,
       "px": [
         8863,
         3972
@@ -459,6 +487,7 @@
     },
     {
       "name": "Chac Che",
+      "written": false,
       "px": [
         5852,
         4008
@@ -467,6 +496,7 @@
     },
     {
       "name": "Del Mar",
+      "written": false,
       "px": [
         9253,
         4013
@@ -475,6 +505,7 @@
     },
     {
       "name": "Sac Ek",
+      "written": false,
       "px": [
         2462,
         4038
@@ -483,6 +514,7 @@
     },
     {
       "name": "Bo'ox",
+      "written": false,
       "px": [
         9202,
         4049
@@ -491,6 +523,7 @@
     },
     {
       "name": "Labyrinth",
+      "written": false,
       "px": [
         9052,
         4082
@@ -499,6 +532,7 @@
     },
     {
       "name": "Wakax",
+      "written": false,
       "px": [
         5278,
         4075
@@ -507,6 +541,7 @@
     },
     {
       "name": "Bend",
+      "written": false,
       "px": [
         5423,
         4094
@@ -515,6 +550,7 @@
     },
     {
       "name": "Dim",
+      "written": false,
       "px": [
         5863,
         4193
@@ -523,6 +559,7 @@
     },
     {
       "name": "Perla",
+      "written": false,
       "px": [
         7158,
         4217
@@ -531,6 +568,7 @@
     },
     {
       "name": "Este",
+      "written": false,
       "px": [
         7317,
         4300
@@ -539,6 +577,7 @@
     },
     {
       "name": "Stilt",
+      "written": false,
       "px": [
         4853,
         4312
@@ -547,6 +586,7 @@
     },
     {
       "name": "Tall Trees",
+      "written": false,
       "px": [
         4477,
         4454
@@ -555,6 +595,7 @@
     },
     {
       "name": "Espejo",
+      "written": false,
       "px": [
         4384,
         4489
@@ -563,6 +604,7 @@
     },
     {
       "name": "Lost Twin",
+      "written": false,
       "px": [
         8258,
         5567

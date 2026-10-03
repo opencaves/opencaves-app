@@ -394,6 +394,7 @@
   "entrances": [
     {
       "name": "Laguna Negra",
+      "written": false,
       "caveId": "-KPZkVLVL4uGzw1Wi_J-",
       "px": [
         2135,
@@ -404,6 +405,7 @@
     },
     {
       "name": "Laguna Grande",
+      "written": false,
       "caveId": "-KPZkVLT_OU7UXw83JvY",
       "px": [
         2098,
@@ -414,6 +416,7 @@
     },
     {
       "name": "Caleta de Xel-Ha",
+      "written": false,
       "px": [
         2150,
         2470
@@ -421,6 +424,7 @@
     },
     {
       "name": "unnamed pool S of caleta",
+      "written": false,
       "px": [
         1606,
         2780
@@ -430,6 +434,7 @@
     },
     {
       "name": "unnamed hatched pool S of caleta",
+      "written": false,
       "px": [
         1844,
         2808
@@ -439,6 +444,7 @@
     },
     {
       "name": "unnamed pool in the collapse (Collecteur sud)",
+      "written": false,
       "px": [
         1327,
         2965
@@ -446,6 +452,7 @@
     },
     {
       "name": "unnamed small pool N",
+      "written": false,
       "px": [
         1976,
         3122
@@ -455,6 +462,7 @@
     },
     {
       "name": "unnamed small pool S",
+      "written": false,
       "px": [
         1971,
         3264
@@ -464,6 +472,7 @@
     },
     {
       "name": "X-Cacelito",
+      "written": false,
       "caveId": "-KPZkVS7lM8UvE0pn8mY",
       "px": [
         2300,

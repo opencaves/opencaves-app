@@ -126,6 +126,7 @@
   "entrances": [
     {
       "name": "Entrada Pequeña",
+      "written": true,
       "px": [7722, 3580]
     }
   ],

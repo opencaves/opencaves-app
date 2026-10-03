@@ -188,6 +188,8 @@
     {
       "caveId": "-KPZkVFrNVdARmBd1gu9",
       "name": "Cenote Carwash (entrance)",
+      "written": true,
+      "knownEntrance": true,
       "px": [
         2060,
         875
@@ -196,6 +198,7 @@
     {
       "caveId": "-KPZkVSfwRa4U0d2QHVO",
       "name": "Luke's Hope (Zacil-Ha)",
+      "written": false,
       "px": [
         1158,
         790
@@ -204,6 +207,7 @@
     },
     {
       "name": "Cenote (unnamed)",
+      "written": false,
       "px": [
         845,
         515

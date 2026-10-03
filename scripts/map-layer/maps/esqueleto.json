@@ -212,6 +212,8 @@
     {
       "caveId": "-KPZkVJNdAmA4o9vuJmX",
       "name": "Cenote Esqueleto (Temple of Doom)",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         736,
         620
@@ -219,6 +221,7 @@
     },
     {
       "name": "Sinkhole pond south-east of Cenote Esqueleto (unnamed on the map)",
+      "written": false,
       "px": [
         1395,
         995

@@ -316,6 +316,7 @@
   "entrances": [
     {
       "name": "cenote at the north-west end of the Main Line",
+      "written": false,
       "px": [
         655,
         588
@@ -324,6 +325,7 @@
     },
     {
       "name": "cenote under Mi Piatche",
+      "written": false,
       "px": [
         1817,
         1100
@@ -332,6 +334,7 @@
     },
     {
       "name": "cenote west of El Brinco",
+      "written": false,
       "px": [
         2334,
         1560
@@ -340,6 +343,7 @@
     },
     {
       "name": "cenote inside the El Brinco loop",
+      "written": false,
       "px": [
         3163,
         1694
@@ -348,6 +352,7 @@
     },
     {
       "name": "large cenote (main entrance)",
+      "written": true,
       "px": [
         3662,
         2141
@@ -356,6 +361,7 @@
     },
     {
       "name": "cenote north of Raft",
+      "written": false,
       "px": [
         4607,
         1828
@@ -364,6 +370,7 @@
     },
     {
       "name": "cenote beside the Raft line",
+      "written": false,
       "px": [
         4494,
         2402
@@ -372,6 +379,7 @@
     },
     {
       "name": "cenote at the south-east end of the Main Line",
+      "written": false,
       "px": [
         5670,
         3127

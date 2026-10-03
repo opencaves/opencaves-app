@@ -248,16 +248,20 @@
     {
       "caveId": "-KPZkVPFFmbPR9jvvo0F",
       "name": "Sac Be Ha",
+      "written": false,
+      "knownEntrance": true,
       "px": [2105, 1650]
     },
     {
       "caveId": "-KPZkVKczddUHH8-cGcR",
       "name": "K'ak Ha",
+      "written": false,
       "px": [2717, 1504]
     },
     {
       "caveId": "-KPZkVPKbTGWDHL_8Y-Y",
       "name": "Sac Luum",
+      "written": false,
       "px": [961, 1825],
       "replacePosition": "the database's position is 3.6 km from this map's: doubtful"
     }

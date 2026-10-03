@@ -72,8 +72,13 @@ Kept on every map: overlined or underlined numbers (depths), circled ones
 (ceiling heights), boxed ones (pit depths), restrictions and other letter
 codes, "To ..." and "passage continues" pointers (`leads-to`), named places in
 the cave (`place-name`), water-flow arrows (`flow`, with their true
-`bearing`), and **bones**, searched for carefully on every map. Every place a
-map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
+`bearing`), and **bones**, searched for carefully on every map. An entrance is
+kept as an `entrance` (a blue dot in the overlay) only when the map **writes**
+it as one - "Entrance", "Entrada", "Entrée", "Ent." (config `"written": true`)
+- or it's known to be one (`"knownEntrance": true`: the user's first-hand
+knowledge, such as the cenotes of their dive log). A cenote dot, an outline or
+a cenote's mere presence on a map isn't an entrance: those stay in the
+config's `entrances` to place the map, with `"written": false`.
 
 ## Cenotes and the database
 
@@ -90,8 +95,11 @@ map marks as an entrance is kept as an `entrance` (a blue dot in the overlay).
 - A position read off a map is always to be verified on site (`validity`
   `unknown`). A database position marked `invalid` may be replaced by a map's;
   one taken on site (*Open Caves* source) never is.
-- An **entrance on a dive survey is a cenote entrance** (the caves'
-  `cenoteEntrance` flag): matched caves not yet flagged are kept aside too.
+- An entrance **written** on a dive survey (or known to be one) is a cenote
+  entrance (the caves' `cenoteEntrance` flag): matched caves not yet flagged
+  are kept aside too. Unwritten entrances set no flag. (Before 2026-10-03 any
+  marked entrance did; 304 caves were unflagged then, backed up in
+  `_data/backups/local-entrances-*.json`.)
 - A map's exploration history goes to its sistema through
   `explorations_from_maps.py`, unless it is already there.
 

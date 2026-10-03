@@ -996,6 +996,8 @@
     {
       "caveId": "-KPZkVHIOAQIZcGBVR5w",
       "name": "Coop One",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         3045,
         2528
@@ -1003,6 +1005,7 @@
     },
     {
       "name": "unnamed opening at the south-west end (p.2311)",
+      "written": false,
       "px": [
         1133,
         2730

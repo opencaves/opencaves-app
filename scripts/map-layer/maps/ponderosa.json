@@ -663,6 +663,7 @@
     {
       "caveId": "-KPZkVSJqOGmMdM58DE2",
       "name": "Xochacalico",
+      "written": false,
       "px": [
         1669,
         762
@@ -670,6 +671,7 @@
     },
     {
       "name": "Xochacalico (second pool)",
+      "written": false,
       "px": [
         2098,
         970
@@ -678,6 +680,7 @@
     {
       "caveId": "-KPZkVS1KCXPM3C07EK7",
       "name": "X'tabay",
+      "written": false,
       "px": [
         2514,
         1202
@@ -686,6 +689,8 @@
     {
       "caveId": "-KPZkVGi_z4C_Wpo42V9",
       "name": "Chikin Ha",
+      "written": false,
+      "knownEntrance": true,
       "px": [
         2749,
         1390
@@ -697,6 +702,7 @@
     {
       "caveId": "-KPZkVOlJ3pNexyT6mMW",
       "name": "Rainbow",
+      "written": false,
       "px": [
         3828,
         2157
@@ -706,6 +712,7 @@
     {
       "caveId": "-KPZkVP-i6syPXzi1BSf",
       "name": "Repair Shop",
+      "written": false,
       "px": [
         3568,
         2755
@@ -714,6 +721,7 @@
     {
       "caveId": "-KPZkVSc6USxvTS9L-3A",
       "name": "Zacil",
+      "written": false,
       "px": [
         3656,
         3630
@@ -722,6 +730,7 @@
     {
       "caveId": "-KPZkVLma9HoGaTwgamA",
       "name": "Little Joe",
+      "written": false,
       "px": [
         3562,
         4029
@@ -730,6 +739,7 @@
     {
       "caveId": "-KPZkVJ9erthreVgvKn7",
       "name": "Escondido",
+      "written": false,
       "px": [
         3698,
         4763
@@ -738,6 +748,7 @@
     {
       "caveId": "-KPZkVIaklDt26pJPBUX",
       "name": "Ponderosa (Eden)",
+      "written": false,
       "px": [
         3982,
         4662
@@ -748,6 +759,7 @@
     {
       "caveId": "-KPZkVHLhr3VbhOY-dDf",
       "name": "Corral",
+      "written": false,
       "px": [
         4677,
         4474
@@ -756,6 +768,7 @@
     {
       "caveId": "-KPZkVRV4FCI8DSO1OnH",
       "name": "Uchil Ha",
+      "written": false,
       "px": [
         5265,
         4390
@@ -763,6 +776,7 @@
     },
     {
       "name": "Uchil Ha (small oval south of its label)",
+      "written": false,
       "px": [
         5306,
         4638
@@ -771,6 +785,7 @@
     {
       "caveId": "-KPZkVPfd8DVLRF_EjB1",
       "name": "Sask Leem Ha",
+      "written": false,
       "px": [
         5774,
         4174
@@ -779,6 +794,7 @@
     {
       "caveId": "-KPZkVKpj5rVR_3YHebk",
       "name": "Kantun Chi",
+      "written": false,
       "px": [
         6319,
         4750
@@ -787,6 +803,7 @@
     {
       "caveId": "-KPZkVEucxPMW7L7EQOm",
       "name": "Boa",
+      "written": false,
       "px": [
         6886,
         5055
@@ -795,6 +812,7 @@
     {
       "caveId": "-KPZkVHTXN6r0jb39a_q",
       "name": "Cristalino",
+      "written": false,
       "px": [
         7204,
         5179
@@ -805,6 +823,7 @@
     },
     {
       "name": "Unnamed cenote east of Cristalino",
+      "written": false,
       "px": [
         7513,
         5007
@@ -813,6 +832,7 @@
     {
       "caveId": "-KPZkVECc1Lf7UiyD1bY",
       "name": "Azul",
+      "written": false,
       "px": [
         6519,
         5911
@@ -822,6 +842,7 @@
     },
     {
       "name": "Unnamed cenote east of Azul (north)",
+      "written": false,
       "px": [
         6647,
         5972
@@ -829,6 +850,7 @@
     },
     {
       "name": "Unnamed cenote east of Azul (south)",
+      "written": false,
       "px": [
         6656,
         6062

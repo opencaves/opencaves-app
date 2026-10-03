@@ -317,6 +317,7 @@
   "entrances": [
     {
       "name": "Cenote 82",
+      "written": false,
       "px": [
         1582,
         436
@@ -324,6 +325,7 @@
     },
     {
       "name": "Cenote Spray",
+      "written": false,
       "caveId": "-KPZkVQ8_aEC9Hts08nX",
       "px": [
         1513,
@@ -332,6 +334,7 @@
     },
     {
       "name": "Cenote Theater",
+      "written": false,
       "px": [
         1459,
         670
@@ -339,6 +342,7 @@
     },
     {
       "name": "Cenote Bella Mama",
+      "written": false,
       "px": [
         1369,
         844
@@ -346,6 +350,7 @@
     },
     {
       "name": "Cenote Brick",
+      "written": false,
       "caveId": "-KPZkVFMSKSIvpEgivQo",
       "px": [
         1176,
@@ -354,6 +359,7 @@
     },
     {
       "name": "Cenote Shaky Condo",
+      "written": false,
       "caveId": "-KPZkVPrKkha0SafvQ_Q",
       "px": [
         1271,
@@ -362,6 +368,7 @@
     },
     {
       "name": "Cenote Ballena",
+      "written": false,
       "caveId": "-KPZkVEU5pleoLRFFLeO",
       "px": [
         1166,
@@ -370,6 +377,7 @@
     },
     {
       "name": "Cenote Verde",
+      "written": true,
       "px": [
         919,
         1570
@@ -377,6 +385,7 @@
     },
     {
       "name": "Entrada Murena",
+      "written": true,
       "caveId": "-KPZkVIzDXBDxmqtjY34",
       "px": [
         917,
@@ -385,6 +394,7 @@
     },
     {
       "name": "Entrada Reserva",
+      "written": true,
       "px": [
         859,
         1808
@@ -392,6 +402,7 @@
     },
     {
       "name": "Cenote Ak Kimin",
+      "written": false,
       "caveId": "-KPZkVIolUgS0NOQGC9D",
       "px": [
         771,
@@ -400,6 +411,7 @@
     },
     {
       "name": "Cenote Backdoor",
+      "written": false,
       "px": [
         507,
         2465

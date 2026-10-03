@@ -313,6 +313,7 @@
   "entrances": [
     {
       "name": "Injection Site",
+      "written": false,
       "px": [
         393,
         58
@@ -321,6 +322,7 @@
     },
     {
       "name": "Cenote (black dot, north end of the western loop)",
+      "written": false,
       "px": [
         292,
         91
@@ -329,6 +331,7 @@
     },
     {
       "name": "A (pool on the passage)",
+      "written": false,
       "px": [
         370,
         151
@@ -337,6 +340,7 @@
     },
     {
       "name": "B (passage outlet to the caleta)",
+      "written": false,
       "px": [
         398,
         319
@@ -345,6 +349,7 @@
     },
     {
       "name": "C (stippled pond)",
+      "written": false,
       "px": [
         190,
         412
@@ -353,6 +358,7 @@
     },
     {
       "name": "South-west pool",
+      "written": false,
       "px": [
         60,
         560

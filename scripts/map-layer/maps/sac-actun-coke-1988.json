@@ -892,6 +892,8 @@
     {
       "caveId": "-KPZkVQtjQNGd2uYJeMP",
       "name": "Grand Cenote (Entrada)",
+      "written": true,
+      "knownEntrance": true,
       "px": [
         4000,
         5400
@@ -900,6 +902,7 @@
     {
       "caveId": "-KPZkVK4Mmw4tY9i_ksA",
       "name": "Ho-Tul (Opening)",
+      "written": false,
       "px": [
         3460,
         4000
@@ -908,6 +911,7 @@
     },
     {
       "name": "Opening 1",
+      "written": false,
       "px": [
         2840,
         3995
@@ -916,6 +920,7 @@
     },
     {
       "name": "Opening 2",
+      "written": false,
       "px": [
         3055,
         4040
@@ -923,6 +928,7 @@
     },
     {
       "name": "Opening 3",
+      "written": false,
       "px": [
         3010,
         4318
@@ -930,6 +936,7 @@
     },
     {
       "name": "Opening 4",
+      "written": false,
       "px": [
         3150,
         4410
@@ -937,6 +944,7 @@
     },
     {
       "name": "Opening 5",
+      "written": true,
       "px": [
         3200,
         4790
@@ -945,6 +953,7 @@
     },
     {
       "name": "Opening 6",
+      "written": true,
       "px": [
         3060,
         4968

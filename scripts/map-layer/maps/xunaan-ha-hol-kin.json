@@ -352,6 +352,7 @@
     {
       "caveId": "-KPZkVK7UmAkrxhmzg1b",
       "name": "Hol Kin",
+      "written": false,
       "px": [
         2575,
         3098
@@ -359,6 +360,7 @@
     },
     {
       "name": "CE (unnamed cenote entrance)",
+      "written": true,
       "px": [
         2788,
         3063

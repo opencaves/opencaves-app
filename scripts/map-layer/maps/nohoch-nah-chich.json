@@ -695,6 +695,8 @@
   "entrances": [
     {
       "name": "Nohoch Nah Chich (Nohoch Main Entrance)",
+      "written": true,
+      "knownEntrance": true,
       "caveId": "-KPZkVNge9HQ8UGSwzpG",
       "px": [
         3975,
@@ -703,6 +705,8 @@
     },
     {
       "name": "Pet Cemetery",
+      "written": true,
+      "knownEntrance": true,
       "caveId": "-KPZkVOMZId8yVJJ2Bru",
       "px": [
         1515,
@@ -711,6 +715,7 @@
     },
     {
       "name": "I-Hop Cenote",
+      "written": true,
       "px": [
         1030,
         400
@@ -718,6 +723,7 @@
     },
     {
       "name": "Dinner Hole",
+      "written": true,
       "caveId": "-KPZkVHsEO4Za5qKiDEQ",
       "px": [
         2225,
@@ -726,6 +732,7 @@
     },
     {
       "name": "Far Point Station",
+      "written": false,
       "px": [
         1800,
         1725
@@ -733,6 +740,7 @@
     },
     {
       "name": "unnamed (Nohoch Proper)",
+      "written": true,
       "px": [
         3745,
         1045
@@ -740,6 +748,7 @@
     },
     {
       "name": "Lunas and Sombres",
+      "written": true,
       "caveId": "-KPZkVLyD8i8sTgFS4Xp",
       "px": [
         4065,
@@ -748,6 +757,7 @@
     },
     {
       "name": "Nohoch Peck",
+      "written": true,
       "caveId": "-KPZkVNjugxkUCX5IkTY",
       "px": [
         4345,
@@ -756,6 +766,7 @@
     },
     {
       "name": "Big Don's Cenote",
+      "written": true,
       "caveId": "-KPZkVEnPeU9M1NycyTe",
       "px": [
         4170,
@@ -764,6 +775,7 @@
     },
     {
       "name": "Mike's Mangrove Mudhole",
+      "written": true,
       "caveId": "-KPZkVMX0_IHJwHCx4hz",
       "px": [
         4145,
@@ -772,6 +784,7 @@
     },
     {
       "name": "Dane's Delight",
+      "written": true,
       "caveId": "-KPZkVHjUR4S2dHI6kkM",
       "px": [
         4140,
@@ -780,6 +793,7 @@
     },
     {
       "name": "Reptile Belly",
+      "written": true,
       "caveId": "-KPZkVP0NYjg_UDcD0TR",
       "px": [
         4220,
@@ -788,6 +802,7 @@
     },
     {
       "name": "Sunken Skull",
+      "written": true,
       "caveId": "-KPZkVQKAXoeRM5b4w8E",
       "px": [
         4295,
@@ -796,6 +811,7 @@
     },
     {
       "name": "Red Dog",
+      "written": true,
       "caveId": "-KPZkVOvThWPfffDtOtN",
       "px": [
         4350,
@@ -804,6 +820,7 @@
     },
     {
       "name": "Natural Bridge",
+      "written": true,
       "caveId": "-KPZkVNQF31EaqOK0wbH",
       "px": [
         5005,
@@ -812,6 +829,7 @@
     },
     {
       "name": "Fortress of Solitude",
+      "written": true,
       "caveId": "-KPZkVJdUHDDGLXOjQuQ",
       "px": [
         5150,
@@ -820,6 +838,7 @@
     },
     {
       "name": "Emmanuelle's Mudhole",
+      "written": true,
       "caveId": "-KPZkVInt58pbaoRini1",
       "px": [
         5430,
@@ -828,6 +847,7 @@
     },
     {
       "name": "Burt's Crack House",
+      "written": true,
       "caveId": "-KPZkVFRtl3E7OrCmO4H",
       "px": [
         5430,
@@ -836,6 +856,7 @@
     },
     {
       "name": "Mike's Promise",
+      "written": true,
       "caveId": "-KPZkVM_QFvAz8svsIlb",
       "px": [
         5655,
@@ -844,6 +865,7 @@
     },
     {
       "name": "Chuck's Cenote",
+      "written": true,
       "caveId": "-KPZkVGq38D7hksrAqXz",
       "px": [
         5655,
@@ -852,6 +874,7 @@
     },
     {
       "name": "Mike's Hunch",
+      "written": true,
       "caveId": "-KPZkVMV5ddZoiGV3Yy0",
       "px": [
         5660,
@@ -860,6 +883,7 @@
     },
     {
       "name": "unnamed (near Chuck's Kamakazi Connection)",
+      "written": true,
       "px": [
         5690,
         1435
@@ -867,6 +891,7 @@
     },
     {
       "name": "unnamed (south of Chuck's Kamakazi Connection)",
+      "written": true,
       "px": [
         5690,
         1515
@@ -874,6 +899,7 @@
     },
     {
       "name": "Cenote De Weesh",
+      "written": true,
       "caveId": "-KPZkVHlYrfZVt7jAzk5",
       "px": [
         5855,
@@ -882,6 +908,7 @@
     },
     {
       "name": "Balam Can Chee",
+      "written": true,
       "caveId": "-KPZkVERVV7DGyAS3s8k",
       "px": [
         6050,
@@ -890,6 +917,7 @@
     },
     {
       "name": "unnamed (east of Balam Can Chee)",
+      "written": true,
       "px": [
         6105,
         1300

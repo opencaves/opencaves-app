@@ -360,6 +360,7 @@
     {
       "caveId": "-KPZkVST6SkV2RHx4mj0",
       "name": "Yax Chen",
+      "written": false,
       "px": [
         486,
         184
@@ -369,6 +370,7 @@
     {
       "caveId": "-KPZkVJpIUdD9aCKBIkJ",
       "name": "Gemini",
+      "written": false,
       "px": [
         156,
         84
@@ -377,6 +379,7 @@
     },
     {
       "name": "Gemini (west pool)",
+      "written": false,
       "px": [
         135,
         85
@@ -385,6 +388,7 @@
     {
       "caveId": "-KPZkVLwXHBigu3gnpZd",
       "name": "Luna",
+      "written": false,
       "px": [
         176,
         103
@@ -392,6 +396,7 @@
     },
     {
       "name": "Cenote (blue arc)",
+      "written": false,
       "px": [
         255,
         153
@@ -399,6 +404,7 @@
     },
     {
       "name": "Cenote (long N-S pool)",
+      "written": false,
       "px": [
         309,
         196
@@ -406,6 +412,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         324,
         212
@@ -413,6 +420,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         350,
         206
@@ -420,6 +428,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         384,
         219
@@ -427,6 +436,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         370,
         237
@@ -434,6 +444,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         458,
         219
@@ -441,6 +452,7 @@
     },
     {
       "name": "Cenote (blue arc)",
+      "written": false,
       "px": [
         477,
         109
@@ -448,6 +460,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         119,
         55
@@ -455,6 +468,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         26,
         52
@@ -462,6 +476,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         225,
         123
@@ -469,6 +484,7 @@
     },
     {
       "name": "Cenote",
+      "written": false,
       "px": [
         499,
         137
