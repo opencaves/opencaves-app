@@ -185,6 +185,21 @@ def main(config_path, output):
         # A map drawn over imagery (a satellite screenshot): its own colours,
         # so the drawn lines can be told from the background they sit on.
         overlay = Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGBA').resize(small.size, Image.LANCZOS)
+    elif config.get('colourOverlay'):
+        # "colourOverlay": true - the map in its own colours (a coloured map,
+        # a photo: its fills and shading tell more than its darkest ink),
+        # the paper made transparent - bright and unsaturated, fading in.
+        rgb = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('RGB').resize(small.size, Image.LANCZOS)).astype(numpy.float32)
+        # Measured on a blurred copy: a photo's paper grain and noise
+        # would otherwise leave specks.
+        import cv2
+        smooth = cv2.GaussianBlur(rgb, (0, 0), 2.5)
+        brightness = smooth.mean(axis=2)
+        saturation = smooth.max(axis=2) - smooth.min(axis=2)
+        paper = numpy.clip((brightness - 185) / 30, 0, 1) * numpy.clip((45 - saturation) / 20, 0, 1)
+        alpha = cv2.GaussianBlur((255 * (1 - paper)).astype(numpy.float32), (0, 0), 1)
+        alpha = numpy.where(alpha < 60, 0, alpha).astype(numpy.uint8)
+        overlay = Image.fromarray(numpy.dstack([rgb.astype(numpy.uint8), alpha]), 'RGBA')
     else:
         ink = numpy.asarray(small) < config.get('trace', {}).get('inkLevel', INK_LEVEL)
         rgba = numpy.zeros((*ink.shape, 4), numpy.uint8)

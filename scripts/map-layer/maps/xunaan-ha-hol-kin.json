@@ -367,8 +367,9 @@
       ]
     }
   ],
+  "colourOverlay": true,
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "bandShrinkPx": 11, "bandHoleMaxPx": 200, "wallMarginPx": 8, "bandShrinkWhy": "a photo: the band ended outside the drawn wall line, in its shadow - shrunk back onto it; details kept 8 px from the walls (their dark edge was traced as detail)",
     "water": false,
     "cyanFill": true,
     "threshold": 6,
