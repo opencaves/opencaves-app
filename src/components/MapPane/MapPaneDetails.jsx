@@ -97,7 +97,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
               component={Link}
               to={returnTo}
               disableRipple
-              sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))', marginRight: 'auto' }}
+              sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))', '&&': { marginRight: 'auto' } }}
               className="yarl__button"
             >
               {theme.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardIosRounded />}

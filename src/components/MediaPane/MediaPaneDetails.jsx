@@ -127,7 +127,10 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
               disableRipple
               sx={{
                 color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))',
-                marginRight: 'auto'
+                // Doubled class: the lightbox's own .yarl__button { margin: 0 }
+                // has the same weight, and whichever stylesheet came last won -
+                // the arrow sat on the right, by the other buttons.
+                '&&': { marginRight: 'auto' }
               }}
               className='yarl__button'
             >
