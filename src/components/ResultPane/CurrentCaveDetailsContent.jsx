@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Portal, Slide, Snackbar, Tooltip } from '@mui/material'
-import Close from '@mui/icons-material/Close'
+import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopy'
 import DirectionsOutlined from '@mui/icons-material/DirectionsOutlined'
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
@@ -14,13 +13,13 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { getOS } from '@/utils/getOS.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
-import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 import './CurrentCaveDetailsContent.scss'
 
 // Driving directions to a row's point, at the row's right (in the copy
@@ -40,8 +39,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   const isSmall = useSmall()
 
-  const [snackbarMessage, setSnackbarMessage] = useState()
-  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [openSnackbar] = useSnackbar()
 
   const [addressTooltipOpen, setAddressTooltipOpen] = useState(false)
   const [coordinatesTooltipOpen, setCoordinatesTooltipOpen] = useState(false)
@@ -102,8 +100,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   function handleAddressCopy() {
     setAddressTooltipOpen(false)
-    setSnackbarMessage(t('copiedToClipboard'))
-    setSnackbarOpen(true)
+    confirmCopied()
   }
 
   function handleCoordinatesTooltipOpen() {
@@ -116,8 +113,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   function handleCoordinatesCopy() {
     setCoordinatesTooltipOpen(false)
-    setSnackbarMessage(t('copiedToClipboard'))
-    setSnackbarOpen(true)
+    confirmCopied()
   }
 
   function handleKeyCoordinatesTooltipOpen() {
@@ -130,8 +126,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   function handleKeyCoordinatesCopy() {
     setKeyCoordinatesTooltipOpen(false)
-    setSnackbarMessage(t('copiedToClipboard'))
-    setSnackbarOpen(true)
+    confirmCopied()
   }
 
   function handleEntranceTooltipOpen() {
@@ -144,16 +139,12 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   function handleEntranceCopy() {
     setEntranceTooltipOpen(false)
-    setSnackbarMessage(t('copiedToClipboard'))
-    setSnackbarOpen(true)
+    confirmCopied()
   }
 
-  function handleSnackbarClose(event, reason) {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbarOpen(false)
-    setSnackbarMessage('')
+  // Android (13+) already says the clipboard was written to.
+  function confirmCopied() {
+    if (!isAndroid) openSnackbar(t('copiedToClipboard'), { severity: 'success' })
   }
 
   return (
@@ -232,6 +223,31 @@ export default function CurrentCaveDetailsContent({ cave }) {
           </ListItem>
         )}
 
+        {entranceText && (
+          <CopyToClipboard text={entranceText} placement="bottom-end" onCopy={handleEntranceCopy}>
+            <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.entrance} label={t('directionsToEntrance')} />}>
+              <ConditionalWrapper
+                condition={!isSmall}
+                wrapper={(children) => (
+                  <Tooltip title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
+                    {children}
+                  </Tooltip>
+                )}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <FenceRounded color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary={entranceText} />
+                  <ListItemIcon ref={entranceCopyRef} className="oc-icon-copy-container">
+                    <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
+                  </ListItemIcon>
+                </ListItemButton>
+              </ConditionalWrapper>
+            </ListItem>
+          </CopyToClipboard>
+        )}
+
         {keysTexts &&
           keysTexts.map((keyText, index) => (
             <CopyToClipboard key={keyText} text={keyText} placement="bottom-end" onCopy={handleKeyCoordinatesCopy}>
@@ -257,31 +273,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
               </ListItem>
             </CopyToClipboard>
           ))}
-
-        {entranceText && (
-          <CopyToClipboard text={entranceText} placement="bottom-end" onCopy={handleEntranceCopy}>
-            <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.entrance} label={t('directionsToEntrance')} />}>
-              <ConditionalWrapper
-                condition={!isSmall}
-                wrapper={(children) => (
-                  <Tooltip title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
-                    {children}
-                  </Tooltip>
-                )}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <FenceRounded color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary={entranceText} />
-                  <ListItemIcon ref={entranceCopyRef} className="oc-icon-copy-container">
-                    <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
-                  </ListItemIcon>
-                </ListItemButton>
-              </ConditionalWrapper>
-            </ListItem>
-          </CopyToClipboard>
-        )}
       </List>
 
       {cave.sistemas && cave.sistemas.length > 0 && (
@@ -316,26 +307,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
         </>
       )}
 
-      {!isAndroid && (
-        <Portal>
-          <Snackbar
-            autoHideDuration={SNACKBAR_DEFAULT_AUTO_HIDE_DURATION}
-            message={snackbarMessage}
-            open={snackbarOpen}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            action={
-              <IconButton size="small" color="inherit" onClick={handleSnackbarClose}>
-                <Close />
-              </IconButton>
-            }
-            slots={{ transition: Slide }}
-            slotProps={{ transition: { direction: 'up' } }}
-            onClose={() => {
-              setSnackbarOpen(false)
-            }}
-          />
-        </Portal>
-      )}
     </Box>
   )
 }
