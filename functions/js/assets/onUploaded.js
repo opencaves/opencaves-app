@@ -6,7 +6,7 @@ import { logger } from 'firebase-functions/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER } from '../constants.js'
 import { supportedXMP } from '../config.js'
 
 function supportsXMP(mediaType) {
@@ -74,12 +74,14 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
         fullPath: filePath,
       }
 
+      // Who uploaded it and the file's name aren't public (a name can be a
+      // person's): kept apart, for admins only (cavesAssetsPrivate).
+      const privateData = {}
       if (metadata?.originalName) {
-        assetData.originalName = metadata.originalName
+        privateData.originalName = metadata.originalName
       }
-
       if (metadata?.userId) {
-        assetData.userId = metadata.userId
+        privateData.userId = metadata.userId
       }
 
       logger.log('[onAssetUploaded] Generating resized images')
@@ -167,6 +169,9 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
 
       const docRef = db.collection(CAVES_ASSETS_COLL_NAME).doc(assetData.id)
       await docRef.create(assetData)
+      if (Object.keys(privateData).length) {
+        await db.collection(CAVES_ASSETS_PRIVATE_COLL_NAME).doc(assetData.id).set(privateData)
+      }
     }
   } catch (error) {
     logger.error('[onObjectFinalized] Error: ', error)

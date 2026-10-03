@@ -2,13 +2,15 @@ import { getStorage } from 'firebase-admin/storage'
 import { onDocumentDeleted } from 'firebase-functions/v2/firestore'
 import config from '../resize-images/config.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
 
 export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async event => {
   const snap = event.data
   if (!snap) return
 
   const data = snap.data()
+  // Its private part (uploader, file name) goes with it.
+  await db.collection(CAVES_ASSETS_PRIVATE_COLL_NAME).doc(event.params.assetId).delete()
   const { imageSizes, imageTypes } = config
   const { caveId, fullPath, id: assetId = event.params.assetId, thumbnailRevision } = data
   // Redone copies carry a revision in their name (scripts/fix-photo-orientation.js).

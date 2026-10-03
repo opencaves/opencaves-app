@@ -20,6 +20,11 @@ service cloud.firestore {
     // Photo records: created and filled by the server (onAssetUploaded, Admin
     // SDK - these rules don't apply to it). Editors may only change which
     // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
+    // A photo's uploader and original file name (onAssetUploaded): admins only.
+    match /cavesAssetsPrivate/{document} {
+      allow read: if isAdmin()
+    }
+
     match /cavesAssets/{document} {
       allow read: if true
       allow update: if isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])

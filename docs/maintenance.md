@@ -39,6 +39,21 @@ prints each group of problems with what to do about it:
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
+## Keep the photos' uploaders private
+
+A photo's record (`cavesAssets`) is public; who uploaded it and the file's
+original name (which can be a person's) are kept apart, in
+`cavesAssetsPrivate/{assetId}`, which only admins can read. New uploads are
+stored this way. Older records were moved with:
+
+```
+node scripts/move-photo-private-fields.js -l            # dry run: counts them
+node scripts/move-photo-private-fields.js -l --write    # moves them
+```
+
+`-p` instead of `-l` for production. A photo's GPS position stays public, by
+design.
+
 ## Sync the database from the Google Sheet
 
 ```

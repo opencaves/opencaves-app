@@ -51,7 +51,9 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const mediasPath = location.pathname.replace(/[^/]+$/, '')
   const slides = useMemo(() => medias.docs.map(doc => {
     const media = doc.data()
-    const { id, url, usePanoramaViewer, originalName: filename } = media
+    const { id, url, usePanoramaViewer, mediaType } = media
+    // Not the uploaded file's name: it isn't public (cavesAssetsPrivate).
+    const filename = `opencaves-${id}.${(mediaType || 'image/jpeg').split('/')[1].replace('jpeg', 'jpg')}`
     const slide = {
       mediaId: id,
       type: usePanoramaViewer ? 'panorama' : 'image',
