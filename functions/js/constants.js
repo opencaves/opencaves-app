@@ -9,3 +9,9 @@ export const RATINGS_COLL_NAME = 'ratings'
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'
 export const THUMBNAILS_FOLDER = 'thumbnails'
+
+// The callable functions refuse calls without a valid App Check token (see
+// docs/app-check.md). Turn on only once the app sends tokens (its reCAPTCHA
+// site key set and deployed) and App Check's metrics show nearly all calls
+// verified - before that, it locks the app out.
+export const ENFORCE_APP_CHECK = false

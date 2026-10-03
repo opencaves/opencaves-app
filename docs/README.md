@@ -17,3 +17,6 @@ the project.
   map author's conventions.
 - [Importing cave photos](photos-import.md): bulk-import cave photos from the
   `_data` folder and attach them to their caves.
+- [App Check](app-check.md): letting only the app itself use Firestore,
+  Storage and the functions - registering it, watching its metrics, then
+  enforcing it.

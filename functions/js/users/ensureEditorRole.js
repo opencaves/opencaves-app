@@ -1,9 +1,9 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { auth } from '../init.js'
-import { REGION } from '../constants.js'
+import { ENFORCE_APP_CHECK, REGION } from '../constants.js'
 import { hasVerifiedEmail } from './verifiedEmail.js'
 
-export const ensureEditorRole = onCall({ region: REGION }, async request => {
+export const ensureEditorRole = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   const uid = request.auth?.uid
 
   if (!uid) {

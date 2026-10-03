@@ -1,7 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { REGION, USERS_COLL_NAME } from '../constants.js'
+import { ENFORCE_APP_CHECK, REGION, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 
 const ASSIGNABLE_ROLES = ['editor', 'admin']
@@ -28,7 +28,7 @@ async function listAllAuthUsers() {
   return users
 }
 
-export const listUsers = onCall({ region: REGION }, async request => {
+export const listUsers = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const users = await listAllAuthUsers()
@@ -50,7 +50,7 @@ export const listUsers = onCall({ region: REGION }, async request => {
   }
 })
 
-export const setUserRoles = onCall({ region: REGION }, async request => {
+export const setUserRoles = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const { uid, roles } = request.data ?? {}
@@ -128,7 +128,7 @@ async function emailAccount(user, emails) {
 // current ID token still works until it expires (up to an hour), then it
 // signs in again without them. Unfreezing gives its roles back. The account
 // is told both times by email.
-export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] }, async request => {
+export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 
   const { uid, frozen } = request.data ?? {}
@@ -165,7 +165,7 @@ export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] 
   return { frozen: false, roles: restored, emailed }
 })
 
-export const deleteUser = onCall({ region: REGION }, async request => {
+export const deleteUser = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const { uid } = request.data ?? {}

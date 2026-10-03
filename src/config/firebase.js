@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, connectAuthEmulator, getAuth, getRedirectResult, indexedDBLocalPersistence, initializeAuth, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
@@ -12,6 +13,18 @@ import { savePendingLink } from '../services/pendingLink.js'
 
 // Initialize Firebase
 const app = initializeApp(FIREBASE_CONFIG)
+
+// App Check: Firestore, Storage and the functions can then refuse requests
+// that don't come from this app (scripts calling the APIs directly). Its
+// reCAPTCHA v3 site key is created in the Firebase console (App Check); none
+// set, it stays off. Not on localhost: the emulators don't check it.
+// eslint-disable-next-line no-restricted-globals
+if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && location.hostname !== 'localhost') {
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+    isTokenAutoRefreshEnabled: true,
+  })
+}
 
 const FUNCTIONS_REGION = FIREBASE_CONFIG.location || 'northamerica-northeast1'
 export const functions = getFunctions(app, FUNCTIONS_REGION)
