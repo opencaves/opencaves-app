@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { Alert, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
-import { SnackbarContent, UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
-import { UPLOAD_COMPLETE_HIDE_DURATION } from '@/config/mediaPane.js'
+import { UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { storage } from '@/config/firebase.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -22,12 +22,11 @@ export function useMapUpload() {
   const [progress, setProgress] = useState(0)
   const [current, setCurrent] = useState(null)
   const [error, setError] = useState(null)
-  const [success, setSuccess] = useState(null)
+  const [openSnackbar] = useSnackbar()
 
   async function uploadMap(file, { title, authors = [], date, note } = {}) {
     if (!file) return null
     setError(null)
-    setSuccess(null)
     if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
       setError('invalidMapFile')
       return null
@@ -62,7 +61,7 @@ export function useMapUpload() {
       }
 
       setProgress(100)
-      setSuccess(t(isPdf ? 'uploadSuccessPdf' : 'uploadSuccess', { count: 1 }))
+      openSnackbar(t(isPdf ? 'uploadSuccessPdf' : 'uploadSuccess', { count: 1 }), { severity: 'success' })
     } catch (cause) {
       console.error(cause)
       setError('uploadError')
@@ -74,10 +73,11 @@ export function useMapUpload() {
     return uploadedMap
   }
 
-  return { uploadMap, uploading, progress, current, error, success, clearError: () => setError(null) }
+  return { uploadMap, uploading, progress, current, error, clearError: () => setError(null) }
 }
 
-export default function MapUploadFeedback({ uploading, progress, current, error, success, clearError }) {
+// The upload's progress and its error; its success is the shared snackbar's.
+export default function MapUploadFeedback({ uploading, progress, current, error, clearError }) {
   const { t } = useTranslation('mapsPicker')
 
   return (
@@ -89,13 +89,6 @@ export default function MapUploadFeedback({ uploading, progress, current, error,
         <ErrorAlert open={true} onClose={clearError} header={t('uploadErrorHeader')} dismissLabel={t('dismiss')}>
           <Typography color="text.secondary">{t(error)}</Typography>
         </ErrorAlert>
-      )}
-      {success && (
-        <Snackbar open={true} autoHideDuration={UPLOAD_COMPLETE_HIDE_DURATION}>
-          <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
-            <Alert>{success}</Alert>
-          </SnackbarContent>
-        </Snackbar>
       )}
     </>
   )

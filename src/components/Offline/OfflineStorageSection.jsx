@@ -51,7 +51,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
       // Otherwise the next sync would download everything right back.
       setOfflinePreviewsEnabled(false)
       await clearOfflineMedia()
-      openSnackbar(t('cleared'))
+      openSnackbar(t('cleared'), { severity: 'success' })
     } catch (error) {
       console.error(error)
       openSnackbar(t('clearError'))

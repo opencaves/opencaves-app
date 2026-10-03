@@ -81,7 +81,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const [editingMap, setEditingMap] = useState(null)
-  const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
+  const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
   const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
   const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id: value, sistemaId: ownerId }) => {
     const file = mapFiles.find((map) => map.id === value)
@@ -185,7 +185,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
             </Typography>
           )}
           <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
-          <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} success={success} clearError={clearError} />
+          <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
         </>
       )}
 

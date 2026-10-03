@@ -167,7 +167,7 @@ export default function QuickActions({ cave }) {
     // Its offline download (OfflineMediaSync) is held back without a
     // connection or on cellular - say so rather than implying it's ready.
     const savedMessage = !offlineSupported ? t('savedMessage') : !navigator.onLine ? t('savedDownloadWhenOnline') : isMeteredConnection() ? t('savedDownloadOnWifi') : t('savedMessage')
-    openSnackbar(saved ? t('unsavedMessage') : savedMessage)
+    openSnackbar(saved ? t('unsavedMessage') : savedMessage, { severity: 'success' })
     write.catch((error) => {
       console.error(error)
       openSnackbar(t('saveError'))

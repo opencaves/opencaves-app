@@ -11,7 +11,6 @@ import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
-import Message from '@/components/Message.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
@@ -48,7 +47,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
     onClose()
     try {
       await signOut(auth)
-      openSnackbar(<Message message={t('logoutSuccess')} />)
+      openSnackbar(t('logoutSuccess'), { severity: 'success' })
     } catch (error) {
       console.error(error)
     }

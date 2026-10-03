@@ -46,7 +46,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
   const isSmall = useSmall()
   const [maps] = mapsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
-  const { uploadMap, uploading, progress, current, error, success, clearError } = useMapUpload()
+  const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const open = Boolean(anchorEl)
@@ -184,7 +184,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
           </>
         )}
       </Menu>
-      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} success={success} clearError={clearError} />
+      <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
     </Box>
   )
 }

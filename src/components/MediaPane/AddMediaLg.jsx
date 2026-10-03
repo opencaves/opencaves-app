@@ -49,7 +49,7 @@ export default function AddMediaLg() {
   useEffect(() => {
     if (done) {
       setFiles([])
-      openSnackbar(<Message message={t('success', { count: done.count })} />)
+      openSnackbar(t('success', { count: done.count }), { severity: 'success', autoHide: true })
       return
     }
   }, [done, error, t, openSnackbar])

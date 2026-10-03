@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { Alert, Box, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Chip, LinearProgress, Typography, useTheme } from '@mui/material'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Grid } from '@mui/material'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
@@ -10,7 +10,8 @@ import { useUploadCaveImages } from './useUploadCaveImages.jsx'
 import PhotoGpsCheckDialog from './PhotoGpsCheckDialog.jsx'
 import { photosFarFromCave } from '@/utils/photoGps.js'
 import { APP_NAME } from '@/config/app.js'
-import { UPLOAD_COMPLETE_HIDE_DURATION, UPLOADING_DONE_HIDE_DELAY } from '@/config/mediaPane.js'
+import { UPLOADING_DONE_HIDE_DELAY } from '@/config/mediaPane.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
@@ -18,8 +19,8 @@ export default function UploadMedias({ medias, caveId }) {
   const [_medias, setMedias] = useState([])
   const { uploadCaveImages, current, progress, done, error } = useUploadCaveImages(caveId)
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
+  const [openSnackbar] = useSnackbar()
   const [uploading, setUploading] = useState(false)
-  const [uploadComplete, setUploadComplete] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
   // The cave the photos go to: its coordinates (position, entrance, key), for the GPS check.
@@ -81,23 +82,17 @@ export default function UploadMedias({ medias, caveId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_medias])
 
+  // Done: the progress snackbar goes, the shared one confirms (green check).
   useEffect(() => {
     if (isDone) {
       setTimeout(() => {
-        setUploadComplete(true)
         setUploading(false)
+        setIsDone(false)
+        openSnackbar(t('success', { count: done?.count ?? 0 }), { severity: 'success' })
       }, UPLOADING_DONE_HIDE_DELAY)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDone])
-
-  useEffect(() => {
-    if (uploadComplete) {
-      setIsDone(false)
-      setTimeout(() => {
-        setUploadComplete(false)
-      }, UPLOAD_COMPLETE_HIDE_DURATION)
-    }
-  }, [uploadComplete])
 
   useEffect(() => {
     setErrorAlertOpen(error)
@@ -124,13 +119,6 @@ export default function UploadMedias({ medias, caveId }) {
         </ErrorAlert>
       )}
 
-      {done && (
-        <Snackbar className="oc-upload-medias--complete" open={uploadComplete} autoHide={false}>
-          <SnackbarContent sx={{ flexGrow: 0, minWidth: 'unset' }}>
-            <Alert>{t('success', { count: done.count })}</Alert>
-          </SnackbarContent>
-        </Snackbar>
-      )}
     </>
   )
 }
@@ -253,28 +241,6 @@ export const UploadInfo = forwardRef((props, ref) => {
           </Typography>
         </CardContent>
       </Grid>
-    </Card>
-  )
-})
-
-export const SnackbarContent = forwardRef((props, ref) => {
-  const { children, sx, ...otherProps } = props
-  return (
-    <Card
-      ref={ref}
-      elevation={6}
-      sx={{
-        flexGrow: 1,
-        display: 'flex',
-        minWidth: {
-          sm: 444,
-        },
-        ...sx,
-      }}
-      {...otherProps}
-      className={`oc-snackbar-content ${otherProps.className || ''}`.trim()}
-    >
-      {children}
     </Card>
   )
 })

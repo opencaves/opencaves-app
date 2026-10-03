@@ -22,7 +22,7 @@ export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
 
       await mediaAsset.setAsCoverImage()
 
-      openSnackbar(t('useAsCoverSuccess'))
+      openSnackbar(t('useAsCoverSuccess'), { severity: 'success' })
 
     } catch (error) {
       console.error(error)
