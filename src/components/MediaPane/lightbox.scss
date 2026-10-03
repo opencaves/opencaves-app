@@ -119,16 +119,10 @@
   }
 }
 
-.oc-media-viewer-wrapper {
-  // height: 100%;
-  // width: 100%;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-}
-
-.oc-media-viewer-content {
-  // height: 100%;
+// The photo's <picture> fills the zoom content, its <img> fitted inside.
+.oc-media-viewer-content .oc-picture {
+  width: 100%;
+  height: 100%;
 }
 
 // The photo and map viewers: the picture can be dragged (to the next one,

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
@@ -51,34 +51,18 @@ function PanoViewer({ src }) {
   )
 }
 
+// The photo fills the pane, fitted inside it (object-fit: contain): centred
+// whatever its shape or the window's - the zoom content is the whole pane.
 function PictureViewer({ media }) {
-  const viewport = {
-    width: window.innerWidth,
-    height: window.innerHeight
-  }
-
-  const initialY = (window.innerHeight / 2)
-
-  function onInit(reactZoomPanPinchRef) {
-    // reactZoomPanPinchRef.centerView(1, 0)
-    reactZoomPanPinchRef.setTransform(0, 200, 1)
-  }
-
   return (
-    <TransformWrapper
-      onInit={onInit}
-      limitToBounds={true}
-    // initialPositionY={initialY}
-    >
+    <TransformWrapper limitToBounds={true}>
       <TransformComponent
         wrapperClass='oc-media-viewer oc-media-viewer-wrapper'
         contentClass='oc-media-viewer-content'
-        wrapperStyle={{
-          width: '100%',
-          height: '100%',
-        }}
+        wrapperStyle={{ width: '100%', height: '100%' }}
+        contentStyle={{ width: '100%', height: '100%' }}
       >
-        <Picture sources={media.sources} width='100%' height='100%' />
+        <Picture sources={media.sources} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </TransformComponent>
     </TransformWrapper>
   )
