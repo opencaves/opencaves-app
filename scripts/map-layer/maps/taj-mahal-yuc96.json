@@ -273,7 +273,7 @@
       ]
     ],
     "outlineAreas": [
-      {
+      {"why": "the two narrow passages from C9 down to C8: each drawn as two walls only ~3 px apart, whose ink fuses (the centreline crossed itself) - each traced along its outer edges; open at the box ends, where they run on", "box": [1630, 1690, 1830, 1888], "openEnds": true}, {
         "why": "Sagrada's hatched collapse: a solid band, traced along its outer edge (SW part)",
         "box": [
           1100,

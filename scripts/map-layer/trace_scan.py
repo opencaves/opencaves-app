@@ -1107,10 +1107,32 @@ def thin_walls(config_path, config, out, name):
         if len(contour) < 4 or cv2.arcLength(contour, True) * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
             continue
         points = [tuple(p) for p in contour[:, 0, :].astype(float)]
-        line = smooth(LineString(points + points[:1])).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
-        cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 200), 2)
-        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
-                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
+        # "openEnds": true on an outline area - the passage runs on past its
+        # box: the band's outline along the box's edge isn't a wall.
+        cut = [any(a.get('openEnds') and a['box'][0] <= x <= a['box'][2] and a['box'][1] <= y <= a['box'][3]
+                   and min(x - a['box'][0], a['box'][2] - 1 - x, y - a['box'][1], a['box'][3] - 1 - y) <= 1
+                   for a in trace.get('outlineAreas', [])) for x, y in points]
+        if any(cut) and not all(cut):
+            start = cut.index(True)
+            order, flags = points[start:] + points[:start], cut[start:] + cut[:start]
+            runs, current = [], []
+            for q, f in zip(order, flags):
+                if not f:
+                    current.append(q)
+                elif current:
+                    runs.append(current)
+                    current = []
+            if current:
+                runs.append(current)
+        else:
+            runs = [points + points[:1]] if not any(cut) else []
+        for run in runs:
+            if len(run) < 4:
+                continue
+            line = smooth(LineString(run)).simplify(trace.get('wallSimplifyMetres', 0.5) / scale)
+            cv2.polylines(review, [numpy.array(line.coords, numpy.int32)], False, (0, 0, 200), 2)
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'wall', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                             'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
     # "arianneLines": [[[x, y], ...]] - Arianne lines drawn by hand from the
     # scan, where the map's own line is lost among other lines.
     for line in trace.get('arianneLines', []):
