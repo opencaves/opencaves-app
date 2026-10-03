@@ -73,12 +73,12 @@ function cavePageHtml(shell, cave, id) {
   const head = [
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}" />`,
-    `<link rel="canonical" href="${url}" />`,
+    `<link rel="canonical" href="${escapeHtml(url)}" />`,
     `<meta property="og:type" content="place" />`,
     `<meta property="og:site_name" content="${APP_TITLE}" />`,
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
-    `<meta property="og:url" content="${url}" />`,
+    `<meta property="og:url" content="${escapeHtml(url)}" />`,
   ].join('\n  ')
 
   const body = [
@@ -100,12 +100,26 @@ function cavePageHtml(shell, cave, id) {
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
 }
 
+// A cave id as the app makes them (push ids): anything else is no cave - and
+// can't carry markup into the page.
+const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
+// The hosts whose index.html may serve as the page: the site and this
+// project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
+const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[-a-z0-9]+)?\.(web\.app|firebaseapp\.com))$/
+
 export const cavePage = onRequest({ region: REGION }, async (req, res) => {
-  const id = decodeURIComponent((req.path.match(/^\/map\/([^/]+)\/?$/) || [])[1] || '')
+  let id = ''
+  try {
+    id = decodeURIComponent((req.path.match(/^\/map\/([^/]+)\/?$/) || [])[1] || '')
+  } catch {
+    id = ''
+  }
+  if (!CAVE_ID_PATTERN.test(id)) id = ''
   // The served site's own index.html (a preview channel has its own build);
-  // the production one when called directly (the emulator).
-  const host = req.get('x-forwarded-host') || req.hostname
-  const origin = /^(localhost|127\.0\.0\.1)/.test(host) ? SITE_URL : `https://${host}`
+  // the production one when called directly (the emulator) or from any other
+  // host (a forged X-Forwarded-Host must not choose where the page comes from).
+  const host = (req.get('x-forwarded-host') || req.hostname || '').toLowerCase()
+  const origin = ALLOWED_HOST_PATTERN.test(host) ? `https://${host}` : SITE_URL
   let shell
   try {
     shell = await shellFor(origin)
