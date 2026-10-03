@@ -100,6 +100,8 @@ def map_name(row):
     if row.get('stampName') and not NOT_A_NAME.match(row['stampName'].strip()):
         return row['stampName']
     stem = Path(row['source'].split('#')[-1]).stem
+    # Underscores in file names stand for spaces ("Cenote Chi Keen_map").
+    stem = re.sub(r'\s+', ' ', stem.replace('_', ' '))
     stem = re.sub(r'\s*\(\d+\)$', '', stem)
     # Archive file names: "Name, Type., Place" -> "Name".
     if ', ' in stem:
