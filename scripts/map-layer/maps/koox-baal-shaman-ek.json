@@ -13,7 +13,7 @@
   "utmEpsg": 32616,
   "placementNote": "The same drawing as the SW part of the K'oox Baal map (koox-baal.json), at 1.5 times its resolution: SIFT matching of the two scans (758 inlier features, 1.8 px median residual on the K'oox Baal scan) gives scale 0.6591, rotation 0.15 deg; the control points are spots of this map put through that match and the K'oox Baal placement (scale bar, north up, 9 cenote labels). This map's own scale bar (200 m = 519 px, 0.385 m/px) is 1.2% shorter than the fit (0.390 m/px); the match to the whole map was kept.",
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "wallMarginPx": 10, "wallMarginWhy": "as Chun Che Chen: the walls' dark stroke and grey inner shading were traced as detail along every wall", "wallCentres": true, "strokePx": 13, "wallCentresWhy": "the band, grown to reach the wall ink, ended past the black stroke's outer edge: the walls are the stroke's centreline instead",
     "threshold": 8,
     "minBandSqMetres": 8,
     "excludeColours": [

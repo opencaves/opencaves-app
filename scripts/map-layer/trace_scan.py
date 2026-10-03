@@ -2069,7 +2069,10 @@ def main(config_path, output):
             # Every other ink near the walls is detail: on such maps the band
             # doesn't fill wide passages, so "inside" can't be trusted.
             near = cv2.distanceTransform((~wall_ink).astype(numpy.uint8), cv2.DIST_L2, 5) * scale <= trace.get('detailReachMetres', 25)
-            inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), numpy.ones((5, 5), numpy.uint8)) > 0)
+            # Kept back from the wall ink by "wallMarginPx" when set (a wall's
+            # shading beside its stroke isn't detail), else 2 px.
+            margin = 2 * trace.get('wallMarginPx', 2) + 1
+            inside = near & ~(cv2.dilate(wall_ink.astype(numpy.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (margin, margin))) > 0)
         # "water": false - the passages aren't filled, only their walls drawn.
         water = band > 0 if trace.get('method') == 'colour-fill' and trace.get('water', True) else None
         # "waterPolygons": [[[x, y], ...]] - the water fill only there (a
