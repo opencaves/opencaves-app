@@ -32,7 +32,9 @@ export default function Sistema({ sistemaHistory }) {
               <CaveSystemIcon className="oc-cave-system-icon" style={{ color: currentSistema.color ?? SISTEMA_DEFAULT_COLOR }} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <Typography variant="caveDetailsItemText" component="div">
+              {/* Not grown to the icon's height (the variant's flex): its line
+                  would sit at the top, above the icon and the arrow. */}
+              <Typography variant="caveDetailsItemText" component="div" sx={{ flex: 'none' }}>
                 {t2('sistema', { system: currentSistema.name })}
               </Typography>
               {currentSistema.createdAt && (
