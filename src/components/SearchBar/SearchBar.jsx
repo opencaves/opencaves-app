@@ -91,20 +91,34 @@ const indexOptions = {
   },
 }
 
+// The snippets are HTML (rendered with dangerouslySetInnerHTML, for the
+// <mark>s): every piece of the cave's own text is escaped, only the matches
+// wrapped - a cave's name or alias can't inject markup into the page.
+const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+const escapeRegExp = (text) => String(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+// regexp: one capturing group around the search term, so split() keeps the matches.
+function highlight(text, regexp) {
+  return String(text)
+    .split(regexp)
+    .map((part, index) => (index % 2 ? `<mark>${escapeHtml(part)}</mark>` : escapeHtml(part)))
+    .join('')
+}
+
 function markHints(result, searchTerm) {
   const hints = {}
-  const regexp = new RegExp(`(${searchTerm})`, 'gi')
+  const regexp = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi')
 
   result.terms.forEach((term) => {
     result.match[term].forEach((field) => {
       const value = result[field]
 
       if (typeof value === 'string') {
-        hints[field] = value.replace(regexp, '<mark>$1</mark>')
+        hints[field] = highlight(value, regexp)
       } else if (Array.isArray(value)) {
         const markedValue = value.reduce((items, v) => {
           if (v.toLowerCase().includes(term)) {
-            items.push(v.replace(regexp, '<mark>$1</mark>'))
+            items.push(highlight(v, regexp))
           }
           return items
         }, [])
@@ -120,10 +134,10 @@ function markHints(result, searchTerm) {
 // split an ID on its punctuation), shaped like index results. Their snippet
 // shows the ID with the matched part marked.
 function searchIds(caves, searchTerm) {
-  const regexp = new RegExp(`(${searchTerm.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+  const regexp = new RegExp(`(${escapeRegExp(searchTerm.trim())})`, 'gi')
   return caves
     .filter((cave) => matchesId(cave.id, searchTerm))
-    .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: cave.id.replace(regexp, '<mark>$1</mark>') } }))
+    .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: highlight(cave.id, regexp) } }))
 }
 
 const ActionButton = styled(IconButton)({
