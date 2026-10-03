@@ -12,7 +12,7 @@
   "sistemaId": "-KPZgfwMz8Euzm1BP2BZ",
   "utmEpsg": 32616,
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "water": false, "wallMarginPx": 10, "wallMarginWhy": "as Chun Che Chen and Shaman Ek: the walls' dark stroke and grey inner shading were traced as detail along every wall", "wallCentres": true, "strokePx": 13, "wallCentresWhy": "as Shaman Ek: the grown band ended past the black stroke's outer edge - the walls are the stroke's centreline",
     "threshold": 8,
     "minBandSqMetres": 8,
     "excludeColours": [
