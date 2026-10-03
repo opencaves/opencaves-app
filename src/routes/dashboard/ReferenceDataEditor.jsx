@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
 import Add from '@mui/icons-material/Add'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -58,6 +59,8 @@ export default function ReferenceDataEditor() {
   const [model] = useState(() => createCollectionModel(collectionName))
   const [items, loading] = model.useAll()
   const [deleteTarget, setDeleteTarget] = useState(null)
+  // Deleting reference data: admins only (as in firestore.rules).
+  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const sortedItems =
     collectionName === 'colors'
       ? [...items].sort((first, second) => {
@@ -123,9 +126,11 @@ export default function ReferenceDataEditor() {
                   <IconButton size="large" onClick={() => navigate(`${item.id}/edit`)} aria-label={t('edit')}>
                     <Edit />
                   </IconButton>
-                  <IconButton size="large" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
-                    <Delete />
-                  </IconButton>
+                  {isAdmin && (
+                    <IconButton size="large" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
+                      <Delete />
+                    </IconButton>
+                  )}
                 </Box>
               }
             >

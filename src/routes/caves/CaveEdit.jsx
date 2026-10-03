@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -107,6 +108,8 @@ export default function CaveEdit() {
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  // Deleting a cave: admins only (as in firestore.rules).
+  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   // Kept around only to diff nameTranslations on save (see handleSave) -
   // setDoc's merge:true merges nested maps key-by-key, so a language
   // dropped from the form needs an explicit deleteField() sentinel to
@@ -429,10 +432,12 @@ export default function CaveEdit() {
       </Box>
 
       <StickyActionBar gap={1}>
-        {!isNew && (
+        {!isNew && isAdmin ? (
           <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
           </Button>
+        ) : (
+          <Box sx={{ mr: 'auto' }} />
         )}
         <Button onClick={() => navigate('/caves')} disabled={saving}>
           {t('cancel')}

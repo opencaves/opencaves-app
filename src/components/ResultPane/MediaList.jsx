@@ -24,7 +24,8 @@ function getProp(which, theme) {
 
 export default function MediaList({ caveId, editable = false, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const canDelete = useSelector((state) => state.session.roles.includes('editor'))
+  // Deleting a photo: admins only (as in firestore.rules).
+  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)

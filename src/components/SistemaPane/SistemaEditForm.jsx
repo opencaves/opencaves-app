@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { Box, Button, Divider, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -129,6 +130,7 @@ const emptyForm = {
 // can be confirmed first). showMapPreview adds a map beside the location
 // fields, for the standalone page (the pane already has the map behind it).
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange, showMapPreview = false }) {
+  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   // Length and depth are stored in metres, shown and entered in the person's units.
   const units = useUnits()
@@ -439,7 +441,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
       </Grid>
 
       <StickyActionBar gap={1.5}>
-        {!isNew && (
+        {/* Deleting a system is for admins (firestore.rules). */}
+        {!isNew && isAdmin && (
           <Button color="error" onClick={handleDelete} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
           </Button>

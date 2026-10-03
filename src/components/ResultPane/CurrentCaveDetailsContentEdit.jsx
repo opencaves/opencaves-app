@@ -55,6 +55,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const isSmall = useSmall()
   // The map's "place on map" mode takes over the screen: no Save bar then.
   const placingOnMap = useSelector((state) => !!state.map.placeOnMap)
+  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
@@ -259,9 +260,14 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           : { display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }
       }
     >
-      <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
-        {t('delete')}
-      </Button>
+      {/* Deleting a cave is for admins (firestore.rules). */}
+      {isAdmin ? (
+        <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
+          {t('delete')}
+        </Button>
+      ) : (
+        <Box sx={{ mr: 'auto' }} />
+      )}
       {/* Saving stays in edit mode; with nothing (left) to save, the main
           button leaves it - Cancel only while there are changes to drop. */}
       {isDirty && (
