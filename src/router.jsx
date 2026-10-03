@@ -336,6 +336,13 @@ const routes = [
               {
                 path: 'maps/:mapId?',
                 lazy: () => import('@/components/MapPane/MapPane.jsx').then(({ default: Component, mapPaneLoader: loader }) => ({ Component, loader })),
+                children: [
+                  {
+                    // The map's Edit dialog, over its viewer.
+                    path: 'edit',
+                    ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')),
+                  },
+                ],
               },
               {
                 path: 'sistemas',

@@ -772,6 +772,7 @@
     "explorationDateHint": "Date à laquelle cette exploration a eu lieu."
   },
   "mapsPicker": {
+    "close": "Fermer",
     "addMap": "Ajouter une carte",
     "removeMap": "Supprimer cette carte",
     "originalFile": "Fichier original",

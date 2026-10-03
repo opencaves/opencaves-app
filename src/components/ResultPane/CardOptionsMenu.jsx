@@ -7,7 +7,8 @@ import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 // media/map/video card) opening a menu of actions - replaces what used to
 // be a row of always-visible icon buttons, so a card's overlay chrome stays
 // to one control no matter how many actions it has.
-export default function CardOptionsMenu({ ariaLabel, actions }) {
+// sx: the trigger's placement on a card with a title bar (centred on it).
+export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -26,9 +27,12 @@ export default function CardOptionsMenu({ ariaLabel, actions }) {
           position: 'absolute',
           top: 4,
           right: 4,
+          // Above a card's title bar, which it sits on.
+          zIndex: 2,
           color: 'common.white',
           bgcolor: open ? 'rgba(0, 0, 0, 0.75)' : 'transparent',
           '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.75)' },
+          ...sx,
         }}
       >
         <MoreVertRounded fontSize="small" />

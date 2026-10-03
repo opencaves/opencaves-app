@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link, resolvePath, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -13,7 +12,6 @@ import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import EditMapDialog from '@/components/MapsPicker/EditMapDialog.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
 import MapPaneMenu from './MapPaneMenu.jsx'
 import 'yet-another-react-lightbox/styles.css'
@@ -27,9 +25,13 @@ const Main = styled('main')(({ theme }) => ({
   display: 'flex',
 }))
 
+// Zoom up to this many screen pixels per pixel of the map's image.
+const MAP_MAX_ZOOM_PIXEL_RATIO = 20
+
 // Mirrors MediaPaneDetails.jsx: the same Lightbox (with its Zoom plugin,
 // replacing the hand-rolled zoom/pan built for the upload dialog - here the
 // map is already uploaded, so the library's own viewer is the right tool).
+
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
@@ -37,7 +39,6 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
   const navigate = useNavigate()
   const location = useLocation()
   const theme = useTheme()
-  const [editingMap, setEditingMap] = useState(null)
 
   if (!currentMap) {
     return (
@@ -78,7 +79,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
 
   function Menu({ augment }) {
     augment(({ toolbar, ...rest }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => setEditingMap(currentMap)} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} />),
       ...rest,
     }))
   }
@@ -112,7 +113,10 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
         inline={{ style: { width: '100%' } }}
         styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}
         // scrollToZoom: the mouse wheel zooms the map instead of scrolling the pane.
-        zoom={{ maxZoomPixelRatio: 5, doubleTapDelay: 300, doubleClickDelay: 300, scrollToZoom: true }}
+        // maxZoomPixelRatio: how far past the image's own pixels it zooms - far,
+        // for a map's small print and for vector (SVG) maps, whose stated size
+        // is small but which stay sharp at any zoom.
+        zoom={{ maxZoomPixelRatio: MAP_MAX_ZOOM_PIXEL_RATIO, doubleTapDelay: 300, doubleClickDelay: 300, scrollToZoom: true }}
         render={{
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
@@ -123,7 +127,6 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
         noScroll={{ disabled: true }}
         on={{ view: onView }}
       />
-      <EditMapDialog map={editingMap} onClose={() => setEditingMap(null)} />
     </Main>
   )
 }

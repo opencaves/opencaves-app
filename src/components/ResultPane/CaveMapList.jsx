@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -13,7 +13,6 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
 import AuthorsField from '@/components/MapsPicker/AuthorsField.jsx'
 import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
-import EditMapDialog from '@/components/MapsPicker/EditMapDialog.jsx'
 import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -26,7 +25,13 @@ import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 const mapsModel = createCollectionModel('maps')
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
-function MapPreview({ caveId, map, index, returnTo }) {
+// The title bar over a map's thumbnail: a caption line and its padding. The
+// options menu sits on it, as tall as it and centred.
+const TITLE_BAR_PY = 0.5
+const TITLE_BAR_HEIGHT = 'calc(0.75rem * 1.66 + 8px)'
+const TITLE_BAR_MENU_SX = { top: 0, right: 4, height: TITLE_BAR_HEIGHT, width: TITLE_BAR_HEIGHT, p: 0 }
+
+function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [failed, setFailed] = useState(false)
   const { file } = map
@@ -46,9 +51,13 @@ function MapPreview({ caveId, map, index, returnTo }) {
           left: 0,
           right: 0,
           px: 1,
-          py: 0.5,
+          py: TITLE_BAR_PY,
+          // Room at the right for the options menu, when it's there.
+          pr: menu ? 5 : 1,
           color: 'common.white',
           bgcolor: 'rgba(0, 0, 0, 0.6)',
+          // Over the thumbnail's outline: along the title, the edge is its colour.
+          zIndex: 1,
         }}
       >
         {file?.name || t('openMap')}
@@ -80,7 +89,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const fileInputRef = useRef()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
-  const [editingMap, setEditingMap] = useState(null)
+  const navigate = useNavigate()
   const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
   const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
   const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id: value, sistemaId: ownerId }) => {
@@ -156,14 +165,19 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
           <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>
             <Box sx={{ display: 'flex', gap: `${ASSETS_LIST_CONFIG.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               {selectedMaps.map((map, index) => (
-                <Box key={`${map.value}-${index}`} sx={{ position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden' }}>
-                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} />
+                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item"
+                  sx={(theme) => ({
+                    position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden',
+                    // A thin outline over the picture's edge (not around it: the size stays).
+                    '&::after': { content: '""', position: 'absolute', inset: 0, borderRadius: 'inherit', border: `1px solid ${theme.vars.sys.color.outlineVariant}`, pointerEvents: 'none' },
+                  })}>
+                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} menu={canAdd && !uploading} />
                   {map.file?.contentType === 'application/pdf' && (
                     <Button component="a" href={map.file.url} target="_blank" rel="noopener noreferrer" size="small" sx={{ position: 'absolute', bottom: 4, left: 4, bgcolor: 'background.paper', '&:hover': { bgcolor: 'background.paper' } }}>
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => setEditingMap(map.file) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }].filter(Boolean)} />}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>
@@ -216,7 +230,6 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
         </DialogActions>
       </Dialog>
 
-      <EditMapDialog map={editingMap} onClose={() => setEditingMap(null)} />
     </>
   )
 }

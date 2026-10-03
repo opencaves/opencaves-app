@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Drawer, IconButton, List, ListItemButton, ListSubheader, Typography, styled, useTheme } from '@mui/material'
@@ -160,6 +160,8 @@ export default function MapPane() {
   return isSmall ? (
     <Box className="oc-map-pane" sx={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
       {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} />}
+      {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
+      <Outlet context={{ maps }} />
     </Box>
   ) : (
     <Box className="oc-map-pane" sx={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
@@ -187,6 +189,8 @@ export default function MapPane() {
         <Box sx={{ mt: 'var(--oc-pane-padding-block)', height: '100%', overflowY: 'auto' }}>{list}</Box>
       </Drawer>
       {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} />}
+      {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
+      <Outlet context={{ maps }} />
     </Box>
   )
 }

@@ -63,6 +63,8 @@ const lightThemeOptions = {
   sys: {
     color: {
       surfaceContainerHigh: '#eceae9',
+      // M3 outline-variant: decorative edges (a thumbnail's outline).
+      outlineVariant: '#c8c5c2',
     },
     motion: {
       duration: {
@@ -336,6 +338,11 @@ const lightThemeOptions = {
 }
 
 const darkThemeOptions = {
+  sys: {
+    color: {
+      outlineVariant: '#474a4c',
+    },
+  },
   palette: {
     primary: {
       // main: '#30a4b5',
