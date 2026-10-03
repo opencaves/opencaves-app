@@ -13,7 +13,7 @@
   "utmEpsg": 32616,
   "placementNote": "The same drawing as the NE part of the K'oox Baal map (koox-baal.json), at 2.5 times its resolution: SIFT matching of the two scans (892 inlier features, 0.9 px median residual on the K'oox Baal scan) gives scale 0.4039, rotation -0.2 deg; the control points are spots of this map put through that match and the K'oox Baal placement (scale bar, north up, 9 cenote labels, 3-34 m residuals). This map's own scale bar (200 m = 838 px, 0.2387 m/px) agrees within 0.1% (0.2390 m/px).",
   "trace": {
-    "method": "colour-fill",
+    "method": "colour-fill", "wallMarginPx": 10, "wallMarginWhy": "the walls are a dark stroke with a grey shading inside, wider than the default 4 px margin: what stuck out was traced as detail along every wall",
     "threshold": 8,
     "minBandSqMetres": 8,
     "excludeColours": [
