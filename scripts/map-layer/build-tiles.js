@@ -100,7 +100,7 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
   for (const feature of JSON.parse(readFileSync(traced, 'utf8')).features) {
     if (feature.geometry?.coordinates) extend(feature.geometry.coordinates)
     const kind = feature.properties?.kind || 'wall'
-    passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: id, ...sistema, kind }, tippecanoe: { minzoom: kind === 'detail' ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
+    passages.write(`${JSON.stringify({ type: 'Feature', geometry: feature.geometry, properties: { map: id, ...sistema, kind }, tippecanoe: { minzoom: ['detail', 'relief', 'slope'].includes(kind) ? DETAIL_ZOOM : MIN_ZOOM } })}\n`)
     counts.passages++
   }
   if (Number.isFinite(box[0])) {

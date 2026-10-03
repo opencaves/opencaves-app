@@ -35,10 +35,10 @@
     {
       "why": "principal explorers: J. Coke, M. Madden, P. Turner, T. Young",
       "box": [
-        2690,
+        2684,
         1000,
-        3170,
-        1160
+        3180,
+        1174
       ],
       "history": true
     },
@@ -228,7 +228,7 @@
           3105,
           1688
         ],
-        "widthPx": 14
+        "widthPx": 28
       },
       {
         "why": "Coba road, SW line (north of the drive)",
@@ -240,7 +240,7 @@
           2242,
           795
         ],
-        "widthPx": 14
+        "widthPx": 28
       },
       {
         "why": "Coba road, SW line (south of the drive)",
@@ -252,7 +252,7 @@
           3060,
           1650
         ],
-        "widthPx": 14
+        "widthPx": 28
       },
       {
         "why": "drive to the cenote, west edge",
@@ -373,9 +373,860 @@
           995
         ],
         "widthPx": 10
+      },
+      {
+        "why": "Lotus Rooms label leader",
+        "from": [
+          700,
+          642
+        ],
+        "to": [
+          680,
+          652
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Lotus Rooms label leader",
+        "from": [
+          680,
+          652
+        ],
+        "to": [
+          662,
+          666
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Lotus Rooms label leader",
+        "from": [
+          662,
+          666
+        ],
+        "to": [
+          648,
+          684
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "leader end between the Room of Tears passages",
+        "from": [
+          466,
+          846
+        ],
+        "to": [
+          530,
+          830
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "stray mark south of the Room of Tears Basement passage",
+        "from": [
+          384,
+          868
+        ],
+        "to": [
+          400,
+          886
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Room of Tears label leader",
+        "from": [
+          740,
+          864
+        ],
+        "to": [
+          806,
+          866
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Coba road, dashed line (east of the cenote), on its dashes",
+        "from": [
+          2425,
+          945
+        ],
+        "to": [
+          3125,
+          1676
+        ],
+        "widthPx": 22
+      },
+      {
+        "why": "cross-section leader (north, the 40-50 ft section)",
+        "from": [
+          947,
+          249
+        ],
+        "to": [
+          1106,
+          238
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "cross-section leader (south, the 50-70 ft section)",
+        "from": [
+          2485,
+          1928
+        ],
+        "to": [
+          2698,
+          1968
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Luke's Hope label leader (lower end)",
+        "from": [
+          1151,
+          919
+        ],
+        "to": [
+          1155,
+          950
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "The White Room label leader (end)",
+        "from": [
+          1928,
+          1253
+        ],
+        "to": [
+          1956,
+          1268
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "Siphon Basement label leader (end)",
+        "from": [
+          2318,
+          1541
+        ],
+        "to": [
+          2358,
+          1551
+        ],
+        "widthPx": 10
+      },
+      {
+        "why": "narrow passage south of \"50\" (boulders join its walls): band erased, walls drawn",
+        "from": [
+          354,
+          775
+        ],
+        "to": [
+          380,
+          768
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "narrow passage south of \"50\" (boulders join its walls): band erased, walls drawn",
+        "from": [
+          380,
+          768
+        ],
+        "to": [
+          396,
+          759
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "narrow passage south of \"50\" (boulders join its walls): band erased, walls drawn",
+        "from": [
+          396,
+          759
+        ],
+        "to": [
+          398,
+          749
+        ],
+        "widthPx": 16
+      },
+      {
+        "why": "narrow passage west of station 7 (walls joined): band erased, walls drawn",
+        "from": [
+          577,
+          614
+        ],
+        "to": [
+          591,
+          628
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "narrow passage west of station 7 (walls joined): band erased, walls drawn",
+        "from": [
+          591,
+          628
+        ],
+        "to": [
+          599,
+          651
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "narrow passage west of station 7 (walls joined): band erased, walls drawn",
+        "from": [
+          599,
+          651
+        ],
+        "to": [
+          603,
+          669
+        ],
+        "widthPx": 14
+      },
+      {
+        "why": "Aluxe's Key label leader",
+        "from": [
+          340,
+          1014
+        ],
+        "to": [
+          348,
+          1030
+        ],
+        "widthPx": 8
+      },
+      {
+        "why": "Aluxe's Key label leader",
+        "from": [
+          348,
+          1030
+        ],
+        "to": [
+          364,
+          1050
+        ],
+        "widthPx": 8
       }
     ],
-    "minLineMetres": 2.5
+    "minLineMetres": 2.5,
+    "labelBoxes": [
+      {
+        "why": "Cell Block",
+        "box": [
+          951,
+          48,
+          1014,
+          82
+        ]
+      },
+      {
+        "why": "Adrianna's Room",
+        "box": [
+          1053,
+          420,
+          1136,
+          454
+        ]
+      },
+      {
+        "why": "Lotus Rooms",
+        "box": [
+          698,
+          624,
+          799,
+          642
+        ]
+      },
+      {
+        "why": "Room of Tears Basement",
+        "box": [
+          187,
+          681,
+          320,
+          721
+        ]
+      },
+      {
+        "why": "Room of Tears",
+        "box": [
+          801,
+          850,
+          868,
+          884
+        ]
+      },
+      {
+        "why": "Crystal Palace",
+        "box": [
+          965,
+          805,
+          1037,
+          840
+        ]
+      },
+      {
+        "why": "Luke's Hope",
+        "box": [
+          1182,
+          842,
+          1265,
+          875
+        ]
+      },
+      {
+        "why": "Chamber of Horrors",
+        "box": [
+          1531,
+          698,
+          1656,
+          737
+        ]
+      },
+      {
+        "why": "Cenote Carwash Entrance",
+        "box": [
+          2119,
+          784,
+          2197,
+          843
+        ]
+      },
+      {
+        "why": "Chamber of the Ancients",
+        "box": [
+          1544,
+          1101,
+          1680,
+          1156
+        ]
+      },
+      {
+        "why": "The White Room",
+        "box": [
+          1953,
+          1252,
+          1999,
+          1303
+        ]
+      },
+      {
+        "why": "Satan's Silthole",
+        "box": [
+          2104,
+          1266,
+          2202,
+          1299
+        ]
+      },
+      {
+        "why": "Lower White Room",
+        "box": [
+          1706,
+          1459,
+          1810,
+          1495
+        ]
+      },
+      {
+        "why": "Siphon Basement",
+        "box": [
+          2359,
+          1539,
+          2497,
+          1558
+        ]
+      },
+      {
+        "why": "The Drain",
+        "box": [
+          2728,
+          1629,
+          2803,
+          1645
+        ]
+      },
+      {
+        "why": "Aluxe's Key",
+        "box": [
+          367,
+          1024,
+          426,
+          1057
+        ]
+      },
+      {
+        "why": "Dreamland",
+        "box": [
+          690,
+          257,
+          776,
+          276
+        ]
+      },
+      {
+        "why": "p. 1,450",
+        "box": [
+          716,
+          36,
+          766,
+          53
+        ]
+      },
+      {
+        "why": "p. 2,300",
+        "box": [
+          429,
+          153,
+          480,
+          170
+        ]
+      },
+      {
+        "why": "p. 2,100",
+        "box": [
+          426,
+          345,
+          476,
+          363
+        ]
+      },
+      {
+        "why": "p. 1,000",
+        "box": [
+          757,
+          509,
+          808,
+          527
+        ]
+      },
+      {
+        "why": "p. 1,700",
+        "box": [
+          627,
+          552,
+          679,
+          570
+        ]
+      },
+      {
+        "why": "p. 800",
+        "box": [
+          1057,
+          652,
+          1097,
+          668
+        ]
+      },
+      {
+        "why": "p. 1,600",
+        "box": [
+          191,
+          752,
+          241,
+          770
+        ]
+      },
+      {
+        "why": "p. 1,800",
+        "box": [
+          198,
+          1030,
+          247,
+          1046
+        ]
+      },
+      {
+        "why": "p. 750",
+        "box": [
+          1470,
+          1323,
+          1512,
+          1339
+        ]
+      },
+      {
+        "why": "p. 400",
+        "box": [
+          2385,
+          1376,
+          2426,
+          1392
+        ]
+      },
+      {
+        "why": "p. 700",
+        "box": [
+          2036,
+          1531,
+          2077,
+          1547
+        ]
+      },
+      {
+        "why": "p. 600",
+        "box": [
+          2599,
+          1451,
+          2640,
+          1467
+        ]
+      },
+      {
+        "why": "p. 1,180",
+        "box": [
+          2731,
+          2073,
+          2783,
+          2092
+        ]
+      },
+      {
+        "why": "KLS (Room of Tears)",
+        "box": [
+          698,
+          868,
+          756,
+          908
+        ]
+      },
+      {
+        "why": "KLS (north)",
+        "box": [
+          1000,
+          302,
+          1031,
+          318
+        ]
+      }
+    ],
+    "weakBridgePx": 5,
+    "leaderStraightPx": 10,
+    "weakMinExtentPx": 40,
+    "why": "Bold wall strokes (James Coke style, as Esqueleto). Thin walls the scan breaks into pieces are joined across 5 px gaps (weakBridgePx) and kept from 40 px (weakMinExtentPx), and walls drawn with a 2 px pen from 25 px (thinWallMinExtentPx): passages like Aluxe's Key had lost a wall or both. Labels OCR misses or reads too poorly, the p. depth labels and KLS are boxed (labelBoxes, letters only) and anchor their leaders, which go - their straight run from the label (leaderStraightPx 10, as leaders curve gently here), starting within 35 px of it (leaderReachPx) and 60 px of a cross-section (sectionReachPx): further, thin walls ending near a label passed for leaders. Leaders still missed, and the Coba road's dashed line, are erased by hand. Floor reliefs (outlines and lines with ticks: rings around pits and ledges along the walls) are found as rows of ticks agreeing with their neighbours (localAlignment) and redrawn - a ring closed, a ledge along a wall as its ticks only, the wall kept (onWalls). Boulders drawn filled and standing apart (small, round, mostly solid) aren't walls (dropSolidPx), and narrow passages whose walls the boulders join are erased and their walls drawn by hand (wallLines), as is Aluxe's Key's south wall, broken on the scan.",
+    "reliefTicks": {
+      "minTicks": 5,
+      "spacingMaxPx": 12,
+      "localAlignment": true,
+      "onWalls": "ticks"
+    },
+    "leaderReachPx": 35,
+    "sectionReachPx": 60,
+    "thinWallMinExtentPx": 25,
+    "wallLines": [
+      {
+        "why": "narrow passage south of \"50\", north wall",
+        "points": [
+          [
+            349,
+            770
+          ],
+          [
+            380,
+            762
+          ],
+          [
+            396,
+            750
+          ],
+          [
+            398,
+            740
+          ],
+          [
+            406,
+            743
+          ]
+        ]
+      },
+      {
+        "why": "narrow passage south of \"50\", south wall",
+        "points": [
+          [
+            359,
+            780
+          ],
+          [
+            380,
+            774
+          ],
+          [
+            396,
+            768
+          ],
+          [
+            398,
+            758
+          ]
+        ]
+      },
+      {
+        "why": "passage west of station 7, east wall",
+        "points": [
+          [
+            587,
+            598
+          ],
+          [
+            595,
+            620
+          ],
+          [
+            601,
+            643
+          ],
+          [
+            607,
+            669
+          ]
+        ]
+      },
+      {
+        "why": "passage west of station 7, west wall",
+        "points": [
+          [
+            568,
+            631
+          ],
+          [
+            587,
+            637
+          ],
+          [
+            597,
+            659
+          ],
+          [
+            599,
+            669
+          ]
+        ]
+      },
+      {
+        "why": "Aluxe's Key passage, south wall (thin, broken on the scan)",
+        "points": [
+          [
+            316,
+            1010
+          ],
+          [
+            349,
+            1002
+          ],
+          [
+            381,
+            990
+          ],
+          [
+            416,
+            969
+          ]
+        ]
+      },
+      {
+        "why": "Aluxe's Key passage, south wall stub",
+        "points": [
+          [
+            418,
+            945
+          ],
+          [
+            424,
+            942
+          ]
+        ]
+      },
+      {
+        "why": "short wall between the Room of Tears passages",
+        "points": [
+          [
+            483,
+            740
+          ],
+          [
+            495,
+            736
+          ],
+          [
+            503,
+            735
+          ]
+        ]
+      }
+    ],
+    "dropSolidPx": 3,
+    "solidShare": 0.3,
+    "labelBoxLeaders": true,
+    "slopeAreas": [
+      {
+        "why": "slope down to the cenote entrance pool, west and north side (marked in review, 2026-10-03)",
+        "points": [
+          [
+            1959,
+            795
+          ],
+          [
+            1981,
+            785
+          ],
+          [
+            2009,
+            782
+          ],
+          [
+            2034,
+            780
+          ],
+          [
+            2052,
+            785
+          ],
+          [
+            2055,
+            796
+          ],
+          [
+            2011,
+            801
+          ],
+          [
+            1981,
+            808
+          ],
+          [
+            1963,
+            820
+          ],
+          [
+            1956,
+            842
+          ],
+          [
+            1959,
+            871
+          ],
+          [
+            1970,
+            894
+          ],
+          [
+            1969,
+            914
+          ],
+          [
+            1944,
+            914
+          ],
+          [
+            1933,
+            896
+          ],
+          [
+            1928,
+            874
+          ],
+          [
+            1934,
+            862
+          ],
+          [
+            1936,
+            834
+          ],
+          [
+            1945,
+            809
+          ]
+        ],
+        "towards": [
+          2060,
+          875
+        ]
+      },
+      {
+        "why": "slope down to the cenote entrance pool, south side (marked in review, 2026-10-03)",
+        "points": [
+          [
+            2027,
+            970
+          ],
+          [
+            2054,
+            974
+          ],
+          [
+            2089,
+            979
+          ],
+          [
+            2119,
+            977
+          ],
+          [
+            2134,
+            961
+          ],
+          [
+            2143,
+            947
+          ],
+          [
+            2150,
+            947
+          ],
+          [
+            2154,
+            971
+          ],
+          [
+            2155,
+            1008
+          ],
+          [
+            2146,
+            1022
+          ],
+          [
+            2124,
+            1027
+          ],
+          [
+            2104,
+            1026
+          ],
+          [
+            2089,
+            1018
+          ],
+          [
+            2069,
+            1012
+          ],
+          [
+            2047,
+            1010
+          ],
+          [
+            2038,
+            996
+          ],
+          [
+            2028,
+            981
+          ]
+        ],
+        "towards": [
+          2060,
+          875
+        ]
+      }
+    ]
   },
   "symbols": {
     "units": "ft",

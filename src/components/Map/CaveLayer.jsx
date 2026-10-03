@@ -235,6 +235,13 @@ export default function CaveLayer({ selectedSistemaId, mapId }) {
         paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2.8, 18, 3.4] }} />
       <Layer id="oc-caves-details" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('detail'))} layout={{ visibility }}
         paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.8, 18, 1.4] }} />
+      {/* Floor reliefs (a line and its ticks) and slopes (V's pointing
+          downhill), redrawn by the tracing: drawn like the walls, from the
+          details' zoom. */}
+      <Layer id="oc-caves-reliefs-halo" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('relief', 'slope'))} layout={{ visibility, 'line-cap': 'round' }}
+        paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 3, 18, 4.5] }} />
+      <Layer id="oc-caves-reliefs" source-layer="passages" type="line" minzoom={CAVE_LAYER.DETAIL_ZOOM} filter={filter(kind('relief', 'slope'))} layout={{ visibility, 'line-cap': 'round' }}
+        paint={{ 'line-color': ifHidden(HIDDEN_COLOR, color), 'line-opacity': ifHidden(HIDDEN_OPACITY, 1), 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 1.2, 18, 2.5] }} />
       <Layer id="oc-caves-walls-halo" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
         paint={{ 'line-color': ifHidden(DARK_HALO, halo), 'line-opacity': ifHidden(HIDDEN_OPACITY * HALO_OPACITY, HALO_OPACITY), 'line-blur': 1, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 3, 18, 4.5] }} />
       <Layer id="oc-caves-walls" source-layer="passages" type="line" filter={filter(kind('wall', 'survey'))} layout={{ visibility, 'line-join': 'round', 'line-cap': 'round' }}
