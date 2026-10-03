@@ -27,7 +27,10 @@ export const setCoverImage = onDocumentCreated('/cavesAssets/{assetId}', async e
     const countSnapshot = await collRef.where(filter).count().get()
 
     if (countSnapshot.data().count === 0) {
-      return snapshot.ref.set({ isCover: true }, { merge: true })
+      // update, not set with merge: a record deleted in the meantime stays deleted.
+      return snapshot.ref.update({ isCover: true }).catch((error) => {
+        if (error.code !== 5) throw error
+      })
     }
   }
 
