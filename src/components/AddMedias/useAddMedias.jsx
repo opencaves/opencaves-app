@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AddMediasContext } from './AddMediasProvider.jsx'
+import { AddMediasContext } from './AddMediasContext.js'
 
 export function useAddMedias() {
   return useContext(AddMediasContext)
