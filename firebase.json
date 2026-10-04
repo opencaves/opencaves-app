@@ -62,29 +62,6 @@
           "destination": "/index.html"
         }
       ]
-    },
-    {
-      "target": "opencaves-api",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "headers": [
-        {
-          "source": "**",
-          "headers": [
-            { "key": "X-Frame-Options", "value": "DENY" },
-            { "key": "X-Content-Type-Options", "value": "nosniff" }
-          ]
-        }
-      ],
-      "rewrites": [
-        {
-          "source": "/v1/**",
-          "function": "api"
-        }
-      ]
     }
   ],
   "emulators": {

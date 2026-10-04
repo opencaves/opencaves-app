@@ -7,9 +7,6 @@
       "hosting": {
         "opencaves": [
           "opencaves"
-        ],
-        "opencaves-api": [
-          "opencaves-api"
         ]
       }
     }
