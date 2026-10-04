@@ -5,7 +5,7 @@ organized and its conventions, see [AGENTS.md](../AGENTS.md) at the root of
 the project.
 
 - [Maintenance](maintenance.md): checking the cave photos, keeping their
-  uploaders private, syncing the
+  uploaders private, keeping the ratings private, syncing the
   database from the Google Sheet, user roles, Storage CORS, deploying, and
   local emulator troubleshooting, and who changed what (the audit log).
 - [Importing cave maps](maps-import.md): bulk-import survey maps from a folder

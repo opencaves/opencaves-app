@@ -47,11 +47,24 @@ service cloud.firestore {
       allow delete: if isAdmin()
     }
 
-    // Cave ratings live in each user's own data (users/{uid}/ratings/{caveId},
-    // one per cave). Everyone can read them - a cave's average is a
-    // collection-group query over every user's ratings - but only editors
-    // and admins can rate, and only as themselves, with a 1-5 integer.
-    match /{path=**}/ratings/{caveId} {
+    // Cave ratings: one per user under their cave
+    // (caves/{caveId}/ratings/{uid}), private to their author - and admins,
+    // for abuse. Only editors and admins rate, as themselves, with a 1-5
+    // integer. Everyone reads the cave's summary instead (caveRatings, kept
+    // by the onRatingWritten function): who rated what isn't public.
+    match /caves/{caveId}/ratings/{uid} {
+      allow read: if (isSignedIn() && request.auth.uid == uid) || isAdmin()
+      allow create, update: if isSignedIn() && request.auth.uid == uid
+        && (isEditor() || isAdmin())
+        && request.resource.data.keys().hasOnly(['value', 'userId', 'updatedAt'])
+        && request.resource.data.userId == uid
+        && request.resource.data.value is int
+        && request.resource.data.value >= 1 && request.resource.data.value <= 5
+        && request.resource.data.updatedAt == request.time
+      allow delete: if (isSignedIn() && request.auth.uid == uid) || isAdmin()
+    }
+
+    match /caveRatings/{caveId} {
       allow read: if true
     }
 
@@ -235,19 +248,6 @@ service cloud.firestore {
       allow delete: if isAdmin()
     }
 
-    // Caves a user saved from the result pane's Save quick action. Private
-    // to that user; anonymous sessions are prompted to create an account
-    // instead of saving.
-    match /users/{uid}/ratings/{caveId} {
-      allow create, update: if request.auth != null && request.auth.uid == uid
-        && (isEditor() || isAdmin())
-        && request.resource.data.keys().hasOnly(['caveId', 'value', 'updatedAt'])
-        && request.resource.data.caveId == caveId
-        && request.resource.data.value is int
-        && request.resource.data.value >= 1 && request.resource.data.value <= 5
-      allow delete: if request.auth != null && request.auth.uid == uid
-    }
-
     // An account's own document (created at sign-up by the beforeUserCreated
     // blocking function, with email and savedPlaces). The person may only
     // change their UI language and units in it (the account page's settings;
@@ -268,6 +268,9 @@ service cloud.firestore {
       allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
     }
 
+    // Caves a user saved from the result pane's Save quick action. Private
+    // to that user; anonymous sessions are prompted to create an account
+    // instead of saving.
     match /users/{uid}/savedCaves/{caveId} {
       allow read, delete: if request.auth != null && request.auth.uid == uid
       allow create, update: if request.auth != null && request.auth.uid == uid

@@ -54,6 +54,23 @@ node scripts/move-photo-private-fields.js -l --write    # moves them
 `-p` instead of `-l` for production. A photo's GPS position stays public, by
 design.
 
+## Keep the ratings private
+
+A cave's ratings live under it (`caves/{caveId}/ratings/{uid}`), each readable
+only by its author and the admins; everyone sees the cave's summary instead
+(`caveRatings/{caveId}`: average and count), which the `onRatingWritten`
+function keeps up to date. Ratings used to be stored in each user's data,
+where anyone could read them; they were moved with:
+
+```
+node scripts/move-ratings-to-caves.js -l            # dry run: counts them
+node scripts/move-ratings-to-caves.js -l --write    # moves them
+```
+
+`-p` instead of `-l` for production, once the rules, indexes and functions
+are deployed. Production's ratings are its users' own: the mirror from local
+never copies or overwrites them.
+
 ## Sync the database from the Google Sheet
 
 ```

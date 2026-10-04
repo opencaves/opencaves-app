@@ -2,7 +2,8 @@
 // Mirrors the local emulators (the original data) to production: production
 // ends up with exactly the local documents and files - everything but its
 // users (accounts, users/* - saved caves, ratings, settings), its frozen
-// accounts (frozenUsers) and its audit log (auditLog), which stay untouched.
+// accounts (frozenUsers), its audit log (auditLog) and its ratings (caves'
+// ratings subcollections, caveRatings), which stay untouched.
 //
 // - Firestore: every collection but users. New documents are created,
 //   differing ones overwritten whole, the ones only in production deleted.
@@ -31,8 +32,9 @@ import { getStorage } from 'firebase-admin/storage'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
-// Production's own: its users, which accounts are frozen, and its audit log.
-const KEEP = ['users', 'frozenUsers', 'auditLog']
+// Production's own: its users, which accounts are frozen, its audit log, and
+// its ratings' summaries (the ratings themselves, under the caves, aren't copied).
+const KEEP = ['users', 'frozenUsers', 'auditLog', 'caveRatings']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'

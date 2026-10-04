@@ -9,6 +9,8 @@ export const USERS_COLL_NAME = 'users'
 // Frozen accounts (setUserFrozen), checked by the security rules.
 export const FROZEN_USERS_COLL_NAME = 'frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
+// Each cave's ratings summary (average, count), public.
+export const CAVE_RATINGS_COLL_NAME = 'caveRatings'
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'
