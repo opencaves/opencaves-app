@@ -103,9 +103,26 @@ service cloud.firestore {
       allow delete: if isAdmin()
     }
 
+    // Survey maps. Their links are shown to everyone ("Original file", the
+    // previews), so they can only point at the project's own Storage: `url`,
+    // the uploaded file's download link written by the app, must be one, and
+    // the derived files' links (previews, thumbnail, PDF pages) are the
+    // server's alone (functions/js/maps/onUploaded.js).
+    function isStorageUrl(url) {
+      return url is string && url.matches('(https://firebasestorage[.]googleapis[.]com|http://(127[.]0[.]0[.]1|localhost):9199)/v0/b/opencaves[.]appspot[.]com/o/[^?#]+([?].*)?')
+    }
+    function hasValidMapLinks() {
+      return (!('url' in request.resource.data) || isStorageUrl(request.resource.data.url))
+    }
+    function serverMapFields() {
+      return ['previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds']
+    }
     match /maps/{document} {
       allow read: if true
-      allow create, update: if isEditor()
+      allow create: if isEditor() && hasValidMapLinks()
+        && !request.resource.data.keys().hasAny(serverMapFields())
+      allow update: if isEditor() && hasValidMapLinks()
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(serverMapFields())
       allow delete: if isAdmin()
     }
 
