@@ -1,7 +1,10 @@
 import { getStorage } from 'firebase-admin/storage'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
 import { create } from 'exif-parser'
-import exifr from 'exifr/dist/lite.esm.mjs'
+// The full build: the lite one can't read PNGs (it threw, and their photo
+// record was never written).
+import exifr from 'exifr/dist/full.esm.mjs'
+import sharp from 'sharp'
 import { logger } from 'firebase-functions/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
@@ -146,24 +149,42 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
         }
       }
 
+      // No EXIF size (PNG, WebP, AVIF...): the image's own, as shown.
+      if (!assetData.width || !assetData.height) {
+        try {
+          const { width, height, orientation } = await sharp(imageBuffer).metadata()
+          const quarterTurned = orientation >= 5 && orientation <= 8
+          if (width && height) {
+            assetData.width = quarterTurned ? height : width
+            assetData.height = quarterTurned ? width : height
+          }
+        } catch (error) {
+          logger.warn('[onAssetUploaded] Could not read the image size: %o', error)
+        }
+      }
+
       if (!assetData.date) {
         assetData.date = getUploadTimestamp(data, event)
       }
 
+      // Panorama metadata. Optional: a file it can't read still gets its record.
+      let xmp = null
       if (supportsXMP(assetData.mediaType)) {
-        const xmp = await exifr.parse(imageBuffer, { ifd0: true, tiff: false, xmp: true })
+        try {
+          xmp = await exifr.parse(imageBuffer, { ifd0: true, tiff: false, xmp: true })
+        } catch (error) {
+          logger.warn('[onAssetUploaded] Could not read XMP metadata: %o', error)
+        }
+      }
+      if (xmp) {
+        const { UsePanoramaViewer, ProjectionType, PoseHeadingDegrees } = xmp
 
-        if (xmp) {
-          const { UsePanoramaViewer, ProjectionType, PoseHeadingDegrees } = xmp
-
-          // Some panoramas (e.g. cylindrical ones) have no heading: an undefined
-          // field would make Firestore reject the whole document.
-          if (UsePanoramaViewer) {
-            assetData.usePanoramaViewer = true
-            if (ProjectionType !== undefined) assetData.projectionType = ProjectionType
-            if (PoseHeadingDegrees !== undefined) assetData.poseHeadingDegrees = PoseHeadingDegrees
-          }
-
+        // Some panoramas (e.g. cylindrical ones) have no heading: an undefined
+        // field would make Firestore reject the whole document.
+        if (UsePanoramaViewer) {
+          assetData.usePanoramaViewer = true
+          if (ProjectionType !== undefined) assetData.projectionType = ProjectionType
+          if (PoseHeadingDegrees !== undefined) assetData.poseHeadingDegrees = PoseHeadingDegrees
         }
       }
 
