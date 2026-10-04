@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -66,8 +66,12 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const [editingIndex, setEditingIndex] = useState(null)
   const [saving, setSaving] = useState(false)
   const [activeVideo, setActiveVideo] = useState(null)
+  const [videoToDelete, setVideoToDelete] = useState(null)
+  const [deleteError, setDeleteError] = useState(false)
   const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
-  const canEdit = roles.includes('editor')
+  const canEdit = roles.includes('editor') || roles.includes('admin')
+  // Deleting a video: admins only.
+  const canDelete = roles.includes('admin')
   const videoWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio * 1.5
   const videoHeight = (videoWidth * 9) / 16
 
@@ -82,6 +86,18 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     setEditingIndex(null)
   }
 
+  // In an edit form (onChange), the form saves the videos with the rest;
+  // on the cave's page, they're saved at once.
+  async function saveVideos(nextVideos) {
+    if (onChange) {
+      onChange(nextVideos)
+      return
+    }
+    await CaveModel.save(caveId, { videos: nextVideos })
+    invalidateData()
+    await getData()
+  }
+
   async function addVideo() {
     const nextVideos = [...videoUrls]
     if (editingIndex === null) {
@@ -89,17 +105,41 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     } else {
       nextVideos[editingIndex] = newVideoUrl.trim()
     }
-    if (onChange) {
-      onChange(nextVideos)
-      closeAddDialog()
-      return
-    }
     setSaving(true)
     try {
-      await CaveModel.save(caveId, { videos: nextVideos })
-      invalidateData()
-      await getData()
+      await saveVideos(nextVideos)
       closeAddDialog()
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  // In an edit form, removed at once (the form's Save applies it); on the
+  // cave's page, after a confirmation, since it's saved right away.
+  function requestDelete(index) {
+    if (onChange) {
+      onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))
+      return
+    }
+    setDeleteError(false)
+    setVideoToDelete(index)
+  }
+
+  function closeDeleteDialog() {
+    if (saving) return
+    setVideoToDelete(null)
+    setDeleteError(false)
+  }
+
+  async function confirmDelete() {
+    setSaving(true)
+    setDeleteError(false)
+    try {
+      await saveVideos(videoUrls.filter((_, videoIndex) => videoIndex !== videoToDelete))
+      setVideoToDelete(null)
+    } catch (error) {
+      console.error(error)
+      setDeleteError(true)
     } finally {
       setSaving(false)
     }
@@ -178,7 +218,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                           </Link>
                         </Box>
                       )}
-                      {onChange && (
+                      {canEdit && (
                         <CardOptionsMenu
                           ariaLabel={t('edit.videoOptions')}
                           actions={[
@@ -191,8 +231,8 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                                 setAddDialogOpen(true)
                               },
                             },
-                            { label: t('edit.removeVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index)), danger: true },
-                          ]}
+                            canDelete && { label: t('edit.deleteVideo'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => requestDelete(index), danger: true },
+                          ].filter(Boolean)}
                         />
                       )}
                     </Box>
@@ -220,6 +260,21 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
           </Button>
           <Button variant="contained" onClick={addVideo} disabled={saving || !isValidVideoUrl(newVideoUrl)}>
             {editingIndex === null ? t('addVideo') : t('edit.save')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog className="oc-delete-video-dialog" open={videoToDelete !== null} onClose={closeDeleteDialog}>
+        <DialogTitle>{t('edit.deleteVideo')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('edit.deleteVideoConfirm')}</DialogContentText>
+          {deleteError && <Alert severity="error" sx={{ mt: 2 }}>{t('edit.deleteVideoError')}</Alert>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} disabled={saving}>
+            {t('edit.cancel')}
+          </Button>
+          <Button color="error" onClick={confirmDelete} disabled={saving}>
+            {t('edit.delete')}
           </Button>
         </DialogActions>
       </Dialog>
