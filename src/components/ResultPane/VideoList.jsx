@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -15,6 +15,14 @@ import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 
+// The video sites the player can show: YouTube, Vimeo and Facebook. A link
+// from anywhere else is refused by the Add video form.
+const YOUTUBE_HOSTS = ['youtube.com', 'www.youtube.com', 'm.youtube.com']
+const FACEBOOK_HOSTS = ['facebook.com', 'www.facebook.com', 'm.facebook.com', 'web.facebook.com']
+
+// A video link as pasted from the site (its Share button or the address bar)
+// -> the address of its embedded player, or null when it isn't a video from
+// one of those sites.
 function getEmbedUrl(value) {
   try {
     const url = new URL(value.trim())
@@ -22,8 +30,8 @@ function getEmbedUrl(value) {
       return null
     }
 
-    if (url.hostname === 'youtu.be' || ['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(url.hostname)) {
-      const videoId = url.hostname === 'youtu.be' ? url.pathname.slice(1).split('/')[0] : url.searchParams.get('v') || url.pathname.match(/^\/embed\/([^/]+)/)?.[1]
+    if (url.hostname === 'youtu.be' || YOUTUBE_HOSTS.includes(url.hostname)) {
+      const videoId = url.hostname === 'youtu.be' ? url.pathname.slice(1).split('/')[0] : url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)/)?.[1]
       return videoId ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}` : null
     }
 
@@ -32,8 +40,15 @@ function getEmbedUrl(value) {
       return videoId ? `https://player.vimeo.com/video/${videoId}` : null
     }
 
-    if (['facebook.com', 'www.facebook.com'].includes(url.hostname) && url.pathname === '/plugins/video.php') {
+    if (FACEBOOK_HOSTS.includes(url.hostname) && url.pathname === '/plugins/video.php') {
       return url.href
+    }
+
+    // A video's own page (.../videos/123, /watch?v=123, /reel/123, or its
+    // fb.watch short link) plays in Facebook's embedded player.
+    const isFacebookVideo = (FACEBOOK_HOSTS.includes(url.hostname) && (/\/videos\/\d+/.test(url.pathname) || /^\/reel\/\d+/.test(url.pathname) || (url.pathname.startsWith('/watch') && url.searchParams.get('v')))) || (url.hostname === 'fb.watch' && url.pathname.length > 1)
+    if (isFacebookVideo) {
+      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url.href)}`
     }
   } catch {
     return null
@@ -56,13 +71,9 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const videoWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio * 1.5
   const videoHeight = (videoWidth * 9) / 16
 
+  // Only links the player can show (getEmbedUrl).
   function isValidVideoUrl(value) {
-    try {
-      const url = new URL(value)
-      return url.protocol === 'https:' || url.protocol === 'http:'
-    } catch {
-      return false
-    }
+    return getEmbedUrl(value) !== null
   }
 
   function closeAddDialog() {
@@ -200,7 +211,8 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       <Dialog open={addDialogOpen} onClose={closeAddDialog} maxWidth="xs" fullWidth>
         <DialogTitle>{editingIndex === null ? t('addVideoTitle') : t('edit.editVideo')}</DialogTitle>
         <DialogContent>
-          <TextField autoFocus fullWidth label={t('videoUrl')} placeholder="https://" value={newVideoUrl} onChange={(event) => setNewVideoUrl(event.target.value)} error={!!newVideoUrl && !isValidVideoUrl(newVideoUrl)} helperText={!!newVideoUrl && !isValidVideoUrl(newVideoUrl) ? t('invalidVideoUrl') : ' '} />
+          <DialogContentText sx={{ mb: 2 }}>{t('videoUrlHelp')}</DialogContentText>
+          <TextField autoFocus fullWidth label={t('videoUrl')} placeholder="https://" value={newVideoUrl} onChange={(event) => setNewVideoUrl(event.target.value)} error={!!newVideoUrl.trim() && !isValidVideoUrl(newVideoUrl)} helperText={!!newVideoUrl.trim() && !isValidVideoUrl(newVideoUrl) ? t('invalidVideoUrl') : ' '} />
         </DialogContent>
         <DialogActions>
           <Button onClick={closeAddDialog} disabled={saving}>
