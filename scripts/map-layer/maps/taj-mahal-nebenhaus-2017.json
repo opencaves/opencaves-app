@@ -239,7 +239,7 @@
     ],
     "minBlueExcess": 40,
     "leaderMaxPx": 1,
-    "why": "Stick map on a banner (photo): golden lines in yellow (kind gold - in Taj Mahal the gold line runs from cenote to cenote), main lines bold black and secondary lines thin black (both the Arianne line); red arrows (connection or jump), red depths and green distances are not lines. inkLevel 85 keeps the red ink (grey about 100) out of the black lines. The cenotes are light blue pools outlined in black: their outlines are dropped (poolOutlinesPx).",
+    "why": "Stick map on a banner (photo): golden lines in yellow (kind gold - in Taj Mahal the gold line runs from cenote to cenote), main lines bold black and secondary lines thin black (both the Arianne line); red arrows (connection or jump), red depths and green distances are not lines. inkLevel 85 keeps the red ink (grey about 100) out of the black lines. The cenotes are light blue pools outlined in black: their outlines are dropped (poolOutlinesPx). Short pieces between junctions (under the 8 m minimum, e.g. a line's end under its arrowhead) are joined to their neighbours (joinShortPx).",
     "poolOutlinesPx": 7,
     "eraseLines": [
       {
@@ -374,7 +374,22 @@
         "widthPx": 14,
         "why": "red arrow west of Cenote Mangrove"
       }
-    ]
+    ],
+    "addLines": [
+      {
+        "from": [
+          1559,
+          980
+        ],
+        "to": [
+          1581,
+          979
+        ],
+        "widthPx": 5,
+        "why": "end of the line from depth 59, under its red arrowhead (red ink is left out of the lines)"
+      }
+    ],
+    "joinShortPx": 30
   },
   "symbols": {
     "why": "Banner photo: every symbol read by hand from gridded zooms (the small italic numbers are beyond OCR). Depths are underlined red numbers in feet; distances from Cenote Taj Mahal in feet, olive-grey (\"a / b*\": b staying on the golden line), kept as penetrations; x = major restriction / sidemount only, r = minor restriction; the red arrowheads on the lines and the big red triangles (the legend's \"connection or jump\") kept as the water's direction, at the user's request; named lines and rooms, The Deep Bones Room also as bones; \"Conection to Box Ek\" as leads-to.",
@@ -1443,10 +1458,19 @@
         "type": "flow",
         "label": "arrow",
         "px": [
-          1583,
+          1580,
           981
         ],
-        "bearing": 120
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1584,
+          973
+        ],
+        "bearing": 175
       },
       {
         "type": "flow",
