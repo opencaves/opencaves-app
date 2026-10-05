@@ -821,7 +821,8 @@
     "removeAuthor": "Supprimer cet auteur",
     "cancel": "Annuler",
     "add": "Ajouter",
-    "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée."
+    "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
+    "cartography": "Cartographie : {{names}}"
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
@@ -1404,7 +1405,9 @@
       "location": "Emplacement",
       "photos": "Photos"
     },
-    "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant"
+    "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
+    "maps": "Cartes",
+    "openMap": "Ouvrir la carte : {{name}}"
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",

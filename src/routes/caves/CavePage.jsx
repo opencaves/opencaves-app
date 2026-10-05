@@ -16,6 +16,7 @@ import Access from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
+import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
@@ -31,7 +32,7 @@ function CavePhotos({ caveId, title }) {
   if (photos.length === 0) return null
   return (
     <IndexSection title={title} count={list.size} className="oc-cave-page--photos">
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 1 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 1.5 }}>
         {photos.map((photo) => (
           <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
             <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
@@ -140,6 +141,8 @@ export default function CavePage() {
       )}
 
       <CavePhotos caveId={cave.id} title={t('cave.photos')} />
+
+      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} />
 
       {hasHistory && (
         <Box component="section" className="oc-cave-page--history" sx={{ mb: 4, '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
