@@ -82,7 +82,7 @@ export default function CaveIndex() {
           }
           count={t('caveCount', { count: items.length })}
         >
-          <IndexLinkList items={items.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, label: cave.name || t('unnamedCave'), secondary: systemOf(cave) }))} />
+          <IndexLinkList items={items.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: systemOf(cave) }))} />
         </IndexSection>
       ))}
     </div>

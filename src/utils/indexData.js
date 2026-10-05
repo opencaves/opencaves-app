@@ -18,7 +18,7 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   // name: null for an unnamed cave (the pages say "Unnamed cenote"), listed
   // after the named ones.
   const caveItems = caves
-    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null }))
+    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.location?.latitude != null && cave.location?.longitude != null }))
     .sort((a, b) => (!a.name || !b.name ? !a.name - !b.name : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)

@@ -210,7 +210,7 @@ export default function SistemaPage() {
 
       <IndexSection title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes">
         {caves.length > 0 ? (
-          <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, label: cave.name || t('unnamedCave') }))} />
+          <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} />
         ) : (
           <Typography sx={{ color: 'text.secondary' }}>{t('sistema.noCenotes')}</Typography>
         )}

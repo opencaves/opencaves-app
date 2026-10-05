@@ -1374,7 +1374,8 @@
       "sistema": "Réseau",
       "location": "Emplacement",
       "photos": "Photos"
-    }
+    },
+    "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant"
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",

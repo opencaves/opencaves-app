@@ -1375,7 +1375,8 @@
       "sistema": "Cave system",
       "location": "Location",
       "photos": "Photos"
-    }
+    },
+    "notOnMap": "Not on the map: no coordinates yet"
   },
   "home": {
     "title": "Open data for cave diving",

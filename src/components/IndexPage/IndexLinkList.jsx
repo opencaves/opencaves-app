@@ -10,7 +10,8 @@ import MapOutlined from '@mui/icons-material/MapOutlined'
 // a dot before its name; secondary: muted text on a second line (a cave's
 // system), on one line (cut with an ellipsis) - a long name wraps;
 // mapTo: the record on the map, the row's secondary action - a map icon at
-// its end, shown on hover or focus (always on touch screens).
+// its end, shown on hover or focus (always on touch screens); noMap: the
+// icon disabled (a cave without coordinates isn't on the map).
 export default function IndexLinkList({ items, className }) {
   const { t } = useTranslation('indexPages')
   return (
@@ -30,7 +31,7 @@ export default function IndexLinkList({ items, className }) {
         '@media (hover: none)': { '& .oc-index-link-list--map': { opacity: 1 } },
       }}
     >
-      {items.map(({ key, to, label, color, secondary, mapTo }) => (
+      {items.map(({ key, to, label, color, secondary, mapTo, noMap }) => (
         <li key={key}>
           <ListItemButton
             className="oc-index-link-list--link"
@@ -52,7 +53,17 @@ export default function IndexLinkList({ items, className }) {
               )}
             </Box>
           </ListItemButton>
-          {mapTo && (
+          {mapTo && noMap && (
+            <Tooltip title={t('notOnMap')}>
+              {/* A disabled button fires no events: the tooltip is on its wrapper. */}
+              <span className="oc-index-link-list--map" style={{ marginRight: 4 }}>
+                <IconButton disabled aria-label={t('notOnMap')}>
+                  <MapOutlined fontSize="small" />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
+          {mapTo && !noMap && (
             <Tooltip title={t('onMap')}>
               <IconButton className="oc-index-link-list--map" component={RouterLink} to={mapTo} aria-label={t('onMapOf', { name: typeof label === 'string' ? label : '' })} sx={{ mr: 0.5, color: 'text.secondary' }}>
                 <MapOutlined fontSize="small" />

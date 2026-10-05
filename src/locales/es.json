@@ -1375,7 +1375,8 @@
       "sistema": "Sistema de cuevas",
       "location": "Ubicación",
       "photos": "Fotos"
-    }
+    },
+    "notOnMap": "No está en el mapa: aún sin coordenadas"
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
