@@ -2,9 +2,15 @@
 
 Guidance for AI coding agents working in this repository. Read this before making changes — several things here are non-obvious and have already caused real bugs.
 
+## Mission
+
+OpenCaves holds information about caves and cave systems that is useful to cave diving - around the world. Its data is the Yucatán's today, where the caves' entrances are called cenotes, but the app is about caves, not only cenotes:
+- In generic places (navigation, page titles, code, data model, new features), say **cave** (fr "grotte", es "cueva") and **cave system**. Say **cenote** only where the Yucatán context is meant (a cenote's own name, "cenote entrance", texts about the region).
+- Don't build in Yucatán-only assumptions (one country, one region, one language for names, "Cenote" in every name); the app should take caves from elsewhere without a rework.
+
 ## What this is
 
-OpenCaves: a React/Vite/Ionic web app for finding cenotes (caves) in the Yucatán, backed by Firebase (Firestore, Auth, Storage, Cloud Functions, Hosting). Its data moved off a Google Sheet onto Firestore, edited in an in-app admin UI; the Sheet is no longer used (its sync script is deprecated, see "Data model") - caves/sistemas data doesn't come from a spreadsheet any more.
+OpenCaves: a React/Vite/Ionic web app for finding cave-diving caves - today cenotes in the Yucatán - backed by Firebase (Firestore, Auth, Storage, Cloud Functions, Hosting). Its data moved off a Google Sheet onto Firestore, edited in an in-app admin UI; the Sheet is no longer used (its sync script is deprecated, see "Data model") - caves/sistemas data doesn't come from a spreadsheet any more.
 
 ## Stack
 
@@ -81,8 +87,9 @@ Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...`
 ## Routing conventions
 
 - `/map`, `/map/:caveId` — public browsing (crawlable, listed in the dynamic `/sitemap.xml` Cloud Function)
-- `/map/:caveId` is served by the `cavePage` Cloud Function (`functions/js/seo/cavePage.js`, a Hosting rewrite): the site's `index.html` with the cave's title, description, canonical link and text already in it, because Google's renderer doesn't run the app. The app then replaces `#root` and reuses those `<head>` tags (`src/utils/headTags.js`); keep the two in step when changing a cave page's SEO. CDN-cached for an hour (`firebase.json` headers).
-- `/caves`, `/caves/:caveId/edit`, `/sistemas`, `/sistemas/:sistemaId/edit` — editor-only CRUD, gated by the `RequireEditor` wrapper in `router.jsx`
+- `/caves` (every cenote by area), `/areas/:areaSlug`, `/sistemas` (every cave system by area), `/sistemas/:sistemaSlug` — public index pages, also crawlable and in the sitemap. Slugs come from names: `src/utils/slug.js`, kept **identical** to `functions/js/seo/slug.js` (areas: the area's name slugified; sistemas: unique slugs over all sistemas, `slugsById`). `/caves/:caveId` is an old address that redirects to `/map/:caveId`.
+- Search engines get these public pages server-rendered: `/map/:caveId` by the `cavePage` Cloud Function (`functions/js/seo/cavePage.js`), the index pages by `indexPages` (`functions/js/seo/indexPages.js`), both Hosting rewrites. They serve the site's `index.html` with the page's title, description, canonical link, og: tags and text already in it, because Google's renderer doesn't run the app. The app then replaces `#root` and reuses those `<head>` tags (`src/utils/headTags.js`); **keep the server-rendered pages and the app's head tags (titles, descriptions, canonical URLs) in step** when changing either. CDN-cached for an hour (`firebase.json` headers, which come after the `**/!(*.*)` no-cache rule because later rules win).
+- Editing is the page's address plus `/edit`: `/caves/edit`, `/sistemas/edit`, `/caves/:caveId/edit`, `/sistemas/:sistemaSlug/edit`, `/areas/:areaSlug/edit` — editor-only, gated by the `RequireEditor` wrapper in `router.jsx`. The Hosting rewrites send `/caves/edit` and `/sistemas/edit` to the app *before* the `indexPages` rules (`/caves/*`, `/sistemas/*` would catch them); deeper `.../edit` paths fall through to the `**` catch-all, which must stay last.
 - `/dashboard`, `/:collectionName` (`/accesses`, `/accessibilities`, etc.) — dashboard + reference-data CRUD (also editor-only)
 - Route **component files live under `src/routes/` mirroring their URL** (e.g. `routes/caves/CaveEdit.jsx`, not `routes/dashboard/AdminCaveEdit.jsx`) — keep new pages consistent with this rather than dumping everything under `routes/dashboard/`.
 - Heavy/rarely-visited routes (admin section, auth pages, the 360°-photo viewer) use react-router's `lazy` property to keep them out of the main bundle. Heavy vendor libraries (React, mapbox-gl, MUI, Ionic, Firebase, Photo Sphere Viewer, Swiper) get their own chunks via `codeSplitting.groups` in `vite.config.js`. Ionic is phone-only: it is only ever imported through `src/utils/ionic.js`, loaded on demand (`loadIonic()`), so desktop never downloads it - don't import `@ionic/react` directly anywhere else.

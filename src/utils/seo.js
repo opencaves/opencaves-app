@@ -13,12 +13,19 @@ export function canonicalPath(pathname) {
   return path
 }
 
+// The public index pages: the cenotes and the cave systems by area, an area,
+// a cave system (not their editors' /edit addresses).
+export function isPublicIndexPath(pathname) {
+  const path = pathname.replace(/\/+$/, '') || '/'
+  return path === '/caves' || path === '/sistemas' || /^\/(sistemas|areas)\/(?!edit$)[^/]+$/.test(path)
+}
+
 // Public pages worth indexing. Everything else (account, sign-in, the
 // editors' admin pages, edit modes) gets noindex.
 export function isIndexable(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   if (/\/edit(\/|$)/.test(path)) return false
-  return path === '/' || path === '/map' || /^\/map\/[^/]+(\/(medias|maps)(\/[^/]+)?)?$/.test(path) || ['/about', '/privacy', '/terms'].includes(path)
+  return path === '/' || path === '/map' || /^\/map\/[^/]+(\/(medias|maps)(\/[^/]+)?)?$/.test(path) || ['/about', '/privacy', '/terms'].includes(path) || isPublicIndexPath(path)
 }
 
 // Plain text from the app's Markdown (cave descriptions), for meta

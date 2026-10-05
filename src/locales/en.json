@@ -33,6 +33,8 @@
       "tooltip": "Menu",
       "ariaLabel": "More",
       "home": "Home",
+      "caves": "Caves",
+      "sistemas": "Cave systems",
       "myAccount": "My account",
       "admin": "Dashboard",
       "signup": "Sign up",
@@ -1048,7 +1050,9 @@
     "connectionDateHint": "When the connection between the two sistemas was established.",
     "adminSection": "Administration",
     "manageMapLayers": "Map layers",
-    "manageAudits": "Audits"
+    "manageAudits": "Audits",
+    "backToCaveIndex": "Back to the cenotes",
+    "backToSistemaIndex": "Back to the cave systems"
   },
   "usersAdmin": {
     "title": "Users",
@@ -1295,6 +1299,48 @@
       "deleteTitle_other": "Delete {{count}} items permanently?",
       "deleteConfirm_one": "This item and its files will be deleted for good. This cannot be undone.",
       "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone."
+    }
+  },
+  "indexPages": {
+    "unknownArea": "Unknown area",
+    "unnamedCave": "Unnamed cenote",
+    "caveCount_one": "{{count}} cenote",
+    "caveCount_other": "{{count}} cenotes",
+    "sistemaCount_one": "{{count}} cave system",
+    "sistemaCount_other": "{{count}} cave systems",
+    "caves": {
+      "title": "Cenotes of the Yucatán by area",
+      "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
+      "edit": "Edit the cenotes"
+    },
+    "sistemas": {
+      "title": "Cave systems of the Yucatán",
+      "description": "The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.",
+      "edit": "Edit the cave systems"
+    },
+    "area": {
+      "title": "Cenotes in {{area}}",
+      "description": "The cenotes and cave systems of {{area}}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.",
+      "edit": "Edit the {{area}} area",
+      "cenotes": "Cenotes",
+      "sistemas": "Cave systems",
+      "noCenotes": "No cenotes listed in this area yet.",
+      "noSistemas": "No cave systems listed in this area yet."
+    },
+    "sistema": {
+      "title": "{{name}} cave system",
+      "descriptionPrefix": "{{name}} cave system (Yucatán, Mexico):",
+      "description": "{{name}} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.",
+      "edit": "Edit the {{name}} cave system",
+      "area": "Area",
+      "length": "Explored length",
+      "maxDepth": "Maximum depth",
+      "about": "Description",
+      "connections": "Connections",
+      "partOf": "Part of",
+      "joinedBy": "Systems connected to it",
+      "cenotes": "Cenotes",
+      "noCenotes": "No cenotes listed in this system yet."
     }
   }
 }

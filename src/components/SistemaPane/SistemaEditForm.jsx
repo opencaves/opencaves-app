@@ -129,7 +129,9 @@ const emptyForm = {
 // there are unsaved changes (the pane then skips its slide-out, so leaving
 // can be confirmed first). showMapPreview adds a map beside the location
 // fields, for the standalone page (the pane already has the map behind it).
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDirtyChange, showMapPreview = false }) {
+// onDeleted: where a delete goes instead of onDone, when that differs (the
+// standalone page's onDone goes to the system's own page).
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   // Length and depth are stored in metres, shown and entered in the person's units.
@@ -271,7 +273,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDi
     onDirtyChange?.(false)
     invalidateData()
     await getData()
-    onDone()
+    const leave = onDeleted || onDone
+    leave()
   }
 
   if (loading) {

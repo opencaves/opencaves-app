@@ -46,7 +46,8 @@ export default function AppBar(props) {
   const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
   const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
-  const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
+  // The public directories (/caves, /sistemas) for everyone, the dashboard for editors.
+  const navItems = [{ key: 'home', to: '/' }, { key: 'caves', to: '/caves' }, { key: 'sistemas', to: '/sistemas' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
 
   useEffect(() => {
     setEntityHeadingHidden(false)

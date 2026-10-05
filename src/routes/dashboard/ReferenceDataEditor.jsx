@@ -15,6 +15,7 @@ import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { slugify } from '@/utils/slug.js'
 
 function getHexHue(hex) {
   let value = String(hex || '')
@@ -61,6 +62,9 @@ export default function ReferenceDataEditor() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   // Deleting reference data: admins only (as in firestore.rules).
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  // An item's edit address: an area's by its slug, as its public page
+  // (/areas/<slug>); the others' by id (relative to this list).
+  const editPath = (item) => (collectionName === 'areas' ? `/areas/${slugify(item.name || item.id)}/edit` : `${item.id}/edit`)
   const sortedItems =
     collectionName === 'colors'
       ? [...items].sort((first, second) => {
@@ -123,7 +127,7 @@ export default function ReferenceDataEditor() {
               disablePadding
               secondaryAction={
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <IconButton size="large" onClick={() => navigate(`${item.id}/edit`)} aria-label={t('edit')}>
+                  <IconButton size="large" onClick={() => navigate(editPath(item))} aria-label={t('edit')}>
                     <Edit />
                   </IconButton>
                   {isAdmin && (
@@ -134,7 +138,7 @@ export default function ReferenceDataEditor() {
                 </Box>
               }
             >
-              <ListItemButton component={Link} to={`${item.id}/edit`} sx={{ pr: 16 }}>
+              <ListItemButton component={Link} to={editPath(item)} sx={{ pr: 16 }}>
                 <ListItemText
                   primary={
                     collectionName === 'colors' ? (

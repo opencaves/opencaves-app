@@ -7,14 +7,17 @@ import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
 import dashboardBackground from '@/images/dashboard/bg.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
+import { isPublicIndexPath } from '@/utils/seo.js'
 
-// First URL segment of every dashboard (admin) page - see router.jsx.
+// First URL segment of every dashboard (admin) page - see router.jsx. Some
+// of them also hold public pages (/caves, /sistemas/<slug>, /areas/<slug>...),
+// which look like the site's other pages (isPublicIndexPath).
 const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', ...Object.keys(REFERENCE_DATA_CONFIGS)])
 
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
-  const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1])
+  const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image.
   const isDashboardHome = location.pathname === '/dashboard'

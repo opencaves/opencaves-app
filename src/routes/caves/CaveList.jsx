@@ -68,8 +68,9 @@ export default function CaveList() {
   return (
     <div className="oc-cave-list">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 } }}>
+        {/* Back to the public list of the cenotes, this list's /edit counterpart. */}
+        <Tooltip title={t('backToCaveIndex')}>
+          <IconButton component={Link} to="/caves" aria-label={t('backToCaveIndex')} sx={{ ml: { xs: 0, sm: -4 } }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>

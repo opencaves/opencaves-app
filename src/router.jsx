@@ -51,13 +51,19 @@ function RequireAuth({ children }) {
   return children
 }
 
-function RequireEditor({ children }) {
+// visitorsTo: where anyone else goes instead (a public page at that
+// address's level) - by default sign-in, or home once signed in.
+function RequireEditor({ children, visitorsTo }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const authResolved = useSelector((state) => state.session.authResolved)
 
   if (!authResolved) {
     return null
+  }
+
+  if (visitorsTo && !(isLoggedIn && roles.includes('editor'))) {
+    return <Navigate to={visitorsTo} replace />
   }
 
   if (!isLoggedIn) {
@@ -125,13 +131,13 @@ function requireAuth(importer) {
   }
 }
 
-function requireEditor(importer) {
+function requireEditor(importer, visitorsTo) {
   return {
     lazy: async () => {
       const { default: Component } = await importer()
       return {
         Component: () => (
-          <RequireEditor>
+          <RequireEditor visitorsTo={visitorsTo}>
             <Component />
           </RequireEditor>
         ),
@@ -163,6 +169,11 @@ function RedirectToCollection() {
 function RedirectToCollectionEdit() {
   const { collectionName, itemId } = useParams()
   return <Navigate to={`/${collectionName}/${itemId}/edit`} replace />
+}
+
+function RedirectToCave() {
+  const { caveId } = useParams()
+  return <Navigate to={`/map/${caveId}`} replace />
 }
 
 const routes = [
@@ -263,18 +274,44 @@ const routes = [
             path: 'dashboard/:collectionName/:itemId/edit',
             element: <RedirectToCollectionEdit />,
           },
+          // The public index pages (crawlable; the server renders them too:
+          // functions/js/seo). Editors edit each at its address + /edit.
+          {
+            path: 'caves',
+            lazy: () => import('@/routes/caves/CaveIndex.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            // A cave's own page is on the map.
+            path: 'caves/:caveId',
+            element: <RedirectToCave />,
+          },
+          {
+            path: 'sistemas',
+            lazy: () => import('@/routes/sistemas/SistemaIndex.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            path: 'sistemas/:sistemaSlug',
+            lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            path: 'areas/:areaSlug',
+            lazy: () => import('@/routes/areas/AreaPage.jsx').then(({ default: Component }) => ({ Component })),
+          },
           ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
             {
+              // /areas has no public page (each area has, /areas/<slug>):
+              // visitors go to the cenotes by area.
               path: collectionName,
-              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
+              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined),
             },
             {
+              // :itemId: an area's slug or id (ReferenceDataItemEdit).
               path: `${collectionName}/:itemId/edit`,
               ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
             },
           ]),
           {
-            path: 'caves',
+            path: 'caves/edit',
             ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
           },
           {
@@ -282,10 +319,11 @@ const routes = [
             ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
           },
           {
-            path: 'sistemas',
+            path: 'sistemas/edit',
             ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
           },
           {
+            // :sistemaId: the system's slug, or its id (older links).
             path: 'sistemas/:sistemaId/edit',
             ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
           },
