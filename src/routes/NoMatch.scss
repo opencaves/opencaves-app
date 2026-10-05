@@ -31,6 +31,11 @@
         max-width: min(48rem, 80vw);
         text-align: left;
         font-size: 0.875rem;
+        // On a light panel (M3 surface-container-highest), apart from the
+        // message above it.
+        padding: 0.75rem 1rem;
+        background-color: var(--mui-sys-color-surfaceContainerHighest, #dedad8);
+        border-radius: 8px;
 
         summary {
           cursor: pointer;

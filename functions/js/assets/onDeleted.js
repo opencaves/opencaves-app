@@ -2,18 +2,25 @@ import { getStorage } from 'firebase-admin/storage'
 import { onDocumentDeleted } from 'firebase-functions/v2/firestore'
 import config from '../resize-images/config.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
 
 export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async event => {
   const snap = event.data
   if (!snap) return
 
   const data = snap.data()
+  // Its private part (uploader, file name) goes with it.
+  await db.collection(CAVES_ASSETS_PRIVATE_COLL_NAME).doc(event.params.assetId).delete()
   const { imageSizes, imageTypes } = config
   const { caveId, fullPath, id: assetId = event.params.assetId, thumbnailRevision } = data
   // Redone copies carry a revision in their name (scripts/fix-photo-orientation.js).
   const revision = thumbnailRevision > 1 ? `-r${thumbnailRevision}` : ''
   if (!caveId || !fullPath) return
+  // Ids that can't step out of their folder (thumbnail paths are built from them).
+  if (/[/.]/.test(caveId) || /[/.]/.test(String(assetId))) return
+  // An original is only ever a cave photo's (caves/<caveId>/<type>s/<assetId>):
+  // a record naming any other path (a map...) never gets that file deleted.
+  const isCaveOriginal = /^caves\/[^/.]+\/[a-z]+s\/[^/.]+$/.test(fullPath)
 
   const assets = db.collection(CAVES_ASSETS_COLL_NAME)
   // Originals are shared by path; thumbnails are addressed by cave and asset ID.
@@ -25,7 +32,7 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   const deleteFilesPromises = []
 
   // A missing thumbnail or repeated deletion event must not block cleanup.
-  if (originalReferences.empty) {
+  if (originalReferences.empty && isCaveOriginal) {
     deleteFilesPromises.push(bucket.file(fullPath).delete({ ignoreNotFound: true }))
   }
 

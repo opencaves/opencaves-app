@@ -63,6 +63,7 @@ const lightThemeOptions = {
   sys: {
     color: {
       surfaceContainerHigh: '#eceae9',
+      surfaceContainerHighest: '#dedad8',
       // M3 outline-variant: decorative edges (a thumbnail's outline).
       outlineVariant: '#c8c5c2',
     },

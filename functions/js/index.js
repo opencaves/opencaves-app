@@ -1,6 +1,5 @@
 import './init.js'
 
-export { api } from './api/v1/api.js'
 export { sitemap } from './sitemap/sitemap.js'
 export * from './seo/cavePage.js'
 
@@ -17,3 +16,5 @@ export * from './assets/onCreated.js'
 export * from './assets/onUpdated.js'
 export * from './assets/onDeleted.js'
 export * from './maps/onUploaded.js'
+export * from './audit/onDataWritten.js'
+export * from './ratings/onRatingWritten.js'

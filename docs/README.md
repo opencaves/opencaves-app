@@ -6,7 +6,7 @@ the project.
 
 - [Maintenance](maintenance.md): checking the cave photos, syncing the
   database from the Google Sheet, user roles, Storage CORS, deploying, and
-  local emulator troubleshooting.
+  local emulator troubleshooting, and who changed what (the audit log).
 - [Importing cave maps](maps-import.md): bulk-import survey maps from a folder
   tree and attach them to their sistemas.
 - [The cave map layer](map-layer.md): turning survey maps into placed vector
@@ -17,3 +17,6 @@ the project.
   map author's conventions.
 - [Importing cave photos](photos-import.md): bulk-import cave photos from the
   `_data` folder and attach them to their caves.
+- [App Check](app-check.md): letting only the app itself use Firestore,
+  Storage and the functions - registering it, watching its metrics, then
+  enforcing it.

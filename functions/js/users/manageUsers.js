@@ -1,8 +1,9 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { REGION, USERS_COLL_NAME } from '../constants.js'
+import { ENFORCE_APP_CHECK, FROZEN_USERS_COLL_NAME, REGION, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
+import { writeAuditLog } from '../audit/log.js'
 
 const ASSIGNABLE_ROLES = ['editor', 'admin']
 
@@ -28,7 +29,7 @@ async function listAllAuthUsers() {
   return users
 }
 
-export const listUsers = onCall({ region: REGION }, async request => {
+export const listUsers = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const users = await listAllAuthUsers()
@@ -50,7 +51,7 @@ export const listUsers = onCall({ region: REGION }, async request => {
   }
 })
 
-export const setUserRoles = onCall({ region: REGION }, async request => {
+export const setUserRoles = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const { uid, roles } = request.data ?? {}
@@ -69,7 +70,21 @@ export const setUserRoles = onCall({ region: REGION }, async request => {
   if (customClaims.frozen) {
     throw new HttpsError('failed-precondition', 'Unfreeze this account before changing its roles.')
   }
+  const wasAdmin = Array.isArray(customClaims.roles) && customClaims.roles.includes('admin')
+  if (wasAdmin && !roles.includes('admin')) {
+    // An admin can't demote themselves (another admin must), and the last
+    // admin can't be demoted: no one could manage the users any more.
+    if (uid === request.auth.uid) {
+      throw new HttpsError('failed-precondition', 'You cannot remove your own admin role.')
+    }
+    const admins = (await listAllAuthUsers()).filter(user => user.customClaims?.roles?.includes?.('admin') && !user.customClaims?.frozen)
+    if (admins.length <= 1) {
+      throw new HttpsError('failed-precondition', 'This is the last admin.')
+    }
+  }
+
   await auth.setCustomUserClaims(uid, { ...customClaims, roles })
+  await writeAuditLog({ action: 'setRoles', collection: 'users', docId: uid, authorId: request.auth.uid, before: customClaims.roles || [], roles })
 
   return { roles }
 })
@@ -128,7 +143,7 @@ async function emailAccount(user, emails) {
 // current ID token still works until it expires (up to an hour), then it
 // signs in again without them. Unfreezing gives its roles back. The account
 // is told both times by email.
-export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] }, async request => {
+export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 
   const { uid, frozen } = request.data ?? {}
@@ -150,7 +165,10 @@ export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] 
     let emailed = false
     if (!wasFrozen) {
       await auth.setCustomUserClaims(uid, { ...claims, roles: [], frozen: true, frozenRoles: roles })
+      // The rules refuse it from now on, not once its token expires.
+      await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).set({ frozenBy: request.auth.uid, at: new Date() })
       await auth.revokeRefreshTokens(uid)
+      await writeAuditLog({ action: 'freeze', collection: 'users', docId: uid, authorId: request.auth.uid, roles })
       emailed = await emailAccount(user, FROZEN_EMAIL)
     }
     return { frozen: true, roles: [], emailed }
@@ -161,11 +179,13 @@ export const setUserFrozen = onCall({ region: REGION, secrets: [RESEND_API_KEY] 
   }
   const restored = Array.isArray(frozenRoles) && frozenRoles.length ? frozenRoles : ['editor']
   await auth.setCustomUserClaims(uid, { ...claims, roles: restored })
+  await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).delete()
+  await writeAuditLog({ action: 'unfreeze', collection: 'users', docId: uid, authorId: request.auth.uid, roles: restored })
   const emailed = await emailAccount(user, UNFROZEN_EMAIL)
   return { frozen: false, roles: restored, emailed }
 })
 
-export const deleteUser = onCall({ region: REGION }, async request => {
+export const deleteUser = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
   const { uid } = request.data ?? {}
@@ -181,7 +201,10 @@ export const deleteUser = onCall({ region: REGION }, async request => {
   // Deleting via the Admin SDK still fires the existing auth.user().onDelete
   // trigger (users/onDelete.js), which cleans up the matching Firestore
   // users/{uid} doc - no extra cleanup needed here.
+  const { email, customClaims = {} } = await auth.getUser(uid)
   await auth.deleteUser(uid)
+  await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).delete()
+  await writeAuditLog({ action: 'deleteUser', collection: 'users', docId: uid, authorId: request.auth.uid, email: email || null, roles: customClaims.roles || [] })
 
   return { uid }
 })

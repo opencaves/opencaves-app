@@ -18,7 +18,7 @@
   "fieldOverrides": [
     {
       "collectionGroup": "ratings",
-      "fieldPath": "caveId",
+      "fieldPath": "userId",
       "indexes": [
         {
           "order": "ASCENDING",

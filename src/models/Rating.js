@@ -1,75 +1,46 @@
 import { useMemo } from 'react'
-import { collectionGroup, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore'
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '@/config/firebase.js'
 
-// Ratings live in each user's own data, one per cave:
-// users/{userId}/ratings/{caveId} = { caveId, value: 1-5, updatedAt }, so
-// rating again replaces the previous one and deleting an account removes
-// its ratings (onUserDelete deletes users/{uid} recursively). Only editors
-// and admins may write (firestore.rules). A cave's average reads every
-// user's rating of it through a collection-group query on caveId (its
-// COLLECTION_GROUP index is declared in firestore.indexes.json).
+// Ratings live under their cave, one per user:
+// caves/{caveId}/ratings/{userId} = { value: 1-5, userId, updatedAt }, so
+// rating again replaces the previous one. Each is private to its author
+// (and admins): what everyone reads is the cave's summary,
+// caveRatings/{caveId} = { average, count }, which the onRatingWritten
+// function keeps up to date. Only editors and admins may rate
+// (firestore.rules). Deleting an account removes its ratings (onUserDelete).
 const RATINGS = 'ratings'
+const SUMMARIES = 'caveRatings'
 
-function ratingsOfCave(caveId) {
-  return query(collectionGroup(db, RATINGS), where('caveId', '==', caveId))
+function ownRatingRef(caveId, userId) {
+  return doc(db, 'caves', caveId, RATINGS, userId)
 }
 
-// The user a rating doc belongs to: users/{userId}/ratings/{caveId}.
-function ratingOwner(snapshot) {
-  return snapshot.ref.parent.parent?.id
+// Sets (1-5) or clears (null) this user's rating of a cave.
+export async function setUserRating(caveId, userId, value) {
+  const ref = ownRatingRef(caveId, userId)
+  if (value === null) {
+    await deleteDoc(ref)
+    return
+  }
+  await setDoc(ref, { value, userId, updatedAt: serverTimestamp() })
 }
 
-export default class Rating {
-
-  static async getByCaveId(caveId) {
-    const rating = new Rating(caveId)
-    const snapshot = await getDocs(ratingsOfCave(caveId))
-
-    if (snapshot.empty) {
-      rating.value = null
-      return rating
-    }
-
-    let sum = 0
-    snapshot.forEach(d => {
-      sum += d.data().value
-    })
-    rating.value = sum / snapshot.size
-    return rating
-  }
-
-  // Sets (1-5) or clears (null) this user's rating of a cave.
-  static async setUserRating(caveId, userId, value) {
-    const ref = doc(db, 'users', userId, RATINGS, caveId)
-    if (value === null) {
-      await deleteDoc(ref)
-      return
-    }
-    await setDoc(ref, { caveId, value, updatedAt: serverTimestamp() })
-  }
-
-  constructor(caveId, value = null) {
-    this.caveId = caveId
-    this.value = value
-  }
-}
-
-// Live average, count and (when userId is given) that user's own rating of a
-// cave - updates as soon as anyone rates.
+// Live average and count of a cave's ratings, and (when userId is given)
+// that user's own rating. The summary follows the function's update, a
+// moment after a rating changes; the user's own rating shows at once.
 export function useCaveRatings(caveId, userId) {
-  const ratingsQuery = useMemo(() => (caveId ? ratingsOfCave(caveId) : null), [caveId])
-  const [snapshot, loading] = useCollection(ratingsQuery)
+  const [summary, summaryLoading] = useDocument(caveId ? doc(db, SUMMARIES, caveId) : null)
+  const [own, ownLoading] = useDocument(caveId && userId ? ownRatingRef(caveId, userId) : null)
 
   return useMemo(() => {
-    const docs = snapshot?.docs || []
-    const values = docs.map(d => d.data().value).filter(v => typeof v === 'number')
-    const average = values.length ? values.reduce((sum, v) => sum + v, 0) / values.length : null
-    const own = userId ? docs.find(d => ratingOwner(d) === userId)?.data().value ?? null : null
-    return { loading, average, count: values.length, own }
-  }, [snapshot, loading, userId])
+    const data = summary?.data()
+    return {
+      loading: summaryLoading || ownLoading,
+      average: typeof data?.average === 'number' ? data.average : null,
+      count: data?.count || 0,
+      own: own?.data()?.value ?? null,
+    }
+  }, [summary, own, summaryLoading, ownLoading])
 }
-
-export const getByCaveId = Rating.getByCaveId
-export const setUserRating = Rating.setUserRating

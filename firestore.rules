@@ -1,0 +1,281 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Roles come from the account's custom claims (functions/js/users). A
+    // rule's "write" would also cover delete (rules are OR'ed), so writes are
+    // granted as create/update and delete separately everywhere.
+    function isSignedIn() {
+      return request.auth != null
+    }
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.roles is list && role in request.auth.token.roles
+        && !exists(/databases/$(database)/documents/frozenUsers/$(request.auth.uid))
+    }
+    function isEditor() {
+      return hasRole('editor')
+    }
+    function isAdmin() {
+      return hasRole('admin')
+    }
+
+    // A photo's uploader and original file name (onAssetUploaded): admins only.
+    match /cavesAssetsPrivate/{document} {
+      allow read: if isAdmin()
+    }
+
+    // Who changed or deleted what, from the app (functions/js/audit), and the
+    // admins' user management: admins read it, only the server writes it.
+    match /_auditLog/{document} {
+      allow read: if isAdmin()
+    }
+
+    // Frozen accounts (setUserFrozen) have no role from the moment they're
+    // frozen - not only once their token, which still carries their roles,
+    // expires (up to an hour). Only the server reads and writes it.
+    match /frozenUsers/{uid} {
+      allow read, write: if false
+    }
+
+    // Photo records: created and filled by the server (onAssetUploaded, Admin
+    // SDK - these rules don't apply to it). Editors may only change which
+    // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
+    match /cavesAssets/{document} {
+      allow read: if true
+      allow update: if isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])
+        && request.resource.data.isCover is bool
+      // Every signed-in user can add and edit photos; only admins delete them.
+      allow delete: if isAdmin()
+    }
+
+    // Cave ratings: one per user under their cave
+    // (caves/{caveId}/ratings/{uid}), private to their author - and admins,
+    // for abuse. Only editors and admins rate, as themselves, with a 1-5
+    // integer. Everyone reads the cave's summary instead (caveRatings, kept
+    // by the onRatingWritten function): who rated what isn't public.
+    match /caves/{caveId}/ratings/{uid} {
+      allow read: if (isSignedIn() && request.auth.uid == uid) || isAdmin()
+      allow create, update: if isSignedIn() && request.auth.uid == uid
+        && (isEditor() || isAdmin())
+        && request.resource.data.keys().hasOnly(['value', 'userId', 'updatedAt'])
+        && request.resource.data.userId == uid
+        && request.resource.data.value is int
+        && request.resource.data.value >= 1 && request.resource.data.value <= 5
+        && request.resource.data.updatedAt == request.time
+      allow delete: if (isSignedIn() && request.auth.uid == uid) || isAdmin()
+    }
+
+    match /caveRatings/{caveId} {
+      allow read: if true
+    }
+
+    // Data checks: an edit from the app may only set the fields the app
+    // uses, with the right type and a sane size - limits about 4 times the
+    // largest values in the data (2026-10). Only the fields an edit sets are
+    // checked (`k`: a create's fields, or an update's changed ones), so
+    // records with older fields stay editable, and a field being removed
+    // passes. A new field in a form must be added here too, or saving it
+    // is refused. Scripts (Admin SDK) aren't checked.
+    function setKeys() {
+      return resource == null ? request.resource.data.keys() : request.resource.data.diff(resource.data).affectedKeys()
+    }
+    function text(d, k, f, max) {
+      return !(f in k) || !(f in d) || (d[f] is string && d[f].size() <= max)
+    }
+    function flag(d, k, f) {
+      return !(f in k) || !(f in d) || d[f] is bool
+    }
+    function items(d, k, f, max) {
+      return !(f in k) || !(f in d) || (d[f] is list && d[f].size() <= max)
+    }
+    function entries(d, k, f, max) {
+      return !(f in k) || !(f in d) || (d[f] is map && d[f].size() <= max)
+    }
+    function number(d, k, f, min, max) {
+      return !(f in k) || !(f in d) || (d[f] is number && d[f] >= min && d[f] <= max)
+    }
+    // Another record's id (push ids, slugs).
+    function recordId(d, k, f) {
+      return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('[-_A-Za-z0-9]{1,64}'))
+    }
+    function color(d, k, f) {
+      return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('#[0-9a-fA-F]{6}'))
+    }
+    // A year, month or day ("1990", "1986-07", "2004-06-14"), or years ("2004-2006").
+    function partialDate(d, k, f) {
+      return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('[0-9]{4}(-[0-9]{2}(-[0-9]{2})?|-[0-9]{4})?'))
+    }
+    function point(d, k, f) {
+      return !(f in k) || !(f in d) || (d[f] is map
+        && d[f].keys().hasOnly(['latitude', 'longitude', 'validity'])
+        && d[f].latitude is number && d[f].latitude >= -90 && d[f].latitude <= 90
+        && d[f].longitude is number && d[f].longitude >= -180 && d[f].longitude <= 180
+        && (!('validity' in d[f]) || (d[f].validity is string && d[f].validity.size() <= 40)))
+    }
+
+    function isValidCave(d, k) {
+      return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'sistemaId', 'sistemaColor', 'area', 'source',
+          'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
+          'explorationDate', 'videos', 'activities', 'cenoteEntrance', 'facilities', 'fees'])
+        && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
+          && d.name.value is string && d.name.value.size() <= 240
+          && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
+        && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && items(d, k, 'keys', 20)
+        && point(d, k, 'location') && point(d, k, 'entrance')
+        && recordId(d, k, 'sistemaId') && color(d, k, 'sistemaColor') && text(d, k, 'area', 240) && recordId(d, k, 'source')
+        && text(d, k, 'access', 240) && text(d, k, 'accessDetails', 4000) && text(d, k, 'accessibility', 240) && text(d, k, 'accessibilityDetails', 4000)
+        && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000) && text(d, k, 'reporter', 240)
+        && partialDate(d, k, 'explorationDate') && items(d, k, 'videos', 20)
+        && flag(d, k, 'activities') && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
+    }
+
+    function isValidSistema(d, k) {
+      return k.hasOnly(['name', 'nameTranslations', 'aka', 'area', 'color', 'description', 'direction', 'note', 'source',
+          'location', 'length', 'maxDepth', 'public', 'explorations', 'maps'])
+        && text(d, k, 'name', 240) && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && text(d, k, 'area', 240)
+        && color(d, k, 'color') && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000)
+        && recordId(d, k, 'source') && point(d, k, 'location')
+        && number(d, k, 'length', 0, 1000000) && number(d, k, 'maxDepth', 0, 1000) && flag(d, k, 'public')
+        && items(d, k, 'explorations', 80) && items(d, k, 'maps', 60)
+    }
+
+    function isValidConnection(d, k) {
+      return k.hasOnly(['sistemaId', 'parentSistemaId', 'connectionDate', 'source'])
+        && recordId(d, k, 'sistemaId') && recordId(d, k, 'parentSistemaId') && partialDate(d, k, 'connectionDate') && recordId(d, k, 'source')
+    }
+
+    // Accesses, accessibilities: their descriptions per language.
+    function isValidAccess(d, k) {
+      return k.hasOnly(['name', 'descriptions', 'note'])
+        && text(d, k, 'name', 240) && items(d, k, 'descriptions', 20) && text(d, k, 'note', 2000)
+    }
+
+    function isValidSource(d, k) {
+      return k.hasOnly(['name', 'description', 'note'])
+        && text(d, k, 'name', 240) && text(d, k, 'description', 2000) && text(d, k, 'note', 2000)
+    }
+
+    function isValidArea(d, k) {
+      return k.hasOnly(['name', 'note']) && text(d, k, 'name', 240) && text(d, k, 'note', 2000)
+    }
+
+    function isValidLanguage(d, k) {
+      return k.hasOnly(['code', 'eng', 'fra', 'spa'])
+        && text(d, k, 'code', 8) && text(d, k, 'eng', 240) && text(d, k, 'fra', 240) && text(d, k, 'spa', 240)
+    }
+
+    function isValidMap(d, k) {
+      return k.hasOnly(['name', 'authors', 'date', 'note', 'contentType', 'url'])
+        && text(d, k, 'name', 240) && items(d, k, 'authors', 20) && text(d, k, 'date', 40) && text(d, k, 'note', 2000)
+        && text(d, k, 'contentType', 100)
+    }
+
+    match /caves/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidCave(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /sistemas/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidSistema(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /connections/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidConnection(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /accesses/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidAccess(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /accessibilities/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidAccess(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /sources/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidSource(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /areas/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidArea(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    match /colors/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && setKeys().hasOnly(['hex']) && color(request.resource.data, setKeys(), 'hex')
+      allow delete: if isAdmin()
+    }
+
+    // Survey maps. Their links are shown to everyone ("Original file", the
+    // previews), so they can only point at the project's own Storage: `url`,
+    // the uploaded file's download link written by the app, must be one, and
+    // the derived files' links (previews, thumbnail, PDF pages) are the
+    // server's alone (functions/js/maps/onUploaded.js).
+    function isStorageUrl(url) {
+      return url is string && url.matches('(https://firebasestorage[.]googleapis[.]com|http://(127[.]0[.]0[.]1|localhost):9199)/v0/b/opencaves[.]appspot[.]com/o/[^?#]+([?].*)?')
+    }
+    function hasValidMapLinks() {
+      return (!('url' in request.resource.data) || isStorageUrl(request.resource.data.url))
+    }
+    match /maps/{document} {
+      allow read: if true
+      // isValidMap's fields leave out the server's (previews, thumbnail, PDF pages).
+      allow create, update: if isEditor() && hasValidMapLinks() && isValidMap(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    // App settings shared by everyone (settings/caveLayer: the cave layer's
+    // hidden map drawings), set by editors.
+    match /settings/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && setKeys().hasOnly(['hiddenMaps']) && items(request.resource.data, setKeys(), 'hiddenMaps', 1000)
+    }
+
+    match /languages/{document} {
+      allow read: if true
+      allow create, update: if isEditor() && isValidLanguage(request.resource.data, setKeys())
+      allow delete: if isAdmin()
+    }
+
+    // An account's own document (created at sign-up by the beforeUserCreated
+    // blocking function, with email and savedPlaces). The person may only
+    // change their UI language and units in it (the account page's settings;
+    // absent for Automatic) - the other fields stay server-managed.
+    match /users/{uid} {
+      function isAccountOwner() {
+        return request.auth != null && request.auth.uid == uid
+          && request.auth.token.firebase.sign_in_provider != 'anonymous'
+      }
+      function hasValidLanguage() {
+        return !('language' in request.resource.data) || request.resource.data.language in ['en', 'fr', 'es']
+      }
+      allow read: if request.auth != null && request.auth.uid == uid
+      function hasValidUnits() {
+        return !('units' in request.resource.data) || request.resource.data.units in ['metric', 'imperial']
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
+    }
+
+    // Caves a user saved from the result pane's Save quick action. Private
+    // to that user; anonymous sessions are prompted to create an account
+    // instead of saving.
+    match /users/{uid}/savedCaves/{caveId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.resource.data.keys().hasOnly(['savedAt'])
+    }
+  }
+}

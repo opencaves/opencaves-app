@@ -75,15 +75,18 @@ async function main() {
 
   let assetsQuery = db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image')
   if (argv.cave) assetsQuery = assetsQuery.where('caveId', '==', argv.cave)
-  const [assetsSnap, caveRefs, [files]] = await Promise.all([
+  const [assetsSnap, caveRefs, [files], privateSnap] = await Promise.all([
     assetsQuery.get(),
     db.collection('caves').listDocuments(),
     bucket.getFiles({ prefix }),
+    // The original file names, kept apart from the public records.
+    db.collection('cavesAssetsPrivate').get(),
   ])
+  const originalNames = new Map(privateSnap.docs.map((doc) => [doc.id, doc.get('originalName')]))
   const caveIds = new Set(caveRefs.map((ref) => ref.id))
   // Folder placeholders ("caves/x/images/", empty) aren't files.
   const fileNames = new Set(files.map((file) => file.name).filter((name) => !name.endsWith('/')))
-  const assets = assetsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+  const assets = assetsSnap.docs.map((doc) => ({ id: doc.id, originalName: originalNames.get(doc.id), ...doc.data() }))
   const label = (asset) => `${asset.id} (cave ${asset.caveId}${asset.originalName ? `, ${asset.originalName}` : ''}${asset.importSource ? `, imported from ${asset.importSource}` : ''})`
 
   const coversByCave = new Map()

@@ -7,6 +7,7 @@ import { convertPdfToSvg } from 'pdf-into-svg'
 import sharp from 'sharp'
 import pushId from 'unique-push-id'
 import { db } from '../init.js'
+import { sanitizeSvg } from './sanitizeSvg.js'
 
 // Derived files live in a subfolder so writing them never matches the
 // maps/{mapId} upload triggers below.
@@ -26,13 +27,13 @@ const MAX_INPUT_PIXELS = 1_000_000_000
 // Saves `data` and returns a Firebase Storage download URL for it (the same
 // token-based URL shape getDownloadURL() gives the client), so the app can
 // load it without going through storage rules.
-async function saveWithDownloadUrl(bucket, path, data, contentType) {
+async function saveWithDownloadUrl(bucket, path, data, contentType, extraMetadata = {}) {
   const token = randomBytes(32).toString('base64url')
   await bucket.file(path).save(data, {
     metadata: {
       contentType,
       cacheControl: IMMUTABLE_CACHE_CONTROL,
-      metadata: { firebaseStorageDownloadTokens: token }
+      metadata: { firebaseStorageDownloadTokens: token, ...extraMetadata }
     }
   })
 
@@ -86,7 +87,8 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   const previewUrls = []
   for (const [index, { svg }] of pages.entries()) {
     // Keep the PDF intact; each SVG retains the page's vector paths and text.
-    previewUrls.push(await saveWithDownloadUrl(bucket, `maps/${svgIds[index]}`, svg, 'image/svg+xml'))
+    // Cleaned like an uploaded SVG (a PDF can carry scripts and links too).
+    previewUrls.push(await saveWithDownloadUrl(bucket, `maps/${svgIds[index]}`, sanitizeSvg(svg), 'image/svg+xml', { ocSanitized: 'true' }))
   }
 
   // A small raster of the first page for the map cards - a full SVG page can
@@ -107,8 +109,9 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
 // thumbnail, stored as previewUrl/thumbnailUrl - which the app already
 // prefers over the original `url` for display (and offline downloads). The
 // original upload stays untouched as `url`, for the "Original file" download.
-// SVG uploads get only the thumbnail: the SVG itself is the best viewing copy
-// (sharp at any zoom), but can weigh megabytes - too much for a card.
+// SVG uploads are cleaned (sanitizeSvg), then get only the thumbnail: the SVG
+// itself is the best viewing copy (sharp at any zoom), but can weigh
+// megabytes - too much for a card.
 export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSeconds: 300 }, async event => {
   const { bucket: bucketName, name: originalPath, contentType, metadata } = event.data
   const match = /^maps\/([^/]+)$/.exec(originalPath || '')
@@ -119,6 +122,24 @@ export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSec
   const bucket = getStorage().bucket(bucketName)
 
   if (contentType === 'image/svg+xml') {
+    // An uploaded SVG can carry code that runs when it's opened on its own
+    // (the "Original file" link): replaced by its cleaned copy, same path and
+    // download token, flagged so this run's own save comes back here only
+    // for the thumbnail.
+    if (metadata?.ocSanitized !== 'true') {
+      const file = bucket.file(originalPath)
+      const [raw] = await file.download()
+      await file.save(sanitizeSvg(raw), {
+        metadata: {
+          contentType,
+          ...(event.data.cacheControl && { cacheControl: event.data.cacheControl }),
+          metadata: { ...metadata, ocSanitized: 'true' }
+        }
+      })
+      logger.info('Cleaned an uploaded SVG map', { mapId })
+      return
+    }
+
     // The PDF function's own pages (maps/{svgId}) are SVGs too: their map
     // already gets its thumbnail there.
     const pdfPage = await db.collection('maps').where('svgIds', 'array-contains', mapId).limit(1).get()
