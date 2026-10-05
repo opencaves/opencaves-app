@@ -280,8 +280,10 @@ map.on('load', () => {
   map.addLayer({ id: 'gold', type: 'line', source: 'walls', filter: ['==', ['get', 'kind'], 'gold'], paint: { 'line-color': '#e0a000', 'line-width': 2.6 } })
   map.addLayer({ id: 'arianne', type: 'line', source: 'walls', filter: ['in', ['get', 'kind'], ['literal', ['arianne', 'survey']]], paint: { 'line-color': '#ffd400', 'line-width': 1.6 } })
   map.addLayer({ id: 'reliefs', type: 'line', source: 'walls', filter: ['in', ['get', 'kind'], ['literal', ['relief', 'slope']]], paint: { 'line-color': '#ffffff', 'line-width': 2 } })
-  // Symbols: a short label per type, the value in metres where there's one.
-  const SHORT = { 'restriction-minor': 'r', 'restriction-major': 'X', 'visibility-zero': 'z', 'silt': 's', 'depth': '↓', 'ceiling-height': '↕', 'penetration': 'p' }
+  // Symbols in the maps' conventions, with the map's own label (its units):
+  // a floor depth overlined, a ceiling height circled, a penetration "p.",
+  // the letter codes as written; the value in metres in the tooltip.
+  const SHORT = { 'restriction-minor': 'r', 'restriction-major': 'x', 'visibility-zero': 'z', 'silt': 's' }
   const symbolMarkers = []
   // Cenote entrances: their own layer, a green ring - wide enough to show
   // around a control point's markers on the same cenote.
@@ -313,7 +315,11 @@ map.on('load', () => {
     // Flow arrows: the marker's own rotation (Mapbox sets the element's
     // transform to place it), the glyph pointing east at 0, aligned to the map.
     if (p.type === 'flow') el.style.background = '#4fc3f7'
-    el.textContent = p.type === 'flow' ? '➜' : p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'entrance' ? '●' : p.type === 'place-name' ? p.label : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
+    const number = String(p.label || p.value || '').replace(/^[pP][.,]? */, '')
+    el.textContent = p.type === 'flow' ? '➜' : p.type === 'leads-to' ? `→ ${p.label}` : p.type === 'entrance' ? '●' : p.type === 'place-name' ? p.label
+      : p.type === 'penetration' ? `p. ${number}` : ['depth', 'ceiling-height'].includes(p.type) ? number : (SHORT[p.type] || p.type) + (p.value !== undefined ? ` ${p.value} m` : '')
+    if (p.type === 'depth') el.style.textDecoration = 'overline'
+    if (p.type === 'ceiling-height') el.style.cssText += ';border:1.5px solid #fff;border-radius:50%;min-width:1.3em;text-align:center;padding:1px 2px'
     el.title = p.type + (p.value !== undefined ? ` ${p.value} m (map: ${p.label})` : '')
     symbolMarkers.push(new mapboxgl.Marker({ element: el, ...(p.type === 'flow' ? { rotation: p.bearing - 90, rotationAlignment: 'map' } : {}) }).setLngLat(f.geometry.coordinates).addTo(map))
   }
