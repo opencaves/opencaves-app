@@ -11,7 +11,7 @@
   },
   "sistemaId": "-KPZgfuQebUnZDaU989Y",
   "utmEpsg": 32616,
-  "placementWhy": "Good (about 5 m): scale from the 600 ft bar (819 px, 0.2233 m/px; its metre bar agrees); turned 1.94 degrees from the N mag arrow (2003) so the Tulum - Coba road the map draws along the cave's south-west side (two dashed edges 9.6 m apart, read by hand along their whole length) runs parallel to the real highway (the satellite's asphalt, fitted as a line), then put on it: the database's Cenote Vaca Ha (Google) at the entrance - the passage's south-east end - moved 14 m north-east; the map's road centreline then lies on the highway's along its whole length (within 0.3 degrees and 3 m). Checked on the satellite too: the map's road to Cenote Tortaga lies on the track running north-east, its access road on the path from the highway to the entrance. The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 100 m west of this: placed there, the cave straddled the highway.",
+  "placementWhy": "Good (about 5 m): the entrance - the passage's south-east end - on the database's Cenote Vaca Ha (Google), taken as right (user, 2026-10-05); turned 1.82 degrees from the N mag arrow (2003) and scaled 9% below the printed bar (the 600 ft bar read as 166.8 m instead of 182.9 m: 0.2036 m/px) so the Tulum - Coba road the map draws along the cave's south-west side (two dashed edges, read by hand along their whole length) lies on the real highway (the satellite's asphalt, fitted as a line) - within about 0.25 degrees and 1-2 m. Printed scale bars can be off (the Taj Mahal banner's by 19%). Checked on the satellite: the map's access road follows the path from the highway to the entrance; its road to Cenote Tortaga lands about 25 m east of the track it draws (a dotted sketch). The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 120 m west of this.",
   "scaleBar": {
     "from": [
       1168,
@@ -21,21 +21,22 @@
       1987,
       2471
     ],
-    "metres": 182.88
+    "metres": 166.77,
+    "why": "The 600 ft (182.88 m) bar, scaled 9% down to put the map's road on the real highway with the entrance on the database's position (see placementWhy)."
   },
   "north": {
-    "angle": 1.94
+    "angle": 1.82
   },
   "controlPoints": [
     {
       "caveId": "-KPZkVRbp2hEvAbrS2ww",
-      "name": "Cenote Vaca Ha's entrance (the passage's south-east end): the database position (Google), moved 14 m north-east so the map's Tulum - Coba road lies on the real one",
+      "name": "Cenote Vaca Ha's entrance (the passage's south-east end): the database position (Google), taken as right",
       "px": [
         2393,
         1848
       ],
-      "latitude": 20.270749,
-      "longitude": -87.4804
+      "latitude": 20.27066,
+      "longitude": -87.4805
     }
   ],
   "exclude": [
