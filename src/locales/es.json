@@ -822,7 +822,8 @@
     "removeAuthor": "Eliminar autor",
     "cancel": "Cancelar",
     "add": "Agregar",
-    "mapDateHint": "Cuándo se dibujó o publicó el mapa."
+    "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
+    "cartography": "Cartografía: {{names}}"
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -1405,7 +1406,9 @@
       "location": "Ubicación",
       "photos": "Fotos"
     },
-    "notOnMap": "No está en el mapa: aún sin coordenadas"
+    "notOnMap": "No está en el mapa: aún sin coordenadas",
+    "maps": "Mapas",
+    "openMap": "Abrir el mapa: {{name}}"
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",

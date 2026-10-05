@@ -34,6 +34,7 @@ const TITLE_BAR_MENU_SX = { top: 0, right: 4, height: TITLE_BAR_HEIGHT, width: T
 
 function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const { t: tMaps } = useTranslation('mapsPicker')
   const [failed, setFailed] = useState(false)
   const { file } = map
   // thumbnailUrl/previewUrl: WebP (or SVG) derivatives made by the
@@ -63,6 +64,12 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
       >
         {file?.name || t('openMap')}
       </Typography>
+      {/* Who drew it, along the bottom edge as the title along the top. */}
+      {file?.authors?.length > 0 && (
+        <Typography variant="caption" noWrap className="oc-cave-map-list--cartography" sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, px: 1, py: TITLE_BAR_PY, color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.6)', zIndex: 1 }}>
+          {tMaps('cartography', { names: file.authors.join(', ') })}
+        </Typography>
+      )}
     </>
   )
 

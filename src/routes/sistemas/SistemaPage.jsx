@@ -14,6 +14,7 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
+import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
@@ -198,6 +199,16 @@ export default function SistemaPage() {
           )}
         </IndexSection>
       )}
+
+      {/* Opened in the viewer of one of the system's own caves (the viewer
+          lives under a cave's address), a located one first. */}
+      <MapsSection
+        sistemaId={sistema.id}
+        sistemas={data.sistemas}
+        connections={data.connections}
+        caveId={(caves.find((cave) => cave.sistemaId === sistema.id && cave.located) || caves.find((cave) => cave.sistemaId === sistema.id))?.id}
+        title={t('maps')}
+      />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;

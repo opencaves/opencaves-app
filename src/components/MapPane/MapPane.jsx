@@ -88,9 +88,10 @@ function MapListItemMenu({ map, onEdit, onTrash }) {
 }
 
 // One map: its thumbnail, its name (two lines at most) and, under it, its
-// date and authors - enough to tell apart maps that share a name.
+// date and who drew it - enough to tell apart maps that share a name.
 function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
-  const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
+  const { t } = useTranslation('mapsPicker')
+  const details = [map.date, map.authors?.length > 0 && t('cartography', { names: map.authors.join(', ') })].filter(Boolean).join(' · ')
   const item = (
     <ListItemButton
       className="oc-map-pane--item"
@@ -118,7 +119,7 @@ function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
           {map.name}
         </Typography>
         {details && (
-          <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" noWrap title={details} sx={{ color: 'text.secondary' }}>
             {details}
           </Typography>
         )}

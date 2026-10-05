@@ -822,7 +822,8 @@
     "removeAuthor": "Remove author",
     "cancel": "Cancel",
     "add": "Add",
-    "mapDateHint": "When the map was drawn or published."
+    "mapDateHint": "When the map was drawn or published.",
+    "cartography": "Cartography: {{names}}"
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -1405,7 +1406,9 @@
       "location": "Location",
       "photos": "Photos"
     },
-    "notOnMap": "Not on the map: no coordinates yet"
+    "notOnMap": "Not on the map: no coordinates yet",
+    "maps": "Maps",
+    "openMap": "Open map: {{name}}"
   },
   "home": {
     "title": "Open data for cave diving",
