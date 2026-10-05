@@ -8,7 +8,7 @@ import { slugify } from './slug.js'
 // The public index pages, served with their content already in the HTML for
 // search engines (as cavePage.js does for /map/<caveId>): /caves (every
 // cenote by area), /areas/<slug>, /sistemas (every cave system by area) and
-// /sistemas/<slug>. Plain links, so crawlers reach every cave and system from
+// /sistemas/<id>. Plain links, so crawlers reach every cave and system from
 // them. The app's editor pages under these addresses (/caves/edit,
 // /sistemas/edit, .../<slug>/edit) are not rewritten here (firebase.json).
 const UNKNOWN_AREA = 'Unknown area'
@@ -146,7 +146,7 @@ function pageFor(path, data) {
   }
   if (section === 'sistemas') {
     if (rawSegment === undefined) return sistemasPage(data)
-    const sistema = SLUG_PATTERN.test(segment) && data.sistemasBySlug.get(segment)
+    const sistema = CAVE_ID_PATTERN.test(segment) && data.sistemasBySlug.get(segment)
     return sistema ? sistemaPage(sistema, data) : null
   }
   if (section === 'areas' && rawSegment !== undefined) {

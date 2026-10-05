@@ -12,7 +12,7 @@ import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
-// A system's name as a link to its page (/sistemas/<slug>), in the text's
+// A system's name as a link to its page (/sistemas/<id>), in the text's
 // own look (underlined on hover); plain text when it has no page. Inside the
 // accordion's header, following it doesn't also open or close the accordion.
 function SistemaLink({ slug, children }) {

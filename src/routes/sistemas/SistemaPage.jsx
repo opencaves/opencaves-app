@@ -70,16 +70,16 @@ function sistemaDetails(sistema, data) {
   return { area, ancestry, children, caves, historySistemas }
 }
 
-// /sistemas/<slug>: a cave system - its area, length and depth, description,
+// /sistemas/<id>: a cave system - its area, length and depth, description,
 // connections, exploration history and cenotes. Editors edit it at
-// /sistemas/<slug>/edit.
+// /sistemas/<id>/edit.
 export default function SistemaPage() {
-  const { sistemaSlug } = useParams()
+  const { sistemaId } = useParams()
   const { t, i18n } = useTranslation('indexPages')
   const { t: tPane } = useTranslation('resultPane')
   const units = useUnits()
   const { data, loading } = useIndexData()
-  const sistema = data.sistemasBySlug.get(sistemaSlug)
+  const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
   const title = sistema ? t('sistema.title', { name: sistema.name }) : null
@@ -89,8 +89,8 @@ export default function SistemaPage() {
 
   if (loading) return <IndexPageSkeleton />
   if (!sistema) {
-    // A system's id (older links) or name: its address.
-    const match = data.sistemasById.get(sistemaSlug) || data.sistemasBySlug.get(slugify(sistemaSlug))
+    // A system's name in the address (as the pages first did): its id.
+    const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
     if (match) return <Navigate to={`/sistemas/${match.slug}`} replace />
     throwNotFound()
   }

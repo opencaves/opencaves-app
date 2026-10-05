@@ -1,9 +1,9 @@
 import { CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
-import { slugify, slugsById } from './slug.js'
+import { slugify } from './slug.js'
 
 // The data the index pages (/caves, /sistemas, /areas/<slug>,
-// /sistemas/<slug>) and the sitemap list, read once and kept a few minutes
+// /sistemas/<id>) and the sitemap list, read once and kept a few minutes
 // per instance: a crawler going through the pages doesn't read every
 // collection on each one (the CDN keeps each page an hour anyway). The app
 // groups the same data for its own pages (src/utils/indexData.js): keep the
@@ -35,9 +35,9 @@ async function readIndexData() {
   const sistemaDocs = sistemasSnap.docs
     .map((doc) => ({ id: doc.id, updateTime: doc.updateTime, ...doc.data() }))
     .filter((sistema) => sistema.public !== false)
-  const sistemaSlugs = slugsById(sistemaDocs.map(({ id, name }) => ({ id, name })))
+  // A system's address segment is its id (/sistemas/<id>, like /caves/<id>).
   const sistemas = sistemaDocs
-    .map((sistema) => ({ ...sistema, name: sistema.name || sistema.id, slug: sistemaSlugs.get(sistema.id) }))
+    .map((sistema) => ({ ...sistema, name: sistema.name || sistema.id, slug: sistema.id }))
     .sort(byName)
   const sistemasById = new Map(sistemas.map((sistema) => [sistema.id, sistema]))
   const sistemasBySlug = new Map(sistemas.map((sistema) => [sistema.slug, sistema]))
@@ -98,7 +98,8 @@ export async function loadSistemaSlugs() {
   if (sistemaSlugsCache && Date.now() - sistemaSlugsCache.at < DATA_TTL_MS) return sistemaSlugsCache.data
   const snapshot = await db.collection('sistemas').select('name', 'public').get()
   const docs = snapshot.docs.filter((doc) => doc.data().public !== false)
-  const slugs = slugsById(docs.map((doc) => ({ id: doc.id, name: doc.data().name })))
+  // A system's address segment is its id.
+  const slugs = new Map(docs.map((doc) => [doc.id, doc.id]))
   const names = new Map(docs.map((doc) => [doc.id, doc.data().name || doc.id]))
   const data = { slugs, names }
   sistemaSlugsCache = { data, at: Date.now() }

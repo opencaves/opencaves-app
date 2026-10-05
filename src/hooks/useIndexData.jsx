@@ -16,7 +16,7 @@ export function useIndexData() {
   return { data, loading: empty && loadingState === 'loading', failed: empty && loadingState === 'error' }
 }
 
-// Every public sistema's address slug by id, for links to /sistemas/<slug>.
+// Every public sistema's address slug by id, for links to /sistemas/<id>.
 export function useSistemaSlugs() {
   const sistemas = useSelector((state) => state.data.sistemas)
   return useMemo(() => sistemaSlugs(sistemas), [sistemas])

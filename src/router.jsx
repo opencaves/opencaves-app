@@ -286,7 +286,7 @@ const routes = [
             lazy: () => import('@/routes/sistemas/SistemaIndex.jsx').then(({ default: Component }) => ({ Component })),
           },
           {
-            path: 'sistemas/:sistemaSlug',
+            path: 'sistemas/:sistemaId',
             lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
           },
           {

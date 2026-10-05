@@ -52,12 +52,12 @@ export default function SistemaIndex() {
 
       {failed && <Typography color="error">{t404('failed.description')}</Typography>}
 
-      <IndexSearchField query={query} setQuery={setQuery} placeholder={t('search.sistemas')} />
-      {searching && (
-        <Typography className="oc-sistema-index--results" variant="body2" sx={{ mt: -2, mb: 3, color: 'text.secondary' }}>
-          {sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query })}
-        </Typography>
-      )}
+      <IndexSearchField
+        query={query}
+        setQuery={setQuery}
+        placeholder={t('search.sistemas')}
+        status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query })) : null}
+      />
 
       {groups.map(({ area, items }) => (
         <IndexSection

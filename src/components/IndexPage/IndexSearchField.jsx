@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
+import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 
@@ -33,10 +33,25 @@ export function useIndexSearch() {
   return { query, setQuery, matches, searching: words.length > 0 }
 }
 
-// The search field above an index page's list.
-export default function IndexSearchField({ query, setQuery, placeholder }) {
+// The search field above an index page's list, and its result line
+// (status), kept in view below the app bar while the list scrolls by - on
+// the page's background, so the list passes under it.
+export default function IndexSearchField({ query, setQuery, placeholder, status }) {
   const { t } = useTranslation('indexPages')
   return (
+    <Box
+      className="oc-index-search-field--bar"
+      sx={{
+        position: 'sticky',
+        // The app bar's height (MUI's toolbar: 56px on phones, 64px from 600px).
+        top: { xs: 56, sm: 64 },
+        zIndex: 2,
+        bgcolor: 'background.paper',
+        pt: 1,
+        pb: 1.5,
+        mb: 2,
+      }}
+    >
     <TextField
       className="oc-index-search-field"
       type="search"
@@ -45,7 +60,7 @@ export default function IndexSearchField({ query, setQuery, placeholder }) {
       value={query}
       onChange={(event) => setQuery(event.target.value)}
       placeholder={placeholder}
-      sx={{ mb: 3, maxWidth: 560 }}
+      sx={{ maxWidth: 560 }}
       slotProps={{
         htmlInput: { 'aria-label': placeholder },
         input: {
@@ -64,5 +79,11 @@ export default function IndexSearchField({ query, setQuery, placeholder }) {
         },
       }}
     />
+    {status && (
+      <Typography className="oc-index-search-field--status" variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+        {status}
+      </Typography>
+    )}
+    </Box>
   )
 }

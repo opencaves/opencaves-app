@@ -1,16 +1,17 @@
-import { slugify, slugsById } from './slug.js'
+import { slugify } from './slug.js'
 
 // What the public index pages (/caves, /sistemas, /areas/<slug>,
-// /sistemas/<slug>) show, from the store's cave data. Mirrors the server's
+// /sistemas/<id>) show, from the store's cave data. Mirrors the server's
 // functions/js/seo/indexData.js (the same pages rendered for search engines):
 // keep the two grouping things the same way.
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
-// Every public sistema's slug by id (all are public today; one marked
-// otherwise has no page).
+// Every public sistema's address segment by id - its id, as a cave's
+// (/sistemas/<id>, like /caves/<id>). All are public today; one marked
+// otherwise has no page.
 export function sistemaSlugs(sistemas) {
-  return slugsById(sistemas.filter((sistema) => sistema.public !== false).map(({ id, name }) => ({ id, name })))
+  return new Map(sistemas.filter((sistema) => sistema.public !== false).map(({ id }) => [id, id]))
 }
 
 export function buildIndexData({ caves = [], sistemas = [], areas = [], connections = [] }) {

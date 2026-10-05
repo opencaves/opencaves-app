@@ -59,12 +59,12 @@ export default function CaveIndex() {
 
       {failed && <Typography color="error">{t404('failed.description')}</Typography>}
 
-      <IndexSearchField query={query} setQuery={setQuery} placeholder={t('search.caves')} />
-      {searching && (
-        <Typography className="oc-cave-index--results" variant="body2" sx={{ mt: -2, mb: 3, color: 'text.secondary' }}>
-          {caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query })}
-        </Typography>
-      )}
+      <IndexSearchField
+        query={query}
+        setQuery={setQuery}
+        placeholder={t('search.caves')}
+        status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query })) : null}
+      />
 
       {groups.map(({ area, items }) => (
         <IndexSection
