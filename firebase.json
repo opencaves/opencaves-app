@@ -36,6 +36,18 @@
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
         {
+          "source": "/@(caves|sistemas)",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/@(caves|sistemas|areas)/*",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/@(caves|sistemas)/edit",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        },
+        {
           "source": "/api/address/**",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=2592000" }]
         },
@@ -60,6 +72,34 @@
         {
           "source": "/map/*",
           "function": "cavePage"
+        },
+        {
+          "source": "/caves/edit",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/sistemas/edit",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/caves",
+          "function": "indexPages"
+        },
+        {
+          "source": "/caves/*",
+          "function": "indexPages"
+        },
+        {
+          "source": "/sistemas",
+          "function": "indexPages"
+        },
+        {
+          "source": "/sistemas/*",
+          "function": "indexPages"
+        },
+        {
+          "source": "/areas/*",
+          "function": "indexPages"
         },
         {
           "source": "/api/address/*",

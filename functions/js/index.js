@@ -2,6 +2,7 @@ import './init.js'
 
 export { sitemap } from './sitemap/sitemap.js'
 export * from './seo/cavePage.js'
+export * from './seo/indexPages.js'
 
 export * from './users/onDelete.js'
 export * from './users/blocking-functions.js'

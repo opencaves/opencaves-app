@@ -1,6 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
+import { loadIndexData } from '../seo/indexData.js'
 
 const SITE_URL = 'https://opencaves.org'
 
@@ -26,12 +27,18 @@ function buildSitemap(urls) {
 export const sitemap = onRequest({ region: REGION }, async (req, res) => {
   // select() with no fields returns only document metadata - cheap, and it
   // includes each cave's last write time, for lastmod.
-  const caves = await db.collection(CAVES_COLL_NAME).select().get()
+  const [caves, { areas, sistemas }] = await Promise.all([db.collection(CAVES_COLL_NAME).select().get(), loadIndexData()])
+  const day = (timestamp) => timestamp.toDate().toISOString().slice(0, 10)
 
   // Canonical URLs only: / just redirects to /map.
   const urls = [
     { loc: `${SITE_URL}/map` },
-    ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/map/${doc.id}`, lastmod: doc.updateTime.toDate().toISOString().slice(0, 10) })),
+    ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/map/${doc.id}`, lastmod: day(doc.updateTime) })),
+    // The index pages (seo/indexPages.js): areas with nothing in them aren't listed.
+    { loc: `${SITE_URL}/caves` },
+    { loc: `${SITE_URL}/sistemas` },
+    ...areas.filter((area) => area.caves.length || area.sistemas.length).map((area) => ({ loc: `${SITE_URL}/areas/${area.slug}` })),
+    ...sistemas.map((sistema) => ({ loc: `${SITE_URL}/sistemas/${sistema.slug}`, lastmod: day(sistema.updateTime) })),
     { loc: `${SITE_URL}/about` },
     { loc: `${SITE_URL}/privacy` },
     { loc: `${SITE_URL}/terms` },
