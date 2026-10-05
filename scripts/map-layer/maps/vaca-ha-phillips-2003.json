@@ -11,7 +11,7 @@
   },
   "sistemaId": "-KPZgfuQebUnZDaU989Y",
   "utmEpsg": 32616,
-  "placementWhy": "Good (about 5 m): scale from the 600 ft bar (819 px, 0.2233 m/px; its metre bar agrees); turned 1.09 degrees from the N mag arrow (2003) so the Tulum - Coba road the map draws along the cave's south-west side runs parallel to the real highway (both fitted as lines: the map's dashes, the satellite's asphalt), then put on it: the database's Cenote Vaca Ha (Google) at the entrance - the passage's south-east end - moved 9 m across the road; the road then matches within 0.3 degrees and 3 m. Checked on the satellite too: the map's road to Cenote Tortaga lies on the track running north-east, its access road on the path from the highway to the entrance. The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 100 m west of this: placed there, the cave straddled the highway.",
+  "placementWhy": "Good (about 5 m): scale from the 600 ft bar (819 px, 0.2233 m/px; its metre bar agrees); turned 1.94 degrees from the N mag arrow (2003) so the Tulum - Coba road the map draws along the cave's south-west side (two dashed edges 9.6 m apart, read by hand along their whole length) runs parallel to the real highway (the satellite's asphalt, fitted as a line), then put on it: the database's Cenote Vaca Ha (Google) at the entrance - the passage's south-east end - moved 14 m north-east; the map's road centreline then lies on the highway's along its whole length (within 0.3 degrees and 3 m). Checked on the satellite too: the map's road to Cenote Tortaga lies on the track running north-east, its access road on the path from the highway to the entrance. The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 100 m west of this: placed there, the cave straddled the highway.",
   "scaleBar": {
     "from": [
       1168,
@@ -24,18 +24,18 @@
     "metres": 182.88
   },
   "north": {
-    "angle": 1.09
+    "angle": 1.94
   },
   "controlPoints": [
     {
       "caveId": "-KPZkVRbp2hEvAbrS2ww",
-      "name": "Cenote Vaca Ha's entrance (the passage's south-east end): the database position (Google), moved 9 m across the road so the map's Tulum - Coba road lies on the real one",
+      "name": "Cenote Vaca Ha's entrance (the passage's south-east end): the database position (Google), moved 14 m north-east so the map's Tulum - Coba road lies on the real one",
       "px": [
         2393,
         1848
       ],
-      "latitude": 20.270603,
-      "longitude": -87.480564
+      "latitude": 20.270749,
+      "longitude": -87.4804
     }
   ],
   "exclude": [
@@ -372,7 +372,28 @@
         ],
         "threshold": 0
       }
-    ]
+    ],
+    "fillPolygons": [
+      [
+        [
+          1112,
+          898
+        ],
+        [
+          1154,
+          898
+        ],
+        [
+          1160,
+          950
+        ],
+        [
+          1110,
+          945
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "The east lobe of the passage below Midstation, cut short (a false circle masked there)"
   },
   "symbols": {
     "why": "QRSS / Coke conventions (the legend): overlined depths and circled ceiling-to-floor heights in feet, p. = penetration from the entrance in feet, r minor restriction, x major restriction, s silty, z expect zero visibility. OCR misses most \"p.\" penetrations on the photo: added by hand (extra); the circled ceiling-to-floor heights found as circles and read on a sheet (extra, 47); the named places at their labels.",
@@ -1147,6 +1168,56 @@
           1697,
           1303
         ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          865,
+          737
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          881,
+          971
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          1553,
+          1209
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "px": [
+          218,
+          164
+        ],
+        "value": 60,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "63",
+        "px": [
+          331,
+          125
+        ],
+        "value": 63,
+        "halfPx": 10
       }
     ]
   }
