@@ -341,6 +341,10 @@ const lightThemeOptions = {
 const darkThemeOptions = {
   sys: {
     color: {
+      // M3's baseline dark surface containers: a shade lighter than the
+      // paper (#1c1b1f) the sections inside them use.
+      surfaceContainerHigh: '#2b2930',
+      surfaceContainerHighest: '#36343b',
       outlineVariant: '#474a4c',
     },
   },

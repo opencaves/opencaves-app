@@ -17,11 +17,8 @@ import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 
-function getProp(which, theme) {
-  if (which === 'color') {
-    return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
-  }
-}
+// The primary's darker tone, its lighter one in dark mode.
+const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
 export default function MediaList({ caveId, editable = false, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -325,7 +322,7 @@ function MoreMedias({ width, height, to }) {
       to={to}
       sx={{
         borderRadius: '.5rem',
-        backgroundColor: (theme) => `rgb(${theme.palette.primary.mainChannel} / ${theme.palette.mode === 'light' ? 0.1 : 0.08})`,
+        backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -339,12 +336,12 @@ function MoreMedias({ width, height, to }) {
       }}
     >
       <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
-        <PhotoLibraryRounded fontSize="small" sx={{ color: (theme) => getProp('color', theme) }} />
+        <PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />
         <Typography
-          sx={{
+          sx={(theme) => ({
             fontSize: '.875rem',
-            color: (theme) => getProp('color', theme),
-          }}
+            ...primaryToneSx(theme),
+          })}
         >
           {t('morePicturesBtn')}
         </Typography>

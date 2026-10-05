@@ -52,7 +52,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
               ...style,
               cursor: 'pointer',
               borderRadius: 'inherit',
-              backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+              backgroundColor: 'var(--oc-scrollbar-thumb)',
             }}
           />
         )}

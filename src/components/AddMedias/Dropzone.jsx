@@ -14,7 +14,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
 
   const baseStyle = {
     height: '100%',
-    '--oc-dropzone-border-color': theme.palette.secondary.light,
+    '--oc-dropzone-border-color': theme.vars.palette.secondary.light,
     '> .oc-dropzone': {
       padding: '20px',
       margin: 2,
@@ -22,8 +22,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
       borderRadius: 2,
       borderColor: 'var(--oc-dropzone-border-color)',
       borderStyle: 'dashed',
-      backgroundColor: '#fafafa',
-      // color: '#bdbdbd',
+      backgroundColor: theme.vars.palette.action.hover,
       outline: 'none',
       transition: 'all .24s ease-in-out',
     },
@@ -34,7 +33,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
   }
 
   const acceptStyle = {
-    '--oc-dropzone-border-color': theme.palette.secondary.main,
+    '--oc-dropzone-border-color': theme.vars.palette.secondary.main,
   }
 
   const rejectStyle = {

@@ -26,32 +26,23 @@ function ButtonLg({ primary, children, ...props }) {
     <ButtonBase
       {...props}
       disableRipple
-      sx={{
-        '--_color': (theme) => theme.palette.primary.main,
-        '--_icon-color': (theme) => (primary ? '#fff' : theme.palette.primary.main),
-        '--_icon-background-color': primary ? '#fff' : null,
-        '--_border-color': (theme) => theme.palette.primary.main,
-        '--_background-color': (theme) => (primary ? theme.palette.primary.main : null),
-        '&:hover': {
-          '--_color': (theme) => (theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light),
-          '--_icon-color': (theme) => {
-            if (primary) {
-              return '#fff'
-            }
-
-            return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
-          },
-          '--_border-color': (theme) => (theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light),
-          '--_shadow': primary ? 'var(--mui-shadows-1)' : null,
-          '--_background-color': (theme) => {
-            if (primary) {
-              return theme.palette.mode === 'light' ? theme.palette.primary.dark : theme.palette.primary.light
-            }
-
-            const onColorChannel = theme.palette.mode === 'light' ? theme.palette.primary.darkChannel : theme.palette.primary.lightChannel
-            return `rgba(${onColorChannel} / 0.06)`
-          },
-        },
+      // On hover the primary's darker tone, its lighter one in dark mode.
+      sx={(theme) => {
+        const hover = (tone) => ({
+          '--_color': theme.vars.palette.primary[tone],
+          '--_icon-color': primary ? '#fff' : theme.vars.palette.primary[tone],
+          '--_border-color': theme.vars.palette.primary[tone],
+          '--_background-color': primary ? theme.vars.palette.primary[tone] : `rgba(${theme.vars.palette.primary[`${tone}Channel`]} / 0.06)`,
+        })
+        return {
+          '--_color': theme.vars.palette.primary.main,
+          '--_icon-color': primary ? '#fff' : theme.vars.palette.primary.main,
+          '--_icon-background-color': primary ? '#fff' : null,
+          '--_border-color': theme.vars.palette.primary.main,
+          '--_background-color': primary ? theme.vars.palette.primary.main : null,
+          '&:hover': { ...hover('dark'), '--_shadow': primary ? 'var(--mui-shadows-1)' : null },
+          ...theme.applyStyles('dark', { '&:hover': hover('light') }),
+        }
       }}
     >
       {children}
@@ -216,7 +207,7 @@ export default function QuickActions({ cave }) {
                     ...style,
                     cursor: 'pointer',
                     borderRadius: 'inherit',
-                    backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+                    backgroundColor: 'var(--oc-scrollbar-thumb)',
                   }}
                 />
               )}

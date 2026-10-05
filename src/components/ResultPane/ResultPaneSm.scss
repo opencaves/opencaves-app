@@ -96,6 +96,12 @@
   }
 
   &--minimize {
+    // At the sheet's minimum, room under the title line (the sheet's height
+    // can't be adjusted - Ionic sizes it - so the content is padded).
+    .oc-cave-details-header {
+      padding-bottom: var(--oc-pane-padding-block);
+    }
+
     h1 {
       white-space: nowrap;
       text-overflow: ellipsis;

@@ -59,9 +59,9 @@ export default function StickyActionBar({ children, gap = 1 }) {
         position: 'sticky',
         bottom: 0,
         zIndex: theme.zIndex.appBar,
-        bgcolor: 'rgba(255, 255, 255, 0.94)',
+        bgcolor: 'var(--oc-page-surface-stuck)',
         borderTop: '1px solid',
-        borderColor: isStuck ? '#fff' : 'divider',
+        borderColor: isStuck ? 'var(--oc-page-surface)' : 'divider',
         boxShadow: isStuck ? '0 -2px 8px rgba(0, 0, 0, 0.12)' : 'none',
         transition: 'box-shadow 160ms ease, border-color 160ms ease',
       })}

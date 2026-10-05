@@ -7,7 +7,6 @@ import waitFor from 'p-wait-for'
 import { useTranslation } from 'react-i18next'
 import { Box, Card, CardContent, IconButton, Slide, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import AppMenu from '@/components/App/AppMenu.jsx'
@@ -34,7 +33,6 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const modalRef = useRef({})
   const paneHeadRef = useRef({})
 
-  const theme = useTheme()
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
   const { t: tApp } = useTranslation('app')
@@ -349,7 +347,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
                       ...style,
                       cursor: 'pointer',
                       borderRadius: '50%',
-                      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+                      backgroundColor: 'var(--oc-scrollbar-thumb)',
                     }}
                   />
                 )}

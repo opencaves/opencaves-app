@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, ButtonBase, Paper, Typography } from '@mui/material'
+import { Box, ButtonBase, Divider, Paper, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ExpandLessRounded from '@mui/icons-material/ExpandLessRounded'
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
@@ -61,7 +61,7 @@ export default function CaveLayerLegend({ isLarge }) {
         bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
         transition: 'bottom 200ms ease, opacity 150ms ease, visibility 150ms ease',
         borderRadius: 4,
-        bgcolor: (th) => th.sys.color.surfaceContainerHigh,
+        bgcolor: (th) => th.vars.sys.color.surfaceContainerHigh,
         maxWidth: 'calc(100vw - 16px)',
         ...(!isLarge && { opacity: 'var(--oc-map-controls-opacity, 1)', visibility: 'var(--oc-map-controls-visibility, visible)' }),
       }}
@@ -72,6 +72,7 @@ export default function CaveLayerLegend({ isLarge }) {
         </Typography>
         {open ? <ExpandLessRounded fontSize="small" /> : <ExpandMoreRounded fontSize="small" />}
       </ButtonBase>
+      {open && <Divider className="oc-cave-layer-legend--divider" sx={{ mx: 1.5, mb: 1 }} />}
       {open && (
         <Box component="ul" sx={{ listStyle: 'none', m: 0, px: 1.5, pb: 1.5, pt: 0, display: 'grid', gap: 0.75 }}>
           {items.map(({ key, mark }) => (
@@ -84,7 +85,9 @@ export default function CaveLayerLegend({ isLarge }) {
               </Typography>
             </Box>
           ))}
-          <Typography component="li" variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
+          {/* A list item's divider (role none: not an entry of the list). */}
+          <Divider component="li" role="none" className="oc-cave-layer-legend--divider" sx={{ my: 0.25 }} />
+          <Typography component="li" variant="caption" color="text.secondary">
             {colorBySistema ? t('bySystem') : t('single')}
           </Typography>
         </Box>

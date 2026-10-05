@@ -150,7 +150,8 @@ function WrongMediaTypeMessage({ fileNames }) {
               maxWidth: '100%',
               borderRadius: '6px',
               borderColor: 'divider',
-              backgroundColor: (theme) => (theme.palette.mode === 'light' ? 'rgba(175, 184, 193, 0.2)' : 'rgba(110, 118, 129, 0.4)'),
+              backgroundColor: 'rgba(175, 184, 193, 0.2)',
+              '*:where([data-mui-color-scheme="dark"]) &': { backgroundColor: 'rgba(110, 118, 129, 0.4)' },
               '.MuiChip-label': {
                 fontFamily: codeFontFamily,
                 fontSize: '0.8125rem',

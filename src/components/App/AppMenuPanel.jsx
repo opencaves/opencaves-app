@@ -70,7 +70,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
                 {user.email}
               </Typography>
             )}
-            <Avatar src={user?.photoURL || undefined} alt="" sx={{ width: 72, height: 72, mx: 'auto', mb: 1.5, bgcolor: 'primary.main', fontSize: 32 }}>
+            <Avatar src={user?.photoURL || undefined} alt="" sx={{ width: 72, height: 72, mx: 'auto', mb: 1.5, bgcolor: 'primary.main', color: 'primary.contrastText', fontSize: 32 }}>
               {!user?.photoURL && initial}
             </Avatar>
             <Typography id={titleId} component="h2" sx={{ fontSize: 22, lineHeight: '28px', fontWeight: 400, mb: 2 }}>

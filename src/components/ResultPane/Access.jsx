@@ -110,7 +110,7 @@ export default function Access({ cave }) {
     // ...theme.typography.body2,
     // padding: theme.spacing(1),
     // textAlign: 'center',
-    color: theme.palette.primary.main,
+    color: theme.vars.palette.primary.main,
   }))
 
   // Each item explains itself on hover or focus (icon and label alike): its

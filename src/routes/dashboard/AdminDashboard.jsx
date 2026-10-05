@@ -27,13 +27,13 @@ const REFERENCE_COLLECTIONS = [
   { collection: 'languages', icon: LanguageRounded },
 ]
 
-const DASHBOARD_SURFACE = 'rgba(255, 255, 255, 0.9)'
+const DASHBOARD_SURFACE = 'var(--oc-page-surface-translucent)'
 const dashboardItemSx = (theme) => ({
   position: 'relative',
-  bgcolor: 'rgba(0, 0, 0, 0.03)',
+  bgcolor: theme.vars.palette.action.hover,
   transition: 'background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease',
   '&:hover': {
-    bgcolor: 'rgba(0, 0, 0, 0.08)',
+    bgcolor: theme.vars.palette.action.selected,
     boxShadow: theme.shadows[1],
     transform: 'translateY(-1px)',
     zIndex: 1,
@@ -58,8 +58,8 @@ export default function AdminDashboard() {
       className="oc-admin-dashboard"
       // A window onto Layout's background image (behind the whole page) rather
       // than a second copy of it: Layout leaves its page transparent here, so
-      // this box paints the page's white itself - out over the page's padding
-      // (negative margins), then its own 0.5rem/1rem white frame - and is
+      // this box paints the page's surface itself - out over the page's padding
+      // (negative margins), then its own 0.5rem/1rem frame - and is
       // see-through inside.
       sx={{
         mx: { xs: -2, sm: -3 },
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
         minHeight: 'calc(100vh - 100px + 32px)',
         p: { xs: 1, sm: 2 },
         borderStyle: 'solid',
-        borderColor: '#fff',
+        borderColor: 'var(--oc-page-surface)',
         borderTopWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(16px + 1rem)' },
         borderBottomWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(16px + 1rem)' },
         borderLeftWidth: { xs: 'calc(16px + 0.5rem)', sm: 'calc(24px + 1rem)' },

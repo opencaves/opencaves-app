@@ -23,9 +23,11 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
   const menuStyles = {
     minWidth: 'unset',
     borderRadius: '50%',
-    bgcolor: !isSmall && !isLoggedIn && theme.palette.background.paper,
+    // The paper's colour of the current mode (theme.vars: palette.* is the
+    // light one only - a white circle in dark mode).
+    bgcolor: !isSmall && !isLoggedIn && theme.vars.palette.background.paper,
     ':hover': {
-      bgcolor: !isSmall && !isLoggedIn && theme.palette.background.paper,
+      bgcolor: !isSmall && !isLoggedIn && theme.vars.palette.background.paper,
     },
   }
 
@@ -64,7 +66,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
             elevation: 3,
             // M3 large container shape, on the tinted surface Google Maps'
             // account card uses; the sections inside are white.
-            sx: (theme) => ({ mt: 1, borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, maxHeight: 'calc(100dvh - 80px)' }),
+            sx: (theme) => ({ mt: 1, borderRadius: 7, bgcolor: theme.vars.sys.color.surfaceContainerHigh, maxHeight: 'calc(100dvh - 80px)' }),
           },
         }}
       >
