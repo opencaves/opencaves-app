@@ -27,6 +27,8 @@ export function markdownToPlainText(markdown = '') {
   return markdown
     // Length tags (:length[45 m]) as their value, as written.
     .replace(/:length\[([^\]]*)]/g, '$1')
+    // A stray <br> (older editor saves) isn't text.
+    .replace(/<br\s*\/?>/gi, ' ')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')

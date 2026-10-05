@@ -34,6 +34,8 @@ const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '
 function plainParagraphs(markdown = '') {
   return String(markdown)
     .replace(/:length\[([^\]]*)]/g, '$1')
+    // A stray <br> (older editor saves) isn't text.
+    .replace(/<br\s*\/?>/gi, ' ')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')
