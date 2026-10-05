@@ -23,7 +23,8 @@ service cloud.firestore {
       allow read: if isAdmin()
     }
 
-    // Who changed or deleted what, from the app (functions/js/audit), and the
+    // Who changed or deleted what, from the app (functions/js/audit), the
+    // undos and the trash emptied (undoAuditEntries, emptyTrash), and the
     // admins' user management: admins read it, only the server writes it.
     match /_auditLog/{document} {
       allow read: if isAdmin()
@@ -36,14 +37,27 @@ service cloud.firestore {
       allow read, write: if false
     }
 
+    // The trash (photos, maps): an admin deletes a record to it by setting
+    // deletedAt (the request's time) and deletedBy (themselves) - its files
+    // stay - and restores it by removing both. Nothing else in the same
+    // write. Emptied for good by the emptyTrash function.
+    function isTrashChange() {
+      return isAdmin() && resource != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deletedAt', 'deletedBy'])
+        && ('deletedAt' in request.resource.data
+          ? request.resource.data.deletedAt == request.time && request.resource.data.deletedBy == request.auth.uid
+          : !('deletedBy' in request.resource.data))
+    }
+
     // Photo records: created and filled by the server (onAssetUploaded, Admin
     // SDK - these rules don't apply to it). Editors may only change which
-    // photo is the cover; admins may delete one (its files go with it: onAssetDeleted).
+    // photo outside the trash is the cover; admins delete photos to the trash
+    // (or for good: their files go with them, onAssetDeleted).
     match /cavesAssets/{document} {
       allow read: if true
-      allow update: if isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])
-        && request.resource.data.isCover is bool
-      // Every signed-in user can add and edit photos; only admins delete them.
+      allow update: if (isEditor() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isCover'])
+          && request.resource.data.isCover is bool && !('deletedAt' in resource.data))
+        || isTrashChange()
       allow delete: if isAdmin()
     }
 
@@ -232,6 +246,8 @@ service cloud.firestore {
       allow read: if true
       // isValidMap's fields leave out the server's (previews, thumbnail, PDF pages).
       allow create, update: if isEditor() && hasValidMapLinks() && isValidMap(request.resource.data, setKeys())
+      // Deleted to the trash and restored by admins (isTrashChange).
+      allow update: if isTrashChange()
       allow delete: if isAdmin()
     }
 
