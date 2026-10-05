@@ -2,9 +2,15 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Button, Drawer, styled, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Button, Drawer, SvgIcon, styled, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
+import HomeRounded from '@mui/icons-material/HomeRounded'
+import MapRounded from '@mui/icons-material/MapRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import DashboardRounded from '@mui/icons-material/DashboardRounded'
+import CaveIcon from '@/images/map/cave.svg?react'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
@@ -48,8 +54,15 @@ export default function AppBar(props) {
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   // The site's pages, on the left; the dashboard (editors) on the right,
   // beside the account button - in the phone drawer, last.
-  const navItems = [{ key: 'home', to: '/' }, { key: 'map', to: '/map' }, { key: 'caves', to: '/caves' }, { key: 'sistemas', to: '/sistemas' }, { key: 'about', to: '/about' }]
-  const drawerItems = [...navItems, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : [])]
+  const navItems = [
+    { key: 'home', to: '/', icon: <HomeRounded /> },
+    { key: 'map', to: '/map', icon: <MapRounded /> },
+    { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
+    { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
+    { key: 'about', to: '/about', icon: <InfoRounded /> },
+  ]
+  const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
+  const drawerItems = [...navItems, ...(canAccessDashboard ? [dashboardItem] : [])]
 
   useEffect(() => {
     setEntityHeadingHidden(false)
@@ -100,9 +113,10 @@ export default function AppBar(props) {
       </Typography>
       <Divider />
       <List>
-        {drawerItems.map(({ key, to }) => (
+        {drawerItems.map(({ key, to, icon }) => (
           <ListItem key={key} disablePadding>
-            <ListItemButton component={Link} to={to} sx={{ textAlign: 'center' }}>
+            <ListItemButton component={Link} to={to}>
+              <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
             </ListItemButton>
           </ListItem>
@@ -160,8 +174,8 @@ export default function AppBar(props) {
           <Grid container size="grow" sx={{ flexWrap: 'nowrap' }}>
             {!isSmall && (
               <Grid sx={{ mr: 1 }}>
-                {navItems.map(({ key, to }) => (
-                  <Button key={key} component={Link} to={to} sx={{ color: '#fff' }}>
+                {navItems.map(({ key, to, icon }) => (
+                  <Button key={key} component={Link} to={to} startIcon={icon} sx={{ color: '#fff' }}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
@@ -186,7 +200,7 @@ export default function AppBar(props) {
                 </>
               )}
               {canAccessDashboard && !isSmall && (
-                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" sx={{ color: '#fff', mr: 1 }}>
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} sx={{ color: '#fff', mr: 1 }}>
                   {t('admin', { name: APP_NAME })}
                 </Button>
               )}

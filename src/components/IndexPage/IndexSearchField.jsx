@@ -57,10 +57,12 @@ export default function IndexSearchField({ query, setQuery, placeholder, status 
       type="search"
       fullWidth
       size="small"
+      variant="outlined"
       value={query}
       onChange={(event) => setQuery(event.target.value)}
       placeholder={placeholder}
-      sx={{ maxWidth: 560 }}
+      // As the editors' lists' search (CaveList, SistemaList).
+      sx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
       slotProps={{
         htmlInput: { 'aria-label': placeholder },
         input: {
