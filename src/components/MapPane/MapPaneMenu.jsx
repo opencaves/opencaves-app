@@ -2,16 +2,15 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
-import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MoreVert from '@mui/icons-material/MoreVert'
 
 // Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
 // injected into the Lightbox with the same edit/delete actions already
-// available from the Maps tab's own three-dot menu. Omitting `onDelete` (for
-// a map inherited from an ancestor sistema) hides the remove action; `onTrash`
-// (admins) deletes the map itself, to the trash.
-export default function MapPaneMenu({ map, onEdit, onDelete, onTrash, ...props }) {
+// available from the Maps tab's own three-dot menu. `onTrash` (admins)
+// deletes the map, to the trash; there's no removing a map from its system
+// alone (it left the map shown nowhere).
+export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -57,17 +56,6 @@ export default function MapPaneMenu({ map, onEdit, onDelete, onTrash, ...props }
           </ListItemIcon>
           <ListItemText>{t('editMap')}</ListItemText>
         </MenuItem>
-        {onDelete && (
-          <MenuItem
-            onClick={() => act(onDelete)}
-            sx={{ color: 'error.main' }}
-          >
-            <ListItemIcon sx={{ color: 'error.main' }}>
-              <DeleteOutlineRounded fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{t('removeMap')}</ListItemText>
-          </MenuItem>
-        )}
         {onTrash && (
           <MenuItem
             className="oc-map-pane-menu--trash"

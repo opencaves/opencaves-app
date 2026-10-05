@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu, MenuItem, Typography, styled, useTheme } from '@mui/material'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
-import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -55,7 +54,7 @@ function MapThumbnail({ map }) {
 // sistema (one inherited from a parent sistema is removed there); admins
 // also delete the map itself (to the trash). Shown on hover, keyboard focus
 // or while open - always on touch screens.
-function MapListItemMenu({ map, onEdit, onDelete, onTrash }) {
+function MapListItemMenu({ map, onEdit, onTrash }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [anchorEl, setAnchorEl] = useState(null)
   function act(action) {
@@ -75,14 +74,6 @@ function MapListItemMenu({ map, onEdit, onDelete, onTrash }) {
           </ListItemIcon>
           <ListItemText>{t('editMap')}</ListItemText>
         </MenuItem>
-        {onDelete && (
-          <MenuItem onClick={() => act(onDelete)} sx={{ color: 'error.main' }}>
-            <ListItemIcon sx={{ color: 'error.main' }}>
-              <DeleteOutlineRounded fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{t('removeMap')}</ListItemText>
-          </MenuItem>
-        )}
         {onTrash && (
           <MenuItem className="oc-map-pane--trash-map" onClick={() => act(onTrash)} sx={{ color: 'error.main' }}>
             <ListItemIcon sx={{ color: 'error.main' }}>
@@ -98,7 +89,7 @@ function MapListItemMenu({ map, onEdit, onDelete, onTrash }) {
 
 // One map: its thumbnail, its name (two lines at most) and, under it, its
 // date and authors - enough to tell apart maps that share a name.
-function MapListItem({ map, caveId, selected, state, onEdit, onDelete, onTrash }) {
+function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
   const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
   const item = (
     <ListItemButton
@@ -139,7 +130,7 @@ function MapListItem({ map, caveId, selected, state, onEdit, onDelete, onTrash }
     <ListItem
       className="oc-map-pane--item-row"
       disablePadding
-      secondaryAction={<MapListItemMenu map={map} onEdit={onEdit} onDelete={onDelete} onTrash={onTrash} />}
+      secondaryAction={<MapListItemMenu map={map} onEdit={onEdit} onTrash={onTrash} />}
       sx={{
         '& .MuiListItemSecondaryAction-root': { right: 16 },
         '@media (hover: hover)': {
@@ -221,15 +212,6 @@ export default function MapPane() {
     navigate(`/map/${caveId}/maps/${map.id}/edit`, { state: location.state })
   }
 
-  // Off the cave's sistema (the map itself stays); the one being viewed: on
-  // to the next one (none left: the effect above goes back).
-  async function removeMap(map) {
-    const remaining = maps.filter((m) => m.id !== map.id)
-    await SistemaModel.save(sistemaId, { maps: remaining.filter((m) => m.sistemaId === sistemaId).map((m) => m.id) })
-    if (map.id === mapId && remaining.length > 0) {
-      navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
-    }
-  }
   // Gone from every sistema: the one being viewed, on to the next one (none
   // left: the effect above goes back).
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm({
@@ -249,7 +231,7 @@ export default function MapPane() {
             {`${tEdit('sistema')} ${sistemaName(group.sistemaId)}`}
           </ListSubheader>
         ),
-        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} onEdit={isEditor ? editMap : undefined} onDelete={isEditor && map.sistemaId === sistemaId ? removeMap : undefined} onTrash={canTrash ? requestTrash : undefined} />),
+        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} onEdit={isEditor ? editMap : undefined} onTrash={canTrash ? requestTrash : undefined} />),
       ])}
     </List>
   )
