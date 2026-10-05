@@ -1,4 +1,4 @@
-import ArrowBack from '@mui/icons-material/ArrowBack'
+import LogoIcon from '@/components/App/LogoIcon.jsx'
 import './SearchBarMockup.scss'
 
 // A still picture of the map page's search bar (SearchBar), for loading
@@ -8,7 +8,7 @@ import './SearchBarMockup.scss'
 export default function SearchBarMockup() {
   return (
     <div className="oc-search-bar-mockup" aria-hidden="true">
-      <ArrowBack className="oc-search-bar-mockup--icon" />
+      <LogoIcon colorScheme="light" className="oc-search-bar-mockup--icon" />
     </div>
   )
 }

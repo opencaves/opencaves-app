@@ -9,6 +9,7 @@ import Tune from '@mui/icons-material/Tune'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
 import AppMenu from '@/components/App/AppMenu.jsx'
+import LogoIcon from '@/components/App/LogoIcon.jsx'
 import { store } from '@/redux/store.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
@@ -413,12 +414,12 @@ export default function SearchBar() {
               }}
               className="oc-search-bar--actions"
             >
-              {/* Idle: back to the home page (the map is a full-screen view); with
-                  results open, the arrow below closes them. */}
+              {/* Idle: the OpenCaves logo, leading to the home page; with results
+                  open, the back arrow below closes them - one meaning each. */}
               <Fade in={!backBtnOn}>
                 <Tooltip title={t('actionButton.home.tooltip')}>
                   <ActionButton className="oc-search-bar--home" component={RouterLink} to="/" aria-label={t('actionButton.home.ariaLabel')} tabIndex={backBtnOn ? -1 : 0}>
-                    <ArrowBackIcon />
+                    <LogoIcon colorScheme="light" />
                   </ActionButton>
                 </Tooltip>
               </Fade>
