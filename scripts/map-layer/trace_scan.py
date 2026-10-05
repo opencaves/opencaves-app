@@ -2065,11 +2065,41 @@ def main(config_path, output):
             for word in labels_only:
                 x0, y0, x1, y1 = word['box']
                 boxes[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
+        # "maskSymbols": {"circleRadiusPx": [r0, r1]} - the symbols masked too
+        # (the depths extract_symbols.py found, and every small circle - the
+        # circled heights it misses on a photo): dark, they read as passage
+        # with "greyFill", and the walls bulged round each one beside them.
+        if trace.get('maskSymbols'):
+            rule = trace['maskSymbols']
+            if symbols_px.exists():
+                for x0, y0, x1, y1 in symbol_boxes(symbols_px, config):
+                    boxes[max(0, y0 - 2):y1 + 2, max(0, x0 - 2):x1 + 2] = True
+            r0, r1 = rule.get('circleRadiusPx', [9, 16])
+            grey_image = cv2.medianBlur(numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')), 3)
+            circles = cv2.HoughCircles(grey_image, cv2.HOUGH_GRADIENT, dp=1, minDist=2 * r0, param1=100, param2=rule.get('circleVotes', 22), minRadius=r0, maxRadius=r1)
+            symbol_circles = [] if circles is None else [(int(cx), int(cy), int(cr) + 3) for cx, cy, cr in circles[0]]
+            for cx, cy, cr in symbol_circles:
+                cv2.circle(boxes.view(numpy.uint8), (cx, cy), cr, 1, -1)
+            print(f'{len(symbol_circles)} circles masked')
+            # The leader lines found above (cross-sections', labels'), as spurs.
+            boxes |= cv2.dilate(leaders.astype(numpy.uint8), numpy.ones((7, 7), numpy.uint8)) > 0
         for item in config.get('exclude', []):
             if item.get('inside'):
                 x0, y0, x1, y1 = item['box']
                 boxes[max(0, y0):y1, max(0, x0):x1] = False
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+        # The masked circles lying in a passage (the ring just outside them
+        # mostly passage: "insideShare" of it) are passage again - only those
+        # beside a wall stay out.
+        if trace.get('maskSymbols'):
+            ring_mask = numpy.zeros(band.shape, numpy.uint8)
+            for cx, cy, cr in symbol_circles:
+                ring_mask[:] = 0
+                cv2.circle(ring_mask, (cx, cy), cr + 6, 1, -1)
+                cv2.circle(ring_mask, (cx, cy), cr + 1, 0, -1)
+                ring = ring_mask > 0
+                if ring.any() and (band[ring] > 0).mean() >= trace['maskSymbols'].get('insideShare', 0.6):
+                    cv2.circle(band, (cx, cy), cr + 1, 255, -1)
         if trace.get('paperIslands'):
             band = carve_paper_islands(band, config_path.parent.joinpath(config['image']).resolve(), boxes, trace['paperIslands'])
         for item in config.get('exclude', []):
@@ -2112,6 +2142,24 @@ def main(config_path, output):
             sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
             band[numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['bandHoleMaxPx']))] = 255
     contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    # "snapWallsToInkPx": {"px": r, "inkLevel": l} - each outline point moved
+    # onto the nearest drawn ink (darker than l) within r pixels: a band
+    # found by darkness ("greyFill") ends a few pixels off the wall stroke,
+    # and shrinking it more would cut the narrow passages.
+    if trace.get('snapWallsToInkPx'):
+        rule = trace['snapWallsToInkPx']
+        grey_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L'))
+        stroke = (grey_image < rule.get('inkLevel', 110)) & ~masked & ~symbol_ink
+        distance, (iy, ix) = ndimage.distance_transform_edt(~stroke, return_indices=True)
+        snapped = []
+        for contour in contours:
+            pts = contour[:, 0, :]
+            ys, xs = pts[:, 1], pts[:, 0]
+            near = distance[ys, xs] <= rule.get('px', 5)
+            moved = pts.copy()
+            moved[near, 0], moved[near, 1] = ix[ys[near], xs[near]], iy[ys[near], xs[near]]
+            snapped.append(moved[:, None, :].astype(numpy.int32))
+        contours = tuple(snapped)
 
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
