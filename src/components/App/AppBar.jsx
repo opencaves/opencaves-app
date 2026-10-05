@@ -30,7 +30,13 @@ const NAV_LINK_SX = {
   color: '#fff',
   '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)' },
   '&.Mui-focusVisible, &:active': { bgcolor: 'rgba(255, 255, 255, 0.1)' },
+  // The current page: a white bar under its link.
+  '&[aria-current="page"]': { boxShadow: 'inset 0 -3px 0 #fff', borderRadius: '4px 4px 0 0' },
 }
+
+// Whether a link's page is the one shown: / only itself, the others their
+// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
 
 const StyledButton = styled(Button)({
   color: 'var(--mui-palette-primary-contrastText)',
@@ -72,6 +78,10 @@ export default function AppBar(props) {
   ]
   const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
   const drawerItems = [...navItems, ...(canAccessDashboard ? [dashboardItem] : [])]
+  // The bar itself leaves Home out: the logo and the title link there, as
+  // people expect - the phone drawer keeps it.
+  const barItems = navItems.filter(({ key }) => key !== 'home')
+  const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
 
   useEffect(() => {
     setEntityHeadingHidden(false)
@@ -124,7 +134,7 @@ export default function AppBar(props) {
       <List>
         {drawerItems.map(({ key, to, icon }) => (
           <ListItem key={key} disablePadding>
-            <ListItemButton component={Link} to={to}>
+            <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
             </ListItemButton>
@@ -183,8 +193,8 @@ export default function AppBar(props) {
           <Grid container size="grow" sx={{ flexWrap: 'nowrap' }}>
             {!isSmall && (
               <Grid sx={{ mr: 1 }}>
-                {navItems.map(({ key, to, icon }) => (
-                  <Button key={key} component={Link} to={to} startIcon={icon} sx={NAV_LINK_SX}>
+                {barItems.map(({ key, to, icon }) => (
+                  <Button key={key} component={Link} to={to} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
@@ -209,7 +219,7 @@ export default function AppBar(props) {
                 </>
               )}
               {canAccessDashboard && !isSmall && (
-                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} sx={{ ...NAV_LINK_SX, mr: 1 }}>
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={{ ...NAV_LINK_SX, mr: 1 }}>
                   {t('admin', { name: APP_NAME })}
                 </Button>
               )}
