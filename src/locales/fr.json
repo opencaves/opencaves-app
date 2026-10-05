@@ -1396,9 +1396,7 @@
       "caves_one": "grotte",
       "caves_other": "grottes",
       "sistemas_one": "réseau",
-      "sistemas_other": "réseaux",
-      "regions_one": "région",
-      "regions_other": "régions"
+      "sistemas_other": "réseaux"
     },
     "safety": {
       "title": "La plongée souterraine peut tuer",

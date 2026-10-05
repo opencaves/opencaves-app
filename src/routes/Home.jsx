@@ -218,9 +218,8 @@ export default function Home() {
           {[
             ['caves', data.caves.length, '/caves', caveIcon],
             ['sistemas', data.sistemas.length, '/sistemas', sistemaIcon],
-            ['regions', regions.length, '#regions', <PublicRounded key="regions" />],
           ].map(([key, count, to, icon]) => (
-            <Grid key={key} size={{ xs: 12, sm: 4 }}>
+            <Grid key={key} size={{ xs: 12, sm: 6 }}>
               <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
                 <CardActionArea component={RouterLink} to={to} sx={{ height: '100%', p: 2.5, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
                   <IconBadge size={56}>{icon}</IconBadge>

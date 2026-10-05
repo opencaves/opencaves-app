@@ -161,7 +161,7 @@ function homePage(data) {
       `<h1>Open data for cave diving</h1>`,
       `<p>OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.</p>`,
       `<p><a href="/map">Open the map</a> - <a href="/caves">Browse the caves</a> - <a href="/sistemas">Browse the systems</a></p>`,
-      `<p>${escapeHtml(count(data.caves.length, 'cave'))}, ${escapeHtml(count(data.sistemas.length, 'cave system'))} and ${escapeHtml(count(areas.length, 'area'))} on OpenCaves.</p>`,
+      `<p>${escapeHtml(count(data.caves.length, 'cave'))} and ${escapeHtml(count(data.sistemas.length, 'cave system'))} on OpenCaves.</p>`,
       `<h2>Cave diving can kill</h2>`,
       `<p>Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. In a cenote, the cavern - the part where daylight still shows the way out - can be dived with cavern training and a guide; beyond it is the cave, for trained cave divers only.</p>`,
       `<h2>Not for dive planning</h2>`,

@@ -1397,9 +1397,7 @@
       "caves_one": "cueva",
       "caves_other": "cuevas",
       "sistemas_one": "sistema de cuevas",
-      "sistemas_other": "sistemas de cuevas",
-      "regions_one": "zona",
-      "regions_other": "zonas"
+      "sistemas_other": "sistemas de cuevas"
     },
     "safety": {
       "title": "El buceo en cuevas puede matar",

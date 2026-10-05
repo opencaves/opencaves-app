@@ -1397,9 +1397,7 @@
       "caves_one": "cave",
       "caves_other": "caves",
       "sistemas_one": "cave system",
-      "sistemas_other": "cave systems",
-      "regions_one": "area",
-      "regions_other": "areas"
+      "sistemas_other": "cave systems"
     },
     "safety": {
       "title": "Cave diving can kill",
