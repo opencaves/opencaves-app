@@ -39,7 +39,11 @@ prints each group of problems with what to do about it:
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
-## Sync the database from the Google Sheet
+## Sync the database from the Google Sheet (deprecated)
+
+**Don't run it:** the Google Sheet is no longer used, the app is the data's
+only source, and a sync would overwrite what was edited in the app. The
+script is kept for now, to be removed.
 
 ```
 node scripts/migrate-sheet-to-firestore.js -l   # local emulators
@@ -66,7 +70,8 @@ node scripts/sync-to-production.js --write     # back up production's documents,
 The local emulators hold the original data; production (users' tests) is
 refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
-its users (accounts and `users/*`: saved caves, ratings, settings), which stay
+its users' data (accounts, `_users/*`: settings and saved caves; the caves'
+ratings and `_caveRatings`), frozen accounts and audit log, which stay
 untouched. What's only in production is deleted, files included. Production's
 documents are first saved to `_data/backups/production-<date>/`; its deleted
 files are not. Copied files carry `ocSync=true`, so the upload functions
@@ -107,7 +112,7 @@ An admin can also **freeze** an account from the Users page: all its editing
 rights are removed (kept for unfreezing), the editor role every account gets
 automatically is withheld while it's frozen, and the person is told by email
 (and again when it's unfrozen). It takes effect at once: the security rules
-check the `frozenUsers` collection, not only the account's sign-in token.
+check the `_frozenUsers` collection, not only the account's sign-in token.
 
 From the Users page, an admin can't remove their own admin role (another
 admin must), and nobody can remove the last admin's.

@@ -4,13 +4,13 @@ export const REGION = 'northamerica-northeast1'
 export const CAVES_COLL_NAME = 'caves'
 export const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 // A photo's uploader and original file name, apart from its public record.
-export const CAVES_ASSETS_PRIVATE_COLL_NAME = 'cavesAssetsPrivate'
-export const USERS_COLL_NAME = 'users'
+export const CAVES_ASSETS_PRIVATE_COLL_NAME = '_cavesAssetsPrivate'
+export const USERS_COLL_NAME = '_users'
 // Frozen accounts (setUserFrozen), checked by the security rules.
-export const FROZEN_USERS_COLL_NAME = 'frozenUsers'
+export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
-export const CAVE_RATINGS_COLL_NAME = 'caveRatings'
+export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'

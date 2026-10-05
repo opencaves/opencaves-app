@@ -9,7 +9,7 @@ service cloud.firestore {
     }
     function hasRole(role) {
       return isSignedIn() && request.auth.token.roles is list && role in request.auth.token.roles
-        && !exists(/databases/$(database)/documents/frozenUsers/$(request.auth.uid))
+        && !exists(/databases/$(database)/documents/_frozenUsers/$(request.auth.uid))
     }
     function isEditor() {
       return hasRole('editor')
@@ -19,7 +19,7 @@ service cloud.firestore {
     }
 
     // A photo's uploader and original file name (onAssetUploaded): admins only.
-    match /cavesAssetsPrivate/{document} {
+    match /_cavesAssetsPrivate/{document} {
       allow read: if isAdmin()
     }
 
@@ -32,7 +32,7 @@ service cloud.firestore {
     // Frozen accounts (setUserFrozen) have no role from the moment they're
     // frozen - not only once their token, which still carries their roles,
     // expires (up to an hour). Only the server reads and writes it.
-    match /frozenUsers/{uid} {
+    match /_frozenUsers/{uid} {
       allow read, write: if false
     }
 
@@ -64,7 +64,7 @@ service cloud.firestore {
       allow delete: if (isSignedIn() && request.auth.uid == uid) || isAdmin()
     }
 
-    match /caveRatings/{caveId} {
+    match /_caveRatings/{caveId} {
       allow read: if true
     }
 
@@ -237,7 +237,7 @@ service cloud.firestore {
 
     // App settings shared by everyone (settings/caveLayer: the cave layer's
     // hidden map drawings), set by editors.
-    match /settings/{document} {
+    match /_settings/{document} {
       allow read: if true
       allow create, update: if isEditor() && setKeys().hasOnly(['hiddenMaps']) && items(request.resource.data, setKeys(), 'hiddenMaps', 1000)
     }
@@ -252,7 +252,7 @@ service cloud.firestore {
     // blocking function, with email and savedPlaces). The person may only
     // change their UI language and units in it (the account page's settings;
     // absent for Automatic) - the other fields stay server-managed.
-    match /users/{uid} {
+    match /_users/{uid} {
       function isAccountOwner() {
         return request.auth != null && request.auth.uid == uid
           && request.auth.token.firebase.sign_in_provider != 'anonymous'
@@ -271,7 +271,7 @@ service cloud.firestore {
     // Caves a user saved from the result pane's Save quick action. Private
     // to that user; anonymous sessions are prompted to create an account
     // instead of saving.
-    match /users/{uid}/savedCaves/{caveId} {
+    match /_users/{uid}/savedCaves/{caveId} {
       allow read, delete: if request.auth != null && request.auth.uid == uid
       allow create, update: if request.auth != null && request.auth.uid == uid
         && request.auth.token.firebase.sign_in_provider != 'anonymous'

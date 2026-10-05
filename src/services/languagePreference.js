@@ -2,6 +2,7 @@ import { deleteField, doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
 import i18n from '@/i18n.js'
 import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY } from '@/config/appLanguages.js'
+import { USERS_COLLECTION } from '@/config/collections.js'
 
 // The app (UI) language a person picked (the account page's LanguageSection):
 // kept on this device (localStorage, read by i18next's detector) and, for a
@@ -35,12 +36,12 @@ export function applyLanguage(code) {
 }
 
 export async function loadAccountLanguage(uid) {
-  const snapshot = await getDoc(doc(db, 'users', uid))
+  const snapshot = await getDoc(doc(db, USERS_COLLECTION, uid))
   const code = snapshot.exists() ? snapshot.get('language') : null
   return isSupportedLanguage(code) ? code : null
 }
 
 // Automatic removes the field rather than storing a value.
 export function saveAccountLanguage(uid, code) {
-  return setDoc(doc(db, 'users', uid), { language: code || deleteField() }, { merge: true })
+  return setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true })
 }

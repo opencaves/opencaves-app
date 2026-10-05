@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { collection, deleteDoc, doc, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '@/config/firebase.js'
+import { USERS_COLLECTION } from '@/config/collections.js'
 
 // Caves the signed-in user saved via the result pane's Save quick action,
 // stored as users/{uid}/savedCaves/{caveId} (see firestore.rules). Anonymous
@@ -13,7 +14,7 @@ export function useSavedCaves() {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const canSave = !!uid && isLoggedIn
 
-  const savedQuery = useMemo(() => (canSave ? query(collection(db, 'users', uid, 'savedCaves'), orderBy('savedAt', 'desc')) : null), [canSave, uid])
+  const savedQuery = useMemo(() => (canSave ? query(collection(db, USERS_COLLECTION, uid, 'savedCaves'), orderBy('savedAt', 'desc')) : null), [canSave, uid])
   const [snapshot, loading] = useCollection(savedQuery)
 
   // Most recently saved first.
@@ -21,11 +22,11 @@ export function useSavedCaves() {
   const savedCaveIdSet = useMemo(() => new Set(savedCaveIds), [savedCaveIds])
 
   async function saveCave(caveId) {
-    await setDoc(doc(db, 'users', uid, 'savedCaves', caveId), { savedAt: serverTimestamp() })
+    await setDoc(doc(db, USERS_COLLECTION, uid, 'savedCaves', caveId), { savedAt: serverTimestamp() })
   }
 
   async function unsaveCave(caveId) {
-    await deleteDoc(doc(db, 'users', uid, 'savedCaves', caveId))
+    await deleteDoc(doc(db, USERS_COLLECTION, uid, 'savedCaves', caveId))
   }
 
   return { canSave, loading: canSave && loading, savedCaveIds, isSaved: (caveId) => savedCaveIdSet.has(caveId), saveCave, unsaveCave }
