@@ -114,6 +114,8 @@ export default function SistemaPage() {
   return (
     <div className="oc-sistema-page">
       <IndexPageHeader
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.sistemas', { ns: 'app' }), to: '/sistemas' }]}
+        current={sistema.name}
         title={
           <>
             <Box component="span" aria-hidden="true" sx={{ display: 'inline-block', verticalAlign: 'middle', width: '0.5em', height: '0.5em', mr: 1.5, borderRadius: '50%', bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR }} />

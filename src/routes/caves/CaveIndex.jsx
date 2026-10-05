@@ -43,6 +43,8 @@ export default function CaveIndex() {
   return (
     <div className="oc-cave-index">
       <IndexPageHeader
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
+        current={t('menu.caves', { ns: 'app' })}
         title={t('caves.title')}
         subtitle={
           <>

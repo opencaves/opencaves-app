@@ -54,7 +54,11 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
     `</main>`,
   ].filter(Boolean).join('\n')
 
-  return renderPage(shell, { title, description, path, body, ogType: 'place' })
+  // Its breadcrumbs: its page under the caves and its area; its place on the map under the map.
+  const trail = path.startsWith('/caves/')
+    ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/areas/${slugify(area)}` }] : []), { name: name || label, path }]
+    : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
+  return renderPage(shell, { title, description, path, body, ogType: 'place', trail })
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and

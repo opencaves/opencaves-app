@@ -77,7 +77,8 @@
     },
     "editTitle": "Edit {{title}}",
     "loading": "Loading…",
-    "closeDialog": "Close"
+    "closeDialog": "Close",
+    "breadcrumbs": "Breadcrumbs"
   },
   "account": {
     "profile": "Profile",

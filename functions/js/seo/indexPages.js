@@ -50,6 +50,7 @@ function cavesPage(data) {
     // The app's (src/locales/en.json indexPages.caves.description), word for word.
     description: 'Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.',
     path: '/caves',
+    trail: [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }],
     body: [
       `<main class="oc-ssr-caves">`,
       `<h1>Caves of the Yucatán by area</h1>`,
@@ -66,6 +67,7 @@ function sistemasPage(data) {
     title: `Cave systems of the Yucatán / ${APP_TITLE}`,
     description: 'The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.',
     path: '/sistemas',
+    trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }],
     body: [
       `<main class="oc-ssr-sistemas">`,
       `<h1>Cave systems of the Yucatán</h1>`,
@@ -81,6 +83,7 @@ function areaPage(area) {
     title: `Caves in ${area.name} / ${APP_TITLE}`,
     description: truncate(`The cenotes and cave systems of ${area.name}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.`),
     path: `/areas/${area.slug}`,
+    trail: [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, { name: area.name, path: `/areas/${area.slug}` }],
     body: [
       `<main class="oc-ssr-area">`,
       `<h1>Caves in ${escapeHtml(area.name)}</h1>`,
@@ -121,6 +124,7 @@ function sistemaPage(sistema, data) {
       ? `${sistema.name} cave system (Yucatán, Mexico): ${summary}`
       : `${sistema.name} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.`),
     path: `/sistemas/${sistema.slug}`,
+    trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path: `/sistemas/${sistema.slug}` }],
     body: [
       `<main class="oc-ssr-sistema">`,
       `<h1>${escapeHtml(sistema.name)} cave system</h1>`,

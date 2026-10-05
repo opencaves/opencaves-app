@@ -64,9 +64,18 @@ const SHARE_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630,
 
 // The shell with the page's <head> tags and #root content. path: the page's
 // canonical path ("/caves"); body: its HTML, already escaped; jsonLd:
-// structured data (schema.org) for the page's <head>, if any.
-export function renderPage(shell, { title, description, path, body, ogType = 'website', jsonLd = null }) {
+// structured data (schema.org) for the page's <head>, if any; trail: its
+// breadcrumbs, [{ name, path }] from the landing page to the page itself -
+// links above its content, and a BreadcrumbList for search results.
+export function renderPage(shell, { title, description, path, body, ogType = 'website', jsonLd = null, trail = null }) {
   const url = `${SITE_URL}${path}`
+  const breadcrumbs = trail?.length
+    ? {
+        html: `<nav aria-label="Breadcrumbs" class="oc-ssr-breadcrumbs">${trail.map(({ name, path: crumbPath }, i) => (i === trail.length - 1 ? `<span aria-current="page">${escapeHtml(name)}</span>` : `<a href="${escapeHtml(crumbPath)}">${escapeHtml(name)}</a>`)).join(' &rsaquo; ')}</nav>
+`,
+        jsonLd: { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: trail.map(({ name, path: crumbPath }, i) => ({ '@type': 'ListItem', position: i + 1, name, item: `${SITE_URL}${crumbPath}` })) },
+      }
+    : null
   const head = [
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}" />`,
@@ -82,6 +91,7 @@ export function renderPage(shell, { title, description, path, body, ogType = 'we
     `<meta property="og:image:alt" content="${escapeHtml(SHARE_IMAGE.alt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     jsonLd ? jsonLdScript(jsonLd) : '',
+    breadcrumbs ? jsonLdScript(breadcrumbs.jsonLd) : '',
   ].filter(Boolean).join('\n  ')
 
   // Replacer functions, not strings: a "$&" or "$'" in a name would otherwise
@@ -91,7 +101,7 @@ export function renderPage(shell, { title, description, path, body, ogType = 'we
     .replace(/<title>[^<]*<\/title>\s*/i, '')
     .replace(/<meta name="description"[^>]*>\s*/i, '')
     .replace(/<head>/i, () => `<head>\n  ${head}`)
-    .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`)
+    .replace('<div id="root"></div>', () => `<div id="root">${breadcrumbs ? breadcrumbs.html : ''}${body}</div>`)
 }
 
 // The path's segment, decoded, or '' when it can't be (bad % escapes).

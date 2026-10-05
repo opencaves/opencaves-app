@@ -36,6 +36,8 @@ export default function SistemaIndex() {
   return (
     <div className="oc-sistema-index">
       <IndexPageHeader
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
+        current={t('menu.sistemas', { ns: 'app' })}
         title={t('sistemas.title')}
         subtitle={
           <>

@@ -77,7 +77,8 @@
     },
     "editTitle": "Modifier {{title}}",
     "loading": "Chargement…",
-    "closeDialog": "Fermer"
+    "closeDialog": "Fermer",
+    "breadcrumbs": "Fil d’Ariane"
   },
   "account": {
     "profile": "Profil",
