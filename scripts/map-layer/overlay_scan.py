@@ -276,7 +276,8 @@ map.on('load', () => {
   map.addSource('walls', { type: 'geojson', data: __WALLS__, tolerance: 0 })
   map.addLayer({ id: 'water', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'water'], paint: { 'fill-color': '#9ec3d6', 'fill-opacity': 0.55 } })
   map.addLayer({ id: 'details', type: 'fill', source: 'walls', filter: ['==', ['get', 'kind'], 'detail'], paint: { 'fill-color': '#ffffff', 'fill-opacity': 0.9 } })
-  map.addLayer({ id: 'walls', type: 'line', source: 'walls', filter: ['!', ['in', ['get', 'kind'], ['literal', ['detail', 'water', 'relief', 'slope', 'arianne', 'survey']]]], paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })
+  map.addLayer({ id: 'walls', type: 'line', source: 'walls', filter: ['!', ['in', ['get', 'kind'], ['literal', ['detail', 'water', 'relief', 'slope', 'arianne', 'survey', 'gold']]]], paint: { 'line-color': '#ffffff', 'line-width': 1.4 } })
+  map.addLayer({ id: 'gold', type: 'line', source: 'walls', filter: ['==', ['get', 'kind'], 'gold'], paint: { 'line-color': '#e0a000', 'line-width': 2.6 } })
   map.addLayer({ id: 'arianne', type: 'line', source: 'walls', filter: ['in', ['get', 'kind'], ['literal', ['arianne', 'survey']]], paint: { 'line-color': '#ffd400', 'line-width': 1.6 } })
   map.addLayer({ id: 'reliefs', type: 'line', source: 'walls', filter: ['in', ['get', 'kind'], ['literal', ['relief', 'slope']]], paint: { 'line-color': '#ffffff', 'line-width': 2 } })
   // Symbols: a short label per type, the value in metres where there's one.

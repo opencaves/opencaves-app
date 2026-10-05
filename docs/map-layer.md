@@ -60,6 +60,14 @@ points, or by its scale bar and north plus one or more points.
 - The passages' **water** fill is decided per map by the user (`"water"`;
   `waterPolygons` limits it to some areas, e.g. a cenote's open water).
 - A **stick map** (survey lines only) is traced as lines, with no thickness: they are the Arianne line (the guideline laid in the cave), kind `arianne`, drawn on its own (a continuous yellow line).
+- The **gold line** - a special guideline that starts in the cavern (the
+  daylight zone), and may run on to the next cenote (in Taj Mahal it links
+  two cenotes) - is its own kind, `gold`: a wider, deeper gold line than the
+  Arianne line. Maps draw it in yellow ("golden lines", "Führungsleine" on a
+  cavern sign). On a stick map (`"method": "survey-lines"`), `goldColours`
+  (e.g. `["yellow"]`) traces it apart from the other lines, with its own
+  `goldEraseLines`/`goldAddLines`; elsewhere `goldLines` draws it by hand
+  (pixel polylines, like `arianneLines`).
 - An Arianne line the tracing can't find (faint, or drawn like the rest) is
   drawn by hand: `python line_editor.py maps/<map>.json` opens the scan in the
   browser, with the config's `arianneLines` and the traced walls; draw, edit

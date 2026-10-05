@@ -62,4 +62,7 @@ export const CAVE_LAYER = {
   WATER_OPACITY: 0.55,
   // The Arianne line (guideline): its own colour, a guideline's yellow.
   ARIANNE_COLOR: '#ffd400',
+  // The gold line (the guideline starting in the cavern zone): a deeper gold
+  // than the Arianne line, and wider.
+  GOLD_LINE_COLOR: '#e0a000',
 }

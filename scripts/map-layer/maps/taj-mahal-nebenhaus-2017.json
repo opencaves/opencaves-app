@@ -1,0 +1,379 @@
+{
+  "perspective": {
+    "photo": "../../../_data/cartes/à traiter/Sistema Taj Mahal, Xpu Ha - Nebenhaus 2017 (banner photo).jpg",
+    "corners": [
+      [
+        310,
+        243
+      ],
+      [
+        3252,
+        238
+      ],
+      [
+        3258,
+        2303
+      ],
+      [
+        315,
+        2299
+      ]
+    ]
+  },
+  "image": "../../../_data/map-layer/pilot/taj-mahal-nebenhaus-2017-straight.png",
+  "title": "Sistema Taj Mahal - Marcelin Nebenhaus 2017",
+  "date": "2017",
+  "credits": "Sistema Taj Mahal, Xpu Ha, Quintana Roo, Mexico; UTM 16Q E 471134 N 2265043; total surveyed underwater passages 32,669 ft (9,957.5 m); maximum surveyed depth 78 ft (23.78 m); original explorers Nancy DeRosa, Tony DeRosa, Steve Gerrard, Wayne Nefzger, unknown divers from the French Federation; further exploration by various; survey and cartography by Marcelin Nebenhaus, January 2017 - April 2017; copyright 2017 Marcelin Nebenhaus (photo of the banner at the cenote)",
+  "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+  "utmEpsg": 32616,
+  "placementWhy": "Good (about 5-10 m around Taj Mahal): free similarity fit on the three points checked on the ground for the Gerrard 2001 map (taj-mahal.json), residuals 11, 7 and 4 m; 0.427 m/px, rotated 4.2 degrees. Points: Cenote Taj Mahal's pool on the database's Taj Mahal (Open Caves source, taken on site); Cenote Mangrove's ring-shaped outline centred on the ring-shaped pond on the satellite; City of Agre's south-west pool (where the 1783 ft line arrives) on the dark open-water pool on the satellite. The banner's printed scale bar is not used: its metre and foot bars agree (0.345 m/px) but are 19% short of the ground (Taj Mahal - City of Agre 375 m on the satellite, 294 m by the bar) - the bar was likely not scaled with the drawing when the banner was printed. Its 'N mag 2017' arrow is up; the fit's 4 degrees is mostly the photo and the magnetic north. Cross-checked: Buena Vista lands 20 m from the pale gap in the canopy taken as its check point on the Gerrard map, Sugarbowl, Sacrado, Nachich and Twin Cenotes within 10-30 m of the Gerrard map's.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "name": "Cenote Taj Mahal (DB, Open Caves source)",
+      "px": [
+        1502,
+        1273
+      ],
+      "latitude": 20.48341,
+      "longitude": -87.27686
+    },
+    {
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "name": "Cenote Mangrove: centre of its ring-shaped outline, on the ring-shaped pond on the satellite",
+      "px": [
+        991,
+        1205
+      ],
+      "latitude": 20.48392,
+      "longitude": -87.2788
+    },
+    {
+      "name": "Cenote City of Agre: its south-west pool, on the dark open-water pool on the satellite",
+      "px": [
+        2355,
+        1244
+      ],
+      "latitude": 20.48338,
+      "longitude": -87.27327
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Sistema Taj Mahal, Xpu Ha, Quintana Roo, Mexico; UTM 16Q E 471134 N 2265043; total surveyed underwater passages 32,669 ft / 9,957.5 m; maximum surveyed depth 78 ft / 23.78 m",
+      "box": [
+        1793,
+        103,
+        2808,
+        566
+      ],
+      "history": true
+    },
+    {
+      "why": "note: * indicates distance when staying on golden line",
+      "box": [
+        1485,
+        309,
+        1676,
+        360
+      ]
+    },
+    {
+      "why": "north arrow (N mag 2017)",
+      "box": [
+        132,
+        103,
+        243,
+        316
+      ]
+    },
+    {
+      "why": "explorers box: original explorers Nancy DeRosa, Tony DeRosa, Steve Gerrard, Wayne Nefzger, unknown divers from the French Federation; further exploration by various; survey and cartography by Marcelin Nebenhaus, January 2017 - April 2017; copyright 2017 Marcelin Nebenhaus",
+      "box": [
+        941,
+        1573,
+        1411,
+        1940
+      ],
+      "history": true
+    },
+    {
+      "why": "legend: golden lines, main lines, secondary lines, cenotes, connection or jump, major restrictions / sidemount only, minor restrictions, distance from cenote Taj Mahal, depth in feet",
+      "box": [
+        2242,
+        1668,
+        2764,
+        1940
+      ]
+    },
+    {
+      "why": "scale bar (metres, feet)",
+      "box": [
+        81,
+        1889,
+        485,
+        2007
+      ]
+    },
+    {
+      "why": "banner border (top)",
+      "box": [
+        0,
+        0,
+        2943,
+        25
+      ]
+    },
+    {
+      "why": "banner border (bottom)",
+      "box": [
+        0,
+        2030,
+        2943,
+        2061
+      ]
+    },
+    {
+      "why": "banner border (left)",
+      "box": [
+        0,
+        0,
+        22,
+        2061
+      ]
+    },
+    {
+      "why": "banner border (right)",
+      "box": [
+        2918,
+        0,
+        2943,
+        2061
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Taj Mahal",
+      "written": false,
+      "knownEntrance": true,
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "px": [
+        1502,
+        1273
+      ]
+    },
+    {
+      "name": "Cenote Mangrove",
+      "written": false,
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "px": [
+        991,
+        1205
+      ]
+    },
+    {
+      "name": "Cenote Sugarbowl",
+      "written": false,
+      "caveId": "-KPZkVQFY40hCA8LPFjN",
+      "px": [
+        1238,
+        1135
+      ]
+    },
+    {
+      "name": "Cenote Buena Vista",
+      "written": false,
+      "caveId": "-KPZkVFP-E205SXTJxk5",
+      "px": [
+        1223,
+        125
+      ]
+    },
+    {
+      "name": "Cenote City of Agre",
+      "written": false,
+      "caveId": "-KPZkVH1JsSUeVtkRp0N",
+      "px": [
+        2355,
+        1244
+      ]
+    },
+    {
+      "name": "Cenote Nachich",
+      "written": false,
+      "caveId": "-KPZkVNHyz8bXESN46xt",
+      "px": [
+        2553,
+        864
+      ]
+    },
+    {
+      "name": "Twin Cenotes",
+      "written": false,
+      "caveId": "-KPZkVRPwZdYVbZQ8tyl",
+      "px": [
+        2167,
+        1493
+      ]
+    },
+    {
+      "name": "Cenote Sagrado",
+      "written": false,
+      "caveId": "-KPZkVPSrb3uzdVxkXXm",
+      "px": [
+        1926,
+        1696
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 85,
+    "goldColours": [
+      "yellow"
+    ],
+    "minBlueExcess": 40,
+    "leaderMaxPx": 1,
+    "why": "Stick map on a banner (photo): golden lines in yellow (kind gold - in Taj Mahal the gold line runs from cenote to cenote), main lines bold black and secondary lines thin black (both the Arianne line); red arrows (connection or jump), red depths and green distances are not lines. inkLevel 85 keeps the red ink (grey about 100) out of the black lines. The cenotes are light blue pools outlined in black: their outlines are dropped (poolOutlinesPx).",
+    "poolOutlinesPx": 7,
+    "eraseLines": [
+      {
+        "from": [
+          1273,
+          1118
+        ],
+        "to": [
+          1232,
+          1101
+        ],
+        "widthPx": 14,
+        "why": "Sugarbowl pool outline remnant"
+      },
+      {
+        "from": [
+          1212,
+          1235
+        ],
+        "to": [
+          1220,
+          1257
+        ],
+        "widthPx": 14,
+        "why": "red arrow to The Deep Bones Room"
+      },
+      {
+        "from": [
+          1506,
+          1231
+        ],
+        "to": [
+          1491,
+          1242
+        ],
+        "widthPx": 14,
+        "why": "red arrows at Cenote Taj Mahal"
+      },
+      {
+        "from": [
+          1607,
+          1273
+        ],
+        "to": [
+          1627,
+          1282
+        ],
+        "widthPx": 14,
+        "why": "red arrow at depth 41"
+      },
+      {
+        "from": [
+          1634,
+          1216
+        ],
+        "to": [
+          1617,
+          1228
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the gold line end, 41"
+      },
+      {
+        "from": [
+          1068,
+          1048
+        ],
+        "to": [
+          1082,
+          1056
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the north Mangrove pool"
+      },
+      {
+        "from": [
+          1073,
+          1083
+        ],
+        "to": [
+          1091,
+          1083
+        ],
+        "widthPx": 14,
+        "why": "small pool outline remnant"
+      },
+      {
+        "from": [
+          1944,
+          1010
+        ],
+        "to": [
+          1950,
+          1028
+        ],
+        "widthPx": 14,
+        "why": "red arrows at The Room of Reflections"
+      },
+      {
+        "from": [
+          1671,
+          1055
+        ],
+        "to": [
+          1693,
+          1067
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the end of The Circuit Line"
+      },
+      {
+        "from": [
+          2068,
+          998
+        ],
+        "to": [
+          2087,
+          1006
+        ],
+        "widthPx": 14,
+        "why": "red arrow at 882"
+      },
+      {
+        "from": [
+          865,
+          1003
+        ],
+        "to": [
+          886,
+          1007
+        ],
+        "widthPx": 14,
+        "why": "red arrow west of Cenote Mangrove"
+      }
+    ]
+  }
+}

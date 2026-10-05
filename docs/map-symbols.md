@@ -36,6 +36,10 @@ Every symbol becomes a point with:
 | `entrance` | Cenote or cave entrance: every one a map marks is kept, named or not. An entrance on a dive survey is a **cenote entrance** (a cenote used to enter the system, the caves' `cenoteEntrance` flag), kept aside in `found-cenotes.json` | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
+Lines aren't symbols: the guidelines are line kinds of the passages - the
+Arianne line (`arianne`) and the **gold line** (`gold`, the guideline starting
+in the cavern zone, often drawn in yellow) - see `docs/map-layer.md`.
+
 Not taken yet (drawn shapes, hard to recognise on scans and photos, and
 cartographic detail rather than information for divers or visitors):
 boulders, breakdown, columns, speleothems, slopes, silt dunes, undercut and

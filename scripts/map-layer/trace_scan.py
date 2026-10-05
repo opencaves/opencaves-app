@@ -649,6 +649,14 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
     for colour in trace.get('lineColours', ['blue']):
         lines |= ink if colour == 'black' else tests[colour] >= excess
     lines &= ~boxes
+    # "poolOutlinesPx": a cenote's pool drawn as a light blue fill outlined
+    # in the line colour: the ink within this of the fill is its outline, not
+    # a line (the lines reaching the pool lose only that last stretch).
+    if trace.get('poolOutlinesPx'):
+        reach = trace['poolOutlinesPx']
+        fill = ((b - r) >= 25) & (rgb.mean(axis=2) > 120)
+        fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_OPEN, numpy.ones((5, 5), numpy.uint8))
+        lines &= ~(cv2.dilate(fill, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0)
     for line in trace.get('eraseLines', []):
         stroke = numpy.zeros(lines.shape, numpy.uint8)
         cv2.line(stroke, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 15))
@@ -1619,31 +1627,41 @@ def main(config_path, output):
         # and leaders: those are taken out too.
         if 'black' in trace.get('lineColours', []):
             boxes |= masked | leaders
-        paths = survey_line_paths(config_path.parent.joinpath(config['image']).resolve(), boxes, trace,
-                                  ink=ink, pool_points=[e['px'] for e in config.get('entrances', []) if 'px' in e])
-        lines = [LineString([(x, y) for y, x in path]) for path in paths if len(path) >= 2]
+        image_path = config_path.parent.joinpath(config['image']).resolve()
+        pool_points = [e['px'] for e in config.get('entrances', []) if 'px' in e]
+        paths = survey_line_paths(image_path, boxes, trace, ink=ink, pool_points=pool_points)
+        lines = [(LineString([(x, y) for y, x in path]), 'arianne') for path in paths if len(path) >= 2]
+        # "goldColours": the gold line's colours (yellow on most maps) - the
+        # guideline starting in the cavern zone, sometimes running on to the
+        # next cenote: traced the same way, as kind "gold". "goldEraseLines"
+        # and "goldAddLines" are its own "eraseLines" and "addLines".
+        if trace.get('goldColours'):
+            gold_trace = {**trace, 'lineColours': trace['goldColours'], 'eraseLines': trace.get('goldEraseLines', []), 'addLines': trace.get('goldAddLines', []),
+                          # Pools are outlined in black: the gold line crossing one is kept.
+                          'poolOutlinesPx': None}
+            lines += [(LineString([(x, y) for y, x in path]), 'gold') for path in survey_line_paths(image_path, boxes, gold_trace, pool_points=pool_points) if len(path) >= 2]
         # "snapEndsPx": a line end within this of another line (a junction
         # piece too short to keep, at a coarse scale) is carried onto it.
         if trace.get('snapEndsPx'):
-            lines = [line for line in lines if line.length * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES)]
+            lines = [(line, kind) for line, kind in lines if line.length * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES)]
             from shapely.geometry import Point
             from shapely.ops import nearest_points
             snapped = []
-            for i, line in enumerate(lines):
+            for i, (line, kind) in enumerate(lines):
                 coords = list(line.coords)
                 for end in (0, -1):
                     p = Point(coords[end])
-                    best = min(((other.distance(p), j) for j, other in enumerate(lines) if j != i), default=(1e9, -1))
+                    best = min(((other.distance(p), j) for j, (other, _) in enumerate(lines) if j != i), default=(1e9, -1))
                     if 0.3 < best[0] <= trace['snapEndsPx']:
-                        q = nearest_points(lines[best[1]], p)[0]
+                        q = nearest_points(lines[best[1]][0], p)[0]
                         coords.insert(0, (q.x, q.y)) if end == 0 else coords.append((q.x, q.y))
-                snapped.append(LineString(coords))
+                snapped.append((LineString(coords), kind))
             lines = snapped
-        for line in lines:
+        for line, kind in lines:
             if line.length * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
                 continue
             line = line.simplify(max(SIMPLIFY_METRES, scale / 2) / scale)
-            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': kind, 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         geojson = out / f'{name}-walls.geojson'
         geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
@@ -2255,6 +2273,11 @@ def main(config_path, output):
     for line in trace.get('arianneLines', []):
         cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 0, 255), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
+    # "goldLines": [[[x, y], ...]] - gold lines drawn by hand from the scan.
+    for line in trace.get('goldLines', []):
+        cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 170, 255), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'gold', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
     # "faintGuideline": {...} - the Arianne line, faint and thin (see faint_guideline).
     if trace.get('faintGuideline'):
