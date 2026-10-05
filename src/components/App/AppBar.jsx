@@ -23,6 +23,15 @@ const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONF
 // Module level, not inside AppBar: a styled() component made during render
 // is a new component type every render, so React remounted the title button
 // each time - replaying the title's enter animation (a flicker).
+// The bar's links: white text, and Material Design 3's state layers in the
+// same white (hover 8%, focus and pressed 10%) - MUI's default tint is a
+// shade of the bar's own primary colour, invisible on it.
+const NAV_LINK_SX = {
+  color: '#fff',
+  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)' },
+  '&.Mui-focusVisible, &:active': { bgcolor: 'rgba(255, 255, 255, 0.1)' },
+}
+
 const StyledButton = styled(Button)({
   color: 'var(--mui-palette-primary-contrastText)',
   whiteSpace: 'nowrap',
@@ -175,7 +184,7 @@ export default function AppBar(props) {
             {!isSmall && (
               <Grid sx={{ mr: 1 }}>
                 {navItems.map(({ key, to, icon }) => (
-                  <Button key={key} component={Link} to={to} startIcon={icon} sx={{ color: '#fff' }}>
+                  <Button key={key} component={Link} to={to} startIcon={icon} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
@@ -200,7 +209,7 @@ export default function AppBar(props) {
                 </>
               )}
               {canAccessDashboard && !isSmall && (
-                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} sx={{ color: '#fff', mr: 1 }}>
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} sx={{ ...NAV_LINK_SX, mr: 1 }}>
                   {t('admin', { name: APP_NAME })}
                 </Button>
               )}
