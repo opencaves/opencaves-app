@@ -4,15 +4,11 @@ import { auth, db } from '../init.js'
 import { ENFORCE_APP_CHECK, FROZEN_USERS_COLL_NAME, REGION, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { writeAuditLog } from '../audit/log.js'
+import { requireAdmin as requireAdminRole } from './requireAdmin.js'
 
 const ASSIGNABLE_ROLES = ['editor', 'admin']
 
-function requireAdmin(request) {
-  const roles = request.auth?.token?.roles
-  if (!request.auth || !Array.isArray(roles) || !roles.includes('admin')) {
-    throw new HttpsError('permission-denied', 'Only admins can manage users.')
-  }
-}
+const requireAdmin = (request) => requireAdminRole(request, 'Only admins can manage users.')
 
 // Firebase Auth's listUsers() is paginated at up to 1000 users per call, so
 // every page has to be walked to return the full set.
@@ -42,6 +38,7 @@ export const listUsers = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_C
       .map(user => ({
         uid: user.uid,
         email: user.email,
+        displayName: user.displayName ?? null,
         disabled: user.disabled,
         roles: Array.isArray(user.customClaims?.roles) ? user.customClaims.roles : [],
         frozen: !!user.customClaims?.frozen,

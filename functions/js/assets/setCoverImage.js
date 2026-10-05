@@ -24,9 +24,10 @@ export const setCoverImage = onDocumentCreated('/cavesAssets/{assetId}', async e
     const collRef = db.collection('cavesAssets')
 
     const filter = and(where('caveId', '==', caveId), where('isCover', '==', true))
-    const countSnapshot = await collRef.where(filter).count().get()
+    // A cover in the trash (deletedAt) doesn't count.
+    const covers = await collRef.where(filter).get()
 
-    if (countSnapshot.data().count === 0) {
+    if (!covers.docs.some((doc) => !doc.get('deletedAt'))) {
       // update, not set with merge: a record deleted in the meantime stays deleted.
       return snapshot.ref.update({ isCover: true }).catch((error) => {
         if (error.code !== 5) throw error
