@@ -176,5 +176,15 @@ export default defineConfig({
     alias: {
       '@': path.resolve(import.meta.dirname, 'src')
     }
-  }
+  },
+  // In development, what Firebase Hosting rewrites to functions in production
+  // (firebase.json) goes to the functions emulator.
+  server: {
+    proxy: {
+      '/api/address': {
+        target: 'http://127.0.0.1:5001',
+        rewrite: (url) => url.replace(/^\/api\/address/, '/opencaves/northamerica-northeast1/caveAddress'),
+      },
+    },
+  },
 })

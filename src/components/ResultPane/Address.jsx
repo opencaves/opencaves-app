@@ -3,33 +3,22 @@ import { useTranslation } from 'react-i18next'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { useOnline } from '@/hooks/useOnline.jsx'
 
-const fetcher = (...args) =>
-  fetch(...args)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.status === 'OK') {
-        for (const resultType of resultTypes) {
-          const result = data.results.find((address) => address.types.includes(resultType))
-          if (result) {
-            return result
-          }
-        }
-      }
+// The address comes from our caveAddress function, which keeps the Google
+// key on the server and only looks up caves' own positions.
+const fetcher = (url) =>
+  fetch(url).then(async (res) => {
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok && res.status !== 404) throw new Error(data.error || res.statusText)
+    return data.address ? { formatted_address: data.address } : null
+  })
 
-      if (data.error_message) {
-        throw new Error(data.error_message)
-      }
-
-      return null
-    })
-
-const resultTypes = 'street_address|route|postal_code|natural_feature|park|point_of_interest'.split('|')
-
-export default function Address({ latitude, longitude }) {
+export default function Address({ caveId, latitude, longitude }) {
   const { t, i18n } = useTranslation('resultPane')
   const online = useOnline()
   // SWR looks the address up again when the connection comes back.
-  const { data, error, isLoading } = useSWR(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${import.meta.env.VITE_GOOGLE_GEOCODING_API_KEY}&language=${toServiceLanguage(i18n.resolvedLanguage)}&result_type=${resultTypes.join('|')}`, fetcher)
+  // The position is only there for the caches: a moved cave gets a new
+  // address (the function reads the cave's position itself).
+  const { data, error, isLoading } = useSWR(`/api/address/${encodeURIComponent(caveId)}?lang=${toServiceLanguage(i18n.resolvedLanguage)}&at=${latitude},${longitude}`, fetcher)
 
   if (!online && !data) {
     return <span className="oc-address">{t('addressOffline')}</span>

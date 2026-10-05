@@ -126,10 +126,11 @@ registerRoute(
   }))
 )
 
+// Caves' addresses (the caveAddress function), kept for offline use.
 registerRoute(
-  ({ url }) => url.origin === 'https://maps.googleapis.com',
+  ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/address/'),
   new StaleWhileRevalidate({
-    cacheName: cacheName('google-maps-api')
+    cacheName: cacheName('cave-addresses')
   })
 )
 

@@ -58,6 +58,10 @@
           "function": "cavePage"
         },
         {
+          "source": "/api/address/*",
+          "function": "caveAddress"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

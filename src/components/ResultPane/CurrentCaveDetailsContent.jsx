@@ -75,7 +75,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
 
   if (cave.location) {
-    address = <Address longitude={cave.location.longitude} latitude={cave.location.latitude} />
+    address = <Address caveId={cave.id} longitude={cave.location.longitude} latitude={cave.location.latitude} />
     addressText = `${cave.location.latitude}, ${cave.location.longitude}`
     coordinatesText = `${cave.location.latitude}, ${cave.location.longitude}${cave.location.validity === 'unknown' ? ` (${t('coordinateValidityUnknown')})` : ``}`
     coordinatesTextCopy = `${cave.location.latitude}, ${cave.location.longitude}`
