@@ -211,6 +211,12 @@ export default defineConfig({
         target: 'http://127.0.0.1:5001',
         rewrite: (url) => url.replace(/^\/api\/address/, '/opencaves/northamerica-northeast1/caveAddress'),
       },
+      // As Hosting's rewrite: the sitemap function, on the functions emulator
+      // (its addresses are the site's, https://opencaves.org/...).
+      '/sitemap.xml': {
+        target: 'http://127.0.0.1:5001',
+        rewrite: () => '/opencaves/northamerica-northeast1/sitemap',
+      },
     },
   },
 })
