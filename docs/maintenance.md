@@ -24,14 +24,17 @@ their files in Storage agree. Run it after a bulk photo import
 ([photos-import.md](photos-import.md)), after changing the asset functions
 (`functions/js/assets/`, `functions/js/resize-images/`), or whenever photos
 look broken in the app. It exits with code 1 when it finds a problem, and
-prints each group of problems with what to do about it:
+prints each group of problems with what to do about it. Photos in the trash
+are counted, and their files checked like the others' (they're kept until
+the trash is emptied):
 
 | Problem | Meaning | What to do |
 |---|---|---|
 | Original file missing | The photo's document points to a file that isn't in Storage | Delete the photo from the cave's page and upload it again |
 | Missing thumbnails | The `onAssetUploaded` function failed to resize the photo | Fix the cause (check the function's logs), then upload the photo again. For an imported photo, use `upload-photos.js --redo --only <file>` |
 | Photo of a cave that doesn't exist | The cave was deleted, or re-created with another ID | Delete the photo, or move it to the right cave |
-| Not exactly one cover | A cave with photos has no cover, or several | Pick the cover on the cave's page |
+| Not exactly one cover | A cave with photos (outside the trash) has no cover, or several | Pick the cover on the cave's page |
+| Photo in the trash still a cover | The `onAssetTrashChanged` function didn't hand its cover over | Restore the photo, then delete it again (the function hands the cover over) |
 | Document made from a file that isn't a photo | A document created from a stray file (e.g. a failed-resize copy) | Delete that document |
 | `images/failed/` copies | When resizing fails, the original is copied there | Delete them once the photo was uploaded again |
 | Files with no photo document | Usually an upload whose function failed before creating the document | Upload the photo again from the app, then delete the file |
@@ -124,14 +127,38 @@ Firestore), records:
 
 - each change made from the app to the cave data (caves, sistemas,
   connections, reference data, maps, photos, settings): who (the author's account id, `authorId`), which document,
-  created, updated (the fields changed) or deleted - a deleted document is
-  kept whole there, so it can be restored;
+  created (`after`: the document), updated (`changedFields`, and their values
+  in `before` and `after` - a field missing from one was absent) or deleted
+  (`before`: the document). An entry whose values would pass 900 KB keeps
+  `tooLarge: true` instead, and can't be undone;
+- the undos (`undo`, `undoOf`: the entry undone) and the trash emptied
+  (`purge`, with the record whole), by admins;
 - the admins' user management: roles changed, accounts frozen, unfrozen or
   deleted, and by whom.
 
+Admins undo changes from the Audits page (the `undoAuditEntries` function):
+each document is put back as it was before the change, newest change first.
+As with `git revert`, a field changed again since is a conflict, and nothing
+is written unless the admin forces it. An undo is an entry of its own, so it
+can be undone too. User management, purges and `tooLarge` entries can't be
+undone, nor a photo or map whose files are gone.
+
+Photos and maps go to a trash first: deleting one sets `deletedAt` and
+`deletedBy` on its record, and its files stay; restoring it (or undoing the
+delete) removes both. A photo that was its cave's cover hands the cover to
+another of the cave's photos (`onAssetTrashChanged`). Emptying the trash (the
+`emptyTrash` function, admins) deletes them for good, with their files - a
+map is also taken off the sistemas that list it.
+
+Entries are deleted 12 months after they're written (`expireAt`, a TTL
+policy deployed with the indexes: `firebase deploy --only firestore:indexes`).
+
 Changes made by scripts and functions (the Google Sheet sync, the mirror to
-production) aren't recorded. The emulators don't say who made a change, so
-the local `_auditLog` only has the user management.
+production, the photo triggers) aren't recorded. The emulators don't say who
+made a change, so locally every write is recorded as `emulator`'s - scripts
+run against them too (a Sheet sync adds thousands of entries) - except the
+server's own photo and map fields, and an undo's or purge's own writes. The
+emulator has no TTL: local entries stay until deleted.
 
 ## Emails
 
@@ -168,6 +195,7 @@ firebase deploy                                   # everything
 firebase deploy --only hosting
 firebase deploy --only functions
 firebase deploy --only functions:js:<name>        # one function, e.g. onAssetUploaded
+firebase deploy --only firestore:rules,firestore:indexes   # security rules, indexes and the audit log's TTL
 ```
 
 A deploy uploads the working copy, including uncommitted changes.
