@@ -2,9 +2,9 @@ import { FieldValue } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
 
-export const AUDIT_LOG_COLL_NAME = 'auditLog'
+export const AUDIT_LOG_COLL_NAME = '_auditLog'
 
-// One entry in the audit log (auditLog, admins only): who did what to which
+// One entry in the audit log (_auditLog, admins only): who did what to which
 // document. A failure is logged, never thrown: the action itself is done.
 export async function writeAuditLog(entry) {
   try {

@@ -25,7 +25,7 @@ service cloud.firestore {
 
     // Who changed or deleted what, from the app (functions/js/audit), and the
     // admins' user management: admins read it, only the server writes it.
-    match /auditLog/{document} {
+    match /_auditLog/{document} {
       allow read: if isAdmin()
     }
 

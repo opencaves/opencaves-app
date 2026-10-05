@@ -114,7 +114,7 @@ admin must), and nobody can remove the last admin's.
 
 ## Who changed what
 
-The `auditLog` collection, which only admins can read (Firebase console >
+The `_auditLog` collection, which only admins can read (Firebase console >
 Firestore), records:
 
 - each change made from the app to the cave data (caves, sistemas,
@@ -126,7 +126,7 @@ Firestore), records:
 
 Changes made by scripts and functions (the Google Sheet sync, the mirror to
 production) aren't recorded. The emulators don't say who made a change, so
-the local `auditLog` only has the user management.
+the local `_auditLog` only has the user management.
 
 ## Emails
 
