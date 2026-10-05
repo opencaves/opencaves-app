@@ -18,7 +18,7 @@ const SLUG_PATTERN = /^[a-z0-9][-a-z0-9_]{0,200}$/
 const count = (n, singular, plural = `${singular}s`) => `${n.toLocaleString('en-US')} ${n === 1 ? singular : plural}`
 const metres = (value, decimals) => `${Number(value).toLocaleString('en-US', { maximumFractionDigits: decimals })} m`
 
-const caveLabel = (cave) => (cave.name ? `Cenote ${cave.name}` : 'Unnamed cenote')
+const caveLabel = (cave) => cave.name || 'Unnamed cave'
 const caveLink = (cave) => `<li><a href="/map/${escapeHtml(cave.id)}">${escapeHtml(caveLabel(cave))}</a></li>`
 const sistemaLink = (sistema) => `<li><a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></li>`
 const list = (items, toItem) => (items.length ? `<ul>\n${items.map(toItem).join('\n')}\n</ul>` : '')
@@ -44,14 +44,14 @@ function byAreaSections(items, areasBySlug, toItem) {
 function cavesPage(data) {
   const { sections } = byAreaSections(data.caves, data.areasBySlug, caveLink)
   return {
-    title: `Cenotes of the Yucatán by area / ${APP_TITLE}`,
+    title: `Caves of the Yucatán by area / ${APP_TITLE}`,
     // The app's (src/locales/en.json indexPages.caves.description), word for word.
     description: 'Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.',
     path: '/caves',
     body: [
       `<main class="oc-ssr-caves">`,
-      `<h1>Cenotes of the Yucatán by area</h1>`,
-      `<p>${escapeHtml(count(data.caves.length, 'cenote'))} on OpenCaves. See also <a href="/sistemas">the cave systems</a> and <a href="/map">the map</a>.</p>`,
+      `<h1>Caves of the Yucatán by area</h1>`,
+      `<p>${escapeHtml(count(data.caves.length, 'cave'))} on OpenCaves. See also <a href="/sistemas">the cave systems</a> and <a href="/map">the map</a>.</p>`,
       ...sections,
       `</main>`,
     ].join('\n'),
@@ -67,7 +67,7 @@ function sistemasPage(data) {
     body: [
       `<main class="oc-ssr-sistemas">`,
       `<h1>Cave systems of the Yucatán</h1>`,
-      `<p>${escapeHtml(count(data.sistemas.length, 'cave system'))} on OpenCaves. See also <a href="/caves">the cenotes</a> and <a href="/map">the map</a>.</p>`,
+      `<p>${escapeHtml(count(data.sistemas.length, 'cave system'))} on OpenCaves. See also <a href="/caves">the caves</a> and <a href="/map">the map</a>.</p>`,
       ...sections,
       `</main>`,
     ].join('\n'),
@@ -76,16 +76,16 @@ function sistemasPage(data) {
 
 function areaPage(area) {
   return {
-    title: `Cenotes in ${area.name} / ${APP_TITLE}`,
+    title: `Caves in ${area.name} / ${APP_TITLE}`,
     description: truncate(`The cenotes and cave systems of ${area.name}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.`),
     path: `/areas/${area.slug}`,
     body: [
       `<main class="oc-ssr-area">`,
-      `<h1>Cenotes in ${escapeHtml(area.name)}</h1>`,
-      `<p>${escapeHtml(count(area.caves.length, 'cenote'))} and ${escapeHtml(count(area.sistemas.length, 'cave system'))} in ${escapeHtml(area.name)} (Yucatán, Mexico).</p>`,
-      area.caves.length ? `<h2>Cenotes</h2>\n${list(area.caves, caveLink)}` : '',
+      `<h1>Caves in ${escapeHtml(area.name)}</h1>`,
+      `<p>${escapeHtml(count(area.caves.length, 'cave'))} and ${escapeHtml(count(area.sistemas.length, 'cave system'))} in ${escapeHtml(area.name)} (Yucatán, Mexico).</p>`,
+      area.caves.length ? `<h2>Caves</h2>\n${list(area.caves, caveLink)}` : '',
       area.sistemas.length ? `<h2>Cave systems</h2>\n${list(area.sistemas, sistemaLink)}` : '',
-      `<p><a href="/caves">All the cenotes of the Yucatán by area</a></p>`,
+      `<p><a href="/caves">All the caves of the Yucatán by area</a></p>`,
       `</main>`,
     ].filter(Boolean).join('\n'),
   }
@@ -124,7 +124,7 @@ function sistemaPage(sistema, data) {
       ...facts,
       ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
       explorations.length ? `<h2>Exploration</h2>\n${list(explorations, exploration)}` : '',
-      caves.length ? `<h2>Cenotes</h2>\n${list(caves, caveLink)}` : '',
+      caves.length ? `<h2>Caves</h2>\n${list(caves, caveLink)}` : '',
       parents.length ? `<h2>Part of</h2>\n${list(parents, sistemaLink)}` : '',
       children.length ? `<h2>Connected systems</h2>\n${list(children, sistemaLink)}` : '',
       `<p><a href="/sistemas">All the cave systems of the Yucatán</a></p>`,

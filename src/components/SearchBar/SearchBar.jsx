@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
 import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, Box, Grid, styled } from '@mui/material'
 import Clear from '@mui/icons-material/Clear'
 import Tune from '@mui/icons-material/Tune'
-import Search from '@mui/icons-material/Search'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
 import AppMenu from '@/components/App/AppMenu.jsx'
@@ -21,7 +20,6 @@ import Snippet from './Snippet.jsx'
 import { SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 import './SearchBar.scss'
 
-const SearchIcon = () => <Search aria-hidden="true" />
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
 // a few pixels above the button's center.
 const ArrowBackIcon = () => (
@@ -415,10 +413,14 @@ export default function SearchBar() {
               }}
               className="oc-search-bar--actions"
             >
+              {/* Idle: back to the home page (the map is a full-screen view); with
+                  results open, the arrow below closes them. */}
               <Fade in={!backBtnOn}>
-                <ActionButton disableRipple aria-label={t('actionButton.search.ariaLabel')}>
-                  <SearchIcon />
-                </ActionButton>
+                <Tooltip title={t('actionButton.home.tooltip')}>
+                  <ActionButton className="oc-search-bar--home" component={RouterLink} to="/" aria-label={t('actionButton.home.ariaLabel')} tabIndex={backBtnOn ? -1 : 0}>
+                    <ArrowBackIcon />
+                  </ActionButton>
+                </Tooltip>
               </Fade>
               <Fade in={backBtnOn}>
                 <ActionButton disableRipple aria-label={t('actionButton.back.ariaLabel')} onClick={onBackBtnClick}>

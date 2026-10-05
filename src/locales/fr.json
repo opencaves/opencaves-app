@@ -54,7 +54,7 @@
       "greetingNoName": "Bonjour !",
       "manageAccount": "Gérer votre compte",
       "welcome": "Bienvenue sur {{name}}",
-      "welcomeText": "Connectez-vous pour sauvegarder vos cénotes préférées et contribuer.",
+      "welcomeText": "Connectez-vous pour sauvegarder vos grottes préférées et contribuer.",
       "close": "Fermer"
     },
     "snackbar": {
@@ -327,8 +327,12 @@
         "tooltip": "Effacer"
       },
       "filter": {
-        "ariaLabel": "Filtrer les cenotes",
-        "tooltip": "Filtrer les cenotes"
+        "ariaLabel": "Filtrer les grottes",
+        "tooltip": "Filtrer les grottes"
+      },
+      "home": {
+        "ariaLabel": "Retour à la page d’accueil",
+        "tooltip": "Page d’accueil"
       }
     },
     "placeholder": "Recherche",
@@ -469,6 +473,7 @@
     "copyEntranceCoordinates": "Copier les coordonnées de l'entrée",
     "directionsToCave": "Itinéraire vers la cénote",
     "directionsToKey": "Itinéraire vers la clé",
+    "area": "Région : {{area}}",
     "directionsToEntrance": "Itinéraire vers l'entrée",
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
@@ -932,11 +937,16 @@
       "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée.",
       "legend": {
         "title": "Légende",
-        "walls": "Parois et lignes de topo",
+        "walls": "Parois",
         "water": "Eau",
         "details": "Détails dessinés",
         "entrance": "Cénote d'entrée",
-        "depth": "Profondeur",
+        "arianne": "Fil d’Ariane",
+        "gold": "Fil d’or (depuis la zone éclairée)",
+        "depth": "Profondeur du fond",
+        "height": "Hauteur sol-plafond",
+        "penetration": "Pénétration depuis l’entrée",
+        "codes": "Étroiture (r mineure, x majeure), limon, visibilité nulle",
         "placeName": "Lieu nommé",
         "flow": "Sens du courant",
         "bySystem": "Chaque réseau dans sa couleur",
@@ -1054,7 +1064,7 @@
     "adminSection": "Administration",
     "manageMapLayers": "Couches de la carte",
     "manageAudits": "Audits",
-    "backToCaveIndex": "Retour aux cénotes",
+    "backToCaveIndex": "Retour aux grottes",
     "backToSistemaIndex": "Retour aux réseaux"
   },
   "usersAdmin": {
@@ -1306,13 +1316,13 @@
   },
   "indexPages": {
     "unknownArea": "Région inconnue",
-    "unnamedCave": "Cénote sans nom",
-    "caveCount_one": "{{count}} cénote",
-    "caveCount_other": "{{count}} cénotes",
+    "unnamedCave": "Grotte sans nom",
+    "caveCount_one": "{{count}} grotte",
+    "caveCount_other": "{{count}} grottes",
     "sistemaCount_one": "{{count}} réseau",
     "sistemaCount_other": "{{count}} réseaux",
     "caves": {
-      "title": "Les cénotes du Yucatán par région",
+      "title": "Les grottes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
       "add": "Ajouter une grotte"
     },
@@ -1322,12 +1332,12 @@
       "add": "Ajouter un réseau"
     },
     "area": {
-      "title": "Les cénotes de la région {{area}}",
+      "title": "Les grottes de la région {{area}}",
       "description": "Les cénotes et les réseaux de la région {{area}}, au Yucatán (Mexique) : emplacements, accès, photos et plans sur OpenCaves.",
       "edit": "Modifier la région {{area}}",
-      "cenotes": "Cénotes",
+      "cenotes": "Grottes",
       "sistemas": "Réseaux",
-      "noCenotes": "Aucune cénote répertoriée dans cette région pour l’instant.",
+      "noCenotes": "Aucune grotte répertoriée dans cette région pour l’instant.",
       "noSistemas": "Aucun réseau répertorié dans cette région pour l’instant."
     },
     "sistema": {
@@ -1342,8 +1352,8 @@
       "connections": "Connexions",
       "partOf": "Fait partie de",
       "joinedBy": "Réseaux qui y sont reliés",
-      "cenotes": "Cénotes",
-      "noCenotes": "Aucune cénote répertoriée dans ce réseau pour l’instant."
+      "cenotes": "Grottes",
+      "noCenotes": "Aucune grotte répertoriée dans ce réseau pour l’instant."
     },
     "search": {
       "caves": "Chercher une grotte, un réseau ou une région",

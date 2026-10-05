@@ -54,7 +54,7 @@
       "greetingNoName": "Hi!",
       "manageAccount": "Manage your account",
       "welcome": "Welcome to {{name}}",
-      "welcomeText": "Log in to save your favorite cenotes and contribute.",
+      "welcomeText": "Log in to save your favorite caves and contribute.",
       "close": "Close"
     },
     "snackbar": {
@@ -328,8 +328,12 @@
         "tooltip": "Clear"
       },
       "filter": {
-        "ariaLabel": "Filter Cenotes",
-        "tooltip": "Filter Cenotes"
+        "ariaLabel": "Filter caves",
+        "tooltip": "Filter caves"
+      },
+      "home": {
+        "ariaLabel": "Back to the home page",
+        "tooltip": "Home page"
       }
     },
     "placeholder": "Search",
@@ -470,6 +474,7 @@
     "copyEntranceCoordinates": "Copy entrance coordinates",
     "directionsToCave": "Directions to the cenote",
     "directionsToKey": "Directions to the key",
+    "area": "Area: {{area}}",
     "directionsToEntrance": "Directions to the entrance",
     "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
@@ -933,11 +938,16 @@
       "disclaimer": "Traced from published cave survey maps. Not for dive planning.",
       "legend": {
         "title": "Legend",
-        "walls": "Walls and survey lines",
+        "walls": "Walls",
         "water": "Water",
         "details": "Drawn details",
         "entrance": "Cenote entrance",
-        "depth": "Depth",
+        "arianne": "Guideline (Arianne line)",
+        "gold": "Gold line (from the cavern zone)",
+        "depth": "Depth of the floor",
+        "height": "Ceiling-to-floor height",
+        "penetration": "Penetration from the entrance",
+        "codes": "Restriction (r minor, x major), silt, zero visibility",
         "placeName": "Named place",
         "flow": "Water flow",
         "bySystem": "Each system in its colour",
@@ -1055,7 +1065,7 @@
     "adminSection": "Administration",
     "manageMapLayers": "Map layers",
     "manageAudits": "Audits",
-    "backToCaveIndex": "Back to the cenotes",
+    "backToCaveIndex": "Back to the caves",
     "backToSistemaIndex": "Back to the cave systems"
   },
   "usersAdmin": {
@@ -1307,13 +1317,13 @@
   },
   "indexPages": {
     "unknownArea": "Unknown area",
-    "unnamedCave": "Unnamed cenote",
-    "caveCount_one": "{{count}} cenote",
-    "caveCount_other": "{{count}} cenotes",
+    "unnamedCave": "Unnamed cave",
+    "caveCount_one": "{{count}} cave",
+    "caveCount_other": "{{count}} caves",
     "sistemaCount_one": "{{count}} cave system",
     "sistemaCount_other": "{{count}} cave systems",
     "caves": {
-      "title": "Cenotes of the Yucatán by area",
+      "title": "Caves of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
       "add": "Add a cave"
     },
@@ -1323,12 +1333,12 @@
       "add": "Add a cave system"
     },
     "area": {
-      "title": "Cenotes in {{area}}",
+      "title": "Caves in {{area}}",
       "description": "The cenotes and cave systems of {{area}}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.",
       "edit": "Edit the {{area}} area",
-      "cenotes": "Cenotes",
+      "cenotes": "Caves",
       "sistemas": "Cave systems",
-      "noCenotes": "No cenotes listed in this area yet.",
+      "noCenotes": "No caves listed in this area yet.",
       "noSistemas": "No cave systems listed in this area yet."
     },
     "sistema": {
@@ -1343,8 +1353,8 @@
       "connections": "Connections",
       "partOf": "Part of",
       "joinedBy": "Systems connected to it",
-      "cenotes": "Cenotes",
-      "noCenotes": "No cenotes listed in this system yet."
+      "cenotes": "Caves",
+      "noCenotes": "No caves listed in this system yet."
     },
     "search": {
       "caves": "Search caves, systems or areas",

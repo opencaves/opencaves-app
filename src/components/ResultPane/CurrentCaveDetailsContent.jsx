@@ -9,12 +9,15 @@ import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
 import LocationDisabledOutlined from '@mui/icons-material/LocationDisabledOutlined'
 import FenceRounded from '@mui/icons-material/FenceRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
+import TerrainOutlined from '@mui/icons-material/TerrainOutlined'
+import { Link as RouterLink } from 'react-router-dom'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { getOS } from '@/utils/getOS.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
+import { slugify } from '@/utils/slug.js'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
 import Access from './Access.jsx'
@@ -273,6 +276,17 @@ export default function CurrentCaveDetailsContent({ cave }) {
               </ListItem>
             </CopyToClipboard>
           ))}
+        {/* The cave's area, linked to its page (/areas/<slug>). */}
+        {cave.area && slugify(cave.area) && (
+          <ListItem disablePadding className="oc-results-copy-list--area">
+            <ListItemButton component={RouterLink} to={`/areas/${slugify(cave.area)}`}>
+              <ListItemIcon>
+                <TerrainOutlined color="primary" />
+              </ListItemIcon>
+              <ListItemText primary={t('area', { area: cave.area })} />
+            </ListItemButton>
+          </ListItem>
+        )}
       </List>
 
       {cave.sistemas && cave.sistemas.length > 0 && (

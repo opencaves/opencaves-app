@@ -54,7 +54,7 @@
       "greetingNoName": "¡Hola!",
       "manageAccount": "Administrar tu cuenta",
       "welcome": "Te damos la bienvenida a {{name}}",
-      "welcomeText": "Inicia sesión para guardar tus cenotes favoritos y contribuir.",
+      "welcomeText": "Inicia sesión para guardar tus cuevas favoritas y contribuir.",
       "close": "Cerrar"
     },
     "snackbar": {
@@ -328,8 +328,12 @@
         "tooltip": "Borrar"
       },
       "filter": {
-        "ariaLabel": "Filtrar cenotes",
-        "tooltip": "Filtrar cenotes"
+        "ariaLabel": "Filtrar cuevas",
+        "tooltip": "Filtrar cuevas"
+      },
+      "home": {
+        "ariaLabel": "Volver a la página de inicio",
+        "tooltip": "Página de inicio"
       }
     },
     "placeholder": "Buscar",
@@ -470,6 +474,7 @@
     "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
     "directionsToCave": "Cómo llegar al cenote",
     "directionsToKey": "Cómo llegar a la llave",
+    "area": "Zona: {{area}}",
     "directionsToEntrance": "Cómo llegar a la entrada",
     "addressLoading": "Cargando dirección…",
     "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
@@ -933,11 +938,16 @@
       "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones.",
       "legend": {
         "title": "Leyenda",
-        "walls": "Paredes y líneas de topografía",
+        "walls": "Paredes",
         "water": "Agua",
         "details": "Detalles dibujados",
         "entrance": "Cenote de entrada",
-        "depth": "Profundidad",
+        "arianne": "Línea guía (hilo de Ariadna)",
+        "gold": "Línea dorada (desde la zona de caverna)",
+        "depth": "Profundidad del fondo",
+        "height": "Altura del piso al techo",
+        "penetration": "Penetración desde la entrada",
+        "codes": "Restricción (r menor, x mayor), limo, visibilidad nula",
         "placeName": "Lugar con nombre",
         "flow": "Sentido de la corriente",
         "bySystem": "Cada sistema en su color",
@@ -1055,7 +1065,7 @@
     "adminSection": "Administración",
     "manageMapLayers": "Capas del mapa",
     "manageAudits": "Auditorías",
-    "backToCaveIndex": "Volver a los cenotes",
+    "backToCaveIndex": "Volver a las cuevas",
     "backToSistemaIndex": "Volver a los sistemas de cuevas"
   },
   "usersAdmin": {
@@ -1307,13 +1317,13 @@
   },
   "indexPages": {
     "unknownArea": "Zona desconocida",
-    "unnamedCave": "Cenote sin nombre",
-    "caveCount_one": "{{count}} cenote",
-    "caveCount_other": "{{count}} cenotes",
+    "unnamedCave": "Cueva sin nombre",
+    "caveCount_one": "{{count}} cueva",
+    "caveCount_other": "{{count}} cuevas",
     "sistemaCount_one": "{{count}} sistema de cuevas",
     "sistemaCount_other": "{{count}} sistemas de cuevas",
     "caves": {
-      "title": "Cenotes de Yucatán por zona",
+      "title": "Cuevas de Yucatán por zona",
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
       "add": "Añadir una cueva"
     },
@@ -1323,12 +1333,12 @@
       "add": "Añadir un sistema"
     },
     "area": {
-      "title": "Cenotes en {{area}}",
+      "title": "Cuevas en {{area}}",
       "description": "Los cenotes y sistemas de cuevas de {{area}}, en Yucatán, México: ubicaciones, acceso, fotos y mapas en OpenCaves.",
       "edit": "Editar la zona {{area}}",
-      "cenotes": "Cenotes",
+      "cenotes": "Cuevas",
       "sistemas": "Sistemas de cuevas",
-      "noCenotes": "Aún no hay cenotes listados en esta zona.",
+      "noCenotes": "Aún no hay cuevas listadas en esta zona.",
       "noSistemas": "Aún no hay sistemas de cuevas listados en esta zona."
     },
     "sistema": {
@@ -1343,8 +1353,8 @@
       "connections": "Conexiones",
       "partOf": "Forma parte de",
       "joinedBy": "Sistemas conectados a él",
-      "cenotes": "Cenotes",
-      "noCenotes": "Aún no hay cenotes listados en este sistema."
+      "cenotes": "Cuevas",
+      "noCenotes": "Aún no hay cuevas listadas en este sistema."
     },
     "search": {
       "caves": "Buscar cuevas, sistemas o zonas",
