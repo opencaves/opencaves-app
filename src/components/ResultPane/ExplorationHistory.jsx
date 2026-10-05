@@ -32,11 +32,12 @@ function formatDate(date, language) {
 // The exploration history of a cave's systems (its own and those it joined),
 // in calendar order where the dates allow, each entry with its system's name
 // when there's more than one system. headingProps: its heading's, e.g. an h2
-// on a system's own page.
-export default function ExplorationHistory({ sistemas, headingProps }) {
+// on a system's own page; showNotes: false leaves out each entry's notes (its
+// sources).
+export default function ExplorationHistory({ sistemas, headingProps, showNotes = true }) {
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas
-    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name })))
+    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, notes: showNotes ? exploration.notes : null })))
     .filter((e) => e.date || e.team || e.description || e.notes)
     .map((entry, index) => ({ entry, index }))
     .sort((a, b) => sortKey(a.entry.date).localeCompare(sortKey(b.entry.date)) || a.index - b.index)

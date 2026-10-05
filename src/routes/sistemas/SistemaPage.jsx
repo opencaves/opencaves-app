@@ -109,7 +109,7 @@ export default function SistemaPage() {
     sistema.length > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.length, units, i18n.language) },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
-  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description || e.notes))
+  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
 
   return (
     <div className="oc-sistema-page">
@@ -201,7 +201,8 @@ export default function SistemaPage() {
         // ExplorationHistory lines up with the details pane's icons there;
         // here, with the page.
         <Box component="section" className="oc-sistema-page--history" sx={{ mb: 4, '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-          <ExplorationHistory sistemas={historySistemas} headingProps={sectionHeadingProps} />
+          {/* Without the entries' sources (their notes). */}
+          <ExplorationHistory sistemas={historySistemas} headingProps={sectionHeadingProps} showNotes={false} />
         </Box>
       )}
 

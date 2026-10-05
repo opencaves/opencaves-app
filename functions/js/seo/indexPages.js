@@ -100,9 +100,10 @@ function sistemaPage(sistema, data) {
   const related = (ids) => [...new Set(ids)].map((id) => data.sistemasById.get(id)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
   const parents = related(data.connections.filter(({ sistemaId }) => sistemaId === sistema.id).map(({ parentSistemaId }) => parentSistemaId))
   const children = related(data.connections.filter(({ parentSistemaId }) => parentSistemaId === sistema.id).map(({ sistemaId }) => sistemaId))
-  const explorations = Array.isArray(sistema.explorations) ? sistema.explorations : []
-  const exploration = ({ date, team, description, notes }) => {
-    const text = [...plainParagraphs(description), ...plainParagraphs(notes)].join(' ')
+  const explorations = (Array.isArray(sistema.explorations) ? sistema.explorations : []).filter((e) => e.date || e.team || e.description)
+  // Without the entries' sources (their notes), as the app's page.
+  const exploration = ({ date, team, description }) => {
+    const text = plainParagraphs(description).join(' ')
     const heading = [date, team].filter(Boolean).map(escapeHtml).join(' - ')
     return `<li>${[heading && `<p>${heading}</p>`, text && `<p>${escapeHtml(text)}</p>`].filter(Boolean).join('')}</li>`
   }
