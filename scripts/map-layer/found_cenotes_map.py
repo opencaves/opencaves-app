@@ -13,6 +13,7 @@ import re
 import sys
 import urllib.request
 from pathlib import Path
+from mapbox_token import mapbox_token  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 FOUND = Path(__file__).resolve().parent / 'found-cenotes.json'
@@ -64,7 +65,7 @@ def main(output):
         if (ROOT / name).exists():
             env.update(dict(re.findall(r'^\s*([A-Z0-9_]+)\s*=\s*"?([^"\n]*)"?', (ROOT / name).read_text(encoding='utf-8'), re.M)))
     counts = {a: sum(f['properties']['action'] == a for f in features) for a in ACTIONS}
-    page = PAGE.replace('__TOKEN__', json.dumps(env.get('VITE_MAPBOX_ACCESS_TOKEN', ''))).replace('__FOUND__', json.dumps({'type': 'FeatureCollection', 'features': features}))
+    page = PAGE.replace('__TOKEN__', json.dumps(mapbox_token(env))).replace('__FOUND__', json.dumps({'type': 'FeatureCollection', 'features': features}))
     page = page.replace('__KNOWN__', json.dumps({'type': 'FeatureCollection', 'features': known})).replace('__ACTIONS__', json.dumps({a: [c, label, counts[a]] for a, (c, label) in ACTIONS.items()}))
     Path(output).write_text(page, encoding='utf-8')
     print(f'{len(features)} found cenotes, {len(known)} database caves -> {output}')

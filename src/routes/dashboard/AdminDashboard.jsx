@@ -10,6 +10,7 @@ import LockOpenRounded from '@mui/icons-material/LockOpenRounded'
 import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
+import HistoryRounded from '@mui/icons-material/HistoryRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -158,6 +159,14 @@ export default function AdminDashboard() {
                       <LayersRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageMapLayers')} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/audits" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <HistoryRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageAudits')} />
                   </ListItemButton>
                 </ListItem>
               </List>

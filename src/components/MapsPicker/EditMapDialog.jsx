@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { deleteField } from 'firebase/firestore'
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
 import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
@@ -11,7 +11,6 @@ import PendingFilePreview from './PendingFilePreview.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 
-const mapsModel = createCollectionModel('maps')
 const PREVIEW_SIZE = 440
 const emptyDetails = { title: '', date: '', authors: [], note: '' }
 

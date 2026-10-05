@@ -26,6 +26,7 @@ from pathlib import Path
 import numpy
 from PIL import Image
 from pyproj import Transformer
+from mapbox_token import mapbox_token  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 Image.MAX_IMAGE_PIXELS = None
@@ -237,7 +238,7 @@ def main(config_path, output):
     cenotes = {'type': 'FeatureCollection', 'features': [
         {'type': 'Feature', 'properties': {'name': e.get('name', '')}, 'geometry': {'type': 'Point', 'coordinates': list(to_lnglat.transform(*place(*e['px'])))}}
         for e in config.get('entrances', []) if e.get('px') and not (e.get('written') or e.get('knownEntrance'))]}
-    html = (PAGE.replace('__TOKEN__', env.get('VITE_MAPBOX_ACCESS_TOKEN', '')).replace('__TITLE__', config.get('title', name) + (' - UNVERIFIED placement' if config.get('unverified') else ''))
+    html = (PAGE.replace('__TOKEN__', mapbox_token(env)).replace('__TITLE__', config.get('title', name) + (' - UNVERIFIED placement' if config.get('unverified') else ''))
             .replace('__IMAGE__', data_url).replace('__CORNERS__', json.dumps(corners))
             .replace('__MARKERS__', json.dumps(markers)).replace('__CENTER__', json.dumps(centre)).replace('__WALLS__', walls).replace('__SYMBOLS__', symbols).replace('__CENOTES__', json.dumps(cenotes, ensure_ascii=False))
             .replace('__DBCAVES__', json.dumps(database_caves_within(corners), ensure_ascii=False)))

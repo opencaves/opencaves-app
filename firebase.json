@@ -36,6 +36,10 @@
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
         {
+          "source": "/api/address/**",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=2592000" }]
+        },
+        {
           "source": "/tiles/**",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
         },
@@ -56,6 +60,10 @@
         {
           "source": "/map/*",
           "function": "cavePage"
+        },
+        {
+          "source": "/api/address/*",
+          "function": "caveAddress"
         },
         {
           "source": "**",

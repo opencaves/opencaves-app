@@ -73,7 +73,8 @@
       "stay": "Seguir editando"
     },
     "editTitle": "Editar {{title}}",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "closeDialog": "Cerrar"
   },
   "account": {
     "profile": "Perfil",
@@ -501,7 +502,7 @@
       "addPictures": "Añadir fotos",
       "editPicture": "Editar foto",
       "deletePicture": "Eliminar foto",
-      "deletePictureConfirm": "Esta foto se eliminará permanentemente.",
+      "deletePictureConfirm": "Esta foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deletePictureError": "No se pudo eliminar la foto. Inténtalo de nuevo.",
       "videos": "Vídeos",
       "videoUrl": "URL del vídeo",
@@ -596,7 +597,12 @@
         "invalid": "Inválida"
       },
       "exit": "Salir",
-      "closePicture": "Cerrar la foto"
+      "closePicture": "Cerrar la foto",
+      "trashMap": "Eliminar el mapa",
+      "trashMapTitle": "¿Eliminar este mapa?",
+      "trashMapConfirm": "«{{name}}» va a la papelera y desaparece de todos los sistemas que lo muestran. Un administrador puede restaurarlo desde Auditorías > Papelera.",
+      "trashMapSuccess": "Mapa movido a la papelera.",
+      "trashMapError": "No se pudo eliminar el mapa."
     },
     "closePane": "Cerrar",
     "rating": {
@@ -639,10 +645,10 @@
       "useAsCoverFail": "No se pudo cambiar la imagen de portada.",
       "viewOriginalImage": "Ver imagen original",
       "deleteAction": "Eliminar la foto",
-      "deleteSuccess": "Foto eliminada.",
+      "deleteSuccess": "Foto movida a la papelera.",
       "deleteFail": "No se pudo eliminar la foto.",
       "deleteConfirmTitle": "¿Eliminar esta foto?",
-      "deleteConfirm": "La foto y sus miniaturas se eliminarán de forma permanente. Esta acción no se puede deshacer.",
+      "deleteConfirm": "La foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deleteCancel": "Cancelar"
     },
     "mediaThumbnailItem": {
@@ -1041,7 +1047,8 @@
     "connectionOfSistema": "la conexión de {{name}}",
     "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
     "adminSection": "Administración",
-    "manageMapLayers": "Capas del mapa"
+    "manageMapLayers": "Capas del mapa",
+    "manageAudits": "Auditorías"
   },
   "usersAdmin": {
     "title": "Usuarios",
@@ -1127,6 +1134,167 @@
       "drawing": "Dibujo",
       "blend": "Mezcla del original y el dibujo",
       "blendValue": "{{drawing}} % dibujo"
+    }
+  },
+  "audits": {
+    "title": "Auditorías",
+    "tabs": {
+      "changes": "Cambios",
+      "trash": "Papelera"
+    },
+    "accountsError": "No se pudieron leer las cuentas: los autores se muestran por el identificador de su cuenta.",
+    "loadError": "No se pudo cargar la lista.",
+    "refresh": "Actualizar",
+    "progress": "{{done}} / {{total}}",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "undo": "Deshacer",
+    "undoSelected": "Deshacer la selección ({{count}})",
+    "selectEntry": "Seleccionar este cambio",
+    "showChange": "Ver el cambio",
+    "hideChange": "Ocultar el cambio",
+    "photoOf": "Foto de {{cave}}",
+    "empty": "Todavía no hay cambios.",
+    "emptyFiltered": "Ningún cambio coincide con estos filtros.",
+    "loadMore": "Cargar más",
+    "author": {
+      "system": "Sistema",
+      "emulator": "Local (emulador)",
+      "deleted": "Cuenta eliminada"
+    },
+    "actions": {
+      "create": "Creación",
+      "update": "Edición",
+      "delete": "Eliminación",
+      "undo": "Deshacer",
+      "purge": "Eliminación definitiva",
+      "setRoles": "Roles cambiados",
+      "freeze": "Congelación",
+      "unfreeze": "Descongelación",
+      "deleteUser": "Cuenta eliminada"
+    },
+    "collections": {
+      "caves": "Cenotes",
+      "sistemas": "Sistemas",
+      "connections": "Conexiones de sistemas",
+      "cavesAssets": "Fotos",
+      "maps": "Mapas",
+      "accesses": "Accesos",
+      "accessibilities": "Accesibilidades",
+      "sources": "Fuentes",
+      "areas": "Zonas",
+      "colors": "Colores",
+      "languages": "Idiomas",
+      "_users": "Cuentas"
+    },
+    "state": {
+      "undone": "Deshecho",
+      "undoOf": "Deshace un cambio",
+      "undoOfTooltip": "Deshace el cambio {{id}}"
+    },
+    "results": {
+      "undone": "Deshecho",
+      "conflict": "No deshecho: el registro cambió desde entonces",
+      "skipped": "Omitido",
+      "error": "No se pudo deshacer"
+    },
+    "summary": {
+      "undone_one": "{{count}} cambio deshecho",
+      "undone_other": "{{count}} cambios deshechos",
+      "conflict_one": "{{count}} conflicto",
+      "conflict_other": "{{count}} conflictos",
+      "skipped_one": "{{count}} omitido",
+      "skipped_other": "{{count}} omitidos",
+      "error_one": "{{count}} fallido",
+      "error_other": "{{count}} fallidos"
+    },
+    "filters": {
+      "collection": "Colección",
+      "author": "Autor",
+      "from": "Desde",
+      "to": "Hasta",
+      "all": "Todos",
+      "clear": "Borrar los filtros",
+      "action": "Tipo de cambio"
+    },
+    "details": {
+      "absent": "(ninguno)",
+      "before": "Antes",
+      "after": "Después",
+      "tooLarge": "Este cambio era demasiado grande para registrarse completo: faltan sus valores.",
+      "noFields": "Ningún campo cambió.",
+      "entryId": "Cambio {{id}}",
+      "recordId": "Registro {{id}}",
+      "authType": "Sesión iniciada como: {{type}}",
+      "undoneBy": "Deshecho el {{date}} por",
+      "expandLines_one": "Mostrar {{count}} línea sin cambios",
+      "expandLines_other": "Mostrar {{count}} líneas sin cambios",
+      "lineCounts": "{{added}} líneas añadidas, {{removed}} eliminadas"
+    },
+    "confirmUndo": {
+      "title_one": "¿Deshacer este cambio?",
+      "title_other": "¿Deshacer {{count}} cambios?",
+      "text_one": "Este cambio se revertirá:",
+      "text_other": "Estos cambios se revertirán, del más reciente al más antiguo:",
+      "action_one": "Deshacer",
+      "action_other": "Deshacer {{count}} cambios"
+    },
+    "conflicts": {
+      "title_one": "Un registro cambió desde entonces",
+      "title_other": "{{count}} registros cambiaron desde entonces",
+      "text_one": "Este cambio no se deshizo: su registro se modificó de nuevo desde entonces. Forzar deshacer sobrescribe los valores actuales.",
+      "text_other": "Estos cambios no se deshicieron: sus registros se modificaron de nuevo desde entonces. Forzar deshacer sobrescribe los valores actuales.",
+      "expected": "Esperado",
+      "current": "Actual",
+      "force": "Forzar deshacer"
+    },
+    "bulkUndo": {
+      "open": "Deshacer los cambios de un autor…",
+      "title": "Deshacer los cambios de un autor",
+      "text": "Todos los cambios que este autor hizo desde esta fecha y hora se desharán, del más reciente al más antiguo.",
+      "author": "Autor",
+      "since": "Desde",
+      "previewAction": "Contar los cambios",
+      "preview_one": "Se deshará {{count}} cambio de {{who}}.",
+      "preview_other": "Se desharán {{count}} cambios de {{who}}.",
+      "nothing": "Ningún cambio de este autor desde entonces se puede deshacer.",
+      "notUndoable_one": "({{count}} otro cambio no se puede deshacer.)",
+      "notUndoable_other": "({{count}} otros cambios no se pueden deshacer.)",
+      "confirm_one": "Deshacer {{count}} cambio",
+      "confirm_other": "Deshacer {{count}} cambios",
+      "reviewConflicts_one": "Ver el conflicto",
+      "reviewConflicts_other": "Ver los {{count}} conflictos"
+    },
+    "trash": {
+      "select": "Seleccionar {{name}}",
+      "selectAll": "Seleccionar todo",
+      "selected_one": "{{count}} seleccionado",
+      "selected_other": "{{count}} seleccionados",
+      "restore": "Restaurar",
+      "deleteForever": "Eliminar definitivamente",
+      "deleteForeverCount_one": "Eliminar definitivamente",
+      "deleteForeverCount_other": "Eliminar {{count}} definitivamente",
+      "restoring": "Restaurando…",
+      "deleting": "Eliminando…",
+      "restored_one": "{{count}} elemento restaurado.",
+      "restored_other": "{{count}} elementos restaurados.",
+      "restorePartial_one": "{{count}} elemento restaurado, {{failed}} con error.",
+      "restorePartial_other": "{{count}} elementos restaurados, {{failed}} con error.",
+      "deleted_one": "{{count}} elemento eliminado definitivamente.",
+      "deleted_other": "{{count}} elementos eliminados definitivamente.",
+      "deletePartial_one": "{{count}} elemento eliminado definitivamente, {{failed}} con error.",
+      "deletePartial_other": "{{count}} elementos eliminados definitivamente, {{failed}} con error.",
+      "failures_one": "No se pudo eliminar {{count}} elemento:",
+      "failures_other": "No se pudieron eliminar {{count}} elementos:",
+      "empty": "La papelera está vacía.",
+      "photos_one": "Fotos ({{count}})",
+      "photos_other": "Fotos ({{count}})",
+      "maps_one": "Mapas ({{count}})",
+      "maps_other": "Mapas ({{count}})",
+      "deleteTitle_one": "¿Eliminar definitivamente?",
+      "deleteTitle_other": "¿Eliminar {{count}} elementos definitivamente?",
+      "deleteConfirm_one": "Este elemento y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
+      "deleteConfirm_other": "Estos {{count}} elementos y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer."
     }
   }
 }

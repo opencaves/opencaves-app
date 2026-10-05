@@ -6,7 +6,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import DescriptionRounded from '@mui/icons-material/DescriptionRounded'
 import ImageRounded from '@mui/icons-material/ImageRounded'
 import AddButton from '@/components/AddButton.jsx'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
@@ -15,8 +15,6 @@ import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
-
-const mapsModel = createCollectionModel('maps')
 
 // PDFs can't be thumbnailed with a plain <img src>, so until their
 // conversion (onMapPdfUploaded) adds a thumbnail/preview they fall back to a

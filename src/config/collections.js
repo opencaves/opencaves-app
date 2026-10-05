@@ -4,3 +4,7 @@
 export const USERS_COLLECTION = '_users'
 export const SETTINGS_COLLECTION = '_settings'
 export const CAVE_RATINGS_COLLECTION = '_caveRatings'
+
+// Who changed or deleted what (written by the server's audit trigger, read
+// by admins on the Audits page).
+export const AUDIT_LOG_COLLECTION = '_auditLog'

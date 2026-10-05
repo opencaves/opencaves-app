@@ -10,6 +10,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
+import { isTrashed } from '@/utils/trash.js'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import MapCompareViewer from './MapCompareViewer.jsx'
@@ -51,10 +52,10 @@ export default function MapLayersAdmin() {
   // again stays in the list (to hide it back) until it's turned off.
   const [onlyHidden, setOnlyHidden] = useState(null)
 
-  // The scans' thumbnails, by importKey: read once.
+  // The scans' thumbnails, by importKey: read once (not those in the trash).
   useEffect(() => {
     getDocs(collection(db, 'maps'))
-      .then((snapshot) => setThumbnails(new Map(snapshot.docs.map((doc) => [doc.get('importKey'), doc.get('thumbnailUrl') || doc.get('previewUrl')]))))
+      .then((snapshot) => setThumbnails(new Map(snapshot.docs.filter((doc) => !isTrashed(doc)).map((doc) => [doc.get('importKey'), doc.get('thumbnailUrl') || doc.get('previewUrl')]))))
       .catch((err) => console.error(err))
   }, [])
 

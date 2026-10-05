@@ -3,6 +3,7 @@ import { Link, Outlet, useLoaderData, useLocation, useNavigate, useParams } from
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu, MenuItem, Typography, styled, useTheme } from '@mui/material'
+import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
@@ -14,12 +15,12 @@ import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
+import { isTrashed } from '@/utils/trash.js'
 import MapPaneDetails from './MapPaneDetails.jsx'
+import { useCanTrashMaps, useTrashMapConfirm } from './TrashMap.jsx'
 import usePaneWidth from '@/hooks/usePaneWidth.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-
-const mapsModel = createCollectionModel('maps')
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -51,9 +52,10 @@ function MapThumbnail({ map }) {
 }
 
 // An item's options (editors): Edit, and Delete for a map of the cave's own
-// sistema (one inherited from a parent sistema is removed there). Shown on
-// hover, keyboard focus or while open - always on touch screens.
-function MapListItemMenu({ map, onEdit, onDelete }) {
+// sistema (one inherited from a parent sistema is removed there); admins
+// also delete the map itself (to the trash). Shown on hover, keyboard focus
+// or while open - always on touch screens.
+function MapListItemMenu({ map, onEdit, onDelete, onTrash }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [anchorEl, setAnchorEl] = useState(null)
   function act(action) {
@@ -81,6 +83,14 @@ function MapListItemMenu({ map, onEdit, onDelete }) {
             <ListItemText>{t('removeMap')}</ListItemText>
           </MenuItem>
         )}
+        {onTrash && (
+          <MenuItem className="oc-map-pane--trash-map" onClick={() => act(onTrash)} sx={{ color: 'error.main' }}>
+            <ListItemIcon sx={{ color: 'error.main' }}>
+              <DeleteForeverRounded fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('trashMap')}</ListItemText>
+          </MenuItem>
+        )}
       </Menu>
     </>
   )
@@ -88,7 +98,7 @@ function MapListItemMenu({ map, onEdit, onDelete }) {
 
 // One map: its thumbnail, its name (two lines at most) and, under it, its
 // date and authors - enough to tell apart maps that share a name.
-function MapListItem({ map, caveId, selected, state, onEdit, onDelete }) {
+function MapListItem({ map, caveId, selected, state, onEdit, onDelete, onTrash }) {
   const details = [map.date, map.authors?.join(', ')].filter(Boolean).join(' · ')
   const item = (
     <ListItemButton
@@ -129,7 +139,7 @@ function MapListItem({ map, caveId, selected, state, onEdit, onDelete }) {
     <ListItem
       className="oc-map-pane--item-row"
       disablePadding
-      secondaryAction={<MapListItemMenu map={map} onEdit={onEdit} onDelete={onDelete} />}
+      secondaryAction={<MapListItemMenu map={map} onEdit={onEdit} onDelete={onDelete} onTrash={onTrash} />}
       sx={{
         '& .MuiListItemSecondaryAction-root': { right: 16 },
         '@media (hover: hover)': {
@@ -167,11 +177,14 @@ export default function MapPane() {
   const location = useLocation()
   const currentCave = useSelector((state) => state.map.currentCave)
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const canTrash = useCanTrashMaps()
   const initial = useLoaderData()
   const returnTo = location.state?.from || `/map/${caveId}`
   const [sistemas] = SistemaModel.useAll()
   const [connections, connectionsLoading] = ConnectionModel.useAll()
-  const [mapFiles] = mapsModel.useAll()
+  // With the maps in the trash: one moved there while the pane is open must
+  // leave the list, not fall back to the loader's copy of it.
+  const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
   const sistemaId = initial.sistemaId
   // Falls back to the loader's snapshot until the live listeners have data.
   const live = sistemas.length > 0 && !connectionsLoading
@@ -179,7 +192,7 @@ export default function MapPane() {
   const maps = mapRefs
     .map(({ id, sistemaId: ownerId }) => {
       const map = mapFiles.find((m) => m.id === id) || initial.maps.find((m) => m.id === id)
-      return map && { ...map, sistemaId: ownerId }
+      return map && !isTrashed(map) && { ...map, sistemaId: ownerId }
     })
     .filter(Boolean)
 
@@ -217,6 +230,17 @@ export default function MapPane() {
       navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
     }
   }
+  // Gone from every sistema: the one being viewed, on to the next one (none
+  // left: the effect above goes back).
+  const { requestTrash, dialog: trashDialog } = useTrashMapConfirm({
+    onAfterTrash: (map) => {
+      const remaining = maps.filter((m) => m.id !== map.id)
+      if (map.id === mapId && remaining.length > 0) {
+        navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
+      }
+    },
+  })
+
   const list = (
     <List className="oc-map-pane--list" disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, pb: 2 }}>
       {groups.map((group) => [
@@ -225,16 +249,17 @@ export default function MapPane() {
             {`${tEdit('sistema')} ${sistemaName(group.sistemaId)}`}
           </ListSubheader>
         ),
-        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} onEdit={isEditor ? editMap : undefined} onDelete={isEditor && map.sistemaId === sistemaId ? removeMap : undefined} />),
+        ...group.maps.map((map) => <MapListItem key={map.id} map={map} caveId={caveId} selected={map.id === mapId} state={location.state} onEdit={isEditor ? editMap : undefined} onDelete={isEditor && map.sistemaId === sistemaId ? removeMap : undefined} onTrash={canTrash ? requestTrash : undefined} />),
       ])}
     </List>
   )
 
   return isSmall ? (
     <Box className="oc-map-pane" sx={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-      {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} />}
+      {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} onTrash={canTrash ? requestTrash : undefined} />}
       {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
       <Outlet context={{ maps }} />
+      {trashDialog}
     </Box>
   ) : (
     <Box className="oc-map-pane" sx={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
@@ -261,9 +286,10 @@ export default function MapPane() {
         </DrawerHeader>
         <Box sx={{ mt: 'var(--oc-pane-padding-block)', height: '100%', overflowY: 'auto' }}>{list}</Box>
       </Drawer>
-      {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} />}
+      {mapId && maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={returnTo} onTrash={canTrash ? requestTrash : undefined} />}
       {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
       <Outlet context={{ maps }} />
+      {trashDialog}
     </Box>
   )
 }

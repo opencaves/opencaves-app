@@ -1,5 +1,5 @@
 import CaveAsset from '@/models/CaveAsset.js'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { PANE_WIDTH } from '@/config/app.js'
@@ -12,7 +12,6 @@ import { PANE_WIDTH } from '@/config/app.js'
 export const OFFLINE_SAVED_CAVES_CACHE = 'oc-offline-saved-caves-v1'
 export const OFFLINE_PREVIEWS_CACHE = 'oc-offline-previews-v1'
 
-const mapsModel = createCollectionModel('maps')
 const DOWNLOAD_CONCURRENCY = 4
 
 export const offlineSupported = typeof window !== 'undefined' && 'caches' in window

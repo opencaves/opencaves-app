@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, deleteField, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
-import { db } from '@/config/firebase.js'
+import { auth, db } from '@/config/firebase.js'
+import { isTrashed } from '@/utils/trash.js'
 
 const converter = {
   toFirestore: (data) => data,
@@ -13,8 +14,12 @@ const converter = {
 // the converter + useCollection pattern established in models/CaveAsset.js,
 // the only other Firestore data-access precedent in this app, generalized
 // since these collections don't need per-entity classes/behavior.
-export function createCollectionModel(collectionName) {
+// trash: the collection's deletions go to the trash (utils/trash.js) - its
+// reads then skip the records in it (useAll({ includeTrashed: true }) keeps
+// them, for a reader that must tell a trashed record from a missing one).
+export function createCollectionModel(collectionName, { trash = false } = {}) {
   const collectionRef = collection(db, collectionName).withConverter(converter)
+  const visible = (item) => !trash || !isTrashed(item)
 
   return {
     collectionName,
@@ -22,12 +27,12 @@ export function createCollectionModel(collectionName) {
 
     async getAll() {
       const snapshot = await getDocs(collectionRef)
-      return snapshot.docs.map(d => d.data())
+      return snapshot.docs.map(d => d.data()).filter(visible)
     },
 
     async getById(id) {
       const snapshot = await getDoc(doc(db, collectionName, id).withConverter(converter))
-      return snapshot.exists() ? snapshot.data() : null
+      return snapshot.exists() && visible(snapshot.data()) ? snapshot.data() : null
     },
 
     // Merges `fields` into the doc at `id` (creating it if absent), leaving
@@ -48,9 +53,25 @@ export function createCollectionModel(collectionName) {
       await deleteDoc(doc(db, collectionName, id))
     },
 
-    useAll() {
+    // To the trash (admins): kept, with who moved it there and when, until
+    // it's restored or deleted for good (Audits > Trash).
+    async moveToTrash(id) {
+      await updateDoc(doc(db, collectionName, id), { deletedAt: serverTimestamp(), deletedBy: auth.currentUser?.uid ?? null })
+    },
+
+    async restore(id) {
+      await updateDoc(doc(db, collectionName, id), { deletedAt: deleteField(), deletedBy: deleteField() })
+    },
+
+    // The records in the trash, most recently deleted first.
+    async getTrashed() {
+      const snapshot = await getDocs(query(collectionRef, where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')))
+      return snapshot.docs.map(d => d.data())
+    },
+
+    useAll({ includeTrashed = false } = {}) {
       const [snapshot, loading, error] = useCollection(collectionRef)
-      const items = useMemo(() => snapshot?.docs.map(d => d.data()) || [], [snapshot])
+      const items = useMemo(() => snapshot?.docs.map(d => d.data()).filter((item) => includeTrashed || visible(item)) || [], [snapshot, includeTrashed])
       return [items, loading, error]
     }
   }

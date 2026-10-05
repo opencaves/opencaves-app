@@ -6,7 +6,8 @@
 //   (the sizes the onAssetUploaded function makes, from its resize config);
 // - no file in caves/*/images or caves/*/thumbnails without a photo;
 // - every photo belongs to an existing cave;
-// - every cave with photos has exactly one cover.
+// - every cave with photos has exactly one cover, outside the trash (photos
+//   deleted to it keep their files until it's emptied: checked like the others).
 // Exits with code 1 when something is wrong.
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -53,6 +54,7 @@ const problems = {
   missingThumbnails: [],
   unknownCave: [],
   coverCount: [],
+  trashedCover: [],
   bogusAsset: [],
   failedCopies: [],
   orphanOriginal: [],
@@ -62,7 +64,8 @@ const TITLES = {
   missingOriginal: 'Photos whose original file is missing',
   missingThumbnails: 'Photos missing thumbnails (the function failed on them: re-upload them)',
   unknownCave: 'Photos of a cave that doesn\'t exist',
-  coverCount: 'Caves with photos but not exactly one cover',
+  coverCount: 'Caves with photos (outside the trash) but not exactly one cover',
+  trashedCover: 'Photos in the trash still marked as their cave\'s cover',
   bogusAsset: 'Photo documents made from a file that is not a photo (e.g. a failed-resize copy): delete them',
   failedCopies: 'Copies of originals the resize failed on (images/failed/): delete once the photo was re-uploaded',
   orphanOriginal: 'Files in caves/*/images with no photo document',
@@ -90,6 +93,7 @@ async function main() {
   const label = (asset) => `${asset.id} (cave ${asset.caveId}${asset.originalName ? `, ${asset.originalName}` : ''}${asset.importSource ? `, imported from ${asset.importSource}` : ''})`
 
   const coversByCave = new Map()
+  let trashed = 0
   const knownPaths = new Set()
   for (const asset of assets) {
     // Only caves/{caveId}/images/{assetId} is a photo's file.
@@ -108,6 +112,11 @@ async function main() {
 
     if (!caveIds.has(asset.caveId)) problems.unknownCave.push(label(asset))
 
+    if (asset.deletedAt) {
+      trashed++
+      if (asset.isCover) problems.trashedCover.push(label(asset))
+      continue
+    }
     if (!coversByCave.has(asset.caveId)) coversByCave.set(asset.caveId, [])
     if (asset.isCover) coversByCave.get(asset.caveId).push(asset.id)
   }
@@ -122,7 +131,7 @@ async function main() {
     else if (name.includes(`/${THUMBNAILS_FOLDER}/`)) problems.orphanThumbnails.push(name)
   }
 
-  console.log(`${assets.length} photos in ${coversByCave.size} caves, ${fileNames.size} files\n`)
+  console.log(`${assets.length} photos in ${coversByCave.size} caves (${trashed} in the trash), ${fileNames.size} files\n`)
   let total = 0
   for (const [key, items] of Object.entries(problems)) {
     if (!items.length) continue

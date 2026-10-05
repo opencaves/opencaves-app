@@ -11,6 +11,7 @@ import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import Picture from '@/components/Picture.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
@@ -202,8 +203,9 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
           </Scrollbars>
         </Box>
       )}
-      <Dialog open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
-        <DialogTitle>{t('deletePicture')}</DialogTitle>
+      <Dialog className="oc-media-list--delete-dialog" open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
+        <DialogTitle sx={{ pr: 7 }}>{t('deletePicture')}</DialogTitle>
+        <DialogCloseButton onClick={closeDeleteDialog} disabled={deleting} />
         <DialogContent>
           <DialogContentText>{t('deletePictureConfirm')}</DialogContentText>
           {deleteError && <Alert severity="error">{t('deletePictureError')}</Alert>}
