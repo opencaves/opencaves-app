@@ -92,7 +92,7 @@ const bucket = getStorage(productionApp).bucket(BUCKET)
 // local account (who moved it to the trash, who uploaded a photo) gets the
 // production account with the same email (or paired in SYNC_ACCOUNTS). One with no production
 // counterpart keeps its id (shown as a deleted account).
-const ACCOUNT_FIELDS = ['deletedBy', 'userId']
+const ACCOUNT_FIELDS = ['deletedBy', 'userId', 'layerSkippedBy']
 async function productionAccountIds() {
   const local = await (await fetch(`http://${AUTH_EMULATOR}/identitytoolkit.googleapis.com/v1/projects/${PROJECT_ID}/accounts:batchGet?maxResults=1000`, { headers: { Authorization: 'Bearer owner' } })).json()
   const productionByEmail = new Map()

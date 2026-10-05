@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
-import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MapOutlined from '@mui/icons-material/MapOutlined'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
@@ -163,10 +162,6 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     setPendingDetails(emptyPendingDetails)
   }
 
-  async function removeMap(value) {
-    await saveMaps(mapValues.filter((mapValue) => mapValue !== value))
-  }
-
   return (
     <>
       {selectedMaps.length > 0 && (
@@ -186,7 +181,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>

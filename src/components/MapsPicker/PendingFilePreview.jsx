@@ -5,6 +5,8 @@ import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 const MIN_SCALE = 1
 const MAX_SCALE = 5
 const CLICK_ZOOM_STEP = 1
+// The wheel's zoom per unit of delta (a mouse notch is ~100: about x1.2).
+const WHEEL_ZOOM_RATE = 0.0018
 
 // A large, zoomable/pannable preview of a map file, shown in the map details
 // form so the person confirming a title/authors can actually make out
@@ -107,23 +109,45 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
     }
   }
 
+  // The current scale and pan, for the wheel listener (attached once, below).
+  const viewRef = useRef({ scale: 1, pan: { x: 0, y: 0 } })
+  viewRef.current = { scale, pan }
+
+  // Zooms to nextScale keeping the image's point under the pointer where it
+  // is. The image is drawn translate(pan) scale(scale) around the box's
+  // centre, so a point at p (from the centre) shows image point (p - pan) /
+  // scale; keeping it at p gives pan' = p - (p - pan) * scale' / scale.
+  function zoomAt(clientX, clientY, nextScale) {
+    const { scale: current, pan: currentPan } = viewRef.current
+    const target = Math.max(MIN_SCALE, Math.min(MAX_SCALE, nextScale))
+    if (target === current) return
+    if (target === MIN_SCALE) {
+      setScale(MIN_SCALE)
+      setPan({ x: 0, y: 0 })
+      return
+    }
+    const rect = containerRef.current.getBoundingClientRect()
+    const px = clientX - (rect.left + rect.width / 2)
+    const py = clientY - (rect.top + rect.height / 2)
+    const ratio = target / current
+    setScale(target)
+    setPan(clampPan({ x: px - (px - currentPan.x) * ratio, y: py - (py - currentPan.y) * ratio }, target))
+  }
+
   // React's onWheel prop is attached as a passive listener, so
   // event.preventDefault() inside it silently does nothing - the dialog
   // behind the image would scroll at the same time as it zoomed. Attaching
   // the listener manually as non-passive (same fix already used for the
   // horizontal media scrollers elsewhere in this pane) is required to
-  // actually stop that.
+  // actually stop that. Each notch zooms by a factor (the same feel at any
+  // zoom), around the pointer.
   useEffect(() => {
     const container = containerRef.current
     if (!container || !previewUrl) return undefined
 
     function onWheel(event) {
       event.preventDefault()
-      setScale((current) => {
-        const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, current - event.deltaY * 0.01))
-        setPan((currentPan) => clampPan(currentPan, nextScale))
-        return nextScale
-      })
+      zoomAt(event.clientX, event.clientY, viewRef.current.scale * Math.exp(-event.deltaY * WHEEL_ZOOM_RATE))
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
@@ -156,7 +180,7 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
     setIsDragging(false)
   }
 
-  // Click zooms in centered on the clicked point, one step at a time;
+  // Click zooms in around the clicked point, one step at a time;
   // shift-click zooms back out the same way - the cursor (zoom-in/zoom-out)
   // advertises which one a click will do. Ignored right after a drag-to-pan
   // gesture, which also ends in a click.
@@ -166,24 +190,8 @@ export default function PendingFilePreview({ file, existingUrl, existingContentT
       return
     }
 
-    const zoomingOut = event.shiftKey
-    const nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale + (zoomingOut ? -CLICK_ZOOM_STEP : CLICK_ZOOM_STEP)))
-    if (nextScale === 1) {
-      setScale(1)
-      setPan({ x: 0, y: 0 })
-      return
-    }
-
-    const rect = containerRef.current.getBoundingClientRect()
-    const offsetX = event.clientX - (rect.left + rect.width / 2)
-    const offsetY = event.clientY - (rect.top + rect.height / 2)
-    setScale(nextScale)
-    setPan((currentPan) => {
-      // Zooming in centers on the click point; zooming out just scales the
-      // existing pan down proportionally rather than re-centering on it.
-      const base = zoomingOut ? currentPan : { x: -offsetX * (nextScale - 1), y: -offsetY * (nextScale - 1) }
-      return clampPan(zoomingOut ? { x: base.x * (nextScale / scale), y: base.y * (nextScale / scale) } : base, nextScale)
-    })
+    // One step in, or out with shift, around the clicked point.
+    zoomAt(event.clientX, event.clientY, scale + (event.shiftKey ? -CLICK_ZOOM_STEP : CLICK_ZOOM_STEP))
   }
 
   if (!file && !existingUrl) {

@@ -177,6 +177,18 @@ service cloud.firestore {
         && text(d, k, 'code', 8) && text(d, k, 'eng', 240) && text(d, k, 'fra', 240) && text(d, k, 'spa', 240)
     }
 
+    // A map marked "not for the cave layer" by an admin (the Map layers page's
+    // To process tab): only these three fields, a short reason, the admin
+    // themselves, now - or all three removed, back to process.
+    function isLayerSkipChange() {
+      let d = request.resource.data;
+      return isAdmin()
+        && d.diff(resource.data).affectedKeys().hasOnly(['layerSkipReason', 'layerSkippedBy', 'layerSkippedAt'])
+        && (('layerSkipReason' in d && d.layerSkipReason is string && d.layerSkipReason.size() > 0 && d.layerSkipReason.size() <= 500
+              && d.layerSkippedBy == request.auth.uid && d.layerSkippedAt == request.time)
+          || !('layerSkipReason' in d || 'layerSkippedBy' in d || 'layerSkippedAt' in d));
+    }
+
     function isValidMap(d, k) {
       return k.hasOnly(['name', 'authors', 'date', 'note', 'contentType', 'url'])
         && text(d, k, 'name', 240) && items(d, k, 'authors', 20) && text(d, k, 'date', 40) && text(d, k, 'note', 2000)
@@ -248,6 +260,7 @@ service cloud.firestore {
       allow create, update: if isEditor() && hasValidMapLinks() && isValidMap(request.resource.data, setKeys())
       // Deleted to the trash and restored by admins (isTrashChange).
       allow update: if isTrashChange()
+      allow update: if isLayerSkipChange()
       allow delete: if isAdmin()
     }
 

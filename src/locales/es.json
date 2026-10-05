@@ -524,7 +524,6 @@
       "maps": "Mapas",
       "addMap": "Añadir mapa",
       "editMap": "Editar mapa",
-      "removeMap": "Quitar mapa",
       "mapOptions": "Opciones del mapa",
       "pictureOptions": "Opciones de la foto",
       "videoOptions": "Opciones del video",
@@ -1067,7 +1066,9 @@
     "manageMapLayers": "Capas del mapa",
     "manageAudits": "Auditorías",
     "backToCaveIndex": "Volver a las cuevas",
-    "backToSistemaIndex": "Volver a los sistemas de cuevas"
+    "backToSistemaIndex": "Volver a los sistemas de cuevas",
+    "mapsToProcess_one": "{{count}} por procesar",
+    "mapsToProcess_other": "{{count}} por procesar"
   },
   "usersAdmin": {
     "title": "Usuarios",
@@ -1153,6 +1154,29 @@
       "drawing": "Dibujo",
       "blend": "Mezcla del original y el dibujo",
       "blendValue": "{{drawing}} % dibujo"
+    },
+    "tabs": {
+      "layer": "En la capa",
+      "toProcess": "Por procesar"
+    },
+    "toProcess": {
+      "intro": "Los mapas añadidos en la aplicación que aún no están en la capa de mapas. Un mapa sale de esta lista cuando una configuración lo nombra y se reconstruyen las teselas (docs/map-layer.md).",
+      "none": "Ningún mapa pendiente: cada mapa añadido en la aplicación está en la capa o marcado como no apto.",
+      "added": "añadido el {{date}} por {{name}}",
+      "open": "Abrir el archivo del mapa",
+      "openOf": "Abrir el archivo de {{name}}",
+      "skip": "No para la capa",
+      "skipOf": "Marcar {{name}} como no para la capa",
+      "skipTitle": "{{name}}: no para la capa de mapas",
+      "reasonLabel": "Por qué",
+      "reasonHelp": "Por ejemplo: un corte, una cueva seca, un croquis, un duplicado de un mapa ya en la capa.",
+      "cancel": "Cancelar",
+      "confirmSkip": "Marcar no para la capa",
+      "skippedTitle_one": "No para la capa ({{count}})",
+      "skippedTitle_other": "No para la capa ({{count}})",
+      "reason": "por qué: {{reason}}",
+      "unskip": "Volver a procesar",
+      "unskipOf": "Volver a procesar {{name}}"
     }
   },
   "audits": {

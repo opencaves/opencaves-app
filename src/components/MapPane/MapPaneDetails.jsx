@@ -12,7 +12,6 @@ import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
 import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import SistemaModel from '@/models/SistemaModel.js'
 import MapPaneMenu from './MapPaneMenu.jsx'
 import 'yet-another-react-lightbox/styles.css'
 import '@/components/MediaPane/lightbox.scss'
@@ -69,19 +68,9 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
 
   // `maps` also holds ancestor sistemas' maps (tagged with their own
   // sistemaId), so only the cave's own sistema's maps are written back.
-  async function handleDelete(map) {
-    const remaining = maps.filter((m) => m.id !== map.id)
-    await SistemaModel.save(sistemaId, { maps: remaining.filter((m) => m.sistemaId === sistemaId).map((m) => m.id) })
-    if (remaining.length === 0) {
-      navigate(returnTo, { replace: true })
-    } else {
-      navigate(`/map/${caveId}/maps/${remaining[0].id}`, { replace: true, state: location.state })
-    }
-  }
-
   function Menu({ augment }) {
     augment(({ toolbar, ...rest }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} onTrash={onTrash} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onTrash={onTrash} />),
       ...rest,
     }))
   }

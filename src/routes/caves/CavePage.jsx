@@ -105,9 +105,12 @@ export default function CavePage() {
         editLabel={t('cave.edit', { name: label })}
       />
 
-      <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapOutlined />} sx={{ mb: 3, borderRadius: 5 }}>
-        {t('onMap')}
-      </Button>
+      {/* At the right end, under the heading. */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+        <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapOutlined />} sx={{ borderRadius: 5 }}>
+          {t('onMap')}
+        </Button>
+      </Box>
 
       <CaveCover caveId={cave.id} />
 
