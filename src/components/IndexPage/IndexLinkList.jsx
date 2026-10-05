@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, ListItemButton, Tooltip } from '@mui/material'
 import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapOffOutlined from './MapOffOutlined.jsx'
 
 // Links to caves or cave systems, in as many columns as the page's width
 // holds (one on phones), each a block button: the whole row is the link
@@ -58,7 +59,7 @@ export default function IndexLinkList({ items, className }) {
               {/* A disabled button fires no events: the tooltip is on its wrapper. */}
               <span className="oc-index-link-list--map" style={{ marginRight: 4 }}>
                 <IconButton disabled aria-label={t('notOnMap')}>
-                  <MapOutlined fontSize="small" />
+                  <MapOffOutlined fontSize="small" />
                 </IconButton>
               </span>
             </Tooltip>
