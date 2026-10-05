@@ -1362,6 +1362,17 @@
       "results_one": "{{count}} résultat",
       "results_other": "{{count}} résultats",
       "none": "Rien ne correspond à « {{query}} »."
+    },
+    "onMap": "Voir sur la carte",
+    "onMapOf": "{{name}} sur la carte",
+    "cave": {
+      "descriptionPrefix": "{{name}} (Yucatán, Mexique) :",
+      "description": "{{name}}, au Yucatán (Mexique) : emplacement, accès, photos, plans et réseau sur OpenCaves.",
+      "edit": "Modifier {{name}}",
+      "area": "Région",
+      "sistema": "Réseau",
+      "location": "Emplacement",
+      "photos": "Photos"
     }
   },
   "home": {

@@ -1363,6 +1363,17 @@
       "results_one": "{{count}} result",
       "results_other": "{{count}} results",
       "none": "Nothing matches “{{query}}”."
+    },
+    "onMap": "Show on the map",
+    "onMapOf": "{{name}} on the map",
+    "cave": {
+      "descriptionPrefix": "{{name}} (Yucatán, Mexico):",
+      "description": "{{name}} in the Yucatán, Mexico: location, access, pictures, maps and its cave system on OpenCaves.",
+      "edit": "Edit {{name}}",
+      "area": "Area",
+      "sistema": "Cave system",
+      "location": "Location",
+      "photos": "Photos"
     }
   },
   "home": {

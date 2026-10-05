@@ -1,8 +1,10 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
-import { REGION } from '../constants.js'
+import { REGION, CAVES_COLL_NAME } from '../constants.js'
+import { db } from '../init.js'
+import { cavePageHtml } from './cavePage.js'
 import { APP_TITLE, SITE_URL, decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
-import { loadIndexData } from './indexData.js'
+import { loadIndexData, loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
 // The public index pages, served with their content already in the HTML for
@@ -19,7 +21,7 @@ const count = (n, singular, plural = `${singular}s`) => `${n.toLocaleString('en-
 const metres = (value, decimals) => `${Number(value).toLocaleString('en-US', { maximumFractionDigits: decimals })} m`
 
 const caveLabel = (cave) => cave.name || 'Unnamed cave'
-const caveLink = (cave) => `<li><a href="/map/${escapeHtml(cave.id)}">${escapeHtml(caveLabel(cave))}</a></li>`
+const caveLink = (cave) => `<li><a href="/caves/${escapeHtml(cave.id)}">${escapeHtml(caveLabel(cave))}</a></li>`
 const sistemaLink = (sistema) => `<li><a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></li>`
 const list = (items, toItem) => (items.length ? `<ul>\n${items.map(toItem).join('\n')}\n</ul>` : '')
 
@@ -184,9 +186,10 @@ function pageFor(path, data) {
   const segment = decodeSegment(rawSegment)
   if (section === 'caves') {
     if (rawSegment === undefined) return cavesPage(data)
-    // A cave's old address: its page is /map/<caveId>.
-    // (/caves/edit is the app's editor page, never rewritten here.)
-    return CAVE_ID_PATTERN.test(segment) && segment !== 'edit' ? { redirect: `/map/${segment}` } : null
+    // A cave's own page (cavePage.js's, at this address), read in the
+    // handler: { cave: <id> }. (/caves/edit is the app's editor page, never
+    // rewritten here.)
+    return CAVE_ID_PATTERN.test(segment) && segment !== 'edit' ? { cave: segment } : null
   }
   if (section === 'sistemas') {
     if (rawSegment === undefined) return sistemasPage(data)
@@ -211,6 +214,24 @@ export const indexPages = onRequest({ region: REGION }, async (req, res) => {
   }
 
   const page = pageFor(req.path, await loadIndexData())
+  if (page?.cave) {
+    const snapshot = await db.collection(CAVES_COLL_NAME).doc(page.cave).get()
+    res.set('Content-Type', 'text/html; charset=utf-8')
+    if (!snapshot.exists) {
+      res.set('Cache-Control', 'public, max-age=60')
+      res.status(404).send(shell)
+      return
+    }
+    const cave = snapshot.data()
+    let sistema = null
+    if (cave.sistemaId) {
+      const { slugs, names } = await loadSistemaSlugs()
+      if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
+    }
+    res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
+    res.send(cavePageHtml(shell, cave, page.cave, sistema, `/caves/${page.cave}`))
+    return
+  }
   if (page?.redirect) {
     res.set('Cache-Control', 'public, max-age=3600')
     res.redirect(301, page.redirect)

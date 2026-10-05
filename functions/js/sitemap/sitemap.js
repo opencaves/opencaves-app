@@ -35,6 +35,8 @@ export const sitemap = onRequest({ region: REGION }, async (req, res) => {
     { loc: `${SITE_URL}/` },
     { loc: `${SITE_URL}/map` },
     ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/map/${doc.id}`, lastmod: day(doc.updateTime) })),
+    // Each cave's own page too (/caves/<id>, indexPages.js).
+    ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/caves/${doc.id}`, lastmod: day(doc.updateTime) })),
     // The index pages (seo/indexPages.js): areas with nothing in them aren't listed.
     { loc: `${SITE_URL}/caves` },
     { loc: `${SITE_URL}/sistemas` },

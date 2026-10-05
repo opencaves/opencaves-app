@@ -170,11 +170,6 @@ function RedirectToCollectionEdit() {
   return <Navigate to={`/${collectionName}/${itemId}/edit`} replace />
 }
 
-function RedirectToCave() {
-  const { caveId } = useParams()
-  return <Navigate to={`/map/${caveId}`} replace />
-}
-
 const routes = [
   {
     path: '/',
@@ -276,9 +271,9 @@ const routes = [
             lazy: () => import('@/routes/caves/CaveIndex.jsx').then(({ default: Component }) => ({ Component })),
           },
           {
-            // A cave's own page is on the map.
+            // A cave's own page (its place on the map is /map/<id>).
             path: 'caves/:caveId',
-            element: <RedirectToCave />,
+            lazy: () => import('@/routes/caves/CavePage.jsx').then(({ default: Component }) => ({ Component })),
           },
           {
             path: 'sistemas',

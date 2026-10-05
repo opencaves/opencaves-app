@@ -1363,6 +1363,17 @@
       "results_one": "{{count}} resultado",
       "results_other": "{{count}} resultados",
       "none": "Nada coincide con «{{query}}»."
+    },
+    "onMap": "Ver en el mapa",
+    "onMapOf": "{{name}} en el mapa",
+    "cave": {
+      "descriptionPrefix": "{{name}} (Yucatán, México):",
+      "description": "{{name}} en Yucatán, México: ubicación, acceso, fotos, mapas y su sistema de cuevas en OpenCaves.",
+      "edit": "Editar {{name}}",
+      "area": "Zona",
+      "sistema": "Sistema de cuevas",
+      "location": "Ubicación",
+      "photos": "Fotos"
     }
   },
   "home": {

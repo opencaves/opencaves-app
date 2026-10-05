@@ -15,8 +15,9 @@ import { slugify } from './slug.js'
 // own index.html (shared.js's shellFor). It links to the cave's area and
 // system pages and to /caves, so crawlers reach those too.
 
-// sistema: the cave's system ({ name, slug }), if any.
-function cavePageHtml(shell, cave, id, sistema) {
+// sistema: the cave's system ({ name, slug }), if any; path: the page's
+// address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
+export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
   // As in the index pages (indexPages.js): an unnamed cave isn't "Cenote Cenote".
@@ -25,7 +26,7 @@ function cavePageHtml(shell, cave, id, sistema) {
   const summary = paragraphs.join(' ')
   const description = truncate(summary ? `${label} (Yucatán, Mexico): ${summary}` : `${label} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
   const title = `${label} / ${APP_TITLE}`
-  const url = `${SITE_URL}/map/${id}`
+  const url = `${SITE_URL}${path}`
   const aka = Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : []
   const location = cave.location?.latitude != null ? cave.location : null
   const structuredData = {
@@ -47,12 +48,13 @@ function cavePageHtml(shell, cave, id, sistema) {
     ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
     area ? `<p>Area: <a href="/areas/${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
     sistema ? `<p>Cave system: <a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></p>` : '',
+    path === `/map/${id}` ? `<p><a href="/caves/${escapeHtml(id)}">${escapeHtml(label)}'s page</a></p>` : `<p><a href="/map/${escapeHtml(id)}">${escapeHtml(label)} on the map</a></p>`,
     `<p><a href="/map">The OpenCaves map of the cenotes of the Yucatán</a> · <a href="/caves">All the caves by area</a></p>`,
     jsonLdScript(structuredData),
     `</main>`,
   ].filter(Boolean).join('\n')
 
-  return renderPage(shell, { title, description, path: `/map/${id}`, body, ogType: 'place' })
+  return renderPage(shell, { title, description, path, body, ogType: 'place' })
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and
