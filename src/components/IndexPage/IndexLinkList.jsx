@@ -8,7 +8,7 @@ import MapOutlined from '@mui/icons-material/MapOutlined'
 // (its primary action), with a state layer on hover and focus. items:
 // { key, to, label, color, secondary, mapTo } - color: a sistema's colour, as
 // a dot before its name; secondary: muted text on a second line (a cave's
-// system); names and that text stay on one line each (cut with an ellipsis);
+// system), on one line (cut with an ellipsis) - a long name wraps;
 // mapTo: the record on the map, the row's secondary action - a map icon at
 // its end, shown on hover or focus (always on touch screens).
 export default function IndexLinkList({ items, className }) {
@@ -37,13 +37,12 @@ export default function IndexLinkList({ items, className }) {
             component={RouterLink}
             to={to}
             disableGutters
-            title={typeof label === 'string' ? label : undefined}
             sx={{ flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, gap: 1, alignItems: 'center', '&:hover': { bgcolor: 'transparent' } }}
           >
             {color && <Box component="span" aria-hidden="true" sx={{ flexShrink: 0, width: 10, height: 10, borderRadius: '50%', bgcolor: color, border: '1px solid', borderColor: 'divider' }} />}
-            {/* One line for the name (cut with an ellipsis), the muted text under it. */}
+            {/* The name (wrapping when too long), the muted text under it. */}
             <Box component="span" sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-              <Box component="span" sx={{ typography: 'body1', color: 'primary.main', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <Box component="span" sx={{ typography: 'body1', color: 'primary.main', overflowWrap: 'anywhere' }}>
                 {label}
               </Box>
               {secondary && (
