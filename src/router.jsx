@@ -307,6 +307,12 @@ const routes = [
             path: 'map-layers/:mapId?',
             ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
           },
+          {
+            // Who changed what (undoable), and the photos and maps in the
+            // trash: ?tab=trash.
+            path: 'audits',
+            ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
+          },
         ],
       },
       {

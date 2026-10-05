@@ -2,6 +2,7 @@ import { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import Message from '@/components/Message.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import useRoles from '@/hooks/useRoles.jsx'
@@ -13,8 +14,8 @@ export function useDeleteMedia() {
   return useRoles('admin')
 }
 
-// The confirmation before a photo is deleted (it and its thumbnails, for
-// good). Its dialog is rendered by the menu's owner, outside the menu: a
+// The confirmation before a photo is deleted - to the trash, where an admin
+// can restore it (Audits > Trash) or delete it for good. Its dialog is rendered by the menu's owner, outside the menu: a
 // menu's items unmount when it closes. onBeforeDelete(mediaAsset) runs
 // first (e.g. moving the viewer to the next photo).
 export function useDeleteMediaConfirm({ onBeforeDelete = noopAsync } = {}) {
@@ -41,7 +42,8 @@ export function useDeleteMediaConfirm({ onBeforeDelete = noopAsync } = {}) {
 
   const dialog = (
     <Dialog className="oc-delete-media-dialog" open={Boolean(pending)} onClose={() => !deleting && setPending(null)}>
-      <DialogTitle>{t('deleteConfirmTitle')}</DialogTitle>
+      <DialogTitle sx={{ pr: 7 }}>{t('deleteConfirmTitle')}</DialogTitle>
+      <DialogCloseButton onClick={() => setPending(null)} disabled={deleting} />
       <DialogContent>
         <DialogContentText>{t('deleteConfirm')}</DialogContentText>
       </DialogContent>

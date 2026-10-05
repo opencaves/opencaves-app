@@ -1,9 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, TextField } from '@mui/material'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
-
-const mapsModel = createCollectionModel('maps')
+import mapsModel from '@/models/MapModel.js'
 
 // A chip-style, multi-value authors input suggested from every author name
 // already used across all maps, so repeat contributors get picked

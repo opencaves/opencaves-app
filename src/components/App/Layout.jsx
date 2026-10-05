@@ -9,7 +9,7 @@ import dashboardBackground from '@/images/dashboard/bg.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
 // First URL segment of every dashboard (admin) page - see router.jsx.
-const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', ...Object.keys(REFERENCE_DATA_CONFIGS)])
+const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', ...Object.keys(REFERENCE_DATA_CONFIGS)])
 
 export default function Layout() {
   const location = useLocation()

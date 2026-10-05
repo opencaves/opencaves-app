@@ -8,10 +8,8 @@ import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { storage } from '@/config/firebase.js'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
-
-const mapsModel = createCollectionModel('maps')
 
 // A map's title always comes from the person uploading it (see MapUploadDetailsFields)
 // rather than being guessed from the file, so every map has a name the person

@@ -73,7 +73,8 @@
       "stay": "Keep editing"
     },
     "editTitle": "Edit {{title}}",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "closeDialog": "Close"
   },
   "account": {
     "profile": "Profile",
@@ -501,7 +502,7 @@
       "addPictures": "Add pictures",
       "editPicture": "Edit picture",
       "deletePicture": "Delete picture",
-      "deletePictureConfirm": "This picture will be permanently deleted.",
+      "deletePictureConfirm": "This picture goes to the trash: an admin can restore it from Audits > Trash.",
       "deletePictureError": "Could not delete the picture. Please try again.",
       "videos": "Videos",
       "videoUrl": "Video URL",
@@ -596,7 +597,12 @@
         "invalid": "Invalid"
       },
       "exit": "Exit",
-      "closePicture": "Close the picture"
+      "closePicture": "Close the picture",
+      "trashMap": "Delete map",
+      "trashMapTitle": "Delete this map?",
+      "trashMapConfirm": "\"{{name}}\" goes to the trash and disappears from every sistema that shows it. An admin can restore it from Audits > Trash.",
+      "trashMapSuccess": "Map moved to the trash.",
+      "trashMapError": "Couldn't delete the map."
     },
     "closePane": "Close",
     "rating": {
@@ -639,10 +645,10 @@
       "useAsCoverFail": "Failed to change cover image.",
       "viewOriginalImage": "View original image",
       "deleteAction": "Delete photo",
-      "deleteSuccess": "Photo deleted.",
+      "deleteSuccess": "Photo moved to the trash.",
       "deleteFail": "Couldn't delete the photo.",
       "deleteConfirmTitle": "Delete this photo?",
-      "deleteConfirm": "The photo and its thumbnails will be permanently deleted. This cannot be undone.",
+      "deleteConfirm": "The photo goes to the trash: an admin can restore it from Audits > Trash.",
       "deleteCancel": "Cancel"
     },
     "mediaThumbnailItem": {
@@ -1041,7 +1047,8 @@
     "connectionOfSistema": "the connection of {{name}}",
     "connectionDateHint": "When the connection between the two sistemas was established.",
     "adminSection": "Administration",
-    "manageMapLayers": "Map layers"
+    "manageMapLayers": "Map layers",
+    "manageAudits": "Audits"
   },
   "usersAdmin": {
     "title": "Users",
@@ -1127,6 +1134,167 @@
       "drawing": "Drawing",
       "blend": "Blend between the original and the drawing",
       "blendValue": "{{drawing}}% drawing"
+    }
+  },
+  "audits": {
+    "title": "Audits",
+    "tabs": {
+      "changes": "Changes",
+      "trash": "Trash"
+    },
+    "accountsError": "Couldn't read the accounts: authors are shown by their account id.",
+    "loadError": "Couldn't load the list.",
+    "refresh": "Refresh",
+    "progress": "{{done}} / {{total}}",
+    "cancel": "Cancel",
+    "close": "Close",
+    "undo": "Undo",
+    "undoSelected": "Undo selected ({{count}})",
+    "selectEntry": "Select this change",
+    "showChange": "Show the change",
+    "hideChange": "Hide the change",
+    "photoOf": "Photo of {{cave}}",
+    "empty": "No changes yet.",
+    "emptyFiltered": "No changes match these filters.",
+    "loadMore": "Load more",
+    "author": {
+      "system": "System",
+      "emulator": "Local (emulator)",
+      "deleted": "Deleted account"
+    },
+    "actions": {
+      "create": "Created",
+      "update": "Edited",
+      "delete": "Deleted",
+      "undo": "Undo",
+      "purge": "Deleted for good",
+      "setRoles": "Roles changed",
+      "freeze": "Frozen",
+      "unfreeze": "Unfrozen",
+      "deleteUser": "Account deleted"
+    },
+    "collections": {
+      "caves": "Cenotes",
+      "sistemas": "Sistemas",
+      "connections": "Sistema connections",
+      "cavesAssets": "Photos",
+      "maps": "Maps",
+      "accesses": "Accesses",
+      "accessibilities": "Accessibilities",
+      "sources": "Sources",
+      "areas": "Areas",
+      "colors": "Colors",
+      "languages": "Languages",
+      "_users": "Accounts"
+    },
+    "state": {
+      "undone": "Undone",
+      "undoOf": "Undo of a change",
+      "undoOfTooltip": "Undoes change {{id}}"
+    },
+    "results": {
+      "undone": "Undone",
+      "conflict": "Not undone: the record changed since",
+      "skipped": "Skipped",
+      "error": "Undo failed"
+    },
+    "summary": {
+      "undone_one": "{{count}} change undone",
+      "undone_other": "{{count}} changes undone",
+      "conflict_one": "{{count}} conflict",
+      "conflict_other": "{{count}} conflicts",
+      "skipped_one": "{{count}} skipped",
+      "skipped_other": "{{count}} skipped",
+      "error_one": "{{count}} failed",
+      "error_other": "{{count}} failed"
+    },
+    "filters": {
+      "collection": "Collection",
+      "author": "Author",
+      "from": "From",
+      "to": "To",
+      "all": "All",
+      "clear": "Clear filters",
+      "action": "Kind of change"
+    },
+    "details": {
+      "absent": "(none)",
+      "before": "Before",
+      "after": "After",
+      "tooLarge": "This change was too large to be recorded in full: its values are missing.",
+      "noFields": "No field changed.",
+      "entryId": "Change {{id}}",
+      "recordId": "Record {{id}}",
+      "authType": "Signed in as: {{type}}",
+      "undoneBy": "Undone on {{date}} by",
+      "expandLines_one": "Expand {{count}} unchanged line",
+      "expandLines_other": "Expand {{count}} unchanged lines",
+      "lineCounts": "{{added}} lines added, {{removed}} removed"
+    },
+    "confirmUndo": {
+      "title_one": "Undo this change?",
+      "title_other": "Undo {{count}} changes?",
+      "text_one": "This change will be reversed:",
+      "text_other": "These changes will be reversed, the newest first:",
+      "action_one": "Undo",
+      "action_other": "Undo {{count}} changes"
+    },
+    "conflicts": {
+      "title_one": "A record changed since",
+      "title_other": "{{count}} records changed since",
+      "text_one": "This change wasn't undone: its record was changed again since. Force undo overwrites the current values.",
+      "text_other": "These changes weren't undone: their records were changed again since. Force undo overwrites the current values.",
+      "expected": "Expected",
+      "current": "Now",
+      "force": "Force undo"
+    },
+    "bulkUndo": {
+      "open": "Undo an author's changes…",
+      "title": "Undo an author's changes",
+      "text": "Every change this author made since this date and time will be undone, the newest first.",
+      "author": "Author",
+      "since": "Since",
+      "previewAction": "Count the changes",
+      "preview_one": "{{count}} change by {{who}} will be undone.",
+      "preview_other": "{{count}} changes by {{who}} will be undone.",
+      "nothing": "No change of this author since then can be undone.",
+      "notUndoable_one": "({{count}} other change cannot be undone.)",
+      "notUndoable_other": "({{count}} other changes cannot be undone.)",
+      "confirm_one": "Undo {{count}} change",
+      "confirm_other": "Undo {{count}} changes",
+      "reviewConflicts_one": "Review the conflict",
+      "reviewConflicts_other": "Review the {{count}} conflicts"
+    },
+    "trash": {
+      "select": "Select {{name}}",
+      "selectAll": "Select all",
+      "selected_one": "{{count}} selected",
+      "selected_other": "{{count}} selected",
+      "restore": "Restore",
+      "deleteForever": "Delete permanently",
+      "deleteForeverCount_one": "Delete permanently",
+      "deleteForeverCount_other": "Delete {{count}} permanently",
+      "restoring": "Restoring…",
+      "deleting": "Deleting…",
+      "restored_one": "{{count}} item restored.",
+      "restored_other": "{{count}} items restored.",
+      "restorePartial_one": "{{count}} item restored, {{failed}} failed.",
+      "restorePartial_other": "{{count}} items restored, {{failed}} failed.",
+      "deleted_one": "{{count}} item deleted permanently.",
+      "deleted_other": "{{count}} items deleted permanently.",
+      "deletePartial_one": "{{count}} item deleted permanently, {{failed}} failed.",
+      "deletePartial_other": "{{count}} items deleted permanently, {{failed}} failed.",
+      "failures_one": "{{count}} item couldn't be deleted:",
+      "failures_other": "{{count}} items couldn't be deleted:",
+      "empty": "The trash is empty.",
+      "photos_one": "Photos ({{count}})",
+      "photos_other": "Photos ({{count}})",
+      "maps_one": "Maps ({{count}})",
+      "maps_other": "Maps ({{count}})",
+      "deleteTitle_one": "Delete permanently?",
+      "deleteTitle_other": "Delete {{count}} items permanently?",
+      "deleteConfirm_one": "This item and its files will be deleted for good. This cannot be undone.",
+      "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone."
     }
   }
 }

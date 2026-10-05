@@ -32,7 +32,7 @@ const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 // replacing the hand-rolled zoom/pan built for the upload dialog - here the
 // map is already uploaded, so the library's own viewer is the right tool).
 
-export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
+export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash }) {
   const { t } = useTranslation('mediaPane')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
@@ -81,7 +81,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo }) {
 
   function Menu({ augment }) {
     augment(({ toolbar, ...rest }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onDelete={currentMap.sistemaId === sistemaId ? handleDelete : undefined} onTrash={onTrash} />),
       ...rest,
     }))
   }

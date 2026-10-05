@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
-import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { breakpoints } from '@/theme/Theme.jsx'
-import { db, storage } from '@/config/firebase.js'
+import { auth, db, storage } from '@/config/firebase.js'
+import { isTrashed, withoutTrashed } from '@/utils/trash.js'
 import { FIREBASE_CONFIG } from '@/config/firebase.config.js'
 import { IMAGE_SIZES, PANE_WIDTH, THUMBNAIL_FOLDER, THUMBNAIL_FORMATS } from '@/config/app.js'
 
@@ -34,46 +35,50 @@ export default class CaveAsset {
     })
   }
 
+  // To the trash (admins): kept, with who moved it there and when, so it can
+  // be restored from Audits > Trash; every reader skips it (utils/trash.js).
   static async deleteById(assetId) {
-    return new Promise(async (resolve, reject) => {
-      try {
+    const docRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId)
+    const docSnap = await getDoc(docRef)
 
-        const docRef = doc(db, CAVES_ASSETS_COLL_NAME, assetId)
-        const docSnap = await getDoc(docRef)
+    if (!docSnap.exists()) {
+      throw new Error(`Can't delete asset ${assetId}: it doesn't exist.`)
+    }
 
-        if (!docSnap.exists()) {
-          return reject(`Can't delete asset ${assetId}: it doesn't exist.`)
-        }
+    await updateDoc(docRef, { deletedAt: serverTimestamp(), deletedBy: auth.currentUser?.uid ?? null })
+  }
 
-        await deleteDoc(docRef)
+  // Back from the trash.
+  static async restoreById(assetId) {
+    await updateDoc(doc(db, CAVES_ASSETS_COLL_NAME, assetId), { deletedAt: deleteField(), deletedBy: deleteField() })
+  }
 
-        resolve()
-
-      } catch (error) {
-        reject(error)
-      }
-    })
+  // The photos in the trash, most recently deleted first (Audits > Trash).
+  static async getTrashed() {
+    const { docs } = await getDocs(query(COLL, where('deletedAt', '!=', null), orderBy('deletedAt', 'desc')).withConverter(converter))
+    return docs.map((d) => d.data())
   }
 
   // One-shot reads (no listener) used by the offline downloads.
   static async getImages(caveId) {
     const { docs } = await getDocs(query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter))
-    return docs.map((d) => d.data())
+    return docs.filter((d) => !isTrashed(d)).map((d) => d.data())
   }
 
   static async getAllCoverImages() {
     const { docs } = await getDocs(query(COLL, where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter))
-    return docs.map((d) => d.data())
+    return docs.filter((d) => !isTrashed(d)).map((d) => d.data())
   }
 
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
-    const { docs, empty, size } = await getDocs(q)
+    const { docs, empty, size } = withoutTrashed(await getDocs(q))
     const assetList = { docs, empty, size }
 
     if (useSnapshot) {
-      onSnapshot(q, ({ docs, empty, size }) => {
+      onSnapshot(q, (snapshot) => {
+        const { docs, empty, size } = withoutTrashed(snapshot)
         assetList.docs = docs
         assetList.empty = empty
         assetList.size = size
@@ -90,7 +95,8 @@ export default class CaveAsset {
 
         if (useSnapshot) {
           const result = { data: null }
-          onSnapshot(q, querySnapshot => {
+          onSnapshot(q, snapshot => {
+            const querySnapshot = withoutTrashed(snapshot)
             if (querySnapshot.empty) {
               result.data = null
               return
@@ -103,7 +109,7 @@ export default class CaveAsset {
           return resolve(result)
         }
 
-        const querySnapshot = await getDocs(q)
+        const querySnapshot = withoutTrashed(await getDocs(q))
 
         if (querySnapshot.empty) {
           return resolve(null)
@@ -269,19 +275,22 @@ export function useCaveAssetsList(caveId) {
     [caveId],
   )
 
-  const collection = useCollection(q, {
+  const [snapshot, loading, error] = useCollection(q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
+  // Without the photos in the trash (same shape: docs, empty, size).
+  const visible = useMemo(() => withoutTrashed(snapshot), [snapshot])
 
-  return collection
+  return [visible, loading, error]
 }
 
 export function useCoverImage(caveId) {
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
   const [snapshot, loading, error] = useCollection(q)
   // Read from the snapshot, not copied to state by an effect: that took one
-  // more render, in which the cave seemed to have no cover.
-  const coverImage = snapshot && !snapshot.empty ? snapshot.docs[0] : undefined
+  // more render, in which the cave seemed to have no cover. A cover in the
+  // trash isn't one.
+  const coverImage = snapshot?.docs.find((d) => !isTrashed(d))
 
   return [coverImage, loading, error]
 }
@@ -309,7 +318,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision']
+    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision', 'deletedAt', 'deletedBy']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]
@@ -327,5 +336,6 @@ const converter = {
 
 export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
+export const restoreById = CaveAsset.restoreById
 export const getCoverImage = CaveAsset.getCoverImage
 export const getAssetList = CaveAsset.getAssetList

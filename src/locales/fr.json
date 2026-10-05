@@ -73,7 +73,8 @@
       "stay": "Continuer à modifier"
     },
     "editTitle": "Modifier {{title}}",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "closeDialog": "Fermer"
   },
   "account": {
     "profile": "Profil",
@@ -500,7 +501,7 @@
       "addPictures": "Ajouter des images",
       "editPicture": "Modifier l'image",
       "deletePicture": "Supprimer l'image",
-      "deletePictureConfirm": "Cette image sera définitivement supprimée.",
+      "deletePictureConfirm": "Cette image va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
       "deletePictureError": "Impossible de supprimer l'image. Veuillez réessayer.",
       "videos": "Vidéos",
       "videoUrl": "URL de la vidéo",
@@ -595,7 +596,12 @@
         "invalid": "Invalide"
       },
       "exit": "Quitter",
-      "closePicture": "Fermer la photo"
+      "closePicture": "Fermer la photo",
+      "trashMap": "Supprimer la carte",
+      "trashMapTitle": "Supprimer cette carte ?",
+      "trashMapConfirm": "« {{name}} » va à la corbeille et disparaît de tous les sistemas qui la montrent. Un administrateur peut la restaurer depuis Audits > Corbeille.",
+      "trashMapSuccess": "Carte mise à la corbeille.",
+      "trashMapError": "Impossible de supprimer la carte."
     },
     "closePane": "Fermer",
     "rating": {
@@ -638,10 +644,10 @@
       "useAsCoverFail": "La modification de l'image de couverture à échoué.",
       "viewOriginalImage": "Afficher l'image originale",
       "deleteAction": "Supprimer la photo",
-      "deleteSuccess": "Photo supprimée.",
+      "deleteSuccess": "Photo mise à la corbeille.",
       "deleteFail": "Impossible de supprimer la photo.",
       "deleteConfirmTitle": "Supprimer cette photo ?",
-      "deleteConfirm": "La photo et ses miniatures seront supprimées définitivement. Cette action est irréversible.",
+      "deleteConfirm": "La photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
       "deleteCancel": "Annuler"
     },
     "mediaThumbnailItem": {
@@ -1040,7 +1046,8 @@
     "connectionOfSistema": "la connexion de {{name}}",
     "connectionDateHint": "Date à laquelle la connexion entre les deux sistemas a été établie.",
     "adminSection": "Administration",
-    "manageMapLayers": "Couches de la carte"
+    "manageMapLayers": "Couches de la carte",
+    "manageAudits": "Audits"
   },
   "usersAdmin": {
     "title": "Utilisateurs",
@@ -1126,6 +1133,167 @@
       "drawing": "Dessin",
       "blend": "Mélange de l’original et du dessin",
       "blendValue": "{{drawing}} % dessin"
+    }
+  },
+  "audits": {
+    "title": "Audits",
+    "tabs": {
+      "changes": "Modifications",
+      "trash": "Corbeille"
+    },
+    "accountsError": "Impossible de lire les comptes : les auteurs sont affichés par l'identifiant de leur compte.",
+    "loadError": "Impossible de charger la liste.",
+    "refresh": "Actualiser",
+    "progress": "{{done}} / {{total}}",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "undo": "Défaire",
+    "undoSelected": "Défaire la sélection ({{count}})",
+    "selectEntry": "Sélectionner cette modification",
+    "showChange": "Voir la modification",
+    "hideChange": "Masquer la modification",
+    "photoOf": "Photo de {{cave}}",
+    "empty": "Aucune modification pour le moment.",
+    "emptyFiltered": "Aucune modification ne correspond à ces filtres.",
+    "loadMore": "Afficher plus",
+    "author": {
+      "system": "Système",
+      "emulator": "Local (émulateur)",
+      "deleted": "Compte supprimé"
+    },
+    "actions": {
+      "create": "Création",
+      "update": "Modification",
+      "delete": "Suppression",
+      "undo": "Retour arrière",
+      "purge": "Suppression définitive",
+      "setRoles": "Rôles modifiés",
+      "freeze": "Gel",
+      "unfreeze": "Dégel",
+      "deleteUser": "Compte supprimé"
+    },
+    "collections": {
+      "caves": "Cénotes",
+      "sistemas": "Sistemas",
+      "connections": "Connexions de sistemas",
+      "cavesAssets": "Photos",
+      "maps": "Cartes",
+      "accesses": "Accès",
+      "accessibilities": "Accessibilités",
+      "sources": "Sources",
+      "areas": "Zones",
+      "colors": "Couleurs",
+      "languages": "Langues",
+      "_users": "Comptes"
+    },
+    "state": {
+      "undone": "Défaite",
+      "undoOf": "Défait une modification",
+      "undoOfTooltip": "Défait la modification {{id}}"
+    },
+    "results": {
+      "undone": "Défaite",
+      "conflict": "Non défaite : l'enregistrement a changé depuis",
+      "skipped": "Ignorée",
+      "error": "Échec"
+    },
+    "summary": {
+      "undone_one": "{{count}} modification défaite",
+      "undone_other": "{{count}} modifications défaites",
+      "conflict_one": "{{count}} conflit",
+      "conflict_other": "{{count}} conflits",
+      "skipped_one": "{{count}} ignorée",
+      "skipped_other": "{{count}} ignorées",
+      "error_one": "{{count}} échec",
+      "error_other": "{{count}} échecs"
+    },
+    "filters": {
+      "collection": "Collection",
+      "author": "Auteur",
+      "from": "Du",
+      "to": "Au",
+      "all": "Tous",
+      "clear": "Effacer les filtres",
+      "action": "Type de modification"
+    },
+    "details": {
+      "absent": "(aucun)",
+      "before": "Avant",
+      "after": "Après",
+      "tooLarge": "Cette modification était trop volumineuse pour être enregistrée en entier : ses valeurs manquent.",
+      "noFields": "Aucun champ modifié.",
+      "entryId": "Modification {{id}}",
+      "recordId": "Enregistrement {{id}}",
+      "authType": "Connecté en tant que : {{type}}",
+      "undoneBy": "Défaite le {{date}} par",
+      "expandLines_one": "Afficher {{count}} ligne inchangée",
+      "expandLines_other": "Afficher {{count}} lignes inchangées",
+      "lineCounts": "{{added}} lignes ajoutées, {{removed}} supprimées"
+    },
+    "confirmUndo": {
+      "title_one": "Défaire cette modification ?",
+      "title_other": "Défaire {{count}} modifications ?",
+      "text_one": "Cette modification sera défaite :",
+      "text_other": "Ces modifications seront défaites, la plus récente en premier :",
+      "action_one": "Défaire",
+      "action_other": "Défaire {{count}} modifications"
+    },
+    "conflicts": {
+      "title_one": "Un enregistrement a changé depuis",
+      "title_other": "{{count}} enregistrements ont changé depuis",
+      "text_one": "Cette modification n'a pas été défaite : son enregistrement a encore été modifié depuis. Forcer écrase les valeurs actuelles.",
+      "text_other": "Ces modifications n'ont pas été défaites : leurs enregistrements ont encore été modifiés depuis. Forcer écrase les valeurs actuelles.",
+      "expected": "Attendu",
+      "current": "Actuel",
+      "force": "Forcer"
+    },
+    "bulkUndo": {
+      "open": "Défaire les modifications d'un auteur…",
+      "title": "Défaire les modifications d'un auteur",
+      "text": "Toutes les modifications faites par cet auteur depuis cette date et cette heure seront défaites, la plus récente en premier.",
+      "author": "Auteur",
+      "since": "Depuis",
+      "previewAction": "Compter les modifications",
+      "preview_one": "{{count}} modification de {{who}} sera défaite.",
+      "preview_other": "{{count}} modifications de {{who}} seront défaites.",
+      "nothing": "Aucune modification de cet auteur depuis ce moment ne peut être défaite.",
+      "notUndoable_one": "({{count}} autre modification ne peut pas être défaite.)",
+      "notUndoable_other": "({{count}} autres modifications ne peuvent pas être défaites.)",
+      "confirm_one": "Défaire {{count}} modification",
+      "confirm_other": "Défaire {{count}} modifications",
+      "reviewConflicts_one": "Voir le conflit",
+      "reviewConflicts_other": "Voir les {{count}} conflits"
+    },
+    "trash": {
+      "select": "Sélectionner {{name}}",
+      "selectAll": "Tout sélectionner",
+      "selected_one": "{{count}} sélectionné",
+      "selected_other": "{{count}} sélectionnés",
+      "restore": "Restaurer",
+      "deleteForever": "Supprimer définitivement",
+      "deleteForeverCount_one": "Supprimer définitivement",
+      "deleteForeverCount_other": "Supprimer {{count}} éléments définitivement",
+      "restoring": "Restauration…",
+      "deleting": "Suppression…",
+      "restored_one": "{{count}} élément restauré.",
+      "restored_other": "{{count}} éléments restaurés.",
+      "restorePartial_one": "{{count}} élément restauré, {{failed}} en échec.",
+      "restorePartial_other": "{{count}} éléments restaurés, {{failed}} en échec.",
+      "deleted_one": "{{count}} élément supprimé définitivement.",
+      "deleted_other": "{{count}} éléments supprimés définitivement.",
+      "deletePartial_one": "{{count}} élément supprimé définitivement, {{failed}} en échec.",
+      "deletePartial_other": "{{count}} éléments supprimés définitivement, {{failed}} en échec.",
+      "failures_one": "{{count}} élément n'a pas pu être supprimé :",
+      "failures_other": "{{count}} éléments n'ont pas pu être supprimés :",
+      "empty": "La corbeille est vide.",
+      "photos_one": "Photos ({{count}})",
+      "photos_other": "Photos ({{count}})",
+      "maps_one": "Cartes ({{count}})",
+      "maps_other": "Cartes ({{count}})",
+      "deleteTitle_one": "Supprimer définitivement ?",
+      "deleteTitle_other": "Supprimer {{count}} éléments définitivement ?",
+      "deleteConfirm_one": "Cet élément et ses fichiers seront supprimés pour de bon. Cette action est irréversible.",
+      "deleteConfirm_other": "Ces {{count}} éléments et leurs fichiers seront supprimés pour de bon. Cette action est irréversible."
     }
   }
 }

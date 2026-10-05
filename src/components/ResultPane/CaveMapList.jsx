@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MapOutlined from '@mui/icons-material/MapOutlined'
@@ -9,7 +10,8 @@ import AddButton from '@/components/AddButton.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
 import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
+import mapsModel from '@/models/MapModel.js'
+import { isTrashed } from '@/utils/trash.js'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
 import AuthorsField from '@/components/MapsPicker/AuthorsField.jsx'
 import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
@@ -19,10 +21,10 @@ import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
+import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 
-const mapsModel = createCollectionModel('maps')
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
 // The title bar over a map's thumbnail: a caption line and its padding. The
@@ -84,18 +86,25 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const [sistemas] = SistemaModel.useAll()
   const sistema = sistemas.find((s) => s.id === sistemaId)
   const [connections] = ConnectionModel.useAll()
-  const [mapFiles] = mapsModel.useAll()
+  // With the maps in the trash, to leave out the sistema's references to them
+  // (kept, so a restored map comes back), not show them as unknown files.
+  const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
   const scrollbarsRef = useRef()
   const fileInputRef = useRef()
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const navigate = useNavigate()
   const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
+  // Admins: deleting the map itself (to the trash), not only from this sistema.
+  const canTrash = useCanTrashMaps()
+  const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
   const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
-  const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections).map(({ id: value, sistemaId: ownerId }) => {
-    const file = mapFiles.find((map) => map.id === value)
-    return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
-  })
+  const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections)
+    .map(({ id: value, sistemaId: ownerId }) => {
+      const file = mapFiles.find((map) => map.id === value)
+      return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
+    })
+    .filter((map) => !isTrashed(map.file))
   const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const mapHeight = ASSETS_LIST_CONFIG.height
 
@@ -177,7 +186,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }].filter(Boolean)} />}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, !map.inherited && { label: t('removeMap'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => removeMap(map.value), danger: true }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>
@@ -202,6 +211,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
           <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
         </>
       )}
+
+      {trashDialog}
 
       <Dialog className="oc-cave-map-list--upload-dialog" open={!!pendingFile} onClose={cancelPendingUpload} maxWidth={false} PaperComponent={DraggableDialogPaper}>
         <DialogTitle noWrap className="oc-draggable-dialog--handle" sx={{ cursor: 'move' }}>
