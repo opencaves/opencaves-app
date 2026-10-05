@@ -7,7 +7,8 @@ import MapOutlined from '@mui/icons-material/MapOutlined'
 // holds (one on phones), each a block button: the whole row is the link
 // (its primary action), with a state layer on hover and focus. items:
 // { key, to, label, color, secondary, mapTo } - color: a sistema's colour, as
-// a dot before its name; secondary: muted text after it (a cave's system);
+// a dot before its name; secondary: muted text on a second line (a cave's
+// system); names and that text stay on one line each (cut with an ellipsis);
 // mapTo: the record on the map, the row's secondary action - a map icon at
 // its end, shown on hover or focus (always on touch screens).
 export default function IndexLinkList({ items, className }) {
@@ -36,17 +37,21 @@ export default function IndexLinkList({ items, className }) {
             component={RouterLink}
             to={to}
             disableGutters
-            sx={{ flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, gap: 1, alignItems: 'baseline', '&:hover': { bgcolor: 'transparent' } }}
+            title={typeof label === 'string' ? label : undefined}
+            sx={{ flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, gap: 1, alignItems: 'center', '&:hover': { bgcolor: 'transparent' } }}
           >
-            {color && <Box component="span" aria-hidden="true" sx={{ flexShrink: 0, alignSelf: 'center', width: 10, height: 10, borderRadius: '50%', bgcolor: color, border: '1px solid', borderColor: 'divider' }} />}
-            <Box component="span" sx={{ typography: 'body1', color: 'primary.main', overflowWrap: 'anywhere' }}>
-              {label}
-            </Box>
-            {secondary && (
-              <Box component="span" className="oc-index-link-list--secondary" sx={{ typography: 'body2', color: 'text.secondary', overflowWrap: 'anywhere' }}>
-                {secondary}
+            {color && <Box component="span" aria-hidden="true" sx={{ flexShrink: 0, width: 10, height: 10, borderRadius: '50%', bgcolor: color, border: '1px solid', borderColor: 'divider' }} />}
+            {/* One line for the name (cut with an ellipsis), the muted text under it. */}
+            <Box component="span" sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+              <Box component="span" sx={{ typography: 'body1', color: 'primary.main', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {label}
               </Box>
-            )}
+              {secondary && (
+                <Box component="span" className="oc-index-link-list--secondary" sx={{ typography: 'body2', color: 'text.secondary', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {secondary}
+                </Box>
+              )}
+            </Box>
           </ListItemButton>
           {mapTo && (
             <Tooltip title={t('onMap')}>
