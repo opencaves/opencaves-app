@@ -118,7 +118,7 @@ The `_auditLog` collection, which only admins can read (Firebase console >
 Firestore), records:
 
 - each change made from the app to the cave data (caves, sistemas,
-  connections, reference data, maps, photos, settings): who, which document,
+  connections, reference data, maps, photos, settings): who (the author's account id, `authorId`), which document,
   created, updated (the fields changed) or deleted - a deleted document is
   kept whole there, so it can be restored;
 - the admins' user management: roles changed, accounts frozen, unfrozen or

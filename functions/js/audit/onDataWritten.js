@@ -31,7 +31,7 @@ function auditCollection(collection) {
     const before = event.data?.before?.exists ? event.data.before.data() : null
     const after = event.data?.after?.exists ? event.data.after.data() : null
     const action = !before ? 'create' : !after ? 'delete' : 'update'
-    const entry = { action, collection, docId: event.params.docId, uid: event.authId, authType: event.authType }
+    const entry = { action, collection, docId: event.params.docId, authorId: event.authId, authType: event.authType }
 
     if (action === 'update') {
       const fields = new Set([...Object.keys(before), ...Object.keys(after)])

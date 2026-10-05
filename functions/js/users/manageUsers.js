@@ -84,7 +84,7 @@ export const setUserRoles = onCall({ region: REGION, enforceAppCheck: ENFORCE_AP
   }
 
   await auth.setCustomUserClaims(uid, { ...customClaims, roles })
-  await writeAuditLog({ action: 'setRoles', collection: 'users', docId: uid, uid: request.auth.uid, before: customClaims.roles || [], roles })
+  await writeAuditLog({ action: 'setRoles', collection: 'users', docId: uid, authorId: request.auth.uid, before: customClaims.roles || [], roles })
 
   return { roles }
 })
@@ -168,7 +168,7 @@ export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_A
       // The rules refuse it from now on, not once its token expires.
       await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).set({ frozenBy: request.auth.uid, at: new Date() })
       await auth.revokeRefreshTokens(uid)
-      await writeAuditLog({ action: 'freeze', collection: 'users', docId: uid, uid: request.auth.uid, roles })
+      await writeAuditLog({ action: 'freeze', collection: 'users', docId: uid, authorId: request.auth.uid, roles })
       emailed = await emailAccount(user, FROZEN_EMAIL)
     }
     return { frozen: true, roles: [], emailed }
@@ -180,7 +180,7 @@ export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_A
   const restored = Array.isArray(frozenRoles) && frozenRoles.length ? frozenRoles : ['editor']
   await auth.setCustomUserClaims(uid, { ...claims, roles: restored })
   await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).delete()
-  await writeAuditLog({ action: 'unfreeze', collection: 'users', docId: uid, uid: request.auth.uid, roles: restored })
+  await writeAuditLog({ action: 'unfreeze', collection: 'users', docId: uid, authorId: request.auth.uid, roles: restored })
   const emailed = await emailAccount(user, UNFROZEN_EMAIL)
   return { frozen: false, roles: restored, emailed }
 })
@@ -204,7 +204,7 @@ export const deleteUser = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_
   const { email, customClaims = {} } = await auth.getUser(uid)
   await auth.deleteUser(uid)
   await db.collection(FROZEN_USERS_COLL_NAME).doc(uid).delete()
-  await writeAuditLog({ action: 'deleteUser', collection: 'users', docId: uid, uid: request.auth.uid, email: email || null, roles: customClaims.roles || [] })
+  await writeAuditLog({ action: 'deleteUser', collection: 'users', docId: uid, authorId: request.auth.uid, email: email || null, roles: customClaims.roles || [] })
 
   return { uid }
 })
