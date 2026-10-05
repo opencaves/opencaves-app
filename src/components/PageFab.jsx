@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Fab, Tooltip } from '@mui/material'
 
 // A page's floating action button, as Material Design 3 places it: a 56dp
-// FAB with 16dp corners, 16dp from the screen's bottom and right edges on
+// FAB, round as the map's own FABs, 16dp from the screen's bottom and right edges on
 // phones (compact width), 24dp from 600px up, plus the device's safe area.
 // to: a link; or onClick. label: its tooltip and accessible name.
 export default function PageFab({ to, onClick, label, icon, className }) {
@@ -16,7 +16,7 @@ export default function PageFab({ to, onClick, label, icon, className }) {
         aria-label={label}
         sx={{
           position: 'fixed',
-          borderRadius: '16px',
+          borderRadius: '50%',
           bottom: { xs: edge(16, 'bottom'), sm: edge(24, 'bottom') },
           right: { xs: edge(16, 'right'), sm: edge(24, 'right') },
         }}

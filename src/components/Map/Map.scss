@@ -1,8 +1,13 @@
 :root {
-  // MD3's standard FAB/icon-button-to-edge margin (16dp) - applied
-  // everywhere, not just on mobile, so this stays aligned with
-  // EditCaveFab.jsx's own 16px margin on every screen size.
+  // MD3's FAB-to-edge margin: 16dp on phones (compact width), 24dp from
+  // 600px. Every control in the map's right-hand column uses it (the
+  // geolocate button, EditCaveFab, the legend, the account and cave-layer
+  // buttons), so they stay aligned; stacked FABs are 16dp apart.
   --oc-map-control-edge-margin: 16px;
+
+  @media (min-width: 600px) {
+    --oc-map-control-edge-margin: 24px;
+  }
 }
 
 .oc-map-container {

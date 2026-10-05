@@ -57,8 +57,8 @@ export default function CaveLayerLegend({ isLarge }) {
         // Over the locate button (16px from the bottom, 56px tall) and, for
         // editors, the edit FAB (56px, 16px above it) and its open actions;
         // 16px between each, as between those two.
-        right: 16,
-        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + 16px + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
+        right: 'var(--oc-map-control-edge-margin)',
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
         transition: 'bottom 200ms ease, opacity 150ms ease, visibility 150ms ease',
         borderRadius: 4,
         bgcolor: (th) => th.sys.color.surfaceContainerHigh,
