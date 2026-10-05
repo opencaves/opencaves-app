@@ -32,7 +32,7 @@ function CavePhotos({ caveId, title }) {
   if (photos.length === 0) return null
   return (
     <IndexSection title={title} count={list.size} className="oc-cave-page--photos">
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 1 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 1.5 }}>
         {photos.map((photo) => (
           <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
             <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
