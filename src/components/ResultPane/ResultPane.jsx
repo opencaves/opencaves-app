@@ -17,6 +17,7 @@ import { setResultPaneSmCaveId, setResultPaneSmCurrentBreakpoint, setResultPaneS
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
+import { isExternalFileDrag } from '@/utils/externalFileDrag.js'
 
 // Phones only, and it brings Ionic along (see utils/ionic.js).
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
@@ -107,8 +108,10 @@ export default function ResultPane() {
       return
     }
 
+    // Files from outside the page only: dragging one of its own pictures
+    // (a gallery thumbnail) isn't adding one.
     function onWindowDragEnter(event) {
-      if (!event.dataTransfer?.types.includes('Files')) {
+      if (!isExternalFileDrag(event)) {
         return
       }
       event.preventDefault()
@@ -117,12 +120,13 @@ export default function ResultPane() {
     }
 
     function onWindowDragOver(event) {
-      if (event.dataTransfer?.types.includes('Files')) {
+      if (isExternalFileDrag(event)) {
         event.preventDefault()
       }
     }
 
     function onWindowDragLeave() {
+      if (dragCounter.current === 0) return
       dragCounter.current -= 1
       if (dragCounter.current <= 0) {
         dragCounter.current = 0

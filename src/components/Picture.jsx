@@ -23,12 +23,14 @@ export default function Picture({ sources, ...props }) {
     // crossOrigin: cave pictures come from the Storage bucket (CORS-enabled,
     // see storage.cors.json), and a CORS response is cached by the service
     // worker at its real size instead of as a quota-heavy opaque response.
-    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, crossOrigin = 'anonymous', ...rest } = props
+    // draggable: false - a mouse drag on a gallery picture isn't dragging the
+    // picture out (it set off the "drop to add" prompt).
+    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, crossOrigin = 'anonymous', draggable = false, ...rest } = props
 
     // Adds sizes props if sources isn't defined
     const sizesProp = skipSizes ? null : { sizes }
 
-    return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
+    return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} draggable={draggable} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
   }
 
   useEffect(() => {

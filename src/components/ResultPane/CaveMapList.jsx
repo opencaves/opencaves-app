@@ -43,7 +43,7 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const image = (file?.thumbnailUrl || file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
-      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
+      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
       <Typography
         variant="caption"
         noWrap
