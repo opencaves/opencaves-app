@@ -23,6 +23,7 @@
 // onAssetDeleted function). Run it with the local emulators up, after
 // `gcloud auth application-default login`.
 import { mkdirSync, writeFileSync } from 'node:fs'
+import http from 'node:http'
 import path from 'node:path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -139,6 +140,23 @@ async function localFiles(prefix) {
   return inPool(items, 20, async ({ name }) => (await fetch(`http://${STORAGE_EMULATOR}/v0/b/${BUCKET}/o/${encodeURIComponent(name)}`)).json())
 }
 
+// A file's bytes as stored: fetch() would unzip a gzip-encoded one (the SVG
+// maps), which would then be uploaded unzipped, its MD5 never matching.
+function storedBytes(url) {
+  return new Promise((resolve, reject) => {
+    http.get(url, { headers: { 'Accept-Encoding': 'gzip' } }, (response) => {
+      if (response.statusCode !== 200) {
+        response.resume()
+        reject(new Error(`${url}: ${response.statusCode}`))
+        return
+      }
+      const chunks = []
+      response.on('data', (chunk) => chunks.push(chunk))
+      response.on('end', () => resolve(Buffer.concat(chunks)))
+    }).on('error', reject)
+  })
+}
+
 async function inPool(items, size, task) {
   const results = new Array(items.length)
   let next = 0
@@ -185,13 +203,15 @@ if (argv.write) {
   // Files before documents: a record never points at a missing file.
   let done = 0
   for (const file of filePlan.uploads) {
-    const response = await fetch(`http://${STORAGE_EMULATOR}/v0/b/${BUCKET}/o/${encodeURIComponent(file.name)}?alt=media`)
-    const content = Buffer.from(await response.arrayBuffer())
+    const content = await storedBytes(`http://${STORAGE_EMULATOR}/v0/b/${BUCKET}/o/${encodeURIComponent(file.name)}?alt=media`)
     const target = bucket.file(file.name)
     await target.save(content, {
       resumable: false,
+      // Already compressed if stored so (SVG maps): uploaded as they are.
+      ...(file.contentEncoding && { gzip: false }),
       metadata: {
         contentType: file.contentType,
+        ...(file.contentEncoding && { contentEncoding: file.contentEncoding }),
         ...(file.cacheControl && { cacheControl: file.cacheControl }),
         ...(file.contentDisposition && { contentDisposition: file.contentDisposition }),
         metadata: { ...(file.metadata || {}), ocSync: 'true' },
