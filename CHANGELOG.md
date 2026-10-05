@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.0.0-beta-2](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-1...v1.0.0-beta-2) (2026-10-05)
+
+The second beta: a full security audit and its fixes, an audit log with undo and a trash for photos and maps, and more cave maps traced.
+
+
+### Security
+
+* **Database and storage rules rewritten and tracked in git:** visitors can no longer change or delete photos, deletes are admin-only (caves, sistemas, photos, maps, reference data), and every edit from the app is checked: only known fields, with their types and sizes.
+* **Editor role:** never for anonymous sessions, and only with a verified email (the emailed sign-up link, Google or Microsoft).
+* **Admin safeguards:** an admin can't remove their own admin role, nor anyone the last admin's; freezing an account takes effect at once.
+* **Privacy:** ratings are private to their author (everyone sees each cenote's average), and a photo's uploader and original file name are no longer public.
+* **Script injection closed** in the search results and in the server-rendered cave pages; the cave page no longer trusts the request's host.
+* **Uploaded SVG maps are cleaned** of scripts and outside links, and a map's links can only point to the project's own storage.
+* **Security headers** (anti-framing, nosniff, referrer and permissions policies, a content security policy in report-only mode).
+* **Keys:** the Firebase key is restricted to the site, the Mapbox token is a restricted one of its own, and cave addresses come through a function of ours, keeping the Google key on the server.
+* **Production backups:** point-in-time recovery, daily backups and delete protection.
+* A vulnerable library in the Cloud Functions updated, the unused `/v1` API removed, and App Check wired in (off until a site key is set).
+
+
+### Features
+
+* **Audits (admins):** a log of every change made in the app - who, when, and each field's before and after in a GitHub-style diff - filtered by collection, author, kind of change and dates. Any change can be undone (one, several, or everything one person did since a date), with conflicts shown when the record changed since; an undo can itself be undone. Entries are kept 12 months.
+* **Trash:** deleting a photo or a map moves it to the trash, from which an admin restores it or deletes it for good; a trashed cover hands the cover to another photo.
+* **Videos:** the Add video dialog explains what to paste and only accepts YouTube, Vimeo and Facebook videos (their regular links now play too); each video gets a menu to edit it, or delete it (admins).
+* **Maps:** the Edit map dialog at its own address, and an options menu (Edit, Delete) on each map in the viewer's list.
+* **Sistemas:** an exploration history under the system tree, on a timeline, and a sticky section header.
+* **Directions** from any location line (address, coordinates, key, entrance).
+* **Offline:** a progress bar while a cenote downloads, and a clear "Ready offline" state.
+* **Accounts:** sign-in with Microsoft; admins can freeze an account (the person is told by email).
+* **Map layers (admins):** a page listing every traced map, with a switch to hide or show its drawing for everyone and its original scan beside the drawing.
+* **Cave pages rendered on the server** for search engines.
+* **More cave maps traced**, with Arianne lines drawn as their own continuous line, and only entrances the maps actually name as entrances.
+
+
+### Bug Fixes
+
+* PNG photos are processed again (their upload never created the photo), and photos are upright again (camera orientation applied).
+* A photo deleted while its upload was finishing no longer comes back as an empty record.
+* Photo viewer: no flicker between photos, the photo centred, the list following the photo shown.
+* The cover picture no longer flickers, and the search bar can't stay stuck hidden on phones.
+* Confirmation messages all show the green check.
+* The error page's development details on their own panel.
+
 ## [1.0.0-beta-1](https://github.com/opencaves/opencaves-app/compare/v1.2.0...v1.0.0-beta-1) (2026-10-02)
 
 The first beta of the new OpenCaves. It covers all the work since 1.2.0: the app now runs on Vite with its data in Firestore, can be edited in the app, and shows the cave passages traced from published survey maps.
