@@ -2,9 +2,15 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Button, Drawer, styled, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Button, Drawer, SvgIcon, styled, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
+import HomeRounded from '@mui/icons-material/HomeRounded'
+import MapRounded from '@mui/icons-material/MapRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import DashboardRounded from '@mui/icons-material/DashboardRounded'
+import CaveIcon from '@/images/map/cave.svg?react'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
@@ -17,6 +23,21 @@ const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONF
 // Module level, not inside AppBar: a styled() component made during render
 // is a new component type every render, so React remounted the title button
 // each time - replaying the title's enter animation (a flicker).
+// The bar's links: white text, and Material Design 3's state layers in the
+// same white (hover 8%, focus and pressed 10%) - MUI's default tint is a
+// shade of the bar's own primary colour, invisible on it.
+const NAV_LINK_SX = {
+  color: '#fff',
+  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)' },
+  '&.Mui-focusVisible, &:active': { bgcolor: 'rgba(255, 255, 255, 0.1)' },
+  // The current page: a white bar under its link.
+  '&[aria-current="page"]': { boxShadow: 'inset 0 -3px 0 #fff', borderRadius: '4px 4px 0 0' },
+}
+
+// Whether a link's page is the one shown: / only itself, the others their
+// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
+
 const StyledButton = styled(Button)({
   color: 'var(--mui-palette-primary-contrastText)',
   whiteSpace: 'nowrap',
@@ -46,7 +67,21 @@ export default function AppBar(props) {
   const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
   const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
-  const navItems = [{ key: 'home', to: '/' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
+  // The site's pages, on the left; the dashboard (editors) on the right,
+  // beside the account button - in the phone drawer, last.
+  const navItems = [
+    { key: 'home', to: '/', icon: <HomeRounded /> },
+    { key: 'map', to: '/map', icon: <MapRounded /> },
+    { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
+    { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
+    { key: 'about', to: '/about', icon: <InfoRounded /> },
+  ]
+  const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
+  const drawerItems = [...navItems, ...(canAccessDashboard ? [dashboardItem] : [])]
+  // The bar itself leaves Home out: the logo and the title link there, as
+  // people expect - the phone drawer keeps it.
+  const barItems = navItems.filter(({ key }) => key !== 'home')
+  const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
 
   useEffect(() => {
     setEntityHeadingHidden(false)
@@ -97,9 +132,10 @@ export default function AppBar(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map(({ key, to }) => (
+        {drawerItems.map(({ key, to, icon }) => (
           <ListItem key={key} disablePadding>
-            <ListItemButton component={Link} to={to} sx={{ textAlign: 'center' }}>
+            <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
+              <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
             </ListItemButton>
           </ListItem>
@@ -157,8 +193,8 @@ export default function AppBar(props) {
           <Grid container size="grow" sx={{ flexWrap: 'nowrap' }}>
             {!isSmall && (
               <Grid sx={{ mr: 1 }}>
-                {navItems.map(({ key, to }) => (
-                  <Button key={key} component={Link} to={to} sx={{ color: '#fff' }}>
+                {barItems.map(({ key, to, icon }) => (
+                  <Button key={key} component={Link} to={to} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
@@ -181,6 +217,11 @@ export default function AppBar(props) {
                     {t('signup')}
                   </StyledButton>
                 </>
+              )}
+              {canAccessDashboard && !isSmall && (
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={{ ...NAV_LINK_SX, mr: 1 }}>
+                  {t('admin', { name: APP_NAME })}
+                </Button>
               )}
               {isLoggedIn && (
                 <AppMenu

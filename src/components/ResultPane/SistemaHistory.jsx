@@ -1,17 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Link, Typography } from '@mui/material'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '@/models/Sistema.js'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import ExplorationHistory from './ExplorationHistory.jsx'
+import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
+// A system's name as a link to its page (/sistemas/<id>), in the text's
+// own look (underlined on hover); plain text when it has no page. Inside the
+// accordion's header, following it doesn't also open or close the accordion.
+function SistemaLink({ slug, children }) {
+  if (!slug) return children
+  return (
+    <Link className="oc-sistema-history--link" component={RouterLink} to={`/sistemas/${slug}`} color="inherit" underline="hover" onClick={(event) => event.stopPropagation()}>
+      {children}
+    </Link>
+  )
+}
+
 export default function Sistema({ sistemaHistory }) {
   const { t: t2 } = useTranslation('resultPane')
+  const slugs = useSistemaSlugs()
 
   const hasSistemaAncestry = sistemaHistory.length > 1
   // Whether the header is stuck under the search bar (its top at the sticky line).
@@ -74,7 +89,7 @@ export default function Sistema({ sistemaHistory }) {
               {/* Not grown to the icon's height (the variant's flex): its line
                   would sit at the top, above the icon and the arrow. */}
               <Typography variant="caveDetailsItemText" component="div" sx={{ flex: 'none' }}>
-                {t2('sistema', { system: currentSistema.name })}
+                <SistemaLink slug={slugs.get(currentSistema.id)}>{t2('sistema', { system: currentSistema.name })}</SistemaLink>
               </Typography>
               {currentSistema.createdAt && (
                 <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
@@ -88,11 +103,15 @@ export default function Sistema({ sistemaHistory }) {
             {sistemaHistory.map((sistema, i) => {
               const sistemaName =
                 i === 0 ? (
-                  <Typography variant="caveDetailsItemText">{sistema.name}</Typography>
+                  <Typography variant="caveDetailsItemText">
+                    <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
+                  </Typography>
                 ) : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
-                    <Typography variant="caveDetailsItemText">{sistema.name}</Typography>{' '}
+                    <Typography variant="caveDetailsItemText">
+                      <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
+                    </Typography>{' '}
                     {sistema.date && (
                       <Typography variant="mapTextSmall" sx={(theme) => ({ ml: theme.spacing(0.5) })}>
                         {sistema.date}
@@ -129,7 +148,9 @@ export default function Sistema({ sistemaHistory }) {
       </Grid>
       <Grid size="grow">
         <Box>
-          <Typography variant="caveDetailsItemText">{t2('sistema', { system: currentSistema.name })}</Typography>
+          <Typography variant="caveDetailsItemText">
+            <SistemaLink slug={slugs.get(currentSistema.id)}>{t2('sistema', { system: currentSistema.name })}</SistemaLink>
+          </Typography>
           {currentSistema.createdAt && (
             <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
               {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}

@@ -89,7 +89,7 @@ export default function AdminDashboard() {
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
                   <ListItem disablePadding>
-                    <ListItemButton component={Link} to="/caves" divider sx={dashboardItemSx}>
+                    <ListItemButton component={Link} to="/caves/edit" divider sx={dashboardItemSx}>
                       <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                         {/* The cave drawn inside the map pins */}
                         <SvgIcon inheritViewBox>
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
                     </ListItemButton>
                   </ListItem>
                   <ListItem disablePadding>
-                    <ListItemButton component={Link} to="/sistemas" divider sx={dashboardItemSx}>
+                    <ListItemButton component={Link} to="/sistemas/edit" divider sx={dashboardItemSx}>
                       <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                         {/* The cave details pane's sistema icon */}
                         <SvgIcon component={CaveSystemIcon} inheritViewBox />

@@ -33,6 +33,9 @@
       "tooltip": "Menú",
       "ariaLabel": "Más",
       "home": "Inicio",
+      "map": "Mapa",
+      "caves": "Cuevas",
+      "sistemas": "Sistemas",
       "myAccount": "Mi cuenta",
       "admin": "Panel de control",
       "signup": "Registrarse",
@@ -51,7 +54,7 @@
       "greetingNoName": "¡Hola!",
       "manageAccount": "Administrar tu cuenta",
       "welcome": "Te damos la bienvenida a {{name}}",
-      "welcomeText": "Inicia sesión para guardar tus cenotes favoritos y contribuir.",
+      "welcomeText": "Inicia sesión para guardar tus cuevas favoritas y contribuir.",
       "close": "Cerrar"
     },
     "snackbar": {
@@ -74,7 +77,8 @@
     },
     "editTitle": "Editar {{title}}",
     "loading": "Cargando…",
-    "closeDialog": "Cerrar"
+    "closeDialog": "Cerrar",
+    "breadcrumbs": "Ruta de navegación"
   },
   "account": {
     "profile": "Perfil",
@@ -325,8 +329,12 @@
         "tooltip": "Borrar"
       },
       "filter": {
-        "ariaLabel": "Filtrar cenotes",
-        "tooltip": "Filtrar cenotes"
+        "ariaLabel": "Filtrar cuevas",
+        "tooltip": "Filtrar cuevas"
+      },
+      "home": {
+        "ariaLabel": "Volver a la página de inicio",
+        "tooltip": "Página de inicio"
       }
     },
     "placeholder": "Buscar",
@@ -467,6 +475,7 @@
     "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
     "directionsToCave": "Cómo llegar al cenote",
     "directionsToKey": "Cómo llegar a la llave",
+    "area": "Zona: {{area}}",
     "directionsToEntrance": "Cómo llegar a la entrada",
     "addressLoading": "Cargando dirección…",
     "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
@@ -930,11 +939,16 @@
       "disclaimer": "Trazadas a partir de topografías publicadas. No sirven para planificar inmersiones.",
       "legend": {
         "title": "Leyenda",
-        "walls": "Paredes y líneas de topografía",
+        "walls": "Paredes",
         "water": "Agua",
         "details": "Detalles dibujados",
         "entrance": "Cenote de entrada",
-        "depth": "Profundidad",
+        "arianne": "Línea guía (hilo de Ariadna)",
+        "gold": "Línea dorada (desde la zona de caverna)",
+        "depth": "Profundidad del fondo ({{unit}})",
+        "height": "Altura del piso al techo ({{unit}})",
+        "penetration": "Penetración desde la entrada ({{unit}})",
+        "codes": "Restricción (r menor, x mayor), limo, visibilidad nula",
         "placeName": "Lugar con nombre",
         "flow": "Sentido de la corriente",
         "bySystem": "Cada sistema en su color",
@@ -1051,7 +1065,9 @@
     "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
     "adminSection": "Administración",
     "manageMapLayers": "Capas del mapa",
-    "manageAudits": "Auditorías"
+    "manageAudits": "Auditorías",
+    "backToCaveIndex": "Volver a las cuevas",
+    "backToSistemaIndex": "Volver a los sistemas de cuevas"
   },
   "usersAdmin": {
     "title": "Usuarios",
@@ -1298,6 +1314,149 @@
       "deleteTitle_other": "¿Eliminar {{count}} elementos definitivamente?",
       "deleteConfirm_one": "Este elemento y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer.",
       "deleteConfirm_other": "Estos {{count}} elementos y sus archivos se eliminarán para siempre. Esta acción no se puede deshacer."
+    }
+  },
+  "indexPages": {
+    "unknownArea": "Zona desconocida",
+    "unnamedCave": "Cueva sin nombre",
+    "caveCount_one": "{{count}} cueva",
+    "caveCount_other": "{{count}} cuevas",
+    "sistemaCount_one": "{{count}} sistema de cuevas",
+    "sistemaCount_other": "{{count}} sistemas de cuevas",
+    "caves": {
+      "title": "Cuevas de Yucatán por zona",
+      "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
+      "add": "Añadir una cueva"
+    },
+    "sistemas": {
+      "title": "Sistemas de cuevas de Yucatán",
+      "description": "Los sistemas de cuevas inundadas de Yucatán, México, por zona: su longitud, profundidad, conexiones, historia de exploración y cenotes, en OpenCaves.",
+      "add": "Añadir un sistema"
+    },
+    "area": {
+      "title": "Cuevas en {{area}}",
+      "description": "Los cenotes y sistemas de cuevas de {{area}}, en Yucatán, México: ubicaciones, acceso, fotos y mapas en OpenCaves.",
+      "edit": "Editar la zona {{area}}",
+      "cenotes": "Cuevas",
+      "sistemas": "Sistemas de cuevas",
+      "noCenotes": "Aún no hay cuevas listadas en esta zona.",
+      "noSistemas": "Aún no hay sistemas de cuevas listados en esta zona."
+    },
+    "sistema": {
+      "title": "Sistema {{name}}",
+      "descriptionPrefix": "Sistema {{name}} (Yucatán, México):",
+      "description": "Sistema {{name}} en Yucatán, México: longitud, profundidad, conexiones, historia de exploración y cenotes en OpenCaves.",
+      "edit": "Editar el sistema {{name}}",
+      "area": "Zona",
+      "length": "Longitud explorada",
+      "maxDepth": "Profundidad máxima",
+      "about": "Descripción",
+      "connections": "Conexiones",
+      "partOf": "Forma parte de",
+      "joinedBy": "Sistemas conectados a él",
+      "cenotes": "Cuevas",
+      "noCenotes": "Aún no hay cuevas listadas en este sistema."
+    },
+    "search": {
+      "caves": "Buscar cuevas, sistemas o zonas",
+      "sistemas": "Buscar sistemas o zonas",
+      "clear": "Borrar la búsqueda",
+      "results_one": "{{count}} resultado",
+      "results_other": "{{count}} resultados",
+      "none": "Nada coincide con «{{query}}»."
+    },
+    "onMap": "Ver en el mapa",
+    "onMapOf": "{{name}} en el mapa",
+    "cave": {
+      "descriptionPrefix": "{{name}} (Yucatán, México):",
+      "description": "{{name}} en Yucatán, México: ubicación, acceso, fotos, mapas y su sistema de cuevas en OpenCaves.",
+      "edit": "Editar {{name}}",
+      "area": "Zona",
+      "sistema": "Sistema de cuevas",
+      "location": "Ubicación",
+      "photos": "Fotos"
+    },
+    "notOnMap": "No está en el mapa: aún sin coordenadas"
+  },
+  "home": {
+    "title": "Datos abiertos para el buceo en cuevas",
+    "description": "OpenCaves: cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
+    "hero": {
+      "title": "Datos abiertos para el buceo en cuevas",
+      "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",
+      "searchPlaceholder": "Buscar una cueva, un sistema o una zona",
+      "openMap": "Abrir el mapa",
+      "search": "Buscar",
+      "browse": {
+        "caves": "Explorar las cuevas",
+        "sistemas": "Explorar los sistemas"
+      }
+    },
+    "figures": {
+      "label": "OpenCaves en cifras",
+      "caves_one": "cueva",
+      "caves_other": "cuevas",
+      "sistemas_one": "sistema de cuevas",
+      "sistemas_other": "sistemas de cuevas"
+    },
+    "safety": {
+      "title": "El buceo en cuevas puede matar",
+      "text": "Bucear más allá de la zona de luz de una cueva o un cenote exige formación y certificación de buceo en cuevas, el equipo adecuado y experiencia. Buzos formados y experimentados han muerto en cuevas. Nunca vayas más allá de tu formación y tus límites, y nunca entres en una cueva que no conoces sin un guía local cualificado.",
+      "cavern": "En un cenote, la caverna - la zona donde la luz del día aún muestra la salida - se bucea con formación de caverna y un guía; más allá empieza la cueva, solo para buzos de cuevas formados."
+    },
+    "disclaimer": {
+      "title": "No apto para planificar una inmersión",
+      "text": "La información de OpenCaves la comparte su comunidad. Puede estar incompleta, ser inexacta o estar desactualizada, y no es apta para planificar ni realizar una inmersión. La usas bajo tu propio riesgo: consulta siempre a los guías locales, los centros de buceo y los propietarios antes de ir. Consulta los"
+    },
+    "discover": {
+      "title": "Descubre",
+      "subtitle": "Algunas de las cuevas de OpenCaves.",
+      "all": "Todas las cuevas"
+    },
+    "features": {
+      "title": "Qué encontrarás",
+      "caves": {
+        "title": "Cuevas",
+        "text": "Dónde está cada cueva y cómo llegar: entradas, acceso, tarifas e instalaciones, con fotos, videos y descripciones."
+      },
+      "sistemas": {
+        "title": "Sistemas de cuevas",
+        "text": "Cómo se conectan las cuevas en sistemas, su longitud y profundidad, y la historia de su exploración."
+      },
+      "maps": {
+        "title": "Topografías",
+        "text": "Las galerías trazadas a partir de topografías publicadas, dibujadas en el mapa con sus líneas y marcas."
+      },
+      "offline": {
+        "title": "Sin conexión",
+        "text": "Guarda cuevas en tu teléfono antes de salir, para tenerlas donde no hay señal."
+      },
+      "subtitle": "Todo lo que un buzo de cuevas consulta antes de un viaje, en un solo lugar."
+    },
+    "regions": {
+      "title": "Regiones",
+      "yucatan": "Península de Yucatán, México",
+      "more": "Llegarán más regiones a medida que los buzos las añadan."
+    },
+    "contribute": {
+      "title": "Hecho por buzos",
+      "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones. La aplicación misma es de código abierto.",
+      "signup": "Regístrate para contribuir",
+      "github": "OpenCaves en GitHub"
+    },
+    "footer": {
+      "about": "Acerca de",
+      "language": "Idioma"
+    },
+    "warningsLabel": "Antes de bucear",
+    "search": {
+      "groups": {
+        "areas": "Zonas",
+        "sistemas": "Sistemas de cuevas",
+        "caves": "Cuevas"
+      },
+      "none": "Ninguna cueva, sistema o zona coincide.",
+      "hint": "Escribe un nombre"
     }
   }
 }

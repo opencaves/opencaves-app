@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, MenuItem, TextField, Typography } from '@mui/material'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
-import { applyLanguage, readDeviceLanguage, saveAccountLanguage } from '@/services/languagePreference.js'
+import { chooseLanguage, readDeviceLanguage } from '@/services/languagePreference.js'
 
 const AUTOMATIC = 'auto'
 
@@ -26,10 +26,7 @@ export default function LanguageSection({ headingProps = {}, asField = false }) 
     const next = event.target.value
     const code = next === AUTOMATIC ? null : next
     setChoice(next)
-    applyLanguage(code)
-    if (user?.uid && !user.isAnonymous) {
-      saveAccountLanguage(user.uid, code).catch((error) => console.error(error))
-    }
+    chooseLanguage(code, user)
   }
 
   // The primary subtag: two letters, or three (e.g. yua).

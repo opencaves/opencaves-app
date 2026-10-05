@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import PageFab from '@/components/PageFab.jsx'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
@@ -12,6 +13,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
+import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 
 const areasModel = createCollectionModel('areas')
 
@@ -21,6 +23,8 @@ export default function SistemaList() {
   const [areas] = areasModel.useAll()
   const [search, setSearch] = useState('')
   const { setTitle } = useTitle()
+  // Each system's edit address: its slug (its id when it has no public page).
+  const slugs = useSistemaSlugs()
 
   useEffect(() => {
     setTitle(t('sistemas'))
@@ -62,8 +66,9 @@ export default function SistemaList() {
   return (
     <div className="oc-sistema-list">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -5 } }}>
+        {/* Back to the public list of the systems, this list's /edit counterpart. */}
+        <Tooltip title={t('backToSistemaIndex')}>
+          <IconButton component={Link} to="/sistemas" aria-label={t('backToSistemaIndex')} sx={{ ml: { xs: 0, sm: -5 } }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
@@ -107,7 +112,7 @@ export default function SistemaList() {
                   </ListSubheader>
                   {groupSistemas.map((sistema) => (
                     <ListItem key={sistema.id} disablePadding>
-                      <ListItemButton component={Link} to={`/sistemas/${sistema.id}/edit`} divider>
+                      <ListItemButton component={Link} to={`/sistemas/${slugs.get(sistema.id) || sistema.id}/edit`} divider>
                         <Box component="span" sx={{ display: 'inline-block', width: 24, height: 24, borderRadius: 0.5, bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR, border: '1px solid', borderColor: 'divider', mr: 1.5, flexShrink: 0 }} />
                         <ListItemText primary={sistema.name || t('unnamed')} secondary={sistema.id} />
                       </ListItemButton>
@@ -120,9 +125,7 @@ export default function SistemaList() {
         </>
       )}
 
-      <Fab className="oc-sistema-list--new-fab" color="primary" component={Link} to={`/sistemas/${pushId()}/edit`} aria-label={t('newSistema')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
-        <AddRounded />
-      </Fab>
+      <PageFab className="oc-sistema-list--new-fab" to={`/sistemas/${pushId()}/edit`} label={t('newSistema')} icon={<AddRounded />} />
     </div>
   )
 }

@@ -28,12 +28,28 @@
           "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         },
         {
-          "source": "/index.html",
+          "source": "/app.html",
           "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         },
         {
           "source": "/map/*",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/@(caves|sistemas)",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/@(caves|sistemas|areas)/*",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
+        },
+        {
+          "source": "/@(caves|sistemas)/edit",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         },
         {
           "source": "/api/address/**",
@@ -54,6 +70,10 @@
       ],
       "rewrites": [
         {
+          "source": "/",
+          "function": "indexPages"
+        },
+        {
           "source": "/sitemap.xml",
           "function": "sitemap"
         },
@@ -62,12 +82,40 @@
           "function": "cavePage"
         },
         {
+          "source": "/caves/edit",
+          "destination": "/app.html"
+        },
+        {
+          "source": "/sistemas/edit",
+          "destination": "/app.html"
+        },
+        {
+          "source": "/caves",
+          "function": "indexPages"
+        },
+        {
+          "source": "/caves/*",
+          "function": "indexPages"
+        },
+        {
+          "source": "/sistemas",
+          "function": "indexPages"
+        },
+        {
+          "source": "/sistemas/*",
+          "function": "indexPages"
+        },
+        {
+          "source": "/areas/*",
+          "function": "indexPages"
+        },
+        {
           "source": "/api/address/*",
           "function": "caveAddress"
         },
         {
           "source": "**",
-          "destination": "/index.html"
+          "destination": "/app.html"
         }
       ]
     }

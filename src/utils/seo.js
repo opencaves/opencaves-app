@@ -3,14 +3,19 @@
 export const SITE_URL = 'https://opencaves.org'
 
 // The one URL each indexable page should be known by: a cave's sub-views
-// (medias, maps, edit, sistemas) all point to the cave itself, and / (a
-// redirect) to /map.
+// (medias, maps, edit, sistemas) all point to the cave itself.
 export function canonicalPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
-  if (path === '/') return '/map'
   const cave = /^\/map\/([^/]+)/.exec(path)
   if (cave) return `/map/${cave[1]}`
   return path
+}
+
+// The public index pages: the cenotes and the cave systems by area, an area,
+// a cave system (not their editors' /edit addresses).
+export function isPublicIndexPath(pathname) {
+  const path = pathname.replace(/\/+$/, '') || '/'
+  return path === '/caves' || path === '/sistemas' || /^\/(sistemas|areas)\/(?!edit$)[^/]+$/.test(path)
 }
 
 // Public pages worth indexing. Everything else (account, sign-in, the
@@ -18,7 +23,7 @@ export function canonicalPath(pathname) {
 export function isIndexable(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   if (/\/edit(\/|$)/.test(path)) return false
-  return path === '/' || path === '/map' || /^\/map\/[^/]+(\/(medias|maps)(\/[^/]+)?)?$/.test(path) || ['/about', '/privacy', '/terms'].includes(path)
+  return path === '/' || path === '/map' || /^\/map\/[^/]+(\/(medias|maps)(\/[^/]+)?)?$/.test(path) || ['/about', '/privacy', '/terms'].includes(path) || isPublicIndexPath(path)
 }
 
 // Plain text from the app's Markdown (cave descriptions), for meta
@@ -27,6 +32,8 @@ export function markdownToPlainText(markdown = '') {
   return markdown
     // Length tags (:length[45 m]) as their value, as written.
     .replace(/:length\[([^\]]*)]/g, '$1')
+    // A stray <br> (older editor saves) isn't text.
+    .replace(/<br\s*\/?>/gi, ' ')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')

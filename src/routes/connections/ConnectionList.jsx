@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
-import { Box, Fab, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Tooltip, Typography } from '@mui/material'
+import PageFab from '@/components/PageFab.jsx'
 import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -135,9 +136,7 @@ export default function ConnectionList() {
         </>
       )}
 
-      <Fab color="primary" component={Link} to="/connections/new/edit" aria-label={t('newSistemaConnection')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
-        <AddRounded />
-      </Fab>
+      <PageFab className="oc-connection-list--new-fab" to="/connections/new/edit" label={t('newSistemaConnection')} icon={<AddRounded />} />
     </div>
   )
 }

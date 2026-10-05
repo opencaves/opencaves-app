@@ -83,17 +83,13 @@ export default function EditCaveFab() {
       onClose={() => setOpen(false)}
       sx={(theme) => ({
         position: 'absolute',
-        // MD3's standard FAB-to-edge margin is 16dp - theme.spacing(2) at
-        // this theme's default 8px base unit. Matches the geolocate
-        // control's own edge margin (--oc-map-control-edge-margin in
-        // Map.scss) so the two align on the same right edge.
-        right: theme.spacing(2),
-        // The geolocate control is 16px (its own margin) + 56px (height)
-        // up from the bottom. Clear it by the same 16dp used for the edge
-        // margins - at 8dp the two circular buttons read as cramped/prone
-        // to mis-taps rather than a deliberately related, evenly-spaced
-        // pair.
-        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + 16px + 56px + ${theme.spacing(2)})`,
+        // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, Map.scss:
+        // 16dp on phones, 24dp from 600px), as the geolocate control's, so
+        // the two align on the same right edge.
+        right: 'var(--oc-map-control-edge-margin)',
+        // Above the geolocate control (its edge margin + 56px), 16dp apart:
+        // MD3's spacing between stacked FABs.
+        bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + ${theme.spacing(2)})`,
         opacity: 'var(--oc-map-controls-opacity, 1)',
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',

@@ -42,7 +42,8 @@ The rest are old copies of the app, or scripts. Enforcing refuses both.
   management): set `ENFORCE_APP_CHECK` to `true` in
   `functions/js/constants.js`, then `firebase deploy --only functions`.
 
-The public pages (`/map/:caveId`, `/sitemap.xml`) don't use App Check: search
+The public pages (`/map/:caveId`, `/caves`, `/sistemas`, `/areas/...`,
+`/sistemas/...`, `/sitemap.xml`) don't use App Check: search
 engines must be able to read them.
 
 ## Also against abuse

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
@@ -17,14 +18,28 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { slugify } from '@/utils/slug.js'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
+
+// An area's address names it by its slug (/areas/<slug>/edit, as its public
+// page /areas/<slug>), older links by its record id: the record's id, null
+// while the areas aren't loaded yet. Other collections' addresses are ids.
+function useItemId(collectionName, param) {
+  const areas = useSelector((state) => state.data.areas)
+  const areasLoading = useSelector((state) => state.data.dataLoadingState.state) === 'loading' && areas.length === 0
+  if (collectionName !== 'areas' || param === 'new') return param
+  if (areas.some((area) => area.id === param)) return param
+  const bySlug = areas.find((area) => slugify(area.name || area.id) === param)
+  if (bySlug) return bySlug.id
+  return areasLoading ? null : param
+}
 
 export default function ReferenceDataItemEdit() {
   const params = useParams()
   const location = useLocation()
   const collectionName = params.collectionName || location.pathname.split('/').filter(Boolean)[0]
-  const itemId = params.itemId
+  const itemId = useItemId(collectionName, params.itemId)
   const config = REFERENCE_DATA_CONFIGS[collectionName]
   const { setTitle } = useTitle()
   const { t, i18n } = useTranslation('dashboard')
@@ -36,6 +51,7 @@ export default function ReferenceDataItemEdit() {
   // 2-letter language code.
   const lang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
   const isNew = itemId === 'new'
+  const isArea = collectionName === 'areas'
 
   const [model] = useState(() => createCollectionModel(collectionName))
   const [item, setItem] = useState(null)
@@ -61,7 +77,7 @@ export default function ReferenceDataItemEdit() {
   }, [collectionName, isNew, t, tApp, itemLabel])
 
   useEffect(() => {
-    if (isNew || !config) {
+    if (isNew || !config || !itemId) {
       return
     }
 
@@ -89,8 +105,10 @@ export default function ReferenceDataItemEdit() {
   function goBack() {
     // Replace, not push: otherwise the edit URL stays in history as its own
     // entry, and the browser Back button from the list (after Cancel/Save)
-    // would land right back on it instead of skipping past it.
-    navigate(`/${collectionName}`, { replace: true })
+    // would land right back on it instead of skipping past it. An area goes
+    // back to its public page (its name can't change once created).
+    const areaSlug = isArea && !isNew ? slugify(form.name || itemId) : ''
+    navigate(areaSlug ? `/areas/${areaSlug}` : `/${collectionName}`, { replace: true })
   }
 
   if (!config) {
@@ -125,7 +143,7 @@ export default function ReferenceDataItemEdit() {
       // the URL switches to it (replace, no new history entry), which also
       // reloads it; an existing item just refreshes the baseline its
       // descriptions are merged against.
-      if (isNew && !leaving) navigate(`/${collectionName}/${id}/edit`, { replace: true })
+      if (isNew && !leaving) navigate(`/${collectionName}/${isArea ? slugify(form.name) || id : id}/edit`, { replace: true })
       else setItem((current) => ({ ...current, ...fields }))
       openSnackbar(tApp('snackbar.saved', { name: itemLabel || t(`collections.${collectionName}.title`) }), { severity: 'success' })
     } catch (error) {

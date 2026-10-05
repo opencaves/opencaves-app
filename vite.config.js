@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync, renameSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -16,6 +16,28 @@ process.env.VITE_APP_VERSION = JSON.parse(readFileSync(new URL('./package.json',
 // moves them into a small loader that adds them right after the first paint
 // (or shortly anyway, in a background tab where no frame is painted); the
 // app waits for its stylesheets before rendering (src/index.jsx). Build only.
+// The built page is app.html, not index.html: Firebase Hosting serves a
+// static index.html for / before any rewrite, and / is rendered by the
+// indexPages function (its content in the HTML, for search engines), which
+// uses app.html as its shell - as every other rewrite does (firebase.json).
+// Renamed once written (Vite 8 drops a page renamed inside the bundle), before
+// the service worker's precache is made, so it lists app.html.
+function appShellName() {
+  let outDir
+  return {
+    name: 'oc-app-shell-name',
+    apply: 'build',
+    enforce: 'post',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    writeBundle() {
+      const page = path.join(outDir, 'index.html')
+      if (existsSync(page)) renameSync(page, path.join(outDir, 'app.html'))
+    },
+  }
+}
+
 function loadAppAfterFirstPaint() {
   return {
     name: 'oc-load-app-after-first-paint',
@@ -102,12 +124,15 @@ export default defineConfig({
         codeSplitting: {
           groups: [
             { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/, priority: 60 },
-            { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50 },
+            // Not its dependencies: it captured a helper react-i18next shares, and
+            // every page then preloaded all of Mapbox (only the map needs it).
+            { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50, includeDependenciesRecursively: false },
             { name: 'mui', test: /node_modules[\\/](@mui|@emotion)[\\/]/, priority: 40 },
             { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/]/, priority: 40 },
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
-            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10 },
+            // Not its dependencies either (as mapbox): the shared helper would move here.
+            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10, includeDependenciesRecursively: false },
           ],
         },
       },
@@ -135,6 +160,7 @@ export default defineConfig({
     entries: ['index.html', 'src/**/*.{js,jsx}'],
   },
   plugins: [
+    appShellName(),
     react({
       include: /\.(js|jsx|ts|tsx)$/,
       jsxRuntime: 'automatic',
@@ -184,6 +210,12 @@ export default defineConfig({
       '/api/address': {
         target: 'http://127.0.0.1:5001',
         rewrite: (url) => url.replace(/^\/api\/address/, '/opencaves/northamerica-northeast1/caveAddress'),
+      },
+      // As Hosting's rewrite: the sitemap function, on the functions emulator
+      // (its addresses are the site's, https://opencaves.org/...).
+      '/sitemap.xml': {
+        target: 'http://127.0.0.1:5001',
+        rewrite: () => '/opencaves/northamerica-northeast1/sitemap',
       },
     },
   },

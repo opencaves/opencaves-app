@@ -72,8 +72,9 @@ export default function MapPage() {
               }}
               sx={{
                 position: 'absolute',
-                top: '1rem',
-                right: '1rem',
+                // MD3's FAB edge margin (Map.scss).
+                top: 'var(--oc-map-control-edge-margin)',
+                right: 'var(--oc-map-control-edge-margin)',
                 width: '56px',
                 height: '56px',
                 p: 0,
@@ -90,7 +91,7 @@ export default function MapPage() {
           <CaveLayerButton
             sx={
               isLarge
-                ? { position: 'absolute', top: 'calc(1rem + 56px + 0.75rem)', right: '1rem', width: 56, height: 56 }
+                ? { position: 'absolute', top: 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)', right: 'var(--oc-map-control-edge-margin)', width: 56, height: 56 }
                 : {
                     position: 'absolute',
                     top: 'calc(48px + 1.5rem)',
@@ -107,8 +108,8 @@ export default function MapPage() {
           <Outlet />
           <Dev
             sx={{
-              '--oc-mode-switcher-right': isLarge ? 'calc(56px + 2rem)' : '.5rem',
-              '--oc-mode-switcher-top': isLarge ? '1rem' : 'calc(48px + 1rem)',
+              '--oc-mode-switcher-right': isLarge ? 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)' : '.5rem',
+              '--oc-mode-switcher-top': isLarge ? 'var(--oc-map-control-edge-margin)' : 'calc(48px + 1rem)',
             }}
           />
         </AddMediasProvider>

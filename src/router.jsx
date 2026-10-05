@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { Navigate, createBrowserRouter, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Map from '@/routes/Map.jsx'
 import Loading from '@/routes/Loading.jsx'
 import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
-import ResultPane from '@/components/ResultPane/ResultPane.jsx'
+import { loadMap, loadResultPane } from '@/routes/mapRoute.js'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
@@ -51,13 +50,19 @@ function RequireAuth({ children }) {
   return children
 }
 
-function RequireEditor({ children }) {
+// visitorsTo: where anyone else goes instead (a public page at that
+// address's level) - by default sign-in, or home once signed in.
+function RequireEditor({ children, visitorsTo }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const authResolved = useSelector((state) => state.session.authResolved)
 
   if (!authResolved) {
     return null
+  }
+
+  if (visitorsTo && !(isLoggedIn && roles.includes('editor'))) {
+    return <Navigate to={visitorsTo} replace />
   }
 
   if (!isLoggedIn) {
@@ -125,13 +130,13 @@ function requireAuth(importer) {
   }
 }
 
-function requireEditor(importer) {
+function requireEditor(importer, visitorsTo) {
   return {
     lazy: async () => {
       const { default: Component } = await importer()
       return {
         Component: () => (
-          <RequireEditor>
+          <RequireEditor visitorsTo={visitorsTo}>
             <Component />
           </RequireEditor>
         ),
@@ -177,15 +182,6 @@ const routes = [
     // app's NoMatch component.
     errorElement: <NoMatch />,
     children: [
-      {
-        // Straight to the map, outside Layout: under it, Layout would render
-        // for an instant first and start downloading its background image
-        // (unused on the map). replace: so Back from /map doesn't land here
-        // and bounce forward again.
-        index: true,
-        element: <Navigate to="map" replace />,
-        errorElement: <NoMatch />,
-      },
       // Development only: the error pages, to look at (/dev/error/map: the
       // map failing; /dev/error/page: a page failing to load).
       ...(import.meta.env.DEV
@@ -207,6 +203,11 @@ const routes = [
       {
         element: <Layout />,
         children: [
+          {
+            // The landing page (its content to be settled).
+            index: true,
+            lazy: () => import('@/routes/Home.jsx').then(({ default: Component }) => ({ Component })),
+          },
           {
             path: 'about',
             element: <AboutRoute />,
@@ -263,18 +264,44 @@ const routes = [
             path: 'dashboard/:collectionName/:itemId/edit',
             element: <RedirectToCollectionEdit />,
           },
+          // The public index pages (crawlable; the server renders them too:
+          // functions/js/seo). Editors edit each at its address + /edit.
+          {
+            path: 'caves',
+            lazy: () => import('@/routes/caves/CaveIndex.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            // A cave's own page (its place on the map is /map/<id>).
+            path: 'caves/:caveId',
+            lazy: () => import('@/routes/caves/CavePage.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            path: 'sistemas',
+            lazy: () => import('@/routes/sistemas/SistemaIndex.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            path: 'sistemas/:sistemaId',
+            lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
+            path: 'areas/:areaSlug',
+            lazy: () => import('@/routes/areas/AreaPage.jsx').then(({ default: Component }) => ({ Component })),
+          },
           ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
             {
+              // /areas has no public page (each area has, /areas/<slug>):
+              // visitors go to the cenotes by area.
               path: collectionName,
-              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx')),
+              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined),
             },
             {
+              // :itemId: an area's slug or id (ReferenceDataItemEdit).
               path: `${collectionName}/:itemId/edit`,
               ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
             },
           ]),
           {
-            path: 'caves',
+            path: 'caves/edit',
             ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
           },
           {
@@ -282,10 +309,11 @@ const routes = [
             ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
           },
           {
-            path: 'sistemas',
+            path: 'sistemas/edit',
             ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
           },
           {
+            // :sistemaId: the system's slug, or its id (older links).
             path: 'sistemas/:sistemaId/edit',
             ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
           },
@@ -318,7 +346,8 @@ const routes = [
       {
         path: '/map',
         id: 'map',
-        element: <Map />,
+        // On demand: Mapbox stays out of the other pages (mapRoute.js).
+        lazy: () => loadMap().then(({ default: Component }) => ({ Component })),
         errorElement: <NoMatch />,
         children: [
           {
@@ -326,7 +355,7 @@ const routes = [
             id: 'result-pane',
             // No loader: the pane reads its data from the store and the
             // offline cache, so it must open without a network round trip.
-            element: <ResultPane />,
+            lazy: () => loadResultPane().then(({ default: Component }) => ({ Component })),
             children: [
               {
                 // ResultPane owns edit mode; this empty leaf makes the URL

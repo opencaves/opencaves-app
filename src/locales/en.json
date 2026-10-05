@@ -33,6 +33,9 @@
       "tooltip": "Menu",
       "ariaLabel": "More",
       "home": "Home",
+      "map": "Map",
+      "caves": "Caves",
+      "sistemas": "Cave systems",
       "myAccount": "My account",
       "admin": "Dashboard",
       "signup": "Sign up",
@@ -51,7 +54,7 @@
       "greetingNoName": "Hi!",
       "manageAccount": "Manage your account",
       "welcome": "Welcome to {{name}}",
-      "welcomeText": "Log in to save your favorite cenotes and contribute.",
+      "welcomeText": "Log in to save your favorite caves and contribute.",
       "close": "Close"
     },
     "snackbar": {
@@ -74,7 +77,8 @@
     },
     "editTitle": "Edit {{title}}",
     "loading": "Loading…",
-    "closeDialog": "Close"
+    "closeDialog": "Close",
+    "breadcrumbs": "Breadcrumbs"
   },
   "account": {
     "profile": "Profile",
@@ -325,8 +329,12 @@
         "tooltip": "Clear"
       },
       "filter": {
-        "ariaLabel": "Filter Cenotes",
-        "tooltip": "Filter Cenotes"
+        "ariaLabel": "Filter caves",
+        "tooltip": "Filter caves"
+      },
+      "home": {
+        "ariaLabel": "Back to the home page",
+        "tooltip": "Home page"
       }
     },
     "placeholder": "Search",
@@ -467,6 +475,7 @@
     "copyEntranceCoordinates": "Copy entrance coordinates",
     "directionsToCave": "Directions to the cenote",
     "directionsToKey": "Directions to the key",
+    "area": "Area: {{area}}",
     "directionsToEntrance": "Directions to the entrance",
     "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
@@ -930,11 +939,16 @@
       "disclaimer": "Traced from published cave survey maps. Not for dive planning.",
       "legend": {
         "title": "Legend",
-        "walls": "Walls and survey lines",
+        "walls": "Walls",
         "water": "Water",
         "details": "Drawn details",
         "entrance": "Cenote entrance",
-        "depth": "Depth",
+        "arianne": "Guideline (Arianne line)",
+        "gold": "Gold line (from the cavern zone)",
+        "depth": "Depth of the floor ({{unit}})",
+        "height": "Ceiling-to-floor height ({{unit}})",
+        "penetration": "Penetration from the entrance ({{unit}})",
+        "codes": "Restriction (r minor, x major), silt, zero visibility",
         "placeName": "Named place",
         "flow": "Water flow",
         "bySystem": "Each system in its colour",
@@ -1051,7 +1065,9 @@
     "connectionDateHint": "When the connection between the two sistemas was established.",
     "adminSection": "Administration",
     "manageMapLayers": "Map layers",
-    "manageAudits": "Audits"
+    "manageAudits": "Audits",
+    "backToCaveIndex": "Back to the caves",
+    "backToSistemaIndex": "Back to the cave systems"
   },
   "usersAdmin": {
     "title": "Users",
@@ -1298,6 +1314,149 @@
       "deleteTitle_other": "Delete {{count}} items permanently?",
       "deleteConfirm_one": "This item and its files will be deleted for good. This cannot be undone.",
       "deleteConfirm_other": "These {{count}} items and their files will be deleted for good. This cannot be undone."
+    }
+  },
+  "indexPages": {
+    "unknownArea": "Unknown area",
+    "unnamedCave": "Unnamed cave",
+    "caveCount_one": "{{count}} cave",
+    "caveCount_other": "{{count}} caves",
+    "sistemaCount_one": "{{count}} cave system",
+    "sistemaCount_other": "{{count}} cave systems",
+    "caves": {
+      "title": "Caves of the Yucatán by area",
+      "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
+      "add": "Add a cave"
+    },
+    "sistemas": {
+      "title": "Cave systems of the Yucatán",
+      "description": "The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.",
+      "add": "Add a cave system"
+    },
+    "area": {
+      "title": "Caves in {{area}}",
+      "description": "The cenotes and cave systems of {{area}}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.",
+      "edit": "Edit the {{area}} area",
+      "cenotes": "Caves",
+      "sistemas": "Cave systems",
+      "noCenotes": "No caves listed in this area yet.",
+      "noSistemas": "No cave systems listed in this area yet."
+    },
+    "sistema": {
+      "title": "{{name}} cave system",
+      "descriptionPrefix": "{{name}} cave system (Yucatán, Mexico):",
+      "description": "{{name}} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.",
+      "edit": "Edit the {{name}} cave system",
+      "area": "Area",
+      "length": "Explored length",
+      "maxDepth": "Maximum depth",
+      "about": "Description",
+      "connections": "Connections",
+      "partOf": "Part of",
+      "joinedBy": "Systems connected to it",
+      "cenotes": "Caves",
+      "noCenotes": "No caves listed in this system yet."
+    },
+    "search": {
+      "caves": "Search caves, systems or areas",
+      "sistemas": "Search cave systems or areas",
+      "clear": "Clear the search",
+      "results_one": "{{count}} result",
+      "results_other": "{{count}} results",
+      "none": "Nothing matches “{{query}}”."
+    },
+    "onMap": "Show on the map",
+    "onMapOf": "{{name}} on the map",
+    "cave": {
+      "descriptionPrefix": "{{name}} (Yucatán, Mexico):",
+      "description": "{{name}} in the Yucatán, Mexico: location, access, pictures, maps and its cave system on OpenCaves.",
+      "edit": "Edit {{name}}",
+      "area": "Area",
+      "sistema": "Cave system",
+      "location": "Location",
+      "photos": "Photos"
+    },
+    "notOnMap": "Not on the map: no coordinates yet"
+  },
+  "home": {
+    "title": "Open data for cave diving",
+    "description": "OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.",
+    "hero": {
+      "title": "Open data for cave diving",
+      "lead": "OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.",
+      "searchPlaceholder": "Find a cave, a system or an area",
+      "openMap": "Open the map",
+      "search": "Search",
+      "browse": {
+        "caves": "Browse the caves",
+        "sistemas": "Browse the systems"
+      }
+    },
+    "figures": {
+      "label": "OpenCaves in figures",
+      "caves_one": "cave",
+      "caves_other": "caves",
+      "sistemas_one": "cave system",
+      "sistemas_other": "cave systems"
+    },
+    "safety": {
+      "title": "Cave diving can kill",
+      "text": "Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. Trained, experienced divers have died in caves. Never go beyond your training and limits, and never enter a cave you don't know without a qualified local guide.",
+      "cavern": "In a cenote, the cavern - the part where daylight still shows the way out - can be dived with cavern training and a guide; beyond it is the cave, for trained cave divers only."
+    },
+    "disclaimer": {
+      "title": "Not for dive planning",
+      "text": "The information on OpenCaves is shared by its community. It can be incomplete, inaccurate or out of date, and it is not suitable for planning or conducting a dive. You use it at your own risk: always check with local guides, dive centres and landowners before you go. See the"
+    },
+    "discover": {
+      "title": "Discover",
+      "subtitle": "A few of the caves on OpenCaves.",
+      "all": "All the caves"
+    },
+    "features": {
+      "title": "What you'll find",
+      "caves": {
+        "title": "Caves",
+        "text": "Where each cave is and how to reach it: entrances, access, fees and facilities, with photos, videos and descriptions."
+      },
+      "sistemas": {
+        "title": "Cave systems",
+        "text": "How caves connect into systems, their length and depth, and the history of their exploration."
+      },
+      "maps": {
+        "title": "Survey maps",
+        "text": "Cave passages traced from published survey maps, drawn on the map with their lines and markers."
+      },
+      "offline": {
+        "title": "Offline",
+        "text": "Save caves on your phone before you head out, to have them where there's no signal."
+      },
+      "subtitle": "Everything a cave diver looks up before a trip, in one place."
+    },
+    "regions": {
+      "title": "Regions",
+      "yucatan": "Yucatán Peninsula, Mexico",
+      "more": "More regions will come as divers add them."
+    },
+    "contribute": {
+      "title": "Built by divers",
+      "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.",
+      "signup": "Sign up to contribute",
+      "github": "OpenCaves on GitHub"
+    },
+    "footer": {
+      "about": "About",
+      "language": "Language"
+    },
+    "warningsLabel": "Before you dive",
+    "search": {
+      "groups": {
+        "areas": "Areas",
+        "sistemas": "Cave systems",
+        "caves": "Caves"
+      },
+      "none": "No cave, system or area matches.",
+      "hint": "Type a name"
     }
   }
 }

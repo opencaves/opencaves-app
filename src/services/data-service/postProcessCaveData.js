@@ -63,8 +63,9 @@ function buildMarkdown(caves) {
 // getSistemaAncestry() computation, applied at read time instead, since
 // Firestore stores each cave's direct sistemaId rather than a precomputed
 // ancestry chain (which would otherwise go stale as sistemas/connections
-// are edited independently of the caves that reference them).
-function buildSistemaAncestryComputer(sistemas, connections) {
+// are edited independently of the caves that reference them). Also gives a
+// system's own ancestry, for its page: called with { sistemaId }.
+export function buildSistemaAncestryComputer(sistemas, connections) {
   const sistemaNamesFromId = new Map()
   const sistemasById = new Map()
 

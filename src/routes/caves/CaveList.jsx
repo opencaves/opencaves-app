@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import PageFab from '@/components/PageFab.jsx'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
@@ -68,8 +69,9 @@ export default function CaveList() {
   return (
     <div className="oc-cave-list">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 } }}>
+        {/* Back to the public list of the cenotes, this list's /edit counterpart. */}
+        <Tooltip title={t('backToCaveIndex')}>
+          <IconButton component={Link} to="/caves" aria-label={t('backToCaveIndex')} sx={{ ml: { xs: 0, sm: -4 } }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
@@ -126,9 +128,7 @@ export default function CaveList() {
         </>
       )}
 
-      <Fab className="oc-cave-list--new-fab" color="primary" component={Link} to={`/caves/${pushId()}/edit`} aria-label={t('newCave')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
-        <AddRounded />
-      </Fab>
+      <PageFab className="oc-cave-list--new-fab" to={`/caves/${pushId()}/edit`} label={t('newCave')} icon={<AddRounded />} />
     </div>
   )
 }

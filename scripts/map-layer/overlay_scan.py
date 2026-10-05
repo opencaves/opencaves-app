@@ -255,6 +255,11 @@ PAGE = """<!doctype html>
 .label{font:11px sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap;pointer-events:none}</style>
 </head><body><div id="map"></div>
 <div id="panel"><b id="title" title="Click to copy" style="cursor:pointer">__TITLE__</b><span id="copied" style="color:#2e7d32;margin-left:6px"></span><br><label><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.35"> scan opacity</label><br><label><input type="range" id="satellite" min="0" max="1" step="0.05" value="1"> satellite</label><br><label><input type="checkbox" id="walls" checked> traced walls (white)</label><br><label><input type="checkbox" id="symbols" checked> symbols</label><br><label><input type="checkbox" id="entrances" checked> cenote entrances (green rings)</label><br><label><input type="checkbox" id="cenotes" checked> other cenotes (blue dots)</label><br><label><input type="checkbox" id="dbcaves" checked> database caves (purple pins)</label>
+<p style="margin:6px 0 0;line-height:1.9"><b>Symbols</b> (the map's own labels and units)<br>
+<span class="symbol" style="text-decoration:overline">48</span> depth of the floor &nbsp; <span class="symbol" style="border:1.5px solid #fff;border-radius:50%;padding:1px 3px">10</span> ceiling-to-floor height<br>
+<span class="symbol">p. 1,450</span> penetration from the entrance<br>
+<span class="symbol">r</span> minor restriction &nbsp; <span class="symbol">x</span> major restriction<br>
+<span class="symbol">s</span> silt &nbsp; <span class="symbol">z</span> zero visibility &nbsp; <span class="symbol" style="background:#4fc3f7">&#10140;</span> water flow</p>
 <p style="margin:6px 0 0"><span style="color:#ff3b30">&#9679;</span> database GPS &nbsp; <span style="color:#2f80ff">&#9632;</span> spot on the map<br>(fit points solid, check points hollow)</p></div>
 <script>
 // The title copied to the clipboard on a click (a review note's heading).

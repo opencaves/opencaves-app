@@ -20,7 +20,7 @@ import Undo from '@mui/icons-material/Undo'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
 import { undoInputRule } from '@milkdown/prose/inputrules'
-import { commonmark, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
+import { commonmark, remarkPreserveEmptyLinePlugin, toggleStrongCommand, toggleEmphasisCommand, toggleInlineCodeCommand, wrapInHeadingCommand, wrapInBulletListCommand, wrapInOrderedListCommand, wrapInBlockquoteCommand, insertHrCommand } from '@milkdown/preset-commonmark'
 import { gfm, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { history, undoCommand, redoCommand } from '@milkdown/plugin-history'
@@ -127,7 +127,10 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           onChangeRef.current?.({ target: { value: emitted } })
         })
       })
-      .use(commonmark)
+      // Without the preset's empty-line keeper: it wrote an empty paragraph
+      // as a literal "<br />" into the saved Markdown, which the page and
+      // search engines then showed as text. Empty lines are simply dropped.
+      .use(commonmark.filter((plugin) => !remarkPreserveEmptyLinePlugin.includes(plugin)))
       .use(gfm)
       .use(listener)
       .use(history)
