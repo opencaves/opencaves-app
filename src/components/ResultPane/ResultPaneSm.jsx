@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@/utils/ionic.js'
 import { ResultPaneSmContext } from './ResultPaneSmContext.js'
@@ -7,7 +7,6 @@ import waitFor from 'p-wait-for'
 import { useTranslation } from 'react-i18next'
 import { Box, Card, CardContent, IconButton, Slide, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import { setResultPaneSmCurrentBreakpoint, setSearchBarOff } from '@/redux/slices/appSlice'
 import AppMenu from '@/components/App/AppMenu.jsx'
@@ -34,7 +33,6 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const modalRef = useRef({})
   const paneHeadRef = useRef({})
 
-  const theme = useTheme()
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
   const { t: tApp } = useTranslation('app')
@@ -209,6 +207,13 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     root.setProperty('--oc-map-controls-visibility', hidden ? 'hidden' : 'visible')
   }, [modalPosition, resultPaneOpen, filterMenuOpen])
 
+  // Another cave opens at the top of the sheet, not where the last one was
+  // scrolled to.
+  useLayoutEffect(() => {
+    const view = modalRef.current?.querySelector('.oc-result-pane--scroll-view')
+    if (view) view.scrollTop = 0
+  }, [cave?.id])
+
   // The phone edit form's "place on map" mode (PlaceOnMapOverlay): minimize
   // the sheet so the map shows, then put it back exactly where it was -
   // same height, same scroll position in the form - when the mode ends.
@@ -349,7 +354,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
                       ...style,
                       cursor: 'pointer',
                       borderRadius: '50%',
-                      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+                      backgroundColor: 'var(--oc-scrollbar-thumb)',
                     }}
                   />
                 )}

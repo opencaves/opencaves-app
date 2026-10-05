@@ -1,12 +1,10 @@
 import { useSelector } from 'react-redux'
 import { Avatar } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
 
 export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
   const user = useSelector(state => state.session.user)
   const isLoggedIn = useSelector(state => state.session.isLoggedIn)
-  const theme = useTheme()
 
   // Signed out: the account placeholder, not the logo - the logo leads home
   // (the app bar's, the map search bar's), so it can't also open this menu.
@@ -23,7 +21,10 @@ export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
       src={user.photoURL || undefined}
       alt={user.displayName}
       sx={{
-        bgcolor: theme.palette.primary.main,
+        // The initial pale on the primary colour in both modes (an Avatar's
+        // own letter colour is the page's background: near-black in dark mode).
+        bgcolor: 'primary.main',
+        color: 'primary.contrastText',
         width: '32px',
         height: '32px',
         ...avatarSx,

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, IconButton, Typography, styled } from '@mui/material'
+import { Box, Collapse, Fade, IconButton, Typography, styled, useTheme } from '@mui/material'
 import Close from '@mui/icons-material/Close'
 import Rating from '@/components/Rating/Rating.jsx'
 import CoverImage from './CoverImage.jsx'
@@ -53,6 +53,9 @@ export default function CurrentCaveDetailsHeader({ cave }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSmall])
 
+  const theme = useTheme()
+  const motion = theme.oc.sys.motion.duration
+
   function onClear() {
     // SearchBar.jsx watches currentCave and resets its own value/search
     // results back to empty once it goes null - this is what makes the
@@ -94,7 +97,18 @@ export default function CurrentCaveDetailsHeader({ cave }) {
             </Box>
           )}
         </Box>
-        {isSmall ? paneData.paneMinimizeFactor > 0.25 && getSubHeaders() : getSubHeaders()}
+        {/* On phones, the other names and the stars show once the sheet is a
+            quarter open: they slide open and fade in (and out), rather than
+            popping in mid-drag. */}
+        {isSmall ? (
+          <Collapse in={paneData.paneMinimizeFactor > 0.25} timeout={{ enter: motion.standardDecelerate, exit: motion.standardAccelerate }} easing={{ enter: theme.sys.motion.easing.standardDecelerate, exit: theme.sys.motion.easing.standardAccelerate }}>
+            <Fade in={paneData.paneMinimizeFactor > 0.25} timeout={{ enter: motion.standardDecelerate, exit: motion.standardAccelerate }}>
+              <div>{getSubHeaders()}</div>
+            </Fade>
+          </Collapse>
+        ) : (
+          getSubHeaders()
+        )}
         {/* {
             caveNameTranslation && <Typography variant='caveDetailsSubHeader'>{caveNameTranslation}</Typography>
           }
@@ -107,6 +121,12 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   )
 }
 
-const StyledIconButton = styled(IconButton)({
-  backgroundColor: '#f2f2f2',
-})
+// A tonal close button: the theme's tints, so it follows the light and dark
+// modes (a fixed light grey stayed light in dark mode).
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: theme.vars.palette.action.selected,
+  color: theme.vars.palette.text.secondary,
+  '&:hover': {
+    backgroundColor: theme.vars.palette.action.focus,
+  },
+}))

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -68,7 +68,8 @@ export default function AppBar(props) {
   const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   // The site's pages, on the left; the dashboard (editors) on the right,
-  // beside the account button - in the phone drawer, last.
+  // beside the account button. The phone drawer has the site's pages, then
+  // the dashboard, then About last, each group set apart by a divider.
   const navItems = [
     { key: 'home', to: '/', icon: <HomeRounded /> },
     { key: 'map', to: '/map', icon: <MapRounded /> },
@@ -77,7 +78,8 @@ export default function AppBar(props) {
     { key: 'about', to: '/about', icon: <InfoRounded /> },
   ]
   const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
-  const drawerItems = [...navItems, ...(canAccessDashboard ? [dashboardItem] : [])]
+  const aboutItem = navItems.find((item) => item.key === 'about')
+  const drawerItems = [...navItems.filter((item) => item !== aboutItem), ...(canAccessDashboard ? [dashboardItem] : []), aboutItem]
   // The bar itself leaves Home out: the logo and the title link there, as
   // people expect - the phone drawer keeps it.
   const barItems = navItems.filter(({ key }) => key !== 'home')
@@ -133,12 +135,15 @@ export default function AppBar(props) {
       <Divider />
       <List>
         {drawerItems.map(({ key, to, icon }) => (
-          <ListItem key={key} disablePadding>
-            <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
-            </ListItemButton>
-          </ListItem>
+          <Fragment key={key}>
+            {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
+              </ListItemButton>
+            </ListItem>
+          </Fragment>
         ))}
       </List>
     </Box>

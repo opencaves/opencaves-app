@@ -398,7 +398,9 @@ export default function SearchBar() {
             boxShadow: SEARCH_BAR_SHADOW,
             borderRadius: SEARCH_BAR_RADIUS,
             bgcolor: 'background.paper',
-            borderColor: (theme) => (theme.palette.mode === 'light' ? 'background.paper' : 'divider'),
+            // Invisible on light paper; a divider line on dark.
+            borderColor: 'background.paper',
+            '*:where([data-mui-color-scheme="dark"]) &': { borderColor: 'divider' },
             borderWidth: 1,
             borderStyle: 'solid',
             m: '0.5rem 0.5rem 0 0.5rem',

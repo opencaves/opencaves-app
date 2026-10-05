@@ -129,7 +129,12 @@
     "unitsHint": "For lengths and depths: on the map, in cave and system details.",
     "unitsAutomatic": "Automatic ({{units}})",
     "units_metric": "Metric (m)",
-    "units_imperial": "Imperial (ft)"
+    "units_imperial": "Imperial (ft)",
+    "appearance": "Appearance",
+    "appearanceHint": "Light or dark display, on this device and wherever you sign in.",
+    "appearance_system": "Automatic (device setting)",
+    "appearance_light": "Light",
+    "appearance_dark": "Dark"
   },
   "auth": {
     "dialog": {

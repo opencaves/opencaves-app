@@ -109,7 +109,7 @@ export default function MapLayersAdmin() {
   }
 
   return (
-    <Box className="oc-map-layers-admin" sx={{ minHeight: '100%', bgcolor: 'rgba(255, 255, 255, 0.9)' }}>
+    <Box className="oc-map-layers-admin" sx={{ minHeight: '100%', bgcolor: 'var(--oc-page-surface-translucent)' }}>
       {/* Stays at the top while the list scrolls under it: right under the
           fixed app bar (the toolbar's height, which changes with the screen),
           keeping the page's top margin (pulled into the page's padding). */}

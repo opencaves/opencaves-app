@@ -1,17 +1,20 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { useColorScheme } from '@mui/material/styles'
 import { onAuthStateChanged, onIdTokenChanged, signOut } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
 import { loadAccountUnits } from '@/services/unitsPreference.js'
+import { loadAccountColorMode } from '@/services/colorModePreference.js'
 import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
 const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
 
 export default function ManageAuth() {
   const dispatch = useDispatch()
+  const { setMode } = useColorScheme()
 
   useEffect(() => {
     // uids we already asked ensureEditorRole for, so a call that doesn't grant
@@ -93,6 +96,13 @@ export default function ManageAuth() {
       } catch (error) {
         console.warn('[ManageAuth] Unable to load the account units:', error)
       }
+      // And its display mode (AppearanceSection).
+      try {
+        const colorMode = await loadAccountColorMode(user.uid)
+        if (colorMode) setMode(colorMode)
+      } catch (error) {
+        console.warn('[ManageAuth] Unable to load the account display mode:', error)
+      }
     })
-  }, [dispatch])
+  }, [dispatch, setMode])
 }

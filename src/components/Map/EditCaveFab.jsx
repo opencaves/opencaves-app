@@ -99,12 +99,14 @@ export default function EditCaveFab() {
         // light-text-with-dark-halo treatment as the map's marker labels
         // (Marker.scss) so it stays readable over any part of the map.
         // A disabled action (Edit cave, while already editing it) gets a
-        // light grey, slightly translucent surface - distinct from the
-        // enabled actions' white, but unlike MUI's default near-transparent
-        // grey still visible over the map - with a greyed icon, and its
-        // label dims with it.
+        // container-tone surface (light or dark grey with the mode) -
+        // distinct from the enabled actions' paper, but unlike MUI's default
+        // near-transparent grey still visible over the map - with a greyed
+        // icon, and its label dims with it.
         [`& .${speedDialActionClasses.fab}.Mui-disabled`]: {
-          bgcolor: 'rgba(224, 224, 224, 0.85)',
+          // The theme's highest container tone: light grey, or its dark
+          // counterpart in dark mode.
+          bgcolor: theme.vars.sys.color.surfaceContainerHighest,
           color: 'action.disabled',
           boxShadow: theme.shadows[2],
         },

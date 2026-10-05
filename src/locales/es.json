@@ -129,7 +129,12 @@
     "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cenotes y sistemas.",
     "unitsAutomatic": "Automático ({{units}})",
     "units_metric": "Métrico (m)",
-    "units_imperial": "Imperial (pies)"
+    "units_imperial": "Imperial (pies)",
+    "appearance": "Apariencia",
+    "appearanceHint": "Modo claro u oscuro, en este dispositivo y dondequiera que inicies sesión.",
+    "appearance_system": "Automático (ajuste del dispositivo)",
+    "appearance_light": "Claro",
+    "appearance_dark": "Oscuro"
   },
   "auth": {
     "dialog": {

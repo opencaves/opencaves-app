@@ -69,13 +69,13 @@ export default function CaveLayerButton({ sx }) {
         <Fab className="oc-cave-layer-button" aria-label={t('button')} aria-haspopup="dialog" aria-expanded={Boolean(anchor)} onClick={(event) => setAnchor(anchor ? null : event.currentTarget)}
           sx={visible
             ? { bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' }, ...sx }
-            : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' }, ...sx }}>
+            : { bgcolor: 'background.paper', color: 'primary.main', '&:hover': { bgcolor: (theme) => theme.vars.sys.color.surfaceContainerHigh }, ...sx }}>
           <LayersRounded />
         </Fab>
       </Tooltip>
       <Popper open={Boolean(anchor)} anchorEl={anchor} placement="bottom-end" modifiers={[{ name: 'offset', options: { offset: [0, 8] } }]} sx={{ zIndex: 'var(--oc-searchbar-z-index)' }}>
         <ClickAwayListener onClickAway={onClickAway}>
-          <Paper role="dialog" aria-modal="false" aria-labelledby={titleId} elevation={3} sx={(theme) => ({ borderRadius: 7, bgcolor: theme.sys.color.surfaceContainerHigh, width: 'min(320px, calc(100vw - 16px))' })}>
+          <Paper role="dialog" aria-modal="false" aria-labelledby={titleId} elevation={3} sx={(theme) => ({ borderRadius: 7, bgcolor: theme.vars.sys.color.surfaceContainerHigh, width: 'min(320px, calc(100vw - 16px))' })}>
             <Box className="oc-cave-layer-menu" sx={{ p: 2.5 }}>
               <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
                 {t('panelTitle')}

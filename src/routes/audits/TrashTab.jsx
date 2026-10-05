@@ -62,7 +62,7 @@ function TrashCard({ item, selected, onToggle, disabled, accountLabel }) {
         disabled={disabled}
         onChange={() => onToggle(itemKey(item))}
         slotProps={{ input: { 'aria-label': t('trash.select', { name: item.title }) } }}
-        sx={{ position: 'absolute', top: 4, left: 4, bgcolor: 'rgba(255, 255, 255, 0.85)', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.95)' } }}
+        sx={{ position: 'absolute', top: 4, left: 4, bgcolor: 'var(--oc-page-surface-translucent)', '&:hover': { bgcolor: 'var(--oc-page-surface)' } }}
       />
       <Box sx={{ px: 1.5, py: 1 }}>
         <Typography variant="body2" noWrap title={item.title} sx={{ fontWeight: 500 }}>

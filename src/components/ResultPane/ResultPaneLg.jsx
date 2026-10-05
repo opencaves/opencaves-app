@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import { Card, CardContent } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -7,6 +7,12 @@ import './ResultPaneLg.scss'
 
 export default function ResultPaneLg({ children, editMode, cave, ...props }) {
   const theme = useTheme()
+  const scrollbarsRef = useRef(null)
+
+  // Another cave opens at the top, not where the last one was scrolled to.
+  useLayoutEffect(() => {
+    scrollbarsRef.current?.scrollToTop()
+  }, [cave?.id])
 
   const widthTransition = theme.transitions.create('max-width', {
     duration: theme.oc.sys.motion.duration.emphasized,
@@ -34,6 +40,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
       component="main"
     >
       <Scrollbars
+        ref={scrollbarsRef}
         autoHide
         autoHeight
         // In edit mode, force the scrollable area to always fill the full
@@ -52,7 +59,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
               ...style,
               cursor: 'pointer',
               borderRadius: 'inherit',
-              backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+              backgroundColor: 'var(--oc-scrollbar-thumb)',
             }}
           />
         )}

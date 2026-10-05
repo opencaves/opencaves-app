@@ -30,7 +30,7 @@ export default function Audits() {
   }
 
   return (
-    <Box className="oc-audits" sx={{ minHeight: '100%', minWidth: 0, bgcolor: 'rgba(255, 255, 255, 0.9)' }}>
+    <Box className="oc-audits" sx={{ minHeight: '100%', minWidth: 0, bgcolor: 'var(--oc-page-surface-translucent)' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
         <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
           <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -5 } }}>

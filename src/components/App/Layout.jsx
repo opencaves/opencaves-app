@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useLayoutEffect, useRef } from 'react'
+import { Outlet, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
 import Dev from '../utils/Dev.jsx'
@@ -33,8 +33,42 @@ export default function Layout() {
     }
   }, [location, navigate])
 
+  // This box, not the document, is the page's scroller (below), so the
+  // router's scroll handling never reaches it: a new page opens at the top,
+  // and back/forward returns to where that page was left. Each entry's
+  // position is kept by its history key; the query (a page's tabs) keeps it.
+  const scrollRef = useRef(null)
+  const scrollPositions = useRef(new Map())
+  const navigationType = useNavigationType()
+  useLayoutEffect(() => {
+    const scroller = scrollRef.current
+    if (!scroller) return undefined
+    const key = location.key
+    const saved = navigationType === 'POP' ? scrollPositions.current.get(key) || 0 : 0
+    scroller.scrollTop = saved
+    // A page coming back may still be loading, too short to scroll yet: try
+    // again for a moment as it grows.
+    let frame = null
+    if (saved > 0) {
+      const until = performance.now() + 1500
+      const retry = () => {
+        scroller.scrollTop = saved
+        if (scroller.scrollTop < saved - 1 && performance.now() < until) frame = requestAnimationFrame(retry)
+      }
+      frame = requestAnimationFrame(retry)
+    }
+    const remember = () => scrollPositions.current.set(key, scroller.scrollTop)
+    scroller.addEventListener('scroll', remember, { passive: true })
+    return () => {
+      cancelAnimationFrame(frame)
+      scroller.removeEventListener('scroll', remember)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname])
+
   return (
     <Box
+      ref={scrollRef}
       className="oc-layout"
       sx={{
         display: 'flex',
@@ -63,7 +97,7 @@ export default function Layout() {
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : '#fff', border: { xs: '0.5rem solid #fff', sm: '1rem solid #fff' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), borderRadius: sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), borderRadius: sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
       </Container>
 

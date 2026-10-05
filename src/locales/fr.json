@@ -129,7 +129,12 @@
     "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des réseaux.",
     "unitsAutomatic": "Automatique ({{units}})",
     "units_metric": "Métrique (m)",
-    "units_imperial": "Impérial (pi)"
+    "units_imperial": "Impérial (pi)",
+    "appearance": "Apparence",
+    "appearanceHint": "Affichage clair ou sombre, sur cet appareil et partout où vous vous connectez.",
+    "appearance_system": "Automatique (réglage de l’appareil)",
+    "appearance_light": "Clair",
+    "appearance_dark": "Sombre"
   },
   "auth": {
     "dialog": {
