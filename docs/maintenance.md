@@ -78,7 +78,16 @@ ratings and `_caveRatings`), frozen accounts and audit log, which stay
 untouched. What's only in production is deleted, files included. Production's
 documents are first saved to `_data/backups/production-<date>/`; its deleted
 files are not. Copied files carry `ocSync=true`, so the upload functions
-don't rebuild them. Run it with the emulators up, after
+don't rebuild them. The trash comes along as it is. Production keeps its own
+audit log: what testers did there, which the mirror then overwrites.
+
+Accounts named in a record (who moved it to the trash, who uploaded a photo)
+become the production account with the same email. A local account whose
+email differs from its production one is paired in `.env`:
+`SYNC_ACCOUNTS=local@example.org=production@example.org` (comma-separated
+pairs); the dry run says how many accounts matched.
+
+Run it with the emulators up, after
 `gcloud auth application-default login`, then check with
 `node scripts/check-cave-images.js -p`.
 

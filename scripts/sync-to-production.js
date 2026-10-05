@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 // Mirrors the local emulators (the original data) to production: production
 // ends up with exactly the local documents and files - everything but its
-// users (accounts, users/* - saved caves, ratings, settings), its frozen
-// accounts (frozenUsers), its audit log (_auditLog) and its ratings (caves'
-// ratings subcollections, caveRatings), which stay untouched.
+// users (accounts, _users/* - settings, saved caves), its frozen accounts
+// (_frozenUsers), its audit log (_auditLog) and its ratings (the caves'
+// ratings subcollections, _caveRatings), which stay untouched.
 //
-// - Firestore: every collection but users. New documents are created,
-//   differing ones overwritten whole, the ones only in production deleted.
-//   Map documents' file URLs point to the local Storage emulator: they're
-//   rewritten to production's (same paths and download tokens).
+// - Firestore: every other collection. New documents are created, differing
+//   ones overwritten whole, the ones only in production deleted. Map
+//   documents' file URLs point to the local Storage emulator: they're
+//   rewritten to production's (same paths and download tokens). Accounts
+//   named in a record (deletedBy, userId) become the production account with
+//   the same email. The trash comes along as it is (deletedAt, deletedBy).
 // - Storage: caves/ (photos, their resized copies) and maps/ (scans, their
 //   previews). Files missing or different (MD5) in production are uploaded
 //   with their local metadata (download tokens included) and marked
@@ -30,6 +32,7 @@ import { hideBin } from 'yargs/helpers'
 import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore, Timestamp, GeoPoint, DocumentReference } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
+import { getAuth } from 'firebase-admin/auth'
 
 const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
@@ -39,7 +42,18 @@ const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'
+const AUTH_EMULATOR = process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099'
 const BACKUPS = path.resolve(import.meta.dirname, '../_data/backups')
+
+// SYNC_ACCOUNTS (.env): local accounts paired with production's by email,
+// "local@example.org=production@example.org,..." - for local accounts whose
+// email isn't their production one (the others pair by the same email).
+try {
+  process.loadEnvFile(path.resolve(import.meta.dirname, '../.env'))
+} catch {
+  // No .env: the accounts pair by the same email only.
+}
+const PAIRED_EMAILS = new Map((process.env.SYNC_ACCOUNTS || '').split(',').map((pair) => pair.split('=').map((email) => email.trim().toLowerCase())).filter(([from, to]) => from && to))
 
 const cli = yargs(hideBin(process.argv))
   .usage('$0 --dry-run | --write [--no-files]\n\nMirrors the local emulators to production: every collection and the caves/ and maps/ files; production\'s users are kept.')
@@ -67,11 +81,33 @@ const argv = cli.parseSync()
 // read through the emulator's REST API, for the same reason.
 delete process.env.FIRESTORE_EMULATOR_HOST
 delete process.env.FIREBASE_STORAGE_EMULATOR_HOST
+delete process.env.FIREBASE_AUTH_EMULATOR_HOST
 const local = getFirestore(initializeApp({ projectId: PROJECT_ID }, 'local'))
 local.settings({ host: FIRESTORE_EMULATOR, ssl: false })
 const productionApp = initializeApp({ credential: applicationDefault(), projectId: PROJECT_ID, storageBucket: BUCKET }, 'production')
 const production = getFirestore(productionApp)
 const bucket = getStorage(productionApp).bucket(BUCKET)
+
+// Local and production accounts have different ids, so a record naming a
+// local account (who moved it to the trash, who uploaded a photo) gets the
+// production account with the same email (or paired in SYNC_ACCOUNTS). One with no production
+// counterpart keeps its id (shown as a deleted account).
+const ACCOUNT_FIELDS = ['deletedBy', 'userId']
+async function productionAccountIds() {
+  const local = await (await fetch(`http://${AUTH_EMULATOR}/identitytoolkit.googleapis.com/v1/projects/${PROJECT_ID}/accounts:batchGet?maxResults=1000`, { headers: { Authorization: 'Bearer owner' } })).json()
+  const productionByEmail = new Map()
+  let pageToken
+  do {
+    const page = await getAuth(productionApp).listUsers(1000, pageToken)
+    for (const user of page.users) if (user.email) productionByEmail.set(user.email.toLowerCase(), user.uid)
+    pageToken = page.pageToken
+  } while (pageToken)
+  const productionEmail = (user) => PAIRED_EMAILS.get(user.email.toLowerCase()) || user.email.toLowerCase()
+  return new Map((local.users || []).filter((user) => user.email && productionByEmail.has(productionEmail(user))).map((user) => [user.localId, productionByEmail.get(productionEmail(user))]))
+}
+const PRODUCTION_ACCOUNT = await productionAccountIds()
+console.log(`${PRODUCTION_ACCOUNT.size} local accounts matched to production's by email`)
+const withProductionAccounts = (data) => Object.fromEntries(Object.entries(data).map(([key, value]) => [key, ACCOUNT_FIELDS.includes(key) && PRODUCTION_ACCOUNT.has(value) ? PRODUCTION_ACCOUNT.get(value) : value]))
 
 // Comparable (and JSON-able) form of a Firestore value.
 function normalize(value) {
@@ -84,7 +120,8 @@ function normalize(value) {
 }
 const same = (a, b) => JSON.stringify(normalize(a)) === JSON.stringify(normalize(b))
 
-// A local document as production must have it: file URLs on production's host.
+// A local document as production must have it: file URLs on production's host
+// (and its accounts production's: withProductionAccounts).
 const LOCAL_STORAGE_URL = new RegExp(`^https?://(127\\.0\\.0\\.1|localhost):\\d+/v0/b/`)
 function forProduction(value) {
   if (typeof value === 'string') return value.replace(LOCAL_STORAGE_URL, 'https://firebasestorage.googleapis.com/v0/b/')
@@ -114,7 +151,7 @@ for (const collection of [...collections, ...productionOnlyCollections]) {
   const creates = []
   const updates = []
   for (const doc of localSnap.docs) {
-    const data = forProduction(doc.data())
+    const data = withProductionAccounts(forProduction(doc.data()))
     const prod = prodDocs.get(doc.id)
     if (!prod) creates.push({ id: doc.id, data })
     // cavesAssets' _created/_modified are stamped by onAssetCreated: not a difference.
