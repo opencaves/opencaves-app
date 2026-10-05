@@ -1360,7 +1360,10 @@
       "searchPlaceholder": "Trouver une grotte, un système ou une région",
       "openMap": "Ouvrir la carte",
       "search": "Chercher",
-      "browseCaves": "Parcourir les grottes"
+      "browse": {
+        "caves": "Parcourir les grottes",
+        "sistemas": "Parcourir les systèmes"
+      }
     },
     "figures": {
       "label": "OpenCaves en chiffres",
@@ -1419,6 +1422,15 @@
       "about": "À propos",
       "language": "Langue"
     },
-    "warningsLabel": "Avant de plonger"
+    "warningsLabel": "Avant de plonger",
+    "search": {
+      "groups": {
+        "areas": "Régions",
+        "sistemas": "Systèmes de grottes",
+        "caves": "Grottes"
+      },
+      "none": "Aucune grotte, aucun système ni aucune région ne correspond.",
+      "hint": "Tapez un nom"
+    }
   }
 }

@@ -1361,7 +1361,10 @@
       "searchPlaceholder": "Buscar una cueva, un sistema o una zona",
       "openMap": "Abrir el mapa",
       "search": "Buscar",
-      "browseCaves": "Explorar las cuevas"
+      "browse": {
+        "caves": "Explorar las cuevas",
+        "sistemas": "Explorar los sistemas"
+      }
     },
     "figures": {
       "label": "OpenCaves en cifras",
@@ -1420,6 +1423,15 @@
       "about": "Acerca de",
       "language": "Idioma"
     },
-    "warningsLabel": "Antes de bucear"
+    "warningsLabel": "Antes de bucear",
+    "search": {
+      "groups": {
+        "areas": "Zonas",
+        "sistemas": "Sistemas de cuevas",
+        "caves": "Cuevas"
+      },
+      "none": "Ninguna cueva, sistema o zona coincide.",
+      "hint": "Escribe un nombre"
+    }
   }
 }

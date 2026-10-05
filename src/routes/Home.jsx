@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, InputAdornment, Link, MenuItem, Stack, SvgIcon, TextField, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
-import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import TimelineRounded from '@mui/icons-material/TimelineRounded'
 import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
@@ -14,6 +13,7 @@ import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import GitHub from '@mui/icons-material/GitHub'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
+import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { chooseLanguage } from '@/services/languagePreference.js'
@@ -90,11 +90,13 @@ function LanguageMenu() {
       select
       size="small"
       className="oc-home--language"
+      // No field background: a plain choice in the footer.
+      variant="standard"
       value={current}
       onChange={(event) => chooseLanguage(event.target.value, user)}
       aria-label={t('footer.language')}
       sx={{ minWidth: 180 }}
-      slotProps={{ input: { startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> } }}
+      slotProps={{ input: { disableUnderline: true, startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> } }}
     >
       {APP_LANGUAGES.map(({ code, nativeName }) => (
         <MenuItem key={code} value={code} lang={code}>
@@ -114,18 +116,11 @@ export default function Home() {
   const { t: tAbout } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
   const { t: tIndex } = useTranslation('indexPages')
-  const navigate = useNavigate()
   const { data } = useIndexData()
-  const [search, setSearch] = useState('')
   const [heroPhoto, ...photos] = useCoverPhotos()
   const regions = data.areas.filter((area) => area.caves.length > 0)
 
   useIndexPageHead({ title: t('title'), description: t('description') })
-
-  function onSearch(event) {
-    event.preventDefault()
-    navigate(search.trim() ? `/caves?q=${encodeURIComponent(search.trim())}` : '/caves')
-  }
 
   const caveName = (caveId) => {
     const cave = data.caves.find(({ id }) => id === caveId)
@@ -167,25 +162,11 @@ export default function Home() {
         <Typography sx={{ typography: { xs: 'body1', sm: 'h6' }, fontWeight: { sm: 400 }, mb: 4, maxWidth: 640, opacity: 0.92, lineHeight: { sm: 1.6 } }}>
           {t('hero.lead')}
         </Typography>
-        <Box component="form" role="search" onSubmit={onSearch} sx={{ display: 'flex', gap: 1, maxWidth: 560, mb: 3 }}>
-          <TextField
-            className="oc-home--search"
-            type="search"
-            fullWidth
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder={t('hero.searchPlaceholder')}
-            variant="outlined"
-            sx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 6, bgcolor: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }, '& fieldset': { border: 0 } })}
-            slotProps={{
-              htmlInput: { 'aria-label': t('hero.searchPlaceholder') },
-              input: { startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
-            }}
-          />
-          <Button type="submit" variant="contained" sx={{ borderRadius: 6, px: 3, flexShrink: 0 }}>
-            {t('hero.search')}
-          </Button>
-        </Box>
+        <SiteSearch
+          data={data}
+          sx={{ maxWidth: 560, mb: 3 }}
+          inputSx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 6, bgcolor: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }, '& fieldset': { border: 0 } })}
+        />
         <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
           {/* The page's main call: larger, in the brand's gold, with a glow;
               its arrow moves forward and the button lifts on hover. */}
@@ -214,9 +195,15 @@ export default function Home() {
           >
             {t('hero.openMap')}
           </Button>
-          <Button className="oc-home--caves" variant="outlined" size="large" component={RouterLink} to="/caves" startIcon={caveIcon} sx={{ borderRadius: 6, color: '#fff', borderColor: 'rgba(255,255,255,0.6)', '&:hover': { borderColor: '#fff', bgcolor: 'rgba(255,255,255,0.08)' } }}>
-            {t('hero.browseCaves')}
-          </Button>
+          {/* The two directories: text buttons, without a border, beside the main call. */}
+          {[
+            ['caves', '/caves', caveIcon],
+            ['sistemas', '/sistemas', sistemaIcon],
+          ].map(([key, to, icon]) => (
+            <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: 2, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
+              {t(`hero.browse.${key}`)}
+            </Button>
+          ))}
         </Stack>
       </Box>
 

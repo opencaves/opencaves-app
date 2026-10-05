@@ -1361,7 +1361,10 @@
       "searchPlaceholder": "Find a cave, a system or an area",
       "openMap": "Open the map",
       "search": "Search",
-      "browseCaves": "Browse the caves"
+      "browse": {
+        "caves": "Browse the caves",
+        "sistemas": "Browse the systems"
+      }
     },
     "figures": {
       "label": "OpenCaves in figures",
@@ -1420,6 +1423,15 @@
       "about": "About",
       "language": "Language"
     },
-    "warningsLabel": "Before you dive"
+    "warningsLabel": "Before you dive",
+    "search": {
+      "groups": {
+        "areas": "Areas",
+        "sistemas": "Cave systems",
+        "caves": "Caves"
+      },
+      "none": "No cave, system or area matches.",
+      "hint": "Type a name"
+    }
   }
 }
