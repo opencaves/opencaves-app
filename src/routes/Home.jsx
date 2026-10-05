@@ -236,6 +236,10 @@ export default function Home() {
         <Alert severity="error" icon={<WarningAmberRounded fontSize="inherit" />} sx={{ borderRadius: 3, alignItems: 'flex-start', '& .MuiAlert-icon': { fontSize: 28 } }}>
           <AlertTitle sx={{ fontWeight: 600 }}>{t('safety.title')}</AlertTitle>
           {t('safety.text')}
+          {/* Where cavern diving ends and cave diving begins. */}
+          <Box component="p" sx={{ mt: 1, mb: 0 }}>
+            {t('safety.cavern')}
+          </Box>
         </Alert>
         <Alert severity="warning" sx={{ borderRadius: 3, alignItems: 'flex-start', '& .MuiAlert-icon': { fontSize: 28 } }}>
           <AlertTitle sx={{ fontWeight: 600 }}>{t('disclaimer.title')}</AlertTitle>

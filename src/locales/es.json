@@ -1377,7 +1377,8 @@
     },
     "safety": {
       "title": "El buceo en cuevas puede matar",
-      "text": "Bucear más allá de la zona de luz de una cueva o un cenote exige formación y certificación de buceo en cuevas, el equipo adecuado y experiencia. Buzos formados y experimentados han muerto en cuevas. Nunca vayas más allá de tu formación y tus límites, y nunca entres en una cueva que no conoces sin un guía local cualificado."
+      "text": "Bucear más allá de la zona de luz de una cueva o un cenote exige formación y certificación de buceo en cuevas, el equipo adecuado y experiencia. Buzos formados y experimentados han muerto en cuevas. Nunca vayas más allá de tu formación y tus límites, y nunca entres en una cueva que no conoces sin un guía local cualificado.",
+      "cavern": "En un cenote, la caverna - la zona donde la luz del día aún muestra la salida - se bucea con formación de caverna y un guía; más allá empieza la cueva, solo para buzos de cuevas formados."
     },
     "disclaimer": {
       "title": "No apto para planificar una inmersión",

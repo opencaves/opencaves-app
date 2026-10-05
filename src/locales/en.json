@@ -1377,7 +1377,8 @@
     },
     "safety": {
       "title": "Cave diving can kill",
-      "text": "Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. Trained, experienced divers have died in caves. Never go beyond your training and limits, and never enter a cave you don't know without a qualified local guide."
+      "text": "Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. Trained, experienced divers have died in caves. Never go beyond your training and limits, and never enter a cave you don't know without a qualified local guide.",
+      "cavern": "In a cenote, the cavern - the part where daylight still shows the way out - can be dived with cavern training and a guide; beyond it is the cave, for trained cave divers only."
     },
     "disclaimer": {
       "title": "Not for dive planning",

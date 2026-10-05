@@ -35,7 +35,7 @@
       "home": "Accueil",
       "map": "Carte",
       "caves": "Grottes",
-      "sistemas": "Systèmes",
+      "sistemas": "Réseaux",
       "myAccount": "Mon compte",
       "admin": "Tableau de bord",
       "signup": "S'inscrire",
@@ -125,7 +125,7 @@
     "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil.",
     "personalInfo": "Informations personnelles",
     "units": "Unités",
-    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des systèmes.",
+    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des réseaux.",
     "unitsAutomatic": "Automatique ({{units}})",
     "units_metric": "Métrique (m)",
     "units_imperial": "Impérial (pi)"
@@ -459,7 +459,7 @@
     "aka": "alias",
     "directionsHeader": "S'y rendre",
     "cenote": "Cenote",
-    "sistema": "Système {{ system }}",
+    "sistema": "Réseau {{ system }}",
     "explorationHistory": "Historique d'exploration",
     "coordinateValidityUnknown": "non confirmé",
     "copiedToClipboard": "Copié dans le presse-papier",
@@ -536,9 +536,9 @@
       "removeCoordinate": "Supprimer les coordonnées",
       "pickMyLocation": "Utiliser ma position actuelle",
       "none": "(aucun)",
-      "sistema": "Système",
+      "sistema": "Réseau",
       "source": "Source",
-      "sourceHint": "D'où proviennent les informations sur ce système",
+      "sourceHint": "D'où proviennent les informations sur ce réseau",
       "access": "Accès",
       "accessibility": "Accessibilité",
       "fees": "Frais",
@@ -557,8 +557,8 @@
       "deleteCaveConfirm": "{{name}} sera définitivement supprimée. Cette action est irréversible.",
       "save": "Enregistrer",
       "cancel": "Annuler",
-      "sistemaGroup": "Système",
-      "editSistemas": "Modifier les systèmes",
+      "sistemaGroup": "Réseau",
+      "editSistemas": "Modifier les réseaux",
       "sistemaSearchPlaceholder": "Rechercher",
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité",
@@ -591,7 +591,7 @@
         "places": "Lieux"
       },
       "cenoteEntrance": "Cénote d'entrée",
-      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le système de grottes, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)",
+      "cenoteEntranceHint": "Une cénote par laquelle on entre dans le réseau, comme le font les plongeurs souterrains (pas une cénote isolée dans la jungle)",
       "validity": {
         "label": "Validité",
         "valid": "Valide",
@@ -619,7 +619,7 @@
       "saveError": "Impossible d’enregistrer votre note."
     },
     "cenoteEntrance": "Cénote d'entrée",
-    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un système de grottes."
+    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau."
   },
   "mediaPane": {
     "header": "Cenote {{name}}",
@@ -816,17 +816,17 @@
     "cancel": "Annuler"
   },
   "sistemaPane": {
-    "header": "Systèmes",
+    "header": "Réseaux",
     "backBtn": {
       "ariaLabel": "Retour"
     },
-    "newSistema": "Nouveau système",
+    "newSistema": "Nouveau réseau",
     "unnamedSistema": "(sans nom)",
     "searchBtn": {
       "ariaLabel": "Rechercher"
     },
     "editSistemaBtn": {
-      "ariaLabel": "Modifier ce système"
+      "ariaLabel": "Modifier ce réseau"
     },
     "searchPlaceholder": "Rechercher",
     "akaLabel": "aussi connu sous"
@@ -888,7 +888,7 @@
     }
   },
   "sistema": {
-    "header": "Système"
+    "header": "Réseau"
   },
   "fees": {
     "yes": {
@@ -919,12 +919,12 @@
     "caveLayer": {
       "button": "Couches de la carte",
       "title": "Galeries",
-      "scope": "Systèmes",
-      "all": "Tous les systèmes",
-      "selected": "Seulement le système de la cénote sélectionnée",
+      "scope": "Réseaux",
+      "all": "Tous les réseaux",
+      "selected": "Seulement le réseau de la cénote sélectionnée",
       "selectedHint": "Sélectionnez d'abord une cénote",
       "colors": "Couleurs",
-      "bySystem": "Par système",
+      "bySystem": "Par réseau",
       "single": "Une seule couleur",
       "disclaimer": "Tracées d'après des topographies publiées. Pas pour planifier une plongée.",
       "legend": {
@@ -936,8 +936,8 @@
         "depth": "Profondeur",
         "placeName": "Lieu nommé",
         "flow": "Sens du courant",
-        "bySystem": "Chaque système dans sa couleur",
-        "single": "Tous les systèmes dans une couleur"
+        "bySystem": "Chaque réseau dans sa couleur",
+        "single": "Tous les réseaux dans une couleur"
       },
       "edit": {
         "mode": "Mode édition",
@@ -949,7 +949,7 @@
         "hidden": "« {{title}} » masqué",
         "hideError": "Impossible de masquer le dessin",
         "showError": "Impossible d'afficher le dessin",
-        "system": "Système : {{name}}",
+        "system": "Réseau : {{name}}",
         "file": "Fichier de la carte : {{name}}",
         "showDrawing": "Afficher ce dessin",
         "shown": "« {{title}} » affiché",
@@ -967,19 +967,19 @@
   "dashboard": {
     "noSistemaArea": "Aucune zone attribuée",
     "backToDashboard": "Retour au tableau de bord",
-    "manageSistemaConnections": "Gérer les connexions entre systèmes",
+    "manageSistemaConnections": "Gérer les connexions entre réseaux",
     "searchSistemaConnections": "Rechercher des connexions",
-    "newSistemaConnection": "Nouvelle connexion entre systèmes",
-    "chooseSistemaToConnect": "Choisir un système à relier",
+    "newSistemaConnection": "Nouvelle connexion entre réseaux",
+    "chooseSistemaToConnect": "Choisir un réseau à relier",
     "sistemaConnectionCount_one": "{{count}} connexion",
     "sistemaConnectionCount_other": "{{count}} connexions",
-    "noParentSistema": "Aucun système parent",
-    "sistemaConnection": "Connexion entre systèmes",
-    "editSistemaConnection": "Modifier la connexion entre systèmes",
+    "noParentSistema": "Aucun réseau parent",
+    "sistemaConnection": "Connexion entre réseaux",
+    "editSistemaConnection": "Modifier la connexion entre réseaux",
     "backToConnections": "Retour aux connexions",
-    "childSistema": "Système",
-    "parentSistema": "Système parent",
-    "searchParentSistema": "Rechercher des systèmes ou des zones",
+    "childSistema": "Réseau",
+    "parentSistema": "Réseau parent",
+    "searchParentSistema": "Rechercher des réseaux ou des zones",
     "connectionSource": "Source",
     "noSource": "(aucune)",
     "connectionDate": "Date de connexion",
@@ -1052,7 +1052,7 @@
     "manageMapLayers": "Couches de la carte",
     "manageAudits": "Audits",
     "backToCaveIndex": "Retour aux cénotes",
-    "backToSistemaIndex": "Retour aux systèmes de grottes"
+    "backToSistemaIndex": "Retour aux réseaux"
   },
   "usersAdmin": {
     "title": "Utilisateurs",
@@ -1306,45 +1306,45 @@
     "unnamedCave": "Cénote sans nom",
     "caveCount_one": "{{count}} cénote",
     "caveCount_other": "{{count}} cénotes",
-    "sistemaCount_one": "{{count}} système de grottes",
-    "sistemaCount_other": "{{count}} systèmes de grottes",
+    "sistemaCount_one": "{{count}} réseau",
+    "sistemaCount_other": "{{count}} réseaux",
     "caves": {
       "title": "Les cénotes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
       "add": "Ajouter une grotte"
     },
     "sistemas": {
-      "title": "Les systèmes de grottes du Yucatán",
-      "description": "Les systèmes de grottes noyées du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
-      "add": "Ajouter un système"
+      "title": "Les réseaux du Yucatán",
+      "description": "Les réseaux noyés du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
+      "add": "Ajouter un réseau"
     },
     "area": {
       "title": "Les cénotes de la région {{area}}",
-      "description": "Les cénotes et les systèmes de grottes de la région {{area}}, au Yucatán (Mexique) : emplacements, accès, photos et plans sur OpenCaves.",
+      "description": "Les cénotes et les réseaux de la région {{area}}, au Yucatán (Mexique) : emplacements, accès, photos et plans sur OpenCaves.",
       "edit": "Modifier la région {{area}}",
       "cenotes": "Cénotes",
-      "sistemas": "Systèmes de grottes",
+      "sistemas": "Réseaux",
       "noCenotes": "Aucune cénote répertoriée dans cette région pour l’instant.",
-      "noSistemas": "Aucun système de grottes répertorié dans cette région pour l’instant."
+      "noSistemas": "Aucun réseau répertorié dans cette région pour l’instant."
     },
     "sistema": {
-      "title": "Système {{name}}",
-      "descriptionPrefix": "Système {{name}} (Yucatán, Mexique) :",
-      "description": "Système {{name}}, au Yucatán (Mexique) : longueur, profondeur, connexions, histoire de l’exploration et cénotes sur OpenCaves.",
-      "edit": "Modifier le système {{name}}",
+      "title": "Réseau {{name}}",
+      "descriptionPrefix": "Réseau {{name}} (Yucatán, Mexique) :",
+      "description": "Réseau {{name}}, au Yucatán (Mexique) : longueur, profondeur, connexions, histoire de l’exploration et cénotes sur OpenCaves.",
+      "edit": "Modifier le réseau {{name}}",
       "area": "Région",
       "length": "Longueur explorée",
       "maxDepth": "Profondeur maximale",
       "about": "Description",
       "connections": "Connexions",
       "partOf": "Fait partie de",
-      "joinedBy": "Systèmes qui y sont reliés",
+      "joinedBy": "Réseaux qui y sont reliés",
       "cenotes": "Cénotes",
-      "noCenotes": "Aucune cénote répertoriée dans ce système pour l’instant."
+      "noCenotes": "Aucune cénote répertoriée dans ce réseau pour l’instant."
     },
     "search": {
-      "caves": "Chercher une grotte, un système ou une région",
-      "sistemas": "Chercher un système ou une région",
+      "caves": "Chercher une grotte, un réseau ou une région",
+      "sistemas": "Chercher un réseau ou une région",
       "clear": "Effacer la recherche",
       "results_one": "{{count}} résultat",
       "results_other": "{{count}} résultats",
@@ -1353,30 +1353,31 @@
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
-    "description": "OpenCaves : les grottes et systèmes de grottes pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
+    "description": "OpenCaves : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
     "hero": {
       "title": "Des données ouvertes pour la plongée souterraine",
-      "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les systèmes de grottes du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",
-      "searchPlaceholder": "Trouver une grotte, un système ou une région",
+      "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les réseaux du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",
+      "searchPlaceholder": "Trouver une grotte, un réseau ou une région",
       "openMap": "Ouvrir la carte",
       "search": "Chercher",
       "browse": {
         "caves": "Parcourir les grottes",
-        "sistemas": "Parcourir les systèmes"
+        "sistemas": "Parcourir les réseaux"
       }
     },
     "figures": {
       "label": "OpenCaves en chiffres",
       "caves_one": "grotte",
       "caves_other": "grottes",
-      "sistemas_one": "système de grottes",
-      "sistemas_other": "systèmes de grottes",
+      "sistemas_one": "réseau",
+      "sistemas_other": "réseaux",
       "regions_one": "région",
       "regions_other": "régions"
     },
     "safety": {
       "title": "La plongée souterraine peut tuer",
-      "text": "Plonger au-delà de la zone éclairée d’une grotte ou d’une cénote exige une formation et une certification de plongée souterraine, l’équipement adapté et de l’expérience. Des plongeurs formés et expérimentés sont morts dans des grottes. Ne dépassez jamais votre formation ni vos limites, et n’entrez jamais dans une grotte que vous ne connaissez pas sans un guide local qualifié."
+      "text": "Plonger au-delà de la zone éclairée d’une grotte ou d’une cénote exige une formation et une certification de plongée souterraine, l’équipement adapté et de l’expérience. Des plongeurs formés et expérimentés sont morts dans des grottes. Ne dépassez jamais votre formation ni vos limites, et n’entrez jamais dans une grotte que vous ne connaissez pas sans un guide local qualifié.",
+      "cavern": "Dans une cénote, la zone éclairée par le jour (la « cavern »), d’où l’on voit encore la sortie, se plonge avec une formation adaptée et un guide ; au-delà commence la plongée souterraine, réservée aux plongeurs formés."
     },
     "disclaimer": {
       "title": "Pas pour planifier une plongée",
@@ -1394,8 +1395,8 @@
         "text": "Où se trouve chaque grotte et comment s’y rendre : entrées, accès, tarifs et installations, avec photos, vidéos et descriptions."
       },
       "sistemas": {
-        "title": "Systèmes de grottes",
-        "text": "Comment les grottes se relient en systèmes, leur longueur et leur profondeur, et l’histoire de leur exploration."
+        "title": "Réseaux",
+        "text": "Comment les grottes se relient en réseaux, leur longueur et leur profondeur, et l’histoire de leur exploration."
       },
       "maps": {
         "title": "Topographies",
@@ -1426,10 +1427,10 @@
     "search": {
       "groups": {
         "areas": "Régions",
-        "sistemas": "Systèmes de grottes",
+        "sistemas": "Réseaux",
         "caves": "Grottes"
       },
-      "none": "Aucune grotte, aucun système ni aucune région ne correspond.",
+      "none": "Aucune grotte, aucun réseau ni aucune région ne correspond.",
       "hint": "Tapez un nom"
     }
   }
