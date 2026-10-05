@@ -42,7 +42,7 @@ export default function CoverImage({ caveId, width = '100%' }) {
   const hasCoverImage = !!coverImage
   // Kept while the cover is the same photo: new sources would be a new
   // <source> list for the browser to pick from again.
-  const coverKey = coverImage ? `${coverImage.id}-${coverImage.get('thumbnailRevision') || 1}` : null
+  const coverKey = coverImage ? `${coverImage.id}-${coverImage.get('thumbnailRevision') || 1}-${coverImage.get('viewThumbnailRevision') || 0}` : null
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const sources = useMemo(() => (coverImage ? coverImage.data().getSources('coverImage') : null), [coverKey])
 

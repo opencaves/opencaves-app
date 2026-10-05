@@ -1,0 +1,2285 @@
+{
+  "id": "-P3BaZzk0IZNBWzzbNDo",
+  "mapImportKey": "5a95bbbe1b2f",
+  "perspective": {
+    "photo": "../../../_data/cartes/à traiter/Sistema Taj Mahal, Xpu Ha - Nebenhaus 2017 (banner photo).jpg",
+    "corners": [
+      [
+        310,
+        243
+      ],
+      [
+        3252,
+        238
+      ],
+      [
+        3258,
+        2303
+      ],
+      [
+        315,
+        2299
+      ]
+    ]
+  },
+  "image": "../../../_data/map-layer/pilot/taj-mahal-nebenhaus-2017-straight.png",
+  "importImage": "../../../_data/maps-import/images/sistema-taj-mahal-xpu-ha-nebenhaus-2017-banner-photo.jpg",
+  "title": "Sistema Taj Mahal - Marcelin Nebenhaus 2017",
+  "date": "2017",
+  "credits": "Sistema Taj Mahal, Xpu Ha, Quintana Roo, Mexico; UTM 16Q E 471134 N 2265043; total surveyed underwater passages 32,669 ft (9,957.5 m); maximum surveyed depth 78 ft (23.78 m); original explorers Nancy DeRosa, Tony DeRosa, Steve Gerrard, Wayne Nefzger, unknown divers from the French Federation; further exploration by various; survey and cartography by Marcelin Nebenhaus, January 2017 - April 2017; copyright 2017 Marcelin Nebenhaus (photo of the banner at the cenote)",
+  "sistemaId": "-KPZgfyH5dqOEgI6Y9_d",
+  "utmEpsg": 32616,
+  "placementWhy": "Good (about 5-10 m around Taj Mahal): free similarity fit on the three points checked on the ground for the Gerrard 2001 map (taj-mahal.json), residuals 11, 7 and 4 m; 0.427 m/px, rotated 4.2 degrees. Points: Cenote Taj Mahal's pool on the database's Taj Mahal (Open Caves source, taken on site); Cenote Mangrove's ring-shaped outline centred on the ring-shaped pond on the satellite; City of Agre's south-west pool (where the 1783 ft line arrives) on the dark open-water pool on the satellite. The banner's printed scale bar is not used: its metre and foot bars agree (0.345 m/px) but are 19% short of the ground (Taj Mahal - City of Agre 375 m on the satellite, 294 m by the bar) - the bar was likely not scaled with the drawing when the banner was printed. Its 'N mag 2017' arrow is up; the fit's 4 degrees is mostly the photo and the magnetic north. Cross-checked: Buena Vista lands 20 m from the pale gap in the canopy taken as its check point on the Gerrard map, Sugarbowl, Sacrado, Nachich and Twin Cenotes within 10-30 m of the Gerrard map's.",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "name": "Cenote Taj Mahal (DB, Open Caves source)",
+      "px": [
+        1502,
+        1273
+      ],
+      "latitude": 20.48341,
+      "longitude": -87.27686
+    },
+    {
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "name": "Cenote Mangrove: centre of its ring-shaped outline, on the ring-shaped pond on the satellite",
+      "px": [
+        991,
+        1205
+      ],
+      "latitude": 20.48392,
+      "longitude": -87.2788
+    },
+    {
+      "name": "Cenote City of Agre: its south-west pool, on the dark open-water pool on the satellite",
+      "px": [
+        2355,
+        1244
+      ],
+      "latitude": 20.48338,
+      "longitude": -87.27327
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Sistema Taj Mahal, Xpu Ha, Quintana Roo, Mexico; UTM 16Q E 471134 N 2265043; total surveyed underwater passages 32,669 ft / 9,957.5 m; maximum surveyed depth 78 ft / 23.78 m",
+      "box": [
+        1793,
+        103,
+        2808,
+        566
+      ],
+      "history": true
+    },
+    {
+      "why": "note: * indicates distance when staying on golden line",
+      "box": [
+        1485,
+        309,
+        1676,
+        360
+      ]
+    },
+    {
+      "why": "north arrow (N mag 2017)",
+      "box": [
+        132,
+        103,
+        243,
+        316
+      ]
+    },
+    {
+      "why": "explorers box: original explorers Nancy DeRosa, Tony DeRosa, Steve Gerrard, Wayne Nefzger, unknown divers from the French Federation; further exploration by various; survey and cartography by Marcelin Nebenhaus, January 2017 - April 2017; copyright 2017 Marcelin Nebenhaus",
+      "box": [
+        941,
+        1573,
+        1411,
+        1940
+      ],
+      "history": true
+    },
+    {
+      "why": "legend: golden lines, main lines, secondary lines, cenotes, connection or jump, major restrictions / sidemount only, minor restrictions, distance from cenote Taj Mahal, depth in feet",
+      "box": [
+        2242,
+        1668,
+        2764,
+        1940
+      ]
+    },
+    {
+      "why": "scale bar (metres, feet)",
+      "box": [
+        81,
+        1889,
+        485,
+        2007
+      ]
+    },
+    {
+      "why": "banner border (top)",
+      "box": [
+        0,
+        0,
+        2943,
+        25
+      ]
+    },
+    {
+      "why": "banner border (bottom)",
+      "box": [
+        0,
+        2030,
+        2943,
+        2061
+      ]
+    },
+    {
+      "why": "banner border (left)",
+      "box": [
+        0,
+        0,
+        22,
+        2061
+      ]
+    },
+    {
+      "why": "banner border (right)",
+      "box": [
+        2918,
+        0,
+        2943,
+        2061
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Taj Mahal",
+      "written": false,
+      "knownEntrance": true,
+      "caveId": "-KPZkVQL4G3Sw3UmAF-h",
+      "px": [
+        1502,
+        1273
+      ]
+    },
+    {
+      "name": "Cenote Mangrove",
+      "written": false,
+      "caveId": "-KPZkVM6rftke9u9it4v",
+      "px": [
+        991,
+        1205
+      ]
+    },
+    {
+      "name": "Cenote Sugarbowl",
+      "written": false,
+      "caveId": "-KPZkVQFY40hCA8LPFjN",
+      "px": [
+        1238,
+        1135
+      ]
+    },
+    {
+      "name": "Cenote Buena Vista",
+      "written": false,
+      "caveId": "-KPZkVFP-E205SXTJxk5",
+      "px": [
+        1223,
+        125
+      ]
+    },
+    {
+      "name": "Cenote City of Agre",
+      "written": false,
+      "caveId": "-KPZkVH1JsSUeVtkRp0N",
+      "px": [
+        2355,
+        1244
+      ]
+    },
+    {
+      "name": "Cenote Nachich",
+      "written": false,
+      "caveId": "-KPZkVNHyz8bXESN46xt",
+      "px": [
+        2553,
+        864
+      ]
+    },
+    {
+      "name": "Twin Cenotes",
+      "written": false,
+      "caveId": "-KPZkVRPwZdYVbZQ8tyl",
+      "px": [
+        2167,
+        1493
+      ]
+    },
+    {
+      "name": "Cenote Sagrado",
+      "written": false,
+      "caveId": "-KPZkVPSrb3uzdVxkXXm",
+      "px": [
+        1926,
+        1696
+      ]
+    }
+  ],
+  "trace": {
+    "method": "survey-lines",
+    "water": false,
+    "lineColours": [
+      "black"
+    ],
+    "inkLevel": 85,
+    "goldColours": [
+      "yellow"
+    ],
+    "minBlueExcess": 40,
+    "leaderMaxPx": 1,
+    "why": "Stick map on a banner (photo): golden lines in yellow (kind gold - in Taj Mahal the gold line runs from cenote to cenote), main lines bold black and secondary lines thin black (both the Arianne line); red arrows (connection or jump), red depths and green distances are not lines. inkLevel 85 keeps the red ink (grey about 100) out of the black lines. The cenotes are light blue pools outlined in black: their outlines are dropped (poolOutlinesPx). Short pieces between junctions (under the 8 m minimum, e.g. a line's end under its arrowhead) are joined to their neighbours (joinShortPx).",
+    "poolOutlinesPx": 7,
+    "eraseLines": [
+      {
+        "from": [
+          1273,
+          1118
+        ],
+        "to": [
+          1232,
+          1101
+        ],
+        "widthPx": 14,
+        "why": "Sugarbowl pool outline remnant"
+      },
+      {
+        "from": [
+          1212,
+          1235
+        ],
+        "to": [
+          1220,
+          1257
+        ],
+        "widthPx": 14,
+        "why": "red arrow to The Deep Bones Room"
+      },
+      {
+        "from": [
+          1506,
+          1231
+        ],
+        "to": [
+          1491,
+          1242
+        ],
+        "widthPx": 14,
+        "why": "red arrows at Cenote Taj Mahal"
+      },
+      {
+        "from": [
+          1607,
+          1273
+        ],
+        "to": [
+          1627,
+          1282
+        ],
+        "widthPx": 14,
+        "why": "red arrow at depth 41"
+      },
+      {
+        "from": [
+          1634,
+          1216
+        ],
+        "to": [
+          1617,
+          1228
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the gold line end, 41"
+      },
+      {
+        "from": [
+          1068,
+          1048
+        ],
+        "to": [
+          1082,
+          1056
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the north Mangrove pool"
+      },
+      {
+        "from": [
+          1073,
+          1083
+        ],
+        "to": [
+          1091,
+          1083
+        ],
+        "widthPx": 14,
+        "why": "small pool outline remnant"
+      },
+      {
+        "from": [
+          1944,
+          1010
+        ],
+        "to": [
+          1950,
+          1028
+        ],
+        "widthPx": 14,
+        "why": "red arrows at The Room of Reflections"
+      },
+      {
+        "from": [
+          1671,
+          1055
+        ],
+        "to": [
+          1693,
+          1067
+        ],
+        "widthPx": 14,
+        "why": "red arrow at the end of The Circuit Line"
+      },
+      {
+        "from": [
+          2068,
+          998
+        ],
+        "to": [
+          2087,
+          1006
+        ],
+        "widthPx": 14,
+        "why": "red arrow at 882"
+      },
+      {
+        "from": [
+          865,
+          1003
+        ],
+        "to": [
+          886,
+          1007
+        ],
+        "widthPx": 14,
+        "why": "red arrow west of Cenote Mangrove"
+      }
+    ],
+    "addLines": [
+      {
+        "from": [
+          1559,
+          980
+        ],
+        "to": [
+          1581,
+          979
+        ],
+        "widthPx": 5,
+        "why": "end of the line from depth 59, under its red arrowhead (red ink is left out of the lines)"
+      }
+    ],
+    "joinShortPx": 30
+  },
+  "symbols": {
+    "why": "Banner photo: every symbol read by hand from gridded zooms (the small italic numbers are beyond OCR). Depths are underlined red numbers in feet; distances from Cenote Taj Mahal in feet, olive-grey (\"a / b*\": b staying on the golden line), kept as penetrations; x = major restriction / sidemount only, r = minor restriction; the red arrowheads on the lines and the big red triangles (the legend's \"connection or jump\") kept as the water's direction, at the user's request; named lines and rooms, The Deep Bones Room also as bones; \"Conection to Box Ek\" as leads-to.",
+    "units": "ft",
+    "letters": {},
+    "extra": [
+      {
+        "type": "depth",
+        "label": "48",
+        "px": [
+          651,
+          336
+        ],
+        "value": 48,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "67",
+        "px": [
+          641,
+          491
+        ],
+        "value": 67,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "47",
+        "px": [
+          1082,
+          199
+        ],
+        "value": 47,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "px": [
+          1447,
+          297
+        ],
+        "value": 33,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "px": [
+          1348,
+          495
+        ],
+        "value": 55,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "30",
+        "px": [
+          898,
+          570
+        ],
+        "value": 30,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "32",
+        "px": [
+          1576,
+          551
+        ],
+        "value": 32,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "33",
+        "px": [
+          1828,
+          703
+        ],
+        "value": 33,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "57",
+        "px": [
+          201,
+          1203
+        ],
+        "value": 57,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "16",
+        "px": [
+          379,
+          1096
+        ],
+        "value": 16,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "px": [
+          548,
+          939
+        ],
+        "value": 48,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "27",
+        "px": [
+          642,
+          1066
+        ],
+        "value": 27,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "46",
+        "px": [
+          837,
+          767
+        ],
+        "value": 46,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "12",
+        "px": [
+          908,
+          1181
+        ],
+        "value": 12,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "px": [
+          1181,
+          1066
+        ],
+        "value": 48,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "78",
+        "px": [
+          1250,
+          1310
+        ],
+        "value": 78,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "43",
+        "px": [
+          1110,
+          1343
+        ],
+        "value": 43,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "45",
+        "px": [
+          1425,
+          816
+        ],
+        "value": 45,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "9",
+        "px": [
+          1413,
+          1256
+        ],
+        "value": 9,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "42",
+        "px": [
+          1666,
+          788
+        ],
+        "value": 42,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "59",
+        "px": [
+          1560,
+          950
+        ],
+        "value": 59,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "6",
+        "px": [
+          1868,
+          992
+        ],
+        "value": 6,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "39",
+        "px": [
+          1721,
+          1100
+        ],
+        "value": 39,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "px": [
+          2040,
+          1163
+        ],
+        "value": 41,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "41",
+        "px": [
+          1616,
+          1253
+        ],
+        "value": 41,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "48",
+        "px": [
+          1952,
+          1376
+        ],
+        "value": 48,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "26",
+        "px": [
+          2631,
+          823
+        ],
+        "value": 26,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "29",
+        "px": [
+          2250,
+          1075
+        ],
+        "value": 29,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "55",
+        "px": [
+          666,
+          1755
+        ],
+        "value": 55,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "34",
+        "px": [
+          1655,
+          1550
+        ],
+        "value": 34,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "32",
+        "px": [
+          1870,
+          1569
+        ],
+        "value": 32,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "24",
+        "px": [
+          2025,
+          1527
+        ],
+        "value": 24,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "13",
+        "px": [
+          2054,
+          1622
+        ],
+        "value": 13,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "5",
+        "px": [
+          2053,
+          1705
+        ],
+        "value": 5,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "36",
+        "px": [
+          1842,
+          1865
+        ],
+        "value": 36,
+        "halfPx": 9
+      },
+      {
+        "type": "depth",
+        "label": "4",
+        "px": [
+          1884,
+          2003
+        ],
+        "value": 4,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2057",
+        "px": [
+          576,
+          339
+        ],
+        "value": 2057,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2062",
+        "px": [
+          576,
+          506
+        ],
+        "value": 2062,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1881 / 2584*",
+        "px": [
+          1189,
+          78
+        ],
+        "value": 1881,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2162 / 2865*",
+        "px": [
+          1102,
+          177
+        ],
+        "value": 2162,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1779",
+        "px": [
+          917,
+          599
+        ],
+        "value": 1779,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1135 / 1838*",
+        "px": [
+          1621,
+          584
+        ],
+        "value": 1135,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2349",
+        "px": [
+          211,
+          985
+        ],
+        "value": 2349,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2207",
+        "px": [
+          211,
+          1222
+        ],
+        "value": 2207,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1697",
+        "px": [
+          484,
+          1150
+        ],
+        "value": 1697,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1387",
+        "px": [
+          1220,
+          1310
+        ],
+        "value": 1387,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "841",
+        "px": [
+          1561,
+          837
+        ],
+        "value": 841,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "882",
+        "px": [
+          2084,
+          988
+        ],
+        "value": 882,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1793",
+        "px": [
+          1906,
+          1388
+        ],
+        "value": 1793,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2526",
+        "px": [
+          2644,
+          789
+        ],
+        "value": 2526,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1783",
+        "px": [
+          2388,
+          1251
+        ],
+        "value": 1783,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "2676",
+        "px": [
+          706,
+          1786
+        ],
+        "value": 2676,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1125",
+        "px": [
+          1899,
+          1757
+        ],
+        "value": 1125,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "1931",
+        "px": [
+          2282,
+          1452
+        ],
+        "value": 1931,
+        "halfPx": 9
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1186,
+          331
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1577,
+          433
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          189,
+          1071
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          226,
+          1137
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          367,
+          1120
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          858,
+          1163
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1516,
+          879
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1536,
+          915
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          1498,
+          943
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2075,
+          1390
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2628,
+          976
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2122,
+          1570
+        ]
+      },
+      {
+        "type": "restriction-major",
+        "label": "x",
+        "px": [
+          2075,
+          1699
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1267,
+          419
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1409,
+          576
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1427,
+          600
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          433,
+          1159
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          719,
+          1034
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          840,
+          1010
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1923,
+          1111
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2058,
+          1190
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2083,
+          1223
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2603,
+          807
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2655,
+          851
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2619,
+          932
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2227,
+          1321
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2261,
+          1362
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          699,
+          1753
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1851,
+          1685
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          2039,
+          1673
+        ]
+      },
+      {
+        "type": "restriction-minor",
+        "label": "r",
+        "px": [
+          1828,
+          1848
+        ]
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          659,
+          441
+        ],
+        "bearing": 75
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          681,
+          447
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          745,
+          441
+        ],
+        "bearing": 280
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          783,
+          541
+        ],
+        "bearing": 215
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1280,
+          131
+        ],
+        "bearing": 190
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1283,
+          183
+        ],
+        "bearing": 80
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1164,
+          228
+        ],
+        "bearing": 315
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1186,
+          216
+        ],
+        "bearing": 315
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1295,
+          306
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1292,
+          322
+        ],
+        "bearing": 350
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1361,
+          258
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1274,
+          398
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1352,
+          478
+        ],
+        "bearing": 145
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1405,
+          431
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1467,
+          431
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1500,
+          438
+        ],
+        "bearing": 300
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1572,
+          480
+        ],
+        "bearing": 175
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1640,
+          536
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1538,
+          563
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1566,
+          688
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          201,
+          1069
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          222,
+          1124
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          456,
+          1153
+        ],
+        "bearing": 90
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          411,
+          1178
+        ],
+        "bearing": 10
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          752,
+          1048
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          922,
+          712
+        ],
+        "bearing": 330
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          827,
+          1082
+        ],
+        "bearing": 320
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1078,
+          1016
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1213,
+          1231
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1869,
+          712
+        ],
+        "bearing": 315
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1580,
+          981
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1584,
+          973
+        ],
+        "bearing": 175
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1628,
+          900
+        ],
+        "bearing": 120
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1628,
+          911
+        ],
+        "bearing": 90
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1686,
+          870
+        ],
+        "bearing": 280
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1814,
+          998
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1828,
+          990
+        ],
+        "bearing": 230
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1941,
+          993
+        ],
+        "bearing": 170
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1984,
+          862
+        ],
+        "bearing": 165
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1931,
+          875
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1963,
+          887
+        ],
+        "bearing": 335
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1931,
+          970
+        ],
+        "bearing": 200
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2019,
+          979
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2044,
+          895
+        ],
+        "bearing": 300
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2178,
+          1045
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2192,
+          1065
+        ],
+        "bearing": 355
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1813,
+          1081
+        ],
+        "bearing": 240
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1913,
+          1075
+        ],
+        "bearing": 90
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2144,
+          1303
+        ],
+        "bearing": 30
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2590,
+          820
+        ],
+        "bearing": 285
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2674,
+          812
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2684,
+          835
+        ],
+        "bearing": 340
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2629,
+          885
+        ],
+        "bearing": 230
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2471,
+          981
+        ],
+        "bearing": 170
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2544,
+          946
+        ],
+        "bearing": 20
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2492,
+          994
+        ],
+        "bearing": 270
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2600,
+          938
+        ],
+        "bearing": 330
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2392,
+          1073
+        ],
+        "bearing": 25
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2277,
+          1163
+        ],
+        "bearing": 225
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2267,
+          1168
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2296,
+          1203
+        ],
+        "bearing": 245
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2280,
+          1209
+        ],
+        "bearing": 320
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2233,
+          1278
+        ],
+        "bearing": 20
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2246,
+          1378
+        ],
+        "bearing": 225
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1650,
+          1443
+        ],
+        "bearing": 100
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1686,
+          1510
+        ],
+        "bearing": 290
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1769,
+          1576
+        ],
+        "bearing": 70
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1741,
+          1608
+        ],
+        "bearing": 200
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1906,
+          1590
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1878,
+          1632
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1855,
+          1658
+        ],
+        "bearing": 160
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1813,
+          1680
+        ],
+        "bearing": 240
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1953,
+          1731
+        ],
+        "bearing": 280
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1975,
+          1611
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1999,
+          1585
+        ],
+        "bearing": 190
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2008,
+          1562
+        ],
+        "bearing": 230
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2078,
+          1508
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          2133,
+          1557
+        ],
+        "bearing": 55
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1808,
+          1783
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1825,
+          1790
+        ],
+        "bearing": 300
+      },
+      {
+        "type": "flow",
+        "label": "arrow",
+        "px": [
+          1897,
+          1838
+        ],
+        "bearing": 30
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          877,
+          1012
+        ],
+        "bearing": 80
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1078,
+          1046
+        ],
+        "bearing": 150
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1484,
+          1256
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1502,
+          1240
+        ],
+        "bearing": 140
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1947,
+          1015
+        ],
+        "bearing": 0
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          2077,
+          1009
+        ],
+        "bearing": 315
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1685,
+          1065
+        ],
+        "bearing": 95
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1625,
+          1220
+        ],
+        "bearing": 180
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1616,
+          1284
+        ],
+        "bearing": 330
+      },
+      {
+        "type": "flow",
+        "label": "connection or jump",
+        "px": [
+          1903,
+          1699
+        ],
+        "bearing": 45
+      },
+      {
+        "type": "place-name",
+        "label": "The Waterfall",
+        "px": [
+          603,
+          316
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Steve's Loft",
+        "px": [
+          983,
+          533
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Jumna River Line",
+        "px": [
+          1844,
+          625
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Chinese Garden",
+        "px": [
+          623,
+          1110
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Circuit Line",
+        "px": [
+          1658,
+          734
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Room of Reflections",
+        "px": [
+          1872,
+          1036
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The City of Agre Loop",
+        "px": [
+          2111,
+          1140
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Deep Bones Room",
+        "px": [
+          1227,
+          1281
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "The Sagrado Line",
+        "px": [
+          1658,
+          1622
+        ]
+      },
+      {
+        "type": "bones",
+        "label": "The Deep Bones Room",
+        "px": [
+          1227,
+          1281
+        ]
+      },
+      {
+        "type": "leads-to",
+        "label": "Conection to Box Ek",
+        "px": [
+          1380,
+          100
+        ]
+      }
+    ],
+    "fix": [
+      {
+        "px": [
+          652,
+          335
+        ],
+        "value": null,
+        "why": "\"48\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1578,
+          550
+        ],
+        "value": null,
+        "why": "\"32\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          900,
+          570
+        ],
+        "value": null,
+        "why": "\"30\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1830,
+          705
+        ],
+        "value": null,
+        "why": "\"33\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1426,
+          816
+        ],
+        "value": null,
+        "why": "\"45\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          548,
+          938
+        ],
+        "value": null,
+        "why": "\"48\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1560,
+          948
+        ],
+        "value": null,
+        "why": "\"59\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1181,
+          1066
+        ],
+        "value": null,
+        "why": "\"48\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          2252,
+          1074
+        ],
+        "value": null,
+        "why": "\"29\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          380,
+          1096
+        ],
+        "value": null,
+        "why": "\"16\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1723,
+          1099
+        ],
+        "value": null,
+        "why": "\"39\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          909,
+          1180
+        ],
+        "value": null,
+        "why": "\"12\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1618,
+          1252
+        ],
+        "value": null,
+        "why": "\"41\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1250,
+          1309
+        ],
+        "value": null,
+        "why": "\"78\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1952,
+          1376
+        ],
+        "value": null,
+        "why": "\"48\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1657,
+          1549
+        ],
+        "value": null,
+        "why": "\"34\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1871,
+          1568
+        ],
+        "value": null,
+        "why": "\"32\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          2055,
+          1621
+        ],
+        "value": null,
+        "why": "\"13\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          667,
+          1754
+        ],
+        "value": null,
+        "why": "\"55\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1844,
+          1864
+        ],
+        "value": null,
+        "why": "\"36\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          642,
+          1067
+        ],
+        "value": null,
+        "why": "\"27\" found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          201,
+          1218
+        ],
+        "value": null,
+        "why": "\"221\" found automatically: not a depth"
+      },
+      {
+        "px": [
+          1111,
+          1344
+        ],
+        "value": null,
+        "why": "\"43\" found automatically: listed by hand (extra)"
+      }
+    ]
+  }
+}

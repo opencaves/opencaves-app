@@ -1,0 +1,1225 @@
+{
+  "id": "-P3BdlLpOuPBJaPQIsEX",
+  "mapImportKey": "6f8d47fc290a",
+  "image": "../../../_data/maps-import/images/vaca-ha-cen-tulum-phillips-2003-poster-photo.jpg",
+  "title": "Cenote Vaca Ha - Bil Phillips, Jana Smith 2003",
+  "date": "2003",
+  "credits": "Cenote Vaca Ha, Tulum, Quintana Roo, Mexico; an underwater cave plan of the Vaca Ha cave surveyed November 2002 to February 2003 by Bil Phillips and Jana Smith; drafted by Bil Phillips; digitized and coloured by Brian Ross; plan length 8,172 ft (2,491 m), plan depth 92 ft (28 m); cartography and text material by James G. Coke IV and the Quintana Roo Speleological Survey; (c) Bil Phillips, Jana Smith 2003 (photo of the poster)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfuQebUnZDaU989Y",
+  "utmEpsg": 32616,
+  "placementWhy": "Good (about 5 m): the entrance - the passage's south-east end - on the database's Cenote Vaca Ha (Google), taken as right (user, 2026-10-05); turned 1.82 degrees from the N mag arrow (2003) and scaled 9% below the printed bar (the 600 ft bar read as 166.8 m instead of 182.9 m: 0.2036 m/px) so the Tulum - Coba road the map draws along the cave's south-west side (two dashed edges, read by hand along their whole length) lies on the real highway (the satellite's asphalt, fitted as a line) - within about 0.25 degrees and 1-2 m. Printed scale bars can be off (the Taj Mahal banner's by 19%). Checked on the satellite: the map's access road follows the path from the highway to the entrance; its road to Cenote Tortaga lands about 25 m east of the track it draws (a dotted sketch). The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 120 m west of this.",
+  "scaleBar": {
+    "from": [
+      1168,
+      2471
+    ],
+    "to": [
+      1987,
+      2471
+    ],
+    "metres": 166.77,
+    "why": "The 600 ft (182.88 m) bar, scaled 9% down to put the map's road on the real highway with the entrance on the database's position (see placementWhy)."
+  },
+  "north": {
+    "angle": 1.82
+  },
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVRbp2hEvAbrS2ww",
+      "name": "Cenote Vaca Ha's entrance (the passage's south-east end): the database position (Google), taken as right",
+      "px": [
+        2393,
+        1848
+      ],
+      "latitude": 20.27066,
+      "longitude": -87.4805
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Cenote Vaca Ha, Tulum, Quintana Roo, Mexico; 20 16.245 N 87 28.892 W WGS 84; an underwater cave plan of the Vaca Ha cave surveyed November 2002 to February 2003 by Bil Phillips and Jana Smith, drafted by Bil Phillips, digitized and coloured by Brian Ross; plan length 8,172 ft (2,491 m), plan depth 92 ft (28 m); (c) Bil Phillips, Jana Smith 2003",
+      "box": [
+        1850,
+        140,
+        2525,
+        712
+      ],
+      "history": true
+    },
+    {
+      "why": "dedication: to the memory of land owner Don Camilo Solis Acosta, 1924-2002",
+      "box": [
+        110,
+        745,
+        605,
+        890
+      ]
+    },
+    {
+      "why": "reference: cartography and text material by James G. Coke IV and the Quintana Roo Speleological Survey",
+      "box": [
+        110,
+        1060,
+        675,
+        1215
+      ],
+      "history": true
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        200,
+        1455,
+        715,
+        1945
+      ]
+    },
+    {
+      "why": "notes (halocline at 65 ft, drains from Cenote Carwash, survey method)",
+      "box": [
+        100,
+        2088,
+        808,
+        2482
+      ]
+    },
+    {
+      "why": "explorers: Ivan Cappelli, Mary Cappelli, Randy Douglas, Dan Ferra, Steve Gerrard, Woody Jasper, Allan Jonushaitis, Brian Kakuk, Ise Kalsi, Cliff Keck, Kim Kitka, Dan Lins, Travis Lore, Christophe le Maillot, Bil Phillips, Don Redinger, Daniel Riordan, Jana Smith",
+      "box": [
+        2415,
+        830,
+        2625,
+        1270
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (N mag)",
+      "box": [
+        1435,
+        160,
+        1530,
+        545
+      ]
+    },
+    {
+      "why": "scale bar (feet, metres)",
+      "box": [
+        1080,
+        2385,
+        2000,
+        2510
+      ]
+    },
+    {
+      "why": "Quintana Roo Speleological Survey stamp",
+      "box": [
+        2540,
+        2215,
+        2810,
+        2500
+      ]
+    },
+    {
+      "why": "poster frame (top)",
+      "box": [
+        0,
+        0,
+        2922,
+        30
+      ]
+    },
+    {
+      "why": "poster frame (bottom)",
+      "box": [
+        0,
+        2600,
+        2922,
+        2640
+      ]
+    },
+    {
+      "why": "poster frame (left)",
+      "box": [
+        0,
+        0,
+        30,
+        2640
+      ]
+    },
+    {
+      "why": "poster frame (right)",
+      "box": [
+        2880,
+        0,
+        2922,
+        2640
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        385,
+        399,
+        631,
+        483
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1019,
+        643,
+        1268,
+        780
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1480,
+        780,
+        1743,
+        885
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1907,
+        878,
+        2075,
+        968
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        755,
+        1128,
+        1098,
+        1312
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1604,
+        1175,
+        1977,
+        1268
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        2211,
+        1393,
+        2535,
+        1645
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1042,
+        1422,
+        1299,
+        1593
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        2446,
+        1706,
+        2814,
+        1908
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        964,
+        1772,
+        1600,
+        2001
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1743,
+        2024,
+        2144,
+        2283
+      ]
+    },
+    {
+      "why": "glare at the top of the photo, read as fill",
+      "box": [
+        900,
+        0,
+        1500,
+        190
+      ]
+    },
+    {
+      "why": "trail from the cenote to the shack and parking (dotted), and their labels",
+      "box": [
+        2405,
+        1870,
+        2600,
+        2120
+      ]
+    },
+    {
+      "why": "access road, gate and sign at the Tulum - Coba road",
+      "box": [
+        2150,
+        2120,
+        2480,
+        2600
+      ]
+    },
+    {
+      "why": "road to Cenote Tortaga (dotted) and its label",
+      "box": [
+        2480,
+        1300,
+        2880,
+        1560
+      ]
+    },
+    {
+      "why": "Coba arrow, its label and the Tulum - Coba road's dashes, west of the north-west end",
+      "box": [
+        100,
+        190,
+        255,
+        320
+      ]
+    },
+    {
+      "why": "Tulum - Coba road dashes below the north-west end",
+      "box": [
+        255,
+        290,
+        420,
+        430
+      ]
+    },
+    {
+      "why": "tip of the Coba arrow",
+      "box": [
+        120,
+        100,
+        205,
+        192
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Vaca Ha",
+      "written": false,
+      "knownEntrance": true,
+      "caveId": "-KPZkVRbp2hEvAbrS2ww",
+      "px": [
+        2393,
+        1848
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "greyFill": true,
+    "blueWeight": 1,
+    "threshold": 14,
+    "paperWindowPx": 300,
+    "dropIsolated": {
+      "maxSqMetres": 40,
+      "gapMetres": 3
+    },
+    "bandHoleMaxPx": 4000,
+    "labelPadPx": 6,
+    "maskLabels": true,
+    "maskSymbols": {
+      "circleRadiusPx": [
+        9,
+        16
+      ],
+      "insideShare": 0.35
+    },
+    "bandGrowPx": 1,
+    "bandShrinkPx": 5,
+    "snapWallsToInkPx": {
+      "px": 5,
+      "inkLevel": 110
+    },
+    "lowThresholdAreas": [
+      {
+        "why": "Tinwad Section west end, toward p.2,039: narrow and faint",
+        "box": [
+          1375,
+          925,
+          1490,
+          980
+        ],
+        "threshold": 0
+      }
+    ],
+    "fillPolygons": [
+      [
+        [
+          1112,
+          898
+        ],
+        [
+          1154,
+          898
+        ],
+        [
+          1160,
+          950
+        ],
+        [
+          1110,
+          945
+        ]
+      ]
+    ],
+    "fillPolygonsWhy": "The east lobe of the passage below Midstation, cut short (a false circle masked there)"
+  },
+  "symbols": {
+    "why": "QRSS / Coke conventions (the legend): overlined depths and circled ceiling-to-floor heights in feet, p. = penetration from the entrance in feet, r minor restriction, x major restriction, s silty, z expect zero visibility. OCR misses most \"p.\" penetrations on the photo: added by hand (extra); the circled ceiling-to-floor heights found as circles and read on a sheet (extra, 47); the named places at their labels.",
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "s": [
+        267,
+        1725
+      ],
+      "z": [
+        267,
+        1746
+      ],
+      "r": [
+        271,
+        1845
+      ],
+      "x": [
+        271,
+        1884
+      ]
+    },
+    "frameSizePx": [
+      18,
+      45
+    ],
+    "fix": [
+      {
+        "px": [
+          656,
+          316
+        ],
+        "value": null,
+        "why": "\"865\" of p.1,865 read as s"
+      },
+      {
+        "px": [
+          870,
+          738
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      },
+      {
+        "px": [
+          886,
+          972
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      },
+      {
+        "px": [
+          1133,
+          1055
+        ],
+        "value": null,
+        "why": "circled 75 read as s"
+      },
+      {
+        "px": [
+          1786,
+          1090
+        ],
+        "value": null,
+        "why": "circled 5 read as s"
+      },
+      {
+        "px": [
+          1553,
+          1209
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      },
+      {
+        "px": [
+          1483,
+          987
+        ],
+        "value": null,
+        "why": "circled height found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1195,
+          991
+        ],
+        "value": null,
+        "why": "circled height found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          2014,
+          1244
+        ],
+        "value": null,
+        "why": "circled height found automatically: listed by hand (extra)"
+      },
+      {
+        "px": [
+          1482,
+          1559
+        ],
+        "value": null,
+        "why": "circled height found automatically: listed by hand (extra)"
+      }
+    ],
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "p.1,865",
+        "px": [
+          638,
+          318
+        ],
+        "value": 1865,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,768",
+        "px": [
+          1834,
+          828
+        ],
+        "value": 1768,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,450",
+        "px": [
+          938,
+          895
+        ],
+        "value": 1450,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,308",
+        "px": [
+          2105,
+          1300
+        ],
+        "value": 1308,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,097",
+        "px": [
+          1899,
+          1448
+        ],
+        "value": 1097,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.2,200",
+        "px": [
+          277,
+          147
+        ],
+        "value": 2200,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,117",
+        "px": [
+          1332,
+          1195
+        ],
+        "value": 1117,
+        "halfPx": 9
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "px": [
+          337,
+          156
+        ],
+        "value": 4,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          373,
+          269
+        ],
+        "value": 10,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          646,
+          387
+        ],
+        "value": 8,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          743,
+          387
+        ],
+        "value": 15,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          799,
+          508
+        ],
+        "value": 10,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          802,
+          702
+        ],
+        "value": 6,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "px": [
+          935,
+          657
+        ],
+        "value": 12,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          822,
+          820
+        ],
+        "value": 5,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1146,
+          845
+        ],
+        "value": 6,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "px": [
+          1853,
+          879
+        ],
+        "value": 7,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "px": [
+          794,
+          948
+        ],
+        "value": 7,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          1656,
+          940
+        ],
+        "value": 8,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1002,
+          1019
+        ],
+        "value": 6,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          1194,
+          990
+        ],
+        "value": 10,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1481,
+          986
+        ],
+        "value": 6,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          1843,
+          986
+        ],
+        "value": 10,
+        "halfPx": 15
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          2102,
+          968
+        ],
+        "value": 15,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "75",
+        "px": [
+          1128,
+          1054
+        ],
+        "value": 75,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "px": [
+          1671,
+          1064
+        ],
+        "value": 7,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "5",
+        "px": [
+          1785,
+          1089
+        ],
+        "value": 5,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "11",
+        "px": [
+          1964,
+          1063
+        ],
+        "value": 11,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          2111,
+          1116
+        ],
+        "value": 10,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "px": [
+          1292,
+          1172
+        ],
+        "value": 12,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "px": [
+          1136,
+          1208
+        ],
+        "value": 12,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "3",
+        "px": [
+          1548,
+          1247
+        ],
+        "value": 3,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          2013,
+          1243
+        ],
+        "value": 10,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          1239,
+          1354
+        ],
+        "value": 8,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          1392,
+          1316
+        ],
+        "value": 15,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "4",
+        "px": [
+          1507,
+          1302
+        ],
+        "value": 4,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1624,
+          1343
+        ],
+        "value": 6,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          2153,
+          1348
+        ],
+        "value": 8,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          1602,
+          1438
+        ],
+        "value": 10,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "px": [
+          2052,
+          1380
+        ],
+        "value": 7,
+        "halfPx": 12
+      },
+      {
+        "type": "ceiling-height",
+        "label": "16",
+        "px": [
+          1760,
+          1502
+        ],
+        "value": 16,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "px": [
+          1866,
+          1518
+        ],
+        "value": 12,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1988,
+          1440
+        ],
+        "value": 6,
+        "halfPx": 11
+      },
+      {
+        "type": "ceiling-height",
+        "label": "6",
+        "px": [
+          1481,
+          1558
+        ],
+        "value": 6,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "14",
+        "px": [
+          1710,
+          1567
+        ],
+        "value": 14,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "7",
+        "px": [
+          1892,
+          1581
+        ],
+        "value": 7,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          2199,
+          1585
+        ],
+        "value": 20,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "8",
+        "px": [
+          1614,
+          1648
+        ],
+        "value": 8,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "18",
+        "px": [
+          2252,
+          1719
+        ],
+        "value": 18,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "12",
+        "px": [
+          1693,
+          1802
+        ],
+        "value": 12,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "10",
+        "px": [
+          1763,
+          1885
+        ],
+        "value": 10,
+        "halfPx": 13
+      },
+      {
+        "type": "ceiling-height",
+        "label": "20",
+        "px": [
+          1909,
+          1847
+        ],
+        "value": 20,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "18",
+        "px": [
+          2076,
+          1923
+        ],
+        "value": 18,
+        "halfPx": 14
+      },
+      {
+        "type": "ceiling-height",
+        "label": "15",
+        "px": [
+          2327,
+          1948
+        ],
+        "value": 15,
+        "halfPx": 14
+      },
+      {
+        "type": "place-name",
+        "label": "Strip-Tease Restriction",
+        "px": [
+          617,
+          292
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Ivory Flakes",
+        "px": [
+          713,
+          626
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Midstation",
+        "px": [
+          1087,
+          807
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Keyhole Main",
+        "px": [
+          1403,
+          1460
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Tinwad Section",
+        "px": [
+          1620,
+          1025
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "BK Main",
+        "px": [
+          1871,
+          1422
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Keeper Restriction",
+        "px": [
+          2133,
+          1520
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Castle Rock Section",
+        "px": [
+          2062,
+          1674
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Blind Fish Alley",
+        "px": [
+          1551,
+          1720
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Turtle Run Line",
+        "px": [
+          1993,
+          1768
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Citadel Fortress",
+        "px": [
+          1743,
+          1831
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Gateway Gallery",
+        "px": [
+          2161,
+          2017
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Keyhole Main",
+        "px": [
+          983,
+          983
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "BK Main",
+        "px": [
+          1900,
+          1060
+        ]
+      },
+      {
+        "type": "place-name",
+        "label": "Chan Ton",
+        "px": [
+          1697,
+          1303
+        ]
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          865,
+          737
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          881,
+          971
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "75",
+        "px": [
+          1553,
+          1209
+        ],
+        "value": 75,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "60",
+        "px": [
+          218,
+          164
+        ],
+        "value": 60,
+        "halfPx": 10
+      },
+      {
+        "type": "depth",
+        "label": "63",
+        "px": [
+          331,
+          125
+        ],
+        "value": 63,
+        "halfPx": 10
+      }
+    ]
+  }
+}

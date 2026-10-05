@@ -15,16 +15,16 @@ Every symbol becomes a point with:
 
 ## Types
 
-| Type | Meaning | Value | Icon (proposed) |
+| Type | Meaning | Value | Shown as (the maps' conventions) |
 |---|---|---|---|
 | `restriction-minor` | Passage narrows; a diver passes, single file | - | `r` |
-| `restriction-major` | Passage narrows a lot; sidemount at least, or impassable | - | `X` |
+| `restriction-major` | Passage narrows a lot; sidemount at least, or impassable | - | `x` |
 | `restriction` | Passage narrows, how much not said | - | `R` |
 | `visibility-zero` | Expect zero visibility (silt, clay) | - | `z` |
 | `silt` | Silt floor | - | `s` |
-| `depth` | Depth at that point | metres | ↓ value |
-| `ceiling-height` | Ceiling-to-floor height | metres | ↕ value |
-| `penetration` | Distance from the nearest entrance | metres | p value |
+| `depth` | Depth of the floor at that point | metres | the value overlined |
+| `ceiling-height` | Ceiling-to-floor height | metres | the value circled |
+| `penetration` | Distance from the nearest entrance | metres | p. value |
 | `pit-depth` | Depth of a pit or drop (boxed number) | metres | ⇣ value |
 | `ceiling-low` | Low ceiling (`tb`, *techo bajo*) | - | tb |
 | `too-tight` | Too tight to pass (`tt`, *demasiado estrecho*) | - | tt |
@@ -36,11 +36,20 @@ Every symbol becomes a point with:
 | `entrance` | Cenote or cave entrance: every one a map marks is kept, named or not. An entrance on a dive survey is a **cenote entrance** (a cenote used to enter the system, the caves' `cenoteEntrance` flag), kept aside in `found-cenotes.json` | - | dot |
 | `unexplored` | Unexplored continuation ("?") | - | ? |
 
+Lines aren't symbols: the guidelines are line kinds of the passages - the
+Arianne line (`arianne`) and the **gold line** (`gold`, the guideline starting
+in the cavern zone, often drawn in yellow) - see `docs/map-layer.md`.
+
 Not taken yet (drawn shapes, hard to recognise on scans and photos, and
 cartographic detail rather than information for divers or visitors):
 boulders, breakdown, columns, speleothems, slopes, silt dunes, undercut and
 overcut sections, domes, pits, chimneys, flow. They can be added as types when
 a reliable way to read them exists (on vector maps first).
+
+In the app, values are shown in the reader's units (the overlined and circled
+numbers are drawn as images, `src/components/Map/surveySymbols.js`); the review
+overlays (`overlay_scan.py`) show each map's own label, the value in metres in
+its tooltip.
 
 ## Conventions met so far
 

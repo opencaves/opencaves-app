@@ -22,6 +22,9 @@ export const SCROLLBAR_TRACK_HEIGHT = 8
 export const SCROLLBAR_STEP_FACTOR = 38
 export const THUMBNAIL_FORMATS = ['webp']
 export const THUMBNAIL_FOLDER = 'thumbnails'
+// A panorama's small copies, which can show a view taken in the viewer
+// instead of the whole flattened sphere (the setViewThumbnail function).
+export const VIEW_THUMBNAIL_SIZES = ['coverImage', 'resultThumbnail', 'mediaThumbnail']
 export const CAVE_ASSETS_SIZES = {
   coverImage: `${PANE_WIDTH}x${Math.round(PANE_WIDTH * COVER_IMAGE_HEIGHT_RATIO)}`,
   resultThumbnail: `${Math.round(ASSETS_LIST_CONFIG.widthRatio * ASSETS_LIST_CONFIG.height)}x${ASSETS_LIST_CONFIG.height}`,

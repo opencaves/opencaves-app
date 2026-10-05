@@ -3,20 +3,29 @@ import { useTranslation } from 'react-i18next'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 import Picture from '@/components/Picture.jsx'
+import { registerPanoramaViewer } from './panoramaViews.js'
 
 export default function MediaViewer({ media }) {
   const { t } = useTranslation('mediaPane')
 
   return media.type === 'panorama' ? (
-    <PanoViewer src={media.src} />
+    <PanoViewer src={media.src} mediaId={media.mediaId} />
   ) : (
     // <Picture sources={media.sources} width='100%' height='100%' />
     <PictureViewer media={media} />
   )
 }
 
-function PanoViewer({ src }) {
+function PanoViewer({ src, mediaId }) {
   const containerRef = useRef(null)
+  const unregister = useRef(null)
+
+  // Known to the media menu, which can take its view as the thumbnail.
+  function onReady(viewer) {
+    unregister.current?.()
+    unregister.current = registerPanoramaViewer(mediaId, viewer)
+  }
+  useEffect(() => () => unregister.current?.(), [])
 
   useEffect(() => {
     if (containerRef) {
@@ -46,6 +55,9 @@ function PanoViewer({ src }) {
         height='100%'
         width='100%'
         navbar='zoom'
+        // The drawing kept, so the view can be read off the canvas.
+        rendererParameters={{ preserveDrawingBuffer: true }}
+        onReady={onReady}
       />
     </div>
   )

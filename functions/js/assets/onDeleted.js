@@ -2,7 +2,8 @@ import { getStorage } from 'firebase-admin/storage'
 import { onDocumentDeleted } from 'firebase-functions/v2/firestore'
 import config from '../resize-images/config.js'
 import { db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER, BUCKET_NAME, VIEW_THUMBNAIL_SIZES } from '../constants.js'
+import { viewThumbnailName } from './setViewThumbnail.js'
 
 export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async event => {
   const snap = event.data
@@ -12,7 +13,7 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
   // Its private part (uploader, file name) goes with it.
   await db.collection(CAVES_ASSETS_PRIVATE_COLL_NAME).doc(event.params.assetId).delete()
   const { imageSizes, imageTypes } = config
-  const { caveId, fullPath, id: assetId = event.params.assetId, thumbnailRevision } = data
+  const { caveId, fullPath, id: assetId = event.params.assetId, thumbnailRevision, viewThumbnailRevision } = data
   // Redone copies carry a revision in their name (scripts/fix-photo-orientation.js).
   const revision = thumbnailRevision > 1 ? `-r${thumbnailRevision}` : ''
   if (!caveId || !fullPath) return
@@ -41,6 +42,14 @@ export const onAssetDeleted = onDocumentDeleted('cavesAssets/{assetId}', async e
       for (const type of imageTypes) {
         const thumbFullPath = `caves/${caveId}/${THUMBNAILS_FOLDER}/${assetId}_${imageSize}${revision}.${type}`
         deleteFilesPromises.push(bucket.file(thumbFullPath).delete({ ignoreNotFound: true }))
+      }
+    }
+    // A panorama's small copies made from a view (setViewThumbnail).
+    if (viewThumbnailRevision > 0) {
+      for (const imageSize of VIEW_THUMBNAIL_SIZES) {
+        for (const type of imageTypes) {
+          deleteFilesPromises.push(bucket.file(viewThumbnailName(caveId, assetId, imageSize, type, viewThumbnailRevision)).delete({ ignoreNotFound: true }))
+        }
       }
     }
   }

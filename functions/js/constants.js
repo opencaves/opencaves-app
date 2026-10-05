@@ -15,6 +15,9 @@ export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'
 export const THUMBNAILS_FOLDER = 'thumbnails'
+// A panorama's small copies, which can show a view taken in the viewer
+// instead of the whole flattened sphere (setViewThumbnail).
+export const VIEW_THUMBNAIL_SIZES = ['coverImage', 'resultThumbnail', 'mediaThumbnail']
 
 // The callable functions refuse calls without a valid App Check token (see
 // docs/app-check.md). Turn on only once the app sends tokens (its reCAPTCHA

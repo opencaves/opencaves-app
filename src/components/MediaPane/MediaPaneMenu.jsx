@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Menu } from '@mui/material'
 import MoreVert from '@mui/icons-material/MoreVert'
-import UseAsCoverImage, { useUseAsCoverImage } from './menuItems/UseAsCoverImage.jsx'
+import UseAsCoverImage, { UseViewAsThumbnail, useUseAsCoverImage } from './menuItems/UseAsCoverImage.jsx'
 import DeleteMedia, { useDeleteMedia, useDeleteMediaConfirm } from './menuItems/DeleteMedia.jsx'
 
 export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) {
@@ -88,6 +88,7 @@ export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) 
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <UseAsCoverImage mediaAsset={mediaAsset} />
+        <UseViewAsThumbnail mediaAsset={mediaAsset} />
         <DeleteMedia onClick={() => requestDelete(mediaAsset)} />
       </Menu>
       {deleteDialog}
