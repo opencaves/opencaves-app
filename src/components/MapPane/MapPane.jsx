@@ -40,7 +40,7 @@ function MapThumbnail({ map }) {
   return (
     <Box className="oc-map-pane--thumbnail" sx={{ flexShrink: 0, width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT, borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center' }}>
       {src && !failed ? (
-        <Box component="img" src={src} alt="" loading="lazy" crossOrigin="anonymous" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Box component="img" src={src} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       ) : map.contentType === 'application/pdf' ? (
         <PictureAsPdfRounded color="action" />
       ) : (

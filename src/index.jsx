@@ -7,6 +7,8 @@ import App from './App.jsx'
 import Profiler from '@/components/utils/Profiler.jsx'
 import './i18n.js'
 import { isPhone, loadIonic } from '@/utils/loadIonic.js'
+// Drags of the page's own pictures never start the "drop to add" process.
+import '@/utils/externalFileDrag.js'
 // import reportWebVitals from './reportWebVitals'
 
 // Ionic is for phones only (see utils/ionic.js): start fetching it right

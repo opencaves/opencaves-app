@@ -13,6 +13,7 @@ import MediaList from '@/components/MediaPane/MediaList.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import usePaneWidth from '@/hooks/usePaneWidth'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { isExternalFileDrag } from '@/utils/externalFileDrag.js'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -42,13 +43,16 @@ export default function MediaPane() {
   const [dropzoneOpen, setDropzoneOpen] = useState(false)
   const counter = useRef(0)
 
+  // Files from outside the page only, not one of its own pictures dragged.
   function onMediaPaneDragEnter(event) {
+    if (!isExternalFileDrag(event)) return
     event.preventDefault()
     counter.current = counter.current + 1
     setDropzoneOpen(true)
   }
 
   function onMediaPaneDragLeave() {
+    if (counter.current === 0) return
     counter.current = counter.current - 1
     // console.log('[dragLeave] %s', counter.current)
     if (counter.current === 0) {
