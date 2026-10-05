@@ -39,7 +39,11 @@ prints each group of problems with what to do about it:
 Files in Storage can be deleted with
 `gcloud storage rm gs://opencaves.appspot.com/<path>`.
 
-## Sync the database from the Google Sheet
+## Sync the database from the Google Sheet (deprecated)
+
+**Don't run it:** the Google Sheet is no longer used, the app is the data's
+only source, and a sync would overwrite what was edited in the app. The
+script is kept for now, to be removed.
 
 ```
 node scripts/migrate-sheet-to-firestore.js -l   # local emulators
