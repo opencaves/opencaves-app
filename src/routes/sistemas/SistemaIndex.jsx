@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import pushId from 'unique-push-id'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Link, Typography } from '@mui/material'
@@ -6,6 +7,7 @@ import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
+import IndexSearchField, { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
@@ -17,7 +19,15 @@ export default function SistemaIndex() {
   const { t } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')
   const { data, loading, failed } = useIndexData()
-  const groups = useMemo(() => groupByArea(data.sistemas, data.areasBySlug), [data])
+  // The Add button's new record: one id per visit, not per render.
+  const [newId] = useState(pushId)
+  const { query, setQuery, matches, searching } = useIndexSearch()
+  // The search: a system's name and other names, and its area's.
+  const sistemas = useMemo(
+    () => data.sistemas.filter((sistema) => matches([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : []), sistema.area])),
+    [data, matches],
+  )
+  const groups = useMemo(() => groupByArea(sistemas, data.areasBySlug), [sistemas, data])
 
   useIndexPageHead({ title: t('sistemas.title'), description: t('sistemas.description') })
 
@@ -36,11 +46,18 @@ export default function SistemaIndex() {
             </Link>
           </>
         }
-        editTo="/sistemas/edit"
-        editLabel={t('sistemas.edit')}
+        addTo={`/sistemas/${newId}/edit`}
+        addLabel={t('sistemas.add')}
       />
 
       {failed && <Typography color="error">{t404('failed.description')}</Typography>}
+
+      <IndexSearchField query={query} setQuery={setQuery} placeholder={t('search.sistemas')} />
+      {searching && (
+        <Typography className="oc-sistema-index--results" variant="body2" sx={{ mt: -2, mb: 3, color: 'text.secondary' }}>
+          {sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query })}
+        </Typography>
+      )}
 
       {groups.map(({ area, items }) => (
         <IndexSection

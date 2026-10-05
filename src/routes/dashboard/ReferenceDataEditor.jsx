@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
+import PageFab from '@/components/PageFab.jsx'
 import Add from '@mui/icons-material/Add'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import Delete from '@mui/icons-material/Delete'
@@ -171,9 +172,7 @@ export default function ReferenceDataEditor() {
         </List>
       )}
 
-      <Fab color="primary" aria-label={t('newItem')} onClick={() => navigate('new/edit')} sx={{ position: 'fixed', bottom: 24, right: 24 }}>
-        <Add />
-      </Fab>
+      <PageFab className="oc-reference-data-editor--new-fab" onClick={() => navigate('new/edit')} label={t('newItem')} icon={<Add />} />
 
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>{t('deleteItemTitle')}</DialogTitle>

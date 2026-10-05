@@ -1310,12 +1310,12 @@
     "caves": {
       "title": "Les cénotes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
-      "edit": "Modifier les cénotes"
+      "add": "Ajouter une grotte"
     },
     "sistemas": {
       "title": "Les systèmes de grottes du Yucatán",
       "description": "Les systèmes de grottes noyées du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
-      "edit": "Modifier les systèmes de grottes"
+      "add": "Ajouter un système"
     },
     "area": {
       "title": "Les cénotes de la région {{area}}",
@@ -1340,6 +1340,14 @@
       "joinedBy": "Systèmes qui y sont reliés",
       "cenotes": "Cénotes",
       "noCenotes": "Aucune cénote répertoriée dans ce système pour l’instant."
+    },
+    "search": {
+      "caves": "Chercher une grotte, un système ou une région",
+      "sistemas": "Chercher un système ou une région",
+      "clear": "Effacer la recherche",
+      "results_one": "{{count}} résultat",
+      "results_other": "{{count}} résultats",
+      "none": "Rien ne correspond à « {{query}} »."
     }
   }
 }

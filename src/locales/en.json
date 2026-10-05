@@ -1311,12 +1311,12 @@
     "caves": {
       "title": "Cenotes of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
-      "edit": "Edit the cenotes"
+      "add": "Add a cave"
     },
     "sistemas": {
       "title": "Cave systems of the Yucatán",
       "description": "The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.",
-      "edit": "Edit the cave systems"
+      "add": "Add a cave system"
     },
     "area": {
       "title": "Cenotes in {{area}}",
@@ -1341,6 +1341,14 @@
       "joinedBy": "Systems connected to it",
       "cenotes": "Cenotes",
       "noCenotes": "No cenotes listed in this system yet."
+    },
+    "search": {
+      "caves": "Search caves, systems or areas",
+      "sistemas": "Search cave systems or areas",
+      "clear": "Clear the search",
+      "results_one": "{{count}} result",
+      "results_other": "{{count}} results",
+      "none": "Nothing matches “{{query}}”."
     }
   }
 }

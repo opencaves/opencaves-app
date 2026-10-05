@@ -1,19 +1,21 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Fab, IconButton, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
+import AddRounded from '@mui/icons-material/AddRounded'
+import PageFab from '@/components/PageFab.jsx'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
-// the page's h1 with a line under it (subtitle), and, for editors, an Edit
-// floating action button at the bottom right, to the page's /edit address
-// (editTo).
-export default function IndexPageHeader({ title, subtitle, backTo, editTo, editLabel }) {
+// the page's h1 with a line under it (subtitle), and, for editors, a
+// floating action button: Add (addTo: a new record's form - the lists) or
+// Edit (editTo: the page's /edit address - one area or system).
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel }) {
   const { t: tApp } = useTranslation('app')
   const roles = useSelector((state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
-  const canEdit = !!editTo && roles.includes('editor')
+  const isEditor = roles.includes('editor')
 
   return (
     <Box className="oc-index-page-header" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
@@ -34,13 +36,8 @@ export default function IndexPageHeader({ title, subtitle, backTo, editTo, editL
           </Typography>
         )}
       </Box>
-      {canEdit && (
-        <Tooltip title={editLabel} placement="left">
-          <Fab className="oc-index-page-header--edit" color="primary" component={Link} to={editTo} aria-label={editLabel} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
-            <EditRounded />
-          </Fab>
-        </Tooltip>
-      )}
+      {isEditor && addTo && <PageFab className="oc-index-page-header--add" to={addTo} label={addLabel} icon={<AddRounded />} />}
+      {isEditor && !addTo && editTo && <PageFab className="oc-index-page-header--edit" to={editTo} label={editLabel} icon={<EditRounded />} />}
     </Box>
   )
 }

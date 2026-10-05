@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, Fab, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import PageFab from '@/components/PageFab.jsx'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
@@ -127,9 +128,7 @@ export default function CaveList() {
         </>
       )}
 
-      <Fab className="oc-cave-list--new-fab" color="primary" component={Link} to={`/caves/${pushId()}/edit`} aria-label={t('newCave')} sx={{ position: 'fixed', bottom: (theme) => theme.spacing(3), right: (theme) => theme.spacing(3) }}>
-        <AddRounded />
-      </Fab>
+      <PageFab className="oc-cave-list--new-fab" to={`/caves/${pushId()}/edit`} label={t('newCave')} icon={<AddRounded />} />
     </div>
   )
 }
