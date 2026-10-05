@@ -81,7 +81,7 @@ const App = () => {
   // here, since no search bar will.
   useEffect(() => {
     const path = window.location.pathname
-    if (!(path === '/' || path === '/map' || path.startsWith('/map/'))) {
+    if (!(path === '/map' || path.startsWith('/map/'))) {
       document.getElementById('oc-shell')?.remove()
     }
   }, [])

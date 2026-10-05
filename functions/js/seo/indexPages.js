@@ -1,7 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION } from '../constants.js'
-import { APP_TITLE, decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { APP_TITLE, SITE_URL, decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
 import { loadIndexData } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -141,6 +141,14 @@ function homePage(data) {
     title: `Open data for cave diving / ${APP_TITLE}`,
     description: 'OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers.',
     path: '/',
+    // The site's name, address and publisher, for search results (schema.org).
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'OpenCaves', alternateName: 'Open Caves', url: `${SITE_URL}/`, inLanguage: 'en', description: 'Open data for cave diving: caves, cave systems and survey maps, built by divers.', publisher: { '@id': `${SITE_URL}/#organization` } },
+        { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'OpenCaves', url: `${SITE_URL}/`, logo: `${SITE_URL}/pwa/icons/android-chrome-512x512.png`, sameAs: ['https://github.com/opencaves/opencaves-app'] },
+      ],
+    },
     body: [
       `<main class="oc-ssr-home">`,
       `<h1>Open data for cave diving</h1>`,

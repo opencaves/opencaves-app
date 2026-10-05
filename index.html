@@ -84,7 +84,7 @@
     (function () {
       var shell = document.getElementById('oc-shell')
       var path = location.pathname
-      var isMapRoute = path === '/' || path === '/map' || path.indexOf('/map/') === 0
+      var isMapRoute = path === '/map' || path.indexOf('/map/') === 0
       var mode = null
       try {
         mode = localStorage.getItem('mui-mode')

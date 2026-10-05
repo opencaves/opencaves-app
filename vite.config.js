@@ -124,12 +124,15 @@ export default defineConfig({
         codeSplitting: {
           groups: [
             { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/, priority: 60 },
-            { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50 },
+            // Not its dependencies: it captured a helper react-i18next shares, and
+            // every page then preloaded all of Mapbox (only the map needs it).
+            { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50, includeDependenciesRecursively: false },
             { name: 'mui', test: /node_modules[\\/](@mui|@emotion)[\\/]/, priority: 40 },
             { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/]/, priority: 40 },
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
-            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10 },
+            // Not its dependencies either (as mapbox): the shared helper would move here.
+            { name: 'ionic', test: /node_modules[\\/]@ionic[\\/]/, priority: 10, includeDependenciesRecursively: false },
           ],
         },
       },

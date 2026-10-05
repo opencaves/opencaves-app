@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { Navigate, createBrowserRouter, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Map from '@/routes/Map.jsx'
 import Loading from '@/routes/Loading.jsx'
 import Account from '@/routes/Account.jsx'
 import AboutRoute from '@/routes/About.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import Layout from '@/components/App/Layout.jsx'
 import AppRoot from '@/components/App/AppRoot.jsx'
-import ResultPane from '@/components/ResultPane/ResultPane.jsx'
+import { loadMap, loadResultPane } from '@/routes/mapRoute.js'
 import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
@@ -352,7 +351,8 @@ const routes = [
       {
         path: '/map',
         id: 'map',
-        element: <Map />,
+        // On demand: Mapbox stays out of the other pages (mapRoute.js).
+        lazy: () => loadMap().then(({ default: Component }) => ({ Component })),
         errorElement: <NoMatch />,
         children: [
           {
@@ -360,7 +360,7 @@ const routes = [
             id: 'result-pane',
             // No loader: the pane reads its data from the store and the
             // offline cache, so it must open without a network round trip.
-            element: <ResultPane />,
+            lazy: () => loadResultPane().then(({ default: Component }) => ({ Component })),
             children: [
               {
                 // ResultPane owns edit mode; this empty leaf makes the URL

@@ -15,6 +15,7 @@ import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
+import { prefetchMap } from '@/routes/mapRoute.js'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { chooseLanguage } from '@/services/languagePreference.js'
 import CaveIcon from '@/images/map/cave.svg?react'
@@ -121,6 +122,10 @@ export default function Home() {
   const regions = data.areas.filter((area) => area.caves.length > 0)
 
   useIndexPageHead({ title: t('title'), description: t('description') })
+
+  // The map's code, fetched once the page has painted: most visitors go on
+  // to the map, which then opens without waiting for it.
+  useEffect(() => prefetchMap(), [])
 
   const caveName = (caveId) => {
     const cave = data.caves.find(({ id }) => id === caveId)

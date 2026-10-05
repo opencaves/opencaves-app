@@ -47,7 +47,7 @@ function cavePageHtml(shell, cave, id, sistema) {
     ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
     area ? `<p>Area: <a href="/areas/${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
     sistema ? `<p>Cave system: <a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></p>` : '',
-    `<p><a href="/map">The OpenCaves map of the cenotes of the Yucatán</a> · <a href="/caves">All the cenotes by area</a></p>`,
+    `<p><a href="/map">The OpenCaves map of the cenotes of the Yucatán</a> · <a href="/caves">All the caves by area</a></p>`,
     jsonLdScript(structuredData),
     `</main>`,
   ].filter(Boolean).join('\n')

@@ -59,9 +59,13 @@ export function truncate(text, max = 158) {
 // JSON-LD inside a <script>: "<" escaped so no text can close the element.
 export const jsonLdScript = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
 
+// The share image (og:image) of every page: public/og-image.png.
+const SHARE_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: 'OpenCaves - open data for cave diving' }
+
 // The shell with the page's <head> tags and #root content. path: the page's
-// canonical path ("/caves"); body: its HTML, already escaped.
-export function renderPage(shell, { title, description, path, body, ogType = 'website' }) {
+// canonical path ("/caves"); body: its HTML, already escaped; jsonLd:
+// structured data (schema.org) for the page's <head>, if any.
+export function renderPage(shell, { title, description, path, body, ogType = 'website', jsonLd = null }) {
   const url = `${SITE_URL}${path}`
   const head = [
     `<title>${escapeHtml(title)}</title>`,
@@ -72,7 +76,13 @@ export function renderPage(shell, { title, description, path, body, ogType = 'we
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:url" content="${escapeHtml(url)}" />`,
-  ].join('\n  ')
+    `<meta property="og:image" content="${SHARE_IMAGE.url}" />`,
+    `<meta property="og:image:width" content="${SHARE_IMAGE.width}" />`,
+    `<meta property="og:image:height" content="${SHARE_IMAGE.height}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(SHARE_IMAGE.alt)}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    jsonLd ? jsonLdScript(jsonLd) : '',
+  ].filter(Boolean).join('\n  ')
 
   // Replacer functions, not strings: a "$&" or "$'" in a name would otherwise
   // be read as a replacement pattern.
