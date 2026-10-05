@@ -21,7 +21,11 @@
     align-items: start;
   }
 
+  // As wide as its icon and label, centred in its column - not the whole
+  // column (on a wide page, a column is far wider), so only the item itself
+  // shows its tooltip.
   &--item {
+    justify-self: center;
     display: flex;
     flex-direction: column;
     align-items: center;
