@@ -20,7 +20,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
   const isEditor = roles.includes('editor')
 
   const crumbs = trail && (
-    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={{ mb: 1, typography: 'body2' }}>
+    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={{ mb: 3, typography: 'body2' }}>
       {trail.map(({ label, to }) => (
         <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
           {label}
