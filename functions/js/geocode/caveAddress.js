@@ -14,7 +14,9 @@ const RESULT_TYPES = ['street_address', 'route', 'postal_code', 'natural_feature
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 const LANGUAGE_PATTERN = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/
 // An address doesn't change: a day in browsers, a month at the CDN, so each
-// cave costs one Google request per language and month at most.
+// cave costs one Google request per language and month at most. Hosting
+// sets the same for /api/address/ (firebase.json): its rule for paths
+// without an extension would otherwise make them no-cache.
 const CACHE_FOUND = 'public, max-age=86400, s-maxage=2592000'
 const CACHE_NONE = 'public, max-age=3600, s-maxage=86400'
 
