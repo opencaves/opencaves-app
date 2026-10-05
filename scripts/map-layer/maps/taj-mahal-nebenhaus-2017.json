@@ -1,4 +1,6 @@
 {
+  "id": "-P3BaZzk0IZNBWzzbNDo",
+  "mapImportKey": "5a95bbbe1b2f",
   "perspective": {
     "photo": "../../../_data/cartes/à traiter/Sistema Taj Mahal, Xpu Ha - Nebenhaus 2017 (banner photo).jpg",
     "corners": [
@@ -21,6 +23,7 @@
     ]
   },
   "image": "../../../_data/map-layer/pilot/taj-mahal-nebenhaus-2017-straight.png",
+  "importImage": "../../../_data/maps-import/images/sistema-taj-mahal-xpu-ha-nebenhaus-2017-banner-photo.jpg",
   "title": "Sistema Taj Mahal - Marcelin Nebenhaus 2017",
   "date": "2017",
   "credits": "Sistema Taj Mahal, Xpu Ha, Quintana Roo, Mexico; UTM 16Q E 471134 N 2265043; total surveyed underwater passages 32,669 ft (9,957.5 m); maximum surveyed depth 78 ft (23.78 m); original explorers Nancy DeRosa, Tony DeRosa, Steve Gerrard, Wayne Nefzger, unknown divers from the French Federation; further exploration by various; survey and cartography by Marcelin Nebenhaus, January 2017 - April 2017; copyright 2017 Marcelin Nebenhaus (photo of the banner at the cenote)",
