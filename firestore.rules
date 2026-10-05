@@ -279,8 +279,8 @@ service cloud.firestore {
 
     // An account's own document (created at sign-up by the beforeUserCreated
     // blocking function, with email and savedPlaces). The person may only
-    // change their UI language and units in it (the account page's settings;
-    // absent for Automatic) - the other fields stay server-managed.
+    // change their UI language, units and display mode in it (the account
+    // page's settings; language and units absent for Automatic) - the other fields stay server-managed.
     match /_users/{uid} {
       function isAccountOwner() {
         return request.auth != null && request.auth.uid == uid
@@ -293,8 +293,11 @@ service cloud.firestore {
       function hasValidUnits() {
         return !('units' in request.resource.data) || request.resource.data.units in ['metric', 'imperial']
       }
-      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
-      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units']) && hasValidLanguage() && hasValidUnits()
+      function hasValidColorMode() {
+        return !('colorMode' in request.resource.data) || request.resource.data.colorMode in ['system', 'light', 'dark']
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
     }
 
     // Caves a user saved from the result pane's Save quick action. Private
