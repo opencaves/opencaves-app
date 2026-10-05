@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.0.0-beta-3](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-2...v1.0.0-beta-3) (2026-10-05)
+
+The third beta: public pages for every cave, cave system and area, a landing page, a dark mode that works everywhere, the maps' cartographers credited, and cleaner explorer names.
+
+
+### Features
+
+* **Landing page** at `/`: a cave search, the map, live figures, the cave diving safety warning and disclaimer up front, a Discover strip of caves, the regions and how to contribute - in English, French and Spanish.
+* **Public pages** for each cave (`/caves/<id>`: cover, area, system, location, access, description, photos, maps and exploration history), each cave system (`/sistemas/<id>`) and each area, plus the cave and cave system lists - searchable, with breadcrumbs, rendered on the server for search engines and listed in the sitemap.
+* **Map credits:** a Maps section on cave and cave system pages (each map's name and year over its thumbnail, "Cartography: …" under it), and the cartographers named in the Maps tab and the map viewer.
+* **Cave systems' colour as a cave diver's line cookie** beside their names.
+* **Appearance setting** on the account page: Automatic, Light or Dark, kept on the device and in the account.
+* **Map layer:** maps added in the app are listed "to process" for admins; more maps traced (Vaca Ha, the Taj Mahal banner), with the gold (cavern) line, and map symbols in the maps' own conventions (overlined depths, circled heights, penetrations, restrictions).
+* **Panoramas:** the view on screen can be used as the thumbnail or cover.
+* **Map preview zoom** around the pointer in the Edit map dialog.
+* **French:** cave systems are *réseaux*, the cave divers' word.
+* **App bar:** icons, the current page marked, the page's title in the bar once its heading scrolls away (phones); the phone menu groups the dashboard and About apart.
+* SVG maps stored about 90% smaller.
+
+
+### Bug Fixes
+
+* **Dark mode:** pages, the dashboard and admin pages, menus, map controls, buttons and icons all follow it (many stayed light).
+* A new page opens at its top, and back returns to where it was; another cave opens at the top of the details pane.
+* Dragging a photo within a gallery no longer starts adding a photo.
+* "Remove map" (which hid a map without deleting it) removed from the maps' menus.
+* Caves without coordinates: a crossed-out map icon, and the disabled Show on the map button says why.
+* Only an access item itself shows its tooltip on the cave page; bigger photos there.
+* Descriptions no longer save an empty line as a literal `<br />`.
+* Explorer and cartographer names unified (e.g. "B. Phillips", "Bill Phillips" → Bil Phillips).
+
 ## [1.0.0-beta-2](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-1...v1.0.0-beta-2) (2026-10-05)
 
 The second beta: a full security audit and its fixes, an audit log with undo and a trash for photos and maps, and more cave maps traced.
