@@ -8,7 +8,7 @@ service firebase.storage {
     // Frozen accounts (setUserFrozen, firestore.rules' frozenUsers) lose
     // their roles at once, not only when their token expires.
     function notFrozen() {
-      return !firestore.exists(/databases/(default)/documents/frozenUsers/$(request.auth.uid))
+      return !firestore.exists(/databases/(default)/documents/_frozenUsers/$(request.auth.uid))
     }
 
     match /{path=**} {

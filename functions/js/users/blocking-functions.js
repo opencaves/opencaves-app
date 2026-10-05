@@ -1,9 +1,10 @@
 import { beforeUserCreated } from 'firebase-functions/v2/identity'
 // import { log } from 'firebase-functions/logger'
 import { db } from '../init.js'
+import { USERS_COLL_NAME } from '../constants.js'
 
 export const onBeforeUserCreated = beforeUserCreated(async event => {
-  const users = db.collection('users')
+  const users = db.collection(USERS_COLL_NAME)
   const user = event.data
   const { uid, email } = user
 

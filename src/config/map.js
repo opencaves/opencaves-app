@@ -1,3 +1,5 @@
+import { SETTINGS_COLLECTION } from './collections.js'
+
 export const SISTEMA_DEFAULT_COLOR = '#fff'
 
 // Coordinates are stored and shown with 5 decimals (about 1m).
@@ -50,7 +52,7 @@ export const CAVE_LAYER = {
   // The maps in the tiles: name -> { title, date, sistemaId } (build-tiles.js).
   MAPS: '/tiles/caves/maps.json',
   // The layer's settings shared by everyone (Firestore): { hiddenMaps: [name] }.
-  SETTINGS_DOC: 'settings/caveLayer',
+  SETTINGS_DOC: `${SETTINGS_COLLECTION}/caveLayer`,
   MIN_ZOOM: 10,
   MAX_ZOOM: 18,
   DETAIL_ZOOM: 15,

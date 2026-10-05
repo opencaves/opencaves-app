@@ -80,7 +80,7 @@ async function main() {
     db.collection('caves').listDocuments(),
     bucket.getFiles({ prefix }),
     // The original file names, kept apart from the public records.
-    db.collection('cavesAssetsPrivate').get(),
+    db.collection('_cavesAssetsPrivate').get(),
   ])
   const originalNames = new Map(privateSnap.docs.map((doc) => [doc.id, doc.get('originalName')]))
   const caveIds = new Set(caveRefs.map((ref) => ref.id))

@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '@/config/firebase.js'
+import { CAVE_RATINGS_COLLECTION } from '@/config/collections.js'
 
 // Ratings live under their cave, one per user:
 // caves/{caveId}/ratings/{userId} = { value: 1-5, userId, updatedAt }, so
@@ -11,7 +12,7 @@ import { db } from '@/config/firebase.js'
 // function keeps up to date. Only editors and admins may rate
 // (firestore.rules). Deleting an account removes its ratings (onUserDelete).
 const RATINGS = 'ratings'
-const SUMMARIES = 'caveRatings'
+const SUMMARIES = CAVE_RATINGS_COLLECTION
 
 function ownRatingRef(caveId, userId) {
   return doc(db, 'caves', caveId, RATINGS, userId)

@@ -7,7 +7,7 @@ import { writeAuditLog } from './log.js'
 // functions (the Sheet sync, the production mirror, the photo triggers) aren't
 // logged: only the app's users'. The emulators fake the writer (an email), so
 // nothing is logged locally.
-const AUDITED_COLLECTIONS = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'cavesAssets', 'settings']
+const AUDITED_COLLECTIONS = ['caves', 'sistemas', 'connections', 'accesses', 'accessibilities', 'sources', 'areas', 'colors', 'languages', 'maps', 'cavesAssets', '_settings']
 
 // Logs each change to an audited collection: who, which document, created,
 // updated (the fields changed) or deleted - a deleted document whole, so it
