@@ -66,7 +66,7 @@ function rootSistemas(sistemas, connections) {
 // primary action - or closing.
 function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
-  const scan = useMapScan(map?.mapImportKey)
+  const scan = useMapScan(map?.mapImportKey, map?.mapId)
   const system = sistemaName(map?.sistemaId)
   return (
     <Box className="oc-cave-layer-edit-card--content" sx={{ position: 'relative' }}>

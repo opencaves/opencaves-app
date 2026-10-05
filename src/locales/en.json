@@ -524,7 +524,6 @@
       "maps": "Maps",
       "addMap": "Add map",
       "editMap": "Edit map",
-      "removeMap": "Remove map",
       "mapOptions": "Map options",
       "pictureOptions": "Picture options",
       "videoOptions": "Video options",
@@ -1067,7 +1066,9 @@
     "manageMapLayers": "Map layers",
     "manageAudits": "Audits",
     "backToCaveIndex": "Back to the caves",
-    "backToSistemaIndex": "Back to the cave systems"
+    "backToSistemaIndex": "Back to the cave systems",
+    "mapsToProcess_one": "{{count}} to process",
+    "mapsToProcess_other": "{{count}} to process"
   },
   "usersAdmin": {
     "title": "Users",
@@ -1153,6 +1154,29 @@
       "drawing": "Drawing",
       "blend": "Blend between the original and the drawing",
       "blendValue": "{{drawing}}% drawing"
+    },
+    "tabs": {
+      "layer": "In the layer",
+      "toProcess": "To process"
+    },
+    "toProcess": {
+      "intro": "Maps added in the app that aren't turned into the map layer yet. A map leaves this list once its map-layer config names it and the tiles are rebuilt (docs/map-layer.md).",
+      "none": "No map waiting: every map added in the app is in the layer or marked not for it.",
+      "added": "added {{date}} by {{name}}",
+      "open": "Open the map's file",
+      "openOf": "Open {{name}}'s file",
+      "skip": "Not for the layer",
+      "skipOf": "Mark {{name}} not for the layer",
+      "skipTitle": "{{name}}: not for the map layer",
+      "reasonLabel": "Why",
+      "reasonHelp": "For example: a cross-section, a dry cave, a sketch, a duplicate of a map in the layer.",
+      "cancel": "Cancel",
+      "confirmSkip": "Mark not for the layer",
+      "skippedTitle_one": "Not for the layer ({{count}})",
+      "skippedTitle_other": "Not for the layer ({{count}})",
+      "reason": "why: {{reason}}",
+      "unskip": "Back to process",
+      "unskipOf": "Put {{name}} back to process"
     }
   },
   "audits": {

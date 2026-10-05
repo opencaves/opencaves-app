@@ -51,6 +51,9 @@ export const CAVE_LAYER = {
   EMPTY_TILE: '/tiles/caves/empty.pbf',
   // The maps in the tiles: name -> { title, date, sistemaId } (build-tiles.js).
   MAPS: '/tiles/caves/maps.json',
+  // Every map config's map document and state (build-tiles.js): what's not
+  // in it is still to process (the Map layers page).
+  CONFIGS: '/tiles/caves/configs.json',
   // The layer's settings shared by everyone (Firestore): { hiddenMaps: [name] }.
   SETTINGS_DOC: `${SETTINGS_COLLECTION}/caveLayer`,
   MIN_ZOOM: 10,

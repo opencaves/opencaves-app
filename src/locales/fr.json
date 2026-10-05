@@ -523,7 +523,6 @@
       "maps": "Cartes",
       "addMap": "Ajouter une carte",
       "editMap": "Modifier la carte",
-      "removeMap": "Retirer la carte",
       "mapOptions": "Options de la carte",
       "pictureOptions": "Options de la photo",
       "videoOptions": "Options de la vidéo",
@@ -1066,7 +1065,9 @@
     "manageMapLayers": "Couches de la carte",
     "manageAudits": "Audits",
     "backToCaveIndex": "Retour aux grottes",
-    "backToSistemaIndex": "Retour aux réseaux"
+    "backToSistemaIndex": "Retour aux réseaux",
+    "mapsToProcess_one": "{{count}} à traiter",
+    "mapsToProcess_other": "{{count}} à traiter"
   },
   "usersAdmin": {
     "title": "Utilisateurs",
@@ -1152,6 +1153,29 @@
       "drawing": "Dessin",
       "blend": "Mélange de l’original et du dessin",
       "blendValue": "{{drawing}} % dessin"
+    },
+    "tabs": {
+      "layer": "Dans la couche",
+      "toProcess": "À traiter"
+    },
+    "toProcess": {
+      "intro": "Les plans ajoutés dans l’application qui ne sont pas encore dans la couche des plans. Un plan quitte cette liste dès qu’une configuration le nomme et que les tuiles sont reconstruites (docs/map-layer.md).",
+      "none": "Aucun plan en attente : chaque plan ajouté dans l’application est dans la couche ou marqué comme ne s’y prêtant pas.",
+      "added": "ajouté le {{date}} par {{name}}",
+      "open": "Ouvrir le fichier du plan",
+      "openOf": "Ouvrir le fichier de {{name}}",
+      "skip": "Pas pour la couche",
+      "skipOf": "Marquer {{name}} comme pas pour la couche",
+      "skipTitle": "{{name}} : pas pour la couche des plans",
+      "reasonLabel": "Pourquoi",
+      "reasonHelp": "Par exemple : une coupe, une grotte sèche, un croquis, le double d’un plan déjà dans la couche.",
+      "cancel": "Annuler",
+      "confirmSkip": "Marquer pas pour la couche",
+      "skippedTitle_one": "Pas pour la couche ({{count}})",
+      "skippedTitle_other": "Pas pour la couche ({{count}})",
+      "reason": "pourquoi : {{reason}}",
+      "unskip": "Remettre à traiter",
+      "unskipOf": "Remettre {{name}} à traiter"
     }
   },
   "audits": {

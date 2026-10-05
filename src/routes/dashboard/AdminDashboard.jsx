@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
+import { Box, Chip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
 import AccessibleRounded from '@mui/icons-material/AccessibleRounded'
 import LanguageRounded from '@mui/icons-material/LanguageRounded'
 import LinkRounded from '@mui/icons-material/LinkRounded'
@@ -14,6 +14,7 @@ import HistoryRounded from '@mui/icons-material/HistoryRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 
@@ -45,6 +46,7 @@ export default function AdminDashboard() {
   const roles = useSelector((state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
+  const mapsToProcess = useMapsToProcess().toProcess.length
 
   useEffect(() => {
     setTitle(t('title'))
@@ -154,11 +156,13 @@ export default function AdminDashboard() {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  <ListItemButton component={Link} to="/map-layers" divider sx={dashboardItemSx}>
+                  <ListItemButton component={Link} to={mapsToProcess > 0 ? '/map-layers?tab=toProcess' : '/map-layers'} divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                       <LayersRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageMapLayers')} />
+                    {/* Maps added in the app waiting to be turned into the layer. */}
+                    {mapsToProcess > 0 && <Chip className="oc-admin-dashboard--to-process" size="small" color="primary" label={t('mapsToProcess', { count: mapsToProcess })} />}
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>

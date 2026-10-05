@@ -10,7 +10,8 @@
 // feature keeps its map's id ("map": the config's "id", assign-ids.js), its sistema ("sistemaId": the app
 // filters and colours by it, colours from the database) and its kind or type.
 // maps.json lists the maps in the tiles by id, with their config file's name,
-// title, date, sistema, scan (mapImportKey: the "maps" document's importKey)
+// title, date, sistema, scan (mapImportKey: the "maps" document's importKey;
+// mapId: the "maps" document's id, for a map added in the app - no importKey)
 // and extent (center, bounds)
 // (the layer's edit mode names the map under the pointer), and the image it
 // was traced from as laid on the ground ("scan": its four corners; the image
@@ -21,6 +22,11 @@
 // tippecanoe.Dockerfile when missing). The tiles are build output: not in git,
 // rebuilt when a map changes (npm run build:tiles), copied into build/ by
 // `npm run build`.
+//
+// configs.json lists every config's map document (mapId or mapImportKey) and
+// state - "layer", "unverified" or "untraced" - unverified and untraced ones
+// included: the Map layers page's "To process" tab leaves out the maps already
+// worked on.
 import { execFileSync } from 'node:child_process'
 import { cpSync, createWriteStream, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
@@ -72,17 +78,21 @@ const passages = createWriteStream(path.join(work, 'passages.geojsonl'))
 const symbols = createWriteStream(path.join(work, 'symbols.geojsonl'))
 const counts = { maps: 0, passages: 0, symbols: 0, unverified: 0, untraced: 0 }
 const mapIndex = {}
+const configs = []
 
 for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) {
   const name = file.slice(0, -5)
   const config = JSON.parse(readFileSync(path.join(MAPS, file), 'utf8'))
+  const link = { ...(config.mapId && { mapId: config.mapId }), ...(config.mapImportKey && { mapImportKey: config.mapImportKey }) }
   if (config.unverified) {
     counts.unverified++
+    configs.push({ name, ...link, state: 'unverified' })
     continue
   }
   const traced = [`${name}-walls.geojson`, `${name}.geojson`].map((f) => path.join(SCANS, f)).find(existsSync)
   if (!traced) {
     counts.untraced++
+    configs.push({ name, ...link, state: 'untraced' })
     continue
   }
   if (!config.id) {
@@ -91,7 +101,8 @@ for (const file of readdirSync(MAPS).filter((f) => f.endsWith('.json')).sort()) 
   }
   counts.maps++
   const id = config.id
-  mapIndex[id] = { name, title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }), ...(config.mapImportKey && { mapImportKey: config.mapImportKey }) }
+  configs.push({ name, ...link, state: 'layer' })
+  mapIndex[id] = { ...(config.mapId && { mapId: config.mapId }), name, title: config.title || name, ...(config.date && { date: config.date }), ...(config.sistemaId && { sistemaId: config.sistemaId }), ...(config.mapImportKey && { mapImportKey: config.mapImportKey }) }
   const sistema = config.sistemaId ? { sistemaId: config.sistemaId } : {}
   // The drawing's extent, for its centre (the admin's map layers page links
   // to it on the map).
@@ -154,6 +165,7 @@ for (const id of Object.keys(mapIndex)) {
   mapIndex[id].scan = JSON.parse(readFileSync(corners, 'utf8')).corners
 }
 writeFileSync(path.join(OUT, 'maps.json'), JSON.stringify(mapIndex))
+writeFileSync(path.join(OUT, 'configs.json'), JSON.stringify(configs))
 // An empty tile (no layers), what the app gets for the tiles not listed.
 writeFileSync(path.join(OUT, 'empty.pbf'), Buffer.alloc(0))
 console.log(`[tiles] ${tiles.length} tiles -> ${path.relative(ROOT, OUT)}`)

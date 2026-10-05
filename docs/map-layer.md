@@ -12,6 +12,30 @@ author's conventions are in [map-symbols.md](map-symbols.md).
 The layer is for **underwater caves**: a map of a mostly dry cave is skipped,
 even when it traces and places well.
 
+## Maps added in the app
+
+A map an editor adds in the app (a `maps` record with no `importKey`; the bulk
+import's maps are another work list) is **to process** until a config names
+it or an admin marks it **not for the layer**. Nothing is stored for it: the
+status is worked out from the map records and `configs.json`, which the tiles
+build writes (every config's map and state, unverified and untraced ones
+included). Admins see the list in the Map layers page's **To process** tab
+(the count also shows on the dashboard), with who added each map and when.
+"Not for the layer" asks for a reason (a cross-section, a dry cave, a sketch,
+a duplicate...) and can be undone there.
+
+To process them:
+
+```
+node scripts/map-layer/to-process.js -l            # list them, download their files to _data/map-layer/inbox/
+node scripts/map-layer/to-process.js -l --config   # also start a config for each image map
+```
+
+(`-p` for production.) A config made for such a map carries `"mapId"` - its
+`maps` record's id - instead of `"mapImportKey"`; give it its `"id"` with
+`assign-ids.js` as any other. The map leaves the list once `npm run build:tiles`
+has run with its config.
+
 ## Processing a map
 
 Run from `scripts/map-layer/`, with `<out>` = `../../_data/map-layer/scans`:
