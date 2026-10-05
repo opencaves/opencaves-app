@@ -3,11 +3,9 @@
 export const SITE_URL = 'https://opencaves.org'
 
 // The one URL each indexable page should be known by: a cave's sub-views
-// (medias, maps, edit, sistemas) all point to the cave itself, and / (a
-// redirect) to /map.
+// (medias, maps, edit, sistemas) all point to the cave itself.
 export function canonicalPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
-  if (path === '/') return '/map'
   const cave = /^\/map\/([^/]+)/.exec(path)
   if (cave) return `/map/${cave[1]}`
   return path

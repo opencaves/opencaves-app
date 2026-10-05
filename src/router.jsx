@@ -188,15 +188,6 @@ const routes = [
     // app's NoMatch component.
     errorElement: <NoMatch />,
     children: [
-      {
-        // Straight to the map, outside Layout: under it, Layout would render
-        // for an instant first and start downloading its background image
-        // (unused on the map). replace: so Back from /map doesn't land here
-        // and bounce forward again.
-        index: true,
-        element: <Navigate to="map" replace />,
-        errorElement: <NoMatch />,
-      },
       // Development only: the error pages, to look at (/dev/error/map: the
       // map failing; /dev/error/page: a page failing to load).
       ...(import.meta.env.DEV
@@ -218,6 +209,11 @@ const routes = [
       {
         element: <Layout />,
         children: [
+          {
+            // The landing page (its content to be settled).
+            index: true,
+            lazy: () => import('@/routes/Home.jsx').then(({ default: Component }) => ({ Component })),
+          },
           {
             path: 'about',
             element: <AboutRoute />,

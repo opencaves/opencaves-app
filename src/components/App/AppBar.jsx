@@ -46,8 +46,10 @@ export default function AppBar(props) {
   const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
   const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
-  // The public directories (/caves, /sistemas) for everyone, the dashboard for editors.
-  const navItems = [{ key: 'home', to: '/' }, { key: 'caves', to: '/caves' }, { key: 'sistemas', to: '/sistemas' }, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : []), { key: 'about', to: '/about' }]
+  // The site's pages, on the left; the dashboard (editors) on the right,
+  // beside the account button - in the phone drawer, last.
+  const navItems = [{ key: 'home', to: '/' }, { key: 'map', to: '/map' }, { key: 'caves', to: '/caves' }, { key: 'sistemas', to: '/sistemas' }, { key: 'about', to: '/about' }]
+  const drawerItems = [...navItems, ...(canAccessDashboard ? [{ key: 'admin', to: '/dashboard' }] : [])]
 
   useEffect(() => {
     setEntityHeadingHidden(false)
@@ -98,7 +100,7 @@ export default function AppBar(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map(({ key, to }) => (
+        {drawerItems.map(({ key, to }) => (
           <ListItem key={key} disablePadding>
             <ListItemButton component={Link} to={to} sx={{ textAlign: 'center' }}>
               <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
@@ -182,6 +184,11 @@ export default function AppBar(props) {
                     {t('signup')}
                   </StyledButton>
                 </>
+              )}
+              {canAccessDashboard && !isSmall && (
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" sx={{ color: '#fff', mr: 1 }}>
+                  {t('admin', { name: APP_NAME })}
+                </Button>
               )}
               {isLoggedIn && (
                 <AppMenu

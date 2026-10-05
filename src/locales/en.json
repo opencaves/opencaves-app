@@ -33,6 +33,7 @@
       "tooltip": "Menu",
       "ariaLabel": "More",
       "home": "Home",
+      "map": "Map",
       "caves": "Caves",
       "sistemas": "Cave systems",
       "myAccount": "My account",
@@ -1350,5 +1351,12 @@
       "results_other": "{{count}} results",
       "none": "Nothing matches “{{query}}”."
     }
+  },
+  "home": {
+    "title": "Cave diving in the Yucatán",
+    "tagline": "Caves and cave systems for cave divers: locations, access, pictures, maps and exploration history.",
+    "openMap": "Open the map",
+    "browseCaves": "Browse the caves",
+    "browseSistemas": "Cave systems"
   }
 }

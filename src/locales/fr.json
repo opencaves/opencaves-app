@@ -33,6 +33,7 @@
       "tooltip": "Menu",
       "ariaLabel": "Plus",
       "home": "Accueil",
+      "map": "Carte",
       "caves": "Grottes",
       "sistemas": "Systèmes",
       "myAccount": "Mon compte",
@@ -1349,5 +1350,12 @@
       "results_other": "{{count}} résultats",
       "none": "Rien ne correspond à « {{query}} »."
     }
+  },
+  "home": {
+    "title": "Plongée souterraine au Yucatán",
+    "tagline": "Les grottes et systèmes de grottes pour les plongeurs souterrains : emplacements, accès, photos, cartes et historique d’exploration.",
+    "openMap": "Ouvrir la carte",
+    "browseCaves": "Parcourir les grottes",
+    "browseSistemas": "Systèmes de grottes"
   }
 }

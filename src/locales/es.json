@@ -33,6 +33,7 @@
       "tooltip": "Menú",
       "ariaLabel": "Más",
       "home": "Inicio",
+      "map": "Mapa",
       "caves": "Cuevas",
       "sistemas": "Sistemas",
       "myAccount": "Mi cuenta",
@@ -1350,5 +1351,12 @@
       "results_other": "{{count}} resultados",
       "none": "Nada coincide con «{{query}}»."
     }
+  },
+  "home": {
+    "title": "Buceo en cuevas en Yucatán",
+    "tagline": "Cuevas y sistemas de cuevas para buzos de cuevas: ubicaciones, acceso, fotos, mapas e historia de exploración.",
+    "openMap": "Abrir el mapa",
+    "browseCaves": "Explorar las cuevas",
+    "browseSistemas": "Sistemas de cuevas"
   }
 }

@@ -30,8 +30,9 @@ export const sitemap = onRequest({ region: REGION }, async (req, res) => {
   const [caves, { areas, sistemas }] = await Promise.all([db.collection(CAVES_COLL_NAME).select().get(), loadIndexData()])
   const day = (timestamp) => timestamp.toDate().toISOString().slice(0, 10)
 
-  // Canonical URLs only: / just redirects to /map.
+  // Canonical URLs only: / is the landing page.
   const urls = [
+    { loc: `${SITE_URL}/` },
     { loc: `${SITE_URL}/map` },
     ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/map/${doc.id}`, lastmod: day(doc.updateTime) })),
     // The index pages (seo/indexPages.js): areas with nothing in them aren't listed.
