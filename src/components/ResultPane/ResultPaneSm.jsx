@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IonModal } from '@/utils/ionic.js'
 import { ResultPaneSmContext } from './ResultPaneSmContext.js'
@@ -206,6 +206,13 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     root.setProperty('--oc-map-controls-opacity', hidden ? '0' : '1')
     root.setProperty('--oc-map-controls-visibility', hidden ? 'hidden' : 'visible')
   }, [modalPosition, resultPaneOpen, filterMenuOpen])
+
+  // Another cave opens at the top of the sheet, not where the last one was
+  // scrolled to.
+  useLayoutEffect(() => {
+    const view = modalRef.current?.querySelector('.oc-result-pane--scroll-view')
+    if (view) view.scrollTop = 0
+  }, [cave?.id])
 
   // The phone edit form's "place on map" mode (PlaceOnMapOverlay): minimize
   // the sheet so the map shows, then put it back exactly where it was -
