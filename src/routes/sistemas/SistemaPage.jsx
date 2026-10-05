@@ -9,7 +9,6 @@ import { buildSistemaAncestryComputer } from '@/services/data-service/postProces
 import { formatMeasure } from '@/utils/units.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
-import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -18,6 +17,7 @@ import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
+import SistemaCookie from '@/components/SistemaCookie.jsx'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 
 // Its sections' headings, as IndexSection's (for the parts that aren't one).
@@ -28,11 +28,15 @@ const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base
 // A system's name: a link to its page, or plain text when it has none (not
 // public).
 function SistemaName({ sistema, name }) {
-  if (!sistema?.slug) return <span>{name}</span>
+  const cookie = <SistemaCookie color={sistema?.color} sx={{ mr: 0.75 }} />
+  if (!sistema?.slug) return <span>{cookie}{name}</span>
   return (
-    <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">
-      {sistema.name}
-    </Link>
+    <span>
+      {cookie}
+      <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">
+        {sistema.name}
+      </Link>
+    </span>
   )
 }
 
@@ -119,7 +123,7 @@ export default function SistemaPage() {
         current={sistema.name}
         title={
           <>
-            <Box component="span" aria-hidden="true" sx={{ display: 'inline-block', verticalAlign: 'middle', width: '0.5em', height: '0.5em', mr: 1.5, borderRadius: '50%', bgcolor: sistema.color || SISTEMA_DEFAULT_COLOR }} />
+            <SistemaCookie color={sistema.color} sx={{ fontSize: '1.1em', mr: 1 }} />
             {title}
           </>
         }
@@ -164,6 +168,7 @@ export default function SistemaPage() {
                   {index > 0 && <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: '1rem', alignSelf: 'center', color: 'text.secondary' }} />}
                   {index === 0 ? (
                     <Typography component="span" sx={{ fontWeight: 500 }}>
+                      <SistemaCookie color={sistema.color} sx={{ mr: 0.75 }} />
                       {sistema.name}
                     </Typography>
                   ) : (
