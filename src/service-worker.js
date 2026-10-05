@@ -41,11 +41,11 @@ const manifest = self.__WB_MANIFEST
 precacheAndRoute(manifest)
 
 // Set up App Shell-style routing, so that all navigation requests
-// are fulfilled with your index.html shell. Learn more at
+// are fulfilled with the app shell (app.html). Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$')
 registerRoute(
-  // Return false to exempt requests from being fulfilled by index.html.
+  // Return false to exempt requests from being fulfilled by the app shell.
   ({ request, url }) => {
     // If this isn't a navigation, skip.
     if (request.mode !== 'navigate') {
@@ -65,7 +65,8 @@ registerRoute(
     // Return true to signal that we want to use the handler.
     return true
   },
-  createHandlerBoundToURL(`${import.meta.env.BASE_URL}index.html`)
+  // app.html: the build's index.html, renamed (vite.config.js).
+  createHandlerBoundToURL(`${import.meta.env.BASE_URL}app.html`)
 )
 
 // An example runtime caching route for requests that aren't handled by the

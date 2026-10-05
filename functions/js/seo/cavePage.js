@@ -71,7 +71,7 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   try {
     shell = await shellFor(req)
   } catch (error) {
-    logger.error('[cavePage] index.html could not be fetched', { error: error.message })
+    logger.error('[cavePage] the app shell could not be fetched', { error: error.message })
     res.redirect(302, '/map')
     return
   }

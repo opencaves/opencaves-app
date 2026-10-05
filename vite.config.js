@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync, renameSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -16,6 +16,28 @@ process.env.VITE_APP_VERSION = JSON.parse(readFileSync(new URL('./package.json',
 // moves them into a small loader that adds them right after the first paint
 // (or shortly anyway, in a background tab where no frame is painted); the
 // app waits for its stylesheets before rendering (src/index.jsx). Build only.
+// The built page is app.html, not index.html: Firebase Hosting serves a
+// static index.html for / before any rewrite, and / is rendered by the
+// indexPages function (its content in the HTML, for search engines), which
+// uses app.html as its shell - as every other rewrite does (firebase.json).
+// Renamed once written (Vite 8 drops a page renamed inside the bundle), before
+// the service worker's precache is made, so it lists app.html.
+function appShellName() {
+  let outDir
+  return {
+    name: 'oc-app-shell-name',
+    apply: 'build',
+    enforce: 'post',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    writeBundle() {
+      const page = path.join(outDir, 'index.html')
+      if (existsSync(page)) renameSync(page, path.join(outDir, 'app.html'))
+    },
+  }
+}
+
 function loadAppAfterFirstPaint() {
   return {
     name: 'oc-load-app-after-first-paint',
@@ -135,6 +157,7 @@ export default defineConfig({
     entries: ['index.html', 'src/**/*.{js,jsx}'],
   },
   plugins: [
+    appShellName(),
     react({
       include: /\.(js|jsx|ts|tsx)$/,
       jsxRuntime: 'automatic',

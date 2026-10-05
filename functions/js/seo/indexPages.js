@@ -6,8 +6,8 @@ import { loadIndexData } from './indexData.js'
 import { slugify } from './slug.js'
 
 // The public index pages, served with their content already in the HTML for
-// search engines (as cavePage.js does for /map/<caveId>): /caves (every
-// cenote by area), /areas/<slug>, /sistemas (every cave system by area) and
+// search engines (as cavePage.js does for /map/<caveId>): / (the landing
+// page), /caves (every cave by area), /areas/<slug>, /sistemas (every cave system by area) and
 // /sistemas/<id>. Plain links, so crawlers reach every cave and system from
 // them. The app's editor pages under these addresses (/caves/edit,
 // /sistemas/edit, .../<slug>/edit) are not rewritten here (firebase.json).
@@ -133,8 +133,43 @@ function sistemaPage(sistema, data) {
   }
 }
 
+// The landing page (/): the app's Home in plain HTML, its texts as in the
+// English locale (src/locales/en.json, "home") - keep the two in step.
+function homePage(data) {
+  const areas = [...data.areasBySlug.values()].filter((area) => area.caves.length || area.sistemas.length).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+  return {
+    title: `Open data for cave diving / ${APP_TITLE}`,
+    description: 'OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers.',
+    path: '/',
+    body: [
+      `<main class="oc-ssr-home">`,
+      `<h1>Open data for cave diving</h1>`,
+      `<p>OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.</p>`,
+      `<p><a href="/map">Open the map</a> - <a href="/caves">Browse the caves</a> - <a href="/sistemas">Browse the systems</a></p>`,
+      `<p>${escapeHtml(count(data.caves.length, 'cave'))}, ${escapeHtml(count(data.sistemas.length, 'cave system'))} and ${escapeHtml(count(areas.length, 'area'))} on OpenCaves.</p>`,
+      `<h2>Cave diving can kill</h2>`,
+      `<p>Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. In a cenote, the cavern - the part where daylight still shows the way out - can be dived with cavern training and a guide; beyond it is the cave, for trained cave divers only.</p>`,
+      `<h2>Not for dive planning</h2>`,
+      `<p>The information on OpenCaves is shared by its community. It can be incomplete, inaccurate or out of date, and it is not suitable for planning or conducting a dive. See the <a href="/terms">terms of use</a>.</p>`,
+      `<h2>What you'll find</h2>`,
+      `<ul>
+<li>Caves: where each cave is and how to reach it - entrances, access, fees and facilities, with photos, videos and descriptions.</li>
+<li>Cave systems: how caves connect into systems, their length and depth, and the history of their exploration.</li>
+<li>Survey maps: cave passages traced from published survey maps, drawn on the map with their lines and markers.</li>
+<li>Offline: save caves on your phone before you head out, to have them where there's no signal.</li>
+</ul>`,
+      areas.length ? `<h2>Areas of the Yucatán Peninsula, Mexico</h2>
+${list(areas, (area) => `<li><a href="/areas/${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></li>`)}` : '',
+      `<h2>Built by divers</h2>`,
+      `<p>OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.</p>`,
+      `</main>`,
+    ].filter(Boolean).join('\n'),
+  }
+}
+
 // The page for a path, { redirect } for an old address, or null (404).
 function pageFor(path, data) {
+  if (path === '/' || path === '') return homePage(data)
   const [, section, rawSegment, extra] = path.replace(/\/+$/, '').split('/')
   if (extra !== undefined) return null
   const segment = decodeSegment(rawSegment)
@@ -161,7 +196,7 @@ export const indexPages = onRequest({ region: REGION }, async (req, res) => {
   try {
     shell = await shellFor(req)
   } catch (error) {
-    logger.error('[indexPages] index.html could not be fetched', { error: error.message })
+    logger.error('[indexPages] the app shell could not be fetched', { error: error.message })
     res.redirect(302, '/map')
     return
   }

@@ -7,13 +7,15 @@ export const SITE_URL = 'https://opencaves.org'
 export const APP_TITLE = 'Open Caves'
 const SHELL_TTL_MS = 5 * 60 * 1000
 
-// The hosts whose index.html may serve as the page: the site and this
+// The hosts whose app shell may serve as the page: the site and this
 // project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
 const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[-a-z0-9]+)?\.(web\.app|firebaseapp\.com))$/
 
 const shells = new Map()
 
-// The served site's own index.html (a preview channel has its own build);
+// The served site's app shell - app.html, the build's index.html renamed so
+// Hosting doesn't serve it as a static file for / (vite.config.js) - or
+// index.html from a build made before (a preview channel has its own build);
 // the production one when called directly (the emulator) or from any other
 // host (a forged X-Forwarded-Host must not choose where the page comes from).
 export async function shellFor(req) {
@@ -21,8 +23,9 @@ export async function shellFor(req) {
   const origin = ALLOWED_HOST_PATTERN.test(host) ? `https://${host}` : SITE_URL
   const cached = shells.get(origin)
   if (cached && Date.now() - cached.at < SHELL_TTL_MS) return cached.html
-  const response = await fetch(`${origin}/index.html`)
-  if (!response.ok) throw new Error(`index.html from ${origin}: ${response.status}`)
+  let response = await fetch(`${origin}/app.html`)
+  if (response.status === 404) response = await fetch(`${origin}/index.html`)
+  if (!response.ok) throw new Error(`app shell from ${origin}: ${response.status}`)
   const html = await response.text()
   shells.set(origin, { html, at: Date.now() })
   return html

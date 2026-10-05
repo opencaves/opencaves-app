@@ -28,7 +28,8 @@ export default function CaveLayerLegend({ isLarge }) {
   // One plain example colour: a system's (any) when coloured by system, the
   // layer's single colour otherwise. Water has its own colour.
   const lineColor = colorBySistema ? '#76378a' : theme.palette.primary.light
-  const swatch = { width: 28, height: 14, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }
+  // Wide enough for the letter codes on one line.
+  const swatch = { width: 44, height: 16, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }
   const items = [
     { key: 'walls', mark: <Box sx={{ width: 26, height: 3, borderRadius: 2, bgcolor: lineColor }} /> },
     { key: 'water', mark: <Box sx={{ width: 26, height: 12, borderRadius: 1, bgcolor: CAVE_LAYER.WATER_COLOR, opacity: CAVE_LAYER.WATER_OPACITY }} /> },
@@ -40,7 +41,7 @@ export default function CaveLayerLegend({ isLarge }) {
     { key: 'depth', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 600, textDecoration: 'overline' }}>{units === 'imperial' ? '40' : '12'}</Typography> },
     { key: 'height', mark: <Typography component="span" sx={{ fontSize: 10, fontWeight: 600, lineHeight: 1, border: '1.2px solid currentColor', borderRadius: '50%', minWidth: 16, height: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{units === 'imperial' ? '10' : '3'}</Typography> },
     { key: 'penetration', mark: <Typography component="span" sx={{ fontSize: 10, fontWeight: 500 }}>p.</Typography> },
-    { key: 'codes', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 700 }}>r x s z</Typography> },
+    { key: 'codes', mark: <Typography component="span" sx={{ fontSize: 11, fontWeight: 700, whiteSpace: 'nowrap' }}>r x s z</Typography> },
     { key: 'placeName', mark: <Typography component="span" sx={{ fontSize: 11, fontStyle: 'italic' }}>Aa</Typography> },
     { key: 'flow', mark: <Typography component="span" sx={{ fontSize: 15, lineHeight: 1, color: 'info.dark' }}>➜</Typography> },
   ]
@@ -79,7 +80,7 @@ export default function CaveLayerLegend({ isLarge }) {
                 {mark}
               </Box>
               <Typography variant="body2" sx={{ fontSize: 13 }}>
-                {t(key)}
+                {t(key, { unit: units === 'imperial' ? 'ft' : 'm' })}
               </Typography>
             </Box>
           ))}
