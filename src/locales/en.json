@@ -1353,10 +1353,73 @@
     }
   },
   "home": {
-    "title": "Cave diving in the Yucatán",
-    "tagline": "Caves and cave systems for cave divers: locations, access, pictures, maps and exploration history.",
-    "openMap": "Open the map",
-    "browseCaves": "Browse the caves",
-    "browseSistemas": "Cave systems"
+    "title": "Open data for cave diving",
+    "description": "OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.",
+    "hero": {
+      "title": "Open data for cave diving",
+      "lead": "OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.",
+      "searchPlaceholder": "Find a cave, a system or an area",
+      "openMap": "Open the map",
+      "search": "Search",
+      "browseCaves": "Browse the caves"
+    },
+    "figures": {
+      "label": "OpenCaves in figures",
+      "caves_one": "cave",
+      "caves_other": "caves",
+      "sistemas_one": "cave system",
+      "sistemas_other": "cave systems",
+      "regions_one": "area",
+      "regions_other": "areas"
+    },
+    "safety": {
+      "title": "Cave diving can kill",
+      "text": "Diving beyond the daylight zone of a cave or cenote takes cave training and certification, the right equipment and experience. Trained, experienced divers have died in caves. Never go beyond your training and limits, and never enter a cave you don't know without a qualified local guide."
+    },
+    "disclaimer": {
+      "title": "Not for dive planning",
+      "text": "The information on OpenCaves is shared by its community. It can be incomplete, inaccurate or out of date, and it is not suitable for planning or conducting a dive. You use it at your own risk: always check with local guides, dive centres and landowners before you go. See the"
+    },
+    "discover": {
+      "title": "Discover",
+      "subtitle": "A few of the caves on OpenCaves.",
+      "all": "All the caves"
+    },
+    "features": {
+      "title": "What you'll find",
+      "caves": {
+        "title": "Caves",
+        "text": "Where each cave is and how to reach it: entrances, access, fees and facilities, with photos, videos and descriptions."
+      },
+      "sistemas": {
+        "title": "Cave systems",
+        "text": "How caves connect into systems, their length and depth, and the history of their exploration."
+      },
+      "maps": {
+        "title": "Survey maps",
+        "text": "Cave passages traced from published survey maps, drawn on the map with their lines and markers."
+      },
+      "offline": {
+        "title": "Offline",
+        "text": "Save caves on your phone before you head out, to have them where there's no signal."
+      },
+      "subtitle": "Everything a cave diver looks up before a trip, in one place."
+    },
+    "regions": {
+      "title": "Regions",
+      "yucatan": "Yucatán Peninsula, Mexico",
+      "more": "More regions will come as divers add them."
+    },
+    "contribute": {
+      "title": "Built by divers",
+      "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.",
+      "signup": "Sign up to contribute",
+      "github": "OpenCaves on GitHub"
+    },
+    "footer": {
+      "about": "About",
+      "language": "Language"
+    },
+    "warningsLabel": "Before you dive"
   }
 }

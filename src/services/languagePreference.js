@@ -45,3 +45,14 @@ export async function loadAccountLanguage(uid) {
 export function saveAccountLanguage(uid, code) {
   return setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true })
 }
+
+// A language chosen anywhere (the account page, the landing page's menu):
+// applied on this device and, for a signed-in account, saved as its
+// preference. null: Automatic.
+export function chooseLanguage(code, user) {
+  const applied = applyLanguage(code)
+  if (user?.uid && !user.isAnonymous) {
+    saveAccountLanguage(user.uid, code).catch((error) => console.error(error))
+  }
+  return applied
+}

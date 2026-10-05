@@ -1353,10 +1353,73 @@
     }
   },
   "home": {
-    "title": "Buceo en cuevas en Yucatán",
-    "tagline": "Cuevas y sistemas de cuevas para buzos de cuevas: ubicaciones, acceso, fotos, mapas e historia de exploración.",
-    "openMap": "Abrir el mapa",
-    "browseCaves": "Explorar las cuevas",
-    "browseSistemas": "Sistemas de cuevas"
+    "title": "Datos abiertos para el buceo en cuevas",
+    "description": "OpenCaves: cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
+    "hero": {
+      "title": "Datos abiertos para el buceo en cuevas",
+      "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",
+      "searchPlaceholder": "Buscar una cueva, un sistema o una zona",
+      "openMap": "Abrir el mapa",
+      "search": "Buscar",
+      "browseCaves": "Explorar las cuevas"
+    },
+    "figures": {
+      "label": "OpenCaves en cifras",
+      "caves_one": "cueva",
+      "caves_other": "cuevas",
+      "sistemas_one": "sistema de cuevas",
+      "sistemas_other": "sistemas de cuevas",
+      "regions_one": "zona",
+      "regions_other": "zonas"
+    },
+    "safety": {
+      "title": "El buceo en cuevas puede matar",
+      "text": "Bucear más allá de la zona de luz de una cueva o un cenote exige formación y certificación de buceo en cuevas, el equipo adecuado y experiencia. Buzos formados y experimentados han muerto en cuevas. Nunca vayas más allá de tu formación y tus límites, y nunca entres en una cueva que no conoces sin un guía local cualificado."
+    },
+    "disclaimer": {
+      "title": "No apto para planificar una inmersión",
+      "text": "La información de OpenCaves la comparte su comunidad. Puede estar incompleta, ser inexacta o estar desactualizada, y no es apta para planificar ni realizar una inmersión. La usas bajo tu propio riesgo: consulta siempre a los guías locales, los centros de buceo y los propietarios antes de ir. Consulta los"
+    },
+    "discover": {
+      "title": "Descubre",
+      "subtitle": "Algunas de las cuevas de OpenCaves.",
+      "all": "Todas las cuevas"
+    },
+    "features": {
+      "title": "Qué encontrarás",
+      "caves": {
+        "title": "Cuevas",
+        "text": "Dónde está cada cueva y cómo llegar: entradas, acceso, tarifas e instalaciones, con fotos, videos y descripciones."
+      },
+      "sistemas": {
+        "title": "Sistemas de cuevas",
+        "text": "Cómo se conectan las cuevas en sistemas, su longitud y profundidad, y la historia de su exploración."
+      },
+      "maps": {
+        "title": "Topografías",
+        "text": "Las galerías trazadas a partir de topografías publicadas, dibujadas en el mapa con sus líneas y marcas."
+      },
+      "offline": {
+        "title": "Sin conexión",
+        "text": "Guarda cuevas en tu teléfono antes de salir, para tenerlas donde no hay señal."
+      },
+      "subtitle": "Todo lo que un buzo de cuevas consulta antes de un viaje, en un solo lugar."
+    },
+    "regions": {
+      "title": "Regiones",
+      "yucatan": "Península de Yucatán, México",
+      "more": "Llegarán más regiones a medida que los buzos las añadan."
+    },
+    "contribute": {
+      "title": "Hecho por buzos",
+      "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones. La aplicación misma es de código abierto.",
+      "signup": "Regístrate para contribuir",
+      "github": "OpenCaves en GitHub"
+    },
+    "footer": {
+      "about": "Acerca de",
+      "language": "Idioma"
+    },
+    "warningsLabel": "Antes de bucear"
   }
 }
