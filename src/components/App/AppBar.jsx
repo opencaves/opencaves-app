@@ -16,10 +16,8 @@ import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
-import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
 const drawerWidth = 240
-const referenceDataItemPath = new RegExp(`^/(?:${Object.keys(REFERENCE_DATA_CONFIGS).join('|')})/[^/]+/edit$`)
 // Module level, not inside AppBar: a styled() component made during render
 // is a new component type every render, so React remounted the title button
 // each time - replaying the title's enter animation (a flicker).
@@ -53,19 +51,19 @@ export default function AppBar(props) {
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [entityHeadingHidden, setEntityHeadingHidden] = useState(false)
-  // The edit page's own heading, e.g. "Cenote X" - not the document title,
-  // which also says "Edit".
+  // The page's own heading (its data-appbar-page-title), e.g. "Cenote X" -
+  // not the document title, which also says "Edit" or the site's name.
   const [entityHeadingText, setEntityHeadingText] = useState('')
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
-  // Phones only: wider screens keep the edit page's own header in view
-  // instead (EditPageHeader, sticky).
+  // Phones only: once the page's heading scrolls under the bar, the bar shows
+  // it. Wider screens keep an edit page's own header in view instead
+  // (EditPageHeader, sticky).
   const isPhone = useSmall()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
-  const isNamedEditPage = isPhone && (/^\/(?:caves|sistemas|connections)\/[^/]+\/edit$/.test(location.pathname) || referenceDataItemPath.test(location.pathname))
-  const toolbarTitle = isNamedEditPage && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
+  const toolbarTitle = isPhone && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   // The site's pages, on the left; the dashboard (editors) on the right,
   // beside the account button. The phone drawer has the site's pages, then
@@ -87,7 +85,8 @@ export default function AppBar(props) {
 
   useEffect(() => {
     setEntityHeadingHidden(false)
-    if (!isNamedEditPage) return undefined
+    setEntityHeadingText('')
+    if (!isPhone) return undefined
 
     const scrollRoot = document.querySelector('.oc-layout')
     if (!scrollRoot) return undefined
@@ -113,7 +112,7 @@ export default function AppBar(props) {
       mutationObserver.disconnect()
       intersectionObserver.disconnect()
     }
-  }, [isNamedEditPage])
+  }, [isPhone, location.pathname])
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)

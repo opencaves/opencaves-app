@@ -46,7 +46,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
           </Tooltip>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography component="h1" sx={{ typography: { xs: 'h5', sm: 'h4' }, overflowWrap: 'anywhere' }}>
+          <Typography component="h1" sx={{ typography: { xs: 'h5', sm: 'h4' }, overflowWrap: 'anywhere' }} data-appbar-page-title>
             {title}
           </Typography>
           {subtitle && (
