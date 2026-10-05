@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Link as RouterLink, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Link, Typography } from '@mui/material'
+import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
 import MapOutlined from '@mui/icons-material/MapOutlined'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
@@ -19,6 +19,7 @@ import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
+import SistemaCookie from '@/components/SistemaCookie.jsx'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 
 const sectionHeadingProps = { component: 'h2', variant: 'h6', sx: { mb: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' } }
@@ -89,7 +90,7 @@ export default function CavePage() {
   const aka = [...(Array.isArray(cave.aka) ? cave.aka : []), ...Object.values(cave.nameTranslations || {}).flat()].filter(Boolean)
   const facts = [
     area && { key: 'area', label: t('cave.area'), value: <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover">{area.name}</Link> },
-    sistema && { key: 'sistema', label: t('cave.sistema'), value: sistema.slug ? <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">{sistema.name}</Link> : sistema.name },
+    sistema && { key: 'sistema', label: t('cave.sistema'), value: <><SistemaCookie color={sistema.color} sx={{ mr: 0.75 }} />{sistema.slug ? <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">{sistema.name}</Link> : sistema.name}</> },
     location && { key: 'location', label: t('cave.location'), value: `${Number(location.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(location.longitude).toFixed(COORDINATE_DECIMALS)}` },
   ].filter(Boolean)
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
@@ -108,9 +109,15 @@ export default function CavePage() {
 
       {/* At the right end, under the heading. */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
-        <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapOutlined />} sx={{ borderRadius: 5 }}>
-          {t('onMap')}
-        </Button>
+        {/* Disabled without coordinates, saying why: a disabled button fires no
+            events, so the tooltip is on a wrapper. */}
+        <Tooltip title={location ? '' : t('notOnMap')}>
+          <span>
+            <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapOutlined />} sx={{ borderRadius: 5 }}>
+              {t('onMap')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
 
       <CaveCover caveId={cave.id} />

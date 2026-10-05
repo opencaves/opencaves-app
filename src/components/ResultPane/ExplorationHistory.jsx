@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
+import SistemaCookie from '@/components/SistemaCookie.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 // The timeline's geometry: a dot centred on an entry's first line (body2,
@@ -37,7 +38,7 @@ function formatDate(date, language) {
 export default function ExplorationHistory({ sistemas, headingProps, showNotes = true }) {
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas
-    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, notes: showNotes ? exploration.notes : null })))
+    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, sistemaColor: sistema.color, notes: showNotes ? exploration.notes : null })))
     .filter((e) => e.date || e.team || e.description || e.notes)
     .map((entry, index) => ({ entry, index }))
     .sort((a, b) => sortKey(a.entry.date).localeCompare(sortKey(b.entry.date)) || a.index - b.index)
@@ -90,7 +91,14 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
           <Box component="li" key={index} className="oc-exploration-history--entry">
             {(entry.date || severalSistemas) && (
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                {[formatDate(entry.date, i18n.language), severalSistemas && entry.sistemaName].filter(Boolean).join(' · ')}
+                {entry.date && formatDate(entry.date, i18n.language)}
+                {severalSistemas && (
+                  <>
+                    {entry.date && ' · '}
+                    <SistemaCookie color={entry.sistemaColor} sx={{ mr: 0.5 }} />
+                    {entry.sistemaName}
+                  </>
+                )}
               </Typography>
             )}
             {entry.team && (

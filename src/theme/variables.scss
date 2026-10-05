@@ -34,6 +34,8 @@ http://ionicframework.com/docs/theming/ */
   --oc-page-surface-translucent: rgba(255, 255, 255, 0.9);
   --oc-page-surface-stuck: rgba(255, 255, 255, 0.94);
   --oc-scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  // The edge around a cave system's cookie (SistemaCookie).
+  --oc-sistema-cookie-edge: rgba(0, 0, 0, 0.55);
   --oc-marker-selected-font-size: 1.1em;
 
   // z-indexes
@@ -65,4 +67,5 @@ http://ionicframework.com/docs/theming/ */
   --oc-page-surface-translucent: rgba(28, 27, 31, 0.9);
   --oc-page-surface-stuck: rgba(28, 27, 31, 0.94);
   --oc-scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
 }
