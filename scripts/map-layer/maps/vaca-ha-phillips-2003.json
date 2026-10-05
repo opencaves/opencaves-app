@@ -1,0 +1,505 @@
+{
+  "id": "-P3BdlLpOuPBJaPQIsEX",
+  "mapImportKey": "6f8d47fc290a",
+  "image": "../../../_data/maps-import/images/vaca-ha-cen-tulum-phillips-2003-poster-photo.jpg",
+  "title": "Cenote Vaca Ha - Bil Phillips, Jana Smith 2003",
+  "date": "2003",
+  "credits": "Cenote Vaca Ha, Tulum, Quintana Roo, Mexico; an underwater cave plan of the Vaca Ha cave surveyed November 2002 to February 2003 by Bil Phillips and Jana Smith; drafted by Bil Phillips; digitized and coloured by Brian Ross; plan length 8,172 ft (2,491 m), plan depth 92 ft (28 m); cartography and text material by James G. Coke IV and the Quintana Roo Speleological Survey; (c) Bil Phillips, Jana Smith 2003 (photo of the poster)",
+  "source": {
+    "id": "-KPZg4joZ9lZ2oVH-LhB",
+    "name": "map"
+  },
+  "sistemaId": "-KPZgfuQebUnZDaU989Y",
+  "utmEpsg": 32616,
+  "placementWhy": "Good (about 10 m): scale from the 600 ft bar (819 px, 0.2233 m/px; its metre bar agrees), north up (the N mag arrow, 2003), shifted onto the database's Cenote Vaca Ha (Google) at the entrance - the passage's south-east end, where the trail leaves for the shack and parking. Checked on the satellite: the Tulum - Coba road the map draws along the cave's south-west side lands on the real highway at both ends (within about 5-10 m), the map's road to Cenote Tortaga on the track running north-east, and its access road on the path from the highway to the entrance. The coordinates printed on the map (20 16.245 N, 87 28.892 W) are about 100 m west of this: placed there, the cave straddled the highway and the drawn road fell 90-120 m south-west of the real one.",
+  "scaleBar": {
+    "from": [
+      1168,
+      2471
+    ],
+    "to": [
+      1987,
+      2471
+    ],
+    "metres": 182.88
+  },
+  "north": "up",
+  "controlPoints": [
+    {
+      "caveId": "-KPZkVRbp2hEvAbrS2ww",
+      "name": "Cenote Vaca Ha: the database position (Google), at the map's entrance (the passage's south-east end)",
+      "px": [
+        2393,
+        1848
+      ],
+      "latitude": 20.27066,
+      "longitude": -87.4805
+    }
+  ],
+  "exclude": [
+    {
+      "why": "title block: Cenote Vaca Ha, Tulum, Quintana Roo, Mexico; 20 16.245 N 87 28.892 W WGS 84; an underwater cave plan of the Vaca Ha cave surveyed November 2002 to February 2003 by Bil Phillips and Jana Smith, drafted by Bil Phillips, digitized and coloured by Brian Ross; plan length 8,172 ft (2,491 m), plan depth 92 ft (28 m); (c) Bil Phillips, Jana Smith 2003",
+      "box": [
+        1850,
+        140,
+        2525,
+        712
+      ],
+      "history": true
+    },
+    {
+      "why": "dedication: to the memory of land owner Don Camilo Solis Acosta, 1924-2002",
+      "box": [
+        110,
+        745,
+        605,
+        890
+      ]
+    },
+    {
+      "why": "reference: cartography and text material by James G. Coke IV and the Quintana Roo Speleological Survey",
+      "box": [
+        110,
+        1060,
+        675,
+        1215
+      ],
+      "history": true
+    },
+    {
+      "why": "index of symbols",
+      "box": [
+        200,
+        1455,
+        715,
+        1945
+      ]
+    },
+    {
+      "why": "notes (halocline at 65 ft, drains from Cenote Carwash, survey method)",
+      "box": [
+        100,
+        2088,
+        808,
+        2482
+      ]
+    },
+    {
+      "why": "explorers: Ivan Cappelli, Mary Cappelli, Randy Douglas, Dan Ferra, Steve Gerrard, Woody Jasper, Allan Jonushaitis, Brian Kakuk, Ise Kalsi, Cliff Keck, Kim Kitka, Dan Lins, Travis Lore, Christophe le Maillot, Bil Phillips, Don Redinger, Daniel Riordan, Jana Smith",
+      "box": [
+        2415,
+        830,
+        2625,
+        1270
+      ],
+      "history": true
+    },
+    {
+      "why": "north arrow (N mag)",
+      "box": [
+        1435,
+        160,
+        1530,
+        545
+      ]
+    },
+    {
+      "why": "scale bar (feet, metres)",
+      "box": [
+        1080,
+        2385,
+        2000,
+        2510
+      ]
+    },
+    {
+      "why": "Quintana Roo Speleological Survey stamp",
+      "box": [
+        2540,
+        2215,
+        2810,
+        2500
+      ]
+    },
+    {
+      "why": "poster frame (top)",
+      "box": [
+        0,
+        0,
+        2922,
+        30
+      ]
+    },
+    {
+      "why": "poster frame (bottom)",
+      "box": [
+        0,
+        2600,
+        2922,
+        2640
+      ]
+    },
+    {
+      "why": "poster frame (left)",
+      "box": [
+        0,
+        0,
+        30,
+        2640
+      ]
+    },
+    {
+      "why": "poster frame (right)",
+      "box": [
+        2880,
+        0,
+        2922,
+        2640
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        385,
+        399,
+        631,
+        483
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1019,
+        643,
+        1268,
+        780
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1480,
+        780,
+        1743,
+        885
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1907,
+        878,
+        2075,
+        968
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        755,
+        1128,
+        1098,
+        1312
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1604,
+        1175,
+        1977,
+        1268
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        2211,
+        1393,
+        2535,
+        1645
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1042,
+        1422,
+        1299,
+        1593
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        2446,
+        1706,
+        2814,
+        1908
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        964,
+        1772,
+        1600,
+        2001
+      ]
+    },
+    {
+      "why": "cross-section (brick frame, orange glow)",
+      "box": [
+        1743,
+        2024,
+        2144,
+        2283
+      ]
+    },
+    {
+      "why": "glare at the top of the photo, read as fill",
+      "box": [
+        900,
+        0,
+        1500,
+        190
+      ]
+    },
+    {
+      "why": "trail from the cenote to the shack and parking (dotted), and their labels",
+      "box": [
+        2405,
+        1870,
+        2600,
+        2120
+      ]
+    },
+    {
+      "why": "access road, gate and sign at the Tulum - Coba road",
+      "box": [
+        2150,
+        2120,
+        2480,
+        2600
+      ]
+    },
+    {
+      "why": "road to Cenote Tortaga (dotted) and its label",
+      "box": [
+        2480,
+        1300,
+        2880,
+        1560
+      ]
+    },
+    {
+      "why": "Coba arrow, its label and the Tulum - Coba road's dashes, west of the north-west end",
+      "box": [
+        100,
+        190,
+        255,
+        320
+      ]
+    },
+    {
+      "why": "Tulum - Coba road dashes below the north-west end",
+      "box": [
+        255,
+        290,
+        420,
+        430
+      ]
+    },
+    {
+      "why": "tip of the Coba arrow",
+      "box": [
+        120,
+        100,
+        205,
+        192
+      ]
+    }
+  ],
+  "entrances": [
+    {
+      "name": "Cenote Vaca Ha",
+      "written": false,
+      "knownEntrance": true,
+      "caveId": "-KPZkVRbp2hEvAbrS2ww",
+      "px": [
+        2393,
+        1848
+      ]
+    }
+  ],
+  "trace": {
+    "method": "colour-fill",
+    "water": false,
+    "greyFill": true,
+    "blueWeight": 1,
+    "threshold": 14,
+    "inkBand": true,
+    "paperWindowPx": 300,
+    "dropIsolated": {
+      "maxSqMetres": 40,
+      "gapMetres": 3
+    },
+    "bandHoleMaxPx": 4000,
+    "labelPadPx": 6,
+    "maskLabels": true
+  },
+  "symbols": {
+    "why": "QRSS / Coke conventions (the legend): overlined depths and circled ceiling-to-floor heights in feet, p. = penetration from the entrance in feet, r minor restriction, x major restriction, s silty, z expect zero visibility. OCR misses most \"p.\" penetrations on the photo: added by hand (extra); the circled heights read poorly (4 found).",
+    "units": "ft",
+    "letters": {
+      "r": "restriction-minor",
+      "x": "restriction-major",
+      "s": "silt",
+      "z": "visibility-zero"
+    },
+    "templates": {
+      "s": [
+        267,
+        1725
+      ],
+      "z": [
+        267,
+        1746
+      ],
+      "r": [
+        271,
+        1845
+      ],
+      "x": [
+        271,
+        1884
+      ]
+    },
+    "frameSizePx": [
+      18,
+      45
+    ],
+    "fix": [
+      {
+        "px": [
+          656,
+          316
+        ],
+        "value": null,
+        "why": "\"865\" of p.1,865 read as s"
+      },
+      {
+        "px": [
+          870,
+          738
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      },
+      {
+        "px": [
+          886,
+          972
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      },
+      {
+        "px": [
+          1133,
+          1055
+        ],
+        "value": null,
+        "why": "circled 75 read as s"
+      },
+      {
+        "px": [
+          1786,
+          1090
+        ],
+        "value": null,
+        "why": "circled 5 read as s"
+      },
+      {
+        "px": [
+          1553,
+          1209
+        ],
+        "value": null,
+        "why": "overlined 75 read as s"
+      }
+    ],
+    "extra": [
+      {
+        "type": "penetration",
+        "label": "p.1,865",
+        "px": [
+          638,
+          318
+        ],
+        "value": 1865,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,768",
+        "px": [
+          1834,
+          828
+        ],
+        "value": 1768,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,450",
+        "px": [
+          938,
+          895
+        ],
+        "value": 1450,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,308",
+        "px": [
+          2105,
+          1300
+        ],
+        "value": 1308,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,097",
+        "px": [
+          1899,
+          1448
+        ],
+        "value": 1097,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.2,200",
+        "px": [
+          277,
+          147
+        ],
+        "value": 2200,
+        "halfPx": 9
+      },
+      {
+        "type": "penetration",
+        "label": "p.1,117",
+        "px": [
+          1332,
+          1195
+        ],
+        "value": 1117,
+        "halfPx": 9
+      }
+    ]
+  }
+}

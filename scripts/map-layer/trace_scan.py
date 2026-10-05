@@ -1548,9 +1548,12 @@ def main(config_path, output):
     colour_masked = masked.copy()
     words = ocr_words(grey, out / f'{name}-ocr-words.json', config)
     labels_only = real_labels(words)
+    # "labelPadPx": the margin masked around each label (a photo's blurred
+    # letters leave a dark halo past their OCR box).
+    pad = config.get('trace', {}).get('labelPadPx', WORD_PAD)
     for word in labels_only:
         x0, y0, x1, y1 = word['box']
-        masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
+        masked[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
 
     trace = config.get('trace', {})
     # Symbols extract_symbols.py turned into typed points (depths, ceiling
@@ -2056,6 +2059,12 @@ def main(config_path, output):
             x0, y0, x1, y1 = item['box']
             boxes[max(0, y0):y1, max(0, x0):x1] = True
         boxes |= colour_masked
+        # "maskLabels": true - the labels masked too: with "greyFill", dark
+        # text reads as fill, and a label beside a passage became a passage.
+        if trace.get('maskLabels'):
+            for word in labels_only:
+                x0, y0, x1, y1 = word['box']
+                boxes[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
         for item in config.get('exclude', []):
             if item.get('inside'):
                 x0, y0, x1, y1 = item['box']
