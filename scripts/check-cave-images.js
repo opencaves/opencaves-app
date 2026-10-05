@@ -15,7 +15,7 @@ import { initializeApp, applicationDefault } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 import resizeConfig from '../functions/js/resize-images/config.js'
-import { BUCKET_NAME, CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER } from '../functions/js/constants.js'
+import { BUCKET_NAME, CAVES_ASSETS_COLL_NAME, THUMBNAILS_FOLDER, VIEW_THUMBNAIL_SIZES } from '../functions/js/constants.js'
 
 const PROJECT_ID = 'opencaves'
 
@@ -106,6 +106,10 @@ async function main() {
     if (!fileNames.has(original)) problems.missingOriginal.push(label(asset))
 
     const thumbnails = thumbnailSuffixes(asset.thumbnailRevision).map((suffix) => `caves/${asset.caveId}/${THUMBNAILS_FOLDER}/${asset.id}${suffix}`)
+    // A panorama's small copies made from a view in the viewer (setViewThumbnail).
+    if (asset.viewThumbnailRevision > 0) {
+      thumbnails.push(...VIEW_THUMBNAIL_SIZES.flatMap((size) => resizeConfig.imageTypes.map((type) => `caves/${asset.caveId}/${THUMBNAILS_FOLDER}/${asset.id}_${size}-v${asset.viewThumbnailRevision}.${type}`)))
+    }
     thumbnails.forEach((path) => knownPaths.add(path))
     const missing = thumbnails.filter((path) => !fileNames.has(path)).map((path) => path.slice(path.lastIndexOf('_') + 1))
     if (missing.length) problems.missingThumbnails.push(`${label(asset)}: ${missing.length === thumbnails.length ? 'all' : missing.join(', ')}`)

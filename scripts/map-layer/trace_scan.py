@@ -649,6 +649,14 @@ def survey_line_paths(image_path, boxes, trace, ink=None, pool_points=()):
     for colour in trace.get('lineColours', ['blue']):
         lines |= ink if colour == 'black' else tests[colour] >= excess
     lines &= ~boxes
+    # "poolOutlinesPx": a cenote's pool drawn as a light blue fill outlined
+    # in the line colour: the ink within this of the fill is its outline, not
+    # a line (the lines reaching the pool lose only that last stretch).
+    if trace.get('poolOutlinesPx'):
+        reach = trace['poolOutlinesPx']
+        fill = ((b - r) >= 25) & (rgb.mean(axis=2) > 120)
+        fill = cv2.morphologyEx(fill.astype(numpy.uint8), cv2.MORPH_OPEN, numpy.ones((5, 5), numpy.uint8))
+        lines &= ~(cv2.dilate(fill, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * reach + 1,) * 2)) > 0)
     for line in trace.get('eraseLines', []):
         stroke = numpy.zeros(lines.shape, numpy.uint8)
         cv2.line(stroke, tuple(line['from']), tuple(line['to']), 1, line.get('widthPx', 15))
@@ -1540,9 +1548,12 @@ def main(config_path, output):
     colour_masked = masked.copy()
     words = ocr_words(grey, out / f'{name}-ocr-words.json', config)
     labels_only = real_labels(words)
+    # "labelPadPx": the margin masked around each label (a photo's blurred
+    # letters leave a dark halo past their OCR box).
+    pad = config.get('trace', {}).get('labelPadPx', WORD_PAD)
     for word in labels_only:
         x0, y0, x1, y1 = word['box']
-        masked[max(0, y0 - WORD_PAD):y1 + WORD_PAD, max(0, x0 - WORD_PAD):x1 + WORD_PAD] = True
+        masked[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
 
     trace = config.get('trace', {})
     # Symbols extract_symbols.py turned into typed points (depths, ceiling
@@ -1619,31 +1630,41 @@ def main(config_path, output):
         # and leaders: those are taken out too.
         if 'black' in trace.get('lineColours', []):
             boxes |= masked | leaders
-        paths = survey_line_paths(config_path.parent.joinpath(config['image']).resolve(), boxes, trace,
-                                  ink=ink, pool_points=[e['px'] for e in config.get('entrances', []) if 'px' in e])
-        lines = [LineString([(x, y) for y, x in path]) for path in paths if len(path) >= 2]
+        image_path = config_path.parent.joinpath(config['image']).resolve()
+        pool_points = [e['px'] for e in config.get('entrances', []) if 'px' in e]
+        paths = survey_line_paths(image_path, boxes, trace, ink=ink, pool_points=pool_points)
+        lines = [(LineString([(x, y) for y, x in path]), 'arianne') for path in paths if len(path) >= 2]
+        # "goldColours": the gold line's colours (yellow on most maps) - the
+        # guideline starting in the cavern zone, sometimes running on to the
+        # next cenote: traced the same way, as kind "gold". "goldEraseLines"
+        # and "goldAddLines" are its own "eraseLines" and "addLines".
+        if trace.get('goldColours'):
+            gold_trace = {**trace, 'lineColours': trace['goldColours'], 'eraseLines': trace.get('goldEraseLines', []), 'addLines': trace.get('goldAddLines', []),
+                          # Pools are outlined in black: the gold line crossing one is kept.
+                          'poolOutlinesPx': None}
+            lines += [(LineString([(x, y) for y, x in path]), 'gold') for path in survey_line_paths(image_path, boxes, gold_trace, pool_points=pool_points) if len(path) >= 2]
         # "snapEndsPx": a line end within this of another line (a junction
         # piece too short to keep, at a coarse scale) is carried onto it.
         if trace.get('snapEndsPx'):
-            lines = [line for line in lines if line.length * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES)]
+            lines = [(line, kind) for line, kind in lines if line.length * scale >= trace.get('minOutlineMetres', MIN_OUTLINE_METRES)]
             from shapely.geometry import Point
             from shapely.ops import nearest_points
             snapped = []
-            for i, line in enumerate(lines):
+            for i, (line, kind) in enumerate(lines):
                 coords = list(line.coords)
                 for end in (0, -1):
                     p = Point(coords[end])
-                    best = min(((other.distance(p), j) for j, other in enumerate(lines) if j != i), default=(1e9, -1))
+                    best = min(((other.distance(p), j) for j, (other, _) in enumerate(lines) if j != i), default=(1e9, -1))
                     if 0.3 < best[0] <= trace['snapEndsPx']:
-                        q = nearest_points(lines[best[1]], p)[0]
+                        q = nearest_points(lines[best[1]][0], p)[0]
                         coords.insert(0, (q.x, q.y)) if end == 0 else coords.append((q.x, q.y))
-                snapped.append(LineString(coords))
+                snapped.append((LineString(coords), kind))
             lines = snapped
-        for line in lines:
+        for line, kind in lines:
             if line.length * scale < trace.get('minOutlineMetres', MIN_OUTLINE_METRES):
                 continue
             line = line.simplify(max(SIMPLIFY_METRES, scale / 2) / scale)
-            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+            features.append({'type': 'Feature', 'properties': {'map': name, 'kind': kind, 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                              'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line.coords]))})
         geojson = out / f'{name}-walls.geojson'
         geojson.write_text(json.dumps(rounded({'type': 'FeatureCollection', 'features': features}), separators=(',', ':')), encoding='utf-8')
@@ -2038,11 +2059,47 @@ def main(config_path, output):
             x0, y0, x1, y1 = item['box']
             boxes[max(0, y0):y1, max(0, x0):x1] = True
         boxes |= colour_masked
+        # "maskLabels": true - the labels masked too: with "greyFill", dark
+        # text reads as fill, and a label beside a passage became a passage.
+        if trace.get('maskLabels'):
+            for word in labels_only:
+                x0, y0, x1, y1 = word['box']
+                boxes[max(0, y0 - pad):y1 + pad, max(0, x0 - pad):x1 + pad] = True
+        # "maskSymbols": {"circleRadiusPx": [r0, r1]} - the symbols masked too
+        # (the depths extract_symbols.py found, and every small circle - the
+        # circled heights it misses on a photo): dark, they read as passage
+        # with "greyFill", and the walls bulged round each one beside them.
+        if trace.get('maskSymbols'):
+            rule = trace['maskSymbols']
+            if symbols_px.exists():
+                for x0, y0, x1, y1 in symbol_boxes(symbols_px, config):
+                    boxes[max(0, y0 - 2):y1 + 2, max(0, x0 - 2):x1 + 2] = True
+            r0, r1 = rule.get('circleRadiusPx', [9, 16])
+            grey_image = cv2.medianBlur(numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L')), 3)
+            circles = cv2.HoughCircles(grey_image, cv2.HOUGH_GRADIENT, dp=1, minDist=2 * r0, param1=100, param2=rule.get('circleVotes', 22), minRadius=r0, maxRadius=r1)
+            symbol_circles = [] if circles is None else [(int(cx), int(cy), int(cr) + 3) for cx, cy, cr in circles[0]]
+            for cx, cy, cr in symbol_circles:
+                cv2.circle(boxes.view(numpy.uint8), (cx, cy), cr, 1, -1)
+            print(f'{len(symbol_circles)} circles masked')
+            # The leader lines found above (cross-sections', labels'), as spurs.
+            boxes |= cv2.dilate(leaders.astype(numpy.uint8), numpy.ones((7, 7), numpy.uint8)) > 0
         for item in config.get('exclude', []):
             if item.get('inside'):
                 x0, y0, x1, y1 = item['box']
                 boxes[max(0, y0):y1, max(0, x0):x1] = False
         band = colour_fill_band(config_path.parent.joinpath(config['image']).resolve(), boxes, trace)
+        # The masked circles lying in a passage (the ring just outside them
+        # mostly passage: "insideShare" of it) are passage again - only those
+        # beside a wall stay out.
+        if trace.get('maskSymbols'):
+            ring_mask = numpy.zeros(band.shape, numpy.uint8)
+            for cx, cy, cr in symbol_circles:
+                ring_mask[:] = 0
+                cv2.circle(ring_mask, (cx, cy), cr + 6, 1, -1)
+                cv2.circle(ring_mask, (cx, cy), cr + 1, 0, -1)
+                ring = ring_mask > 0
+                if ring.any() and (band[ring] > 0).mean() >= trace['maskSymbols'].get('insideShare', 0.6):
+                    cv2.circle(band, (cx, cy), cr + 1, 255, -1)
         if trace.get('paperIslands'):
             band = carve_paper_islands(band, config_path.parent.joinpath(config['image']).resolve(), boxes, trace['paperIslands'])
         for item in config.get('exclude', []):
@@ -2085,6 +2142,24 @@ def main(config_path, output):
             sizes = ndimage.sum(numpy.ones_like(holes), holes, numpy.arange(1, count + 1))
             band[numpy.isin(holes, 1 + numpy.flatnonzero(sizes < trace['bandHoleMaxPx']))] = 255
     contours, hierarchy = cv2.findContours(band, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    # "snapWallsToInkPx": {"px": r, "inkLevel": l} - each outline point moved
+    # onto the nearest drawn ink (darker than l) within r pixels: a band
+    # found by darkness ("greyFill") ends a few pixels off the wall stroke,
+    # and shrinking it more would cut the narrow passages.
+    if trace.get('snapWallsToInkPx'):
+        rule = trace['snapWallsToInkPx']
+        grey_image = numpy.asarray(Image.open(config_path.parent.joinpath(config['image']).resolve()).convert('L'))
+        stroke = (grey_image < rule.get('inkLevel', 110)) & ~masked & ~symbol_ink
+        distance, (iy, ix) = ndimage.distance_transform_edt(~stroke, return_indices=True)
+        snapped = []
+        for contour in contours:
+            pts = contour[:, 0, :]
+            ys, xs = pts[:, 1], pts[:, 0]
+            near = distance[ys, xs] <= rule.get('px', 5)
+            moved = pts.copy()
+            moved[near, 0], moved[near, 1] = ix[ys[near], xs[near]], iy[ys[near], xs[near]]
+            snapped.append(moved[:, None, :].astype(numpy.int32))
+        contours = tuple(snapped)
 
     to_utm = Transformer.from_crs(4326, config['utmEpsg'], always_xy=True)
     to_lnglat = Transformer.from_crs(config['utmEpsg'], 4326, always_xy=True)
@@ -2255,6 +2330,11 @@ def main(config_path, output):
     for line in trace.get('arianneLines', []):
         cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 0, 255), 2)
         features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'arianne', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
+                         'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
+    # "goldLines": [[[x, y], ...]] - gold lines drawn by hand from the scan.
+    for line in trace.get('goldLines', []):
+        cv2.polylines(review, [numpy.array(line, numpy.int32)], False, (0, 170, 255), 2)
+        features.append({'type': 'Feature', 'properties': {'map': name, 'kind': 'gold', 'sistemaId': config.get('sistemaId'), 'credits': config.get('credits')},
                          'geometry': mapping(LineString([to_lnglat.transform(*place(x, y)) for x, y in line]))})
     # "faintGuideline": {...} - the Arianne line, faint and thin (see faint_guideline).
     if trace.get('faintGuideline'):
