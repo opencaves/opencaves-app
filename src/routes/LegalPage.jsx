@@ -31,7 +31,7 @@ export default function LegalPage({ page }) {
         '& a': { color: 'primary.main' },
       }}
     >
-      <Typography component="h1" variant="h4" sx={{ mb: 1 }}>
+      <Typography component="h1" variant="h4" sx={{ mb: 1 }} data-appbar-page-title>
         {t(`${page}.title`)}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
