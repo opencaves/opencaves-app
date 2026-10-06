@@ -79,7 +79,12 @@
     "editTitle": "Editar {{title}}",
     "loading": "Cargando…",
     "closeDialog": "Cerrar",
-    "breadcrumbs": "Ruta de navegación"
+    "breadcrumbs": "Ruta de navegación",
+    "carousel": {
+      "showAll": "Mostrar todo: {{title}}",
+      "label": "{{title}}, carrusel",
+      "showAllLink": "Mostrar todo"
+    }
   },
   "account": {
     "profile": "Perfil",

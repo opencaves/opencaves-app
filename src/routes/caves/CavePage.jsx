@@ -6,7 +6,7 @@ import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
 import MapOutlined from '@mui/icons-material/MapOutlined'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
-import { useCaveAssetsList, useCoverImage } from '@/models/CaveAsset.js'
+import { useCoverImage } from '@/models/CaveAsset.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
@@ -20,30 +20,9 @@ import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
+import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
-
-// The photos shown here (the map's media pane has them all).
-const MAX_PHOTOS = 12
-
-// The cave's photos, its cover first, each opening in the map's media pane.
-function CavePhotos({ caveId, title }) {
-  const { t } = useTranslation('indexPages')
-  const [list] = useCaveAssetsList(caveId)
-  const photos = (list?.docs || []).slice(0, MAX_PHOTOS).map((doc) => doc.data())
-  if (photos.length === 0) return null
-  return (
-    <IndexSection title={title} count={list.size} className="oc-cave-page--photos" card>
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 1.5 }}>
-        {photos.map((photo, index) => (
-          <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
-            <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          </Box>
-        ))}
-      </Box>
-    </IndexSection>
-  )
-}
 
 // The cover photo, under the heading.
 function CaveCover({ caveId }) {
@@ -151,7 +130,7 @@ export default function CavePage() {
         </Box>
       )}
 
-      <CavePhotos caveId={cave.id} title={t('cave.photos')} />
+      <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
 
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} card />
 
