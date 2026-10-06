@@ -42,7 +42,8 @@ export default function MapsSection({ sistemaId, sistemas, connections, caveId, 
                     see-through band would show as a darker stripe. */}
                 <Box className="oc-maps-section--thumbnail oc-carousel--media" sx={{ position: 'relative', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center', transition: 'box-shadow 160ms ease' }}>
                   {thumbnail ? (
-                    <Box component="img" src={thumbnail} alt="" loading="lazy" crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    // Picture: a thumbnail not on the device offline says so.
+                    <Picture src={thumbnail} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   ) : map.contentType === 'application/pdf' ? (
                     <PictureAsPdfRounded color="primary" fontSize="large" />
                   ) : (

@@ -1136,7 +1136,16 @@
     "caveIncompleteShort": "Parcialmente disponible sin conexión",
     "caveNotYet": "Aún no descargado",
     "savedIncomplete": "Algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión"
+    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión",
+    "hint": {
+      "offline": "Estás sin conexión: solo las fotos y los mapas que ya viste están en este dispositivo.",
+      "save": "Guarda este cenote para tenerlo completo en tu próxima inmersión.",
+      "account": "Crea una cuenta para guardar cenotes y usarlos sin conexión.",
+      "system": "Guarda uno de sus cenotes para tener sus mapas en tu próxima inmersión.",
+      "saveButton": "Guardar",
+      "signupButton": "Registrarse"
+    },
+    "notOnDevice": "No disponible sin conexión"
   },
   "legal": {
     "updated": "Última actualización: 2 de octubre de 2026",

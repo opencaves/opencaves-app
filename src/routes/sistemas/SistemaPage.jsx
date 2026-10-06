@@ -21,6 +21,7 @@ import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -205,6 +206,11 @@ export default function SistemaPage() {
           )}
         </IndexSection>
       )}
+
+      {/* Offline: its maps may not all be on the device - keeping them means
+          saving one of its cenotes. Above the maps, even when their list
+          (never loaded online) can't show. */}
+      <OfflineSaveHint />
 
       {/* Opened in the viewer of one of the system's own caves (the viewer
           lives under a cave's address), a located one first. */}

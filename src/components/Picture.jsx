@@ -1,7 +1,28 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Box } from '@mui/material'
+import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import { useOnline } from '@/hooks/useOnline.jsx'
+
+// A picture that couldn't load offline (not on the device): a cloud icon in
+// its place (centred whatever the picture's own display), saying so, instead of an empty box - tried again once back
+// online.
+function OfflinePlaceholder({ className, style }) {
+  const { t } = useTranslation('offline')
+  return (
+    <Box component="span" role="img" aria-label={t('notOnDevice')} title={t('notOnDevice')} className={['oc-picture--offline', className].filter(Boolean).join(' ')} style={{ ...style, display: 'grid', placeItems: 'center' }} sx={{ width: '100%', height: '100%', bgcolor: 'action.hover', color: 'text.secondary' }}>
+      <CloudOffOutlined />
+    </Box>
+  )
+}
 
 export default function Picture({ sources, ...props }) {
   const pictureRef = useRef()
+  const online = useOnline()
+  const [missingOffline, setMissingOffline] = useState(false)
+  useEffect(() => {
+    if (online) setMissingOffline(false)
+  }, [online])
 
   function renderSources() {
     if (sources == null) {
@@ -25,12 +46,16 @@ export default function Picture({ sources, ...props }) {
     // worker at its real size instead of as a quota-heavy opaque response.
     // draggable: false - a mouse drag on a gallery picture isn't dragging the
     // picture out (it set off the "drop to add" prompt).
-    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, crossOrigin = 'anonymous', draggable = false, ...rest } = props
+    const { alt = '', src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', sizes, className, crossOrigin = 'anonymous', draggable = false, onError, ...rest } = props
 
     // Adds sizes props if sources isn't defined
     const sizesProp = skipSizes ? null : { sizes }
 
-    return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} draggable={draggable} className={`oc-picture--img ${className || ''}`.trim()} {...sizesProp} {...rest} />
+    const handleError = (event) => {
+      if (!navigator.onLine) setMissingOffline(true)
+      onError?.(event)
+    }
+    return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} draggable={draggable} className={`oc-picture--img ${className || ''}`.trim()} onError={handleError} {...sizesProp} {...rest} />
   }
 
   useEffect(() => {
@@ -39,6 +64,8 @@ export default function Picture({ sources, ...props }) {
       pictureRef.current.naturalHeight = 1728
     }
   }, [pictureRef])
+
+  if (missingOffline) return <OfflinePlaceholder className={props.className} style={props.style} />
 
   if (sources) {
     return (

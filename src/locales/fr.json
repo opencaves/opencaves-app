@@ -1135,7 +1135,16 @@
     "caveIncompleteShort": "Partiellement disponible hors ligne",
     "caveNotYet": "Pas encore téléchargée",
     "savedIncomplete": "Certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne"
+    "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne",
+    "hint": {
+      "offline": "Vous êtes hors ligne : seules les photos et les cartes déjà consultées sont sur cet appareil.",
+      "save": "Enregistrez cette cénote pour la garder au complet pour votre prochaine plongée.",
+      "account": "Créez un compte pour enregistrer des cénotes pour une utilisation hors ligne.",
+      "system": "Enregistrez une de ses cénotes pour garder ses cartes pour votre prochaine plongée.",
+      "saveButton": "Enregistrer",
+      "signupButton": "S'inscrire"
+    },
+    "notOnDevice": "Non disponible hors ligne"
   },
   "legal": {
     "updated": "Dernière mise à jour : 2 octobre 2026",

@@ -23,6 +23,8 @@ import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUplo
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
+import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import { useOnline } from '@/hooks/useOnline.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -36,6 +38,16 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [failed, setFailed] = useState(false)
+  // Failed offline (not on the device): says so, and tries again online.
+  const [failedOffline, setFailedOffline] = useState(false)
+  const online = useOnline()
+  const { t: tOffline } = useTranslation('offline')
+  useEffect(() => {
+    if (online && failedOffline) {
+      setFailed(false)
+      setFailedOffline(false)
+    }
+  }, [online, failedOffline])
   const { file } = map
   // thumbnailUrl/previewUrl: WebP (or SVG) derivatives made by the
   // onMap*Uploaded functions, much lighter than the original upload.
@@ -43,7 +55,7 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const image = (file?.thumbnailUrl || file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
-      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
+      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => { setFailed(true); setFailedOffline(!navigator.onLine) }} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{failedOffline ? <CloudOffOutlined role="img" aria-label={tOffline('notOnDevice')} titleAccess={tOffline('notOnDevice')} sx={{ color: 'text.secondary' }} /> : file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
       <Typography
         variant="caption"
         noWrap

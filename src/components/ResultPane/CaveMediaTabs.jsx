@@ -12,6 +12,7 @@ import { setCaveMediaTab } from '@/redux/slices/appSlice.jsx'
 import MediaList from './MediaList.jsx'
 import VideoList from './VideoList.jsx'
 import CaveMapList from './CaveMapList.jsx'
+import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 
 // Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
 // the app slice's Redux state rather than component state, since that slice
@@ -40,6 +41,8 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
 
   return (
     <Box sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
+      {/* Offline, a cave not saved: what's missing, and how to keep it all. */}
+      {!editable && !isNew && <OfflineSaveHint caveId={caveId} sx={{ mx: 'var(--oc-pane-padding-inline)' }} />}
       <Tabs value={activeTab} onChange={(_, nextTab) => handleTabChange(nextTab)} aria-label={`${t('pictures')} / ${t('videos')} / ${t('maps')}`} sx={{ borderBottom: 1, borderColor: 'divider', px: editable ? 0 : 'var(--oc-pane-padding-inline)' }}>
         {!isNew && <Tab value="pictures" label={t('pictures')} id={`${tabId}-pictures-tab`} aria-controls={`${tabId}-pictures-panel`} />}
         <Tab value="videos" label={t('videos')} id={`${tabId}-videos-tab`} aria-controls={`${tabId}-videos-panel`} />

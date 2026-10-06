@@ -1136,7 +1136,16 @@
     "caveIncompleteShort": "Partly available offline",
     "caveNotYet": "Not downloaded yet",
     "savedIncomplete": "Some files couldn’t be downloaded. We’ll retry later.",
-    "savedAvailable": "All saved cenotes are available offline"
+    "savedAvailable": "All saved cenotes are available offline",
+    "hint": {
+      "offline": "You're offline: only the photos and maps you've already viewed are on this device.",
+      "save": "Save this cenote to keep all of it for your next dive.",
+      "account": "Create an account to save cenotes for offline use.",
+      "system": "Save one of its cenotes to keep its maps for your next dive.",
+      "saveButton": "Save",
+      "signupButton": "Sign up"
+    },
+    "notOnDevice": "Not available offline"
   },
   "legal": {
     "updated": "Last updated: October 2, 2026",

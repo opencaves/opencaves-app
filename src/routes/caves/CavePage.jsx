@@ -23,6 +23,7 @@ import SistemaArrow from '@/components/SistemaArrow.jsx'
 import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 
 // The cover photo, under the heading.
 function CaveCover({ caveId }) {
@@ -130,6 +131,10 @@ export default function CavePage() {
         </Box>
       )}
 
+      {/* Offline, a cave not saved: what's missing, and how to keep it all -
+          above the photos, even when their list (never loaded online) can't
+          show. */}
+      <OfflineSaveHint caveId={cave.id} />
       <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
 
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} card />
