@@ -38,6 +38,20 @@ http://ionicframework.com/docs/theming/ */
   --oc-sistema-cookie-edge: rgba(0, 0, 0, 0.55);
   --oc-marker-selected-font-size: 1.1em;
 
+  // The app bar (AppBar.jsx): the brand teal in the light theme, white on
+  // it - its title and the current page's, the other links a little muted;
+  // the current page's pill, the state layers' color (as r g b), its Sign up
+  // outline. The bar stays teal when the page scrolls under it.
+  --oc-app-bar-bg: var(--mui-palette-primary-main);
+  --oc-app-bar-bg-scrolled: var(--mui-palette-primary-main);
+  --oc-app-bar-fg: #fff;
+  --oc-app-bar-fg-variant: rgba(255, 255, 255, 0.85);
+  --oc-app-bar-active-bg: rgba(255, 255, 255, 0.16);
+  --oc-app-bar-active-fg: #fff;
+  --oc-app-bar-state: 255 255 255;
+  --oc-app-bar-action: #fff;
+  --oc-app-bar-outline: rgba(255, 255, 255, 0.5);
+
   // z-indexes
   --oc-app-menu-z-index: 1;
   --oc-filter-menu-z-index: 10000;
@@ -68,17 +82,30 @@ http://ionicframework.com/docs/theming/ */
   --oc-page-surface-stuck: rgba(28, 27, 31, 0.94);
   --oc-scrollbar-thumb: rgba(255, 255, 255, 0.12);
   --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
+  // The dark theme's app bar: MD3's surface top app bar - the surface, the
+  // surface container once scrolled under, the current page on a
+  // secondary-container pill, the actions in the primary role.
+  --oc-app-bar-bg: var(--oc-page-surface);
+  --oc-app-bar-bg-scrolled: var(--mui-sys-color-surfaceContainer);
+  --oc-app-bar-fg: var(--mui-palette-text-primary);
+  --oc-app-bar-fg-variant: var(--mui-palette-text-secondary);
+  --oc-app-bar-active-bg: var(--mui-sys-color-secondaryContainer);
+  --oc-app-bar-active-fg: var(--mui-sys-color-onSecondaryContainer);
+  --oc-app-bar-state: var(--mui-palette-text-primaryChannel);
+  --oc-app-bar-action: var(--mui-sys-color-primary);
+  --oc-app-bar-outline: var(--mui-sys-color-outline);
 }
 
 // Keyboard focus: a ring around whatever has focus from the keyboard - Material
 // Design 3's focus indicator (3dp, 2dp from the element). Many buttons have no
 // ripple (disableRipple), MUI's only other focus sign, so without it they
 // showed nothing. Text fields keep their own focused look. --oc-focus-ring:
-// the primary colour, white on the app bar and the dark media viewers.
+// the primary colour, white on the dark media viewers and the light theme's
+// teal app bar.
 :root {
   --oc-focus-ring: var(--mui-palette-primary-main);
 }
-.oc-app-bar,
+:root:not([data-mui-color-scheme='dark']) .oc-app-bar,
 .yarl__root,
 .oc-search-bar-mockup {
   --oc-focus-ring: #fff;
