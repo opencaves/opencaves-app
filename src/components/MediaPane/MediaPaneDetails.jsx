@@ -46,7 +46,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const isSmall = useSmall()
   const [isFullscreen, setIsFullscreen] = useState(false)
   // Turning the phone sideways in the installed app goes full screen
-  // (or, refused, covers the whole window: immersive), upright leaves it.
+  // (or, refused, covers the whole window: immersive); upright leaves it -
+  // when the turn entered it.
   const fullscreenRef = useRef(null)
   const immersive = useOrientationFullscreen(fullscreenRef)
   const showBackArrow = isSmall || isFullscreen || immersive
