@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0-beta-5](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-4...v1.0.0-beta-5) (2026-10-06)
+
+Search engines can now index every cave's page, and a few fixes on the map.
+
+
+### Bug Fixes
+
+* **Search engines:** a cave's page (`/caves/<id>`) was marked "noindex" once the app started, so Google left it out; it's indexable again, with its own description. A cave's place on the map (`/map/<id>`) now names that page as its canonical URL, and the sitemap lists each cave once.
+* **Map:** the open cave's pin shows whatever the filters - picking a cave the filters hid (e.g. not a cenote entrance, with "Show other cenotes" off) moved the map to it with no pin.
+* **Map:** the location button coloured as the map's other buttons, in both themes.
+
 ## [1.0.0-beta-4](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-3...v1.0.0-beta-4) (2026-10-06)
 
 The fourth beta: a welcome for first visits, Material Design 3 throughout (app bar, search bars, carousels, snackbars), better galleries on phones, faster cave lists, keyboard access everywhere, and the dashboard on translucent pages.
