@@ -455,7 +455,8 @@
       "heading": "Cenote type",
       "showCenoteEntrances": "Show cenote entrances",
       "showOtherCenotes": "Show other cenotes"
-    }
+    },
+    "closeBtn": "Close the filters"
   },
   "resultPane": {
     "title": "Cenote {{name}}",
@@ -619,7 +620,8 @@
       "trashMapTitle": "Delete this map?",
       "trashMapConfirm": "\"{{name}}\" goes to the trash and disappears from every sistema that shows it. An admin can restore it from Audits > Trash.",
       "trashMapSuccess": "Map moved to the trash.",
-      "trashMapError": "Couldn't delete the map."
+      "trashMapError": "Couldn't delete the map.",
+      "openPhoto": "Open photo {{n}}"
     },
     "closePane": "Close",
     "rating": {
@@ -1408,11 +1410,11 @@
       "area": "Area",
       "sistema": "Cave system",
       "location": "Location",
-      "photos": "Photos"
+      "photos": "Photos",
+      "openPhoto": "Open photo {{n}}"
     },
     "notOnMap": "Not on the map: no coordinates yet",
-    "maps": "Maps",
-    "openMap": "Open map: {{name}}"
+    "maps": "Maps"
   },
   "home": {
     "title": "Open data for cave diving",

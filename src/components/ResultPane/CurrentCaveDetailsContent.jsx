@@ -169,7 +169,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                   <ConditionalWrapper
                     condition={!isSmall}
                     wrapper={(children) => (
-                      <Tooltip title={t('copyAddress')} slotProps={underCopyIcon(() => addressCopyRef.current)} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+                      <Tooltip describeChild title={t('copyAddress')} slotProps={underCopyIcon(() => addressCopyRef.current)} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
                         {children}
                       </Tooltip>
                     )}
@@ -194,7 +194,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                   <ConditionalWrapper
                     condition={!isSmall}
                     wrapper={(children) => (
-                      <Tooltip title={t('copyCoordinates')} slotProps={underCopyIcon(() => coordinatesCopyRef.current)} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
+                      <Tooltip describeChild title={t('copyCoordinates')} slotProps={underCopyIcon(() => coordinatesCopyRef.current)} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
                         {children}
                       </Tooltip>
                     )}
@@ -232,7 +232,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
               <ConditionalWrapper
                 condition={!isSmall}
                 wrapper={(children) => (
-                  <Tooltip title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
+                  <Tooltip describeChild title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
                     {children}
                   </Tooltip>
                 )}
@@ -258,7 +258,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                 <ConditionalWrapper
                   condition={!isSmall}
                   wrapper={(children) => (
-                    <Tooltip title={t('copyCoordinates')} slotProps={underCopyIcon(() => keyCopyRefs.current[index])} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
+                    <Tooltip describeChild title={t('copyCoordinates')} slotProps={underCopyIcon(() => keyCopyRefs.current[index])} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
                       {children}
                     </Tooltip>
                   )}

@@ -12,7 +12,6 @@ import IndexSection from './IndexSection.jsx'
 // in the map's viewer from `caveId` (one of the system's caves); without one,
 // its file.
 export default function MapsSection({ sistemaId, sistemas, connections, caveId, title }) {
-  const { t } = useTranslation('indexPages')
   const { t: tMaps } = useTranslation('mapsPicker')
   const [allMaps] = mapsModel.useAll()
   const byId = new Map(allMaps.map((map) => [map.id, map]))
@@ -29,7 +28,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, caveId, 
           const link = caveId ? { component: RouterLink, to: `/map/${caveId}/maps/${map.id}` } : { component: 'a', href: map.url, target: '_blank', rel: 'noopener' }
           return (
             <li key={map.id}>
-              <Box {...link} className="oc-maps-section--item" aria-label={t('openMap', { name: map.name })} sx={{ display: 'block', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:hover .oc-maps-section--thumbnail': { boxShadow: 2 }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
+              <Box {...link} className="oc-maps-section--item" sx={{ display: 'block', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:hover .oc-maps-section--thumbnail': { boxShadow: 2 }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>
                 {/* The map's name and year over the bottom of its thumbnail, each
                     line on a dark band fitted to its text (inline, cloned on
                     every line), readable over any drawing. Opaque: at line

@@ -455,7 +455,8 @@
       "heading": "Tipo de cenote",
       "showCenoteEntrances": "Mostrar cenotes de entrada",
       "showOtherCenotes": "Mostrar otros cenotes"
-    }
+    },
+    "closeBtn": "Cerrar los filtros"
   },
   "resultPane": {
     "title": "Cenote {{name}}",
@@ -619,7 +620,8 @@
       "trashMapTitle": "¿Eliminar este mapa?",
       "trashMapConfirm": "«{{name}}» va a la papelera y desaparece de todos los sistemas que lo muestran. Un administrador puede restaurarlo desde Auditorías > Papelera.",
       "trashMapSuccess": "Mapa movido a la papelera.",
-      "trashMapError": "No se pudo eliminar el mapa."
+      "trashMapError": "No se pudo eliminar el mapa.",
+      "openPhoto": "Abrir la foto {{n}}"
     },
     "closePane": "Cerrar",
     "rating": {
@@ -1408,11 +1410,11 @@
       "area": "Zona",
       "sistema": "Sistema de cuevas",
       "location": "Ubicación",
-      "photos": "Fotos"
+      "photos": "Fotos",
+      "openPhoto": "Abrir la foto {{n}}"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
-    "maps": "Mapas",
-    "openMap": "Abrir el mapa: {{name}}"
+    "maps": "Mapas"
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",

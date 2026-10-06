@@ -9,6 +9,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
+import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -46,6 +47,9 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   // Turning the phone sideways in the installed app goes full screen
   // (or, refused, covers the whole window: immersive), upright leaves it.
   const fullscreenRef = useRef(null)
+  // The lightbox's controller, for the arrow keys.
+  const controllerRef = useRef(null)
+  useGalleryArrowKeys(controllerRef)
   const immersive = useOrientationFullscreen(fullscreenRef)
   const showBackArrow = isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
@@ -139,6 +143,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
           iconNext: () => <ArrowForwardIosRounded />,
         }}
         noScroll={{ disabled: true }}
+        controller={{ ref: controllerRef }}
         on={{ view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
       />
     </Main>

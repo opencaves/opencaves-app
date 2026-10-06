@@ -10,6 +10,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
+import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -59,6 +60,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const [touchAction, setTouchAction] = useState('none')
   const [swipeLocked, setSwipeLocked] = useState(false)
   const ref = useRef(null)
+  useGalleryArrowKeys(ref)
 
   // Built once per set of photos: the lightbox resets itself (and rebuilds
   // every slide - the photos flickered) whenever it gets a new slides array,
