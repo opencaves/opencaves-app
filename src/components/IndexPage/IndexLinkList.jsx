@@ -92,7 +92,8 @@ function IndexLinkList({ items, className }) {
           <li key={key}>
             <RouterLink className="oc-index-link-list--link" to={to}>
               {cave && <span className="oc-index-link-list--cave" aria-hidden="true" />}
-              {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem' }} />}
+              {/* On the name's first line, as the cave icon. */}
+            {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem', alignSelf: 'flex-start', mt: '1.6px', flexShrink: 0 }} />}
               {/* The name (wrapping when too long), the muted text under it. */}
               <span className="oc-index-link-list--text">
                 <span className="oc-index-link-list--label">{label}</span>
