@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import mapsModel from '@/models/MapModel.js'
+import SistemaModel from '@/models/SistemaModel.js'
+import ConnectionModel from '@/models/ConnectionModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { isTrashed } from '@/utils/trash.js'
 import MapPaneDetails from '@/components/MapPane/MapPaneDetails.jsx'
@@ -16,7 +18,14 @@ import GalleryOverlay from './GalleryOverlay.jsx'
 // Escape lead back to the page.
 export default function MapGallery() {
   const { mapId } = useParams()
-  const { sistemaId, sistemas, connections } = useOutletContext()
+  // The page's systems and connections, or (the cave's edit page, which has
+  // none) the live ones.
+  const context = useOutletContext()
+  const [liveSistemas] = SistemaModel.useAll()
+  const [liveConnections] = ConnectionModel.useAll()
+  const { sistemaId } = context
+  const sistemas = context.sistemas || liveSistemas
+  const connections = context.connections || liveConnections
   const navigate = useNavigate()
   const location = useLocation()
   const isEditor = useSelector((state) => state.session.roles).includes('editor')

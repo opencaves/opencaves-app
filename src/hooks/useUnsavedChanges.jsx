@@ -13,11 +13,13 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 // - onSave: the form's save, for the dialog's Save. It counts as saved once
 //   it has called setBaseline() (so a failed or refused save stays put).
 // - canSave: whether the form is currently valid enough to save.
+// - within: the page's address - moving under it (e.g. its galleries, over
+//   the form, which stays) isn't leaving.
 //
 // The baseline also lives in a ref, updated synchronously: a form that
 // navigates right after saving or deleting (in the same tick, before
 // re-rendering) must not be blocked by its own navigation.
-export function useUnsavedChanges(form, { initial, onSave, canSave = true } = {}) {
+export function useUnsavedChanges(form, { initial, onSave, canSave = true, within } = {}) {
   const { t } = useTranslation('app', { keyPrefix: 'unsavedChanges' })
   const [baseline, setBaselineState] = useState(() => (initial === undefined ? null : JSON.stringify(initial)))
   const baselineRef = useRef(baseline)
@@ -39,8 +41,10 @@ export function useUnsavedChanges(form, { initial, onSave, canSave = true } = {}
 
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
     const dirty = baselineRef.current !== null && JSON.stringify(formRef.current) !== baselineRef.current
-    // Only leaving the page counts, not e.g. a hash or search change.
-    return dirty && currentLocation.pathname !== nextLocation.pathname
+    // Only leaving the page counts, not e.g. a hash or search change, nor
+    // moving under its address (within).
+    const inside = (path) => Boolean(within) && (path === within || path.startsWith(`${within}/`))
+    return dirty && currentLocation.pathname !== nextLocation.pathname && !(inside(currentLocation.pathname) && inside(nextLocation.pathname))
   })
 
   useEffect(() => {

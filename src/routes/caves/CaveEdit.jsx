@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
@@ -118,7 +118,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name, within: `/caves/${caveId}/edit` })
 
   useEffect(() => {
     let cancelled = false
@@ -350,7 +350,7 @@ export default function CaveEdit() {
         <FormSection>
 
         <Typography {...columnHeadingProps}>{t('media')}</Typography>
-        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
+        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload galleryPath={`/caves/${caveId}/edit`} />
 
         </FormSection>
         <FormSection>
@@ -521,6 +521,8 @@ export default function CaveEdit() {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Its galleries (photos, its system's maps), over the form, which stays. */}
+      <Outlet context={{ sistemaId: form.sistemaId }} />
       {unsavedChangesDialog}
     </div>
   )

@@ -342,6 +342,18 @@ const routes = [
           {
             path: 'caves/:caveId/edit',
             ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
+            // Its galleries, over the form: its photos, its system's maps.
+            children: [
+              {
+                path: 'photos/:mediaId',
+                lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                path: 'maps/:mapId',
+                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+              },
+            ],
           },
           {
             path: 'sistemas/edit',

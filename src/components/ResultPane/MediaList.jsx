@@ -17,7 +17,8 @@ import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 // The primary's darker tone, its lighter one in dark mode.
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
-export default function MediaList({ caveId, editable = false, sx, className, ...props }) {
+// photoPath(id): a photo's address (a page's gallery); the map's viewer otherwise.
+export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
   const canDelete = useSelector((state) => state.session.roles.includes('admin'))
@@ -120,6 +121,8 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
       if (mediaList.size > assetsListMaxLength) {
         assetItems.push({
           isMedia: false,
+          // The first photo not shown, where its gallery opens.
+          firstHiddenId: docs[assetsListLength].id,
         })
       }
 
@@ -132,21 +135,21 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
       for (i = 0; i < assetItems.length; i += 3) {
         list.push(
           <MediaListCol key={i} isLast={isLastCol(i)}>
-            <Media asset={assetItems[i]} index={i} caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+            <Media asset={assetItems[i]} index={i} caveId={caveId} editable={editable} photoPath={photoPath} canDelete={canDelete} onDelete={setPictureToDelete} />
           </MediaListCol>,
         )
 
         if (assetItems[i + 1]) {
           const colItems = [
             <MediaListCell key={1} height={assetsListHeight / 2} width={assetsListHeight / 2}>
-              <Media asset={assetItems[i + 1]} index={i + 1} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+              <Media asset={assetItems[i + 1]} index={i + 1} size="half" caveId={caveId} editable={editable} photoPath={photoPath} canDelete={canDelete} onDelete={setPictureToDelete} />
             </MediaListCell>,
           ]
 
           if (assetItems[i + 2]) {
             colItems.push(
               <MediaListCell key={2} position="bottom" height={assetsListHeight / 2} width={assetsListHeight / 2}>
-                <Media asset={assetItems[i + 2]} index={i + 2} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+                <Media asset={assetItems[i + 2]} index={i + 2} size="half" caveId={caveId} editable={editable} photoPath={photoPath} canDelete={canDelete} onDelete={setPictureToDelete} />
               </MediaListCell>,
             )
           }
@@ -162,7 +165,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mediaList, editable, canDelete, caveId])
+  }, [mediaList, editable, canDelete, caveId, photoPath])
 
   return (
     <>
@@ -217,7 +220,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
   )
 }
 
-function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDelete }) {
+function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDelete, onDelete }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const fullHeight = ASSETS_LIST_CONFIG.height
   const fullWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
@@ -225,7 +228,7 @@ function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDel
   const height = size === 'full' ? fullHeight : fullHeight / 2 - ASSETS_LIST_CONFIG.spacing / 2
 
   if (!asset.isMedia) {
-    return <MoreMedias width={width} height={height} to={editable ? `/map/${caveId}/medias` : 'medias'} />
+    return <MoreMedias width={width} height={height} to={photoPath ? photoPath(asset.firstHiddenId) : editable ? `/map/${caveId}/medias` : 'medias'} state={photoPath ? { fromPage: true } : undefined} />
   }
 
   const media = asset.item
@@ -240,7 +243,7 @@ function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDel
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
     <Box sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
-      <ButtonBase component={Link} to={editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
+      <ButtonBase component={Link} to={photoPath ? photoPath(media.id) : editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} state={photoPath ? { fromPage: true } : undefined} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
       {/* Editing (admins): an X deletes it, after a confirmation. */}
@@ -309,13 +312,14 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   )
 }
 
-function MoreMedias({ width, height, to }) {
+function MoreMedias({ width, height, to, state }) {
   const { t } = useTranslation('resultPane')
 
   return (
     <ButtonBase
       component={Link}
       to={to}
+      state={state}
       sx={{
         borderRadius: '.5rem',
         backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,

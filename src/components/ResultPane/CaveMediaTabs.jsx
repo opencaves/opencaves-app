@@ -1,4 +1,4 @@
-import { useCallback, useId } from 'react'
+import { useCallback, useId, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +19,12 @@ import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 // the app slice's Redux state rather than component state, since that slice
 // is already persisted to sessionStorage (see redux/store.jsx) - reloading
 // the same cave's pane comes back to the tab the person was on for free.
-export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaId, isNew = false, standaloneUpload = false, editable = true }) {
+// galleryPath: the page whose galleries open its photos and maps (the cave's
+// edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
+export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaId, isNew = false, standaloneUpload = false, editable = true, galleryPath }) {
+  // Stable: the photo list rebuilds when its photoPath changes.
+  const photoPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/photos/${id}`), [galleryPath])
+  const mapPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/maps/${id}`), [galleryPath])
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const location = useLocation()
   const navigate = useNavigate()
@@ -52,7 +57,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
       </Tabs>
       {!isNew && (
         <Box role="tabpanel" id={`${tabId}-pictures-panel`} aria-labelledby={`${tabId}-pictures-tab`} hidden={activeTab !== 'pictures'} sx={{ display: activeTab === 'pictures' ? 'flex' : 'none', flexDirection: 'column', gap: 2, pt: 2 }}>
-          <MediaList caveId={caveId} editable={editable} />
+          <MediaList caveId={caveId} editable={editable} photoPath={photoPath} />
           {/* Photos added offline, waiting to upload. */}
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
@@ -72,7 +77,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
         <VideoList caveId={caveId} videos={videos} onChange={editable ? onVideosChange : undefined} showAdd={!editable} onAddUnauthorized={requireLogin} showTitle={false} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)', pt: 0 }} />
       </Box>
       <Box role="tabpanel" id={`${tabId}-maps-panel`} aria-labelledby={`${tabId}-maps-tab`} hidden={activeTab !== 'maps'} sx={{ display: activeTab === 'maps' ? 'block' : 'none', pt: 2 }}>
-        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLogin} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} />
+        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLogin} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} mapPath={mapPath} />
       </Box>
     </Box>
   )

@@ -35,7 +35,7 @@ const TITLE_BAR_PY = 0.5
 const TITLE_BAR_HEIGHT = 'calc(0.75rem * 1.66 + 8px)'
 const TITLE_BAR_MENU_SX = { top: 0, right: 4, height: TITLE_BAR_HEIGHT, width: TITLE_BAR_HEIGHT, p: 0 }
 
-function MapPreview({ caveId, map, index, returnTo, menu = false }) {
+function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [failed, setFailed] = useState(false)
@@ -87,7 +87,7 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   )
 
   return (
-    <ButtonBase component={Link} to={`/map/${caveId}/maps/${map.value}`} state={{ from: returnTo }} aria-label={t('openMapNumber', { index })} sx={{ position: 'relative', display: 'block', width: '100%', height: '100%' }}>
+    <ButtonBase component={Link} to={mapPath ? mapPath(map.value) : `/map/${caveId}/maps/${map.value}`} state={mapPath ? { fromPage: true } : { from: returnTo }} aria-label={t('openMapNumber', { index })} sx={{ position: 'relative', display: 'block', width: '100%', height: '100%' }}>
       {content}
     </ButtonBase>
   )
@@ -99,7 +99,8 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
 // edit form) since it isn't this cave's own data. New maps are added to the
 // cave's own sistema; inherited ones can only be removed from their own
 // sistema, since removing them here would affect every sibling cave.
-export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo }) {
+// mapPath(id): a map's address (a page's gallery); the map's viewer otherwise.
+export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo, mapPath }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [sistemas] = SistemaModel.useAll()
@@ -200,13 +201,13 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                     // A thin outline over the picture's edge (not around it: the size stays).
                     '&::after': { content: '""', position: 'absolute', inset: 0, borderRadius: 'inherit', border: `1px solid ${theme.vars.sys.color.outlineVariant}`, pointerEvents: 'none' },
                   })}>
-                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} menu={canAdd && !uploading} />
+                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu={canAdd && !uploading} />
                   {map.file?.contentType === 'application/pdf' && (
                     <Button component="a" href={map.file.url} target="_blank" rel="noopener noreferrer" size="small" sx={{ position: 'absolute', bottom: 4, left: 4, bgcolor: 'background.paper', '&:hover': { bgcolor: 'background.paper' } }}>
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>
