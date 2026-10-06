@@ -8,6 +8,7 @@ import Download from 'yet-another-react-lightbox/plugins/download'
 import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -34,6 +35,12 @@ const Main = styled('main')(
 )
 
 export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
+  // The toolbar's back arrow only where nothing else leads back: on phones
+  // (the viewer alone) and in full screen - beside the list pane, its
+  // header's arrow does.
+  const isSmall = useSmall()
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const showBackArrow = isSmall || isFullscreen
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
@@ -128,7 +135,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
         fullscreen={{ auto: false }}
         toolbar={{
           buttons: [
-            <IconButton
+            ...(showBackArrow ? [
+              <IconButton
               key='oc-media-pane-details-back-btn'
               aria-label={t('backBtn.ariaLabel')}
               component={Link}
@@ -144,7 +152,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
               className='yarl__button'
             >
               {theme.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardIosRounded />}
-            </IconButton>,
+            </IconButton>
+            ] : []),
             'share',
             'download',
             'fullscreen',
@@ -188,7 +197,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
           disabled: true
         }}
         on={{
-          view: onView
+          view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false)
         }}
       />
     </Main>

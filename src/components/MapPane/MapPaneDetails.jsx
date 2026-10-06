@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -6,6 +7,7 @@ import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -32,6 +34,12 @@ const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 // map is already uploaded, so the library's own viewer is the right tool).
 
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash }) {
+  // The toolbar's back arrow only where nothing else leads back: on phones
+  // (the viewer alone) and in full screen - beside the list pane, its
+  // header's arrow does.
+  const isSmall = useSmall()
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const showBackArrow = isSmall || isFullscreen
   const { t } = useTranslation('mediaPane')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
@@ -83,7 +91,8 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
         fullscreen={{ auto: false }}
         toolbar={{
           buttons: [
-            <IconButton
+            ...(showBackArrow ? [
+              <IconButton
               key="oc-map-pane-details-back-btn"
               aria-label={t('backBtn.ariaLabel')}
               component={Link}
@@ -93,7 +102,8 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
               className="yarl__button"
             >
               {theme.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardIosRounded />}
-            </IconButton>,
+            </IconButton>
+            ] : []),
             'download',
             'fullscreen',
             'menu',
@@ -116,7 +126,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
           iconNext: () => <ArrowForwardIosRounded />,
         }}
         noScroll={{ disabled: true }}
-        on={{ view: onView }}
+        on={{ view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false) }}
       />
     </Main>
   )
