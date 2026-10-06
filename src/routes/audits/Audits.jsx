@@ -33,7 +33,7 @@ export default function Audits() {
     <Box className="oc-audits" sx={{ minHeight: '100%', minWidth: 0 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
         <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -5 } }}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>

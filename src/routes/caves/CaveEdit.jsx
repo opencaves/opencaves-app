@@ -295,7 +295,7 @@ export default function CaveEdit() {
   return (
     <div className="oc-cave-edit">
       <EditPageHeader>
-        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -5 } }}>
+        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>

@@ -173,7 +173,7 @@ export default function ReferenceDataItemEdit() {
   return (
     <div className="oc-reference-data-item-edit">
       <EditPageHeader>
-        <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: { xs: 0, sm: -5 } }}>
+        <IconButton onClick={goBack} aria-label={t('back')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
