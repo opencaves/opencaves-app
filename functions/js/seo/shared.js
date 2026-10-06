@@ -37,7 +37,8 @@ export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({
 // paragraph breaks kept.
 export function plainParagraphs(markdown = '') {
   return String(markdown ?? '')
-    .replace(/:length\[([^\]]*)]/g, '$1')
+    // A length tag as its value, a whole number (as the app shows it).
+    .replace(/:length\[([^\]]*)]/g, (_, text) => text.replace(/\d[\d,]*\.\d+/, (n) => Math.round(Number(n.replace(/,/g, ''))).toLocaleString('en-US')))
     // A stray <br> (older editor saves) isn't text.
     .replace(/<br\s*\/?>/gi, ' ')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')

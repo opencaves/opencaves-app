@@ -20,24 +20,9 @@ export function formatLength(length, { unit, locale } = { unit: 'meter', locale:
 
   if (unit === 'meter') {
     const lengthInFeet = length / 0.3048
-    let adjustedLengthInMeter
-    let adjustedLengthInFeet
-
-    switch (true) {
-      case length < 10:
-        adjustedLengthInMeter = round(length, 1)
-        break
-
-      default: adjustedLengthInMeter = round(length, 0)
-    }
-
-    switch (true) {
-      case lengthInFeet < 10:
-        adjustedLengthInFeet = round(lengthInFeet, 1)
-        break
-
-      default: adjustedLengthInFeet = round(lengthInFeet, 0)
-    }
+    // Whole numbers: lengths and depths show no decimals.
+    const adjustedLengthInMeter = round(length, 0)
+    const adjustedLengthInFeet = round(lengthInFeet, 0)
 
     return `${nbsp(adjustedLengthInMeter.toLocaleString(locale, meterFormatProps))} (${nbsp(adjustedLengthInFeet.toLocaleString(locale, footFormatProps))})`
   }
