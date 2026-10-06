@@ -34,7 +34,7 @@ export default function AreaPage() {
       <IndexPageHeader trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }]} current={area.name} title={t('area.title', { area: area.name })} subtitle={[t('caveCount', { count: area.caves.length }), t('sistemaCount', { count: area.sistemas.length })].join(' · ')} backTo="/caves" editTo={area.recordId ? `/areas/${area.slug}/edit` : null} editLabel={t('area.edit', { area: area.name })} />
 
       <IndexSection title={t('area.cenotes')} count={area.caves.length}>
-        {area.caves.length > 0 ? <IndexLinkList items={area.caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} /> : <Typography sx={{ color: 'text.secondary' }}>{t('area.noCenotes')}</Typography>}
+        {area.caves.length > 0 ? <IndexLinkList items={area.caves.map((cave) => ({ key: cave.id, cave: true, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} /> : <Typography sx={{ color: 'text.secondary' }}>{t('area.noCenotes')}</Typography>}
       </IndexSection>
 
       <IndexSection title={t('area.sistemas')} count={area.sistemas.length}>
