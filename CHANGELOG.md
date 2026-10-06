@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.0.0-beta-4](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-3...v1.0.0-beta-4) (2026-10-06)
+
+The fourth beta: a welcome for first visits, Material Design 3 throughout (app bar, search bars, carousels, snackbars), better galleries on phones, faster cave lists, keyboard access everywhere, and the dashboard on translucent pages.
+
+
+### Features
+
+* **Welcome dialog** on a first visit: what OpenCaves is, an invitation to create an account and help keep the cave data complete, and the beta's notice (changes aren't permanent yet - a good time to try editing).
+* **App bar** as Material Design 3's: compact items with the current page on a pill, the title in title large; a teal bar in the light theme, a surface bar in the dark one. On phones, a 64dp bar with a sign-in menu where Log in and Sign up don't fit, and a menu with the logo and a close button.
+* **Search bars** as MD3's (56dp, 24dp icons), with the menu button in the map's search bar.
+* **Photo and map carousels** on cave and cave system pages (phones), with a Show all pane of every item.
+* **Galleries:** pan only when zoomed, double tap zooms in steps, the left and right arrow keys move between pictures, full screen when the phone turns sideways in the installed app, the back arrow first in the map viewer's bar; landscape allowed in the installed app.
+* **Keyboard:** every control reachable and visibly focused.
+* **Dashboard and index pages** on translucent pages over cave photos, their sections on opaque cards; loading skeletons shaped like each page.
+* **Snackbars** as MD3's, in both colour schemes; a page's button moves up out of their way.
+* **Cave systems' line arrow** beside their names on cave and cave system pages.
+* **Lengths and depths** as whole numbers; exploration histories with lengths and depths, and who drew the map, on their own lines.
+* Breadcrumbs on one line; the reference lists show their descriptions (sources too).
+
+
+### Bug Fixes
+
+* Cave lists (/caves, /sistemas) much faster to show and to search; typing fast no longer loses letters.
+* An area's edit page no longer waits for all the cave data.
+* Snackbars: a next one now shows after one is dismissed; a missing message text.
+* The installed app's icons (most were missing from its manifest).
+* Multiline fields' resize handle in their corner; reference list text no longer runs under the edit icon.
+* The back arrow no longer overlaps the page's frame.
+
 ## [1.0.0-beta-3](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-2...v1.0.0-beta-3) (2026-10-05)
 
 The third beta: public pages for every cave, cave system and area, a landing page, a dark mode that works everywhere, the maps' cartographers credited, and cleaner explorer names.
