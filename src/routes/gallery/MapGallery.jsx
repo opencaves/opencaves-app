@@ -59,7 +59,7 @@ export default function MapGallery() {
 
   return (
     <GalleryOverlay className="oc-map-gallery" onClose={close}>
-      {maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={pagePath} mapPath={mapPath} onTrash={canTrash ? requestTrash : undefined} canEdit={isEditor} alwaysShowBack onBack={close} />}
+      {maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={pagePath} mapPath={mapPath} onTrash={canTrash ? requestTrash : undefined} canEdit={isEditor} alwaysShowBack onBack={close} captioned />}
       {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
       <Outlet context={{ maps }} />
       {trashDialog}

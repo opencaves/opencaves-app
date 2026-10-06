@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import SistemaEditForm, { SISTEMA_FORM_SKELETON_SECTIONS } from '@/components/SistemaPane/SistemaEditForm.jsx'
@@ -20,6 +21,7 @@ function resolveSistemaId(param, sistemas, slugs, prev) {
 }
 
 export default function SistemaEdit() {
+  const { t } = useTranslation('sistemaEditForm')
   const { sistemaId: param } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
@@ -56,7 +58,7 @@ export default function SistemaEdit() {
 
   return (
     <div className="oc-sistema-edit">
-      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={done} onDeleted={() => navigate('/sistemas')} showMapPreview />
+      <SistemaEditForm sistemaId={sistemaId} onTitleChange={setPageTitle} onDone={done} onDeleted={() => navigate('/sistemas')} showMapPreview backLabel={slugs.get(sistemaId) ? t('backToSistema') : undefined} />
     </div>
   )
 }

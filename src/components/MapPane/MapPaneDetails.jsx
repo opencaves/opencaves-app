@@ -6,6 +6,10 @@ import Inline from 'yet-another-react-lightbox/plugins/inline'
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
+import Counter from 'yet-another-react-lightbox/plugins/counter'
+import Captions from 'yet-another-react-lightbox/plugins/captions'
+import 'yet-another-react-lightbox/plugins/counter.css'
+import 'yet-another-react-lightbox/plugins/captions.css'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
@@ -28,6 +32,21 @@ const Main = styled('main')(({ theme }) => ({
   display: 'flex',
 }))
 
+// A map's caption (a page's gallery): its name, its details under it.
+function MapCaption({ map, details }) {
+  return (
+    <>
+      <span style={{ fontWeight: 500 }}>{map.name}</span>
+      {details && (
+        <>
+          <br />
+          {details}
+        </>
+      )}
+    </>
+  )
+}
+
 // Zoom up to this many screen pixels per pixel of the map's image.
 const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 
@@ -41,8 +60,9 @@ const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto'
 // mapPath(id): a map's address (the map's viewer by default; a page's gallery
 // has its own); alwaysShowBack: the back arrow whatever the screen (no list
 // pane beside it); onBack: what it does (a link to returnTo otherwise);
-// canEdit: the Edit item in its menu.
-export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true }) {
+// canEdit: the Edit item in its menu; captioned: "3 / 12" at the top and each
+// map's name, year and cartographers under it (no list beside it).
+export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true, captioned = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
@@ -58,6 +78,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const immersive = useOrientationFullscreen(fullscreenRef)
   const showBackArrow = alwaysShowBack || isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
+  const { t: tMaps } = useTranslation('mapsPicker')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
   const navigate = useNavigate()
@@ -77,6 +98,10 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
     mapId: map.id,
     src: map.previewUrl || map.url,
     download: { url: map.url, filename: map.name },
+    // Its caption, at the bottom (a title would go in the toolbar, under its
+    // buttons): its name, then its year (dates are "2000", "2012-10"...) and
+    // who drew it.
+    ...(captioned && { description: <MapCaption map={map} details={[map.date?.match(/\d{4}/)?.[0], map.authors?.length > 0 && tMaps('cartography', { names: map.authors.join(', ') })].filter(Boolean).join(' · ')} /> }),
   }))
 
   const isFullscreenEnabled = () => document.fullscreenEnabled ?? document.webkitFullscreenEnabled ?? document.mozFullScreenEnabled ?? document.msFullscreenEnabled
@@ -127,10 +152,13 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
             <span key="oc-map-pane-details-spacer" style={{ marginRight: 'auto' }} />,
             'download',
             'fullscreen',
-            'menu',
+            // Its menu's place, when it has one (a name with no plugin shows as text).
+            ...(canEdit || onTrash ? ['menu'] : []),
           ],
         }}
-        plugins={[canEdit || onTrash ? Menu : undefined, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom].filter(Boolean)}
+        plugins={[canEdit || onTrash ? Menu : undefined, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom, captioned && maps.length > 1 && Counter, captioned && Captions].filter(Boolean)}
+        counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
+        captions={{ showToggle: false, descriptionTextAlign: 'start', descriptionMaxLines: 3 }}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
         styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}

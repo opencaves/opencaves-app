@@ -7,6 +7,8 @@ import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
+import Counter from 'yet-another-react-lightbox/plugins/counter'
+import 'yet-another-react-lightbox/plugins/counter.css'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
@@ -40,8 +42,9 @@ const Main = styled('main')(
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
 // alwaysShowBack: the back arrow whatever the screen (a page's gallery,
-// with no list pane beside it); onBack: what it does (a link up otherwise).
-export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack }) {
+// with no list pane beside it); onBack: what it does (a link up otherwise);
+// showCounter: "3 / 12" at the top (no list beside it either).
+export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack, showCounter = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
@@ -172,7 +175,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
             'menu'
           ]
         }}
-        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share]}
+        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, showCounter && medias.size > 1 ? Counter : undefined]}
+        counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
         carousel={{
           padding: 0,
           spacing: 0,

@@ -144,7 +144,8 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
   { title: true, fields: [{ kind: 'markdown', height: 140 }] },
 ]
 
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false }) {
+// backLabel: the back arrow's label, where it leads (the systems by default).
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   // Length and depth are stored in metres, shown and entered in the person's units.
@@ -316,7 +317,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   return (
     <Box className="oc-sistema-edit-form">
       <EditPageHeader>
-        <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+        <IconButton onClick={onDone} aria-label={backLabel || t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>

@@ -32,7 +32,7 @@ export default function PhotoGallery() {
 
   return (
     <GalleryOverlay className="oc-photo-gallery" onClose={close}>
-      {list && !list.empty && <MediaPaneDetails mediaId={mediaId} medias={list} onBeforeDelete={onBeforeDelete} alwaysShowBack onBack={close} />}
+      {list && !list.empty && <MediaPaneDetails mediaId={mediaId} medias={list} onBeforeDelete={onBeforeDelete} alwaysShowBack onBack={close} showCounter />}
     </GalleryOverlay>
   )
 }

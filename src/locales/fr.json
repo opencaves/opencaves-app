@@ -811,6 +811,7 @@
     "newSistema": "Nouveau sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Retour aux sistemas",
+    "backToSistema": "Retour à la page du système",
     "name": "Nom",
     "parentSistema": "Sistema parent",
     "area": "Région",

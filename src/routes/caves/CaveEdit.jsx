@@ -501,7 +501,7 @@ export default function CaveEdit() {
         ) : (
           <Box sx={{ mr: 'auto' }} />
         )}
-        <Button onClick={() => navigate('/caves')} disabled={saving}>
+        <Button onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
           {t('cancel')}
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !form.name}>

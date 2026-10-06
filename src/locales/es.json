@@ -812,6 +812,7 @@
     "newSistema": "Nuevo sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Volver a los sistemas",
+    "backToSistema": "Volver a la página del sistema",
     "name": "Nombre",
     "parentSistema": "Sistema padre",
     "area": "Zona",
