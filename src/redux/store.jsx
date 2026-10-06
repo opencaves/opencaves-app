@@ -80,8 +80,11 @@ export const store = configureStore({
       immutableCheck: {
         ignoredPaths: ['map.data', 'data'],
       },
+      // Nor are the datasets checked here (as in immutableCheck): walking
+      // them took ~45ms on every action.
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredPaths: ['map.data', 'data'],
       },
     })
 
