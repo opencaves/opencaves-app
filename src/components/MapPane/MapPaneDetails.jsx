@@ -45,7 +45,8 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const isSmall = useSmall()
   const [isFullscreen, setIsFullscreen] = useState(false)
   // Turning the phone sideways in the installed app goes full screen
-  // (or, refused, covers the whole window: immersive), upright leaves it.
+  // (or, refused, covers the whole window: immersive); upright leaves it -
+  // when the turn entered it.
   const fullscreenRef = useRef(null)
   // The lightbox's controller, for the arrow keys.
   const controllerRef = useRef(null)
