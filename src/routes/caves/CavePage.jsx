@@ -20,9 +20,9 @@ import MapsSection from '@/components/IndexPage/MapsSection.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
+import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 
-const sectionHeadingProps = { component: 'h2', variant: 'h6', sx: { mb: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' } }
 // The photos shown here (the map's media pane has them all).
 const MAX_PHOTOS = 12
 
@@ -33,7 +33,7 @@ function CavePhotos({ caveId, title }) {
   const photos = (list?.docs || []).slice(0, MAX_PHOTOS).map((doc) => doc.data())
   if (photos.length === 0) return null
   return (
-    <IndexSection title={title} count={list.size} className="oc-cave-page--photos">
+    <IndexSection title={title} count={list.size} className="oc-cave-page--photos" card>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 1.5 }}>
         {photos.map((photo, index) => (
           <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
@@ -124,7 +124,7 @@ export default function CavePage() {
       <CaveCover caveId={cave.id} />
 
       {facts.length > 0 && (
-        <Box component="dl" className="oc-cave-page--facts" sx={{ display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 1, m: 0, mb: 3 }}>
+        <Box component="dl" className="oc-cave-page--facts" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 1, m: 0, mb: 3 }}>
           {facts.map(({ key, label: factLabel, value }) => (
             <Box key={key} sx={{ display: 'contents' }}>
               <Typography component="dt" variant="body2" sx={{ color: 'text.secondary', alignSelf: 'baseline' }}>
@@ -138,24 +138,29 @@ export default function CavePage() {
         </Box>
       )}
 
-      <Box className="oc-cave-page--access" sx={{ mb: 3 }}>
-        <Access cave={cave} />
-      </Box>
+      {/* Access's own heading is the section's, above its card. */}
+      <IndexSection title={tPane('accessHeader')} className="oc-cave-page--access" card>
+        <Box sx={{ '& h2.h2': { display: 'none' }, '& .details-container': { px: 0 } }}>
+          <Access cave={cave} />
+        </Box>
+      </IndexSection>
 
       {cave.description && (
-        <Box component="section" className="oc-cave-page--description" sx={{ mb: 4 }}>
+        <Box component="section" className="oc-cave-page--description" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
           <Markdown>{cave.description}</Markdown>
         </Box>
       )}
 
       <CavePhotos caveId={cave.id} title={t('cave.photos')} />
 
-      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} />
+      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} card />
 
       {hasHistory && (
-        <Box component="section" className="oc-cave-page--history" sx={{ mb: 4, '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-          <ExplorationHistory sistemas={historySistemas} headingProps={sectionHeadingProps} showNotes={false} />
-        </Box>
+        <IndexSection title={tPane('explorationHistory')} className="oc-cave-page--history" card>
+          <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
+            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+          </Box>
+        </IndexSection>
       )}
     </div>
   )

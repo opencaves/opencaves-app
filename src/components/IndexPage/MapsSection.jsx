@@ -11,7 +11,7 @@ import IndexSection from './IndexSection.jsx'
 // details pane's Maps tab), each with its date and who drew it. A map opens
 // in the map's viewer from `caveId` (one of the system's caves); without one,
 // its file.
-export default function MapsSection({ sistemaId, sistemas, connections, caveId, title }) {
+export default function MapsSection({ sistemaId, sistemas, connections, caveId, title, card = false }) {
   const { t: tMaps } = useTranslation('mapsPicker')
   const [allMaps] = mapsModel.useAll()
   const byId = new Map(allMaps.map((map) => [map.id, map]))
@@ -19,7 +19,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, caveId, 
   if (maps.length === 0) return null
 
   return (
-    <IndexSection title={title} count={maps.length} className="oc-maps-section">
+    <IndexSection title={title} count={maps.length} className="oc-maps-section" card={card}>
       <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 2 }}>
         {maps.map((map) => {
           // Its year: maps' dates are "2000", "2012-10" or "1988-02-01".

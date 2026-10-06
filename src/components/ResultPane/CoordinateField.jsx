@@ -282,9 +282,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         // on map" is the sheet's place-on-map mode in the map's result pane,
         // tap-to-pick on the admin pages' map preview.
         <>
-          <Grid container spacing={1} sx={{ alignItems: 'center' }}>
-            {inputs}
-          </Grid>
+          {/* Sharing the screen's width (their desktop widths ran past its
+              edge): the numbers narrower, the validity a little wider. */}
+          <Box className="oc-coordinate-field--inputs" sx={{ display: 'flex', alignItems: 'center', gap: 1, '& > .MuiTextField-root': { width: 'auto', minWidth: 0, flex: '1 1 0' }, '& > .MuiTextField-root:nth-of-type(3)': { flexGrow: 1.75 }, '& .MuiInputBase-input': { px: '10px' }, '& .MuiInputLabel-root': { left: '-2px', maxWidth: 'calc(100% - 16px)' } }}>
+            {longitudeInput}
+            {latitudeInput}
+            {validityInput}
+          </Box>
           <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 1, ml: -1 }}>
             {inPhoneSheet ? <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} disabled={placingInSheet} /> : canPickOnMap && <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPickOnMapClick} disabled={picking} />}
             <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />

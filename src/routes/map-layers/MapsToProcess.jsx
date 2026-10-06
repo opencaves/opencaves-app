@@ -7,6 +7,7 @@ import UndoRounded from '@mui/icons-material/UndoRounded'
 import { collection, deleteField, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { auth, db } from '@/config/firebase.js'
 import { AUDIT_LOG_COLLECTION } from '@/config/collections.js'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { useAccounts } from '@/routes/audits/useAccounts.js'
 
 // Who added each map and when: its "create" entry in the audit log (admins
@@ -106,7 +107,7 @@ export default function MapsToProcess({ toProcess, skipped }) {
       {toProcess.length === 0 ? (
         <Typography sx={{ py: 3, color: 'text.secondary' }}>{t('toProcess.none')}</Typography>
       ) : (
-        <List disablePadding>
+        <List disablePadding sx={DASHBOARD_LIST_SX}>
           {[...toProcess].sort(byNewest).map((map) => (
             <MapRow
               key={map.id}
@@ -132,7 +133,7 @@ export default function MapsToProcess({ toProcess, skipped }) {
           <Typography component="h2" variant="subtitle1" sx={{ mt: 4, mb: 0.5 }}>
             {t('toProcess.skippedTitle', { count: skipped.length })}
           </Typography>
-          <List disablePadding sx={{ opacity: 0.75 }}>
+          <List disablePadding sx={{ ...DASHBOARD_LIST_SX, opacity: 0.75 }}>
             {[...skipped].sort(byNewest).map((map) => (
               <MapRow
                 key={map.id}

@@ -18,6 +18,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
@@ -169,7 +170,7 @@ export default function ReferenceDataItemEdit() {
       {loading ? (
         <FormSkeleton header={false} sections={[['100%', '100%', '100%']]} sx={{ maxWidth: 480 }} />
       ) : (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480 }}>
+        <Box sx={{ ...DASHBOARD_SURFACE_SX, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480, p: { xs: 2, sm: 3 } }}>
           {config.fields.map((field) => {
             if (field === 'description') {
               return <MarkdownField key={field} label={fieldLabel(field)} value={form[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))} resizable />

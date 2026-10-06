@@ -17,6 +17,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
 
 const sourcesModel = createCollectionModel('sources')
@@ -176,7 +177,7 @@ export default function ConnectionEdit() {
       {!form && !error && <FormSkeleton header={false} sections={[['100%', '100%', 'min(100%, 280px)', '100%', '100%']]} sx={{ maxWidth: 720 }} />}
 
       {form && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 720 }}>
+        <Box sx={{ ...DASHBOARD_SURFACE_SX, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 720, p: { xs: 2, sm: 3 } }}>
           {isNew ? (
             <TextField select label={t('childSistema')} fullWidth {...field('sistemaId')}>
               <MenuItem value="">{t('childSistema')}</MenuItem>
