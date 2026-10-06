@@ -55,7 +55,8 @@
       "manageAccount": "Administrar tu cuenta",
       "welcome": "Te damos la bienvenida a {{name}}",
       "welcomeText": "Inicia sesión para guardar tus cuevas favoritas y contribuir.",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "signInMenu": "Iniciar sesión o registrarse"
     },
     "snackbar": {
       "saved": "Cambios en {{name}} guardados",

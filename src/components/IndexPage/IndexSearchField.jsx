@@ -43,8 +43,8 @@ export default function IndexSearchField({ query, setQuery, placeholder, status 
       className="oc-index-search-field--bar"
       sx={{
         position: 'sticky',
-        // The app bar's height (MUI's toolbar: 56px on phones, 64px from 600px).
-        top: { xs: 56, sm: 64 },
+        // The app bar's height (64px, as MD3's small top app bar).
+        top: 64,
         zIndex: 2,
         pt: 1,
         pb: 1.5,

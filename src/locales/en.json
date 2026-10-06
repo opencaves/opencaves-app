@@ -55,7 +55,8 @@
       "manageAccount": "Manage your account",
       "welcome": "Welcome to {{name}}",
       "welcomeText": "Log in to save your favorite caves and contribute.",
-      "close": "Close"
+      "close": "Close",
+      "signInMenu": "Log in or sign up"
     },
     "snackbar": {
       "saved": "Changes to {{name}} saved",
