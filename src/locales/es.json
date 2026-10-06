@@ -1118,10 +1118,10 @@
   "offline": {
     "caveReady": "El cenote {{name}} está disponible sin conexión",
     "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "previewsReady": "Las vistas previas de los cenotes y los mapas están disponibles sin conexión",
+    "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",
     "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsLabel": "Hacer disponible sin conexión",
-    "previewsHint": "Vistas de cenotes y mapas",
+    "previewsHint": "Vistas de cenotes, mapas y galerías",
     "waitingForWifi": "Esperando Wi-Fi",
     "waitingForConnection": "Esperando conexión",
     "downloadingCount": "Descargando para usar sin conexión… {{done}} / {{total}}",

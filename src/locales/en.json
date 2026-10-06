@@ -1118,10 +1118,10 @@
   "offline": {
     "caveReady": "Cenote {{name}} is available offline",
     "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
-    "previewsReady": "Cenote previews and maps are available offline",
+    "previewsReady": "Cenote previews, maps and cave passages are available offline",
     "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
     "previewsLabel": "Make available offline",
-    "previewsHint": "Cenote previews and maps",
+    "previewsHint": "Cenote previews, maps and cave passages",
     "waitingForWifi": "Waiting for Wi-Fi",
     "waitingForConnection": "Waiting for a connection",
     "downloadingCount": "Downloading for offline use… {{done}} / {{total}}",

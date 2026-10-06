@@ -1117,10 +1117,10 @@
   "offline": {
     "caveReady": "La cénote {{name}} est disponible hors ligne",
     "caveIncomplete": "La cénote {{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "previewsReady": "Les aperçus des cénotes et les cartes sont disponibles hors ligne",
+    "previewsReady": "Les aperçus des cénotes, les cartes et les galeries sont disponibles hors ligne",
     "previewsIncomplete": "Certains aperçus ou cartes n’ont pas pu être téléchargés. Nouvel essai plus tard.",
     "previewsLabel": "Rendre disponible hors ligne",
-    "previewsHint": "Aperçus des cénotes et cartes",
+    "previewsHint": "Aperçus des cénotes, cartes et galeries",
     "waitingForWifi": "En attente du Wi-Fi",
     "waitingForConnection": "En attente d’une connexion",
     "downloadingCount": "Téléchargement pour utilisation hors ligne… {{done}} / {{total}}",

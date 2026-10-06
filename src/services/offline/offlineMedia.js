@@ -3,6 +3,7 @@ import mapsModel from '@/models/MapModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { PANE_WIDTH } from '@/config/app.js'
+import { CAVE_LAYER } from '@/config/map.js'
 
 // Offline downloads, kept in caches of their own (no expiry, unlike the
 // service worker's browsing caches): the service worker looks in these first
@@ -13,6 +14,9 @@ export const OFFLINE_SAVED_CAVES_CACHE = 'oc-offline-saved-caves-v1'
 export const OFFLINE_PREVIEWS_CACHE = 'oc-offline-previews-v1'
 
 const DOWNLOAD_CONCURRENCY = 4
+// Marks the offline downloads' own requests to the site (service-worker.js:
+// keep in sync).
+const OFFLINE_DOWNLOAD_HEADER = 'x-oc-offline-download'
 
 export const offlineSupported = typeof window !== 'undefined' && 'caches' in window
 
@@ -94,7 +98,10 @@ async function downloadInto(cache, urls, { signal, onProgress }) {
     while (next < urls.length && !signal?.aborted) {
       const url = urls[next++]
       try {
-        const response = await fetch(url, { mode: 'cors', credentials: 'omit', signal })
+        // The site's own files (the cave layer) marked as an offline
+        // download: the service worker then doesn't also keep a browsing copy.
+        const sameSite = new URL(url).origin === window.location.origin
+        const response = await fetch(url, { mode: 'cors', credentials: 'omit', signal, ...(sameSite && { headers: { [OFFLINE_DOWNLOAD_HEADER]: '1' } }) })
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
         await cache.put(url, response)
         downloaded++
@@ -259,6 +266,10 @@ export async function getSavedCaveUrls(caveId, { caves, sistemas, connections })
   const maps = await Promise.all(mapRefs.map(({ id }) => mapsModel.getById(id)))
   maps.filter(Boolean).forEach((map) => urls.push(...mapUrls(map)))
 
+  // The cave layer's passages around it, at every zoom.
+  const layer = cave?.location?.latitude != null ? await loadCaveLayer() : null
+  if (layer) urls.push(...tilesAround(cave.location, SAVED_CAVE_TILES_RADIUS, layer.tiles).map(tileUrl), ...layerFileUrls())
+
   return urls.filter(Boolean)
 }
 
@@ -274,8 +285,82 @@ function mapUrls(map) {
   return urls
 }
 
-// The "Offline" setting: every cave's cover thumbnail and every map.
+// The "Offline" setting: every cave's cover thumbnail, every map, and the
+// cave layer's passages up to PREVIEW_TILES_MAX_ZOOM.
 export async function getPreviewUrls() {
-  const [covers, maps] = await Promise.all([CaveAsset.getAllCoverImages(), mapsModel.getAll()])
-  return [...covers.map((asset) => asset.getThumbnailUrl('coverImage')), ...maps.flatMap(mapUrls)].filter(Boolean)
+  const [covers, maps, layer] = await Promise.all([CaveAsset.getAllCoverImages(), mapsModel.getAll(), loadCaveLayer()])
+  const tiles = layer ? [...layer.tiles].filter((tile) => Number(tile.split('/')[0]) <= PREVIEW_TILES_MAX_ZOOM).map(tileUrl).concat(layerFileUrls()) : []
+  return [...covers.map((asset) => asset.getThumbnailUrl('coverImage')), ...maps.flatMap(mapUrls), ...tiles].filter(Boolean)
+}
+
+// The cave layer (scripts/map-layer/build-tiles.js), for offline use: with
+// the Offline setting, its tiles up to this zoom (the whole layer at an
+// overview's detail, ~16 MB); around a saved cave, every zoom within
+// SAVED_CAVE_TILES_RADIUS (a few hundred kB).
+const PREVIEW_TILES_MAX_ZOOM = 16
+const SAVED_CAVE_TILES_RADIUS = 2000
+// The build last downloaded for offline use (its version.json).
+const LAYER_VERSION_KEY = 'oc-offline-cave-layer-version'
+
+const tileUrl = (tile) => new URL(`/tiles/caves/${tile}.pbf`, window.location.origin).href
+// Its lists and empty tile, so the layer works offline at all.
+const layerFileUrls = () => [CAVE_LAYER.INDEX, CAVE_LAYER.MAPS, CAVE_LAYER.VERSION, CAVE_LAYER.EMPTY_TILE].map((path) => new URL(path, window.location.origin).href)
+
+// The layer's tiles ("z/x/y") and build, once per sync (both syncs share it).
+// A new build since the last download: the tiles and lists kept offline
+// are dropped first (same addresses, new content), to be downloaded again.
+let layerLoading = null
+function loadCaveLayer() {
+  layerLoading ??= (async () => {
+    try {
+      const [index, version] = await Promise.all([CAVE_LAYER.INDEX, CAVE_LAYER.VERSION].map((path) => fetch(path, { cache: 'no-cache' }).then((response) => (response.ok ? response.json() : null))))
+      if (!Array.isArray(index)) return null
+      const builtAt = version?.builtAt || null
+      let known = null
+      try {
+        known = localStorage.getItem(LAYER_VERSION_KEY)
+      } catch {
+        // Unknown: kept as is.
+      }
+      if (builtAt && known && known !== builtAt) {
+        for (const name of [OFFLINE_SAVED_CAVES_CACHE, OFFLINE_PREVIEWS_CACHE]) {
+          const cache = await caches.open(name)
+          const keys = await cache.keys()
+          await Promise.all(keys.filter((request) => new URL(request.url).pathname.startsWith('/tiles/caves/')).map((request) => cache.delete(request)))
+        }
+      }
+      try {
+        if (builtAt) localStorage.setItem(LAYER_VERSION_KEY, builtAt)
+      } catch {
+        // Not kept: compared again next time.
+      }
+      return { tiles: new Set(index), builtAt }
+    } catch {
+      return null
+    } finally {
+      // The next sync asks again (a new build may have been deployed).
+      setTimeout(() => (layerLoading = null), 60000)
+    }
+  })()
+  return layerLoading
+}
+
+// The layer's tiles within `metres` of a point, at every zoom it has.
+function tilesAround({ longitude, latitude }, metres, tiles) {
+  const dLat = metres / 111320
+  const dLng = metres / (111320 * Math.cos((latitude * Math.PI) / 180))
+  const tileX = (lng, z) => Math.floor(((lng + 180) / 360) * 2 ** z)
+  const tileY = (lat, z) => {
+    const rad = (lat * Math.PI) / 180
+    return Math.floor(((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * 2 ** z)
+  }
+  const found = []
+  for (let z = CAVE_LAYER.MIN_ZOOM; z <= CAVE_LAYER.MAX_ZOOM; z++) {
+    for (let x = tileX(longitude - dLng, z); x <= tileX(longitude + dLng, z); x++) {
+      for (let y = tileY(latitude + dLat, z); y <= tileY(latitude - dLat, z); y++) {
+        if (tiles.has(`${z}/${x}/${y}`)) found.push(`${z}/${x}/${y}`)
+      }
+    }
+  }
+  return found
 }

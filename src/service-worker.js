@@ -5,7 +5,7 @@
 import { setCacheNameDetails, clientsClaim } from 'workbox-core'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate, CacheFirst, NetworkFirst } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import * as googleAnalytics from 'workbox-google-analytics'
@@ -124,6 +124,46 @@ registerRoute(
       new CacheableResponsePlugin({ statuses: [0, 200] }),
       new ExpirationPlugin({ maxEntries: 3000, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
     ],
+  }))
+)
+
+// The cave layer (scripts/map-layer/build-tiles.js), for offline use too.
+// The offline downloads' copies (saved caves, the Offline setting) are a
+// fallback only: they may come from an older build of the layer (tile
+// addresses carry no version), so the network and the copies kept while
+// browsing come first.
+function offlineCachesAsFallback(strategy) {
+  return async (options) => {
+    try {
+      return await strategy.handle(options)
+    } catch (error) {
+      for (const offlineCacheName of OFFLINE_CACHES) {
+        const cached = await caches.match(options.request.url, { cacheName: offlineCacheName })
+        if (cached) return cached
+      }
+      throw error
+    }
+  }
+}
+
+// The app's offline downloads of these (offlineMedia.js's header: keep in
+// sync) go straight to the network: they're kept in their own caches.
+const isOfflineDownload = (request) => request.headers.has('x-oc-offline-download')
+
+// Its lists (which tiles exist, the maps in them, its build's version):
+// fresh when online, their last copy offline.
+registerRoute(
+  ({ url, request }) => url.origin === self.location.origin && url.pathname.startsWith('/tiles/caves/') && url.pathname.endsWith('.json') && !isOfflineDownload(request),
+  offlineCachesAsFallback(new NetworkFirst({ cacheName: cacheName('cave-layer'), networkTimeoutSeconds: 4 }))
+)
+
+// Its tiles (and its empty tile): kept as viewed, refreshed in the
+// background while online.
+registerRoute(
+  ({ url, request }) => url.origin === self.location.origin && url.pathname.startsWith('/tiles/caves/') && url.pathname.endsWith('.pbf') && !isOfflineDownload(request),
+  offlineCachesAsFallback(new StaleWhileRevalidate({
+    cacheName: cacheName('cave-tiles'),
+    plugins: [new CacheableResponsePlugin({ statuses: [200] }), new ExpirationPlugin({ maxEntries: 6000, purgeOnQuotaError: true })],
   }))
 )
 
