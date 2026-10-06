@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
-import SistemaEditForm from '@/components/SistemaPane/SistemaEditForm.jsx'
+import SistemaEditForm, { SISTEMA_FORM_SKELETON_SECTIONS } from '@/components/SistemaPane/SistemaEditForm.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 
 // The system an address names: its slug (the public page's), or its id
@@ -47,7 +47,7 @@ export default function SistemaEdit() {
   }, [pageTitle])
 
   if (!sistemaId) {
-    return <FormSkeleton className="oc-sistema-edit" />
+    return <FormSkeleton className="oc-sistema-edit" sections={SISTEMA_FORM_SKELETON_SECTIONS} />
   }
 
   // Back to the system's public page; to the list of systems when it has

@@ -31,7 +31,7 @@ export default function SistemaIndex() {
 
   useIndexPageHead({ title: t('sistemas.title'), description: t('sistemas.description') })
 
-  if (loading) return <IndexPageSkeleton />
+  if (loading) return <IndexPageSkeleton search card />
 
   return (
     <div className="oc-sistema-index">

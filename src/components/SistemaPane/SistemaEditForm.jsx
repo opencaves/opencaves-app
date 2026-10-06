@@ -132,6 +132,17 @@ const emptyForm = {
 // fields, for the standalone page (the pane already has the map behind it).
 // onDeleted: where a delete goes instead of onDone, when that differs (the
 // standalone page's onDone goes to the system's own page).
+// The form's sections, for its loading skeleton (also SistemaEdit's, while
+// it finds the system): the main fields, location, aka, description and
+// direction.
+export const SISTEMA_FORM_SKELETON_SECTIONS = [
+  { title: false, fields: ['100%', 'min(100%, 240px)', { width: '100%', helper: true }, 'calc(50% - 8px)', 'calc(50% - 8px)', 'min(100%, 240px)', 'min(100%, 240px)'] },
+  { title: true, fields: ['min(100%, 340px)'] },
+  { title: true, fields: [{ kind: 'button' }] },
+  { title: true, fields: [{ kind: 'markdown', height: 140 }] },
+  { title: true, fields: [{ kind: 'markdown', height: 140 }] },
+]
+
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
@@ -279,7 +290,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   }
 
   if (loading) {
-    return <FormSkeleton className="oc-sistema-edit-form" sections={[['100%', 'min(100%, 240px)', '100%', 'calc(50% - 8px)', 'calc(50% - 8px)'], ['100%'], ['100%'], ['100%']]} />
+    return <FormSkeleton className="oc-sistema-edit-form" sections={SISTEMA_FORM_SKELETON_SECTIONS} />
   }
 
   const areasById = new Map(areas.map((a) => [a.id, a.name]))

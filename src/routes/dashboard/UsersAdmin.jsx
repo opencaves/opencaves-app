@@ -157,7 +157,7 @@ export default function UsersAdmin() {
       )}
 
       {loading ? (
-        <ListSkeleton rows={6} leading={null} count />
+        <ListSkeleton rows={6} leading={null} count card />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>

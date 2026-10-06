@@ -286,7 +286,7 @@ export default function ChangesTab({ accountLabel, accountList }) {
       )}
 
       {loading ? (
-        <ListSkeleton rows={8} leading={null} fill={false} />
+        <ListSkeleton rows={8} leading={null} fill={false} card />
       ) : entries.length === 0 ? (
         !error && (
           <Typography className="oc-audits-changes--empty" color="text.secondary" sx={{ py: 6, textAlign: 'center' }}>

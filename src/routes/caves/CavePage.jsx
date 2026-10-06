@@ -82,7 +82,7 @@ export default function CavePage() {
     return ancestry.map(({ id }) => data.sistemasById.get(id)).filter(Boolean)
   }, [cave, data])
 
-  if (loading) return <IndexPageSkeleton />
+  if (loading) return <IndexPageSkeleton item back onMap />
   if (!cave) throwNotFound()
 
   const area = cave.area ? data.areasBySlug.get(slugify(cave.area)) || null : null
