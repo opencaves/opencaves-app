@@ -17,6 +17,7 @@ import MapCompareViewer from './MapCompareViewer.jsx'
 import MapsToProcess from './MapsToProcess.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { useMapsToProcess } from './useMapsToProcess.js'
+import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 
 // The zoom that fits a map's extent ([west, south, east, north]) on screen.
 function zoomFor(bounds) {
@@ -160,7 +161,7 @@ export default function MapLayersAdmin() {
             placeholder={t('searchLabel')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
+            sx={[SEARCH_FIELD_SX, { mb: 2 }]}
             slotProps={{
               input: {
                 startAdornment: (

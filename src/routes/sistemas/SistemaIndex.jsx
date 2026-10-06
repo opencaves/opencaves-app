@@ -7,7 +7,7 @@ import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
-import IndexSearchField, { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
+import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
@@ -21,13 +21,18 @@ export default function SistemaIndex() {
   const { data, loading, failed } = useIndexData()
   // The Add button's new record: one id per visit, not per render.
   const [newId] = useState(pushId)
-  const { query, setQuery, matches, searching } = useIndexSearch()
-  // The search: a system's name and other names, and its area's.
-  const sistemas = useMemo(
-    () => data.sistemas.filter((sistema) => matches([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : []), sistema.area])),
-    [data, matches],
+  const { query, setQuery, matchesFolded, searching, searchedQuery } = useIndexSearch()
+
+  // Every system's row, and its search text (its name and other names, and
+  // its area's), made once - not on every letter typed.
+  const rows = useMemo(
+    () => new Map(data.sistemas.map((sistema) => [sistema.id, { row: { key: sistema.id, to: `/sistemas/${sistema.slug}`, label: sistema.name, color: sistema.color || SISTEMA_DEFAULT_COLOR }, text: fold([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : []), sistema.area].join(' ')) }])),
+    [data],
   )
-  const groups = useMemo(() => groupByArea(sistemas, data.areasBySlug), [sistemas, data])
+  const sistemas = useMemo(() => data.sistemas.filter((sistema) => matchesFolded(rows.get(sistema.id).text)), [data, rows, matchesFolded])
+  // Each area's rows: the same arrays until the search changes.
+  const groups = useMemo(() => groupByArea(sistemas, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((sistema) => rows.get(sistema.id).row) })), [sistemas, data, rows])
+  const shownGroups = useProgressiveCount(groups.length, groups)
 
   useIndexPageHead({ title: t('sistemas.title'), description: t('sistemas.description') })
 
@@ -58,12 +63,13 @@ export default function SistemaIndex() {
         query={query}
         setQuery={setQuery}
         placeholder={t('search.sistemas')}
-        status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query })) : null}
+        status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 
-      {groups.map(({ area, items }) => (
+      {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection
           card
+          lazy
           key={area?.slug ?? 'unknown'}
           title={
             area ? (
@@ -76,7 +82,7 @@ export default function SistemaIndex() {
           }
           count={t('sistemaCount', { count: items.length })}
         >
-          <IndexLinkList items={items.map((sistema) => ({ key: sistema.id, to: `/sistemas/${sistema.slug}`, label: sistema.name, color: sistema.color || SISTEMA_DEFAULT_COLOR }))} />
+          <IndexLinkList items={groupRows} />
         </IndexSection>
       ))}
     </div>

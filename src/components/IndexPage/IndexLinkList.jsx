@@ -1,26 +1,37 @@
+import { memo } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Box, IconButton, ListItemButton, Tooltip } from '@mui/material'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import { Box } from '@mui/material'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
-import MapOffOutlined from './MapOffOutlined.jsx'
+import { MAP, SLASH } from './MapOffOutlined.jsx'
+
+// The map icons (MapOutlined, and MapOffOutlined's crossed-out map) as CSS
+// masks, painted in the icon's color: no icon component per row.
+const svgUrl = (body) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>${body}</svg>`)}")`
+const MAP_ICON = svgUrl(`<path d='${MAP}'/>`)
+const MAP_OFF_ICON = svgUrl(`<mask id='m'><rect width='24' height='24' fill='white'/><path d='M2.1 2.1-.02 4.22l19.8 19.8 2.12-2.12z'/></mask><path d='${MAP}' mask='url(%23m)'/><path d='${SLASH}'/>`)
 
 // Links to caves or cave systems, in as many columns as the page's width
-// holds (one on phones), each a block button: the whole row is the link
-// (its primary action), with a state layer on hover and focus. items:
+// holds (one on phones), each a block link: the whole row is the link (its
+// primary action), with a state layer on hover and focus. items:
 // { key, to, label, color, secondary, mapTo } - color: a sistema's colour, as
-// a line arrow before its name (SistemaArrow); secondary: muted text on a second line (a cave's
-// system), on one line (cut with an ellipsis) - a long name wraps;
-// mapTo: the record on the map, the row's secondary action - a map icon at
-// its end, shown on hover or focus (always on touch screens); noMap: the
-// icon disabled (a cave without coordinates isn't on the map).
-export default function IndexLinkList({ items, className }) {
+// a line arrow before its name (SistemaArrow); secondary: muted text on a
+// second line (a cave's system), on one line (cut with an ellipsis) - a long
+// name wraps; mapTo: the record on the map, the row's secondary action - a
+// map icon at its end, shown on hover or focus (always on touch screens);
+// noMap: the icon disabled (a cave without coordinates isn't on the map).
+//
+// A list can hold hundreds of rows (/caves): each is plain elements, styled
+// from the list (one set of styles, not one per row), its map icon's label a
+// native tooltip - no ripple, no MUI Tooltip per row, which made the page
+// slow to show and to filter; its icons are CSS masks.
+function IndexLinkList({ items, className }) {
   const { t } = useTranslation('indexPages')
   return (
     <Box
       component="ul"
       className={['oc-index-link-list', className].filter(Boolean).join(' ')}
-      sx={{
+      sx={(theme) => ({
         listStyle: 'none',
         m: 0,
         mx: -1.5,
@@ -28,52 +39,53 @@ export default function IndexLinkList({ items, className }) {
         columnWidth: '15rem',
         columnGap: 2,
         '& > li': { breakInside: 'avoid', display: 'flex', alignItems: 'center', borderRadius: 2, '&:hover, &:focus-within': { bgcolor: 'action.hover' } },
-        '& .oc-index-link-list--map': { opacity: 0, transition: 'opacity 120ms' },
+        '& .oc-index-link-list--link': { flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, display: 'flex', gap: 1, alignItems: 'center', color: 'inherit', textDecoration: 'none' },
+        '& .oc-index-link-list--text': { minWidth: 0, display: 'flex', flexDirection: 'column' },
+        '& .oc-index-link-list--label': { ...theme.typography.body1, color: theme.vars.palette.primary.main, overflowWrap: 'anywhere' },
+        '& .oc-index-link-list--secondary': { ...theme.typography.body2, color: theme.vars.palette.text.secondary, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
+        // The map icon: a 40dp button, its 24dp icon (MD3's icon button).
+        '& .oc-index-link-list--map': {
+          flexShrink: 0,
+          width: 40,
+          height: 40,
+          mr: 0.5,
+          display: 'grid',
+          placeItems: 'center',
+          borderRadius: '50%',
+          color: theme.vars.palette.text.secondary,
+          opacity: 0,
+          transition: 'opacity 120ms',
+          '&::before': { content: '""', width: 20, height: 20, bgcolor: 'currentColor', mask: `${MAP_ICON} center / contain no-repeat` },
+        },
+        '& .oc-index-link-list--map[aria-disabled="true"]::before': { maskImage: MAP_OFF_ICON },
+        '& a.oc-index-link-list--map:hover': { bgcolor: 'action.hover' },
+        '& .oc-index-link-list--map[aria-disabled="true"]': { color: theme.vars.palette.action.disabled },
         '& > li:hover .oc-index-link-list--map, & > li:focus-within .oc-index-link-list--map': { opacity: 1 },
         '@media (hover: none)': { '& .oc-index-link-list--map': { opacity: 1 } },
-      }}
+      })}
     >
       {items.map(({ key, to, label, color, secondary, mapTo, noMap }) => (
         <li key={key}>
-          <ListItemButton
-            className="oc-index-link-list--link"
-            component={RouterLink}
-            to={to}
-            disableGutters
-            sx={{ flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, gap: 1, alignItems: 'center', '&:hover': { bgcolor: 'transparent' } }}
-          >
+          <RouterLink className="oc-index-link-list--link" to={to}>
             {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem' }} />}
             {/* The name (wrapping when too long), the muted text under it. */}
-            <Box component="span" sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-              <Box component="span" sx={{ typography: 'body1', color: 'primary.main', overflowWrap: 'anywhere' }}>
-                {label}
-              </Box>
-              {secondary && (
-                <Box component="span" className="oc-index-link-list--secondary" sx={{ typography: 'body2', color: 'text.secondary', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {secondary}
-                </Box>
-              )}
-            </Box>
-          </ListItemButton>
+            <span className="oc-index-link-list--text">
+              <span className="oc-index-link-list--label">{label}</span>
+              {secondary && <span className="oc-index-link-list--secondary">{secondary}</span>}
+            </span>
+          </RouterLink>
           {mapTo && noMap && (
-            <Tooltip title={t('notOnMap')}>
-              {/* A disabled button fires no events: the tooltip is on its wrapper. */}
-              <span className="oc-index-link-list--map" style={{ marginRight: 4 }}>
-                <IconButton disabled aria-label={t('notOnMap')}>
-                  <MapOffOutlined fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
+            <span className="oc-index-link-list--map" role="img" aria-disabled="true" aria-label={t('notOnMap')} title={t('notOnMap')} />
           )}
           {mapTo && !noMap && (
-            <Tooltip title={t('onMap')}>
-              <IconButton className="oc-index-link-list--map" component={RouterLink} to={mapTo} aria-label={t('onMapOf', { name: typeof label === 'string' ? label : '' })} sx={{ mr: 0.5, color: 'text.secondary' }}>
-                <MapOutlined fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            <RouterLink className="oc-index-link-list--map" to={mapTo} aria-label={t('onMapOf', { name: typeof label === 'string' ? label : '' })} title={t('onMap')} />
           )}
         </li>
       ))}
     </Box>
   )
 }
+
+// Memoized: the same rows (a search typed elsewhere on the page) aren't drawn
+// again.
+export default memo(IndexLinkList)

@@ -4,10 +4,12 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 // A titled part of an index page (an area's cenotes, a system's
 // connections...): an h2 with an optional count beside it. card: the content
 // on an opaque card under the title (on a translucent page), the title then
-// without its underline; cardSx: the card's own styles.
-export default function IndexSection({ title, count, children, className, card = false, cardSx }) {
+// without its underline; cardSx: the card's own styles. lazy: laid out and
+// painted only near the screen (content-visibility) - for the many sections
+// of a long page.
+export default function IndexSection({ title, count, children, className, card = false, cardSx, lazy = false }) {
   return (
-    <Box component="section" className={['oc-index-section', className].filter(Boolean).join(' ')} sx={{ mb: card ? 3 : 4 }}>
+    <Box component="section" className={['oc-index-section', className].filter(Boolean).join(' ')} sx={{ mb: card ? 3 : 4, ...(lazy && { contentVisibility: 'auto', containIntrinsicSize: 'auto 480px' }) }}>
       <Typography component="h2" variant="h6" sx={{ mb: 1.5, pb: 0.5, ...(!card && { borderBottom: '1px solid', borderColor: 'divider' }), ...(card && { ml: 0.5 }), display: 'flex', alignItems: 'baseline', gap: 1, flexWrap: 'wrap' }}>
         <span>{title}</span>
         {count != null && (

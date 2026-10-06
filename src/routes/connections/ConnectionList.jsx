@@ -12,6 +12,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 
 export default function ConnectionList() {
   const { t } = useTranslation('dashboard')
@@ -80,7 +81,7 @@ export default function ConnectionList() {
             placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            sx={(theme) => ({ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
+            sx={[SEARCH_FIELD_SX, { mb: 3 }]}
             slotProps={{
               input: {
                 startAdornment: (
