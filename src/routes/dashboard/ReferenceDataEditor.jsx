@@ -119,7 +119,7 @@ export default function ReferenceDataEditor() {
       </Box>
 
       {loading ? (
-        <ListSkeleton rows={6} leading={null} />
+        <ListSkeleton rows={6} fill={false} card leading={collectionName === 'colors' ? 'square' : null} secondary={config.fields.includes('description')} trailing={isAdmin ? 2 : 1} />
       ) : (
         <List disablePadding sx={DASHBOARD_LIST_SX}>
           {sortedItems.map((item, index) => (

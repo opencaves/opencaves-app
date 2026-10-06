@@ -21,7 +21,7 @@ export default function AreaPage() {
 
   useIndexPageHead(area ? { title: t('area.title', { area: area.name }), description: t('area.description', { area: area.name }) } : {})
 
-  if (loading) return <IndexPageSkeleton />
+  if (loading) return <IndexPageSkeleton back />
   if (!area) {
     // An area's name or record id (an older or hand-typed address): its slug.
     const slug = slugify(areaSlug)

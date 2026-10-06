@@ -92,7 +92,7 @@ export default function SistemaPage() {
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })
 
-  if (loading) return <IndexPageSkeleton />
+  if (loading) return <IndexPageSkeleton item back />
   if (!sistema) {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))

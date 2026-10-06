@@ -174,7 +174,7 @@ export default function ConnectionEdit() {
           {error}
         </Alert>
       )}
-      {!form && !error && <FormSkeleton header={false} sections={[['100%', '100%', 'min(100%, 280px)', '100%', '100%']]} sx={{ maxWidth: 720 }} />}
+      {!form && !error && <FormSkeleton header={false} fill={false} actions="inside" sections={[{ fields: ['100%', { width: '100%', helper: true }, { width: 'min(100%, 280px)', helper: true }, '100%', { width: '100%', height: 80 }] }]} sx={{ maxWidth: 720 }} />}
 
       {form && (
         <Box sx={{ ...DASHBOARD_SURFACE_SX, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 720, p: { xs: 2, sm: 3 } }}>

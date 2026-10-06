@@ -25,15 +25,29 @@ const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
 // An area's address names it by its slug (/areas/<slug>/edit, as its public
 // page /areas/<slug>), older links by its record id: the record's id, null
-// while the areas aren't loaded yet. Other collections' addresses are ids.
+// while the areas aren't known yet. Other collections' addresses are ids.
+// The areas come from the app's data once loaded; before that (a first
+// visit), from the small areas collection itself, rather than waiting for
+// the whole cave data to load.
 function useItemId(collectionName, param) {
-  const areas = useSelector((state) => state.data.areas)
-  const areasLoading = useSelector((state) => state.data.dataLoadingState.state) === 'loading' && areas.length === 0
-  if (collectionName !== 'areas' || param === 'new') return param
+  const storeAreas = useSelector((state) => state.data.areas)
+  const needsAreas = collectionName === 'areas' && param !== 'new'
+  const [fetchedAreas, setFetchedAreas] = useState(null)
+  useEffect(() => {
+    if (!needsAreas || storeAreas.length > 0) return undefined
+    let cancelled = false
+    createCollectionModel('areas')
+      .getAll()
+      .then((areas) => !cancelled && setFetchedAreas(areas))
+    return () => {
+      cancelled = true
+    }
+  }, [needsAreas, storeAreas.length])
+  if (!needsAreas) return param
+  const areas = storeAreas.length > 0 ? storeAreas : fetchedAreas
+  if (!areas) return null
   if (areas.some((area) => area.id === param)) return param
-  const bySlug = areas.find((area) => slugify(area.name || area.id) === param)
-  if (bySlug) return bySlug.id
-  return areasLoading ? null : param
+  return areas.find((area) => slugify(area.name || area.id) === param)?.id ?? param
 }
 
 export default function ReferenceDataItemEdit() {
@@ -168,7 +182,7 @@ export default function ReferenceDataItemEdit() {
       </EditPageHeader>
 
       {loading ? (
-        <FormSkeleton header={false} sections={[['100%', '100%', '100%']]} sx={{ maxWidth: 480 }} />
+        <FormSkeleton header={false} fill={false} actions="inside" sections={[{ fields: config.fields.map((field) => (field === 'note' ? { width: '100%', height: 80 } : field === 'description' ? { kind: 'markdown' } : '100%')) }]} sx={{ maxWidth: 480 }} />
       ) : (
         <Box sx={{ ...DASHBOARD_SURFACE_SX, display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 480, p: { xs: 2, sm: 3 } }}>
           {config.fields.map((field) => {

@@ -79,7 +79,7 @@ export default function SistemaList() {
       </Box>
 
       {loading ? (
-        <ListSkeleton rows={10} leading="square" count search grouped />
+        <ListSkeleton rows={10} leading="square" count search grouped card />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

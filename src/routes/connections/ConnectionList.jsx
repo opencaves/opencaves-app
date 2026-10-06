@@ -66,7 +66,7 @@ export default function ConnectionList() {
       </Box>
 
       {loading ? (
-        <ListSkeleton rows={8} leading={null} count search />
+        <ListSkeleton rows={12} leading={null} count search card columns={3} />
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

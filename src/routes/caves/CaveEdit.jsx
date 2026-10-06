@@ -274,7 +274,22 @@ export default function CaveEdit() {
   }
 
   if (loading) {
-    return <FormSkeleton className="oc-cave-edit" sections={[['100%'], ['100%'], ['100%'], ['100%', 'min(100%, 280px)'], ['100%', '100%']]} />
+    // Like the form: the name on the page, then aka, name translations,
+    // media, coordinates, cave system and description, each on its card.
+    return (
+      <FormSkeleton
+        className="oc-cave-edit"
+        lead={['100%']}
+        sections={[
+          { title: true, fields: [{ kind: 'button' }] },
+          { title: true, fields: ['100%', { kind: 'button' }] },
+          { title: true, fields: [{ kind: 'tabs' }] },
+          { title: true, fields: ['min(100%, 340px)', 'min(100%, 340px)', 'min(100%, 340px)'] },
+          { title: true, fields: ['100%'] },
+          { title: true, fields: [{ kind: 'markdown', height: 140 }] },
+        ]}
+      />
+    )
   }
 
   return (

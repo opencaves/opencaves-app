@@ -38,7 +38,7 @@ export default function CaveIndex() {
     return sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null
   }
 
-  if (loading) return <IndexPageSkeleton />
+  if (loading) return <IndexPageSkeleton search card />
 
   return (
     <div className="oc-cave-index">

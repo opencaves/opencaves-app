@@ -190,6 +190,28 @@ const lightThemeOptions = {
         variant: 'filled',
       },
     },
+    // A multiline field's right and bottom padding on its textarea, not
+    // around it: a resizable one's handle then sits in the field's corner.
+    MuiFilledInput: {
+      styleOverrides: {
+        multiline: {
+          paddingRight: 0,
+          paddingBottom: 0,
+          '& > textarea': { paddingRight: 12, paddingBottom: 8 },
+          '&.MuiInputBase-sizeSmall > textarea': { paddingBottom: 4 },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        multiline: {
+          paddingRight: 0,
+          paddingBottom: 0,
+          '& > textarea': { paddingRight: 14, paddingBottom: 16.5 },
+          '&.MuiInputBase-sizeSmall > textarea': { paddingBottom: 8.5 },
+        },
+      },
+    },
     MuiAccordion: {
       variants: [
         {
