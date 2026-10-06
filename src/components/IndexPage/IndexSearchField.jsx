@@ -34,8 +34,8 @@ export function useIndexSearch() {
 }
 
 // The search field above an index page's list, and its result line
-// (status), kept in view below the app bar while the list scrolls by - on
-// the page's background, so the list passes under it.
+// (status), kept in view below the app bar while the list scrolls by. Only
+// the field itself is opaque (the list passes under it around the field).
 export default function IndexSearchField({ query, setQuery, placeholder, status }) {
   const { t } = useTranslation('indexPages')
   return (
@@ -46,7 +46,6 @@ export default function IndexSearchField({ query, setQuery, placeholder, status 
         // The app bar's height (MUI's toolbar: 56px on phones, 64px from 600px).
         top: { xs: 56, sm: 64 },
         zIndex: 2,
-        bgcolor: 'background.paper',
         pt: 1,
         pb: 1.5,
         mb: 2,
@@ -62,7 +61,7 @@ export default function IndexSearchField({ query, setQuery, placeholder, status 
       onChange={(event) => setQuery(event.target.value)}
       placeholder={placeholder}
       // As the editors' lists' search (CaveList, SistemaList).
-      sx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+      sx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
       slotProps={{
         htmlInput: { 'aria-label': placeholder },
         input: {

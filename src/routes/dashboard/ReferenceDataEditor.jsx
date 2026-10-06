@@ -16,6 +16,7 @@ import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
 
 function getHexHue(hex) {
@@ -120,7 +121,7 @@ export default function ReferenceDataEditor() {
       {loading ? (
         <ListSkeleton rows={6} leading={null} />
       ) : (
-        <List disablePadding>
+        <List disablePadding sx={DASHBOARD_LIST_SX}>
           {sortedItems.map((item) => (
             <ListItem
               key={item.id}

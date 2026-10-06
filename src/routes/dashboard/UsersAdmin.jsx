@@ -10,6 +10,7 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import { auth, functions } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
 
 const listUsersFn = httpsCallable(functions, 'listUsers')
@@ -115,7 +116,7 @@ export default function UsersAdmin() {
   }
 
   return (
-    <Box className="oc-users-admin" sx={{ minHeight: '100%', bgcolor: 'var(--oc-page-surface-translucent)' }}>
+    <Box className="oc-users-admin" sx={{ minHeight: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Tooltip title={t('backToDashboard', { ns: 'dashboard' })}>
           <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard', { ns: 'dashboard' })} sx={{ ml: { xs: 0, sm: -5 } }}>
@@ -136,7 +137,7 @@ export default function UsersAdmin() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         sx={(theme) => {
-          return { mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } }
+          return { mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } }
         }}
         slotProps={{
           input: {
@@ -162,7 +163,7 @@ export default function UsersAdmin() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
             {t('count', { count: filtered.length })}
           </Typography>
-          <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
+          <List disablePadding sx={{ ...DASHBOARD_LIST_SX, maxHeight: '70vh', overflowY: 'auto' }}>
             {filtered.map((user) => (
               <ListItem key={user.uid} divider sx={{ py: 1.5, flexWrap: 'wrap', gap: 1 }}>
                 {/* The frozen chip under the email, and an empty slot where an

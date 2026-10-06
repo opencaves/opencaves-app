@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
 import PageFab from '@/components/PageFab.jsx'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -13,6 +13,7 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
+import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 
 const areasModel = createCollectionModel('areas')
@@ -92,7 +93,7 @@ export default function SistemaList() {
             placeholder={t('searchByName')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
             slotProps={{
               input: {
                 startAdornment: (
@@ -103,13 +104,10 @@ export default function SistemaList() {
               },
             }}
           />
-          <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
-            {groups.map(([areaName, groupSistemas]) => (
-              <li key={areaName ?? 'unassigned'}>
-                <ul style={{ padding: 0 }}>
-                  <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 600, borderBottom: '1px solid', borderColor: 'divider' }}>
-                    {areaName ?? t('noSistemaArea')} ({groupSistemas.length})
-                  </ListSubheader>
+          {/* An area per card, its name and count above (as /sistemas). */}
+          {groups.map(([areaName, groupSistemas]) => (
+            <IndexSection key={areaName ?? 'unassigned'} title={areaName ?? t('noSistemaArea')} count={groupSistemas.length} card cardSx={{ p: 0, overflow: 'hidden' }}>
+              <List disablePadding sx={{ '& > li:last-child .MuiListItemButton-root': { borderBottom: 0 } }}>
                   {groupSistemas.map((sistema) => (
                     <ListItem key={sistema.id} disablePadding>
                       <ListItemButton component={Link} to={`/sistemas/${slugs.get(sistema.id) || sistema.id}/edit`} divider>
@@ -118,10 +116,9 @@ export default function SistemaList() {
                       </ListItemButton>
                     </ListItem>
                   ))}
-                </ul>
-              </li>
-            ))}
-          </List>
+              </List>
+            </IndexSection>
+          ))}
         </>
       )}
 

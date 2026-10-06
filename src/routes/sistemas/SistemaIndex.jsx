@@ -63,6 +63,7 @@ export default function SistemaIndex() {
 
       {groups.map(({ area, items }) => (
         <IndexSection
+          card
           key={area?.slug ?? 'unknown'}
           title={
             area ? (

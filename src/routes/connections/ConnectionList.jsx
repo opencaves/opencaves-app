@@ -10,6 +10,7 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
 
 export default function ConnectionList() {
@@ -79,7 +80,7 @@ export default function ConnectionList() {
             placeholder={t('searchSistemaConnections')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            sx={(theme) => ({ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+            sx={(theme) => ({ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
             slotProps={{
               input: {
                 startAdornment: (
@@ -90,7 +91,7 @@ export default function ConnectionList() {
               },
             }}
           />
-          <TableContainer component={Paper} sx={{ maxHeight: '70vh' }}>
+          <TableContainer component={Paper} elevation={0} sx={{ ...DASHBOARD_LIST_SX, maxHeight: '70vh' }}>
             <Table stickyHeader size="small" aria-label={t('manageSistemaConnections')} sx={{ tableLayout: 'fixed' }}>
               <TableHead>
                 <TableRow>

@@ -15,6 +15,7 @@ import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.
 import AuditEntryRow from './AuditEntryRow.jsx'
 import { AccountOption } from './PersonLabel.jsx'
 import { BulkUndoDialog, ConflictsDialog, UndoConfirmDialog, resultsSummary } from './UndoDialogs.jsx'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { hasRecordPage, nameOf, recordPath } from './auditFormat.js'
 
 // The collections the filter offers: the cave data, the photos and maps, the
@@ -294,7 +295,7 @@ export default function ChangesTab({ accountLabel, accountList }) {
         )
       ) : (
         <>
-          <List disablePadding>
+          <List disablePadding sx={DASHBOARD_LIST_SX}>
             {entries.map((entry) => {
               const record = records.get(recordKey(entry))
               return (

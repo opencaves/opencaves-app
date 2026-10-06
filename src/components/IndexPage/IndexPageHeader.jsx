@@ -39,11 +39,15 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
       {crumbs}
       <Box className="oc-index-page-header" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
         {backTo && (
-          <Tooltip title={tApp('back')}>
-            <IconButton component={Link} to={backTo} aria-label={tApp('back')} sx={{ ml: { xs: 0, sm: -5 }, mt: { xs: 0, sm: 0.5 } }}>
-              <ArrowBackRounded />
-            </IconButton>
-          </Tooltip>
+          // As tall as the title's first line (1lh in its typography), the
+          // arrow centred on it, whatever the title's size or length.
+          <Box sx={{ typography: { xs: 'h5', sm: 'h4' }, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -5 } }}>
+            <Tooltip title={tApp('back')}>
+              <IconButton component={Link} to={backTo} aria-label={tApp('back')}>
+                <ArrowBackRounded />
+              </IconButton>
+            </Tooltip>
+          </Box>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography component="h1" sx={{ typography: { xs: 'h5', sm: 'h4' }, overflowWrap: 'anywhere' }} data-appbar-page-title>

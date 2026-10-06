@@ -15,6 +15,7 @@ import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { setCaveLayerVisible } from '@/redux/slices/caveLayerSlice.jsx'
 import MapCompareViewer from './MapCompareViewer.jsx'
 import MapsToProcess from './MapsToProcess.jsx'
+import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { useMapsToProcess } from './useMapsToProcess.js'
 
 // The zoom that fits a map's extent ([west, south, east, north]) on screen.
@@ -109,7 +110,7 @@ export default function MapLayersAdmin() {
   }
 
   return (
-    <Box className="oc-map-layers-admin" sx={{ minHeight: '100%', bgcolor: 'var(--oc-page-surface-translucent)' }}>
+    <Box className="oc-map-layers-admin" sx={{ minHeight: '100%' }}>
       {/* Stays at the top while the list scrolls under it: right under the
           fixed app bar (the toolbar's height, which changes with the screen),
           keeping the page's top margin (pulled into the page's padding). */}
@@ -159,7 +160,7 @@ export default function MapLayersAdmin() {
             placeholder={t('searchLabel')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
             slotProps={{
               input: {
                 startAdornment: (
@@ -200,7 +201,7 @@ export default function MapLayersAdmin() {
       {/* The page scrolls, not the list: no scrollbar narrowing the rows (or
           a scroll area inside the page's, on a phone). */}
       {tab === 'layer' && (
-        <List disablePadding>
+        <List disablePadding sx={DASHBOARD_LIST_SX}>
           {rows.map((map) => {
             const shown = !hiddenMaps.includes(map.id)
             // The scan's thumbnail, or the (larger) image the drawing was traced from.

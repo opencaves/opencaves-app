@@ -19,10 +19,9 @@ import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
+import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 
-// Its sections' headings, as IndexSection's (for the parts that aren't one).
-const sectionHeadingProps = { component: 'h2', variant: 'h6', sx: { mb: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' } }
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
@@ -135,7 +134,7 @@ export default function SistemaPage() {
       />
 
       {facts.length > 0 && (
-        <Box component="dl" className="oc-sistema-page--facts" sx={{ display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 1, m: 0, mb: 4 }}>
+        <Box component="dl" className="oc-sistema-page--facts" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 1, m: 0, mb: 3 }}>
           {facts.map(({ key, label, value }) => (
             <Box key={key} sx={{ display: 'contents' }}>
               <Typography component="dt" variant="body2" sx={{ color: 'text.secondary', alignSelf: 'baseline' }}>
@@ -150,14 +149,15 @@ export default function SistemaPage() {
       )}
 
       {sistema.description && (
-        <Box component="section" className="oc-sistema-page--description" sx={{ mb: 4, typography: 'body1' }}>
-          <Typography {...sectionHeadingProps}>{t('sistema.about')}</Typography>
-          <Markdown>{sistema.description}</Markdown>
-        </Box>
+        <IndexSection title={t('sistema.about')} className="oc-sistema-page--description" card>
+          <Box sx={{ typography: 'body1', '& > :first-child': { mt: 0 }, '& > :last-child': { mb: 0 } }}>
+            <Markdown>{sistema.description}</Markdown>
+          </Box>
+        </IndexSection>
       )}
 
       {(ancestry.length > 1 || children.length > 0) && (
-        <IndexSection title={t('sistema.connections')} className="oc-sistema-page--connections">
+        <IndexSection title={t('sistema.connections')} className="oc-sistema-page--connections" card>
           {ancestry.length > 1 && (
             <Box sx={{ mb: children.length > 0 ? 2 : 0 }}>
               <Typography variant="subtitle2" component="h3" sx={{ mb: 0.5 }}>
@@ -214,18 +214,21 @@ export default function SistemaPage() {
         connections={data.connections}
         caveId={(caves.find((cave) => cave.sistemaId === sistema.id && cave.located) || caves.find((cave) => cave.sistemaId === sistema.id))?.id}
         title={t('maps')}
+        card
       />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;
         // here, with the page.
-        <Box component="section" className="oc-sistema-page--history" sx={{ mb: 4, '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-          {/* Without the entries' sources (their notes). */}
-          <ExplorationHistory sistemas={historySistemas} headingProps={sectionHeadingProps} showNotes={false} />
-        </Box>
+        <IndexSection title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
+          {/* Without the entries' sources (their notes); its title is the section's. */}
+          <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
+            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+          </Box>
+        </IndexSection>
       )}
 
-      <IndexSection title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes">
+      <IndexSection title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes" card>
         {caves.length > 0 ? (
           <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} />
         ) : (

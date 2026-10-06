@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { Box, Button, Divider, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -24,7 +24,8 @@ import { useUnits } from '@/hooks/useUnits.jsx'
 import { fromMetres, lengthUnit, toMetres } from '@/utils/units.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
-import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import FormSection from '@/components/FormSection.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
@@ -306,7 +307,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         </Typography>
       </EditPageHeader>
 
-      <Grid container spacing={2}>
+      {/* Each section on its own opaque card (FormSection), on the dashboard's
+          translucent page. */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <FormSection>
+          <Grid container spacing={2}>
         <Grid size={12}>
           <TextField label={t('name')} fullWidth required {...field('name')} />
         </Grid>
@@ -385,9 +390,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
-        <Grid size={12}>
-          <Divider sx={formSectionDividerSx} />
-        </Grid>
+          </Grid>
+        </FormSection>
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           {/* Same layout as the cave edit page: fields, then the map beside
@@ -406,25 +412,28 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           </Grid>
         </Grid>
 
-        <Grid size={12}>
-          <Divider sx={formSectionDividerSx} />
-        </Grid>
+          </Grid>
+        </FormSection>
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
         </Grid>
 
-        <Grid size={12}>
-          <Divider sx={formSectionDividerSx} />
-        </Grid>
+          </Grid>
+        </FormSection>
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
         </Grid>
 
-        <Grid size={12}>
-          <Divider sx={formSectionDividerSx} />
-        </Grid>
+          </Grid>
+        </FormSection>
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
@@ -434,14 +443,17 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} dateHint={t('explorationDateHint')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />
         </Grid>
 
-        <Grid size={12}>
-          <Divider sx={formSectionDividerSx} />
-        </Grid>
+          </Grid>
+        </FormSection>
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <MapsPicker label={t('maps')} value={form.maps} onChange={(maps) => setForm((f) => ({ ...f, maps }))} sistemaName={form.name || sistemaId} labelProps={sectionHeadingProps} />
         </Grid>
-      </Grid>
+          </Grid>
+        </FormSection>
+      </Box>
 
       <StickyActionBar gap={1.5}>
         {/* Deleting a system is for admins (firestore.rules). */}

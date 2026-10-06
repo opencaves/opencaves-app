@@ -35,7 +35,7 @@ function formatDate(date, language) {
 // when there's more than one system. headingProps: its heading's, e.g. an h2
 // on a system's own page; showNotes: false leaves out each entry's notes (its
 // sources).
-export default function ExplorationHistory({ sistemas, headingProps, showNotes = true }) {
+export default function ExplorationHistory({ sistemas, headingProps, showNotes = true, showHeading = true }) {
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas
     .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, sistemaColor: sistema.color, notes: showNotes ? exploration.notes : null })))
@@ -50,9 +50,11 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
     // Under the tree but not indented like it: lined up with the section's
     // system icon (the accordion details' left padding back to the pane's).
     <Box className="oc-exploration-history" sx={{ mt: 2, ml: 'calc(var(--oc-pane-padding-inline) - var(--oc-details-icon-min-width) - 24px)' }}>
-      <Typography variant="subtitle2" component="h3" sx={{ mb: 1 }} {...headingProps}>
-        {t('explorationHistory')}
-      </Typography>
+      {showHeading && (
+        <Typography variant="subtitle2" component="h3" sx={{ mb: 1 }} {...headingProps}>
+          {t('explorationHistory')}
+        </Typography>
+      )}
       {/* A vertical timeline at the left: a line through every entry, a dot
           beside each one's first line (its date). */}
       <Box

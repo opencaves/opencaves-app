@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
 import PageFab from '@/components/PageFab.jsx'
 import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -13,6 +13,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import { matchesId } from '@/utils/matchesId.js'
 
 const areasModel = createCollectionModel('areas')
@@ -95,7 +96,7 @@ export default function CaveList() {
             placeholder={t('searchByName')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4 } })}
+            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
             slotProps={{
               input: {
                 startAdornment: (
@@ -106,13 +107,10 @@ export default function CaveList() {
               },
             }}
           />
-          <List disablePadding sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
-            {groups.map(([areaName, groupCaves]) => (
-              <li key={areaName}>
-                <ul style={{ padding: 0 }}>
-                  <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 600, borderBottom: '1px solid', borderColor: 'divider' }}>
-                    {areaName} ({groupCaves.length})
-                  </ListSubheader>
+          {/* An area per card, its name and count above (as /caves). */}
+          {groups.map(([areaName, groupCaves]) => (
+            <IndexSection key={areaName} title={areaName} count={groupCaves.length} card cardSx={{ p: 0, overflow: 'hidden' }}>
+              <List disablePadding sx={{ '& > li:last-child .MuiListItemButton-root': { borderBottom: 0 } }}>
                   {groupCaves.map((cave) => (
                     <ListItem key={cave.id} disablePadding>
                       <ListItemButton component={Link} to={`/caves/${cave.id}/edit`} divider>
@@ -121,10 +119,9 @@ export default function CaveList() {
                       </ListItemButton>
                     </ListItem>
                   ))}
-                </ul>
-              </li>
-            ))}
-          </List>
+              </List>
+            </IndexSection>
+          ))}
         </>
       )}
 

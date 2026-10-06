@@ -22,15 +22,22 @@ export default function Layout() {
   // A cenote entrance's stairs behind About, the cave and cave system lists
   // and the reference data pages (lists and forms; not the public area pages).
   const isReferenceDataPage = Object.hasOwn(REFERENCE_DATA_CONFIGS, location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
-  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(location.pathname) || isReferenceDataPage
+  // (A trailing slash aside.) The cave and cave system lists and pages too,
+  // translucent like them, their sections on cards.
+  const path = location.pathname.replace(/\/+$/, '') || '/'
+  const isSistemaPage = /^\/(sistemas|caves)(\/(?!edit$)[^/]+)?$/.test(path)
+  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage
   // The dashboard home's page is transparent: its white margins are drawn by
-  // AdminDashboard itself, around a window onto this background image.
+  // AdminDashboard itself, around a window onto this background image. The
+  // pages it leads to (the map layers too) are translucent, as its own card.
   const isDashboardHome = location.pathname === '/dashboard'
+  // ...and a cave system's public page, whose sections stand on cards.
+  const isTranslucentPage = isDashboardPage || location.pathname.split('/')[1] === 'map-layers' || isSistemaPage
   // Phones, dashboard sub-pages and the account page: side margins showing
   // the background image instead of the page's white side borders (margins
   // rather than transparent borders, whose corners would join the top/bottom
   // borders diagonally).
-  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || location.pathname === '/account'
+  const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || location.pathname === '/account'
 
   useEffect(() => {
     if (location.hash && !isMapPath(location.pathname)) {
@@ -102,7 +109,9 @@ export default function Layout() {
       }}
     >
       <AppBar />
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
+      {/* One column, never wider than the page (sized by its content, a
+          wide form pushed the page past the screen's edge on phones). */}
+      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
         borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
       </Container>
