@@ -1,5 +1,7 @@
-import { useEffect } from 'react'
-import { Grid } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+import { Grid, IconButton, Tooltip } from '@mui/material'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import CheckRounded from '@mui/icons-material/CheckRounded'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { APP_TITLE } from '@/config/app.js'
@@ -23,12 +25,38 @@ function DevDetails({ error }) {
     : isRouteErrorResponse(error)
       ? [`${error.status} ${error.statusText}`, typeof error.data === 'string' ? error.data : error.data && JSON.stringify(error.data, null, 2)].filter(Boolean).join('\n')
       : error.stack || error.message || String(error)
+  const url = `${location.pathname}${location.search}${location.hash}`
+  // Copy: the details as text (for a bug report), a check for a moment after.
+  const [copied, setCopied] = useState(false)
+  const copiedTimer = useRef(null)
+  useEffect(() => () => clearTimeout(copiedTimer.current), [])
+  async function copy(event) {
+    // Inside the summary: copying, not opening or closing the details.
+    event.preventDefault()
+    try {
+      await navigator.clipboard.writeText(`${t('url')}: ${window.location.origin}${url}
+${t('reason')}:
+${reason}`)
+      setCopied(true)
+      clearTimeout(copiedTimer.current)
+      copiedTimer.current = setTimeout(() => setCopied(false), 2000)
+    } catch (copyError) {
+      console.error(copyError)
+    }
+  }
   return (
     <details className="no-match--dev-details" open>
-      <summary>{t('title')}</summary>
+      <summary>
+        <span>{t('title')}</span>
+        <Tooltip title={copied ? t('copied') : t('copy')}>
+          <IconButton className="no-match--copy" size="small" onClick={copy} aria-label={copied ? t('copied') : t('copy')}>
+            {copied ? <CheckRounded fontSize="small" /> : <ContentCopyRounded fontSize="small" />}
+          </IconButton>
+        </Tooltip>
+      </summary>
       <dl>
         <dt>{t('url')}</dt>
-        <dd><code>{`${location.pathname}${location.search}${location.hash}`}</code></dd>
+        <dd><code>{url}</code></dd>
         <dt>{t('reason')}</dt>
         <dd><pre>{reason}</pre></dd>
       </dl>
@@ -70,7 +98,7 @@ export default function NoMatch() {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}`} direction="column" sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       <Grid className="no-match--box">
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>

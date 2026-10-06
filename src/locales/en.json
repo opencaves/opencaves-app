@@ -8,7 +8,9 @@
       "title": "Details (development only)",
       "url": "URL",
       "reason": "Reason",
-      "noRoute": "No route matches this URL."
+      "noRoute": "No route matches this URL.",
+      "copy": "Copy the details",
+      "copied": "Copied"
     },
     "offline": {
       "header": "You're offline",
