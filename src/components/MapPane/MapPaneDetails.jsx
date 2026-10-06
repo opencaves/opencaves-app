@@ -98,12 +98,17 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
               component={Link}
               to={returnTo}
               disableRipple
-              sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))', '&&': { marginRight: 'auto' } }}
+              sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))' }}
               className="yarl__button"
             >
               {theme.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardIosRounded />}
             </IconButton>
             ] : []),
+            // Named here, the zoom plugin's buttons go right after the back
+            // arrow, on the left (it puts them first otherwise); the spacer
+            // sends the others to the right.
+            'zoom',
+            <span key="oc-map-pane-details-spacer" style={{ marginRight: 'auto' }} />,
             'download',
             'fullscreen',
             'menu',
