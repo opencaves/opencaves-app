@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
@@ -9,7 +9,8 @@ import Tune from '@mui/icons-material/Tune'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
 import AppMenu from '@/components/App/AppMenu.jsx'
-import LogoIcon from '@/components/App/LogoIcon.jsx'
+import MenuRounded from '@mui/icons-material/MenuRounded'
+import NavDrawer from '@/components/App/NavDrawer.jsx'
 import { store } from '@/redux/store.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
@@ -187,6 +188,7 @@ export default function SearchBar() {
   const dispatch = useDispatch()
 
   const isSmall = useSmall()
+  const [navOpen, setNavOpen] = useState(false)
 
   const resultsItemIconStyle = {
     color: 'text.secondary',
@@ -366,6 +368,8 @@ export default function SearchBar() {
 
   return (
     <div className="oc-search-bar" onBlur={onSearchbarBlur}>
+      {/* Over the phone's result sheet (an Ionic modal, stacked far above MUI's). */}
+      <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} zIndex={30000} />
       <Box
         id="oc-search-bar"
         ref={searchBarRef}
@@ -418,12 +422,13 @@ export default function SearchBar() {
               }}
               className="oc-search-bar--actions"
             >
-              {/* Idle: the OpenCaves logo, leading to the home page; with results
-                  open, the back arrow below closes them - one meaning each. */}
+              {/* Idle: the menu button, opening the site's navigation drawer
+                  (as the app bar's on the other pages); with results open, the
+                  back arrow below closes them - one meaning each. */}
               <Fade in={!backBtnOn}>
-                <Tooltip title={t('actionButton.home.tooltip')}>
-                  <ActionButton className="oc-search-bar--home" component={RouterLink} to="/" aria-label={t('actionButton.home.ariaLabel')} tabIndex={backBtnOn ? -1 : 0}>
-                    <LogoIcon colorScheme="light" />
+                <Tooltip title={t('actionButton.menu.tooltip')}>
+                  <ActionButton className="oc-search-bar--menu" aria-label={t('actionButton.menu.ariaLabel')} aria-haspopup="true" aria-expanded={navOpen} tabIndex={backBtnOn ? -1 : 0} onClick={() => setNavOpen(true)}>
+                    <MenuRounded />
                   </ActionButton>
                 </Tooltip>
               </Fade>

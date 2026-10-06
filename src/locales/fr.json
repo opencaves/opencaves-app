@@ -339,6 +339,10 @@
       "home": {
         "ariaLabel": "Retour à la page d’accueil",
         "tooltip": "Page d’accueil"
+      },
+      "menu": {
+        "ariaLabel": "Ouvrir le menu",
+        "tooltip": "Menu"
       }
     },
     "placeholder": "Recherche",
