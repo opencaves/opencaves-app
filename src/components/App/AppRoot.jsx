@@ -3,6 +3,7 @@ import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { debounce } from 'lodash'
 import AboutDialog from './AboutDialog.jsx'
 import RouteSeo from '@/components/Seo/RouteSeo.jsx'
+import WelcomeDialog from './WelcomeDialog.jsx'
 
 export default function AppRoot() {
   const location = useLocation()
@@ -27,6 +28,8 @@ export default function AppRoot() {
   return (
     <>
       <RouteSeo />
+      {/* A first visit's welcome (once per device). */}
+      <WelcomeDialog />
       {
         state?.backgroundLocation && (
           <Routes>

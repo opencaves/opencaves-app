@@ -1503,5 +1503,16 @@
       "none": "Aucune grotte, aucun réseau ni aucune région ne correspond.",
       "hint": "Tapez un nom"
     }
+  },
+  "welcome": {
+    "title": "Bienvenue sur {{name}} !",
+    "intro": "Sortez votre masque : {{name}} est une carte des grottes noyées du Yucatán et d'ailleurs - leurs cénotes, réseaux, plans topographiques et photos, faite par et pour les plongeurs souterrains.",
+    "invite": "Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Créez un compte gratuit et aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
+    "beta": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Créez un compte et nous vous préviendrons à la fin de la bêta.",
+    "later": "Explorer d'abord",
+    "signup": "Créer un compte",
+    "inviteMember": "Merci de faire partie de l'équipe ! Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
+    "betaMember": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Nous vous préviendrons à la fin de la bêta.",
+    "start": "On plonge !"
   }
 }
