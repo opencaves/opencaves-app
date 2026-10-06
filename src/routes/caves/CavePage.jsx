@@ -24,6 +24,8 @@ import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
+import Dropzone from '@/components/AddMedias/Dropzone.jsx'
+import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 
 // The cover photo, under the heading.
 function CaveCover({ caveId }) {
@@ -47,6 +49,9 @@ export default function CavePage() {
   const { t: tPane } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
   const cave = useSelector((state) => state.data.caves.find((c) => c.id === caveId))
+  // Editors: photos dragged anywhere over the page go to this cave, as on the map.
+  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
 
   const name = cave?.name?.value?.trim() || ''
   const label = name || t('unnamedCave')
@@ -146,6 +151,8 @@ export default function CavePage() {
           </Box>
         </IndexSection>
       )}
+      {isEditor && <Dropzone open={dropzoneOpen} onDrop={closeDropzone} caveId={cave.id} />}
+
       {/* Its galleries, over the page: its photos, its system's maps. */}
       <Outlet context={{ sistemaId: cave.sistemaId, sistemas: data.sistemas, connections: data.connections }} />
     </div>

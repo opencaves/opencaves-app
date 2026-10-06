@@ -1130,6 +1130,11 @@
     "freezeConfirm": "{{email}} perderá todos sus permisos de edición (editor y administrador) hasta que se descongele; podrá seguir consultando el mapa. Su sesión actual los conserva hasta una hora."
   },
   "offline": {
+    "connection": {
+      "offline": "Estás sin conexión. Las cuevas guardadas siguen disponibles.",
+      "online": "Vuelves a estar en línea.",
+      "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando."
+    },
     "caveReady": "El cenote {{name}} está disponible sin conexión",
     "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",

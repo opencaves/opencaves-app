@@ -9,6 +9,7 @@ import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import OfflineMediaSync from '@/components/Offline/OfflineMediaSync.jsx'
 import PendingUploadsSync from '@/components/Offline/PendingUploadsSync.jsx'
+import ConnectionSnackbar from '@/components/Offline/ConnectionSnackbar.jsx'
 import { subscribeToData } from '@/services/data-service.jsx'
 import { isInstalledApp, requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
@@ -124,6 +125,8 @@ const App = () => {
             <OfflineMediaSync />
             {/* Photos and maps added offline, uploaded once on Wi-Fi. */}
             <PendingUploadsSync />
+            {/* Going offline or back online: said in a snackbar. */}
+            <ConnectionSnackbar />
             <AccountLinking />
           </SnackbarProvider>
           <ManageAppUpdate />

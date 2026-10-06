@@ -1129,6 +1129,11 @@
     "freezeConfirm": "{{email}} perdra tous ses droits de modification (éditeur et administrateur) jusqu’à ce qu’il soit dégelé ; il pourra toujours consulter la carte. Sa session en cours les garde jusqu’à une heure."
   },
   "offline": {
+    "connection": {
+      "offline": "Vous êtes hors ligne. Les grottes enregistrées restent disponibles.",
+      "online": "Vous êtes de nouveau en ligne.",
+      "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent."
+    },
     "caveReady": "La cénote {{name}} est disponible hors ligne",
     "caveIncomplete": "La cénote {{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
     "previewsReady": "Les aperçus des cénotes, les cartes et les galeries sont disponibles hors ligne",

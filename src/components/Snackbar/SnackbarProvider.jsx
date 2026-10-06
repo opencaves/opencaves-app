@@ -18,12 +18,14 @@ export default function SnackbarProvider({ children }) {
   const [_autoHide, setAutoHide] = useState(true)
   const [_hideOnClickAway, setHideOnClickAway] = useState(false)
   const [_severity, setSeverity] = useState(null)
+  const [_icon, setIcon] = useState(null)
   const { t } = useTranslation('app', { keyPrefix: 'snackbar' })
 
   // 
 
-  // severity 'success': a green check before the message (e.g. "saved").
-  function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {}, severity = null }) {
+  // severity 'success': a green check before the message (e.g. "saved");
+  // icon: another icon there (green too with severity 'success').
+  function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {}, severity = null, icon = null }) {
 
     if (children) {
       setChildren(children)
@@ -37,6 +39,7 @@ export default function SnackbarProvider({ children }) {
     }
 
     setSeverity(severity)
+    setIcon(icon)
     setMessage(message)
     setOpen(true)
   }
@@ -66,11 +69,14 @@ export default function SnackbarProvider({ children }) {
         open={open}
         message={
           !_children &&
-          (_severity === 'success' ? (
+          (_severity === 'success' || _icon ? (
             <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
-              {/* On the snackbar's inverse surface: the lighter green in the
-                  light theme (dark surface), the darker in the dark theme. */}
-              <CheckCircleRounded fontSize="small" sx={(theme) => ({ color: 'success.light', flex: 'none', ...theme.applyStyles('dark', { color: 'success.dark' }) })} />
+              {/* On the snackbar's inverse surface, a success green: the
+                  lighter in the light theme (dark surface), the darker in the
+                  dark theme. */}
+              <Box component="span" sx={(theme) => ({ display: 'inline-flex', flex: 'none', '& .MuiSvgIcon-root': { fontSize: '1.25rem' }, ...(_severity === 'success' && { color: 'success.light', ...theme.applyStyles('dark', { color: 'success.dark' }) }) })}>
+                {_icon || <CheckCircleRounded />}
+              </Box>
               {_message}
             </Box>
           ) : (
