@@ -1380,7 +1380,7 @@
       "noSistemas": "No cave systems listed in this area yet."
     },
     "sistema": {
-      "title": "{{name}} cave system",
+      "title": "{{name}} system",
       "descriptionPrefix": "{{name}} cave system (Yucatán, Mexico):",
       "description": "{{name}} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.",
       "edit": "Edit the {{name}} cave system",
