@@ -126,7 +126,8 @@ function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
       </Box>
     </ListItemButton>
   )
-  if (!onEdit) return item
+  // In a list item either way (a list holds only items).
+  if (!onEdit) return <ListItem className="oc-map-pane--item-row" disablePadding>{item}</ListItem>
   return (
     <ListItem
       className="oc-map-pane--item-row"

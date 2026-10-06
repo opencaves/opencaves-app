@@ -454,7 +454,8 @@
       "heading": "Type de cénote",
       "showCenoteEntrances": "Afficher les cénotes d'entrée",
       "showOtherCenotes": "Afficher les autres cénotes"
-    }
+    },
+    "closeBtn": "Fermer les filtres"
   },
   "resultPane": {
     "title": "Cénote {{name}}",
@@ -618,7 +619,8 @@
       "trashMapTitle": "Supprimer cette carte ?",
       "trashMapConfirm": "« {{name}} » va à la corbeille et disparaît de tous les sistemas qui la montrent. Un administrateur peut la restaurer depuis Audits > Corbeille.",
       "trashMapSuccess": "Carte mise à la corbeille.",
-      "trashMapError": "Impossible de supprimer la carte."
+      "trashMapError": "Impossible de supprimer la carte.",
+      "openPhoto": "Ouvrir la photo {{n}}"
     },
     "closePane": "Fermer",
     "rating": {
@@ -1407,11 +1409,11 @@
       "area": "Région",
       "sistema": "Réseau",
       "location": "Emplacement",
-      "photos": "Photos"
+      "photos": "Photos",
+      "openPhoto": "Ouvrir la photo {{n}}"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
-    "maps": "Cartes",
-    "openMap": "Ouvrir la carte : {{name}}"
+    "maps": "Cartes"
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",

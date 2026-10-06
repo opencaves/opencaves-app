@@ -170,6 +170,7 @@ export default function MediaPane() {
             component={
               <IconButton
                 color='primary'
+                aria-label={t('addPictureBtn.tooltip')}
               >
                 <AddAPhotoOutlined />
               </IconButton>

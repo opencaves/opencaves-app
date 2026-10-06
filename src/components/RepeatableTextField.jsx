@@ -23,7 +23,8 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {values.map((value, index) => (
           <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <TextField size="small" fullWidth value={value} onChange={(e) => updateAt(index, e.target.value)} />
+            {/* Named after the list's caption, numbered (the caption isn't a <label>). */}
+            <TextField size="small" fullWidth value={value} onChange={(e) => updateAt(index, e.target.value)} slotProps={{ htmlInput: { 'aria-label': `${label} ${index + 1}` } }} />
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
               <CloseRounded fontSize="small" />
             </IconButton>

@@ -95,9 +95,8 @@ function LanguageMenu() {
       variant="standard"
       value={current}
       onChange={(event) => chooseLanguage(event.target.value, user)}
-      aria-label={t('footer.language')}
       sx={{ minWidth: 180 }}
-      slotProps={{ input: { disableUnderline: true, startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> } }}
+      slotProps={{ input: { disableUnderline: true, startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> }, select: { inputProps: { 'aria-label': t('footer.language') }, SelectDisplayProps: { 'aria-label': t('footer.language') } } }}
     >
       {APP_LANGUAGES.map(({ code, nativeName }) => (
         <MenuItem key={code} value={code} lang={code}>

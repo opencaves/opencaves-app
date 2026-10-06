@@ -10,6 +10,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import './FilterMenu.scss'
 
 function FilterMenuHead({ title, children, ...props }) {
+  const { t } = useTranslation('filter')
   const dispatch = useDispatch()
   const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
 
@@ -33,7 +34,7 @@ function FilterMenuHead({ title, children, ...props }) {
         {...props}
       >
         <Grid>
-          <IconButton onClick={onFilterMenuCloseBtnClick}>
+          <IconButton aria-label={t('closeBtn')} onClick={onFilterMenuCloseBtnClick}>
             <Close />
           </IconButton>
         </Grid>
@@ -92,10 +93,12 @@ function FilterMenuSectionHeader({ children, ...props }) {
   )
 }
 
+// A filter: the whole row is its switch (role switch, its label the row's
+// text) - not a button holding a second, unlabelled switch.
 function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   return (
     <ListItem disablePadding className="oc-filter-menu--item">
-      <ListItemButton onClick={onClick} divider>
+      <ListItemButton onClick={onClick} divider role="switch" aria-checked={Boolean(checked)}>
         <ListItemText
           primary={
             <>
@@ -107,12 +110,15 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
           }
           secondary={secondary && <Typography variant="mapTextSecondary">{secondary}</Typography>}
         />
-        <ListItemIcon>
+        {/* What the row's state looks like; inert - out of the tab order
+            and hidden from assistive tech (the row is the switch). */}
+        <ListItemIcon inert>
           <Switch
             edge="end"
             disableRipple={true}
             checked={checked}
             onChange={() => {}}
+            slotProps={{ input: { tabIndex: -1 } }}
             sx={{
               userSelect: 'none',
               '& > .MuiSwitch-switchBase:hover': {

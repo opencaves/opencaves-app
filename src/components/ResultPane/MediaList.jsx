@@ -135,21 +135,21 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
       for (i = 0; i < assetItems.length; i += 3) {
         list.push(
           <MediaListCol key={i} isLast={isLastCol(i)}>
-            <Media asset={assetItems[i]} caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+            <Media asset={assetItems[i]} index={i} caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
           </MediaListCol>,
         )
 
         if (assetItems[i + 1]) {
           const colItems = [
             <MediaListCell key={1} height={assetsListHeight / 2} width={assetsListHeight / 2}>
-              <Media asset={assetItems[i + 1]} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+              <Media asset={assetItems[i + 1]} index={i + 1} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
             </MediaListCell>,
           ]
 
           if (assetItems[i + 2]) {
             colItems.push(
               <MediaListCell key={2} position="bottom" height={assetsListHeight / 2} width={assetsListHeight / 2}>
-                <Media asset={assetItems[i + 2]} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
+                <Media asset={assetItems[i + 2]} index={i + 2} size="half" caveId={caveId} editable={editable} canDelete={canDelete} onDelete={setPictureToDelete} />
               </MediaListCell>,
             )
           }
@@ -220,7 +220,7 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
   )
 }
 
-function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) {
+function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDelete }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [viewerOpen, setViewerOpen] = useState(false)
   const fullHeight = ASSETS_LIST_CONFIG.height
@@ -244,7 +244,7 @@ function Media({ asset, size = 'full', caveId, editable, canDelete, onDelete }) 
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
     <Box sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
-      <ButtonBase component={Link} to={editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`}>
+      <ButtonBase component={Link} to={editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
       {editable && (

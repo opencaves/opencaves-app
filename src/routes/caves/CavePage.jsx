@@ -28,14 +28,15 @@ const MAX_PHOTOS = 12
 
 // The cave's photos, its cover first, each opening in the map's media pane.
 function CavePhotos({ caveId, title }) {
+  const { t } = useTranslation('indexPages')
   const [list] = useCaveAssetsList(caveId)
   const photos = (list?.docs || []).slice(0, MAX_PHOTOS).map((doc) => doc.data())
   if (photos.length === 0) return null
   return (
     <IndexSection title={title} count={list.size} className="oc-cave-page--photos">
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 1.5 }}>
-        {photos.map((photo) => (
-          <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
+        {photos.map((photo, index) => (
+          <Box key={photo.id} component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
             <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </Box>
         ))}

@@ -69,3 +69,37 @@ http://ionicframework.com/docs/theming/ */
   --oc-scrollbar-thumb: rgba(255, 255, 255, 0.12);
   --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
 }
+
+// Keyboard focus: a ring around whatever has focus from the keyboard - Material
+// Design 3's focus indicator (3dp, 2dp from the element). Many buttons have no
+// ripple (disableRipple), MUI's only other focus sign, so without it they
+// showed nothing. Text fields keep their own focused look. --oc-focus-ring:
+// the primary colour, white on the app bar and the dark media viewers.
+:root {
+  --oc-focus-ring: var(--mui-palette-primary-main);
+}
+.oc-app-bar,
+.yarl__root,
+.oc-search-bar-mockup {
+  --oc-focus-ring: #fff;
+}
+:where(a, button, summary, [tabindex], [role='button'], [role='link'], [role='tab'], [role='menuitem'], [role='option'], [role='switch'], [role='checkbox'], [role='radio'], [role='slider']):focus-visible,
+.MuiButtonBase-root.Mui-focusVisible,
+// The media viewers' own buttons: their stylesheet removes outlines; and
+// focusable table rows (connections), which MUI's table styles outlined none.
+.yarl__root .yarl__button:focus-visible,
+.MuiTableRow-root[tabindex]:focus-visible {
+  outline: 3px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+// A table row's ring inside it (outside, it would overlap its neighbours).
+.MuiTableRow-root[tabindex]:focus-visible {
+  outline-offset: -3px;
+}
+// Not inside text fields (their underline or outline shows focus), nor on a
+// list row, whose state layer does (an outline there overlaps its neighbours).
+.MuiInputBase-root :focus-visible,
+.MuiListItemButton-root.Mui-focusVisible,
+.MuiMenuItem-root.Mui-focusVisible {
+  outline: none;
+}

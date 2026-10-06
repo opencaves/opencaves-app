@@ -29,6 +29,10 @@ function easeOutQuad(t, b = 0, c = 1, d = 1) {
 }
 
 
+// How close to the screen's bottom edge a focused control may sit before
+// the sheet scrolls it up.
+const FOCUS_EDGE_MARGIN = 32
+
 export default function ResultPaneSm({ children, cave, ...props }) {
   const modalRef = useRef({})
   const paneHeadRef = useRef({})
@@ -206,6 +210,23 @@ export default function ResultPaneSm({ children, cave, ...props }) {
     root.setProperty('--oc-map-controls-opacity', hidden ? '0' : '1')
     root.setProperty('--oc-map-controls-visibility', hidden ? 'hidden' : 'visible')
   }, [modalPosition, resultPaneOpen, filterMenuOpen])
+
+  // Keyboard focus moving to something below the screen (the sheet low):
+  // the sheet opens fully and scrolls it into view - Tab otherwise wandered
+  // through controls nobody could see. Pointer focus (a tap) leaves it be.
+  useEffect(() => {
+    const modal = modalRef.current
+    if (!modal) return undefined
+    function onFocusIn(event) {
+      const target = event.target
+      if (!target.matches?.(':focus-visible') || target === modal) return
+      // Below the screen, or pressed against its bottom edge.
+      if (target.getBoundingClientRect().bottom <= window.innerHeight - FOCUS_EDGE_MARGIN) return
+      modal.setCurrentBreakpoint(1).then(() => target.scrollIntoView({ block: 'center' }))
+    }
+    modal.addEventListener('focusin', onFocusIn)
+    return () => modal.removeEventListener('focusin', onFocusIn)
+  }, [])
 
   // Another cave opens at the top of the sheet, not where the last one was
   // scrolled to.
