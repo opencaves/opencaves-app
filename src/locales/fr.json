@@ -79,7 +79,12 @@
     "editTitle": "Modifier {{title}}",
     "loading": "Chargement…",
     "closeDialog": "Fermer",
-    "breadcrumbs": "Fil d’Ariane"
+    "breadcrumbs": "Fil d’Ariane",
+    "carousel": {
+      "showAll": "Tout afficher : {{title}}",
+      "label": "{{title}}, carrousel",
+      "showAllLink": "Tout afficher"
+    }
   },
   "account": {
     "profile": "Profil",

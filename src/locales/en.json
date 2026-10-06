@@ -79,7 +79,12 @@
     "editTitle": "Edit {{title}}",
     "loading": "Loading…",
     "closeDialog": "Close",
-    "breadcrumbs": "Breadcrumbs"
+    "breadcrumbs": "Breadcrumbs",
+    "carousel": {
+      "showAll": "Show all: {{title}}",
+      "label": "{{title}}, carousel",
+      "showAllLink": "Show all"
+    }
   },
   "account": {
     "profile": "Profile",

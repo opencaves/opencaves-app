@@ -103,3 +103,15 @@ http://ionicframework.com/docs/theming/ */
 .MuiMenuItem-root.Mui-focusVisible {
   outline: none;
 }
+
+// A carousel item's visual sliding inside it as it scrolls (Carousel.jsx's
+// parallax: the visual 120% of its item's width, so 10% of the item - 1/12
+// of the visual - each way).
+@keyframes oc-carousel-parallax {
+  from {
+    transform: translateX(8.333%);
+  }
+  to {
+    transform: translateX(-8.333%);
+  }
+}
