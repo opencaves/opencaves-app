@@ -340,6 +340,10 @@
       "home": {
         "ariaLabel": "Back to the home page",
         "tooltip": "Home page"
+      },
+      "menu": {
+        "ariaLabel": "Open the menu",
+        "tooltip": "Menu"
       }
     },
     "placeholder": "Search",

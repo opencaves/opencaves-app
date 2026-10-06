@@ -1,23 +1,17 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, Box, IconButton, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Button, Drawer, SvgIcon, styled, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, IconButton, Toolbar, Typography, Button, styled, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
-import HomeRounded from '@mui/icons-material/HomeRounded'
-import MapRounded from '@mui/icons-material/MapRounded'
-import InfoRounded from '@mui/icons-material/InfoRounded'
-import DashboardRounded from '@mui/icons-material/DashboardRounded'
-import CaveIcon from '@/images/map/cave.svg?react'
-import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
+import NavDrawer, { useNavItems } from './NavDrawer.jsx'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
-const drawerWidth = 240
 // Module level, not inside AppBar: a styled() component made during render
 // is a new component type every render, so React remounted the title button
 // each time - replaying the title's enter animation (a flicker).
@@ -32,10 +26,6 @@ const NAV_LINK_SX = {
   '&[aria-current="page"]': { boxShadow: 'inset 0 -3px 0 #fff', borderRadius: '4px 4px 0 0' },
 }
 
-// Whether a link's page is the one shown: / only itself, the others their
-// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
-const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
-
 const StyledButton = styled(Button)({
   color: 'var(--mui-palette-primary-contrastText)',
   whiteSpace: 'nowrap',
@@ -45,8 +35,7 @@ const StyledButton = styled(Button)({
   },
 })
 
-export default function AppBar(props) {
-  const { window } = props
+export default function AppBar() {
   const dispatch = useDispatch()
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -62,26 +51,13 @@ export default function AppBar(props) {
   // (EditPageHeader, sticky).
   const isPhone = useSmall()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
   const toolbarTitle = isPhone && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
-  const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   // The site's pages, on the left; the dashboard (editors) on the right,
-  // beside the account button. The phone drawer has the site's pages, then
-  // the dashboard, then About last, each group set apart by a divider.
-  const navItems = [
-    { key: 'home', to: '/', icon: <HomeRounded /> },
-    { key: 'map', to: '/map', icon: <MapRounded /> },
-    { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
-    { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
-    { key: 'about', to: '/about', icon: <InfoRounded /> },
-  ]
-  const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
-  const aboutItem = navItems.find((item) => item.key === 'about')
-  const drawerItems = [...navItems.filter((item) => item !== aboutItem), ...(canAccessDashboard ? [dashboardItem] : []), aboutItem]
+  // beside the account button (NavDrawer's order on phones).
+  const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
   // The bar itself leaves Home out: the logo and the title link there, as
   // people expect - the phone drawer keeps it.
   const barItems = navItems.filter(({ key }) => key !== 'home')
-  const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
 
   useEffect(() => {
     setEntityHeadingHidden(false)
@@ -126,29 +102,6 @@ export default function AppBar(props) {
     dispatch(setContinueUrl(buildContinueUrl(location)))
   }
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }} noWrap>
-        {APP_TITLE}
-      </Typography>
-      <Divider />
-      <List>
-        {drawerItems.map(({ key, to, icon }) => (
-          <Fragment key={key}>
-            {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
-              </ListItemButton>
-            </ListItem>
-          </Fragment>
-        ))}
-      </List>
-    </Box>
-  )
-
-  const container = window !== undefined ? () => window().document.body : undefined
 
   return (
     <>
@@ -245,25 +198,7 @@ export default function AppBar(props) {
           </Grid>
         </Toolbar>
       </MUIAppBar>
-      {isSmall && (
-        <nav aria-label={t('navDrawer')}>
-          <Drawer
-            className="oc-app-bar--drawer"
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: isSmall, // Better open performance on mobile.
-            }}
-            sx={{
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </nav>
-      )}
+      {isSmall && <NavDrawer open={mobileOpen} onClose={handleDrawerToggle} />}
       <Toolbar />
     </>
   )
