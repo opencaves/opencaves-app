@@ -183,9 +183,14 @@ const routes = [
     errorElement: <NoMatch />,
     children: [
       // Development only: the error pages, to look at (/dev/error/map: the
-      // map failing; /dev/error/page: a page failing to load).
+      // map failing; /dev/error/page: a page failing to load), and the
+      // snackbars (/dev/snackbars).
       ...(import.meta.env.DEV
         ? [
+            {
+              path: 'dev/snackbars',
+              lazy: () => import('@/routes/dev/SnackbarPreview.jsx').then(({ default: Component }) => ({ Component })),
+            },
             {
               path: 'dev/error/map',
               lazy: () => import('@/components/Map/MapState.jsx').then(({ MapError }) => ({ Component: () => <MapError error={new Error('Preview of the map error page')} /> })),
