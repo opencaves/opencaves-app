@@ -13,6 +13,18 @@ import PageFab from '@/components/PageFab.jsx'
 // Edit (editTo: the page's /edit address - one area or system). trail: the
 // breadcrumbs above it, [{ label, to }] from the landing page down to the
 // page's parent; current: the page's own (short) name, ending it.
+// On one line: the page's own (last) crumb shrinks to fit, ending with an
+// ellipsis; the others keep their width, a long one (over 10em) cut too.
+const BREADCRUMBS_SX = {
+  mb: 3,
+  typography: 'body2',
+  '& .MuiBreadcrumbs-ol': { flexWrap: 'nowrap' },
+  '& .MuiBreadcrumbs-li': { flexShrink: 0, maxWidth: '10em' },
+  '& .MuiBreadcrumbs-li:last-child': { flexShrink: 1, minWidth: '2.5em', maxWidth: 'none' },
+  '& .MuiBreadcrumbs-li > *': { display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
+  '& .MuiBreadcrumbs-separator': { flexShrink: 0 },
+}
+
 export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {
   const { t: tApp } = useTranslation('app')
   const roles = useSelector((state) => state.session.roles)
@@ -20,7 +32,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
   const isEditor = roles.includes('editor')
 
   const crumbs = trail && (
-    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={{ mb: 3, typography: 'body2' }}>
+    <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
       {trail.map(({ label, to }) => (
         <MuiLink key={to} component={Link} to={to} underline="hover" color="inherit">
           {label}
