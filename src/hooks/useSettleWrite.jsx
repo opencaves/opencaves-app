@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { trackWrite } from '@/services/offline/pendingWrites.js'
 
 // How long a write may wait for the server before it counts as kept on the
 // device: a connection that's there but doesn't answer (a weak signal) is as
@@ -23,7 +24,8 @@ export function useSettleWrite() {
 
   return useCallback(
     (writes, { name } = {}) => {
-      const write = Array.isArray(writes) ? Promise.all(writes) : writes
+      // Counted until the server has it (pendingWrites.js).
+      const write = trackWrite(Array.isArray(writes) ? Promise.all(writes) : writes)
       const follow = () => {
         openSnackbar(t('savedOffline', { name }), { severity: 'success' })
         write.then(

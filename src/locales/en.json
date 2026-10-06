@@ -1130,6 +1130,11 @@
     "freezeConfirm": "{{email}} will lose all editing rights (editor and admin) until unfrozen; it can still browse the map. Its current session keeps them for up to an hour."
   },
   "offline": {
+    "connection": {
+      "offline": "You're offline. Saved caves are still available.",
+      "online": "You're back online.",
+      "onlineSyncing": "You're back online. Your changes are syncing."
+    },
     "caveReady": "Cenote {{name}} is available offline",
     "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
     "previewsReady": "Cenote previews, maps and cave passages are available offline",
