@@ -88,6 +88,11 @@ registerRoute(
 // <img> request needn't match exactly.
 const OFFLINE_CACHES = ['oc-offline-saved-caves-v1', 'oc-offline-previews-v1']
 
+// The app's offline downloads themselves (offlineMedia.js fetches them with
+// cache: 'no-store' - keep in sync) go straight to the network: they're kept
+// in those caches, not also as browsing copies.
+const isOfflineDownload = (request) => request.cache === 'no-store'
+
 function preferOfflineCaches(strategy) {
   return async (options) => {
     for (const offlineCacheName of OFFLINE_CACHES) {
@@ -102,7 +107,7 @@ function preferOfflineCaches(strategy) {
 // URLs. (url.origin never has a trailing slash - comparing against one would
 // never match.)
 registerRoute(
-  ({ url }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
+  ({ url, request }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com') && !isOfflineDownload(request),
   preferOfflineCaches(new StaleWhileRevalidate({
     cacheName: cacheName('images')
   }))
@@ -117,7 +122,7 @@ registerRoute(
 // name changed when CORS mode came in, so no earlier opaque entry is ever
 // served to a CORS request (which the browser would reject).
 registerRoute(
-  ({ url }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/'),
+  ({ url, request }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/') && !isOfflineDownload(request),
   preferOfflineCaches(new CacheFirst({
     cacheName: cacheName('cave-images-cors'),
     plugins: [
@@ -146,9 +151,6 @@ function offlineCachesAsFallback(strategy) {
   }
 }
 
-// The app's offline downloads of these (offlineMedia.js's header: keep in
-// sync) go straight to the network: they're kept in their own caches.
-const isOfflineDownload = (request) => request.headers.has('x-oc-offline-download')
 
 // Its lists (which tiles exist, the maps in them, its build's version):
 // fresh when online, their last copy offline.

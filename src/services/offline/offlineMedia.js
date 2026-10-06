@@ -14,9 +14,6 @@ export const OFFLINE_SAVED_CAVES_CACHE = 'oc-offline-saved-caves-v1'
 export const OFFLINE_PREVIEWS_CACHE = 'oc-offline-previews-v1'
 
 const DOWNLOAD_CONCURRENCY = 4
-// Marks the offline downloads' own requests to the site (service-worker.js:
-// keep in sync).
-const OFFLINE_DOWNLOAD_HEADER = 'x-oc-offline-download'
 
 export const offlineSupported = typeof window !== 'undefined' && 'caches' in window
 
@@ -98,10 +95,10 @@ async function downloadInto(cache, urls, { signal, onProgress }) {
     while (next < urls.length && !signal?.aborted) {
       const url = urls[next++]
       try {
-        // The site's own files (the cave layer) marked as an offline
-        // download: the service worker then doesn't also keep a browsing copy.
-        const sameSite = new URL(url).origin === window.location.origin
-        const response = await fetch(url, { mode: 'cors', credentials: 'omit', signal, ...(sameSite && { headers: { [OFFLINE_DOWNLOAD_HEADER]: '1' } }) })
+        // cache: 'no-store' marks it as an offline download: the service
+        // worker then doesn't also keep a browsing copy of it (it would be
+        // stored twice - service-worker.js's isOfflineDownload).
+        const response = await fetch(url, { mode: 'cors', credentials: 'omit', cache: 'no-store', signal })
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
         await cache.put(url, response)
         downloaded++
