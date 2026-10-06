@@ -193,8 +193,12 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     const result = filterCaves(mapData, filters)
 
-    return result
-  }, [mapData, searchOptions])
+    // The open cave always has its pin, the filters aside: the search lists
+    // every cave, and picking one the filters hide showed no pin (nor
+    // anything to center on).
+    const openCave = caveId && !result.some((cave) => cave.id === caveId) ? mapData?.find((cave) => cave.id === caveId) : null
+    return openCave ? [...result, openCave] : result
+  }, [mapData, searchOptions, caveId])
 
   const displayedCaves = useMemo(() => {
     if (!filteredCaves || !isWidePaneEditMode || !editFieldCoordinates.location) {
