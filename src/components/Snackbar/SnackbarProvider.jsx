@@ -79,6 +79,7 @@ export default function SnackbarProvider({ children }) {
         }
         autoHide={_autoHide}
         hideOnClickAway={_hideOnClickAway}
+        onClose={closeSnackbar}
         action={
           <>
             {

@@ -29,19 +29,23 @@ export default function ManageAppUpdate() {
     }
   }, [appHasUpdate])
 
+  return <UpdateSnackbar open={open} onReload={onSnackbarBtnClick} />
+}
+
+// The "update available" snackbar, its Reload button its action (also shown
+// by the snackbars' preview, /dev/snackbars).
+export function UpdateSnackbar({ open, onReload }) {
+  const { t } = useTranslation('app')
   return (
     <Snackbar
       className="oc-manage-app-update"
       open={open}
       message={t('updateAvailable.message')}
       action={
-        <Button
-          className="oc-manage-app-update--reload-button"
-          color='secondary'
-          onClick={onSnackbarBtnClick}
-        >
-          {t('updateAvailable.btn')
-          }</Button>}
+        <Button className="oc-manage-app-update--reload-button" color="secondary" onClick={onReload}>
+          {t('updateAvailable.btn')}
+        </Button>
+      }
       slots={{ transition: Slide }}
       slotProps={{ transition: { direction: 'up' } }}
     />

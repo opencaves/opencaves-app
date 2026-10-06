@@ -66,6 +66,12 @@ const lightThemeOptions = {
       surfaceContainerHighest: '#dedad8',
       // M3 outline-variant: decorative edges (a thumbnail's outline).
       outlineVariant: '#c8c5c2',
+      // M3's inverse roles (a snackbar's): its container, its text and icons,
+      // its action - a light tone of the primary on the light theme's dark
+      // snackbar.
+      inverseSurface: '#313033',
+      inverseOnSurface: '#f4eff4',
+      inversePrimary: '#8bcfe8',
     },
     motion: {
       duration: {
@@ -188,6 +194,35 @@ const lightThemeOptions = {
     MuiTextField: {
       defaultProps: {
         variant: 'filled',
+      },
+    },
+    // Every snackbar as M3's (m3.material.io/components/snackbar/specs): an
+    // opaque inverse surface (dark in the light theme, light in the dark one)
+    // at elevation level 3, extra-small corners (4dp), its text in inverse
+    // on-surface and body medium, 48dp tall on one line (more with two), 16dp
+    // in, 8dp at the end when it has an action or a close button; its action a
+    // text button in inverse primary, its close icon in inverse on-surface.
+    MuiSnackbarContent: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: 'var(--mui-sys-color-inverseSurface)',
+          color: 'var(--mui-sys-color-inverseOnSurface)',
+          borderRadius: 4,
+          boxShadow: theme.shadows[6],
+          minHeight: 48,
+          padding: '0 8px 0 16px',
+          // The action or close button beside the text, not under it.
+          flexWrap: 'nowrap',
+          ...theme.typography.body2,
+          letterSpacing: '0.015625rem',
+        }),
+        message: { padding: '14px 8px 14px 0', flex: '1 1 auto', minWidth: 0 },
+        action: {
+          marginRight: 0,
+          paddingLeft: 0,
+          '& .MuiButton-root': { color: 'var(--mui-sys-color-inversePrimary)' },
+          '& .MuiIconButton-root': { color: 'var(--mui-sys-color-inverseOnSurface)' },
+        },
       },
     },
     // A multiline field's right and bottom padding on its textarea, not
@@ -368,6 +403,10 @@ const darkThemeOptions = {
       surfaceContainerHigh: '#2b2930',
       surfaceContainerHighest: '#36343b',
       outlineVariant: '#474a4c',
+      // The dark theme's light snackbar, its action the light theme's primary.
+      inverseSurface: '#e6e1e5',
+      inverseOnSurface: '#313033',
+      inversePrimary: '#145e79',
     },
   },
   palette: {
