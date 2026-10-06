@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.0.0-beta-7](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-6...v1.0.0-beta-7) (2026-10-06)
+
+OpenCaves works offline - for a diver on a trip with no signal - and photos and maps open in their own galleries on the cave and cave system pages.
+
+
+### Features
+
+* **Offline editing:** changes to caves, cave systems, connections, maps and reference data are kept on the device and sync once back online, each saying so ("saved on this device", then "synced" or "couldn't save").
+* **Photos and maps added offline** are kept on the device as "Waiting to upload" (with a button to cancel) and upload by themselves once the app is open on Wi-Fi; signing out with uploads waiting asks first.
+* **Cave passages layer offline:** its tiles are kept as viewed and, with the Offline setting, downloaded around saved caves; a new build of the layer is downloaded again.
+* **Offline hints:** a cave not saved says what's missing offline and how to keep it; a photo or map not on the device shows a "not available offline" cloud; sign-in and sign-up say they need a connection.
+* **Galleries on the cave and cave system pages** (and the cave's edit page): a photo or map opens over the page, going through that page's photos or maps only, with "3 / 12" and each map's name, year and cartographers; editors keep their tools (cover photo, delete, edit map, trash).
+* **Cave lists:** a cave icon before each cave, a system's line arrow on its name's first line, the map icons' labels as tooltips, the area cards outlined.
+* **Forgot password?** sends a reset email, in the app's language.
+* **Cave edit page:** an X deletes a photo; the back arrow and Cancel go to the cave's page; deleting a cave says so.
+
+
+### Bug Fixes
+
+* **Editors offline** keep their role when the app starts offline with an expired session.
+* **Offline storage:** pictures and maps downloaded for offline use are no longer stored twice (~78 MB saved).
+* **Pages with maps** no longer crash ("Picture is not defined").
+* **Sign-in:** the email form's password field no longer duplicates its id.
+* **Accessibility:** confirm dialogs no longer open with focus left behind the page.
+* **Edit pages** have their item page's background; closing a map's Edit dialog no longer leaves the map twice in the history.
+
 ## [1.0.0-beta-6](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-5...v1.0.0-beta-6) (2026-10-06)
 
 Galleries in the installed app follow the phone more naturally.
