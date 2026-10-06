@@ -7,7 +7,8 @@ import UploadMedias from './UploadMedias.jsx'
 import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 import DropIcon from '@/images/media-pane/drop.svg?react'
 
-export default function Dropzone({ open = false, onDrop = () => {} }) {
+// caveId: the cave the photos go to (the map's open cave otherwise).
+export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
   const theme = useTheme()
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [_open, setOpen] = useState(open)
@@ -100,7 +101,7 @@ export default function Dropzone({ open = false, onDrop = () => {} }) {
           </Grid>
         </Grid>
       </Dialog>
-      <UploadMedias medias={acceptedFiles} />
+      <UploadMedias medias={acceptedFiles} caveId={caveId} />
     </>
   )
 }

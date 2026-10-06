@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,7 @@ import { setResultPaneSmCaveId, setResultPaneSmCurrentBreakpoint, setResultPaneS
 import { setCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveSeo from '@/components/Seo/CaveSeo.jsx'
 import './ResultPane.scss'
-import { isExternalFileDrag } from '@/utils/externalFileDrag.js'
+import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 
 // Phones only, and it brings Ionic along (see utils/ionic.js).
 const ResultPaneSm = lazy(() => import('./ResultPaneSm.jsx'))
@@ -39,8 +39,6 @@ export default function ResultPane() {
   const isSmall = useSmall()
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()
-  const [dropzoneOpen, setDropzoneOpen] = useState(false)
-  const dragCounter = useRef(0)
 
   // The sistemas pane (and its own nested :sistemaId/edit pane) is only
   // reachable from edit mode and overlays the edit-mode pane, so it must
@@ -95,62 +93,9 @@ export default function ResultPane() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCave, t, tApp, isEditingCave])
 
-  // Dragging a file anywhere over the window (not just onto a dedicated
-  // dropzone) opens the same full-screen upload prompt used in the media
-  // pane, for as long as a cave's details pane is open. Listening on
-  // `window` rather than a container element is what makes this cover the
-  // whole window, including the map area, which lives outside this
-  // component's own DOM subtree. The enter/leave counter is needed because
-  // the browser fires dragenter/dragleave for every child element the
-  // pointer passes over, not just once for the window as a whole.
-  useEffect(() => {
-    if (!currentCave) {
-      return
-    }
-
-    // Files from outside the page only: dragging one of its own pictures
-    // (a gallery thumbnail) isn't adding one.
-    function onWindowDragEnter(event) {
-      if (!isExternalFileDrag(event)) {
-        return
-      }
-      event.preventDefault()
-      dragCounter.current += 1
-      setDropzoneOpen(true)
-    }
-
-    function onWindowDragOver(event) {
-      if (isExternalFileDrag(event)) {
-        event.preventDefault()
-      }
-    }
-
-    function onWindowDragLeave() {
-      if (dragCounter.current === 0) return
-      dragCounter.current -= 1
-      if (dragCounter.current <= 0) {
-        dragCounter.current = 0
-        setDropzoneOpen(false)
-      }
-    }
-
-    function onWindowDrop() {
-      dragCounter.current = 0
-      setDropzoneOpen(false)
-    }
-
-    window.addEventListener('dragenter', onWindowDragEnter)
-    window.addEventListener('dragover', onWindowDragOver)
-    window.addEventListener('dragleave', onWindowDragLeave)
-    window.addEventListener('drop', onWindowDrop)
-
-    return () => {
-      window.removeEventListener('dragenter', onWindowDragEnter)
-      window.removeEventListener('dragover', onWindowDragOver)
-      window.removeEventListener('dragleave', onWindowDragLeave)
-      window.removeEventListener('drop', onWindowDrop)
-    }
-  }, [currentCave])
+  // Files dragged anywhere over the window, while a cave's details pane is
+  // open: the full-screen drop zone (useWindowFileDrop).
+  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(Boolean(currentCave))
 
   if (currentCave) {
     // Guard against rendering, even briefly, before the redirect effect
@@ -185,13 +130,7 @@ export default function ResultPane() {
           )
         }
         <Outlet />
-        <Dropzone
-          open={dropzoneOpen}
-          onDrop={() => {
-            dragCounter.current = 0
-            setDropzoneOpen(false)
-          }}
-        />
+        <Dropzone open={dropzoneOpen} onDrop={closeDropzone} />
       </>
     )
 
