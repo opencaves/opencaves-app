@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-beta-6](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-5...v1.0.0-beta-6) (2026-10-06)
+
+Galleries in the installed app follow the phone more naturally.
+
+
+### Bug Fixes
+
+* **Galleries (installed app):** turning the phone sideways still opens a photo or map full screen, but turning it upright leaves full screen only if the turn entered it - a full screen chosen with the viewer's button stays, and one left by hand isn't undone.
+
 ## [1.0.0-beta-5](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-4...v1.0.0-beta-5) (2026-10-06)
 
 Search engines can now index every cave's page, and a few fixes on the map.
