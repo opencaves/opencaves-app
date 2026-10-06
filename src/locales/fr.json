@@ -1159,7 +1159,26 @@
       "saveButton": "Enregistrer",
       "signupButton": "S'inscrire"
     },
-    "notOnDevice": "Non disponible hors ligne"
+    "notOnDevice": "Non disponible hors ligne",
+    "pending": {
+      "mapSaved": "Carte {{name}} enregistrée sur cet appareil. Elle sera téléversée une fois en Wi-Fi.",
+      "photosSaved_one": "Photo enregistrée sur cet appareil. Elle sera téléversée une fois en Wi-Fi.",
+      "photosSaved_other": "{{count}} photos enregistrées sur cet appareil. Elles seront téléversées une fois en Wi-Fi.",
+      "mapUploaded": "Carte {{name}} téléversée",
+      "photoUploaded": "Photo {{name}} téléversée",
+      "mapFailed": "Impossible de téléverser la carte {{name}}. Vous pouvez la retirer et réessayer.",
+      "photoFailed": "Impossible de téléverser la photo {{name}}. Vous pouvez la retirer et réessayer.",
+      "waiting": "En attente de téléversement",
+      "failed": "Échec du téléversement",
+      "cancel": "Annuler le téléversement",
+      "remove": "Retirer",
+      "cancelled": "Téléversement annulé",
+      "signOutTitle": "Téléversements en attente",
+      "signOutText_one": "Une photo ou une carte ajoutée hors ligne n'a pas encore été téléversée. Elle ne se téléverse que pour votre compte : en vous déconnectant, elle reste sur cet appareil jusqu'à votre prochaine connexion.",
+      "signOutText_other": "{{count}} photos ou cartes ajoutées hors ligne n'ont pas encore été téléversées. Elles ne se téléversent que pour votre compte : en vous déconnectant, elles restent sur cet appareil jusqu'à votre prochaine connexion.",
+      "signOutConfirm": "Me déconnecter quand même",
+      "signOutCancel": "Rester connecté"
+    }
   },
   "legal": {
     "updated": "Dernière mise à jour : 2 octobre 2026",

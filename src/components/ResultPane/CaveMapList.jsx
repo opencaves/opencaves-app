@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
@@ -25,6 +25,7 @@ import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
 import { useOnline } from '@/hooks/useOnline.jsx'
+import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -166,6 +167,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     setPendingDetails(emptyPendingDetails)
   }
 
+  const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
+
   async function confirmUpload() {
     const trimmedAuthors = pendingDetails.authors.map((author) => author.trim()).filter(Boolean)
     const uploaded = await uploadMap(pendingFile, {
@@ -173,16 +176,19 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       date: pendingDetails.date || undefined,
       authors: trimmedAuthors,
       note: pendingDetails.note.trim() || undefined,
-    })
+    }, { attachToSistemaId: sistemaId })
     if (!uploaded) return
 
-    await saveMaps([...mapValues, uploaded.id])
+    // Offline, kept to upload later: it's added to the system then.
+    if (!uploaded.pending) await saveMaps([...mapValues, uploaded.id])
     setPendingFile(null)
     setPendingDetails(emptyPendingDetails)
   }
 
   return (
     <>
+      {/* Maps added offline to this system, waiting to upload. */}
+      <PendingUploadsStrip filter={pendingMapsOf} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 2 }} />
       {selectedMaps.length > 0 && (
         <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>

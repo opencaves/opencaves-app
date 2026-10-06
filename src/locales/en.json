@@ -1160,7 +1160,26 @@
       "saveButton": "Save",
       "signupButton": "Sign up"
     },
-    "notOnDevice": "Not available offline"
+    "notOnDevice": "Not available offline",
+    "pending": {
+      "mapSaved": "Map {{name}} saved on this device. It will upload once you're on Wi-Fi.",
+      "photosSaved_one": "Photo saved on this device. It will upload once you're on Wi-Fi.",
+      "photosSaved_other": "{{count}} photos saved on this device. They'll upload once you're on Wi-Fi.",
+      "mapUploaded": "Map {{name}} uploaded",
+      "photoUploaded": "Photo {{name}} uploaded",
+      "mapFailed": "Couldn't upload map {{name}}. You can remove it and try again.",
+      "photoFailed": "Couldn't upload photo {{name}}. You can remove it and try again.",
+      "waiting": "Waiting to upload",
+      "failed": "Upload failed",
+      "cancel": "Cancel upload",
+      "remove": "Remove",
+      "cancelled": "Upload cancelled",
+      "signOutTitle": "Uploads still waiting",
+      "signOutText_one": "A photo or map you added offline hasn't been uploaded yet. It only uploads for your account: signing out leaves it on this device until you sign back in.",
+      "signOutText_other": "{{count}} photos or maps you added offline haven't been uploaded yet. They only upload for your account: signing out leaves them on this device until you sign back in.",
+      "signOutConfirm": "Sign out anyway",
+      "signOutCancel": "Stay signed in"
+    }
   },
   "legal": {
     "updated": "Last updated: October 2, 2026",

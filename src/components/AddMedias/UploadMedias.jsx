@@ -12,6 +12,10 @@ import { photosFarFromCave } from '@/utils/photoGps.js'
 import { APP_NAME } from '@/config/app.js'
 import { UPLOADING_DONE_HIDE_DELAY } from '@/config/mediaPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import pushId from 'unique-push-id'
+import { addPendingUpload } from '@/services/offline/pendingUploads.js'
+import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
+import { auth } from '@/config/firebase.js'
 
 const codeFontFamily = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
 
@@ -20,6 +24,7 @@ export default function UploadMedias({ medias, caveId }) {
   const { uploadCaveImages, current, progress, done, error } = useUploadCaveImages(caveId)
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [openSnackbar] = useSnackbar()
+  const { t: tOffline } = useTranslation('offline')
   const [uploading, setUploading] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
@@ -34,6 +39,21 @@ export default function UploadMedias({ medias, caveId }) {
   }
 
   async function uploadMedias(files) {
+    // Offline: kept on the device, to upload on Wi-Fi (PendingUploadsSync) -
+    // a file of the wrong type still gets its error (uploadCaveImages) first.
+    if (!navigator.onLine && files.every((file) => ACCEPTED_MIME_TYPES.includes(file.type))) {
+      try {
+        for (const file of files) {
+          await addPendingUpload({ id: pushId(), kind: 'photo', uid: auth.currentUser?.uid ?? null, file, name: file.name, caveId: caveId ?? cave?.id })
+        }
+        openSnackbar(tOffline('pending.photosSaved', { count: files.length }), { severity: 'success' })
+      } catch (cause) {
+        console.error(cause)
+        openSnackbar(t('unknownError'))
+      }
+      setMedias([])
+      return
+    }
     setUploadTotal(files.length)
     setUploading(true)
     await uploadCaveImages(files)

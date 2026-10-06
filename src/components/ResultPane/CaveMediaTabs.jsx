@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useCallback, useId } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import MediaList from './MediaList.jsx'
 import VideoList from './VideoList.jsx'
 import CaveMapList from './CaveMapList.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
+import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
 // Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
 // the app slice's Redux state rather than component state, since that slice
@@ -28,6 +29,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   const tab = useSelector((state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
   const tabId = useId()
   const activeTab = isNew ? 'videos' : tab
+  const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])
 
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
@@ -51,6 +53,8 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
       {!isNew && (
         <Box role="tabpanel" id={`${tabId}-pictures-panel`} aria-labelledby={`${tabId}-pictures-tab`} hidden={activeTab !== 'pictures'} sx={{ display: activeTab === 'pictures' ? 'flex' : 'none', flexDirection: 'column', gap: 2, pt: 2 }}>
           <MediaList caveId={caveId} editable={editable} />
+          {/* Photos added offline, waiting to upload. */}
+          <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
               <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>

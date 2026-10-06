@@ -13,6 +13,7 @@ import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from './MapUpload.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
+import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -99,11 +100,15 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
     handleClose()
   }
 
+  // Maps added offline in this form, waiting to upload (listed by their id).
+  const pendingInForm = (item) => item.kind === 'map' && value.includes(item.id)
+
   return (
     <Box className="oc-maps-picker">
       <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 0.5 }} {...labelProps}>
         {label}
       </Typography>
+      <PendingUploadsStrip filter={pendingInForm} onRemoved={(item) => onChange(value.filter((id) => id !== item.id))} sx={{ mb: 1 }} />
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'flex-start' }}>
         {selectedMaps.map((m) => (
           <Card key={m.id} className="oc-maps-picker--card" title={[m.date, m.authors?.join(', ')].filter(Boolean).join(' · ') || undefined} sx={{ width: 160, position: 'relative', flexShrink: 0 }}>

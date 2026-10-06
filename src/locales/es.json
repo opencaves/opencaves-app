@@ -1160,7 +1160,26 @@
       "saveButton": "Guardar",
       "signupButton": "Registrarse"
     },
-    "notOnDevice": "No disponible sin conexión"
+    "notOnDevice": "No disponible sin conexión",
+    "pending": {
+      "mapSaved": "Mapa {{name}} guardado en este dispositivo. Se subirá cuando estés en Wi-Fi.",
+      "photosSaved_one": "Foto guardada en este dispositivo. Se subirá cuando estés en Wi-Fi.",
+      "photosSaved_other": "{{count}} fotos guardadas en este dispositivo. Se subirán cuando estés en Wi-Fi.",
+      "mapUploaded": "Mapa {{name}} subido",
+      "photoUploaded": "Foto {{name}} subida",
+      "mapFailed": "No se pudo subir el mapa {{name}}. Puedes quitarlo e intentarlo de nuevo.",
+      "photoFailed": "No se pudo subir la foto {{name}}. Puedes quitarla e intentarlo de nuevo.",
+      "waiting": "Esperando para subir",
+      "failed": "Error al subir",
+      "cancel": "Cancelar la subida",
+      "remove": "Quitar",
+      "cancelled": "Subida cancelada",
+      "signOutTitle": "Subidas pendientes",
+      "signOutText_one": "Una foto o mapa que agregaste sin conexión aún no se ha subido. Solo se sube para tu cuenta: si cierras sesión, queda en este dispositivo hasta que vuelvas a iniciarla.",
+      "signOutText_other": "{{count}} fotos o mapas que agregaste sin conexión aún no se han subido. Solo se suben para tu cuenta: si cierras sesión, quedan en este dispositivo hasta que vuelvas a iniciarla.",
+      "signOutConfirm": "Cerrar sesión de todos modos",
+      "signOutCancel": "Seguir conectado"
+    }
   },
   "legal": {
     "updated": "Última actualización: 2 de octubre de 2026",

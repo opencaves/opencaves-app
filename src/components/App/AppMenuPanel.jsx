@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
-import { Avatar, Box, Button, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
@@ -14,6 +15,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
+import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 
 // The account menu's content, in the style of Google Maps' account card: a
 // header (avatar, greeting and "Manage your account" when signed in; a
@@ -43,7 +45,21 @@ export default function AppMenuPanel({ onClose, titleId }) {
     onClose()
   }
 
-  async function logOut() {
+  // Photos or maps added offline and not uploaded yet: asked first (they
+  // only upload for this account).
+  const [pendingToConfirm, setPendingToConfirm] = useState(0)
+  const { t: tPending } = useTranslation('offline', { keyPrefix: 'pending' })
+
+  async function logOut({ confirmed = false } = {}) {
+    if (!confirmed) {
+      const uid = auth.currentUser?.uid
+      const waiting = uid ? (await loadPendingUploads()).filter((item) => item.uid === uid).length : 0
+      if (waiting > 0) {
+        setPendingToConfirm(waiting)
+        return
+      }
+    }
+    setPendingToConfirm(0)
     onClose()
     try {
       await signOut(auth)
@@ -105,7 +121,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           the rows are buttons/links, not <li>s. */}
       {isLoggedIn && (
         <List component="div" disablePadding sx={{ ...sectionSx, mb: 0.5 }}>
-          <ListItemButton onClick={logOut} sx={rowSx}>
+          <ListItemButton onClick={() => logOut()} sx={rowSx}>
             <ListItemIcon>
               <LogoutRounded />
             </ListItemIcon>
@@ -151,6 +167,18 @@ export default function AppMenuPanel({ onClose, titleId }) {
           {tLegal('terms')}
         </Box>
       </Box>
+      <Dialog className="oc-app-menu-panel--pending-uploads" open={pendingToConfirm > 0} onClose={() => setPendingToConfirm(0)} aria-labelledby="oc-pending-uploads-title">
+        <DialogTitle id="oc-pending-uploads-title">{tPending('signOutTitle')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{tPending('signOutText', { count: pendingToConfirm })}</DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setPendingToConfirm(0)}>{tPending('signOutCancel')}</Button>
+          <Button color="error" onClick={() => logOut({ confirmed: true })}>
+            {tPending('signOutConfirm')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }
