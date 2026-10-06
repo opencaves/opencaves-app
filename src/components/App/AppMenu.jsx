@@ -10,7 +10,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 // card. The card holds buttons and links, not just menu items, so it's a
 // labeled dialog-style Popover rather than an ARIA menu (which may only
 // contain menu items).
-export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...props }) {
+export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, className, ...props }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const isSmall = useSmall()
   const theme = useTheme()
@@ -43,11 +43,13 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, className, ...pro
             logoColorScheme={logoColorScheme}
             logoSx={logoSx}
             // The photo fills the button but for a small margin (the button's
-            // own colour around it).
-            avatarSx={{
-              width: 'calc(100% - 8px)',
-              height: 'calc(100% - 8px)',
-            }}
+            // own colour around it), unless sized by the caller (avatarSx).
+            avatarSx={
+              avatarSx || {
+                width: 'calc(100% - 8px)',
+                height: 'calc(100% - 8px)',
+              }
+            }
           />
         </Button>
       </Tooltip>

@@ -10,7 +10,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 import ExplorationHistory from './ExplorationHistory.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
-import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
+import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
 // A system's name as a link to its page (/sistemas/<id>), in the text's
 // own look (underlined on hover); plain text when it has no page. Inside the
@@ -72,7 +72,7 @@ export default function Sistema({ sistemaHistory }) {
                 ...(stuck && {
                   bgcolor: 'transparent',
                   '&::before': { content: '""', position: 'absolute', left: 0, right: 0, bottom: '100%', height: RESULT_PANE_STICKY_TOP, bgcolor: theme.vars.palette.background.paper },
-                  '&::after': { content: '""', position: 'absolute', inset: '0 8px', zIndex: -1, borderRadius: SEARCH_BAR_RADIUS, boxShadow: SEARCH_BAR_SHADOW, bgcolor: theme.vars.palette.background.paper },
+                  '&::after': { content: '""', position: 'absolute', inset: `0 ${SEARCH_BAR_MARGIN}px`, zIndex: -1, borderRadius: SEARCH_BAR_RADIUS, boxShadow: SEARCH_BAR_SHADOW, bgcolor: theme.vars.palette.background.paper },
                 }),
               },
             })}
