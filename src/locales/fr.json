@@ -266,7 +266,16 @@
       "linked": "{{provider}} ajouté à votre compte : vous pouvez aussi vous connecter avec.",
       "linkFailed": "Impossible d’ajouter ce mode de connexion à votre compte."
     },
-    "offline": "Vous êtes hors ligne. La connexion et la création de compte nécessitent une connexion à Internet."
+    "offline": "Vous êtes hors ligne. La connexion et la création de compte nécessitent une connexion à Internet.",
+    "passwordReset": {
+      "title": "Réinitialiser votre mot de passe",
+      "text": "Entrez l'adresse courriel de votre compte : nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+      "email": "Courriel",
+      "send": "Envoyer le lien",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "sent": "Si un compte existe pour {{email}}, un lien pour réinitialiser son mot de passe est en route. Vérifiez votre boîte de réception (et vos courriels indésirables)."
+    }
   },
   "about": {
     "title": "À propos",

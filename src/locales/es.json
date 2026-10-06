@@ -267,7 +267,16 @@
       "linked": "{{provider}} añadido a tu cuenta: ahora también puedes iniciar sesión con él.",
       "linkFailed": "No se pudo añadir este método de inicio de sesión a tu cuenta."
     },
-    "offline": "Estás sin conexión. Iniciar sesión y crear una cuenta necesitan conexión."
+    "offline": "Estás sin conexión. Iniciar sesión y crear una cuenta necesitan conexión.",
+    "passwordReset": {
+      "title": "Restablecer tu contraseña",
+      "text": "Ingresa el correo de tu cuenta: te enviaremos un enlace para elegir una nueva contraseña.",
+      "email": "Correo electrónico",
+      "send": "Enviar el enlace",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "sent": "Si existe una cuenta para {{email}}, un enlace para restablecer su contraseña va en camino. Revisa tu bandeja de entrada (y la carpeta de spam)."
+    }
   },
   "about": {
     "title": "Acerca de",

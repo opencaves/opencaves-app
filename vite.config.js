@@ -186,7 +186,10 @@ export default defineConfig({
         // served as-is by Hosting and don't need to go through the SW.
         // Fonts are included so the app shell still renders with correct
         // typography offline, not just unstyled/fallback text.
-        globPatterns: ['**/*.{js,css,html,woff,woff2}'],
+        // And the pages' background photos (the layout's, the dashboard's,
+        // the lists', the error pages' - ~1.4 MB): every page, the "You're
+        // offline" one included, shows its photo offline, even never seen.
+        globPatterns: ['**/*.{js,css,html,woff,woff2}', '**/{error-bg,bg}-*.webp'],
         // The app registers this with a plain (non-module) `register()`
         // call, so it needs to be a classic script, not an ES module -
         // also makes the output land at service-worker.js instead of .mjs.

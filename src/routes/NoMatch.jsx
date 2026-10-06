@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Grid, IconButton, Tooltip } from '@mui/material'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import CheckRounded from '@mui/icons-material/CheckRounded'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { APP_TITLE } from '@/config/app.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
-import { Link, isRouteErrorResponse, useLocation, useRevalidator, useRouteError } from 'react-router-dom'
+import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import './NoMatch.scss'
@@ -72,6 +73,11 @@ export default function NoMatch() {
   const revalidator = useRevalidator()
   const notFound = !error || (isRouteErrorResponse(error) && error.status === 404)
   const kind = notFound ? 'notFound' : online ? 'failed' : 'offline'
+  const navigate = useNavigate()
+  const { t: tApp } = useTranslation('app')
+  // Back where the visitor came from; to the home page when this is the
+  // first page (an installed app opened offline straight to it).
+  const goBack = () => (window.history.state?.idx > 0 ? navigate(-1) : navigate('/'))
 
   useEffect(() => {
     if (error && !notFound) console.error(error)
@@ -99,6 +105,13 @@ export default function NoMatch() {
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
     <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+      {/* Offline: a way back to what's on the device (MD3: a full-screen
+          view's back arrow at its top left), on a light disc over the photo. */}
+      {kind === 'offline' && (
+        <IconButton className="no-match--back" onClick={goBack} aria-label={tApp('back')} sx={{ position: 'fixed', top: 'calc(8px + env(safe-area-inset-top, 0px))', left: 8, width: 48, height: 48, bgcolor: 'var(--oc-page-surface)', '&:hover': { bgcolor: 'var(--oc-page-surface)' }, boxShadow: 2 }}>
+          <ArrowBackRounded />
+        </IconButton>
+      )}
       <Grid className="no-match--box">
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>

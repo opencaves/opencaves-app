@@ -267,7 +267,16 @@
       "linked": "{{provider}} added to your account: you can now sign in with it too.",
       "linkFailed": "Couldn't add this sign-in method to your account."
     },
-    "offline": "You're offline. Signing in and creating an account need a connection."
+    "offline": "You're offline. Signing in and creating an account need a connection.",
+    "passwordReset": {
+      "title": "Reset your password",
+      "text": "Enter your account's email: we'll send you a link to choose a new password.",
+      "email": "Email",
+      "send": "Send the link",
+      "cancel": "Cancel",
+      "close": "Close",
+      "sent": "If an account exists for {{email}}, a link to reset its password is on its way. Check your inbox (and your spam folder)."
+    }
   },
   "about": {
     "title": "About",
