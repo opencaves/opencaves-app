@@ -7,6 +7,7 @@ import mapsModel from '@/models/MapModel.js'
 import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import IndexSection from './IndexSection.jsx'
 import Carousel from '@/components/Carousel/Carousel.jsx'
+import Picture from '@/components/Picture.jsx'
 
 // Text under an item cut to two lines (with an ellipsis) on phones (MD3:
 // brief text in carousels). Not the name on the map, on its own opaque band.
