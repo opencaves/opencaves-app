@@ -6,6 +6,7 @@ import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
 import dashboardBackground from '@/images/dashboard/bg.webp'
+import pagesBackground from '@/images/pages/bg.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 import { isPublicIndexPath } from '@/utils/seo.js'
 
@@ -18,6 +19,10 @@ export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
+  // A cenote entrance's stairs behind About, the cave and cave system lists
+  // and the reference data pages (lists and forms; not the public area pages).
+  const isReferenceDataPage = Object.hasOwn(REFERENCE_DATA_CONFIGS, location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
+  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(location.pathname) || isReferenceDataPage
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image.
   const isDashboardHome = location.pathname === '/dashboard'
@@ -91,7 +96,7 @@ export default function Layout() {
         // shifting its cover background image with it.
         scrollbarGutter: 'stable',
         backgroundColor: '#000',
-        backgroundImage: `url(${isDashboardPage ? dashboardBackground : layoutBackground})`,
+        backgroundImage: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}

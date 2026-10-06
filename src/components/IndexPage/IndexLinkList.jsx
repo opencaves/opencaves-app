@@ -2,14 +2,14 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, ListItemButton, Tooltip } from '@mui/material'
 import MapOutlined from '@mui/icons-material/MapOutlined'
-import SistemaCookie from '@/components/SistemaCookie.jsx'
+import SistemaArrow from '@/components/SistemaArrow.jsx'
 import MapOffOutlined from './MapOffOutlined.jsx'
 
 // Links to caves or cave systems, in as many columns as the page's width
 // holds (one on phones), each a block button: the whole row is the link
 // (its primary action), with a state layer on hover and focus. items:
 // { key, to, label, color, secondary, mapTo } - color: a sistema's colour, as
-// a line cookie before its name (SistemaCookie); secondary: muted text on a second line (a cave's
+// a line arrow before its name (SistemaArrow); secondary: muted text on a second line (a cave's
 // system), on one line (cut with an ellipsis) - a long name wraps;
 // mapTo: the record on the map, the row's secondary action - a map icon at
 // its end, shown on hover or focus (always on touch screens); noMap: the
@@ -42,7 +42,7 @@ export default function IndexLinkList({ items, className }) {
             disableGutters
             sx={{ flex: 1, minWidth: 0, minHeight: 40, px: 1.5, py: 0.75, borderRadius: 2, gap: 1, alignItems: 'center', '&:hover': { bgcolor: 'transparent' } }}
           >
-            {color && <SistemaCookie color={color} sx={{ fontSize: '1.15rem' }} />}
+            {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem' }} />}
             {/* The name (wrapping when too long), the muted text under it. */}
             <Box component="span" sx={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
               <Box component="span" sx={{ typography: 'body1', color: 'primary.main', overflowWrap: 'anywhere' }}>
