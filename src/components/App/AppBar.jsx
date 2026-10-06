@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, styled, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
@@ -15,35 +15,37 @@ import NavDrawer, { useNavItems } from './NavDrawer.jsx'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
-// Module level, not inside AppBar: a styled() component made during render
-// is a new component type every render, so React remounted the title button
-// each time - replaying the title's enter animation (a flicker).
-// The bar's links: white text, and Material Design 3's state layers in the
-// same white (hover 8%, focus and pressed 10%) - MUI's default tint is a
-// shade of the bar's own primary colour, invisible on it.
-const NAV_LINK_SX = {
-  color: '#fff',
-  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)' },
-  '&.Mui-focusVisible, &:active': { bgcolor: 'rgba(255, 255, 255, 0.1)' },
-  // The current page: a white bar under its link.
-  '&[aria-current="page"]': { boxShadow: 'inset 0 -3px 0 #fff', borderRadius: '4px 4px 0 0' },
-}
+// The bar's links, as MD3's navigation items: 40dp pills, a 24dp icon 8dp
+// from the label (label large), in the bar's muted text color; the state
+// layers in its text color (hover 8%, focus and pressed 10%); the current
+// page on its own pill. The colors: the bar's (--oc-app-bar-*,
+// variables.scss).
+const NAV_LINK_SX = (theme) => ({
+  height: 40,
+  px: 2,
+  borderRadius: 5,
+  color: 'var(--oc-app-bar-fg-variant)',
+  ...theme.typography.button,
+  textTransform: 'none',
+  letterSpacing: '0.00625rem',
+  fontWeight: 500,
+  whiteSpace: 'nowrap',
+  '& .MuiButton-startIcon': { mr: 1, ml: 0, '& > *:nth-of-type(1)': { fontSize: 24 } },
+  '&:hover': { bgcolor: 'rgb(var(--oc-app-bar-state) / 0.08)' },
+  '&.Mui-focusVisible, &:active': { bgcolor: 'rgb(var(--oc-app-bar-state) / 0.1)' },
+  '&[aria-current="page"]': { bgcolor: 'var(--oc-app-bar-active-bg)', color: 'var(--oc-app-bar-active-fg)' },
+})
 
 // Material Design 3's small top app bar: 64dp tall on phones too (MUI's is
 // 56px there, 48px sideways - '&&' outweighs its media queries), 4dp at its
-// ends on phones, where its icon buttons are 48dp touch targets.
+// ends on phones, where its icon buttons are 48dp touch targets. No shadow;
+// its colors the bar's (--oc-app-bar-*, variables.scss): the brand teal in
+// the light theme, MD3's surface bar in the dark one, which takes the surface
+// container color once the page scrolls under it (M3's on-scroll state).
 // Below this width, Log in and Sign up go into a dropdown (AppBar).
 const SIGN_IN_DROPDOWN_QUERY = '(max-width: 439.95px)'
 const APP_BAR_TOOLBAR_SX = { '&&': { minHeight: 64 }, px: { xs: 0.5, sm: 3 } }
 
-const StyledButton = styled(Button)({
-  color: 'var(--mui-palette-primary-contrastText)',
-  whiteSpace: 'nowrap',
-  borderColor: 'rgba(255 255 255 / 0.5)',
-  ':hover': {
-    borderColor: '#fff',
-  },
-})
 
 export default function AppBar() {
   const dispatch = useDispatch()
@@ -65,6 +67,16 @@ export default function AppBar() {
   // need about 430px): one sign-in dropdown instead.
   const isTooNarrowForSignIn = useSmall(SIGN_IN_DROPDOWN_QUERY)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  // The page scrolled under the bar (its scroll area, Layout's).
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const scrollRoot = document.querySelector('.oc-layout')
+    if (!scrollRoot) return undefined
+    const update = () => setScrolled(scrollRoot.scrollTop > 0)
+    update()
+    scrollRoot.addEventListener('scroll', update, { passive: true })
+    return () => scrollRoot.removeEventListener('scroll', update)
+  }, [location.pathname])
   const toolbarTitle = isPhone && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   // The site's pages, on the left; the dashboard (editors) on the right,
   // beside the account button (NavDrawer's order on phones).
@@ -119,7 +131,19 @@ export default function AppBar() {
 
   return (
     <>
-      <MUIAppBar className="oc-app-bar" component="nav" aria-label={t('navMain')}>
+      <MUIAppBar
+        className="oc-app-bar"
+        component="nav"
+        aria-label={t('navMain')}
+        color="inherit"
+        elevation={0}
+        sx={(theme) => ({
+          bgcolor: scrolled ? 'var(--oc-app-bar-bg-scrolled)' : 'var(--oc-app-bar-bg)',
+          color: 'var(--oc-app-bar-fg)',
+          backgroundImage: 'none',
+          transition: theme.transitions.create('background-color', { duration: 200 }),
+        })}
+      >
         <Toolbar sx={APP_BAR_TOOLBAR_SX}>
           {isSmall && (
             <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
@@ -131,30 +155,39 @@ export default function AppBar() {
               assistive tech and the tab order instead of a second,
               text-less link. */}
           <Link to="/" aria-hidden="true" tabIndex={-1} style={{ flexShrink: 0, display: "flex" }}>
+            {/* The logo for a dark background: the light theme's teal bar, as
+                the dark theme's near black one. */}
             <LogoIcon colorScheme="dark" sx={{ mr: 1, flexShrink: 0 }} />
           </Link>
 
           {/* Shrinks before the bar's buttons do, its title cut with an
               ellipsis (a long page title, shown here once scrolled). */}
-          <StyledButton
+          <Button
             variant="text"
             component={Link}
             to="/"
+            color="inherit"
             sx={{
-              mr: { xs: 1, sm: 2 },
+              mr: { xs: 1, sm: 3 },
               p: 0,
               minWidth: 0,
               flexShrink: 1,
               justifyContent: 'flex-start',
+              whiteSpace: 'nowrap',
+              '&:hover': { bgcolor: 'transparent' },
             }}
           >
             <Typography
               key={toolbarTitle}
-              variant="h6"
+              component="span"
               noWrap
               sx={{
-                // MD3's Title Large (22sp) on phones.
-                fontSize: { xs: '1.375rem', sm: undefined },
+                // MD3's title large.
+                fontSize: '1.375rem',
+                lineHeight: '1.75rem',
+                fontWeight: 400,
+                letterSpacing: 0,
+                textTransform: 'none',
                 color: 'inherit',
                 textDecoration: 'none',
                 '@keyframes appbar-title-enter': {
@@ -166,11 +199,11 @@ export default function AppBar() {
             >
               {toolbarTitle}
             </Typography>
-          </StyledButton>
+          </Button>
 
           <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content' }}>
             {!isSmall && (
-              <Grid sx={{ mr: 1 }}>
+              <Grid sx={{ mr: 1, display: 'flex', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon }) => (
                   <Button key={key} component={Link} to={to} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
@@ -211,16 +244,17 @@ export default function AppBar() {
               {!isLoggedIn && !isTooNarrowForSignIn && (
                 <>
                   {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
-                  <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40 }}>
+                  {/* MD3's text and outlined buttons, in the bar's action color. */}
+                  <Button variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', color: 'var(--oc-app-bar-action)' }}>
                     {t('login')}
-                  </StyledButton>
-                  <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl} sx={{ height: 40, mr: { xs: 1, sm: 0 } }}>
+                  </Button>
+                  <Button variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', ml: 1, mr: { xs: 1, sm: 0 }, color: 'var(--oc-app-bar-action)', borderColor: 'var(--oc-app-bar-outline)' }}>
                     {t('signup')}
-                  </StyledButton>
+                  </Button>
                 </>
               )}
               {canAccessDashboard && !isSmall && (
-                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={{ ...NAV_LINK_SX, mr: 1 }}>
+                <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={[NAV_LINK_SX, { mr: 1 }]}>
                   {t('admin', { name: APP_NAME })}
                 </Button>
               )}

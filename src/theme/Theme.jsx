@@ -69,6 +69,16 @@ const lightThemeOptions = {
       // M3's inverse roles (a snackbar's): its container, its text and icons,
       // its action - a light tone of the primary on the light theme's dark
       // snackbar.
+      // M3's surface container (the app bar once the page scrolls under it)
+      // and secondary container (the current page's pill in the app bar).
+      surfaceContainer: '#f3f1f0',
+      // M3's primary and outline roles, as text and edges on the surface
+      // (the app bar's Log in and Sign up): the dark scheme's primary a light
+      // tone, readable on its near-black surface.
+      primary: '#145e79',
+      outline: '#79747e',
+      secondaryContainer: '#cfe6f1',
+      onSecondaryContainer: '#0b1f27',
       inverseSurface: '#313033',
       inverseOnSurface: '#f4eff4',
       inversePrimary: '#8bcfe8',
@@ -404,6 +414,11 @@ const darkThemeOptions = {
       surfaceContainerHighest: '#36343b',
       outlineVariant: '#474a4c',
       // The dark theme's light snackbar, its action the light theme's primary.
+      surfaceContainer: '#211f26',
+      primary: '#8bcfe8',
+      outline: '#938f99',
+      secondaryContainer: '#33494f',
+      onSecondaryContainer: '#cfe6f1',
       inverseSurface: '#e6e1e5',
       inverseOnSurface: '#313033',
       inversePrimary: '#145e79',
