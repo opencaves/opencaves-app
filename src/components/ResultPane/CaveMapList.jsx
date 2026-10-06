@@ -5,29 +5,21 @@ import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import MapOutlined from '@mui/icons-material/MapOutlined'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
-import AddButton from '@/components/AddButton.jsx'
-import PartialDateField from '@/components/PartialDateField.jsx'
-import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import mapsModel from '@/models/MapModel.js'
 import { isTrashed } from '@/utils/trash.js'
-import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
-import AuthorsField from '@/components/MapsPicker/AuthorsField.jsx'
-import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
-import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
-import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
+import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
-
-const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
 // The title bar over a map's thumbnail: a caption line and its padding. The
 // options menu sits on it, as tall as it and centred.
@@ -73,9 +65,19 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
           bgcolor: 'rgba(0, 0, 0, 0.6)',
           // Over the thumbnail's outline: along the title, the edge is its colour.
           zIndex: 1,
+          // Its date after its name, whole: only the name is cut short.
+          display: 'flex',
+          gap: 0.75,
         }}
       >
-        {file?.name || t('openMap')}
+        <Box component="span" sx={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {file?.name || t('openMap')}
+        </Box>
+        {file?.date && (
+          <Box component="span" className="oc-cave-map-list--date" sx={{ flex: 'none', color: 'rgba(255, 255, 255, 0.75)' }}>
+            {file.date}
+          </Box>
+        )}
       </Typography>
       {/* Who drew it, along the bottom edge as the title along the top. */}
       {file?.authors?.length > 0 && (
@@ -104,27 +106,23 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [sistemas] = SistemaModel.useAll()
-  const sistema = sistemas.find((s) => s.id === sistemaId)
   const [connections] = ConnectionModel.useAll()
   // With the maps in the trash, to leave out the sistema's references to them
   // (kept, so a restored map comes back), not show them as unknown files.
   const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
   const scrollbarsRef = useRef()
-  const fileInputRef = useRef()
-  const [pendingFile, setPendingFile] = useState(null)
-  const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const navigate = useNavigate()
-  const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()
   // Admins: deleting the map itself (to the trash), not only from this sistema.
   const canTrash = useCanTrashMaps()
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
-  const mapValues = (Array.isArray(sistema?.maps) ? sistema.maps : []).map((value) => value.trim()).filter(Boolean)
   const selectedMaps = getSistemaMapRefs(sistemaId, sistemas, connections)
     .map(({ id: value, sistemaId: ownerId }) => {
       const file = mapFiles.find((map) => map.id === value)
       return { value, file, url: file?.url || value, inherited: ownerId !== sistemaId }
     })
     .filter((map) => !isTrashed(map.file))
+    // Newest first, the undated last.
+    .sort((a, b) => compareMapsByDate(a.file, b.file))
   const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const mapHeight = ASSETS_LIST_CONFIG.height
 
@@ -146,45 +144,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     return () => container.removeEventListener('wheel', onWheel)
   }, [selectedMaps.length])
 
-  async function saveMaps(nextMaps) {
-    await SistemaModel.save(sistemaId, { maps: nextMaps })
-  }
-
-  function selectFile() {
-    clearError()
-    fileInputRef.current?.click()
-  }
-
-  function handleFileSelected(event) {
-    const file = event.target.files?.[0]
-    event.target.value = ''
-    if (!file) return
-    setPendingFile(file)
-    setPendingDetails({ ...emptyPendingDetails, title: sistema?.name || '' })
-  }
-
-  function cancelPendingUpload() {
-    setPendingFile(null)
-    setPendingDetails(emptyPendingDetails)
-  }
-
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
-
-  async function confirmUpload() {
-    const trimmedAuthors = pendingDetails.authors.map((author) => author.trim()).filter(Boolean)
-    const uploaded = await uploadMap(pendingFile, {
-      title: pendingDetails.title.trim(),
-      date: pendingDetails.date || undefined,
-      authors: trimmedAuthors,
-      note: pendingDetails.note.trim() || undefined,
-    }, { attachToSistemaId: sistemaId })
-    if (!uploaded) return
-
-    // Offline, kept to upload later: it's added to the system then.
-    if (!uploaded.pending) await saveMaps([...mapValues, uploaded.id])
-    setPendingFile(null)
-    setPendingDetails(emptyPendingDetails)
-  }
 
   return (
     <>
@@ -201,66 +161,23 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                     // A thin outline over the picture's edge (not around it: the size stays).
                     '&::after': { content: '""', position: 'absolute', inset: 0, borderRadius: 'inherit', border: `1px solid ${theme.vars.sys.color.outlineVariant}`, pointerEvents: 'none' },
                   })}>
-                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu={canAdd && !uploading} />
+                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu={canAdd} />
                   {map.file?.contentType === 'application/pdf' && (
                     <Button component="a" href={map.file.url} target="_blank" rel="noopener noreferrer" size="small" sx={{ position: 'absolute', bottom: 4, left: 4, bgcolor: 'background.paper', '&:hover': { bgcolor: 'background.paper' } }}>
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
+                  {canAdd && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>
           </Scrollbars>
         </Box>
       )}
-      {(canAdd || onAddUnauthorized) && (
-        <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: selectedMaps.length > 0 ? 2 : 0 }}>
-            <AddButton startIcon={uploading ? <CircularProgress size={18} /> : undefined} disabled={uploading || (canAdd && !sistemaId)} onClick={() => (canAdd ? selectFile() : onAddUnauthorized?.())}>
-              {t('addMap')}
-            </AddButton>
-          </Box>
-          {canAdd && !sistemaId && (
-            // Supporting text for the Add map button above: 8dp from it, and a
-            // little extra room (with the form's own gap, 24dp) after it.
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 1, mb: 1 }}>
-              {t('mapsNeedSistema')}
-            </Typography>
-          )}
-          <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
-          <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
-        </>
-      )}
+      <AddMapButton sistemaId={sistemaId} canAdd={canAdd} onAddUnauthorized={onAddUnauthorized} spaced={selectedMaps.length > 0} />
 
       {trashDialog}
 
-      <Dialog className="oc-cave-map-list--upload-dialog" open={!!pendingFile} onClose={cancelPendingUpload} maxWidth={false} PaperComponent={DraggableDialogPaper}>
-        <DialogTitle noWrap className="oc-draggable-dialog--handle" sx={{ cursor: 'move' }}>
-          {pendingFile?.name}
-        </DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 900 }}>
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
-            <Box sx={{ width: 440, height: 440, flexShrink: 0 }}>
-              <PendingFilePreview file={pendingFile} width={440} height={440} />
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
-              <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-              <PartialDateField size="small" label={tMaps('mapDate')} description={tMaps('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
-              <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
-              <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={cancelPendingUpload} disabled={uploading}>
-            {tMaps('cancel')}
-          </Button>
-          <Button variant="contained" onClick={confirmUpload} disabled={uploading || !pendingDetails.title.trim()} startIcon={uploading ? <CircularProgress size={16} /> : undefined}>
-            {tMaps('add')}
-          </Button>
-        </DialogActions>
-      </Dialog>
 
     </>
   )

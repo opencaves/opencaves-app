@@ -33,3 +33,13 @@ export function getSistemaMapRefs(sistemaId, sistemas, connections) {
 
   return refs
 }
+
+// Maps in the order their lists show them: newest first by their date
+// ("2000", "2012-10", "1988-02-01" - ISO, so compared as text), the undated
+// ones last; equal ones keep their order (sort is stable).
+export function compareMapsByDate(a, b) {
+  const dateA = a?.date || ''
+  const dateB = b?.date || ''
+  if (!dateA || !dateB) return (dateA ? 0 : 1) - (dateB ? 0 : 1)
+  return dateB.localeCompare(dateA)
+}

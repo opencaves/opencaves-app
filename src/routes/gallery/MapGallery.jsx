@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import mapsModel from '@/models/MapModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import ConnectionModel from '@/models/ConnectionModel.js'
-import { getSistemaMapRefs } from '@/utils/sistemaMaps.js'
+import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import { isTrashed } from '@/utils/trash.js'
 import MapPaneDetails from '@/components/MapPane/MapPaneDetails.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
@@ -38,6 +38,8 @@ export default function MapGallery() {
       return map && !isTrashed(map) && { ...map, sistemaId: ownerId }
     })
     .filter(Boolean)
+    // As the page's list: newest first, the undated last.
+    .sort(compareMapsByDate)
   // The page's address, whatever follows (a map, its /edit).
   const pagePath = location.pathname.replace(/\/maps\/.*$/, '')
   const mapPath = (id) => `${pagePath}/maps/${id}`
