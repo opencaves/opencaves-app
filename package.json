@@ -133,7 +133,9 @@
     "@grpc/grpc-js": "^1.14.5",
     "exceljs": {
       "uuid": "^11.1.1"
-    }
+    },
+    "shell-quote": "^1.11.0",
+    "compression": "1.8.2"
   },
   "allowScripts": {
     "@firebase/util@1.15.3": true,
