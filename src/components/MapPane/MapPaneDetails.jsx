@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Lightbox, { addToolbarButton } from 'yet-another-react-lightbox'
@@ -8,6 +8,7 @@ import Download from 'yet-another-react-lightbox/plugins/download'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -33,13 +34,20 @@ const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 // replacing the hand-rolled zoom/pan built for the upload dialog - here the
 // map is already uploaded, so the library's own viewer is the right tool).
 
+// The viewer over the whole app window (useOrientationFullscreen's fallback).
+const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
+
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
   const isSmall = useSmall()
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const showBackArrow = isSmall || isFullscreen
+  // Turning the phone sideways in the installed app goes full screen
+  // (or, refused, covers the whole window: immersive), upright leaves it.
+  const fullscreenRef = useRef(null)
+  const immersive = useOrientationFullscreen(fullscreenRef)
+  const showBackArrow = isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
@@ -84,11 +92,11 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   }
 
   return (
-    <Main className="oc-map-pane-details">
+    <Main className="oc-map-pane-details" sx={immersive ? IMMERSIVE_SX : undefined}>
       <Lightbox
         index={currentIndex}
         slides={slides}
-        fullscreen={{ auto: false }}
+        fullscreen={{ auto: false, ref: fullscreenRef }}
         toolbar={{
           buttons: [
             ...(showBackArrow ? [

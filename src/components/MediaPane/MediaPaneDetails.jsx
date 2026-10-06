@@ -9,6 +9,7 @@ import Share from 'yet-another-react-lightbox/plugins/share'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -34,13 +35,20 @@ const Main = styled('main')(
   },
 )
 
+// The viewer over the whole app window (useOrientationFullscreen's fallback).
+const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
+
 export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
   const isSmall = useSmall()
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const showBackArrow = isSmall || isFullscreen
+  // Turning the phone sideways in the installed app goes full screen
+  // (or, refused, covers the whole window: immersive), upright leaves it.
+  const fullscreenRef = useRef(null)
+  const immersive = useOrientationFullscreen(fullscreenRef)
+  const showBackArrow = isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
@@ -128,11 +136,11 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   }
 
   return (
-    <Main className="oc-media-pane-details">
+    <Main className="oc-media-pane-details" sx={immersive ? IMMERSIVE_SX : undefined}>
       <Lightbox
         index={currentIndex}
         slides={slides}
-        fullscreen={{ auto: false }}
+        fullscreen={{ auto: false, ref: fullscreenRef }}
         toolbar={{
           buttons: [
             ...(showBackArrow ? [
