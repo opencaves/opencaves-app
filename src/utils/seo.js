@@ -30,8 +30,9 @@ export function isIndexable(pathname) {
 // descriptions: link text kept, syntax dropped, whitespace collapsed.
 export function markdownToPlainText(markdown = '') {
   return markdown
-    // Length tags (:length[45 m]) as their value, as written.
-    .replace(/:length\[([^\]]*)]/g, '$1')
+    // Length tags (:length[45 m]) as their value, a whole number (as the
+    // app shows them: "14.9 m" as 15 m).
+    .replace(/:length\[([^\]]*)]/g, (_, text) => text.replace(/\d[\d,]*\.\d+/, (n) => Math.round(Number(n.replace(/,/g, ''))).toLocaleString('en-US')))
     // A stray <br> (older editor saves) isn't text.
     .replace(/<br\s*\/?>/gi, ' ')
     .replace(/!\[[^\]]*]\([^)]*\)/g, '')

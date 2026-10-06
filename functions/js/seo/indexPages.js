@@ -116,7 +116,7 @@ function sistemaPage(sistema, data) {
     aka.length && `<p>Also known as ${escapeHtml(aka.join(', '))}</p>`,
     area && `<p>Area: <a href="/areas/${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></p>`,
     Number(sistema.length) > 0 && `<p>Length: ${metres(sistema.length, 0)}</p>`,
-    Number(sistema.maxDepth) > 0 && `<p>Maximum depth: ${metres(sistema.maxDepth, 1)}</p>`,
+    Number(sistema.maxDepth) > 0 && `<p>Maximum depth: ${metres(sistema.maxDepth, 0)}</p>`,
   ]
   return {
     title: `${sistema.name} system / ${APP_TITLE}`,

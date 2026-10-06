@@ -5,6 +5,8 @@
 //
 // - the value is kept as written, the unit becomes its symbol (m, km, ft, yd, mi);
 // - a range gets a tag at each end: "10-15 m" -> ":length[10 m]-:length[15 m]";
+// - "and more" keeps its "+", after the tag (which holds only a value):
+//   "61,000+ ft" -> ":length[61,000 ft]+";
 // - a conversion written next to it is dropped, the tag showing it now:
 //   "40 ft (12 m)" -> ":length[40 ft]", "12 m / 40 ft" -> ":length[12 m]";
 // - tags already there, links' URLs and code are left alone.
@@ -56,9 +58,10 @@ const SPELLINGS = Object.values(LENGTH_UNITS)
 const UNIT = `(?:${SPELLINGS})(?![a-z])`
 const symbolOf = (spelling) => Object.keys(LENGTH_UNITS).find((unit) => LENGTH_UNITS[unit].spellings.some((s) => new RegExp(`^${s}$`, 'i').test(spelling)))
 
-// A length or a range, then maybe its conversion: "(12 m)", "/ 12 m".
+// A length (maybe "and more": "61,000+ ft") or a range, then maybe its
+// conversion: "(12 m)", "/ 12 m".
 const LENGTH = new RegExp(
-  String.raw`(?<from>${NUMBER})(?:(?<sep>\s*(?:-|–|to|a)\s*)(?<to>${NUMBER}))?\s*(?<unit>${UNIT})` +
+  String.raw`(?<from>${NUMBER})(?<plus>\+)?(?:(?<sep>\s*(?:-|–|to|a)\s*)(?<to>${NUMBER}))?\s*(?<unit>${UNIT})` +
     String.raw`(?<conversion>\s*\(\s*~?\s*${NUMBER}(?:\s*(?:-|–|to|a)\s*${NUMBER})?\s*${UNIT}\s*\)|\s*\/\s*${NUMBER}(?:\s*(?:-|–|to|a)\s*${NUMBER})?\s*${UNIT})?`,
   'gi',
 )
@@ -73,13 +76,13 @@ function tagLengths(text) {
     .map((part, i) => {
       if (i % 2) return part
       return part.replace(LENGTH, (match, ...args) => {
-        const { from, sep, to, unit, conversion } = args.at(-1)
+        const { from, plus, sep, to, unit, conversion } = args.at(-1)
         const symbol = symbolOf(unit)
         const tag = (n) => `:length[${n} ${symbol}]`
         // A conversion in the same system ("12 m (39 m)") isn't one: keep it.
         const conversionUnit = conversion && symbolOf(conversion.match(new RegExp(`(${SPELLINGS})\\s*\\)?\\s*$`, 'i'))?.[1] || '')
         const dropConversion = conversionUnit && LENGTH_UNITS[conversionUnit].system !== LENGTH_UNITS[symbol].system
-        const replaced = (to ? `${tag(from)}${sep}${tag(to)}` : tag(from)) + (conversion && !dropConversion ? conversion : '')
+        const replaced = (to ? `${tag(from)}${plus || ''}${sep}${tag(to)}` : `${tag(from)}${plus || ''}`) + (conversion && !dropConversion ? conversion : '')
         changes.push({ from: match, to: replaced })
         return replaced
       })

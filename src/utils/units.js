@@ -24,8 +24,8 @@ export const toMetres = (value, units) => (units === 'imperial' ? value * METRES
 export const lengthUnit = (units) => (units === 'imperial' ? 'ft' : 'm')
 
 // A stored length or depth (metres) as the person reads it: in their units,
-// whole above 10, one decimal under ("8.5 m", "1,234 ft").
+// a whole number ("9 m", "1,234 ft").
 export function formatMeasure(metres, units, locale) {
   const value = fromMetres(Number(metres), units)
-  return `${value.toLocaleString(locale, { maximumFractionDigits: value < 10 ? 1 : 0 })} ${lengthUnit(units)}`
+  return `${value.toLocaleString(locale, { maximumFractionDigits: 0 })} ${lengthUnit(units)}`
 }
