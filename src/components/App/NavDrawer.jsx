@@ -2,7 +2,9 @@ import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
+import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
+import { useColorScheme } from '@mui/material/styles'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import HomeRounded from '@mui/icons-material/HomeRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -10,6 +12,7 @@ import DashboardRounded from '@mui/icons-material/DashboardRounded'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
+import LogoIcon from './LogoIcon.jsx'
 
 const DRAWER_WIDTH = 240
 
@@ -37,14 +40,18 @@ export function useNavItems() {
 }
 
 // The phone's navigation drawer, opened from the app bar's menu button or the
-// map search bar's: the site's pages, then the dashboard (editors), then
-// About last, each group set apart by a divider. zIndex: over the map page's
-// Ionic sheet (its own, much higher, stacking).
+// map search bar's: its header (the logo and title, a link home, and a close
+// button), the site's pages, then the dashboard (editors), then About last,
+// each group set apart by a divider. No Home item: the header links there.
+// zIndex: over the map page's Ionic sheet (its own, much higher, stacking).
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
   const aboutItem = navItems.find((item) => item.key === 'about')
-  const items = [...navItems.filter((item) => item !== aboutItem), ...(canAccessDashboard ? [dashboardItem] : []), aboutItem]
+  const items = [...navItems.filter((item) => item !== aboutItem && item.key !== 'home'), ...(canAccessDashboard ? [dashboardItem] : []), aboutItem]
+  // The logo drawn for the drawer's own surface, light or dark.
+  const { mode, systemMode } = useColorScheme()
+  const scheme = (mode === 'system' ? systemMode : mode) || 'light'
 
   return (
     <nav aria-label={t('navDrawer')}>
@@ -56,10 +63,18 @@ export default function NavDrawer({ open, onClose, zIndex }) {
         ModalProps={{ keepMounted: true }}
         sx={{ ...(zIndex && { zIndex }), '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH } }}
       >
-        <Box onClick={onClose} sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ my: 2 }} noWrap>
-            {APP_TITLE}
-          </Typography>
+        <Box onClick={onClose}>
+          <Box className="oc-nav-drawer--header" sx={{ display: 'flex', alignItems: 'center', minHeight: 64, pl: 2, pr: 0.5 }}>
+            <Box component={Link} to="/" aria-current={current('/')} sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0, flex: 1, color: 'text.primary', textDecoration: 'none' }}>
+              <LogoIcon colorScheme={scheme} />
+              <Typography variant="h6" noWrap sx={{ color: 'text.primary' }}>
+                {APP_TITLE}
+              </Typography>
+            </Box>
+            <IconButton onClick={onClose} aria-label={t('close')} sx={{ p: 1.5 }}>
+              <CloseRounded />
+            </IconButton>
+          </Box>
           <Divider />
           <List>
             {items.map(({ key, to, icon }) => (

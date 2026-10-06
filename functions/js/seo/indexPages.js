@@ -119,7 +119,7 @@ function sistemaPage(sistema, data) {
     Number(sistema.maxDepth) > 0 && `<p>Maximum depth: ${metres(sistema.maxDepth, 1)}</p>`,
   ]
   return {
-    title: `${sistema.name} cave system / ${APP_TITLE}`,
+    title: `${sistema.name} system / ${APP_TITLE}`,
     description: truncate(summary
       ? `${sistema.name} cave system (Yucatán, Mexico): ${summary}`
       : `${sistema.name} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.`),
@@ -127,7 +127,7 @@ function sistemaPage(sistema, data) {
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path: `/sistemas/${sistema.slug}` }],
     body: [
       `<main class="oc-ssr-sistema">`,
-      `<h1>${escapeHtml(sistema.name)} cave system</h1>`,
+      `<h1>${escapeHtml(sistema.name)} system</h1>`,
       ...facts,
       ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
       explorations.length ? `<h2>Exploration</h2>\n${list(explorations, exploration)}` : '',

@@ -244,7 +244,7 @@ export default function AppBar() {
           </Grid>
         </Toolbar>
       </MUIAppBar>
-      {isSmall && <NavDrawer open={mobileOpen} onClose={handleDrawerToggle} />}
+      {isSmall && <NavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />}
       {/* The bar's room at the top of the page. */}
       <Toolbar sx={APP_BAR_TOOLBAR_SX} />
     </>
