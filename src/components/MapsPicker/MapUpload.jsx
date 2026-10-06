@@ -10,6 +10,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { storage } from '@/config/firebase.js'
 import mapsModel from '@/models/MapModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
+import { assertOnline } from '@/utils/assertOnline.js'
 
 // A map's title always comes from the person uploading it (see MapUploadDetailsFields)
 // rather than being guessed from the file, so every map has a name the person
@@ -38,6 +39,8 @@ export function useMapUpload() {
     setCurrent({ index: 1, type: file.type, url: thumbnailUrl })
     let uploadedMap = null
     try {
+      // Uploading needs the connection (offline: the error below says so).
+      assertOnline()
       const id = pushId()
       const isPdf = file.type === 'application/pdf'
       const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
@@ -61,6 +64,10 @@ export function useMapUpload() {
       setProgress(100)
       openSnackbar(t(isPdf ? 'uploadSuccessPdf' : 'uploadSuccess', { count: 1 }), { severity: 'success' })
     } catch (cause) {
+      if (cause?.code === 'offline') {
+        setError('needsConnection')
+        return null
+      }
       console.error(cause)
       setError('uploadError')
     } finally {

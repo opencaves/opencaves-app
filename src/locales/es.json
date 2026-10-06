@@ -720,7 +720,8 @@
         "uploadAnyway": "Añadir de todos modos",
         "cancelButton": "Cancelar",
         "cancel": "Cancelar la subida"
-      }
+      },
+      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
     },
     "details": {
       "empty": "No hay nada aquí"
@@ -841,7 +842,8 @@
     "cancel": "Cancelar",
     "add": "Agregar",
     "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
-    "cartography": "Cartografía: {{names}}"
+    "cartography": "Cartografía: {{names}}",
+    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
   },
   "colorPicker": {
     "addColor": "Agregar un color",

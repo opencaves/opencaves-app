@@ -720,7 +720,8 @@
         "uploadAnyway": "Add anyway",
         "cancelButton": "Cancel",
         "cancel": "Cancel the upload"
-      }
+      },
+      "needsConnection": "You’re offline: uploading needs a connection."
     },
     "details": {
       "empty": "There is nothing here"
@@ -841,7 +842,8 @@
     "cancel": "Cancel",
     "add": "Add",
     "mapDateHint": "When the map was drawn or published.",
-    "cartography": "Cartography: {{names}}"
+    "cartography": "Cartography: {{names}}",
+    "needsConnection": "You’re offline: uploading needs a connection."
   },
   "colorPicker": {
     "addColor": "Add a color",

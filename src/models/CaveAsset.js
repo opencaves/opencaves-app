@@ -10,6 +10,7 @@ import { isTrashed, withoutTrashed } from '@/utils/trash.js'
 import { FIREBASE_CONFIG } from '@/config/firebase.config.js'
 import { IMAGE_SIZES, PANE_WIDTH, THUMBNAIL_FOLDER, THUMBNAIL_FORMATS, VIEW_THUMBNAIL_SIZES } from '@/config/app.js'
 import { httpsCallable } from 'firebase/functions'
+import { assertOnline } from '@/utils/assertOnline.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 
@@ -236,10 +237,14 @@ export default class CaveAsset {
   // A panorama's small copies (cover, lists) made from a view taken in the
   // viewer: { image (base64), view } (capturePanoramaView).
   async setViewThumbnail({ image, view }) {
+    assertOnline()
     await httpsCallable(functions, 'setViewThumbnail')({ assetId: this.id, image, view })
   }
 
   async upload(file, callback) {
+    // Uploading needs the connection: offline, a clear error now (code
+    // 'offline') rather than a request hanging until it times out.
+    assertOnline()
     const self = this
     return new Promise(async (resolve, reject) => {
       self.originalName = file.name

@@ -10,6 +10,7 @@ import MapSistemaField from './MapSistemaField.jsx'
 import PendingFilePreview from './PendingFilePreview.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const PREVIEW_SIZE = 440
 const emptyDetails = { title: '', date: '', authors: [], note: '' }
@@ -26,6 +27,7 @@ function saved({ title, date, authors, note }) {
 export default function EditMapDialog({ map, onClose }) {
   const { t } = useTranslation('mapsPicker')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const settleWrite = useSettleWrite()
   const [details, setDetails] = useState(emptyDetails)
   const [saving, setSaving] = useState(false)
   const isSmall = useSmall()
@@ -45,12 +47,16 @@ export default function EditMapDialog({ map, onClose }) {
       // previously set - save()'s merge:true leaves omitted/undefined
       // fields untouched, so an explicit deleteField() sentinel is needed
       // here instead of just leaving them out.
-      await mapsModel.save(map.id, {
-        name: details.title.trim(),
-        date: details.date || deleteField(),
-        authors: trimmedAuthors.length > 0 ? trimmedAuthors : deleteField(),
-        note: details.note.trim() || deleteField(),
-      })
+      // Offline, kept on the device and synced later (useSettleWrite).
+      await settleWrite(
+        mapsModel.save(map.id, {
+          name: details.title.trim(),
+          date: details.date || deleteField(),
+          authors: trimmedAuthors.length > 0 ? trimmedAuthors : deleteField(),
+          note: details.note.trim() || deleteField(),
+        }),
+        { name: details.title.trim() || map.name },
+      )
       onClose()
     } finally {
       setSaving(false)

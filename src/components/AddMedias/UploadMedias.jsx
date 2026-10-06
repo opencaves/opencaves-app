@@ -115,7 +115,7 @@ export default function UploadMedias({ medias, caveId }) {
 
       {errorAlertOpen && (
         <ErrorAlert className="oc-upload-medias--error-alert" open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
-          {error?.code === 'wrong-media-type' ? <WrongMediaTypeMessage fileNames={error.fileNames} /> : <Typography color="text.secondary">{t('unknownError')}</Typography>}
+          {error?.code === 'wrong-media-type' ? <WrongMediaTypeMessage fileNames={error.fileNames} /> : <Typography color="text.secondary">{t(error?.code === 'offline' ? 'needsConnection' : 'unknownError')}</Typography>}
         </ErrorAlert>
       )}
 

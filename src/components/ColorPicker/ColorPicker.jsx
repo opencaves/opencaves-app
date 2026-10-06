@@ -6,6 +6,7 @@ import AddRounded from '@mui/icons-material/AddRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const colorsModel = createCollectionModel('colors')
 
@@ -26,6 +27,7 @@ const swatchSx = {
 // same shared palette, instead of each place free-typing its own hex value.
 export default function ColorPicker({ label, value, onChange, saveOnAdd = true }) {
   const { t } = useTranslation('colorPicker')
+  const settleWrite = useSettleWrite()
   const [colors] = colorsModel.useAll()
   const [anchorEl, setAnchorEl] = useState(null)
   const [adding, setAdding] = useState(false)
@@ -51,9 +53,11 @@ export default function ColorPicker({ label, value, onChange, saveOnAdd = true }
     if (saveOnAdd) {
       setSaving(true)
       try {
-        await colorsModel.save(pushId(), { hex: newColor })
+        // Offline, kept on the device and synced later (useSettleWrite).
+        const status = await settleWrite(colorsModel.save(pushId(), { hex: newColor }), { name: newColor })
         invalidateData()
-        await getData()
+        if (status === 'saved') await getData()
+        else getData().catch((error) => console.warn(error))
         handleSelect(newColor)
       } finally {
         setSaving(false)

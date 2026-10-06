@@ -14,6 +14,7 @@ import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -60,6 +61,9 @@ function getEmbedUrl(value) {
 export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((state) => state.session.roles)
+  const settleWrite = useSettleWrite()
+  // For the offline save's messages.
+  const caveName = useSelector((state) => state.data.caves.find((cave) => cave.id === caveId)?.name?.value) || ''
   const scrollbarsRef = useRef()
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [newVideoUrl, setNewVideoUrl] = useState('')
@@ -93,9 +97,11 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       onChange(nextVideos)
       return
     }
-    await CaveModel.save(caveId, { videos: nextVideos })
+    // Offline, kept on the device and synced later (useSettleWrite).
+    const status = await settleWrite(CaveModel.save(caveId, { videos: nextVideos }), { name: caveName })
     invalidateData()
-    await getData()
+    if (status === 'saved') await getData()
+    else getData().catch((error) => console.warn(error))
   }
 
   async function addVideo() {

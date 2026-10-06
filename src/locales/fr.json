@@ -719,7 +719,8 @@
         "uploadAnyway": "Ajouter quand même",
         "cancelButton": "Annuler",
         "cancel": "Annuler l’envoi"
-      }
+      },
+      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
     },
     "details": {
       "empty": "Il n'y a rien ici"
@@ -840,7 +841,8 @@
     "cancel": "Annuler",
     "add": "Ajouter",
     "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
-    "cartography": "Cartographie : {{names}}"
+    "cartography": "Cartographie : {{names}}",
+    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",

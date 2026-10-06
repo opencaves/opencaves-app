@@ -9,6 +9,7 @@ import { auth, db } from '@/config/firebase.js'
 import { AUDIT_LOG_COLLECTION } from '@/config/collections.js'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { useAccounts } from '@/routes/audits/useAccounts.js'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 // Who added each map and when: its "create" entry in the audit log (admins
 // read it), 30 ids a query (Firestore's "in" limit).
@@ -55,6 +56,7 @@ function MapRow({ map, details, actions }) {
 // dry cave, a sketch...); below, the maps marked so, which can go back.
 export default function MapsToProcess({ toProcess, skipped }) {
   const { t, i18n } = useTranslation('mapLayersAdmin')
+  const settleWrite = useSettleWrite()
   const { accountLabel } = useAccounts()
   const additions = useAdditions([...toProcess, ...skipped].map((map) => map.id))
   const [marking, setMarking] = useState(null)
@@ -81,7 +83,8 @@ export default function MapsToProcess({ toProcess, skipped }) {
   async function save(map, fields) {
     setSaving(true)
     try {
-      await updateDoc(doc(db, 'maps', map.id), fields)
+      // Offline, kept on the device and synced later (useSettleWrite).
+      await settleWrite(updateDoc(doc(db, 'maps', map.id), fields), { name: map.name })
       setMarking(null)
       setReason('')
     } catch (err) {
