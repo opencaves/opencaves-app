@@ -9,7 +9,7 @@ import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
-import IndexSearchField, { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
+import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
 // /caves: every cenote, by area (each area's own page linked from its
@@ -20,23 +20,29 @@ export default function CaveIndex() {
   const { data, loading, failed } = useIndexData()
   // The Add button's new record: one id per visit, not per render.
   const [newId] = useState(pushId)
-  const { query, setQuery, matches, searching } = useIndexSearch()
-  // The search: a cave's name and other names, its system's and its area's.
-  const caves = useMemo(
-    () => data.caves.filter((cave) => matches([cave.name, ...cave.aka, data.sistemasById.get(cave.sistemaId)?.name, cave.area])),
-    [data, matches],
-  )
-  const groups = useMemo(() => groupByArea(caves, data.areasBySlug), [caves, data])
+  const { query, setQuery, matchesFolded, searching, searchedQuery } = useIndexSearch()
+
+  // Every cave's row, and its search text (its name and other names, its
+  // system's and its area's), made once - not on every letter typed.
+  const rows = useMemo(() => {
+    // A cave's system, muted after its name - left out when it's named like
+    // the cave itself (a one-cave system), a leading "Cenote" aside.
+    const bareName = (name) => (name || '').toLowerCase().replace(/^cenote\s+/, '').trim()
+    return new Map(
+      data.caves.map((cave) => {
+        const sistema = data.sistemasById.get(cave.sistemaId)
+        const row = { key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null }
+        return [cave.id, { row, text: fold([cave.name, ...cave.aka, sistema?.name, cave.area].join(' ')) }]
+      }),
+    )
+  }, [data, t])
+  const caves = useMemo(() => data.caves.filter((cave) => matchesFolded(rows.get(cave.id).text)), [data, rows, matchesFolded])
+  // Each area's rows: the same arrays until the search changes (the lists
+  // aren't drawn again meanwhile).
+  const groups = useMemo(() => groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) })), [caves, data, rows])
+  const shownGroups = useProgressiveCount(groups.length, groups)
 
   useIndexPageHead({ title: t('caves.title'), description: t('caves.description') })
-
-  // A cave's system, muted after its name - left out when it's named like
-  // the cave itself (a one-cave system), a leading "Cenote" aside.
-  const bareName = (name) => (name || '').toLowerCase().replace(/^cenote\s+/, '').trim()
-  const systemOf = (cave) => {
-    const sistema = data.sistemasById.get(cave.sistemaId)
-    return sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null
-  }
 
   if (loading) return <IndexPageSkeleton search card />
 
@@ -65,12 +71,13 @@ export default function CaveIndex() {
         query={query}
         setQuery={setQuery}
         placeholder={t('search.caves')}
-        status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query })) : null}
+        status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 
-      {groups.map(({ area, items }) => (
+      {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection
           card
+          lazy
           key={area?.slug ?? 'unknown'}
           title={
             area ? (
@@ -83,7 +90,7 @@ export default function CaveIndex() {
           }
           count={t('caveCount', { count: items.length })}
         >
-          <IndexLinkList items={items.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: systemOf(cave) }))} />
+          <IndexLinkList items={groupRows} />
         </IndexSection>
       ))}
     </div>

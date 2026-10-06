@@ -15,6 +15,7 @@ import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
+import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 
 const areasModel = createCollectionModel('areas')
 
@@ -93,7 +94,7 @@ export default function SistemaList() {
             placeholder={t('searchByName')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={(theme) => ({ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 4, bgcolor: 'var(--oc-page-surface)' } })}
+            sx={[SEARCH_FIELD_SX, { mb: 2 }]}
             slotProps={{
               input: {
                 startAdornment: (
