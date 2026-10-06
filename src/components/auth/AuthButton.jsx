@@ -1,6 +1,10 @@
 import Button from '@mui/material/Button'
+import { useOnline } from '@/hooks/useOnline.jsx'
 
+// Disabled offline: signing in and up need the server (OfflineAuthNote says
+// so). disabled: also busy - its spinner (loading) shows.
 export default function AuthButton({ Component = Button, disabled, startIcon, endIcon, sx = {}, className, children, ...props }) {
+  const online = useOnline()
 
   return (
     <Component
@@ -19,7 +23,7 @@ export default function AuthButton({ Component = Button, disabled, startIcon, en
           marginRight: '1em'
         }
       }}
-      disabled={disabled}
+      disabled={disabled || !online}
       loading={disabled}
       startIcon={startIcon}
       endIcon={endIcon}

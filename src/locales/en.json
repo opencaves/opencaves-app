@@ -266,7 +266,8 @@
       "cancel": "Cancel",
       "linked": "{{provider}} added to your account: you can now sign in with it too.",
       "linkFailed": "Couldn't add this sign-in method to your account."
-    }
+    },
+    "offline": "You're offline. Signing in and creating an account need a connection."
   },
   "about": {
     "title": "About",
@@ -288,14 +289,16 @@
       "passwordMissing": "Please enter your password",
       "passwordWrong": "Wrong password",
       "userNotFound": "Could not find your account",
-      "default": "An error occured. Please try again later."
+      "default": "An error occurred. Please try again later.",
+      "network": "Couldn't reach the server. Check your connection and try again."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {

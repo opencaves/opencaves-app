@@ -266,7 +266,8 @@
       "cancel": "Cancelar",
       "linked": "{{provider}} añadido a tu cuenta: ahora también puedes iniciar sesión con él.",
       "linkFailed": "No se pudo añadir este método de inicio de sesión a tu cuenta."
-    }
+    },
+    "offline": "Estás sin conexión. Iniciar sesión y crear una cuenta necesitan conexión."
   },
   "about": {
     "title": "Acerca de",
@@ -288,14 +289,16 @@
       "passwordMissing": "Por favor ingresa tu contraseña",
       "passwordWrong": "Contraseña incorrecta",
       "userNotFound": "No se pudo encontrar tu cuenta",
-      "default": "Ocurrió un error. Por favor inténtalo de nuevo más tarde."
+      "default": "Ocurrió un error. Por favor inténtalo de nuevo más tarde.",
+      "network": "No se pudo contactar con el servidor. Revisa tu conexión e inténtalo de nuevo."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {

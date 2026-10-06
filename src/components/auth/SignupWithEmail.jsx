@@ -27,6 +27,7 @@ import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { DEFAULT_CONTINUE_URL, FIRST_NAME_MIN_LENGTH, AUTH_SECTION_GAP, PASSWORD_MIN_LENGTH } from '@/config/auth.js'
 import { NavigateNextRounded } from '../icons.jsx'
 import './SignupWithEmail.scss'
+import OfflineAuthNote from './OfflineAuthNote.jsx'
 
 const emailValidatedParam = 'email-valid'
 
@@ -223,6 +224,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
       nextStep()
     } catch (error) {
       console.error(error)
+      // No connection (or too weak): said, rather than the step just stopping.
+      if (error.code === 'auth/network-request-failed') setEmailInputHelperText(tErrors('network'))
     } finally {
       setStepEmailLoading(false)
     }
@@ -533,6 +536,9 @@ export default function SignupWithEmail({ open: initialOpen }) {
               },
             }}
           />
+
+          {/* Offline: creating an account needs a connection (its buttons are disabled meanwhile). */}
+          <OfflineAuthNote sx={{ mb: 3 }} />
 
           <Typography
             variant="h1"

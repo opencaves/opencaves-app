@@ -7,8 +7,12 @@ import AuthButton from './AuthButton.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import useAnonymous from '@/hooks/useAnonymous.jsx'
 import { auth, signInWithProviderPopup, signInWithProviderRedirect } from '@/config/firebase.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { useTranslation } from 'react-i18next'
 
 export default function LogInWithProvider({ Provider, message, color, onSuccess, Logo, sx, className, ...props }) {
+  const [openSnackbar] = useSnackbar()
+  const { t: tErrors } = useTranslation('errors')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(false)
@@ -79,6 +83,8 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
             return
           }
           console.error('Provider sign-in failed', error)
+          // No connection (or too weak): said, rather than nothing happening.
+          if (error.code === 'auth/network-request-failed') openSnackbar(tErrors('auth.network'))
         })
         .finally(() => {
           setDisabled(false)

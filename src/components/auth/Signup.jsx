@@ -9,6 +9,7 @@ import AuthWithGoogle from './AuthWithGoogle.jsx'
 import AuthWithMicrosoft from './AuthWithMicrosoft.jsx'
 import Or from '../utils/Or.jsx'
 import Logo from '../App/Logo.jsx'
+import OfflineAuthNote from './OfflineAuthNote.jsx'
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -42,6 +43,7 @@ export default function Signup() {
         />
 
         <Stack spacing={3} sx={{ width: '32ch' }}>
+          <OfflineAuthNote />
           <AuthWithGoogle onSuccess={onSuccess} />
           <AuthWithMicrosoft onSuccess={onSuccess} />
 

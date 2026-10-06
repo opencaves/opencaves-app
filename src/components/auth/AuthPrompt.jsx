@@ -8,6 +8,7 @@ import Logo from '../App/Logo.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './SignupWithEmail.scss'
+import OfflineAuthNote from './OfflineAuthNote.jsx'
 
 const gap = 2
 
@@ -134,6 +135,7 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
               },
             }}
           />
+          <OfflineAuthNote sx={{ mb: 3 }} />
           {children}
         </Grid>
       </DialogContent>

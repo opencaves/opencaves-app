@@ -265,7 +265,8 @@
       "cancel": "Annuler",
       "linked": "{{provider}} ajouté à votre compte : vous pouvez aussi vous connecter avec.",
       "linkFailed": "Impossible d’ajouter ce mode de connexion à votre compte."
-    }
+    },
+    "offline": "Vous êtes hors ligne. La connexion et la création de compte nécessitent une connexion à Internet."
   },
   "about": {
     "title": "À propos",
@@ -287,14 +288,16 @@
       "passwordMissing": "Please enter your password",
       "passwordWrong": "Mauvais mot de passe",
       "userNotFound": "Votre compte n'a pas été trouvé",
-      "default": "Une erreur s'est produite. Veuillez réessayer plus tard."
+      "default": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+      "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {
