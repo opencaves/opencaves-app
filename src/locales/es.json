@@ -1504,5 +1504,16 @@
       "none": "Ninguna cueva, sistema o zona coincide.",
       "hint": "Escribe un nombre"
     }
+  },
+  "welcome": {
+    "title": "¡Bienvenido a {{name}}!",
+    "intro": "Prepara tu visor: {{name}} es un mapa de las cuevas inundadas de Yucatán y más allá - sus cenotes, sistemas, mapas topográficos y fotos, hecho por y para buzos de cuevas.",
+    "invite": "¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Crea una cuenta gratuita y ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
+    "beta": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Crea una cuenta y te avisaremos cuando termine la beta.",
+    "later": "Explorar primero",
+    "signup": "Crear una cuenta",
+    "inviteMember": "¡Gracias por ser parte del equipo! ¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
+    "betaMember": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Te avisaremos cuando termine la beta.",
+    "start": "¡A bucear!"
   }
 }

@@ -1504,5 +1504,16 @@
       "none": "No cave, system or area matches.",
       "hint": "Type a name"
     }
+  },
+  "welcome": {
+    "title": "Welcome to {{name}}!",
+    "intro": "Grab your mask: {{name}} is a map of the underwater caves of the Yucatán and beyond - their cenotes, cave systems, survey maps and photos, made by and for cave divers.",
+    "invite": "Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Create a free account and help us keep the cave data complete and up to date - every diver's notes count.",
+    "beta": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! Create an account and we'll let you know when the beta is over.",
+    "later": "Explore first",
+    "signup": "Create an account",
+    "inviteMember": "Thanks for being part of the crew! Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Help us keep the cave data complete and up to date - every diver's notes count.",
+    "betaMember": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! We'll let you know when the beta is over.",
+    "start": "Let's dive in"
   }
 }
