@@ -274,10 +274,30 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    await CaveModel.remove(caveId)
+    const name = t('caveTitle', { name: form.name || caveId })
+    const removal = CaveModel.remove(caveId)
+    // Offline, Firestore only settles the delete once the server has it: it's
+    // done on the device now, said so, and an error later still told.
+    if (!navigator.onLine) {
+      removal.catch((error) => {
+        console.error(error)
+        openSnackbar(t('caveDeleteError', { name }))
+      })
+      openSnackbar(t('caveDeletedOffline', { name }), { severity: 'success' })
+    } else {
+      try {
+        await removal
+      } catch (error) {
+        // Nothing deleted: the form stays.
+        console.error(error)
+        openSnackbar(t('caveDeleteError', { name }))
+        return
+      }
+      openSnackbar(t('caveDeleted', { name }), { severity: 'success' })
+    }
     discardChanges()
     invalidateData()
-    await getData()
+    getData().catch((error) => console.warn(error))
     navigate('/caves')
   }
 
