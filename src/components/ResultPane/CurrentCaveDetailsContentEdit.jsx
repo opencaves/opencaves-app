@@ -270,7 +270,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     >
       {/* Deleting a cave is for admins (firestore.rules). */}
       {isAdmin ? (
-        <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
+        <Button color="error" onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setDeleteDialogOpen(true)
+          }} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
           {t('delete')}
         </Button>
       ) : (

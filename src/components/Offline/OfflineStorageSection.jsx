@@ -72,7 +72,12 @@ export default function OfflineStorageSection({ headingProps = {} }) {
         {persisted ? t('persisted') : t('notPersisted')}
       </Typography>
       {/* Centered on phones. */}
-      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={() => setConfirmOpen(true)} disabled={clearing} sx={{ display: 'flex', width: 'fit-content', mx: { xs: 'auto', sm: 0 } }}>
+      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setConfirmOpen(true)
+          }} disabled={clearing} sx={{ display: 'flex', width: 'fit-content', mx: { xs: 'auto', sm: 0 } }}>
         {t('clear')}
       </Button>
 

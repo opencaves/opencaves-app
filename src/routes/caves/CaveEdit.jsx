@@ -489,7 +489,12 @@ export default function CaveEdit() {
 
       <StickyActionBar gap={1}>
         {!isNew && isAdmin ? (
-          <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
+          <Button color="error" onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setDeleteDialogOpen(true)
+          }} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
           </Button>
         ) : (
