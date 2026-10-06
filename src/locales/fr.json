@@ -55,7 +55,8 @@
       "manageAccount": "Gérer votre compte",
       "welcome": "Bienvenue sur {{name}}",
       "welcomeText": "Connectez-vous pour sauvegarder vos grottes préférées et contribuer.",
-      "close": "Fermer"
+      "close": "Fermer",
+      "signInMenu": "Se connecter ou s’inscrire"
     },
     "snackbar": {
       "saved": "Modifications de {{name}} enregistrées",

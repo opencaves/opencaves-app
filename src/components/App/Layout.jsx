@@ -116,7 +116,7 @@ export default function Layout() {
         <Outlet />
       </Container>
 
-      <Dev sx={{ '--oc-mode-switcher-top': 'calc(56px + 1rem)' }} />
+      <Dev sx={{ '--oc-mode-switcher-top': 'calc(64px + 1rem)' }} />
     </Box>
   )
 }

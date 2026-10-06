@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, IconButton, Toolbar, Typography, Button, styled, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, styled, useTheme } from '@mui/material'
+import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import LoginRounded from '@mui/icons-material/LoginRounded'
+import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -26,6 +29,13 @@ const NAV_LINK_SX = {
   '&[aria-current="page"]': { boxShadow: 'inset 0 -3px 0 #fff', borderRadius: '4px 4px 0 0' },
 }
 
+// Material Design 3's small top app bar: 64dp tall on phones too (MUI's is
+// 56px there, 48px sideways - '&&' outweighs its media queries), 4dp at its
+// ends on phones, where its icon buttons are 48dp touch targets.
+// Below this width, Log in and Sign up go into a dropdown (AppBar).
+const SIGN_IN_DROPDOWN_QUERY = '(max-width: 439.95px)'
+const APP_BAR_TOOLBAR_SX = { '&&': { minHeight: 64 }, px: { xs: 0.5, sm: 3 } }
+
 const StyledButton = styled(Button)({
   color: 'var(--mui-palette-primary-contrastText)',
   whiteSpace: 'nowrap',
@@ -39,6 +49,7 @@ export default function AppBar() {
   const dispatch = useDispatch()
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [signInMenuAnchor, setSignInMenuAnchor] = useState(null)
   const [entityHeadingHidden, setEntityHeadingHidden] = useState(false)
   // The page's own heading (its data-appbar-page-title), e.g. "Cenote X" -
   // not the document title, which also says "Edit" or the site's name.
@@ -50,6 +61,9 @@ export default function AppBar() {
   // it. Wider screens keep an edit page's own header in view instead
   // (EditPageHeader, sticky).
   const isPhone = useSmall()
+  // Too narrow for Log in, Sign up and the full title side by side (they
+  // need about 430px): one sign-in dropdown instead.
+  const isTooNarrowForSignIn = useSmall(SIGN_IN_DROPDOWN_QUERY)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const toolbarTitle = isPhone && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
   // The site's pages, on the left; the dashboard (editors) on the right,
@@ -106,9 +120,9 @@ export default function AppBar() {
   return (
     <>
       <MUIAppBar className="oc-app-bar" component="nav" aria-label={t('navMain')}>
-        <Toolbar>
+        <Toolbar sx={APP_BAR_TOOLBAR_SX}>
           {isSmall && (
-            <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} edge="start" onClick={handleDrawerToggle} sx={{ mr: { xs: 1, sm: 2 } }}>
+            <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
               <MenuRounded />
             </IconButton>
           )}
@@ -116,17 +130,22 @@ export default function AppBar() {
           {/* Same destination as the title link beside it: hidden from
               assistive tech and the tab order instead of a second,
               text-less link. */}
-          <Link to="/" aria-hidden="true" tabIndex={-1}>
-            <LogoIcon colorScheme="dark" sx={{ mr: 1 }} />
+          <Link to="/" aria-hidden="true" tabIndex={-1} style={{ flexShrink: 0, display: "flex" }}>
+            <LogoIcon colorScheme="dark" sx={{ mr: 1, flexShrink: 0 }} />
           </Link>
 
+          {/* Shrinks before the bar's buttons do, its title cut with an
+              ellipsis (a long page title, shown here once scrolled). */}
           <StyledButton
             variant="text"
             component={Link}
             to="/"
             sx={{
-              mr: 2,
+              mr: { xs: 1, sm: 2 },
               p: 0,
+              minWidth: 0,
+              flexShrink: 1,
+              justifyContent: 'flex-start',
             }}
           >
             <Typography
@@ -134,6 +153,8 @@ export default function AppBar() {
               variant="h6"
               noWrap
               sx={{
+                // MD3's Title Large (22sp) on phones.
+                fontSize: { xs: '1.375rem', sm: undefined },
                 color: 'inherit',
                 textDecoration: 'none',
                 '@keyframes appbar-title-enter': {
@@ -147,7 +168,7 @@ export default function AppBar() {
             </Typography>
           </StyledButton>
 
-          <Grid container size="grow" sx={{ flexWrap: 'nowrap' }}>
+          <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content' }}>
             {!isSmall && (
               <Grid sx={{ mr: 1 }}>
                 {barItems.map(({ key, to, icon }) => (
@@ -163,14 +184,37 @@ export default function AppBar() {
                 flexWrap: 'nowrap',
                 flexGrow: 1,
                 justifyContent: 'flex-end',
+                flexShrink: 0,
               }}
             >
-              {!isLoggedIn && (
+              {!isLoggedIn && isTooNarrowForSignIn && (
+                // Narrow phones: one account button opening Log in and Sign up -
+                // two buttons left no room for the title.
                 <>
-                  <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl}>
+                  <Tooltip title={t('signInMenu')}>
+                    <IconButton color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ p: 1.5 }}>
+                      <AccountCircleOutlined />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu id="oc-app-bar-sign-in-menu" className="oc-app-bar--sign-in-menu" anchorEl={signInMenuAnchor} open={Boolean(signInMenuAnchor)} onClose={() => setSignInMenuAnchor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                    <MenuItem component={Link} to="/login" onClick={() => { captureContinueUrl(); setSignInMenuAnchor(null) }}>
+                      <ListItemIcon><LoginRounded fontSize="small" /></ListItemIcon>
+                      {t('login')}
+                    </MenuItem>
+                    <MenuItem component={Link} to="/signup" onClick={() => { captureContinueUrl(); setSignInMenuAnchor(null) }}>
+                      <ListItemIcon><PersonAddAlt1Rounded fontSize="small" /></ListItemIcon>
+                      {t('signup')}
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+              {!isLoggedIn && !isTooNarrowForSignIn && (
+                <>
+                  {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
+                  <StyledButton variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40 }}>
                     {t('login')}
                   </StyledButton>
-                  <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl}>
+                  <StyledButton variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl} sx={{ height: 40, mr: { xs: 1, sm: 0 } }}>
                     {t('signup')}
                   </StyledButton>
                 </>
@@ -181,14 +225,16 @@ export default function AppBar() {
                 </Button>
               )}
               {isLoggedIn && (
+                // A 32px avatar; on phones in a 48dp touch target (MD3).
                 <AppMenu
                   logoColorScheme="dark"
                   disableElevation
+                  avatarSx={{ width: 32, height: 32 }}
                   sx={(theme) => ({
                     ml: 1,
-                    width: theme.spacing(5),
-                    height: theme.spacing(5),
-                    minWidth: theme.spacing(5),
+                    width: { xs: 48, sm: theme.spacing(5) },
+                    height: { xs: 48, sm: theme.spacing(5) },
+                    minWidth: { xs: 48, sm: theme.spacing(5) },
                     p: 0,
                     borderRadius: '50%',
                   })}
@@ -199,7 +245,8 @@ export default function AppBar() {
         </Toolbar>
       </MUIAppBar>
       {isSmall && <NavDrawer open={mobileOpen} onClose={handleDrawerToggle} />}
-      <Toolbar />
+      {/* The bar's room at the top of the page. */}
+      <Toolbar sx={APP_BAR_TOOLBAR_SX} />
     </>
   )
 }
