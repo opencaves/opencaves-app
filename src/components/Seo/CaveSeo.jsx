@@ -13,7 +13,8 @@ export default function CaveSeo({ cave }) {
   const name = cave.name?.value || ''
   const summary = markdownToPlainText(cave.description)
   const description = truncate(summary ? `${t('caveDescriptionPrefix', { name })} ${summary}` : t('caveDescriptionFallback', { name }))
-  const url = `${SITE_URL}/map/${cave.id}`
+  // The cave's own page: its one URL for search engines (canonicalPath).
+  const url = `${SITE_URL}/caves/${cave.id}`
 
   const structuredData = {
     '@context': 'https://schema.org',

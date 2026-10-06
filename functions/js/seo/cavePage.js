@@ -17,6 +17,8 @@ import { slugify } from './slug.js'
 
 // sistema: the cave's system ({ name, slug }), if any; path: the page's
 // address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
+// Both are known to search engines by its own page: one URL per cave, not two
+// near-identical pages (Google skipped them as duplicates).
 export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
@@ -26,7 +28,8 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const summary = paragraphs.join(' ')
   const description = truncate(summary ? `${label} (Yucatán, Mexico): ${summary}` : `${label} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
   const title = `${label} / ${APP_TITLE}`
-  const url = `${SITE_URL}${path}`
+  const canonical = `/caves/${id}`
+  const url = `${SITE_URL}${canonical}`
   const aka = Array.isArray(cave.aka) ? cave.aka.filter(Boolean) : []
   const location = cave.location?.latitude != null ? cave.location : null
   const structuredData = {
@@ -58,7 +61,7 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const trail = path.startsWith('/caves/')
     ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/areas/${slugify(area)}` }] : []), { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
-  return renderPage(shell, { title, description, path, body, ogType: 'place', trail })
+  return renderPage(shell, { title, description, path, canonical, body, ogType: 'place', trail })
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and

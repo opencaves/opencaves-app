@@ -14,7 +14,8 @@ export default function RouteSeo() {
   const { t, i18n } = useTranslation('seo')
   const { pathname } = useLocation()
   const canonical = canonicalPath(pathname)
-  const isCavePage = /^\/map\/[^/]+$/.test(canonical)
+  // A cave on the map (CaveSeo sets its description).
+  const isCavePage = /^\/map\/[^/]+\/?$/.test(pathname)
   const setsOwnDescription = isCavePage || isPublicIndexPath(canonical)
 
   useEffect(() => {
