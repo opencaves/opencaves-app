@@ -21,8 +21,10 @@ http://ionicframework.com/docs/theming/ */
   --oc-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --oc-radius: 8px;
   --oc-surface: #ebebeb;
-  --oc-map-control-background: #e0e0e0;
-  --oc-map-control-hover-background: #fff;
+  // The map's geolocate button (a Mapbox control), as the map's MUI FABs:
+  // the paper, a surface container on hover - in both schemes.
+  --oc-map-control-background: var(--mui-palette-background-paper);
+  --oc-map-control-hover-background: var(--mui-sys-color-surfaceContainerHigh);
   --oc-map-control-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   --oc-icon-color-secondary: #666666;
   --oc-text-color-secondary: #444;
@@ -73,8 +75,6 @@ http://ionicframework.com/docs/theming/ */
 // #1c1b1f, surface containers #2b2930 / #36343b, text #dedbd7 / #989da1).
 [data-mui-color-scheme='dark'] {
   --oc-surface: #1c1b1f;
-  --oc-map-control-background: #2b2930;
-  --oc-map-control-hover-background: #36343b;
   --oc-icon-color-secondary: #989da1;
   --oc-text-color-secondary: #b8b5b1;
   --oc-page-surface: #1c1b1f;
