@@ -64,12 +64,14 @@ export const jsonLdScript = (data) => `<script type="application/ld+json">${JSON
 const SHARE_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: 'OpenCaves - open data for cave diving' }
 
 // The shell with the page's <head> tags and #root content. path: the page's
-// canonical path ("/caves"); body: its HTML, already escaped; jsonLd:
+// path ("/caves"); canonical: the path search engines should know it by,
+// when another (a cave's place on the map: its own page); body: its HTML,
+// already escaped; jsonLd:
 // structured data (schema.org) for the page's <head>, if any; trail: its
 // breadcrumbs, [{ name, path }] from the landing page to the page itself -
 // links above its content, and a BreadcrumbList for search results.
-export function renderPage(shell, { title, description, path, body, ogType = 'website', jsonLd = null, trail = null }) {
-  const url = `${SITE_URL}${path}`
+export function renderPage(shell, { title, description, path, canonical = path, body, ogType = 'website', jsonLd = null, trail = null }) {
+  const url = `${SITE_URL}${canonical}`
   const breadcrumbs = trail?.length
     ? {
         html: `<nav aria-label="Breadcrumbs" class="oc-ssr-breadcrumbs">${trail.map(({ name, path: crumbPath }, i) => (i === trail.length - 1 ? `<span aria-current="page">${escapeHtml(name)}</span>` : `<a href="${escapeHtml(crumbPath)}">${escapeHtml(name)}</a>`)).join(' &rsaquo; ')}</nav>

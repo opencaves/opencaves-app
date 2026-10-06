@@ -2,20 +2,21 @@
 
 export const SITE_URL = 'https://opencaves.org'
 
-// The one URL each indexable page should be known by: a cave's sub-views
-// (medias, maps, edit, sistemas) all point to the cave itself.
+// The one URL each indexable page should be known by: a cave's place on the
+// map and its sub-views (medias, maps, edit, sistemas) all point to the cave's
+// own page, /caves/<id> (as the server-rendered pages, functions/js/seo).
 export function canonicalPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   const cave = /^\/map\/([^/]+)/.exec(path)
-  if (cave) return `/map/${cave[1]}`
+  if (cave) return `/caves/${cave[1]}`
   return path
 }
 
 // The public index pages: the cenotes and the cave systems by area, an area,
-// a cave system (not their editors' /edit addresses).
+// a cave system, a cave's own page (not their editors' /edit addresses).
 export function isPublicIndexPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
-  return path === '/caves' || path === '/sistemas' || /^\/(sistemas|areas)\/(?!edit$)[^/]+$/.test(path)
+  return path === '/caves' || path === '/sistemas' || /^\/(caves|sistemas|areas)\/(?!edit$)[^/]+$/.test(path)
 }
 
 // Public pages worth indexing. Everything else (account, sign-in, the
