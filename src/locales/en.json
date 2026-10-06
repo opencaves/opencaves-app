@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "close"
       },
-      "saveError": "Couldn't save changes to {{name}}. Please try again."
+      "saveError": "Couldn't save changes to {{name}}. Please try again.",
+      "savedOffline": "Changes to {{name}} saved on this device. They'll sync when you're back online.",
+      "synced": "Changes to {{name}} synced.",
+      "syncError": "Changes to {{name}} couldn't be saved and were undone. Please try again.",
+      "needsConnection": "You’re offline: this needs a connection."
     },
     "updateAvailable": {
       "message": "A new version of the OpenCaves app is available",

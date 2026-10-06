@@ -20,6 +20,7 @@ import EditPageHeader from '@/components/EditPageHeader.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
@@ -60,6 +61,7 @@ export default function ReferenceDataItemEdit() {
   const { t, i18n } = useTranslation('dashboard')
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   const navigate = useNavigate()
   // descriptions[].lang is stored as a 3-letter code (matching the
   // `languages` collection / cave nameTranslations), not i18next's own
@@ -150,17 +152,23 @@ export default function ReferenceDataItemEdit() {
         fields.descriptions = description ? [...otherDescriptions, { lang, description }] : otherDescriptions
       }
 
-      await model.save(id, fields)
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite(model.save(id, fields), { name: itemLabel || t(`collections.${collectionName}.title`) })
       setBaseline(savedForm)
-      invalidateData()
-      await getData()
       // Stays on the form after saving. A new item only gets its id here, so
       // the URL switches to it (replace, no new history entry), which also
       // reloads it; an existing item just refreshes the baseline its
       // descriptions are merged against.
       if (isNew && !leaving) navigate(`/${collectionName}/${isArea ? slugify(form.name) || id : id}/edit`, { replace: true })
       else setItem((current) => ({ ...current, ...fields }))
-      openSnackbar(tApp('snackbar.saved', { name: itemLabel || t(`collections.${collectionName}.title`) }), { severity: 'success' })
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: itemLabel || t(`collections.${collectionName}.title`) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)

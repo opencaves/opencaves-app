@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "cerrar"
       },
-      "saveError": "No se pudieron guardar los cambios en {{name}}. Inténtalo de nuevo."
+      "saveError": "No se pudieron guardar los cambios en {{name}}. Inténtalo de nuevo.",
+      "savedOffline": "Cambios en {{name}} guardados en este dispositivo. Se sincronizarán cuando vuelvas a estar en línea.",
+      "synced": "Cambios en {{name}} sincronizados.",
+      "syncError": "Los cambios en {{name}} no se pudieron guardar y se deshicieron. Inténtalo de nuevo.",
+      "needsConnection": "Estás sin conexión: esto necesita una conexión."
     },
     "updateAvailable": {
       "message": "Hay una nueva versión de la aplicación OpenCaves disponible",

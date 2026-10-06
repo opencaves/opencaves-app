@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "fermer"
       },
-      "saveError": "Impossible d'enregistrer les modifications de {{name}}. Veuillez réessayer."
+      "saveError": "Impossible d'enregistrer les modifications de {{name}}. Veuillez réessayer.",
+      "savedOffline": "Modifications de {{name}} enregistrées sur cet appareil. Elles seront synchronisées à votre retour en ligne.",
+      "synced": "Modifications de {{name}} synchronisées.",
+      "syncError": "Les modifications de {{name}} n'ont pas pu être enregistrées et ont été annulées. Veuillez réessayer.",
+      "needsConnection": "Vous êtes hors ligne : cette action nécessite une connexion."
     },
     "updateAvailable": {
       "message": "Une nouvelle version de l'application OpenCaves est disponible",

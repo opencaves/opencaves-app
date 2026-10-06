@@ -19,6 +19,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
@@ -45,6 +46,7 @@ export default function ConnectionEdit() {
   const { t } = useTranslation('dashboard')
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   const { setTitle } = useTitle()
   const [connections, connectionsLoading, connectionsError] = ConnectionModel.useAll()
   const [sistemas] = SistemaModel.useAll()
@@ -110,22 +112,31 @@ export default function ConnectionEdit() {
     setError(null)
     try {
       const id = isNew ? pushId() : connectionId
-      await ConnectionModel.save(id, {
-        sistemaId: form.sistemaId,
-        parentSistemaId: form.parentSistemaId,
-        source: form.source || deleteField(),
-        connectionDate: form.connectionDate.trim() || deleteField(),
-        // No reporter: no longer edited here; saving (a merge) leaves any stored one as is.
-        note: form.note.trim() || deleteField(),
-      })
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite(
+        ConnectionModel.save(id, {
+          sistemaId: form.sistemaId,
+          parentSistemaId: form.parentSistemaId,
+          source: form.source || deleteField(),
+          connectionDate: form.connectionDate.trim() || deleteField(),
+          // No reporter: no longer edited here; saving (a merge) leaves any stored one as is.
+          note: form.note.trim() || deleteField(),
+        }),
+        { name: t('connectionOfSistema', { name: childName }) },
+      )
       setBaseline(savedForm)
-      invalidateData()
-      await getData()
       // Stays on the form after saving. A new connection only gets its id
       // here, so the URL switches to it (replace, no new history entry) to
       // make a second Save update it instead of creating another one.
       if (isNew && !leaving) navigate(`/connections/${id}/edit`, { replace: true })
-      openSnackbar(tApp('snackbar.saved', { name: t('connectionOfSistema', { name: childName }) }), { severity: 'success' })
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: t('connectionOfSistema', { name: childName }) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (cause) {
       console.error(cause)
       setError(t('connectionSaveError'))

@@ -30,6 +30,7 @@ import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -81,6 +82,7 @@ export default function CaveEdit() {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
@@ -245,16 +247,22 @@ export default function CaveEdit() {
         fields.nameTranslations = nameTranslationsUpdate
       }
 
-      await CaveModel.save(caveId, fields)
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || caveId }) })
       setBaseline(savedForm)
-
-      invalidateData()
-      await getData()
-      // Stays on the form after saving. The saved doc becomes the new
-      // baseline for the next save's nameTranslations diff.
-      setOriginalCave(await CaveModel.getById(caveId))
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+      // Stays on the form after saving. The saved doc becomes the new
+      // baseline for the next save's nameTranslations diff. Awaited once the
+      // server confirmed; offline, in the background (the device's copy).
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+        setOriginalCave(await CaveModel.getById(caveId))
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
