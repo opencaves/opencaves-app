@@ -122,10 +122,10 @@ export default function ReferenceDataEditor() {
         <ListSkeleton rows={6} leading={null} />
       ) : (
         <List disablePadding sx={DASHBOARD_LIST_SX}>
-          {sortedItems.map((item) => (
+          {sortedItems.map((item, index) => (
             <ListItem
               key={item.id}
-              divider
+              divider={index < sortedItems.length - 1}
               disablePadding
               secondaryAction={
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -140,7 +140,8 @@ export default function ReferenceDataEditor() {
                 </Box>
               }
             >
-              <ListItemButton component={Link} to={editPath(item)} sx={{ pr: 16 }}>
+              {/* Clear of the action icons (one or two): '&&&' beats MUI's own 48px for a secondary action (as specific as '&&'). */}
+              <ListItemButton component={Link} to={editPath(item)} sx={{ '&&&': { pr: isAdmin ? 16 : 10 } }}>
                 <ListItemText
                   primary={
                     collectionName === 'colors' ? (
@@ -165,7 +166,8 @@ export default function ReferenceDataEditor() {
                       item[lang] || item.eng || item.name || item.hex || item.code || item.id
                     )
                   }
-                  secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : undefined}
+                  // Sources keep a plain description; accesses and accessibilities, one per language.
+                  secondary={config.descriptionsField ? pickDescription(item.descriptions, lang) : config.fields.includes('description') ? item.description : undefined}
                 />
               </ListItemButton>
             </ListItem>
