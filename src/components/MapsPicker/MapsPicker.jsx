@@ -7,6 +7,7 @@ import DescriptionRounded from '@mui/icons-material/DescriptionRounded'
 import ImageRounded from '@mui/icons-material/ImageRounded'
 import AddButton from '@/components/AddButton.jsx'
 import mapsModel from '@/models/MapModel.js'
+import { compareMapsByDate } from '@/utils/sistemaMaps.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import AuthorsField from './AuthorsField.jsx'
 import MapSistemaField from './MapSistemaField.jsx'
@@ -51,7 +52,8 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
   const open = Boolean(anchorEl)
   const previewSize = isSmall ? 240 : 440
 
-  const selectedMaps = value.map((id) => maps.find((m) => m.id === id)).filter(Boolean)
+  // Shown newest first, the undated last (the saved order stays).
+  const selectedMaps = value.map((id) => maps.find((m) => m.id === id)).filter(Boolean).sort(compareMapsByDate)
 
   function handleOpen(event) {
     setAnchorEl(event.currentTarget)

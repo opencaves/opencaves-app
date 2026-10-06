@@ -1,5 +1,4 @@
 import { useCallback, useId, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
@@ -7,7 +6,7 @@ import AddButton from '@/components/AddButton.jsx'
 import { Box, Tab, Tabs } from '@mui/material'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
-import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { setCaveMediaTab } from '@/redux/slices/appSlice.jsx'
 import MediaList from './MediaList.jsx'
 import VideoList from './VideoList.jsx'
@@ -26,11 +25,8 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   const photoPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/photos/${id}`), [galleryPath])
   const mapPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/maps/${id}`), [galleryPath])
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const location = useLocation()
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const isEditor = useSelector((state) => state.session.roles.includes('editor'))
-  const isAnonymous = useSelector((state) => state.session.isAnonymous)
   const tab = useSelector((state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
   const tabId = useId()
   const activeTab = isNew ? 'videos' : tab
@@ -41,10 +37,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   }
   const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
 
-  function requireLogin() {
-    dispatch(setContinueUrl(buildContinueUrl(location)))
-    navigate(isAnonymous ? '/signup' : '/login')
-  }
+  const requireLogin = useRequireLogin()
 
   return (
     <Box sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
