@@ -90,10 +90,12 @@ function IndexLinkList({ items, className }) {
       >
         {items.map(({ key, to, label, cave, color, secondary, mapTo, noMap }) => (
           <li key={key}>
-            <RouterLink className="oc-index-link-list--link" to={to}>
+            {/* With a system's arrow: on the name's first line, standing on its baseline. */}
+            <RouterLink className="oc-index-link-list--link" to={to} style={color ? { alignItems: 'baseline' } : undefined}>
               {cave && <span className="oc-index-link-list--cave" aria-hidden="true" />}
-              {/* On the name's first line, as the cave icon. */}
-            {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem', alignSelf: 'flex-start', mt: '1.6px', flexShrink: 0 }} />}
+              {/* Its drawing's bottom on the baseline: down by the room under it in
+                its box (19.5 to 24 of 24). */}
+            {color && <SistemaArrow color={color} sx={{ fontSize: '1.3rem', flexShrink: 0, transform: 'translateY(0.1875em)' }} />}
               {/* The name (wrapping when too long), the muted text under it. */}
               <span className="oc-index-link-list--text">
                 <span className="oc-index-link-list--label">{label}</span>
