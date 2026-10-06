@@ -4,6 +4,7 @@ import pushId from 'unique-push-id'
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const emptyForm = { name: '', description: '', note: '' }
@@ -13,6 +14,7 @@ const emptyForm = { name: '', description: '', note: '' }
 // name; `onCreated(id)` gets the new record's id once it's saved.
 export default function NewSourceDialog({ open, initialName = '', onClose, onCreated }) {
   const { t } = useTranslation('newSourceDialog')
+  const settleWrite = useSettleWrite()
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
@@ -30,11 +32,15 @@ export default function NewSourceDialog({ open, initialName = '', onClose, onCre
     try {
       const id = pushId()
       // Blank optional fields become undefined, which the model drops.
-      await sourcesModel.save(id, {
-        name: form.name.trim(),
-        description: form.description.trim() || undefined,
-        note: form.note.trim() || undefined,
-      })
+      // Offline, kept on the device and synced later (useSettleWrite).
+      await settleWrite(
+        sourcesModel.save(id, {
+          name: form.name.trim(),
+          description: form.description.trim() || undefined,
+          note: form.note.trim() || undefined,
+        }),
+        { name: form.name.trim() },
+      )
       onCreated(id)
     } catch (cause) {
       console.error(cause)

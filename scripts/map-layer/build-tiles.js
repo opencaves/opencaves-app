@@ -168,4 +168,7 @@ writeFileSync(path.join(OUT, 'maps.json'), JSON.stringify(mapIndex))
 writeFileSync(path.join(OUT, 'configs.json'), JSON.stringify(configs))
 // An empty tile (no layers), what the app gets for the tiles not listed.
 writeFileSync(path.join(OUT, 'empty.pbf'), Buffer.alloc(0))
+// The build's version: the app downloads the tiles it keeps for offline use
+// again when it changes (src/services/offline/offlineMedia.js).
+writeFileSync(path.join(OUT, 'version.json'), JSON.stringify({ builtAt: new Date().toISOString() }))
 console.log(`[tiles] ${tiles.length} tiles -> ${path.relative(ROOT, OUT)}`)

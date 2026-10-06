@@ -3,6 +3,7 @@ import { httpsCallable } from 'firebase/functions'
 import { db, functions } from '@/config/firebase.js'
 import { AUDIT_LOG_COLLECTION, USERS_COLLECTION } from '@/config/collections.js'
 import { AUDIT_BATCH_LIMIT, AUDIT_PAGE_SIZE } from '@/config/audits.js'
+import { assertOnline } from '@/utils/assertOnline.js'
 
 // The audit log (_auditLog, written by the server's audit trigger), read by
 // admins on the Audits page, and the server's undo and trash callables.
@@ -70,6 +71,7 @@ export async function undoAuditEntries(ids, { force = false, onProgress } = {}) 
   const results = []
   for (const chunk of chunks(ids)) {
     try {
+      assertOnline()
       const { data } = await undoAuditEntriesFn({ ids: chunk, ...(force && { force: true }) })
       results.push(...(data?.results ?? []))
     } catch (error) {
@@ -89,6 +91,7 @@ export async function emptyTrash(items, { onProgress } = {}) {
   let done = 0
   for (const chunk of chunks(items)) {
     try {
+      assertOnline()
       const { data } = await emptyTrashFn({ items: chunk })
       deleted.push(...(data?.deleted ?? []))
       errors.push(...(data?.errors ?? []))

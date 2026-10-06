@@ -3,7 +3,8 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 
 // A titled part of an index page (an area's cenotes, a system's
 // connections...): an h2 with an optional count beside it. card: the content
-// on an opaque card under the title (on a translucent page), the title then
+// on an opaque card under the title (on a translucent page), outlined as the
+// search field (an outlined input's border), the title then
 // without its underline; cardSx: the card's own styles. lazy: laid out and
 // painted only near the screen (content-visibility) - for the many sections
 // of a long page.
@@ -19,7 +20,7 @@ export default function IndexSection({ title, count, children, className, card =
         )}
       </Typography>
       {card ? (
-        <Box className="oc-index-section--card" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, ...cardSx }}>
+        <Box className="oc-index-section--card" sx={(theme) => ({ ...DASHBOARD_SURFACE_SX, border: `1px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.23)`, p: { xs: 2, sm: 3 }, ...cardSx })}>
           {children}
         </Box>
       ) : (

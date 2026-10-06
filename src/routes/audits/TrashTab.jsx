@@ -202,7 +202,12 @@ export default function TrashTab({ accountLabel }) {
         <Button variant="outlined" startIcon={<RestoreFromTrashRounded />} disabled={selectedItems.length === 0 || Boolean(busy)} onClick={restore}>
           {t('trash.restore')}
         </Button>
-        <Button variant="outlined" color="error" startIcon={<DeleteForeverRounded />} disabled={selectedItems.length === 0 || Boolean(busy)} onClick={() => setConfirmDelete(true)}>
+        <Button variant="outlined" color="error" startIcon={<DeleteForeverRounded />} disabled={selectedItems.length === 0 || Boolean(busy)} onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setConfirmDelete(true)
+          }}>
           {t('trash.deleteForever')}
         </Button>
         <Tooltip title={t('refresh')}>

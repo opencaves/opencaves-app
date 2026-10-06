@@ -13,6 +13,7 @@ import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
+import { assertOnline } from '@/utils/assertOnline.js'
 
 const listUsersFn = httpsCallable(functions, 'listUsers')
 const setUserRolesFn = httpsCallable(functions, 'setUserRoles')
@@ -81,6 +82,7 @@ export default function UsersAdmin() {
     setUsers((prev) => prev.map((u) => (u.uid === user.uid ? { ...u, roles: nextRoles } : u)))
 
     try {
+      assertOnline()
       await setUserRolesFn({ uid: user.uid, roles: nextRoles })
     } catch (err) {
       setError(err.message)
@@ -94,6 +96,7 @@ export default function UsersAdmin() {
     setFreezeTarget(null)
     setSavingUid(user.uid)
     try {
+      assertOnline()
       const { data } = await setUserFrozenFn({ uid: user.uid, frozen })
       setUsers((prev) => prev.map((u) => (u.uid === user.uid ? { ...u, frozen: data.frozen, roles: data.roles } : u)))
     } catch (err) {
@@ -106,6 +109,7 @@ export default function UsersAdmin() {
   async function handleDelete() {
     setDeleting(true)
     try {
+      assertOnline()
       await deleteUserFn({ uid: deleteTarget.uid })
       setUsers((prev) => prev.filter((u) => u.uid !== deleteTarget.uid))
       setDeleteTarget(null)

@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "close"
       },
-      "saveError": "Couldn't save changes to {{name}}. Please try again."
+      "saveError": "Couldn't save changes to {{name}}. Please try again.",
+      "savedOffline": "Changes to {{name}} saved on this device. They'll sync when you're back online.",
+      "synced": "Changes to {{name}} synced.",
+      "syncError": "Changes to {{name}} couldn't be saved and were undone. Please try again.",
+      "needsConnection": "You’re offline: this needs a connection."
     },
     "updateAvailable": {
       "message": "A new version of the OpenCaves app is available",
@@ -262,6 +266,16 @@
       "cancel": "Cancel",
       "linked": "{{provider}} added to your account: you can now sign in with it too.",
       "linkFailed": "Couldn't add this sign-in method to your account."
+    },
+    "offline": "You're offline. Signing in and creating an account need a connection.",
+    "passwordReset": {
+      "title": "Reset your password",
+      "text": "Enter your account's email: we'll send you a link to choose a new password.",
+      "email": "Email",
+      "send": "Send the link",
+      "cancel": "Cancel",
+      "close": "Close",
+      "sent": "If an account exists for {{email}}, a link to reset its password is on its way. Check your inbox (and your spam folder)."
     }
   },
   "about": {
@@ -284,14 +298,16 @@
       "passwordMissing": "Please enter your password",
       "passwordWrong": "Wrong password",
       "userNotFound": "Could not find your account",
-      "default": "An error occured. Please try again later."
+      "default": "An error occurred. Please try again later.",
+      "network": "Couldn't reach the server. Check your connection and try again."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {
@@ -527,7 +543,6 @@
       "nameTranslationValue": "Translated name",
       "pictures": "Pictures",
       "addPictures": "Add pictures",
-      "editPicture": "Edit picture",
       "deletePicture": "Delete picture",
       "deletePictureConfirm": "This picture goes to the trash: an admin can restore it from Audits > Trash.",
       "deletePictureError": "Could not delete the picture. Please try again.",
@@ -543,7 +558,6 @@
       "addMap": "Add map",
       "editMap": "Edit map",
       "mapOptions": "Map options",
-      "pictureOptions": "Picture options",
       "videoOptions": "Video options",
       "originalFile": "Original file",
       "openMap": "Open map",
@@ -584,11 +598,15 @@
       "delete": "Delete",
       "deleteCave": "Delete cave?",
       "deleteCaveConfirm": "{{name}} will be permanently deleted. This cannot be undone.",
+      "caveDeleted": "{{name}} deleted",
+      "caveDeletedOffline": "{{name}} deleted on this device. It will sync when you're back online.",
+      "caveDeleteError": "Couldn't delete {{name}}. Please try again.",
       "save": "Save",
       "cancel": "Cancel",
       "newCave": "New cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Back to caves",
+      "backToCave": "Back to the cave's page",
       "placeOnMap": "Place on map",
       "placeOnMapTitle": "Place: {{label}}",
       "placeOnMapHint": "Move the map to put the pin on the spot",
@@ -623,7 +641,6 @@
         "invalid": "Invalid"
       },
       "exit": "Exit",
-      "closePicture": "Close the picture",
       "trashMap": "Delete map",
       "trashMapTitle": "Delete this map?",
       "trashMapConfirm": "\"{{name}}\" goes to the trash and disappears from every sistema that shows it. An admin can restore it from Audits > Trash.",
@@ -716,7 +733,8 @@
         "uploadAnyway": "Add anyway",
         "cancelButton": "Cancel",
         "cancel": "Cancel the upload"
-      }
+      },
+      "needsConnection": "You’re offline: uploading needs a connection."
     },
     "details": {
       "empty": "There is nothing here"
@@ -794,6 +812,7 @@
     "newSistema": "New sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Back to sistemas",
+    "backToSistema": "Back to the system's page",
     "name": "Name",
     "parentSistema": "Parent sistema",
     "area": "Area",
@@ -837,7 +856,8 @@
     "cancel": "Cancel",
     "add": "Add",
     "mapDateHint": "When the map was drawn or published.",
-    "cartography": "Cartography: {{names}}"
+    "cartography": "Cartography: {{names}}",
+    "needsConnection": "You’re offline: uploading needs a connection."
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -1112,10 +1132,10 @@
   "offline": {
     "caveReady": "Cenote {{name}} is available offline",
     "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
-    "previewsReady": "Cenote previews and maps are available offline",
+    "previewsReady": "Cenote previews, maps and cave passages are available offline",
     "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
     "previewsLabel": "Make available offline",
-    "previewsHint": "Cenote previews and maps",
+    "previewsHint": "Cenote previews, maps and cave passages",
     "waitingForWifi": "Waiting for Wi-Fi",
     "waitingForConnection": "Waiting for a connection",
     "downloadingCount": "Downloading for offline use… {{done}} / {{total}}",
@@ -1130,7 +1150,35 @@
     "caveIncompleteShort": "Partly available offline",
     "caveNotYet": "Not downloaded yet",
     "savedIncomplete": "Some files couldn’t be downloaded. We’ll retry later.",
-    "savedAvailable": "All saved cenotes are available offline"
+    "savedAvailable": "All saved cenotes are available offline",
+    "hint": {
+      "offline": "You're offline: only the photos and maps you've already viewed are on this device.",
+      "save": "Save this cenote to keep all of it for your next dive.",
+      "account": "Create an account to save cenotes for offline use.",
+      "system": "Save one of its cenotes to keep its maps for your next dive.",
+      "saveButton": "Save",
+      "signupButton": "Sign up"
+    },
+    "notOnDevice": "Not available offline",
+    "pending": {
+      "mapSaved": "Map {{name}} saved on this device. It will upload once you're on Wi-Fi.",
+      "photosSaved_one": "Photo saved on this device. It will upload once you're on Wi-Fi.",
+      "photosSaved_other": "{{count}} photos saved on this device. They'll upload once you're on Wi-Fi.",
+      "mapUploaded": "Map {{name}} uploaded",
+      "photoUploaded": "Photo {{name}} uploaded",
+      "mapFailed": "Couldn't upload map {{name}}. You can remove it and try again.",
+      "photoFailed": "Couldn't upload photo {{name}}. You can remove it and try again.",
+      "waiting": "Waiting to upload",
+      "failed": "Upload failed",
+      "cancel": "Cancel upload",
+      "remove": "Remove",
+      "cancelled": "Upload cancelled",
+      "signOutTitle": "Uploads still waiting",
+      "signOutText_one": "A photo or map you added offline hasn't been uploaded yet. It only uploads for your account: signing out leaves it on this device until you sign back in.",
+      "signOutText_other": "{{count}} photos or maps you added offline haven't been uploaded yet. They only upload for your account: signing out leaves them on this device until you sign back in.",
+      "signOutConfirm": "Sign out anyway",
+      "signOutCancel": "Stay signed in"
+    }
   },
   "legal": {
     "updated": "Last updated: October 2, 2026",

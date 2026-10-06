@@ -183,8 +183,9 @@ const routes = [
     errorElement: <NoMatch />,
     children: [
       // Development only: the error pages, to look at (/dev/error/map: the
-      // map failing; /dev/error/page: a page failing to load), and the
-      // snackbars (/dev/snackbars).
+      // map failing; /dev/error/page: a page failing to load;
+      // /dev/error/offline: one failing offline - shown as offline without
+      // cutting the network), and the snackbars (/dev/snackbars).
       ...(import.meta.env.DEV
         ? [
             {
@@ -194,6 +195,14 @@ const routes = [
             {
               path: 'dev/error/map',
               lazy: () => import('@/components/Map/MapState.jsx').then(({ MapError }) => ({ Component: () => <MapError error={new Error('Preview of the map error page')} /> })),
+            },
+            {
+              path: 'dev/error/offline',
+              loader: () => {
+                throw Object.assign(new Error('Preview of a page failing to load offline'), { offlinePreview: true })
+              },
+              element: null,
+              errorElement: <NoMatch />,
             },
             {
               path: 'dev/error/page',
@@ -279,6 +288,19 @@ const routes = [
             // A cave's own page (its place on the map is /map/<id>).
             path: 'caves/:caveId',
             lazy: () => import('@/routes/caves/CavePage.jsx').then(({ default: Component }) => ({ Component })),
+            // Its galleries, over the page: its photos, its system's maps.
+            children: [
+              {
+                // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
+                path: 'maps/:mapId',
+                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+              },
+              {
+                path: 'photos/:mediaId',
+                lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
+              },
+            ],
           },
           {
             path: 'sistemas',
@@ -287,6 +309,14 @@ const routes = [
           {
             path: 'sistemas/:sistemaId',
             lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
+            children: [
+              {
+                // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
+                path: 'maps/:mapId',
+                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+              },
+            ],
           },
           {
             path: 'areas/:areaSlug',
@@ -312,6 +342,18 @@ const routes = [
           {
             path: 'caves/:caveId/edit',
             ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
+            // Its galleries, over the form: its photos, its system's maps.
+            children: [
+              {
+                path: 'photos/:mediaId',
+                lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                path: 'maps/:mapId',
+                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+              },
+            ],
           },
           {
             path: 'sistemas/edit',

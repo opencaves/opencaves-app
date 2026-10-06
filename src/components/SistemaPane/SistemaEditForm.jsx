@@ -31,6 +31,7 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -143,7 +144,8 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
   { title: true, fields: [{ kind: 'markdown', height: 140 }] },
 ]
 
-export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false }) {
+// backLabel: the back arrow's label, where it leads (the systems by default).
+export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   // Length and depth are stored in metres, shown and entered in the person's units.
@@ -153,6 +155,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const locale = i18n.resolvedLanguage || i18n.language || 'en'
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   const [sistemas, sistemasLoading] = SistemaModel.useAll()
   const [connections, connectionsLoading] = ConnectionModel.useAll()
   const [areas] = areasModel.useAll()
@@ -258,15 +261,19 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
       }
 
-      await SistemaModel.save(sistemaId, fields)
-      await ConnectionModel.setParent(sistemaId, form.parentSistemaId || null)
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite([SistemaModel.save(sistemaId, fields), ConnectionModel.setParent(sistemaId, form.parentSistemaId || null)], { name: t('sistemaTitle', { name: form.name || sistemaId }) })
       setBaseline(savedForm)
-
-      invalidateData()
-      await getData()
       // Stays on the form after saving; only cancel/delete leave it.
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved', { name: t('sistemaTitle', { name: form.name || sistemaId }) }), { severity: 'success' })
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: t('sistemaTitle', { name: form.name || sistemaId }) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -310,7 +317,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   return (
     <Box className="oc-sistema-edit-form">
       <EditPageHeader>
-        <IconButton onClick={onDone} aria-label={t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+        <IconButton onClick={onDone} aria-label={backLabel || t('backToSistemas')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
@@ -23,6 +23,9 @@ import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUplo
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
+import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import { useOnline } from '@/hooks/useOnline.jsx'
+import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -32,10 +35,20 @@ const TITLE_BAR_PY = 0.5
 const TITLE_BAR_HEIGHT = 'calc(0.75rem * 1.66 + 8px)'
 const TITLE_BAR_MENU_SX = { top: 0, right: 4, height: TITLE_BAR_HEIGHT, width: TITLE_BAR_HEIGHT, p: 0 }
 
-function MapPreview({ caveId, map, index, returnTo, menu = false }) {
+function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [failed, setFailed] = useState(false)
+  // Failed offline (not on the device): says so, and tries again online.
+  const [failedOffline, setFailedOffline] = useState(false)
+  const online = useOnline()
+  const { t: tOffline } = useTranslation('offline')
+  useEffect(() => {
+    if (online && failedOffline) {
+      setFailed(false)
+      setFailedOffline(false)
+    }
+  }, [online, failedOffline])
   const { file } = map
   // thumbnailUrl/previewUrl: WebP (or SVG) derivatives made by the
   // onMap*Uploaded functions, much lighter than the original upload.
@@ -43,7 +56,7 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   const image = (file?.thumbnailUrl || file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
-      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
+      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => { setFailed(true); setFailedOffline(!navigator.onLine) }} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{failedOffline ? <CloudOffOutlined role="img" aria-label={tOffline('notOnDevice')} titleAccess={tOffline('notOnDevice')} sx={{ color: 'text.secondary' }} /> : file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
       <Typography
         variant="caption"
         noWrap
@@ -74,7 +87,7 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
   )
 
   return (
-    <ButtonBase component={Link} to={`/map/${caveId}/maps/${map.value}`} state={{ from: returnTo }} aria-label={t('openMapNumber', { index })} sx={{ position: 'relative', display: 'block', width: '100%', height: '100%' }}>
+    <ButtonBase component={Link} to={mapPath ? mapPath(map.value) : `/map/${caveId}/maps/${map.value}`} state={mapPath ? { fromPage: true } : { from: returnTo }} aria-label={t('openMapNumber', { index })} sx={{ position: 'relative', display: 'block', width: '100%', height: '100%' }}>
       {content}
     </ButtonBase>
   )
@@ -86,7 +99,8 @@ function MapPreview({ caveId, map, index, returnTo, menu = false }) {
 // edit form) since it isn't this cave's own data. New maps are added to the
 // cave's own sistema; inherited ones can only be removed from their own
 // sistema, since removing them here would affect every sibling cave.
-export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo }) {
+// mapPath(id): a map's address (a page's gallery); the map's viewer otherwise.
+export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo, mapPath }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
   const [sistemas] = SistemaModel.useAll()
@@ -154,6 +168,8 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
     setPendingDetails(emptyPendingDetails)
   }
 
+  const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
+
   async function confirmUpload() {
     const trimmedAuthors = pendingDetails.authors.map((author) => author.trim()).filter(Boolean)
     const uploaded = await uploadMap(pendingFile, {
@@ -161,16 +177,19 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       date: pendingDetails.date || undefined,
       authors: trimmedAuthors,
       note: pendingDetails.note.trim() || undefined,
-    })
+    }, { attachToSistemaId: sistemaId })
     if (!uploaded) return
 
-    await saveMaps([...mapValues, uploaded.id])
+    // Offline, kept to upload later: it's added to the system then.
+    if (!uploaded.pending) await saveMaps([...mapValues, uploaded.id])
     setPendingFile(null)
     setPendingDetails(emptyPendingDetails)
   }
 
   return (
     <>
+      {/* Maps added offline to this system, waiting to upload. */}
+      <PendingUploadsStrip filter={pendingMapsOf} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 2 }} />
       {selectedMaps.length > 0 && (
         <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>
@@ -182,13 +201,13 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                     // A thin outline over the picture's edge (not around it: the size stays).
                     '&::after': { content: '""', position: 'absolute', inset: 0, borderRadius: 'inherit', border: `1px solid ${theme.vars.sys.color.outlineVariant}`, pointerEvents: 'none' },
                   })}>
-                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} menu={canAdd && !uploading} />
+                  <MapPreview caveId={caveId} map={map} index={index + 1} returnTo={returnTo} mapPath={mapPath} menu={canAdd && !uploading} />
                   {map.file?.contentType === 'application/pdf' && (
                     <Button component="a" href={map.file.url} target="_blank" rel="noopener noreferrer" size="small" sx={{ position: 'absolute', bottom: 4, left: 4, bgcolor: 'background.paper', '&:hover': { bgcolor: 'background.paper' } }}>
                       {t('originalFile')}
                     </Button>
                   )}
-                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } }) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
+                  {canAdd && !uploading && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
             </Box>

@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "fermer"
       },
-      "saveError": "Impossible d'enregistrer les modifications de {{name}}. Veuillez réessayer."
+      "saveError": "Impossible d'enregistrer les modifications de {{name}}. Veuillez réessayer.",
+      "savedOffline": "Modifications de {{name}} enregistrées sur cet appareil. Elles seront synchronisées à votre retour en ligne.",
+      "synced": "Modifications de {{name}} synchronisées.",
+      "syncError": "Les modifications de {{name}} n'ont pas pu être enregistrées et ont été annulées. Veuillez réessayer.",
+      "needsConnection": "Vous êtes hors ligne : cette action nécessite une connexion."
     },
     "updateAvailable": {
       "message": "Une nouvelle version de l'application OpenCaves est disponible",
@@ -261,6 +265,16 @@
       "cancel": "Annuler",
       "linked": "{{provider}} ajouté à votre compte : vous pouvez aussi vous connecter avec.",
       "linkFailed": "Impossible d’ajouter ce mode de connexion à votre compte."
+    },
+    "offline": "Vous êtes hors ligne. La connexion et la création de compte nécessitent une connexion à Internet.",
+    "passwordReset": {
+      "title": "Réinitialiser votre mot de passe",
+      "text": "Entrez l'adresse courriel de votre compte : nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+      "email": "Courriel",
+      "send": "Envoyer le lien",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "sent": "Si un compte existe pour {{email}}, un lien pour réinitialiser son mot de passe est en route. Vérifiez votre boîte de réception (et vos courriels indésirables)."
     }
   },
   "about": {
@@ -283,14 +297,16 @@
       "passwordMissing": "Please enter your password",
       "passwordWrong": "Mauvais mot de passe",
       "userNotFound": "Votre compte n'a pas été trouvé",
-      "default": "Une erreur s'est produite. Veuillez réessayer plus tard."
+      "default": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+      "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {
@@ -526,7 +542,6 @@
       "nameTranslationValue": "Nom traduit",
       "pictures": "Images",
       "addPictures": "Ajouter des images",
-      "editPicture": "Modifier l'image",
       "deletePicture": "Supprimer l'image",
       "deletePictureConfirm": "Cette image va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
       "deletePictureError": "Impossible de supprimer l'image. Veuillez réessayer.",
@@ -542,7 +557,6 @@
       "addMap": "Ajouter une carte",
       "editMap": "Modifier la carte",
       "mapOptions": "Options de la carte",
-      "pictureOptions": "Options de la photo",
       "videoOptions": "Options de la vidéo",
       "originalFile": "Fichier original",
       "openMap": "Ouvrir la carte",
@@ -578,6 +592,9 @@
       "delete": "Supprimer",
       "deleteCave": "Supprimer la cénote ?",
       "deleteCaveConfirm": "{{name}} sera définitivement supprimée. Cette action est irréversible.",
+      "caveDeleted": "{{name}} supprimée",
+      "caveDeletedOffline": "{{name}} supprimée sur cet appareil. La suppression sera synchronisée à votre retour en ligne.",
+      "caveDeleteError": "Impossible de supprimer {{name}}. Veuillez réessayer.",
       "save": "Enregistrer",
       "cancel": "Annuler",
       "sistemaGroup": "Réseau",
@@ -588,6 +605,7 @@
       "newCave": "Nouvelle cénote",
       "caveTitle": "Cénote {{name}}",
       "backToCaves": "Retour aux cénotes",
+      "backToCave": "Retour à la page de la cénote",
       "placeOnMap": "Placer sur la carte",
       "placeOnMapTitle": "Placer : {{label}}",
       "placeOnMapHint": "Déplacez la carte pour mettre l’épingle au bon endroit",
@@ -622,7 +640,6 @@
         "invalid": "Invalide"
       },
       "exit": "Quitter",
-      "closePicture": "Fermer la photo",
       "trashMap": "Supprimer la carte",
       "trashMapTitle": "Supprimer cette carte ?",
       "trashMapConfirm": "« {{name}} » va à la corbeille et disparaît de tous les sistemas qui la montrent. Un administrateur peut la restaurer depuis Audits > Corbeille.",
@@ -715,7 +732,8 @@
         "uploadAnyway": "Ajouter quand même",
         "cancelButton": "Annuler",
         "cancel": "Annuler l’envoi"
-      }
+      },
+      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
     },
     "details": {
       "empty": "Il n'y a rien ici"
@@ -793,6 +811,7 @@
     "newSistema": "Nouveau sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Retour aux sistemas",
+    "backToSistema": "Retour à la page du système",
     "name": "Nom",
     "parentSistema": "Sistema parent",
     "area": "Région",
@@ -836,7 +855,8 @@
     "cancel": "Annuler",
     "add": "Ajouter",
     "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
-    "cartography": "Cartographie : {{names}}"
+    "cartography": "Cartographie : {{names}}",
+    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
@@ -1111,10 +1131,10 @@
   "offline": {
     "caveReady": "La cénote {{name}} est disponible hors ligne",
     "caveIncomplete": "La cénote {{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "previewsReady": "Les aperçus des cénotes et les cartes sont disponibles hors ligne",
+    "previewsReady": "Les aperçus des cénotes, les cartes et les galeries sont disponibles hors ligne",
     "previewsIncomplete": "Certains aperçus ou cartes n’ont pas pu être téléchargés. Nouvel essai plus tard.",
     "previewsLabel": "Rendre disponible hors ligne",
-    "previewsHint": "Aperçus des cénotes et cartes",
+    "previewsHint": "Aperçus des cénotes, cartes et galeries",
     "waitingForWifi": "En attente du Wi-Fi",
     "waitingForConnection": "En attente d’une connexion",
     "downloadingCount": "Téléchargement pour utilisation hors ligne… {{done}} / {{total}}",
@@ -1129,7 +1149,35 @@
     "caveIncompleteShort": "Partiellement disponible hors ligne",
     "caveNotYet": "Pas encore téléchargée",
     "savedIncomplete": "Certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne"
+    "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne",
+    "hint": {
+      "offline": "Vous êtes hors ligne : seules les photos et les cartes déjà consultées sont sur cet appareil.",
+      "save": "Enregistrez cette cénote pour la garder au complet pour votre prochaine plongée.",
+      "account": "Créez un compte pour enregistrer des cénotes pour une utilisation hors ligne.",
+      "system": "Enregistrez une de ses cénotes pour garder ses cartes pour votre prochaine plongée.",
+      "saveButton": "Enregistrer",
+      "signupButton": "S'inscrire"
+    },
+    "notOnDevice": "Non disponible hors ligne",
+    "pending": {
+      "mapSaved": "Carte {{name}} enregistrée sur cet appareil. Elle sera téléversée une fois en Wi-Fi.",
+      "photosSaved_one": "Photo enregistrée sur cet appareil. Elle sera téléversée une fois en Wi-Fi.",
+      "photosSaved_other": "{{count}} photos enregistrées sur cet appareil. Elles seront téléversées une fois en Wi-Fi.",
+      "mapUploaded": "Carte {{name}} téléversée",
+      "photoUploaded": "Photo {{name}} téléversée",
+      "mapFailed": "Impossible de téléverser la carte {{name}}. Vous pouvez la retirer et réessayer.",
+      "photoFailed": "Impossible de téléverser la photo {{name}}. Vous pouvez la retirer et réessayer.",
+      "waiting": "En attente de téléversement",
+      "failed": "Échec du téléversement",
+      "cancel": "Annuler le téléversement",
+      "remove": "Retirer",
+      "cancelled": "Téléversement annulé",
+      "signOutTitle": "Téléversements en attente",
+      "signOutText_one": "Une photo ou une carte ajoutée hors ligne n'a pas encore été téléversée. Elle ne se téléverse que pour votre compte : en vous déconnectant, elle reste sur cet appareil jusqu'à votre prochaine connexion.",
+      "signOutText_other": "{{count}} photos ou cartes ajoutées hors ligne n'ont pas encore été téléversées. Elles ne se téléversent que pour votre compte : en vous déconnectant, elles restent sur cet appareil jusqu'à votre prochaine connexion.",
+      "signOutConfirm": "Me déconnecter quand même",
+      "signOutCancel": "Rester connecté"
+    }
   },
   "legal": {
     "updated": "Dernière mise à jour : 2 octobre 2026",

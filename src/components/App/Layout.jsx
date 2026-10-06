@@ -18,15 +18,19 @@ const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connectio
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
-  const isDashboardPage = DASHBOARD_SECTIONS.has(location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
+  // (A trailing slash aside.) A page's gallery (…/photos/:id,
+  // …/maps/:id[/edit]) counts as its page: nothing changes under it.
+  const path = (location.pathname.replace(/\/+$/, '') || '/').replace(/\/(photos|maps)\/[^/]+(\/edit)?$/, '')
+  const isDashboardPage = DASHBOARD_SECTIONS.has(path.split('/')[1]) && !isPublicIndexPath(path)
   // A cenote entrance's stairs behind About, the cave and cave system lists
   // and the reference data pages (lists and forms; not the public area pages).
-  const isReferenceDataPage = Object.hasOwn(REFERENCE_DATA_CONFIGS, location.pathname.split('/')[1]) && !isPublicIndexPath(location.pathname)
-  // (A trailing slash aside.) The cave and cave system lists and pages too,
-  // translucent like them, their sections on cards.
-  const path = location.pathname.replace(/\/+$/, '') || '/'
+  const isReferenceDataPage = Object.hasOwn(REFERENCE_DATA_CONFIGS, path.split('/')[1]) && !isPublicIndexPath(path)
+  // The cave and cave system lists and pages too, translucent like them,
+  // their sections on cards.
   const isSistemaPage = /^\/(sistemas|caves)(\/(?!edit$)[^/]+)?$/.test(path)
-  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage
+  // A cave's or system's edit page: its page's background.
+  const isItemEditPage = /^\/(sistemas|caves)\/(?!edit$)[^/]+\/edit$/.test(path)
+  const hasPagesBackground = ['/about', '/caves', '/sistemas'].includes(path) || isReferenceDataPage || isSistemaPage || isItemEditPage
   // The dashboard home's page is transparent: its white margins are drawn by
   // AdminDashboard itself, around a window onto this background image. The
   // pages it leads to (the map layers too) are translucent, as its own card.
@@ -75,8 +79,9 @@ export default function Layout() {
       cancelAnimationFrame(frame)
       scroller.removeEventListener('scroll', remember)
     }
+    // The page's address: its gallery opening or closing leaves it where it is.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname])
+  }, [path])
 
   return (
     <Box

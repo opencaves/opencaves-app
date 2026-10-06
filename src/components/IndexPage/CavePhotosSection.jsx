@@ -9,7 +9,8 @@ import IndexSection from './IndexSection.jsx'
 // The photos a cave's page shows (its Show all pane has them all).
 const MAX_PHOTOS = 12
 
-// A cave's photos, its cover first, each opening in the map's media pane: a
+// A cave's photos, its cover first, each opening in the page's gallery
+// (/caves/:caveId/photos/:id, PhotoGallery): a
 // carousel on phones (a grid wider) of the first ones, its Show all pane
 // with every one.
 export default function CavePhotosSection({ caveId, title }) {
@@ -19,7 +20,7 @@ export default function CavePhotosSection({ caveId, title }) {
   if (photos.length === 0) return null
   const items = photos.map((photo, index) => (
     <li key={photo.id}>
-      <ButtonBase component={RouterLink} to={`/map/${caveId}/medias/${photo.id}`} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
+      <ButtonBase component={RouterLink} to={`/caves/${caveId}/photos/${photo.id}`} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} className="oc-carousel--media" sx={{ display: 'block', width: '100%', aspectRatio: '4 / 3', borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover' }}>
         <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       </ButtonBase>
     </li>

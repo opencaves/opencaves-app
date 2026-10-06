@@ -43,7 +43,9 @@ let tileIndex = null
 const tileIndexLoading = fetch(CAVE_LAYER.INDEX)
   .then((response) => (response.ok ? response.json() : []))
   .then((tiles) => (tileIndex = new Set(tiles)))
-  .catch(() => (tileIndex = new Set()))
+  // Not loaded (offline, never fetched before): every tile is asked for,
+  // rather than none - the ones kept on the device still show.
+  .catch(() => (tileIndex = null))
 
 // For the map's transformRequest: a cave tile not in the index is answered
 // with the empty tile instead of being fetched.

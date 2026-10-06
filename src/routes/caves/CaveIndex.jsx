@@ -31,7 +31,7 @@ export default function CaveIndex() {
     return new Map(
       data.caves.map((cave) => {
         const sistema = data.sistemasById.get(cave.sistemaId)
-        const row = { key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null }
+        const row = { key: cave.id, cave: true, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), secondary: sistema && bareName(sistema.name) !== bareName(cave.name) ? sistema.name : null }
         return [cave.id, { row, text: fold([cave.name, ...cave.aka, sistema?.name, cave.area].join(' ')) }]
       }),
     )

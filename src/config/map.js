@@ -49,6 +49,9 @@ export const CAVE_LAYER = {
   TILES: '/tiles/caves/{z}/{x}/{y}.pbf',
   INDEX: '/tiles/caves/index.json',
   EMPTY_TILE: '/tiles/caves/empty.pbf',
+  // Its build's version ({ builtAt }): offline copies of its tiles are
+  // downloaded again when it changes (offlineMedia.js).
+  VERSION: '/tiles/caves/version.json',
   // The maps in the tiles: name -> { title, date, sistemaId } (build-tiles.js).
   MAPS: '/tiles/caves/maps.json',
   // Every map config's map document and state (build-tiles.js): what's not

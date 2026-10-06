@@ -8,6 +8,7 @@ import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
 import router from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import OfflineMediaSync from '@/components/Offline/OfflineMediaSync.jsx'
+import PendingUploadsSync from '@/components/Offline/PendingUploadsSync.jsx'
 import { subscribeToData } from '@/services/data-service.jsx'
 import { isInstalledApp, requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
@@ -121,6 +122,8 @@ const App = () => {
           <SnackbarProvider>
             <RouterProvider router={router} />
             <OfflineMediaSync />
+            {/* Photos and maps added offline, uploaded once on Wi-Fi. */}
+            <PendingUploadsSync />
             <AccountLinking />
           </SnackbarProvider>
           <ManageAppUpdate />

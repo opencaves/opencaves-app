@@ -11,6 +11,15 @@
       background-image: url('../images/404/error-bg.webp');
     }
 
+    // Room above the box for the back arrow (top left, 8px + 48px).
+    &.no-match--with-back {
+      padding-top: 64px;
+
+      .no-match--box {
+        max-height: calc(100dvh - 64px - 1rem);
+      }
+    }
+
     .no-match {
       &--box {
         // Never past the bottom of the screen: the open details scroll

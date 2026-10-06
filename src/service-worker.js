@@ -5,7 +5,7 @@
 import { setCacheNameDetails, clientsClaim } from 'workbox-core'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate, CacheFirst, NetworkFirst } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import * as googleAnalytics from 'workbox-google-analytics'
@@ -88,6 +88,11 @@ registerRoute(
 // <img> request needn't match exactly.
 const OFFLINE_CACHES = ['oc-offline-saved-caves-v1', 'oc-offline-previews-v1']
 
+// The app's offline downloads themselves (offlineMedia.js fetches them with
+// cache: 'no-store' - keep in sync) go straight to the network: they're kept
+// in those caches, not also as browsing copies.
+const isOfflineDownload = (request) => request.cache === 'no-store'
+
 function preferOfflineCaches(strategy) {
   return async (options) => {
     for (const offlineCacheName of OFFLINE_CACHES) {
@@ -102,7 +107,7 @@ function preferOfflineCaches(strategy) {
 // URLs. (url.origin never has a trailing slash - comparing against one would
 // never match.)
 registerRoute(
-  ({ url }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com'),
+  ({ url, request }) => url.origin === 'https://firebasestorage.googleapis.com' && url.pathname.startsWith('/v0/b/opencaves.appspot.com') && !isOfflineDownload(request),
   preferOfflineCaches(new StaleWhileRevalidate({
     cacheName: cacheName('images')
   }))
@@ -117,13 +122,50 @@ registerRoute(
 // name changed when CORS mode came in, so no earlier opaque entry is ever
 // served to a CORS request (which the browser would reject).
 registerRoute(
-  ({ url }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/'),
+  ({ url, request }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/') && !isOfflineDownload(request),
   preferOfflineCaches(new CacheFirst({
     cacheName: cacheName('cave-images-cors'),
     plugins: [
       new CacheableResponsePlugin({ statuses: [0, 200] }),
       new ExpirationPlugin({ maxEntries: 3000, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
     ],
+  }))
+)
+
+// The cave layer (scripts/map-layer/build-tiles.js), for offline use too.
+// The offline downloads' copies (saved caves, the Offline setting) are a
+// fallback only: they may come from an older build of the layer (tile
+// addresses carry no version), so the network and the copies kept while
+// browsing come first.
+function offlineCachesAsFallback(strategy) {
+  return async (options) => {
+    try {
+      return await strategy.handle(options)
+    } catch (error) {
+      for (const offlineCacheName of OFFLINE_CACHES) {
+        const cached = await caches.match(options.request.url, { cacheName: offlineCacheName })
+        if (cached) return cached
+      }
+      throw error
+    }
+  }
+}
+
+
+// Its lists (which tiles exist, the maps in them, its build's version):
+// fresh when online, their last copy offline.
+registerRoute(
+  ({ url, request }) => url.origin === self.location.origin && url.pathname.startsWith('/tiles/caves/') && url.pathname.endsWith('.json') && !isOfflineDownload(request),
+  offlineCachesAsFallback(new NetworkFirst({ cacheName: cacheName('cave-layer'), networkTimeoutSeconds: 4 }))
+)
+
+// Its tiles (and its empty tile): kept as viewed, refreshed in the
+// background while online.
+registerRoute(
+  ({ url, request }) => url.origin === self.location.origin && url.pathname.startsWith('/tiles/caves/') && url.pathname.endsWith('.pbf') && !isOfflineDownload(request),
+  offlineCachesAsFallback(new StaleWhileRevalidate({
+    cacheName: cacheName('cave-tiles'),
+    plugins: [new CacheableResponsePlugin({ statuses: [200] }), new ExpirationPlugin({ maxEntries: 6000, purgeOnQuotaError: true })],
   }))
 )
 

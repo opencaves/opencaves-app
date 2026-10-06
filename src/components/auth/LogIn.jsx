@@ -7,6 +7,7 @@ import LogInWithGoogle from './LogInWithGoogle.jsx'
 import LogInWithMicrosoft from './LogInWithMicrosoft.jsx'
 import LogInWithEmail from './LogInWithEmail.jsx'
 import Or from '../utils/Or.jsx'
+import OfflineAuthNote from './OfflineAuthNote.jsx'
 
 export default function LogIn() {
   const navigate = useNavigate()
@@ -34,6 +35,7 @@ export default function LogIn() {
             },
           }}
         >
+          <OfflineAuthNote />
           <LogInWithGoogle onSuccess={onSuccess} />
           <LogInWithMicrosoft onSuccess={onSuccess} />
 

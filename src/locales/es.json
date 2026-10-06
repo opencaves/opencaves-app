@@ -65,7 +65,11 @@
       "close": {
         "ariaLabel": "cerrar"
       },
-      "saveError": "No se pudieron guardar los cambios en {{name}}. Inténtalo de nuevo."
+      "saveError": "No se pudieron guardar los cambios en {{name}}. Inténtalo de nuevo.",
+      "savedOffline": "Cambios en {{name}} guardados en este dispositivo. Se sincronizarán cuando vuelvas a estar en línea.",
+      "synced": "Cambios en {{name}} sincronizados.",
+      "syncError": "Los cambios en {{name}} no se pudieron guardar y se deshicieron. Inténtalo de nuevo.",
+      "needsConnection": "Estás sin conexión: esto necesita una conexión."
     },
     "updateAvailable": {
       "message": "Hay una nueva versión de la aplicación OpenCaves disponible",
@@ -262,6 +266,16 @@
       "cancel": "Cancelar",
       "linked": "{{provider}} añadido a tu cuenta: ahora también puedes iniciar sesión con él.",
       "linkFailed": "No se pudo añadir este método de inicio de sesión a tu cuenta."
+    },
+    "offline": "Estás sin conexión. Iniciar sesión y crear una cuenta necesitan conexión.",
+    "passwordReset": {
+      "title": "Restablecer tu contraseña",
+      "text": "Ingresa el correo de tu cuenta: te enviaremos un enlace para elegir una nueva contraseña.",
+      "email": "Correo electrónico",
+      "send": "Enviar el enlace",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "sent": "Si existe una cuenta para {{email}}, un enlace para restablecer su contraseña va en camino. Revisa tu bandeja de entrada (y la carpeta de spam)."
     }
   },
   "about": {
@@ -284,14 +298,16 @@
       "passwordMissing": "Por favor ingresa tu contraseña",
       "passwordWrong": "Contraseña incorrecta",
       "userNotFound": "No se pudo encontrar tu cuenta",
-      "default": "Ocurrió un error. Por favor inténtalo de nuevo más tarde."
+      "default": "Ocurrió un error. Por favor inténtalo de nuevo más tarde.",
+      "network": "No se pudo contactar con el servidor. Revisa tu conexión e inténtalo de nuevo."
     },
     "firebaseErrors": {
       "auth/expired-action-code": "$t(auth.actionCodeExpired)",
       "auth/invalid-email": "$t(auth.emailInvalid)",
       "auth/missing-password": "$t(auth.passwordMissing)",
       "auth/user-not-found": "$t(auth.userNotFound)",
-      "auth/wrong-password": "$t(auth.passwordWrong)"
+      "auth/wrong-password": "$t(auth.passwordWrong)",
+      "auth/network-request-failed": "$t(auth.network)"
     }
   },
   "quickActions": {
@@ -527,7 +543,6 @@
       "nameTranslationValue": "Nombre traducido",
       "pictures": "Fotos",
       "addPictures": "Añadir fotos",
-      "editPicture": "Editar foto",
       "deletePicture": "Eliminar foto",
       "deletePictureConfirm": "Esta foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deletePictureError": "No se pudo eliminar la foto. Inténtalo de nuevo.",
@@ -543,7 +558,6 @@
       "addMap": "Añadir mapa",
       "editMap": "Editar mapa",
       "mapOptions": "Opciones del mapa",
-      "pictureOptions": "Opciones de la foto",
       "videoOptions": "Opciones del video",
       "originalFile": "Archivo original",
       "openMap": "Abrir mapa",
@@ -582,6 +596,9 @@
       "delete": "Eliminar",
       "deleteCave": "¿Eliminar cenote?",
       "deleteCaveConfirm": "{{name}} se eliminará permanentemente. Esta acción no se puede deshacer.",
+      "caveDeleted": "{{name}} eliminado",
+      "caveDeletedOffline": "{{name}} eliminado en este dispositivo. Se sincronizará cuando vuelvas a estar en línea.",
+      "caveDeleteError": "No se pudo eliminar {{name}}. Inténtalo de nuevo.",
       "save": "Guardar",
       "cancel": "Cancelar",
       "accessGroup": "Acceso",
@@ -589,6 +606,7 @@
       "newCave": "Nuevo cenote",
       "caveTitle": "Cenote {{name}}",
       "backToCaves": "Volver a los cenotes",
+      "backToCave": "Volver a la página del cenote",
       "placeOnMap": "Colocar en el mapa",
       "placeOnMapTitle": "Colocar: {{label}}",
       "placeOnMapHint": "Mueve el mapa para poner el pin en el lugar",
@@ -623,7 +641,6 @@
         "invalid": "Inválida"
       },
       "exit": "Salir",
-      "closePicture": "Cerrar la foto",
       "trashMap": "Eliminar el mapa",
       "trashMapTitle": "¿Eliminar este mapa?",
       "trashMapConfirm": "«{{name}}» va a la papelera y desaparece de todos los sistemas que lo muestran. Un administrador puede restaurarlo desde Auditorías > Papelera.",
@@ -716,7 +733,8 @@
         "uploadAnyway": "Añadir de todos modos",
         "cancelButton": "Cancelar",
         "cancel": "Cancelar la subida"
-      }
+      },
+      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
     },
     "details": {
       "empty": "No hay nada aquí"
@@ -794,6 +812,7 @@
     "newSistema": "Nuevo sistema",
     "sistemaTitle": "Sistema {{name}}",
     "backToSistemas": "Volver a los sistemas",
+    "backToSistema": "Volver a la página del sistema",
     "name": "Nombre",
     "parentSistema": "Sistema padre",
     "area": "Zona",
@@ -837,7 +856,8 @@
     "cancel": "Cancelar",
     "add": "Agregar",
     "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
-    "cartography": "Cartografía: {{names}}"
+    "cartography": "Cartografía: {{names}}",
+    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -1112,10 +1132,10 @@
   "offline": {
     "caveReady": "El cenote {{name}} está disponible sin conexión",
     "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "previewsReady": "Las vistas previas de los cenotes y los mapas están disponibles sin conexión",
+    "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",
     "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsLabel": "Hacer disponible sin conexión",
-    "previewsHint": "Vistas de cenotes y mapas",
+    "previewsHint": "Vistas de cenotes, mapas y galerías",
     "waitingForWifi": "Esperando Wi-Fi",
     "waitingForConnection": "Esperando conexión",
     "downloadingCount": "Descargando para usar sin conexión… {{done}} / {{total}}",
@@ -1130,7 +1150,35 @@
     "caveIncompleteShort": "Parcialmente disponible sin conexión",
     "caveNotYet": "Aún no descargado",
     "savedIncomplete": "Algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión"
+    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión",
+    "hint": {
+      "offline": "Estás sin conexión: solo las fotos y los mapas que ya viste están en este dispositivo.",
+      "save": "Guarda este cenote para tenerlo completo en tu próxima inmersión.",
+      "account": "Crea una cuenta para guardar cenotes y usarlos sin conexión.",
+      "system": "Guarda uno de sus cenotes para tener sus mapas en tu próxima inmersión.",
+      "saveButton": "Guardar",
+      "signupButton": "Registrarse"
+    },
+    "notOnDevice": "No disponible sin conexión",
+    "pending": {
+      "mapSaved": "Mapa {{name}} guardado en este dispositivo. Se subirá cuando estés en Wi-Fi.",
+      "photosSaved_one": "Foto guardada en este dispositivo. Se subirá cuando estés en Wi-Fi.",
+      "photosSaved_other": "{{count}} fotos guardadas en este dispositivo. Se subirán cuando estés en Wi-Fi.",
+      "mapUploaded": "Mapa {{name}} subido",
+      "photoUploaded": "Foto {{name}} subida",
+      "mapFailed": "No se pudo subir el mapa {{name}}. Puedes quitarlo e intentarlo de nuevo.",
+      "photoFailed": "No se pudo subir la foto {{name}}. Puedes quitarla e intentarlo de nuevo.",
+      "waiting": "Esperando para subir",
+      "failed": "Error al subir",
+      "cancel": "Cancelar la subida",
+      "remove": "Quitar",
+      "cancelled": "Subida cancelada",
+      "signOutTitle": "Subidas pendientes",
+      "signOutText_one": "Una foto o mapa que agregaste sin conexión aún no se ha subido. Solo se sube para tu cuenta: si cierras sesión, queda en este dispositivo hasta que vuelvas a iniciarla.",
+      "signOutText_other": "{{count}} fotos o mapas que agregaste sin conexión aún no se han subido. Solo se suben para tu cuenta: si cierras sesión, quedan en este dispositivo hasta que vuelvas a iniciarla.",
+      "signOutConfirm": "Cerrar sesión de todos modos",
+      "signOutCancel": "Seguir conectado"
+    }
   },
   "legal": {
     "updated": "Última actualización: 2 de octubre de 2026",

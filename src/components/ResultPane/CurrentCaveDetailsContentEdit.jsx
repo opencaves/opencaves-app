@@ -28,6 +28,7 @@ import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { matchesId } from '@/utils/matchesId.js'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -50,6 +51,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSmall = useSmall()
@@ -215,11 +217,17 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         fields.nameTranslations = nameTranslationsUpdate
       }
 
-      await CaveModel.save(cave.id, fields)
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite(CaveModel.save(cave.id, fields), { name: t('caveTitle', { name: form.name || cave.id }) })
       setBaseline(savedForm)
-      invalidateData()
-      await getData()
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -262,7 +270,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     >
       {/* Deleting a cave is for admins (firestore.rules). */}
       {isAdmin ? (
-        <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
+        <Button color="error" onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setDeleteDialogOpen(true)
+          }} disabled={saving} sx={{ mr: 'auto', minWidth: 88 }}>
           {t('delete')}
         </Button>
       ) : (

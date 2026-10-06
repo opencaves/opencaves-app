@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
@@ -30,6 +30,7 @@ import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
+import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -81,6 +82,7 @@ export default function CaveEdit() {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
   const [openSnackbar] = useSnackbar()
+  const settleWrite = useSettleWrite()
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
@@ -116,7 +118,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name, within: `/caves/${caveId}/edit` })
 
   useEffect(() => {
     let cancelled = false
@@ -245,16 +247,22 @@ export default function CaveEdit() {
         fields.nameTranslations = nameTranslationsUpdate
       }
 
-      await CaveModel.save(caveId, fields)
+      // Offline, kept on the device and synced later (useSettleWrite says so).
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || caveId }) })
       setBaseline(savedForm)
-
-      invalidateData()
-      await getData()
-      // Stays on the form after saving. The saved doc becomes the new
-      // baseline for the next save's nameTranslations diff.
-      setOriginalCave(await CaveModel.getById(caveId))
       setIsNew(false)
-      openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+      // Stays on the form after saving. The saved doc becomes the new
+      // baseline for the next save's nameTranslations diff. Awaited once the
+      // server confirmed; offline, in the background (the device's copy).
+      const refresh = async () => {
+        invalidateData()
+        await getData()
+        setOriginalCave(await CaveModel.getById(caveId))
+      }
+      if (status === 'saved') {
+        await refresh()
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+      } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
@@ -266,10 +274,30 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    await CaveModel.remove(caveId)
+    const name = t('caveTitle', { name: form.name || caveId })
+    const removal = CaveModel.remove(caveId)
+    // Offline, Firestore only settles the delete once the server has it: it's
+    // done on the device now, said so, and an error later still told.
+    if (!navigator.onLine) {
+      removal.catch((error) => {
+        console.error(error)
+        openSnackbar(t('caveDeleteError', { name }))
+      })
+      openSnackbar(t('caveDeletedOffline', { name }), { severity: 'success' })
+    } else {
+      try {
+        await removal
+      } catch (error) {
+        // Nothing deleted: the form stays.
+        console.error(error)
+        openSnackbar(t('caveDeleteError', { name }))
+        return
+      }
+      openSnackbar(t('caveDeleted', { name }), { severity: 'success' })
+    }
     discardChanges()
     invalidateData()
-    await getData()
+    getData().catch((error) => console.warn(error))
     navigate('/caves')
   }
 
@@ -295,7 +323,8 @@ export default function CaveEdit() {
   return (
     <div className="oc-cave-edit">
       <EditPageHeader>
-        <IconButton component={Link} to="/caves" aria-label={t('backToCaves')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+        {/* Ends edit mode: up to the cave's page (a new cave has none yet: the caves). */}
+        <IconButton component={Link} to={isNew ? '/caves' : '..'} relative="path" aria-label={isNew ? t('backToCaves') : t('backToCave')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
@@ -321,7 +350,7 @@ export default function CaveEdit() {
         <FormSection>
 
         <Typography {...columnHeadingProps}>{t('media')}</Typography>
-        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload />
+        <CaveMediaTabs caveId={caveId} videos={form.videos} onVideosChange={(videos) => setForm((f) => ({ ...f, videos }))} sistemaId={form.sistemaId} isNew={isNew} standaloneUpload galleryPath={`/caves/${caveId}/edit`} />
 
         </FormSection>
         <FormSection>
@@ -461,13 +490,18 @@ export default function CaveEdit() {
 
       <StickyActionBar gap={1}>
         {!isNew && isAdmin ? (
-          <Button color="error" onClick={() => setDeleteDialogOpen(true)} disabled={saving} sx={{ mr: 'auto' }}>
+          <Button color="error" onClick={(event) => {
+            // Focus off the button first: the dialog hides the page (aria-hidden on
+            // #root) before taking focus, which the browser blocks.
+            event.currentTarget.blur()
+            setDeleteDialogOpen(true)
+          }} disabled={saving} sx={{ mr: 'auto' }}>
             {t('delete')}
           </Button>
         ) : (
           <Box sx={{ mr: 'auto' }} />
         )}
-        <Button onClick={() => navigate('/caves')} disabled={saving}>
+        <Button onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
           {t('cancel')}
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !form.name}>
@@ -487,6 +521,8 @@ export default function CaveEdit() {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Its galleries (photos, its system's maps), over the form, which stays. */}
+      <Outlet context={{ sistemaId: form.sistemaId }} />
       {unsavedChangesDialog}
     </div>
   )

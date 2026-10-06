@@ -12,6 +12,31 @@ import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
 const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
 
+// The account's roles as last read from its token, kept on the device: an
+// app started offline with an expired token (over an hour old) can't read
+// them - refreshing it needs the network - and showed an editor the app as a
+// visitor until back online. Only the interface follows them: the database's
+// rules check the real token, so a changed copy here grants nothing.
+const KNOWN_ROLES_KEY = 'oc-known-roles'
+
+function rememberRoles(uid, roles) {
+  try {
+    if (uid) localStorage.setItem(KNOWN_ROLES_KEY, JSON.stringify({ uid, roles }))
+    else localStorage.removeItem(KNOWN_ROLES_KEY)
+  } catch {
+    // Not kept: offline, the roles just aren't known.
+  }
+}
+
+function knownRoles(uid) {
+  try {
+    const known = JSON.parse(localStorage.getItem(KNOWN_ROLES_KEY) || 'null')
+    return known?.uid === uid && Array.isArray(known.roles) ? known.roles : []
+  } catch {
+    return []
+  }
+}
+
 export default function ManageAuth() {
   const dispatch = useDispatch()
   const { setMode } = useColorScheme()
@@ -28,6 +53,7 @@ export default function ManageAuth() {
       let roles = []
 
       if (user) {
+        let fromToken = false
         try {
           let idTokenResult = await user.getIdTokenResult()
           roles = idTokenResult?.claims?.roles
@@ -38,9 +64,16 @@ export default function ManageAuth() {
             idTokenResult = await user.getIdTokenResult(true)
             roles = idTokenResult?.claims?.roles
           }
+          fromToken = true
         } catch (error) {
+          // Offline (no token, or no ensureEditorRole): the last ones known.
           console.warn('[ManageAuth] Unable to refresh editor role:', error)
+          if (!Array.isArray(roles) || roles.length === 0) roles = knownRoles(user.uid)
         }
+        if (fromToken && !user.isAnonymous) rememberRoles(user.uid, Array.isArray(roles) ? roles : [])
+      } else {
+        // Signed out: forgotten.
+        rememberRoles(null)
       }
 
       // Without its tokens: they change on every refresh (every 30s below), and
