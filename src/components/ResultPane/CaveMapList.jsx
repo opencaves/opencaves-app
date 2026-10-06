@@ -65,9 +65,19 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
           bgcolor: 'rgba(0, 0, 0, 0.6)',
           // Over the thumbnail's outline: along the title, the edge is its colour.
           zIndex: 1,
+          // Its date after its name, whole: only the name is cut short.
+          display: 'flex',
+          gap: 0.75,
         }}
       >
-        {file?.name || t('openMap')}
+        <Box component="span" sx={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {file?.name || t('openMap')}
+        </Box>
+        {file?.date && (
+          <Box component="span" className="oc-cave-map-list--date" sx={{ flex: 'none', color: 'rgba(255, 255, 255, 0.75)' }}>
+            {file.date}
+          </Box>
+        )}
       </Typography>
       {/* Who drew it, along the bottom edge as the title along the top. */}
       {file?.authors?.length > 0 && (
