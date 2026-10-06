@@ -42,6 +42,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   const theme = useTheme()
 
   const [touchAction, setTouchAction] = useState('none')
+  const [swipeLocked, setSwipeLocked] = useState(false)
   const ref = useRef(null)
 
   // Built once per set of photos: the lightbox resets itself (and rebuilds
@@ -170,10 +171,12 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
         }}
         controller={{
           ref,
-          touchAction: 'none'
+          touchAction: 'none',
+          // No slide change while the photo is zoomed in or pinched (MediaViewer).
+          disableSwipeNavigation: swipeLocked
         }}
         render={{
-          slide: ({ slide }) => (<MediaViewer media={slide} />),
+          slide: ({ slide }) => (<MediaViewer media={slide} onSwipeLock={setSwipeLocked} />),
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconDownload: () => <DownloadRoundedIcon sx={{ fontSize: '1.5rem' }} />,
