@@ -2,14 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Typography } from '@mui/material'
+import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
-import EditRounded from '@mui/icons-material/EditRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import CardOptionsMenu from './CardOptionsMenu.jsx'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
@@ -222,7 +219,6 @@ export default function MediaList({ caveId, editable = false, sx, className, ...
 
 function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDelete }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const [viewerOpen, setViewerOpen] = useState(false)
   const fullHeight = ASSETS_LIST_CONFIG.height
   const fullWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const width = size === 'full' ? fullWidth : fullWidth / 2 - ASSETS_LIST_CONFIG.spacing / 2
@@ -247,25 +243,25 @@ function Media({ asset, index, size = 'full', caveId, editable, canDelete, onDel
       <ButtonBase component={Link} to={editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
-      {editable && (
-        <CardOptionsMenu
-          ariaLabel={t('pictureOptions')}
-          actions={[
-            { label: t('editPicture'), icon: <EditRounded fontSize="small" />, onClick: () => setViewerOpen(true) },
-            ...(canDelete ? [{ label: t('deletePicture'), icon: <DeleteOutlineRounded fontSize="small" />, onClick: () => onDelete(media), danger: true }] : []),
-          ]}
-        />
-      )}
-      <Dialog className="oc-picture-viewer-dialog" open={viewerOpen} onClose={() => setViewerOpen(false)} maxWidth="lg" fullWidth>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-          <IconButton onClick={() => setViewerOpen(false)} aria-label={t('closePicture')}>
-            <CloseRounded />
+      {/* Editing (admins): an X deletes it, after a confirmation. */}
+      {editable && canDelete && (
+        <Tooltip title={t('deletePicture')}>
+          <IconButton
+            className="oc-media-list--delete"
+            size="small"
+            aria-label={t('deletePicture')}
+            onClick={(event) => {
+              // Focus off the button first: the dialog hides the page (aria-hidden on
+              // #root) before taking focus, which the browser blocks.
+              event.currentTarget.blur()
+              onDelete(media)
+            }}
+            sx={{ position: 'absolute', top: 6, right: 6, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}
+          >
+            <CloseRounded fontSize="small" />
           </IconButton>
-        </DialogTitle>
-        <DialogContent sx={{ p: 0, bgcolor: 'common.black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Picture sources={media.getSources(['1024', '1536', '4k'], { sizes: true })} alt="" style={{ maxWidth: '100%', maxHeight: '80vh', objectFit: 'contain' }} />
-        </DialogContent>
-      </Dialog>
+        </Tooltip>
+      )}
     </Box>
   ) : status === 'failed' ? (
     <Box

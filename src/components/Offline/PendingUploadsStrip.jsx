@@ -42,7 +42,7 @@ export default function PendingUploadsStrip({ filter, onRemoved, sx }) {
             <Box sx={{ position: 'relative', height: 90, borderRadius: 2, overflow: 'hidden', bgcolor: 'action.hover', display: 'grid', placeItems: 'center', opacity: failed ? 1 : 0.75 }}>
               <Preview file={item.file} />
               <Tooltip title={failed ? t('remove') : t('cancel')}>
-                <IconButton size="small" onClick={() => remove(item)} aria-label={`${failed ? t('remove') : t('cancel')}: ${label}`} sx={{ position: 'absolute', top: 4, right: 4, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
+                <IconButton size="small" onClick={() => remove(item)} aria-label={`${failed ? t('remove') : t('cancel')}: ${label}`} sx={{ position: 'absolute', top: 4, right: 4, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}>
                   <CloseRounded fontSize="small" />
                 </IconButton>
               </Tooltip>
