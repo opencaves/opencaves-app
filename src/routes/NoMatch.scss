@@ -13,7 +13,21 @@
 
     .no-match {
       &--box {
+        // Never past the bottom of the screen: the open details scroll
+        // inside it instead.
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-height: calc(100dvh - 2rem);
+        max-width: calc(100vw - 2rem);
+        box-sizing: border-box;
         padding: 3rem;
+
+        // Phones: less room around the message.
+        @media (max-width: 599.95px) {
+          padding: 1.5rem;
+          border-width: 0.5rem;
+        }
         background-color: var(--oc-page-surface-translucent);
         text-align: center;
         border: 1rem solid var(--oc-page-surface);
@@ -28,6 +42,10 @@
 
       &--dev-details {
         margin-top: 2rem;
+        min-height: 0;
+        overflow: auto;
+        box-sizing: border-box;
+        width: 100%;
         max-width: min(48rem, 80vw);
         text-align: left;
         font-size: 0.875rem;
@@ -37,9 +55,33 @@
         background-color: var(--mui-sys-color-surfaceContainerHighest, #dedad8);
         border-radius: 8px;
 
+        // Its title and copy button, staying in view as the details scroll.
         summary {
           cursor: pointer;
           font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+          position: sticky;
+          top: -0.75rem;
+          margin: -0.75rem -1rem 0;
+          padding: 0.75rem 1rem 0.25rem;
+          background-color: inherit;
+          list-style: none;
+
+          &::-webkit-details-marker {
+            display: none;
+          }
+
+          // The open or closed marker, before the title.
+          > span::before {
+            content: '▸ ';
+          }
+        }
+
+        &[open] > summary > span::before {
+          content: '▾ ';
         }
 
         dt {
@@ -53,7 +95,6 @@
 
         pre {
           margin: 0;
-          max-height: 40vh;
           overflow: auto;
           white-space: pre-wrap;
           word-break: break-word;

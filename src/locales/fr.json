@@ -8,7 +8,9 @@
       "title": "Détails (en développement seulement)",
       "url": "URL",
       "reason": "Raison",
-      "noRoute": "Aucune route ne correspond à cette URL."
+      "noRoute": "Aucune route ne correspond à cette URL.",
+      "copy": "Copier les détails",
+      "copied": "Copié"
     },
     "offline": {
       "header": "Vous êtes hors ligne",
