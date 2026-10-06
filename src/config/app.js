@@ -5,6 +5,10 @@ const PANE_SM_MINIMAL_HEIGHT = /* padding top: var(--oc-pane-padding-block) * 1.
 export const APP_NAME = 'OpenCaves'
 export const APP_TITLE = 'Open Caves' // For use in the page <title> and in the app title bar
 export const PANE_WIDTH = 400
+// The galleries' thumbnail list (photos, maps) on a short landscape screen -
+// a phone held sideways: narrower, leaving the photo most of the width.
+export const GALLERY_PANE_WIDTH_COMPACT = 260
+export const COMPACT_LANDSCAPE_QUERY = '(orientation: landscape) and (max-height: 500px)'
 export const PANE_OPEN_THRESHOLD = .7
 export const PANE_INITIAL_BREAKPOINT = .33
 // export const PANE_BREAKPOINTS = [.08, .33, 1]
