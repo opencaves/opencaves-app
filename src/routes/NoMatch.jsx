@@ -72,7 +72,9 @@ export default function NoMatch() {
   const online = useOnline()
   const revalidator = useRevalidator()
   const notFound = !error || (isRouteErrorResponse(error) && error.status === 404)
-  const kind = notFound ? 'notFound' : online ? 'failed' : 'offline'
+  // offlinePreview: the development preview of the offline page
+  // (/dev/error/offline), shown as offline while online.
+  const kind = notFound ? 'notFound' : online && !error?.offlinePreview ? 'failed' : 'offline'
   const navigate = useNavigate()
   const { t: tApp } = useTranslation('app')
   // Back where the visitor came from; to the home page when this is the
@@ -104,7 +106,7 @@ export default function NoMatch() {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen
           view's back arrow at its top left), on a light disc over the photo. */}
       {kind === 'offline' && (
