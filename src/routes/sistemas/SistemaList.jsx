@@ -70,7 +70,7 @@ export default function SistemaList() {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         {/* Back to the public list of the systems, this list's /edit counterpart. */}
         <Tooltip title={t('backToSistemaIndex')}>
-          <IconButton component={Link} to="/sistemas" aria-label={t('backToSistemaIndex')} sx={{ ml: { xs: 0, sm: -5 } }}>
+          <IconButton component={Link} to="/sistemas" aria-label={t('backToSistemaIndex')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>

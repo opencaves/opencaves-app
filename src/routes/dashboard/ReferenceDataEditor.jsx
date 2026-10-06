@@ -86,7 +86,7 @@ export default function ReferenceDataEditor() {
       <div className="oc-reference-data-editor">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <Tooltip title={t('backToDashboard')}>
-            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -5 } }}>
+            <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
               <ArrowBackRounded />
             </IconButton>
           </Tooltip>
@@ -109,7 +109,7 @@ export default function ReferenceDataEditor() {
     <div className="oc-reference-data-editor">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Tooltip title={t('backToDashboard')}>
-          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -5 } }}>
+          <IconButton component={Link} to="/dashboard" aria-label={t('backToDashboard')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>

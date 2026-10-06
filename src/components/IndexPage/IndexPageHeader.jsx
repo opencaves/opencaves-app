@@ -53,7 +53,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
         {backTo && (
           // As tall as the title's first line (1lh in its typography), the
           // arrow centred on it, whatever the title's size or length.
-          <Box sx={{ typography: { xs: 'h5', sm: 'h4' }, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -5 } }}>
+          <Box sx={{ typography: { xs: 'h5', sm: 'h4' }, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <Tooltip title={tApp('back')}>
               <IconButton component={Link} to={backTo} aria-label={tApp('back')}>
                 <ArrowBackRounded />

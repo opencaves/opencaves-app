@@ -73,7 +73,7 @@ export default function CaveList() {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         {/* Back to the public list of the cenotes, this list's /edit counterpart. */}
         <Tooltip title={t('backToCaveIndex')}>
-          <IconButton component={Link} to="/caves" aria-label={t('backToCaveIndex')} sx={{ ml: { xs: 0, sm: -4 } }}>
+          <IconButton component={Link} to="/caves" aria-label={t('backToCaveIndex')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>

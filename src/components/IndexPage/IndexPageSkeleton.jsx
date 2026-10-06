@@ -25,7 +25,7 @@ export default function IndexPageSkeleton({ item = false, search = false, card =
         <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 140, mb: 3 }} />
         {/* The back arrow, in the margin above phone width (IndexPageHeader). */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {back && <Skeleton variant="circular" width={24} height={24} sx={{ flexShrink: 0, mx: 1, ml: { xs: 1, sm: -4 } }} />}
+          {back && <Skeleton variant="circular" width={24} height={24} sx={{ flexShrink: 0, mx: 1, ml: { xs: 1, sm: -3 }, mr: 0.5 }} />}
           <Skeleton variant="text" sx={{ typography: { xs: 'h5', sm: 'h4' }, width: 'min(100%, 420px)' }} />
         </Box>
         <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 120, ml: back ? { xs: 6, sm: 0 } : 0 }} />

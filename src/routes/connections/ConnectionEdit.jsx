@@ -159,7 +159,7 @@ export default function ConnectionEdit() {
     <div className="oc-connection-edit">
       <EditPageHeader>
         <Tooltip title={t('backToConnections')}>
-          <IconButton component={Link} to="/connections" aria-label={t('backToConnections')} sx={{ ml: { xs: 0, sm: -5 } }}>
+          <IconButton component={Link} to="/connections" aria-label={t('backToConnections')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <ArrowBackRounded />
           </IconButton>
         </Tooltip>
