@@ -18,7 +18,7 @@ import { observeStore } from '@/utils/observeStore.js'
 import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.js'
 import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
-import { SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
+import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 import './SearchBar.scss'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
@@ -398,15 +398,17 @@ export default function SearchBar() {
             boxShadow: SEARCH_BAR_SHADOW,
             borderRadius: SEARCH_BAR_RADIUS,
             bgcolor: 'background.paper',
-            // Invisible on light paper; a divider line on dark.
+            // The paper's own colour, invisible in both modes: MD3's search bar
+            // has no outline, only its shadow.
             borderColor: 'background.paper',
-            '*:where([data-mui-color-scheme="dark"]) &': { borderColor: 'divider' },
             borderWidth: 1,
             borderStyle: 'solid',
-            m: '0.5rem 0.5rem 0 0.5rem',
+            m: `${SEARCH_BAR_MARGIN}px ${SEARCH_BAR_MARGIN}px 0`,
           }}
         >
-          <Grid container className="oc-search-bar--field" sx={{ alignItems: 'stretch' }}>
+          {/* 56px with its border; 48px buttons centred in it, 4px from its
+              ends, so their 24px icons are 16px in (MD3's spacing). */}
+          <Grid container className="oc-search-bar--field" sx={{ alignItems: 'center', minHeight: SEARCH_BAR_HEIGHT - 2, px: '3px' }}>
             <Grid
               sx={{
                 width: '48px',
@@ -482,8 +484,11 @@ export default function SearchBar() {
               </IconButton>
               {/* <IonMenuButton id="oc-search-filter-btn" aria-label={t('filter.ariaLabel')}><TuneIcon /></IonMenuButton> */}
             </Tooltip>
+            {/* MD3's search bar avatar: 30dp, signed in or out. */}
             {isSmall && (
               <AppMenu
+                logoSx={{ width: 30, height: 30 }}
+                avatarSx={{ width: 30, height: 30, fontSize: '1rem' }}
                 sx={{
                   width: '48px',
                   height: '48px',

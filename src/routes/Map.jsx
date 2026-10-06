@@ -94,8 +94,9 @@ export default function MapPage() {
                 ? { position: 'absolute', top: 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)', right: 'var(--oc-map-control-edge-margin)', width: 56, height: 56 }
                 : {
                     position: 'absolute',
-                    top: 'calc(48px + 1.5rem)',
-                    right: '0.5rem',
+                    // 16px under the search bar, on its right edge.
+                    top: 16 + 56 + 16,
+                    right: 16,
                     width: 48,
                     height: 48,
                     opacity: 'var(--oc-map-controls-opacity, 1)',
@@ -108,8 +109,8 @@ export default function MapPage() {
           <Outlet />
           <Dev
             sx={{
-              '--oc-mode-switcher-right': isLarge ? 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)' : '.5rem',
-              '--oc-mode-switcher-top': isLarge ? 'var(--oc-map-control-edge-margin)' : 'calc(48px + 1rem)',
+              '--oc-mode-switcher-right': isLarge ? 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)' : '16px',
+              '--oc-mode-switcher-top': isLarge ? 'var(--oc-map-control-edge-margin)' : 'calc(16px + 56px + 8px)',
             }}
           />
         </AddMediasProvider>

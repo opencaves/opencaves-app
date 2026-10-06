@@ -10,13 +10,18 @@ export const PANE_INITIAL_BREAKPOINT = .33
 // export const PANE_BREAKPOINTS = [.08, .33, 1]
 export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / window.innerHeight, .33, 1]
 export const RESULT_PANE_MIN_HEIGHT = 300
-// Where a sticky header in the result pane stops: under the search bar that
-// floats over the pane (8px from the top, 48px tall), 8px below it.
-export const RESULT_PANE_STICKY_TOP = 8 + 48 + 8
-// The search bar's look (a pill floating over the map and the pane), shared
-// by what floats with it (a sticky pane header). SearchBarMockup.scss repeats it.
+// The search bar, as Material Design 3's: 56dp tall, fully rounded (half its
+// height), 16dp from the screen's edges - on desktop too, where 24dp would
+// leave it under MD3's 360dp minimum width above the 400px pane. Its look is
+// shared by what floats with it (a sticky pane header); SearchBarMockup.scss
+// and index.html's loading shell repeat it.
+export const SEARCH_BAR_HEIGHT = 56
+export const SEARCH_BAR_MARGIN = 16
 export const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)'
-export const SEARCH_BAR_RADIUS = '24px'
+export const SEARCH_BAR_RADIUS = `${SEARCH_BAR_HEIGHT / 2}px`
+// Where a sticky header in the result pane stops: 8px under the search bar
+// floating over the pane.
+export const RESULT_PANE_STICKY_TOP = SEARCH_BAR_MARGIN + SEARCH_BAR_HEIGHT + 8
 export const SNACKBAR_DEFAULT_AUTO_HIDE_DURATION = 6000
 export const SCROLLBAR_TRACK_HEIGHT = 8
 export const SCROLLBAR_STEP_FACTOR = 38
