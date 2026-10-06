@@ -18,6 +18,7 @@ import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaCookie from '@/components/SistemaCookie.jsx'
+import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 
 // Its sections' headings, as IndexSection's (for the parts that aren't one).
@@ -28,11 +29,11 @@ const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base
 // A system's name: a link to its page, or plain text when it has none (not
 // public).
 function SistemaName({ sistema, name }) {
-  const cookie = <SistemaCookie color={sistema?.color} sx={{ mr: 0.75 }} />
-  if (!sistema?.slug) return <span>{cookie}{name}</span>
+  const arrow = <SistemaArrow color={sistema?.color} sx={{ mr: 0.75 }} />
+  if (!sistema?.slug) return <span>{arrow}{name}</span>
   return (
     <span>
-      {cookie}
+      {arrow}
       <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">
         {sistema.name}
       </Link>
@@ -168,7 +169,7 @@ export default function SistemaPage() {
                   {index > 0 && <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: '1rem', alignSelf: 'center', color: 'text.secondary' }} />}
                   {index === 0 ? (
                     <Typography component="span" sx={{ fontWeight: 500 }}>
-                      <SistemaCookie color={sistema.color} sx={{ mr: 0.75 }} />
+                      <SistemaArrow color={sistema.color} sx={{ mr: 0.75 }} />
                       {sistema.name}
                     </Typography>
                   ) : (

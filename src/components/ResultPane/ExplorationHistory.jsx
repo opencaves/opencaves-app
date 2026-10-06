@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
-import SistemaCookie from '@/components/SistemaCookie.jsx'
+import SistemaArrow from '@/components/SistemaArrow.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 
 // The timeline's geometry: a dot centred on an entry's first line (body2,
@@ -95,7 +95,7 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
                 {severalSistemas && (
                   <>
                     {entry.date && ' · '}
-                    <SistemaCookie color={entry.sistemaColor} sx={{ mr: 0.5 }} />
+                    <SistemaArrow color={entry.sistemaColor} sx={{ mr: 0.5 }} />
                     {entry.sistemaName}
                   </>
                 )}
