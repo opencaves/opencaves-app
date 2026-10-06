@@ -48,14 +48,16 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem
-          onClick={() => act(onEdit)}
-        >
-          <ListItemIcon>
-            <EditRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('editMap')}</ListItemText>
-        </MenuItem>
+        {onEdit && (
+          <MenuItem
+            onClick={() => act(onEdit)}
+          >
+            <ListItemIcon>
+              <EditRounded fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('editMap')}</ListItemText>
+          </MenuItem>
+        )}
         {onTrash && (
           <MenuItem
             className="oc-map-pane-menu--trash"

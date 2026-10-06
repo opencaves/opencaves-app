@@ -39,7 +39,9 @@ const Main = styled('main')(
 // The viewer over the whole app window (useOrientationFullscreen's fallback).
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
-export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
+// alwaysShowBack: the back arrow whatever the screen (a page's gallery,
+// with no list pane beside it); onBack: what it does (a link up otherwise).
+export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
@@ -50,7 +52,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
   // when the turn entered it.
   const fullscreenRef = useRef(null)
   const immersive = useOrientationFullscreen(fullscreenRef)
-  const showBackArrow = isSmall || isFullscreen || immersive
+  const showBackArrow = alwaysShowBack || isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
@@ -126,7 +128,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
     // setTouchAction(type === 'panorama' ? 'none' : 'pan-y')
     if (to !== from) {
       setTimeout(() => {
-        navigate(`../${mediaId}`, { replace: true, relative: 'path' })
+        navigate(`../${mediaId}`, { replace: true, relative: 'path', state: location.state })
       })
     }
   }
@@ -150,8 +152,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete }) {
               <IconButton
               key='oc-media-pane-details-back-btn'
               aria-label={t('backBtn.ariaLabel')}
-              component={Link}
-              to='..'
+              {...(onBack ? { onClick: onBack } : { component: Link, to: '..' })}
               disableRipple
               sx={{
                 color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))',

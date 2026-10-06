@@ -15,10 +15,9 @@ const TWO_LINES_ON_PHONES = { display: { xs: '-webkit-box', sm: 'block' }, Webki
 
 // A system's survey maps (its own and those of the systems it joined, as the
 // details pane's Maps tab), each with its date and who drew it. A map opens
-// in the map's viewer from `caveId` (one of the system's caves); without one,
-// its file. A carousel on phones (a grid wider), its Show all pane with
-// every map.
-export default function MapsSection({ sistemaId, sistemas, connections, caveId, title, card = false }) {
+// in the page's gallery (<pagePath>/maps/:id, MapGallery). A carousel on
+// phones (a grid wider), its Show all pane with every map.
+export default function MapsSection({ sistemaId, sistemas, connections, pagePath, title, card = false }) {
   const { t: tMaps } = useTranslation('mapsPicker')
   const [allMaps] = mapsModel.useAll()
   const byId = new Map(allMaps.map((map) => [map.id, map]))
@@ -32,7 +31,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, caveId, 
           // Its year: maps' dates are "2000", "2012-10" or "1988-02-01".
           const year = map.date?.match(/\d{4}/)?.[0]
           const thumbnail = map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null)
-          const link = caveId ? { component: RouterLink, to: `/map/${caveId}/maps/${map.id}` } : { component: 'a', href: map.url, target: '_blank', rel: 'noopener' }
+          const link = { component: RouterLink, to: `${pagePath}/maps/${map.id}`, state: { fromPage: true } }
           return (
             <li key={map.id}>
               <ButtonBase {...link} className="oc-maps-section--item" sx={{ display: 'block', width: '100%', textAlign: 'left', color: 'inherit', textDecoration: 'none', borderRadius: 2, '&:hover .oc-maps-section--thumbnail': { boxShadow: 2 }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 } }}>

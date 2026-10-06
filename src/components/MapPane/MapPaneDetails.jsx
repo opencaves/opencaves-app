@@ -38,7 +38,11 @@ const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 // The viewer over the whole app window (useOrientationFullscreen's fallback).
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
-export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash }) {
+// mapPath(id): a map's address (the map's viewer by default; a page's gallery
+// has its own); alwaysShowBack: the back arrow whatever the screen (no list
+// pane beside it); onBack: what it does (a link to returnTo otherwise);
+// canEdit: the Edit item in its menu.
+export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
   // header's arrow does.
@@ -52,7 +56,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const controllerRef = useRef(null)
   useGalleryArrowKeys(controllerRef)
   const immersive = useOrientationFullscreen(fullscreenRef)
-  const showBackArrow = isSmall || isFullscreen || immersive
+  const showBackArrow = alwaysShowBack || isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
@@ -83,7 +87,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   function onView({ index }) {
     const { mapId: nextMapId } = slides[index]
     if (nextMapId !== mapId) {
-      setTimeout(() => navigate(`/map/${caveId}/maps/${nextMapId}`, { replace: true, state: location.state }))
+      setTimeout(() => navigate(mapPath ? mapPath(nextMapId) : `/map/${caveId}/maps/${nextMapId}`, { replace: true, state: location.state }))
     }
   }
 
@@ -91,7 +95,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   // sistemaId), so only the cave's own sistema's maps are written back.
   function Menu({ augment }) {
     augment(({ toolbar, ...rest }) => ({
-      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={() => navigate('edit', { state: location.state })} onTrash={onTrash} />),
+      toolbar: addToolbarButton(toolbar, 'menu', <MapPaneMenu map={currentMap} onEdit={canEdit ? () => navigate('edit', { state: { ...location.state, editFromViewer: true } }) : undefined} onTrash={onTrash} />),
       ...rest,
     }))
   }
@@ -108,8 +112,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
               <IconButton
               key="oc-map-pane-details-back-btn"
               aria-label={t('backBtn.ariaLabel')}
-              component={Link}
-              to={returnTo}
+              {...(onBack ? { onClick: onBack } : { component: Link, to: returnTo })}
               disableRipple
               sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))' }}
               className="yarl__button"
@@ -127,7 +130,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
             'menu',
           ],
         }}
-        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom].filter(Boolean)}
+        plugins={[canEdit || onTrash ? Menu : undefined, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Zoom].filter(Boolean)}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
         styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}

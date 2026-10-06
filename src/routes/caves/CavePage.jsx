@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link as RouterLink, useParams } from 'react-router-dom'
+import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
@@ -137,7 +137,7 @@ export default function CavePage() {
       <OfflineSaveHint caveId={cave.id} />
       <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
 
-      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} caveId={cave.id} title={t('maps')} card />
+      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card />
 
       {hasHistory && (
         <IndexSection title={tPane('explorationHistory')} className="oc-cave-page--history" card>
@@ -146,6 +146,8 @@ export default function CavePage() {
           </Box>
         </IndexSection>
       )}
+      {/* Its galleries, over the page: its photos, its system's maps. */}
+      <Outlet context={{ sistemaId: cave.sistemaId, sistemas: data.sistemas, connections: data.connections }} />
     </div>
   )
 }

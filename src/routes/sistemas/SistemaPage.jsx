@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link as RouterLink, Navigate, useParams } from 'react-router-dom'
+import { Link as RouterLink, Navigate, Outlet, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
@@ -212,16 +212,8 @@ export default function SistemaPage() {
           (never loaded online) can't show. */}
       <OfflineSaveHint />
 
-      {/* Opened in the viewer of one of the system's own caves (the viewer
-          lives under a cave's address), a located one first. */}
-      <MapsSection
-        sistemaId={sistema.id}
-        sistemas={data.sistemas}
-        connections={data.connections}
-        caveId={(caves.find((cave) => cave.sistemaId === sistema.id && cave.located) || caves.find((cave) => cave.sistemaId === sistema.id))?.id}
-        title={t('maps')}
-        card
-      />
+      {/* Opened in the page's gallery (MapGallery, in the Outlet below). */}
+      <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;
@@ -241,6 +233,8 @@ export default function SistemaPage() {
           <Typography sx={{ color: 'text.secondary' }}>{t('sistema.noCenotes')}</Typography>
         )}
       </IndexSection>
+      {/* The maps' gallery, over the page. */}
+      <Outlet context={{ sistemaId: sistema.id, sistemas: data.sistemas, connections: data.connections }} />
     </div>
   )
 }
