@@ -3,10 +3,12 @@ import { Link as RouterLink, Navigate, Outlet, useParams } from 'react-router-do
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
+import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { formatMeasure } from '@/utils/units.js'
+import { COORDINATE_DECIMALS } from '@/config/map.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
@@ -21,6 +23,7 @@ import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
+import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 
@@ -116,6 +119,10 @@ export default function SistemaPage() {
     sistema.length > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.length, units, i18n.language) },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
+  // Its location, as the map pane lists a cave's: copied on a click, with
+  // directions to it.
+  const location = sistema.location?.latitude != null && sistema.location?.longitude != null ? sistema.location : null
+  const coordinates = location ? `${Number(location.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(location.longitude).toFixed(COORDINATE_DECIMALS)}` : ''
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
 
   return (
@@ -148,6 +155,12 @@ export default function SistemaPage() {
             </Box>
           ))}
         </Box>
+      )}
+
+      {location && (
+        <IndexSection title={t('sistema.location')} className="oc-sistema-page--location" card>
+          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationOutlined />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
+        </IndexSection>
       )}
 
       {sistema.description && (
