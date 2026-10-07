@@ -92,6 +92,14 @@
         }
       }
 
+      // Idle: the crosshair all in the theme's colour - Mapbox's own icon,
+      // painted over it, put a dark grey dot in its middle. Its icons stay
+      // while it locates or follows the person (the dot then blue: the
+      // state shows).
+      &:not(.mapboxgl-ctrl-geolocate-active):not(.mapboxgl-ctrl-geolocate-background):not(.mapboxgl-ctrl-geolocate-waiting) .mapboxgl-ctrl-icon {
+        background-image: none;
+      }
+
       &:disabled {
         display: none;
       }
