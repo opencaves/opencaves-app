@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
 import MapOutlined from '@mui/icons-material/MapOutlined'
+import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
+import FenceRounded from '@mui/icons-material/FenceRounded'
+import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { useCoverImage } from '@/models/CaveAsset.js'
@@ -22,6 +25,7 @@ import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
+import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import CaveVideosSection from '@/components/IndexPage/CaveVideosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
@@ -79,7 +83,15 @@ export default function CavePage() {
   const facts = [
     area && { key: 'area', label: t('cave.area'), value: <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover">{area.name}</Link> },
     sistema && { key: 'sistema', label: t('cave.sistema'), value: <><SistemaArrow color={sistema.color} sx={{ mr: 0.75 }} />{sistema.slug ? <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">{sistema.name}</Link> : sistema.name}</> },
-    location && { key: 'location', label: t('cave.location'), value: `${Number(location.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(location.longitude).toFixed(COORDINATE_DECIMALS)}` },
+  ].filter(Boolean)
+  // Its points, as the map pane lists them: each copied on a click, with
+  // directions to it.
+  const coordinates = (point) => `${Number(point.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(point.longitude).toFixed(COORDINATE_DECIMALS)}`
+  const isPoint = (point) => point?.latitude != null && point?.longitude != null
+  const points = [
+    location && { key: 'location', icon: <MyLocationOutlined />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
+    isPoint(cave.entrance) && { key: 'entrance', icon: <FenceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
+    ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
   ].filter(Boolean)
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
 
@@ -123,6 +135,12 @@ export default function CavePage() {
             </Box>
           ))}
         </Box>
+      )}
+
+      {points.length > 0 && (
+        <IndexSection title={t('cave.location')} className="oc-cave-page--location" card>
+          <CoordinateCopyList rows={points} sx={{ mx: -1 }} />
+        </IndexSection>
       )}
 
       {/* Access's own heading is the section's, above its card. */}
