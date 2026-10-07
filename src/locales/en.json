@@ -1502,20 +1502,24 @@
   },
   "whatsNew": {
     "title": "What's new",
-    "description": "The caves, cave systems, connections and maps recently added to {{name}}.",
+    "description": "The caves, cave systems, connections, maps, photos and videos recently added to {{name}}.",
     "subtitle": "The latest additions to {{name}}, newest first.",
     "filters": {
       "all": "All",
       "caves": "Caves",
       "sistemas": "Cave systems",
       "connections": "Connections",
-      "maps": "Maps"
+      "maps": "Maps",
+      "photos": "Photos",
+      "videos": "Videos"
     },
     "kinds": {
       "caves": "Cave",
       "sistemas": "Cave system",
       "connections": "Connection",
-      "maps": "Map"
+      "maps": "Map",
+      "photos": "Photos",
+      "videos": "Videos"
     },
     "inSistema": "in {{name}}",
     "mapOf": "map of {{name}}",
@@ -1525,7 +1529,11 @@
     "unnamedMap": "Untitled map",
     "recently": "Recently",
     "none": "Nothing new yet.",
-    "failed": "The latest additions couldn't be loaded."
+    "failed": "The latest additions couldn't be loaded.",
+    "photosAdded_one": "{{count}} photo of {{name}}",
+    "photosAdded_other": "{{count}} photos of {{name}}",
+    "videosAdded_one": "{{count}} video of {{name}}",
+    "videosAdded_other": "{{count}} videos of {{name}}"
   },
   "home": {
     "title": "Open data for cave diving",

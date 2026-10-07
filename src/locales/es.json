@@ -1502,20 +1502,24 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "description": "Las cuevas, sistemas, conexiones y mapas añadidos recientemente a {{name}}.",
+    "description": "Las cuevas, sistemas, conexiones, mapas, fotos y vídeos añadidos recientemente a {{name}}.",
     "subtitle": "Lo último añadido a {{name}}, lo más reciente primero.",
     "filters": {
       "all": "Todo",
       "caves": "Cuevas",
       "sistemas": "Sistemas",
       "connections": "Conexiones",
-      "maps": "Mapas"
+      "maps": "Mapas",
+      "photos": "Fotos",
+      "videos": "Vídeos"
     },
     "kinds": {
       "caves": "Cueva",
       "sistemas": "Sistema",
       "connections": "Conexión",
-      "maps": "Mapa"
+      "maps": "Mapa",
+      "photos": "Fotos",
+      "videos": "Vídeos"
     },
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
@@ -1525,7 +1529,11 @@
     "unnamedMap": "Mapa sin título",
     "recently": "Recientemente",
     "none": "Nada nuevo por ahora.",
-    "failed": "No se pudieron cargar las últimas novedades."
+    "failed": "No se pudieron cargar las últimas novedades.",
+    "photosAdded_one": "{{count}} foto de {{name}}",
+    "photosAdded_other": "{{count}} fotos de {{name}}",
+    "videosAdded_one": "{{count}} vídeo de {{name}}",
+    "videosAdded_other": "{{count}} vídeos de {{name}}"
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",

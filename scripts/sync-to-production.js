@@ -2,8 +2,8 @@
 // Mirrors the local emulators (the original data) to production: production
 // ends up with exactly the local documents and files - everything but its
 // users (accounts, _users/* - settings, saved caves), its frozen accounts
-// (_frozenUsers), its audit log (_auditLog: only the additions it lacks are
-// copied, for the What's new page) and its ratings (the caves' ratings
+// (_frozenUsers), its audit log (_auditLog: only the additions it lacks -
+// records, photos, videos - are copied, for the What's new page) and its ratings (the caves' ratings
 // subcollections, _caveRatings), which stay untouched.
 //
 // - Firestore: every other collection. New documents are created, differing
@@ -164,21 +164,26 @@ for (const collection of [...collections, ...productionOnlyCollections]) {
 }
 
 // --- The audit log's additions (the What's new page, getWhatsNew): production
-// keeps its own audit log, but gets the local "create" entries of the caves,
-// systems, connections and maps it lacks (matched by record) - their date
-// kept, their author production's account with the same email - so its What's
-// new lists what was added locally too.
-const WHATS_NEW_COLLECTIONS = ['caves', 'sistemas', 'connections', 'maps']
+// keeps its own audit log, but gets the local entries it lacks for what was
+// added - the "create" entries of caves, systems, connections, maps and photos
+// (matched by record), and the caves' changes that added videos (matched by
+// entry) - their date kept, their author production's account with the same
+// email - so its What's new lists what was added locally too.
+const WHATS_NEW_COLLECTIONS = ['caves', 'sistemas', 'connections', 'maps', 'cavesAssets']
 const additionKey = (entry) => `${entry.collection}/${entry.docId}`
-const [localCreates, prodCreates] = await Promise.all([local, production].map((db) => db.collection('_auditLog').where('action', '==', 'create').get()))
+const [localCreates, prodCreates, localCaveChanges] = await Promise.all([
+  local.collection('_auditLog').where('action', '==', 'create').get(),
+  production.collection('_auditLog').where('action', '==', 'create').get(),
+  local.collection('_auditLog').where('collection', '==', 'caves').where('action', '==', 'update').get(),
+])
 const prodAdditions = new Set(prodCreates.docs.map((d) => additionKey(d.data())))
-const auditAdditions = localCreates.docs
-  .filter((d) => WHATS_NEW_COLLECTIONS.includes(d.data().collection) && !prodAdditions.has(additionKey(d.data())))
-  .map((d) => {
-    const entry = d.data()
-    return { id: d.id, data: { ...entry, ...(entry.after && { after: withProductionAccounts(forProduction(entry.after)) }), authorId: PRODUCTION_ACCOUNT.get(entry.authorId) || entry.authorId } }
-  })
-console.log(`_auditLog: ${auditAdditions.length} additions to copy (caves, systems, connections, maps)`)
+const videoChanges = localCaveChanges.docs.filter((d) => d.data().changedFields?.includes('videos'))
+const videoChangesInProduction = new Set(videoChanges.length ? (await production.getAll(...videoChanges.map((d) => production.collection('_auditLog').doc(d.id)))).filter((d) => d.exists).map((d) => d.id) : [])
+const auditAdditions = [...localCreates.docs.filter((d) => WHATS_NEW_COLLECTIONS.includes(d.data().collection) && !prodAdditions.has(additionKey(d.data()))), ...videoChanges.filter((d) => !videoChangesInProduction.has(d.id))].map((d) => {
+  const entry = d.data()
+  return { id: d.id, data: { ...entry, ...(entry.after && { after: withProductionAccounts(forProduction(entry.after)) }), ...(entry.before && { before: withProductionAccounts(forProduction(entry.before)) }), authorId: PRODUCTION_ACCOUNT.get(entry.authorId) || entry.authorId } }
+})
+console.log(`_auditLog: ${auditAdditions.length} additions to copy (caves, systems, connections, maps, photos, videos)`)
 
 // --- Storage
 async function localFiles(prefix) {
