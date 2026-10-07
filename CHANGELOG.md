@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0-beta-10](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-9...v1.0.0-beta-10) (2026-10-07)
+
+The new cave icon on the map, and a fix for photos that wouldn't open.
+
+
+### Features
+
+* **Map pins** show the new cave icon.
+* **Map pane:** the coordinates rows work as the pages' Location card (copy on a click, directions); the cave system's name in its header opens the dropdown instead of leaving the map.
+* **Cave data:** caves named with their coordinates are now unnamed; fixes in a few caves' texts (directions, access details, copied text removed).
+
+
+### Bug Fixes
+
+* **Photos on the map:** opening a photo no longer crashes and reloads the page over and over ("Something went wrong") when a cave has a single photo or the browser can't go full screen.
+
 ## [1.0.0-beta-9](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-8...v1.0.0-beta-9) (2026-10-07)
 
 What's new shows the photos and videos added to caves, and every page section has its own link.
