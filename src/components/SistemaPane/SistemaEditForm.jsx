@@ -10,7 +10,7 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { num } from '@/services/data-service/types.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
-import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
+import CoordinateFieldList from '@/components/ResultPane/CoordinateFieldList.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
@@ -420,7 +420,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
             {/* Above the map preview: the fields' own grid overflows a few px
                 into it, which otherwise covered part of their buttons. */}
             <Grid size={showMapPreview ? { xs: 12, md: 'auto' } : 12} sx={{ flexShrink: 0, position: 'relative', zIndex: 1 }}>
-              <CoordinateField field="sistemaLocation" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} labelProps={sectionHeadingProps} canPickOnMap={showMapPreview} />
+              {/* Empty: behind Add coordinates. */}
+              <CoordinateFieldList fieldProps={{ labelProps: sectionHeadingProps, canPickOnMap: showMapPreview }} items={[{ field: 'sistemaLocation', label: t('location'), longitude: form.longitude, latitude: form.latitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude })) }]} />
             </Grid>
             {showMapPreview && (
               <Grid size={{ xs: 12, md: 'grow' }}>

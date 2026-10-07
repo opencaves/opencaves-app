@@ -572,6 +572,7 @@
       "dragPinToMap": "Arrastra este marcador al mapa para definir esta ubicación",
       "navigateToCoordinate": "Centrar el mapa aquí",
       "removeCoordinate": "Eliminar coordenadas",
+      "addCoordinates": "Agregar coordenadas",
       "pickMyLocation": "Usar mi ubicación actual",
       "none": "(ninguno)",
       "sistema": "Sistema",

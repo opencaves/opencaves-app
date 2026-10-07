@@ -571,6 +571,7 @@
       "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
       "navigateToCoordinate": "Centrer la carte ici",
       "removeCoordinate": "Supprimer les coordonnées",
+      "addCoordinates": "Ajouter des coordonnées",
       "pickMyLocation": "Utiliser ma position actuelle",
       "none": "(aucun)",
       "sistema": "Réseau",

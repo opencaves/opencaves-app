@@ -21,7 +21,7 @@ import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
-import CoordinateField from '@/components/ResultPane/CoordinateField.jsx'
+import CoordinateFieldList, { caveCoordinateItems } from '@/components/ResultPane/CoordinateFieldList.jsx'
 import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -364,9 +364,8 @@ export default function CaveEdit() {
               the stacking context would trap a field's own full-screen map
               under the page's action bar. */}
           <Grid size={{ xs: 12, md: 'auto' }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, position: { md: 'relative' }, zIndex: { md: 1 } }}>
-            <CoordinateField field="location" mapBelowOnPhones label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} validity={form.locationValidity} onValidityChange={(locationValidity) => setForm((f) => ({ ...f, locationValidity }))} />
-            <CoordinateField field="entrance" mapBelowOnPhones label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} validity={form.entranceValidity} onValidityChange={(entranceValidity) => setForm((f) => ({ ...f, entranceValidity }))} />
-            <CoordinateField field="key" mapBelowOnPhones label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} validity={form.keyValidity} onValidityChange={(keyValidity) => setForm((f) => ({ ...f, keyValidity }))} />
+            {/* The empty ones behind Add coordinates. */}
+            <CoordinateFieldList fieldProps={{ mapBelowOnPhones: true }} items={caveCoordinateItems(form, setForm, t)} />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
             <CoordinatesMapPreview hideOnPhones />

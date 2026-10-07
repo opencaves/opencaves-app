@@ -572,6 +572,7 @@
       "dragPinToMap": "Drag this marker onto the map to set this location",
       "navigateToCoordinate": "Center the map here",
       "removeCoordinate": "Remove coordinates",
+      "addCoordinates": "Add coordinates",
       "pickMyLocation": "Use my current location",
       "none": "(none)",
       "sistema": "Sistema",

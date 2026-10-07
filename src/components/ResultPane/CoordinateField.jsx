@@ -79,7 +79,9 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 // validity / onValidityChange: the coordinate's validity, as a dropdown with a
 // colour clue; a new value - typed, picked on the map or "my location" - makes
 // it valid.
-export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
+// onRemove: what its X does (CoordinateFieldList: clears it and hides it);
+// otherwise the X only clears it.
+export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, onRemove, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
   const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
@@ -179,7 +181,8 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   )
 
   function onClearClick() {
-    onChange({ longitude: '', latitude: '' })
+    if (onRemove) onRemove()
+    else onChange({ longitude: '', latitude: '' })
   }
 
   function onPinDragStart(event) {
@@ -247,7 +250,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const removeButton = (
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
-        <IconButton size="small" onClick={onClearClick} disabled={!isSet} aria-label={t('removeCoordinate')}>
+        <IconButton size="small" onClick={onClearClick} disabled={!isSet && !onRemove} aria-label={t('removeCoordinate')}>
           <CloseRounded fontSize="small" />
         </IconButton>
       </span>
@@ -292,7 +295,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
           <Box className="oc-coordinate-field--actions" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 1, ml: -1 }}>
             {inPhoneSheet ? <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPlaceOnMapClick} disabled={placingInSheet} /> : canPickOnMap && <LabeledAction icon={<AddLocationAltRounded />} label={t('coordinateActions.placeOnMap')} onClick={onPickOnMapClick} disabled={picking} />}
             <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />
-            <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet} />
+            <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet && !onRemove} />
           </Box>
           <Typography className="oc-coordinate-field--pick-hint" variant="body2" color="primary" role="status" sx={{ mt: picking ? 0.5 : 0 }}>
             {picking && !inPhoneSheet ? t('coordinateActions.crossPickHint') : ''}
