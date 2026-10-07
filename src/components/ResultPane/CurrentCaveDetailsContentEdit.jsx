@@ -1,10 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
-import EditRounded from '@mui/icons-material/EditRounded'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import { deleteField } from 'firebase/firestore'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveModel from '@/models/CaveModel.js'
@@ -332,14 +331,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
 
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
-        <Tooltip title={t('editSistemas')}>
-          <IconButton component={Link} to="sistemas" size="small" aria-label={t('editSistemas')}>
-            <EditRounded fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <Typography variant="subtitle2" component="h2">{t('sistemaGroup')}</Typography>
       <TextField
         select
         label={t('sistema')}
