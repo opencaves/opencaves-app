@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.0-beta-9](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-8...v1.0.0-beta-9) (2026-10-07)
+
+What's new shows the photos and videos added to caves, and every page section has its own link.
+
+
+### Features
+
+* **What's new: photos and videos** added to caves, by cave and day, with their thumbnails; the filters take several kinds at once; an entry opens the cave page's section (#photos, #videos) or a system's connections.
+* **Section links:** every section of the cave, cave system and area pages has an anchor (#location, #access, #photos, #videos, #maps...; each area of the cave lists its own), with a # beside its title; a link to a section scrolls there once the page has loaded.
+* **Smooth scrolling** on the pages (unless your system asks for less motion).
+* **New cave icon:** a cave mouth with a stalactite and its water, clearer at small sizes.
+* **Photo uploads** are in the audit log (Audits), with who added them; undoing one moves the photo to the trash.
+
+
+### Bug Fixes
+
+* **What's new** shows a loading placeholder shaped like the page.
+
 ## [1.0.0-beta-8](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-7...v1.0.0-beta-8) (2026-10-07)
 
 A search in the app bar, a What's new page, and every cave text now says where its words come from.
