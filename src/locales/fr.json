@@ -52,6 +52,7 @@
       "addPictures": "Ajouter des images",
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
+      "whatsNew": "Nouveautés",
       "drawer": {
         "ariaLabel": "ouvrir le menu"
       },
@@ -1497,6 +1498,33 @@
       "sistemas": "Réseaux",
       "caves": "Grottes"
     }
+  },
+  "whatsNew": {
+    "title": "Nouveautés",
+    "description": "Les grottes, réseaux, connexions et cartes récemment ajoutés à {{name}}.",
+    "subtitle": "Les derniers ajouts à {{name}}, les plus récents en premier.",
+    "filters": {
+      "all": "Tout",
+      "caves": "Grottes",
+      "sistemas": "Réseaux",
+      "connections": "Connexions",
+      "maps": "Cartes"
+    },
+    "kinds": {
+      "caves": "Grotte",
+      "sistemas": "Réseau",
+      "connections": "Connexion",
+      "maps": "Carte"
+    },
+    "inSistema": "dans {{name}}",
+    "mapOf": "carte de {{name}}",
+    "connection": "{{child}} relié à {{parent}}",
+    "addedBy": "ajouté par {{name}}",
+    "unnamed": "Sans nom",
+    "unnamedMap": "Carte sans titre",
+    "recently": "Récemment",
+    "none": "Rien de nouveau pour le moment.",
+    "failed": "Les derniers ajouts n'ont pas pu être chargés."
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
