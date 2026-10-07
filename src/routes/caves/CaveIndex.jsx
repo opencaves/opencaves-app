@@ -78,6 +78,7 @@ export default function CaveIndex() {
         <IndexSection
           card
           lazy
+          stickyTitle
           key={area?.slug ?? 'unknown'}
           title={
             area ? (

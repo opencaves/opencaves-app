@@ -70,6 +70,7 @@ export default function SistemaIndex() {
         <IndexSection
           card
           lazy
+          stickyTitle
           key={area?.slug ?? 'unknown'}
           title={
             area ? (

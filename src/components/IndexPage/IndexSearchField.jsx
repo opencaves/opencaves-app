@@ -82,8 +82,23 @@ export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {
 // the field itself is opaque (the list passes under it around the field).
 export default function IndexSearchField({ query, setQuery, placeholder, status }) {
   const { t } = useTranslation('indexPages')
+  // Its height, for what sticks under it (IndexSection's stickyTitle):
+  // --oc-index-search-height, with the result line when it shows.
+  const barRef = useRef(null)
+  useEffect(() => {
+    const bar = barRef.current
+    if (!bar) return undefined
+    const root = document.documentElement
+    const observer = new ResizeObserver(() => root.style.setProperty('--oc-index-search-height', `${bar.offsetHeight}px`))
+    observer.observe(bar)
+    return () => {
+      observer.disconnect()
+      root.style.removeProperty('--oc-index-search-height')
+    }
+  }, [])
   return (
     <Box
+      ref={barRef}
       className="oc-index-search-field--bar"
       sx={{
         position: 'sticky',
