@@ -18,6 +18,7 @@ import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
+import LegalLinks from '@/components/App/LegalLinks.jsx'
 
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
@@ -181,6 +182,7 @@ export default function AdminDashboard() {
         </Box>
 
         {!isEditor && !isAdmin && <Typography color="text.secondary">{t('noSections')}</Typography>}
+        <LegalLinks sx={{ mt: 6, pt: 2, borderTop: '1px solid', borderColor: 'divider' }} />
       </Box>
     </Box>
   )
