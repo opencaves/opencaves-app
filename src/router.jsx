@@ -319,6 +319,11 @@ const routes = [
             ],
           },
           {
+            // The latest caves, systems, connections and maps added in the app.
+            path: 'whats-new',
+            lazy: () => import('@/routes/WhatsNew.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
             path: 'areas/:areaSlug',
             lazy: () => import('@/routes/areas/AreaPage.jsx').then(({ default: Component }) => ({ Component })),
           },
