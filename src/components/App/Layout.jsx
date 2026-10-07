@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Outlet, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
 import AppBar from './AppBar.jsx'
+import LegalLinks from './LegalLinks.jsx'
 import Dev from '../utils/Dev.jsx'
 import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
@@ -119,6 +120,10 @@ export default function Layout() {
       <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
         borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
+        {/* The Privacy and Terms links at every page's foot - not the landing
+            page's, whose own footer has them, nor the dashboard home's, which
+            has them in its own frame. */}
+        {path !== '/' && !isDashboardHome && <LegalLinks sx={{ mt: 4, alignSelf: 'end' }} />}
       </Container>
 
       <Dev sx={{ '--oc-mode-switcher-top': 'calc(64px + 1rem)' }} />
