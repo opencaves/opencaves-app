@@ -98,11 +98,18 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     if (onValidityChange && coordinates.longitude !== '' && coordinates.latitude !== '') onValidityChange('valid')
   }
 
+  // Typed text stays as typed ("-86.960", "20."), cut only past
+  // COORDINATE_DECIMALS decimals: made a number at each keystroke, "-86.960"
+  // became "-86.96" and the next digits landed after it (-86.96093 typed gave
+  // -86.9693). Saving makes it a number. Other values (picked on the map, my
+  // location): rounded to COORDINATE_DECIMALS.
   function normalizeCoordinateValue(value) {
     if (value === '' || value === null || typeof value === 'undefined') {
       return ''
     }
 
+    const typed = String(value).trim().match(/^(-?\d*)(\.\d*)?$/)
+    if (typed) return typed[1] + (typed[2] ? typed[2].slice(0, COORDINATE_DECIMALS + 1) : '')
     const normalized = Number(num(value, COORDINATE_DECIMALS))
     return Number.isFinite(normalized) ? String(normalized) : ''
   }
