@@ -9,6 +9,7 @@ import { logger } from 'firebase-functions/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
 import { db } from '../init.js'
+import { writeAuditLog } from '../audit/log.js'
 import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER } from '../constants.js'
 import { supportedXMP } from '../config.js'
 
@@ -192,6 +193,13 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
       await docRef.create(assetData)
       if (Object.keys(privateData).length) {
         await db.collection(CAVES_ASSETS_PRIVATE_COLL_NAME).doc(assetData.id).set(privateData)
+      }
+      // A photo added in the app, in the audit log (Audits, What's new): the
+      // server creates its record, which the audit trigger doesn't log. Its
+      // uploader is the one storage.rules let set userId (themself). Undoing
+      // it moves the photo to the trash. A script's upload (no uploader) isn't logged.
+      if (privateData.userId) {
+        await writeAuditLog({ action: 'create', collection: CAVES_ASSETS_COLL_NAME, docId: assetData.id, authorId: privateData.userId, authType: 'app_user', after: assetData })
       }
     }
   } catch (error) {
