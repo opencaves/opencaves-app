@@ -13,6 +13,7 @@ import DashboardRounded from '@mui/icons-material/DashboardRounded'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
+import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
 
 const DRAWER_WIDTH = 240
@@ -34,7 +35,8 @@ export function useNavItems() {
     { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
     { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
     { key: 'whatsNew', to: '/whats-new', icon: <NewReleasesOutlined /> },
-    { key: 'about', to: '/about', icon: <InfoRounded /> },
+    // A dialog over the page (its address still /about).
+    { key: 'about', to: '/about', icon: <InfoRounded />, onClick: openAboutDialog },
   ]
   const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
   const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
@@ -79,11 +81,11 @@ export default function NavDrawer({ open, onClose, zIndex }) {
           </Box>
           <Divider />
           <List>
-            {items.map(({ key, to, icon }) => (
+            {items.map(({ key, to, icon, onClick }) => (
               <Fragment key={key}>
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
                 <ListItem disablePadding>
-                  <ListItemButton component={Link} to={to} selected={Boolean(current(to))} aria-current={current(to)}>
+                  <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
                   </ListItemButton>

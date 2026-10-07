@@ -23,6 +23,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 // The logo's version for dark backgrounds (the header's photo).
 import Logo from '@/images/logo/brand_dark.svg?react'
 import heroBackground from '@/images/404/bg.webp'
+import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 
 const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
@@ -349,7 +350,9 @@ export default function Home() {
       {/* The footer: the site's pages, and the language. */}
       <Box className="oc-home--footer" component="footer" sx={{ pt: 3, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center', justifyContent: 'space-between' }}>
         <Typography component="nav" aria-label={tLegal('links.ariaLabel')} variant="body2" sx={{ color: 'text.secondary', display: 'flex', flexWrap: 'wrap', columnGap: 2, rowGap: 1 }}>
-          <Link component={RouterLink} to="/about">{t('footer.about')}</Link>
+          <Link component={RouterLink} to="/about" onClick={openAboutDialog}>
+            {t('footer.about')}
+          </Link>
           <Link component={RouterLink} to="/privacy">{tLegal('privacy.title')}</Link>
           <Link component={RouterLink} to="/terms">{tLegal('terms.title')}</Link>
           <Link href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer">{tAbout('whatsNew')}</Link>

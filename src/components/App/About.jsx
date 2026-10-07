@@ -1,13 +1,19 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
+import { useColorScheme } from '@mui/material/styles'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import Logo from '@/images/logo/brand_light.svg?react'
+import LogoLight from '@/images/logo/brand_light.svg?react'
+import LogoDark from '@/images/logo/brand_dark.svg?react'
 
 export default function About({ className, ...props }) {
   const { t } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
   const isSmall = useSmall()
+  // The logo drawn for the surface it's on: its dark teal wordmark is nearly
+  // invisible on the dark theme's.
+  const { mode, systemMode } = useColorScheme()
+  const Logo = ((mode === 'system' ? systemMode : mode) || 'light') === 'dark' ? LogoDark : LogoLight
 
   return (
     <Box className={`oc-about ${className || ''}`.trim()} {...props}>
