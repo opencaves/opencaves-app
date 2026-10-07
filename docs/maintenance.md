@@ -75,7 +75,10 @@ refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
 its users' data (accounts, `_users/*`: settings and saved caves; the caves'
 ratings and `_caveRatings`), frozen accounts and audit log, which stay
-untouched. What's only in production is deleted, files included. Production's
+untouched - except that the local audit log's additions (its "create" entries
+for caves, systems, connections and maps) that production lacks are copied to
+it, so the What's new page (`/whats-new`, built from the audit log) lists them
+there too. What's only in production is deleted, files included. Production's
 documents are first saved to `_data/backups/production-<date>/`; its deleted
 files are not. Copied files carry `ocSync=true`, so the upload functions
 don't rebuild them. The trash comes along as it is. Production keeps its own
