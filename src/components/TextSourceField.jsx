@@ -6,5 +6,5 @@ import SourceSelect from '@/components/SourceSelect.jsx'
 // text with words (the forms leave it out otherwise).
 export default function TextSourceField({ value, onChange, sources }) {
   const { t } = useTranslation('textSource')
-  return <SourceSelect className="oc-text-source-field" label={t('fieldLabel')} noneLabel={t('none')} sources={sources} value={value?.source || ''} onChange={(source) => onChange({ source })} />
+  return <SourceSelect dense className="oc-text-source-field" label={t('fieldLabel')} noneLabel={t('none')} sources={sources} value={value?.source || ''} onChange={(source) => onChange({ source })} />
 }

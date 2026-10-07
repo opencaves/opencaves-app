@@ -8,12 +8,21 @@ import NewSourceDialog from '@/components/NewSourceDialog.jsx'
 // becoming the value.
 const ADD_SOURCE = '__add-source__'
 
+const DENSE_SX = {
+  '& .MuiInputLabel-root': { fontSize: '0.8125rem' },
+  '& .MuiInputLabel-shrink': { transform: 'translate(0, -1.5px) scale(0.9)' },
+  '& .MuiInputBase-root': { fontSize: '0.8125rem', mt: '14px' },
+  '& .MuiSelect-select': { py: '4px' },
+}
+
 // An edit form's Source picker (the `sources` collection), starting with an
 // "Add a source" entry that creates one in place (NewSourceDialog) and
 // selects it. onChange gets the chosen source id ('' for none). As wide as
 // its longest option (measured in the field's own font, with its padding and
 // arrow), never wider than its row; compact (small) unless size says otherwise.
-export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small' }) {
+// dense: a caption-sized, underlined picker (13px text, about 32px tall), for
+// one that sits under another field rather than heading its section.
+export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small', dense = false }) {
   const { t } = useTranslation('newSourceDialog')
   const [adding, setAdding] = useState(false)
   const rootRef = useRef(null)
@@ -43,9 +52,10 @@ export default function SourceSelect({ label, value, onChange, sources, noneLabe
         className={`oc-source-select${className ? ` ${className}` : ''}`}
         label={label}
         size={size}
+        variant={dense ? 'standard' : undefined}
         helperText={helperText}
         fullWidth={!width}
-        sx={width ? { width, maxWidth: '100%' } : undefined}
+        sx={[width && { width, maxWidth: '100%' }, dense && DENSE_SX]}
         value={value}
         onChange={(event) => {
           if (event.target.value === ADD_SOURCE) setAdding(true)
