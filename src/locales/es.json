@@ -832,6 +832,7 @@
     "deleteConfirm": "¿Eliminar este sistema?",
     "delete": "Eliminar",
     "cancel": "Cancelar",
+    "exit": "Salir",
     "save": "Guardar",
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
     "explorationDateHint": "Cuándo tuvo lugar esta exploración."

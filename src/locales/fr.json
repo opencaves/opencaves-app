@@ -831,6 +831,7 @@
     "deleteConfirm": "Supprimer ce sistema ?",
     "delete": "Supprimer",
     "cancel": "Annuler",
+    "exit": "Quitter",
     "save": "Enregistrer",
     "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
     "explorationDateHint": "Date à laquelle cette exploration a eu lieu."

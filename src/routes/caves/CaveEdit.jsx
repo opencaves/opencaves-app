@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { orDelete } from '@/utils/firestoreFields.js'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { deleteField } from 'firebase/firestore'
@@ -202,34 +203,41 @@ export default function CaveEdit() {
         // The texts' sources the form changed (textSources).
         textSources: textSourcesUpdate(originalCave, form, CAVE_TEXT_FIELDS),
         name: { value: form.name },
-        sistemaId: form.sistemaId || undefined,
-        source: form.source || undefined,
-        access: form.access || undefined,
-        accessDetails: form.accessDetails || undefined,
-        accessibility: form.accessibility || undefined,
-        accessibilityDetails: form.accessibilityDetails || undefined,
-        description: form.description || undefined,
-        direction: form.direction || undefined,
+        sistemaId: orDelete(form.sistemaId),
+        source: orDelete(form.source),
+        access: orDelete(form.access),
+        accessDetails: orDelete(form.accessDetails),
+        accessibility: orDelete(form.accessibility),
+        accessibilityDetails: orDelete(form.accessibilityDetails),
+        description: orDelete(form.description),
+        direction: orDelete(form.direction),
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
         activities: form.activities,
-        explorationDate: form.explorationDate || undefined,
-        reporter: form.reporter || undefined,
-        note: form.note || undefined,
-        aka: form.aka.map((s) => s.trim()).filter(Boolean).length > 0 ? form.aka.map((s) => s.trim()).filter(Boolean) : undefined,
+        explorationDate: orDelete(form.explorationDate),
+        reporter: orDelete(form.reporter),
+        note: orDelete(form.note),
+        aka: orDelete(form.aka.map((s) => s.trim()).filter(Boolean)),
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
       }
 
-      if (form.longitude !== '' && form.latitude !== '') {
+      // Emptied coordinates are removed, as in the map pane's form.
+      if (form.longitude === '' && form.latitude === '' && originalCave?.location) {
+        fields.location = deleteField()
+      } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
       }
 
-      if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
+      if (form.entranceLongitude === '' && form.entranceLatitude === '' && originalCave?.entrance) {
+        fields.entrance = deleteField()
+      } else if (form.entranceLongitude !== '' && form.entranceLatitude !== '') {
         fields.entrance = { longitude: Number(num(form.entranceLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.entranceLatitude, COORDINATE_DECIMALS)), validity: form.entranceValidity }
       }
 
-      if (form.keyLongitude !== '' && form.keyLatitude !== '') {
+      if (form.keyLongitude === '' && form.keyLatitude === '' && originalCave?.keys?.length) {
+        fields.keys = deleteField()
+      } else if (form.keyLongitude !== '' && form.keyLatitude !== '') {
         fields.keys = [{ longitude: Number(num(form.keyLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.keyLatitude, COORDINATE_DECIMALS)), validity: form.keyValidity }]
       }
 
@@ -498,12 +506,22 @@ export default function CaveEdit() {
         ) : (
           <Box sx={{ mr: 'auto' }} />
         )}
-        <Button onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
-          {t('cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !form.name}>
-          {t('save')}
-        </Button>
+        {/* As in the map pane's form: Save while there are changes (Cancel
+            beside it drops them), Exit when there's nothing to save. */}
+        {isDirty && (
+          <Button onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
+            {t('cancel')}
+          </Button>
+        )}
+        {isDirty ? (
+          <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+            {t('save')}
+          </Button>
+        ) : (
+          <Button variant="contained" onClick={() => navigate(isNew ? '/caves' : `/caves/${caveId}`)} disabled={saving}>
+            {t('exit')}
+          </Button>
+        )}
       </StickyActionBar>
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>

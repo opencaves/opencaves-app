@@ -832,6 +832,7 @@
     "deleteConfirm": "Delete this sistema?",
     "delete": "Delete",
     "cancel": "Cancel",
+    "exit": "Exit",
     "save": "Save",
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
     "explorationDateHint": "When this exploration took place."
