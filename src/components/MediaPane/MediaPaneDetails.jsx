@@ -175,7 +175,8 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
             'menu'
           ]
         }}
-        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, showCounter && medias.size > 1 ? Counter : undefined]}
+        // The ones that apply only: an undefined plugin crashes the lightbox.
+        plugins={[Menu, Inline, isFullscreenEnabled() ? Fullscreen : undefined, Download, Share, showCounter && medias.size > 1 ? Counter : undefined].filter(Boolean)}
         counter={{ container: { style: { top: 0, left: '50%', transform: 'translateX(-50%)', lineHeight: '64px', padding: 0, margin: 0 } } }}
         carousel={{
           padding: 0,
