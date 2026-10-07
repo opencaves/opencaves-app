@@ -78,6 +78,10 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const canDelete = roles.includes('admin')
   const videoWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio * 1.5
   const videoHeight = (videoWidth * 9) / 16
+  // Narrower where the place it's in says so (--oc-video-max-width, e.g. a
+  // card on a phone), keeping its 16:9 shape.
+  const shownWidth = `min(${videoWidth}px, var(--oc-video-max-width, ${videoWidth}px))`
+  const shownHeight = `calc(${shownWidth} * 9 / 16)`
 
   // Only links the player can show (getEmbedUrl).
   function isValidVideoUrl(value) {
@@ -191,7 +195,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </Typography>
       )}
       {videoUrls.length > 0 && (
-        <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${videoHeight}px)`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
+        <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${shownHeight})`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars
             ref={scrollbarsRef}
             autoHide
@@ -210,7 +214,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (
-                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: videoWidth, height: videoHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
+                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
                           {/* The preview iframe ignores pointer input so wheel events reach the horizontal gallery. */}

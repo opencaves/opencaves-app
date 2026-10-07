@@ -22,6 +22,7 @@ import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
+import CaveVideosSection from '@/components/IndexPage/CaveVideosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
@@ -143,6 +144,7 @@ export default function CavePage() {
           show. */}
       <OfflineSaveHint caveId={cave.id} />
       <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
+      <CaveVideosSection cave={cave} />
 
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card />
 
