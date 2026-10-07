@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import EditRounded from '@mui/icons-material/EditRounded'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -375,18 +374,7 @@ export default function CaveEdit() {
         </FormSection>
         <FormSection>
 
-        {/* The heading's own margins move to the row, so the edit button
-            lines up with it. */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1, '& > :last-child': { ml: 'auto' } }}>
-          <Typography {...sectionHeadingProps} sx={{ ...sectionHeadingProps.sx, my: 0 }}>
-            {t('sistemaGroup')}
-          </Typography>
-          <Tooltip title={t('editSistemas')}>
-            <IconButton component={Link} to="/sistemas/edit" size="small" aria-label={t('editSistemas')}>
-              <EditRounded fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
+        <Typography {...sectionHeadingProps}>{t('sistemaGroup')}</Typography>
 
         <TextField select label={t('sistema')} fullWidth {...field('sistemaId')}>
           <MenuItem value="">{t('none')}</MenuItem>
