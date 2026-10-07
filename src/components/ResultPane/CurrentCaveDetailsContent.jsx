@@ -12,6 +12,7 @@ import KeyRounded from '@mui/icons-material/KeyRounded'
 import TerrainOutlined from '@mui/icons-material/TerrainOutlined'
 import { Link as RouterLink } from 'react-router-dom'
 import Markdown from '@/components/Markdown/Markdown.jsx'
+import TextSource from '@/components/TextSource.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { getOS } from '@/utils/getOS.js'
@@ -305,6 +306,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <Divider />
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
+            <TextSource record={cave} field="description" />
           </div>
         </>
       )}
@@ -317,6 +319,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
           </div>
           <div className="details-container details-text">
             <Markdown>{cave.direction}</Markdown>
+            <TextSource record={cave} field="direction" />
           </div>
         </>
       )}

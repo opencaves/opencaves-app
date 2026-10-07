@@ -12,8 +12,8 @@ const ADD_SOURCE = '__add-source__'
 // "Add a source" entry that creates one in place (NewSourceDialog) and
 // selects it. onChange gets the chosen source id ('' for none). As wide as
 // its longest option (measured in the field's own font, with its padding and
-// arrow), never wider than its row.
-export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className }) {
+// arrow), never wider than its row; compact (small) unless size says otherwise.
+export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small' }) {
   const { t } = useTranslation('newSourceDialog')
   const [adding, setAdding] = useState(false)
   const rootRef = useRef(null)
@@ -42,6 +42,7 @@ export default function SourceSelect({ label, value, onChange, sources, noneLabe
         ref={rootRef}
         className={`oc-source-select${className ? ` ${className}` : ''}`}
         label={label}
+        size={size}
         helperText={helperText}
         fullWidth={!width}
         sx={width ? { width, maxWidth: '100%' } : undefined}

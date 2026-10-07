@@ -98,6 +98,12 @@
         margin-top: 0.6em;
       }
 
+      // Paragraphs a blank line apart, as on the pages (Markdown: the
+      // browser's 1em).
+      > p + p {
+        margin-top: 1em;
+      }
+
       p {
         margin: 0;
       }

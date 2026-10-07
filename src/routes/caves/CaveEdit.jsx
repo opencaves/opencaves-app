@@ -11,6 +11,8 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useUnsavedChanges } from '@/hooks/useUnsavedChanges.jsx'
+import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
+import TextSourceField from '@/components/TextSourceField.jsx'
 import { formSectionHeadingProps } from '@/components/formSectionHeading.js'
 import FormSection from '@/components/FormSection.jsx'
 import { num, pickDescription } from '@/services/data-service/types.js'
@@ -53,6 +55,7 @@ const emptyForm = {
   accessibilityDetails: '',
   description: '',
   direction: '',
+  textSources: {},
   cenoteEntrance: false,
   fees: false,
   facilities: false,
@@ -142,6 +145,7 @@ export default function CaveEdit() {
         accessibilityDetails: cave?.accessibilityDetails || '',
         description: cave?.description || '',
         direction: cave?.direction || '',
+        textSources: textSourcesOf(cave, CAVE_TEXT_FIELDS),
         cenoteEntrance: !!cave?.cenoteEntrance,
         fees: !!cave?.fees,
         facilities: !!cave?.facilities,
@@ -195,6 +199,8 @@ export default function CaveEdit() {
     setSaving(true)
     try {
       const fields = {
+        // The texts' sources the form changed (textSources).
+        textSources: textSourcesUpdate(originalCave, form, CAVE_TEXT_FIELDS),
         name: { value: form.name },
         sistemaId: form.sistemaId || undefined,
         source: form.source || undefined,
@@ -403,12 +409,14 @@ export default function CaveEdit() {
         </FormSection>
         <FormSection>
 
-        <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
+        <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => withTextChange(f, originalCave, 'description', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
+        {form.description?.trim() && <TextSourceField value={form.textSources?.description} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, description: value } }))} sources={sources} />}
 
         </FormSection>
         <FormSection>
 
-        <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
+        <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => withTextChange(f, originalCave, 'direction', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
+        {form.direction?.trim() && <TextSourceField value={form.textSources?.direction} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, direction: value } }))} sources={sources} />}
 
         </FormSection>
         <FormSection>
@@ -432,7 +440,8 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
+        <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => withTextChange(f, originalCave, 'accessDetails', e.target.value))} resizable />
+        {form.accessDetails?.trim() && <TextSourceField value={form.textSources?.accessDetails} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, accessDetails: value } }))} sources={sources} />}
 
         </FormSection>
         <FormSection>
@@ -456,7 +465,8 @@ export default function CaveEdit() {
             </MenuItem>
           ))}
         </TextField>
-        <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
+        <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => withTextChange(f, originalCave, 'accessibilityDetails', e.target.value))} resizable />
+        {form.accessibilityDetails?.trim() && <TextSourceField value={form.textSources?.accessibilityDetails} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, accessibilityDetails: value } }))} sources={sources} />}
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />

@@ -4,6 +4,7 @@ import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material'
 import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
 import Markdown from '../Markdown/Markdown.jsx'
+import TextSource from '@/components/TextSource.jsx'
 import KeyIcon from '@/images/accesses/key.svg?react'
 import NoIcon from '@/images/accesses/no.svg?react'
 import YesIcon from '@/images/accesses/yes.svg?react'
@@ -148,7 +149,9 @@ export default function Access({ cave }) {
       {(cave.accessDetails || cave.accessibilityDetails) && (
         <div className="details-container details-text oc-access">
           <Markdown>{cave.accessDetails}</Markdown>
+          <TextSource record={cave} field="accessDetails" />
           <Markdown>{cave.accessibilityDetails}</Markdown>
+          <TextSource record={cave} field="accessibilityDetails" />
         </div>
       )}
     </>

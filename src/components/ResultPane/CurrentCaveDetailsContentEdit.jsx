@@ -28,6 +28,8 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
+import TextSourceField from '@/components/TextSourceField.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -96,6 +98,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     accessibilityDetails: cave.accessibilityDetails || '',
     description: cave.description || '',
     direction: cave.direction || '',
+    textSources: textSourcesOf(cave, CAVE_TEXT_FIELDS),
     cenoteEntrance: !!cave.cenoteEntrance,
     fees: !!cave.fees,
     facilities: !!cave.facilities,
@@ -158,6 +161,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
 
       const fields = {
+        // The texts' sources the form changed (textSources).
+        textSources: textSourcesUpdate(cave, form, CAVE_TEXT_FIELDS),
         name: { value: form.name },
         aka: trimmedAka.length > 0 ? trimmedAka : undefined,
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
@@ -389,8 +394,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
 
-      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable />
-      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable />
+      <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => withTextChange(f, cave, 'description', e.target.value))} minRows={5} resizable />
+      {form.description?.trim() && <TextSourceField value={form.textSources?.description} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, description: value } }))} sources={sources} />}
+      <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => withTextChange(f, cave, 'direction', e.target.value))} minRows={5} resizable />
+      {form.direction?.trim() && <TextSourceField value={form.textSources?.direction} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, direction: value } }))} sources={sources} />}
 
       <Divider />
 
@@ -413,7 +420,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           </MenuItem>
         ))}
       </TextField>
-      <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => ({ ...f, accessDetails: e.target.value }))} resizable />
+      <MarkdownField label={t('accessDetails')} value={form.accessDetails} onChange={(e) => setForm((f) => withTextChange(f, cave, 'accessDetails', e.target.value))} resizable />
+      {form.accessDetails?.trim() && <TextSourceField value={form.textSources?.accessDetails} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, accessDetails: value } }))} sources={sources} />}
 
       <Divider />
       <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
@@ -435,7 +443,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
           </MenuItem>
         ))}
       </TextField>
-      <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => ({ ...f, accessibilityDetails: e.target.value }))} resizable />
+      <MarkdownField label={t('accessibilityDetails')} value={form.accessibilityDetails} onChange={(e) => setForm((f) => withTextChange(f, cave, 'accessibilityDetails', e.target.value))} resizable />
+      {form.accessibilityDetails?.trim() && <TextSourceField value={form.textSources?.accessibilityDetails} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, accessibilityDetails: value } }))} sources={sources} />}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />

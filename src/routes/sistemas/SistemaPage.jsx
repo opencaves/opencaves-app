@@ -10,6 +10,7 @@ import { formatMeasure } from '@/utils/units.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
+import TextSource from '@/components/TextSource.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
@@ -153,6 +154,7 @@ export default function SistemaPage() {
         <IndexSection title={t('sistema.about')} className="oc-sistema-page--description" card>
           <Box sx={{ typography: 'body1', '& > :first-child': { mt: 0 }, '& > :last-child': { mb: 0 } }}>
             <Markdown>{sistema.description}</Markdown>
+            <TextSource record={sistema} field="description" />
           </Box>
         </IndexSection>
       )}
