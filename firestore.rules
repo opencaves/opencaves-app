@@ -237,9 +237,12 @@ service cloud.firestore {
       allow delete: if isAdmin()
     }
 
+    // Editors add a colour from a system's colour picker; changing one is
+    // for admins (the dashboard's Colors page).
     match /colors/{document} {
       allow read: if true
-      allow create, update: if isEditor() && setKeys().hasOnly(['hex']) && color(request.resource.data, setKeys(), 'hex')
+      allow create: if isEditor() && setKeys().hasOnly(['hex']) && color(request.resource.data, setKeys(), 'hex')
+      allow update: if isAdmin() && setKeys().hasOnly(['hex']) && color(request.resource.data, setKeys(), 'hex')
       allow delete: if isAdmin()
     }
 
@@ -271,9 +274,10 @@ service cloud.firestore {
       allow create, update: if isEditor() && setKeys().hasOnly(['hiddenMaps']) && items(request.resource.data, setKeys(), 'hiddenMaps', 1000)
     }
 
+    // Admins only (the dashboard's Languages page).
     match /languages/{document} {
       allow read: if true
-      allow create, update: if isEditor() && isValidLanguage(request.resource.data, setKeys())
+      allow create, update: if isAdmin() && isValidLanguage(request.resource.data, setKeys())
       allow delete: if isAdmin()
     }
 
