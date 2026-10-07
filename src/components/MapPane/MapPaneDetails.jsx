@@ -161,12 +161,19 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
         captions={{ showToggle: false, descriptionTextAlign: 'start', descriptionMaxLines: 3 }}
         carousel={{ padding: 0, spacing: 0, imageFit: 'contain', finite: true, imageProps: { crossOrigin: 'anonymous' } }}
         inline={{ style: { width: '100%' } }}
-        styles={{ container: { backgroundColor: '#000' }, slide: { justifyContent: 'stretch' } }}
+        // Every touch the viewer's (touch-action: none): the Inline plugin forces
+        // pan-y, whatever the controller asks, which let the browser take
+        // vertical drags - a zoomed-in map couldn't be moved with a finger.
+        // Its container reads it from this variable, set after the plugin's.
+        styles={{ container: { backgroundColor: '#000', '--yarl__controller_touch_action': 'none' }, slide: { justifyContent: 'stretch' } }}
         // scrollToZoom: the mouse wheel zooms the map instead of scrolling the pane.
         // maxZoomPixelRatio: how far past the image's own pixels it zooms - far,
         // for a map's small print and for vector (SVG) maps, whose stated size
-        // is small but which stay sharp at any zoom.
-        zoom={{ maxZoomPixelRatio: MAP_MAX_ZOOM_PIXEL_RATIO, doubleTapDelay: 300, doubleClickDelay: 300, scrollToZoom: true }}
+        // is small but which stay sharp at any zoom. pinchZoomV4: a pinch
+        // follows the fingers (twice as far apart, twice the zoom); the default
+        // multiplied the zoom at every move, so a phone's many small moves
+        // zoomed exponentially fast.
+        zoom={{ maxZoomPixelRatio: MAP_MAX_ZOOM_PIXEL_RATIO, doubleTapDelay: 300, doubleClickDelay: 300, scrollToZoom: true, pinchZoomV4: true }}
         render={{
           iconEnterFullscreen: () => <FullscreenRoundedIcon sx={{ fontSize: '1.5rem' }} />,
           iconExitFullscreen: () => <FullscreenExitRoundedIcon sx={{ fontSize: '1.5rem' }} />,
