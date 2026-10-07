@@ -265,7 +265,9 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       sx={
         isSmall
           ? (theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: theme.zIndex.appBar, bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider', px: 'var(--oc-pane-padding-inline)', pt: 1.5, pb: 'calc(12px + env(safe-area-inset-bottom))' })
-          : { display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, width: '100%', position: 'sticky', bottom: 0, bgcolor: 'background.paper', pt: 2, mt: 1, pb: 1 }
+          : // A bar across the whole pane, to its bottom edge (over the form's
+            // padding): MD3's bottom app bar surface, a divider over it.
+            (theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1.5, position: 'sticky', bottom: 0, zIndex: 1, mt: 1, mx: 'calc(-1 * var(--oc-pane-padding-inline))', mb: 'calc(-1 * var(--oc-pane-padding-inline))', px: 'var(--oc-pane-padding-inline)', py: 1.5, bgcolor: theme.vars.sys.color.surfaceContainer, borderTop: '1px solid', borderColor: 'divider' })
       }
     >
       {/* Deleting a cave is for admins (firestore.rules). */}
