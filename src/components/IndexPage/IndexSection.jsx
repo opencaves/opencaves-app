@@ -36,7 +36,7 @@ export default function IndexSection({ title, count, children, className, card =
             px: 1.5,
             pt: '16px',
             pb: 0.5,
-            borderRadius: '0 0 8px 8px',
+            borderRadius: '8px',
             bgcolor: 'var(--oc-page-surface)',
           }),
         }}
