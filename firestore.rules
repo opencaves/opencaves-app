@@ -115,6 +115,21 @@ service cloud.firestore {
       return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('#[0-9a-fA-F]{6}'))
     }
     // A year, month or day ("1990", "1986-07", "2004-06-14"), or years ("2004-2006").
+    // A Markdown field's source (textSources.<field>): the source record, when
+    // it was checked.
+    function textSource(e) {
+      return e is map && e.keys().hasOnly(['source', 'checkedAt'])
+        && (!('source' in e) || e.source == null || (e.source is string && e.source.matches('[-_A-Za-z0-9]{1,64}')))
+        && (!('checkedAt' in e) || (e.checkedAt is string && e.checkedAt.matches('[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?')))
+    }
+    // textSources: one entry per Markdown field (fields), each a textSource.
+    function textSources(d, k, fields) {
+      return !('textSources' in k) || !('textSources' in d) || (d.textSources is map && d.textSources.keys().hasOnly(fields)
+        && (!('description' in d.textSources) || textSource(d.textSources.description))
+        && (!('direction' in d.textSources) || textSource(d.textSources.direction))
+        && (!('accessDetails' in d.textSources) || textSource(d.textSources.accessDetails))
+        && (!('accessibilityDetails' in d.textSources) || textSource(d.textSources.accessibilityDetails)))
+    }
     function partialDate(d, k, f) {
       return !(f in k) || !(f in d) || (d[f] is string && d[f].matches('[0-9]{4}(-[0-9]{2}(-[0-9]{2})?|-[0-9]{4})?'))
     }
@@ -129,7 +144,7 @@ service cloud.firestore {
     function isValidCave(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
-          'explorationDate', 'videos', 'activities', 'cenoteEntrance', 'facilities', 'fees'])
+          'explorationDate', 'videos', 'activities', 'cenoteEntrance', 'facilities', 'fees', 'textSources'])
         && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
           && d.name.value is string && d.name.value.size() <= 240
           && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
@@ -140,16 +155,18 @@ service cloud.firestore {
         && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000) && text(d, k, 'reporter', 240)
         && partialDate(d, k, 'explorationDate') && items(d, k, 'videos', 20)
         && flag(d, k, 'activities') && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
+        && textSources(d, k, ['description', 'direction', 'accessDetails', 'accessibilityDetails'])
     }
 
     function isValidSistema(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'area', 'color', 'description', 'direction', 'note', 'source',
-          'location', 'length', 'maxDepth', 'public', 'explorations', 'maps'])
+          'location', 'length', 'maxDepth', 'public', 'explorations', 'maps', 'textSources'])
         && text(d, k, 'name', 240) && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && text(d, k, 'area', 240)
         && color(d, k, 'color') && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000)
         && recordId(d, k, 'source') && point(d, k, 'location')
         && number(d, k, 'length', 0, 1000000) && number(d, k, 'maxDepth', 0, 1000) && flag(d, k, 'public')
         && items(d, k, 'explorations', 80) && items(d, k, 'maps', 60)
+        && textSources(d, k, ['description', 'direction'])
     }
 
     function isValidConnection(d, k) {

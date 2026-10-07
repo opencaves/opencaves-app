@@ -1,4 +1,9 @@
 {
+  "textSource": {
+    "fieldLabel": "Source du texte",
+    "none": "Aucune",
+    "known": "Source : {{name}}"
+  },
   "404": {
     "header": "Oups !",
     "description": "Désolé mais la page que vous recherchez n'existe pas.",

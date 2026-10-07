@@ -32,6 +32,8 @@ import { COORDINATE_DECIMALS } from '@/config/map.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
+import TextSourceField from '@/components/TextSourceField.jsx'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -202,6 +204,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       area: sistema?.area || '',
       description: sistema?.description || '',
       direction: sistema?.direction || '',
+      textSources: textSourcesOf(sistema, SISTEMA_TEXT_FIELDS),
       length: shown(sistema?.length ?? ''),
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
@@ -230,6 +233,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     }
   }
 
+  // The record being edited (null for a new one): what the save compares with.
+  const sistema = sistemas.find((item) => item.id === sistemaId) || null
+
   async function handleSave() {
     const length = form.length === '' ? null : parseLocalizedNumber(form.length, locale)
     const maxDepth = form.maxDepth === '' ? null : parseLocalizedNumber(form.maxDepth, locale)
@@ -242,6 +248,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       const trimmedExplorations = form.explorations.filter((e) => e.date || e.team || e.description || e.notes)
 
       const fields = {
+        // The texts' sources the form changed (textSources).
+        textSources: textSourcesUpdate(sistema, form, SISTEMA_TEXT_FIELDS),
         name: form.name,
         color: form.color || undefined,
         area: form.area || undefined,
@@ -446,7 +454,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <Grid container spacing={2}>
 
         <Grid size={12}>
-          <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
+          <MarkdownField label={t('description')} value={form.description} onChange={(e) => setForm((f) => withTextChange(f, sistema, 'description', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
+          {form.description?.trim() && <TextSourceField value={form.textSources?.description} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, description: value } }))} sources={sources} />}
         </Grid>
 
           </Grid>
@@ -455,7 +464,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <Grid container spacing={2}>
 
         <Grid size={12}>
-          <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => ({ ...f, direction: e.target.value }))} minRows={5} resizable labelProps={sectionHeadingProps} />
+          <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => withTextChange(f, sistema, 'direction', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
+          {form.direction?.trim() && <TextSourceField value={form.textSources?.direction} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, direction: value } }))} sources={sources} />}
         </Grid>
 
         <Grid size={12}>

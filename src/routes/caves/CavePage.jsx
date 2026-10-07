@@ -11,6 +11,7 @@ import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
 import Markdown from '@/components/Markdown/Markdown.jsx'
+import TextSource from '@/components/TextSource.jsx'
 import Picture from '@/components/Picture.jsx'
 import Access from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
@@ -133,6 +134,7 @@ export default function CavePage() {
       {cave.description && (
         <Box component="section" className="oc-cave-page--description" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
           <Markdown>{cave.description}</Markdown>
+          <TextSource record={cave} field="description" />
         </Box>
       )}
 
