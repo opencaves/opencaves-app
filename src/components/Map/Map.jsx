@@ -24,6 +24,7 @@ import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
+import GeolocateTooltip from './GeolocateTooltip.jsx'
 import CaveMarker from './CaveMarker.jsx'
 import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
 
@@ -815,6 +816,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
               position="bottom-right"
               onError={onGeolocateError}
             />
+            {/* Its label as the map's other buttons' tooltip, translated. */}
+            {mapLoaded && <GeolocateTooltip mapContainer={mapRef.current?.getMap().getContainer()} />}
 
             {/* 'location' isn't rendered here - it's the same point as the
                 current cave's own marker below, which becomes draggable

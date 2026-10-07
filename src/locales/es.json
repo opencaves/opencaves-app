@@ -950,6 +950,9 @@
     }
   },
   "map": {
+    "geolocate": {
+      "findMyLocation": "Encontrar mi ubicación"
+    },
     "title": "Mapa",
     "caveNameUnknown": "[sin nombre]",
     "editFab": {
