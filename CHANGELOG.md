@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.0.0-beta-8](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-7...v1.0.0-beta-8) (2026-10-07)
+
+A search in the app bar, a What's new page, and every cave text now says where its words come from.
+
+
+### Features
+
+* **What's new** (/whats-new, in the app bar): the caves, cave systems, connections and maps people added in the app, newest first by day, with filters by kind and who added each; an entry opens what it's about (a map in its system's viewer).
+* **Search in the app bar** on every page but the map: caves and cave systems as you type; on phones, a search button opens it over the bar.
+* **Text sources:** each description, "Getting there", access and accessibility text says where its words come from ("Source: ..."), picked under the text in the edit forms. The guidebook's texts were rewritten in OpenCaves' own words.
+* **Cave and cave system pages:** a Location card - a click copies a point's coordinates, a button gives directions (location, entrance, keys); a Videos section on the cave page, with Add videos; Add pictures and Add maps right on the pages.
+* **Edit forms:** the coordinates show only those set, with an Add menu for the others; Exit instead of Save when nothing changed; the source pickers sized to their longest choice.
+* **Videos:** 33 dive videos added to 30 cave entrances.
+* **Lists:** each area's name stays in view as its caves scroll by.
+* **Access:** the icons grouped and centred.
+* **Map viewer:** natural pinch zoom and finger panning on phones.
+* **Mobile app bar:** Log in and Sign up in one account menu.
+* **About** opens as a dialog over the page you're on (its address still /about), with the light logo in dark mode.
+* **Privacy and Terms** links on every page.
+* **Languages and colours** are edited by admins only.
+
+
+### Bug Fixes
+
+* **Emptied fields are saved:** clearing a description, directions, source, access, coordinates... and saving no longer brings the old value back (cave page, map pane, system form).
+* **Cave systems with a length** can be saved again ("sistema is not defined").
+* **Typing coordinates** no longer drops zeros.
+* **Dark mode:** teal links and buttons readable on the dark background; the splash screen's logo blends in.
+* **Map pane's edit form:** margins on both sides, and a real Delete/Save/Exit bar on desktop.
+* **Edit button's menu:** its labels are clickable and keep it open.
+* **Find my location:** a real, translated tooltip.
+
 ## [1.0.0-beta-7](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-6...v1.0.0-beta-7) (2026-10-06)
 
 OpenCaves works offline - for a diver on a trip with no signal - and photos and maps open in their own galleries on the cave and cave system pages.
