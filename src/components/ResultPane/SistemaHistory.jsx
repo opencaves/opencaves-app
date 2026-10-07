@@ -88,8 +88,10 @@ export default function Sistema({ sistemaHistory }) {
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               {/* Not grown to the icon's height (the variant's flex): its line
                   would sit at the top, above the icon and the arrow. */}
+              {/* Plain text: the whole header opens the dropdown, whose systems
+                  link to their pages. */}
               <Typography variant="caveDetailsItemText" component="div" sx={{ flex: 'none' }}>
-                <SistemaLink slug={slugs.get(currentSistema.id)}>{t2('sistema', { system: currentSistema.name })}</SistemaLink>
+                {t2('sistema', { system: currentSistema.name })}
               </Typography>
               {currentSistema.createdAt && (
                 <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>

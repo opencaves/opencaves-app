@@ -15,9 +15,8 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import ConditionalWrapper from '@/components/utils/ConditionalWrapper.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { getOS } from '@/utils/getOS.js'
-import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
+import { CoordinateRow, useCopiedConfirmation } from '@/components/CoordinateCopyList.jsx'
 import { slugify } from '@/utils/slug.js'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
@@ -43,19 +42,11 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   const isSmall = useSmall()
 
-  const [openSnackbar] = useSnackbar()
-
   const [addressTooltipOpen, setAddressTooltipOpen] = useState(false)
-  const [coordinatesTooltipOpen, setCoordinatesTooltipOpen] = useState(false)
-  const [keyCoordinatesTooltipOpen, setKeyCoordinatesTooltipOpen] = useState(false)
-  const [entranceTooltipOpen, setEntranceTooltipOpen] = useState(false)
   // Each line's copy icon: its "Copy …" tooltip is centred under it, not
   // under the whole line, and as low as the Directions button's tooltip (the
   // icon's left and width, the button's top and height).
   const addressCopyRef = useRef(null)
-  const coordinatesCopyRef = useRef(null)
-  const keyCopyRefs = useRef([])
-  const entranceCopyRef = useRef(null)
   const underCopyIcon = (getIcon) => ({
     popper: {
       anchorEl: () => {
@@ -72,8 +63,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
       },
     },
   })
-
-  const isAndroid = getOS() === 'Android'
 
   let hasAddressOrCoordinates = false
   let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
@@ -107,49 +96,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
     confirmCopied()
   }
 
-  function handleCoordinatesTooltipOpen() {
-    setCoordinatesTooltipOpen(true)
-  }
-
-  function handleCoordinatesTooltipClose() {
-    setCoordinatesTooltipOpen(false)
-  }
-
-  function handleCoordinatesCopy() {
-    setCoordinatesTooltipOpen(false)
-    confirmCopied()
-  }
-
-  function handleKeyCoordinatesTooltipOpen() {
-    setKeyCoordinatesTooltipOpen(true)
-  }
-
-  function handleKeyCoordinatesTooltipClose() {
-    setKeyCoordinatesTooltipOpen(false)
-  }
-
-  function handleKeyCoordinatesCopy() {
-    setKeyCoordinatesTooltipOpen(false)
-    confirmCopied()
-  }
-
-  function handleEntranceTooltipOpen() {
-    setEntranceTooltipOpen(true)
-  }
-
-  function handleEntranceTooltipClose() {
-    setEntranceTooltipOpen(false)
-  }
-
-  function handleEntranceCopy() {
-    setEntranceTooltipOpen(false)
-    confirmCopied()
-  }
-
-  // Android (13+) already says the clipboard was written to.
-  function confirmCopied() {
-    if (!isAndroid) openSnackbar(t('copiedToClipboard'), { severity: 'success' })
-  }
+  // "Copied to clipboard" (Android says it itself).
+  const confirmCopied = useCopiedConfirmation()
 
   return (
     <Box className="oc-current-cave-details-content oc-result-pane--content">
@@ -189,30 +137,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
               </CopyToClipboard>
             )}
 
-            {coordinatesText && (
-              <CopyToClipboard text={coordinatesTextCopy} placement="bottom-end" onCopy={handleCoordinatesCopy}>
-                <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
-                  <ConditionalWrapper
-                    condition={!isSmall}
-                    wrapper={(children) => (
-                      <Tooltip describeChild title={t('copyCoordinates')} slotProps={underCopyIcon(() => coordinatesCopyRef.current)} open={coordinatesTooltipOpen} onOpen={handleCoordinatesTooltipOpen} onClose={handleCoordinatesTooltipClose}>
-                        {children}
-                      </Tooltip>
-                    )}
-                  >
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <MyLocationOutlined color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary={coordinatesText} />
-                      <ListItemIcon ref={coordinatesCopyRef} className="oc-icon-copy-container">
-                        <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </ConditionalWrapper>
-                </ListItem>
-              </CopyToClipboard>
-            )}
+            {coordinatesText && <CoordinateRow icon={<MyLocationOutlined color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
           </>
         )}
 
@@ -227,56 +152,10 @@ export default function CurrentCaveDetailsContent({ cave }) {
           </ListItem>
         )}
 
-        {entranceText && (
-          <CopyToClipboard text={entranceText} placement="bottom-end" onCopy={handleEntranceCopy}>
-            <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.entrance} label={t('directionsToEntrance')} />}>
-              <ConditionalWrapper
-                condition={!isSmall}
-                wrapper={(children) => (
-                  <Tooltip describeChild title={t('copyEntranceCoordinates')} slotProps={underCopyIcon(() => entranceCopyRef.current)} open={entranceTooltipOpen} onOpen={handleEntranceTooltipOpen} onClose={handleEntranceTooltipClose}>
-                    {children}
-                  </Tooltip>
-                )}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <FenceRounded color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary={entranceText} />
-                  <ListItemIcon ref={entranceCopyRef} className="oc-icon-copy-container">
-                    <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
-                  </ListItemIcon>
-                </ListItemButton>
-              </ConditionalWrapper>
-            </ListItem>
-          </CopyToClipboard>
-        )}
+        {entranceText && <CoordinateRow icon={<FenceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
         {keysTexts &&
-          keysTexts.map((keyText, index) => (
-            <CopyToClipboard key={keyText} text={keyText} placement="bottom-end" onCopy={handleKeyCoordinatesCopy}>
-              <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.keys[index]} label={t('directionsToKey')} />}>
-                <ConditionalWrapper
-                  condition={!isSmall}
-                  wrapper={(children) => (
-                    <Tooltip describeChild title={t('copyCoordinates')} slotProps={underCopyIcon(() => keyCopyRefs.current[index])} open={keyCoordinatesTooltipOpen} onOpen={handleKeyCoordinatesTooltipOpen} onClose={handleKeyCoordinatesTooltipClose}>
-                      {children}
-                    </Tooltip>
-                  )}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <KeyRounded color="primary" />
-                    </ListItemIcon>
-                    <ListItemText primary={keyText} />
-                    <ListItemIcon ref={(element) => (keyCopyRefs.current[index] = element)} className="oc-icon-copy-container">
-                      <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ConditionalWrapper>
-              </ListItem>
-            </CopyToClipboard>
-          ))}
+          keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
         {/* The cave's area, linked to its page (/areas/<slug>). */}
         {cave.area && slugify(cave.area) && (
           <ListItem disablePadding className="oc-results-copy-list--area">

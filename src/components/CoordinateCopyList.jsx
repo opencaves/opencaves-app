@@ -8,9 +8,23 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
 import { getOS } from '@/utils/getOS.js'
 
+// "Copied to clipboard", after a row's copy - except on Android (13+), which
+// says so itself.
+export function useCopiedConfirmation() {
+  const { t } = useTranslation('resultPane')
+  const [openSnackbar] = useSnackbar()
+  const isAndroid = getOS() === 'Android'
+  return () => {
+    if (!isAndroid) openSnackbar(t('copiedToClipboard'), { severity: 'success' })
+  }
+}
+
 // One point's row: its icon, its coordinates (a click copies them, the copy
-// icon at its end saying so on hover), and a Directions button at its right.
-function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied }) {
+// icon at its end saying so on hover - tooltip: false leaves the tooltip out,
+// on phones), and a Directions button at its right. Also the map pane's rows
+// (in its own list): they carry its class names too (oc-icon-copy...), which
+// its styles use.
+export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true }) {
   const [tooltipOpen, setTooltipOpen] = useState(false)
   const copyIconRef = useRef(null)
   const directionsRef = useRef(null)
@@ -48,7 +62,7 @@ function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel
                 the whole row) would otherwise run too, and fail. */}
             <IconButton
               ref={directionsRef}
-              className="oc-coordinate-copy-list--directions"
+              className="oc-coordinate-copy-list--directions oc-results-copy-list--directions"
               aria-label={directionsLabel}
               onClick={(event) => {
                 event.stopPropagation()
@@ -60,12 +74,12 @@ function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel
           </Tooltip>
         }
       >
-        <Tooltip describeChild title={copyLabel} slotProps={underCopyIcon} open={tooltipOpen} onOpen={() => setTooltipOpen(true)} onClose={() => setTooltipOpen(false)}>
+        <Tooltip describeChild title={copyLabel} slotProps={underCopyIcon} open={tooltip && tooltipOpen} onOpen={() => setTooltipOpen(true)} onClose={() => setTooltipOpen(false)}>
           <ListItemButton>
             <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={text} />
-            <ListItemIcon ref={copyIconRef} className="oc-coordinate-copy-list--copy">
-              <ContentCopy sx={{ fontSize: '1.125rem' }} />
+            <ListItemIcon ref={copyIconRef} className="oc-coordinate-copy-list--copy oc-icon-copy-container">
+              <ContentCopy className="oc-icon-copy" sx={{ fontSize: '1.125rem' }} />
             </ListItemIcon>
           </ListItemButton>
         </Tooltip>
@@ -79,13 +93,7 @@ function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel
 // when clicked and has a Directions button. rows: { key, icon, text,
 // copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.
 export default function CoordinateCopyList({ rows, sx }) {
-  const { t } = useTranslation('resultPane')
-  const [openSnackbar] = useSnackbar()
-  // Android (13+) already says the clipboard was written to.
-  const isAndroid = getOS() === 'Android'
-  const onCopied = () => {
-    if (!isAndroid) openSnackbar(t('copiedToClipboard'), { severity: 'success' })
-  }
+  const onCopied = useCopiedConfirmation()
   return (
     <List
       dense
