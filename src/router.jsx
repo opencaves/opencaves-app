@@ -327,12 +327,15 @@ const routes = [
               // /areas has no public page (each area has, /areas/<slug>):
               // visitors go to the cenotes by area.
               path: collectionName,
-              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined),
+              // Colours and languages: admins only (adminOnly).
+              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly
+                ? requireAdmin(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'))
+                : requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined)),
             },
             {
               // :itemId: an area's slug or id (ReferenceDataItemEdit).
               path: `${collectionName}/:itemId/edit`,
-              ...requireEditor(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly ? requireAdmin : requireEditor)(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
             },
           ]),
           {

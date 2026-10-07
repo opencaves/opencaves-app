@@ -17,7 +17,8 @@ import { useTitle } from '@/hooks/useTitle.jsx'
 import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
-
+import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
+
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
   { collection: 'accessibilities', icon: AccessibleRounded },
@@ -126,7 +127,8 @@ export default function AdminDashboard() {
                   {t('referenceDataSection')}
                 </Typography>
                 <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
-                  {REFERENCE_COLLECTIONS.map(({ collection, icon: Icon }) => (
+                  {/* Colours and languages: admins only (adminOnly). */}
+                  {REFERENCE_COLLECTIONS.filter(({ collection }) => isAdmin || !REFERENCE_DATA_CONFIGS[collection]?.adminOnly).map(({ collection, icon: Icon }) => (
                     <ListItem key={collection} disablePadding>
                       <ListItemButton component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
                         <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>

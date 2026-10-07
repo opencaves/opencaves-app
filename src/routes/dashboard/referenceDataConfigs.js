@@ -9,11 +9,13 @@ import { dashedId } from '@/services/data-service/types.js'
 // `descriptions: [{ lang, description }]` array (only English is ever
 // populated from the Google Sheet) - the edit form only edits the entry for
 // the admin's current UI language, leaving other languages untouched.
+// `adminOnly`: edited by admins only (pages, dashboard entry and
+// firestore.rules); editors still add a colour from a system's colour picker.
 export const REFERENCE_DATA_CONFIGS = {
   accesses: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
   accessibilities: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
   sources: { fields: ['name', 'description', 'note'], id: { kind: 'generated' } },
   areas: { fields: ['name', 'note'], id: { from: 'name', transform: (v) => v } },
-  colors: { fields: ['hex'], id: { kind: 'generated' } },
-  languages: { fields: ['code', 'eng', 'fra'], id: { from: 'code', transform: (v) => v } },
+  colors: { fields: ['hex'], id: { kind: 'generated' }, adminOnly: true },
+  languages: { fields: ['code', 'eng', 'fra'], id: { from: 'code', transform: (v) => v }, adminOnly: true },
 }
