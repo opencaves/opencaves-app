@@ -14,6 +14,10 @@ import EditRounded from '@mui/icons-material/EditRounded'
 // above the mobile result pane's sheet and fades out once the sheet is
 // mostly open (ResultPaneSm's --oc-result-pane-sm-height and
 // --oc-map-controls-* variables).
+// How long it stays open once the pointer has left it: a path that strays a
+// little (towards a label, past the gap between the buttons) doesn't close it.
+const CLOSE_DELAY_MS = 500
+
 // The editor actions, shared with the mobile result pane's header
 // (EditCaveButtons), which offers them when this FAB is hidden.
 export function useEditCaveActions() {
@@ -40,6 +44,21 @@ export default function EditCaveFab() {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
   const dialRef = useRef(null)
+  const closeTimer = useRef(null)
+  useEffect(() => () => clearTimeout(closeTimer.current), [])
+
+  function openDial() {
+    clearTimeout(closeTimer.current)
+    setOpen(true)
+  }
+
+  // The pointer leaving: closed after CLOSE_DELAY_MS, unless it comes back;
+  // a tap on the button, Escape or the keyboard leaving: closed at once.
+  function closeDial(_event, reason) {
+    clearTimeout(closeTimer.current)
+    if (reason === 'mouseLeave') closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS)
+    else setOpen(false)
+  }
 
   // The height its open actions take above it, for what sits over it (the
   // cave layer's legend, CaveLayerLegend): --oc-edit-fab-actions-height.
@@ -55,19 +74,30 @@ export default function EditCaveFab() {
   }
 
   function editCave() {
+    clearTimeout(closeTimer.current)
     setOpen(false)
     goEditCave()
   }
 
   function exitEditMode() {
+    clearTimeout(closeTimer.current)
     setOpen(false)
     goExitEditMode()
   }
 
   function addNewCave() {
+    clearTimeout(closeTimer.current)
     setOpen(false)
     goAddNewCave()
   }
+
+  // An action's slots: its label beside it (MUI's "static tooltip") takes the
+  // same click as its button - unless disabled.
+  const actionSlots = (label, onClick, disabled = false) => ({
+    tooltip: { title: label, open: true },
+    fab: { 'aria-label': label, disabled },
+    staticTooltipLabel: disabled ? {} : { onClick, className: 'oc-edit-cave-fab--label' },
+  })
 
   // Its own labeled section: on the map page it sits outside the map's region
   // and any other landmark.
@@ -79,8 +109,11 @@ export default function EditCaveFab() {
       ariaLabel={t('ariaLabel')}
       icon={<SpeedDialIcon icon={<EditRounded />} />}
       open={open}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
+      onOpen={openDial}
+      onClose={closeDial}
+      // Back over it - its button, an action or a label - within the delay:
+      // it stays open (MUI only calls onOpen when it's closed).
+      onMouseEnter={() => clearTimeout(closeTimer.current)}
       sx={(theme) => ({
         position: 'absolute',
         // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, Map.scss:
@@ -119,10 +152,16 @@ export default function EditCaveFab() {
           bgcolor: 'transparent',
           boxShadow: 'none',
           whiteSpace: 'nowrap',
+          // A larger target, the text where it was.
+          px: 1,
+          py: 0.75,
+          mr: -1,
           color: 'rgb(240, 240, 240)',
           fontWeight: 500,
           textShadow: 'rgb(45, 45, 45) 1px 0px 0px, rgb(45, 45, 45) 0.540302px 0.841471px 0px, rgb(45, 45, 45) -0.416147px 0.909297px 0px, rgb(45, 45, 45) -0.989992px 0.14112px 0px, rgb(45, 45, 45) -0.653644px -0.756802px 0px, rgb(45, 45, 45) 0.283662px -0.958924px 0px, rgb(45, 45, 45) 0.96017px -0.279416px 0px',
         },
+        // Labels take clicks (actionSlots): the hand, as on their buttons.
+        '& .oc-edit-cave-fab--label': { cursor: 'pointer', pointerEvents: 'auto' },
       })}
     >
       {/* tooltip.open makes MUI render each action's title as a fixed label
@@ -130,11 +169,11 @@ export default function EditCaveFab() {
           tooltip. */}
       {/* While editing this cave, the action becomes its opposite. */}
       {isEditingCave ? (
-        <SpeedDialAction icon={<EditOffRounded />} onClick={exitEditMode} slotProps={{ tooltip: { title: t('exitEditMode'), open: true }, fab: { 'aria-label': t('exitEditMode') } }} />
+        <SpeedDialAction icon={<EditOffRounded />} onClick={exitEditMode} slotProps={actionSlots(t('exitEditMode'), exitEditMode)} />
       ) : (
-        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={{ tooltip: { title: t('editCave'), open: true }, fab: { 'aria-label': t('editCave'), disabled: !caveId } }} />
+        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={actionSlots(t('editCave'), editCave, !caveId)} />
       )}
-      <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={{ tooltip: { title: t('addNewCave'), open: true }, fab: { 'aria-label': t('addNewCave') } }} />
+      <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={actionSlots(t('addNewCave'), addNewCave)} />
     </SpeedDial>
     </Box>
   )
