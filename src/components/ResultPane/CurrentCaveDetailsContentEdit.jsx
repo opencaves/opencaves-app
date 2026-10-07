@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import { deleteField } from 'firebase/firestore'
+import { orDelete } from '@/utils/firestoreFields.js'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -164,16 +165,16 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         // The texts' sources the form changed (textSources).
         textSources: textSourcesUpdate(cave, form, CAVE_TEXT_FIELDS),
         name: { value: form.name },
-        aka: trimmedAka.length > 0 ? trimmedAka : undefined,
+        aka: orDelete(trimmedAka),
         videos: form.videos.map((url) => url.trim()).filter(Boolean),
-        sistemaId: form.sistemaId || undefined,
-        source: form.source || undefined,
-        access: form.access || undefined,
-        accessDetails: form.accessDetails || undefined,
-        accessibility: form.accessibility || undefined,
-        accessibilityDetails: form.accessibilityDetails || undefined,
-        description: form.description || undefined,
-        direction: form.direction || undefined,
+        sistemaId: orDelete(form.sistemaId),
+        source: orDelete(form.source),
+        access: orDelete(form.access),
+        accessDetails: orDelete(form.accessDetails),
+        accessibility: orDelete(form.accessibility),
+        accessibilityDetails: orDelete(form.accessibilityDetails),
+        description: orDelete(form.description),
+        direction: orDelete(form.direction),
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,

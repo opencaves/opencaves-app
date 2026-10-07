@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { deleteField } from 'firebase/firestore'
+import { orDelete } from '@/utils/firestoreFields.js'
 import { useSelector } from 'react-redux'
 import { Box, Button, Grid, IconButton, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
@@ -251,21 +253,24 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         // The texts' sources the form changed (textSources).
         textSources: textSourcesUpdate(sistema, form, SISTEMA_TEXT_FIELDS),
         name: form.name,
-        color: form.color || undefined,
-        area: form.area || undefined,
-        description: form.description || undefined,
-        direction: form.direction || undefined,
+        color: orDelete(form.color),
+        area: orDelete(form.area),
+        description: orDelete(form.description),
+        direction: orDelete(form.direction),
         // Back to metres; a value left as shown keeps its stored metres exactly.
-        length: form.length === '' ? undefined : length === shown(sistema?.length ?? '') ? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
-        maxDepth: form.maxDepth === '' ? undefined : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
-        source: form.source || undefined,
-        explorations: trimmedExplorations.length > 0 ? trimmedExplorations : undefined,
-        aka: trimmedAka.length > 0 ? trimmedAka : undefined,
-        maps: form.maps.length > 0 ? form.maps : undefined,
+        length: form.length === '' ? orDelete() : length === shown(sistema?.length ?? '') ? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        maxDepth: form.maxDepth === '' ? orDelete() : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
+        source: orDelete(form.source),
+        explorations: orDelete(trimmedExplorations),
+        aka: orDelete(trimmedAka),
+        maps: orDelete(form.maps),
         public: true,
       }
 
-      if (form.longitude !== '' && form.latitude !== '') {
+      // Emptied coordinates are removed.
+      if (form.longitude === '' && form.latitude === '' && sistema?.location) {
+        fields.location = deleteField()
+      } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)) }
       }
 
@@ -491,12 +496,22 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
             {t('delete')}
           </Button>
         )}
-        <Button onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
-          {t('cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleSave} disabled={saving || !isDirty || !canSave} sx={{ minWidth: 88 }}>
-          {t('save')}
-        </Button>
+        {/* Save while there are changes (Cancel beside it drops them), Exit
+            when there's nothing to save. */}
+        {isDirty && (
+          <Button onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
+            {t('cancel')}
+          </Button>
+        )}
+        {isDirty ? (
+          <Button variant="contained" onClick={handleSave} disabled={saving || !canSave} sx={{ minWidth: 88 }}>
+            {t('save')}
+          </Button>
+        ) : (
+          <Button variant="contained" onClick={onDone} disabled={saving} sx={{ minWidth: 88 }}>
+            {t('exit')}
+          </Button>
+        )}
       </StickyActionBar>
       {unsavedChangesDialog}
     </Box>
