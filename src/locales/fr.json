@@ -1485,6 +1485,17 @@
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
     "maps": "Cartes"
   },
+  "appBarSearch": {
+    "placeholder": "Chercher des grottes et des réseaux",
+    "open": "Chercher",
+    "close": "Fermer la recherche",
+    "none": "Aucune grotte ni aucun réseau ne correspond.",
+    "hint": "Tapez un nom",
+    "groups": {
+      "sistemas": "Réseaux",
+      "caves": "Grottes"
+    }
+  },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
     "description": "OpenCaves : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",

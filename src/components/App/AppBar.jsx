@@ -12,6 +12,7 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
 import NavDrawer, { useNavItems } from './NavDrawer.jsx'
+import AppBarSearch from './AppBarSearch.jsx'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
@@ -42,8 +43,6 @@ const NAV_LINK_SX = (theme) => ({
 // its colors the bar's (--oc-app-bar-*, variables.scss): the brand teal in
 // the light theme, MD3's surface bar in the dark one, which takes the surface
 // container color once the page scrolls under it (M3's on-scroll state).
-// Below this width, Log in and Sign up go into a dropdown (AppBar).
-const SIGN_IN_DROPDOWN_QUERY = '(max-width: 439.95px)'
 const APP_BAR_TOOLBAR_SX = { '&&': { minHeight: 64 }, px: { xs: 0.5, sm: 3 } }
 
 
@@ -63,9 +62,6 @@ export default function AppBar() {
   // it. Wider screens keep an edit page's own header in view instead
   // (EditPageHeader, sticky).
   const isPhone = useSmall()
-  // Too narrow for Log in, Sign up and the full title side by side (they
-  // need about 430px): one sign-in dropdown instead.
-  const isTooNarrowForSignIn = useSmall(SIGN_IN_DROPDOWN_QUERY)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   // The page scrolled under the bar (its scroll area, Layout's).
   const [scrolled, setScrolled] = useState(false)
@@ -217,12 +213,14 @@ export default function AppBar() {
                 flexWrap: 'nowrap',
                 flexGrow: 1,
                 justifyContent: 'flex-end',
+                alignItems: 'center',
                 flexShrink: 0,
               }}
             >
-              {!isLoggedIn && isTooNarrowForSignIn && (
-                // Narrow phones: one account button opening Log in and Sign up -
-                // two buttons left no room for the title.
+              <AppBarSearch />
+              {!isLoggedIn && isSmall && (
+                // Phones and small tablets (the drawer's layout): one account
+                // button opening Log in and Sign up, beside the search.
                 <>
                   <Tooltip title={t('signInMenu')}>
                     <IconButton color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ p: 1.5 }}>
@@ -241,7 +239,7 @@ export default function AppBar() {
                   </Menu>
                 </>
               )}
-              {!isLoggedIn && !isTooNarrowForSignIn && (
+              {!isLoggedIn && !isSmall && (
                 <>
                   {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
                   {/* MD3's text and outlined buttons, in the bar's action color. */}

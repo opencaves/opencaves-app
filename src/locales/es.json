@@ -1486,6 +1486,17 @@
     "notOnMap": "No está en el mapa: aún sin coordenadas",
     "maps": "Mapas"
   },
+  "appBarSearch": {
+    "placeholder": "Buscar cuevas y sistemas",
+    "open": "Buscar",
+    "close": "Cerrar la búsqueda",
+    "none": "Ninguna cueva ni sistema coincide.",
+    "hint": "Escribe un nombre",
+    "groups": {
+      "sistemas": "Sistemas",
+      "caves": "Cuevas"
+    }
+  },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
     "description": "OpenCaves: cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",

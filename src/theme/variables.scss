@@ -53,6 +53,11 @@ http://ionicframework.com/docs/theming/ */
   --oc-app-bar-state: 255 255 255;
   --oc-app-bar-action: #fff;
   --oc-app-bar-outline: rgba(255, 255, 255, 0.5);
+  // Its search field (AppBarSearch): a lighter pill on the teal.
+  --oc-app-bar-search-bg: rgba(255, 255, 255, 0.16);
+  --oc-app-bar-search-bg-hover: rgba(255, 255, 255, 0.24);
+  --oc-app-bar-search-fg: #fff;
+  --oc-app-bar-search-placeholder: rgba(255, 255, 255, 0.8);
 
   // z-indexes
   --oc-app-menu-z-index: 1;
@@ -94,6 +99,11 @@ http://ionicframework.com/docs/theming/ */
   --oc-app-bar-state: var(--mui-palette-text-primaryChannel);
   --oc-app-bar-action: var(--mui-sys-color-primary);
   --oc-app-bar-outline: var(--mui-sys-color-outline);
+  // Its search field: MD3's search bar, on the surface container high.
+  --oc-app-bar-search-bg: var(--mui-sys-color-surfaceContainerHigh);
+  --oc-app-bar-search-bg-hover: var(--mui-sys-color-surfaceContainerHighest);
+  --oc-app-bar-search-fg: var(--mui-palette-text-primary);
+  --oc-app-bar-search-placeholder: var(--mui-palette-text-secondary);
 }
 
 // Keyboard focus: a ring around whatever has focus from the keyboard - Material

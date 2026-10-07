@@ -167,7 +167,6 @@ export default function Home() {
           {t('hero.lead')}
         </Typography>
         <SiteSearch
-          data={data}
           sx={{ maxWidth: 560, mb: 3 }}
           inputSx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 6, bgcolor: theme.vars.palette.background.paper, boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }, '& fieldset': { border: 0 } })}
         />

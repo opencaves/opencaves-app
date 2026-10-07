@@ -1486,6 +1486,17 @@
     "notOnMap": "Not on the map: no coordinates yet",
     "maps": "Maps"
   },
+  "appBarSearch": {
+    "placeholder": "Search caves and systems",
+    "open": "Search",
+    "close": "Close the search",
+    "none": "No cave or system matches.",
+    "hint": "Type a name",
+    "groups": {
+      "sistemas": "Cave systems",
+      "caves": "Caves"
+    }
+  },
   "home": {
     "title": "Open data for cave diving",
     "description": "OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.",
