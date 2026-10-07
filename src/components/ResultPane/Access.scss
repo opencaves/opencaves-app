@@ -11,10 +11,16 @@
     font-size: 0.75rem;
   }
 
+  // Grouped and centred: as wide as its items, whose columns all take the
+  // widest one's width (1fr tracks in a fit-content grid share the largest
+  // item's size).
   &--grid {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
     gap: 0 1rem;
     // Columns start at the top, so every icon is on one line and every
     // label on the line below it.
