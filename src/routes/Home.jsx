@@ -223,7 +223,7 @@ export default function Home() {
                 <CardActionArea component={RouterLink} to={to} sx={{ height: '100%', p: 2.5, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
                   <IconBadge size={56}>{icon}</IconBadge>
                   <Box>
-                    <Typography sx={{ typography: 'h4', color: 'primary.main', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString()}</Typography>
+                    <Typography sx={{ typography: 'h4', color: 'var(--mui-sys-color-primary)', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString()}</Typography>
                     <Typography sx={{ color: 'text.secondary' }}>{t(`figures.${key}`, { count })}</Typography>
                   </Box>
                 </CardActionArea>

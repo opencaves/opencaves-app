@@ -304,7 +304,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
             <LabeledAction icon={locating ? <CircularProgress size={24} /> : <MyLocationRounded />} label={t('coordinateActions.myLocation')} onClick={onPickMyLocationClick} disabled={locating} />
             <LabeledAction icon={<CloseRounded />} label={t('coordinateActions.remove')} onClick={onClearClick} disabled={!isSet && !onRemove} />
           </Box>
-          <Typography className="oc-coordinate-field--pick-hint" variant="body2" color="primary" role="status" sx={{ mt: picking ? 0.5 : 0 }}>
+          <Typography className="oc-coordinate-field--pick-hint" variant="body2" role="status" sx={{ mt: picking ? 0.5 : 0, color: 'var(--mui-sys-color-primary)' }}>
             {picking && !inPhoneSheet ? t('coordinateActions.crossPickHint') : ''}
           </Typography>
           {picking && mapBelowOnPhones && !inPhoneSheet && (
