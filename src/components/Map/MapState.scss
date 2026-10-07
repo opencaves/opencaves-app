@@ -24,6 +24,14 @@
   // --oc-map-loading-color: #bdb9ae;
   --oc-map-loading-color: var(--mui-palette-primary-main);
   --oc-map-loading-spinner-size: 16.6667%;
+  // The logo and title: a shade lighter than the screen, blending into it -
+  // white on the light grey; in the dark, a grey just above the background
+  // (about the same contrast, ~1.25:1), not a bright white.
+  --oc-map-loading-mark: #fff;
+
+  [data-mui-color-scheme='dark'] & {
+    --oc-map-loading-mark: #302f33;
+  }
 
   position: absolute;
   display: flex;
@@ -46,7 +54,7 @@
 
   h1 {
     font-family: Hero;
-    color: #fff;
+    color: var(--oc-map-loading-mark);
     font-size: 3rem;
     font-size: 12vmin;
     font-weight: 600;
@@ -85,6 +93,11 @@
   &--logo {
     width: 35%;
     margin-bottom: 1rem;
+    fill: var(--oc-map-loading-mark);
+
+    g {
+      fill: inherit;
+    }
 
     .path-1,
     .path-2 {
