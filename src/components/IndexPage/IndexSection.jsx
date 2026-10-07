@@ -1,4 +1,6 @@
-import { Box, Typography } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Box, Link, Typography } from '@mui/material'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 
 // A titled part of an index page (an area's cenotes, a system's
@@ -9,10 +11,21 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 // painted only near the screen (content-visibility) - for the many sections
 // of a long page. stickyTitle: the title stays in view under the page's
 // search bar (--oc-index-search-height) while its section scrolls by, on the
-// page's surface (what scrolls passes under it).
-export default function IndexSection({ title, count, children, className, card = false, cardSx, lazy = false, stickyTitle = false }) {
+// page's surface (what scrolls passes under it). id: the section's anchor (in
+// English, the same in every language: #photos, #maps...) - an address ending
+// with it scrolls there (Layout), and a # beside the title links to it.
+// A section with an anchor: clear of the fixed app bar (and a sticky title)
+// when scrolled to; its # shown while the title is hovered or focused.
+const SECTION_ANCHOR_SX = {
+  scrollMarginTop: 'calc(64px + var(--oc-index-search-height, 0px) + 8px)',
+  '& .oc-index-section--anchor': { opacity: 0, color: 'text.secondary', fontWeight: 400, transition: 'opacity 150ms' },
+  '& h2:hover .oc-index-section--anchor, & .oc-index-section--anchor:focus-visible': { opacity: 1 },
+}
+
+export default function IndexSection({ id, title, count, children, className, card = false, cardSx, lazy = false, stickyTitle = false }) {
+  const { t } = useTranslation('indexPages')
   return (
-    <Box component="section" className={['oc-index-section', className].filter(Boolean).join(' ')} sx={{ mb: card ? 3 : 4, ...(lazy && { contentVisibility: 'auto', containIntrinsicSize: 'auto 480px' }) }}>
+    <Box component="section" id={id} className={['oc-index-section', className].filter(Boolean).join(' ')} sx={{ mb: card ? 3 : 4, ...(lazy && { contentVisibility: 'auto', containIntrinsicSize: 'auto 480px' }), ...(id && SECTION_ANCHOR_SX) }}>
       <Typography
         component="h2"
         variant="h6"
@@ -46,6 +59,11 @@ export default function IndexSection({ title, count, children, className, card =
           <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
             {count}
           </Typography>
+        )}
+        {id && (
+          <Link component={RouterLink} to={{ hash: id }} className="oc-index-section--anchor" aria-label={t('sectionLink', { name: typeof title === 'string' ? title : id })} underline="none">
+            #
+          </Link>
         )}
       </Typography>
       {card ? (

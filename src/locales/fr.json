@@ -1424,6 +1424,7 @@
     }
   },
   "indexPages": {
+    "sectionLink": "Lien vers la section {{name}}",
     "unknownArea": "Région inconnue",
     "unnamedCave": "Grotte sans nom",
     "caveCount_one": "{{count}} grotte",

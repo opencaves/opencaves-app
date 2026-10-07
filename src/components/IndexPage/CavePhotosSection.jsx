@@ -49,7 +49,7 @@ export default function CavePhotosSection({ caveId, title }) {
     </AddButton>
   )
   return (
-    <IndexSection title={title} count={list.size || undefined} className="oc-cave-page--photos" card>
+    <IndexSection id="photos" title={title} count={list.size || undefined} className="oc-cave-page--photos" card>
       {photos.length > 0 && (
         <Carousel allItems={items} gridMinWidth="240px" gridGap={1.5} label={title}>
           {items.slice(0, MAX_PHOTOS)}
