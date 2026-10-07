@@ -8,11 +8,16 @@
   }
 
   &--content {
-    padding-left: 0;
-    padding-right: 0;
-
     a[href] {
       word-break: break-all;
     }
+  }
+
+  // The read-only details space their own content; not the edit form, which
+  // has its own padding (--oc-pane-padding-inline) - this rule, as heavy as
+  // its, won or lost by stylesheet order, and its sides were lost.
+  &--content:not(.oc-current-cave-details-content-edit) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
