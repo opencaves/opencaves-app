@@ -17,7 +17,7 @@ import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
-import CoordinateField from './CoordinateField.jsx'
+import CoordinateFieldList, { caveCoordinateItems } from './CoordinateFieldList.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
@@ -325,9 +325,8 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Typography variant="subtitle2" component="h2">{t('coordinates')}</Typography>
 
-      <CoordinateField field="location" label={t('location')} longitude={form.longitude} latitude={form.latitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude }))} validity={form.locationValidity} onValidityChange={(locationValidity) => setForm((f) => ({ ...f, locationValidity }))} />
-      <CoordinateField field="entrance" label={t('entrance')} longitude={form.entranceLongitude} latitude={form.entranceLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude }))} validity={form.entranceValidity} onValidityChange={(entranceValidity) => setForm((f) => ({ ...f, entranceValidity }))} />
-      <CoordinateField field="key" label={t('key')} longitude={form.keyLongitude} latitude={form.keyLatitude} onChange={({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude }))} validity={form.keyValidity} onValidityChange={(keyValidity) => setForm((f) => ({ ...f, keyValidity }))} />
+      {/* The empty ones behind Add coordinates. */}
+      <CoordinateFieldList items={caveCoordinateItems(form, setForm, t)} />
 
       <Divider />
 
