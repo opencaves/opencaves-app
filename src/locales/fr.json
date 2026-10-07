@@ -1501,20 +1501,24 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "description": "Les grottes, réseaux, connexions et cartes récemment ajoutés à {{name}}.",
+    "description": "Les grottes, réseaux, connexions, cartes, photos et vidéos récemment ajoutés à {{name}}.",
     "subtitle": "Les derniers ajouts à {{name}}, les plus récents en premier.",
     "filters": {
       "all": "Tout",
       "caves": "Grottes",
       "sistemas": "Réseaux",
       "connections": "Connexions",
-      "maps": "Cartes"
+      "maps": "Cartes",
+      "photos": "Photos",
+      "videos": "Vidéos"
     },
     "kinds": {
       "caves": "Grotte",
       "sistemas": "Réseau",
       "connections": "Connexion",
-      "maps": "Carte"
+      "maps": "Carte",
+      "photos": "Photos",
+      "videos": "Vidéos"
     },
     "inSistema": "dans {{name}}",
     "mapOf": "carte de {{name}}",
@@ -1524,7 +1528,11 @@
     "unnamedMap": "Carte sans titre",
     "recently": "Récemment",
     "none": "Rien de nouveau pour le moment.",
-    "failed": "Les derniers ajouts n'ont pas pu être chargés."
+    "failed": "Les derniers ajouts n'ont pas pu être chargés.",
+    "photosAdded_one": "{{count}} photo de {{name}}",
+    "photosAdded_other": "{{count}} photos de {{name}}",
+    "videosAdded_one": "{{count}} vidéo de {{name}}",
+    "videosAdded_other": "{{count}} vidéos de {{name}}"
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
