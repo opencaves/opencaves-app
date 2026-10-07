@@ -37,7 +37,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   if (loading || (maps.length === 0 && !sistemaId && !isEditor)) return null
 
   return (
-    <IndexSection title={title} count={maps.length || undefined} className="oc-maps-section" card={card}>
+    <IndexSection id="maps" title={title} count={maps.length || undefined} className="oc-maps-section" card={card}>
       {maps.length > 0 && (
         <Carousel gridMinWidth="200px" label={title} bleed={card ? 2 : 0}>
           {maps.map((map) => {

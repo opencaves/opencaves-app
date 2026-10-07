@@ -131,15 +131,16 @@ export default function WhatsNew() {
       }
       if (item.kind === 'connections') {
         const child = data.sistemasById.get(item.sistemaId)
-        return { ...item, at, icon: <LinkRounded />, label: t('connection', { child: sistemaName(item.sistemaId) || t('unnamed'), parent: sistemaName(item.parentSistemaId) || t('unnamed') }), to: child?.slug ? `/sistemas/${child.slug}` : null, context: null }
+        return { ...item, at, icon: <LinkRounded />, label: t('connection', { child: sistemaName(item.sistemaId) || t('unnamed'), parent: sistemaName(item.parentSistemaId) || t('unnamed') }), to: child?.slug ? `/sistemas/${child.slug}#connections` : null, context: null }
       }
       if (item.kind === 'photos' || item.kind === 'videos') {
         const cave = data.caves.find((c) => c.id === item.caveId)
         const sistema = data.sistemasById.get(cave?.sistemaId || item.sistemaId)
         const photos = item.kind === 'photos'
         const thumbnails = (item.media || []).map((media) => (photos ? photoThumbnail(item.caveId, media) : youtubeThumbnail(media))).filter(Boolean)
-        // One photo opens in the cave page's gallery; several, the cave's page.
-        const to = !cave ? null : photos && item.count === 1 ? `/caves/${item.caveId}/photos/${item.media[0].id}` : `/caves/${item.caveId}`
+        // One photo opens in the cave page's gallery; several, or videos, the
+        // cave page's section (#photos, #videos).
+        const to = !cave ? null : photos && item.count === 1 ? `/caves/${item.caveId}/photos/${item.media[0].id}` : `/caves/${item.caveId}#${photos ? 'photos' : 'videos'}`
         return { ...item, at, icon: photos ? <PhotoLibraryOutlined /> : <VideoLibraryOutlined />, thumbnails, label: t(photos ? 'photosAdded' : 'videosAdded', { count: item.count, name: cave?.name || item.name || t('unnamed') }), to, context: inSistema(sistema, cave?.name || item.name) }
       }
       const sistema = sistemaOfMap(item.docId)

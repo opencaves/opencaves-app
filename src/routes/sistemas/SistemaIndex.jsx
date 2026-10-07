@@ -72,6 +72,8 @@ export default function SistemaIndex() {
           lazy
           stickyTitle
           key={area?.slug ?? 'unknown'}
+          // Its anchor: the area's slug (#akumal), as its own page's address.
+          id={area?.slug ?? 'no-area'}
           title={
             area ? (
               <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover" color="inherit">

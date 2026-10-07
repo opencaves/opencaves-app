@@ -158,13 +158,13 @@ export default function SistemaPage() {
       )}
 
       {location && (
-        <IndexSection title={t('sistema.location')} className="oc-sistema-page--location" card>
+        <IndexSection id="location" title={t('sistema.location')} className="oc-sistema-page--location" card>
           <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationOutlined />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 
       {sistema.description && (
-        <IndexSection title={t('sistema.about')} className="oc-sistema-page--description" card>
+        <IndexSection id="description" title={t('sistema.about')} className="oc-sistema-page--description" card>
           <Box sx={{ typography: 'body1', '& > :first-child': { mt: 0 }, '& > :last-child': { mb: 0 } }}>
             <Markdown>{sistema.description}</Markdown>
             <TextSource record={sistema} field="description" />
@@ -173,7 +173,7 @@ export default function SistemaPage() {
       )}
 
       {(ancestry.length > 1 || children.length > 0) && (
-        <IndexSection title={t('sistema.connections')} className="oc-sistema-page--connections" card>
+        <IndexSection id="connections" title={t('sistema.connections')} className="oc-sistema-page--connections" card>
           {ancestry.length > 1 && (
             <Box sx={{ mb: children.length > 0 ? 2 : 0 }}>
               <Typography variant="subtitle2" component="h3" sx={{ mb: 0.5 }}>
@@ -233,7 +233,7 @@ export default function SistemaPage() {
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;
         // here, with the page.
-        <IndexSection title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
+        <IndexSection id="history" title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
           {/* Without the entries' sources (their notes); its title is the section's. */}
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
             <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
@@ -241,7 +241,7 @@ export default function SistemaPage() {
         </IndexSection>
       )}
 
-      <IndexSection title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes" card>
+      <IndexSection id="caves" title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes" card>
         {caves.length > 0 ? (
           <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} />
         ) : (

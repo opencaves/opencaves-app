@@ -14,7 +14,7 @@ export default function CaveVideosSection({ cave }) {
   const requireLogin = useRequireLogin()
   const count = Array.isArray(cave.videos) ? cave.videos.filter((video) => video?.trim()).length : 0
   return (
-    <IndexSection title={t('videosHeader')} count={count || undefined} className="oc-cave-page--videos" card>
+    <IndexSection id="videos" title={t('videosHeader')} count={count || undefined} className="oc-cave-page--videos" card>
       <Box sx={{ containerType: 'inline-size', '--oc-pane-padding-inline': '0px', '--oc-pane-padding-block': '16px', '--oc-video-max-width': '100cqi' }}>
         <VideoList caveId={cave.id} videos={cave.videos} showTitle={false} showAdd onAddUnauthorized={requireLogin} sx={{ px: 0, pt: 0 }} />
       </Box>

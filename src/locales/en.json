@@ -1425,6 +1425,7 @@
     }
   },
   "indexPages": {
+    "sectionLink": "Link to the {{name}} section",
     "unknownArea": "Unknown area",
     "unnamedCave": "Unnamed cave",
     "caveCount_one": "{{count}} cave",

@@ -1425,6 +1425,7 @@
     }
   },
   "indexPages": {
+    "sectionLink": "Enlace a la sección {{name}}",
     "unknownArea": "Zona desconocida",
     "unnamedCave": "Cueva sin nombre",
     "caveCount_one": "{{count}} cueva",

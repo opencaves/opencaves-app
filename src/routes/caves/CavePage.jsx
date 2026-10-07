@@ -138,20 +138,20 @@ export default function CavePage() {
       )}
 
       {points.length > 0 && (
-        <IndexSection title={t('cave.location')} className="oc-cave-page--location" card>
+        <IndexSection id="location" title={t('cave.location')} className="oc-cave-page--location" card>
           <CoordinateCopyList rows={points} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 
       {/* Access's own heading is the section's, above its card. */}
-      <IndexSection title={tPane('accessHeader')} className="oc-cave-page--access" card>
+      <IndexSection id="access" title={tPane('accessHeader')} className="oc-cave-page--access" card>
         <Box sx={{ '& h2.h2': { display: 'none' }, '& .details-container': { px: 0 } }}>
           <Access cave={cave} />
         </Box>
       </IndexSection>
 
       {cave.description && (
-        <Box component="section" className="oc-cave-page--description" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
+        <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
           <Markdown>{cave.description}</Markdown>
           <TextSource record={cave} field="description" />
         </Box>
@@ -167,7 +167,7 @@ export default function CavePage() {
       <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card />
 
       {hasHistory && (
-        <IndexSection title={tPane('explorationHistory')} className="oc-cave-page--history" card>
+        <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
             <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
           </Box>

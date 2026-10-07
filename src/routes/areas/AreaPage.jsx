@@ -33,11 +33,11 @@ export default function AreaPage() {
     <div className="oc-area-page">
       <IndexPageHeader trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }]} current={area.name} title={t('area.title', { area: area.name })} subtitle={[t('caveCount', { count: area.caves.length }), t('sistemaCount', { count: area.sistemas.length })].join(' · ')} backTo="/caves" editTo={area.recordId ? `/areas/${area.slug}/edit` : null} editLabel={t('area.edit', { area: area.name })} />
 
-      <IndexSection title={t('area.cenotes')} count={area.caves.length}>
+      <IndexSection id="caves" title={t('area.cenotes')} count={area.caves.length}>
         {area.caves.length > 0 ? <IndexLinkList items={area.caves.map((cave) => ({ key: cave.id, cave: true, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} /> : <Typography sx={{ color: 'text.secondary' }}>{t('area.noCenotes')}</Typography>}
       </IndexSection>
 
-      <IndexSection title={t('area.sistemas')} count={area.sistemas.length}>
+      <IndexSection id="systems" title={t('area.sistemas')} count={area.sistemas.length}>
         {area.sistemas.length > 0 ? <IndexLinkList items={area.sistemas.map((sistema) => ({ key: sistema.id, to: `/sistemas/${sistema.slug}`, label: sistema.name, color: sistema.color || SISTEMA_DEFAULT_COLOR }))} /> : <Typography sx={{ color: 'text.secondary' }}>{t('area.noSistemas')}</Typography>}
       </IndexSection>
     </div>

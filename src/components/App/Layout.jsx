@@ -44,12 +44,6 @@ export default function Layout() {
   // borders diagonally).
   const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || location.pathname === '/account'
 
-  useEffect(() => {
-    if (location.hash && !isMapPath(location.pathname)) {
-      navigate({ pathname: location.pathname, search: location.search, hash: '' }, { replace: true })
-    }
-  }, [location, navigate])
-
   // This box, not the document, is the page's scroller (below), so the
   // router's scroll handling never reaches it: a new page opens at the top,
   // and back/forward returns to where that page was left. Each entry's
@@ -62,14 +56,15 @@ export default function Layout() {
     if (!scroller) return undefined
     const key = location.key
     const saved = navigationType === 'POP' ? scrollPositions.current.get(key) || 0 : 0
-    scroller.scrollTop = saved
+    // At once, not smoothly: a new page starts at its top.
+    scroller.scrollTo({ top: saved, behavior: 'instant' })
     // A page coming back may still be loading, too short to scroll yet: try
     // again for a moment as it grows.
     let frame = null
     if (saved > 0) {
       const until = performance.now() + 1500
       const retry = () => {
-        scroller.scrollTop = saved
+        scroller.scrollTo({ top: saved, behavior: 'instant' })
         if (scroller.scrollTop < saved - 1 && performance.now() < until) frame = requestAnimationFrame(retry)
       }
       frame = requestAnimationFrame(retry)
@@ -83,6 +78,60 @@ export default function Layout() {
     // The page's address: its gallery opening or closing leaves it where it is.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path])
+
+  // An address with #section (the pages' sections have English ids: #photos,
+  // #maps...): the page scrolls to it smoothly (the scroller's
+  // scroll-behavior) once it's there and has stopped moving - what loads
+  // above it (photos, maps, sections drawn as they near the screen) pushes it
+  // down - then keeps it in place while the page settles, until the reader
+  // scrolls. A # naming nothing is dropped from the address, as before.
+  useEffect(() => {
+    const scroller = scrollRef.current
+    if (!location.hash || isMapPath(location.pathname) || !scroller) return undefined
+    const id = decodeURIComponent(location.hash.slice(1))
+    const start = performance.now()
+    let timer = null
+    let stopped = false
+    const stop = () => (stopped = true)
+    const events = ['wheel', 'touchstart', 'keydown', 'pointerdown']
+    events.forEach((type) => scroller.addEventListener(type, stop, { passive: true }))
+    // How far the section's top is from where scrolling to it puts it.
+    const offset = (section) => section.getBoundingClientRect().top - scroller.getBoundingClientRect().top - parseFloat(getComputedStyle(section).scrollMarginTop || 0)
+    let last = null
+    let still = 0
+    const settle = () => {
+      if (stopped) return
+      const section = document.getElementById(id)
+      if (!section) {
+        if (performance.now() - start < 5000) timer = setTimeout(settle, 100)
+        else navigate({ pathname: location.pathname, search: location.search, hash: '' }, { replace: true })
+        return
+      }
+      const top = section.offsetTop
+      still = top === last ? still + 1 : 0
+      last = top
+      // Still moving: wait (3 checks alike), a few seconds at most.
+      if (still < 3 && performance.now() - start < 3000) {
+        timer = setTimeout(settle, 100)
+        return
+      }
+      section.scrollIntoView({ block: 'start' })
+      const glidedAt = performance.now()
+      const keep = () => {
+        if (stopped || performance.now() - glidedAt > 2500) return
+        const drift = offset(section)
+        // After the glide, small moves are corrected at once.
+        if (performance.now() - glidedAt > 700 && Math.abs(drift) > 4) scroller.scrollBy({ top: drift, behavior: 'instant' })
+        timer = setTimeout(keep, 150)
+      }
+      timer = setTimeout(keep, 150)
+    }
+    settle()
+    return () => {
+      clearTimeout(timer)
+      events.forEach((type) => scroller.removeEventListener(type, stop))
+    }
+  }, [location, navigate])
 
   return (
     <Box
@@ -108,6 +157,10 @@ export default function Layout() {
         // scrollbar coming and going resized this box - rescaling and
         // shifting its cover background image with it.
         scrollbarGutter: 'stable',
+        // Scrolling to a section (#photos...) glides there - unless the
+        // system asks for less motion.
+        scrollBehavior: 'smooth',
+        '@media (prefers-reduced-motion: reduce)': { scrollBehavior: 'auto' },
         backgroundColor: '#000',
         backgroundImage: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
         backgroundPosition: 'center',
