@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { httpsCallable } from 'firebase/functions'
-import { Box, Chip, Stack, SvgIcon, Typography } from '@mui/material'
+import { Box, Chip, Skeleton, Stack, SvgIcon, Typography } from '@mui/material'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import PhotoLibraryOutlined from '@mui/icons-material/PhotoLibraryOutlined'
 import VideoLibraryOutlined from '@mui/icons-material/VideoLibraryOutlined'
@@ -12,7 +12,6 @@ import { functions } from '@/config/firebase.js'
 import { APP_NAME } from '@/config/app.js'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
-import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
@@ -38,6 +37,43 @@ function useWhatsNew() {
     }
   }, [])
   return state
+}
+
+// The page while getWhatsNew answers, shaped as it: its header, the filter
+// chips, then a day's entries on a card (a thumbnail, a name, a line under it).
+function WhatsNewSkeleton() {
+  const { t } = useTranslation('app')
+  return (
+    <Box className="oc-whats-new-skeleton" aria-busy="true">
+      <Box component="span" role="status" sx={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+        {t('loading')}
+      </Box>
+      <Box aria-hidden="true">
+        <Box sx={{ mb: 3 }}>
+          <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 140, mb: 3 }} />
+          <Skeleton variant="text" sx={{ typography: { xs: 'h5', sm: 'h4' }, width: 'min(100%, 260px)' }} />
+          <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 280 }} />
+        </Box>
+        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 3 }}>
+          {[58, 72, 108, 104, 70, 74, 74].map((width, i) => (
+            <Skeleton key={i} variant="rounded" sx={{ width, height: 32, borderRadius: 4 }} />
+          ))}
+        </Stack>
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: 220, mb: 1, ml: 0.5 }} />
+        <Box sx={{ ...DASHBOARD_SURFACE_SX, p: 1 }}>
+          {[55, 40, 65, 45, 50, 35, 60, 42].map((width, i) => (
+            <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 1.5, py: 1 }}>
+              <Skeleton variant="rounded" sx={{ width: 56, height: 42, borderRadius: 1, flexShrink: 0 }} />
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Skeleton variant="text" sx={{ fontSize: '1rem', width: `${width}%` }} />
+                <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: `${Math.round(width * 0.6)}%` }} />
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  )
 }
 
 // A YouTube video's thumbnail (other sites' videos have none here).
@@ -125,7 +161,7 @@ export default function WhatsNew() {
     return groups
   }, [rows, kinds, i18n.language, t])
 
-  if (loading) return <IndexPageSkeleton card />
+  if (loading) return <WhatsNewSkeleton />
 
   return (
     <div className="oc-whats-new">
