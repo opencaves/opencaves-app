@@ -65,7 +65,7 @@ function IndexLinkList({ items, className }) {
           // second line.
           '& .oc-index-link-list--cave': { flexShrink: 0, alignSelf: 'flex-start', mt: '2px', width: 20, height: 20, bgcolor: theme.vars.palette.text.secondary, mask: `${CAVE_ICON} center / contain no-repeat` },
           '& .oc-index-link-list--text': { minWidth: 0, display: 'flex', flexDirection: 'column' },
-          '& .oc-index-link-list--label': { ...theme.typography.body1, color: theme.vars.palette.primary.main, overflowWrap: 'anywhere' },
+          '& .oc-index-link-list--label': { ...theme.typography.body1, color: theme.vars.sys.color.primary, overflowWrap: 'anywhere' },
           '& .oc-index-link-list--secondary': { ...theme.typography.body2, color: theme.vars.palette.text.secondary, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
           // The map icon: a 40dp button, its 24dp icon (MD3's icon button).
           '& .oc-index-link-list--map': {

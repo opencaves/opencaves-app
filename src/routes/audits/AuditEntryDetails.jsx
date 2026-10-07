@@ -109,7 +109,7 @@ function LineDiff({ rows }) {
                   <ButtonBase
                     className="oc-audit-diff--expand"
                     onClick={() => setExpanded((prev) => new Set(prev).add(h))}
-                    sx={{ width: '100%', justifyContent: 'flex-start', gap: 1, px: 1, py: 0.5, typography: 'body2', color: 'primary.main', '&:hover': { bgcolor: 'action.hover' } }}
+                    sx={{ width: '100%', justifyContent: 'flex-start', gap: 1, px: 1, py: 0.5, typography: 'body2', color: 'var(--mui-sys-color-primary)', '&:hover': { bgcolor: 'action.hover' } }}
                   >
                     <UnfoldMoreRounded fontSize="small" />
                     {t('details.expandLines', { count: hunk.rows.length })}

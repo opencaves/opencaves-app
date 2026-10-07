@@ -201,6 +201,21 @@ const lightThemeOptions = {
     },
   },
   components: {
+    // Primary-coloured text reads the scheme's primary role (sys.color.primary):
+    // the teal itself on the light theme, a light teal on the dark one - the
+    // teal palette colour was too dark there for text (3 to 3.9:1 on the dark
+    // surfaces; 4.5:1 needed). Filled buttons and FABs keep the teal, with
+    // white (4.8:1).
+    MuiLink: {
+      styleOverrides: {
+        root: ({ ownerState }) => (ownerState.color === 'primary' ? { color: 'var(--mui-sys-color-primary)', textDecorationColor: 'color-mix(in srgb, var(--mui-sys-color-primary) 40%, transparent)' } : {}),
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: { '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
+      },
+    },
     MuiTextField: {
       defaultProps: {
         variant: 'filled',
@@ -341,6 +356,12 @@ const lightThemeOptions = {
           ...(ownerState.color === 'inherit' &&
             ownerState.variant === 'outlined' && {
               borderColor: '#dadce0',
+            }),
+          // Text and outlined buttons' teal text: the scheme's primary role
+          // (see MuiLink above).
+          ...(ownerState.color === 'primary' &&
+            ownerState.variant !== 'contained' && {
+              color: 'var(--mui-sys-color-primary)',
             }),
         }),
       },

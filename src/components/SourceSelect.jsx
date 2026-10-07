@@ -53,7 +53,7 @@ export default function SourceSelect({ label, value, onChange, sources, noneLabe
       >
         {/* A border, not a <Divider>: Select gives every child the option
             role, so a divider would read as a blank choice. */}
-        <MenuItem value={ADD_SOURCE} sx={{ color: 'primary.main', borderBottom: 1, borderColor: 'divider' }}>
+        <MenuItem value={ADD_SOURCE} sx={{ color: 'var(--mui-sys-color-primary)', borderBottom: 1, borderColor: 'divider' }}>
           <AddRounded fontSize="small" sx={{ mr: 1 }} />
           {t('addSource')}
         </MenuItem>

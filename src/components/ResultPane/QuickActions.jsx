@@ -35,13 +35,14 @@ function ButtonLg({ primary, children, ...props }) {
           '--_background-color': primary ? theme.vars.palette.primary[tone] : `rgba(${theme.vars.palette.primary[`${tone}Channel`]} / 0.06)`,
         })
         return {
-          '--_color': theme.vars.palette.primary.main,
+          // Its label: the scheme's primary role (the theme's MuiLink note).
+          '--_color': theme.vars.sys.color.primary,
           '--_icon-color': primary ? '#fff' : theme.vars.palette.primary.main,
           '--_icon-background-color': primary ? '#fff' : null,
           '--_border-color': theme.vars.palette.primary.main,
           '--_background-color': primary ? theme.vars.palette.primary.main : null,
           '&:hover': { ...hover('dark'), '--_shadow': primary ? 'var(--mui-shadows-1)' : null },
-          ...theme.applyStyles('dark', { '&:hover': hover('light') }),
+          ...theme.applyStyles('dark', { '&:hover': { ...hover('light'), '--_color': theme.vars.sys.color.primary } }),
         }
       }}
     >

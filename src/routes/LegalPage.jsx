@@ -28,7 +28,7 @@ export default function LegalPage({ page }) {
         '& h2': { typography: 'h6', mt: 4, mb: 1 },
         '& p, & li': { typography: 'body1', lineHeight: 1.6 },
         '& ul': { pl: 3 },
-        '& a': { color: 'primary.main' },
+        '& a': { color: 'var(--mui-sys-color-primary)' },
       }}
     >
       <Typography component="h1" variant="h4" sx={{ mb: 1 }} data-appbar-page-title>

@@ -98,7 +98,7 @@ export default function LogInWithEmail() {
           <Grid container direction="column">
             <TextInput id={passwordId} ref={passwordInputRef} label={t('passwordLabel')} type="password" name="password" required value={password} error={passwordError} minLength={PASSWORD_MIN_LENGTH} onChange={(e) => setPassword(e.target.value)} onKeyUp={onPasswordInputKeyUp} onValidityChange={(validity) => setPasswordInputValid(validity.valid)} />
             {/* A link's look; a button: it opens the reset dialog. */}
-            <Typography component="button" type="button" onClick={() => setResetOpen(true)} sx={{ fontSize: 'small', display: 'block', textAlign: 'right', mt: 0.75, ml: 'auto', p: 0, border: 0, bgcolor: 'transparent', color: 'primary.main', textDecoration: 'underline', cursor: 'pointer', font: 'inherit' }}>
+            <Typography component="button" type="button" onClick={() => setResetOpen(true)} sx={{ fontSize: 'small', display: 'block', textAlign: 'right', mt: 0.75, ml: 'auto', p: 0, border: 0, bgcolor: 'transparent', color: 'var(--mui-sys-color-primary)', textDecoration: 'underline', cursor: 'pointer', font: 'inherit' }}>
               {t('forgotPassword')}
             </Typography>
           </Grid>
