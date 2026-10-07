@@ -14,6 +14,7 @@ import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.js
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
 import { APP_NAME } from '@/config/app.js'
+import { openAboutDialog } from '@/utils/aboutDialog.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 
@@ -148,7 +149,15 @@ export default function AppMenuPanel({ onClose, titleId }) {
       )}
 
       <List component="div" disablePadding sx={sectionSx}>
-        <ListItemButton component={Link} to="/about" state={{ backgroundLocation: location }} onClick={onClose} sx={rowSx}>
+        <ListItemButton
+          component={Link}
+          to="/about"
+          onClick={(event) => {
+            onClose()
+            openAboutDialog(event)
+          }}
+          sx={rowSx}
+        >
           <ListItemIcon>
             <InfoOutlined />
           </ListItemIcon>

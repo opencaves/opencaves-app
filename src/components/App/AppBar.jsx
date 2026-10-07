@@ -203,8 +203,8 @@ export default function AppBar() {
           <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content' }}>
             {!isSmall && (
               <Grid sx={{ mr: 1, display: 'flex', gap: 0.5 }}>
-                {barItems.map(({ key, to, icon }) => (
-                  <Button key={key} component={Link} to={to} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
+                {barItems.map(({ key, to, icon, onClick }) => (
+                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
