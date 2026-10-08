@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.0.0-beta-12](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-11...v1.0.0-beta-12) (2026-10-08)
+
+A usability pass over the whole app: clearer words, easier on a phone and with a keyboard, a cave page with its address and directions, and a fresh look for the icons.
+
+
+### Features
+
+* **Cave pages** show the cave's address and a Getting there section with its directions; empty sections say so (No photos yet) instead of showing only an Add button.
+* **Cave and cenote:** the app says "cave" (grotte, cueva) wherever it means any cave, and "cenote" only for the Yucatán's cenotes and their entrances; a cave's title no longer starts with "Cenote".
+* **OpenCaves** is spelled the same everywhere: the app bar, the page titles and the installed app's name.
+* **Language** is easier to change: in the account menu (on the map too), the phone's menu and every page's footer.
+* **Searches** find names however they're typed (Chac-Mol, chacmol, dzonot for D'zonot) and say when nothing matches; the map's search works with the keyboard's arrows and Enter; caves without a confirmed position show a crossed-out pin.
+* **The map:** the Map button and Open the map show the whole area again; Back after a search returns to the map; the map opens without a white flash; Mapbox's own buttons speak your language.
+* **Landing page:** a single search field, the buttons lined up, and a centred footer on phones.
+* **Sign-in and account:** an email already used by an account says so; an action that needs an account explains why before asking you to sign in; the forgotten-password form checks the email; un-saving a cave can be undone.
+* **Editing:** the edit page's small map opens on the cave and Center the map here keeps it in view; forms check dates, depths and lengths and say what's wrong; Name is required says so; exploration teams are a list of names; a new system gets a colour; Use my current location says why when it can't.
+* **Photos and maps:** dropping a file that isn't a photo says so, and Add map takes images and PDFs only; the photo and map viewers work with the keyboard; videos load when you press play.
+* **Phones:** larger touch targets, no more cut-off labels, the Add map dialog fits the screen, and the app bar's search opens with an animation and closes when you tap outside it.
+* **Accessibility:** a Skip to content link, headings on every page, the focus kept after moving between pages, better contrast in dark mode, and less motion when your device asks for it.
+* **Words:** one name for each thing (Topographies for survey maps, région in French), and the remaining English and typos in French fixed.
+* **Icons** in one rounded style, the cave and cave system icons and the map pins included.
+* **Faster on phones:** less code to download before a page shows.
+
+
+### Bug Fixes
+
+* **A latitude out of range** no longer crashes the edit page.
+* **Unrated caves** no longer look rated five stars in dark mode.
+* **Cave pages** no longer jump while they load.
+* **Pins** of a system without a colour are no longer white on white.
+* **The 404 page** keeps the app bar and offers the cave lists.
+
 ## [1.0.0-beta-11](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-10...v1.0.0-beta-11) (2026-10-08)
 
 Tell us what you find: a Feedback button on every page, a What can I do? page for the beta, and emails that keep testers and the team in touch.
