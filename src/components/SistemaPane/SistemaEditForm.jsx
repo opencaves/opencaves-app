@@ -103,9 +103,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
                 <CreatableChipsField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
-                {/* As wide as its widest value (a full date, 2019-06-15); its hint may
-                    run wider. */}
-                <PartialDateField size="small" label={dateLabel} description={dateHint} value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} sx={{ width: 'calc(11ch + 28px)', maxWidth: '100%', '& .MuiFormHelperText-root': { width: 'max-content', maxWidth: 'min(720px, calc(100vw - 96px))' } }} />
+                <PartialDateField size="small" label={dateLabel} description={dateHint} value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
