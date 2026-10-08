@@ -23,7 +23,9 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 const MAX_MESSAGE = 4000
 const ICONS = { bug: <BugReportOutlined />, misleading: <ReportGmailerrorredOutlined />, idea: <LightbulbOutlined /> }
 
-// One of the kinds, as a selectable card: its icon, name and what it's for.
+// One of the kinds, as a selectable square: its icon at the top, its name
+// and what it's for at the bottom (the name alone on a phone); the chosen
+// one's icon in the secondary colour.
 function KindCard({ kind, selected, onSelect }) {
   const { t } = useTranslation('feedback')
   return (
@@ -37,8 +39,11 @@ function KindCard({ kind, selected, onSelect }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: 0.75,
-        p: 1.75,
+        justifyContent: 'space-between',
+        gap: 1,
+        aspectRatio: '1',
+        width: '100%',
+        p: { xs: 1.25, sm: 1.75 },
         borderRadius: 3,
         textAlign: 'left',
         border: '2px solid',
@@ -51,14 +56,16 @@ function KindCard({ kind, selected, onSelect }) {
     >
       <Box
         aria-hidden="true"
-        sx={(theme) => ({ width: 40, height: 40, borderRadius: '50%', display: 'grid', placeItems: 'center', color: theme.vars.sys.color.primary, bgcolor: selected ? theme.vars.palette.background.paper : theme.vars.sys.color.secondaryContainer })}
+        sx={(theme) => ({ width: 40, height: 40, borderRadius: '50%', display: 'grid', placeItems: 'center', transition: 'background-color 150ms, color 150ms', ...(selected ? { color: theme.vars.palette.secondary.contrastText, bgcolor: theme.vars.palette.secondary.main } : { color: theme.vars.sys.color.primary, bgcolor: theme.vars.sys.color.secondaryContainer }) })}
       >
         {ICONS[kind]}
       </Box>
-      <Typography sx={{ fontWeight: 600, lineHeight: 1.3 }}>{t(`kinds.${kind}`)}</Typography>
-      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.4 }}>
-        {t(`kindText.${kind}`)}
-      </Typography>
+      <Box>
+        <Typography sx={{ fontWeight: 600, lineHeight: 1.3 }}>{t(`kinds.${kind}`)}</Typography>
+        <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' }, color: 'text.secondary', lineHeight: 1.4, mt: 0.5 }}>
+          {t(`kindText.${kind}`)}
+        </Typography>
+      </Box>
       {selected && <CheckCircleRounded aria-hidden="true" sx={{ position: 'absolute', top: 10, right: 10, fontSize: 20, color: 'var(--mui-sys-color-primary)' }} />}
     </ButtonBase>
   )
@@ -146,7 +153,7 @@ export default function FeedbackDialog() {
         <Typography component="h3" variant="subtitle2" sx={{ mb: 1.25 }}>
           {t('kindLabel')}
         </Typography>
-        <Box role="radiogroup" aria-label={t('kindLabel')} sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 1.25, mb: 2.5 }}>
+        <Box role="radiogroup" aria-label={t('kindLabel')} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1.25, mb: 2.5 }}>
           {FEEDBACK_KINDS.map((k) => (
             <KindCard key={k} kind={k} selected={kind === k} onSelect={setKind} />
           ))}
@@ -154,7 +161,7 @@ export default function FeedbackDialog() {
         {kind && (
           <>
             {/* What a good report of this kind says (a bug: how to reproduce it). */}
-            <Box className="oc-feedback-dialog--hint" sx={(theme) => ({ display: 'flex', gap: 1.25, alignItems: 'flex-start', p: 1.5, mb: 2, borderRadius: 2, bgcolor: theme.vars.sys.color.secondaryContainer })}>
+            <Box className="oc-feedback-dialog--hint" sx={(theme) => ({ display: 'flex', gap: 1.25, alignItems: 'flex-start', p: 1.5, mb: 2, borderRadius: 2, borderLeft: `4px solid ${theme.vars.palette.secondary.main}`, bgcolor: theme.vars.sys.color.secondaryContainer })}>
               <TipsAndUpdatesOutlined aria-hidden="true" sx={{ color: 'var(--mui-sys-color-primary)', mt: 0.125 }} />
               <Typography variant="body2" sx={{ lineHeight: 1.5 }}>
                 {t(`hints.${kind}`)}
