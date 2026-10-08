@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Autocomplete, Box, IconButton, InputAdornment, InputBase, Tooltip, useTheme } from '@mui/material'
+import { Autocomplete, Box, ClickAwayListener, IconButton, InputAdornment, InputBase, Tooltip, useTheme } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -159,41 +159,44 @@ export default function AppBarSearch() {
       </Tooltip>
       {mounted && (
         // Over the whole bar (fixed, like it: 64px at the top), in its
-        // colors: a back arrow, then the field.
-        <Box
-          className="oc-app-bar-search--overlay"
-          sx={(theme) => {
-            const at = origin ? `${origin.x}px ${origin.y}px` : 'right center'
-            return {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 64,
-              zIndex: theme.zIndex.appBar + 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.5,
-              px: { xs: 0.5, sm: 2 },
-              bgcolor: 'var(--oc-app-bar-bg)',
-              color: 'var(--oc-app-bar-fg)',
-              // Wider than the bar's diagonal from any point in it.
-              clipPath: revealed ? `circle(150vmax at ${at})` : `circle(24px at ${at})`,
-              opacity: revealed ? 1 : 0,
-              transition: revealed
-                ? `clip-path ${motion.duration.emphasizedDecelerate}ms ${motion.easing.emphasizedDecelerate}, opacity ${motion.duration.standardDecelerate}ms linear`
-                : `clip-path ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}, opacity ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}`,
-              '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-            }
-          }}
-        >
-          <Tooltip title={t('close')}>
-            <IconButton color="inherit" aria-label={t('close')} onClick={() => closeOverlay()} sx={{ p: 1.5 }}>
-              <ArrowBackRounded />
-            </IconButton>
-          </Tooltip>
-          <Box sx={{ flex: 1, minWidth: 0, display: 'flex', pr: { xs: 1, sm: 0 } }}>{field}</Box>
-        </Box>
+        // colors: a back arrow, then the field. A click or tap anywhere else
+        // closes it (its suggestions, in a portal, count as inside).
+        <ClickAwayListener onClickAway={() => open && closeOverlay()}>
+          <Box
+            className="oc-app-bar-search--overlay"
+            sx={(theme) => {
+              const at = origin ? `${origin.x}px ${origin.y}px` : 'right center'
+              return {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 64,
+                zIndex: theme.zIndex.appBar + 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                px: { xs: 0.5, sm: 2 },
+                bgcolor: 'var(--oc-app-bar-bg)',
+                color: 'var(--oc-app-bar-fg)',
+                // Wider than the bar's diagonal from any point in it.
+                clipPath: revealed ? `circle(150vmax at ${at})` : `circle(24px at ${at})`,
+                opacity: revealed ? 1 : 0,
+                transition: revealed
+                  ? `clip-path ${motion.duration.emphasizedDecelerate}ms ${motion.easing.emphasizedDecelerate}, opacity ${motion.duration.standardDecelerate}ms linear`
+                  : `clip-path ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}, opacity ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}`,
+                '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+              }
+            }}
+          >
+            <Tooltip title={t('close')}>
+              <IconButton color="inherit" aria-label={t('close')} onClick={() => closeOverlay()} sx={{ p: 1.5 }}>
+                <ArrowBackRounded />
+              </IconButton>
+            </Tooltip>
+            <Box sx={{ flex: 1, minWidth: 0, display: 'flex', pr: { xs: 1, sm: 0 } }}>{field}</Box>
+          </Box>
+        </ClickAwayListener>
       )}
     </>
   )
