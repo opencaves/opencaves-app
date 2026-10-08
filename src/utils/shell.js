@@ -2,6 +2,15 @@
 // faded out, then removed - at once when the system asks for less motion.
 const FADE_MS = 180
 
+// The cave name index.html's splash shows (from the server's text), and the
+// address it was for: read before the splash goes, for MapLoading to keep.
+const splash = document.getElementById('oc-shell')
+const shellCave = { name: splash?.dataset.caveName, path: splash?.dataset.path }
+
+export function shellCaveName() {
+  return shellCave.path === window.location.pathname ? shellCave.name : undefined
+}
+
 export function removeShell() {
   const shell = document.getElementById('oc-shell')
   if (!shell || shell.classList.contains('oc-shell--out')) return
