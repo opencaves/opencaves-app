@@ -18,6 +18,7 @@ import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { openFeedback } from '@/utils/feedback.js'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // What to report (each opens the form with its kind) and what to try.
 const REPORTS = [
@@ -77,7 +78,7 @@ export default function BetaWhatCanIDo() {
         <Typography variant="overline" sx={{ letterSpacing: '0.12em', opacity: 0.85 }}>
           {t('badge')}
         </Typography>
-        <Typography component="h1" sx={{ typography: { xs: 'h4', sm: 'h3' }, fontWeight: 500, mb: 1.5 }} data-appbar-page-title>
+        <Typography component="h1" sx={{ ...PAGE_TITLE_SX, mb: 1.5 }} data-appbar-page-title>
           {t('title')}
         </Typography>
         <Typography sx={{ fontSize: { sm: '1.15rem' }, maxWidth: 660, opacity: 0.92, lineHeight: 1.6, mb: 3 }}>{t('lead')}</Typography>

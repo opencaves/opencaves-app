@@ -15,6 +15,7 @@ import LanguageSection from '@/components/Account/LanguageSection.jsx'
 import UnitsSection from '@/components/Account/UnitsSection.jsx'
 import AppearanceSection from '@/components/Account/AppearanceSection.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-account--section-title')
@@ -159,7 +160,7 @@ export default function Account() {
             {!user?.photoURL && (displayName[0]?.toUpperCase() || null)}
           </Avatar>
           <Box sx={{ minWidth: 0 }}>
-            <Typography component="h1" variant="h5" sx={{ overflowWrap: 'anywhere' }}>
+            <Typography component="h1" sx={{ ...PAGE_TITLE_SX, overflowWrap: 'anywhere' }}>
               {displayName || t('profile')}
             </Typography>
             {user?.email && (

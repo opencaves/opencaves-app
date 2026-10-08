@@ -10,6 +10,7 @@ import AuthWithMicrosoft from './AuthWithMicrosoft.jsx'
 import Or from '../utils/Or.jsx'
 import Logo from '../App/Logo.jsx'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -44,7 +45,7 @@ export default function Signup() {
 
         <Stack spacing={3} sx={{ width: '32ch' }}>
           {/* The page's heading (it had none). */}
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+          <Typography component="h1" sx={{ ...PAGE_TITLE_SX, textAlign: 'center' }}>
             {t('title')}
           </Typography>
           <OfflineAuthNote />
