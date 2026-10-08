@@ -1056,8 +1056,7 @@
         "openScan": "Ouvrir la carte d’origine"
       },
       "panelTitle": "Couches de la carte",
-      "turnOn": "Activer les couches de la carte",
-      "turnOff": "Désactiver les couches de la carte"
+      "show": "Afficher les galeries"
     },
     "controls": {
       "locationNotAvailable": "Position non disponible",

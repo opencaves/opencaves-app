@@ -1057,8 +1057,7 @@
         "openScan": "Open the original map"
       },
       "panelTitle": "Map layers",
-      "turnOn": "Turn on map layers",
-      "turnOff": "Turn off map layers"
+      "show": "Show the passages"
     },
     "controls": {
       "locationNotAvailable": "Location not available",
