@@ -80,7 +80,9 @@ export default function CaveLayerButton({ sx }) {
               <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
                 {t('panelTitle')}
               </Typography>
-              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={visible ? t('turnOff') : t('turnOn')} sx={{ mb: 1 }} />
+              {/* A switch names its setting, its state is the switch (the label
+                  flipped between Turn on and Turn off). */}
+              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={t('show')} sx={{ mb: 1 }} />
               {/* The layer's options, only while it's shown. */}
               <Collapse in={visible} className="oc-cave-layer-menu--options">
                 <Divider sx={{ mb: 1.5 }} />

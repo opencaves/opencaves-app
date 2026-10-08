@@ -202,9 +202,11 @@ export default function AppBar() {
             </Typography>
           </Button>
 
-          <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content' }}>
+          {/* Centred on the bar's height, links and buttons alike (the links
+              sat 4 px higher than the buttons on the right). */}
+          <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content', alignItems: 'center' }}>
             {!isSmall && (
-              <Grid sx={{ mr: 1, display: 'flex', gap: 0.5 }}>
+              <Grid sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
                   <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
