@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, CircularProgress, Grid, IconButton, MenuItem, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
 import AddLocationAltRounded from '@mui/icons-material/AddLocationAltRounded'
 import CenterFocusStrongRounded from '@mui/icons-material/CenterFocusStrongRounded'
-import CircleRounded from '@mui/icons-material/CircleRounded'
+import CheckRounded from '@mui/icons-material/CheckRounded'
+import QuestionMarkRounded from '@mui/icons-material/QuestionMarkRounded'
+import PriorityHighRounded from '@mui/icons-material/PriorityHighRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import FenceRounded from '@mui/icons-material/FenceRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
@@ -26,11 +28,12 @@ const FIELD_BADGE_ICONS = {
   key: VpnKeyRounded,
 }
 
-// A coordinate's validity (location.validity...), each with its clue colour.
+// A coordinate's validity (location.validity...), each with its icon and
+// clue colour.
 export const COORDINATE_VALIDITIES = [
-  { value: 'valid', color: 'success.main' },
-  { value: 'unknown', color: 'warning.main' },
-  { value: 'invalid', color: 'error.main' },
+  { value: 'valid', color: 'success.main', Icon: CheckRounded },
+  { value: 'unknown', color: 'warning.main', Icon: QuestionMarkRounded },
+  { value: 'invalid', color: 'error.main', Icon: PriorityHighRounded },
 ]
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
@@ -212,7 +215,10 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
 
   const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
   const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
-  const dot = (value) => <CircleRounded sx={{ fontSize: 12, color: COORDINATE_VALIDITIES.find((v) => v.value === value)?.color, flex: 'none' }} />
+  const dot = (value) => {
+    const { Icon, color } = COORDINATE_VALIDITIES.find((v) => v.value === value) || COORDINATE_VALIDITIES[1]
+    return <Icon sx={{ fontSize: 18, color, flex: 'none' }} />
+  }
   const validityInput = onValidityChange && (
     <TextField
       select
@@ -222,12 +228,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       disabled={!isSet}
       onChange={(e) => onValidityChange(e.target.value)}
       // One width whatever the choice (fits the longest, "Non confirmée"),
-      // so the rows line up.
-      sx={{ width: 172 }}
-      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
+      // so the rows line up - its value in the smaller body size, to keep it
+      // narrow.
+      sx={{ width: 162, '& .MuiSelect-select': { pr: '28px !important' } }}
+      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '0.875rem' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
     >
       {COORDINATE_VALIDITIES.map(({ value }) => (
-        <MenuItem key={value} value={value} sx={{ gap: 1 }}>
+        <MenuItem key={value} value={value} dense sx={{ gap: 1 }}>
           {dot(value)}
           {t(`validity.${value}`)}
         </MenuItem>
