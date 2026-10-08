@@ -592,8 +592,6 @@
       "feesHint": "Indique si la visite de cette cénote nécessite de payer un droit d'entrée",
       "facilities": "Installations",
       "facilitiesHint": "Indique si des installations comme des toilettes ou des vestiaires sont disponibles sur place",
-      "activities": "Activités",
-      "activitiesHint": "Indique si des activités supplémentaires (natation, plongée libre, etc.) sont proposées sur place",
       "accessDetails": "Détails d'accès",
       "accessibilityDetails": "Détails d'accessibilité",
       "description": "Description",

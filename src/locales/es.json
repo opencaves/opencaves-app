@@ -595,8 +595,6 @@
       "feesHint": "Indica si visitar este cenote requiere pagar una tarifa de entrada",
       "facilities": "Instalaciones",
       "facilitiesHint": "Indica si hay instalaciones como baños o vestidores disponibles en el lugar",
-      "activities": "Actividades",
-      "activitiesHint": "Indica si se ofrecen actividades adicionales (nadar, bucear, etc.) en este lugar",
       "accessDetails": "Detalles de acceso",
       "accessibilityDetails": "Detalles de accesibilidad",
       "description": "Descripción",

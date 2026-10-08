@@ -60,7 +60,6 @@ const emptyForm = {
   cenoteEntrance: false,
   fees: false,
   facilities: false,
-  activities: false,
   explorationDate: '',
   reporter: '',
   note: '',
@@ -150,7 +149,6 @@ export default function CaveEdit() {
         cenoteEntrance: !!cave?.cenoteEntrance,
         fees: !!cave?.fees,
         facilities: !!cave?.facilities,
-        activities: !!cave?.activities,
         explorationDate: cave?.explorationDate || '',
         reporter: cave?.reporter || '',
         note: cave?.note || '',
@@ -214,7 +212,6 @@ export default function CaveEdit() {
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
-        activities: form.activities,
         explorationDate: orDelete(form.explorationDate),
         reporter: orDelete(form.reporter),
         note: orDelete(form.note),
@@ -480,7 +477,6 @@ export default function CaveEdit() {
           <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
           <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
           <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
-          <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
         </Box>
 
         </FormSection>

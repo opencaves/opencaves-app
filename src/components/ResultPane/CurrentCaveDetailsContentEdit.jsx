@@ -103,7 +103,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     cenoteEntrance: !!cave.cenoteEntrance,
     fees: !!cave.fees,
     facilities: !!cave.facilities,
-    activities: !!cave.activities,
     longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
     entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
@@ -178,7 +177,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
-        activities: form.activities,
       }
 
       if (form.longitude === '' && form.latitude === '' && cave.location) {
@@ -451,7 +449,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
         <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
         <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
-        <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
       </Box>
 
       {isSmall ? !placingOnMap && createPortal(saveBar, document.body) : saveBar}
