@@ -24,10 +24,14 @@ const TWO_LINES_ON_PHONES = { display: { xs: '-webkit-box', sm: 'block' }, Webki
 // phones (a grid wider), its Show all pane with every map. Under them, the
 // maps added offline still waiting to upload, and Add map (editors; the
 // others are asked to log in) - shown with no map yet too, except to
-// visitors where there's no system to add one to.
-export default function MapsSection({ sistemaId, sistemas, connections, pagePath, title, card = false }) {
+// visitors where there's no system to add one to. pageMaps: every map, from
+// the page that waited for them (its own query starts empty, drawing nothing
+// for a moment, and the section then pushed the page down).
+export default function MapsSection({ sistemaId, sistemas, connections, pagePath, title, card = false, pageMaps }) {
   const { t: tMaps } = useTranslation('mapsPicker')
-  const [allMaps, loading] = mapsModel.useAll()
+  const [ownMaps, ownLoading] = mapsModel.useAll()
+  const allMaps = pageMaps || ownMaps
+  const loading = pageMaps ? false : ownLoading
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin()
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
