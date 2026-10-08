@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import pushId from 'unique-push-id'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Link, Typography } from '@mui/material'
+import { Chip, Link, Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -11,6 +11,13 @@ import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
+
+// The list narrowed to the caves that need something (?filter=...): the
+// What can I do? page links to them.
+const FILTERS = {
+  unnamed: (cave) => !cave.name,
+  'no-coordinates': (cave) => !cave.located,
+}
 
 // /caves: every cenote, by area (each area's own page linked from its
 // heading), those with no area last. Editors' list: /caves/edit.
@@ -21,6 +28,8 @@ export default function CaveIndex() {
   // The Add button's new record: one id per visit, not per render.
   const [newId] = useState(pushId)
   const { query, setQuery, matchesFolded, searching, searchedQuery } = useIndexSearch()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const filter = FILTERS[searchParams.get('filter')] ? searchParams.get('filter') : null
 
   // Every cave's row, and its search text (its name and other names, its
   // system's and its area's), made once - not on every letter typed.
@@ -36,7 +45,7 @@ export default function CaveIndex() {
       }),
     )
   }, [data, t])
-  const caves = useMemo(() => data.caves.filter((cave) => matchesFolded(rows.get(cave.id).text)), [data, rows, matchesFolded])
+  const caves = useMemo(() => data.caves.filter((cave) => (!filter || FILTERS[filter](cave)) && matchesFolded(rows.get(cave.id).text)), [data, rows, matchesFolded, filter])
   // Each area's rows: the same arrays until the search changes (the lists
   // aren't drawn again meanwhile).
   const groups = useMemo(() => groupByArea(caves, data.areasBySlug).map(({ area, items }) => ({ area, items, rows: items.map((cave) => rows.get(cave.id).row) })), [caves, data, rows])
@@ -73,6 +82,18 @@ export default function CaveIndex() {
         placeholder={t('search.caves')}
         status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : null}
       />
+
+      {/* The filter in effect, and the way back to every cave. */}
+      {filter && (
+        <Chip
+          className="oc-cave-index--filter"
+          color="primary"
+          label={t(`caves.filters.${filter}`, { count: caves.length })}
+          onDelete={() => setSearchParams((params) => { const next = new URLSearchParams(params); next.delete('filter'); return next }, { replace: true })}
+          slotProps={{ deleteIcon: { 'aria-label': t('caves.filters.clear') } }}
+          sx={{ mb: 3 }}
+        />
+      )}
 
       {groups.slice(0, shownGroups).map(({ area, items, rows: groupRows }) => (
         <IndexSection

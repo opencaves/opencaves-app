@@ -52,6 +52,7 @@
       "addPictures": "Ajouter des images",
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
+      "whatCanIDo": "Que puis-je faire ?",
       "whatsNew": "Nouveautés",
       "drawer": {
         "ariaLabel": "ouvrir le menu"
@@ -1436,6 +1437,13 @@
     "sistemaCount_one": "{{count}} réseau",
     "sistemaCount_other": "{{count}} réseaux",
     "caves": {
+      "filters": {
+        "unnamed_one": "{{count}} grotte sans nom",
+        "unnamed_other": "{{count}} grottes sans nom",
+        "no-coordinates_one": "{{count}} grotte sans coordonnées",
+        "no-coordinates_other": "{{count}} grottes sans coordonnées",
+        "clear": "Afficher toutes les grottes"
+      },
       "title": "Les grottes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
       "add": "Ajouter une grotte"
@@ -1531,6 +1539,102 @@
     "videosAdded_one": "{{count}} vidéo de {{name}}",
     "videosAdded_other": "{{count}} vidéos de {{name}}"
   },
+  "whatCanIDo": {
+    "title": "Que puis-je faire ?",
+    "lead": "OpenCaves est fait par les plongeurs qui l'utilisent. Explorez les grottes du Yucatán et aidez à les garder justes : chaque plongée que vous partagez rend la carte meilleure pour le prochain plongeur.",
+    "signup": "S'inscrire pour contribuer",
+    "openMap": "Ouvrir la carte",
+    "explore": {
+      "title": "Explorer",
+      "sub": "Aucun compte nécessaire.",
+      "find": {
+        "title": "Trouver des grottes",
+        "text": "Explorez la carte, parcourez toutes les grottes et tous les réseaux par région, ou cherchez par nom dans la barre du haut.",
+        "action": "Ouvrir la carte"
+      },
+      "read": {
+        "title": "Lire avant de partir",
+        "text": "Comment s'y rendre, l'accès (une clé, une permission, un guide, des frais), les photos, vidéos et cartes topographiques.",
+        "action": "Parcourir les grottes"
+      },
+      "directions": {
+        "title": "S'y rendre",
+        "text": "Copiez les coordonnées d'une grotte pour votre GPS, ou obtenez un itinéraire, depuis sa carte Emplacement."
+      },
+      "whatsNew": {
+        "title": "Voir les nouveautés",
+        "text": "Les grottes, réseaux, cartes, photos et vidéos que d'autres viennent d'ajouter.",
+        "action": "Nouveautés"
+      }
+    },
+    "contribute": {
+      "title": "Contribuer",
+      "sub": "Avec un compte gratuit : inscrivez-vous avec votre courriel, Google ou Microsoft.",
+      "save": {
+        "title": "Enregistrer vos grottes",
+        "text": "Gardez les grottes où vous voulez plonger, même hors ligne."
+      },
+      "rate": {
+        "title": "Noter vos plongées",
+        "text": "Donnez de 1 à 5 étoiles aux grottes où vous avez plongé. Votre note reste privée ; seule la moyenne est affichée."
+      },
+      "addCave": {
+        "title": "Ajouter une grotte qui manque",
+        "text": "Son nom, son réseau et sa région, ses coordonnées : depuis le bouton Ajouter de la liste des grottes.",
+        "action": "Aller aux grottes"
+      },
+      "coordinates": {
+        "title": "Mettre des grottes sur la carte",
+        "text": "Une icône de carte barrée dans les listes signale une grotte encore sans coordonnées. Vous y êtes allé ? Ajoutez-les.",
+        "action": "Les trouver"
+      },
+      "names": {
+        "title": "Nommer les grottes sans nom",
+        "text": "Certaines grottes sont listées comme (Grotte sans nom). Vous savez comment les plongeurs ou les gens du coin l'appellent ? Donnez-lui son nom.",
+        "action": "Les trouver"
+      },
+      "checkFacts": {
+        "title": "Vérifier les faits",
+        "text": "Les positions tirées d'une carte ou d'un guide sont marquées comme non confirmées : confirmez-les ou corrigez-les avec votre GPS sur place."
+      },
+      "access": {
+        "title": "Mettre à jour l'accès",
+        "text": "Qui a la clé, de qui il faut la permission, les frais, la marche jusqu'à l'eau. Cela change souvent, et vous le savez mieux que personne."
+      },
+      "texts": {
+        "title": "Écrire les textes",
+        "text": "Décrivez une grotte et comment s'y rendre avec vos propres mots, et indiquez d'où viennent les mots."
+      },
+      "media": {
+        "title": "Partager photos, vidéos et cartes",
+        "text": "Ajoutez des photos depuis la page d'une grotte, des liens de vidéos YouTube, Vimeo ou Facebook, et des cartes topographiques avec leur année et leurs cartographes."
+      },
+      "systems": {
+        "title": "Compléter les réseaux",
+        "text": "Leur longueur et leur profondeur, l'historique de leur exploration, et leurs connexions.",
+        "action": "Parcourir les réseaux"
+      }
+    },
+    "goodToKnow": {
+      "title": "Bon à savoir",
+      "public": {
+        "title": "Tout ce que vous ajoutez est public",
+        "text": "Photos, cartes, vidéos et informations sur les grottes sont visibles par tous. Ne partagez pas le numéro de téléphone de quelqu'un, ni rien que vous ne voudriez pas rendre public."
+      },
+      "mistakes": {
+        "title": "Les erreurs se corrigent",
+        "text": "Chaque modification est enregistrée, et un administrateur peut l’annuler."
+      },
+      "admins": {
+        "title": "Certaines choses sont réservées aux administrateurs",
+        "text": "Supprimer des grottes, des réseaux, des photos ou des cartes, et modifier les listes d'accès, d'accessibilités, de langues et de couleurs."
+      },
+      "safety": {
+        "title": "OpenCaves ne sert pas à planifier une plongée",
+        "text": "La plongée souterraine peut tuer. Formez-vous, plongez selon vos limites, et vérifiez toujours les conditions sur place."
+      }
+    }
+  },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
     "description": "OpenCaves : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
@@ -1592,12 +1696,14 @@
       "more": "D’autres régions viendront à mesure que les plongeurs les ajouteront."
     },
     "contribute": {
+      "whatCanIDo": "Que puis-je faire ?",
       "title": "Construit par des plongeurs",
       "text": "OpenCaves, ce sont des données ouvertes : tout le monde peut les consulter, et les plongeurs les tiennent à jour. Inscrivez-vous pour ajouter des grottes, des photos, des vidéos et des notes. L’application elle-même est libre.",
       "signup": "S’inscrire pour contribuer",
       "github": "OpenCaves sur GitHub"
     },
     "footer": {
+      "whatCanIDo": "Que puis-je faire ?",
       "about": "À propos",
       "language": "Langue"
     },

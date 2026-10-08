@@ -52,6 +52,7 @@
       "logoutSuccess": "Has cerrado sesión correctamente.",
       "about": "Acerca de",
       "about_withName": "Acerca de {{name}}",
+      "whatCanIDo": "¿Qué puedo hacer?",
       "whatsNew": "Novedades",
       "drawer": {
         "ariaLabel": "abrir menú"
@@ -1437,6 +1438,13 @@
     "sistemaCount_one": "{{count}} sistema de cuevas",
     "sistemaCount_other": "{{count}} sistemas de cuevas",
     "caves": {
+      "filters": {
+        "unnamed_one": "{{count}} cueva sin nombre",
+        "unnamed_other": "{{count}} cuevas sin nombre",
+        "no-coordinates_one": "{{count}} cueva sin coordenadas",
+        "no-coordinates_other": "{{count}} cuevas sin coordenadas",
+        "clear": "Mostrar todas las cuevas"
+      },
       "title": "Cuevas de Yucatán por zona",
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
       "add": "Añadir una cueva"
@@ -1532,6 +1540,102 @@
     "videosAdded_one": "{{count}} vídeo de {{name}}",
     "videosAdded_other": "{{count}} vídeos de {{name}}"
   },
+  "whatCanIDo": {
+    "title": "¿Qué puedo hacer?",
+    "lead": "OpenCaves lo hacen los buzos que lo usan. Explora las cuevas de Yucatán y ayuda a mantenerlas al día: cada inmersión que compartes mejora el mapa para el próximo buzo.",
+    "signup": "Regístrate para contribuir",
+    "openMap": "Abrir el mapa",
+    "explore": {
+      "title": "Explorar",
+      "sub": "No necesitas cuenta.",
+      "find": {
+        "title": "Encontrar cuevas",
+        "text": "Explora el mapa, recorre todas las cuevas y sistemas por zona, o busca por nombre en la barra de arriba.",
+        "action": "Abrir el mapa"
+      },
+      "read": {
+        "title": "Leer antes de ir",
+        "text": "Cómo llegar, el acceso (una llave, un permiso, un guía, una cuota), fotos, vídeos y mapas topográficos.",
+        "action": "Ver las cuevas"
+      },
+      "directions": {
+        "title": "Llegar",
+        "text": "Copia las coordenadas de una cueva para tu GPS, u obtén indicaciones, desde su tarjeta Ubicación."
+      },
+      "whatsNew": {
+        "title": "Ver las novedades",
+        "text": "Las cuevas, sistemas, mapas, fotos y vídeos que otros acaban de añadir.",
+        "action": "Novedades"
+      }
+    },
+    "contribute": {
+      "title": "Contribuir",
+      "sub": "Con una cuenta gratuita: regístrate con tu correo, Google o Microsoft.",
+      "save": {
+        "title": "Guardar tus cuevas",
+        "text": "Guarda las cuevas donde quieres bucear, incluso sin conexión."
+      },
+      "rate": {
+        "title": "Calificar tus inmersiones",
+        "text": "Da de 1 a 5 estrellas a las cuevas donde buceaste. Tu calificación es privada; solo se muestra el promedio."
+      },
+      "addCave": {
+        "title": "Añadir una cueva que falta",
+        "text": "Su nombre, su sistema y zona, sus coordenadas: desde el botón Añadir de la lista de cuevas.",
+        "action": "Ir a las cuevas"
+      },
+      "coordinates": {
+        "title": "Poner cuevas en el mapa",
+        "text": "Un icono de mapa tachado en las listas señala una cueva aún sin coordenadas. ¿Estuviste allí? Añádelas.",
+        "action": "Encontrarlas"
+      },
+      "names": {
+        "title": "Nombrar las cuevas sin nombre",
+        "text": "Algunas cuevas aparecen como (Cueva sin nombre). ¿Sabes cómo la llaman los buzos o la gente del lugar? Dale su nombre.",
+        "action": "Encontrarlas"
+      },
+      "checkFacts": {
+        "title": "Verificar los datos",
+        "text": "Las posiciones tomadas de un mapa o de una guía están marcadas como no confirmadas: confírmalas o corrígelas con tu GPS en el lugar."
+      },
+      "access": {
+        "title": "Actualizar el acceso",
+        "text": "Quién tiene la llave, a quién pedir permiso, la cuota, la caminata hasta el agua. Cambia a menudo, y tú lo sabes mejor que nadie."
+      },
+      "texts": {
+        "title": "Escribir los textos",
+        "text": "Describe una cueva y cómo llegar con tus propias palabras, e indica de dónde vienen."
+      },
+      "media": {
+        "title": "Compartir fotos, vídeos y mapas",
+        "text": "Añade fotos desde la página de una cueva, enlaces de vídeos de YouTube, Vimeo o Facebook, y mapas topográficos con su año y sus cartógrafos."
+      },
+      "systems": {
+        "title": "Completar los sistemas",
+        "text": "Su longitud y profundidad, la historia de su exploración, y sus conexiones.",
+        "action": "Ver los sistemas"
+      }
+    },
+    "goodToKnow": {
+      "title": "Bueno saber",
+      "public": {
+        "title": "Todo lo que añades es público",
+        "text": "Fotos, mapas, vídeos e información de las cuevas se muestran a todos. No compartas el teléfono de nadie, ni nada que no quieras hacer público."
+      },
+      "mistakes": {
+        "title": "Los errores se corrigen",
+        "text": "Cada cambio queda registrado, y un administrador puede deshacerlo."
+      },
+      "admins": {
+        "title": "Algunas cosas son para administradores",
+        "text": "Borrar cuevas, sistemas, fotos o mapas, y editar las listas de accesos, accesibilidades, idiomas y colores."
+      },
+      "safety": {
+        "title": "OpenCaves no sirve para planificar una inmersión",
+        "text": "El buceo en cuevas puede matar. Fórmate, bucea dentro de tus límites y verifica siempre las condiciones en el lugar."
+      }
+    }
+  },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
     "description": "OpenCaves: cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
@@ -1593,12 +1697,14 @@
       "more": "Llegarán más regiones a medida que los buzos las añadan."
     },
     "contribute": {
+      "whatCanIDo": "¿Qué puedo hacer?",
       "title": "Hecho por buzos",
       "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones. La aplicación misma es de código abierto.",
       "signup": "Regístrate para contribuir",
       "github": "OpenCaves en GitHub"
     },
     "footer": {
+      "whatCanIDo": "¿Qué puedo hacer?",
       "about": "Acerca de",
       "language": "Idioma"
     },

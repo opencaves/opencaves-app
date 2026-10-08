@@ -52,6 +52,7 @@
       "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
       "about_withName": "About {{name}}",
+      "whatCanIDo": "What can I do?",
       "whatsNew": "What's new",
       "drawer": {
         "ariaLabel": "open menu"
@@ -1437,6 +1438,13 @@
     "sistemaCount_one": "{{count}} cave system",
     "sistemaCount_other": "{{count}} cave systems",
     "caves": {
+      "filters": {
+        "unnamed_one": "{{count}} unnamed cave",
+        "unnamed_other": "{{count}} unnamed caves",
+        "no-coordinates_one": "{{count}} cave without coordinates",
+        "no-coordinates_other": "{{count}} caves without coordinates",
+        "clear": "Show every cave"
+      },
       "title": "Caves of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
       "add": "Add a cave"
@@ -1532,6 +1540,102 @@
     "videosAdded_one": "{{count}} video of {{name}}",
     "videosAdded_other": "{{count}} videos of {{name}}"
   },
+  "whatCanIDo": {
+    "title": "What can I do?",
+    "lead": "OpenCaves is made by the divers who use it. Explore the caves of the Yucatán, and help keep them right: every dive you share makes the map better for the next diver.",
+    "signup": "Sign up to contribute",
+    "openMap": "Open the map",
+    "explore": {
+      "title": "Explore",
+      "sub": "No account needed.",
+      "find": {
+        "title": "Find caves",
+        "text": "Explore the map, browse every cave and cave system by area, or search by name from the bar at the top.",
+        "action": "Open the map"
+      },
+      "read": {
+        "title": "Read before you go",
+        "text": "How to get there, the access (a key, a permission, a guide, a fee), photos, videos and survey maps.",
+        "action": "Browse the caves"
+      },
+      "directions": {
+        "title": "Get there",
+        "text": "Copy a cave's coordinates for your GPS, or get driving directions, from its Location card."
+      },
+      "whatsNew": {
+        "title": "See what's new",
+        "text": "The caves, systems, maps, photos and videos people have just added.",
+        "action": "What's new"
+      }
+    },
+    "contribute": {
+      "title": "Contribute",
+      "sub": "With a free account: sign up with your email, Google or Microsoft.",
+      "save": {
+        "title": "Save your caves",
+        "text": "Keep the caves you want to dive, even offline."
+      },
+      "rate": {
+        "title": "Rate your dives",
+        "text": "Give the caves you dived 1 to 5 stars. Your rating stays private; only the average shows."
+      },
+      "addCave": {
+        "title": "Add a missing cave",
+        "text": "Its name, its system and area, its coordinates: from the cave list's Add button.",
+        "action": "Go to the caves"
+      },
+      "coordinates": {
+        "title": "Put caves on the map",
+        "text": "A crossed-out map icon in the cave lists marks a cave with no coordinates yet. Been there? Add them.",
+        "action": "Find them"
+      },
+      "names": {
+        "title": "Name the unnamed caves",
+        "text": "Some caves are listed as (Unnamed cave). Know what divers or locals call one? Give it its name.",
+        "action": "Find them"
+      },
+      "checkFacts": {
+        "title": "Check the facts",
+        "text": "Positions read off a map or a guidebook are marked as not confirmed: confirm or correct them with your GPS on site."
+      },
+      "access": {
+        "title": "Update the access",
+        "text": "Who holds the key, whose permission you need, the fee, the walk to the water. It changes often, and you know it best."
+      },
+      "texts": {
+        "title": "Write the texts",
+        "text": "Describe a cave and how to get there in your own words, and say where the words come from."
+      },
+      "media": {
+        "title": "Share photos, videos and maps",
+        "text": "Add photos from a cave's page, links to YouTube, Vimeo or Facebook videos, and survey maps with their year and cartographers."
+      },
+      "systems": {
+        "title": "Complete the cave systems",
+        "text": "Their length and depth, their exploration history, and how they connect.",
+        "action": "Browse the systems"
+      }
+    },
+    "goodToKnow": {
+      "title": "Good to know",
+      "public": {
+        "title": "Everything you add is public",
+        "text": "Photos, maps, videos and cave information are shown to everyone. Don't share anyone's phone number, or anything you wouldn't want public."
+      },
+      "mistakes": {
+        "title": "Mistakes are fine",
+        "text": "Every change is recorded, and an administrator can undo it."
+      },
+      "admins": {
+        "title": "Some things are for administrators",
+        "text": "Deleting caves, systems, photos or maps, and editing the lists of accesses, accessibilities, languages and colours."
+      },
+      "safety": {
+        "title": "OpenCaves is not for dive planning",
+        "text": "Cave diving can kill. Get trained, dive within your limits, and always check conditions on site."
+      }
+    }
+  },
   "home": {
     "title": "Open data for cave diving",
     "description": "OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.",
@@ -1593,12 +1697,14 @@
       "more": "More regions will come as divers add them."
     },
     "contribute": {
+      "whatCanIDo": "What can I do?",
       "title": "Built by divers",
       "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.",
       "signup": "Sign up to contribute",
       "github": "OpenCaves on GitHub"
     },
     "footer": {
+      "whatCanIDo": "What can I do?",
       "about": "About",
       "language": "Language"
     },

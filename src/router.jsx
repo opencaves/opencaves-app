@@ -238,6 +238,11 @@ const routes = [
             lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
           },
           {
+            // What OpenCaves' users can do (exploring, contributing).
+            path: 'what-can-i-do',
+            lazy: () => import('@/routes/WhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
             path: 'terms',
             lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="terms" /> })),
           },
