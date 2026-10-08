@@ -8,6 +8,10 @@ import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
 import dashboardBackground from '@/images/dashboard/bg.webp'
 import pagesBackground from '@/images/pages/bg.webp'
+// Their small copies (1080-1280 px, a few times lighter) for small screens.
+import layoutBackgroundSmall from '@/images/404/bg-small.webp'
+import dashboardBackgroundSmall from '@/images/dashboard/bg-small.webp'
+import pagesBackgroundSmall from '@/images/pages/bg-small.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 import { isPublicIndexPath } from '@/utils/seo.js'
 
@@ -162,7 +166,11 @@ export default function Layout() {
         scrollBehavior: 'smooth',
         '@media (prefers-reduced-motion: reduce)': { scrollBehavior: 'auto' },
         backgroundColor: '#000',
-        backgroundImage: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
+        // Only the one for the screen's size is downloaded.
+        backgroundImage: {
+          xs: `url(${hasPagesBackground ? pagesBackgroundSmall : isDashboardPage ? dashboardBackgroundSmall : layoutBackgroundSmall})`,
+          md: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
+        },
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}

@@ -23,6 +23,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 // The logo's version for dark backgrounds (the header's photo).
 import Logo from '@/images/logo/brand_dark.svg?react'
 import heroBackground from '@/images/404/bg.webp'
+import heroBackgroundSmall from '@/images/404/bg-small.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
 import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
@@ -150,7 +151,11 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          backgroundImage: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1536')}), ` : ''}url(${heroBackground})`,
+          // Smaller on small screens (the 1536 photo and 4160 px backdrop on a phone).
+          backgroundImage: {
+            xs: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1024')}), ` : ''}url(${heroBackgroundSmall})`,
+            md: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1536')}), ` : ''}url(${heroBackground})`,
+          },
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           px: { xs: 3, sm: 6, md: 8 },

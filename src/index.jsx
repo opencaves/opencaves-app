@@ -11,9 +11,11 @@ import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 import '@/utils/externalFileDrag.js'
 // import reportWebVitals from './reportWebVitals'
 
-// Ionic is for phones only (see utils/ionic.js): start fetching it right
-// away there, alongside the app, so the map page doesn't wait on it.
-if (isPhone()) {
+// Ionic is for phones only (see utils/ionic.js), and only the map uses it:
+// fetched right away when the map is the page opened; other pages get it
+// with the map's prefetch, once they've loaded (prefetchMap) - it was 219 KB
+// competing with every phone page's own code.
+if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
   loadIonic()
 }
 
@@ -42,11 +44,14 @@ function initTagManager() {
   })
 }
 
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(initTagManager)
-} else {
-  setTimeout(initTagManager, 2000)
+// Idle alone came within a second on a slow phone, in the middle of loading:
+// a few seconds after the page's load, then when idle.
+function afterLoad(run, delay) {
+  const later = () => setTimeout(() => ('requestIdleCallback' in window ? requestIdleCallback(run, { timeout: 5000 }) : run()), delay)
+  if (document.readyState === 'complete') later()
+  else window.addEventListener('load', later, { once: true })
 }
+afterLoad(initTagManager, 4000)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
