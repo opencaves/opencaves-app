@@ -128,7 +128,9 @@ export default defineConfig({
             // every page then preloaded all of Mapbox (only the map needs it).
             { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50, includeDependenciesRecursively: false },
             { name: 'mui', test: /node_modules[\\/](@mui|@emotion)[\\/]/, priority: 40 },
-            { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/]/, priority: 40 },
+            // Storage and Functions left out: loaded on first use (config/firebase.js),
+            // they get chunks of their own instead of riding with every page.
+            { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/](?!(storage|functions)([\\/]|$))/, priority: 40 },
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
             // Not its dependencies either (as mapbox): the shared helper would move here.

@@ -1,15 +1,13 @@
 import { useMemo } from 'react'
 import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
-import { ref, uploadBytesResumable } from 'firebase/storage'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { breakpoints } from '@/theme/Theme.jsx'
-import { auth, db, functions, storage } from '@/config/firebase.js'
+import { auth, callable, db, getStorageService } from '@/config/firebase.js'
 import { isTrashed, withoutTrashed } from '@/utils/trash.js'
 import { FIREBASE_CONFIG } from '@/config/firebase.config.js'
 import { IMAGE_SIZES, PANE_WIDTH, THUMBNAIL_FOLDER, THUMBNAIL_FORMATS, VIEW_THUMBNAIL_SIZES } from '@/config/app.js'
-import { httpsCallable } from 'firebase/functions'
 import { assertOnline } from '@/utils/assertOnline.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
@@ -168,7 +166,7 @@ export default class CaveAsset {
   // URL <Picture> requests for it, which the offline downloads rely on.
   getThumbnailUrl(dimension, format = THUMBNAIL_FORMATS[0]) {
     const isProd = window.location.hostname !== 'localhost'
-    const baseUrl = isProd ? `https://storage.googleapis.com/${storage.app.options.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
+    const baseUrl = isProd ? `https://storage.googleapis.com/${FIREBASE_CONFIG.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
     const url = new URL(baseUrl)
     // Copies redone (scripts/fix-photo-orientation.js) carry their revision in
     // their name: a new URL, so no cache keeps serving the old ones.
@@ -238,7 +236,7 @@ export default class CaveAsset {
   // viewer: { image (base64), view } (capturePanoramaView).
   async setViewThumbnail({ image, view }) {
     assertOnline()
-    await httpsCallable(functions, 'setViewThumbnail')({ assetId: this.id, image, view })
+    await callable('setViewThumbnail')({ assetId: this.id, image, view })
   }
 
   async upload(file, callback) {
@@ -262,6 +260,7 @@ export default class CaveAsset {
         customMetadata.userId = self.userId
       }
 
+      const { storage, ref, uploadBytesResumable } = await getStorageService()
       const fileRef = ref(storage, self.fullPath)
       const uploadTask = uploadBytesResumable(fileRef, file, { customMetadata })
       uploadTask.on(

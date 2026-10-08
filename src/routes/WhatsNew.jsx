@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { httpsCallable } from 'firebase/functions'
 import { Box, Chip, Skeleton, Stack, SvgIcon, Typography } from '@mui/material'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import PhotoLibraryOutlined from '@mui/icons-material/PhotoLibraryOutlined'
 import VideoLibraryOutlined from '@mui/icons-material/VideoLibraryOutlined'
 import CaveAsset from '@/models/CaveAsset.js'
 import MapOutlined from '@mui/icons-material/MapOutlined'
-import { functions } from '@/config/firebase.js'
+import { callable } from '@/config/firebase.js'
 import { APP_NAME } from '@/config/app.js'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -18,7 +17,7 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import { youtubeThumbnail } from '@/utils/videos.js'
 
-const getWhatsNew = httpsCallable(functions, 'getWhatsNew')
+const getWhatsNew = callable('getWhatsNew')
 const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'photos', 'videos']
 
 // What's new, built by the server from the audit log as it is now

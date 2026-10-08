@@ -1,6 +1,5 @@
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, Timestamp, where } from 'firebase/firestore'
-import { httpsCallable } from 'firebase/functions'
-import { db, functions } from '@/config/firebase.js'
+import { db, callable } from '@/config/firebase.js'
 import { AUDIT_LOG_COLLECTION, USERS_COLLECTION } from '@/config/collections.js'
 import { AUDIT_BATCH_LIMIT, AUDIT_PAGE_SIZE } from '@/config/audits.js'
 import { assertOnline } from '@/utils/assertOnline.js'
@@ -9,8 +8,8 @@ import { assertOnline } from '@/utils/assertOnline.js'
 // admins on the Audits page, and the server's undo and trash callables.
 
 const auditLog = collection(db, AUDIT_LOG_COLLECTION)
-const undoAuditEntriesFn = httpsCallable(functions, 'undoAuditEntries')
-const emptyTrashFn = httpsCallable(functions, 'emptyTrash')
+const undoAuditEntriesFn = callable('undoAuditEntries')
+const emptyTrashFn = callable('emptyTrash')
 
 // What an undo can reverse: the app's own edits to the data. The admins'
 // user management (_users) and permanent deletions (purge) can't be undone.
