@@ -1621,6 +1621,7 @@
   },
   "feedback": {
     "title": "Enviar comentarios",
+    "tab": "Comentarios",
     "intro": "Cuéntale al equipo de OpenCaves sobre un error, algo engañoso o una idea. ¡Gracias por tu ayuda!",
     "kindLabel": "¿De qué se trata?",
     "kinds": {

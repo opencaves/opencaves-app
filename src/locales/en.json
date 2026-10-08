@@ -1621,6 +1621,7 @@
   },
   "feedback": {
     "title": "Send feedback",
+    "tab": "Feedback",
     "intro": "Tell the OpenCaves team about a bug, something misleading, or an idea. Thank you for helping!",
     "kindLabel": "What is it about?",
     "kinds": {
