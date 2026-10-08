@@ -295,7 +295,7 @@
   "about": {
     "title": "About",
     "version": "Version {{version}}",
-    "whatsNew": "What's new",
+    "whatsNew": "Release notes",
     "dialog": {
       "ariaLabel": "About {{name}}",
       "close": "close"
@@ -570,7 +570,7 @@
       "deleteVideoConfirm": "This video will be removed from the cave.",
       "deleteVideoError": "Could not delete the video. Please try again.",
       "note": "Note(s)",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "addMap": "Add map",
       "editMap": "Edit map",
       "mapOptions": "Map options",
@@ -854,7 +854,7 @@
     "maxDepth": "Max depth ({{unit}})",
     "description": "Description",
     "direction": "Getting there",
-    "maps": "Maps",
+    "maps": "Survey maps",
     "none": "(none)",
     "deleteConfirm": "Delete this sistema?",
     "delete": "Delete",
@@ -1350,7 +1350,7 @@
       "sistemas": "Sistemas",
       "connections": "Sistema connections",
       "cavesAssets": "Photos",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "accesses": "Accesses",
       "accessibilities": "Accessibilities",
       "sources": "Sources",
@@ -1529,7 +1529,7 @@
       "openPhoto": "Open photo {{n}}"
     },
     "notOnMap": "Not on the map: no coordinates yet",
-    "maps": "Maps",
+    "maps": "Survey maps",
     "searchNoResult": "No cave or system matches “{{query}}” - search all caves"
   },
   "appBarSearch": {
@@ -1552,7 +1552,7 @@
       "caves": "Caves",
       "sistemas": "Cave systems",
       "connections": "Connections",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "photos": "Photos",
       "videos": "Videos"
     },
@@ -1560,7 +1560,7 @@
       "caves": "Cave",
       "sistemas": "Cave system",
       "connections": "Connection",
-      "maps": "Map",
+      "maps": "Survey map",
       "photos": "Photos",
       "videos": "Videos"
     },
