@@ -61,6 +61,13 @@
       background-color: var(--oc-map-control-hover-background);
     }
 
+    // The app's focus ring (variables.scss), which Mapbox's own styles hid
+    // on "Find my location".
+    &:focus-visible {
+      outline: 3px solid var(--oc-focus-ring);
+      outline-offset: 2px;
+    }
+
     &.mapboxgl-ctrl-geolocate {
       border-radius: 50vh;
       // MD3's FAB size, like the editors' edit FAB above it (EditCaveFab).
