@@ -31,7 +31,8 @@ function unlabelMarker(marker) {
 export default memo(function CaveMarker({ cave, current, draggable, dragging, showLabel, saved, editMode, replace, onMarkerClick, onDragStart, onDragEnd }) {
   const { t } = useTranslation('map')
   const caveName = cave.name?.value || t('caveNameUnknown')
-  const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
+  // Never undefined: the glyph's colour is worked out from it (getPinGlyphColor).
+  const markerColor = cave.sistemas?.at(-1)?.color || SISTEMA_DEFAULT_COLOR
   const Pin = cave.location.validity === 'valid' ? PinIcon : PinLocationUnknownIcon
 
   return (

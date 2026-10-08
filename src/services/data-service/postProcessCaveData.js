@@ -110,7 +110,10 @@ export function buildSistemaAncestryComputer(sistemas, connections) {
     const chain = [{
       name: sistemaNamesFromId.get(cave.sistemaId) || 'n. d.',
       id: cave.sistemaId,
-      color: cave.sistemaColor
+      // From the system itself, as its parents (the copy on the cave goes
+      // stale, and a system without one left it undefined: a white pin with
+      // a white glyph); the default colour when the system has none.
+      color: getSistemaColor(cave.sistemaId)
     }]
     pushParent(chain)
 
