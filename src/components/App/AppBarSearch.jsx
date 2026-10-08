@@ -13,7 +13,9 @@ import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/se
 // (/caves/:id, /sistemas/:id);
 // Enter on free text opens the caves' list filtered by it. A pill-shaped
 // field in the bar on wide screens; below, a search button that opens the
-// field over the whole bar, with a back arrow to close it.
+// field over the whole bar, with a back arrow to close it - revealed in a
+// circle growing from the button, and closed back into it (M3's container
+// transform, as a circular reveal).
 export default function AppBarSearch() {
   const { t } = useTranslation('appBarSearch')
   const theme = useTheme()
@@ -23,14 +25,49 @@ export default function AppBarSearch() {
   const compact = useSmall(theme.breakpoints.down('lg'))
   const [input, setInput] = useState('')
   const [open, setOpen] = useState(false)
+  // The overlay stays mounted while it closes; revealed drives its circle,
+  // grown from the search button's center (origin).
+  const [mounted, setMounted] = useState(false)
+  const [revealed, setRevealed] = useState(false)
+  const [origin, setOrigin] = useState(null)
+  const buttonRef = useRef(null)
+  const closeTimer = useRef(null)
   const inputRef = useRef(null)
   const suggestions = useSiteSearch(input)
   const placeholder = t('placeholder')
 
+  const motion = theme.sys.motion
+
+  function openOverlay() {
+    clearTimeout(closeTimer.current)
+    const rect = buttonRef.current?.getBoundingClientRect()
+    if (rect) setOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 })
+    setMounted(true)
+    setOpen(true)
+    // Mounted closed first, then grown: the transition needs both states.
+    requestAnimationFrame(() => requestAnimationFrame(() => setRevealed(true)))
+  }
+
+  // animate false: gone at once (a new page).
+  function closeOverlay({ animate = true } = {}) {
+    setOpen(false)
+    setRevealed(false)
+    clearTimeout(closeTimer.current)
+    if (!animate) {
+      setMounted(false)
+      return
+    }
+    closeTimer.current = setTimeout(() => setMounted(false), motion.duration.emphasizedAccelerate)
+    buttonRef.current?.focus()
+  }
+
+  useEffect(() => () => clearTimeout(closeTimer.current), [])
+
   // A new page: the search starts over (and its overlay closes).
   useEffect(() => {
     setInput('')
-    setOpen(false)
+    closeOverlay({ animate: false })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
   useEffect(() => {
@@ -88,7 +125,7 @@ export default function AppBarSearch() {
               </InputAdornment>
             }
             onKeyDown={(event) => {
-              if (event.key === 'Escape' && compact) setOpen(false)
+              if (event.key === 'Escape' && compact) closeOverlay()
             }}
             sx={{
               width: '100%',
@@ -116,16 +153,42 @@ export default function AppBarSearch() {
   return (
     <>
       <Tooltip title={t('open')}>
-        <IconButton color="inherit" aria-label={t('open')} aria-expanded={open} onClick={() => setOpen(true)} sx={{ p: 1.5 }}>
+        <IconButton ref={buttonRef} color="inherit" aria-label={t('open')} aria-expanded={open} onClick={openOverlay} sx={{ p: 1.5 }}>
           <SearchRounded />
         </IconButton>
       </Tooltip>
-      {open && (
+      {mounted && (
         // Over the whole bar (fixed, like it: 64px at the top), in its
         // colors: a back arrow, then the field.
-        <Box className="oc-app-bar-search--overlay" sx={(theme) => ({ position: 'fixed', top: 0, left: 0, right: 0, height: 64, zIndex: theme.zIndex.appBar + 1, display: 'flex', alignItems: 'center', gap: 0.5, px: { xs: 0.5, sm: 2 }, bgcolor: 'var(--oc-app-bar-bg)', color: 'var(--oc-app-bar-fg)' })}>
+        <Box
+          className="oc-app-bar-search--overlay"
+          sx={(theme) => {
+            const at = origin ? `${origin.x}px ${origin.y}px` : 'right center'
+            return {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 64,
+              zIndex: theme.zIndex.appBar + 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              px: { xs: 0.5, sm: 2 },
+              bgcolor: 'var(--oc-app-bar-bg)',
+              color: 'var(--oc-app-bar-fg)',
+              // Wider than the bar's diagonal from any point in it.
+              clipPath: revealed ? `circle(150vmax at ${at})` : `circle(24px at ${at})`,
+              opacity: revealed ? 1 : 0,
+              transition: revealed
+                ? `clip-path ${motion.duration.emphasizedDecelerate}ms ${motion.easing.emphasizedDecelerate}, opacity ${motion.duration.standardDecelerate}ms linear`
+                : `clip-path ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}, opacity ${motion.duration.emphasizedAccelerate}ms ${motion.easing.emphasizedAccelerate}`,
+              '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+            }
+          }}
+        >
           <Tooltip title={t('close')}>
-            <IconButton color="inherit" aria-label={t('close')} onClick={() => setOpen(false)} sx={{ p: 1.5 }}>
+            <IconButton color="inherit" aria-label={t('close')} onClick={() => closeOverlay()} sx={{ p: 1.5 }}>
               <ArrowBackRounded />
             </IconButton>
           </Tooltip>
