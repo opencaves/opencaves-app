@@ -14,6 +14,13 @@ export const REGION_BBOX = [-92.5, 17.5, -86.5, 21.8]
 // (CoordinatesMapPreview, PlaceOnMapOverlay).
 export const PLACE_ZOOM = 17
 
+// The map's home area - the Riviera Maya, Puerto Morelos to south of Tulum,
+// with a margin - as [west, south, east, north]. The default view (a first
+// visit, the nav's Map item) fits the caves inside it (homeBounds.js); a cave
+// outside it is ignored there.
+export const HOME_AREA_BBOX = [-88.2, 19.6, -86.6, 21.4]
+
+// The view before the caves have loaded (then fitted to them).
 export const INITIAL_VIEW_STATE = {
   latitude: 20.196112,
   longitude: -87.4868895,

@@ -9,7 +9,7 @@ import FenceRounded from '@mui/icons-material/FenceRounded'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
-import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
+import { clearViewResetRequest, setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -37,6 +37,7 @@ function labelMarker(label) {
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
+import { homeBounds } from './homeBounds.js'
 
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
@@ -93,6 +94,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const pickingCoordinateFor = useSelector((state) => state.map.pickingCoordinateFor)
   const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
   const flyToCoordinateRequest = useSelector((state) => state.map.flyToCoordinateRequest)
+  const viewResetRequested = useSelector((state) => state.map.viewResetRequested)
   const roles = useSelector((state) => state.session.roles)
 
   const { caveId } = useParams()
@@ -115,6 +117,10 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // A position in the URL (a shared link) wins over the last one seen here.
   const [hashViewState] = useState(locationViewState)
   const persistedViewStateAvailable = hasSavedViewState(savedViewState)
+  // Neither (a first visit, or after the nav's Map item): the default view,
+  // fitted to the home area's caves once they and the map have loaded.
+  // (Not a link to a cave: it goes to the cave.)
+  const [startsAtHome] = useState(() => !hashViewState && !persistedViewStateAvailable && !caveId)
   const initialMapViewState = hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
@@ -767,6 +773,31 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     // pane from the side to the bottom, so the offset computed before is wrong.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isWidePaneEditMode, isSmall])
+
+  // The default view: the home area's caves, framed clear of the search bar
+  // (homeBounds; the hard-coded center and zoom showed a different area on
+  // each screen size).
+  const caveBounds = useMemo(() => homeBounds(caveData), [caveData])
+  function fitHome(animate) {
+    const map = mapRef.current
+    if (!map || !caveBounds) return false
+    map.fitBounds(caveBounds, { padding: { top: isSmall ? 88 : 96, bottom: 40, left: 40, right: isSmall ? 40 : 96 }, maxZoom: 13, ...(animate ? { essential: false } : { duration: 0 }) })
+    return true
+  }
+
+  // A first visit: framed on the caves as soon as they're there.
+  const fittedHomeRef = useRef(false)
+  useEffect(() => {
+    if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = true
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startsAtHome, mapLoaded, caveBounds])
+
+  // The nav's Map item while the map is open: back to the default view.
+  // (Opening the map, it starts there: resetView cleared the saved view.)
+  useEffect(() => {
+    if (viewResetRequested && mapLoaded && fitHome(true)) dispatch(clearViewResetRequest())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewResetRequested, mapLoaded, caveBounds])
 
   // A CoordinateField's own "center the map here" action.
   useEffect(() => {

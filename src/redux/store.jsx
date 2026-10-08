@@ -52,7 +52,7 @@ const mapPersistConfig = {
   storage: sessionPersistStorage,
   // placeOnMap and crossPickFor are transient UI modes - restoring them after
   // a reload would strand them with nothing driving them.
-  blacklist: ['currentMarker', 'placeOnMap', 'crossPickFor'],
+  blacklist: ['currentMarker', 'placeOnMap', 'crossPickFor', 'viewResetRequested'],
 }
 
 const rootReducer = combineReducers({
