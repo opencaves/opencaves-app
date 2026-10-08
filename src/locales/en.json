@@ -48,7 +48,7 @@
       "admin": "Dashboard",
       "signup": "Sign up",
       "login": "Log in",
-      "addPictures": "Add Pictures",
+      "addPictures": "Add photos",
       "logout": "Log out",
       "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
@@ -135,7 +135,7 @@
       "notPersisted": "The browser may remove this data if the device runs low on space.",
       "clear": "Clear offline data",
       "confirmTitle": "Clear offline data?",
-      "confirmText": "Downloaded pictures, maps and map areas will be removed from this device, and “Make available offline” will be turned off.",
+      "confirmText": "Downloaded photos, maps and map areas will be removed from this device, and “Make available offline” will be turned off.",
       "confirmClear": "Clear",
       "cancel": "Cancel",
       "cleared": "Offline data cleared",
@@ -531,13 +531,13 @@
     "locationNotAvailable": "Location not available",
     "coverImage": {
       "addImages": {
-        "tooltip": "Add pictures"
+        "tooltip": "Add photos"
       },
       "seeImages": {
-        "tooltip": "See pictures"
+        "tooltip": "See photos"
       }
     },
-    "morePicturesBtn": "More pictures",
+    "morePicturesBtn": "More photos",
     "menu": {
       "ariaLabel": "More",
       "myAccount": "My Account",
@@ -554,11 +554,11 @@
       "removeNameTranslation": "Remove translation",
       "nameTranslationLanguage": "Language",
       "nameTranslationValue": "Translated name",
-      "pictures": "Pictures",
-      "addPictures": "Add pictures",
-      "deletePicture": "Delete picture",
-      "deletePictureConfirm": "This picture goes to the trash: an admin can restore it from Audits > Trash.",
-      "deletePictureError": "Could not delete the picture. Please try again.",
+      "pictures": "Photos",
+      "addPictures": "Add photos",
+      "deletePicture": "Delete photo",
+      "deletePictureConfirm": "This photo goes to the trash: an admin can restore it from Audits > Trash.",
+      "deletePictureError": "Could not delete the photo. Please try again.",
       "videos": "Videos",
       "videoUrl": "Video URL",
       "addVideo": "Add video",
@@ -695,27 +695,27 @@
       "ariaLabel": "Back"
     },
     "addPictureBtn": {
-      "tooltip": "Add pictures",
-      "ariaLabel": "add pictures"
+      "tooltip": "Add photos",
+      "ariaLabel": "Add photos"
     },
     "empty": {
-      "header": "No images yet!",
-      "btn": "Add images"
+      "header": "No photos yet!",
+      "btn": "Add photos"
     },
     "share": {
       "title": "View « {{title}} » on OpenCaves.org",
       "text": "View « {{title}}"
     },
-    "images": "images",
+    "images": "photos",
     "menu": {
       "ariaLabel": "More",
-      "useAsCoverImage": "Use as cover image",
-      "useAsCoverSuccess": "Cover image changed.",
-      "useAsCoverFail": "Failed to change cover image.",
+      "useAsCoverImage": "Use as cover photo",
+      "useAsCoverSuccess": "Cover photo changed.",
+      "useAsCoverFail": "Could not change the cover photo.",
       "useViewAsThumbnail": "Use this view as thumbnail",
       "useViewAsThumbnailSuccess": "Thumbnail changed to this view.",
       "useViewAsThumbnailFail": "Failed to change the thumbnail.",
-      "viewOriginalImage": "View original image",
+      "viewOriginalImage": "View original photo",
       "deleteAction": "Delete photo",
       "deleteSuccess": "Photo moved to the trash.",
       "deleteFail": "Couldn't delete the photo.",
@@ -725,7 +725,7 @@
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Show image"
+        "ariaLabel": "Show photo"
       }
     },
     "addMedia": {
