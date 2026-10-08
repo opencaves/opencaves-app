@@ -65,8 +65,13 @@ ${reason}`)
   )
 }
 
-export default function NoMatch() {
+// inLayout: inside the pages' layout (app bar, search kept), not the whole
+// window; a bad cave or system address offers its list too.
+export default function NoMatch({ inLayout = false }) {
   const { t } = useTranslation('404')
+  const { t: tHome } = useTranslation('home')
+  const { pathname } = useLocation()
+  const list = pathname.startsWith('/caves/') ? 'caves' : pathname.startsWith('/sistemas/') ? 'sistemas' : null
   const { t: tSeo } = useTranslation('seo')
   const error = useRouteError()
   const online = useOnline()
@@ -106,7 +111,7 @@ export default function NoMatch() {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} direction="column" sx={{ height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen
           view's back arrow at its top left), on a light disc over the photo. */}
       {kind === 'offline' && (
@@ -118,9 +123,16 @@ export default function NoMatch() {
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>
         {kind === 'notFound' ? (
-          <Button component={Link} variant="contained" disableElevation to="/">
-            {t('backBtn')}
-          </Button>
+          <Grid container sx={{ gap: 1.5, justifyContent: 'center' }}>
+            {list && (
+              <Button component={Link} variant="contained" disableElevation to={`/${list}`}>
+                {tHome(`hero.browse.${list}`)}
+              </Button>
+            )}
+            <Button component={Link} variant={list ? 'outlined' : 'contained'} disableElevation to="/">
+              {t('backBtn')}
+            </Button>
+          </Grid>
         ) : (
           <Button variant="contained" disableElevation onClick={() => revalidator.revalidate()} loading={revalidator.state === 'loading'}>
             {t('retryBtn')}

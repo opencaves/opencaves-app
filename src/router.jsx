@@ -225,196 +225,208 @@ const routes = [
         element: <Layout />,
         children: [
           {
-            // The landing page (its content to be settled).
-            index: true,
-            lazy: () => import('@/routes/Home.jsx').then(({ default: Component }) => ({ Component })),
-          },
-          {
-            path: 'about',
-            element: <AboutRoute />,
-          },
-          {
-            path: 'privacy',
-            lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
-          },
-          {
-            // What OpenCaves' users can do - during the beta, test it and
-            // report (the 1.0 page waits on its own branch, what-can-i-do).
-            path: 'what-can-i-do',
-            lazy: () => import('@/routes/BetaWhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
-          },
-          {
-            path: 'terms',
-            lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="terms" /> })),
-          },
-          {
-            path: 'signup',
-            ...skipIfLoggedIn(() => import('@/routes/Signup.jsx')),
+            // A page failing or not found (throwNotFound) inside the layout: the
+            // app bar and its search stay (the root's NoMatch replaced them).
+            errorElement: <NoMatch inLayout />,
             children: [
               {
-                path: 'with-email',
-                lazy: () => import('@/components/auth/SignupWithEmail.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
+                // The landing page (its content to be settled).
+                index: true,
+                lazy: () => import('@/routes/Home.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                path: 'about',
+                element: <AboutRoute />,
+              },
+              {
+                path: 'privacy',
+                lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
+              },
+              {
+                // What OpenCaves' users can do - during the beta, test it and
+                // report (the 1.0 page waits on its own branch, what-can-i-do).
+                path: 'what-can-i-do',
+                lazy: () => import('@/routes/BetaWhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                path: 'terms',
+                lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="terms" /> })),
+              },
+              {
+                path: 'signup',
+                ...skipIfLoggedIn(() => import('@/routes/Signup.jsx')),
+                children: [
+                  {
+                    path: 'with-email',
+                    lazy: () => import('@/components/auth/SignupWithEmail.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
+                  },
+                ],
+              },
+              {
+                path: 'login',
+                ...skipIfLoggedIn(() => import('@/routes/LogIn.jsx')),
+                children: [
+                  {
+                    path: 'with-email',
+                    lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
+                  },
+                ],
+              },
+              {
+                path: 'account',
+                element: (
+                  <RequireAuth>
+                    <Account />
+                  </RequireAuth>
+                ),
+              },
+              {
+                path: 'loading',
+                element: <Loading />,
+              },
+              {
+                path: 'dashboard',
+                ...requireAuth(() => import('@/routes/dashboard/AdminDashboard.jsx')),
+              },
+              {
+                path: 'dashboard/:collectionName',
+                element: <RedirectToCollection />,
+              },
+              {
+                path: 'dashboard/:collectionName/:itemId/edit',
+                element: <RedirectToCollectionEdit />,
+              },
+              // The public index pages (crawlable; the server renders them too:
+              // functions/js/seo). Editors edit each at its address + /edit.
+              {
+                path: 'caves',
+                lazy: () => import('@/routes/caves/CaveIndex.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                // A cave's own page (its place on the map is /map/<id>).
+                path: 'caves/:caveId',
+                lazy: () => import('@/routes/caves/CavePage.jsx').then(({ default: Component }) => ({ Component })),
+                // Its galleries, over the page: its photos, its system's maps.
+                children: [
+                  {
+                    // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
+                    path: 'maps/:mapId',
+                    lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                    children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+                  },
+                  {
+                    path: 'photos/:mediaId',
+                    lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
+                  },
+                ],
+              },
+              {
+                path: 'sistemas',
+                lazy: () => import('@/routes/sistemas/SistemaIndex.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                path: 'sistemas/:sistemaId',
+                lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
+                children: [
+                  {
+                    // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
+                    path: 'maps/:mapId',
+                    lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                    children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+                  },
+                ],
+              },
+              {
+                // The latest caves, systems, connections and maps added in the app.
+                path: 'whats-new',
+                lazy: () => import('@/routes/WhatsNew.jsx').then(({ default: Component }) => ({ Component })),
+              },
+              {
+                // An area has no page of its own any more: an old address goes to
+                // its section of the cave list (the server redirects it too, firebase.json).
+                path: 'areas/:areaSlug',
+                Component: AreaRedirect,
+              },
+              ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
+                {
+                  // /areas has no public page: visitors go to the caves by area.
+                  path: collectionName,
+                  // Colours and languages: admins only (adminOnly).
+                  ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly
+                    ? requireAdmin(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'))
+                    : requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined)),
+                },
+                {
+                  // :itemId: an area's slug or id (ReferenceDataItemEdit). Admins
+                  // only for the lists editors only read (adminEdit).
+                  path: `${collectionName}/:itemId/edit`,
+                  ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly || REFERENCE_DATA_CONFIGS[collectionName].adminEdit ? requireAdmin : requireEditor)(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+                },
+              ]),
+              {
+                path: 'caves/edit',
+                ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
+              },
+              {
+                path: 'caves/:caveId/edit',
+                ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
+                // Its galleries, over the form: its photos, its system's maps.
+                children: [
+                  {
+                    path: 'photos/:mediaId',
+                    lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
+                  },
+                  {
+                    path: 'maps/:mapId',
+                    lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
+                    children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
+                  },
+                ],
+              },
+              {
+                path: 'sistemas/edit',
+                ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
+              },
+              {
+                // :sistemaId: the system's slug, or its id (older links).
+                path: 'sistemas/:sistemaId/edit',
+                ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
+              },
+              {
+                path: 'connections',
+                ...requireEditor(() => import('@/routes/connections/ConnectionList.jsx')),
+              },
+              {
+                path: 'connections/:connectionId/edit',
+                ...requireEditor(() => import('@/routes/connections/ConnectionEdit.jsx')),
+              },
+              {
+                path: 'users',
+                ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
+              },
+              {
+                // With a map's id: its original next to its drawing, over the
+                // list (one route, so the list keeps its search and scroll).
+                path: 'map-layers/:mapId?',
+                ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
+              },
+              {
+                // Who changed what (undoable), and the photos and maps in the
+                // trash: ?tab=trash.
+                path: 'audits',
+                ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
+              },
+              {
+                // The beta testers' reports (Send feedback).
+                path: 'feedback',
+                ...requireAdmin(() => import('@/routes/feedback/FeedbackAdmin.jsx')),
+              },
+              {
+                // Any other address: not found, the app bar kept.
+                path: '*',
+                element: <NoMatch inLayout />,
               },
             ],
-          },
-          {
-            path: 'login',
-            ...skipIfLoggedIn(() => import('@/routes/LogIn.jsx')),
-            children: [
-              {
-                path: 'with-email',
-                lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
-              },
-            ],
-          },
-          {
-            path: 'account',
-            element: (
-              <RequireAuth>
-                <Account />
-              </RequireAuth>
-            ),
-          },
-          {
-            path: 'loading',
-            element: <Loading />,
-          },
-          {
-            path: 'dashboard',
-            ...requireAuth(() => import('@/routes/dashboard/AdminDashboard.jsx')),
-          },
-          {
-            path: 'dashboard/:collectionName',
-            element: <RedirectToCollection />,
-          },
-          {
-            path: 'dashboard/:collectionName/:itemId/edit',
-            element: <RedirectToCollectionEdit />,
-          },
-          // The public index pages (crawlable; the server renders them too:
-          // functions/js/seo). Editors edit each at its address + /edit.
-          {
-            path: 'caves',
-            lazy: () => import('@/routes/caves/CaveIndex.jsx').then(({ default: Component }) => ({ Component })),
-          },
-          {
-            // A cave's own page (its place on the map is /map/<id>).
-            path: 'caves/:caveId',
-            lazy: () => import('@/routes/caves/CavePage.jsx').then(({ default: Component }) => ({ Component })),
-            // Its galleries, over the page: its photos, its system's maps.
-            children: [
-              {
-                // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
-                path: 'maps/:mapId',
-                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
-                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
-              },
-              {
-                path: 'photos/:mediaId',
-                lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
-              },
-            ],
-          },
-          {
-            path: 'sistemas',
-            lazy: () => import('@/routes/sistemas/SistemaIndex.jsx').then(({ default: Component }) => ({ Component })),
-          },
-          {
-            path: 'sistemas/:sistemaId',
-            lazy: () => import('@/routes/sistemas/SistemaPage.jsx').then(({ default: Component }) => ({ Component })),
-            children: [
-              {
-                // The system's maps, over the page (MapGallery); /edit: a map's Edit dialog.
-                path: 'maps/:mapId',
-                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
-                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
-              },
-            ],
-          },
-          {
-            // The latest caves, systems, connections and maps added in the app.
-            path: 'whats-new',
-            lazy: () => import('@/routes/WhatsNew.jsx').then(({ default: Component }) => ({ Component })),
-          },
-          {
-            // An area has no page of its own any more: an old address goes to
-            // its section of the cave list (the server redirects it too, firebase.json).
-            path: 'areas/:areaSlug',
-            Component: AreaRedirect,
-          },
-          ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
-            {
-              // /areas has no public page: visitors go to the caves by area.
-              path: collectionName,
-              // Colours and languages: admins only (adminOnly).
-              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly
-                ? requireAdmin(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'))
-                : requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined)),
-            },
-            {
-              // :itemId: an area's slug or id (ReferenceDataItemEdit). Admins
-              // only for the lists editors only read (adminEdit).
-              path: `${collectionName}/:itemId/edit`,
-              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly || REFERENCE_DATA_CONFIGS[collectionName].adminEdit ? requireAdmin : requireEditor)(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
-            },
-          ]),
-          {
-            path: 'caves/edit',
-            ...requireEditor(() => import('@/routes/caves/CaveList.jsx')),
-          },
-          {
-            path: 'caves/:caveId/edit',
-            ...requireEditor(() => import('@/routes/caves/CaveEdit.jsx')),
-            // Its galleries, over the form: its photos, its system's maps.
-            children: [
-              {
-                path: 'photos/:mediaId',
-                lazy: () => import('@/routes/gallery/PhotoGallery.jsx').then(({ default: Component }) => ({ Component })),
-              },
-              {
-                path: 'maps/:mapId',
-                lazy: () => import('@/routes/gallery/MapGallery.jsx').then(({ default: Component }) => ({ Component })),
-                children: [{ path: 'edit', ...requireEditor(() => import('@/routes/map/maps/MapEdit.jsx')) }],
-              },
-            ],
-          },
-          {
-            path: 'sistemas/edit',
-            ...requireEditor(() => import('@/routes/sistemas/SistemaList.jsx')),
-          },
-          {
-            // :sistemaId: the system's slug, or its id (older links).
-            path: 'sistemas/:sistemaId/edit',
-            ...requireEditor(() => import('@/routes/sistemas/SistemaEdit.jsx')),
-          },
-          {
-            path: 'connections',
-            ...requireEditor(() => import('@/routes/connections/ConnectionList.jsx')),
-          },
-          {
-            path: 'connections/:connectionId/edit',
-            ...requireEditor(() => import('@/routes/connections/ConnectionEdit.jsx')),
-          },
-          {
-            path: 'users',
-            ...requireAdmin(() => import('@/routes/dashboard/UsersAdmin.jsx')),
-          },
-          {
-            // With a map's id: its original next to its drawing, over the
-            // list (one route, so the list keeps its search and scroll).
-            path: 'map-layers/:mapId?',
-            ...requireAdmin(() => import('@/routes/map-layers/MapLayersAdmin.jsx')),
-          },
-          {
-            // Who changed what (undoable), and the photos and maps in the
-            // trash: ?tab=trash.
-            path: 'audits',
-            ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
-          },
-          {
-            // The beta testers' reports (Send feedback).
-            path: 'feedback',
-            ...requireAdmin(() => import('@/routes/feedback/FeedbackAdmin.jsx')),
           },
         ],
       },
