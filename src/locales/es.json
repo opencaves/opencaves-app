@@ -724,7 +724,8 @@
       "deleteFail": "No se pudo eliminar la foto.",
       "deleteConfirmTitle": "¿Eliminar esta foto?",
       "deleteConfirm": "La foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
-      "deleteCancel": "Cancelar"
+      "deleteCancel": "Cancelar",
+      "isCoverImage": "Es la foto de portada"
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -988,10 +989,11 @@
     "title": "Mapa",
     "caveNameUnknown": "(Cueva sin nombre)",
     "editFab": {
-      "ariaLabel": "Editar datos del cenote",
+      "ariaLabel": "Editar datos de la cueva",
       "editCave": "Editar esta cueva",
       "addNewCave": "Añadir nueva cueva",
-      "exitEditMode": "Salir del modo de edición"
+      "exitEditMode": "Salir del modo de edición",
+      "editCaveNoneSelected": "Selecciona una cueva para editarla"
     },
     "error": "Algo salió mal",
     "savedCave": "Guardado",

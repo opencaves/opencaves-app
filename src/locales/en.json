@@ -724,7 +724,8 @@
       "deleteFail": "Couldn't delete the photo.",
       "deleteConfirmTitle": "Delete this photo?",
       "deleteConfirm": "The photo goes to the trash: an admin can restore it from Audits > Trash.",
-      "deleteCancel": "Cancel"
+      "deleteCancel": "Cancel",
+      "isCoverImage": "This is the cover photo"
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -991,7 +992,8 @@
       "ariaLabel": "Edit cave data",
       "editCave": "Edit this cave",
       "addNewCave": "Add new cave",
-      "exitEditMode": "Exit edit mode"
+      "exitEditMode": "Exit edit mode",
+      "editCaveNoneSelected": "Select a cave to edit it"
     },
     "error": "Something went wrong",
     "savedCave": "Saved",

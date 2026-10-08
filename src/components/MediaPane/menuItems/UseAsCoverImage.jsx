@@ -48,7 +48,8 @@ export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
       <ListItemIcon>
         <WallpaperRounded fontSize="small" />
       </ListItemIcon>
-      <ListItemText>{t('useAsCoverImage')}</ListItemText>
+      {/* Greyed on the cover itself: it says so. */}
+      <ListItemText>{mediaAsset.isCover ? t('isCoverImage') : t('useAsCoverImage')}</ListItemText>
     </MenuItem>
   )
 }

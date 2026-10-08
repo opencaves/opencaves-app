@@ -26,6 +26,14 @@ export default function PasswordResetDialog({ open, onClose, initialEmail = '' }
   async function send(event) {
     event.preventDefault()
     setError('')
+    // The browser's own email check (as the log-in form's): Firebase answers
+    // "sent" whatever the address, "bad" included.
+    const field = event.currentTarget.elements.email
+    if (!email.trim() || !field.validity.valid) {
+      setError(tErrors('auth.emailInvalid'))
+      field.focus()
+      return
+    }
     setSending(true)
     try {
       await sendPasswordResetEmail(auth, email.trim(), { url: `${window.location.origin}/login/with-email` })
