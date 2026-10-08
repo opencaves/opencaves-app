@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
 // A titled part of an index page (an area's cenotes, a system's
 // connections...): an h2 with an optional count beside it. card: the content
@@ -18,7 +19,7 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 // when scrolled to; its # shown while the title is hovered or focused.
 const SECTION_ANCHOR_SX = {
   scrollMarginTop: 'calc(64px + var(--oc-index-search-height, 0px) + 8px)',
-  '& .oc-index-section--anchor': { opacity: 0, color: 'text.secondary', fontWeight: 400, transition: 'opacity 150ms' },
+  '& .oc-index-section--anchor': { ...TOUCH_TARGET_SX, opacity: 0, color: 'text.secondary', fontWeight: 400, transition: 'opacity 150ms' },
   '& h2:hover .oc-index-section--anchor, & .oc-index-section--anchor:focus-visible': { opacity: 1 },
 }
 

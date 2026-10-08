@@ -13,6 +13,7 @@ import { toContentLanguage } from '@/utils/lang.js'
 import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import ConditionalWrapper from '../utils/ConditionalWrapper.jsx'
 import './CurrentCaveDetailsHeader.scss'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
   const paneData = useContext(ResultPaneSmContext)
@@ -95,7 +96,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
           </Typography>
           {isSmall && paneData.paneOpenFactor < 1 && (
             <Box>
-              <StyledIconButton size="small" aria-label={t('closePane')} sx={{ opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
+              <StyledIconButton size="small" aria-label={t('closePane')} sx={{ ...TOUCH_TARGET_SX, opacity: 1 - paneData.paneOpenFactor }} onClick={onClear}>
                 <Close fontSize="small" />
               </StyledIconButton>
             </Box>

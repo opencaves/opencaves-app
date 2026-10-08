@@ -38,6 +38,7 @@ import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange }
 import TextSourceField from '@/components/TextSourceField.jsx'
 import CreatableChipsField from '@/components/CreatableChipsField.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
 const colorsModel = createCollectionModel('colors')
 // One of the colours list's hex values, at random ('' with none).
@@ -99,7 +100,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {values.map((exploration, index) => (
           <Box key={index} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1.5, position: 'relative' }}>
-            <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel} sx={{ position: 'absolute', top: 4, right: 4 }}>
+            <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel} sx={{ ...TOUCH_TARGET_SX, position: 'absolute', top: 4, right: 4 }}>
               <CloseRounded fontSize="small" />
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
