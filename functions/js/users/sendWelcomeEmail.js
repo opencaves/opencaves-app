@@ -26,6 +26,7 @@ const CONTENT = {
     lead: "The app is in beta, and you're one of its first divers. Use it the way you would before and after a dive, and tell us what breaks, what confuses you and what's missing.",
     greeting: (name) => `Hi${name ? ` ${name}` : ''},`,
     cta: 'Open What can I do?',
+    language: ['OpenCaves speaks English, French and Spanish.', 'Choose your language'],
     report: {
       title: 'Tell us',
       lead: 'Send feedback from your account menu in the app, or from the What can I do? page. Every report reaches the OpenCaves team.',
@@ -60,6 +61,7 @@ const CONTENT = {
     lead: "L'application est en bêta, et vous êtes parmi ses premiers plongeurs. Utilisez-la comme vous le feriez avant et après une plongée, et dites-nous ce qui ne marche pas, ce qui vous embrouille et ce qui manque.",
     greeting: (name) => `Bonjour${name ? ` ${name}` : ''},`,
     cta: 'Ouvrir Que puis-je faire ?',
+    language: ['OpenCaves parle français, anglais et espagnol.', 'Choisir votre langue'],
     report: {
       title: 'Dites-nous',
       lead: "Envoyez un commentaire depuis le menu de votre compte dans l'application, ou depuis la page Que puis-je faire ?. Chaque rapport parvient à l'équipe d'OpenCaves.",
@@ -94,6 +96,7 @@ const CONTENT = {
     lead: 'La aplicación está en beta, y tú eres uno de sus primeros buzos. Úsala como lo harías antes y después de una inmersión, y cuéntanos qué falla, qué te confunde y qué falta.',
     greeting: (name) => `Hola${name ? ` ${name}` : ''}:`,
     cta: 'Abrir ¿Qué puedo hacer?',
+    language: ['OpenCaves habla español, inglés y francés.', 'Elige tu idioma'],
     report: {
       title: 'Cuéntanos',
       lead: 'Envía comentarios desde el menú de tu cuenta en la aplicación, o desde la página ¿Qué puedo hacer?. Cada reporte llega al equipo de OpenCaves.',
@@ -137,6 +140,8 @@ export function welcomeEmail(language, name) {
     hero: { overline: c.overline, title: c.title, lead: c.lead },
     blocks: [
       { type: 'p', text: c.greeting(name) },
+      // The language the app (and these emails) speak to them: their account's.
+      { type: 'p', text: c.language[0], link: { label: c.language[1], href: `${SITE_URL}/account#language` } },
       { type: 'button', label: c.cta, href: PAGE },
       { type: 'cards', title: c.report.title, lead: c.report.lead, items: ['bug', 'misleading', 'idea'].map((key) => card(c.report, key)) },
       { type: 'cards', title: c.try.title, lead: c.try.lead, items: ['explore', 'edit', 'media', 'offline', 'everywhere'].map((key) => card(c.try, key)) },

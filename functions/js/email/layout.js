@@ -103,7 +103,8 @@ function facts({ items }) {
 }
 
 const HTML_BLOCKS = {
-  p: ({ text }) => `<p style="${P}">${rich(text)}</p>`,
+  // link (optional): { label, href }, after the text.
+  p: ({ text, link }) => `<p style="${P}">${rich(text)}${link ? ` <a href="${escape(link.href)}" style="color:${C.primary};font-weight:600;">${escape(link.label)}</a>` : ''}</p>`,
   button,
   cards,
   steps,
@@ -116,7 +117,7 @@ const HTML_BLOCKS = {
 }
 
 const TEXT_BLOCKS = {
-  p: ({ text }) => plain(text),
+  p: ({ text, link }) => `${plain(text)}${link ? ` ${link.label}: ${link.href}` : ''}`,
   button: ({ label, href }) => `${label}: ${href}`,
   cards: ({ title, lead, items }) => [title.toUpperCase(), lead && plain(lead), ...items.map(({ title: t, text, link }) => `- ${t}: ${plain(text)}${link ? ` (${link.href})` : ''}`)].filter(Boolean).join('\n'),
   steps: ({ title, items }) => [title.toUpperCase(), ...items.map((text, i) => `${i + 1}. ${plain(text)}`)].join('\n'),
