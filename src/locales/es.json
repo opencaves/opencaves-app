@@ -1050,6 +1050,15 @@
       "panelTitle": "Capas del mapa",
       "turnOn": "Activar las capas del mapa",
       "turnOff": "Desactivar las capas del mapa"
+    },
+    "controls": {
+      "locationNotAvailable": "Ubicación no disponible",
+      "mapTitle": "Mapa",
+      "scrollZoom": "Usa Ctrl + la rueda para hacer zoom en el mapa",
+      "scrollZoomMac": "Usa ⌘ + la rueda para hacer zoom en el mapa",
+      "touchPan": "Usa dos dedos para mover el mapa",
+      "toggleAttribution": "Mostrar u ocultar los créditos",
+      "logo": "Logotipo de Mapbox"
     }
   },
   "dashboard": {

@@ -1050,6 +1050,15 @@
       "panelTitle": "Map layers",
       "turnOn": "Turn on map layers",
       "turnOff": "Turn off map layers"
+    },
+    "controls": {
+      "locationNotAvailable": "Location not available",
+      "mapTitle": "Map",
+      "scrollZoom": "Use Ctrl + scroll to zoom the map",
+      "scrollZoomMac": "Use ⌘ + scroll to zoom the map",
+      "touchPan": "Use two fingers to move the map",
+      "toggleAttribution": "Toggle attribution",
+      "logo": "Mapbox logo"
     }
   },
   "dashboard": {

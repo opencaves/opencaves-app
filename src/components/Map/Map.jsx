@@ -154,6 +154,21 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation('map')
+  // Mapbox's own control labels (its buttons' names, its hints), in the app's
+  // language - they stayed English.
+  const mapLocale = useMemo(
+    () => ({
+      'GeolocateControl.FindMyLocation': t('geolocate.findMyLocation'),
+      'GeolocateControl.LocationNotAvailable': t('controls.locationNotAvailable'),
+      'Map.Title': t('controls.mapTitle'),
+      'ScrollZoomBlocker.CtrlMessage': t('controls.scrollZoom'),
+      'ScrollZoomBlocker.CmdMessage': t('controls.scrollZoomMac'),
+      'TouchPanBlocker.Message': t('controls.touchPan'),
+      'AttributionControl.ToggleAttribution': t('controls.toggleAttribution'),
+      'LogoControl.Title': t('controls.logo'),
+    }),
+    [t],
+  )
 
   const isSmall = useSmall()
 
@@ -865,7 +880,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
+          <Map ref={mapRef} {...MAP_PROPS} locale={mapLocale} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
             <CaveLayer selectedSistemaId={selectedCave?.sistemaId} />
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
