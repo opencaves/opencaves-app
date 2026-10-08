@@ -6,6 +6,7 @@ import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { matchesId } from '@/utils/matchesId.js'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const areasModel = createCollectionModel('areas')
 
@@ -54,7 +55,7 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
 
   return (
     <>
-      <DialogTitle>{t('toolbar.linkCaveTitle')}</DialogTitle>
+      <DialogTitle sx={{ pr: 7 }}>{t('toolbar.linkCaveTitle')}</DialogTitle>
       <DialogContent>
         <Autocomplete
           sx={{ pt: 1 }}
@@ -93,6 +94,8 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
 export default function CaveLinkDialog({ open, initialCaveId, onClose, onConfirm }) {
   return (
     <Dialog className="oc-cave-link-dialog" open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={onClose} />
       <CaveLinkDialogContent initialCaveId={initialCaveId} onClose={onClose} onConfirm={onConfirm} />
     </Dialog>
   )

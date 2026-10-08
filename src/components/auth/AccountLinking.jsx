@@ -7,6 +7,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { clearPendingLink, linkPendingCredential, PENDING_LINK_EVENT, readPendingLink } from '@/services/pendingLink.js'
 import { googleProvider, microsoftProvider } from './providers.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const PROVIDERS = {
   'google.com': { name: 'Google', provider: googleProvider },
@@ -66,7 +67,9 @@ export default function AccountLinking() {
 
   return (
     <Dialog className="oc-account-linking" open={Boolean(pending)} onClose={cancel}>
-      <DialogTitle>{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={cancel} />
+      <DialogTitle sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       <DialogContent>
         <DialogContentText>{t('text', { email: pending?.email, provider: refused })}</DialogContentText>
       </DialogContent>

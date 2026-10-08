@@ -5,6 +5,7 @@ import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from '@/config/firebase.js'
 import AuthButton from './AuthButton.jsx'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 // "Forgot password?": an email with a link to set a new password (Firebase's
 // own page, in the app's language - auth.languageCode). The same answer
@@ -59,7 +60,9 @@ export default function PasswordResetDialog({ open, onClose, initialEmail = '' }
 
   return (
     <Dialog className="oc-password-reset-dialog" open={open} onClose={close} fullWidth maxWidth="xs" aria-labelledby="oc-password-reset-title">
-      <DialogTitle id="oc-password-reset-title">{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={close} />
+      <DialogTitle id="oc-password-reset-title" sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       {sent ? (
         <>
           <DialogContent>
