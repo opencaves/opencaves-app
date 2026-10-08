@@ -131,7 +131,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     const location = embedded && caveData.find((cave) => cave.id === caveId)?.location
     return location?.longitude != null ? { ...defaultViewState, longitude: location.longitude, latitude: location.latitude, zoom: EMBEDDED_ZOOM } : null
   })
-  const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
+  // Starting at home with the caves already there (from another page): framed
+  // on them from the first frame. Opened on the default view and fitted after,
+  // the map loaded that view's imagery, then jumped: its grey background
+  // flashed while the new view's imagery came in.
+  const [homeViewState] = useState(() => {
+    const bounds = startsAtHome && !embedded && caveData.length > 0 ? homeBounds(caveData) : null
+    return bounds ? { bounds, fitBoundsOptions: { padding: { top: 96, bottom: 40, left: 40, right: 96 }, maxZoom: 13 } } : null
+  })
+  const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : (homeViewState ?? defaultViewState))
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
@@ -799,13 +807,21 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // A first visit: framed on the caves as soon as they're there.
   const fittedHomeRef = useRef(false)
   useEffect(() => {
-    if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = true
+    // 'fresh': just framed - a reset request that opened the map is done.
+    if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = 'fresh'
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startsAtHome, mapLoaded, caveBounds])
 
   // The nav's Map item while the map is open: back to the default view.
   // (Opening the map, it starts there: resetView cleared the saved view.)
   useEffect(() => {
+    // Opened by it: the map starts at home already (startsAtHome), no flight.
+    if (viewResetRequested && startsAtHome && !fittedHomeRef.current) return
+    if (viewResetRequested && startsAtHome && fittedHomeRef.current === 'fresh') {
+      fittedHomeRef.current = true
+      dispatch(clearViewResetRequest())
+      return
+    }
     if (viewResetRequested && mapLoaded && fitHome(true)) dispatch(clearViewResetRequest())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewResetRequested, mapLoaded, caveBounds])
