@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
+import { teamLabel, teamNames } from '@/utils/explorationTeam.js'
 
 // The timeline's geometry: a dot centred on an entry's first line (body2,
 // 20px), the text this far from the section's left.
@@ -39,7 +40,7 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas
     .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, sistemaColor: sistema.color, notes: showNotes ? exploration.notes : null })))
-    .filter((e) => e.date || e.team || e.description || e.notes)
+    .filter((e) => e.date || teamNames(e.team).length || e.description || e.notes)
     .map((entry, index) => ({ entry, index }))
     .sort((a, b) => sortKey(a.entry.date).localeCompare(sortKey(b.entry.date)) || a.index - b.index)
     .map(({ entry }) => entry)
@@ -103,9 +104,9 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
                 )}
               </Typography>
             )}
-            {entry.team && (
+            {teamNames(entry.team).length > 0 && (
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {entry.team}
+                {teamLabel(entry.team)}
               </Typography>
             )}
             {entry.description && (

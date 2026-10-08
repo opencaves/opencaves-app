@@ -27,6 +27,7 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import { throwNotFound } from '@/components/IndexPage/notFound.js'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
+import { teamNames } from '@/utils/explorationTeam.js'
 
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -127,7 +128,7 @@ export default function SistemaPage() {
   // directions to it.
   const location = sistema.location?.latitude != null && sistema.location?.longitude != null ? sistema.location : null
   const coordinates = location ? `${Number(location.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(location.longitude).toFixed(COORDINATE_DECIMALS)}` : ''
-  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
+  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
 
   return (
     <div className="oc-sistema-page">

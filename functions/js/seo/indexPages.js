@@ -90,7 +90,9 @@ function sistemaPage(sistema, data) {
   const related = (ids) => [...new Set(ids)].map((id) => data.sistemasById.get(id)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
   const parents = related(data.connections.filter(({ sistemaId }) => sistemaId === sistema.id).map(({ parentSistemaId }) => parentSistemaId))
   const children = related(data.connections.filter(({ parentSistemaId }) => parentSistemaId === sistema.id).map(({ sistemaId }) => sistemaId))
-  const explorations = (Array.isArray(sistema.explorations) ? sistema.explorations : []).filter((e) => e.date || e.team || e.description)
+  // A team is a list of names (older records: one string) - as src/utils/explorationTeam.js.
+  const teamOf = (team) => (Array.isArray(team) ? team : String(team || '').split(/\s*[,;]\s*/)).map((name) => String(name || '').trim()).filter(Boolean).join(', ')
+  const explorations = (Array.isArray(sistema.explorations) ? sistema.explorations : []).map((e) => ({ ...e, team: teamOf(e.team) })).filter((e) => e.date || e.team || e.description)
   // Without the entries' sources (their notes), as the app's page.
   const exploration = ({ date, team, description }) => {
     const text = plainParagraphs(description).join(' ')
