@@ -59,6 +59,8 @@ const EDIT_FIELD_BADGE_ICONS = {
 
 // How long after centering on a cave (phone) its offset keeps following the
 // layout, and how many unchanged frames count as settled.
+// An embedded map's first view of its cave (OCMap's embedded).
+const EMBEDDED_ZOOM = 15
 const SETTLE_TIMEOUT = 2000
 const SETTLE_FRAMES = 10
 
@@ -80,6 +82,10 @@ function hasSavedViewState(viewState) {
 export default function OCMap({ mapRef: externalMapRef } = {}) {
   const internalMapRef = useRef()
   const mapRef = externalMapRef ?? internalMapRef
+  // A small map inside a page (CoordinatesMapPreview, the edit pages): no pane
+  // over it to make room for, and not the map page's view - it opens on the
+  // edited cave and doesn't move the map page's remembered view.
+  const embedded = Boolean(externalMapRef)
   const mapContainerRef = useRef()
   const currentMarkerRef = useRef()
   const { isSaved } = useSavedCaves()
@@ -121,7 +127,11 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // fitted to the home area's caves once they and the map have loaded.
   // (Not a link to a cave: it goes to the cave.)
   const [startsAtHome] = useState(() => !hashViewState && !persistedViewStateAvailable && !caveId)
-  const initialMapViewState = hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
+  const [embeddedViewState] = useState(() => {
+    const location = embedded && caveData.find((cave) => cave.id === caveId)?.location
+    return location?.longitude != null ? { ...defaultViewState, longitude: location.longitude, latitude: location.latitude, zoom: EMBEDDED_ZOOM } : null
+  })
+  const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
@@ -348,7 +358,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   function getCenterLngLat(lng, lat, offsetForPane = true, zoom = currentZoomLevel) {
     try {
       const map = mapRef.current
-      if (!offsetForPane) {
+      if (!offsetForPane || embedded) {
         return new LngLat(lng, lat)
       }
 
@@ -460,7 +470,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     mapRef.current?.[fn]({
       center,
-      zoom: currentZoomLevel,
+      // Embedded: its own zoom, not the map page's.
+      zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
       ...(animate && {
         duration: theme.oc.sys.motion.duration.emphasized,
       }),
@@ -491,7 +502,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     mapRef.current?.flyTo({
       center,
-      zoom: currentZoomLevel,
+      zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
       duration: theme.oc.sys.motion.duration.emphasized,
     })
   }
@@ -510,7 +521,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   const onMove = debounce(function (event) {
-    dispatch(setViewState(event.viewState))
+    if (!embedded) dispatch(setViewState(event.viewState))
   }, 300)
 
   function onMoveEnd() {
