@@ -10,19 +10,23 @@ export default function AuthButton({ Component = Button, disabled, startIcon, en
     <Component
       variant='contained'
       className={`oc-auth-button ${className || ''}`.trim()}
-      sx={{
-        ...sx,
-        '> .MuiButton-startIcon': {
-          marginRight: '1em',
-          '&.MuiButton-loadingPositionStart': {
-            display: 'none'
+      // An array: sx may be an object or a function of the theme (the
+      // providers' colours, light and dark).
+      sx={[
+        ...(Array.isArray(sx) ? sx : [sx]),
+        {
+          '> .MuiButton-startIcon': {
+            marginRight: '1em',
+            '&.MuiButton-loadingPositionStart': {
+              display: 'none'
+            }
+          },
+          '> .MuiButton-loadingIndicator': {
+            position: 'unset',
+            marginRight: '1em'
           }
         },
-        '> .MuiButton-loadingIndicator': {
-          position: 'unset',
-          marginRight: '1em'
-        }
-      }}
+      ]}
       disabled={disabled || !online}
       loading={disabled}
       startIcon={startIcon}
