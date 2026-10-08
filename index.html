@@ -37,16 +37,19 @@
   <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
   <meta name="theme-color" content="#145e79" />
 
-  <!-- The map shell: a static copy of the map page while it loads - its
-       search bar over its loading screen (logo, title, spinner) - painted
-       from this HTML alone, before the app's JavaScript (well over 1 MB) has
-       loaded and run. Same geometry as the real ones (SearchBar, and
-       MapLoading/MapState.scss - keep them in sync), which replace it: App
-       removes it once it renders, so the page looks the same until the map
-       appears. Map routes only, and light mode only (no white flash before a
-       dark search bar). -->
+  <!-- The splash (#oc-shell): painted from this HTML alone, before the app's
+       JavaScript (well over 1 MB) has loaded and run, over the search
+       engines' text the server puts in #root (covered, not hidden: it stays
+       content). On the map, a static copy of the map page while it loads - its
+       search bar over its loading screen (logo, title, spinner): same geometry
+       as the real ones (SearchBar, and MapLoading/MapState.scss - keep them in
+       sync); SearchBar removes it. On the other pages (oc-shell--page), the
+       page with its app bar's strip, the same loading screen; Layout removes
+       it once the page has rendered (utils/shell.js). Dark colours in the dark
+       scheme (oc-shell--dark). -->
   <style>
-    #oc-shell { position: fixed; inset: 0; background: #ebebeb; }
+    #oc-shell { position: fixed; inset: 0; z-index: 2147483000; background: #ebebeb; transition: opacity 180ms ease-out; }
+    #oc-shell.oc-shell--out { opacity: 0; pointer-events: none; }
     #oc-shell .oc-shell--search { position: absolute; top: 16px; left: 16px; right: 16px; box-sizing: border-box; height: 56px; display: flex; align-items: center; background: #fff; border: 1px solid #fff; border-radius: 28px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02); }
     #oc-shell .oc-shell--search svg { position: absolute; left: 15px; width: 24px; height: 24px; fill: rgba(0, 0, 0, 0.54); }
     @media (min-width: 600px) { #oc-shell .oc-shell--search { right: auto; width: 368px; } }
@@ -60,11 +63,34 @@
     @media (min-width: 800px) { #oc-shell .oc-shell--title { font-size: 6rem; } }
     #oc-shell .oc-shell--spinner { margin-top: 3rem; display: inline-block; position: relative; width: 16.6667%; aspect-ratio: 2; }
     #oc-shell .oc-shell--dot { fill: #000; transform-origin: center center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation: oc-shell-dots 0.75s linear infinite; }
+    #oc-shell .oc-shell--bar { display: none; }
+    /* The other pages: the page's surface, the app bar's strip (AppBar.jsx,
+       64px; --oc-app-bar-bg), the loading screen under it - no search bar. */
+    #oc-shell.oc-shell--page { background: #fff; }
+    #oc-shell.oc-shell--page .oc-shell--bar { display: block; height: 64px; background: #145e79; }
+    #oc-shell.oc-shell--page .oc-shell--loading { top: 64px; }
+    #oc-shell.oc-shell--page .oc-shell--search { display: none; }
+    #oc-shell.oc-shell--page .oc-shell--logo { fill: #ebebeb; }
+    #oc-shell.oc-shell--page .oc-shell--title { color: #ebebeb; }
+    #oc-shell.oc-shell--page .oc-shell--dot { fill: #145e79; }
+    /* Dark: the dark theme's surface and paper (#1c1b1f), its app bar the
+       surface too, the mark just above it (MapState.scss), its primary. */
+    #oc-shell.oc-shell--dark, #oc-shell.oc-shell--dark .oc-shell--bar { background: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--search { background: #1c1b1f; border-color: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--search svg { fill: rgba(255, 255, 255, 0.56); }
+    #oc-shell.oc-shell--dark .oc-shell--logo { fill: #302f33; }
+    #oc-shell.oc-shell--dark .oc-shell--title { color: #302f33; }
+    #oc-shell.oc-shell--dark .oc-shell--dot { fill: #087e91; }
+    @media (prefers-reduced-motion: reduce) {
+      #oc-shell { transition: none; }
+      #oc-shell .oc-shell--dot { animation: none; }
+    }
   </style>
 </head>
 
 <body>
   <div id="oc-shell" aria-hidden="true">
+    <div class="oc-shell--bar"></div>
     <div class="oc-shell--loading">
       <div class="oc-shell--box">
         <svg class="oc-shell--logo" viewBox="-.0015623 -2.7662e-5 92.193 100"><path class="p1" d="M76.57 55.43l-36.23-36L22 1.2A14.48 14.48 0 0 0 16.2 0C7.37 0 .19 8.1 0 18.16v43.47a18.67 18.67 0 0 0 18.43 18.91H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.63-9.19z" /><path class="p2" d="M73.76 19.46H23a17.86 17.86 0 0 0-10 15.92 17.46 17.46 0 0 0 2.61 9.2l36.23 36L70.23 98.8A14.52 14.52 0 0 0 76 100c8.82 0 16-8.09 16.19-18.15V38.36a18.67 18.67 0 0 0-18.43-18.9z" /><path class="p3" d="M15.61 44.58l36.23 36H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.62-9.19l-36.23-36H23a17.86 17.86 0 0 0-10 15.91 17.46 17.46 0 0 0 2.61 9.2z" /></svg>
@@ -90,10 +116,13 @@
         mode = localStorage.getItem('mui-mode')
       } catch (e) {}
       var dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      if (!isMapRoute || dark) {
+      if (!isMapRoute) shell.classList.add('oc-shell--page')
+      if (dark) shell.classList.add('oc-shell--dark')
+      // The app never starting (its scripts failing): the server's text
+      // after all, rather than a splash forever. (App has its own, sooner.)
+      setTimeout(function () {
         shell.remove()
-        return
-      }
+      }, 20000)
     })()
   </script>
   <div id="root"></div>

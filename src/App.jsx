@@ -19,6 +19,7 @@ import ManageAuth from '@/components/auth/ManageAuth.jsx'
 import AccountLinking from '@/components/auth/AccountLinking.jsx'
 import Splash from '@/components/utils/Splash.jsx'
 import getDevicePixelRatio from '@/utils/getDevicePixelRatio.js'
+import { removeShell } from '@/utils/shell.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { theme } from '@/theme/Theme.jsx'
 import { APP_TITLE } from '@/config/app.js'
@@ -77,15 +78,13 @@ const App = () => {
     }
   }, [dispatch, store])
 
-  // index.html's static map shell stays under the app until the real search
-  // bar replaces it (SearchBar) - through every loading state in between.
-  // Only a page that isn't the map (a redirect, an error page) removes it
-  // here, since no search bar will.
+  // index.html's splash stays over the app through every loading state, until
+  // the page it stands for has rendered: the map's search bar (SearchBar),
+  // another page's Layout, or an error page (NoMatch) removes it. Anything
+  // else (a dev page...): gone after a while, so it can never stay stuck.
   useEffect(() => {
-    const path = window.location.pathname
-    if (!(path === '/map' || path.startsWith('/map/'))) {
-      document.getElementById('oc-shell')?.remove()
-    }
+    const timer = setTimeout(removeShell, 8000)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {

@@ -14,6 +14,7 @@ import dashboardBackgroundSmall from '@/images/dashboard/bg-small.webp'
 import pagesBackgroundSmall from '@/images/pages/bg-small.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 import { isPublicIndexPath } from '@/utils/seo.js'
+import { removeShell } from '@/utils/shell.js'
 
 // First URL segment of every dashboard (admin) page - see router.jsx. Some
 // of them also hold public pages (/caves, /sistemas/<id>...),
@@ -47,6 +48,13 @@ export default function Layout() {
   // rather than transparent borders, whose corners would join the top/bottom
   // borders diagonally).
   const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || location.pathname === '/account'
+
+  // index.html's splash goes once the page is here: the router renders this
+  // with its page already loaded (lazy routes resolve first, under the
+  // splash), and children's effects run before this one.
+  useLayoutEffect(() => {
+    removeShell()
+  }, [])
 
   // This box, not the document, is the page's scroller (below), so the
   // router's scroll handling never reaches it: a new page opens at the top,
