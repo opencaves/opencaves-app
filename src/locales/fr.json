@@ -1,6 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Source du texte",
+    "fieldHint": "D'où provient ce texte. Vos propres mots ? Choisissez Open Caves.",
     "none": "Aucune",
     "known": "Source : {{name}}"
   },
@@ -591,7 +592,7 @@
       "none": "(aucun)",
       "sistema": "Réseau",
       "source": "Source",
-      "sourceHint": "D'où proviennent les informations sur ce réseau",
+      "sourceHint": "D'où proviennent les informations sur cette grotte. Vos propres constats ? Choisissez Open Caves.",
       "access": "Accès",
       "accessibility": "Accessibilité",
       "fees": "Frais",
@@ -830,6 +831,7 @@
     "area": "Région",
     "color": "Couleur",
     "source": "Source",
+    "sourceHint": "D'où proviennent les informations sur ce réseau. Vos propres constats ? Choisissez Open Caves.",
     "location": "Emplacement",
     "maxDepth": "Profondeur max. ({{unit}})",
     "description": "Description",
@@ -1051,6 +1053,7 @@
     "parentSistema": "Réseau parent",
     "searchParentSistema": "Rechercher des réseaux ou des zones",
     "connectionSource": "Source",
+    "connectionSourceHint": "D'où proviennent les informations sur cette connexion. Vos propres constats ? Choisissez Open Caves.",
     "noSource": "(aucune)",
     "connectionDate": "Date de connexion",
     "connectionNote": "Note(s)",

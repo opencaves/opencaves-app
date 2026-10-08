@@ -1,4 +1,5 @@
 import { deleteField } from 'firebase/firestore'
+import { OPEN_CAVES_SOURCE_ID } from '@/config/app.js'
 
 // The Markdown fields that carry a source (textSources.<field>: { source,
 // checkedAt }) - the prose; facts (coordinates, depths...) don't.
@@ -12,12 +13,19 @@ export function textSourcesOf(record, fields) {
   return Object.fromEntries(fields.map((field) => [field, { source: sourceOf(record?.textSources?.[field]) }]))
 }
 
-// A form's text changed: the first edit of the saved words clears the source
-// they had (the new words aren't the source's); one picked again stays.
+// A form's text changed. Edited, the words are the app's: their source becomes
+// Open Caves - unless the editor picked one since. Back to the saved words
+// (undone, retyped), they get their saved source back.
 export function withTextChange(form, original, field, value) {
-  const firstEdit = `${form[field] ?? ''}` === `${original?.[field] ?? ''}`
-  const keptOriginal = sourceOf(form.textSources?.[field]) && sourceOf(form.textSources[field]) === sourceOf(original?.textSources?.[field])
-  return { ...form, [field]: value, ...(firstEdit && keptOriginal && { textSources: { ...form.textSources, [field]: { source: '' } } }) }
+  const saved = `${original?.[field] ?? ''}`
+  const savedSource = sourceOf(original?.textSources?.[field])
+  const current = sourceOf(form.textSources?.[field])
+  // Still the source the form started with, or Open Caves set by an earlier edit: not the editor's pick.
+  const automatic = current === savedSource || current === OPEN_CAVES_SOURCE_ID
+  let source = current
+  if (`${value}` === saved) source = automatic ? savedSource : current
+  else if (automatic) source = OPEN_CAVES_SOURCE_ID
+  return { ...form, [field]: value, ...(source !== current && { textSources: { ...form.textSources, [field]: { source } } }) }
 }
 
 // What a save writes: the entries the form changed - set (with the month

@@ -9,6 +9,9 @@ export const APP_TITLE = 'Open Caves' // For use in the page <title> and in the 
 export const SITE_URL = 'https://opencaves.org'
 export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
 export const CHANGELOG_URL = `${GITHUB_URL}/blob/main/CHANGELOG.md`
+// The "Open Caves" record of the sources collection: the source of the texts
+// written in the app (an edited text gets it; utils/textSources.js).
+export const OPEN_CAVES_SOURCE_ID = '-KPZg4jqj7O4qkqR0gNl'
 export const PANE_WIDTH = 400
 // The galleries' thumbnail list (photos, maps) on a short landscape screen -
 // a phone held sideways: narrower, leaving the photo most of the width.

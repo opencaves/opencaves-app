@@ -1,6 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Fuente del texto",
+    "fieldHint": "De dónde proviene este texto. ¿Son tus propias palabras? Elige Open Caves.",
     "none": "Ninguna",
     "known": "Fuente: {{name}}"
   },
@@ -594,7 +595,7 @@
       "sistemaGroup": "Sistema",
       "sistemaSearchPlaceholder": "Buscar",
       "source": "Fuente",
-      "sourceHint": "De dónde proviene la información de este sistema",
+      "sourceHint": "De dónde proviene la información de esta cueva. ¿Son tus propios hallazgos? Elige Open Caves.",
       "access": "Acceso",
       "accessibility": "Accesibilidad",
       "fees": "Costos",
@@ -831,6 +832,7 @@
     "area": "Zona",
     "color": "Color",
     "source": "Fuente",
+    "sourceHint": "De dónde proviene la información de este sistema. ¿Son tus propios hallazgos? Elige Open Caves.",
     "location": "Ubicación",
     "maxDepth": "Profundidad máx. ({{unit}})",
     "description": "Descripción",
@@ -1052,6 +1054,7 @@
     "parentSistema": "Sistema principal",
     "searchParentSistema": "Buscar sistemas o áreas",
     "connectionSource": "Fuente",
+    "connectionSourceHint": "De dónde proviene la información de esta conexión. ¿Son tus propios hallazgos? Elige Open Caves.",
     "noSource": "(ninguna)",
     "connectionDate": "Fecha de conexión",
     "connectionNote": "Nota(s)",
