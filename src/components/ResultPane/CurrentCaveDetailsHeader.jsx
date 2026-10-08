@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Collapse, Fade, IconButton, Typography, styled, useTheme } from '@mui/material'
@@ -9,11 +9,11 @@ import CoverImage from './CoverImage.jsx'
 import { ResultPaneSmContext } from './ResultPaneSmContext.js'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
-import { toContentLanguage } from '@/utils/lang.js'
 import { RESULT_PANE_SM_HEAD_HEIGHT } from '@/config/resultPane.js'
 import ConditionalWrapper from '../utils/ConditionalWrapper.jsx'
 import './CurrentCaveDetailsHeader.scss'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
+import { nameTranslationLines } from '@/utils/nameTranslations.js'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
   const paneData = useContext(ResultPaneSmContext)
@@ -25,18 +25,9 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
   const caveName = cave.name?.value || tMap('caveNameUnknown')
-  const resolvedLanguage = toContentLanguage(i18n.resolvedLanguage)
-  const caveNameTranslation = ((langCode) => {
-    if (langCode) {
-      if (langCode !== resolvedLanguage) {
-        return cave.nameTranslations?.[resolvedLanguage]?.join(', ')
-      }
-
-      return null
-    }
-
-    return cave.nameTranslations?.[resolvedLanguage]?.join(', ') || null
-  })(cave.name?.languageCode)
+  const languages = useSelector((state) => state.data.languages)
+  // Its translations, each labelled with its language (as the cave page).
+  const nameTranslations = nameTranslationLines(cave, i18n.resolvedLanguage, languages, (language, names) => t('nameTranslation', { language, names }))
 
   const isSmall = useSmall()
 
@@ -72,7 +63,11 @@ export default function CurrentCaveDetailsHeader({ cave }) {
   function getSubHeaders() {
     return (
       <>
-        {caveNameTranslation && <Typography variant="caveDetailsSubHeader">{caveNameTranslation}</Typography>}
+        {nameTranslations.map((line) => (
+          <Typography key={line} variant="caveDetailsSubHeader">
+            {line}
+          </Typography>
+        ))}
         {cave.aka && cave.aka.length && (
           <Typography variant="caveDetailsSubHeader">
             {t('aka')} {cave.aka.join(', ')}

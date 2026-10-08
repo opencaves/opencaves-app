@@ -691,7 +691,8 @@
       "saveError": "Could not save your rating."
     },
     "cenoteEntrance": "Cenote entrance",
-    "cenoteEntranceDescription": "A cenote divers use to enter a cave system."
+    "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
+    "nameTranslation": "{{language}}: {{names}}"
   },
   "mediaPane": {
     "header": "{{name}}",
