@@ -1536,7 +1536,12 @@
     },
     "notOnMap": "Not on the map: no coordinates yet",
     "maps": "Survey maps",
-    "searchNoResult": "No cave or system matches “{{query}}” - search all caves"
+    "searchNoResult": "No cave or system matches “{{query}}” - search all caves",
+    "empty": {
+      "photos": "No photos yet.",
+      "videos": "No videos yet.",
+      "maps": "No survey maps yet."
+    }
   },
   "appBarSearch": {
     "placeholder": "Search caves and systems",

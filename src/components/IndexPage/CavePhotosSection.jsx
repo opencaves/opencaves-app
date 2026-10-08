@@ -13,6 +13,7 @@ import { useCaveAssetsList } from '@/models/CaveAsset.js'
 import Picture from '@/components/Picture.jsx'
 import Carousel from '@/components/Carousel/Carousel.jsx'
 import IndexSection from './IndexSection.jsx'
+import EmptySectionText from './EmptySectionText.jsx'
 
 // The photos a cave's page shows (its Show all pane has them all).
 const MAX_PHOTOS = 12
@@ -50,6 +51,7 @@ export default function CavePhotosSection({ caveId, title }) {
   )
   return (
     <IndexSection id="photos" title={title} count={list.size || undefined} className="oc-cave-page--photos" card>
+      {photos.length === 0 && <EmptySectionText>{t('empty.photos')}</EmptySectionText>}
       {photos.length > 0 && (
         <Carousel allItems={items} gridMinWidth="240px" gridGap={1.5} label={title}>
           {items.slice(0, MAX_PHOTOS)}

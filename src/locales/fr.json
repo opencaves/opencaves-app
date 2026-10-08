@@ -1535,7 +1535,12 @@
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
     "maps": "Topographies",
-    "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes"
+    "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes",
+    "empty": {
+      "photos": "Aucune photo pour l’instant.",
+      "videos": "Aucune vidéo pour l’instant.",
+      "maps": "Aucune topographie pour l’instant."
+    }
   },
   "appBarSearch": {
     "placeholder": "Chercher des grottes et des réseaux",
