@@ -1,35 +1,126 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { collection, deleteDoc, deleteField, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import BugReportOutlined from '@mui/icons-material/BugReportOutlined'
 import ReportGmailerrorredOutlined from '@mui/icons-material/ReportGmailerrorredOutlined'
 import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined'
-import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
-import ReplayRounded from '@mui/icons-material/ReplayRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
-import { db } from '@/config/firebase.js'
+import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
+import FiberNewOutlined from '@mui/icons-material/FiberNewOutlined'
+import VerifiedOutlined from '@mui/icons-material/VerifiedOutlined'
+import PendingOutlined from '@mui/icons-material/PendingOutlined'
+import TaskAltRounded from '@mui/icons-material/TaskAltRounded'
+import BlockRounded from '@mui/icons-material/BlockRounded'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import CheckRounded from '@mui/icons-material/CheckRounded'
+import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
+import { FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
 const ICONS = { bug: <BugReportOutlined />, misleading: <ReportGmailerrorredOutlined />, idea: <LightbulbOutlined /> }
-const SHOWN = ['new', 'done', 'all']
+// Each stage's icon and chip colour.
+const STATUS = {
+  new: { icon: <FiberNewOutlined />, color: 'primary' },
+  confirmed: { icon: <VerifiedOutlined />, color: 'secondary' },
+  inProgress: { icon: <PendingOutlined />, color: 'info' },
+  done: { icon: <TaskAltRounded />, color: 'success' },
+  rejected: { icon: <BlockRounded />, color: 'error' },
+  duplicate: { icon: <ContentCopyRounded />, color: 'default' },
+}
+// The list's filters: the open reports (the default), each stage, or all.
+const SHOWN = ['open', ...FEEDBACK_STATUSES, 'all']
+const isShown = (report, shown) => shown === 'all' || (shown === 'open' ? OPEN_FEEDBACK_STATUSES.includes(report.status) : report.status === shown)
+
+// A report's stage, as a chip opening the menu that changes it.
+function StatusMenu({ report }) {
+  const { t } = useTranslation('feedback')
+  const [anchor, setAnchor] = useState(null)
+  const current = STATUS[report.status] ? report.status : 'new'
+
+  function change(status) {
+    setAnchor(null)
+    if (status === current) return
+    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status, statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid }).catch((error) => console.error(error))
+  }
+
+  return (
+    <>
+      <Chip
+        className="oc-feedback-admin--status"
+        size="small"
+        icon={STATUS[current].icon}
+        label={
+          <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>
+            {t(`admin.status.${current}`)}
+            <ArrowDropDownRounded sx={{ fontSize: 20, mr: -0.75 }} />
+          </Box>
+        }
+        color={STATUS[current].color}
+        onClick={(event) => setAnchor(event.currentTarget)}
+        aria-haspopup="menu"
+        aria-label={t('admin.changeStatus', { status: t(`admin.status.${current}`) })}
+      />
+      <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
+        {FEEDBACK_STATUSES.map((status) => (
+          <MenuItem key={status} selected={status === current} onClick={() => change(status)}>
+            <ListItemIcon>{STATUS[status].icon}</ListItemIcon>
+            <ListItemText primary={t(`admin.status.${status}`)} secondary={t(`admin.statusHelp.${status}`)} />
+            {status === current && <CheckRounded fontSize="small" sx={{ ml: 2, color: 'var(--mui-sys-color-primary)' }} />}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  )
+}
+
+// The admins' note on a report (why it was rejected, what it duplicates, what
+// was done), saved when the field is left.
+function NoteField({ report }) {
+  const { t } = useTranslation('feedback')
+  const [value, setValue] = useState(report.note || '')
+  useEffect(() => setValue(report.note || ''), [report.note])
+
+  function save() {
+    const note = value.trim()
+    if (note === (report.note || '')) return
+    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { note: note || deleteField() }).catch((error) => console.error(error))
+  }
+
+  return (
+    <TextField
+      className="oc-feedback-admin--note"
+      size="small"
+      fullWidth
+      multiline
+      label={t('admin.note')}
+      placeholder={t('admin.notePlaceholder')}
+      value={value}
+      onChange={(event) => setValue(event.target.value.slice(0, 2000))}
+      onBlur={save}
+      sx={{ mt: 1.5 }}
+    />
+  )
+}
 
 // /feedback (admins): the beta testers' reports (the Send feedback form,
-// _feedback), newest first - each its kind, message, page, author and date;
-// marked done (or new again) or deleted. The new ones were also emailed to
-// the admins (onFeedbackCreated).
+// _feedback), newest first - each its kind, message, page, browser, author
+// and date - moved through their stages (FEEDBACK_STATUSES: open while new,
+// confirmed or in progress; closed once done, rejected or a duplicate), with
+// a note, or deleted. The new ones were also emailed to the admins
+// (onFeedbackCreated).
 export default function FeedbackAdmin() {
   const { t, i18n } = useTranslation('feedback')
   const { setTitle } = useTitle()
   const { accountLabel } = useAccounts()
   const [reports, setReports] = useState(null)
-  const [shown, setShown] = useState('new')
+  const [shown, setShown] = useState('open')
   const [toDelete, setToDelete] = useState(null)
 
   useEffect(() => {
@@ -50,9 +141,10 @@ export default function FeedbackAdmin() {
     [],
   )
 
-  const counts = useMemo(() => ({ new: (reports || []).filter((r) => r.status !== 'done').length, done: (reports || []).filter((r) => r.status === 'done').length, all: (reports || []).length }), [reports])
-  const list = (reports || []).filter((r) => shown === 'all' || (shown === 'done' ? r.status === 'done' : r.status !== 'done'))
+  const counts = useMemo(() => Object.fromEntries(SHOWN.map((s) => [s, (reports || []).filter((r) => isShown(r, s)).length])), [reports])
+  const list = (reports || []).filter((r) => isShown(r, shown))
   const dateOf = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })
+  const formatDate = (value) => (value?.toDate ? dateOf.format(value.toDate()) : null)
 
   return (
     <div className="oc-feedback-admin">
@@ -69,7 +161,14 @@ export default function FeedbackAdmin() {
 
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 2 }}>
         {SHOWN.map((s) => (
-          <Chip key={s} label={`${t(`admin.shown.${s}`)} ${counts[s]}`} onClick={() => setShown(s)} color={shown === s ? 'primary' : 'default'} variant={shown === s ? 'filled' : 'outlined'} aria-pressed={shown === s} />
+          <Chip
+            key={s}
+            label={`${s === 'open' || s === 'all' ? t(`admin.shown.${s}`) : t(`admin.status.${s}`)} ${counts[s]}`}
+            onClick={() => setShown(s)}
+            color={shown === s ? 'primary' : 'default'}
+            variant={shown === s ? 'filled' : 'outlined'}
+            aria-pressed={shown === s}
+          />
         ))}
       </Stack>
 
@@ -79,42 +178,46 @@ export default function FeedbackAdmin() {
         <Typography sx={{ color: 'text.secondary' }}>{t('admin.none')}</Typography>
       ) : (
         <Stack spacing={1.5} component="ul" sx={{ listStyle: 'none', m: 0, p: 0 }}>
-          {list.map((report) => (
-            <Box component="li" key={report.id} className="oc-feedback-admin--report" sx={{ ...DASHBOARD_SURFACE_SX, p: 2, opacity: report.status === 'done' ? 0.65 : 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 1 }}>
-                <Chip size="small" icon={ICONS[report.kind]} label={t(`kinds.${report.kind}`, { defaultValue: report.kind })} variant="outlined" />
-                {report.status === 'done' && <Chip size="small" label={t('admin.done')} color="success" variant="outlined" />}
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {[accountLabel(report.userId), report.createdAt?.toDate ? dateOf.format(report.createdAt.toDate()) : null].filter(Boolean).join(' · ')}
-                </Typography>
-                <Box sx={{ flex: 1 }} />
-                <Tooltip title={report.status === 'done' ? t('admin.reopen') : t('admin.markDone')}>
-                  <IconButton size="small" aria-label={report.status === 'done' ? t('admin.reopen') : t('admin.markDone')} onClick={() => updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status: report.status === 'done' ? 'new' : 'done' })}>
-                    {report.status === 'done' ? <ReplayRounded /> : <CheckCircleOutlineRounded />}
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={t('admin.delete')}>
-                  <IconButton size="small" aria-label={t('admin.delete')} onClick={() => setToDelete(report)}>
-                    <DeleteOutlineRounded />
-                  </IconButton>
-                </Tooltip>
+          {list.map((report) => {
+            const closed = !OPEN_FEEDBACK_STATUSES.includes(report.status)
+            return (
+              <Box component="li" key={report.id} className="oc-feedback-admin--report" sx={{ ...DASHBOARD_SURFACE_SX, p: 2, '& > :not(.oc-feedback-admin--header)': { opacity: closed ? 0.7 : 1 } }}>
+                <Box className="oc-feedback-admin--header" sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+                  <StatusMenu report={report} />
+                  <Chip size="small" icon={ICONS[report.kind]} label={t(`kinds.${report.kind}`, { defaultValue: report.kind })} variant="outlined" />
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {[accountLabel(report.userId), formatDate(report.createdAt)].filter(Boolean).join(' · ')}
+                  </Typography>
+                  <Box sx={{ flex: 1 }} />
+                  <Tooltip title={t('admin.delete')}>
+                    <IconButton size="small" aria-label={t('admin.delete')} onClick={() => setToDelete(report)}>
+                      <DeleteOutlineRounded />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{report.message}</Typography>
+                {report.page && (
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {t('admin.page')}{' '}
+                    <Link to={report.page} style={{ color: 'var(--mui-sys-color-primary)' }}>
+                      {report.page}
+                    </Link>
+                  </Typography>
+                )}
+                {report.browser && (
+                  <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary', overflowWrap: 'anywhere' }}>
+                    {t('admin.browser')} {report.browser}
+                  </Typography>
+                )}
+                {report.statusUpdatedBy && (
+                  <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+                    {t('admin.statusSet', { status: t(`admin.status.${report.status}`), name: accountLabel(report.statusUpdatedBy), date: formatDate(report.statusUpdatedAt) || '' })}
+                  </Typography>
+                )}
+                <NoteField report={report} />
               </Box>
-              <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{report.message}</Typography>
-              {report.page && (
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  {t('admin.page')}{' '}
-                  <Link to={report.page} style={{ color: 'var(--mui-sys-color-primary)' }}>
-                    {report.page}
-                  </Link>
-                </Typography>
-              )}
-              {report.browser && (
-                <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary', overflowWrap: 'anywhere' }}>
-                  {t('admin.browser')} {report.browser}
-                </Typography>
-              )}
-            </Box>
-          ))}
+            )
+          })}
         </Stack>
       )}
 

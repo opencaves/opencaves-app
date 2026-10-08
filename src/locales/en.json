@@ -1657,17 +1657,33 @@
       "title": "Feedback",
       "back": "Back to the dashboard",
       "shown": {
-        "new": "New",
-        "done": "Done",
+        "open": "Open",
         "all": "All"
       },
+      "status": {
+        "new": "New",
+        "confirmed": "Confirmed",
+        "inProgress": "In progress",
+        "done": "Done",
+        "rejected": "Rejected",
+        "duplicate": "Duplicate"
+      },
+      "statusHelp": {
+        "new": "Not looked at yet",
+        "confirmed": "A real problem, or an idea to do",
+        "inProgress": "Being worked on",
+        "done": "Fixed or added",
+        "rejected": "Not a problem, or not to do",
+        "duplicate": "Already reported"
+      },
+      "changeStatus": "Stage: {{status}}. Change it",
+      "statusSet": "{{status}} - by {{name}}, {{date}}",
       "none": "No reports here.",
-      "done": "Done",
-      "markDone": "Mark as done",
-      "reopen": "Mark as new",
       "delete": "Delete",
       "page": "Page:",
       "browser": "Browser:",
+      "note": "Note",
+      "notePlaceholder": "Why it was rejected, what it duplicates, what was done…",
       "deleteTitle": "Delete this report?",
       "deleteText": "It will be deleted for good."
     }

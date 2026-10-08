@@ -1657,17 +1657,33 @@
       "title": "Comentarios",
       "back": "Volver al panel",
       "shown": {
-        "new": "Nuevos",
-        "done": "Atendidos",
+        "open": "Abiertos",
         "all": "Todos"
       },
+      "status": {
+        "new": "Nuevo",
+        "confirmed": "Confirmado",
+        "inProgress": "En curso",
+        "done": "Hecho",
+        "rejected": "Rechazado",
+        "duplicate": "Duplicado"
+      },
+      "statusHelp": {
+        "new": "Aún sin revisar",
+        "confirmed": "Un problema real, o una idea por hacer",
+        "inProgress": "En proceso",
+        "done": "Corregido o añadido",
+        "rejected": "No es un problema, o no se hará",
+        "duplicate": "Ya reportado"
+      },
+      "changeStatus": "Etapa: {{status}}. Cambiarla",
+      "statusSet": "{{status}} - por {{name}}, {{date}}",
       "none": "No hay reportes aquí.",
-      "done": "Atendido",
-      "markDone": "Marcar como atendido",
-      "reopen": "Marcar como nuevo",
       "delete": "Borrar",
       "page": "Página:",
       "browser": "Navegador:",
+      "note": "Nota",
+      "notePlaceholder": "Por qué se rechazó, de qué es duplicado, qué se hizo…",
       "deleteTitle": "¿Borrar este reporte?",
       "deleteText": "Se borrará para siempre."
     }

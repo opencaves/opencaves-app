@@ -33,8 +33,12 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time
         && request.resource.data.status == 'new'
       allow read, delete: if isAdmin()
-      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
-        && request.resource.data.status in ['new', 'done']
+      // Its stage (src/utils/feedback.js' FEEDBACK_STATUSES), who set it and
+      // when, and the admins' note.
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusUpdatedAt', 'statusUpdatedBy', 'note'])
+        && request.resource.data.status in ['new', 'confirmed', 'inProgress', 'done', 'rejected', 'duplicate']
+        && (!('statusUpdatedBy' in request.resource.data) || request.resource.data.statusUpdatedBy is string)
+        && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 2000))
     }
 
     // A photo's uploader and original file name (onAssetUploaded): admins only.

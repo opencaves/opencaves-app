@@ -1656,17 +1656,33 @@
       "title": "Commentaires",
       "back": "Retour au tableau de bord",
       "shown": {
-        "new": "Nouveaux",
-        "done": "Traités",
+        "open": "Ouverts",
         "all": "Tous"
       },
+      "status": {
+        "new": "Nouveau",
+        "confirmed": "Confirmé",
+        "inProgress": "En cours",
+        "done": "Fait",
+        "rejected": "Rejeté",
+        "duplicate": "Doublon"
+      },
+      "statusHelp": {
+        "new": "Pas encore examiné",
+        "confirmed": "Un vrai problème, ou une idée à réaliser",
+        "inProgress": "En traitement",
+        "done": "Corrigé ou ajouté",
+        "rejected": "Pas un problème, ou pas à faire",
+        "duplicate": "Déjà signalé"
+      },
+      "changeStatus": "Étape : {{status}}. La changer",
+      "statusSet": "{{status}} - par {{name}}, {{date}}",
       "none": "Aucun rapport ici.",
-      "done": "Traité",
-      "markDone": "Marquer comme traité",
-      "reopen": "Marquer comme nouveau",
       "delete": "Supprimer",
       "page": "Page :",
       "browser": "Navigateur :",
+      "note": "Note",
+      "notePlaceholder": "Pourquoi il a été rejeté, de quoi il est le doublon, ce qui a été fait…",
       "deleteTitle": "Supprimer ce rapport ?",
       "deleteText": "Il sera supprimé pour de bon."
     }
