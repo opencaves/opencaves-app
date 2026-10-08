@@ -24,7 +24,6 @@ import MediaPaneMenu from './MediaPaneMenu.jsx'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
-import FeedbackTab from '@/components/Feedback/FeedbackTab.jsx'
 
 const Main = styled('main')(
   ({ theme, open }) => {
@@ -218,8 +217,6 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
           view: onView, enterFullscreen: () => setIsFullscreen(true), exitFullscreen: () => setIsFullscreen(false)
         }}
       />
-      {/* Its own feedback tab: the page's is under this pane. */}
-      <FeedbackTab inViewer />
     </Main>
   )
 }
