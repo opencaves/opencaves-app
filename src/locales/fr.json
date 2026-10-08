@@ -127,7 +127,9 @@
       "empty": "Vous n’avez encore sauvegardé aucune grotte. Utilisez le bouton Sauvegarder d’une grotte pour l’ajouter ici.",
       "remove": "Retirer des sauvegardées",
       "removeNamed": "Retirer {{name}} des sauvegardées",
-      "sistema": "Réseau {{name}}"
+      "sistema": "Réseau {{name}}",
+      "removed": "{{name}} retirée de vos grottes sauvegardées",
+      "undo": "Annuler"
     },
     "offline": {
       "title": "Utilisation hors ligne",
@@ -1188,7 +1190,8 @@
     "connection": {
       "offline": "Vous êtes hors ligne. Les grottes sauvegardées restent disponibles.",
       "online": "Vous êtes de nouveau en ligne.",
-      "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent."
+      "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent.",
+      "offlineNoSaved": "Vous êtes hors ligne. Les photos et les cartes déjà consultées restent disponibles."
     },
     "caveReady": "{{name}} est disponible hors ligne",
     "caveIncomplete": "{{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Breadcrumbs, IconButton, Link as MuiLink, Tooltip, Typography } from '@mui/material'
@@ -29,6 +29,7 @@ const BREADCRUMBS_SX = {
 
 export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {
   const { t: tApp } = useTranslation('app')
+  const navigate = useNavigate()
   const roles = useSelector((state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
@@ -57,7 +58,19 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
           // arrow centred on it, whatever the title's size or length.
           <Box sx={{ typography: { xs: 'h5', sm: 'h4' }, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <Tooltip title={tApp('back')}>
-              <IconButton component={Link} to={backTo} aria-label={tApp('back')}>
+              {/* Opened from within the app: a step back (the list where it was,
+                  scrolled as it was); otherwise up to backTo. */}
+              <IconButton
+                component={Link}
+                to={backTo}
+                aria-label={tApp('back')}
+                onClick={(event) => {
+                  if (window.history.state?.idx > 0) {
+                    event.preventDefault()
+                    navigate(-1)
+                  }
+                }}
+              >
                 <ArrowBackRounded />
               </IconButton>
             </Tooltip>

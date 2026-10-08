@@ -114,7 +114,7 @@ export default function CavePage() {
         current={label}
         title={label}
         subtitle={aka.length > 0 ? `${tPane('aka')} ${[...new Set(aka)].join(', ')}` : null}
-        backTo="/caves"
+        backTo={area ? `/caves#${area.slug}` : '/caves'}
         editTo={`/caves/${cave.id}/edit`}
         editLabel={t('cave.edit', { name: label })}
       />

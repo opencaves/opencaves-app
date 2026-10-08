@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
 import Bookmark from '@mui/icons-material/Bookmark'
 import BookmarkRemoveOutlined from '@mui/icons-material/BookmarkRemoveOutlined'
 import CloudDoneOutlined from '@mui/icons-material/CloudDoneOutlined'
@@ -12,6 +12,7 @@ import { getData } from '@/services/data-service.jsx'
 import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 // One saved cenote's offline download state, beside its name: a progress
 // ring while downloading, a cloud-check once everything is on the device.
@@ -61,7 +62,23 @@ function OfflineSummary() {
 export default function SavedCavesList({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'savedCaves' })
   const { t: tMap } = useTranslation('map')
-  const { loading, savedCaveIds, unsaveCave } = useSavedCaves()
+  const { loading, savedCaveIds, unsaveCave, restoreCave } = useSavedCaves()
+  const [openSnackbar, closeSnackbar] = useSnackbar()
+
+  // Removed: said, with Undo.
+  function remove(caveId, name) {
+    unsaveCave(caveId)
+      .then((previous) =>
+        openSnackbar(t('removed', { name }), {
+          action: (
+            <Button color="secondary" onClick={() => { closeSnackbar(); restoreCave(caveId, previous).catch((error) => console.error(error)) }}>
+              {t('undo')}
+            </Button>
+          ),
+        }),
+      )
+      .catch((error) => console.error(error))
+  }
   const caves = useSelector((state) => state.data.caves)
 
   // Cave names come from the shared cave data, which the map normally loads -
@@ -98,7 +115,7 @@ export default function SavedCavesList({ headingProps = {} }) {
                 divider
                 secondaryAction={
                   <Tooltip title={t('remove')}>
-                    <IconButton edge="end" aria-label={t('removeNamed', { name: caveName })} onClick={() => unsaveCave(cave.id).catch((error) => console.error(error))}>
+                    <IconButton edge="end" aria-label={t('removeNamed', { name: caveName })} onClick={() => remove(cave.id, caveName)}>
                       <BookmarkRemoveOutlined />
                     </IconButton>
                   </Tooltip>

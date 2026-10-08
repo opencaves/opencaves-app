@@ -25,9 +25,17 @@ export function useSavedCaves() {
     await setDoc(doc(db, USERS_COLLECTION, uid, 'savedCaves', caveId), { savedAt: serverTimestamp() })
   }
 
+  // Returns what it removed, for restoreCave (an Undo).
   async function unsaveCave(caveId) {
+    const previous = snapshot?.docs.find((d) => d.id === caveId)?.data() || null
     await deleteDoc(doc(db, USERS_COLLECTION, uid, 'savedCaves', caveId))
+    return previous
   }
 
-  return { canSave, loading: canSave && loading, savedCaveIds, isSaved: (caveId) => savedCaveIdSet.has(caveId), saveCave, unsaveCave }
+  // Saved again as it was (its savedAt: its place in the list).
+  async function restoreCave(caveId, previous) {
+    await setDoc(doc(db, USERS_COLLECTION, uid, 'savedCaves', caveId), previous || { savedAt: serverTimestamp() })
+  }
+
+  return { canSave, loading: canSave && loading, savedCaveIds, isSaved: (caveId) => savedCaveIdSet.has(caveId), saveCave, unsaveCave, restoreCave }
 }

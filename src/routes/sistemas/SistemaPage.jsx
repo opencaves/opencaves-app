@@ -142,7 +142,7 @@ export default function SistemaPage() {
           </>
         }
         subtitle={sistema.aka?.length > 0 ? `${tPane('aka')} ${sistema.aka.join(', ')}` : null}
-        backTo="/sistemas"
+        backTo={area ? `/sistemas#${area.slug}` : '/sistemas'}
         editTo={`/sistemas/${sistema.slug}/edit`}
         editLabel={t('sistema.edit', { name: sistema.name })}
       />
