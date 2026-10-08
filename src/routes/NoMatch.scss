@@ -112,3 +112,9 @@
     }
   }
 }
+
+// Inside the pages' layout (app bar kept): a page's heading, not a poster's.
+.oc-no-match.no-match--in-layout .no-match--header {
+  text-transform: none;
+  font-size: 2.25rem;
+}
