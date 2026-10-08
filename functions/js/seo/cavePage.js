@@ -31,7 +31,8 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const paragraphs = plainParagraphs(cave.description)
   const summary = paragraphs.join(' ')
   const subject = name ? label : 'An unnamed cave'
-  const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
+  // As the app's (seo.caveDescriptionPrefix / caveDescriptionFallback).
+  const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
   const title = `${label} / ${APP_TITLE}`
   const canonical = `/caves/${id}`
   const url = `${SITE_URL}${canonical}`

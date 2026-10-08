@@ -121,8 +121,8 @@
     "signOut": "Sign Out",
     "signedOut": "Signed out",
     "savedCaves": {
-      "title": "Saved cenotes",
-      "empty": "You haven’t saved any cenotes yet. Use the Save button on a cenote to add it here.",
+      "title": "Saved caves",
+      "empty": "You haven’t saved any caves yet. Use the Save button on a cave to add it here.",
       "remove": "Remove from saved",
       "removeNamed": "Remove {{name}} from saved",
       "sistema": "Sistema {{name}}"
@@ -140,7 +140,7 @@
       "cancel": "Cancel",
       "cleared": "Offline data cleared",
       "clearError": "Could not clear the offline data.",
-      "confirmTextSaved": "Your saved cenotes stay saved and will download again the next time you’re on Wi-Fi."
+      "confirmTextSaved": "Your saved caves stay saved and will download again the next time you’re on Wi-Fi."
     },
     "language": "Language",
     "languageAutomatic": "Automatic ({{language}})",
@@ -323,7 +323,7 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Actions for cenote {{name}}",
+    "ariaLabel": "Actions for {{name}}",
     "directions": "Directions",
     "save": "Save",
     "share": "Share",
@@ -332,11 +332,11 @@
     "shareDialogTitle": "Share",
     "saved": "Saved",
     "savedMessage": "Saved to your profile",
-    "unsavedMessage": "Removed from your saved cenotes",
-    "saveError": "Could not update your saved cenotes.",
+    "unsavedMessage": "Removed from your saved caves",
+    "saveError": "Could not update your saved caves.",
     "accountPrompt": {
-      "title": "Save your favorite cenotes",
-      "text": "Create a free account to save cenote {{name}} and find all your saved cenotes on your profile.",
+      "title": "Save your favorite caves",
+      "text": "Create a free account to save {{name}} and find all your saved caves on your profile.",
       "notNow": "Not now",
       "logIn": "Log in",
       "signUp": "Create an account"
@@ -393,11 +393,11 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Search cenotes",
+    "inputAriaLabel": "Search caves",
     "noResults": "No cave matches “{{query}}”."
   },
   "filter": {
-    "windowTitle": "Filter Cenotes",
+    "windowTitle": "Filter caves",
     "close": "Close",
     "coordinate": {
       "heading": "GPS Coordinate",
@@ -489,9 +489,9 @@
       ]
     },
     "cenoteType": {
-      "heading": "Cenote type",
+      "heading": "Cave type",
       "showCenoteEntrances": "Show cenote entrances",
-      "showOtherCenotes": "Show other cenotes"
+      "showOtherCenotes": "Show other caves"
     },
     "closeBtn": "Close the filters"
   },
@@ -520,7 +520,7 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
-    "directionsToCave": "Directions to the cenote",
+    "directionsToCave": "Directions to the cave",
     "directionsToKey": "Directions to the key",
     "directionsToSistema": "Directions to the system",
     "area": "Area: {{area}}",
@@ -565,7 +565,7 @@
       "addVideo": "Add video",
       "editVideo": "Edit video",
       "deleteVideo": "Delete video",
-      "deleteVideoConfirm": "This video will be removed from the cenote.",
+      "deleteVideoConfirm": "This video will be removed from the cave.",
       "deleteVideoError": "Could not delete the video. Please try again.",
       "note": "Note(s)",
       "maps": "Maps",
@@ -629,7 +629,7 @@
       "caveDeleteError": "Couldn't delete {{name}}. Please try again.",
       "save": "Save",
       "cancel": "Cancel",
-      "newCave": "New cenote",
+      "newCave": "New cave",
       "caveTitle": "{{name}}",
       "backToCaves": "Back to caves",
       "backToCave": "Back to the cave's page",
@@ -649,13 +649,13 @@
       "media": "Media",
       "notes": "Notes",
       "placeSearch": {
-        "label": "Search for a place or a cenote",
-        "placeholder": "Search a place or a cenote",
+        "label": "Search for a place or a cave",
+        "placeholder": "Search a place or a cave",
         "hint": "Type at least 2 letters",
         "searching": "Searching…",
         "noResults": "Nothing found",
         "error": "Places can't be searched right now",
-        "cenotes": "Cenotes",
+        "cenotes": "Caves",
         "places": "Places"
       },
       "cenoteEntrance": "Cenote entrance",
@@ -730,7 +730,7 @@
       }
     },
     "addMedia": {
-      "header": "Upload photos of Cenote {{name}}",
+      "header": "Upload photos of {{name}}",
       "dragHere": "Drag photos here",
       "dropHere": "Drop the files here …",
       "or": "or",
@@ -749,10 +749,10 @@
       "uploadingTo": "Uploading to",
       "countMedias": "{{index}} of {{total}}",
       "gpsCheck": {
-        "title_one": "This photo was taken far from the cenote",
-        "title_other": "{{count}} photos were taken far from the cenote",
-        "text_one": "Its GPS position is more than {{distance}} from {{cave}}. Is it really a photo of this cenote?",
-        "text_other": "Their GPS positions are more than {{distance}} from {{cave}}. Are they really photos of this cenote?",
+        "title_one": "This photo was taken far from the cave",
+        "title_other": "{{count}} photos were taken far from the cave",
+        "text_one": "Its GPS position is more than {{distance}} from {{cave}}. Is it really a photo of this cave?",
+        "text_other": "Their GPS positions are more than {{distance}} from {{cave}}. Are they really photos of this cave?",
         "distance": "{{distance}} away",
         "skip_one": "Skip this photo",
         "skip_other": "Skip these photos",
@@ -1001,8 +1001,8 @@
       "title": "Cave passages",
       "scope": "Systems",
       "all": "All systems",
-      "selected": "Only the selected cenote's system",
-      "selectedHint": "Select a cenote first",
+      "selected": "Only the selected cave’s system",
+      "selectedHint": "Select a cave first",
       "colors": "Colours",
       "bySystem": "By system",
       "single": "One colour",
@@ -1174,11 +1174,11 @@
       "onlineSyncing": "You're back online. Your changes are syncing."
     },
     "caveReady": "{{name}} is available offline",
-    "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
-    "previewsReady": "Cenote previews, maps and cave passages are available offline",
+    "caveIncomplete": "{{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
+    "previewsReady": "Cave previews, maps and passages are available offline",
     "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
     "previewsLabel": "Make available offline",
-    "previewsHint": "Cenote previews, maps and cave passages",
+    "previewsHint": "Cave previews, maps and passages",
     "waitingForWifi": "Waiting for Wi-Fi",
     "waitingForConnection": "Waiting for a connection",
     "downloadingCount": "Downloading for offline use… {{done}} / {{total}}",
@@ -1193,12 +1193,12 @@
     "caveIncompleteShort": "Partly available offline",
     "caveNotYet": "Not downloaded yet",
     "savedIncomplete": "Some files couldn’t be downloaded. We’ll retry later.",
-    "savedAvailable": "All saved cenotes are available offline",
+    "savedAvailable": "All saved caves are available offline",
     "hint": {
       "offline": "You're offline: only the photos and maps you've already viewed are on this device.",
-      "save": "Save this cenote to keep all of it for your next dive.",
-      "account": "Create an account to save cenotes for offline use.",
-      "system": "Save one of its cenotes to keep its maps for your next dive.",
+      "save": "Save this cave to keep all of it for your next dive.",
+      "account": "Create an account to save caves for offline use.",
+      "system": "Save one of its caves to keep its maps for your next dive.",
       "saveButton": "Save",
       "signupButton": "Sign up"
     },
@@ -1242,8 +1242,8 @@
   "seo": {
     "defaultDescription": "OpenCaves is the reference for finding cenotes in the Yucatán, Mexico: new caves to dive, verified GPS coordinates, useful descriptions, pictures and maps.",
     "mapHeading": "OpenCaves: map of the cenotes of the Yucatán",
-    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, Mexico):",
-    "caveDescriptionFallback": "Cenote {{name}} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
+    "caveDescriptionPrefix": "{{name}} (Yucatán, Mexico):",
+    "caveDescriptionFallback": "{{name}}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
     "notFoundTitle": "Page not found",
     "mapTitle": "Cenote map of the Yucatán"
   },
@@ -1328,7 +1328,7 @@
       "deleteUser": "Account deleted"
     },
     "collections": {
-      "caves": "Cenotes",
+      "caves": "Caves",
       "sistemas": "Sistemas",
       "connections": "Sistema connections",
       "cavesAssets": "Photos",

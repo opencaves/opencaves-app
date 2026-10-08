@@ -121,8 +121,8 @@
     "signOut": "Cerrar sesión",
     "signedOut": "Sesión cerrada",
     "savedCaves": {
-      "title": "Cenotes guardados",
-      "empty": "Aún no has guardado ningún cenote. Usa el botón Guardar de un cenote para añadirlo aquí.",
+      "title": "Cuevas guardadas",
+      "empty": "Aún no has guardado ninguna cueva. Usa el botón Guardar de una cueva para añadirla aquí.",
       "remove": "Quitar de guardados",
       "removeNamed": "Quitar {{name}} de guardados",
       "sistema": "Sistema {{name}}"
@@ -140,14 +140,14 @@
       "cancel": "Cancelar",
       "cleared": "Datos sin conexión borrados",
       "clearError": "No se pudieron borrar los datos sin conexión.",
-      "confirmTextSaved": "Tus cenotes guardados seguirán guardados y se descargarán de nuevo la próxima vez que estés en Wi-Fi."
+      "confirmTextSaved": "Tus cuevas guardadas seguirán guardadas y se descargarán de nuevo la próxima vez que estés en Wi-Fi."
     },
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",
     "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo.",
     "personalInfo": "Información personal",
     "units": "Unidades",
-    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cenotes y sistemas.",
+    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cuevas y sistemas.",
     "unitsAutomatic": "Automático ({{units}})",
     "units_metric": "Métrico (m)",
     "units_imperial": "Imperial (pies)",
@@ -323,7 +323,7 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Acciones para el cenote {{name}}",
+    "ariaLabel": "Acciones para {{name}}",
     "directions": "Cómo llegar",
     "save": "Guardar",
     "share": "Compartir",
@@ -332,11 +332,11 @@
     "shareDialogTitle": "Compartir",
     "saved": "Guardado",
     "savedMessage": "Guardado en tu perfil",
-    "unsavedMessage": "Eliminado de tus cenotes guardados",
-    "saveError": "No se pudieron actualizar tus cenotes guardados.",
+    "unsavedMessage": "Eliminada de tus cuevas guardadas",
+    "saveError": "No se pudieron actualizar tus cuevas guardadas.",
     "accountPrompt": {
-      "title": "Guarda tus cenotes favoritos",
-      "text": "Crea una cuenta gratuita para guardar el cenote {{name}} y encontrar todos tus cenotes guardados en tu perfil.",
+      "title": "Guarda tus cuevas favoritas",
+      "text": "Crea una cuenta gratuita para guardar {{name}} y encontrar todas tus cuevas guardadas en tu perfil.",
       "notNow": "Ahora no",
       "logIn": "Iniciar sesión",
       "signUp": "Crear una cuenta"
@@ -393,11 +393,11 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Buscar cenotes",
+    "inputAriaLabel": "Buscar cuevas",
     "noResults": "Ninguna cueva coincide con «{{query}}»."
   },
   "filter": {
-    "windowTitle": "Filtrar cenotes",
+    "windowTitle": "Filtrar cuevas",
     "close": "Cerrar",
     "coordinate": {
       "heading": "Coordenadas GPS",
@@ -489,9 +489,9 @@
       ]
     },
     "cenoteType": {
-      "heading": "Tipo de cenote",
+      "heading": "Tipo de cueva",
       "showCenoteEntrances": "Mostrar cenotes de entrada",
-      "showOtherCenotes": "Mostrar otros cenotes"
+      "showOtherCenotes": "Mostrar otras cuevas"
     },
     "closeBtn": "Cerrar los filtros"
   },
@@ -520,7 +520,7 @@
     "copyCoordinates": "Copiar coordenadas",
     "copyKeyCoordinates": "Copiar coordenadas clave",
     "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
-    "directionsToCave": "Cómo llegar al cenote",
+    "directionsToCave": "Cómo llegar a la cueva",
     "directionsToKey": "Cómo llegar a la llave",
     "directionsToSistema": "Cómo llegar al sistema",
     "area": "Zona: {{area}}",
@@ -565,7 +565,7 @@
       "addVideo": "Añadir vídeo",
       "editVideo": "Editar vídeo",
       "deleteVideo": "Eliminar vídeo",
-      "deleteVideoConfirm": "Este vídeo se quitará del cenote.",
+      "deleteVideoConfirm": "Este video se quitará de la cueva.",
       "deleteVideoError": "No se pudo eliminar el vídeo. Inténtalo de nuevo.",
       "note": "Nota(s)",
       "maps": "Mapas",
@@ -611,7 +611,7 @@
       "access": "Acceso",
       "accessibility": "Accesibilidad",
       "fees": "Costos",
-      "feesHint": "Indica si visitar este cenote requiere pagar una tarifa de entrada",
+      "feesHint": "Indica si visitar esta cueva requiere pagar una tarifa de entrada",
       "facilities": "Instalaciones",
       "facilitiesHint": "Indica si hay instalaciones como baños o vestidores disponibles en el lugar",
       "accessDetails": "Detalles de acceso",
@@ -629,9 +629,9 @@
       "cancel": "Cancelar",
       "accessGroup": "Acceso",
       "accessibilityGroup": "Accesibilidad",
-      "newCave": "Nuevo cenote",
+      "newCave": "Nueva cueva",
       "caveTitle": "{{name}}",
-      "backToCaves": "Volver a los cenotes",
+      "backToCaves": "Volver a las cuevas",
       "backToCave": "Volver a la página del cenote",
       "placeOnMap": "Colocar en el mapa",
       "placeOnMapTitle": "Colocar: {{label}}",
@@ -649,13 +649,13 @@
       "media": "Multimedia",
       "notes": "Notas",
       "placeSearch": {
-        "label": "Buscar un lugar o un cenote",
-        "placeholder": "Buscar un lugar o un cenote",
+        "label": "Buscar un lugar o una cueva",
+        "placeholder": "Buscar un lugar o una cueva",
         "hint": "Escribe al menos 2 letras",
         "searching": "Buscando…",
         "noResults": "Sin resultados",
         "error": "No se pueden buscar lugares en este momento",
-        "cenotes": "Cenotes",
+        "cenotes": "Cuevas",
         "places": "Lugares"
       },
       "cenoteEntrance": "Cenote de entrada",
@@ -683,7 +683,7 @@
       "count_one": "({{count}} calificación)",
       "count_other": "({{count}} calificaciones)",
       "yourRating": "Tu calificación",
-      "rateThisCave": "Califica este cenote",
+      "rateThisCave": "Califica esta cueva",
       "saveError": "No se pudo guardar tu calificación."
     },
     "cenoteEntrance": "Cenote de entrada",
@@ -730,7 +730,7 @@
       }
     },
     "addMedia": {
-      "header": "Sube fotos del cenote {{name}}",
+      "header": "Sube fotos de {{name}}",
       "dragHere": "Arrastra las fotos aquí",
       "dropHere": "Suelta los archivos aquí…",
       "or": "o",
@@ -749,10 +749,10 @@
       "uploadingTo": "Subiendo a",
       "countMedias": "{{index}} de {{total}}",
       "gpsCheck": {
-        "title_one": "Esta foto se tomó lejos del cenote",
-        "title_other": "{{count}} fotos se tomaron lejos del cenote",
-        "text_one": "Su posición GPS está a más de {{distance}} de {{cave}}. ¿Es realmente una foto de este cenote?",
-        "text_other": "Sus posiciones GPS están a más de {{distance}} de {{cave}}. ¿Son realmente fotos de este cenote?",
+        "title_one": "Esta foto se tomó lejos de la cueva",
+        "title_other": "{{count}} fotos se tomaron lejos de la cueva",
+        "text_one": "Su posición GPS está a más de {{distance}} de {{cave}}. ¿Es realmente una foto de esta cueva?",
+        "text_other": "Sus posiciones GPS están a más de {{distance}} de {{cave}}. ¿Son realmente fotos de esta cueva?",
         "distance": "a {{distance}}",
         "skip_one": "Omitir esta foto",
         "skip_other": "Omitir estas fotos",
@@ -985,14 +985,14 @@
     "caveNameUnknown": "(Cueva sin nombre)",
     "editFab": {
       "ariaLabel": "Editar datos del cenote",
-      "editCave": "Editar este cenote",
-      "addNewCave": "Añadir nuevo cenote",
+      "editCave": "Editar esta cueva",
+      "addNewCave": "Añadir nueva cueva",
       "exitEditMode": "Salir del modo de edición"
     },
     "error": "Algo salió mal",
     "savedCave": "Guardado",
     "markers": {
-      "location": "Ubicación del cenote",
+      "location": "Ubicación de la cueva",
       "entrance": "Entrada del cenote",
       "key": "Ubicación de la llave"
     },
@@ -1001,8 +1001,8 @@
       "title": "Galerías",
       "scope": "Sistemas",
       "all": "Todos los sistemas",
-      "selected": "Solo el sistema del cenote seleccionado",
-      "selectedHint": "Selecciona primero un cenote",
+      "selected": "Solo el sistema de la cueva seleccionada",
+      "selectedHint": "Selecciona primero una cueva",
       "colors": "Colores",
       "bySystem": "Por sistema",
       "single": "Un solo color",
@@ -1174,11 +1174,11 @@
       "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando."
     },
     "caveReady": "{{name}} está disponible sin conexión",
-    "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",
+    "caveIncomplete": "{{name}} está guardada, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
+    "previewsReady": "Las vistas previas de las cuevas, los mapas y las galerías están disponibles sin conexión",
     "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsLabel": "Hacer disponible sin conexión",
-    "previewsHint": "Vistas de cenotes, mapas y galerías",
+    "previewsHint": "Vistas de cuevas, mapas y galerías",
     "waitingForWifi": "Esperando Wi-Fi",
     "waitingForConnection": "Esperando conexión",
     "downloadingCount": "Descargando para usar sin conexión… {{done}} / {{total}}",
@@ -1193,12 +1193,12 @@
     "caveIncompleteShort": "Parcialmente disponible sin conexión",
     "caveNotYet": "Aún no descargado",
     "savedIncomplete": "Algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión",
+    "savedAvailable": "Todas las cuevas guardadas están disponibles sin conexión",
     "hint": {
       "offline": "Estás sin conexión: solo las fotos y los mapas que ya viste están en este dispositivo.",
-      "save": "Guarda este cenote para tenerlo completo en tu próxima inmersión.",
-      "account": "Crea una cuenta para guardar cenotes y usarlos sin conexión.",
-      "system": "Guarda uno de sus cenotes para tener sus mapas en tu próxima inmersión.",
+      "save": "Guarda esta cueva para tenerla completa en tu próxima inmersión.",
+      "account": "Crea una cuenta para guardar cuevas y usarlas sin conexión.",
+      "system": "Guarda una de sus cuevas para tener sus mapas en tu próxima inmersión.",
       "saveButton": "Guardar",
       "signupButton": "Registrarse"
     },
@@ -1242,8 +1242,8 @@
   "seo": {
     "defaultDescription": "OpenCaves es la referencia para encontrar cenotes en Yucatán, México: nuevas cuevas para bucear, coordenadas GPS verificadas, descripciones útiles, fotos y mapas.",
     "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
-    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, México):",
-    "caveDescriptionFallback": "Cenote {{name}} en Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
+    "caveDescriptionPrefix": "{{name}} (Yucatán, México):",
+    "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
     "mapTitle": "Mapa de cenotes de Yucatán"
   },
@@ -1328,7 +1328,7 @@
       "deleteUser": "Cuenta eliminada"
     },
     "collections": {
-      "caves": "Cenotes",
+      "caves": "Cuevas",
       "sistemas": "Sistemas",
       "connections": "Conexiones de sistemas",
       "cavesAssets": "Fotos",
