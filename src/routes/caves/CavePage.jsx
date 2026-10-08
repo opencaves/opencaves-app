@@ -3,8 +3,8 @@ import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
-import MapOutlined from '@mui/icons-material/MapOutlined'
-import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
+import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import FenceRounded from '@mui/icons-material/FenceRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
@@ -34,7 +34,7 @@ import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
-import PlaceOutlined from '@mui/icons-material/PlaceOutlined'
+import PlaceRounded from '@mui/icons-material/PlaceRounded'
 import Address from '@/components/ResultPane/Address.jsx'
 import { nameTranslationLines } from '@/utils/nameTranslations.js'
 
@@ -105,7 +105,7 @@ export default function CavePage() {
   const coordinates = (point) => `${Number(point.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(point.longitude).toFixed(COORDINATE_DECIMALS)}`
   const isPoint = (point) => point?.latitude != null && point?.longitude != null
   const points = [
-    location && { key: 'location', icon: <MyLocationOutlined />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
+    location && { key: 'location', icon: <MyLocationRounded />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
     isPoint(cave.entrance) && { key: 'entrance', icon: <FenceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
   ].filter(Boolean)
@@ -129,7 +129,7 @@ export default function CavePage() {
             events, so the tooltip is on a wrapper. */}
         <Tooltip title={location ? '' : t('notOnMap')}>
           <span>
-            <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapOutlined />} sx={{ borderRadius: 5 }}>
+            <Button className="oc-cave-page--on-map" component={RouterLink} to={`/map/${cave.id}`} disabled={!location} variant="contained" disableElevation startIcon={<MapRounded />} sx={{ borderRadius: 5 }}>
               {t('onMap')}
             </Button>
           </span>
@@ -158,7 +158,7 @@ export default function CavePage() {
           {/* Its address, as the map's pane shows it (the caveAddress function). */}
           {location && (
             <Typography className="oc-cave-page--address" variant="body2" sx={{ display: 'flex', gap: 1, alignItems: 'center', mb: 0.5 }}>
-              <PlaceOutlined aria-hidden="true" sx={{ color: 'primary.main', mr: 1 }} />
+              <PlaceRounded aria-hidden="true" sx={{ color: 'primary.main', mr: 1 }} />
               <Address caveId={cave.id} longitude={location.longitude} latitude={location.latitude} />
             </Typography>
           )}

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, LinearProgress, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material'
-import CloudDoneOutlined from '@mui/icons-material/CloudDoneOutlined'
-import CloudDownloadOutlined from '@mui/icons-material/CloudDownloadOutlined'
+import CloudDoneRounded from '@mui/icons-material/CloudDoneRounded'
+import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import { setOfflinePreviewsEnabled, useOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, previewsStatusKey } from '@/services/offline/offlineMedia.js'
@@ -75,7 +75,7 @@ export default function OfflinePreviewsToggle({ sx }) {
   return (
     <ListItemButton className="oc-offline-previews-toggle" role="switch" aria-checked={enabled} onClick={() => setOfflinePreviewsEnabled(!enabled)} sx={sx}>
       {/* Downloaded: a cloud with a check (green just after it finishes). */}
-      <ListItemIcon sx={{ transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) }}>{ready ? <CloudDoneOutlined /> : <CloudDownloadOutlined />}</ListItemIcon>
+      <ListItemIcon sx={{ transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) }}>{ready ? <CloudDoneRounded /> : <CloudDownloadRounded />}</ListItemIcon>
       <ListItemText primary={t('previewsLabel')} secondary={secondary} slotProps={{ secondary: { component: 'div', sx: { transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) } } }} />
       {/* inert: its own checkbox input would otherwise be a control nested
           inside this one. */}

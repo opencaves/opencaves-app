@@ -8,8 +8,8 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import HomeRounded from '@mui/icons-material/HomeRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
-import NewReleasesOutlined from '@mui/icons-material/NewReleasesOutlined'
-import VolunteerActivismOutlined from '@mui/icons-material/VolunteerActivismOutlined'
+import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded'
+import VolunteerActivismRounded from '@mui/icons-material/VolunteerActivismRounded'
 import DashboardRounded from '@mui/icons-material/DashboardRounded'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
@@ -39,8 +39,8 @@ export function useNavItems() {
     { key: 'map', to: '/map', icon: <MapRounded />, onClick: () => dispatch(resetView()) },
     { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
     { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
-    { key: 'whatCanIDo', to: '/what-can-i-do', icon: <VolunteerActivismOutlined /> },
-    { key: 'whatsNew', to: '/whats-new', icon: <NewReleasesOutlined /> },
+    { key: 'whatCanIDo', to: '/what-can-i-do', icon: <VolunteerActivismRounded /> },
+    { key: 'whatsNew', to: '/whats-new', icon: <NewReleasesRounded /> },
     // A dialog over the page (its address still /about).
     { key: 'about', to: '/about', icon: <InfoRounded />, onClick: openAboutDialog },
   ]

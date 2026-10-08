@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Typography } from '@mui/material'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import mapsModel from '@/models/MapModel.js'
 import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
@@ -66,7 +66,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
                     ) : map.contentType === 'application/pdf' ? (
                       <PictureAsPdfRounded color="primary" fontSize="large" />
                     ) : (
-                      <MapOutlined color="primary" fontSize="large" />
+                      <MapRounded color="primary" fontSize="large" />
                     )}
                     <Box className="oc-maps-section--caption" sx={{ position: 'absolute', left: { xs: 12, sm: 8 }, right: { xs: 12, sm: 8 }, bottom: { xs: 12, sm: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px', '& span': { lineHeight: 1, px: '6px', py: '3px', color: 'common.white', bgcolor: 'rgb(32, 32, 32)', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' } }}>
                       <Box sx={{ lineHeight: 1 }}>

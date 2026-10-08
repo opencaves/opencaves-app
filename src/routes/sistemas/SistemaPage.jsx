@@ -3,7 +3,7 @@ import { Link as RouterLink, Navigate, Outlet, useParams } from 'react-router-do
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
-import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
+import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
@@ -164,7 +164,7 @@ export default function SistemaPage() {
 
       {location && (
         <IndexSection id="location" title={t('sistema.location')} className="oc-sistema-page--location" card>
-          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationOutlined />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
+          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 

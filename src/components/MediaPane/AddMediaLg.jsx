@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone'
 import { Box, IconButton, Dialog, DialogTitle, DialogContent, Typography, Button, LinearProgress } from '@mui/material'
 import { Grid } from '@mui/material'
 import Close from '@mui/icons-material/CloseRounded'
-import PhotoOutlined from '@mui/icons-material/PhotoOutlined'
+import PhotoRounded from '@mui/icons-material/PhotoRounded'
 import Or from '@/components/utils/Or.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import Message from '../Message.jsx'
@@ -93,7 +93,7 @@ export function Dropzone({ onDrop, progress, onError, setOnError }) {
             type="error"
             footer={
               <Grid container sx={{ mt: 1.75, ml: 0.4, flexWrap: 'nowrap', color: 'inherit', opacity: 0.75 }}>
-                <PhotoOutlined fontSize="small" sx={{ mr: 1.5 }} />
+                <PhotoRounded fontSize="small" sx={{ mr: 1.5 }} />
                 <Typography variant="caption" component="span" sx={{ ml: 0.2 }}>
                   {wrongFile.name}
                 </Typography>

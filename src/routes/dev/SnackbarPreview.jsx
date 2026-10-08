@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Grid, Typography } from '@mui/material'
-import PhotoOutlined from '@mui/icons-material/PhotoOutlined'
+import PhotoRounded from '@mui/icons-material/PhotoRounded'
 import AddRounded from '@mui/icons-material/AddRounded'
 import PageFab from '@/components/PageFab.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -33,7 +33,7 @@ export default function SnackbarPreview() {
           type="error"
           footer={
             <Grid container sx={{ mt: 1.75, ml: 0.4, flexWrap: 'nowrap', color: 'inherit', opacity: 0.75 }}>
-              <PhotoOutlined fontSize="small" sx={{ mr: 1.5 }} />
+              <PhotoRounded fontSize="small" sx={{ mr: 1.5 }} />
               <Typography variant="caption" component="span" sx={{ ml: 0.2 }}>
                 photo.heic
               </Typography>

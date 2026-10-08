@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import CloudUploadOutlined from '@mui/icons-material/CloudUploadOutlined'
+import CloudUploadRounded from '@mui/icons-material/CloudUploadRounded'
 import ErrorOutlineRounded from '@mui/icons-material/ErrorOutlineRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -48,7 +48,7 @@ export default function PendingUploadsStrip({ filter, onRemoved, sx }) {
               </Tooltip>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5, color: failed ? 'error.main' : 'text.secondary' }}>
-              {failed ? <ErrorOutlineRounded sx={{ fontSize: 16 }} /> : <CloudUploadOutlined sx={{ fontSize: 16 }} />}
+              {failed ? <ErrorOutlineRounded sx={{ fontSize: 16 }} /> : <CloudUploadRounded sx={{ fontSize: 16 }} />}
               <Typography variant="caption" noWrap>
                 {failed ? t('failed') : t('waiting')}
               </Typography>

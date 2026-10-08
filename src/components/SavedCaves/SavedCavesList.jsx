@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
 import Bookmark from '@mui/icons-material/BookmarkRounded'
-import BookmarkRemoveOutlined from '@mui/icons-material/BookmarkRemoveOutlined'
-import CloudDoneOutlined from '@mui/icons-material/CloudDoneOutlined'
-import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import BookmarkRemoveRounded from '@mui/icons-material/BookmarkRemoveRounded'
+import CloudDoneRounded from '@mui/icons-material/CloudDoneRounded'
+import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { getData } from '@/services/data-service.jsx'
 import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflineStatus.jsx'
@@ -25,7 +25,7 @@ function CaveOfflineIndicator({ caveId }) {
     const progress = status.total > 0 ? Math.round((status.done / status.total) * 100) : 0
     return <CircularProgress variant="determinate" value={progress} size={16} thickness={5} aria-label={t('downloadingPercent', { progress })} />
   }
-  const [Icon, label, color] = status.state === 'ready' ? [CloudDoneOutlined, t('caveAvailable'), 'success'] : status.state === 'incomplete' ? [CloudOffOutlined, t('caveIncompleteShort'), 'warning'] : [CloudOffOutlined, t('caveNotYet'), 'disabled']
+  const [Icon, label, color] = status.state === 'ready' ? [CloudDoneRounded, t('caveAvailable'), 'success'] : status.state === 'incomplete' ? [CloudOffRounded, t('caveIncompleteShort'), 'warning'] : [CloudOffRounded, t('caveNotYet'), 'disabled']
   return (
     <Tooltip title={label}>
       <Icon fontSize="small" color={color} aria-label={label} />
@@ -116,7 +116,7 @@ export default function SavedCavesList({ headingProps = {} }) {
                 secondaryAction={
                   <Tooltip title={t('remove')}>
                     <IconButton edge="end" aria-label={t('removeNamed', { name: caveName })} onClick={() => remove(cave.id, caveName)}>
-                      <BookmarkRemoveOutlined />
+                      <BookmarkRemoveRounded />
                     </IconButton>
                   </Tooltip>
                 }

@@ -3,18 +3,18 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, Box, Button, Stack, SvgIcon, Typography } from '@mui/material'
-import BugReportOutlined from '@mui/icons-material/BugReportOutlined'
-import ReportGmailerrorredOutlined from '@mui/icons-material/ReportGmailerrorredOutlined'
-import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined'
+import BugReportRounded from '@mui/icons-material/BugReportRounded'
+import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
+import LightbulbRounded from '@mui/icons-material/LightbulbRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
-import EditLocationAltOutlined from '@mui/icons-material/EditLocationAltOutlined'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import EditLocationAltRounded from '@mui/icons-material/EditLocationAltRounded'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import DevicesRounded from '@mui/icons-material/DevicesRounded'
 import RestartAltRounded from '@mui/icons-material/RestartAltRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
-import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { openFeedback } from '@/utils/feedback.js'
@@ -22,14 +22,14 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // What to report (each opens the form with its kind) and what to try.
 const REPORTS = [
-  { key: 'bug', icon: <BugReportOutlined /> },
-  { key: 'misleading', icon: <ReportGmailerrorredOutlined /> },
-  { key: 'idea', icon: <LightbulbOutlined /> },
+  { key: 'bug', icon: <BugReportRounded /> },
+  { key: 'misleading', icon: <ReportGmailerrorredRounded /> },
+  { key: 'idea', icon: <LightbulbRounded /> },
 ]
 const TRY = [
   { key: 'explore', icon: <MapRounded />, to: '/map' },
-  { key: 'edit', icon: <EditLocationAltOutlined />, to: '/caves' },
-  { key: 'media', icon: <AddAPhotoOutlined /> },
+  { key: 'edit', icon: <EditLocationAltRounded />, to: '/caves' },
+  { key: 'media', icon: <AddAPhotoRounded /> },
   { key: 'systems', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox />, to: '/sistemas' },
   { key: 'offline', icon: <CloudOffRounded /> },
   { key: 'everywhere', icon: <DevicesRounded /> },
@@ -83,7 +83,7 @@ export default function BetaWhatCanIDo() {
         </Typography>
         <Typography sx={{ fontSize: { sm: '1.15rem' }, maxWidth: 660, opacity: 0.92, lineHeight: 1.6, mb: 3 }}>{t('lead')}</Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ alignItems: { sm: 'center' } }}>
-          <Button variant="contained" color="secondary" size="large" startIcon={<FeedbackOutlined />} onClick={() => openFeedback()} sx={{ borderRadius: 6 }}>
+          <Button variant="contained" color="secondary" size="large" startIcon={<FeedbackRounded />} onClick={() => openFeedback()} sx={{ borderRadius: 6 }}>
             {t('sendFeedback')}
           </Button>
           {!isLoggedIn && (

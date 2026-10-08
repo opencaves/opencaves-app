@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Trans, useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
-import ScienceOutlined from '@mui/icons-material/ScienceOutlined'
+import ScienceRounded from '@mui/icons-material/ScienceRounded'
 import { APP_NAME } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import LogoIcon from './LogoIcon.jsx'
@@ -92,7 +92,7 @@ export default function WelcomeDialog() {
         <Typography sx={{ mb: 2 }}>{t(isLoggedIn ? 'inviteMember' : 'invite')}</Typography>
         {/* The beta's warning, apart on a tonal surface. */}
         <Box className="oc-welcome-dialog--beta" sx={{ display: 'flex', gap: 1.5, p: 2, borderRadius: 3, bgcolor: 'var(--mui-sys-color-surfaceContainerHighest)' }}>
-          <ScienceOutlined sx={{ color: 'text.secondary', flexShrink: 0, mt: 0.25 }} />
+          <ScienceRounded sx={{ color: 'text.secondary', flexShrink: 0, mt: 0.25 }} />
           <Typography variant="body2">
             <Trans t={t} i18nKey={isLoggedIn ? 'betaMember' : 'beta'} components={{ strong: <strong /> }} />
           </Typography>

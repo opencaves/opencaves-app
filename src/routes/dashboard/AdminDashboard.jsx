@@ -11,7 +11,7 @@ import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
-import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to="/feedback" divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                      <FeedbackOutlined />
+                      <FeedbackRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageFeedback')} />
                     {newFeedback > 0 && <Chip className="oc-admin-dashboard--new-feedback" size="small" color="primary" label={t('newFeedback', { count: newFeedback })} />}

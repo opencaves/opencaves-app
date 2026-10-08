@@ -8,7 +8,7 @@ import EditRounded from '@mui/icons-material/EditRounded'
 import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -44,7 +44,7 @@ function MapThumbnail({ map }) {
       ) : map.contentType === 'application/pdf' ? (
         <PictureAsPdfRounded color="action" />
       ) : (
-        <MapOutlined color="action" />
+        <MapRounded color="action" />
       )}
     </Box>
   )

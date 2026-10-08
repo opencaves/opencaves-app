@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { collection, deleteDoc, deleteField, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import BugReportOutlined from '@mui/icons-material/BugReportOutlined'
-import ReportGmailerrorredOutlined from '@mui/icons-material/ReportGmailerrorredOutlined'
-import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined'
+import BugReportRounded from '@mui/icons-material/BugReportRounded'
+import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
+import LightbulbRounded from '@mui/icons-material/LightbulbRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
-import FiberNewOutlined from '@mui/icons-material/FiberNewOutlined'
-import VerifiedOutlined from '@mui/icons-material/VerifiedOutlined'
-import PendingOutlined from '@mui/icons-material/PendingOutlined'
+import FiberNewRounded from '@mui/icons-material/FiberNewRounded'
+import VerifiedRounded from '@mui/icons-material/VerifiedRounded'
+import PendingRounded from '@mui/icons-material/PendingRounded'
 import TaskAltRounded from '@mui/icons-material/TaskAltRounded'
 import BlockRounded from '@mui/icons-material/BlockRounded'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
@@ -24,12 +24,12 @@ import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 
-const ICONS = { bug: <BugReportOutlined />, misleading: <ReportGmailerrorredOutlined />, idea: <LightbulbOutlined /> }
+const ICONS = { bug: <BugReportRounded />, misleading: <ReportGmailerrorredRounded />, idea: <LightbulbRounded /> }
 // Each stage's icon and chip colour.
 const STATUS = {
-  new: { icon: <FiberNewOutlined />, color: 'primary' },
-  confirmed: { icon: <VerifiedOutlined />, color: 'secondary' },
-  inProgress: { icon: <PendingOutlined />, color: 'info' },
+  new: { icon: <FiberNewRounded />, color: 'primary' },
+  confirmed: { icon: <VerifiedRounded />, color: 'secondary' },
+  inProgress: { icon: <PendingRounded />, color: 'info' },
   done: { icon: <TaskAltRounded />, color: 'success' },
   rejected: { icon: <BlockRounded />, color: 'error' },
   duplicate: { icon: <ContentCopyRounded />, color: 'default' },

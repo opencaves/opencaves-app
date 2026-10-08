@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import { Box, Typography } from '@mui/material'
 import AddMediasButton from './AddMediasButton.jsx'
 
@@ -34,7 +34,7 @@ export default function MediaPaneEmpty() {
         <AddMediasButton
           variant='outlined'
           size='large'
-          startIcon={<AddAPhotoOutlined />}
+          startIcon={<AddAPhotoRounded />}
         />
       </Box>
     </Box>

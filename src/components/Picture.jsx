@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
-import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
 
 // A picture that couldn't load offline (not on the device): a cloud icon in
@@ -11,7 +11,7 @@ function OfflinePlaceholder({ className, style }) {
   const { t } = useTranslation('offline')
   return (
     <Box component="span" role="img" aria-label={t('notOnDevice')} title={t('notOnDevice')} className={['oc-picture--offline', className].filter(Boolean).join(' ')} style={{ ...style, display: 'grid', placeItems: 'center' }} sx={{ width: '100%', height: '100%', bgcolor: 'action.hover', color: 'text.secondary' }}>
-      <CloudOffOutlined />
+      <CloudOffRounded />
     </Box>
   )
 }

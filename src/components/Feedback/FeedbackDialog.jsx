@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
-import BugReportOutlined from '@mui/icons-material/BugReportOutlined'
-import ReportGmailerrorredOutlined from '@mui/icons-material/ReportGmailerrorredOutlined'
-import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined'
-import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
+import BugReportRounded from '@mui/icons-material/BugReportRounded'
+import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
+import LightbulbRounded from '@mui/icons-material/LightbulbRounded'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
-import TipsAndUpdatesOutlined from '@mui/icons-material/TipsAndUpdatesOutlined'
+import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import SendRounded from '@mui/icons-material/SendRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -24,7 +24,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 const MAX_MESSAGE = 4000
 // A message says something: a few words at least (one letter could be sent).
 const MIN_MESSAGE = 10
-const ICONS = { bug: <BugReportOutlined />, misleading: <ReportGmailerrorredOutlined />, idea: <LightbulbOutlined /> }
+const ICONS = { bug: <BugReportRounded />, misleading: <ReportGmailerrorredRounded />, idea: <LightbulbRounded /> }
 
 // One of the kinds, as a selectable square: its icon at the top, its name
 // and what it's for at the bottom (the name alone on a phone); the chosen
@@ -141,7 +141,7 @@ export default function FeedbackDialog() {
       {/* Header: a tinted band, the form's icon and purpose. */}
       <Box className="oc-feedback-dialog--header" sx={(theme) => ({ position: 'relative', display: 'flex', gap: 2, alignItems: 'center', px: 3, pt: 3, pb: 2.5, bgcolor: theme.vars.sys.color.surfaceContainer })}>
         <Box aria-hidden="true" sx={(theme) => ({ width: 52, height: 52, flexShrink: 0, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.primary, color: theme.vars.palette.background.paper, '& svg': { fontSize: 28 } })}>
-          <FeedbackOutlined />
+          <FeedbackRounded />
         </Box>
         <Box sx={{ pr: 4 }}>
           <Typography id="oc-feedback-title" component="h2" variant="h6" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
@@ -168,7 +168,7 @@ export default function FeedbackDialog() {
           <>
             {/* What a good report of this kind says (a bug: how to reproduce it). */}
             <Box className="oc-feedback-dialog--hint" sx={(theme) => ({ display: 'flex', gap: 1.25, alignItems: 'flex-start', p: 1.5, mb: 2, borderRadius: 2, borderLeft: `4px solid ${theme.vars.palette.secondary.main}`, bgcolor: theme.vars.sys.color.secondaryContainer })}>
-              <TipsAndUpdatesOutlined aria-hidden="true" sx={{ color: 'var(--mui-sys-color-primary)', mt: 0.125 }} />
+              <TipsAndUpdatesRounded aria-hidden="true" sx={{ color: 'var(--mui-sys-color-primary)', mt: 0.125 }} />
               <Typography variant="body2" sx={{ lineHeight: 1.5 }}>
                 {t(`hints.${kind}`)}
               </Typography>

@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { IconButton, Tooltip } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
-import EditOutlined from '@mui/icons-material/EditOutlined'
 import EditRounded from '@mui/icons-material/EditRounded'
 import { useEditCaveActions } from './EditCaveFab.jsx'
 
@@ -28,10 +27,10 @@ export default function EditCaveButtons({ sx }) {
             aria-pressed={isEditingCave}
             onClick={isEditingCave ? exitEditMode : editCave}
             disabled={!caveId}
-            // On: a filled, primary-colored icon (no container).
+            // On: a primary-colored icon (no container).
             sx={[sx, isEditingCave && { color: 'primary.main' }]}
           >
-            {isEditingCave ? <EditRounded /> : <EditOutlined />}
+            <EditRounded />
           </IconButton>
         </span>
       </Tooltip>
