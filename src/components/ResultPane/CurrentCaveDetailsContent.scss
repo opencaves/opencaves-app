@@ -3,11 +3,16 @@
   --oc-details-icon-min-width: 40px;
 
   &--content {
+    // A yellow line before the title (the app's accent, as the edit forms'
+    // section headings): pulled into the margin, so the text stays aligned
+    // with the section's content.
     .h2 {
       font-size: 1rem;
       font-weight: 500;
-      margin: 10px var(--oc-pane-padding-inline) 10px var(--oc-pane-padding-inline);
-      margin: 0;
+      line-height: 1.25;
+      margin: 0 0 0 -11px;
+      padding-left: 8px;
+      border-left: 3px solid var(--mui-palette-secondary-main);
     }
 
     .details-container {

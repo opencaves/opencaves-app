@@ -692,7 +692,8 @@
     },
     "cenoteEntrance": "Cenote de entrada",
     "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "descriptionHeader": "Descripción"
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -1006,7 +1007,9 @@
     "markers": {
       "location": "Ubicación de la cueva",
       "entrance": "Entrada del cenote",
-      "key": "Ubicación de la llave"
+      "key": "Ubicación de la llave",
+      "entranceShort": "Entrada",
+      "keyShort": "Llave"
     },
     "caveLayer": {
       "button": "Capas del mapa",

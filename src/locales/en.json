@@ -692,7 +692,8 @@
     },
     "cenoteEntrance": "Cenote entrance",
     "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "descriptionHeader": "Description"
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -1006,7 +1007,9 @@
     "markers": {
       "location": "Cave location",
       "entrance": "Cave entrance",
-      "key": "Key location"
+      "key": "Key location",
+      "entranceShort": "Entrance",
+      "keyShort": "Key"
     },
     "caveLayer": {
       "button": "Map layers",

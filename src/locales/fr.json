@@ -691,7 +691,8 @@
     },
     "cenoteEntrance": "Cénote d'entrée",
     "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau.",
-    "nameTranslation": "{{language}} : {{names}}"
+    "nameTranslation": "{{language}} : {{names}}",
+    "descriptionHeader": "Description"
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -1005,7 +1006,9 @@
     "markers": {
       "location": "Emplacement de la grotte",
       "entrance": "Entrée de la cénote",
-      "key": "Emplacement de la clé"
+      "key": "Emplacement de la clé",
+      "entranceShort": "Entrée",
+      "keyShort": "Clé"
     },
     "caveLayer": {
       "button": "Couches de la carte",

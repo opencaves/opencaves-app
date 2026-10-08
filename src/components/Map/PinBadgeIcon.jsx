@@ -11,7 +11,7 @@ export default function PinBadgeIcon({ size = 20, overlay: Overlay, color = 'whi
   return (
     <Box className="oc-pin-badge-icon" sx={{ position: 'relative', width: size, height: size }}>
       <SvgIcon component={PinIcon} inheritViewBox htmlColor={color} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', color, '& > g': { display: 'none' } }} />
-      {Overlay && <Overlay sx={{ position: 'absolute', top: '32%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: overlayColor, lineHeight: 1 }} />}
+      {Overlay && <Overlay sx={{ position: 'absolute', top: '48.5%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: size * 0.55, color: overlayColor, lineHeight: 1 }} />}
     </Box>
   )
 }
