@@ -328,7 +328,10 @@ export default function SearchBar() {
     clearSearchResults()
     setBackBtnOn(false)
     dispatch(clearCurrentCave())
-    navigate(`/map`, { replace: true })
+    // Opened from the map in this history: back to that entry (as the pane's
+    // close does); otherwise this entry becomes the bare map.
+    if (location.state?.fromMap) navigate(-1)
+    else navigate(`/map`, { replace: true })
   }
 
   function onResultsItemClick(id) {
@@ -339,7 +342,9 @@ export default function SearchBar() {
     setValue(getCaveName(selectedCave.name))
     clearSearchResults()
     setBackBtnOn(false)
-    navigate(`/map/${id}`, { replace: true })
+    // Like a pin: a new history entry from the bare map (Back returns to
+    // it), the same entry when switching from one cave to another.
+    navigate(`/map/${id}`, { replace: !!currentCave })
   }
 
   function onBackBtnClick() {
