@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react'
-import { Outlet, useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
 import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { MapLoading } from '@/components/Map/MapState.jsx'
@@ -10,6 +10,7 @@ import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import CaveLayerButton from '@/components/Map/CaveLayerButton.jsx'
 import CaveLayerLegend from '@/components/Map/CaveLayerLegend.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
+import ResultPaneOutlet from '@/components/ResultPane/ResultPaneOutlet.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import SearchBarMockup from '@/components/SearchBar/SearchBarMockup.jsx'
@@ -124,7 +125,7 @@ export default function MapPage() {
             }
           />
           <CaveLayerLegend isLarge={isLarge} />
-          <Outlet />
+          <ResultPaneOutlet keepOnExit={isLarge} />
           <Dev
             sx={{
               '--oc-mode-switcher-right': isLarge ? 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)' : '16px',

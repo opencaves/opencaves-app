@@ -1,10 +1,11 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useContext, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Collapse } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
 import ResultPaneLg from './ResultPaneLg.jsx'
+import { ResultPaneExitContext } from './resultPaneExit.js'
 import CurrentCaveDetailsHeader from './CurrentCaveDetailsHeader.jsx'
 import CurrentCaveDetailsContent from './CurrentCaveDetailsContent.jsx'
 import CurrentCaveDetailsContentEdit from './CurrentCaveDetailsContentEdit.jsx'
@@ -33,7 +34,14 @@ export default function ResultPane() {
   const dispatch = useDispatch()
   const store = useStore()
   const navigate = useNavigate()
-  const location = useLocation()
+  // Closing (desktop, ResultPaneOutlet): the route is already the bare map,
+  // so the pane keeps the address it had - the same content, edit form or
+  // not, while it shrinks.
+  const exiting = Boolean(useContext(ResultPaneExitContext))
+  const currentLocation = useLocation()
+  const lastLocationRef = useRef(currentLocation)
+  if (!exiting) lastLocationRef.current = currentLocation
+  const location = lastLocationRef.current
   const caves = useSelector(state => state.map.data)
   const roles = useSelector(state => state.session.roles)
   const isSmall = useSmall()
@@ -95,7 +103,7 @@ export default function ResultPane() {
 
   // Files dragged anywhere over the window, while a cave's details pane is
   // open: the full-screen drop zone (useWindowFileDrop).
-  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(Boolean(currentCave))
+  const [dropzoneOpen, closeDropzone] = useWindowFileDrop(Boolean(currentCave) && !exiting)
 
   if (currentCave) {
     // Guard against rendering, even briefly, before the redirect effect
@@ -105,7 +113,7 @@ export default function ResultPane() {
 
     return (
       <>
-        <CaveSeo cave={currentCave} />
+        {!exiting && <CaveSeo cave={currentCave} />}
         {
           isSmall ? (
             <TransitionGroup>
@@ -119,14 +127,11 @@ export default function ResultPane() {
               </Collapse>
             </TransitionGroup>
           ) : (
-            <TransitionGroup>
-              <Collapse in={!!currentCave}>
-                <ResultPaneLg id="result-pane" cave={currentCave} editMode={showEditContent}>
-                  {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
-                  <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
-                </ResultPaneLg>
-              </Collapse>
-            </TransitionGroup>
+            // It animates its own height: opening, closing, content changes.
+            <ResultPaneLg id="result-pane" cave={currentCave} editMode={showEditContent}>
+              {!showEditContent && <CurrentCaveDetailsHeader cave={currentCave}></CurrentCaveDetailsHeader>}
+              <DetailsContent key={currentCave.id} cave={currentCave}></DetailsContent>
+            </ResultPaneLg>
           )
         }
         <Outlet />
