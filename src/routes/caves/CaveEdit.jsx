@@ -183,7 +183,7 @@ export default function CaveEdit() {
 
   useEffect(() => {
     // Every edit page's title says so ("Edit …"); a new one stays "New …".
-    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || caveId }) }))
+    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name, t, tApp])
 
@@ -259,7 +259,7 @@ export default function CaveEdit() {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || caveId }) })
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) })
       setBaseline(savedForm)
       setIsNew(false)
       // Stays on the form after saving. The saved doc becomes the new
@@ -272,12 +272,12 @@ export default function CaveEdit() {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || caveId }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
     } finally {
       setSaving(false)
     }
@@ -285,7 +285,7 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    const name = t('caveTitle', { name: form.name || caveId })
+    const name = t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })
     const removal = CaveModel.remove(caveId)
     // Offline, Firestore only settles the delete once the server has it: it's
     // done on the device now, said so, and an error later still told.
@@ -339,7 +339,7 @@ export default function CaveEdit() {
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId })}
+          {isNew ? t('newCave') : t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })}
         </Typography>
       </EditPageHeader>
 

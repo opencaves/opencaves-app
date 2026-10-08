@@ -74,8 +74,6 @@
     "directions": "Bej",
     "save": "Kanáant",
     "share": "T'oxt",
-    "shareTitle": "Ts'ono'ot {{name}} / OpenCaves.org",
-    "shareText": "Ts'ono'ot {{name}}\n",
     "shareDialogTitle": "T'oxt",
     "saved": "Kanáanta'an",
     "savedMessage": "Kanáanta'ab ta perfil",
@@ -280,7 +278,6 @@
       "accessGroup": "Bix u yookol",
       "accessibilityGroup": "Bix u náats'al",
       "newCave": "Túumben ts'ono'ot",
-      "caveTitle": "Ts'ono'ot {{name}}",
       "backToCaves": "Suut ti' ts'ono'oto'ob",
       "placeOnMap": "Ts'áa ti' le mapa",
       "placeOnMapTitle": "Ts'áa: {{label}}",
@@ -310,7 +307,6 @@
     }
   },
   "mediaPane": {
-    "header": "Ts'ono'ot {{name}}",
     "backBtn": {
       "tooltip": "Suut",
       "ariaLabel": "Suut"

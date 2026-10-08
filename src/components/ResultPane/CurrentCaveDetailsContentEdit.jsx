@@ -222,7 +222,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(cave.id, fields), { name: t('caveTitle', { name: form.name || cave.id }) })
+      const status = await settleWrite(CaveModel.save(cave.id, fields), { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) })
       setBaseline(savedForm)
       const refresh = async () => {
         invalidateData()
@@ -230,12 +230,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || cave.id }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) }))
     } finally {
       setSaving(false)
     }

@@ -324,8 +324,8 @@
     "directions": "Directions",
     "save": "Save",
     "share": "Share",
-    "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Share",
     "saved": "Saved",
     "savedMessage": "Saved to your profile",
@@ -492,7 +492,7 @@
     "closeBtn": "Close the filters"
   },
   "resultPane": {
-    "title": "Cenote {{name}}",
+    "title": "{{name}}",
     "videosHeader": "Videos",
     "videoFrameTitle": "Video {{index}}",
     "playVideo": "Play video {{index}}",
@@ -618,7 +618,7 @@
       "save": "Save",
       "cancel": "Cancel",
       "newCave": "New cenote",
-      "caveTitle": "Cenote {{name}}",
+      "caveTitle": "{{name}}",
       "backToCaves": "Back to caves",
       "backToCave": "Back to the cave's page",
       "placeOnMap": "Place on map",
@@ -678,7 +678,7 @@
     "cenoteEntranceDescription": "A cenote divers use to enter a cave system."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Back",
       "ariaLabel": "Back"
@@ -1161,7 +1161,7 @@
       "online": "You're back online.",
       "onlineSyncing": "You're back online. Your changes are syncing."
     },
-    "caveReady": "Cenote {{name}} is available offline",
+    "caveReady": "{{name}} is available offline",
     "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
     "previewsReady": "Cenote previews, maps and cave passages are available offline",
     "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
