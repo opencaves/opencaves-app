@@ -176,6 +176,9 @@ export default function SearchBar() {
   const isEditMode = location.pathname.endsWith('/edit') && roles.includes('editor')
 
   const [searchResults, setSearchResults] = useState([])
+  // The text the results are for ('' once cleared - e.g. a cave picked, its
+  // name then in the field): "no results" only for a search really made.
+  const [searchedTerm, setSearchedTerm] = useState('')
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [showClearBtn, setShowClearBtn] = useState(false)
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
@@ -213,6 +216,7 @@ export default function SearchBar() {
   }
 
   function clearSearchResults() {
+    setSearchedTerm('')
     setSearchResults([])
   }
 
@@ -222,6 +226,7 @@ export default function SearchBar() {
     }
 
     setBackBtnOn(false)
+    setSearchedTerm('')
     setSearchResults([])
   }
 
@@ -284,6 +289,7 @@ export default function SearchBar() {
     ].slice(0, 10)
 
     setSearchResults(searchResults)
+    setSearchedTerm(searchTerm)
   }
 
   function onSearchbarFocus(event) {
@@ -356,8 +362,9 @@ export default function SearchBar() {
   }
 
   useEffect(() => {
-    setShowSearchResults(searchResults.length > 0 && searchBarHasFocus)
-  }, [searchResults, searchBarHasFocus])
+    // Something typed and nothing found: shown too, said (it showed nothing).
+    setShowSearchResults((searchResults.length > 0 || (searchedTerm.trim().length > 0 && searchedTerm === value)) && searchBarHasFocus)
+  }, [searchResults, searchBarHasFocus, searchedTerm, value])
 
   // The real search bar is here: index.html's static shell of it can go.
   useEffect(() => {
@@ -519,6 +526,11 @@ export default function SearchBar() {
                     fontSize: '0.8125rem',
                   }}
                 >
+                  {searchResults.length === 0 && searchedTerm.trim() && searchedTerm === value && (
+                    <ListItem className="oc-search-bar--no-results" sx={{ px: 2, py: 1.5, color: 'text.secondary' }}>
+                      {t('noResults', { query: value.trim() })}
+                    </ListItem>
+                  )}
                   {searchResults.map((result) => {
                     return (
                       <ListItem

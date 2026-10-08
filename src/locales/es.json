@@ -393,7 +393,8 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Buscar cenotes"
+    "inputAriaLabel": "Buscar cenotes",
+    "noResults": "Ninguna cueva coincide con «{{query}}»."
   },
   "filter": {
     "windowTitle": "Filtrar cenotes",
@@ -1506,7 +1507,8 @@
       "openPhoto": "Abrir la foto {{n}}"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
-    "maps": "Mapas"
+    "maps": "Mapas",
+    "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas"
   },
   "appBarSearch": {
     "placeholder": "Buscar cuevas y sistemas",
