@@ -63,7 +63,8 @@ function KindCard({ kind, selected, onSelect }) {
       </Box>
       <Box>
         <Typography sx={{ fontWeight: 600, lineHeight: 1.3 }}>{t(`kinds.${kind}`)}</Typography>
-        <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' }, color: 'text.secondary', lineHeight: 1.4, mt: 0.5 }}>
+        {/* Selected: the container's own text colour (text.secondary read 3.5:1 on it, dark). */}
+        <Typography variant="body2" sx={(theme) => ({ display: { xs: 'none', sm: 'block' }, color: selected ? theme.vars.sys.color.onSecondaryContainer : 'text.secondary', lineHeight: 1.4, mt: 0.5 })}>
           {t(`kindText.${kind}`)}
         </Typography>
       </Box>

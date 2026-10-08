@@ -33,11 +33,15 @@ const lightThemeOptions = {
     error: {
       main: '#d2142a',
     },
+    // Their dark tones: readable on the light surfaces (icons and text, 3:1
+    // and more - the main amber was 1.4:1).
     warning: {
       main: '#eacc01',
+      dark: '#8a6d00',
     },
     success: {
       main: '#5da426',
+      dark: '#3b7d1a',
     },
     divider: `rgba(0, 0, 0, ${DIVIDER_ALPHA})`,
     facebook: {
@@ -201,6 +205,15 @@ const lightThemeOptions = {
     },
   },
   components: {
+    // Dark: a focused field's label in M3's dark primary (the palette's
+    // primary, made for the light theme, read at 2.4:1 there). Here: these
+    // components are the theme's (the default scheme's), extendTheme's own
+    // components were replaced by them.
+    MuiFormLabel: {
+      styleOverrides: {
+        root: ({ theme }) => theme.applyStyles('dark', { '&.Mui-focused': { color: theme.vars.sys.color.primary } }),
+      },
+    },
     // Primary-coloured text reads the scheme's primary role (sys.color.primary):
     // the teal itself on the light theme, a light teal on the dark one - the
     // teal palette colour was too dark there for text (3 to 3.9:1 on the dark
