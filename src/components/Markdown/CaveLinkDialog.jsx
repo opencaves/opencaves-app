@@ -5,6 +5,7 @@ import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 
 const areasModel = createCollectionModel('areas')
 
@@ -12,12 +13,6 @@ const areasModel = createCollectionModel('areas')
 // narrow it down by typing anyway.
 const MAX_OPTIONS = 100
 
-function normalize(text) {
-  return (text || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-}
 
 // Split out so the Firestore listeners only run while the dialog is open (MUI
 // unmounts Dialog children when closed), not once per markdown field on the page.
@@ -50,8 +45,10 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
 
   // Matches cave names, alternate names, area names and IDs.
   function filterOptions(options, { inputValue }) {
-    const term = normalize(inputValue.trim())
-    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => normalize(text).includes(term)) || matchesId(cave.id, term)) : options
+    // Names compared as every search of the site does (utils/searchText.js).
+    const term = inputValue.trim()
+    const matchesText = searchMatcher(term)
+    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => matchesText(foldSearch(text))) || matchesId(cave.id, term)) : options
     return matches.slice(0, MAX_OPTIONS)
   }
 

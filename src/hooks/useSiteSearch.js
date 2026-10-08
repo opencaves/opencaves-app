@@ -1,15 +1,15 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 
 // How many suggestions show at once.
 const MAX_SUGGESTIONS = 8
 // The kinds' order in the suggestions.
 const KIND_ORDER = ['areas', 'sistemas', 'caves']
 
-// Lowercase, accents dropped: "Chac Mól" matches "chac mol" (as the index
-// pages' search, IndexSearchField).
-const fold = (text) => String(text || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+// Names compared as every search of the site does (utils/searchText.js).
+const fold = foldSearch
 
 // The site's search (SiteSearch on the landing page, AppBarSearch in the app
 // bar): the suggestions for what's typed - every word found, names starting
@@ -37,14 +37,18 @@ export function useSiteSearch(input, { areas = false } = {}) {
   )
 
   return useMemo(() => {
-    const words = fold(input).split(/\s+/).filter(Boolean)
-    if (words.length === 0) return []
-    const query = fold(input).trim()
-    return entries
-      .filter((entry) => words.every((word) => entry.haystack.includes(word)))
+    const query = fold(input)
+    if (!query) return []
+    const matches = searchMatcher(input)
+    const found = entries
+      .filter((entry) => matches(entry.haystack))
       .sort((a, b) => fold(b.label).startsWith(query) - fold(a.label).startsWith(query) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
       .slice(0, MAX_SUGGESTIONS)
       // Grouped by kind for the list (groupBy needs them together).
       .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
-  }, [entries, input])
+    // Nothing found: said, with the full list's search (the suggestions
+    // showed nothing at all - freeSolo hides the no-options text).
+    if (found.length === 0) return [{ kind: 'none', id: 'none', label: t('searchNoResult', { query: input.trim() }), to: `/caves?q=${encodeURIComponent(input.trim())}` }]
+    return found
+  }, [entries, input, t])
 }

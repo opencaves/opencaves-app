@@ -8,6 +8,7 @@ import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
 import { matchesId } from '@/utils/matchesId.js'
 import { toServiceLanguage } from '@/utils/lang.js'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
 const PLACE_LIMIT = 5
@@ -21,14 +22,6 @@ const DEFAULT_ZOOM = 14
 // Same pill as the main map's search bar (SearchBar).
 const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)'
 
-// Accent- and case-insensitive, so "Dos Ojos" finds "dos ojos" and "cénote"
-// finds "cenote".
-function fold(text) {
-  return (text || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-}
 
 // A search field over a coordinates map (CoordinatesMapPreview): finds the
 // app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
@@ -52,9 +45,9 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
 
   const caveOptions = useMemo(() => {
     if (query.length < 2) return []
-    const q = fold(query)
+    const matches = searchMatcher(query)
     return caves
-      .filter((cave) => cave.location && ([cave.name?.value, ...(cave.aka || [])].some((name) => fold(name).includes(q)) || matchesId(cave.id, query)))
+      .filter((cave) => cave.location && ([cave.name?.value, ...(cave.aka || [])].some((name) => matches(foldSearch(name))) || matchesId(cave.id, query)))
       .slice(0, CAVE_LIMIT)
       .map((cave) => ({ kind: 'cave', id: cave.id, label: cave.name?.value || cave.id, detail: cave.aka?.length ? cave.aka.join(', ') : '', center: [cave.location.longitude, cave.location.latitude] }))
   }, [caves, query])

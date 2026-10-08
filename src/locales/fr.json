@@ -392,7 +392,8 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Rechercher des cénotes"
+    "inputAriaLabel": "Rechercher des cénotes",
+    "noResults": "Aucune grotte ne correspond à « {{query}} »."
   },
   "filter": {
     "windowTitle": "Filtrer les cenotes",
@@ -1505,7 +1506,8 @@
       "openPhoto": "Ouvrir la photo {{n}}"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
-    "maps": "Cartes"
+    "maps": "Cartes",
+    "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes"
   },
   "appBarSearch": {
     "placeholder": "Chercher des grottes et des réseaux",

@@ -5,9 +5,11 @@ import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/mat
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 
-// Lowercase, accents dropped: "Chac Mól" matches "chac mol".
-export const fold = (text) => String(text || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+// Names compared as every search of the site does (utils/searchText.js):
+// "Chac Mól", "Chac-Mol" and "chacmol" match "chac mol".
+export const fold = foldSearch
 
 // An index page's search, kept in the address (?q=), so Back and a shared
 // link keep it. matches(texts): every word of the search is in one of the
@@ -47,8 +49,8 @@ export function useIndexSearch() {
     return () => clearTimeout(timer)
   }, [query, setSearchParams])
   const deferredQuery = useDeferredValue(query)
-  const words = fold(deferredQuery).split(/\s+/).filter(Boolean)
-  const matchesFolded = useCallback((haystack) => words.every((word) => haystack.includes(word)),
+  const words = fold(deferredQuery).split(' ').filter(Boolean)
+  const matchesFolded = useCallback((haystack) => words.length === 0 || searchMatcher(deferredQuery)(haystack),
     // words is derived from deferredQuery.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deferredQuery])
