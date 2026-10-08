@@ -763,7 +763,9 @@
         "cancelButton": "Cancel",
         "cancel": "Cancel the upload"
       },
-      "needsConnection": "You’re offline: uploading needs a connection."
+      "needsConnection": "You’re offline: uploading needs a connection.",
+      "rejected_one": "{{count}} file not added: only photos (JPEG, PNG, WebP, AVIF) can be added here.",
+      "rejected_other": "{{count}} files not added: only photos (JPEG, PNG, WebP, AVIF) can be added here."
     },
     "details": {
       "empty": "There is nothing here"
@@ -890,7 +892,8 @@
     "add": "Add",
     "mapDateHint": "When the map was drawn or published.",
     "cartography": "Cartography: {{names}}",
-    "needsConnection": "You’re offline: uploading needs a connection."
+    "needsConnection": "You’re offline: uploading needs a connection.",
+    "wrongType": "Choose an image or a PDF."
   },
   "colorPicker": {
     "addColor": "Add a color",

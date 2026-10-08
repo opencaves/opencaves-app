@@ -762,7 +762,9 @@
         "cancelButton": "Annuler",
         "cancel": "Annuler l’envoi"
       },
-      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
+      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion.",
+      "rejected_one": "{{count}} fichier non ajouté : seules des photos (JPEG, PNG, WebP, AVIF) peuvent être ajoutées ici.",
+      "rejected_other": "{{count}} fichiers non ajoutés : seules des photos (JPEG, PNG, WebP, AVIF) peuvent être ajoutées ici."
     },
     "details": {
       "empty": "Il n'y a rien ici"
@@ -889,7 +891,8 @@
     "add": "Ajouter",
     "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
     "cartography": "Cartographie : {{names}}",
-    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
+    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion.",
+    "wrongType": "Choisissez une image ou un PDF."
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
