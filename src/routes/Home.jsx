@@ -327,8 +327,9 @@ export default function Home() {
       </Box>
 
       {/* The footer: the site's pages, and the language. */}
-      <Box className="oc-home--footer" component="footer" sx={{ pt: 3, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography component="nav" aria-label={tLegal('links.ariaLabel')} variant="body2" sx={{ color: 'text.secondary', display: 'flex', flexWrap: 'wrap', columnGap: 2, rowGap: 1 }}>
+      {/* Centred on a phone, where its two parts stack. */}
+      <Box className="oc-home--footer" component="footer" sx={{ pt: 3, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center', justifyContent: { xs: 'center', sm: 'space-between' } }}>
+        <Typography component="nav" aria-label={tLegal('links.ariaLabel')} variant="body2" sx={{ color: 'text.secondary', display: 'flex', flexWrap: 'wrap', justifyContent: { xs: 'center', sm: 'flex-start' }, columnGap: 2, rowGap: 1 }}>
           <Link component={RouterLink} to="/about" onClick={openAboutDialog}>
             {t('footer.about')}
           </Link>
