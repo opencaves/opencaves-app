@@ -3,7 +3,8 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { cavePageHtml } from './cavePage.js'
-import { APP_TITLE, SITE_URL, decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { APP_TITLE, GITHUB_URL, SITE_URL } from '../constants.js'
+import { decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
 import { loadIndexData, loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -137,7 +138,7 @@ function homePage(data) {
       '@context': 'https://schema.org',
       '@graph': [
         { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'OpenCaves', alternateName: 'Open Caves', url: `${SITE_URL}/`, inLanguage: 'en', description: 'Open data for cave diving: caves, cave systems and survey maps, built by divers.', publisher: { '@id': `${SITE_URL}/#organization` } },
-        { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'OpenCaves', url: `${SITE_URL}/`, logo: `${SITE_URL}/pwa/icons/android-chrome-512x512.png`, sameAs: ['https://github.com/opencaves/opencaves-app'] },
+        { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'OpenCaves', url: `${SITE_URL}/`, logo: `${SITE_URL}/pwa/icons/android-chrome-512x512.png`, sameAs: [GITHUB_URL] },
       ],
     },
     body: [

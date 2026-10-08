@@ -18,6 +18,30 @@ service cloud.firestore {
       return hasRole('admin')
     }
 
+    // The beta testers' reports (the Send feedback form): an account (not an
+    // anonymous session) sends its own - a kind, a message, the page it's
+    // about - as new; admins read them, mark them done or new, and delete
+    // them. onFeedbackCreated emails them to the admins.
+    match /_feedback/{report} {
+      allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'browser', 'language', 'userId', 'createdAt', 'status'])
+        && request.resource.data.kind in ['bug', 'misleading', 'idea']
+        && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
+        && request.resource.data.page is string && request.resource.data.page.size() <= 500
+        && (!('language' in request.resource.data) || (request.resource.data.language is string && request.resource.data.language.size() <= 10))
+        && (!('browser' in request.resource.data) || (request.resource.data.browser is string && request.resource.data.browser.size() <= 500))
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.status == 'new'
+      allow read, delete: if isAdmin()
+      // Its stage (src/utils/feedback.js' FEEDBACK_STATUSES), who set it and
+      // when, and the admins' note.
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusUpdatedAt', 'statusUpdatedBy', 'note'])
+        && request.resource.data.status in ['new', 'confirmed', 'inProgress', 'done', 'rejected', 'duplicate']
+        && (!('statusUpdatedBy' in request.resource.data) || request.resource.data.statusUpdatedBy is string)
+        && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 2000))
+    }
+
     // A photo's uploader and original file name (onAssetUploaded): admins only.
     match /_cavesAssetsPrivate/{document} {
       allow read: if isAdmin()

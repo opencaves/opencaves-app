@@ -7,6 +7,7 @@ import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogConten
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import { auth } from '@/config/firebase.js'
@@ -15,6 +16,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
+import { openFeedback } from '@/utils/feedback.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 
@@ -149,6 +151,20 @@ export default function AppMenuPanel({ onClose, titleId }) {
       )}
 
       <List component="div" disablePadding sx={sectionSx}>
+        {/* The beta: tell the team about a bug, something misleading, an idea. */}
+        <ListItemButton
+          className="oc-app-menu--feedback"
+          onClick={() => {
+            onClose()
+            openFeedback()
+          }}
+          sx={rowSx}
+        >
+          <ListItemIcon>
+            <FeedbackOutlined />
+          </ListItemIcon>
+          <ListItemText primary={t('feedback')} />
+        </ListItemButton>
         <ListItemButton
           component={Link}
           to="/about"

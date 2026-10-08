@@ -1,5 +1,11 @@
 export const REGION = 'northamerica-northeast1'
 
+// The site: its address (links in emails, canonical URLs, the sitemap), its
+// title, and its source code. The app's src/config/app.js repeats them.
+export const SITE_URL = 'https://opencaves.org'
+export const APP_TITLE = 'Open Caves'
+export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
+
 // Firestore database constants
 export const CAVES_COLL_NAME = 'caves'
 export const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
@@ -11,6 +17,8 @@ export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
 export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
+// The beta testers' reports (Send feedback): admins only, emailed to them.
+export const FEEDBACK_COLL_NAME = '_feedback'
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'

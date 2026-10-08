@@ -52,6 +52,8 @@
       "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
       "about_withName": "About {{name}}",
+      "feedback": "Send feedback",
+      "whatCanIDo": "What can I do?",
       "whatsNew": "What's new",
       "drawer": {
         "ariaLabel": "open menu"
@@ -1118,6 +1120,9 @@
     "connectionDateHint": "When the connection between the two sistemas was established.",
     "adminSection": "Administration",
     "manageMapLayers": "Map layers",
+    "manageFeedback": "Feedback",
+    "newFeedback_one": "{{count}} new",
+    "newFeedback_other": "{{count}} new",
     "manageAudits": "Audits",
     "backToCaveIndex": "Back to the caves",
     "backToSistemaIndex": "Back to the cave systems",
@@ -1531,6 +1536,166 @@
     "photosAdded_other": "{{count}} photos of {{name}}",
     "videosAdded_one": "{{count}} video of {{name}}",
     "videosAdded_other": "{{count}} videos of {{name}}"
+  },
+  "betaTesting": {
+    "badge": "Beta",
+    "title": "What can I do?",
+    "lead": "OpenCaves is in beta, and you're one of its first divers. Use it the way you'd use it before and after a dive, and tell us what breaks, what confuses you, and what's missing.",
+    "sendFeedback": "Send feedback",
+    "signup": "Sign up to take part",
+    "report": {
+      "title": "Tell us",
+      "sub": "Every report reaches the OpenCaves team by email. You need an account to send one.",
+      "bug": {
+        "title": "Something broke",
+        "text": "A page that won't load, a button that does nothing, a change that wasn't saved, a photo or a map that won't open.",
+        "action": "Report a bug"
+      },
+      "misleading": {
+        "title": "Something is misleading",
+        "text": "A label you don't understand, a feature that doesn't do what it says, or data that looks wrong: a position, an access, a depth.",
+        "action": "Flag it"
+      },
+      "idea": {
+        "title": "Something is missing",
+        "text": "A feature that would help you plan a dive or share one, or something you expected to find and didn't.",
+        "action": "Suggest it"
+      }
+    },
+    "try": {
+      "title": "Try everything",
+      "sub": "Nothing you do in the beta can break anything for good, so poke around.",
+      "explore": {
+        "title": "Explore",
+        "text": "The map, the cave and system lists, the search, a cave page and its sections.",
+        "action": "Open the map"
+      },
+      "edit": {
+        "title": "Edit caves",
+        "text": "Add a cave, its coordinates, its access, its texts; correct what looks wrong.",
+        "action": "Go to the caves"
+      },
+      "media": {
+        "title": "Add photos, videos, maps",
+        "text": "From a cave's page: upload photos, link a video, add a survey map."
+      },
+      "systems": {
+        "title": "Edit cave systems",
+        "text": "Their length and depth, their exploration history, how they connect.",
+        "action": "Browse the systems"
+      },
+      "offline": {
+        "title": "Go offline",
+        "text": "Install the app, save some caves, then use it with no signal, as in the jungle."
+      },
+      "everywhere": {
+        "title": "Phone and computer",
+        "text": "Try it on your phone and on a computer, in light and dark mode."
+      },
+      "languages": {
+        "title": "Every language",
+        "text": "English, French and Spanish: tell us about a translation that sounds wrong."
+      }
+    },
+    "tips": {
+      "title": "How to report well",
+      "one": "One report per problem or idea.",
+      "steps": "Say what you did, what you expected, and what happened instead.",
+      "page": "The page you were on is filled in for you; change it if the problem is elsewhere.",
+      "device": "Your browser is added for you: say which device it is if it matters (for example, an Android phone)."
+    },
+    "goodToKnow": {
+      "reset": {
+        "title": "Beta data can be reset",
+        "text": "What you change now isn't permanent yet: the data can be replaced at any time before 1.0."
+      },
+      "public": {
+        "title": "Everything you add is public",
+        "text": "Don't share anyone's phone number, or anything you wouldn't want made public."
+      },
+      "safety": {
+        "title": "OpenCaves is not for dive planning",
+        "text": "Cave diving can kill. Get trained, dive within your limits, and always check conditions on site."
+      }
+    }
+  },
+  "feedback": {
+    "title": "Send feedback",
+    "tab": "Feedback",
+    "intro": "Tell the OpenCaves team about a bug, something misleading, or an idea. Thank you for helping!",
+    "kindLabel": "What is it about?",
+    "kinds": {
+      "bug": "Bug",
+      "misleading": "Misleading",
+      "idea": "Idea"
+    },
+    "kindText": {
+      "bug": "Something broke or doesn’t work.",
+      "misleading": "Something is confusing or looks wrong.",
+      "idea": "Something is missing or could be better."
+    },
+    "hints": {
+      "bug": "Write the steps to reproduce it, one per line, so we can see it happen too: what you did, what you expected, and what happened instead.",
+      "misleading": "Say what is misleading - a label, a feature, some data - and what you understood. If data looks wrong, tell us what you think is right and how you know.",
+      "idea": "Describe what you would like OpenCaves to do, and when it would help you: before a dive, after one, to share something?"
+    },
+    "messageLabel": "Your message",
+    "placeholders": {
+      "bug": "1. Open the page of…\n2. Click…\n3. …\n\nExpected: …\nWhat happened: …",
+      "misleading": "The label/feature/data that is misleading, and what you understood…",
+      "idea": "I would like to be able to…"
+    },
+    "pageLabel": "Page",
+    "pageHelp": "The page it is about (filled in for you).",
+    "cancel": "Cancel",
+    "close": "Close",
+    "send": "Send",
+    "sent": "Thank you! Your feedback was sent to the OpenCaves team.",
+    "error": "Your feedback couldn't be sent. Please try again.",
+    "itemName": "Your feedback",
+    "admin": {
+      "title": "Feedback",
+      "back": "Back to the dashboard",
+      "shown": {
+        "open": "Open",
+        "all": "All"
+      },
+      "status": {
+        "new": "New",
+        "confirmed": "Confirmed",
+        "inProgress": "In progress",
+        "done": "Done",
+        "rejected": "Rejected",
+        "duplicate": "Duplicate"
+      },
+      "statusHelp": {
+        "new": "Not looked at yet",
+        "confirmed": "A real problem, or an idea to do",
+        "inProgress": "Being worked on",
+        "done": "Fixed or added",
+        "rejected": "Not a problem, or not to do",
+        "duplicate": "Already reported"
+      },
+      "changeStatus": "Stage: {{status}}. Change it",
+      "statusSet": "{{status}} - by {{name}}, {{date}}",
+      "none": "No reports here.",
+      "delete": "Delete",
+      "page": "Page:",
+      "browser": "Browser:",
+      "note": "Note",
+      "notePlaceholder": "Why it was rejected, what it duplicates, what was done…",
+      "closeTitle": "Mark as {{status}}",
+      "closeText": "{{name}} will be emailed the outcome, with this note.",
+      "noteForReporter": "Note for the reporter",
+      "closePlaceholder": {
+        "done": "What was fixed or added, and where to see it…",
+        "rejected": "Why it won’t be acted on…"
+      },
+      "closeConfirm": "Save and email",
+      "reporterEmailed": "Reporter emailed: {{date}}",
+      "deleteTitle": "Delete this report?",
+      "deleteText": "It will be deleted for good."
+    }
   },
   "home": {
     "title": "Open data for cave diving",

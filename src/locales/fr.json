@@ -52,6 +52,8 @@
       "addPictures": "Ajouter des images",
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
+      "feedback": "Envoyer un commentaire",
+      "whatCanIDo": "Que puis-je faire ?",
       "whatsNew": "Nouveautés",
       "drawer": {
         "ariaLabel": "ouvrir le menu"
@@ -1117,6 +1119,9 @@
     "connectionDateHint": "Date à laquelle la connexion entre les deux réseaux a été établie.",
     "adminSection": "Administration",
     "manageMapLayers": "Couches de la carte",
+    "manageFeedback": "Commentaires",
+    "newFeedback_one": "{{count}} nouveau",
+    "newFeedback_other": "{{count}} nouveaux",
     "manageAudits": "Audits",
     "backToCaveIndex": "Retour aux grottes",
     "backToSistemaIndex": "Retour aux réseaux",
@@ -1530,6 +1535,166 @@
     "photosAdded_other": "{{count}} photos de {{name}}",
     "videosAdded_one": "{{count}} vidéo de {{name}}",
     "videosAdded_other": "{{count}} vidéos de {{name}}"
+  },
+  "betaTesting": {
+    "badge": "Bêta",
+    "title": "Que puis-je faire ?",
+    "lead": "OpenCaves est en bêta, et vous êtes parmi ses premiers plongeurs. Utilisez-le comme vous le feriez avant et après une plongée, et dites-nous ce qui ne marche pas, ce qui vous embrouille et ce qui manque.",
+    "sendFeedback": "Envoyer un commentaire",
+    "signup": "S'inscrire pour participer",
+    "report": {
+      "title": "Dites-nous",
+      "sub": "Chaque rapport parvient par courriel à l'équipe d'OpenCaves. Il faut un compte pour en envoyer un.",
+      "bug": {
+        "title": "Quelque chose ne marche pas",
+        "text": "Une page qui ne s'ouvre pas, un bouton qui ne fait rien, une modification qui n'a pas été enregistrée, une photo ou une carte qui ne s'ouvre pas.",
+        "action": "Signaler un bogue"
+      },
+      "misleading": {
+        "title": "Quelque chose est trompeur",
+        "text": "Un libellé que vous ne comprenez pas, une fonction qui ne fait pas ce qu'elle dit, ou une donnée qui semble fausse : une position, un accès, une profondeur.",
+        "action": "Le signaler"
+      },
+      "idea": {
+        "title": "Quelque chose manque",
+        "text": "Une fonction qui vous aiderait à préparer ou à partager une plongée, ou quelque chose que vous pensiez trouver et qui n'y est pas.",
+        "action": "Le suggérer"
+      }
+    },
+    "try": {
+      "title": "Essayez tout",
+      "sub": "Rien de ce que vous faites en bêta ne peut rien casser pour de bon : explorez.",
+      "explore": {
+        "title": "Explorer",
+        "text": "La carte, les listes de grottes et de réseaux, la recherche, la page d'une grotte et ses sections.",
+        "action": "Ouvrir la carte"
+      },
+      "edit": {
+        "title": "Modifier des grottes",
+        "text": "Ajoutez une grotte, ses coordonnées, son accès, ses textes ; corrigez ce qui semble faux.",
+        "action": "Aller aux grottes"
+      },
+      "media": {
+        "title": "Ajouter photos, vidéos, cartes",
+        "text": "Depuis la page d'une grotte : téléversez des photos, liez une vidéo, ajoutez une carte topographique."
+      },
+      "systems": {
+        "title": "Modifier des réseaux",
+        "text": "Leur longueur et leur profondeur, l'historique de leur exploration, leurs connexions.",
+        "action": "Parcourir les réseaux"
+      },
+      "offline": {
+        "title": "Hors ligne",
+        "text": "Installez l'application, enregistrez des grottes, puis utilisez-la sans réseau, comme dans la jungle."
+      },
+      "everywhere": {
+        "title": "Téléphone et ordinateur",
+        "text": "Essayez-la sur votre téléphone et sur un ordinateur, en mode clair et sombre."
+      },
+      "languages": {
+        "title": "Toutes les langues",
+        "text": "Anglais, français et espagnol : signalez une traduction qui sonne faux."
+      }
+    },
+    "tips": {
+      "title": "Pour un bon rapport",
+      "one": "Un rapport par problème ou par idée.",
+      "steps": "Dites ce que vous avez fait, ce que vous attendiez, et ce qui s'est passé à la place.",
+      "page": "La page où vous étiez est remplie pour vous ; changez-la si le problème est ailleurs.",
+      "device": "Votre navigateur est ajouté pour vous : précisez l’appareil si cela compte (par exemple, un téléphone Android)."
+    },
+    "goodToKnow": {
+      "reset": {
+        "title": "Les données de la bêta peuvent être réinitialisées",
+        "text": "Ce que vous modifiez maintenant n'est pas encore permanent : les données peuvent être remplacées à tout moment avant la 1.0."
+      },
+      "public": {
+        "title": "Tout ce que vous ajoutez est public",
+        "text": "Ne partagez pas le numéro de téléphone de quelqu'un, ni rien que vous ne voudriez pas rendre public."
+      },
+      "safety": {
+        "title": "OpenCaves ne sert pas à planifier une plongée",
+        "text": "La plongée souterraine peut tuer. Formez-vous, plongez selon vos limites, et vérifiez toujours les conditions sur place."
+      }
+    }
+  },
+  "feedback": {
+    "title": "Envoyer un commentaire",
+    "tab": "Commentaires",
+    "intro": "Signalez à l'équipe d'OpenCaves un bogue, quelque chose de trompeur, ou une idée. Merci de votre aide !",
+    "kindLabel": "De quoi s’agit-il ?",
+    "kinds": {
+      "bug": "Bogue",
+      "misleading": "Trompeur",
+      "idea": "Idée"
+    },
+    "kindText": {
+      "bug": "Quelque chose ne marche pas.",
+      "misleading": "Quelque chose est confus ou semble faux.",
+      "idea": "Quelque chose manque ou pourrait être mieux."
+    },
+    "hints": {
+      "bug": "Décrivez les étapes pour reproduire le problème, une par ligne, afin que nous le voyions aussi : ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.",
+      "misleading": "Dites ce qui est trompeur - un libellé, une fonction, une donnée - et ce que vous avez compris. Si une donnée semble fausse, dites-nous ce qui est juste selon vous, et comment vous le savez.",
+      "idea": "Décrivez ce que vous aimeriez qu’OpenCaves fasse, et quand cela vous aiderait : avant une plongée, après, pour partager quelque chose ?"
+    },
+    "messageLabel": "Votre message",
+    "placeholders": {
+      "bug": "1. Ouvrir la page de…\n2. Cliquer sur…\n3. …\n\nAttendu : …\nCe qui s’est passé : …",
+      "misleading": "Le libellé/la fonction/la donnée trompeuse, et ce que vous avez compris…",
+      "idea": "J’aimerais pouvoir…"
+    },
+    "pageLabel": "Page",
+    "pageHelp": "La page concernée (remplie pour vous).",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "send": "Envoyer",
+    "sent": "Merci ! Votre commentaire a été envoyé à l'équipe d'OpenCaves.",
+    "error": "Votre commentaire n'a pas pu être envoyé. Veuillez réessayer.",
+    "itemName": "Votre commentaire",
+    "admin": {
+      "title": "Commentaires",
+      "back": "Retour au tableau de bord",
+      "shown": {
+        "open": "Ouverts",
+        "all": "Tous"
+      },
+      "status": {
+        "new": "Nouveau",
+        "confirmed": "Confirmé",
+        "inProgress": "En cours",
+        "done": "Fait",
+        "rejected": "Rejeté",
+        "duplicate": "Doublon"
+      },
+      "statusHelp": {
+        "new": "Pas encore examiné",
+        "confirmed": "Un vrai problème, ou une idée à réaliser",
+        "inProgress": "En traitement",
+        "done": "Corrigé ou ajouté",
+        "rejected": "Pas un problème, ou pas à faire",
+        "duplicate": "Déjà signalé"
+      },
+      "changeStatus": "Étape : {{status}}. La changer",
+      "statusSet": "{{status}} - par {{name}}, {{date}}",
+      "none": "Aucun rapport ici.",
+      "delete": "Supprimer",
+      "page": "Page :",
+      "browser": "Navigateur :",
+      "note": "Note",
+      "notePlaceholder": "Pourquoi il a été rejeté, de quoi il est le doublon, ce qui a été fait…",
+      "closeTitle": "Marquer comme {{status}}",
+      "closeText": "{{name}} recevra le résultat par courriel, avec cette note.",
+      "noteForReporter": "Note pour l’auteur",
+      "closePlaceholder": {
+        "done": "Ce qui a été corrigé ou ajouté, et où le voir…",
+        "rejected": "Pourquoi il n’y sera pas donné suite…"
+      },
+      "closeConfirm": "Enregistrer et envoyer",
+      "reporterEmailed": "Auteur averti par courriel : {{date}}",
+      "deleteTitle": "Supprimer ce rapport ?",
+      "deleteText": "Il sera supprimé pour de bon."
+    }
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",

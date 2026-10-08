@@ -52,6 +52,8 @@
       "logoutSuccess": "Has cerrado sesión correctamente.",
       "about": "Acerca de",
       "about_withName": "Acerca de {{name}}",
+      "feedback": "Enviar comentarios",
+      "whatCanIDo": "¿Qué puedo hacer?",
       "whatsNew": "Novedades",
       "drawer": {
         "ariaLabel": "abrir menú"
@@ -1118,6 +1120,9 @@
     "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
     "adminSection": "Administración",
     "manageMapLayers": "Capas del mapa",
+    "manageFeedback": "Comentarios",
+    "newFeedback_one": "{{count}} nuevo",
+    "newFeedback_other": "{{count}} nuevos",
     "manageAudits": "Auditorías",
     "backToCaveIndex": "Volver a las cuevas",
     "backToSistemaIndex": "Volver a los sistemas de cuevas",
@@ -1531,6 +1536,166 @@
     "photosAdded_other": "{{count}} fotos de {{name}}",
     "videosAdded_one": "{{count}} vídeo de {{name}}",
     "videosAdded_other": "{{count}} vídeos de {{name}}"
+  },
+  "betaTesting": {
+    "badge": "Beta",
+    "title": "¿Qué puedo hacer?",
+    "lead": "OpenCaves está en beta, y tú eres uno de sus primeros buzos. Úsalo como lo harías antes y después de una inmersión, y cuéntanos qué falla, qué te confunde y qué falta.",
+    "sendFeedback": "Enviar comentarios",
+    "signup": "Regístrate para participar",
+    "report": {
+      "title": "Cuéntanos",
+      "sub": "Cada reporte llega por correo al equipo de OpenCaves. Necesitas una cuenta para enviarlo.",
+      "bug": {
+        "title": "Algo falla",
+        "text": "Una página que no carga, un botón que no hace nada, un cambio que no se guardó, una foto o un mapa que no se abre.",
+        "action": "Reportar un error"
+      },
+      "misleading": {
+        "title": "Algo es engañoso",
+        "text": "Una etiqueta que no entiendes, una función que no hace lo que dice, o un dato que parece erróneo: una posición, un acceso, una profundidad.",
+        "action": "Señalarlo"
+      },
+      "idea": {
+        "title": "Algo falta",
+        "text": "Una función que te ayudaría a preparar o compartir una inmersión, o algo que esperabas encontrar y no está.",
+        "action": "Sugerirlo"
+      }
+    },
+    "try": {
+      "title": "Pruébalo todo",
+      "sub": "Nada de lo que hagas en la beta puede romper algo para siempre: explora.",
+      "explore": {
+        "title": "Explorar",
+        "text": "El mapa, las listas de cuevas y sistemas, la búsqueda, la página de una cueva y sus secciones.",
+        "action": "Abrir el mapa"
+      },
+      "edit": {
+        "title": "Editar cuevas",
+        "text": "Añade una cueva, sus coordenadas, su acceso, sus textos; corrige lo que parezca erróneo.",
+        "action": "Ir a las cuevas"
+      },
+      "media": {
+        "title": "Añadir fotos, vídeos, mapas",
+        "text": "Desde la página de una cueva: sube fotos, enlaza un vídeo, añade un mapa topográfico."
+      },
+      "systems": {
+        "title": "Editar sistemas",
+        "text": "Su longitud y profundidad, la historia de su exploración, cómo se conectan.",
+        "action": "Ver los sistemas"
+      },
+      "offline": {
+        "title": "Sin conexión",
+        "text": "Instala la aplicación, guarda algunas cuevas y úsala sin señal, como en la selva."
+      },
+      "everywhere": {
+        "title": "Teléfono y computadora",
+        "text": "Pruébala en tu teléfono y en una computadora, en modo claro y oscuro."
+      },
+      "languages": {
+        "title": "Todos los idiomas",
+        "text": "Inglés, francés y español: avísanos de una traducción que suene mal."
+      }
+    },
+    "tips": {
+      "title": "Cómo reportar bien",
+      "one": "Un reporte por problema o idea.",
+      "steps": "Di qué hiciste, qué esperabas y qué pasó en cambio.",
+      "page": "La página en la que estabas se completa sola; cámbiala si el problema está en otra.",
+      "device": "Tu navegador se añade solo: indica el dispositivo si importa (por ejemplo, un teléfono Android)."
+    },
+    "goodToKnow": {
+      "reset": {
+        "title": "Los datos de la beta pueden reiniciarse",
+        "text": "Lo que cambies ahora aún no es permanente: los datos pueden reemplazarse en cualquier momento antes de la 1.0."
+      },
+      "public": {
+        "title": "Todo lo que añades es público",
+        "text": "No compartas el teléfono de nadie, ni nada que no quieras hacer público."
+      },
+      "safety": {
+        "title": "OpenCaves no sirve para planificar una inmersión",
+        "text": "El buceo en cuevas puede matar. Fórmate, bucea dentro de tus límites y verifica siempre las condiciones en el lugar."
+      }
+    }
+  },
+  "feedback": {
+    "title": "Enviar comentarios",
+    "tab": "Comentarios",
+    "intro": "Cuéntale al equipo de OpenCaves sobre un error, algo engañoso o una idea. ¡Gracias por tu ayuda!",
+    "kindLabel": "¿De qué se trata?",
+    "kinds": {
+      "bug": "Error",
+      "misleading": "Engañoso",
+      "idea": "Idea"
+    },
+    "kindText": {
+      "bug": "Algo falla o no funciona.",
+      "misleading": "Algo es confuso o parece erróneo.",
+      "idea": "Algo falta o podría ser mejor."
+    },
+    "hints": {
+      "bug": "Escribe los pasos para reproducirlo, uno por línea, para que también lo veamos: qué hiciste, qué esperabas y qué pasó en cambio.",
+      "misleading": "Di qué es engañoso - una etiqueta, una función, un dato - y qué entendiste. Si un dato parece erróneo, dinos cuál crees que es el correcto y cómo lo sabes.",
+      "idea": "Describe qué te gustaría que hiciera OpenCaves, y cuándo te ayudaría: ¿antes de una inmersión, después, para compartir algo?"
+    },
+    "messageLabel": "Tu mensaje",
+    "placeholders": {
+      "bug": "1. Abrir la página de…\n2. Hacer clic en…\n3. …\n\nEsperado: …\nQué pasó: …",
+      "misleading": "La etiqueta/función/dato engañoso, y qué entendiste…",
+      "idea": "Me gustaría poder…"
+    },
+    "pageLabel": "Página",
+    "pageHelp": "La página de la que se trata (completada para ti).",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "send": "Enviar",
+    "sent": "¡Gracias! Tu comentario se envió al equipo de OpenCaves.",
+    "error": "No se pudo enviar tu comentario. Inténtalo de nuevo.",
+    "itemName": "Tu comentario",
+    "admin": {
+      "title": "Comentarios",
+      "back": "Volver al panel",
+      "shown": {
+        "open": "Abiertos",
+        "all": "Todos"
+      },
+      "status": {
+        "new": "Nuevo",
+        "confirmed": "Confirmado",
+        "inProgress": "En curso",
+        "done": "Hecho",
+        "rejected": "Rechazado",
+        "duplicate": "Duplicado"
+      },
+      "statusHelp": {
+        "new": "Aún sin revisar",
+        "confirmed": "Un problema real, o una idea por hacer",
+        "inProgress": "En proceso",
+        "done": "Corregido o añadido",
+        "rejected": "No es un problema, o no se hará",
+        "duplicate": "Ya reportado"
+      },
+      "changeStatus": "Etapa: {{status}}. Cambiarla",
+      "statusSet": "{{status}} - por {{name}}, {{date}}",
+      "none": "No hay reportes aquí.",
+      "delete": "Borrar",
+      "page": "Página:",
+      "browser": "Navegador:",
+      "note": "Nota",
+      "notePlaceholder": "Por qué se rechazó, de qué es duplicado, qué se hizo…",
+      "closeTitle": "Marcar como {{status}}",
+      "closeText": "{{name}} recibirá el resultado por correo, con esta nota.",
+      "noteForReporter": "Nota para el autor",
+      "closePlaceholder": {
+        "done": "Qué se corrigió o añadió, y dónde verlo…",
+        "rejected": "Por qué no se actuará al respecto…"
+      },
+      "closeConfirm": "Guardar y enviar",
+      "reporterEmailed": "Autor avisado por correo: {{date}}",
+      "deleteTitle": "¿Borrar este reporte?",
+      "deleteText": "Se borrará para siempre."
+    }
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",

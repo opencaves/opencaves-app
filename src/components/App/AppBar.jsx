@@ -35,9 +35,11 @@ const NAV_LINK_SX = (theme) => ({
   '&:hover': { bgcolor: 'rgb(var(--oc-app-bar-state) / 0.08)' },
   '&.Mui-focusVisible, &:active': { bgcolor: 'rgb(var(--oc-app-bar-state) / 0.1)' },
   '&[aria-current="page"]': { bgcolor: 'var(--oc-app-bar-active-bg)', color: 'var(--oc-app-bar-active-fg)' },
-  // Below 1200px (the search a button there), labels only: the links and the
-  // title fit side by side.
-  [theme.breakpoints.down('lg')]: { px: 1.5, '& .MuiButton-startIcon': { display: 'none' } },
+  // Below 1536px, labels only: the links, the search field and the title fit
+  // side by side.
+  [theme.breakpoints.down('xl')]: { px: 1.5, '& .MuiButton-startIcon': { display: 'none' } },
+  // Below 1200px, closer together.
+  [theme.breakpoints.down('lg')]: { px: 1 },
 })
 
 // Material Design 3's small top app bar: 64dp tall on phones too (MUI's is

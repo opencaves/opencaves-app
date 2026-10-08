@@ -1,7 +1,5 @@
 // Search-engine helpers shared by RouteSeo and CaveSeo.
 
-export const SITE_URL = 'https://opencaves.org'
-
 // The one URL each indexable page should be known by: a cave's place on the
 // map and its sub-views (medias, maps, edit, sistemas) all point to the cave's
 // own page, /caves/<id> (as the server-rendered pages, functions/js/seo).

@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { SITE_URL, canonicalPath, isIndexable, isPublicIndexPath } from '@/utils/seo.js'
+import { SITE_URL } from '@/config/app.js'
+import { canonicalPath, isIndexable, isPublicIndexPath } from '@/utils/seo.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 
 // Per-route search-engine basics, for every page under AppRoot: a canonical

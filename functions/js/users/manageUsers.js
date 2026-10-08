@@ -3,6 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
 import { ENFORCE_APP_CHECK, FROZEN_USERS_COLL_NAME, REGION, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
+import { renderNotice } from '../email/layout.js'
 import { writeAuditLog } from '../audit/log.js'
 import { requireAdmin as requireAdminRole } from './requireAdmin.js'
 
@@ -125,8 +126,11 @@ async function emailAccount(user, emails) {
   if (!user.email) return false
   try {
     const language = (await db.collection(USERS_COLL_NAME).doc(user.uid).get()).get('language')
-    const { subject, text } = emails[language] || emails.en
-    const result = await sendEmail({ to: user.email, subject, text })
+    const lang = emails[language] ? language : 'en'
+    const { subject, text: body } = emails[lang]
+    // The subject is its title, its paragraphs the text's.
+    const { html, text } = renderNotice({ language: lang, title: subject, paragraphs: body.split('\n\n') })
+    const result = await sendEmail({ to: user.email, subject, html, text })
     return result.sent
   } catch (error) {
     logger.error('[setUserFrozen] the email could not be sent', { uid: user.uid, error: error.message })
