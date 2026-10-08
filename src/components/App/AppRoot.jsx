@@ -6,6 +6,7 @@ import FeedbackDialog from '@/components/Feedback/FeedbackDialog.jsx'
 import AuthPromptDialog from '@/components/auth/AuthPromptDialog.jsx'
 import FeedbackTab from '@/components/Feedback/FeedbackTab.jsx'
 import RouteSeo from '@/components/Seo/RouteSeo.jsx'
+import RouteFocus from './RouteFocus.jsx'
 import WelcomeDialog from './WelcomeDialog.jsx'
 
 export default function AppRoot() {
@@ -28,6 +29,8 @@ export default function AppRoot() {
   return (
     <>
       <RouteSeo />
+      {/* The focus on the new page's heading after a navigation. */}
+      <RouteFocus />
       {/* A first visit's welcome (once per device). */}
       <WelcomeDialog />
       {/* About, over any page (openAboutDialog). */}
