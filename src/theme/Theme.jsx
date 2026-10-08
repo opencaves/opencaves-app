@@ -226,7 +226,8 @@ const lightThemeOptions = {
     },
     MuiTab: {
       styleOverrides: {
-        root: { '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
+        // Sentence case, as M3's tabs and the rest of the app (MUI's are capitals).
+        root: { textTransform: 'none', '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
       },
     },
     MuiTextField: {
