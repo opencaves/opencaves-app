@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Collapse, Fade, IconButton, Typography, styled, useTheme } from '@mui/material'
 import Close from '@mui/icons-material/Close'
@@ -16,6 +16,7 @@ import './CurrentCaveDetailsHeader.scss'
 
 export default function CurrentCaveDetailsHeader({ cave }) {
   const paneData = useContext(ResultPaneSmContext)
+  const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const titleRef = useRef(null)
@@ -61,7 +62,10 @@ export default function CurrentCaveDetailsHeader({ cave }) {
     // results back to empty once it goes null - this is what makes the
     // close button also reset the search bar, not just navigate away.
     dispatch(clearCurrentCave())
-    navigate('/map')
+    // Opened from the map in this history: back to that entry, so Back
+    // afterwards doesn't reopen the cave.
+    if (location.state?.fromMap) navigate(-1)
+    else navigate('/map')
   }
 
   function getSubHeaders() {
