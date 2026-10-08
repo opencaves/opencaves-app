@@ -1,5 +1,11 @@
 export const REGION = 'northamerica-northeast1'
 
+// The site: its address (links in emails, canonical URLs, the sitemap), its
+// title, and its source code. The app's src/config/app.js repeats them.
+export const SITE_URL = 'https://opencaves.org'
+export const APP_TITLE = 'Open Caves'
+export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
+
 // Firestore database constants
 export const CAVES_COLL_NAME = 'caves'
 export const CAVES_ASSETS_COLL_NAME = 'cavesAssets'

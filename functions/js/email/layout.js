@@ -1,4 +1,4 @@
-import { SITE_URL } from '../seo/shared.js'
+import { SITE_URL } from '../constants.js'
 
 // OpenCaves' email layout: an email is a list of blocks, rendered both as HTML
 // (tables and inline styles, what email clients understand) and as plain text

@@ -1,9 +1,8 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth } from '../init.js'
-import { FEEDBACK_COLL_NAME, REGION } from '../constants.js'
+import { FEEDBACK_COLL_NAME, REGION, SITE_URL } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
-import { SITE_URL } from '../seo/shared.js'
 import { renderEmail } from '../email/layout.js'
 
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }

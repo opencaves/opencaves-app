@@ -4,6 +4,11 @@ const PANE_SM_MINIMAL_HEIGHT = /* padding top: var(--oc-pane-padding-block) * 1.
 
 export const APP_NAME = 'OpenCaves'
 export const APP_TITLE = 'Open Caves' // For use in the page <title> and in the app title bar
+// The site's address (canonical URLs, shared links) and its source code; the
+// Cloud Functions repeat them (functions/js/constants.js).
+export const SITE_URL = 'https://opencaves.org'
+export const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
+export const CHANGELOG_URL = `${GITHUB_URL}/blob/main/CHANGELOG.md`
 export const PANE_WIDTH = 400
 // The galleries' thumbnail list (photos, maps) on a short landscape screen -
 // a phone held sideways: narrower, leaving the photo most of the width.

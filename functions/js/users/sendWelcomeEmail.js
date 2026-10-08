@@ -2,9 +2,8 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { FieldValue } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { ENFORCE_APP_CHECK, REGION, USERS_COLL_NAME } from '../constants.js'
+import { ENFORCE_APP_CHECK, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
-import { SITE_URL } from '../seo/shared.js'
 import { renderEmail } from '../email/layout.js'
 
 // Accounts created before this didn't get it (they joined before it existed):

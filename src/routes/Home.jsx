@@ -25,9 +25,8 @@ import Logo from '@/images/logo/brand_dark.svg?react'
 import heroBackground from '@/images/404/bg.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
+import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
 
-const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
-const CHANGELOG_URL = 'https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md'
 // How many cave photos the Discover strip shows, picked at random each visit.
 const DISCOVER_COUNT = 6
 

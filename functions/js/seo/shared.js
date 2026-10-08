@@ -3,8 +3,7 @@
 // tags and text into it. Search engines and link previews get the page's
 // content in the HTML; the app then replaces #root and reuses those <head>
 // tags (src/utils/headTags.js), so the two must stay in step.
-export const SITE_URL = 'https://opencaves.org'
-export const APP_TITLE = 'Open Caves'
+import { APP_TITLE, SITE_URL } from '../constants.js'
 const SHELL_TTL_MS = 5 * 60 * 1000
 
 // The hosts whose app shell may serve as the page: the site and this
