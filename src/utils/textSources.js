@@ -14,13 +14,13 @@ export function textSourcesOf(record, fields) {
 }
 
 // A form's text changed. Edited, the words are the app's: their source becomes
-// Open Caves - unless the editor picked one since. Back to the saved words
+// OpenCaves - unless the editor picked one since. Back to the saved words
 // (undone, retyped), they get their saved source back.
 export function withTextChange(form, original, field, value) {
   const saved = `${original?.[field] ?? ''}`
   const savedSource = sourceOf(original?.textSources?.[field])
   const current = sourceOf(form.textSources?.[field])
-  // Still the source the form started with, or Open Caves set by an earlier edit: not the editor's pick.
+  // Still the source the form started with, or OpenCaves set by an earlier edit: not the editor's pick.
   const automatic = current === savedSource || current === OPEN_CAVES_SOURCE_ID
   let source = current
   if (`${value}` === saved) source = automatic ? savedSource : current

@@ -68,7 +68,7 @@ points, or by its scale bar and north plus one or more points.
   bars can be wrong (Xel-Há, Yax Chen). Check against the ground: cenote
   ponds visible on the satellite, OpenStreetMap roads and water, and the maps
   already placed in the same area.
-- **Trusted positions:** a cave whose coordinates have the *Open Caves*
+- **Trusted positions:** a cave whose coordinates have the *OpenCaves*
   source was usually located on site; other sources (Gerrard, diveseven,
   Google Maps, older maps) may be off by hundreds of metres.
 - **Unverified maps:** when no cenote of a map has a reliable position (only a
@@ -131,7 +131,7 @@ config's `entrances` to place the map, with `"written": false`.
   replaces the caves collection: run it again afterwards.
 - A position read off a map is always to be verified on site (`validity`
   `unknown`). A database position marked `invalid` may be replaced by a map's;
-  one taken on site (*Open Caves* source) never is.
+  one taken on site (*OpenCaves* source) never is.
 - An entrance **written** on a dive survey (or known to be one) is a cenote
   entrance (the caves' `cenoteEntrance` flag): matched caves not yet flagged
   are kept aside too. Unwritten entrances set no flag. (Before 2026-10-03 any

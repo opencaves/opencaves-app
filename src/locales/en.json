@@ -1,7 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Text source",
-    "fieldHint": "Where this text comes from. Your own words? Choose Open Caves.",
+    "fieldHint": "Where this text comes from. Your own words? Choose OpenCaves.",
     "none": "None",
     "known": "Source: {{name}}"
   },
@@ -611,7 +611,7 @@
       "sistemaGroup": "Sistema",
       "sistemaSearchPlaceholder": "Search",
       "source": "Source",
-      "sourceHint": "Where this cave's information comes from. Your own findings? Choose Open Caves.",
+      "sourceHint": "Where this cave's information comes from. Your own findings? Choose OpenCaves.",
       "access": "Access",
       "accessGroup": "Access",
       "accessibility": "Accessibility",
@@ -852,7 +852,7 @@
     "area": "Area",
     "color": "Color",
     "source": "Source",
-    "sourceHint": "Where this cave system's information comes from. Your own findings? Choose Open Caves.",
+    "sourceHint": "Where this cave system's information comes from. Your own findings? Choose OpenCaves.",
     "location": "Location",
     "maxDepth": "Max depth ({{unit}})",
     "description": "Description",
@@ -1086,7 +1086,7 @@
     "parentSistema": "Parent sistema",
     "searchParentSistema": "Search cave systems or areas",
     "connectionSource": "Source",
-    "connectionSourceHint": "Where this connection's information comes from. Your own findings? Choose Open Caves.",
+    "connectionSourceHint": "Where this connection's information comes from. Your own findings? Choose OpenCaves.",
     "noSource": "(none)",
     "connectionDate": "Connection date",
     "connectionNote": "Note(s)",
