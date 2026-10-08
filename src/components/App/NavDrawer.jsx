@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -16,6 +16,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
+import { resetView } from '@/redux/slices/mapSlice.jsx'
 
 const DRAWER_WIDTH = 240
 
@@ -30,9 +31,11 @@ export function useNavItems() {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
+  const dispatch = useDispatch()
   const navItems = [
     { key: 'home', to: '/', icon: <HomeRounded /> },
-    { key: 'map', to: '/map', icon: <MapRounded /> },
+    // The map on its default view, not where it was last left.
+    { key: 'map', to: '/map', icon: <MapRounded />, onClick: () => dispatch(resetView()) },
     { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
     { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
     { key: 'whatCanIDo', to: '/what-can-i-do', icon: <VolunteerActivismOutlined /> },

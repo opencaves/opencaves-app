@@ -28,12 +28,24 @@ const initialState = {
   // (in Map.jsx) runs it, ResultPaneSm moves the sheet.
   placeOnMap: null, // { field, label, longitude?, latitude? } | null
   crossPickFor: null, // field being placed with the admin pages' map preview cross (CoordinatesMapPreview) | null
+  // The nav's Map item, used while the map is open: Map.jsx goes back to the
+  // default view and clears it.
+  viewResetRequested: false,
 }
 
 export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    // The nav's Map item: the map opens on its default view, not the last
+    // one seen (and, already open, flies back to it).
+    resetView(state) {
+      state.viewState = null
+      state.viewResetRequested = true
+    },
+    clearViewResetRequest(state) {
+      state.viewResetRequested = false
+    },
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
     // doesn't actually mutate the state because it uses the Immer library,
     // which detects changes to a "draft state" and produces a brand new
@@ -142,6 +154,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick, resetView, clearViewResetRequest } = mapSlice.actions
 
 export default mapSlice.reducer
