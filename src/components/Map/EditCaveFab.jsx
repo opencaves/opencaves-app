@@ -171,7 +171,7 @@ export default function EditCaveFab() {
       {isEditingCave ? (
         <SpeedDialAction icon={<EditOffRounded />} onClick={exitEditMode} slotProps={actionSlots(t('exitEditMode'), exitEditMode)} />
       ) : (
-        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={actionSlots(t('editCave'), editCave, !caveId)} />
+        <SpeedDialAction icon={<EditRounded />} onClick={editCave} slotProps={actionSlots(caveId ? t('editCave') : t('editCaveNoneSelected'), editCave, !caveId)} />
       )}
       <SpeedDialAction icon={<AddRounded />} onClick={addNewCave} slotProps={actionSlots(t('addNewCave'), addNewCave)} />
     </SpeedDial>

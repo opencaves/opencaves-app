@@ -723,7 +723,8 @@
       "deleteFail": "Impossible de supprimer la photo.",
       "deleteConfirmTitle": "Supprimer cette photo ?",
       "deleteConfirm": "La photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
-      "deleteCancel": "Annuler"
+      "deleteCancel": "Annuler",
+      "isCoverImage": "C’est la photo de couverture"
     },
     "mediaThumbnailItem": {
       "openBtn": {
@@ -987,10 +988,11 @@
     "title": "Carte",
     "caveNameUnknown": "(Grotte sans nom)",
     "editFab": {
-      "ariaLabel": "Modifier les données de la cénote",
+      "ariaLabel": "Modifier les données de la grotte",
       "editCave": "Modifier cette grotte",
       "addNewCave": "Ajouter une nouvelle grotte",
-      "exitEditMode": "Quitter le mode édition"
+      "exitEditMode": "Quitter le mode édition",
+      "editCaveNoneSelected": "Sélectionnez une grotte pour la modifier"
     },
     "error": "Une erreur est survenue",
     "savedCave": "Sauvegardée",
