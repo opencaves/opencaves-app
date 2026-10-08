@@ -110,6 +110,9 @@ export default function CaveEdit() {
   }
 
   const [form, setForm] = useState(emptyForm)
+  // Emptied by the person: "Name is required" (not on a new, untouched form).
+  const [nameTouched, setNameTouched] = useState(false)
+  const nameMissing = !form.name.trim()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
@@ -121,7 +124,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !nameMissing && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
 
   useEffect(() => {
     let cancelled = false
@@ -347,7 +350,7 @@ export default function CaveEdit() {
           translucent page. */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {/* The name on the page itself, the sections below on cards. */}
-        <TextField label={t('name')} fullWidth required {...field('name')} />
+        <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
         <FormSection>
 
         <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
@@ -511,7 +514,7 @@ export default function CaveEdit() {
           </Button>
         )}
         {isDirty ? (
-          <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || !caveCoordinatesInRange(form)}>
+          <Button variant="contained" onClick={handleSave} disabled={saving || nameMissing || !caveCoordinatesInRange(form)}>
             {t('save')}
           </Button>
         ) : (

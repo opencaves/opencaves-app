@@ -69,6 +69,10 @@ function parseLocalizedNumber(value, locale) {
   return normalized && Number.isFinite(number) ? number : null
 }
 
+// The longest system and the deepest cave a form takes, in metres: beyond,
+// a typo (99999 for a depth). Below 0 neither makes sense.
+const MAX_METRES = { length: 1000000, maxDepth: 1000 }
+
 function formatLocalizedNumber(value, locale) {
   const number = parseLocalizedNumber(value, locale)
   return number === null ? String(value ?? '') : new Intl.NumberFormat(locale, { maximumFractionDigits: 20 }).format(number)
@@ -190,12 +194,23 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
   const [focusedNumberField, setFocusedNumberField] = useState(null)
+  // Emptied by the person: "Name is required" (not on a new, untouched form).
+  const [nameTouched, setNameTouched] = useState(false)
   const [parentSearch, setParentSearch] = useState('')
   const parentSearchInputRef = useRef(null)
 
   const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
-  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
-  const canSave = !!form.name && !hasInvalidExplorationDate && !hasInvalidMeasurement && coordinateInRange(form.longitude, form.latitude)
+  // A number, from 0 to its maximum (in the person's units); the error to show, or null.
+  function measurementError(name) {
+    if (form[name] === '') return null
+    const value = parseLocalizedNumber(form[name], locale)
+    if (value === null) return t('measurementInvalid')
+    const max = Math.round(fromMetres(MAX_METRES[name], units))
+    return value < 0 || value > max ? t('measurementRange', { max: new Intl.NumberFormat(locale).format(max), unit: lengthUnit(units) }) : null
+  }
+  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => measurementError(name))
+  const nameMissing = !form.name.trim()
+  const canSave = !nameMissing && !hasInvalidExplorationDate && !hasInvalidMeasurement && coordinateInRange(form.longitude, form.latitude)
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave })
 
   useEffect(() => {
@@ -353,7 +368,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {t('sistemaTitle', { name: form.name || sistemaId })}
+          {t('sistemaTitle', { name: form.name || sistemas.find((item) => item.id === sistemaId)?.name || sistemaId })}
         </Typography>
       </EditPageHeader>
 
@@ -363,7 +378,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         <FormSection>
           <Grid container spacing={2}>
         <Grid size={12}>
-          <TextField label={t('name')} fullWidth required {...field('name')} />
+          <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
         </Grid>
         {/* Wider screens: Color on its own line after Name, then Parent
             sistema on its own, then Area and Source side by side. Phones keep
@@ -435,10 +450,10 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
         {/* Wider screens: just wide enough for their labels. */}
         <Grid size={{ xs: 7, sm: 'auto' }} sx={{ width: { sm: 240 } }}>
-          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('length')} helperText={measurementError('length')} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
         <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
-          <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('maxDepth')} helperText={measurementError('maxDepth')} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
           </Grid>

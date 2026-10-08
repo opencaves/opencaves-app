@@ -9,8 +9,23 @@ const PARTIAL_DATE_PATTERN = /^\d{4}(-\d{2}(-\d{2})?)?$/
 const PARTIAL_DATE_OR_RANGE_PATTERN = /^\d{4}(-(\d{2}(-\d{2})?|\d{4}))?$/
 
 // Blank counts as valid: these dates are always optional.
+// A real date too, not only its shape: a month 01-12, a day its month has
+// (2014-13 and 2019-02-30 were accepted), and a range that runs forward.
+function isRealDate(value) {
+  const [year, month, day] = value.split('-').map(Number)
+  if (month === undefined) return true
+  if (month < 1 || month > 12) return false
+  if (day === undefined) return true
+  return day >= 1 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate()
+}
+
 export function isValidPartialDate(value, { allowRange = true } = {}) {
-  return !value || (allowRange ? PARTIAL_DATE_OR_RANGE_PATTERN : PARTIAL_DATE_PATTERN).test(value)
+  if (!value) return true
+  if (!(allowRange ? PARTIAL_DATE_OR_RANGE_PATTERN : PARTIAL_DATE_PATTERN).test(value)) return false
+  // A range of years: 2019-2021.
+  const range = value.match(/^(\d{4})-(\d{4})$/)
+  if (range) return Number(range[1]) <= Number(range[2])
+  return isRealDate(value)
 }
 
 // description: what the date is (e.g. when a connection was established),

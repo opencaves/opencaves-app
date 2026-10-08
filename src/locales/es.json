@@ -99,7 +99,8 @@
       "showAll": "Mostrar todo: {{title}}",
       "label": "{{title}}, carrusel",
       "showAllLink": "Mostrar todo"
-    }
+    },
+    "nameRequired": "El nombre es obligatorio"
   },
   "account": {
     "profile": "Perfil",
@@ -857,7 +858,9 @@
     "exit": "Salir",
     "save": "Guardar",
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
-    "explorationDateHint": "Cuándo tuvo lugar esta exploración."
+    "explorationDateHint": "Cuándo tuvo lugar esta exploración.",
+    "measurementInvalid": "Introduce un número",
+    "measurementRange": "De 0 a {{max}} {{unit}}"
   },
   "mapsPicker": {
     "close": "Cerrar",
