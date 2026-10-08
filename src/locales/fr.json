@@ -1601,7 +1601,7 @@
       "one": "Un rapport par problème ou par idée.",
       "steps": "Dites ce que vous avez fait, ce que vous attendiez, et ce qui s'est passé à la place.",
       "page": "La page où vous étiez est remplie pour vous ; changez-la si le problème est ailleurs.",
-      "device": "Indiquez votre appareil et votre navigateur (par exemple, un téléphone Android avec Chrome)."
+      "device": "Votre navigateur est ajouté pour vous : précisez l’appareil si cela compte (par exemple, un téléphone Android)."
     },
     "goodToKnow": {
       "reset": {
@@ -1633,13 +1633,13 @@
       "idea": "Quelque chose manque ou pourrait être mieux."
     },
     "hints": {
-      "bug": "Décrivez les étapes pour reproduire le problème, une par ligne, afin que nous le voyions aussi : ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place. Indiquez votre appareil et votre navigateur.",
+      "bug": "Décrivez les étapes pour reproduire le problème, une par ligne, afin que nous le voyions aussi : ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.",
       "misleading": "Dites ce qui est trompeur - un libellé, une fonction, une donnée - et ce que vous avez compris. Si une donnée semble fausse, dites-nous ce qui est juste selon vous, et comment vous le savez.",
       "idea": "Décrivez ce que vous aimeriez qu’OpenCaves fasse, et quand cela vous aiderait : avant une plongée, après, pour partager quelque chose ?"
     },
     "messageLabel": "Votre message",
     "placeholders": {
-      "bug": "1. Ouvrir la page de…\n2. Cliquer sur…\n3. …\n\nAttendu : …\nCe qui s’est passé : …\nAppareil et navigateur : …",
+      "bug": "1. Ouvrir la page de…\n2. Cliquer sur…\n3. …\n\nAttendu : …\nCe qui s’est passé : …",
       "misleading": "Le libellé/la fonction/la donnée trompeuse, et ce que vous avez compris…",
       "idea": "J’aimerais pouvoir…"
     },
@@ -1665,6 +1665,7 @@
       "reopen": "Marquer comme nouveau",
       "delete": "Supprimer",
       "page": "Page :",
+      "browser": "Navigateur :",
       "deleteTitle": "Supprimer ce rapport ?",
       "deleteText": "Il sera supprimé pour de bon."
     }

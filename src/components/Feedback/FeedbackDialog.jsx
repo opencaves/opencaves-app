@@ -67,7 +67,8 @@ function KindCard({ kind, selected, onSelect }) {
 // The Send feedback form (openFeedback): a beta tester tells the OpenCaves
 // team about a bug, something misleading or an idea - its kind, a message
 // (a hint and a placeholder per kind: a bug's steps to reproduce it), the
-// page it's about (the page it was opened from, editable). Saved to
+// page it's about (the page it was opened from, editable), and the browser
+// (its user agent, filled in unseen). Saved to
 // _feedback for the admins (the dashboard's Feedback page), who also get it
 // by email (onFeedbackCreated). An account is needed: anyone else is asked
 // to sign up or log in first.
@@ -107,7 +108,7 @@ export default function FeedbackDialog() {
   async function send() {
     setSending(true)
     try {
-      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
+      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), browser: navigator.userAgent.slice(0, 500), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
       const status = await settleWrite(addDoc(collection(db, FEEDBACK_COLLECTION), report), { name: t('itemName') })
       setOpen(false)
       if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })

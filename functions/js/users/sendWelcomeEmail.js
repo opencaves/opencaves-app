@@ -43,7 +43,7 @@ const CONTENT = {
       offline: ['Go offline', 'Install the app, save some caves, use it with no signal.'],
       everywhere: ['Everywhere', 'On your phone and a computer, in light and dark mode, in English, French or Spanish.'],
     },
-    tips: { title: 'How to report well', items: ['One report per problem or idea.', 'Say what you did, what you expected, and what happened instead.', 'The page you were on is filled in for you.', 'Mention your device and browser.'] },
+    tips: { title: 'How to report well', items: ['One report per problem or idea.', 'Say what you did, what you expected, and what happened instead.', 'The page you were on is filled in for you.', 'Your browser is added for you: say which device it is if it matters.'] },
     good: {
       title: 'Good to know',
       reset: ['Beta data can be reset', "What you change now isn't permanent yet."],
@@ -77,7 +77,7 @@ const CONTENT = {
       offline: ['Hors ligne', 'Installez l’application, enregistrez des grottes, utilisez-la sans réseau.'],
       everywhere: ['Partout', 'Sur téléphone et ordinateur, en mode clair et sombre, en anglais, français ou espagnol.'],
     },
-    tips: { title: 'Pour un bon rapport', items: ['Un rapport par problème ou par idée.', 'Dites ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.', 'La page où vous étiez est remplie pour vous.', 'Indiquez votre appareil et votre navigateur.'] },
+    tips: { title: 'Pour un bon rapport', items: ['Un rapport par problème ou par idée.', 'Dites ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.', 'La page où vous étiez est remplie pour vous.', 'Votre navigateur est ajouté pour vous : précisez l’appareil si cela compte.'] },
     good: {
       title: 'Bon à savoir',
       reset: ['Les données de la bêta peuvent être réinitialisées', 'Ce que vous modifiez n’est pas encore permanent.'],
@@ -111,7 +111,7 @@ const CONTENT = {
       offline: ['Sin conexión', 'Instala la aplicación, guarda algunas cuevas, úsala sin señal.'],
       everywhere: ['En todas partes', 'En tu teléfono y en una computadora, en modo claro y oscuro, en inglés, francés o español.'],
     },
-    tips: { title: 'Cómo reportar bien', items: ['Un reporte por problema o idea.', 'Di qué hiciste, qué esperabas y qué pasó en cambio.', 'La página en la que estabas se completa sola.', 'Menciona tu dispositivo y navegador.'] },
+    tips: { title: 'Cómo reportar bien', items: ['Un reporte por problema o idea.', 'Di qué hiciste, qué esperabas y qué pasó en cambio.', 'La página en la que estabas se completa sola.', 'Tu navegador se añade solo: indica el dispositivo si importa.'] },
     good: {
       title: 'Bueno saber',
       reset: ['Los datos de la beta pueden reiniciarse', 'Lo que cambies aún no es permanente.'],

@@ -42,7 +42,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
       preheader: String(report.message).slice(0, 120),
       hero: { overline: 'Beta feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
       blocks: [
-        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }] },
+        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...(report.browser ? [{ label: 'Browser', value: report.browser }] : [])] },
         { type: 'quote', text: report.message },
         { type: 'button', label: 'See all reports', href: `${SITE_URL}/feedback` },
       ],

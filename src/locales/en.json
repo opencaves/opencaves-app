@@ -1602,7 +1602,7 @@
       "one": "One report per problem or idea.",
       "steps": "Say what you did, what you expected, and what happened instead.",
       "page": "The page you were on is filled in for you; change it if the problem is elsewhere.",
-      "device": "Mention your device and browser (for example, an Android phone with Chrome)."
+      "device": "Your browser is added for you: say which device it is if it matters (for example, an Android phone)."
     },
     "goodToKnow": {
       "reset": {
@@ -1634,13 +1634,13 @@
       "idea": "Something is missing or could be better."
     },
     "hints": {
-      "bug": "Write the steps to reproduce it, one per line, so we can see it happen too: what you did, what you expected, and what happened instead. Mention your device and browser.",
+      "bug": "Write the steps to reproduce it, one per line, so we can see it happen too: what you did, what you expected, and what happened instead.",
       "misleading": "Say what is misleading - a label, a feature, some data - and what you understood. If data looks wrong, tell us what you think is right and how you know.",
       "idea": "Describe what you would like OpenCaves to do, and when it would help you: before a dive, after one, to share something?"
     },
     "messageLabel": "Your message",
     "placeholders": {
-      "bug": "1. Open the page of…\n2. Click…\n3. …\n\nExpected: …\nWhat happened: …\nDevice and browser: …",
+      "bug": "1. Open the page of…\n2. Click…\n3. …\n\nExpected: …\nWhat happened: …",
       "misleading": "The label/feature/data that is misleading, and what you understood…",
       "idea": "I would like to be able to…"
     },
@@ -1666,6 +1666,7 @@
       "reopen": "Mark as new",
       "delete": "Delete",
       "page": "Page:",
+      "browser": "Browser:",
       "deleteTitle": "Delete this report?",
       "deleteText": "It will be deleted for good."
     }

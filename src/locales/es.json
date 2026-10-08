@@ -1602,7 +1602,7 @@
       "one": "Un reporte por problema o idea.",
       "steps": "Di qué hiciste, qué esperabas y qué pasó en cambio.",
       "page": "La página en la que estabas se completa sola; cámbiala si el problema está en otra.",
-      "device": "Menciona tu dispositivo y navegador (por ejemplo, un teléfono Android con Chrome)."
+      "device": "Tu navegador se añade solo: indica el dispositivo si importa (por ejemplo, un teléfono Android)."
     },
     "goodToKnow": {
       "reset": {
@@ -1634,13 +1634,13 @@
       "idea": "Algo falta o podría ser mejor."
     },
     "hints": {
-      "bug": "Escribe los pasos para reproducirlo, uno por línea, para que también lo veamos: qué hiciste, qué esperabas y qué pasó en cambio. Menciona tu dispositivo y navegador.",
+      "bug": "Escribe los pasos para reproducirlo, uno por línea, para que también lo veamos: qué hiciste, qué esperabas y qué pasó en cambio.",
       "misleading": "Di qué es engañoso - una etiqueta, una función, un dato - y qué entendiste. Si un dato parece erróneo, dinos cuál crees que es el correcto y cómo lo sabes.",
       "idea": "Describe qué te gustaría que hiciera OpenCaves, y cuándo te ayudaría: ¿antes de una inmersión, después, para compartir algo?"
     },
     "messageLabel": "Tu mensaje",
     "placeholders": {
-      "bug": "1. Abrir la página de…\n2. Hacer clic en…\n3. …\n\nEsperado: …\nQué pasó: …\nDispositivo y navegador: …",
+      "bug": "1. Abrir la página de…\n2. Hacer clic en…\n3. …\n\nEsperado: …\nQué pasó: …",
       "misleading": "La etiqueta/función/dato engañoso, y qué entendiste…",
       "idea": "Me gustaría poder…"
     },
@@ -1666,6 +1666,7 @@
       "reopen": "Marcar como nuevo",
       "delete": "Borrar",
       "page": "Página:",
+      "browser": "Navegador:",
       "deleteTitle": "¿Borrar este reporte?",
       "deleteText": "Se borrará para siempre."
     }

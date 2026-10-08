@@ -24,10 +24,11 @@ service cloud.firestore {
     // them. onFeedbackCreated emails them to the admins.
     match /_feedback/{report} {
       allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
-        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'userId', 'createdAt', 'status'])
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'browser', 'userId', 'createdAt', 'status'])
         && request.resource.data.kind in ['bug', 'misleading', 'idea']
         && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
         && request.resource.data.page is string && request.resource.data.page.size() <= 500
+        && (!('browser' in request.resource.data) || (request.resource.data.browser is string && request.resource.data.browser.size() <= 500))
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.createdAt == request.time
         && request.resource.data.status == 'new'

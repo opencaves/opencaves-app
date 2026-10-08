@@ -108,6 +108,11 @@ export default function FeedbackAdmin() {
                   </Link>
                 </Typography>
               )}
+              {report.browser && (
+                <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary', overflowWrap: 'anywhere' }}>
+                  {t('admin.browser')} {report.browser}
+                </Typography>
+              )}
             </Box>
           ))}
         </Stack>
