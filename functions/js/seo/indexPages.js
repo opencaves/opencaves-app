@@ -21,7 +21,8 @@ const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 const count = (n, singular, plural = `${singular}s`) => `${n.toLocaleString('en-US')} ${n === 1 ? singular : plural}`
 const metres = (value, decimals) => `${Number(value).toLocaleString('en-US', { maximumFractionDigits: decimals })} m`
 
-const caveLabel = (cave) => cave.name || 'Unnamed cave'
+// No name: a placeholder in parentheses, as the app's lists.
+const caveLabel = (cave) => cave.name || '(Unnamed cave)'
 const caveLink = (cave) => `<li><a href="/caves/${escapeHtml(cave.id)}">${escapeHtml(caveLabel(cave))}</a></li>`
 const sistemaLink = (sistema) => `<li><a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></li>`
 const list = (items, toItem) => (items.length ? `<ul>\n${items.map(toItem).join('\n')}\n</ul>` : '')

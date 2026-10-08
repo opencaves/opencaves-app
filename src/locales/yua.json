@@ -571,7 +571,7 @@
   },
   "map": {
     "title": "Mapa",
-    "caveNameUnknown": "[mina'an u k'aaba']",
+    "caveNameUnknown": "(mina'an u k'aaba')",
     "editFab": {
       "ariaLabel": "K'eex u ts'íibil le ts'ono'oto'",
       "editCave": "K'eex le ts'ono'ota'",
@@ -634,7 +634,8 @@
     "searchByName": "Kaxt yéetel u k'aaba'",
     "newCave": "Túumben ts'ono'ot",
     "newSistema": "Túumben sistema",
-    "unnamed": "(mina'an u k'aaba')",
+    "unnamedCave": "(mina'an u k'aaba')",
+    "unnamedSistema": "(mina'an u k'aaba')",
     "back": "Suut",
     "edit": "K'eex",
     "delete": "Luk'es",

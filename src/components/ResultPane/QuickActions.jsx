@@ -121,7 +121,7 @@ export default function QuickActions({ cave }) {
   const saveIcon = downloading ? <DownloadProgressIcon value={downloadProgress} label={t('downloadingOffline', { progress: downloadProgress })} /> : saved ? <BookmarkIcon /> : <BookmarkBorderIcon />
   const saveLabel = saved ? t('saved') : t('save')
 
-  const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
+  const caveName = cave.name?.value || tMap('caveNameUnknown')
   const isSmall = useSmall()
 
   async function handleShareOpen() {

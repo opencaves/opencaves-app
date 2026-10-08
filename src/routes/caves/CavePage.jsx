@@ -60,9 +60,11 @@ export default function CavePage() {
   const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
 
   const name = cave?.name?.value?.trim() || ''
+  // No name: "(Unnamed cave)" - in parentheses, a placeholder, not a name.
   const label = name || t('unnamedCave')
   const summary = cave ? markdownToPlainText(cave.description) : ''
-  const description = cave ? truncate(summary ? `${t('cave.descriptionPrefix', { name: label })} ${summary}` : t('cave.description', { name: label })) : null
+  // The description's sentence names it without the parentheses.
+  const description = cave ? truncate(summary ? `${t('cave.descriptionPrefix', { name: name || t('unnamedCavePlain') })} ${summary}` : t('cave.description', { name: name || t('unnamedCavePlain') })) : null
   useIndexPageHead({ title: cave ? label : null, description })
 
   // Its system and the systems that one joined, for the history (as the

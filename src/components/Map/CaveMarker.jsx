@@ -30,7 +30,7 @@ function unlabelMarker(marker) {
 //   current history entry (from one cave's pane to another's)
 export default memo(function CaveMarker({ cave, current, draggable, dragging, showLabel, saved, editMode, replace, onMarkerClick, onDragStart, onDragEnd }) {
   const { t } = useTranslation('map')
-  const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
+  const caveName = cave.name?.value || t('caveNameUnknown')
   const markerColor = cave.sistemas ? cave.sistemas[cave.sistemas.length - 1].color : SISTEMA_DEFAULT_COLOR
   const Pin = cave.location.validity === 'valid' ? PinIcon : PinLocationUnknownIcon
 

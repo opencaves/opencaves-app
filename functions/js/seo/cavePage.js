@@ -23,10 +23,13 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
   // As in the index pages (indexPages.js): an unnamed cave isn't "Cenote Cenote".
-  const label = name ? `Cenote ${name}` : 'Unnamed cenote'
+  // Its title says it has no name in parentheses - a placeholder, not a
+  // name (as the app's page); the description's sentence doesn't.
+  const label = name ? `Cenote ${name}` : '(Unnamed cave)'
   const paragraphs = plainParagraphs(cave.description)
   const summary = paragraphs.join(' ')
-  const description = truncate(summary ? `${label} (Yucatán, Mexico): ${summary}` : `${label} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
+  const subject = name ? label : 'An unnamed cave'
+  const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
   const title = `${label} / ${APP_TITLE}`
   const canonical = `/caves/${id}`
   const url = `${SITE_URL}${canonical}`
