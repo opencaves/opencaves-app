@@ -9,6 +9,9 @@ import { openFeedback } from '@/utils/feedback.js'
 // or a system's photos, medias or maps, on its page or on the map.
 const HIDDEN = [/^\/(login|signup|loading)(\/|$)/, /^\/feedback$/, /^\/(map|caves|sistemas)\/[^/]+\/(photos|medias|maps)(\/|$)/]
 
+// A screen whose smaller side is a phone's (portrait or landscape).
+const COMPACT = '@media (max-width: 599.95px), (max-height: 599.95px)'
+
 // The Send feedback tab (beta): on the right edge of every page, halfway
 // down - written sideways, the icon alone on a phone. Opens FeedbackDialog.
 // On a phone's map it fades out with the map's buttons as the result pane's
@@ -35,12 +38,9 @@ export default function FeedbackTab() {
           justifyContent: 'center',
           gap: 1,
           writingMode: 'vertical-rl',
-          // A phone: MD3's 24dp icon in a 48dp touch target - 40dp shown on the
-          // edge, the 8dp left of it still catching taps (::before).
-          width: { xs: 40, sm: 'auto' },
-          minHeight: { xs: 48, sm: 0 },
-          px: { xs: 0, sm: 1 },
-          py: { xs: 1.5, sm: 2 },
+          // The label written sideways; compact on a small screen (COMPACT).
+          px: 1,
+          py: 2,
           borderRadius: '12px 0 0 12px',
           bgcolor: theme.vars.palette.secondary.main,
           color: theme.vars.palette.secondary.contrastText,
@@ -52,11 +52,22 @@ export default function FeedbackTab() {
           visibility: 'var(--oc-map-controls-visibility, visible)',
           transition: 'padding 150ms, background-color 150ms, opacity 150ms ease, visibility 150ms ease',
           '&::before': { content: '""', position: 'absolute', top: 0, bottom: 0, left: -8, width: 8 },
-          '& svg': { fontSize: 24, transform: { sm: 'rotate(90deg)' } },
+          '& svg': { fontSize: 24, transform: 'rotate(90deg)' },
           '&:hover': { bgcolor: theme.vars.palette.secondary.dark },
-          '&:hover, &.Mui-focusVisible': { pr: { sm: 1.5 } },
+          '&:hover, &.Mui-focusVisible': { pr: 1.5 },
           '&.Mui-focusVisible': { outline: `2px solid ${theme.vars.sys.color.primary}`, outlineOffset: 2 },
-          '& .oc-feedback-tab--label': { display: { xs: 'none', sm: 'inline' } },
+          // A small screen - its smaller side under 600px, so a phone held
+          // sideways too: the icon alone, MD3's 24dp icon in a 48dp touch target
+          // (40dp shown on the edge, the 8dp left of it still catching taps).
+          [COMPACT]: {
+            width: 40,
+            minHeight: 48,
+            px: 0,
+            py: 1.5,
+            '& svg': { transform: 'none' },
+            '&:hover, &.Mui-focusVisible': { pr: 0 },
+            '& .oc-feedback-tab--label': { display: 'none' },
+          },
           '@media print': { display: 'none' },
         })}
       >
