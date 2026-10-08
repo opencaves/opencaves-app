@@ -8,6 +8,7 @@ import Clear from '@mui/icons-material/ClearRounded'
 import Tune from '@mui/icons-material/TuneRounded'
 import ArrowBack from '@mui/icons-material/ArrowBackRounded'
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
+import LocationOffRounded from '@mui/icons-material/LocationOffRounded'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import MenuRounded from '@mui/icons-material/MenuRounded'
 import NavDrawer from '@/components/App/NavDrawer.jsx'
@@ -42,7 +43,7 @@ const LocationOnIcon = ({ sx }) => (
 )
 const LocationOffIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    <LocationOnRounded />
+    <LocationOffRounded />
   </Box>
 )
 
