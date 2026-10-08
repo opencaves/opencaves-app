@@ -101,7 +101,9 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
                 <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
-                <PartialDateField size="small" label={dateLabel} description={dateHint} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
+                {/* As wide as its widest value (a full date, 2019-06-15); its hint may
+                    run wider. */}
+                <PartialDateField size="small" label={dateLabel} description={dateHint} value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} sx={{ width: 'calc(11ch + 28px)', maxWidth: '100%', '& .MuiFormHelperText-root': { width: 'max-content', maxWidth: 'min(720px, calc(100vw - 96px))' } }} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
@@ -427,7 +429,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
-          <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
+          {/* The area dropdown's size (beside it): aligned. */}
+          <SourceSelect size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}
@@ -489,6 +492,13 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => withTextChange(f, sistema, 'direction', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
           {form.direction?.trim() && <TextSourceField value={form.textSources?.direction} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, direction: value } }))} sources={sources} />}
         </Grid>
+
+          </Grid>
+        </FormSection>
+        {/* Its own card: a card shows its first heading only (FormSection),
+            so under the directions this one never showed. */}
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} dateHint={t('explorationDateHint')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />
