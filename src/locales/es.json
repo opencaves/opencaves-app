@@ -579,6 +579,8 @@
       "key": "Llave",
       "longitude": "Longitud",
       "latitude": "Latitud",
+      "longitudeRange": "-180 a 180",
+      "latitudeRange": "-90 a 90",
       "dragPinToMap": "Arrastra este marcador al mapa para definir esta ubicación",
       "navigateToCoordinate": "Centrar el mapa aquí",
       "removeCoordinate": "Eliminar coordenadas",

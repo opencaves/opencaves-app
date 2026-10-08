@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, ListItemText, Menu, MenuItem } from '@mui/material'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import AddButton from '@/components/AddButton.jsx'
-import CoordinateField from './CoordinateField.jsx'
+import CoordinateField, { coordinateInRange } from './CoordinateField.jsx'
 
 // A cave form's three coordinates (both cave forms keep the same form fields).
 export function caveCoordinateItems(form, setForm, t) {
@@ -12,6 +12,12 @@ export function caveCoordinateItems(form, setForm, t) {
     { field: 'entrance', label: t('entrance'), longitude: form.entranceLongitude, latitude: form.entranceLatitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude })), validity: form.entranceValidity, onValidityChange: (entranceValidity) => setForm((f) => ({ ...f, entranceValidity })) },
     { field: 'key', label: t('key'), longitude: form.keyLongitude, latitude: form.keyLatitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude })), validity: form.keyValidity, onValidityChange: (keyValidity) => setForm((f) => ({ ...f, keyValidity })) },
   ]
+}
+
+// Whether a cave form's three coordinates are all within range (the forms
+// don't save otherwise).
+export function caveCoordinatesInRange(form) {
+  return coordinateInRange(form.longitude, form.latitude) && coordinateInRange(form.entranceLongitude, form.entranceLatitude) && coordinateInRange(form.keyLongitude, form.keyLatitude)
 }
 
 const isFilled = ({ longitude, latitude }) => `${longitude ?? ''}` !== '' || `${latitude ?? ''}` !== ''

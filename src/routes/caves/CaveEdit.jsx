@@ -23,7 +23,7 @@ import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
-import CoordinateFieldList, { caveCoordinateItems } from '@/components/ResultPane/CoordinateFieldList.jsx'
+import CoordinateFieldList, { caveCoordinateItems, caveCoordinatesInRange } from '@/components/ResultPane/CoordinateFieldList.jsx'
 import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -121,7 +121,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name, within: `/caves/${caveId}/edit` })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
 
   useEffect(() => {
     let cancelled = false
@@ -511,7 +511,7 @@ export default function CaveEdit() {
           </Button>
         )}
         {isDirty ? (
-          <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+          <Button variant="contained" onClick={handleSave} disabled={saving || !form.name || !caveCoordinatesInRange(form)}>
             {t('save')}
           </Button>
         ) : (

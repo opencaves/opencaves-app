@@ -13,6 +13,7 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { num } from '@/services/data-service/types.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import CoordinateFieldList from '@/components/ResultPane/CoordinateFieldList.jsx'
+import { coordinateInRange } from '@/components/ResultPane/CoordinateField.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
@@ -184,7 +185,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
   const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
   const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
-  const canSave = !!form.name && !hasInvalidExplorationDate && !hasInvalidMeasurement
+  const canSave = !!form.name && !hasInvalidExplorationDate && !hasInvalidMeasurement && coordinateInRange(form.longitude, form.latitude)
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave })
 
   useEffect(() => {

@@ -17,7 +17,7 @@ import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
-import CoordinateFieldList, { caveCoordinateItems } from './CoordinateFieldList.jsx'
+import CoordinateFieldList, { caveCoordinateItems, caveCoordinatesInRange } from './CoordinateFieldList.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
@@ -138,7 +138,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paneData?.setTitleHidden])
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name && caveCoordinatesInRange(form) })
   function field(name) {
     return {
       value: form[name],
@@ -295,7 +295,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         </Button>
       )}
       {isDirty ? (
-        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name || !caveCoordinatesInRange(form)} sx={{ minWidth: 88 }}>
           {t('save')}
         </Button>
       ) : (
