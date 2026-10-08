@@ -49,7 +49,7 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
     aka.length ? `<p>Also known as ${escapeHtml(aka.join(', '))}</p>` : '',
     location ? `<p>Location: ${Number(location.latitude).toFixed(5)}, ${Number(location.longitude).toFixed(5)} (Yucatán, Mexico)</p>` : '',
     ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
-    area ? `<p>Area: <a href="/areas/${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
+    area ? `<p>Area: <a href="/caves#${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
     sistema ? `<p>Cave system: <a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></p>` : '',
     path === `/map/${id}` ? `<p><a href="/caves/${escapeHtml(id)}">${escapeHtml(label)}'s page</a></p>` : `<p><a href="/map/${escapeHtml(id)}">${escapeHtml(label)} on the map</a></p>`,
     `<p><a href="/map">The OpenCaves map of the cenotes of the Yucatán</a> · <a href="/caves">All the caves by area</a></p>`,
@@ -59,7 +59,7 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
 
   // Its breadcrumbs: its page under the caves and its area; its place on the map under the map.
   const trail = path.startsWith('/caves/')
-    ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/areas/${slugify(area)}` }] : []), { name: name || label, path }]
+    ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/caves#${slugify(area)}` }] : []), { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
   return renderPage(shell, { title, description, path, canonical, body, ogType: 'place', trail })
 }

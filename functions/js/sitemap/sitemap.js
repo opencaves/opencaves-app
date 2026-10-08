@@ -27,7 +27,7 @@ function buildSitemap(urls) {
 export const sitemap = onRequest({ region: REGION }, async (req, res) => {
   // select() with no fields returns only document metadata - cheap, and it
   // includes each cave's last write time, for lastmod.
-  const [caves, { areas, sistemas }] = await Promise.all([db.collection(CAVES_COLL_NAME).select().get(), loadIndexData()])
+  const [caves, { sistemas }] = await Promise.all([db.collection(CAVES_COLL_NAME).select().get(), loadIndexData()])
   const day = (timestamp) => timestamp.toDate().toISOString().slice(0, 10)
 
   // Canonical URLs only: / is the landing page.
@@ -37,10 +37,9 @@ export const sitemap = onRequest({ region: REGION }, async (req, res) => {
     // Each cave by its own page (/caves/<id>, indexPages.js) - its place on
     // the map (/map/<id>) names that page as its canonical.
     ...caves.docs.map((doc) => ({ loc: `${SITE_URL}/caves/${doc.id}`, lastmod: day(doc.updateTime) })),
-    // The index pages (seo/indexPages.js): areas with nothing in them aren't listed.
+    // The index pages (seo/indexPages.js); an area has no page of its own.
     { loc: `${SITE_URL}/caves` },
     { loc: `${SITE_URL}/sistemas` },
-    ...areas.filter((area) => area.caves.length || area.sistemas.length).map((area) => ({ loc: `${SITE_URL}/areas/${area.slug}` })),
     ...sistemas.map((sistema) => ({ loc: `${SITE_URL}/sistemas/${sistema.slug}`, lastmod: day(sistema.updateTime) })),
     { loc: `${SITE_URL}/about` },
     { loc: `${SITE_URL}/privacy` },

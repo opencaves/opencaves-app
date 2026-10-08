@@ -24,8 +24,8 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 
 const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 
-// An area's address names it by its slug (/areas/<slug>/edit, as its public
-// page /areas/<slug>), older links by its record id: the record's id, null
+// An area's address names it by its slug (/areas/<slug>/edit, the anchor of
+// its section of /caves), older links by its record id: the record's id, null
 // while the areas aren't known yet. Other collections' addresses are ids.
 // The areas come from the app's data once loaded; before that (a first
 // visit), from the small areas collection itself, rather than waiting for
@@ -125,7 +125,7 @@ export default function ReferenceDataItemEdit() {
     // would land right back on it instead of skipping past it. An area goes
     // back to its public page (its name can't change once created).
     const areaSlug = isArea && !isNew ? slugify(form.name || itemId) : ''
-    navigate(areaSlug ? `/areas/${areaSlug}` : `/${collectionName}`, { replace: true })
+    navigate(areaSlug ? `/caves#${areaSlug}` : `/${collectionName}`, { replace: true })
   }
 
   if (!config) {

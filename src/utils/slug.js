@@ -1,5 +1,5 @@
 // Kept identical to functions/js/seo/slug.js: the server renders the same
-// area addresses (/areas/<slug>) for search engines, so the two
+// area anchors (/caves#<slug>) for search engines, so the two
 // must agree on every name.
 
 // A name as it appears in an address: lowercase, accents and apostrophes

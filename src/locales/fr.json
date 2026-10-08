@@ -1441,15 +1441,6 @@
       "description": "Les réseaux noyés du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
       "add": "Ajouter un réseau"
     },
-    "area": {
-      "title": "Les grottes de la région {{area}}",
-      "description": "Les cénotes et les réseaux de la région {{area}}, au Yucatán (Mexique) : emplacements, accès, photos et plans sur OpenCaves.",
-      "edit": "Modifier la région {{area}}",
-      "cenotes": "Grottes",
-      "sistemas": "Réseaux",
-      "noCenotes": "Aucune grotte répertoriée dans cette région pour l’instant.",
-      "noSistemas": "Aucun réseau répertorié dans cette région pour l’instant."
-    },
     "sistema": {
       "title": "Réseau {{name}}",
       "descriptionPrefix": "Réseau {{name}} (Yucatán, Mexique) :",

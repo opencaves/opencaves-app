@@ -81,7 +81,7 @@ export default function CavePage() {
   const location = cave.location?.latitude != null ? cave.location : null
   const aka = [...(Array.isArray(cave.aka) ? cave.aka : []), ...Object.values(cave.nameTranslations || {}).flat()].filter(Boolean)
   const facts = [
-    area && { key: 'area', label: t('cave.area'), value: <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover">{area.name}</Link> },
+    area && { key: 'area', label: t('cave.area'), value: <Link component={RouterLink} to={`/caves#${area.slug}`} underline="hover">{area.name}</Link> },
     sistema && { key: 'sistema', label: t('cave.sistema'), value: <><SistemaArrow color={sistema.color} sx={{ mr: 0.75 }} />{sistema.slug ? <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">{sistema.name}</Link> : sistema.name}</> },
   ].filter(Boolean)
   // Its points, as the map pane lists them: each copied on a click, with
@@ -98,7 +98,7 @@ export default function CavePage() {
   return (
     <div className="oc-cave-page">
       <IndexPageHeader
-        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }, ...(area ? [{ label: area.name, to: `/areas/${area.slug}` }] : [])]}
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }, ...(area ? [{ label: area.name, to: `/caves#${area.slug}` }] : [])]}
         current={label}
         title={label}
         subtitle={aka.length > 0 ? `${tPane('aka')} ${[...new Set(aka)].join(', ')}` : null}

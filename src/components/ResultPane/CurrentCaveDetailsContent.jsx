@@ -156,10 +156,10 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
         {keysTexts &&
           keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
-        {/* The cave's area, linked to its page (/areas/<slug>). */}
+        {/* The cave's area, linked to its section of the cave list (/caves#<slug>). */}
         {cave.area && slugify(cave.area) && (
           <ListItem disablePadding className="oc-results-copy-list--area">
-            <ListItemButton component={RouterLink} to={`/areas/${slugify(cave.area)}`}>
+            <ListItemButton component={RouterLink} to={`/caves#${slugify(cave.area)}`}>
               <ListItemIcon>
                 <TerrainOutlined color="primary" />
               </ListItemIcon>

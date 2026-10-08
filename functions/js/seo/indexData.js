@@ -2,7 +2,7 @@ import { CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { slugify } from './slug.js'
 
-// The data the index pages (/caves, /sistemas, /areas/<slug>,
+// The data the index pages (/caves, /sistemas,
 // /sistemas/<id>) and the sitemap list, read once and kept a few minutes
 // per instance: a crawler going through the pages doesn't read every
 // collection on each one (the CDN keeps each page an hour anyway). The app
