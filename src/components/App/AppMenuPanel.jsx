@@ -4,10 +4,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
 import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
-import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
-import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import { auth } from '@/config/firebase.js'
@@ -103,7 +103,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           </>
         ) : (
           <>
-            <AccountCircleOutlined sx={{ fontSize: 72, color: 'text.secondary', mt: 3, mb: 1 }} />
+            <AccountCircleRounded sx={{ fontSize: 72, color: 'text.secondary', mt: 3, mb: 1 }} />
             <Typography id={titleId} component="h2" sx={{ fontSize: 22, lineHeight: '28px', fontWeight: 400, mb: 1 }}>
               {t('welcome', { name: APP_NAME })}
             </Typography>
@@ -164,7 +164,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           sx={rowSx}
         >
           <ListItemIcon>
-            <FeedbackOutlined />
+            <FeedbackRounded />
           </ListItemIcon>
           <ListItemText primary={t('feedback')} />
         </ListItemButton>
@@ -178,7 +178,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           sx={rowSx}
         >
           <ListItemIcon>
-            <InfoOutlined />
+            <InfoRounded />
           </ListItemIcon>
           <ListItemText primary={t('about', { context: 'withName', name: APP_NAME })} />
         </ListItemButton>

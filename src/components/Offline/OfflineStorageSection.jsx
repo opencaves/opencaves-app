@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
-import DeleteSweepOutlined from '@mui/icons-material/DeleteSweepOutlined'
+import DeleteSweepRounded from '@mui/icons-material/DeleteSweepRounded'
 import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineMedia.js'
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -73,7 +73,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
         {persisted ? t('persisted') : t('notPersisted')}
       </Typography>
       {/* Centered on phones. */}
-      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={(event) => {
+      <Button variant="outlined" color="error" startIcon={<DeleteSweepRounded />} onClick={(event) => {
             // Focus off the button first: the dialog hides the page (aria-hidden on
             // #root) before taking focus, which the browser blocks.
             event.currentTarget.blur()

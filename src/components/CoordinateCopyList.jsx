@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopyRounded'
-import DirectionsOutlined from '@mui/icons-material/DirectionsOutlined'
+import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
 import { getOS } from '@/utils/getOS.js'
@@ -69,7 +69,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
                 openDirections(point)
               }}
             >
-              <DirectionsOutlined />
+              <DirectionsRounded />
             </IconButton>
           </Tooltip>
         }

@@ -3,10 +3,10 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Chip, Skeleton, Stack, SvgIcon, Typography } from '@mui/material'
 import LinkRounded from '@mui/icons-material/LinkRounded'
-import PhotoLibraryOutlined from '@mui/icons-material/PhotoLibraryOutlined'
-import VideoLibraryOutlined from '@mui/icons-material/VideoLibraryOutlined'
+import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
+import VideoLibraryRounded from '@mui/icons-material/VideoLibraryRounded'
 import CaveAsset from '@/models/CaveAsset.js'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import { callable } from '@/config/firebase.js'
 import { APP_NAME } from '@/config/app.js'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
@@ -136,10 +136,10 @@ export default function WhatsNew() {
         // One photo opens in the cave page's gallery; several, or videos, the
         // cave page's section (#photos, #videos).
         const to = !cave ? null : photos && item.count === 1 ? `/caves/${item.caveId}/photos/${item.media[0].id}` : `/caves/${item.caveId}#${photos ? 'photos' : 'videos'}`
-        return { ...item, at, icon: photos ? <PhotoLibraryOutlined /> : <VideoLibraryOutlined />, thumbnails, label: t(photos ? 'photosAdded' : 'videosAdded', { count: item.count, name: cave?.name || item.name || t('unnamedCave') }), to, context: inSistema(sistema, cave?.name || item.name) }
+        return { ...item, at, icon: photos ? <PhotoLibraryRounded /> : <VideoLibraryRounded />, thumbnails, label: t(photos ? 'photosAdded' : 'videosAdded', { count: item.count, name: cave?.name || item.name || t('unnamedCave') }), to, context: inSistema(sistema, cave?.name || item.name) }
       }
       const sistema = sistemaOfMap(item.docId)
-      return { ...item, at, icon: <MapOutlined />, label: item.name || t('unnamedMap'), to: sistema?.slug ? `/sistemas/${sistema.slug}/maps/${item.docId}` : null, context: sistema ? t('mapOf', { name: sistema.name }) : null }
+      return { ...item, at, icon: <MapRounded />, label: item.name || t('unnamedMap'), to: sistema?.slug ? `/sistemas/${sistema.slug}/maps/${item.docId}` : null, context: sistema ? t('mapOf', { name: sistema.name }) : null }
     })
   }, [items, data, t])
 

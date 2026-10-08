@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { Avatar } from '@mui/material'
-import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 
 export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
   const user = useSelector(state => state.session.user)
@@ -10,7 +10,7 @@ export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
   // (the app bar's, the map search bar's), so it can't also open this menu.
   // logoColorScheme: the background it sits on ("dark": the app bar).
   if (!isLoggedIn) {
-    return <AccountCircleOutlined className="oc-app-menu-icon" sx={{ width: logoSx?.width || 28, height: logoSx?.height || 28, color: logoColorScheme === 'dark' ? 'common.white' : 'action.active' }} />
+    return <AccountCircleRounded className="oc-app-menu-icon" sx={{ width: logoSx?.width || 28, height: logoSx?.height || 28, color: logoColorScheme === 'dark' ? 'common.white' : 'action.active' }} />
   }
 
   const initial = user.displayName?.trim()?.[0]?.toUpperCase()

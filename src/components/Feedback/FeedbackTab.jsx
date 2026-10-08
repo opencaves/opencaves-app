@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ButtonBase, Tooltip } from '@mui/material'
-import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import { openFeedback } from '@/utils/feedback.js'
 
 // Not on the sign-in pages, the admins' Feedback page itself, nor the
@@ -71,7 +71,7 @@ export default function FeedbackTab() {
           '@media print': { display: 'none' },
         })}
       >
-        <FeedbackOutlined aria-hidden="true" />
+        <FeedbackRounded aria-hidden="true" />
         <span className="oc-feedback-tab--label">
           {t('tab')}
         </span>

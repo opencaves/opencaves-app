@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
-import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
 import { Grid } from '@mui/material'
@@ -231,7 +231,7 @@ export default function AppBar() {
                 <>
                   <Tooltip title={t('signInMenu')}>
                     <IconButton color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ p: 1.5 }}>
-                      <AccountCircleOutlined />
+                      <AccountCircleRounded />
                     </IconButton>
                   </Tooltip>
                   <Menu id="oc-app-bar-sign-in-menu" className="oc-app-bar--sign-in-menu" anchorEl={signInMenuAnchor} open={Boolean(signInMenuAnchor)} onClose={() => setSignInMenuAnchor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>

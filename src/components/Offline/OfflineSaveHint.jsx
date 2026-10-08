@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Typography } from '@mui/material'
-import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -39,7 +39,7 @@ export default function OfflineSaveHint({ caveId = null, sx }) {
   const advice = !caveId ? t('system') : canSave ? t('save') : t('account')
   return (
     <Box className="oc-offline-save-hint" role="note" sx={[{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', p: 1.5, mb: 2, borderRadius: 3, bgcolor: 'var(--mui-sys-color-surfaceContainerHighest)' }, ...(Array.isArray(sx) ? sx : [sx])]}>
-      <CloudOffOutlined sx={{ color: 'text.secondary', flexShrink: 0 }} />
+      <CloudOffRounded sx={{ color: 'text.secondary', flexShrink: 0 }} />
       <Typography variant="body2" sx={{ flex: '1 1 14rem' }}>
         {t('offline')} {advice}
       </Typography>

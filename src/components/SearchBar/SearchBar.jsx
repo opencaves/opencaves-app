@@ -7,7 +7,7 @@ import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem
 import Clear from '@mui/icons-material/ClearRounded'
 import Tune from '@mui/icons-material/TuneRounded'
 import ArrowBack from '@mui/icons-material/ArrowBackRounded'
-import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
+import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import MenuRounded from '@mui/icons-material/MenuRounded'
 import NavDrawer from '@/components/App/NavDrawer.jsx'
@@ -35,14 +35,14 @@ const ClearIcon = () => (
   </Box>
 )
 const TuneIcon = () => <Tune aria-hidden="true" />
-const LocationOnOutlinedIcon = ({ sx }) => (
+const LocationOnIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    <LocationOnOutlined />
+    <LocationOnRounded />
   </Box>
 )
-const LocationOffOutlinedIcon = ({ sx }) => (
+const LocationOffIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    <LocationOnOutlined />
+    <LocationOnRounded />
   </Box>
 )
 
@@ -582,7 +582,7 @@ export default function SearchBar() {
                         {/* No focus move on press: the input's blur would collapse the results
                             before the press ends, so a quick tap would land on the map instead. */}
                         <ListItemButton id={optionId(index)} role="option" aria-selected={index === activeIndex} selected={index === activeIndex} tabIndex={-1} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
-                          {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
+                          {result.location === 'valid' ? <LocationOnIcon sx={resultsItemIconStyle} /> : <LocationOffIcon sx={resultsItemIconStyle} />}
                           <Box
                             sx={{
                               width: '100%',

@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import AddButton from '@/components/AddButton.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
@@ -42,10 +42,10 @@ export default function CavePhotosSection({ caveId, title }) {
   // Editors pick photos (or drop them on the page); the others log in first.
   const addButton = isEditor ? (
     <AddMediasProvider caveId={caveId}>
-      <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{tEdit('addPictures')}</AddMediasButton>
+      <AddMediasButton component={<AddButton startIcon={<AddAPhotoRounded />} />}>{tEdit('addPictures')}</AddMediasButton>
     </AddMediasProvider>
   ) : (
-    <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
+    <AddButton startIcon={<AddAPhotoRounded />} onClick={requireLogin}>
       {tEdit('addPictures')}
     </AddButton>
   )

@@ -1,7 +1,7 @@
 import { useCallback, useId, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { Box, Tab, Tabs } from '@mui/material'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
@@ -35,7 +35,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
   }
-  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
+  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoRounded />} />}>{t('addPictures')}</AddMediasButton>
 
   const requireLoginForPhotos = useRequireLogin('photos')
   const requireLoginForVideos = useRequireLogin('videos')
@@ -57,7 +57,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
-              <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLoginForPhotos}>
+              <AddButton startIcon={<AddAPhotoRounded />} onClick={requireLoginForPhotos}>
                 {t('addPictures')}
               </AddButton>
             ) : standaloneUpload ? (

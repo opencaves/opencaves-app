@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, CircularProgress, InputAdornment, SvgIcon, TextField, Typography } from '@mui/material'
-import PlaceOutlined from '@mui/icons-material/PlaceOutlined'
+import PlaceRounded from '@mui/icons-material/PlaceRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
@@ -147,7 +147,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
       slotProps={{ paper: { elevation: 3, sx: { mt: 0.5, borderRadius: 3 } } }}
       renderOption={({ key, ...props }, option) => (
         <Box component="li" key={key} {...props} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-          {option.kind === 'cave' ? <SvgIcon component={PinIcon} inheritViewBox sx={{ mt: 0.25, width: 20, height: 20, color: 'text.secondary', flexShrink: 0 }} /> : <PlaceOutlined sx={{ mt: 0.25, color: 'text.secondary', flexShrink: 0 }} fontSize="small" />}
+          {option.kind === 'cave' ? <SvgIcon component={PinIcon} inheritViewBox sx={{ mt: 0.25, width: 20, height: 20, color: 'text.secondary', flexShrink: 0 }} /> : <PlaceRounded sx={{ mt: 0.25, color: 'text.secondary', flexShrink: 0 }} fontSize="small" />}
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="body2">{option.label}</Typography>
             {option.detail && (

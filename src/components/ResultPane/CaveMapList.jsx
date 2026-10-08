@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Box, Button, ButtonBase, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
@@ -17,7 +17,7 @@ import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
-import CloudOffOutlined from '@mui/icons-material/CloudOffOutlined'
+import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
@@ -48,7 +48,7 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
   const image = (file?.thumbnailUrl || file?.previewUrl || file?.contentType?.startsWith('image/')) && !failed
   const content = (
     <>
-      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => { setFailed(true); setFailedOffline(!navigator.onLine) }} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{failedOffline ? <CloudOffOutlined role="img" aria-label={tOffline('notOnDevice')} titleAccess={tOffline('notOnDevice')} sx={{ color: 'text.secondary' }} /> : file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapOutlined color="primary" fontSize="large" />}</Box>}
+      {image ? <Box component="img" src={url} alt="" loading="lazy" crossOrigin="anonymous" draggable={false} onError={() => { setFailed(true); setFailedOffline(!navigator.onLine) }} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Box sx={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', bgcolor: 'action.hover' }}>{failedOffline ? <CloudOffRounded role="img" aria-label={tOffline('notOnDevice')} titleAccess={tOffline('notOnDevice')} sx={{ color: 'text.secondary' }} /> : file?.contentType === 'application/pdf' ? <PictureAsPdfRounded color="primary" fontSize="large" /> : <MapRounded color="primary" fontSize="large" />}</Box>}
       <Typography
         variant="caption"
         noWrap
