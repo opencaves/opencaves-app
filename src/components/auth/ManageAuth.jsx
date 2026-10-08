@@ -2,9 +2,8 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { useColorScheme } from '@mui/material/styles'
 import { onAuthStateChanged, onIdTokenChanged, signOut } from 'firebase/auth'
-import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
-import { auth, functions } from '@/config/firebase.js'
+import { auth, callable } from '@/config/firebase.js'
 import i18n from '@/i18n.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
@@ -12,8 +11,8 @@ import { loadAccountUnits } from '@/services/unitsPreference.js'
 import { loadAccountColorMode } from '@/services/colorModePreference.js'
 import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
-const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
-const sendWelcomeEmail = httpsCallable(functions, 'sendWelcomeEmail')
+const ensureEditorRole = callable('ensureEditorRole')
+const sendWelcomeEmail = callable('sendWelcomeEmail')
 
 // The welcome email (sendWelcomeEmail), asked for once per account on this
 // device once it's an editor; the server sends it only once, to new accounts.

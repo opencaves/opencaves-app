@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getDownloadURL, ref } from 'firebase/storage'
 import { Box, ButtonBase, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, useTheme } from '@mui/material'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import MoreVert from '@mui/icons-material/MoreVert'
@@ -9,7 +8,7 @@ import Picture from '@/components/Picture.jsx'
 import UseAsCoverImage from '@/components/MediaPane/menuItems/UseAsCoverImage.jsx'
 import DeleteMedia, { useDeleteMediaConfirm } from '@/components/MediaPane/menuItems/DeleteMedia.jsx'
 import noop from '@/utils/noop.js'
-import { storage } from '@/config/firebase.js'
+import { getStorageService } from '@/config/firebase.js'
 import { mediaItemPadding, mediaItemRadius } from './config.js'
 
 // How long the active thumbnail follows the list's growth after it becomes active.
@@ -91,7 +90,9 @@ export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = 
   }
 
   useEffect(() => {
-    getDownloadURL(ref(storage, mediaAsset.fullPath)).then(url => setDownloadUrl(url))
+    getStorageService()
+      .then(({ storage, ref, getDownloadURL }) => getDownloadURL(ref(storage, mediaAsset.fullPath)))
+      .then(url => setDownloadUrl(url))
   }, [mediaAsset])
 
   return (

@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { httpsCallable } from 'firebase/functions'
-import { functions } from '@/config/firebase.js'
+import { callable } from '@/config/firebase.js'
 import { EMULATOR_AUTHOR_ID } from '@/config/audits.js'
 
-const listUsersFn = httpsCallable(functions, 'listUsers')
+const listUsersFn = callable('listUsers')
 
 // The accounts (listUsers, as on the Users page), to show who made a change
 // by name rather than by account id. accountLabel(uid): the account's display

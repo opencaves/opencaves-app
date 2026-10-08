@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import pushId from 'unique-push-id'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { Typography } from '@mui/material'
 import { ErrorAlert } from '@/components/Alert.jsx'
 import Snackbar from '@/components/Snackbar/Snackbar.jsx'
 import { UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
-import { auth, storage } from '@/config/firebase.js'
+import { auth, getStorageService } from '@/config/firebase.js'
 import mapsModel from '@/models/MapModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { assertOnline } from '@/utils/assertOnline.js'
@@ -19,6 +18,7 @@ import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress } = {}) {
   assertOnline()
   const isPdf = file.type === 'application/pdf'
+  const { storage, ref, uploadBytesResumable, getDownloadURL } = await getStorageService()
   const storageRef = ref(storage, isPdf ? `maps/original-pdf/${id}` : `maps/${id}`)
   const task = uploadBytesResumable(storageRef, file)
   await new Promise((resolve, reject) => {
