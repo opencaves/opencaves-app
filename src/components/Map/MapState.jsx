@@ -10,7 +10,7 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
     <div ref={ref} className="oc-map-loading">
       <div className="oc-map-loading--box">
         <Logo className="oc-map-loading--logo" />
-        <h1>Open Caves</h1>
+        <h1>OpenCaves</h1>
         <div className="oc-map-loading--spinner">
           <svg className="oc-map-loading--spinner-dot spinner-dot-1" viewBox="0 0 64 64" style={{ animationDelay: '0', animationDuration: '750ms' }}>
             <circle transform="translate(32,32)" r="10"></circle>

@@ -73,7 +73,7 @@
   }
 
   // The error heading's text ("Something went wrong") is far longer than
-  // the loading screen's ("Open Caves"), so at the same nowrap/12vmin
+  // the loading screen's ("OpenCaves"), so at the same nowrap/12vmin
   // sizing it overflowed past the viewport on narrow screens instead of
   // wrapping.
   &--error-heading {
