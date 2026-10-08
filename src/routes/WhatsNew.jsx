@@ -149,7 +149,9 @@ export default function WhatsNew() {
     const dayOf = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'full' })
     const groups = []
     for (const row of rows.filter((r) => kinds.size === 0 || kinds.has(r.kind))) {
-      const label = row.at ? dayOf.format(row.at) : t('recently')
+      // Capitalised: a heading (French and Spanish day names are lowercase).
+      const day = row.at ? dayOf.format(row.at) : null
+      const label = day ? day.charAt(0).toLocaleUpperCase(i18n.language) + day.slice(1) : t('recently')
       const last = groups[groups.length - 1]
       if (last?.label === label) last.rows.push(row)
       else groups.push({ label, rows: [row] })

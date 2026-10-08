@@ -25,7 +25,8 @@ function SistemaLink({ slug, children }) {
 }
 
 export default function Sistema({ sistemaHistory }) {
-  const { t: t2 } = useTranslation('resultPane')
+  // i18n: dates in the app's language (the browser's otherwise).
+  const { t: t2, i18n } = useTranslation('resultPane')
   const slugs = useSistemaSlugs()
 
   const hasSistemaAncestry = sistemaHistory.length > 1
@@ -95,7 +96,7 @@ export default function Sistema({ sistemaHistory }) {
               </Typography>
               {currentSistema.createdAt && (
                 <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString(i18n.resolvedLanguage)}
                 </Typography>
               )}
             </Box>
@@ -155,7 +156,7 @@ export default function Sistema({ sistemaHistory }) {
           </Typography>
           {currentSistema.createdAt && (
             <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString(i18n.resolvedLanguage)}
             </Typography>
           )}
         </Box>
