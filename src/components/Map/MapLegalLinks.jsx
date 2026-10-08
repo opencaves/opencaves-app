@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
 // Text-only Privacy · Terms links at the map's bottom-left corner: white with
 // a black outline (like the map's marker labels), readable over any imagery.
@@ -15,6 +16,7 @@ export default function MapLegalLinks() {
   const { t } = useTranslation('legal', { keyPrefix: 'links' })
 
   const linkSx = {
+    ...TOUCH_TARGET_SX,
     display: 'inline-flex',
     alignItems: 'center',
     minHeight: 24,

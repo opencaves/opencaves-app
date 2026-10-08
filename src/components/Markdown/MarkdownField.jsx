@@ -30,6 +30,7 @@ import CaveLinkDialog from './CaveLinkDialog.jsx'
 import { focusLength, milkdownLength } from './milkdownLength.js'
 import { findLength } from './lengthDirective.js'
 import './MarkdownField.scss'
+import { COARSE_POINTER_ICON_BUTTONS_SX } from '@/components/touchTarget.js'
 
 const CAVE_LINK_PREFIX = 'oc:'
 
@@ -381,7 +382,7 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       {/* Tooltips use describeChild: their child is the <span> that lets a
           disabled button still show one, and a label isn't allowed on a
           plain span - each button carries its own aria-label instead. */}
-      <Box className="oc-markdown-field--toolbar" role="toolbar" aria-label={t('toolbar.ariaLabel', { field: label })} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5 }}>
+      <Box className="oc-markdown-field--toolbar" role="toolbar" aria-label={t('toolbar.ariaLabel', { field: label })} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5, ...COARSE_POINTER_ICON_BUTTONS_SX }}>
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
           <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
             <span>

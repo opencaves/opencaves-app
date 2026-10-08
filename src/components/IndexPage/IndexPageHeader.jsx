@@ -23,6 +23,8 @@ const BREADCRUMBS_SX = {
   '& .MuiBreadcrumbs-li:last-child': { flexShrink: 1, minWidth: '2.5em', maxWidth: 'none' },
   '& .MuiBreadcrumbs-li > *': { display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
   '& .MuiBreadcrumbs-separator': { flexShrink: 0 },
+  // 48 px tall to the touch (their text is 20): padded, the padding taken back.
+  '& .MuiBreadcrumbs-li > a': { py: '14px', my: '-14px' },
 }
 
 export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {

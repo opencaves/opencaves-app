@@ -20,6 +20,7 @@ import { openAboutDialog } from '@/utils/aboutDialog.js'
 import { openFeedback } from '@/utils/feedback.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
 // The account menu's content, in the style of Google Maps' account card: a
 // header (avatar, greeting and "Manage your account" when signed in; a
@@ -184,13 +185,13 @@ export default function AppMenuPanel({ onClose, titleId }) {
       </List>
 
       <Box component="nav" aria-label={tLegal('ariaLabel')} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 1.5, typography: 'caption', color: 'text.secondary' }}>
-        <Box component={Link} to="/privacy" onClick={onClose} sx={{ color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
+        <Box component={Link} to="/privacy" onClick={onClose} sx={{ ...TOUCH_TARGET_SX, color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
           {tLegal('privacy')}
         </Box>
         <Box component="span" aria-hidden="true">
           ·
         </Box>
-        <Box component={Link} to="/terms" onClick={onClose} sx={{ color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
+        <Box component={Link} to="/terms" onClick={onClose} sx={{ ...TOUCH_TARGET_SX, color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
           {tLegal('terms')}
         </Box>
       </Box>
