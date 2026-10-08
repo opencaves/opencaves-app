@@ -590,6 +590,12 @@
         "sistemaLocation": "Add location coordinates"
       },
       "pickMyLocation": "Use my current location",
+      "myLocationError": {
+        "denied": "Location is blocked for this site: allow it in your browser’s settings, or place the point on the map.",
+        "unavailable": "Your position isn’t available right now. Try again outdoors, or place the point on the map.",
+        "timeout": "Finding your position took too long. Try again, or place the point on the map.",
+        "unsupported": "This browser can’t give your position. Place the point on the map instead."
+      },
       "none": "(none)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",

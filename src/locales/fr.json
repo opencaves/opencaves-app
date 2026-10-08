@@ -589,6 +589,12 @@
         "sistemaLocation": "Ajouter les coordonnées de l'emplacement"
       },
       "pickMyLocation": "Utiliser ma position actuelle",
+      "myLocationError": {
+        "denied": "La localisation est bloquée pour ce site : autorisez-la dans les réglages du navigateur, ou placez le point sur la carte.",
+        "unavailable": "Votre position n’est pas disponible pour l’instant. Réessayez à l’extérieur, ou placez le point sur la carte.",
+        "timeout": "La recherche de votre position a pris trop de temps. Réessayez, ou placez le point sur la carte.",
+        "unsupported": "Ce navigateur ne peut pas donner votre position. Placez plutôt le point sur la carte."
+      },
       "none": "(aucun)",
       "sistema": "Réseau",
       "source": "Source",

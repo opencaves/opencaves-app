@@ -19,6 +19,7 @@ import { ResultPaneSmContext } from './ResultPaneSmContext.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
@@ -92,6 +93,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
   const [locating, setLocating] = useState(false)
+  const [openSnackbar] = useSnackbar()
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
   const isSmall = useSmall()
 
@@ -149,8 +151,11 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [field])
 
+  // My position, or why not (it failed silently: nothing happened when the
+  // browser had no location or it was blocked). Given up after 15 s.
   function onPickMyLocationClick() {
     if (!navigator.geolocation) {
+      openSnackbar(t('myLocationError.unsupported'))
       return
     }
 
@@ -163,7 +168,9 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       (error) => {
         console.error('[CoordinateField] geolocation error:', error)
         setLocating(false)
+        openSnackbar(t(`myLocationError.${{ 1: 'denied', 2: 'unavailable', 3: 'timeout' }[error.code] || 'unavailable'}`))
       },
+      { timeout: 15000 },
     )
   }
 
