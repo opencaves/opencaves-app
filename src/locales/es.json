@@ -295,7 +295,7 @@
   "about": {
     "title": "Acerca de",
     "version": "Versión {{version}}",
-    "whatsNew": "Novedades",
+    "whatsNew": "Notas de la versión",
     "dialog": {
       "ariaLabel": "Acerca de {{name}}",
       "close": "cerrar"
@@ -570,7 +570,7 @@
       "deleteVideoConfirm": "Este video se quitará de la cueva.",
       "deleteVideoError": "No se pudo eliminar el vídeo. Inténtalo de nuevo.",
       "note": "Nota(s)",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "addMap": "Añadir mapa",
       "editMap": "Editar mapa",
       "mapOptions": "Opciones del mapa",
@@ -854,7 +854,7 @@
     "maxDepth": "Profundidad máx. ({{unit}})",
     "description": "Descripción",
     "direction": "Cómo llegar",
-    "maps": "Mapas",
+    "maps": "Topografías",
     "none": "(ninguno)",
     "deleteConfirm": "¿Eliminar este sistema?",
     "delete": "Eliminar",
@@ -1350,7 +1350,7 @@
       "sistemas": "Sistemas",
       "connections": "Conexiones de sistemas",
       "cavesAssets": "Fotos",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "accesses": "Accesos",
       "accessibilities": "Accesibilidades",
       "sources": "Fuentes",
@@ -1529,7 +1529,7 @@
       "openPhoto": "Abrir la foto {{n}}"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
-    "maps": "Mapas",
+    "maps": "Topografías",
     "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas"
   },
   "appBarSearch": {
@@ -1552,7 +1552,7 @@
       "caves": "Cuevas",
       "sistemas": "Sistemas",
       "connections": "Conexiones",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "photos": "Fotos",
       "videos": "Vídeos"
     },
@@ -1560,7 +1560,7 @@
       "caves": "Cueva",
       "sistemas": "Sistema",
       "connections": "Conexión",
-      "maps": "Mapa",
+      "maps": "Topografía",
       "photos": "Fotos",
       "videos": "Vídeos"
     },

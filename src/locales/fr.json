@@ -294,7 +294,7 @@
   "about": {
     "title": "À propos",
     "version": "Version {{version}}",
-    "whatsNew": "Nouveautés",
+    "whatsNew": "Notes de version",
     "dialog": {
       "ariaLabel": "À propos d'{{name}}",
       "close": "fermer"
@@ -569,7 +569,7 @@
       "deleteVideoConfirm": "Cette vidéo sera retirée de la grotte.",
       "deleteVideoError": "Impossible de supprimer la vidéo. Veuillez réessayer.",
       "note": "Note(s)",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "addMap": "Ajouter une carte",
       "editMap": "Modifier la carte",
       "mapOptions": "Options de la carte",
@@ -785,8 +785,8 @@
       "linkWeb": "Lien web",
       "linkCave": "Lien vers une grotte",
       "linkCaveTitle": "Lien vers une grotte",
-      "linkCaveSearch": "Rechercher une grotte ou une zone",
-      "linkCaveNoArea": "Aucune zone attribuée",
+      "linkCaveSearch": "Rechercher une grotte ou une région",
+      "linkCaveNoArea": "Aucune région attribuée",
       "linkCaveNoResults": "Aucune grotte trouvée",
       "heading": "Titre",
       "heading1": "Titre 1",
@@ -853,7 +853,7 @@
     "maxDepth": "Profondeur max. ({{unit}})",
     "description": "Description",
     "direction": "Comment s’y rendre",
-    "maps": "Cartes",
+    "maps": "Topographies",
     "none": "(aucun)",
     "deleteConfirm": "Supprimer ce réseau ?",
     "delete": "Supprimer",
@@ -1067,7 +1067,7 @@
     }
   },
   "dashboard": {
-    "noSistemaArea": "Aucune zone attribuée",
+    "noSistemaArea": "Aucune région attribuée",
     "backToDashboard": "Retour au tableau de bord",
     "manageSistemaConnections": "Gérer les connexions entre réseaux",
     "searchSistemaConnections": "Rechercher des connexions",
@@ -1081,7 +1081,7 @@
     "backToConnections": "Retour aux connexions",
     "childSistema": "Réseau",
     "parentSistema": "Réseau parent",
-    "searchParentSistema": "Rechercher des réseaux ou des zones",
+    "searchParentSistema": "Rechercher des réseaux ou des régions",
     "connectionSource": "Source",
     "connectionSourceHint": "D'où proviennent les informations sur cette connexion. Vos propres constats ? Choisissez Open Caves.",
     "noSource": "(aucune)",
@@ -1349,7 +1349,7 @@
       "sistemas": "Réseaux",
       "connections": "Connexions de réseaux",
       "cavesAssets": "Photos",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "accesses": "Accès",
       "accessibilities": "Accessibilités",
       "sources": "Sources",
@@ -1528,7 +1528,7 @@
       "openPhoto": "Ouvrir la photo {{n}}"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
-    "maps": "Cartes",
+    "maps": "Topographies",
     "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes"
   },
   "appBarSearch": {
@@ -1551,7 +1551,7 @@
       "caves": "Grottes",
       "sistemas": "Réseaux",
       "connections": "Connexions",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "photos": "Photos",
       "videos": "Vidéos"
     },
@@ -1559,7 +1559,7 @@
       "caves": "Grotte",
       "sistemas": "Réseau",
       "connections": "Connexion",
-      "maps": "Carte",
+      "maps": "Topographie",
       "photos": "Photos",
       "videos": "Vidéos"
     },
