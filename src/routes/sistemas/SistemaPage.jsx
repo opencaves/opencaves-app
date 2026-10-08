@@ -111,7 +111,7 @@ export default function SistemaPage() {
       key: 'area',
       label: t('sistema.area'),
       value: (
-        <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover">
+        <Link component={RouterLink} to={`/sistemas#${area.slug}`} underline="hover">
           {area.name}
         </Link>
       ),

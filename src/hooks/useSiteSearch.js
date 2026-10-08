@@ -31,7 +31,7 @@ export function useSiteSearch(input, { areas = false } = {}) {
         return { kind: 'caves', id: `c-${cave.id}`, label: cave.name || t('unnamedCave'), secondary, to: `/caves/${cave.id}`, haystack: fold([cave.name, ...(cave.aka || []), sistema].join(' ')) }
       }),
       ...data.sistemas.map((sistema) => ({ kind: 'sistemas', id: `s-${sistema.id}`, label: sistema.name, to: `/sistemas/${sistema.slug}`, haystack: fold([sistema.name, ...(Array.isArray(sistema.aka) ? sistema.aka : [])].join(' ')) })),
-      ...(areas ? data.areas.filter((area) => area.caves.length > 0).map((area) => ({ kind: 'areas', id: `a-${area.slug}`, label: area.name, to: `/areas/${area.slug}`, haystack: fold(area.name) })) : []),
+      ...(areas ? data.areas.filter((area) => area.caves.length > 0).map((area) => ({ kind: 'areas', id: `a-${area.slug}`, label: area.name, to: `/caves#${area.slug}`, haystack: fold(area.name) })) : []),
     ],
     [data, areas, t],
   )

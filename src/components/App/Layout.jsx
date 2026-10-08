@@ -12,7 +12,7 @@ import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.
 import { isPublicIndexPath } from '@/utils/seo.js'
 
 // First URL segment of every dashboard (admin) page - see router.jsx. Some
-// of them also hold public pages (/caves, /sistemas/<id>, /areas/<slug>...),
+// of them also hold public pages (/caves, /sistemas/<id>...),
 // which look like the site's other pages (isPublicIndexPath).
 const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', ...Object.keys(REFERENCE_DATA_CONFIGS)])
 

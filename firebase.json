@@ -44,7 +44,7 @@
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
         {
-          "source": "/@(caves|sistemas|areas)/*",
+          "source": "/@(caves|sistemas)/*",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600" }]
         },
         {
@@ -66,6 +66,13 @@
         {
           "source": "/assets/**",
           "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        }
+      ],
+      "redirects": [
+        {
+          "source": "/areas/:slug",
+          "destination": "/caves#:slug",
+          "type": 301
         }
       ],
       "rewrites": [
@@ -103,10 +110,6 @@
         },
         {
           "source": "/sistemas/*",
-          "function": "indexPages"
-        },
-        {
-          "source": "/areas/*",
           "function": "indexPages"
         },
         {

@@ -1,6 +1,6 @@
 import { slugify } from './slug.js'
 
-// What the public index pages (/caves, /sistemas, /areas/<slug>,
+// What the public index pages (/caves, /sistemas,
 // /sistemas/<id>) show, from the store's cave data. Mirrors the server's
 // functions/js/seo/indexData.js (the same pages rendered for search engines):
 // keep the two grouping things the same way.

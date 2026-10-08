@@ -72,17 +72,10 @@ export default function SistemaIndex() {
           lazy
           stickyTitle
           key={area?.slug ?? 'unknown'}
-          // Its anchor: the area's slug (#akumal), as its own page's address.
+          // Its anchor: the area's slug (#akumal) - where an area's links lead.
           id={area?.slug ?? 'no-area'}
-          title={
-            area ? (
-              <Link component={RouterLink} to={`/areas/${area.slug}`} underline="hover" color="inherit">
-                {area.name}
-              </Link>
-            ) : (
-              t('unknownArea')
-            )
-          }
+          // Its name alone: an area has no page of its own (its # links here).
+          title={area ? area.name : t('unknownArea')}
           count={t('sistemaCount', { count: items.length })}
         >
           <IndexLinkList items={groupRows} />

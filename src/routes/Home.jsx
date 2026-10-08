@@ -317,7 +317,7 @@ export default function Home() {
           <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {regions.map((area) => (
               <li key={area.slug}>
-                <Chip component={RouterLink} to={`/areas/${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.caves.length}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
+                <Chip component={RouterLink} to={`/caves#${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.caves.length}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
               </li>
             ))}
           </Box>

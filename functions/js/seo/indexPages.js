@@ -9,13 +9,14 @@ import { slugify } from './slug.js'
 
 // The public index pages, served with their content already in the HTML for
 // search engines (as cavePage.js does for /map/<caveId>): / (the landing
-// page), /caves (every cave by area), /areas/<slug>, /sistemas (every cave system by area) and
-// /sistemas/<id>. Plain links, so crawlers reach every cave and system from
+// page), /caves (every cave by area, each area's section its anchor: #<slug>),
+// /sistemas (every cave system by area) and /sistemas/<id> - an area has no
+// page of its own (/areas/<slug> is redirected to /caves#<slug>,
+// firebase.json). Plain links, so crawlers reach every cave and system from
 // them. The app's editor pages under these addresses (/caves/edit,
 // /sistemas/edit, .../<slug>/edit) are not rewritten here (firebase.json).
 const UNKNOWN_AREA = 'Unknown area'
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
-const SLUG_PATTERN = /^[a-z0-9][-a-z0-9_]{0,200}$/
 
 const count = (n, singular, plural = `${singular}s`) => `${n.toLocaleString('en-US')} ${n === 1 ? singular : plural}`
 const metres = (value, decimals) => `${Number(value).toLocaleString('en-US', { maximumFractionDigits: decimals })} m`
@@ -38,7 +39,7 @@ function byAreaSections(items, areasBySlug, toItem) {
   })
   const sections = [...groups.entries()]
     .sort(([a], [b]) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
-    .map(([area, areaItems]) => `<section>\n<h2><a href="/areas/${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></h2>\n${list(areaItems, toItem)}\n</section>`)
+    .map(([area, areaItems]) => `<section id="${escapeHtml(area.slug)}">\n<h2>${escapeHtml(area.name)}</h2>\n${list(areaItems, toItem)}\n</section>`)
   if (unknown.length) sections.push(`<section>\n<h2>${UNKNOWN_AREA}</h2>\n${list(unknown, toItem)}\n</section>`)
   return { sections }
 }
@@ -78,24 +79,6 @@ function sistemasPage(data) {
   }
 }
 
-function areaPage(area) {
-  return {
-    title: `Caves in ${area.name} / ${APP_TITLE}`,
-    description: truncate(`The cenotes and cave systems of ${area.name}, in the Yucatán, Mexico: locations, access, pictures and maps on OpenCaves.`),
-    path: `/areas/${area.slug}`,
-    trail: [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, { name: area.name, path: `/areas/${area.slug}` }],
-    body: [
-      `<main class="oc-ssr-area">`,
-      `<h1>Caves in ${escapeHtml(area.name)}</h1>`,
-      `<p>${escapeHtml(count(area.caves.length, 'cave'))} and ${escapeHtml(count(area.sistemas.length, 'cave system'))} in ${escapeHtml(area.name)} (Yucatán, Mexico).</p>`,
-      area.caves.length ? `<h2>Caves</h2>\n${list(area.caves, caveLink)}` : '',
-      area.sistemas.length ? `<h2>Cave systems</h2>\n${list(area.sistemas, sistemaLink)}` : '',
-      `<p><a href="/caves">All the caves of the Yucatán by area</a></p>`,
-      `</main>`,
-    ].filter(Boolean).join('\n'),
-  }
-}
-
 function sistemaPage(sistema, data) {
   const paragraphs = plainParagraphs(sistema.description)
   const summary = paragraphs.join(' ')
@@ -114,7 +97,7 @@ function sistemaPage(sistema, data) {
   }
   const facts = [
     aka.length && `<p>Also known as ${escapeHtml(aka.join(', '))}</p>`,
-    area && `<p>Area: <a href="/areas/${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></p>`,
+    area && `<p>Area: <a href="/sistemas#${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></p>`,
     Number(sistema.length) > 0 && `<p>Length: ${metres(sistema.length, 0)}</p>`,
     Number(sistema.maxDepth) > 0 && `<p>Maximum depth: ${metres(sistema.maxDepth, 0)}</p>`,
   ]
@@ -174,7 +157,7 @@ function homePage(data) {
 <li>Offline: save caves on your phone before you head out, to have them where there's no signal.</li>
 </ul>`,
       areas.length ? `<h2>Areas of the Yucatán Peninsula, Mexico</h2>
-${list(areas, (area) => `<li><a href="/areas/${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></li>`)}` : '',
+${list(areas, (area) => `<li><a href="/caves#${escapeHtml(area.slug)}">${escapeHtml(area.name)}</a></li>`)}` : '',
       `<h2>Built by divers</h2>`,
       `<p>OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.</p>`,
       `</main>`,
@@ -199,10 +182,6 @@ function pageFor(path, data) {
     if (rawSegment === undefined) return sistemasPage(data)
     const sistema = CAVE_ID_PATTERN.test(segment) && data.sistemasBySlug.get(segment)
     return sistema ? sistemaPage(sistema, data) : null
-  }
-  if (section === 'areas' && rawSegment !== undefined) {
-    const area = SLUG_PATTERN.test(segment) && data.areasBySlug.get(segment)
-    return area ? areaPage(area) : null
   }
   return null
 }

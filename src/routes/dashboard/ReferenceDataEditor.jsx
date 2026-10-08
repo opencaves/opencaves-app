@@ -64,8 +64,8 @@ export default function ReferenceDataEditor() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   // Deleting reference data: admins only (as in firestore.rules).
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
-  // An item's edit address: an area's by its slug, as its public page
-  // (/areas/<slug>); the others' by id (relative to this list).
+  // An item's edit address: an area's by its slug (the anchor of its section
+  // of /caves); the others' by id (relative to this list).
   const editPath = (item) => (collectionName === 'areas' ? `/areas/${slugify(item.name || item.id)}/edit` : `${item.id}/edit`)
   const sortedItems =
     collectionName === 'colors'

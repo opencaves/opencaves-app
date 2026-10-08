@@ -160,6 +160,13 @@ function requireAdmin(importer) {
   }
 }
 
+// /areas/<slug>: the area's section of the cave list (/caves#<slug>) - an area
+// has no page of its own.
+function AreaRedirect() {
+  const { areaSlug } = useParams()
+  return <Navigate to={`/caves#${areaSlug}`} replace />
+}
+
 function RedirectToCollection() {
   const { collectionName } = useParams()
   return <Navigate to={`/${collectionName}`} replace />
@@ -324,13 +331,14 @@ const routes = [
             lazy: () => import('@/routes/WhatsNew.jsx').then(({ default: Component }) => ({ Component })),
           },
           {
+            // An area has no page of its own any more: an old address goes to
+            // its section of the cave list (the server redirects it too, firebase.json).
             path: 'areas/:areaSlug',
-            lazy: () => import('@/routes/areas/AreaPage.jsx').then(({ default: Component }) => ({ Component })),
+            Component: AreaRedirect,
           },
           ...Object.keys(REFERENCE_DATA_CONFIGS).flatMap((collectionName) => [
             {
-              // /areas has no public page (each area has, /areas/<slug>):
-              // visitors go to the cenotes by area.
+              // /areas has no public page: visitors go to the caves by area.
               path: collectionName,
               // Colours and languages: admins only (adminOnly).
               ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly
