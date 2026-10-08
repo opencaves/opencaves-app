@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Autocomplete, TextField, createFilterOptions } from '@mui/material'
+import { Autocomplete, Chip, TextField, createFilterOptions } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 const filter = createFilterOptions()
@@ -71,6 +71,18 @@ export default function CreatableChipsField({ label, value, onChange, options, s
         </li>
       )}
       renderInput={(params) => <TextField {...params} label={label} />}
+      // The chips' names selectable with the cursor (to copy one): MUI's
+      // chips turn text selection off, and the field cancels a mouse-down
+      // anywhere but its input and, on the click, focuses and selects its
+      // input - which stopped a selection on a chip, or replaced it. The click
+      // is stopped on the name, not the chip: an onClick makes a chip
+      // clickable, and its ripple then moved the selection's start.
+      renderValue={(chips, getItemProps) =>
+        chips.map((option, index) => {
+          const { key, ...itemProps } = getItemProps({ index })
+          return <Chip key={key} size={size === 'small' ? 'small' : 'medium'} label={<span onClick={(event) => event.stopPropagation()}>{option}</span>} {...itemProps} onMouseDown={(event) => event.stopPropagation()} sx={{ userSelect: 'text', '& .MuiChip-label': { userSelect: 'text', cursor: 'text' } }} />
+        })
+      }
     />
   )
 }
