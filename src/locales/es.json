@@ -1684,6 +1684,15 @@
       "browser": "Navegador:",
       "note": "Nota",
       "notePlaceholder": "Por qué se rechazó, de qué es duplicado, qué se hizo…",
+      "closeTitle": "Marcar como {{status}}",
+      "closeText": "{{name}} recibirá el resultado por correo, con esta nota.",
+      "noteForReporter": "Nota para el autor",
+      "closePlaceholder": {
+        "done": "Qué se corrigió o añadió, y dónde verlo…",
+        "rejected": "Por qué no se actuará al respecto…"
+      },
+      "closeConfirm": "Guardar y enviar",
+      "reporterEmailed": "Autor avisado por correo: {{date}}",
       "deleteTitle": "¿Borrar este reporte?",
       "deleteText": "Se borrará para siempre."
     }

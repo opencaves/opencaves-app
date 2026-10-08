@@ -82,6 +82,13 @@ function warning({ title, text }) {
 <td valign="top" style="padding:16px 18px 16px 10px;font-family:${FONT};"><div style="font-size:15px;line-height:22px;font-weight:700;color:${C.warning};margin:0 0 2px;">${escape(title)}</div><div style="font-size:14px;line-height:21px;color:${C.text};">${rich(text)}</div></td></tr></table>`
 }
 
+// A highlighted message (the team's note to a tester), on the container tint.
+function callout({ title, text }) {
+  return `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 20px;background:${C.container};border-radius:14px;"><tr><td style="padding:16px 20px;font-family:${FONT};">
+<div style="font-size:13px;line-height:18px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:${C.primary};margin:0 0 6px;">${escape(title)}</div>
+<div style="font-size:16px;line-height:24px;color:${C.text};">${rich(text)}</div></td></tr></table>`
+}
+
 // A quoted text (a tester's message).
 function quote({ text }) {
   return `<div style="margin:0 0 20px;padding:14px 18px;background:${C.surface};border-left:4px solid ${C.primary};border-radius:4px;font-size:15px;line-height:23px;color:${C.text};">${rich(text)}</div>`
@@ -103,6 +110,7 @@ const HTML_BLOCKS = {
   notes,
   warning,
   quote,
+  callout,
   facts,
   signoff: ({ lines }) => `<p style="${P}margin-top:8px;">${lines.map(rich).join('<br>')}</p>`,
 }
@@ -114,6 +122,8 @@ const TEXT_BLOCKS = {
   steps: ({ title, items }) => [title.toUpperCase(), ...items.map((text, i) => `${i + 1}. ${plain(text)}`)].join('\n'),
   notes: ({ title, items }) => [title.toUpperCase(), ...items.map(({ title: t, text }) => `- ${t}: ${plain(text)}`)].join('\n'),
   warning: ({ title, text }) => `${title.toUpperCase()}\n${plain(text)}`,
+  callout: ({ title, text }) => `${title.toUpperCase()}
+${plain(text)}`,
   quote: ({ text }) => plain(text).split('\n').map((line) => `> ${line}`).join('\n'),
   facts: ({ items }) => items.map(({ label, value, href }) => `${label}: ${href || value}`).join('\n'),
   signoff: ({ lines }) => lines.map(plain).join('\n'),

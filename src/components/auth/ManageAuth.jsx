@@ -6,6 +6,7 @@ import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
 import i18n from '@/i18n.js'
+import { toServiceLanguage } from '@/utils/lang.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
 import { loadAccountUnits } from '@/services/unitsPreference.js'
 import { loadAccountColorMode } from '@/services/colorModePreference.js'
@@ -23,7 +24,7 @@ function askWelcomeEmail(uid) {
   } catch {
     return
   }
-  sendWelcomeEmail({ language: i18n.language })
+  sendWelcomeEmail({ language: toServiceLanguage(i18n.language) })
     .then(({ data }) => {
       if (data?.retry) return
       try {

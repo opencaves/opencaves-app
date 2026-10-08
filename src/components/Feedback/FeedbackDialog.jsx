@@ -16,6 +16,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_EVENT } from '@/utils/feedback.js'
+import { toServiceLanguage } from '@/utils/lang.js'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -75,12 +76,13 @@ function KindCard({ kind, selected, onSelect }) {
 // team about a bug, something misleading or an idea - its kind, a message
 // (a hint and a placeholder per kind: a bug's steps to reproduce it), the
 // page it's about (the page it was opened from, editable), and the browser
-// (its user agent, filled in unseen). Saved to
+// (its user agent, filled in unseen), with the app's language (the email
+// telling the author its outcome is in it). Saved to
 // _feedback for the admins (the dashboard's Feedback page), who also get it
 // by email (onFeedbackCreated). An account is needed: anyone else is asked
 // to sign up or log in first.
 export default function FeedbackDialog() {
-  const { t } = useTranslation('feedback')
+  const { t, i18n } = useTranslation('feedback')
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const location = useLocation()
@@ -115,7 +117,7 @@ export default function FeedbackDialog() {
   async function send() {
     setSending(true)
     try {
-      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), browser: navigator.userAgent.slice(0, 500), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
+      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), browser: navigator.userAgent.slice(0, 500), language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
       const status = await settleWrite(addDoc(collection(db, FEEDBACK_COLLECTION), report), { name: t('itemName') })
       setOpen(false)
       if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })

@@ -18,7 +18,7 @@ import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import CheckRounded from '@mui/icons-material/CheckRounded'
 import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
-import { FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
+import { FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES, TOLD_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
@@ -38,16 +38,35 @@ const STATUS = {
 const SHOWN = ['open', ...FEEDBACK_STATUSES, 'all']
 const isShown = (report, shown) => shown === 'all' || (shown === 'open' ? OPEN_FEEDBACK_STATUSES.includes(report.status) : report.status === shown)
 
-// A report's stage, as a chip opening the menu that changes it.
-function StatusMenu({ report }) {
+// A report's stage, as a chip opening the menu that changes it. Done or
+// rejected, its author is emailed (onFeedbackStatusChanged): a dialog first
+// takes the note for them, saved with the stage.
+function StatusMenu({ report, authorLabel }) {
   const { t } = useTranslation('feedback')
   const [anchor, setAnchor] = useState(null)
+  const [closing, setClosing] = useState(null)
+  const [note, setNote] = useState('')
   const current = STATUS[report.status] ? report.status : 'new'
+
+  function save(status, fields = {}) {
+    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status, statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid, ...fields }).catch((error) => console.error(error))
+  }
 
   function change(status) {
     setAnchor(null)
     if (status === current) return
-    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status, statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid }).catch((error) => console.error(error))
+    if (TOLD_FEEDBACK_STATUSES.includes(status)) {
+      setNote(report.note || '')
+      setClosing(status)
+      return
+    }
+    save(status)
+  }
+
+  function close() {
+    const trimmed = note.trim()
+    save(closing, { note: trimmed || deleteField() })
+    setClosing(null)
   }
 
   return (
@@ -76,6 +95,28 @@ function StatusMenu({ report }) {
           </MenuItem>
         ))}
       </Menu>
+      <Dialog className="oc-feedback-admin--close-dialog" open={Boolean(closing)} onClose={() => setClosing(null)} maxWidth="sm" fullWidth>
+        <DialogTitle>{closing && t('admin.closeTitle', { status: t(`admin.status.${closing}`) })}</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ mb: 2 }}>{t('admin.closeText', { name: authorLabel })}</DialogContentText>
+          <TextField
+            autoFocus
+            fullWidth
+            multiline
+            minRows={3}
+            label={t('admin.noteForReporter')}
+            placeholder={closing && t(`admin.closePlaceholder.${closing}`)}
+            value={note}
+            onChange={(event) => setNote(event.target.value.slice(0, 2000))}
+          />
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setClosing(null)}>{t('cancel')}</Button>
+          <Button variant="contained" onClick={close}>
+            {t('admin.closeConfirm')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }
@@ -183,7 +224,7 @@ export default function FeedbackAdmin() {
             return (
               <Box component="li" key={report.id} className="oc-feedback-admin--report" sx={{ ...DASHBOARD_SURFACE_SX, p: 2, '& > :not(.oc-feedback-admin--header)': { opacity: closed ? 0.7 : 1 } }}>
                 <Box className="oc-feedback-admin--header" sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 1 }}>
-                  <StatusMenu report={report} />
+                  <StatusMenu report={report} authorLabel={accountLabel(report.userId)} />
                   <Chip size="small" icon={ICONS[report.kind]} label={t(`kinds.${report.kind}`, { defaultValue: report.kind })} variant="outlined" />
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {[accountLabel(report.userId), formatDate(report.createdAt)].filter(Boolean).join(' · ')}
@@ -212,6 +253,11 @@ export default function FeedbackAdmin() {
                 {report.statusUpdatedBy && (
                   <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
                     {t('admin.statusSet', { status: t(`admin.status.${report.status}`), name: accountLabel(report.statusUpdatedBy), date: formatDate(report.statusUpdatedAt) || '' })}
+                  </Typography>
+                )}
+                {report.reporterEmailedAt && (
+                  <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+                    {t('admin.reporterEmailed', { date: formatDate(report.reporterEmailedAt) || '' })}
                   </Typography>
                 )}
                 <NoteField report={report} />

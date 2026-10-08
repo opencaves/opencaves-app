@@ -1684,6 +1684,15 @@
       "browser": "Browser:",
       "note": "Note",
       "notePlaceholder": "Why it was rejected, what it duplicates, what was done…",
+      "closeTitle": "Mark as {{status}}",
+      "closeText": "{{name}} will be emailed the outcome, with this note.",
+      "noteForReporter": "Note for the reporter",
+      "closePlaceholder": {
+        "done": "What was fixed or added, and where to see it…",
+        "rejected": "Why it won’t be acted on…"
+      },
+      "closeConfirm": "Save and email",
+      "reporterEmailed": "Reporter emailed: {{date}}",
       "deleteTitle": "Delete this report?",
       "deleteText": "It will be deleted for good."
     }
