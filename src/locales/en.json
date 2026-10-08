@@ -1748,7 +1748,8 @@
       "reporterEmailed": "Reporter emailed: {{date}}",
       "deleteTitle": "Delete this report?",
       "deleteText": "It will be deleted for good."
-    }
+    },
+    "messageTooShort": "At least {{count}} characters"
   },
   "home": {
     "title": "Open data for cave diving",

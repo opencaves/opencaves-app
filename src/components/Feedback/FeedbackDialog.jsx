@@ -22,6 +22,8 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const MAX_MESSAGE = 4000
+// A message says something: a few words at least (one letter could be sent).
+const MIN_MESSAGE = 10
 const ICONS = { bug: <BugReportOutlined />, misleading: <ReportGmailerrorredOutlined />, idea: <LightbulbOutlined /> }
 
 // One of the kinds, as a selectable square: its icon at the top, its name
@@ -131,7 +133,8 @@ export default function FeedbackDialog() {
   }
 
   const close = () => !sending && setOpen(false)
-  const canSend = kind && message.trim() && !sending
+  const tooShort = message.trim().length < MIN_MESSAGE
+  const canSend = kind && !tooShort && !sending
 
   return (
     <Dialog className="oc-feedback-dialog" open={open} onClose={close} fullScreen={fullScreen} maxWidth="sm" fullWidth aria-labelledby="oc-feedback-title" slotProps={{ paper: { sx: { borderRadius: fullScreen ? 0 : 5 } } }}>
@@ -179,7 +182,8 @@ export default function FeedbackDialog() {
               minRows={kind === 'bug' ? 7 : 5}
               fullWidth
               autoFocus
-              helperText={`${message.length} / ${MAX_MESSAGE}`}
+              // Under the minimum, what's missing; then the count.
+              helperText={message.trim() && tooShort ? t('messageTooShort', { count: MIN_MESSAGE }) : `${message.length} / ${MAX_MESSAGE}`}
               slotProps={{ formHelperText: { sx: { textAlign: 'right' } } }}
               sx={{ mb: 2 }}
             />

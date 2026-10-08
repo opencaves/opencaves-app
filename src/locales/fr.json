@@ -1747,7 +1747,8 @@
       "reporterEmailed": "Auteur averti par courriel : {{date}}",
       "deleteTitle": "Supprimer ce rapport ?",
       "deleteText": "Il sera supprimé pour de bon."
-    }
+    },
+    "messageTooShort": "Au moins {{count}} caractères"
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
