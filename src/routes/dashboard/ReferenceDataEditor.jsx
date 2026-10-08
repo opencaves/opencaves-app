@@ -64,6 +64,8 @@ export default function ReferenceDataEditor() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   // Deleting reference data: admins only (as in firestore.rules).
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  // Accesses and accessibilities: editors read them, admins change them (adminEdit).
+  const canEdit = isAdmin || !config.adminEdit
   // An item's edit address: an area's by its slug (the anchor of its section
   // of /caves); the others' by id (relative to this list).
   const editPath = (item) => (collectionName === 'areas' ? `/areas/${slugify(item.name || item.id)}/edit` : `${item.id}/edit`)
@@ -117,9 +119,15 @@ export default function ReferenceDataEditor() {
           {t(`collections.${collectionName}.title`)}
         </Typography>
       </Box>
+      {/* What the list is for (accesses, accessibilities), when it says. */}
+      {t(`collections.${collectionName}.description`, { defaultValue: '' }) && (
+        <Typography variant="body2" className="oc-reference-data-editor--description" sx={{ color: 'text.secondary', mb: 2 }}>
+          {t(`collections.${collectionName}.description`)}
+        </Typography>
+      )}
 
       {loading ? (
-        <ListSkeleton rows={6} fill={false} card leading={collectionName === 'colors' ? 'square' : null} secondary={config.fields.includes('description')} trailing={isAdmin ? 2 : 1} />
+        <ListSkeleton rows={6} fill={false} card leading={collectionName === 'colors' ? 'square' : null} secondary={config.fields.includes('description')} trailing={!canEdit ? 0 : isAdmin ? 2 : 1} />
       ) : (
         <List disablePadding sx={DASHBOARD_LIST_SX}>
           {sortedItems.map((item, index) => (
@@ -128,6 +136,7 @@ export default function ReferenceDataEditor() {
               divider={index < sortedItems.length - 1}
               disablePadding
               secondaryAction={
+                canEdit && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <IconButton size="large" onClick={() => navigate(editPath(item))} aria-label={t('edit')}>
                     <Edit />
@@ -138,10 +147,12 @@ export default function ReferenceDataEditor() {
                     </IconButton>
                   )}
                 </Box>
+                )
               }
             >
               {/* Clear of the action icons (one or two): '&&&' beats MUI's own 48px for a secondary action (as specific as '&&'). */}
-              <ListItemButton component={Link} to={editPath(item)} sx={{ '&&&': { pr: isAdmin ? 16 : 10 } }}>
+              {/* Read-only: the row is no link. */}
+              <ListItemButton {...(canEdit ? { component: Link, to: editPath(item) } : { component: 'div', disableRipple: true, tabIndex: -1 })} sx={{ '&&&': { pr: !canEdit ? 2 : isAdmin ? 16 : 10 }, ...(!canEdit && { cursor: 'default', '&:hover': { bgcolor: 'transparent' } }) }}>
                 <ListItemText
                   primary={
                     collectionName === 'colors' ? (
@@ -175,7 +186,7 @@ export default function ReferenceDataEditor() {
         </List>
       )}
 
-      <PageFab className="oc-reference-data-editor--new-fab" onClick={() => navigate('new/edit')} label={t('newItem')} icon={<Add />} />
+      {canEdit && <PageFab className="oc-reference-data-editor--new-fab" onClick={() => navigate('new/edit')} label={t('newItem')} icon={<Add />} />}
 
       <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <DialogTitle>{t('deleteItemTitle')}</DialogTitle>
