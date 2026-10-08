@@ -6,6 +6,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import AddRounded from '@mui/icons-material/AddRounded'
 import PageFab from '@/components/PageFab.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // An index page's heading row: a back arrow to the page above it (backTo),
 // the page's h1 with a line under it (subtitle), and, for editors, a
@@ -56,7 +57,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
         {backTo && (
           // As tall as the title's first line (1lh in its typography), the
           // arrow centred on it, whatever the title's size or length.
-          <Box sx={{ typography: { xs: 'h5', sm: 'h4' }, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+          <Box sx={{ ...PAGE_TITLE_SX, height: '1lh', display: 'flex', alignItems: 'center', flexShrink: 0, ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
             <Tooltip title={tApp('back')}>
               {/* Opened from within the app: a step back (the list where it was,
                   scrolled as it was); otherwise up to backTo. */}
@@ -77,7 +78,7 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
           </Box>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography component="h1" sx={{ typography: { xs: 'h5', sm: 'h4' }, overflowWrap: 'anywhere' }} data-appbar-page-title>
+          <Typography component="h1" sx={{ ...PAGE_TITLE_SX, overflowWrap: 'anywhere' }} data-appbar-page-title>
             {title}
           </Typography>
           {subtitle && (

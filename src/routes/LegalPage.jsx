@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 // The Privacy policy and Terms of service pages (/privacy, /terms). Their
 // text is Markdown kept in the locale files (legal.<page>.body), so each
@@ -31,7 +32,7 @@ export default function LegalPage({ page }) {
         '& a': { color: 'var(--mui-sys-color-primary)' },
       }}
     >
-      <Typography component="h1" variant="h4" sx={{ mb: 1 }} data-appbar-page-title>
+      <Typography component="h1" sx={{ ...PAGE_TITLE_SX, mb: 1 }} data-appbar-page-title>
         {t(`${page}.title`)}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

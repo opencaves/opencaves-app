@@ -8,6 +8,7 @@ import LogInWithMicrosoft from './LogInWithMicrosoft.jsx'
 import LogInWithEmail from './LogInWithEmail.jsx'
 import Or from '../utils/Or.jsx'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 export default function LogIn() {
   const navigate = useNavigate()
@@ -36,7 +37,7 @@ export default function LogIn() {
           }}
         >
           {/* The page's heading (it had none). */}
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+          <Typography component="h1" sx={{ ...PAGE_TITLE_SX, textAlign: 'center' }}>
             {t('title')}
           </Typography>
           <OfflineAuthNote />

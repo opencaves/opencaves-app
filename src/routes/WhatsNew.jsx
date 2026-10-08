@@ -16,6 +16,7 @@ import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import { youtubeThumbnail } from '@/utils/videos.js'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 const getWhatsNew = callable('getWhatsNew')
 const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'photos', 'videos']
@@ -51,7 +52,7 @@ function WhatsNewSkeleton() {
       <Box aria-hidden="true">
         <Box sx={{ mb: 3 }}>
           <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 140, mb: 3 }} />
-          <Skeleton variant="text" sx={{ typography: { xs: 'h5', sm: 'h4' }, width: 'min(100%, 260px)' }} />
+          <Skeleton variant="text" sx={{ ...PAGE_TITLE_SX, width: 'min(100%, 260px)' }} />
           <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 280 }} />
         </Box>
         <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 3 }}>
