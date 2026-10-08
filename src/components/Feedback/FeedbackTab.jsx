@@ -4,16 +4,16 @@ import { ButtonBase, Tooltip } from '@mui/material'
 import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
 import { openFeedback } from '@/utils/feedback.js'
 
-// Not on the sign-in pages, nor on the admins' Feedback page itself.
-const HIDDEN = [/^\/(login|signup|loading)(\/|$)/, /^\/feedback$/]
+// Not on the sign-in pages, the admins' Feedback page itself, nor the
+// full-screen photo and map viewers (it covered their Next button): a cave's
+// or a system's photos, medias or maps, on its page or on the map.
+const HIDDEN = [/^\/(login|signup|loading)(\/|$)/, /^\/feedback$/, /^\/(map|caves|sistemas)\/[^/]+\/(photos|medias|maps)(\/|$)/]
 
 // The Send feedback tab (beta): on the right edge of every page, halfway
 // down - written sideways, the icon alone on a phone. Opens FeedbackDialog.
 // On a phone's map it fades out with the map's buttons as the result pane's
 // sheet rises (ResultPaneSm's --oc-map-controls-* variables).
-// inViewer: inside a photo or map viewer (MediaPaneDetails, MapPaneDetails),
-// over its own layers - the page's tab is under the viewer.
-export default function FeedbackTab({ inViewer = false }) {
+export default function FeedbackTab() {
   const { t } = useTranslation('feedback')
   const { pathname } = useLocation()
   if (HIDDEN.some((pattern) => pattern.test(pathname))) return null
@@ -29,7 +29,7 @@ export default function FeedbackTab({ inViewer = false }) {
           right: 0,
           top: '50%',
           transform: 'translateY(-50%)',
-          zIndex: inViewer ? theme.zIndex.modal : theme.zIndex.speedDial,
+          zIndex: theme.zIndex.speedDial,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
