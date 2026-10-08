@@ -144,7 +144,7 @@
     },
     "language": "Language",
     "languageAutomatic": "Automatic ({{language}})",
-    "languageHint": "Automatic follows your browser's language. Your choice is kept on this device.",
+    "languageHint": "Automatic follows your browser's language. Your choice applies on this device and wherever you sign in.",
     "personalInfo": "Personal info",
     "units": "Units",
     "unitsHint": "For lengths and depths: on the map, in cave and system details.",
@@ -1787,8 +1787,7 @@
       "github": "OpenCaves on GitHub"
     },
     "footer": {
-      "about": "About",
-      "language": "Language"
+      "about": "About"
     },
     "warningsLabel": "Before you dive",
     "search": {
@@ -1837,5 +1836,9 @@
       "title": "An account is needed",
       "text": "Create a free account, or log in, to do this."
     }
+  },
+  "languagePicker": {
+    "label": "Language",
+    "automatic": "Automatic ({{language}})"
   }
 }

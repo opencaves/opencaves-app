@@ -14,6 +14,7 @@ import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
+import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import { openFeedback } from '@/utils/feedback.js'
@@ -151,6 +152,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
       )}
 
       <List component="div" disablePadding sx={sectionSx}>
+        <LanguageListItem sx={rowSx} />
         {/* The beta: tell the team about a bug, something misleading, an idea. */}
         <ListItemButton
           className="oc-app-menu--feedback"

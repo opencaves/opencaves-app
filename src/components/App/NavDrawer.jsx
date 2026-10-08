@@ -17,6 +17,7 @@ import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
+import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 
 const DRAWER_WIDTH = 240
 
@@ -97,6 +98,9 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 </ListItem>
               </Fragment>
             ))}
+            <ListItem disablePadding>
+              <LanguageListItem />
+            </ListItem>
           </List>
         </Box>
       </Drawer>

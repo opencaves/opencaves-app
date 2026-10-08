@@ -144,7 +144,7 @@
     },
     "language": "Langue",
     "languageAutomatic": "Automatique ({{language}})",
-    "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil.",
+    "languageHint": "Automatique suit la langue de votre navigateur. Votre choix s’applique sur cet appareil et partout où vous vous connectez.",
     "personalInfo": "Informations personnelles",
     "units": "Unités",
     "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des grottes et des réseaux.",
@@ -1786,8 +1786,7 @@
       "github": "OpenCaves sur GitHub"
     },
     "footer": {
-      "about": "À propos",
-      "language": "Langue"
+      "about": "À propos"
     },
     "warningsLabel": "Avant de plonger",
     "search": {
@@ -1836,5 +1835,9 @@
       "title": "Un compte est nécessaire",
       "text": "Créez un compte gratuit, ou connectez-vous, pour faire ceci."
     }
+  },
+  "languagePicker": {
+    "label": "Langue",
+    "automatic": "Automatique ({{language}})"
   }
 }

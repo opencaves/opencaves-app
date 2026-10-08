@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, InputAdornment, Link, MenuItem, Stack, SvgIcon, TextField, Typography } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Link, Stack, SvgIcon, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import TimelineRounded from '@mui/icons-material/TimelineRounded'
 import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
-import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import GitHub from '@mui/icons-material/GitHub'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import { prefetchMap } from '@/routes/mapRoute.js'
-import { APP_LANGUAGES } from '@/config/appLanguages.js'
-import { chooseLanguage } from '@/services/languagePreference.js'
+import { LanguageButton } from '@/components/LanguagePicker.jsx'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 // The logo's version for dark backgrounds (the header's photo).
@@ -80,32 +77,6 @@ function useCoverPhotos() {
     }
   }, [])
   return photos
-}
-
-// The language of the page - and, signed in, of the account's preference.
-function LanguageMenu() {
-  const { t, i18n } = useTranslation('home')
-  const user = useSelector((state) => state.session.user)
-  const current = APP_LANGUAGES.some(({ code }) => code === i18n.resolvedLanguage) ? i18n.resolvedLanguage : 'en'
-  return (
-    <TextField
-      select
-      size="small"
-      className="oc-home--language"
-      // No field background: a plain choice in the footer.
-      variant="standard"
-      value={current}
-      onChange={(event) => chooseLanguage(event.target.value, user)}
-      sx={{ minWidth: 180 }}
-      slotProps={{ input: { disableUnderline: true, startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> }, select: { inputProps: { 'aria-label': t('footer.language') }, SelectDisplayProps: { 'aria-label': t('footer.language') } } }}
-    >
-      {APP_LANGUAGES.map(({ code, nativeName }) => (
-        <MenuItem key={code} value={code} lang={code}>
-          {nativeName}
-        </MenuItem>
-      ))}
-    </TextField>
-  )
 }
 
 // / - the landing page, for cave divers around the world: what OpenCaves is
@@ -365,7 +336,7 @@ export default function Home() {
           <Link component={RouterLink} to="/terms">{tLegal('terms.title')}</Link>
           <Link href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer">{tAbout('whatsNew')}</Link>
         </Typography>
-        <LanguageMenu />
+        <LanguageButton />
       </Box>
     </Box>
   )
