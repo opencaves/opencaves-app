@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Snackbar as MUISnackbar, Portal } from '@mui/material'
 import Slide from '@mui/material/Slide'
-import Close from '@mui/icons-material/Close'
+import Close from '@mui/icons-material/CloseRounded'
 import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 
 // onClose: told when it closes on its own (a click away, its close button,

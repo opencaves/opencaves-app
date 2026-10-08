@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import * as PasswordStrengthBarModule from 'react-password-strength-bar'
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
 import { Grid } from '@mui/material'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Visibility from '@mui/icons-material/VisibilityRounded'
+import VisibilityOff from '@mui/icons-material/VisibilityOffRounded'
 
 // Vite's CJS interop for this package's default export is inconsistent across environments.
 const PasswordStrengthBar = PasswordStrengthBarModule.default?.default ?? PasswordStrengthBarModule.default ?? PasswordStrengthBarModule
