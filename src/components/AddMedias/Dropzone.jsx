@@ -6,12 +6,14 @@ import { Grid } from '@mui/material'
 import UploadMedias from './UploadMedias.jsx'
 import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 import DropIcon from '@/images/media-pane/drop.svg?react'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 // caveId: the cave the photos go to (the map's open cave otherwise).
 export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
   const theme = useTheme()
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
   const [_open, setOpen] = useState(open)
+  const [openSnackbar] = useSnackbar()
 
   const baseStyle = {
     height: '100%',
@@ -37,14 +39,14 @@ export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
     '--oc-dropzone-border-color': theme.vars.palette.secondary.main,
   }
 
+  // Files it won't take (not photos) under the pointer: an error-coloured frame.
   const rejectStyle = {
-    borderColor: 'error',
+    '--oc-dropzone-border-color': theme.vars.palette.error.main,
   }
 
-  const handleClose = (_event, reason) => {
-    if (reason !== 'escapeKeyDown') {
-      setOpen(false)
-    }
+  // Escape closes it too (it stayed open).
+  const handleClose = () => {
+    setOpen(false)
   }
 
   const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
@@ -55,6 +57,8 @@ export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
     // onDragEnter: onDropzoneDragEnter,
     onDragLeave: onDropzoneDragLeave,
     onDrop: onDropzoneDrop,
+    // Dropped files that aren't photos: said, rather than nothing happening.
+    onDropRejected: (rejections) => openSnackbar(t('rejected', { count: rejections.length })),
   })
 
   const sx = useMemo(

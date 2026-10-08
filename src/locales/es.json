@@ -763,7 +763,9 @@
         "cancelButton": "Cancelar",
         "cancel": "Cancelar la subida"
       },
-      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
+      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión.",
+      "rejected_one": "{{count}} archivo no añadido: aquí solo se pueden añadir fotos (JPEG, PNG, WebP, AVIF).",
+      "rejected_other": "{{count}} archivos no añadidos: aquí solo se pueden añadir fotos (JPEG, PNG, WebP, AVIF)."
     },
     "details": {
       "empty": "No hay nada aquí"
@@ -890,7 +892,8 @@
     "add": "Agregar",
     "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
     "cartography": "Cartografía: {{names}}",
-    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
+    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión.",
+    "wrongType": "Elige una imagen o un PDF."
   },
   "colorPicker": {
     "addColor": "Agregar un color",

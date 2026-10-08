@@ -11,6 +11,7 @@ import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
 import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -26,6 +27,7 @@ const PREVIEW_SIZE = 440
 export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthorized, spaced = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
+  const [openSnackbar] = useSnackbar()
   const isSmall = useSmall()
   const [sistemas] = SistemaModel.useAll()
   const sistema = sistemas.find((s) => s.id === sistemaId)
@@ -46,6 +48,12 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
     const file = event.target.files?.[0]
     event.target.value = ''
     if (!file) return
+    // An image or a PDF only (the picker's "All files" let anything through,
+    // a .txt then shown as a PDF).
+    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+      openSnackbar(tMaps('wrongType'))
+      return
+    }
     setPendingFile(file)
     setPendingDetails({ ...emptyPendingDetails, title: sistema?.name || '' })
   }
