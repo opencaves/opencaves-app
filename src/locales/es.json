@@ -1748,7 +1748,8 @@
       "reporterEmailed": "Autor avisado por correo: {{date}}",
       "deleteTitle": "¿Borrar este reporte?",
       "deleteText": "Se borrará para siempre."
-    }
+    },
+    "messageTooShort": "Al menos {{count}} caracteres"
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
