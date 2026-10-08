@@ -38,6 +38,13 @@ import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
 
+const colorsModel = createCollectionModel('colors')
+// One of the colours list's hex values, at random ('' with none).
+const randomListColor = (colors) => {
+  const hexes = (colors || []).map((c) => c.hex).filter(Boolean)
+  return hexes.length ? hexes[Math.floor(Math.random() * hexes.length)] : ''
+}
+
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
@@ -153,6 +160,7 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
+  const [colors, colorsLoading] = colorsModel.useAll()
   // Length and depth are stored in metres, shown and entered in the person's units.
   const units = useUnits()
   const shown = (metres) => (metres === '' || metres == null ? '' : Math.round(fromMetres(Number(metres), units) * 10) / 10)
@@ -193,7 +201,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   }, [isDirty, onDirtyChange])
 
   useEffect(() => {
-    if (sistemasLoading || connectionsLoading) {
+    if (sistemasLoading || connectionsLoading || colorsLoading) {
       return
     }
 
@@ -203,7 +211,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     setIsNew(!sistema)
     const loaded = {
       name: sistema?.name || '',
-      color: sistema?.color || '',
+      // A new system starts with a colour from the list, at random (shown,
+      // and changeable, before it's saved).
+      color: sistema ? sistema.color || '' : randomListColor(colors),
       area: sistema?.area || '',
       description: sistema?.description || '',
       direction: sistema?.direction || '',
@@ -221,7 +231,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     setForm(loaded)
     setBaseline(loaded)
     setLoading(false)
-  }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
+    // colorsLoading, not colors: a change to the colours list mustn't reload the form.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connections, connectionsLoading, colorsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
 
   useEffect(() => {
     // Every edit page's title says so ("Edit …"); a new one stays "New …".
@@ -244,7 +256,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     const maxDepth = form.maxDepth === '' ? null : parseLocalizedNumber(form.maxDepth, locale)
     if ((form.length !== '' && length === null) || (form.maxDepth !== '' && maxDepth === null)) return
 
-    const savedForm = form
+    // No colour chosen: one at random from the colours list, so its pins and
+    // arrows aren't left without one (they showed white, with a white glyph).
+    const color = form.color || randomListColor(colors)
+    const savedForm = color === form.color ? form : { ...form, color }
+    if (savedForm !== form) setForm(savedForm)
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
@@ -254,7 +270,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         // The texts' sources the form changed (textSources).
         textSources: textSourcesUpdate(sistema, form, SISTEMA_TEXT_FIELDS),
         name: form.name,
-        color: orDelete(form.color),
+        color: orDelete(color),
         area: orDelete(form.area),
         description: orDelete(form.description),
         direction: orDelete(form.direction),
