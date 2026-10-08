@@ -100,7 +100,8 @@
       "label": "{{title}}, carrousel",
       "showAllLink": "Tout afficher"
     },
-    "nameRequired": "Le nom est obligatoire"
+    "nameRequired": "Le nom est obligatoire",
+    "skipToContent": "Aller au contenu"
   },
   "account": {
     "profile": "Profil",

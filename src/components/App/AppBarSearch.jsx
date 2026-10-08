@@ -85,6 +85,7 @@ export default function AppBarSearch() {
     <Box
       component="form"
       role="search"
+      aria-label={placeholder}
       className="oc-app-bar-search"
       onSubmit={(event) => {
         event.preventDefault()

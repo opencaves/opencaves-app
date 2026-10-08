@@ -23,7 +23,7 @@ export default function SiteSearch({ sx, inputSx }) {
   }
 
   return (
-    <Box component="form" role="search" className="oc-site-search" onSubmit={(event) => { event.preventDefault(); searchAll() }} sx={{ display: 'flex', ...sx }}>
+    <Box component="form" role="search" aria-label={t('hero.searchPlaceholder')} className="oc-site-search" onSubmit={(event) => { event.preventDefault(); searchAll() }} sx={{ display: 'flex', ...sx }}>
       <Autocomplete
         freeSolo
         fullWidth

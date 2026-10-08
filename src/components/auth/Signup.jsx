@@ -43,6 +43,10 @@ export default function Signup() {
         />
 
         <Stack spacing={3} sx={{ width: '32ch' }}>
+          {/* The page's heading (it had none). */}
+          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+            {t('title')}
+          </Typography>
           <OfflineAuthNote />
           <AuthWithGoogle onSuccess={onSuccess} />
           <AuthWithMicrosoft onSuccess={onSuccess} />

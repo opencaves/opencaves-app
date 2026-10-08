@@ -100,7 +100,8 @@
       "label": "{{title}}, carrusel",
       "showAllLink": "Mostrar todo"
     },
-    "nameRequired": "El nombre es obligatorio"
+    "nameRequired": "El nombre es obligatorio",
+    "skipToContent": "Ir al contenido"
   },
   "account": {
     "profile": "Perfil",

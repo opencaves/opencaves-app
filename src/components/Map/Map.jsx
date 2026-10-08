@@ -865,8 +865,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     return <MapError error={dataLoadingState.error} />
   }
 
+  // No region of its own: Mapbox's canvas is one, named (mapLocale's Map.Title).
   return (
-    <Box className="oc-map oc-map-container" ref={mapContainerRef} role="region" aria-label={t('title')}>
+    <Box className="oc-map oc-map-container" ref={mapContainerRef}>
       <Fade timeout={theme.transitions.duration.complex} in={!mapReady || dataLoadingState.state === 'loading'} unmountOnExit={true}>
         <MapLoading />
       </Fade>
