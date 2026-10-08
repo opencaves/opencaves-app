@@ -21,6 +21,7 @@ import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.js'
 import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
 import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
+import { removeShell } from '@/utils/shell.js'
 import './SearchBar.scss'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
@@ -391,7 +392,7 @@ export default function SearchBar() {
 
   // The real search bar is here: index.html's static shell of it can go.
   useEffect(() => {
-    document.getElementById('oc-shell')?.remove()
+    removeShell()
   }, [])
 
   // Exposing the search bar height as a css custom property

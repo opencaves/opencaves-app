@@ -10,6 +10,7 @@ import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
+import { removeShell } from '@/utils/shell.js'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -89,6 +90,12 @@ export default function NoMatch({ inLayout = false }) {
   useEffect(() => {
     if (error && !notFound) console.error(error)
   }, [error, notFound])
+
+  // An error page outside Layout (a route failing, the map's): index.html's
+  // splash goes, as no page will remove it.
+  useEffect(() => {
+    removeShell()
+  }, [])
 
   useEffect(() => {
     setHeadMeta('robots', 'noindex')
