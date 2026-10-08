@@ -214,9 +214,12 @@
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "Ce courriel est déjà utilisé",
-              "details": "Un compte utilise déjà le courriel <strong>{{email}}</strong>.<br /> Vous pouvez choisir de vous connecter avec Google ou d'essayer un autre courriel.",
+              "details": "Un compte utilise déjà <strong>{{email}}</strong>.<br /> Connectez-vous à ce compte, ou essayez un autre courriel.",
               "previousBtn": "Essayez un autre courriel",
-              "loginWithGoogle": "Connectez-vous avec Google"
+              "loginWithGoogle": "Se connecter avec Google",
+              "loginWithEmail": "Se connecter avec ce courriel",
+              "forgotPassword": "Mot de passe oublié ?",
+              "loginWithMicrosoft": "Se connecter avec Microsoft"
             },
             "emailSentNotification": {
               "header": "Vérifiez vos courriels",

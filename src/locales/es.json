@@ -214,9 +214,12 @@
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "Este correo electrónico ya está en uso",
-              "details": "Ya existe una cuenta que usa el correo <strong>{{email}}</strong>.<br /> Prueba con otro correo o inicia sesión con Google.",
+              "details": "Una cuenta ya usa <strong>{{email}}</strong>.<br /> Inicia sesión en ella, o prueba otro correo.",
               "previousBtn": "Probar con otro correo",
-              "loginWithGoogle": "Iniciar sesión con Google"
+              "loginWithGoogle": "Iniciar sesión con Google",
+              "loginWithEmail": "Iniciar sesión con este correo",
+              "forgotPassword": "¿Olvidaste tu contraseña?",
+              "loginWithMicrosoft": "Iniciar sesión con Microsoft"
             },
             "emailSentNotification": {
               "header": "Revisa tu correo",

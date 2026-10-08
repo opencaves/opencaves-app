@@ -214,9 +214,12 @@
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "This email is already in use",
-              "details": "An account is already using the email <strong>{{email}}</strong>.<br /> Try another email or log in with Google.",
+              "details": "An account already uses <strong>{{email}}</strong>.<br /> Log in to it, or try another email.",
               "previousBtn": "Try another email",
-              "loginWithGoogle": "LogIn with Google"
+              "loginWithGoogle": "Log in with Google",
+              "loginWithEmail": "Log in with this email",
+              "forgotPassword": "Forgot your password?",
+              "loginWithMicrosoft": "Log in with Microsoft"
             },
             "emailSentNotification": {
               "header": "Check your emails",

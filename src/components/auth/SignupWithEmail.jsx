@@ -17,6 +17,8 @@ import PasswordInput from './PasswordInput.jsx'
 import AuthButton from './AuthButton.jsx'
 import TextInput from './TextInput.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
+import AuthWithMicrosoft from './AuthWithMicrosoft.jsx'
+import PasswordResetDialog from './PasswordResetDialog.jsx'
 import { Progress, Section, SectionActions, SectionDetails, SectionFields, SectionForm } from './Section.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -62,7 +64,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [header, setHeader] = useState(' ')
   const [registrationComplete, setRegistrationComplete] = useState(false)
   const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false)
+  const [resetOpen, setResetOpen] = useState(false)
   const [signinMethodsForEmail, setSigninMethodsForEmail] = useState()
+  // How the account using the email signs in (email in use).
+  const inUseMethods = signinMethodsForEmail || []
+  const usesPassword = inUseMethods.includes('password')
+  const usesEmail = usesPassword || inUseMethods.includes('emailLink')
   const continueUrl = useSelector((state) => state.session.continueUrl)
 
   const [currentStep, setCurrentStep] = useState(searchParams.has(emailValidatedParam) ? emailCallbackStep : 0)
@@ -612,22 +619,39 @@ export default function SignupWithEmail({ open: initialOpen }) {
                       </SectionDetails>
                       <SectionForm>
                         <SectionActions>
+                          {/* Log in the way the account signs in (it offered Google to
+                              every account, a password one included), then another email. */}
+                          {usesEmail && (
+                            <AuthButton onClick={() => navigate('/login/with-email', { state: { email } })}>
+                              {ts('emailSentAndEmailVerification.emailInUse.loginWithEmail')}
+                            </AuthButton>
+                          )}
+                          {usesPassword && (
+                            <Typography component="button" type="button" onClick={() => setResetOpen(true)} sx={{ fontSize: 'small', display: 'block', mx: 'auto', p: 0, border: 0, bgcolor: 'transparent', color: 'var(--mui-sys-color-primary)', textDecoration: 'underline', cursor: 'pointer', font: 'inherit' }}>
+                              {ts('emailSentAndEmailVerification.emailInUse.forgotPassword')}
+                            </Typography>
+                          )}
+                          {inUseMethods.includes('google.com') && <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />}
+                          {inUseMethods.includes('microsoft.com') && <AuthWithMicrosoft message={ts('emailSentAndEmailVerification.emailInUse.loginWithMicrosoft')} />}
+
                           <AuthButton
+                            variant="outlined"
                             onClick={() => {
                               previousStep()
                             }}
                           >
                             {ts('emailSentAndEmailVerification.emailInUse.previousBtn')}
                           </AuthButton>
-
-                          <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />
-                          <Box sx={{ mt: 1 }}>
-                            <p style={{ margin: 0, textAlign: 'center' }}>
-                              <small>
-                                {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
-                              </small>
-                            </p>
-                          </Box>
+                          {/* A method the buttons don't cover: the log-in page. */}
+                          {!usesEmail && !inUseMethods.some((method) => ['google.com', 'microsoft.com'].includes(method)) && (
+                            <Box sx={{ mt: 1 }}>
+                              <p style={{ margin: 0, textAlign: 'center' }}>
+                                <small>
+                                  {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
+                                </small>
+                              </p>
+                            </Box>
+                          )}
                         </SectionActions>
                       </SectionForm>
                     </>
@@ -832,6 +856,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
           </Box>
         </Grid>
       </DialogContent>
+      <PasswordResetDialog open={resetOpen} onClose={() => setResetOpen(false)} initialEmail={email} />
     </Dialog>
   )
 }
