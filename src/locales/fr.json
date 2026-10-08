@@ -581,6 +581,12 @@
       "navigateToCoordinate": "Centrer la carte ici",
       "removeCoordinate": "Supprimer les coordonnées",
       "addCoordinates": "Ajouter des coordonnées",
+      "addOneCoordinates": {
+        "location": "Ajouter les coordonnées de l'emplacement",
+        "entrance": "Ajouter les coordonnées de l'entrée",
+        "key": "Ajouter les coordonnées de la clé",
+        "sistemaLocation": "Ajouter les coordonnées de l'emplacement"
+      },
       "pickMyLocation": "Utiliser ma position actuelle",
       "none": "(aucun)",
       "sistema": "Réseau",
