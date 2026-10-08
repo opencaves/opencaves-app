@@ -578,6 +578,8 @@
       "key": "Clé",
       "longitude": "Longitude",
       "latitude": "Latitude",
+      "longitudeRange": "-180 à 180",
+      "latitudeRange": "-90 à 90",
       "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
       "navigateToCoordinate": "Centrer la carte ici",
       "removeCoordinate": "Supprimer les coordonnées",

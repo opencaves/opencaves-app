@@ -30,6 +30,13 @@ const FIELD_BADGE_ICONS = {
 
 // A coordinate's validity (location.validity...), each with its icon and
 // clue colour.
+// A typed longitude/latitude within the Earth's range (or empty): the map
+// throws on a latitude past ±90, which crashed the whole edit page.
+const inRange = (value, max) => value === '' || value === null || typeof value === 'undefined' || (Number.isFinite(Number(value)) && Math.abs(Number(value)) <= max)
+export const longitudeInRange = (value) => inRange(value, 180)
+export const latitudeInRange = (value) => inRange(value, 90)
+export const coordinateInRange = (longitude, latitude) => longitudeInRange(longitude) && latitudeInRange(latitude)
+
 export const COORDINATE_VALIDITIES = [
   { value: 'valid', color: 'success.main', Icon: CheckRounded },
   { value: 'unknown', color: 'warning.main', Icon: QuestionMarkRounded },
@@ -91,6 +98,8 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const picking = useSelector((state) => state.map.crossPickFor === field)
   const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
+  // Set and on the Earth: only then shown on (and flown to on) the map.
+  const onEarth = isSet && coordinateInRange(longitude, latitude)
   const [locating, setLocating] = useState(false)
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
   const isSmall = useSmall()
@@ -131,7 +140,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   // would clear-then-reset the marker (and flicker it) on every change
   // instead of only when the field truly goes away.
   useEffect(() => {
-    if (isSet) {
+    if (onEarth) {
       // With its validity, so the map's pin shows it (valid or not) live.
       dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude), validity }))
     } else {
@@ -168,11 +177,12 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   }
 
   function onNavigateToClick() {
+    if (!onEarth) return
     dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, COORDINATE_DECIMALS)), latitude: Number(num(latitude, COORDINATE_DECIMALS)) }))
   }
 
   function onPlaceOnMapClick() {
-    dispatch(startPlaceOnMap({ field, label, ...(isSet && { longitude, latitude }) }))
+    dispatch(startPlaceOnMap({ field, label, ...(onEarth && { longitude, latitude }) }))
   }
 
   // Phones on the admin edit pages: dragging the pin doesn't work by touch,
@@ -213,8 +223,8 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
   }
 
-  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
-  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
+  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} error={!longitudeInRange(longitude)} helperText={longitudeInRange(longitude) ? undefined : t('longitudeRange')} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
+  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} error={!latitudeInRange(latitude)} helperText={latitudeInRange(latitude) ? undefined : t('latitudeRange')} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
   const dot = (value) => {
     const { Icon, color } = COORDINATE_VALIDITIES.find((v) => v.value === value) || COORDINATE_VALIDITIES[1]
     return <Icon sx={{ fontSize: 18, color, flex: 'none' }} />
