@@ -55,6 +55,8 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
     aka.length ? `<p>Also known as ${escapeHtml(aka.join(', '))}</p>` : '',
     location ? `<p>Location: ${Number(location.latitude).toFixed(5)}, ${Number(location.longitude).toFixed(5)} (Yucatán, Mexico)</p>` : '',
     ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
+    // How to get there, as the cave page shows it.
+    ...(cave.direction ? [`<h2>Getting there</h2>`, ...plainParagraphs(cave.direction).map((p) => `<p>${escapeHtml(p)}</p>`)] : []),
     area ? `<p>Area: <a href="/caves#${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
     sistema ? `<p>Cave system: <a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></p>` : '',
     path === `/map/${id}` ? `<p><a href="/caves/${escapeHtml(id)}">${escapeHtml(label)}'s page</a></p>` : `<p><a href="/map/${escapeHtml(id)}">${escapeHtml(label)} on the map</a></p>`,

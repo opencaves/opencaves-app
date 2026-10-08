@@ -34,6 +34,8 @@ import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
+import PlaceOutlined from '@mui/icons-material/PlaceOutlined'
+import Address from '@/components/ResultPane/Address.jsx'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads.
@@ -149,6 +151,13 @@ export default function CavePage() {
 
       {points.length > 0 && (
         <IndexSection id="location" title={t('cave.location')} className="oc-cave-page--location" card>
+          {/* Its address, as the map's pane shows it (the caveAddress function). */}
+          {location && (
+            <Typography className="oc-cave-page--address" variant="body2" sx={{ display: 'flex', gap: 1, alignItems: 'center', mb: 0.5 }}>
+              <PlaceOutlined aria-hidden="true" sx={{ color: 'primary.main', mr: 1 }} />
+              <Address caveId={cave.id} longitude={location.longitude} latitude={location.latitude} />
+            </Typography>
+          )}
           <CoordinateCopyList rows={points} sx={{ mx: -1 }} />
         </IndexSection>
       )}
@@ -159,6 +168,14 @@ export default function CavePage() {
           <Access cave={cave} />
         </Box>
       </IndexSection>
+
+      {/* How to get there - the map's pane had it, this page didn't. */}
+      {cave.direction && (
+        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card>
+          <Markdown>{cave.direction}</Markdown>
+          <TextSource record={cave} field="direction" />
+        </IndexSection>
+      )}
 
       {cave.description && (
         <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
