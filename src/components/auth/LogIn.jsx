@@ -44,7 +44,7 @@ export default function LogIn() {
           <LogInWithMicrosoft onSuccess={onSuccess} />
 
           <Or>
-            <Typography variant="caption" sx={{ textTransform: 'uppercase' }}>
+            <Typography variant="caption">
               {t('or')}
             </Typography>
           </Or>

@@ -501,17 +501,17 @@
   },
   "resultPane": {
     "title": "{{name}}",
-    "videosHeader": "Vídeos",
-    "videoFrameTitle": "Vídeo {{index}}",
-    "playVideo": "Reproducir vídeo {{index}}",
+    "videosHeader": "Videos",
+    "videoFrameTitle": "Video {{index}}",
+    "playVideo": "Reproducir video {{index}}",
     "closeVideo": "Cerrar el video",
-    "openVideo": "Abrir vídeo {{index}}",
-    "addVideos": "Añadir vídeos",
-    "addVideoTitle": "Añadir un vídeo",
-    "videoUrl": "URL del vídeo",
-    "videoUrlHelp": "Pega el enlace de un vídeo de YouTube, Vimeo o Facebook. Cópialo desde el botón Compartir del vídeo, o desde la barra de direcciones de tu navegador mientras lo ves.",
-    "invalidVideoUrl": "Este no es el enlace de un vídeo de YouTube, Vimeo o Facebook.",
-    "addVideo": "Añadir vídeo",
+    "openVideo": "Abrir video {{index}}",
+    "addVideos": "Añadir videos",
+    "addVideoTitle": "Añadir un video",
+    "videoUrl": "URL del video",
+    "videoUrlHelp": "Pega el enlace de un video de YouTube, Vimeo o Facebook. Cópialo desde el botón Compartir del video, o desde la barra de direcciones de tu navegador mientras lo ves.",
+    "invalidVideoUrl": "Este no es el enlace de un video de YouTube, Vimeo o Facebook.",
+    "addVideo": "Añadir video",
     "accessHeader": "Acceso",
     "aka": "alias",
     "directionsHeader": "Cómo llegar",
@@ -564,13 +564,13 @@
       "deletePicture": "Eliminar foto",
       "deletePictureConfirm": "Esta foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deletePictureError": "No se pudo eliminar la foto. Inténtalo de nuevo.",
-      "videos": "Vídeos",
-      "videoUrl": "URL del vídeo",
-      "addVideo": "Añadir vídeo",
-      "editVideo": "Editar vídeo",
-      "deleteVideo": "Eliminar vídeo",
+      "videos": "Videos",
+      "videoUrl": "URL del video",
+      "addVideo": "Añadir video",
+      "editVideo": "Editar video",
+      "deleteVideo": "Eliminar video",
       "deleteVideoConfirm": "Este video se quitará de la cueva.",
-      "deleteVideoError": "No se pudo eliminar el vídeo. Inténtalo de nuevo.",
+      "deleteVideoError": "No se pudo eliminar el video. Inténtalo de nuevo.",
       "note": "Nota(s)",
       "maps": "Topografías",
       "addMap": "Añadir mapa",
@@ -1551,7 +1551,7 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "description": "Las cuevas, sistemas, conexiones, mapas, fotos y vídeos añadidos recientemente a {{name}}.",
+    "description": "Las cuevas, sistemas, conexiones, mapas, fotos y videos añadidos recientemente a {{name}}.",
     "subtitle": "Lo último añadido a {{name}}, lo más reciente primero.",
     "filters": {
       "all": "Todo",
@@ -1560,7 +1560,7 @@
       "connections": "Conexiones",
       "maps": "Topografías",
       "photos": "Fotos",
-      "videos": "Vídeos"
+      "videos": "Videos"
     },
     "kinds": {
       "caves": "Cueva",
@@ -1568,7 +1568,7 @@
       "connections": "Conexión",
       "maps": "Topografía",
       "photos": "Fotos",
-      "videos": "Vídeos"
+      "videos": "Videos"
     },
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
@@ -1582,8 +1582,8 @@
     "failed": "No se pudieron cargar las últimas novedades.",
     "photosAdded_one": "{{count}} foto de {{name}}",
     "photosAdded_other": "{{count}} fotos de {{name}}",
-    "videosAdded_one": "{{count}} vídeo de {{name}}",
-    "videosAdded_other": "{{count}} vídeos de {{name}}"
+    "videosAdded_one": "{{count}} video de {{name}}",
+    "videosAdded_other": "{{count}} videos de {{name}}"
   },
   "betaTesting": {
     "badge": "Beta",
@@ -1624,8 +1624,8 @@
         "action": "Ir a las cuevas"
       },
       "media": {
-        "title": "Añadir fotos, vídeos, mapas",
-        "text": "Desde la página de una cueva: sube fotos, enlaza un vídeo, añade un mapa topográfico."
+        "title": "Añadir fotos, videos, mapas",
+        "text": "Desde la página de una cueva: sube fotos, enlaza un video, añade un mapa topográfico."
       },
       "systems": {
         "title": "Editar sistemas",
