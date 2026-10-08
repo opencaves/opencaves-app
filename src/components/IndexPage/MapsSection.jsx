@@ -13,6 +13,7 @@ import Picture from '@/components/Picture.jsx'
 import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
+import EmptySectionText from './EmptySectionText.jsx'
 
 // Text under an item cut to two lines (with an ellipsis) on phones (MD3:
 // brief text in carousels). Not the name on the map, on its own opaque band.
@@ -42,6 +43,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
 
   return (
     <IndexSection id="maps" title={title} count={maps.length || undefined} className="oc-maps-section" card={card}>
+      {maps.length === 0 && <EmptySectionText>{tMaps('empty.maps', { ns: 'indexPages' })}</EmptySectionText>}
       {maps.length > 0 && (
         <Carousel gridMinWidth="200px" label={title} bleed={card ? 2 : 0}>
           {maps.map((map) => {

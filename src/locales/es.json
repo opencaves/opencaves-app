@@ -1536,7 +1536,12 @@
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
     "maps": "Topografías",
-    "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas"
+    "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas",
+    "empty": {
+      "photos": "Aún no hay fotos.",
+      "videos": "Aún no hay videos.",
+      "maps": "Aún no hay topografías."
+    }
   },
   "appBarSearch": {
     "placeholder": "Buscar cuevas y sistemas",
