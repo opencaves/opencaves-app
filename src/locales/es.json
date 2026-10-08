@@ -592,6 +592,12 @@
         "sistemaLocation": "Agregar coordenadas de la ubicación"
       },
       "pickMyLocation": "Usar mi ubicación actual",
+      "myLocationError": {
+        "denied": "La ubicación está bloqueada para este sitio: permítela en la configuración del navegador, o coloca el punto en el mapa.",
+        "unavailable": "Tu posición no está disponible ahora. Inténtalo al aire libre, o coloca el punto en el mapa.",
+        "timeout": "Encontrar tu posición tardó demasiado. Inténtalo de nuevo, o coloca el punto en el mapa.",
+        "unsupported": "Este navegador no puede dar tu posición. Coloca el punto en el mapa."
+      },
       "none": "(ninguno)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
