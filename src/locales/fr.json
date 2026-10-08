@@ -50,7 +50,7 @@
       "login": "Se connecter",
       "logout": "Se déconnecter",
       "logoutSuccess": "Vous avez été déconnecté avec succès.",
-      "addPictures": "Ajouter des images",
+      "addPictures": "Ajouter des photos",
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
       "feedback": "Envoyer un commentaire",
@@ -135,7 +135,7 @@
       "notPersisted": "Le navigateur peut supprimer ces données si l’appareil manque d’espace.",
       "clear": "Effacer les données hors ligne",
       "confirmTitle": "Effacer les données hors ligne ?",
-      "confirmText": "Les images, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé.",
+      "confirmText": "Les photos, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé.",
       "confirmClear": "Effacer",
       "cancel": "Annuler",
       "cleared": "Données hors ligne effacées",
@@ -527,13 +527,13 @@
     "locationNotAvailable": "Lieu non disponible",
     "coverImage": {
       "addImages": {
-        "tooltip": "Ajouter des images"
+        "tooltip": "Ajouter des photos"
       },
       "seeImages": {
-        "tooltip": "Voir les images"
+        "tooltip": "Voir les photos"
       }
     },
-    "morePicturesBtn": "Plus d'images",
+    "morePicturesBtn": "Plus de photos",
     "menu": {
       "ariaLabel": "Plus",
       "myAccount": "Mon compte",
@@ -550,11 +550,11 @@
       "removeNameTranslation": "Supprimer cette traduction",
       "nameTranslationLanguage": "Langue",
       "nameTranslationValue": "Nom traduit",
-      "pictures": "Images",
-      "addPictures": "Ajouter des images",
-      "deletePicture": "Supprimer l'image",
-      "deletePictureConfirm": "Cette image va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
-      "deletePictureError": "Impossible de supprimer l'image. Veuillez réessayer.",
+      "pictures": "Photos",
+      "addPictures": "Ajouter des photos",
+      "deletePicture": "Supprimer la photo",
+      "deletePictureConfirm": "Cette photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
+      "deletePictureError": "Impossible de supprimer la photo. Veuillez réessayer.",
       "videos": "Vidéos",
       "videoUrl": "URL de la vidéo",
       "addVideo": "Ajouter une vidéo",
@@ -683,27 +683,27 @@
       "ariaLabel": "Retour"
     },
     "addPictureBtn": {
-      "tooltip": "Ajouter des images",
-      "ariaLabel": "ajouter des images"
+      "tooltip": "Ajouter des photos",
+      "ariaLabel": "Ajouter des photos"
     },
     "empty": {
-      "header": "Aucune image pour le moment !",
-      "btn": "Ajouter des images"
+      "header": "Aucune photo pour le moment !",
+      "btn": "Ajouter des photos"
     },
     "share": {
       "title": "Voir « {{title}} » sur OpenCaves.org",
       "text": "Voir « {{title}}"
     },
-    "images": "images",
+    "images": "photos",
     "menu": {
       "ariaLabel": "Plus",
-      "useAsCoverImage": "Utiliser comme image de couverture",
-      "useAsCoverSuccess": "Image de couverture modifiée.",
-      "useAsCoverFail": "La modification de l'image de couverture à échoué.",
+      "useAsCoverImage": "Utiliser comme photo de couverture",
+      "useAsCoverSuccess": "Photo de couverture modifiée.",
+      "useAsCoverFail": "La modification de la photo de couverture a échoué.",
       "useViewAsThumbnail": "Utiliser cette vue comme vignette",
       "useViewAsThumbnailSuccess": "La vignette montre maintenant cette vue.",
       "useViewAsThumbnailFail": "La modification de la vignette a échoué.",
-      "viewOriginalImage": "Afficher l'image originale",
+      "viewOriginalImage": "Afficher la photo originale",
       "deleteAction": "Supprimer la photo",
       "deleteSuccess": "Photo mise à la corbeille.",
       "deleteFail": "Impossible de supprimer la photo.",
@@ -713,7 +713,7 @@
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Afficher l'image"
+        "ariaLabel": "Afficher la photo"
       }
     },
     "addMedia": {
@@ -1156,7 +1156,7 @@
   },
   "offline": {
     "connection": {
-      "offline": "Vous êtes hors ligne. Les grottes enregistrées restent disponibles.",
+      "offline": "Vous êtes hors ligne. Les grottes sauvegardées restent disponibles.",
       "online": "Vous êtes de nouveau en ligne.",
       "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent."
     },
@@ -1183,10 +1183,10 @@
     "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne",
     "hint": {
       "offline": "Vous êtes hors ligne : seules les photos et les cartes déjà consultées sont sur cet appareil.",
-      "save": "Enregistrez cette cénote pour la garder au complet pour votre prochaine plongée.",
-      "account": "Créez un compte pour enregistrer des cénotes pour une utilisation hors ligne.",
-      "system": "Enregistrez une de ses cénotes pour garder ses cartes pour votre prochaine plongée.",
-      "saveButton": "Enregistrer",
+      "save": "Sauvegardez cette cénote pour la garder au complet pour votre prochaine plongée.",
+      "account": "Créez un compte pour sauvegarder des cénotes pour une utilisation hors ligne.",
+      "system": "Sauvegardez une de ses cénotes pour garder ses cartes pour votre prochaine plongée.",
+      "saveButton": "Sauvegarder",
       "signupButton": "S'inscrire"
     },
     "notOnDevice": "Non disponible hors ligne",
@@ -1754,7 +1754,7 @@
       },
       "offline": {
         "title": "Hors ligne",
-        "text": "Enregistrez des grottes sur votre téléphone avant de partir, pour les avoir là où il n’y a pas de réseau."
+        "text": "Sauvegardez des grottes sur votre téléphone avant de partir, pour les avoir là où il n’y a pas de réseau."
       },
       "subtitle": "Tout ce qu’un plongeur souterrain consulte avant de partir, au même endroit."
     },

@@ -135,7 +135,7 @@
       "notPersisted": "El navegador puede eliminar estos datos si el dispositivo se queda sin espacio.",
       "clear": "Borrar los datos sin conexión",
       "confirmTitle": "¿Borrar los datos sin conexión?",
-      "confirmText": "Las imágenes, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión».",
+      "confirmText": "Las fotos, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión».",
       "confirmClear": "Borrar",
       "cancel": "Cancelar",
       "cleared": "Datos sin conexión borrados",
@@ -685,7 +685,7 @@
     },
     "addPictureBtn": {
       "tooltip": "Añadir fotos",
-      "ariaLabel": "añadir fotos"
+      "ariaLabel": "Añadir fotos"
     },
     "empty": {
       "header": "¡Aún no hay fotos!",
@@ -698,13 +698,13 @@
     "images": "fotos",
     "menu": {
       "ariaLabel": "Más",
-      "useAsCoverImage": "Usar como imagen de portada",
-      "useAsCoverSuccess": "Imagen de portada cambiada.",
-      "useAsCoverFail": "No se pudo cambiar la imagen de portada.",
+      "useAsCoverImage": "Usar como foto de portada",
+      "useAsCoverSuccess": "Foto de portada cambiada.",
+      "useAsCoverFail": "No se pudo cambiar la foto de portada.",
       "useViewAsThumbnail": "Usar esta vista como miniatura",
       "useViewAsThumbnailSuccess": "La miniatura muestra ahora esta vista.",
       "useViewAsThumbnailFail": "No se pudo cambiar la miniatura.",
-      "viewOriginalImage": "Ver imagen original",
+      "viewOriginalImage": "Ver foto original",
       "deleteAction": "Eliminar la foto",
       "deleteSuccess": "Foto movida a la papelera.",
       "deleteFail": "No se pudo eliminar la foto.",
@@ -714,7 +714,7 @@
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Mostrar imagen"
+        "ariaLabel": "Mostrar foto"
       }
     },
     "addMedia": {
