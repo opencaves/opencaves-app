@@ -190,7 +190,13 @@ export default function SearchBar() {
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
   const [backBtnOn, setBackBtnOn] = useState(false)
 
-  const searchIndex = new MiniSearch(indexOptions)
+  // Built once per data change: rebuilt on every render, indexing every cave
+  // took a large part of the work when a cave was picked (and each keystroke).
+  const searchIndex = useMemo(() => {
+    const index = new MiniSearch(indexOptions)
+    index.addAll(data)
+    return index
+  }, [data])
 
   const navigate = useNavigate()
 
@@ -235,8 +241,6 @@ export default function SearchBar() {
     setSearchedTerm('')
     setSearchResults([])
   }
-
-  searchIndex.addAll(data)
 
   useEffect(() => {
     const select = (state) => state.map.currentCave

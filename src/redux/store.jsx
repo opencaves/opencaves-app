@@ -51,8 +51,11 @@ const mapPersistConfig = {
   key: 'map',
   storage: sessionPersistStorage,
   // placeOnMap and crossPickFor are transient UI modes - restoring them after
-  // a reload would strand them with nothing driving them.
-  blacklist: ['currentMarker', 'placeOnMap', 'crossPickFor', 'viewResetRequested'],
+  // a reload would strand them with nothing driving them. data is every
+  // located cave, rebuilt from the cave data on each load (Map.jsx): kept, its
+  // ~300 KB were rewritten to sessionStorage on every change to this slice -
+  // a cave picked, the map panned - long enough to make the camera's flight jump.
+  blacklist: ['currentMarker', 'placeOnMap', 'crossPickFor', 'viewResetRequested', 'data'],
 }
 
 const rootReducer = combineReducers({

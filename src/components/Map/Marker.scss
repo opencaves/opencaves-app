@@ -134,6 +134,13 @@
     }
   }
 
+  // A clicked pin until the camera's flight starts (Map.jsx): its usual size
+  // until its bounce starts with the flight.
+  &.oc-map--marker-pending .marker-icon {
+    transform: none;
+    animation: none;
+  }
+
   &.inactive-animate {
     .marker-icon {
       transform-origin: center bottom;
