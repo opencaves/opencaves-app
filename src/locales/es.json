@@ -1006,7 +1006,9 @@
     "markers": {
       "location": "Ubicación de la cueva",
       "entrance": "Entrada del cenote",
-      "key": "Ubicación de la llave"
+      "key": "Ubicación de la llave",
+      "entranceShort": "Entrada",
+      "keyShort": "Llave"
     },
     "caveLayer": {
       "button": "Capas del mapa",

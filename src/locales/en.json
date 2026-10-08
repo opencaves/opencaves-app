@@ -1006,7 +1006,9 @@
     "markers": {
       "location": "Cave location",
       "entrance": "Cave entrance",
-      "key": "Key location"
+      "key": "Key location",
+      "entranceShort": "Entrance",
+      "keyShort": "Key"
     },
     "caveLayer": {
       "button": "Map layers",
