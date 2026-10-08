@@ -194,3 +194,10 @@
 }
 
 
+
+// Reduced motion: the selected pin grows without bouncing.
+@media (prefers-reduced-motion: reduce) {
+  .mapboxgl-marker.active-animate .marker-icon {
+    animation: none;
+  }
+}

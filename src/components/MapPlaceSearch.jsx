@@ -112,7 +112,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
     const map = mapRef.current
     if (!map || !option) return
     const zoom = ZOOM_BY_TYPE[option.kind === 'cave' ? 'cave' : option.type] ?? DEFAULT_ZOOM
-    map.flyTo({ center: option.center, zoom, offset: [0, centerOffsetY], essential: true })
+    map.flyTo({ center: option.center, zoom, offset: [0, centerOffsetY] })
   }
 
   const options = [...caveOptions, ...places]

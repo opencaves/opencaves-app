@@ -65,7 +65,7 @@ export default function PlaceOnMapOverlay({ mapRef }) {
           ? [currentCave.location.longitude, currentCave.location.latitude]
           : null
     if (target) {
-      map.flyTo({ center: target, zoom: Math.max(map.getZoom(), PLACE_ZOOM), offset: [0, y - window.innerHeight / 2], essential: true })
+      map.flyTo({ center: target, zoom: Math.max(map.getZoom(), PLACE_ZOOM), offset: [0, y - window.innerHeight / 2] })
     }
 
     const onMove = () => setCenter(readCenter(y))

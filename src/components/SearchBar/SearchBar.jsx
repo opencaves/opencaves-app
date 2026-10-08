@@ -443,6 +443,9 @@ export default function SearchBar() {
             borderWidth: 1,
             borderStyle: 'solid',
             m: `${SEARCH_BAR_MARGIN}px ${SEARCH_BAR_MARGIN}px 0`,
+            // The app's focus ring around the bar while its field has the
+            // focus (a field shows it by its outline elsewhere; this one has none).
+            '&:has(.oc-search-bar--field input:focus-visible)': { outline: '3px solid var(--oc-focus-ring)', outlineOffset: 2 },
           }}
         >
           {/* 56px with its border; 48px buttons centred in it, 4px from its
