@@ -127,7 +127,9 @@
       "empty": "Aún no has guardado ninguna cueva. Usa el botón Guardar de una cueva para añadirla aquí.",
       "remove": "Quitar de guardados",
       "removeNamed": "Quitar {{name}} de guardados",
-      "sistema": "Sistema {{name}}"
+      "sistema": "Sistema {{name}}",
+      "removed": "{{name}} quitada de tus cuevas guardadas",
+      "undo": "Deshacer"
     },
     "offline": {
       "title": "Uso sin conexión",
@@ -1189,7 +1191,8 @@
     "connection": {
       "offline": "Estás sin conexión. Las cuevas guardadas siguen disponibles.",
       "online": "Vuelves a estar en línea.",
-      "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando."
+      "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando.",
+      "offlineNoSaved": "Estás sin conexión. Las fotos y los mapas que ya viste siguen disponibles."
     },
     "caveReady": "{{name}} está disponible sin conexión",
     "caveIncomplete": "{{name}} está guardada, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",

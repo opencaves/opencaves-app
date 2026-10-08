@@ -127,7 +127,9 @@
       "empty": "You haven’t saved any caves yet. Use the Save button on a cave to add it here.",
       "remove": "Remove from saved",
       "removeNamed": "Remove {{name}} from saved",
-      "sistema": "Sistema {{name}}"
+      "sistema": "Sistema {{name}}",
+      "removed": "{{name}} removed from your saved caves",
+      "undo": "Undo"
     },
     "offline": {
       "title": "Offline use",
@@ -1189,7 +1191,8 @@
     "connection": {
       "offline": "You're offline. Saved caves are still available.",
       "online": "You're back online.",
-      "onlineSyncing": "You're back online. Your changes are syncing."
+      "onlineSyncing": "You're back online. Your changes are syncing.",
+      "offlineNoSaved": "You're offline. Photos and maps you've already viewed are still here."
     },
     "caveReady": "{{name}} is available offline",
     "caveIncomplete": "{{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
