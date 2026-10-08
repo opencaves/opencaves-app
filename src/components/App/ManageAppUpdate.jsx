@@ -46,6 +46,8 @@ export function UpdateSnackbar({ open, onReload }) {
           {t('updateAvailable.btn')}
         </Button>
       }
+      // Bottom centre, as every other snackbar (MUI's default is the left).
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       slots={{ transition: Slide }}
       slotProps={{ transition: { direction: 'up' } }}
     />
