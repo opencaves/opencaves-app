@@ -1621,21 +1621,32 @@
   "feedback": {
     "title": "Envoyer un commentaire",
     "intro": "Signalez à l'équipe d'OpenCaves un bogue, quelque chose de trompeur, ou une idée. Merci de votre aide !",
-    "kindLabel": "Type de commentaire",
+    "kindLabel": "De quoi s’agit-il ?",
     "kinds": {
       "bug": "Bogue",
       "misleading": "Trompeur",
       "idea": "Idée"
     },
+    "kindText": {
+      "bug": "Quelque chose ne marche pas.",
+      "misleading": "Quelque chose est confus ou semble faux.",
+      "idea": "Quelque chose manque ou pourrait être mieux."
+    },
+    "hints": {
+      "bug": "Décrivez les étapes pour reproduire le problème, une par ligne, afin que nous le voyions aussi : ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place. Indiquez votre appareil et votre navigateur.",
+      "misleading": "Dites ce qui est trompeur - un libellé, une fonction, une donnée - et ce que vous avez compris. Si une donnée semble fausse, dites-nous ce qui est juste selon vous, et comment vous le savez.",
+      "idea": "Décrivez ce que vous aimeriez qu’OpenCaves fasse, et quand cela vous aiderait : avant une plongée, après, pour partager quelque chose ?"
+    },
     "messageLabel": "Votre message",
     "placeholders": {
-      "bug": "Qu'avez-vous fait, qu'attendiez-vous, et que s'est-il passé à la place ?",
-      "misleading": "Qu'est-ce qui est trompeur, et qu'avez-vous compris ?",
-      "idea": "Qu'aimeriez-vous qu'OpenCaves fasse ?"
+      "bug": "1. Ouvrir la page de…\n2. Cliquer sur…\n3. …\n\nAttendu : …\nCe qui s’est passé : …\nAppareil et navigateur : …",
+      "misleading": "Le libellé/la fonction/la donnée trompeuse, et ce que vous avez compris…",
+      "idea": "J’aimerais pouvoir…"
     },
     "pageLabel": "Page",
     "pageHelp": "La page concernée (remplie pour vous).",
     "cancel": "Annuler",
+    "close": "Fermer",
     "send": "Envoyer",
     "sent": "Merci ! Votre commentaire a été envoyé à l'équipe d'OpenCaves.",
     "error": "Votre commentaire n'a pas pu être envoyé. Veuillez réessayer.",

@@ -4,8 +4,10 @@ import { auth } from '../init.js'
 import { FEEDBACK_COLL_NAME, REGION } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { SITE_URL } from '../seo/shared.js'
+import { renderEmail } from '../email/layout.js'
 
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
+const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 
 // Every admin's email address (accounts whose roles include admin).
 async function adminEmails() {
@@ -34,21 +36,24 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
     }
     const author = await auth.getUser(report.userId).catch(() => null)
     const kind = KINDS[report.kind] || report.kind
-    const page = report.page ? `${SITE_URL}${report.page}` : '-'
+    const page = report.page ? `${SITE_URL}${report.page}` : ''
+    const from = author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId
+    const { html, text } = renderEmail({
+      preheader: String(report.message).slice(0, 120),
+      hero: { overline: 'Beta feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
+      blocks: [
+        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }] },
+        { type: 'quote', text: report.message },
+        { type: 'button', label: 'See all reports', href: `${SITE_URL}/feedback` },
+      ],
+      footer: 'You get this email because you are an OpenCaves admin.',
+    })
     await sendEmail({
       to,
       bcc,
       subject: `[OpenCaves beta] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
-      text: [
-        `A new ${kind.toLowerCase()} report on OpenCaves.`,
-        '',
-        `From: ${author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId}`,
-        `Page: ${page}`,
-        '',
-        report.message,
-        '',
-        `All reports: ${SITE_URL}/feedback`,
-      ].join('\n'),
+      html,
+      text,
     })
   } catch (error) {
     logger.error('[feedback] the admins could not be emailed', { id: event.params.id, error: error.message })

@@ -1622,21 +1622,32 @@
   "feedback": {
     "title": "Send feedback",
     "intro": "Tell the OpenCaves team about a bug, something misleading, or an idea. Thank you for helping!",
-    "kindLabel": "What kind of feedback",
+    "kindLabel": "What is it about?",
     "kinds": {
       "bug": "Bug",
       "misleading": "Misleading",
       "idea": "Idea"
     },
+    "kindText": {
+      "bug": "Something broke or doesn’t work.",
+      "misleading": "Something is confusing or looks wrong.",
+      "idea": "Something is missing or could be better."
+    },
+    "hints": {
+      "bug": "Write the steps to reproduce it, one per line, so we can see it happen too: what you did, what you expected, and what happened instead. Mention your device and browser.",
+      "misleading": "Say what is misleading - a label, a feature, some data - and what you understood. If data looks wrong, tell us what you think is right and how you know.",
+      "idea": "Describe what you would like OpenCaves to do, and when it would help you: before a dive, after one, to share something?"
+    },
     "messageLabel": "Your message",
     "placeholders": {
-      "bug": "What did you do, what did you expect, and what happened instead?",
-      "misleading": "What is misleading, and what did you understand?",
-      "idea": "What would you like OpenCaves to do?"
+      "bug": "1. Open the page of…\n2. Click…\n3. …\n\nExpected: …\nWhat happened: …\nDevice and browser: …",
+      "misleading": "The label/feature/data that is misleading, and what you understood…",
+      "idea": "I would like to be able to…"
     },
     "pageLabel": "Page",
     "pageHelp": "The page it is about (filled in for you).",
     "cancel": "Cancel",
+    "close": "Close",
     "send": "Send",
     "sent": "Thank you! Your feedback was sent to the OpenCaves team.",
     "error": "Your feedback couldn't be sent. Please try again.",
