@@ -34,7 +34,8 @@ export default function LanguageSection({ headingProps = {}, asField = false }) 
   const automaticLanguage = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
 
   return (
-    <Box component={asField ? 'div' : 'section'} className="oc-language-section">
+    // id: the #language anchor (/account#language, linked from the welcome email).
+    <Box component={asField ? 'div' : 'section'} className="oc-language-section" id="language" sx={{ scrollMarginTop: 'calc(64px + 16px)' }}>
       {/* asField: a labelled field inside another section (the account's personal info). */}
       {!asField && (
         <Typography component="h2" variant="h6" {...headingProps} id="oc-language-section-title">
