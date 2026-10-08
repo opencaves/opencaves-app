@@ -30,8 +30,9 @@ export default function PhotoGallery() {
     navigate(`../${next}`, { replace: true, relative: 'path', state: location.state })
   }
 
+  // Closed: the focus on the page's link to the photo last shown.
   return (
-    <GalleryOverlay className="oc-photo-gallery" onClose={close}>
+    <GalleryOverlay className="oc-photo-gallery" onClose={close} returnFocus={() => document.querySelector(`a[href$="/photos/${mediaId}"]`)}>
       {list && !list.empty && <MediaPaneDetails mediaId={mediaId} medias={list} onBeforeDelete={onBeforeDelete} alwaysShowBack onBack={close} showCounter />}
     </GalleryOverlay>
   )

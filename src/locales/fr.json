@@ -1839,5 +1839,21 @@
   "languagePicker": {
     "label": "Langue",
     "automatic": "Automatique ({{language}})"
+  },
+  "lightbox": {
+    "previous": "Précédente",
+    "next": "Suivante",
+    "close": "Fermer",
+    "share": "Partager",
+    "download": "Télécharger",
+    "enterFullscreen": "Plein écran",
+    "exitFullscreen": "Quitter le plein écran",
+    "zoomIn": "Agrandir",
+    "zoomOut": "Réduire",
+    "slide": "Diapositive",
+    "carousel": "Carrousel",
+    "lightbox": "Visionneuse",
+    "gallery": "Galerie",
+    "position": "{index} sur {total}"
   }
 }

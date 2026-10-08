@@ -1840,5 +1840,21 @@
   "languagePicker": {
     "label": "Language",
     "automatic": "Automatic ({{language}})"
+  },
+  "lightbox": {
+    "previous": "Previous",
+    "next": "Next",
+    "close": "Close",
+    "share": "Share",
+    "download": "Download",
+    "enterFullscreen": "Full screen",
+    "exitFullscreen": "Exit full screen",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "slide": "Slide",
+    "carousel": "Carousel",
+    "lightbox": "Viewer",
+    "gallery": "Gallery",
+    "position": "{index} of {total}"
   }
 }
