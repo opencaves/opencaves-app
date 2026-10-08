@@ -77,7 +77,8 @@ export default function NavDrawer({ open, onClose, zIndex }) {
           <Box className="oc-nav-drawer--header" sx={{ display: 'flex', alignItems: 'center', minHeight: 64, pl: 2, pr: 0.5 }}>
             <Box component={Link} to="/" aria-current={current('/')} sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0, flex: 1, color: 'text.primary', textDecoration: 'none' }}>
               <LogoIcon colorScheme={scheme} />
-              <Typography variant="h6" noWrap sx={{ color: 'text.primary' }}>
+              {/* The app's name, not a heading (an h6 with nothing above it). */}
+              <Typography component="p" variant="h6" noWrap sx={{ color: 'text.primary' }}>
                 {APP_TITLE}
               </Typography>
             </Box>

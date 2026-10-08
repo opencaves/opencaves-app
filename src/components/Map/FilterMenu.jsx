@@ -227,6 +227,9 @@ export default function MapFilterMenu({ props }) {
     <SwipeableDrawer
       {...props}
       className="oc-filter-menu"
+      // Closed (it stays in the page, persistent): out of reach of the
+      // keyboard and screen readers - its headings came before the page's h1.
+      inert={!filterMenuOpen}
       anchor="right"
       hideBackdrop={true}
       variant="persistent"

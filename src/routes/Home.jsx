@@ -250,7 +250,8 @@ export default function Home() {
                 <Grid key={photo.id} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Card sx={{ borderRadius: 3, height: '100%', transition: 'transform 200ms ease, box-shadow 200ms ease', '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 } }}>
                     <CardActionArea component={RouterLink} to={`/caves/${photo.caveId}`} sx={{ height: '100%' }}>
-                      <CardMedia component="img" image={photo.getThumbnailUrl('coverImage')} alt={name} loading="lazy" crossOrigin="anonymous" sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }} />
+                      {/* Empty alt: its name is the heading beside it (read twice before). */}
+                      <CardMedia component="img" image={photo.getThumbnailUrl('coverImage')} alt="" loading="lazy" crossOrigin="anonymous" sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }} />
                       <CardContent>
                         <Typography component="h3" variant="h6" sx={{ lineHeight: 1.3 }}>
                           {name}
