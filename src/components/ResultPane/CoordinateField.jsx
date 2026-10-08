@@ -316,9 +316,10 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         // on map" is the sheet's place-on-map mode in the map's result pane,
         // tap-to-pick on the admin pages' map preview.
         <>
-          {/* Sharing the screen's width (their desktop widths ran past its
-              edge): the numbers narrower, the validity a little wider. */}
-          <Box className="oc-coordinate-field--inputs" sx={{ display: 'flex', alignItems: 'center', gap: 1, '& > .MuiTextField-root': { width: 'auto', minWidth: 0, flex: '1 1 0' }, '& > .MuiTextField-root:nth-of-type(3)': { flexGrow: 1.75 }, '& .MuiInputBase-input': { px: '10px' }, '& .MuiInputLabel-root': { left: '-2px', maxWidth: 'calc(100% - 16px)' } }}>
+          {/* The two numbers sharing the screen's width, the validity on its
+              own row below them (all three on one row cut "Longitude", the
+              numbers and "Non confirmé" short). */}
+          <Box className="oc-coordinate-field--inputs" sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, '& > .MuiTextField-root': { width: 'auto', minWidth: 0, flex: '1 1 calc(50% - 4px)' }, '& > .MuiTextField-root:nth-of-type(3)': { flexBasis: '100%' }, '& .MuiInputBase-input': { px: '10px' }, '& .MuiInputLabel-root': { left: '-2px', maxWidth: 'calc(100% - 16px)' } }}>
             {longitudeInput}
             {latitudeInput}
             {validityInput}

@@ -1514,7 +1514,9 @@
       "clear": "Borrar la búsqueda",
       "results_one": "{{count}} resultado",
       "results_other": "{{count}} resultados",
-      "none": "Nada coincide con «{{query}}»."
+      "none": "Nada coincide con «{{query}}».",
+      "cavesShort": "Cueva, sistema o zona",
+      "sistemasShort": "Sistema o zona"
     },
     "onMap": "Ver en el mapa",
     "onMapOf": "{{name}} en el mapa",
@@ -1750,7 +1752,8 @@
       "browse": {
         "caves": "Explorar las cuevas",
         "sistemas": "Explorar los sistemas"
-      }
+      },
+      "searchShort": "Cueva, sistema o zona"
     },
     "figures": {
       "label": "OpenCaves en cifras",

@@ -54,7 +54,8 @@ export default function SistemaIndex() {
       <IndexSearchField
         query={query}
         setQuery={setQuery}
-        placeholder={t('search.sistemas')}
+        placeholder={t('search.sistemasShort')}
+        label={t('search.sistemas')}
         status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 

@@ -20,7 +20,7 @@ export default function LanguageSection({ headingProps = {}, asField = false }) 
           {t('language')}
         </Typography>
       )}
-      <TextField select size="small" value={choice} onChange={(event) => choose(event.target.value)} helperText={t('languageHint')} sx={{ width: 280, maxWidth: '100%' }} label={asField ? t('language') : undefined} slotProps={{ select: asField ? {} : { labelId: 'oc-language-section-title' } }}>
+      <TextField select size="small" value={choice} onChange={(event) => choose(event.target.value)} helperText={t('languageHint')} sx={{ width: 340, maxWidth: '100%' }} label={asField ? t('language') : undefined} slotProps={{ select: asField ? {} : { labelId: 'oc-language-section-title' } }}>
         <MenuItem value={AUTOMATIC}>{t('languageAutomatic', { language: automaticName })}</MenuItem>
         {APP_LANGUAGES.map(({ code, nativeName }) => (
           <MenuItem key={code} value={code} lang={code}>

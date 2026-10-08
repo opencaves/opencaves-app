@@ -1514,7 +1514,9 @@
       "clear": "Clear the search",
       "results_one": "{{count}} result",
       "results_other": "{{count}} results",
-      "none": "Nothing matches “{{query}}”."
+      "none": "Nothing matches “{{query}}”.",
+      "cavesShort": "Cave, system or area",
+      "sistemasShort": "System or area"
     },
     "onMap": "Show on the map",
     "onMapOf": "{{name}} on the map",
@@ -1750,7 +1752,8 @@
       "browse": {
         "caves": "Browse the caves",
         "sistemas": "Browse the systems"
-      }
+      },
+      "searchShort": "Cave, system or area"
     },
     "figures": {
       "label": "OpenCaves in figures",

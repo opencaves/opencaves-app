@@ -46,7 +46,8 @@ export default function SiteSearch({ sx, inputSx }) {
             className="oc-site-search--field"
             // Outlined whatever the theme's default, so inputSx can style it.
             variant="outlined"
-            placeholder={t('hero.searchPlaceholder')}
+            // Short: the long one (its name) was cut on phones.
+            placeholder={t('hero.searchShort')}
             sx={inputSx}
             slotProps={{
               ...params.slotProps,

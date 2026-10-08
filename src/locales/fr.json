@@ -1513,7 +1513,9 @@
       "clear": "Effacer la recherche",
       "results_one": "{{count}} résultat",
       "results_other": "{{count}} résultats",
-      "none": "Rien ne correspond à « {{query}} »."
+      "none": "Rien ne correspond à « {{query}} ».",
+      "cavesShort": "Grotte, réseau ou région",
+      "sistemasShort": "Réseau ou région"
     },
     "onMap": "Voir sur la carte",
     "onMapOf": "{{name}} sur la carte",
@@ -1749,7 +1751,8 @@
       "browse": {
         "caves": "Parcourir les grottes",
         "sistemas": "Parcourir les réseaux"
-      }
+      },
+      "searchShort": "Grotte, réseau ou région"
     },
     "figures": {
       "label": "OpenCaves en chiffres",
