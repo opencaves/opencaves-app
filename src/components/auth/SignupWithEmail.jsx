@@ -37,6 +37,10 @@ if (!customElements.get('swiper-container')) {
   register()
 }
 
+// Each slide's dot: the email link's slide (2) shares "check your inbox".
+const SLIDE_DOT = [0, 1, 1, 2, 3, 4]
+const STEP_DOTS = 5
+
 export default function SignupWithEmail({ open: initialOpen }) {
   const logoHeight = 100
   const logoWidth = 185
@@ -466,9 +470,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
       fullWidth
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
-      sx={{
-        '--swiper-pagination-color': 'var(--mui-palette-secondary-main)',
-      }}
       // TransitionComponent={Grow}
       transitionDuration={{
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
@@ -573,11 +574,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
               className="oc-signup-with-email--steps"
               ref={setSwiperContainerRef}
               initial-slide={initialStep}
-              allow-touch-move={import.meta.env.DEV}
+              // Not draggable (it was in development): dragging skipped steps,
+              // the name's included. The buttons move it.
+              allow-touch-move="false"
               slides-per-view="1"
               speed="350"
               // css-mode
-              pagination
             >
               {/*
                * Step 0 - Enter email
@@ -853,6 +855,15 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 </Section>
               </swiper-slide>
             </swiper-container>
+            {/* The steps a person goes through - email, check your inbox,
+                name, password, done: five dots, not the six slides (the email
+                link's slide - another device, a bad link - is part of
+                checking the inbox). */}
+            <Box className="oc-signup-with-email--dots" aria-hidden="true" sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 2 }}>
+              {Array.from({ length: STEP_DOTS }, (_, dot) => (
+                <Box key={dot} sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: dot === SLIDE_DOT[currentStep] ? 'secondary.main' : 'action.disabled', transition: 'background-color 200ms' }} />
+              ))}
+            </Box>
           </Box>
         </Grid>
       </DialogContent>
