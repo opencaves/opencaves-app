@@ -29,7 +29,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const { t: tMaps } = useTranslation('mapsPicker')
   const [allMaps, loading] = mapsModel.useAll()
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
-  const requireLogin = useRequireLogin()
+  const requireLogin = useRequireLogin('maps')
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))
   // Newest first, the undated last (as every list of maps).

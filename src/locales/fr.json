@@ -1794,5 +1794,31 @@
     "inviteMember": "Merci de faire partie de l'équipe ! Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
     "betaMember": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Nous vous préviendrons à la fin de la bêta.",
     "start": "On plonge !"
+  },
+  "authPrompt": {
+    "close": "Fermer",
+    "notNow": "Pas maintenant",
+    "logIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "photos": {
+      "title": "Ajoutez vos photos",
+      "text": "Créez un compte gratuit pour ajouter des photos aux grottes : ce que vous avez vu aide les prochains plongeurs."
+    },
+    "videos": {
+      "title": "Ajoutez une vidéo",
+      "text": "Créez un compte gratuit pour ajouter des vidéos aux grottes."
+    },
+    "maps": {
+      "title": "Ajoutez une carte topographique",
+      "text": "Créez un compte gratuit pour ajouter des cartes topographiques aux réseaux."
+    },
+    "feedback": {
+      "title": "Dites-nous ce que vous avez trouvé",
+      "text": "Créez un compte gratuit pour envoyer vos commentaires à l’équipe d’OpenCaves, afin que nous puissions y donner suite."
+    },
+    "default": {
+      "title": "Un compte est nécessaire",
+      "text": "Créez un compte gratuit, ou connectez-vous, pour faire ceci."
+    }
   }
 }

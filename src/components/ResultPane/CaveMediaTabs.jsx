@@ -37,7 +37,9 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   }
   const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
 
-  const requireLogin = useRequireLogin()
+  const requireLoginForPhotos = useRequireLogin('photos')
+  const requireLoginForVideos = useRequireLogin('videos')
+  const requireLoginForMaps = useRequireLogin('maps')
 
   return (
     <Box sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
@@ -55,7 +57,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
-              <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
+              <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLoginForPhotos}>
                 {t('addPictures')}
               </AddButton>
             ) : standaloneUpload ? (
@@ -67,10 +69,10 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
         </Box>
       )}
       <Box role="tabpanel" id={`${tabId}-videos-panel`} aria-labelledby={`${tabId}-videos-tab`} hidden={activeTab !== 'videos'} sx={{ display: activeTab === 'videos' ? 'block' : 'none', pt: 2 }}>
-        <VideoList caveId={caveId} videos={videos} onChange={editable ? onVideosChange : undefined} showAdd={!editable} onAddUnauthorized={requireLogin} showTitle={false} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)', pt: 0 }} />
+        <VideoList caveId={caveId} videos={videos} onChange={editable ? onVideosChange : undefined} showAdd={!editable} onAddUnauthorized={requireLoginForVideos} showTitle={false} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)', pt: 0 }} />
       </Box>
       <Box role="tabpanel" id={`${tabId}-maps-panel`} aria-labelledby={`${tabId}-maps-tab`} hidden={activeTab !== 'maps'} sx={{ display: activeTab === 'maps' ? 'block' : 'none', pt: 2 }}>
-        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLogin} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} mapPath={mapPath} />
+        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLoginForMaps} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} mapPath={mapPath} />
       </Box>
     </Box>
   )
