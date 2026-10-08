@@ -19,7 +19,6 @@ import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
-import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import AddButton from '@/components/AddButton.jsx'
@@ -37,6 +36,8 @@ import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
+import CreatableChipsField from '@/components/CreatableChipsField.jsx'
+import { teamNames } from '@/utils/explorationTeam.js'
 
 const colorsModel = createCollectionModel('colors')
 // One of the colours list's hex values, at random ('' with none).
@@ -48,7 +49,8 @@ const randomListColor = (colors) => {
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
-const emptyExploration = { date: '', team: '', description: '', notes: '' }
+// team: its names, one chip each (a list; older records hold one string).
+const emptyExploration = { date: '', team: [], description: '', notes: '' }
 const sectionHeadingProps = formSectionHeadingProps('oc-sistema-edit-form--section-title')
 
 function parseLocalizedNumber(value, locale) {
@@ -98,7 +100,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
               <Grid size={12}>
-                <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
+                <CreatableChipsField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
                 {/* As wide as its widest value (a full date, 2019-06-15); its hint may
@@ -223,7 +225,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       length: shown(sistema?.length ?? ''),
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
-      explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e })),
+      explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e, team: teamNames(e.team) })),
       aka: sistema?.aka || [],
       maps: sistema?.maps || [],
       longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
@@ -266,7 +268,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
-      const trimmedExplorations = form.explorations.filter((e) => e.date || e.team || e.description || e.notes)
+      const trimmedExplorations = form.explorations.filter((e) => e.date || e.team.length || e.description || e.notes).map(({ team, ...e }) => (team.length ? { ...e, team } : e))
 
       const fields = {
         // The texts' sources the form changed (textSources).
@@ -334,7 +336,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
   const areasById = new Map(areas.map((a) => [a.id, a.name]))
   const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
-  const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).map((exploration) => exploration.team?.trim()).filter(Boolean)), ...form.explorations.map((exploration) => exploration.team?.trim()).filter(Boolean)])].sort((first, second) => first.localeCompare(second))
+  const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).flatMap((exploration) => teamNames(exploration.team))), ...form.explorations.flatMap((exploration) => teamNames(exploration.team))])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery) || matchesId(s.id, parentSearchQuery)) : otherSistemas
   const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />

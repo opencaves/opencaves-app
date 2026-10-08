@@ -33,6 +33,7 @@ import { throwNotFound } from '@/components/IndexPage/notFound.js'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
+import { teamNames } from '@/utils/explorationTeam.js'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads.
@@ -102,7 +103,7 @@ export default function CavePage() {
     isPoint(cave.entrance) && { key: 'entrance', icon: <FenceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
   ].filter(Boolean)
-  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
+  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
 
   return (
     <div className="oc-cave-page">
