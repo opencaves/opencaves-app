@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Link, Stack, SvgIcon, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
@@ -14,6 +15,7 @@ import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import { prefetchMap } from '@/routes/mapRoute.js'
+import { resetView } from '@/redux/slices/mapSlice.jsx'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
@@ -85,6 +87,7 @@ function useCoverPhotos() {
 // it, its regions, how to contribute, and the language.
 export default function Home() {
   const { t } = useTranslation('home')
+  const dispatch = useDispatch()
   const { t: tAbout } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
   const { t: tIndex } = useTranslation('indexPages')
@@ -158,6 +161,8 @@ export default function Home() {
             size="large"
             component={RouterLink}
             to="/map"
+            // The whole area, as the menu's Map: not the last view kept.
+            onClick={() => dispatch(resetView())}
             startIcon={<MapRounded />}
             endIcon={<ArrowForwardRounded className="oc-home--map-arrow" />}
             sx={(theme) => ({
