@@ -30,7 +30,7 @@ const FIELD_BADGE_ICONS = {
 }
 
 // A coordinate's validity (location.validity...), each with its icon and
-// clue colour.
+// clue colour (a palette colour: its dark tone in the light theme).
 // A typed longitude/latitude within the Earth's range (or empty): the map
 // throws on a latitude past ±90, which crashed the whole edit page.
 const inRange = (value, max) => value === '' || value === null || typeof value === 'undefined' || (Number.isFinite(Number(value)) && Math.abs(Number(value)) <= max)
@@ -39,9 +39,9 @@ export const latitudeInRange = (value) => inRange(value, 90)
 export const coordinateInRange = (longitude, latitude) => longitudeInRange(longitude) && latitudeInRange(latitude)
 
 export const COORDINATE_VALIDITIES = [
-  { value: 'valid', color: 'success.main', Icon: CheckRounded },
-  { value: 'unknown', color: 'warning.main', Icon: QuestionMarkRounded },
-  { value: 'invalid', color: 'error.main', Icon: PriorityHighRounded },
+  { value: 'valid', color: 'success', Icon: CheckRounded },
+  { value: 'unknown', color: 'warning', Icon: QuestionMarkRounded },
+  { value: 'invalid', color: 'error', Icon: PriorityHighRounded },
 ]
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
@@ -234,7 +234,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} error={!latitudeInRange(latitude)} helperText={latitudeInRange(latitude) ? undefined : t('latitudeRange')} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
   const dot = (value) => {
     const { Icon, color } = COORDINATE_VALIDITIES.find((v) => v.value === value) || COORDINATE_VALIDITIES[1]
-    return <Icon sx={{ fontSize: 18, color, flex: 'none' }} />
+    return <Icon sx={(theme) => ({ fontSize: 18, flex: 'none', color: theme.vars.palette[color].dark, ...theme.applyStyles('dark', { color: theme.vars.palette[color].main }) })} />
   }
   const validityInput = onValidityChange && (
     <TextField
