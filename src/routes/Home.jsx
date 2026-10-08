@@ -86,7 +86,8 @@ function useCoverPhotos() {
 // warning and the disclaimer (up front, not in the fine print), what's in
 // it, its regions, how to contribute, and the language.
 export default function Home() {
-  const { t } = useTranslation('home')
+  // i18n: numbers in the app's language (858, not the browser's format).
+  const { t, i18n } = useTranslation('home')
   const dispatch = useDispatch()
   const { t: tAbout } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
@@ -207,7 +208,7 @@ export default function Home() {
                 <CardActionArea component={RouterLink} to={to} sx={{ height: '100%', p: 2.5, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
                   <IconBadge size={56}>{icon}</IconBadge>
                   <Box>
-                    <Typography sx={{ typography: 'h4', color: 'var(--mui-sys-color-primary)', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString()}</Typography>
+                    <Typography sx={{ typography: 'h4', color: 'var(--mui-sys-color-primary)', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString(i18n.resolvedLanguage)}</Typography>
                     <Typography sx={{ color: 'text.secondary' }}>{t(`figures.${key}`, { count })}</Typography>
                   </Box>
                 </CardActionArea>
