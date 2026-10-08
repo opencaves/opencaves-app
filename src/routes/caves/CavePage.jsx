@@ -36,6 +36,7 @@ import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 import PlaceOutlined from '@mui/icons-material/PlaceOutlined'
 import Address from '@/components/ResultPane/Address.jsx'
+import { nameTranslationLines } from '@/utils/nameTranslations.js'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
 // Its box keeps the photo's 16:9 shape while it downloads.
@@ -56,8 +57,9 @@ function CaveCover({ cover }) {
 export default function CavePage() {
   const { caveId } = useParams()
   const { t } = useTranslation('indexPages')
-  const { t: tPane } = useTranslation('resultPane')
+  const { t: tPane, i18n } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
+  const languages = useSelector((state) => state.data.languages)
   // Asked for alongside the data, and waited for: drawn once the page knows
   // whether there is one, the cover no longer pushes the page down when it
   // arrives (a 216-444px jump).
@@ -91,7 +93,9 @@ export default function CavePage() {
   const area = cave.area ? data.areasBySlug.get(slugify(cave.area)) || null : null
   const sistema = cave.sistemaId ? data.sistemasById.get(cave.sistemaId) || null : null
   const location = cave.location?.latitude != null ? cave.location : null
-  const aka = [...(Array.isArray(cave.aka) ? cave.aka : []), ...Object.values(cave.nameTranslations || {}).flat()].filter(Boolean)
+  const aka = (Array.isArray(cave.aka) ? cave.aka : []).filter(Boolean)
+  // Its translations apart from aka, each labelled (as the map's pane).
+  const nameTranslations = nameTranslationLines(cave, i18n.resolvedLanguage, languages, (language, names) => tPane('nameTranslation', { language, names }))
   const facts = [
     area && { key: 'area', label: t('cave.area'), value: <Link component={RouterLink} to={`/caves#${area.slug}`} underline="hover">{area.name}</Link> },
     sistema && { key: 'sistema', label: t('cave.sistema'), value: <><SistemaArrow color={sistema.color} sx={{ mr: 0.75 }} />{sistema.slug ? <Link component={RouterLink} to={`/sistemas/${sistema.slug}`} underline="hover">{sistema.name}</Link> : sistema.name}</> },
@@ -113,7 +117,7 @@ export default function CavePage() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }, ...(area ? [{ label: area.name, to: `/caves#${area.slug}` }] : [])]}
         current={label}
         title={label}
-        subtitle={aka.length > 0 ? `${tPane('aka')} ${[...new Set(aka)].join(', ')}` : null}
+        subtitle={[aka.length > 0 && `${tPane('aka')} ${[...new Set(aka)].join(', ')}`, ...nameTranslations].filter(Boolean).join(' · ') || null}
         backTo={area ? `/caves#${area.slug}` : '/caves'}
         editTo={`/caves/${cave.id}/edit`}
         editLabel={t('cave.edit', { name: label })}

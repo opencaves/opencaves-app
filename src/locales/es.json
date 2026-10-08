@@ -691,7 +691,8 @@
       "saveError": "No se pudo guardar tu calificación."
     },
     "cenoteEntrance": "Cenote de entrada",
-    "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas."
+    "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas.",
+    "nameTranslation": "{{language}}: {{names}}"
   },
   "mediaPane": {
     "header": "{{name}}",

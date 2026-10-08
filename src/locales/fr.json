@@ -690,7 +690,8 @@
       "saveError": "Impossible d’enregistrer votre note."
     },
     "cenoteEntrance": "Cénote d'entrée",
-    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau."
+    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau.",
+    "nameTranslation": "{{language}} : {{names}}"
   },
   "mediaPane": {
     "header": "{{name}}",
