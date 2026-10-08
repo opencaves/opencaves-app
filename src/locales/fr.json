@@ -211,7 +211,7 @@
           "email": {
             "header": "Entrez votre courriel",
             "label": "Courriel",
-            "loginInvite": "Vous avez déjà un compte?",
+            "loginInvite": "Vous avez déjà un compte ?",
             "loginBtn": "Connectez-vous",
             "continueBtn": "Suivant"
           },
@@ -269,7 +269,7 @@
         }
       },
       "goToLogIn": {
-        "invite": "Vous avez déjà un compte?",
+        "invite": "Vous avez déjà un compte ?",
         "btn": "Connectez-vous"
       },
       "withMicrosoft": "S'inscrire avec Microsoft"
