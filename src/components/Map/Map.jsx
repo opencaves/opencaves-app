@@ -20,7 +20,6 @@ import { SISTEMA_DEFAULT_COLOR, INITIAL_VIEW_STATE as defaultViewState, MAP_PROP
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
-import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
@@ -61,6 +60,13 @@ const EDIT_FIELD_BADGE_ICONS = {
 // layout, and how many unchanged frames count as settled.
 // An embedded map's first view of its cave (OCMap's embedded).
 const EMBEDDED_ZOOM = 15
+// The selected cave's entrance and key points: their icon alone, in the
+// pin's colour, with a dark edge and a soft shadow so any colour reads over
+// the imagery, at the size it had in the pin's head, its label under it. The
+// marker's top sits half an icon above the point, so the icon is centred on it.
+const POINT_ICON_SX = { fontSize: 13, filter: 'drop-shadow(0 0 1px #23272b) drop-shadow(0 0 0.5px #23272b) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))' }
+const POINT_ICON_OFFSET = [0, -6.5]
+const POINT_SX = { display: 'flex', flexDirection: 'column', alignItems: 'center' }
 const SETTLE_TIMEOUT = 2000
 const SETTLE_FRAMES = 10
 
@@ -919,18 +925,21 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                 })}
 
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
-              <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
-                <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                  <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
+              <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
+                <Box className="oc-map--marker marker" sx={POINT_SX}>
+                  <FenceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>
             )}
             {selectedCave &&
               !isWidePaneEditMode &&
               selectedCave.keys?.map((key, index) => (
-                <Marker key={`selected-key-${selectedCave.id}-${index}`} ref={labelMarker(t('markers.key'))} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
-                  <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                    <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
+                <Marker key={`selected-key-${selectedCave.id}-${index}`} ref={labelMarker(t('markers.key'))} longitude={key.longitude} latitude={key.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                  <Box className="oc-map--marker marker" sx={POINT_SX}>
+                    <VpnKeyRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                    <div className="oc-map--marker-label marker-label">{t('markers.keyShort')}</div>
                   </Box>
                 </Marker>
               ))}
