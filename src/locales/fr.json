@@ -877,7 +877,7 @@
       "ariaLabel": "Retour"
     },
     "newSistema": "Nouveau réseau",
-    "unnamedSistema": "(sans nom)",
+    "unnamedSistema": "(Réseau sans nom)",
     "searchBtn": {
       "ariaLabel": "Rechercher"
     },
@@ -961,7 +961,7 @@
       "findMyLocation": "Trouver ma position"
     },
     "title": "Carte",
-    "caveNameUnknown": "[sans nom]",
+    "caveNameUnknown": "(Grotte sans nom)",
     "editFab": {
       "ariaLabel": "Modifier les données de la cénote",
       "editCave": "Modifier cette cénote",
@@ -1075,7 +1075,8 @@
     "searchByName": "Rechercher par nom",
     "newCave": "Nouvelle cénote",
     "newSistema": "Nouveau sistema",
-    "unnamed": "(sans nom)",
+    "unnamedCave": "(Grotte sans nom)",
+    "unnamedSistema": "(Réseau sans nom)",
     "back": "Retour",
     "edit": "Modifier",
     "delete": "Supprimer",
@@ -1428,7 +1429,8 @@
   "indexPages": {
     "sectionLink": "Lien vers la section {{name}}",
     "unknownArea": "Région inconnue",
-    "unnamedCave": "Grotte sans nom",
+    "unnamedCave": "(Grotte sans nom)",
+    "unnamedCavePlain": "Grotte sans nom",
     "caveCount_one": "{{count}} grotte",
     "caveCount_other": "{{count}} grottes",
     "sistemaCount_one": "{{count}} réseau",
@@ -1518,7 +1520,8 @@
     "mapOf": "carte de {{name}}",
     "connection": "{{child}} relié à {{parent}}",
     "addedBy": "ajouté par {{name}}",
-    "unnamed": "Sans nom",
+    "unnamedCave": "(Grotte sans nom)",
+    "unnamedSistema": "(Réseau sans nom)",
     "unnamedMap": "Carte sans titre",
     "recently": "Récemment",
     "none": "Rien de nouveau pour le moment.",

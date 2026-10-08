@@ -4,7 +4,7 @@ import { Popup } from 'react-map-gl/mapbox'
 export default function Teaser(cave) {
   const { t } = useTranslation('map')
   const { longitude, latitude } = cave.location
-  const caveName = cave.name ? cave.name.value : t('caveNameUnknown')
+  const caveName = cave.name?.value || t('caveNameUnknown')
   return (
     <Popup
       className="oc-teaser"

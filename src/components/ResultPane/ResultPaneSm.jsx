@@ -40,7 +40,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
   const { t: tApp } = useTranslation('app')
-  const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
+  const caveName = cave.name?.value || tMap('caveNameUnknown')
 
   const firstBreakpoint = PANE_BREAKPOINTS[0]
   const initialBreakpoint = useSelector((state) => state.app.resultPaneSmCurrentBreakpoint)

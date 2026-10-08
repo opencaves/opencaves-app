@@ -22,7 +22,7 @@ export default function CurrentCaveDetailsHeader({ cave }) {
 
   const { t, i18n } = useTranslation('resultPane')
   const { t: tMap } = useTranslation('map')
-  const caveName = cave.name ? cave.name.value : tMap('caveNameUnknown')
+  const caveName = cave.name?.value || tMap('caveNameUnknown')
   const resolvedLanguage = toContentLanguage(i18n.resolvedLanguage)
   const caveNameTranslation = ((langCode) => {
     if (langCode) {

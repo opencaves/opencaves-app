@@ -878,7 +878,7 @@
       "ariaLabel": "Back"
     },
     "newSistema": "New sistema",
-    "unnamedSistema": "(unnamed)",
+    "unnamedSistema": "(Unnamed system)",
     "searchBtn": {
       "ariaLabel": "Search"
     },
@@ -962,7 +962,7 @@
       "findMyLocation": "Find my location"
     },
     "title": "Map",
-    "caveNameUnknown": "[no name]",
+    "caveNameUnknown": "(Unnamed cave)",
     "editFab": {
       "ariaLabel": "Edit cave data",
       "editCave": "Edit this cave",
@@ -1076,7 +1076,8 @@
     "searchByName": "Search by name",
     "newCave": "New cave",
     "newSistema": "New sistema",
-    "unnamed": "(unnamed)",
+    "unnamedCave": "(Unnamed cave)",
+    "unnamedSistema": "(Unnamed system)",
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
@@ -1429,7 +1430,8 @@
   "indexPages": {
     "sectionLink": "Link to the {{name}} section",
     "unknownArea": "Unknown area",
-    "unnamedCave": "Unnamed cave",
+    "unnamedCave": "(Unnamed cave)",
+    "unnamedCavePlain": "Unnamed cave",
     "caveCount_one": "{{count}} cave",
     "caveCount_other": "{{count}} caves",
     "sistemaCount_one": "{{count}} cave system",
@@ -1519,7 +1521,8 @@
     "mapOf": "map of {{name}}",
     "connection": "{{child}} joined {{parent}}",
     "addedBy": "added by {{name}}",
-    "unnamed": "Unnamed",
+    "unnamedCave": "(Unnamed cave)",
+    "unnamedSistema": "(Unnamed system)",
     "unnamedMap": "Untitled map",
     "recently": "Recently",
     "none": "Nothing new yet.",

@@ -878,7 +878,7 @@
       "ariaLabel": "Atrás"
     },
     "newSistema": "Nuevo sistema",
-    "unnamedSistema": "(sin nombre)",
+    "unnamedSistema": "(Sistema sin nombre)",
     "searchBtn": {
       "ariaLabel": "Buscar"
     },
@@ -962,7 +962,7 @@
       "findMyLocation": "Encontrar mi ubicación"
     },
     "title": "Mapa",
-    "caveNameUnknown": "[sin nombre]",
+    "caveNameUnknown": "(Cueva sin nombre)",
     "editFab": {
       "ariaLabel": "Editar datos del cenote",
       "editCave": "Editar este cenote",
@@ -1076,7 +1076,8 @@
     "searchByName": "Buscar por nombre",
     "newCave": "Nuevo cenote",
     "newSistema": "Nuevo sistema",
-    "unnamed": "(sin nombre)",
+    "unnamedCave": "(Cueva sin nombre)",
+    "unnamedSistema": "(Sistema sin nombre)",
     "back": "Atrás",
     "edit": "Editar",
     "delete": "Eliminar",
@@ -1429,7 +1430,8 @@
   "indexPages": {
     "sectionLink": "Enlace a la sección {{name}}",
     "unknownArea": "Zona desconocida",
-    "unnamedCave": "Cueva sin nombre",
+    "unnamedCave": "(Cueva sin nombre)",
+    "unnamedCavePlain": "Cueva sin nombre",
     "caveCount_one": "{{count}} cueva",
     "caveCount_other": "{{count}} cuevas",
     "sistemaCount_one": "{{count}} sistema de cuevas",
@@ -1519,7 +1521,8 @@
     "mapOf": "mapa de {{name}}",
     "connection": "{{child}} unido a {{parent}}",
     "addedBy": "añadido por {{name}}",
-    "unnamed": "Sin nombre",
+    "unnamedCave": "(Cueva sin nombre)",
+    "unnamedSistema": "(Sistema sin nombre)",
     "unnamedMap": "Mapa sin título",
     "recently": "Recientemente",
     "none": "Nada nuevo por ahora.",
