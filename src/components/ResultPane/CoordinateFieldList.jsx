@@ -18,9 +18,10 @@ const isFilled = ({ longitude, latitude }) => `${longitude ?? ''}` !== '' || `${
 
 // A form's coordinates (a cave's location, entrance and key; a system's
 // location), one of each at most: only those with a value are shown, the
-// others offered by Add coordinates (a menu of them; in a form with a single
-// one - a system's location -, the button adds it). One added shows its empty field; its X clears it and puts
-// it back in the menu. items: [{ field, label, longitude, latitude, onChange,
+// others offered by Add coordinates - a menu of them, or, with one left (a
+// system's location, a cave's last), a button adding it by name ("Add
+// entrance coordinates"). One added shows its empty field; its X clears it and
+// puts it back in the menu. items: [{ field, label, longitude, latitude, onChange,
 // validity?, onValidityChange? }]; fieldProps: shared by every field
 // (mapBelowOnPhones, labelProps, canPickOnMap).
 export default function CoordinateFieldList({ items, fieldProps = {}, sx }) {
@@ -50,12 +51,12 @@ export default function CoordinateFieldList({ items, fieldProps = {}, sx }) {
         <Box>
           <AddButton
             className="oc-coordinate-field-list--add"
-            endIcon={items.length > 1 ? <ArrowDropDownRounded /> : undefined}
-            aria-haspopup={items.length > 1 ? 'menu' : undefined}
-            aria-expanded={menuAnchor ? 'true' : undefined}
-            onClick={(event) => (items.length > 1 ? setMenuAnchor(event.currentTarget) : add(missing[0].field))}
+            endIcon={missing.length > 1 ? <ArrowDropDownRounded /> : undefined}
+            aria-haspopup={missing.length > 1 ? 'menu' : undefined}
+            aria-expanded={missing.length > 1 && menuAnchor ? 'true' : undefined}
+            onClick={(event) => (missing.length > 1 ? setMenuAnchor(event.currentTarget) : add(missing[0].field))}
           >
-            {t('addCoordinates')}
+            {missing.length > 1 ? t('addCoordinates') : t(`addOneCoordinates.${missing[0].field}`, { defaultValue: t('addCoordinates') })}
           </AddButton>
           <Menu className="oc-coordinate-field-list--menu" anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
             {missing.map((item) => (

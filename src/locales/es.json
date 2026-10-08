@@ -582,6 +582,12 @@
       "navigateToCoordinate": "Centrar el mapa aquí",
       "removeCoordinate": "Eliminar coordenadas",
       "addCoordinates": "Agregar coordenadas",
+      "addOneCoordinates": {
+        "location": "Agregar coordenadas de la ubicación",
+        "entrance": "Agregar coordenadas de la entrada",
+        "key": "Agregar coordenadas de la llave",
+        "sistemaLocation": "Agregar coordenadas de la ubicación"
+      },
       "pickMyLocation": "Usar mi ubicación actual",
       "none": "(ninguno)",
       "sistema": "Sistema",

@@ -31,6 +31,7 @@ import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
+import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -401,7 +402,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Divider />
 
       <Typography variant="subtitle2" component="h2">{t('accessGroup')}</Typography>
-      <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
+      <TextField select label={t('access')} {...field('access')} sx={fitSelectSx([t('access'), t('none'), ...accesses.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.access && !accesses.some((a) => a.id === form.access) && (
           <MenuItem value={form.access} sx={{ display: 'none' }}>
@@ -424,7 +425,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
       <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
-      <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
+      <TextField select label={t('accessibility')} {...field('accessibility')} sx={fitSelectSx([t('accessibility'), t('none'), ...accessibilities.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
           <MenuItem value={form.accessibility} sx={{ display: 'none' }}>

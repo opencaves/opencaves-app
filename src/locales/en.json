@@ -582,6 +582,12 @@
       "navigateToCoordinate": "Center the map here",
       "removeCoordinate": "Remove coordinates",
       "addCoordinates": "Add coordinates",
+      "addOneCoordinates": {
+        "location": "Add location coordinates",
+        "entrance": "Add entrance coordinates",
+        "key": "Add key coordinates",
+        "sistemaLocation": "Add location coordinates"
+      },
       "pickMyLocation": "Use my current location",
       "none": "(none)",
       "sistema": "Sistema",
