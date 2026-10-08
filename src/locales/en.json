@@ -1806,5 +1806,31 @@
     "inviteMember": "Thanks for being part of the crew! Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Help us keep the cave data complete and up to date - every diver's notes count.",
     "betaMember": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! We'll let you know when the beta is over.",
     "start": "Let's dive in"
+  },
+  "authPrompt": {
+    "close": "Close",
+    "notNow": "Not now",
+    "logIn": "Log in",
+    "signUp": "Create an account",
+    "photos": {
+      "title": "Add your photos",
+      "text": "Create a free account to add photos to caves - what you saw helps the next divers."
+    },
+    "videos": {
+      "title": "Add a video",
+      "text": "Create a free account to add videos to caves."
+    },
+    "maps": {
+      "title": "Add a survey map",
+      "text": "Create a free account to add survey maps to cave systems."
+    },
+    "feedback": {
+      "title": "Tell us what you found",
+      "text": "Create a free account to send feedback to the OpenCaves team, so we can follow up on it."
+    },
+    "default": {
+      "title": "An account is needed",
+      "text": "Create a free account, or log in, to do this."
+    }
   }
 }

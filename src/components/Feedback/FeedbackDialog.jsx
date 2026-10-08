@@ -87,7 +87,7 @@ export default function FeedbackDialog() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const location = useLocation()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const requireLogin = useRequireLogin()
+  const requireLogin = useRequireLogin('feedback')
   const settleWrite = useSettleWrite()
   const [openSnackbar] = useSnackbar()
   const [open, setOpen] = useState(false)

@@ -11,7 +11,7 @@ import IndexSection from './IndexSection.jsx'
 // wider than the card (on a phone).
 export default function CaveVideosSection({ cave }) {
   const { t } = useTranslation('resultPane')
-  const requireLogin = useRequireLogin()
+  const requireLogin = useRequireLogin('videos')
   const count = Array.isArray(cave.videos) ? cave.videos.filter((video) => video?.trim()).length : 0
   return (
     <IndexSection id="videos" title={t('videosHeader')} count={count || undefined} className="oc-cave-page--videos" card>

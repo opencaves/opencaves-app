@@ -1806,5 +1806,31 @@
     "inviteMember": "¡Gracias por ser parte del equipo! ¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
     "betaMember": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Te avisaremos cuando termine la beta.",
     "start": "¡A bucear!"
+  },
+  "authPrompt": {
+    "close": "Cerrar",
+    "notNow": "Ahora no",
+    "logIn": "Iniciar sesión",
+    "signUp": "Crear una cuenta",
+    "photos": {
+      "title": "Añade tus fotos",
+      "text": "Crea una cuenta gratuita para añadir fotos a las cuevas: lo que viste ayuda a los próximos buzos."
+    },
+    "videos": {
+      "title": "Añade un video",
+      "text": "Crea una cuenta gratuita para añadir videos a las cuevas."
+    },
+    "maps": {
+      "title": "Añade un mapa topográfico",
+      "text": "Crea una cuenta gratuita para añadir mapas topográficos a los sistemas."
+    },
+    "feedback": {
+      "title": "Cuéntanos lo que encontraste",
+      "text": "Crea una cuenta gratuita para enviar comentarios al equipo de OpenCaves, para que podamos darles seguimiento."
+    },
+    "default": {
+      "title": "Se necesita una cuenta",
+      "text": "Crea una cuenta gratuita, o inicia sesión, para hacer esto."
+    }
   }
 }
