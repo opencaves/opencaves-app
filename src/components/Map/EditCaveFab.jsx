@@ -127,10 +127,8 @@ export default function EditCaveFab() {
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',
         zIndex: 'var(--oc-app-menu-z-index)',
-        // Plain one-line text beside each action instead of MUI's default
-        // wrapping label chip. With no chip behind it, it gets the same
-        // light-text-with-dark-halo treatment as the map's marker labels
-        // (Marker.scss) so it stays readable over any part of the map.
+        // Each action's label on one line, on M3's label surface (a raised
+        // container-tone chip), readable over any part of the map.
         // A disabled action (Edit cave, while already editing it) gets a
         // container-tone surface (light or dark grey with the mode) -
         // distinct from the enabled actions' paper, but unlike MUI's default
@@ -149,16 +147,15 @@ export default function EditCaveFab() {
           opacity: 0.6,
         },
         [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
-          bgcolor: 'transparent',
-          boxShadow: 'none',
+          bgcolor: theme.vars.sys.color.surfaceContainerHigh,
+          color: 'text.primary',
+          borderRadius: '8px',
+          boxShadow: theme.shadows[2],
           whiteSpace: 'nowrap',
-          // A larger target, the text where it was.
-          px: 1,
+          px: 1.5,
           py: 0.75,
           mr: -1,
-          color: 'rgb(240, 240, 240)',
           fontWeight: 500,
-          textShadow: 'rgb(45, 45, 45) 1px 0px 0px, rgb(45, 45, 45) 0.540302px 0.841471px 0px, rgb(45, 45, 45) -0.416147px 0.909297px 0px, rgb(45, 45, 45) -0.989992px 0.14112px 0px, rgb(45, 45, 45) -0.653644px -0.756802px 0px, rgb(45, 45, 45) 0.283662px -0.958924px 0px, rgb(45, 45, 45) 0.96017px -0.279416px 0px',
         },
         // Labels take clicks (actionSlots): the hand, as on their buttons.
         '& .oc-edit-cave-fab--label': { cursor: 'pointer', pointerEvents: 'auto' },
