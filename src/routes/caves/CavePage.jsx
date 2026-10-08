@@ -10,6 +10,7 @@ import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { useCoverImage } from '@/models/CaveAsset.js'
+import mapsModel from '@/models/MapModel.js'
 import { slugify } from '@/utils/slug.js'
 import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
@@ -33,9 +34,9 @@ import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
 
-// The cover photo, under the heading.
-function CaveCover({ caveId }) {
-  const [cover] = useCoverImage(caveId)
+// The cover photo, under the heading (cover: CavePage's useCoverImage).
+// Its box keeps the photo's 16:9 shape while it downloads.
+function CaveCover({ cover }) {
   const sources = useMemo(() => (cover ? cover.data().getSources('coverImage') : null), [cover])
   if (!sources) return null
   return (
@@ -54,6 +55,12 @@ export default function CavePage() {
   const { t } = useTranslation('indexPages')
   const { t: tPane } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
+  // Asked for alongside the data, and waited for: drawn once the page knows
+  // whether there is one, the cover no longer pushes the page down when it
+  // arrives (a 216-444px jump).
+  const [cover, coverLoading] = useCoverImage(caveId)
+  // Its system's maps (MapsSection), waited for too.
+  const [allMaps, mapsLoading] = mapsModel.useAll()
   const cave = useSelector((state) => state.data.caves.find((c) => c.id === caveId))
   // Editors: photos dragged anywhere over the page go to this cave, as on the map.
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
@@ -75,7 +82,7 @@ export default function CavePage() {
     return ancestry.map(({ id }) => data.sistemasById.get(id)).filter(Boolean)
   }, [cave, data])
 
-  if (loading) return <IndexPageSkeleton item back onMap />
+  if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back onMap />
   if (!cave) throwNotFound()
 
   const area = cave.area ? data.areasBySlug.get(slugify(cave.area)) || null : null
@@ -122,7 +129,7 @@ export default function CavePage() {
         </Tooltip>
       </Box>
 
-      <CaveCover caveId={cave.id} />
+      <CaveCover cover={cover} />
 
       {facts.length > 0 && (
         <Box component="dl" className="oc-cave-page--facts" sx={{ ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 1, m: 0, mb: 3 }}>
@@ -166,7 +173,7 @@ export default function CavePage() {
       <CavePhotosSection caveId={cave.id} title={t('cave.photos')} />
       <CaveVideosSection cave={cave} />
 
-      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card />
+      <MapsSection sistemaId={cave.sistemaId} sistemas={data.sistemas} connections={data.connections} pagePath={`/caves/${cave.id}`} title={t('maps')} card pageMaps={allMaps} />
 
       {hasHistory && (
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>

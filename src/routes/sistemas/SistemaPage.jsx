@@ -17,6 +17,7 @@ import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
+import mapsModel from '@/models/MapModel.js'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
@@ -89,6 +90,9 @@ export default function SistemaPage() {
   const { t: tPane } = useTranslation('resultPane')
   const units = useUnits()
   const { data, loading } = useIndexData()
+  // The maps (MapsSection's list), waited for like the data: drawn late, the
+  // section pushed everything under it down.
+  const [allMaps, mapsLoading] = mapsModel.useAll()
   const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
@@ -97,7 +101,7 @@ export default function SistemaPage() {
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })
 
-  if (loading) return <IndexPageSkeleton item back />
+  if (loading || mapsLoading) return <IndexPageSkeleton item back />
   if (!sistema) {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
@@ -228,7 +232,7 @@ export default function SistemaPage() {
       <OfflineSaveHint />
 
       {/* Opened in the page's gallery (MapGallery, in the Outlet below). */}
-      <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card />
+      <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card pageMaps={allMaps} />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;
