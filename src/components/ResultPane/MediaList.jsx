@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import Picture from '@/components/Picture.jsx'
@@ -34,7 +35,9 @@ const cylinderOn = () => !window.matchMedia('(prefers-reduced-motion: reduce)').
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
 // photoPath(id): a photo's address (a page's gallery); the map's viewer otherwise.
-export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
+// addTile(size): the strip's last tile, adding photos (an AddPhotosTile of
+// that size); addButton: shown instead when the cave has no photo yet.
+export default function MediaList({ caveId, editable = false, photoPath, addTile, addButton, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
   const canDelete = useSelector((state) => state.session.roles.includes('admin'))
@@ -46,6 +49,7 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
   const scrollbarsRef = useRef()
   const rowRef = useRef()
+  const hasAddTile = Boolean(addTile)
   const sliceLayerRef = useRef()
   // Above and below the strip: room for the zoomed cylinder.
   const zoomRoom = cylinderOn() ? Math.ceil((assetsListHeight * (CYLINDER_ZOOM - 1)) / 2) : 0
@@ -152,8 +156,9 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
         Object.assign(guide.style, { position: 'absolute', left: `${rowOffset(column).x}px`, top: '0', width: `${column.offsetWidth}px`, height: '1px', scrollSnapAlign: 'center' })
         layer.append(guide)
       }
-      // The "more photos" tile: each slice a copy of it, clipped to its strip.
-      tiles = [...row.querySelectorAll('.oc-media-list--more')]
+      // The "more photos" and "add photos" tiles: each slice a copy of it,
+      // clipped to its strip.
+      tiles = [...row.querySelectorAll('.oc-media-list--tile')]
       for (const tile of tiles) {
         tile.style.opacity = ''
         const { x, y } = rowOffset(tile)
@@ -354,8 +359,9 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
 
       const lastColIdx = getColPosition(assetItems.length - 1)
 
+      // With the add tile after them, none of the photos' columns is last.
       function isLastCol(i) {
-        return getColPosition(i) === lastColIdx
+        return !hasAddTile && getColPosition(i) === lastColIdx
       }
 
       for (i = 0; i < assetItems.length; i += 3) {
@@ -391,10 +397,17 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mediaList, editable, canDelete, caveId, photoPath])
+  }, [mediaList, editable, canDelete, caveId, photoPath, hasAddTile])
+
+  // The add tile keeps the strip's wide, narrow (two stacked), wide... columns:
+  // after a wide column (its photos - and "more photos" - a multiple of 3,
+  // plus 1), a narrow one; a wide one otherwise.
+  const stripItems = mediaList ? Math.min(mediaList.size, assetsListMaxLength) + (mediaList.size > assetsListMaxLength ? 1 : 0) : 0
+  const addTileSize = stripItems % 3 === 1 ? 'half' : 'full'
 
   return (
     <>
+      {mediaList?.empty && addButton}
       {mediaList && !mediaList.empty && (
         <Box
           className={`oc-media-list ${className || ''}`.trim()}
@@ -421,6 +434,11 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
             <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               <Grid ref={rowRef} container direction="row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', transformStyle: 'preserve-3d' }}>
                 {assetsList}
+                {addTile && (
+                  <MediaListCol width={addTileSize} isLast>
+                    {addTile(addTileSize)}
+                  </MediaListCol>
+                )}
                 {/* The photos' slices on the cylinder (filled by its effect). */}
                 <Box ref={sliceLayerRef} className="oc-media-list--cylinder" aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', transformStyle: 'preserve-3d' }} />
               </Grid>
@@ -540,41 +558,57 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   )
 }
 
-function MoreMedias({ width, height, to, state }) {
-  const { t } = useTranslation('resultPane')
-
+// A tile at the strip's end ("more photos", "add photos"): an icon over a
+// label, on a light tint of the primary colour.
+function StripTile({ icon, label, className, sx, ...props }) {
   return (
     <ButtonBase
-      component={Link}
-      to={to}
-      state={state}
-      className="oc-media-list--more"
-      sx={{
-        borderRadius: '.5rem',
-        backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 1,
-        width,
-        height,
-        opacity: 0.85,
-        ':hover': {
-          opacity: 1,
+      {...props}
+      className={['oc-media-list--tile', className].filter(Boolean).join(' ')}
+      sx={[
+        {
+          borderRadius: '.5rem',
+          backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 1,
+          opacity: 0.85,
+          ':hover': {
+            opacity: 1,
+          },
         },
-      }}
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
-        <PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />
+        {icon}
         <Typography
           sx={(theme) => ({
             fontSize: '.875rem',
+            textAlign: 'center',
             ...primaryToneSx(theme),
           })}
         >
-          {t('morePicturesBtn')}
+          {label}
         </Typography>
       </Grid>
     </ButtonBase>
   )
+}
+
+function MoreMedias({ width, height, to, state }) {
+  const { t } = useTranslation('resultPane')
+
+  return <StripTile component={Link} to={to} state={state} className="oc-media-list--more" sx={{ width, height }} icon={<PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />} label={t('morePicturesBtn')} />
+}
+
+// The strip's last tile: adding photos (its onClick given by its caller -
+// the file picker, or signing in), a wide or a narrow column's width.
+export function AddPhotosTile({ size = 'half', ...props }) {
+  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const fullWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
+  const width = size === 'full' ? fullWidth : fullWidth / 2 - ASSETS_LIST_CONFIG.spacing / 2
+
+  return <StripTile {...props} className={['oc-media-list--add', props.className].filter(Boolean).join(' ')} sx={{ width, height: ASSETS_LIST_CONFIG.height }} icon={<AddAPhotoRounded fontSize="small" sx={primaryToneSx} />} label={t('addPictures')} />
 }
