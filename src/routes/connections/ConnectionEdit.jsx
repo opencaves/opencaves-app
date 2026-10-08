@@ -284,7 +284,7 @@ export default function ConnectionEdit() {
             ])}
           </TextField>
           <PartialDateField label={t('connectionDate')} description={t('connectionDateHint')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
-          <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
+          <SourceSelect label={t('connectionSource')} helperText={t('connectionSourceHint')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
             <Button component={Link} to="/connections" disabled={saving}>

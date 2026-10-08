@@ -410,7 +410,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
-          <SourceSelect label={t('source')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
+          <SourceSelect label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}

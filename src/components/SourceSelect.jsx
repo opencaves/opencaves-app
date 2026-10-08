@@ -55,7 +55,8 @@ export default function SourceSelect({ label, value, onChange, sources, noneLabe
         variant={dense ? 'standard' : undefined}
         helperText={helperText}
         fullWidth={!width}
-        sx={[width && { width, maxWidth: '100%' }, dense && DENSE_SX]}
+        // The hint may run wider than the picker (as wide as its options).
+        sx={[width && { width, maxWidth: '100%' }, dense && DENSE_SX, { '& .MuiFormHelperText-root': { width: 'max-content', maxWidth: 'min(480px, calc(100vw - 48px))' } }]}
         value={value}
         onChange={(event) => {
           if (event.target.value === ADD_SOURCE) setAdding(true)
