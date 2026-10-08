@@ -175,7 +175,9 @@ export default function Home() {
           sx={{ maxWidth: 560, mb: 3 }}
           inputSx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 6, bgcolor: theme.vars.palette.background.paper, boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }, '& fieldset': { border: 0 } })}
         />
-        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
+        {/* Wrapped on a phone: the two directories in a tight column under the
+            map's button, their icons lined up with its icon. */}
+        <Stack direction="row" sx={{ flexWrap: 'wrap', columnGap: 1, rowGap: { xs: 0.5, sm: 1 }, alignItems: 'center' }}>
           {/* The page's main call: larger, in the brand's gold, with a glow;
               its arrow moves forward and the button lifts on hover. */}
           <Button
@@ -189,8 +191,10 @@ export default function Home() {
             endIcon={<ArrowForwardRounded className="oc-home--map-arrow" />}
             sx={(theme) => ({
               borderRadius: 8,
+              // The search field's height (56 px).
+              height: 56,
               px: 3.5,
-              py: 1.5,
+              mb: { xs: 1, sm: 0 },
               fontSize: '1.05rem',
               fontWeight: 600,
               boxShadow: `0 6px 24px rgba(${theme.vars.palette.secondary.mainChannel} / 0.45)`,
@@ -208,7 +212,7 @@ export default function Home() {
             ['caves', '/caves', caveIcon],
             ['sistemas', '/sistemas', sistemaIcon],
           ].map(([key, to, icon]) => (
-            <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: 2, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
+            <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: { xs: 3.5, sm: 2 }, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
               {t(`hero.browse.${key}`)}
             </Button>
           ))}
