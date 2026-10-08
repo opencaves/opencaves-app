@@ -13,6 +13,7 @@ import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
 import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
+import { useLightboxLabels } from '@/hooks/useLightboxLabels.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -57,6 +58,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
   const immersive = useOrientationFullscreen(fullscreenRef)
   const showBackArrow = alwaysShowBack || isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
+  const labels = useLightboxLabels()
   const currentIndex = medias.docs.findIndex(media => media.id === mediaId)
   const currentMedia = medias.docs.find(media => media.id === mediaId)?.data()
   const navigate = useNavigate()
@@ -146,6 +148,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
   return (
     <Main className="oc-media-pane-details" sx={immersive ? IMMERSIVE_SX : undefined}>
       <Lightbox
+        labels={labels}
         index={currentIndex}
         slides={slides}
         fullscreen={{ auto: false, ref: fullscreenRef }}
@@ -155,6 +158,7 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
               <IconButton
               key='oc-media-pane-details-back-btn'
               aria-label={t('backBtn.ariaLabel')}
+              data-oc-autofocus
               {...(onBack ? { onClick: onBack } : { component: Link, to: '..' })}
               disableRipple
               sx={{
