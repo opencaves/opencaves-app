@@ -14,8 +14,10 @@ const SEEN_KEY = 'oc-welcome-seen'
 // How long after the page shows before it opens (the page first, then the
 // welcome).
 const DELAY_MS = 1200
-// Pages it never opens over: signing in or up is already the next step.
-const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)/
+// Pages it never opens over: signing in or up is already the next step; and
+// a link to one cave or system (a shared link: what was asked for comes first,
+// the welcome waits for a later visit).
+const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]+/
 
 // Whether it's to show: a device that hasn't seen it. A browser that keeps
 // nothing (private mode, blocked storage) never sees it - better than on
@@ -84,7 +86,8 @@ export default function WelcomeDialog() {
       <DialogTitle id="oc-welcome-dialog-title" sx={{ textAlign: 'center', pb: 1 }}>
         {t('title', { name: APP_NAME })}
       </DialogTitle>
-      <DialogContent id="oc-welcome-dialog-text">
+      {/* dividers: when it scrolls (a phone), lines above and below say so. */}
+      <DialogContent id="oc-welcome-dialog-text" dividers>
         <Typography sx={{ mb: 2 }}>{t('intro', { name: APP_NAME })}</Typography>
         <Typography sx={{ mb: 2 }}>{t(isLoggedIn ? 'inviteMember' : 'invite')}</Typography>
         {/* The beta's warning, apart on a tonal surface. */}
