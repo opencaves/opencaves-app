@@ -10,6 +10,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 import ExplorationHistory from './ExplorationHistory.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
 // A system's name as a link to its page (/sistemas/<id>), in the text's
@@ -101,18 +102,22 @@ export default function Sistema({ sistemaHistory }) {
               )}
             </Box>
           </AccordionSummary>
-          {/* Under the header ("… system"): the names alone. */}
+          {/* Under the header ("… system"): the names, each after its
+              system's line arrow, in its colour. */}
           <AccordionDetails variant="sistemaHistory">
             {sistemaHistory.map((sistema, i) => {
+              const arrow = <SistemaArrow color={sistemas[i].color} sx={{ mr: 0.75 }} />
               const sistemaName =
                 i === 0 ? (
                   <Typography variant="caveDetailsItemText">
+                    {arrow}
                     <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
                   </Typography>
                 ) : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
                     <Typography variant="caveDetailsItemText">
+                      {arrow}
                       <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
                     </Typography>{' '}
                     {sistema.date && (
