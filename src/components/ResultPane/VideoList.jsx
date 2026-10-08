@@ -15,6 +15,7 @@ import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import { videoSiteName, youtubeThumbnail } from '@/utils/videos.js'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -217,8 +218,17 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                     <Box key={`${video}-${index}`} sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
-                          {/* The preview iframe ignores pointer input so wheel events reach the horizontal gallery. */}
-                          <Box component="iframe" src={embedUrl} title={t('videoFrameTitle', { index: index + 1 })} loading="lazy" tabIndex={-1} sx={{ display: 'block', width: '100%', height: '100%', border: 0, pointerEvents: 'none' }} />
+                          {/* A still, not the site's player: the players loaded ~1.9MB of
+                              script per page before anyone pressed play. The player opens in
+                              the dialog. A YouTube video's thumbnail; other sites' have none,
+                              so their name. */}
+                          {youtubeThumbnail(video) ? (
+                            <Box component="img" src={youtubeThumbnail(video, 'hqdefault')} alt="" loading="lazy" sx={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <Typography component="span" variant="caption" sx={{ position: 'absolute', left: 12, bottom: 8, color: 'common.white', opacity: 0.8 }}>
+                              {videoSiteName(video)}
+                            </Typography>
+                          )}
                           <PlayArrowRounded sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.65)', borderRadius: '50%', fontSize: 48 }} />
                         </ButtonBase>
                       ) : (

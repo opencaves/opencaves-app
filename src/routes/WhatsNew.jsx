@@ -16,6 +16,7 @@ import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CaveIcon from '@/images/map/cave.svg?react'
+import { youtubeThumbnail } from '@/utils/videos.js'
 
 const getWhatsNew = httpsCallable(functions, 'getWhatsNew')
 const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'photos', 'videos']
@@ -74,12 +75,6 @@ function WhatsNewSkeleton() {
       </Box>
     </Box>
   )
-}
-
-// A YouTube video's thumbnail (other sites' videos have none here).
-const youtubeThumbnail = (url) => {
-  const id = String(url).match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/)?.[1]
-  return id ? `https://i.ytimg.com/vi/${id}/mqdefault.jpg` : null
 }
 
 // A photo's small thumbnail, from what getWhatsNew sends of it.
