@@ -1655,7 +1655,7 @@
     }
   },
   "feedback": {
-    "title": "Envoyer un commentaire",
+    "title": "Envoyer des commentaires",
     "tab": "Commentaires",
     "intro": "Signalez à l'équipe d'OpenCaves un bogue, quelque chose de trompeur, ou une idée. Merci de votre aide !",
     "kindLabel": "De quoi s’agit-il ?",
