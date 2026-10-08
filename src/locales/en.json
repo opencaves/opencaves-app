@@ -1087,11 +1087,13 @@
     "collections": {
       "accesses": {
         "title": "Accesses",
-        "newItem": "New access"
+        "newItem": "New access",
+        "description": "How a cave can be visited: open to all, with a key, with the landowner's permission, with a local guide, for a business's customers only, or not at all."
       },
       "accessibilities": {
         "title": "Accessibilities",
-        "newItem": "New accessibility"
+        "newItem": "New accessibility",
+        "description": "What getting to the water takes: a walk through the jungle, sidemount only, from the sea, conditions that vary, unsafe, or out of reach."
       },
       "sources": {
         "title": "Sources",

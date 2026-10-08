@@ -232,13 +232,15 @@ service cloud.firestore {
 
     match /accesses/{document} {
       allow read: if true
-      allow create, update: if isEditor() && isValidAccess(request.resource.data, setKeys())
+      // Admins only: editors read them (the dashboard's list, the cave forms).
+      allow create, update: if isAdmin() && isValidAccess(request.resource.data, setKeys())
       allow delete: if isAdmin()
     }
 
     match /accessibilities/{document} {
       allow read: if true
-      allow create, update: if isEditor() && isValidAccess(request.resource.data, setKeys())
+      // Admins only: editors read them (the dashboard's list, the cave forms).
+      allow create, update: if isAdmin() && isValidAccess(request.resource.data, setKeys())
       allow delete: if isAdmin()
     }
 

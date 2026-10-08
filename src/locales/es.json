@@ -1087,11 +1087,13 @@
     "collections": {
       "accesses": {
         "title": "Accesos",
-        "newItem": "Nuevo acceso"
+        "newItem": "Nuevo acceso",
+        "description": "Cómo se puede visitar una cueva: abierta a todos, con llave, con permiso del propietario, con un guía local, solo para clientes de un negocio, o de ninguna manera."
       },
       "accessibilities": {
         "title": "Accesibilidades",
-        "newItem": "Nueva accesibilidad"
+        "newItem": "Nueva accesibilidad",
+        "description": "Lo que requiere llegar al agua: una caminata por la selva, solo en sidemount, desde el mar, condiciones variables, peligroso o inaccesible."
       },
       "sources": {
         "title": "Fuentes",

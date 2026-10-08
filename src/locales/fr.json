@@ -1086,11 +1086,13 @@
     "collections": {
       "accesses": {
         "title": "Accès",
-        "newItem": "Nouvel accès"
+        "newItem": "Nouvel accès",
+        "description": "Comment une grotte se visite : ouverte à tous, avec une clé, avec la permission du propriétaire, avec un guide local, pour les clients d'une entreprise seulement, ou pas du tout."
       },
       "accessibilities": {
         "title": "Accessibilités",
-        "newItem": "Nouvelle accessibilité"
+        "newItem": "Nouvelle accessibilité",
+        "description": "Ce que demande l'accès à l'eau : une marche dans la jungle, en sidemount seulement, depuis la mer, des conditions variables, dangereux, ou hors d'atteinte."
       },
       "sources": {
         "title": "Sources",

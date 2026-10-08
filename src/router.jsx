@@ -346,9 +346,10 @@ const routes = [
                 : requireEditor(() => import('@/routes/dashboard/ReferenceDataEditor.jsx'), collectionName === 'areas' ? '/caves' : undefined)),
             },
             {
-              // :itemId: an area's slug or id (ReferenceDataItemEdit).
+              // :itemId: an area's slug or id (ReferenceDataItemEdit). Admins
+              // only for the lists editors only read (adminEdit).
               path: `${collectionName}/:itemId/edit`,
-              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly ? requireAdmin : requireEditor)(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
+              ...(REFERENCE_DATA_CONFIGS[collectionName].adminOnly || REFERENCE_DATA_CONFIGS[collectionName].adminEdit ? requireAdmin : requireEditor)(() => import('@/routes/dashboard/ReferenceDataItemEdit.jsx')),
             },
           ]),
           {

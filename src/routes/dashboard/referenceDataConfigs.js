@@ -11,9 +11,11 @@ import { dashedId } from '@/services/data-service/types.js'
 // the admin's current UI language, leaving other languages untouched.
 // `adminOnly`: edited by admins only (pages, dashboard entry and
 // firestore.rules); editors still add a colour from a system's colour picker.
+// `adminEdit`: editors see the list (read-only), admins change it (its edit
+// page and firestore.rules); the cave forms still offer its values.
 export const REFERENCE_DATA_CONFIGS = {
-  accesses: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
-  accessibilities: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId } },
+  accesses: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId }, adminEdit: true },
+  accessibilities: { fields: ['name', 'description', 'note'], descriptionsField: 'description', id: { from: 'name', transform: dashedId }, adminEdit: true },
   sources: { fields: ['name', 'description', 'note'], id: { kind: 'generated' } },
   areas: { fields: ['name', 'note'], id: { from: 'name', transform: (v) => v } },
   colors: { fields: ['hex'], id: { kind: 'generated' }, adminOnly: true },
