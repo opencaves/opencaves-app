@@ -100,7 +100,8 @@
       "label": "{{title}}, carousel",
       "showAllLink": "Show all"
     },
-    "nameRequired": "Name is required"
+    "nameRequired": "Name is required",
+    "skipToContent": "Skip to content"
   },
   "account": {
     "profile": "Profile",

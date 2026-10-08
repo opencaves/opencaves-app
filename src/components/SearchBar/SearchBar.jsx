@@ -428,6 +428,7 @@ export default function SearchBar() {
           },
         }}
         role="search"
+        aria-label={t('inputAriaLabel')}
         className="oc-search-bar"
         onFocus={onSearchbarFocus}
       >

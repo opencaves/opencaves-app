@@ -35,6 +35,10 @@ export default function LogIn() {
             },
           }}
         >
+          {/* The page's heading (it had none). */}
+          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+            {t('title')}
+          </Typography>
           <OfflineAuthNote />
           <LogInWithGoogle onSuccess={onSuccess} />
           <LogInWithMicrosoft onSuccess={onSuccess} />
