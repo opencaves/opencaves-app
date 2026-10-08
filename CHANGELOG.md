@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.0.0-beta-11](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-10...v1.0.0-beta-11) (2026-10-08)
+
+Tell us what you find: a Feedback button on every page, a What can I do? page for the beta, and emails that keep testers and the team in touch.
+
+
+### Features
+
+* **Send feedback** from any page: a yellow Feedback tab on the right edge (the map, the forms and the photo and map viewers included) opens a form for a bug, something misleading or an idea, with a hint for each (a bug: the steps to reproduce it); the page you were on and your browser are added for you.
+* **What can I do?** (in the menu, before What's new): what to report, what to try in the beta, and how to report well.
+* **Welcome email** for new accounts, with what to try and how to report, in your language.
+* **You hear back:** when the team closes your report as done or rejected, you get an email with their note.
+* **Admins:** every new report is emailed to them; the Feedback page (on the dashboard, with the count of new reports) moves each report through its stages - new, confirmed, in progress, done, rejected, duplicate - with a note.
+* **Emails** look like the app: logo, colours, cards and buttons (the welcome, feedback and account emails).
+* **Unnamed caves and systems** read "(Unnamed cave)" and "(Unnamed system)" everywhere, in every language.
+* **Sign-in buttons** in Google's and Microsoft's own colours, in light and dark mode.
+* **Areas** no longer have a page of their own: an area is its section of the cave and system lists (/caves#akumal), where its links and old addresses lead.
+* **Accesses and accessibilities** are read-only for editors.
+* **Audits:** the filters' lists are in alphabetical order.
+* **French:** a cave system is a "réseau".
+
 ## [1.0.0-beta-10](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-9...v1.0.0-beta-10) (2026-10-07)
 
 The new cave icon on the map, and a fix for photos that wouldn't open.
