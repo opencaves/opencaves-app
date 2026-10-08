@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { sortByLabel } from './sortOptions.js'
 import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, List, ListItem, ListItemText, MenuItem, TextField, Typography } from '@mui/material'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -122,7 +123,7 @@ function toLocalInput(date) {
 // preview of how many changes that is, then the undo (newest first, in
 // chunks) and its results.
 export function BulkUndoDialog({ open, accountList, accountLabel, onClose, onConflicts, onDone }) {
-  const { t } = useTranslation('audits')
+  const { t, i18n } = useTranslation('audits')
   const fullScreen = useSmall()
   const [authorId, setAuthorId] = useState('')
   const [since, setSince] = useState(() => toLocalInput(new Date(Date.now() - 24 * 3600 * 1000)))
@@ -195,12 +196,12 @@ export function BulkUndoDialog({ open, accountList, accountLabel, onClose, onCon
                 setPhase('form')
               }}
             >
-              {accountList.map((account) => (
-                <MenuItem key={account.uid} value={account.uid}>
-                  <AccountOption account={account} />
+              {/* The accounts and the emulator, alphabetically together. */}
+              {sortByLabel([...accountList.map((account) => ({ value: account.uid, label: account.name, account })), { value: EMULATOR_AUTHOR_ID, label: t('author.emulator') }], i18n.language).map(({ value, label, account }) => (
+                <MenuItem key={value} value={value}>
+                  {account ? <AccountOption account={account} /> : label}
                 </MenuItem>
               ))}
-              <MenuItem value={EMULATOR_AUTHOR_ID}>{t('author.emulator')}</MenuItem>
             </TextField>
             <TextField
               type="datetime-local"

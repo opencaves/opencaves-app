@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { sortByLabel } from './sortOptions.js'
 import { Alert, Box, Button, CircularProgress, IconButton, List, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import FilterListOffRounded from '@mui/icons-material/FilterListOffRounded'
 import ManageHistoryRounded from '@mui/icons-material/ManageHistoryRounded'
@@ -35,7 +36,7 @@ const recordKey = (entry) => `${entry.collection}/${entry.docId}`
 // it's the app's own edit, undone - one, the selected ones, or all of an
 // author's since a date.
 export default function ChangesTab({ accountLabel, accountList }) {
-  const { t } = useTranslation('audits')
+  const { t, i18n } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()
   const caves = useSelector((state) => state.data.caves)
   const sistemas = useSelector((state) => state.data.sistemas)
@@ -220,17 +221,18 @@ export default function ChangesTab({ accountLabel, accountList }) {
       <Box className="oc-audits-changes--filters" sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(2, minmax(0, 1fr))', md: 'repeat(3, minmax(0, 1fr)) auto', lg: 'repeat(5, minmax(0, 1fr)) auto' }, gap: 1.5, alignItems: 'center', mb: 2 }}>
         <TextField select size="small" label={t('filters.collection')} value={filters.collection} onChange={(e) => setFilter('collection', e.target.value)}>
           <MenuItem value="">{t('filters.all')}</MenuItem>
-          {FILTER_COLLECTIONS.map((name) => (
-            <MenuItem key={name} value={name}>
-              {t(`collections.${name}`, { defaultValue: name })}
+          {/* All first, then the options alphabetically (in the app's language). */}
+          {sortByLabel(FILTER_COLLECTIONS.map((name) => ({ value: name, label: t(`collections.${name}`, { defaultValue: name }) })), i18n.language).map(({ value, label }) => (
+            <MenuItem key={value} value={value}>
+              {label}
             </MenuItem>
           ))}
         </TextField>
         <TextField select size="small" label={t('filters.action')} value={filters.action} onChange={(e) => setFilter('action', e.target.value)}>
           <MenuItem value="">{t('filters.all')}</MenuItem>
-          {FILTER_ACTIONS.map((action) => (
-            <MenuItem key={action} value={action}>
-              {t(`actions.${action}`)}
+          {sortByLabel(FILTER_ACTIONS.map((action) => ({ value: action, label: t(`actions.${action}`) })), i18n.language).map(({ value, label }) => (
+            <MenuItem key={value} value={value}>
+              {label}
             </MenuItem>
           ))}
         </TextField>
@@ -244,12 +246,12 @@ export default function ChangesTab({ accountLabel, accountList }) {
           slotProps={{ select: { displayEmpty: true, renderValue: (uid) => (uid ? accountLabel(uid) : t('filters.all')) }, inputLabel: { shrink: true } }}
         >
           <MenuItem value="">{t('filters.all')}</MenuItem>
-          {accountList.map((account) => (
-            <MenuItem key={account.uid} value={account.uid}>
-              <AccountOption account={account} />
+          {/* The accounts and the emulator, alphabetically together. */}
+          {sortByLabel([...accountList.map((account) => ({ value: account.uid, label: account.name, account })), { value: EMULATOR_AUTHOR_ID, label: t('author.emulator') }], i18n.language).map(({ value, label, account }) => (
+            <MenuItem key={value} value={value}>
+              {account ? <AccountOption account={account} /> : label}
             </MenuItem>
           ))}
-          <MenuItem value={EMULATOR_AUTHOR_ID}>{t('author.emulator')}</MenuItem>
         </TextField>
         <TextField type="date" size="small" label={t('filters.from')} value={filters.from} onChange={(e) => setFilter('from', e.target.value)} slotProps={{ inputLabel: { shrink: true }, htmlInput: { max: filters.to || undefined } }} />
         <TextField type="date" size="small" label={t('filters.to')} value={filters.to} onChange={(e) => setFilter('to', e.target.value)} slotProps={{ inputLabel: { shrink: true }, htmlInput: { min: filters.from || undefined } }} />
