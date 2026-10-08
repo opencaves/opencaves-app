@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { debounce } from 'lodash'
 import AboutDialog from './AboutDialog.jsx'
+import FeedbackDialog from '@/components/Feedback/FeedbackDialog.jsx'
 import RouteSeo from '@/components/Seo/RouteSeo.jsx'
 import WelcomeDialog from './WelcomeDialog.jsx'
 
@@ -29,6 +30,8 @@ export default function AppRoot() {
       <WelcomeDialog />
       {/* About, over any page (openAboutDialog). */}
       <AboutDialog />
+      {/* Send feedback, over any page (openFeedback). */}
+      <FeedbackDialog />
       <Outlet />
     </>
   )

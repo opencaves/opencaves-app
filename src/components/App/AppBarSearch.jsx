@@ -109,7 +109,8 @@ export default function AppBarSearch() {
   )
 
   if (!compact) {
-    return <Box sx={{ display: 'flex', flex: '0 1 360px', minWidth: 200, mx: 1 }}>{field}</Box>
+    // Narrower below 1536px, where the bar's links take more room.
+    return <Box sx={{ display: 'flex', flex: { lg: '0 1 240px', xl: '0 1 360px' }, minWidth: 160, mx: 1 }}>{field}</Box>
   }
 
   return (

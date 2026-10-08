@@ -11,6 +11,8 @@ export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
 export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
+// The beta testers' reports (Send feedback): admins only, emailed to them.
+export const FEEDBACK_COLL_NAME = '_feedback'
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'

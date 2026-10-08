@@ -238,6 +238,12 @@ const routes = [
             lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="privacy" /> })),
           },
           {
+            // What OpenCaves' users can do - during the beta, test it and
+            // report (the 1.0 page waits on its own branch, what-can-i-do).
+            path: 'what-can-i-do',
+            lazy: () => import('@/routes/BetaWhatCanIDo.jsx').then(({ default: Component }) => ({ Component })),
+          },
+          {
             path: 'terms',
             lazy: () => import('@/routes/LegalPage.jsx').then(({ default: LegalPage }) => ({ Component: () => <LegalPage page="terms" /> })),
           },
@@ -404,6 +410,11 @@ const routes = [
             // trash: ?tab=trash.
             path: 'audits',
             ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
+          },
+          {
+            // The beta testers' reports (Send feedback).
+            path: 'feedback',
+            ...requireAdmin(() => import('@/routes/feedback/FeedbackAdmin.jsx')),
           },
         ],
       },

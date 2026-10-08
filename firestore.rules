@@ -18,6 +18,24 @@ service cloud.firestore {
       return hasRole('admin')
     }
 
+    // The beta testers' reports (the Send feedback form): an account (not an
+    // anonymous session) sends its own - a kind, a message, the page it's
+    // about - as new; admins read them, mark them done or new, and delete
+    // them. onFeedbackCreated emails them to the admins.
+    match /_feedback/{report} {
+      allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'userId', 'createdAt', 'status'])
+        && request.resource.data.kind in ['bug', 'misleading', 'idea']
+        && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
+        && request.resource.data.page is string && request.resource.data.page.size() <= 500
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.status == 'new'
+      allow read, delete: if isAdmin()
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['new', 'done']
+    }
+
     // A photo's uploader and original file name (onAssetUploaded): admins only.
     match /_cavesAssetsPrivate/{document} {
       allow read: if isAdmin()

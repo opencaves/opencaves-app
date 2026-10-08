@@ -5,12 +5,35 @@ import { onAuthStateChanged, onIdTokenChanged, signOut } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { setUser, setUserRoles } from '@/redux/slices/sessionSlice.jsx'
 import { auth, functions } from '@/config/firebase.js'
+import i18n from '@/i18n.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
 import { loadAccountUnits } from '@/services/unitsPreference.js'
 import { loadAccountColorMode } from '@/services/colorModePreference.js'
 import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
 const ensureEditorRole = httpsCallable(functions, 'ensureEditorRole')
+const sendWelcomeEmail = httpsCallable(functions, 'sendWelcomeEmail')
+
+// The welcome email (sendWelcomeEmail), asked for once per account on this
+// device once it's an editor; the server sends it only once, to new accounts.
+const WELCOMED_KEY = 'oc-welcome-email-asked'
+function askWelcomeEmail(uid) {
+  try {
+    if (localStorage.getItem(WELCOMED_KEY)?.split(',').includes(uid)) return
+  } catch {
+    return
+  }
+  sendWelcomeEmail({ language: i18n.language })
+    .then(({ data }) => {
+      if (data?.retry) return
+      try {
+        localStorage.setItem(WELCOMED_KEY, [localStorage.getItem(WELCOMED_KEY), uid].filter(Boolean).join(','))
+      } catch {
+        // Not kept: asked again next time, sent once all the same.
+      }
+    })
+    .catch((error) => console.warn('[ManageAuth] welcome email', error))
+}
 
 // The account's roles as last read from its token, kept on the device: an
 // app started offline with an expired token (over an hour old) can't read
@@ -71,6 +94,7 @@ export default function ManageAuth() {
           if (!Array.isArray(roles) || roles.length === 0) roles = knownRoles(user.uid)
         }
         if (fromToken && !user.isAnonymous) rememberRoles(user.uid, Array.isArray(roles) ? roles : [])
+        if (fromToken && !user.isAnonymous && Array.isArray(roles) && roles.includes('editor')) askWelcomeEmail(user.uid)
       } else {
         // Signed out: forgotten.
         rememberRoles(null)

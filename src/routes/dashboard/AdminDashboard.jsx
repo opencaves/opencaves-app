@@ -11,15 +11,18 @@ import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
+import FeedbackOutlined from '@mui/icons-material/FeedbackOutlined'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
+import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import LegalLinks from '@/components/App/LegalLinks.jsx'
-
+
+
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
   { collection: 'accessibilities', icon: AccessibleRounded },
@@ -48,6 +51,8 @@ export default function AdminDashboard() {
   const roles = useSelector((state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
+  // The testers' reports still to read.
+  const newFeedback = useNewFeedbackCount(isAdmin)
   const mapsToProcess = useMapsToProcess().toProcess.length
 
   useEffect(() => {
@@ -166,6 +171,15 @@ export default function AdminDashboard() {
                     <ListItemText primary={t('manageMapLayers')} />
                     {/* Maps added in the app waiting to be turned into the layer. */}
                     {mapsToProcess > 0 && <Chip className="oc-admin-dashboard--to-process" size="small" color="primary" label={t('mapsToProcess', { count: mapsToProcess })} />}
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/feedback" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <FeedbackOutlined />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageFeedback')} />
+                    {newFeedback > 0 && <Chip className="oc-admin-dashboard--new-feedback" size="small" color="primary" label={t('newFeedback', { count: newFeedback })} />}
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
