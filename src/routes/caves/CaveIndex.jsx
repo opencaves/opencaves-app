@@ -62,7 +62,8 @@ export default function CaveIndex() {
       <IndexSearchField
         query={query}
         setQuery={setQuery}
-        placeholder={t('search.caves')}
+        placeholder={t('search.cavesShort')}
+        label={t('search.caves')}
         status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 

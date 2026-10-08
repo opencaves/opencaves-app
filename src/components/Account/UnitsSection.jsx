@@ -30,7 +30,7 @@ export default function UnitsSection({ headingProps = {}, asField = false }) {
           {t('units')}
         </Typography>
       )}
-      <TextField select size="small" value={choice} onChange={handleChange} helperText={t('unitsHint')} sx={{ width: 280, maxWidth: '100%' }} label={asField ? t('units') : undefined} slotProps={{ select: asField ? {} : { labelId: 'oc-units-section-title' } }}>
+      <TextField select size="small" value={choice} onChange={handleChange} helperText={t('unitsHint')} sx={{ width: 340, maxWidth: '100%' }} label={asField ? t('units') : undefined} slotProps={{ select: asField ? {} : { labelId: 'oc-units-section-title' } }}>
         <MenuItem value="auto">{t('unitsAutomatic', { units: t(`units_${automaticUnits()}`) })}</MenuItem>
         {UNIT_SYSTEMS.map((units) => (
           <MenuItem key={units} value={units}>

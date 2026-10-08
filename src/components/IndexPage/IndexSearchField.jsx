@@ -82,7 +82,8 @@ export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {
 // The search field above an index page's list, and its result line
 // (status), kept in view below the app bar while the list scrolls by. Only
 // the field itself is opaque (the list passes under it around the field).
-export default function IndexSearchField({ query, setQuery, placeholder, status }) {
+// label: its accessible name, when the placeholder is shorter (cut on phones).
+export default function IndexSearchField({ query, setQuery, placeholder, label, status }) {
   const { t } = useTranslation('indexPages')
   // Its height, for what sticks under it (IndexSection's stickyTitle):
   // --oc-index-search-height, with the result line when it shows.
@@ -123,7 +124,7 @@ export default function IndexSearchField({ query, setQuery, placeholder, status 
       // MD3's search bar, as the editors' lists' search (CaveList, SistemaList).
       sx={SEARCH_FIELD_SX}
       slotProps={{
-        htmlInput: { 'aria-label': placeholder, spellCheck: false },
+        htmlInput: { 'aria-label': label || placeholder, spellCheck: false },
         input: {
           startAdornment: (
             <InputAdornment position="start">

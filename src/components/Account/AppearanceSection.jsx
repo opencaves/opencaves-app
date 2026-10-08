@@ -25,7 +25,7 @@ export default function AppearanceSection() {
 
   return (
     <Box className="oc-appearance-section">
-      <TextField select size="small" label={t('appearance')} value={mode} onChange={handleChange} helperText={t('appearanceHint')} sx={{ width: 280, maxWidth: '100%' }}>
+      <TextField select size="small" label={t('appearance')} value={mode} onChange={handleChange} helperText={t('appearanceHint')} sx={{ width: 340, maxWidth: '100%' }}>
         {COLOR_MODES.map((option) => (
           <MenuItem key={option} value={option}>
             {t(`appearance_${option}`)}
