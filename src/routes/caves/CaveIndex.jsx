@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react'
 import pushId from 'unique-push-id'
-import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Link, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -52,15 +51,8 @@ export default function CaveIndex() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
         current={t('menu.caves', { ns: 'app' })}
         title={t('caves.title')}
-        subtitle={
-          <>
-            {t('caveCount', { count: data.caves.length })}
-            {' · '}
-            <Link component={RouterLink} to="/sistemas" underline="hover">
-              {t('sistemas.title')}
-            </Link>
-          </>
-        }
+        // Short: its count, by area (the systems' list is in the menu).
+        subtitle={t('caves.subtitle', { count: data.caves.length })}
         addTo={`/caves/${newId}/edit`}
         addLabel={t('caves.add')}
       />
