@@ -323,8 +323,8 @@
     "directions": "Directions",
     "save": "Sauvegarder",
     "share": "Partager",
-    "shareTitle": "Cénote {{name}} / OpenCaves.org",
-    "shareText": "Cénote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Partager",
     "saved": "Sauvegardée",
     "savedMessage": "Sauvegardée dans votre profil",
@@ -491,7 +491,7 @@
     "closeBtn": "Fermer les filtres"
   },
   "resultPane": {
-    "title": "Cénote {{name}}",
+    "title": "{{name}}",
     "videosHeader": "Vidéos",
     "videoFrameTitle": "Vidéo {{index}}",
     "playVideo": "Lire la vidéo {{index}}",
@@ -619,7 +619,7 @@
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité",
       "newCave": "Nouvelle cénote",
-      "caveTitle": "Cénote {{name}}",
+      "caveTitle": "{{name}}",
       "backToCaves": "Retour aux cénotes",
       "backToCave": "Retour à la page de la cénote",
       "placeOnMap": "Placer sur la carte",
@@ -679,7 +679,7 @@
     "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Retour",
       "ariaLabel": "Retour"
@@ -1162,7 +1162,7 @@
       "online": "Vous êtes de nouveau en ligne.",
       "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent."
     },
-    "caveReady": "La cénote {{name}} est disponible hors ligne",
+    "caveReady": "{{name}} est disponible hors ligne",
     "caveIncomplete": "La cénote {{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
     "previewsReady": "Les aperçus des cénotes, les cartes et les galeries sont disponibles hors ligne",
     "previewsIncomplete": "Certains aperçus ou cartes n’ont pas pu être téléchargés. Nouvel essai plus tard.",

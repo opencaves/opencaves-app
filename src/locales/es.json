@@ -324,8 +324,8 @@
     "directions": "Cómo llegar",
     "save": "Guardar",
     "share": "Compartir",
-    "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Compartir",
     "saved": "Guardado",
     "savedMessage": "Guardado en tu perfil",
@@ -492,7 +492,7 @@
     "closeBtn": "Cerrar los filtros"
   },
   "resultPane": {
-    "title": "Cenote {{name}}",
+    "title": "{{name}}",
     "videosHeader": "Vídeos",
     "videoFrameTitle": "Vídeo {{index}}",
     "playVideo": "Reproducir vídeo {{index}}",
@@ -620,7 +620,7 @@
       "accessGroup": "Acceso",
       "accessibilityGroup": "Accesibilidad",
       "newCave": "Nuevo cenote",
-      "caveTitle": "Cenote {{name}}",
+      "caveTitle": "{{name}}",
       "backToCaves": "Volver a los cenotes",
       "backToCave": "Volver a la página del cenote",
       "placeOnMap": "Colocar en el mapa",
@@ -680,7 +680,7 @@
     "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Atrás",
       "ariaLabel": "Atrás"
@@ -1163,7 +1163,7 @@
       "online": "Vuelves a estar en línea.",
       "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando."
     },
-    "caveReady": "El cenote {{name}} está disponible sin conexión",
+    "caveReady": "{{name}} está disponible sin conexión",
     "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",
     "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
