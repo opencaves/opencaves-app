@@ -230,7 +230,7 @@
           "emailCallback": {
             "header": " ",
             "invalidActionCode": {
-              "header": "Lien email expiré",
+              "header": "Lien de connexion expiré",
               "details": "Le lien de validation par courriel que vous avez utilisé a expiré.",
               "previousBtn": "Réessayez"
             },
@@ -307,7 +307,7 @@
       "emailMissing": "Veuillez saisir un courriel",
       "firstNameMissing": "Veuillez saisir un prénom",
       "firstNameTooShort": "Le prénom doit faire au moins {{minLength}} caractères",
-      "passwordMissing": "Please enter your password",
+      "passwordMissing": "Veuillez entrer votre mot de passe",
       "passwordWrong": "Mauvais mot de passe",
       "userNotFound": "Votre compte n'a pas été trouvé",
       "default": "Une erreur s'est produite. Veuillez réessayer plus tard.",
@@ -324,7 +324,7 @@
   },
   "quickActions": {
     "ariaLabel": "Actions pour {{name}}",
-    "directions": "Directions",
+    "directions": "Itinéraire",
     "save": "Sauvegarder",
     "share": "Partager",
     "shareTitle": "{{name}} / OpenCaves.org",
@@ -511,7 +511,7 @@
     "accessHeader": "Accès",
     "aka": "alias",
     "directionsHeader": "S'y rendre",
-    "cenote": "Cenote",
+    "cenote": "Cénote",
     "sistema": "Réseau {{ system }}",
     "explorationHistory": "Historique d'exploration",
     "coordinateValidityUnknown": "non confirmé",
@@ -943,7 +943,7 @@
   "accessibilities": {
     "jungle": {
       "label": "Dans la jungle",
-      "description": "Il n'y a pas de chemin menant au cenote."
+      "description": "Il n’y a pas de chemin menant à la cénote."
     },
     "not-safe": {
       "label": "Pas sécurisé",
@@ -1049,6 +1049,15 @@
       "panelTitle": "Couches de la carte",
       "turnOn": "Activer les couches de la carte",
       "turnOff": "Désactiver les couches de la carte"
+    },
+    "controls": {
+      "locationNotAvailable": "Position non disponible",
+      "mapTitle": "Carte",
+      "scrollZoom": "Utilisez Ctrl + la molette pour zoomer sur la carte",
+      "scrollZoomMac": "Utilisez ⌘ + la molette pour zoomer sur la carte",
+      "touchPan": "Utilisez deux doigts pour déplacer la carte",
+      "toggleAttribution": "Afficher ou masquer les crédits",
+      "logo": "Logo Mapbox"
     }
   },
   "dashboard": {
