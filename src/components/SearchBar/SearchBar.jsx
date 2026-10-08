@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -160,7 +160,11 @@ const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
 
 export default function SearchBar() {
   const searchBarRef = useRef()
-  const resultItemsRef = useRef([])
+  // A combobox (WAI-ARIA): the focus stays in the field, the arrows move
+  // through the results (aria-activedescendant), Enter opens the one shown.
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const listboxId = useId()
+  const optionId = (index) => `${listboxId}-option-${index}`
   const [value, doSetValue] = useState('')
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
@@ -314,10 +318,17 @@ export default function SearchBar() {
 
   async function onSearchbarInputKeyDown(event) {
     // Handle various keyboard events
-    if (event.key === 'ArrowDown') {
-      if (resultItemsRef.current.length > 0) {
-        resultItemsRef.current[0].focus()
-      }
+    const count = searchResults.length
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && count > 0) {
+      event.preventDefault()
+      const step = event.key === 'ArrowDown' ? 1 : -1
+      setActiveIndex((index) => (index < 0 ? (step > 0 ? 0 : count - 1) : (index + step + count) % count))
+    }
+
+    // The result shown, or the first one.
+    if (event.key === 'Enter' && count > 0) {
+      event.preventDefault()
+      onResultsItemClick(searchResults[activeIndex >= 0 ? activeIndex : 0].id)
     }
 
     if (event.key === 'Escape') {
@@ -352,6 +363,17 @@ export default function SearchBar() {
     // it), the same entry when switching from one cave to another.
     navigate(`/map/${id}`, { replace: !!currentCave })
   }
+
+  // New results: nothing shown in them yet.
+  useEffect(() => {
+    setActiveIndex(-1)
+  }, [searchResults])
+
+  // The result shown kept in view.
+  useEffect(() => {
+    if (activeIndex >= 0) document.getElementById(optionId(activeIndex))?.scrollIntoView({ block: 'nearest' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex])
 
   function onBackBtnClick() {
     restoreSearchState()
@@ -450,7 +472,14 @@ export default function SearchBar() {
                 </ActionButton>
               </Fade>
             </Grid>
-            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{ 'aria-label': t('inputAriaLabel') }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
+            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{
+                'aria-label': t('inputAriaLabel'),
+                role: 'combobox',
+                'aria-autocomplete': 'list',
+                'aria-expanded': showSearchResults,
+                'aria-controls': listboxId,
+                'aria-activedescendant': showSearchResults && activeIndex >= 0 ? optionId(activeIndex) : undefined,
+              }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
 
             <Box
               sx={{
@@ -522,19 +551,23 @@ export default function SearchBar() {
             <Collapse in={showSearchResults}>
               <div className="oc-search-bar--results">
                 <List
+                  id={listboxId}
+                  role="listbox"
+                  aria-label={t('inputAriaLabel')}
                   sx={{
                     fontSize: '0.8125rem',
                   }}
                 >
                   {searchResults.length === 0 && searchedTerm.trim() && searchedTerm === value && (
-                    <ListItem className="oc-search-bar--no-results" sx={{ px: 2, py: 1.5, color: 'text.secondary' }}>
+                    <ListItem className="oc-search-bar--no-results" role="presentation" aria-live="polite" sx={{ px: 2, py: 1.5, color: 'text.secondary' }}>
                       {t('noResults', { query: value.trim() })}
                     </ListItem>
                   )}
-                  {searchResults.map((result) => {
+                  {searchResults.map((result, index) => {
                     return (
                       <ListItem
                         disablePadding
+                        role="presentation"
                         key={result.id}
                         sx={{
                           '&:last-child > .MuiListItemButton-root': {
@@ -544,7 +577,7 @@ export default function SearchBar() {
                       >
                         {/* No focus move on press: the input's blur would collapse the results
                             before the press ends, so a quick tap would land on the map instead. */}
-                        <ListItemButton ref={(element) => resultItemsRef.current.push(element)} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
+                        <ListItemButton id={optionId(index)} role="option" aria-selected={index === activeIndex} selected={index === activeIndex} tabIndex={-1} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
                           {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
                           <Box
                             sx={{
