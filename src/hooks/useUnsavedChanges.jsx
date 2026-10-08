@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 // Tracks an edit form's unsaved changes against a baseline (the values it
 // was loaded or last saved with), and guards leaving while there are some:
@@ -79,7 +80,9 @@ export function useUnsavedChanges(form, { initial, onSave, canSave = true, withi
 
   const dialog = (
     <Dialog className="oc-unsaved-changes-dialog" open={blocker.state === 'blocked'} onClose={() => !savingFromDialog && blocker.reset?.()} aria-labelledby="oc-unsaved-changes-title" aria-describedby="oc-unsaved-changes-text">
-      <DialogTitle id="oc-unsaved-changes-title">{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={() => blocker.reset?.()} disabled={savingFromDialog} />
+      <DialogTitle id="oc-unsaved-changes-title" sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       <DialogContent>
         <DialogContentText id="oc-unsaved-changes-text">{t('message')}</DialogContentText>
       </DialogContent>

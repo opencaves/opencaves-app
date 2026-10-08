@@ -7,6 +7,7 @@ import ScienceOutlined from '@mui/icons-material/ScienceOutlined'
 import { APP_NAME } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import LogoIcon from './LogoIcon.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 // The browser's note that this device has seen the welcome.
 const SEEN_KEY = 'oc-welcome-seen'
@@ -75,6 +76,8 @@ export default function WelcomeDialog() {
 
   return (
     <Dialog className="oc-welcome-dialog" open={open} onClose={close} maxWidth="xs" fullWidth aria-labelledby="oc-welcome-dialog-title" aria-describedby="oc-welcome-dialog-text">
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={close} />
       <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
         <LogoIcon sx={{ width: 48, height: 48 }} />
       </Box>

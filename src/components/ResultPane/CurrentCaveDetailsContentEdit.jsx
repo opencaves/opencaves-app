@@ -3,7 +3,8 @@ import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { deleteField } from 'firebase/firestore'
 import { orDelete } from '@/utils/firestoreFields.js'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
@@ -317,6 +318,19 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
   return (
     <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))', ...phoneTouchSizing }) }}>
+      {/* Its header: which cave is edited, and a way back to it (only Exit,
+          at the bottom, led out). The saved name, while the field changes. */}
+      <Box className="oc-current-cave-details-content-edit--header" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, ml: -1.5, mt: -1 }}>
+        <Tooltip title={tApp('back')}>
+          <IconButton aria-label={tApp('back')} onClick={exitEditMode} disabled={saving}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h6" noWrap sx={{ minWidth: 0 }}>
+          {tApp('editTitle', { title: t('caveTitle', { name: cave.name?.value || form.name || cave.id }) })}
+        </Typography>
+      </Box>
+
       <TextField ref={nameFieldRef} label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />

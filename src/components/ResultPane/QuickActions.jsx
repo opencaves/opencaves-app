@@ -20,6 +20,7 @@ import { isMeteredConnection, markJustSaved, offlineSupported, savedCaveStatusKe
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { openDirections } from '@/utils/directions.js'
 import './QuickActions.scss'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 function ButtonLg({ primary, children, ...props }) {
   return (
@@ -313,7 +314,9 @@ export default function QuickActions({ cave }) {
       )}
 
       <Dialog className="oc-quick-actions--account-prompt" open={accountPromptOpen} onClose={() => setAccountPromptOpen(false)} aria-labelledby="oc-account-prompt-title" aria-describedby="oc-account-prompt-text">
-        <DialogTitle id="oc-account-prompt-title">{t('accountPrompt.title')}</DialogTitle>
+        {/* The app's rule: an X on every dialog. */}
+        <DialogCloseButton onClick={() => setAccountPromptOpen(false)} />
+        <DialogTitle id="oc-account-prompt-title" sx={{ pr: 7 }}>{t('accountPrompt.title')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="oc-account-prompt-text">{t('accountPrompt.text', { name: caveName })}</DialogContentText>
         </DialogContent>

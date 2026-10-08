@@ -5,6 +5,7 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, 
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const emptyForm = { name: '', description: '', note: '' }
@@ -67,7 +68,9 @@ export default function NewSourceDialog({ open, initialName = '', onClose, onCre
         },
       }}
     >
-      <DialogTitle>{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={onClose} disabled={saving} />
+      <DialogTitle sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
           {error && <Alert severity="error">{error}</Alert>}

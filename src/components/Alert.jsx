@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, children }) {
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
@@ -32,6 +33,8 @@ export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, 
         },
       }}
     >
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={handleClose} />
       <DialogContent sx={{ pt: 4 }}>
         <Grid container direction="column" sx={{ gap: 1, alignItems: 'center' }}>
           <ReportProblemRounded color="warning" sx={{ fontSize: '3rem', mb: 1 }} />

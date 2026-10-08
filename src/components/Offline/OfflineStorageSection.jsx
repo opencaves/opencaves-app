@@ -5,6 +5,7 @@ import DeleteSweepOutlined from '@mui/icons-material/DeleteSweepOutlined'
 import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineMedia.js'
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 // The account page's "Offline use" section: how much this site stores on the
 // device (navigator.storage.estimate(): cave data, downloaded and cached
@@ -82,7 +83,9 @@ export default function OfflineStorageSection({ headingProps = {} }) {
       </Button>
 
       <Dialog className="oc-offline-storage-section--confirm" open={confirmOpen} onClose={() => !clearing && setConfirmOpen(false)} aria-labelledby="oc-offline-clear-title">
-        <DialogTitle id="oc-offline-clear-title">{t('confirmTitle')}</DialogTitle>
+        {/* The app's rule: an X on every dialog. */}
+        <DialogCloseButton onClick={() => setConfirmOpen(false)} disabled={clearing} />
+        <DialogTitle id="oc-offline-clear-title" sx={{ pr: 7 }}>{t('confirmTitle')}</DialogTitle>
         <DialogContent>
           <DialogContentText>{t('confirmText')}</DialogContentText>
           <DialogContentText sx={{ mt: 1.5 }}>{t('confirmTextSaved')}</DialogContentText>
