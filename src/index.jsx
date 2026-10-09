@@ -36,31 +36,7 @@ const container = document.getElementById('root')
 // In a build, index.html's loader adds the app's stylesheets next to this
 // script, after the page's first paint (see vite.config.js): render once
 // they're in, so nothing shows unstyled. (No such promise in dev.)
-if (hydrate) {
-  setHydrating(true)
-  // The page's lazy routes loaded first, as the server had them (router.jsx).
-  Promise.all([window.__ocAppStylesheets, loadMatchedLazyRoutes()]).then(() => {
-    // useSelector's server snapshot: the state the server rendered with,
-    // whatever comes in (the stored state) while the page hydrates.
-    const serverState = store.getState()
-    ReactDOM.hydrateRoot(
-      container,
-      <Profiler name='App'>
-        <Provider store={store} serverState={serverState}>
-          <App />
-          <HydrationDone />
-        </Provider>
-      </Profiler>,
-      {
-        // A difference with the server's HTML: said in the console (React
-        // then renders that part anew).
-        onRecoverableError: (error, info) => console.warn('[hydrate] %o %s', error, info?.componentStack || ''),
-      },
-    )
-  })
-} else {
-  // (The stored state waited for a hydration: read now.)
-  if (ssr) persistor.persist()
+function render() {
   const root = ReactDOM.createRoot(container)
   Promise.resolve(window.__ocAppStylesheets).then(() => root.render(
     // <StrictMode>
@@ -73,6 +49,43 @@ if (hydrate) {
     </Profiler>
     // </StrictMode >
   ))
+}
+
+if (hydrate) {
+  setHydrating(true)
+  // The page's lazy routes loaded first, as the server had them (router.jsx).
+  Promise.all([window.__ocAppStylesheets, loadMatchedLazyRoutes()]).then(
+    () => {
+      // useSelector's server snapshot: the state the server rendered with,
+      // whatever comes in (the stored state) while the page hydrates.
+      const serverState = store.getState()
+      ReactDOM.hydrateRoot(
+        container,
+        <Profiler name='App'>
+          <Provider store={store} serverState={serverState}>
+            <App />
+            <HydrationDone />
+          </Provider>
+        </Profiler>,
+        {
+          // A difference with the server's HTML: said in the console (React
+          // then renders that part anew).
+          onRecoverableError: (error, info) => console.warn('[hydrate] %o %s', error, info?.componentStack || ''),
+        },
+      )
+    },
+    // Its route's code not loaded (offline...): the app renders the page itself.
+    (error) => {
+      console.error('[hydrate] %o', error)
+      setHydrating(false)
+      persistor.persist()
+      render()
+    },
+  )
+} else {
+  // (The stored state waited for a hydration: read now.)
+  if (ssr) persistor.persist()
+  render()
 }
 
 // Google Tag Manager has no bearing on the app being usable - load and
