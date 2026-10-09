@@ -1005,7 +1005,9 @@
     "markers": {
       "location": "Emplacement de la grotte",
       "entrance": "Entrée de la cénote",
-      "key": "Emplacement de la clé"
+      "key": "Emplacement de la clé",
+      "entranceShort": "Entrée",
+      "keyShort": "Clé"
     },
     "caveLayer": {
       "button": "Couches de la carte",
