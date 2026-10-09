@@ -11,6 +11,7 @@ import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, u
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { removeShell } from '@/utils/shell.js'
+import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -91,6 +92,14 @@ export default function NoMatch({ inLayout = false }) {
     if (error && !notFound) console.error(error)
   }, [error, notFound])
 
+  // Firestore failed inside (its SDK's bug): recovered with a reload; once
+  // the automatic steps are spent, the button reloads too - loading the
+  // page's data again can't work until then.
+  const firestoreFailed = isFirestoreFailure(error)
+  useEffect(() => {
+    if (firestoreFailed) recoverFromFirestoreFailure()
+  }, [firestoreFailed])
+
   // An error page outside Layout (a route failing, the map's): index.html's
   // splash goes, as no page will remove it.
   useEffect(() => {
@@ -141,7 +150,7 @@ export default function NoMatch({ inLayout = false }) {
             </Button>
           </Grid>
         ) : (
-          <Button variant="contained" disableElevation onClick={() => revalidator.revalidate()} loading={revalidator.state === 'loading'}>
+          <Button variant="contained" disableElevation onClick={() => (firestoreFailed ? window.location.reload() : revalidator.revalidate())} loading={revalidator.state === 'loading'}>
             {t('retryBtn')}
           </Button>
         )}

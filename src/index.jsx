@@ -9,6 +9,7 @@ import './i18n.js'
 import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
+import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
 // import reportWebVitals from './reportWebVitals'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
@@ -18,6 +19,9 @@ import '@/utils/externalFileDrag.js'
 if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
   loadIonic()
 }
+
+// Firestore's internal failures, recovered rather than left on the error page.
+watchFirestoreFailures()
 
 // In a build, index.html's loader adds the app's stylesheets next to this
 // script, after the page's first paint (see vite.config.js): render once
