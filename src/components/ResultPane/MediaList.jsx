@@ -256,7 +256,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
             }}
             sx={{ position: 'absolute', top: 6, right: 6, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}
           >
-            <CloseRounded fontSize="small" />
+            <CloseRounded />
           </IconButton>
         </Tooltip>
       )}

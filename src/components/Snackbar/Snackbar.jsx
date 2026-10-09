@@ -24,7 +24,6 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
       <IconButton
         aria-label={t('close.ariaLabel')}
         color='inherit'
-        sx={{ p: 0.5 }}
         onClick={closeSnackbar}
       >
         <Close />

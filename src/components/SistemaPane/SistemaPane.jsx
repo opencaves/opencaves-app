@@ -186,7 +186,7 @@ export default function SistemaPane() {
                     disablePadding
                     secondaryAction={
                       <IconButton edge="end" component={Link} to={`${sistema.id}/edit`} aria-label={t('editSistemaBtn.ariaLabel')}>
-                        <EditRounded fontSize="small" />
+                        <EditRounded />
                       </IconButton>
                     }
                   >

@@ -498,9 +498,9 @@ export default function SignupWithEmail({ open: initialOpen }) {
             <IconButton
               aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')}
               onClick={onClose}
-              sx={{
-                p: 0,
-              }}
+              // The icon where the title's padding ends, as before the
+              // button had its own (the theme's 40dp icon button).
+              sx={{ m: -1 }}
             >
               {isSmall ? <ArrowBack /> : <Close />}
             </IconButton>

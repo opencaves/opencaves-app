@@ -308,11 +308,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   )
 
   // M3 touch sizing for the whole form on phones (it's built from dense,
-  // desktop-sized controls shared with the admin pages): 48dp targets with
-  // 24dp icons for icon buttons, 40dp-tall buttons, standard-size switches.
+  // desktop-sized controls shared with the admin pages): 40dp-tall buttons,
+  // standard-size switches. Icon buttons get their 48dp touch target from
+  // the theme (MuiIconButton).
   const phoneTouchSizing = {
-    '& .MuiIconButton-root': { width: 48, height: 48, p: 0 },
-    '& .MuiIconButton-root .MuiSvgIcon-root': { fontSize: 24 },
     '& .MuiButton-root': { minHeight: 40 },
   }
 
