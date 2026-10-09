@@ -9,9 +9,10 @@ import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import { centerFocused, leaveOnArrow, scrollStrip } from '@/utils/mediaStrip.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
-import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
@@ -177,7 +178,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         return
       }
 
-      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + SCROLLBAR_STEP_FACTOR * direction)))
+      scrollStrip(scrollbar.view, direction)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
@@ -196,7 +197,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </Typography>
       )}
       {videoUrls.length > 0 && (
-        <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${shownHeight})`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
+        <Box className="oc-media-strip" sx={{ height: `calc(var(--oc-pane-padding-block) + ${shownHeight})`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars
             ref={scrollbarsRef}
             autoHide
@@ -210,12 +211,12 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
               },
             }}
           >
-            <Box sx={{ px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: `${ASSETS_LIST_CONFIG.spacing}px` }}>
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (
-                    <Box key={`${video}-${index}`} sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
+                    <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
                           {/* A still, not the site's player: the players loaded ~1.9MB of

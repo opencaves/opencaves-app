@@ -129,9 +129,39 @@ http://ionicframework.com/docs/theming/ */
   outline: 3px solid var(--oc-focus-ring);
   outline-offset: 2px;
 }
-// A table row's ring inside it (outside, it would overlap its neighbours).
-.MuiTableRow-root[tabindex]:focus-visible {
+// The ring's corners slightly rounded (M3's extra-small, 4dp) where the
+// element has none of its own: weightless (:where), so any radius a component
+// sets - a pill button's, a photo's - wins.
+:where(a, button, summary, [tabindex], [role='button'], [role='link'], [role='tab'], [role='menuitem'], [role='option'], [role='switch'], [role='checkbox'], [role='radio'], [role='slider']):where(:focus-visible),
+:where(.MuiButtonBase-root.Mui-focusVisible) {
+  border-radius: 4px;
+}
+// A table row's ring inside it (outside, it would overlap its neighbours);
+// a tab's, a photo's and a video's too: what holds them hides what overflows
+// it (the tab strip the ring's top and bottom, a photo's or a video's
+// rounded box all of it).
+.MuiTableRow-root[tabindex]:focus-visible,
+.MuiTab-root.Mui-focusVisible,
+.oc-media-list .MuiButtonBase-root.Mui-focusVisible,
+.oc-video-list--item .MuiButtonBase-root.Mui-focusVisible {
   outline-offset: -3px;
+}
+// Rounded as their box.
+.oc-media-list .MuiButtonBase-root.Mui-focusVisible,
+.oc-video-list--item .MuiButtonBase-root.Mui-focusVisible {
+  border-radius: 0.5rem;
+}
+// A survey map's: its name and author bars lie over its link, and would hide
+// a ring inside it - drawn by the card's edge instead, above them.
+.oc-cave-map-list--item:has(> .Mui-focusVisible) {
+  > .Mui-focusVisible {
+    outline: none;
+  }
+
+  &::after {
+    z-index: 2;
+    border: 3px solid var(--oc-focus-ring);
+  }
 }
 // Not inside text fields (their underline or outline shows focus), nor on a
 // list row, whose state layer does (an outline there overlaps its neighbours).
@@ -151,4 +181,14 @@ http://ionicframework.com/docs/theming/ */
   to {
     transform: translateX(-8.333%);
   }
+}
+
+// The photos, videos and survey maps strips: their items rest in the middle
+// (src/utils/mediaStrip.js), the strip's scrolling element (Scrollbars' view)
+// snapping to each one's centre.
+.oc-media-strip > .oc-scrollbar > div:first-child {
+  scroll-snap-type: x mandatory;
+}
+.oc-media-strip--item {
+  scroll-snap-align: center;
 }
