@@ -6,6 +6,7 @@ import CheckRounded from '@mui/icons-material/CheckRounded'
 import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { chooseLanguage, readDeviceLanguage } from '@/services/languagePreference.js'
+import { useHydrated } from '@/hooks/useHydrated.js'
 
 export const AUTOMATIC = 'auto'
 
@@ -28,10 +29,13 @@ export function useLanguageChoice() {
     chooseLanguage(next === AUTOMATIC ? null : next, user)
   }
 
-  // The primary subtag: two letters, or three (e.g. yua).
-  const browserLanguage = (navigator.languages?.[0] || navigator.language || '').split('-')[0].toLowerCase()
+  // The primary subtag: two letters, or three (e.g. yua). On the server and
+  // while its page hydrates (useHydrated), the page's language instead: the
+  // server can't know the browser's.
+  const hydrated = useHydrated()
+  const browserLanguage = hydrated ? (navigator.languages?.[0] || navigator.language || '').split('-')[0].toLowerCase() : i18n.resolvedLanguage
   const automaticName = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
-  const currentName = choice === AUTOMATIC ? automaticName : APP_LANGUAGES.find(({ code }) => code === choice)?.nativeName
+  const currentName = choice === AUTOMATIC || !hydrated ? automaticName : APP_LANGUAGES.find(({ code }) => code === choice)?.nativeName
 
   return { choice, choose, automaticName, currentName }
 }

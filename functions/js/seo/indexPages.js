@@ -2,7 +2,8 @@ import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
-import { cavePageHtml } from './cavePage.js'
+import { cavePageMeta } from './cavePage.js'
+import { loadSsr, renderWithApp } from './ssr.js'
 import { APP_TITLE, GITHUB_URL, SITE_URL } from '../constants.js'
 import { decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
 import { loadIndexData, loadSistemaSlugs } from './indexData.js'
@@ -190,48 +191,65 @@ function pageFor(path, data) {
   return null
 }
 
-export const indexPages = onRequest({ region: REGION }, async (req, res) => {
-  let shell
+// The page as the app renders it (ssr.js), or - no server build, or the
+// rendering failing - as text in the app's shell (renderPage), as before.
+async function pageHtml(req, meta) {
   try {
-    shell = await shellFor(req)
+    const html = await renderWithApp(req, meta)
+    if (html) return html
   } catch (error) {
-    logger.error('[indexPages] the app shell could not be fetched', { error: error.message })
-    res.redirect(302, '/map')
-    return
+    logger.error('[indexPages] the app could not render the page', { path: req.path, error: error.stack || error.message })
   }
+  return renderPage(await shellFor(req), meta)
+}
 
-  const page = pageFor(req.path, await loadIndexData())
-  if (page?.cave) {
-    const snapshot = await db.collection(CAVES_COLL_NAME).doc(page.cave).get()
-    res.set('Content-Type', 'text/html; charset=utf-8')
-    if (!snapshot.exists) {
-      res.set('Cache-Control', 'public, max-age=60')
-      res.status(404).send(shell)
+// The app's shell for a "not found": the server build's (ssr.js), else the site's.
+async function notFoundShell(req) {
+  try {
+    const ssr = await loadSsr()
+    if (ssr) return ssr.shell
+  } catch {
+    // The site's, then.
+  }
+  return shellFor(req)
+}
+
+export const indexPages = onRequest({ region: REGION }, async (req, res) => {
+  try {
+    const page = pageFor(req.path, await loadIndexData())
+    let meta = page
+    if (page?.cave) {
+      const snapshot = await db.collection(CAVES_COLL_NAME).doc(page.cave).get()
+      if (snapshot.exists) {
+        const cave = snapshot.data()
+        let sistema = null
+        if (cave.sistemaId) {
+          const { slugs, names } = await loadSistemaSlugs()
+          if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
+        }
+        meta = cavePageMeta(cave, page.cave, sistema, `/caves/${page.cave}`)
+      } else {
+        meta = null
+      }
+    }
+    if (page?.redirect) {
+      res.set('Cache-Control', 'public, max-age=3600')
+      res.redirect(301, page.redirect)
       return
     }
-    const cave = snapshot.data()
-    let sistema = null
-    if (cave.sistemaId) {
-      const { slugs, names } = await loadSistemaSlugs()
-      if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
+    res.set('Content-Type', 'text/html; charset=utf-8')
+    if (!meta) {
+      // The app shows its own "not found"; search engines get the status.
+      res.set('Cache-Control', 'public, max-age=60')
+      res.status(404).send(await notFoundShell(req))
+      return
     }
+    const html = await pageHtml(req, meta)
+    // As the cave page: short in browsers, an hour at the CDN edge.
     res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
-    res.send(cavePageHtml(shell, cave, page.cave, sistema, `/caves/${page.cave}`))
-    return
+    res.send(html)
+  } catch (error) {
+    logger.error('[indexPages] the page could not be served', { path: req.path, error: error.message })
+    res.redirect(302, '/map')
   }
-  if (page?.redirect) {
-    res.set('Cache-Control', 'public, max-age=3600')
-    res.redirect(301, page.redirect)
-    return
-  }
-  res.set('Content-Type', 'text/html; charset=utf-8')
-  if (!page) {
-    // The app shows its own "not found"; search engines get the status.
-    res.set('Cache-Control', 'public, max-age=60')
-    res.status(404).send(shell)
-    return
-  }
-  // As the cave page: short in browsers, an hour at the CDN edge.
-  res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
-  res.send(renderPage(shell, page))
 })

@@ -62,14 +62,15 @@ export const jsonLdScript = (data) => `<script type="application/ld+json">${JSON
 // The share image (og:image) of every page: public/og-image.png.
 const SHARE_IMAGE = { url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: 'OpenCaves - open data for cave diving' }
 
-// The shell with the page's <head> tags and #root content. path: the page's
-// path ("/caves"); canonical: the path search engines should know it by,
-// when another (a cave's place on the map: its own page); body: its HTML,
-// already escaped; jsonLd:
-// structured data (schema.org) for the page's <head>, if any; trail: its
-// breadcrumbs, [{ name, path }] from the landing page to the page itself -
-// links above its content, and a BreadcrumbList for search results.
-export function renderPage(shell, { title, description, path, canonical = path, body, ogType = 'website', jsonLd = null, trail = null }) {
+// A page's <head> tags (title, description, canonical, og:, structured
+// data) and its breadcrumbs. path: the page's path ("/caves"); canonical:
+// the path search engines should know it by, when another (a cave's place on
+// the map: its own page); jsonLd: structured data (schema.org) for the
+// page's <head>, if any - structuredData too (a cave's: in its text for the
+// plain pages, in <head> for the rendered ones); trail: its breadcrumbs,
+// [{ name, path }] from the landing page to the page itself - links above
+// its content, and a BreadcrumbList for search results.
+function pageHead({ title, description, path, canonical = path, ogType = 'website', jsonLd = null, structuredData = null, trail = null }, { withStructuredData = false } = {}) {
   const url = `${SITE_URL}${canonical}`
   const breadcrumbs = trail?.length
     ? {
@@ -93,17 +94,41 @@ export function renderPage(shell, { title, description, path, canonical = path, 
     `<meta property="og:image:alt" content="${escapeHtml(SHARE_IMAGE.alt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     jsonLd ? jsonLdScript(jsonLd) : '',
+    withStructuredData && structuredData ? jsonLdScript(structuredData) : '',
     breadcrumbs ? jsonLdScript(breadcrumbs.jsonLd) : '',
   ].filter(Boolean).join('\n  ')
+  return { head, breadcrumbs }
+}
 
-  // Replacer functions, not strings: a "$&" or "$'" in a name would otherwise
-  // be read as a replacement pattern.
-  return shell
-    // The shell's own title and description give way to the page's.
-    .replace(/<title>[^<]*<\/title>\s*/i, '')
-    .replace(/<meta name="description"[^>]*>\s*/i, '')
-    .replace(/<head>/i, () => `<head>\n  ${head}`)
-    .replace('<div id="root"></div>', () => `<div id="root">${breadcrumbs ? breadcrumbs.html : ''}${body}</div>`)
+// The shell with its own title and description replaced by the page's
+// <head> tags. Replacer functions, not strings: a "$&" or "$'" in a name
+// would otherwise be read as a replacement pattern.
+const withHead = (shell, head) => shell
+  .replace(/<title>[^<]*<\/title>\s*/i, '')
+  .replace(/<meta name="description"[^>]*>\s*/i, '')
+  .replace(/<head>/i, () => `<head>\n  ${head}`)
+
+// The shell with the page's <head> tags and #root content (body: its HTML,
+// already escaped) - the page as text, which the app replaces when it starts.
+export function renderPage(shell, page) {
+  const { head, breadcrumbs } = pageHead(page)
+  return withHead(shell, head).replace('<div id="root"></div>', () => `<div id="root">${breadcrumbs ? breadcrumbs.html : ''}${page.body}</div>`)
+}
+
+// A string as a <script>'s JSON: nothing in it can close the element.
+const SCRIPT_UNSAFE = { '<': '\\u003c', '\u2028': '\\u2028', '\u2029': '\\u2029' }
+const scriptJson = (value) => JSON.stringify(value).replace(/[<\u2028\u2029]/g, (c) => SCRIPT_UNSAFE[c])
+
+// The page rendered by the app itself (ssr.js): the same <head> tags, the
+// page's styles (its stylesheets, the Emotion styles it uses) and the files
+// it needs first (links: <link> tags), its HTML in #root, and what the app
+// hydrates it with (window.__OC_SSR__, src/index.jsx). data-oc-ssr: no
+// splash over it (index.html).
+export function renderSsrPage(shell, page, { html, styles, ssr }, links) {
+  const { head } = pageHead(page, { withStructuredData: true })
+  return withHead(shell, `${head}\n  ${links}\n  ${styles}`)
+    .replace(/<html([^>]*)>/i, (_, attributes) => `<html${attributes} data-oc-ssr>`)
+    .replace('<div id="root"></div>', () => `<div id="root">${html}</div>\n  <script>window.__OC_SSR__ = ${scriptJson(ssr)}</script>`)
 }
 
 // The path's segment, decoded, or '' when it can't be (bad % escapes).

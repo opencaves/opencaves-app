@@ -20,7 +20,14 @@ import { slugify } from './slug.js'
 // address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
 // Both are known to search engines by its own page: one URL per cave, not two
 // near-identical pages (Google skipped them as duplicates).
+// cavePageMeta: the page's <head> data and its text (body); cavePageHtml: the
+// page itself. structuredData: in the text (body), and in <head> when the
+// app renders the page (ssr.js).
 export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
+  return renderPage(shell, cavePageMeta(cave, id, sistema, path))
+}
+
+export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
   // Its name alone, as the app's titles (no "Cenote" prefix: "Cenote Cenote
@@ -69,7 +76,7 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const trail = path.startsWith('/caves/')
     ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/caves#${slugify(area)}` }] : []), { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
-  return renderPage(shell, { title, description, path, canonical, body, ogType: 'place', trail })
+  return { title, description, path, canonical, body, ogType: 'place', trail, structuredData }
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and

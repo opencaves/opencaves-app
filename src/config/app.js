@@ -20,7 +20,9 @@ export const COMPACT_LANDSCAPE_QUERY = '(orientation: landscape) and (max-height
 export const PANE_OPEN_THRESHOLD = .7
 export const PANE_INITIAL_BREAKPOINT = .33
 // export const PANE_BREAKPOINTS = [.08, .33, 1]
-export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / window.innerHeight, .33, 1]
+// (The server, rendering the public pages, has no window: the map's sheet is
+// never drawn there.)
+export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / (typeof window === 'undefined' ? 800 : window.innerHeight), .33, 1]
 export const RESULT_PANE_MIN_HEIGHT = 300
 // The search bar, as Material Design 3's: 56dp tall, fully rounded (half its
 // height), 16dp from the screen's edges - on desktop too, where 24dp would

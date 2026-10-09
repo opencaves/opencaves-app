@@ -182,6 +182,30 @@
     (function () {
       var shell = document.getElementById('oc-shell')
       var path = location.pathname
+      // A page the server rendered with the app (functions/js/seo/ssr.js, in
+      // English): its content is the first paint, no splash over it - unless
+      // the app will show it in another language (it then renders it anew,
+      // src/index.jsx): the splash then, as before, over the English. The
+      // language as i18next finds it (src/i18n.js): the one picked on the
+      // account page (oc-language, src/config/appLanguages.js), else the
+      // browser's first one the app has (en, fr, es, yua; keep in step).
+      if (document.documentElement.hasAttribute('data-oc-ssr')) {
+        var language = null
+        try {
+          language = localStorage.getItem('oc-language')
+        } catch (e) {}
+        if (!language) {
+          var wanted = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']
+          for (var i = 0; i < wanted.length && !language; i++) {
+            var code = String(wanted[i]).toLowerCase().split('-')[0]
+            if (/^(en|fr|es|yua)$/.test(code)) language = code
+          }
+        }
+        if (!language || language === 'en') {
+          shell.remove()
+          return
+        }
+      }
       var isMapRoute = path === '/map' || path.indexOf('/map/') === 0
       var mode = null
       try {

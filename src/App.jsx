@@ -5,7 +5,7 @@ import { useDispatch, useStore } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
-import router from './router.jsx'
+import { getRouter } from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import OfflineMediaSync from '@/components/Offline/OfflineMediaSync.jsx'
 import PendingUploadsSync from '@/components/Offline/PendingUploadsSync.jsx'
@@ -34,11 +34,16 @@ import './theme/variables.scss'
 
 import './App.scss'
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
-})
+// (Not on the server, which renders the public pages: entry-server.jsx.)
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
+  })
+}
 
-const App = () => {
+// serverRouter: on the server, its static router (entry-server.jsx), in
+// place of the browser's.
+const App = ({ serverRouter = null }) => {
   const dispatch = useDispatch()
   const store = useStore()
   const { title } = useTitle()
@@ -120,7 +125,7 @@ const App = () => {
           </Helmet>
           <TitleBar />
           <SnackbarProvider>
-            <RouterProvider router={router} />
+            {serverRouter || <RouterProvider router={getRouter()} />}
             <OfflineMediaSync />
             {/* Photos and maps added offline, uploaded once on Wi-Fi. */}
             <PendingUploadsSync />
