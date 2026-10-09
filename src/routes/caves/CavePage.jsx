@@ -200,7 +200,7 @@ export default function CavePage() {
       {hasHistory && (
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+            <ExplorationHistory sistemas={historySistemas} showHeading={false} />
           </Box>
         </IndexSection>
       )}

@@ -241,7 +241,7 @@ export default function SistemaPage() {
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
           {/* Without the entries' sources (their notes); its title is the section's. */}
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+            <ExplorationHistory sistemas={historySistemas} showHeading={false} />
           </Box>
         </IndexSection>
       )}
