@@ -8,7 +8,7 @@ import CheckRounded from '@mui/icons-material/CheckRounded'
 import QuestionMarkRounded from '@mui/icons-material/QuestionMarkRounded'
 import PriorityHighRounded from '@mui/icons-material/PriorityHighRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import LoginRounded from '@mui/icons-material/LoginRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap, startCrossPick, endCrossPick } from '@/redux/slices/mapSlice.jsx'
@@ -25,7 +25,7 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const FIELD_BADGE_ICONS = {
-  entrance: FenceRounded,
+  entrance: LoginRounded,
   key: VpnKeyRounded,
 }
 

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import LoginRounded from '@mui/icons-material/LoginRounded'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
@@ -52,7 +52,7 @@ const MARKER_ANIMATION_DURATION_MS = 680
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const EDIT_FIELD_BADGE_ICONS = {
-  entrance: FenceRounded,
+  entrance: LoginRounded,
   key: VpnKeyRounded,
 }
 
@@ -973,7 +973,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
               <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
                 {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
                 <Box className="oc-map--marker marker" sx={POINT_SX}>
-                  <FenceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <LoginRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
                   <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>
