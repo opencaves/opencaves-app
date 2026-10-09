@@ -38,7 +38,7 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
         sx={{ color: 'var(--yarl__color_button, hsla(0, 0%, 100%, .8))' }}
         className="oc-map-pane-menu yarl__button"
       >
-        <MoreVert sx={{ fontSize: '1.75rem' }} />
+        <MoreVert />
       </IconButton>
       <Menu
         className="oc-map-pane-menu--menu"

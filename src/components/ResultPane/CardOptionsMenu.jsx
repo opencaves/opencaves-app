@@ -35,7 +35,7 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
           ...sx,
         }}
       >
-        <MoreVertRounded fontSize="small" />
+        <MoreVertRounded />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {actions.map((action) => (

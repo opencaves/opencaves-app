@@ -142,12 +142,11 @@ function searchIds(caves, searchTerm) {
     .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: highlight(cave.id, regexp) } }))
 }
 
+// Stacked (the menu and back buttons cross-fade), centred in the 48dp slot.
 const ActionButton = styled(IconButton)({
-  width: '48px',
-  height: '48px',
   position: 'absolute',
-  left: 0,
-  top: 0,
+  left: 4,
+  top: 4,
 })
 
 const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
@@ -454,8 +453,9 @@ export default function SearchBar() {
             '&:has(.oc-search-bar--field input:focus-visible)': { outline: '3px solid var(--oc-focus-ring)', outlineOffset: 2 },
           }}
         >
-          {/* 56px with its border; 48px buttons centred in it, 4px from its
-              ends, so their 24px icons are 16px in (MD3's spacing). */}
+          {/* 56px with its border; 48px slots centred in it, 4px from its
+              ends, each holding a 40dp button (its 48dp touch target the
+              slot), so their 24px icons are 16px in (MD3's spacing). */}
           <Grid container className="oc-search-bar--field" sx={{ alignItems: 'center', minHeight: SEARCH_BAR_HEIGHT - 2, px: '3px' }}>
             <Grid
               sx={{
@@ -494,6 +494,8 @@ export default function SearchBar() {
             <Box
               sx={{
                 width: '48px',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             >
               {showClearBtn && (
@@ -501,10 +503,6 @@ export default function SearchBar() {
                   <IconButton
                     disableRipple
                     aria-label={t('actionButton.clear.ariaLabel')}
-                    sx={{
-                      width: '48px',
-                      height: '48px',
-                    }}
                     onClick={onSearchbarInputClear}
                   >
                     <ClearIcon />
@@ -530,10 +528,7 @@ export default function SearchBar() {
                 disableRipple
                 id="oc-search-filter-btn"
                 aria-label={t('actionButton.filter.ariaLabel')}
-                sx={{
-                  width: '48px',
-                  height: '48px',
-                }}
+                sx={{ m: 0.5 }}
                 onClick={onFilterBtnClick}
               >
                 <TuneIcon />

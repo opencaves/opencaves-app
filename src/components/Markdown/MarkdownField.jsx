@@ -30,9 +30,12 @@ import CaveLinkDialog from './CaveLinkDialog.jsx'
 import { focusLength, milkdownLength } from './milkdownLength.js'
 import { findLength } from './lengthDirective.js'
 import './MarkdownField.scss'
-import { COARSE_POINTER_ICON_BUTTONS_SX } from '@/components/touchTarget.js'
 
 const CAVE_LINK_PREFIX = 'oc:'
+
+// A toolbar button with a menu (an icon and its arrow): on a touch screen, as
+// wide as the others (48dp), so the toolbar wraps no more than it did.
+const MENU_BUTTON_SX = { '@media (pointer: coarse)': { px: '2px' } }
 
 // The formatting toolbar. Each entry's command is one of Milkdown's own
 // command/mark/node plugins (see the imports above) - adding a button for a
@@ -382,12 +385,12 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
       {/* Tooltips use describeChild: their child is the <span> that lets a
           disabled button still show one, and a label isn't allowed on a
           plain span - each button carries its own aria-label instead. */}
-      <Box className="oc-markdown-field--toolbar" role="toolbar" aria-label={t('toolbar.ariaLabel', { field: label })} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5, ...COARSE_POINTER_ICON_BUTTONS_SX }}>
+      <Box className="oc-markdown-field--toolbar" role="toolbar" aria-label={t('toolbar.ariaLabel', { field: label })} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.25, mb: 0.5 }}>
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
           <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
             <span>
-              <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                <Icon fontSize="small" />
+              <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                <Icon />
               </IconButton>
             </span>
           </Tooltip>
@@ -395,9 +398,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.link')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
-              <LinkRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu} sx={MENU_BUTTON_SX}>
+              <LinkRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -408,8 +411,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.length')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
-              <StraightenRounded fontSize="small" />
+            <IconButton size="compact" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
+              <StraightenRounded />
             </IconButton>
           </span>
         </Tooltip>
@@ -418,9 +421,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.heading')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
-              <TitleRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)} sx={MENU_BUTTON_SX}>
+              <TitleRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -438,8 +441,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           ) : (
             <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
               <span>
-                <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                  <Icon fontSize="small" />
+                <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                  <Icon />
                 </IconButton>
               </span>
             </Tooltip>
@@ -447,8 +450,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         )}
         <Box sx={{ flex: 1 }} />
         <Tooltip title={sourceMode ? t('toolbar.viewFormatted') : t('toolbar.viewSource')}>
-          <IconButton size="small" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
-            <CodeRounded fontSize="small" />
+          <IconButton size="compact" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
+            <CodeRounded />
           </IconButton>
         </Tooltip>
       </Box>

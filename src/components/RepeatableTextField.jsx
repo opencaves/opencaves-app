@@ -26,7 +26,7 @@ export default function RepeatableTextField({ label, values, onChange, addLabel,
             {/* Named after the list's caption, numbered (the caption isn't a <label>). */}
             <TextField size="small" fullWidth value={value} onChange={(e) => updateAt(index, e.target.value)} slotProps={{ htmlInput: { 'aria-label': `${label} ${index + 1}` } }} />
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
           </Box>
         ))}

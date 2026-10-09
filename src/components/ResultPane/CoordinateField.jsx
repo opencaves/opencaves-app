@@ -272,7 +272,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
         <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
-          {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
+          {locating ? <CircularProgress size={20} /> : <MyLocationRounded />}
         </IconButton>
       </span>
     </Tooltip>
@@ -282,7 +282,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
         <IconButton size="small" onClick={onClearClick} disabled={!isSet && !onRemove} aria-label={t('removeCoordinate')}>
-          <CloseRounded fontSize="small" />
+          <CloseRounded />
         </IconButton>
       </span>
     </Tooltip>
@@ -291,7 +291,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const navigateOrPinButton = isSet ? (
     <Tooltip title={t('navigateToCoordinate')}>
       <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')}>
-        <CenterFocusStrongRounded fontSize="small" />
+        <CenterFocusStrongRounded />
       </IconButton>
     </Tooltip>
   ) : (

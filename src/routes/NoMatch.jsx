@@ -52,7 +52,7 @@ ${reason}`)
         <span>{t('title')}</span>
         <Tooltip title={copied ? t('copied') : t('copy')}>
           <IconButton className="no-match--copy" size="small" onClick={copy} aria-label={copied ? t('copied') : t('copy')}>
-            {copied ? <CheckRounded fontSize="small" /> : <ContentCopyRounded fontSize="small" />}
+            {copied ? <CheckRounded /> : <ContentCopyRounded />}
           </IconButton>
         </Tooltip>
       </summary>

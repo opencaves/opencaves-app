@@ -120,9 +120,11 @@ export default function ColorPicker({ label, value, onChange, saveOnAdd = true }
                 setNewColor(isValidHex ? value : '#ffffff')
                 setAdding(true)
               }}
-              sx={{ ...swatchSx, border: '1px dashed', borderColor: 'divider' }}
+              // Its touch target only as far as halfway into the gaps: a wider
+              // one would cover the neighbouring swatches.
+              sx={{ ...swatchSx, p: 0, border: '1px dashed', borderColor: 'divider', '&::before': { width: 36, height: 36 } }}
             >
-              <AddRounded fontSize="small" />
+              <AddRounded />
             </IconButton>
           </Tooltip>
         </Box>

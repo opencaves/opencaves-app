@@ -7,6 +7,7 @@ import UndoRounded from '@mui/icons-material/UndoRounded'
 import { isUndoable } from '@/models/AuditLogModel.js'
 import AuditEntryDetails from './AuditEntryDetails.jsx'
 import PersonLabel from './PersonLabel.jsx'
+import IconButtonGroup from '@/components/IconButtonGroup.jsx'
 import { formatFullDate, formatRelative, toDate } from './auditFormat.js'
 
 // The action's chip colour (M3 roles): additions, deletions, undos.
@@ -78,7 +79,8 @@ export default memo(function AuditEntryRow({ entry, label, path, accountLabel, s
           )}
         </Box>
 
-        <Box className="oc-audit-entry-row--actions" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flex: 'none' }}>
+        {/* 8dp apart, so their 48dp touch targets don't overlap. */}
+        <IconButtonGroup className="oc-audit-entry-row--actions" sx={{ flex: 'none' }}>
           {undoable && (
             <Tooltip title={t('undo')}>
               <span>
@@ -93,7 +95,7 @@ export default memo(function AuditEntryRow({ entry, label, path, accountLabel, s
               <ExpandMoreRounded sx={(theme) => ({ transform: expanded ? 'rotate(180deg)' : 'none', transition: `transform ${theme.sys.motion.duration.standard}ms ${theme.sys.motion.easing.standard}` })} />
             </IconButton>
           </Tooltip>
-        </Box>
+        </IconButtonGroup>
       </Box>
 
       <Collapse in={expanded} unmountOnExit>
