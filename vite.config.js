@@ -83,7 +83,8 @@ function loadAppAfterFirstPaint() {
             head.appendChild(link)
           })
         }))
-        preloads.forEach(function (href) {
+        // A server-rendered page's own route code (functions/js/seo/ssr.js).
+        preloads.concat(window.__ocPagePreloads || []).forEach(function (href) {
           var link = document.createElement('link')
           link.rel = 'modulepreload'
           link.crossOrigin = ''
@@ -96,8 +97,27 @@ function loadAppAfterFirstPaint() {
         script.src = ${JSON.stringify(found.entry)}
         head.appendChild(script)
       }
-      requestAnimationFrame(function () { setTimeout(start) })
-      setTimeout(start, 300)
+      // A page the server rendered with the app (functions/js/seo/ssr.js):
+      // its content is the first paint - after it has painted (its stylesheets
+      // and its HTML in), or a second at most. Otherwise the splash: right
+      // after the first frame.
+      var observed = false
+      if (document.documentElement.hasAttribute('data-oc-ssr') && window.PerformanceObserver) {
+        try {
+          new PerformanceObserver(function (list, observer) {
+            if (list.getEntriesByName('first-contentful-paint').length) {
+              observer.disconnect()
+              setTimeout(start)
+            }
+          }).observe({ type: 'paint', buffered: true })
+          observed = true
+        } catch (e) {}
+      }
+      if (observed) setTimeout(start, 1000)
+      else {
+        requestAnimationFrame(function () { setTimeout(start) })
+        setTimeout(start, 300)
+      }
     })()
   </script>
 </body>`

@@ -41,7 +41,7 @@ export function loadSsr() {
 // ROUTE_MODULES: its route's source file): the app's stylesheets (render
 // blocking: the page shows styled at once - the app's shell otherwise adds
 // them after its first paint, vite.config.js) and its route's code, preloaded
-// so hydration doesn't wait for it after the app's own code.
+// with the app's so hydration doesn't wait for it after the app's own code.
 function pageLinks(manifest, routeModules) {
   const cssOf = (key, seen = new Set()) => {
     const chunk = manifest[key]
@@ -56,9 +56,12 @@ function pageLinks(manifest, routeModules) {
       const key = routeModules[kind]
       const route = manifest[key]
       const css = [...new Set([...entryCss, ...(route ? cssOf(key) : [])])]
+      // The route's code: preloaded with the app's own, after the page's
+      // first paint (the shell's loader, vite.config.js: __ocPagePreloads).
+      const preloads = route ? [`/${route.file}`, ...(route.imports || []).filter((imported) => imported !== 'index.html' && manifest[imported]).map((imported) => `/${manifest[imported].file}`)] : []
       cache.set(kind, [
         ...css.map((href) => `<link rel="stylesheet" crossorigin href="/${href}">`),
-        ...(route ? [`<link rel="modulepreload" crossorigin href="/${route.file}">`] : []),
+        `<script>window.__ocPagePreloads = ${JSON.stringify(preloads)}</script>`,
       ].join('\n  '))
     }
     return cache.get(kind)
@@ -82,6 +85,11 @@ function plain(value) {
 const DATA_COLLECTIONS = { caves: CAVES_COLL_NAME, sistemas: 'sistemas', connections: 'connections', accesses: 'accesses', accessibilities: 'accessibilities', sources: 'sources', areas: 'areas', colors: 'colors', languages: 'languages' }
 
 let dataCache = null
+
+// The pages already rendered, by address (renderWithApp): a few dozen at
+// most (0.4-0.8 MB each).
+const RENDERED_MAX = 40
+const rendered = new Map()
 
 async function readData() {
   if (dataCache && Date.now() - dataCache.at < DATA_TTL_MS) return dataCache.data
@@ -108,9 +116,19 @@ export async function renderWithApp(req, meta) {
     : []
   // Its host: the emulators' file addresses on localhost (CaveAsset.js).
   const host = req.get('x-forwarded-host') || req.get('host') || 'opencaves.org'
+  const url = `https://${host}${req.originalUrl || req.url}`
+  // Drawn once per address while the data is the same (the CDN's edges each
+  // ask for it): a render takes ~100-300 ms.
+  const cached = rendered.get(url)
+  if (cached?.raw === raw) return cached.html
   const started = Date.now()
-  const result = await ssr.render({ url: `https://${host}${req.originalUrl || req.url}`, raw, maps, assets, title: meta.title })
+  const result = await ssr.render({ url, raw, maps, assets, title: meta.title })
   if (result.notFound) return null
-  logger.debug('[ssr] rendered', { path: req.path, ms: Date.now() - started })
-  return renderSsrPage(ssr.shell, meta, result, ssr.links(page.kind))
+  logger.debug('[ssr] rendered', { path: req.path, ms: Date.now() - started, ...result.timings })
+  const html = renderSsrPage(ssr.shell, meta, result, ssr.links(page.kind))
+  rendered.delete(url)
+  rendered.set(url, { raw, html })
+  // The oldest out past the limit (a Map keeps its insertion order).
+  if (rendered.size > RENDERED_MAX) rendered.delete(rendered.keys().next().value)
+  return html
 }

@@ -212,6 +212,14 @@ firebase deploy --only firestore:rules,firestore:indexes   # security rules, ind
 
 A deploy uploads the working copy, including uncommitted changes.
 
+`npm run build` also builds the server rendering of the public pages (`/`,
+`/caves`, a cave's page, `/sistemas`, a system's page) into `functions/js/ssr/`,
+from that same build: after a build, deploy the hosting **and** the
+`indexPages` function together (`firebase deploy`, or `--only
+hosting,functions:js:indexPages`), or those pages are drawn with the previous
+build's code and files. Without `functions/js/ssr/`, they are served as text
+in the app's shell, as before.
+
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10
 seconds to load the functions code. This is usually a slow cold start, not a

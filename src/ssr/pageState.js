@@ -29,11 +29,16 @@ export function pageOf(pathname) {
   return { kind: section === 'caves' ? 'cave' : 'sistema', id: decodeURIComponent(id) }
 }
 
+// postProcessCaveData's result by raw data: the server keeps the same data a
+// few minutes (functions/js/seo/ssr.js), processed once.
+const processed = new WeakMap()
+
 // raw: the 9 cave-data collections as the app reads them ({ id, ...data },
 // readCaveDataFromFirestore); maps: the maps collection; assets: the page's
 // cave's photos ([{ id, data }]), if a cave's page.
 export function buildPageState(page, { raw, maps = [], assets = [] }) {
-  const data = postProcessCaveData(raw)
+  if (!processed.has(raw)) processed.set(raw, postProcessCaveData(raw))
+  const data = processed.get(raw)
   const ancestry = buildSistemaAncestryComputer(data.sistemas, data.connections)
   const cave = page.kind === 'cave' ? data.caves.find(({ id }) => id === page.id) : null
   // The systems shown in full: the page's (or its cave's) and those it joined.

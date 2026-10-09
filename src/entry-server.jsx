@@ -43,6 +43,7 @@ export const ROUTE_MODULES = {
 // (App's Helmet) until the page sets it.
 // Returns { html, styles, status, ssr } or { notFound: true }.
 export async function render({ url, raw, maps, assets, title }) {
+  const started = performance.now()
   const { pathname, hostname } = new URL(url)
   const page = pageOf(pathname)
   if (!page) return { notFound: true }
@@ -50,6 +51,7 @@ export async function render({ url, raw, maps, assets, title }) {
   if (!found) return { notFound: true }
   if (title) state.app = { ...createServerStore().getState().app, title }
 
+  const dataReady = performance.now()
   if (i18n.resolvedLanguage !== 'en') await i18n.changeLanguage('en')
   const handler = createStaticHandler(routes)
   const context = await handler.query(new Request(url))
@@ -63,6 +65,7 @@ export async function render({ url, raw, maps, assets, title }) {
 
   // One page at a time: rendering is synchronous, the context set around it.
   setServerContext({ hostname, queries })
+  const renderStarted = performance.now()
   let html
   try {
     html = renderToString(
@@ -84,11 +87,14 @@ export async function render({ url, raw, maps, assets, title }) {
   // <head> has it already (functions/js/seo/shared.js), and the browser's
   // React adds its own to <head> - not one in the page's body as well.
   html = html.replace(/^<title>[^<]*<\/title>/, '')
+  const rendered = performance.now()
   const styles = emotionServer.constructStyleTagsFromChunks(emotionServer.extractCriticalToChunks(html))
   return {
     html,
     styles,
     status: context.statusCode,
+    // How long each part took (ms), for the function's logs.
+    timings: { data: Math.round(dataReady - started), render: Math.round(rendered - renderStarted), styles: Math.round(performance.now() - rendered) },
     ssr: {
       path: pathname,
       language: 'en',
