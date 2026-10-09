@@ -72,8 +72,9 @@ const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // A page the server rendered (entry-server.jsx): the cave data it was
-  // rendered with, so the app's first render is the server's (hydration).
+  // A page the server rendered (entry-server.jsx): the state it was rendered
+  // with (the app's title), so the app's first render is the server's
+  // (hydration). Its cave data stays out of the store (useCaveData).
   preloadedState: window.__OC_SSR__?.state,
   devTools: import.meta.env.DEV,
   middleware: (getDefaultMiddleware) => {

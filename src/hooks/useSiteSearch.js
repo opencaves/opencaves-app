@@ -18,7 +18,7 @@ const fold = foldSearch
 // it leads.
 export function useSiteSearch(input, { areas = false } = {}) {
   const { t } = useTranslation('indexPages')
-  const { data } = useIndexData()
+  const { data, partial } = useIndexData()
 
   // Every searchable thing once: its label, the texts it's found by, where it leads.
   const entries = useMemo(
@@ -38,7 +38,9 @@ export function useSiteSearch(input, { areas = false } = {}) {
 
   return useMemo(() => {
     const query = fold(input)
-    if (!query) return []
+    // Only a server-rendered page's part of the data yet: no suggestions
+    // (nor "no result") until the store has it all - they then show.
+    if (!query || partial) return []
     const matches = searchMatcher(input)
     const found = entries
       .filter((entry) => matches(entry.haystack))
@@ -50,5 +52,5 @@ export function useSiteSearch(input, { areas = false } = {}) {
     // showed nothing at all - freeSolo hides the no-options text).
     if (found.length === 0) return [{ kind: 'none', id: 'none', label: t('searchNoResult', { query: input.trim() }), to: `/caves?q=${encodeURIComponent(input.trim())}` }]
     return found
-  }, [entries, input, t])
+  }, [entries, input, partial, t])
 }

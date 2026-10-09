@@ -13,6 +13,7 @@ import ConnectionSnackbar from '@/components/Offline/ConnectionSnackbar.jsx'
 import { subscribeToData } from '@/services/data-service.jsx'
 import { isInstalledApp, requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
+import { ssrPageData } from '@/ssr/ssrContext.js'
 import TitleBar from '@/components/App/TitleBar.jsx'
 import ManageAppUpdate from '@/components/App/ManageAppUpdate.jsx'
 import ManageAuth from '@/components/auth/ManageAuth.jsx'
@@ -55,9 +56,12 @@ const App = ({ serverRouter = null }) => {
     // right away, and the live subscription - Firestore's cache work plus
     // reprocessing and re-rendering ~900 caves - waits until the browser is
     // idle instead of competing with the first render. First visits have
-    // nothing to show yet: subscribe right away.
+    // nothing to show yet: subscribe right away. A page the server rendered
+    // shows the part of the data it came with (useCaveData), the store's own
+    // still loading (any other page waits for it): waits too.
     const hasStoredData = store.getState().data.caves.length > 0
     dispatch(setDataLoadingState({ state: hasStoredData ? 'loaded' : 'loading' }))
+    const canWait = hasStoredData || Boolean(ssrPageData())
 
     let unsubscribe = null
     const subscribe = () => {
@@ -70,7 +74,7 @@ const App = ({ serverRouter = null }) => {
       )
     }
 
-    if (!hasStoredData) {
+    if (!canWait) {
       subscribe()
       return () => unsubscribe?.()
     }

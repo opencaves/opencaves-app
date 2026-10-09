@@ -8,6 +8,7 @@ import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
+import { useCaveData } from '@/hooks/useCaveData.js'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { useCoverImage } from '@/models/CaveAsset.js'
 import mapsModel from '@/models/MapModel.js'
@@ -59,14 +60,14 @@ export default function CavePage() {
   const { t } = useTranslation('indexPages')
   const { t: tPane, i18n } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
-  const languages = useSelector((state) => state.data.languages)
+  const { languages, caves } = useCaveData()
   // Asked for alongside the data, and waited for: drawn once the page knows
   // whether there is one, the cover no longer pushes the page down when it
   // arrives (a 216-444px jump).
   const [cover, coverLoading] = useCoverImage(caveId)
   // Its system's maps (MapsSection), waited for too.
   const [allMaps, mapsLoading] = mapsModel.useAll()
-  const cave = useSelector((state) => state.data.caves.find((c) => c.id === caveId))
+  const cave = useMemo(() => caves.find((c) => c.id === caveId), [caves, caveId])
   // Editors: photos dragged anywhere over the page go to this cave, as on the map.
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
   const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))

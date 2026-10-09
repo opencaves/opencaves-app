@@ -26,7 +26,7 @@ if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
 // English) is hydrated - the app takes over the server's HTML - when the
 // browser shows it in the same language, at the same address. Its first
 // render must be the server's: the server's data (the store's preloaded
-// state, store.jsx), no PersistGate (it renders nothing until the stored
+// state, store.jsx, and the page's cave data, useCaveData), no PersistGate (it renders nothing until the stored
 // state is read; that state comes in after). Elsewhere, or in another
 // language, the app renders as it always has.
 const ssr = window.__OC_SSR__

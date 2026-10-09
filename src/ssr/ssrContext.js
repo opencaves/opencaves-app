@@ -1,11 +1,13 @@
 import { Timestamp } from 'firebase/firestore'
 
 // What a page rendered on the server (entry-server.jsx) shares with the
-// browser rendering it again - hydrating it: the request's host, and the
-// Firestore query results the server read for it (functions/js/seo/ssr.js),
-// by key ("maps", "photos:<caveId>"...). The server sets them around each
-// render (synchronous: one page at a time); the browser reads them from
-// window.__OC_SSR__ (written in the page), during hydration only.
+// browser rendering it again - hydrating it: the request's host, the cave
+// data the page shows (pageState.js) and the Firestore query results the
+// server read for it (functions/js/seo/ssr.js), by key ("maps",
+// "photos:<caveId>"...). The server sets them around each render
+// (synchronous: one page at a time); the browser reads them from
+// window.__OC_SSR__ (written in the page) - the query results during
+// hydration only, the cave data until the store has its own (useCaveData).
 let serverContext = null
 let hydrating = false
 
@@ -27,6 +29,25 @@ export function isHydrating() {
 export function pageHostname() {
   if (import.meta.env.SSR) return serverContext?.hostname || 'opencaves.org'
   return window.location.hostname
+}
+
+// The cave data the server rendered the page with, { path, data } (data:
+// state.data's shape, with only what that page shows - pageState.js), or
+// null.
+export function ssrPageData() {
+  if (import.meta.env.SSR) return serverContext?.data || null
+  const ssr = window.__OC_SSR__
+  return ssr?.data ? { path: ssr.path, data: ssr.data } : null
+}
+
+// Whether the address pathname is the server-rendered page at path, or one of
+// its galleries over it (/caves/<id>/photos/<mediaId>, .../maps/<mapId>) -
+// the page stays drawn under them. Not its edit forms (.../edit), which need
+// every record.
+export function inSsrPage(path, pathname) {
+  if (pathname === path) return true
+  if (!/^\/(caves|sistemas)\/[^/]+$/.test(path) || !pathname.startsWith(`${path}/`)) return false
+  return /^\/(photos|maps)\/[^/]+$/.test(pathname.slice(path.length))
 }
 
 // The server's results for a query, as [{ id, data }], or undefined.
