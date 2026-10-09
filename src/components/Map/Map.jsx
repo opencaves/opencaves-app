@@ -310,6 +310,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).value()
   }
 
+  // The pin clicked, waiting for the camera's flight to start its bounce.
+  const pendingPinRef = useRef(null)
+
   // Stable for CaveMarker (memoized): they call this render's handlers.
   const markerHandlersRef = useRef()
   markerHandlersRef.current = { onMarkerClick, onFieldMarkerDragEnd }
@@ -336,7 +339,13 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       return
     }
 
-    setActiveMarkerElem(event.target.getElement())
+    // Its bounce starts with the camera's flight (moveCameraTo), not now: the
+    // flight waits for the cave's pane to render. Meanwhile it keeps its size.
+    if (cave.id !== caveId) {
+      const pin = event.target.getElement()
+      pin.classList.add('oc-map--marker-pending')
+      pendingPinRef.current = pin
+    }
   }
 
   const uiReady = useMapUiReady(mapLoaded, activeMarkerElem)
@@ -363,6 +372,16 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   function setActiveMarkerElem(markerElem, animate = false) {
+    // A clicked pin waits for the flight, which activates it (moveCameraTo).
+    if (markerElem && markerElem === pendingPinRef.current) {
+      return
+    }
+    // Already the active pin: left as it is (resetting it cut its bounce
+    // short with the settling animation).
+    if (markerElem?.dataset.activeClass) {
+      doSetActiveMarkerElem(markerElem)
+      return
+    }
     if (activeMarkerElem) {
       activeMarkerElem.classList.remove(activeMarkerElem.dataset.activeClass)
       delete activeMarkerElem.dataset.activeClass
@@ -493,17 +512,37 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     requestAnimationFrame(step)
   }
 
+  const cameraFrameRef = useRef()
   function moveCameraTo(cave, { animate = true, offsetForPane = true } = {}) {
-    const center = getCenterLngLat(cave.location.longitude, cave.location.latitude, offsetForPane)
-    const fn = animate ? 'flyTo' : 'jumpTo'
-
-    mapRef.current?.[fn]({
-      center,
-      // Embedded: its own zoom, not the map page's.
-      zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
-      ...(animate && {
-        duration: theme.oc.sys.motion.duration.emphasized,
-      }),
+    cancelAnimationFrame(cameraFrameRef.current)
+    const move = () => {
+      // The pin's bounce and the camera's flight in the same frame.
+      const pin = pendingPinRef.current
+      if (pin) {
+        pendingPinRef.current = null
+        pin.classList.remove('oc-map--marker-pending')
+        setActiveMarkerElem(pin)
+      }
+      const center = getCenterLngLat(cave.location.longitude, cave.location.latitude, offsetForPane)
+      mapRef.current?.[animate ? 'flyTo' : 'jumpTo']({
+        center,
+        // Embedded: its own zoom, not the map page's.
+        zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
+        ...(animate && {
+          duration: theme.oc.sys.motion.duration.emphasized,
+        }),
+      })
+    }
+    if (!animate) {
+      move()
+      return
+    }
+    // The flight starts two frames later: Mapbox times it by the clock, and
+    // the newly picked cave's pane renders right after this call - a block of
+    // main-thread work whose missed frames the flight skipped, its pin
+    // jumping most of the way at once.
+    cameraFrameRef.current = requestAnimationFrame(() => {
+      cameraFrameRef.current = requestAnimationFrame(move)
     })
   }
 
@@ -693,9 +732,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   //   }
   // }, [currentRoute])
 
+  // Only when the caves change: dispatched on each cave picked too, it gave
+  // map.data and its filter counts new objects every time, and everything
+  // reading them (the filter menu, the result pane...) re-rendered while the
+  // camera flew.
   useEffect(() => {
     dispatch(setMapData(caveData.filter((c) => c.location)))
+  }, [caveData])
 
+  useEffect(() => {
     // const pathname = router.routeInfo.pathname
 
     if (!caveId) {
