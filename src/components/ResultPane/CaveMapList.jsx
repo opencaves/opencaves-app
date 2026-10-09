@@ -7,6 +7,7 @@ import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Box, Button, ButtonBase, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import { centerFocused, leaveOnArrow, scrollStrip } from '@/utils/mediaStrip.js'
 import mapsModel from '@/models/MapModel.js'
 import { isTrashed } from '@/utils/trash.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
@@ -15,7 +16,7 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
-import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
@@ -112,6 +113,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
   const scrollbarsRef = useRef()
   const navigate = useNavigate()
+
   // Admins: deleting the map itself (to the trash), not only from this sistema.
   const canTrash = useCanTrashMaps()
   const { requestTrash, dialog: trashDialog } = useTrashMapConfirm()
@@ -137,7 +139,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       const maxScrollLeft = scrollWidth - clientWidth
       const direction = Math.sign(event.deltaY || event.deltaX)
       if (!direction || maxScrollLeft <= 0) return
-      scrollbar.scrollLeft(Math.max(0, Math.min(maxScrollLeft, scrollLeft + SCROLLBAR_STEP_FACTOR * direction)))
+      scrollStrip(scrollbar.view, direction)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
@@ -151,11 +153,11 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       {/* Maps added offline to this system, waiting to upload. */}
       <PendingUploadsStrip filter={pendingMapsOf} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 2 }} />
       {selectedMaps.length > 0 && (
-        <Box sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
+        <Box className="oc-media-strip" sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
           <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>
-            <Box sx={{ display: 'flex', gap: `${ASSETS_LIST_CONFIG.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ display: 'flex', gap: `${ASSETS_LIST_CONFIG.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               {selectedMaps.map((map, index) => (
-                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item"
+                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item oc-media-strip--item"
                   sx={(theme) => ({
                     position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden',
                     // A thin outline over the picture's edge (not around it: the size stays).

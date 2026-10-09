@@ -225,6 +225,9 @@ const lightThemeOptions = {
       },
     },
     MuiTab: {
+      // The focus ring only (variables.scss), as M3's tabs: the focus ripple's
+      // circle was cut off by the tab strip.
+      defaultProps: { disableFocusRipple: true },
       styleOverrides: {
         // Sentence case, as M3's tabs and the rest of the app (MUI's are capitals).
         root: { textTransform: 'none', '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
