@@ -5,7 +5,7 @@ import { HOME_AREA_BBOX } from '@/config/map.js'
  * ({@link HOME_AREA_BBOX}), as [[west, south], [east, north]] for the map's fitBounds -
  * or null when there are none.
  *
- * @param {object[]} caves
+ * @param {Cave[]} caves
  * @returns {[[number, number], [number, number]]|null}
  */
 export function homeBounds(caves) {

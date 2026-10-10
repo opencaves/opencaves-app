@@ -38,7 +38,7 @@ async function replyToken(reportRef) {
  * The address its author answers the team's emails to; the team's inbox
  * ({@link FEEDBACK_REPLY_TO}) while no reply domain is set.
  *
- * @param {DocumentReference} reportRef
+ * @param {import('firebase-admin/firestore').DocumentReference} reportRef
  * @returns {Promise<string>}
  */
 export async function authorReplyAddress(reportRef) {
@@ -50,7 +50,7 @@ export async function authorReplyAddress(reportRef) {
  * The address the admins answer its notifications to (a team reply); none
  * while no reply domain is set.
  *
- * @param {DocumentReference} reportRef
+ * @param {import('firebase-admin/firestore').DocumentReference} reportRef
  * @returns {Promise<string|null>}
  */
 export async function teamReplyAddress(reportRef) {

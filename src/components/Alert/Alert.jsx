@@ -4,13 +4,13 @@ import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRou
 import WarningRounded from '@mui/icons-material/WarningRounded'
 
 /**
- * The type of an alert
- * @typedef {(success|error)} Alert
- */
-
-/**
+ * A message with its icon: a check, or a warning for an error.
  *
- * @param {string} [success] props.type
+ * @param {object} props
+ * @param {React.ReactNode} props.message
+ * @param {React.ReactNode} [props.footer] - Under the message.
+ * @param {'success'|'error'} [props.type] - The icon: a check unless 'error'.
+ * @param {string} [props.fontSize='1rem']
  */
 export default function Message({ message, footer, type, fontSize }) {
   return (

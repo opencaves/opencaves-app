@@ -12,7 +12,7 @@ const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base
  * (/sistemas/<id>, like /caves/<id>). All are public today; one marked
  * otherwise has no page.
  *
- * @param {object[]} sistemas
+ * @param {Sistema[]} sistemas
  * @returns {Map<string, string>}
  */
 export function sistemaSlugs(sistemas) {

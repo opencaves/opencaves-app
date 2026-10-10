@@ -20,7 +20,7 @@ import { addPendingUpload } from '@/services/offline/pendingUploads.js'
  * @param {object} [options]
  * @param {string} [options.id] - Its record's id - a waiting upload's reserved one (a new push id by default).
  * @param {(percent: number) => void} [options.onProgress] - Its percent sent.
- * @returns {Promise<object>} The map ({ id, ...record }).
+ * @returns {Promise<CaveMap>} The map ({ id, ...record }).
  * @throws {Error} As the upload does (offline: code 'offline').
  */
 export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress } = {}) {

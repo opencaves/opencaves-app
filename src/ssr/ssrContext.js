@@ -89,7 +89,7 @@ function revive(value) {
  * query's converter as Firestore would - or undefined.
  *
  * @param {string} key
- * @param {FirestoreDataConverter} [converter]
+ * @param {import('firebase/firestore').FirestoreDataConverter} [converter]
  * @returns {object|undefined}
  */
 export function ssrQuerySnapshot(key, converter) {

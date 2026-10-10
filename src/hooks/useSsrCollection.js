@@ -10,9 +10,9 @@ import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
  * results replace them. Elsewhere, {@link useCollection} as it is.
  *
  * @param {string} key
- * @param {Query|null} query
+ * @param {import('firebase/firestore').Query|null} query
  * @param {object} [options]
- * @returns {[QuerySnapshot|undefined, boolean, Error|undefined]}
+ * @returns {[import('firebase/firestore').QuerySnapshot|undefined, boolean, Error|undefined]}
  */
 export function useSsrCollection(key, query, options) {
   // Kept from the first render (the hydration), for its key only: another

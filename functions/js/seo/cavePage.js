@@ -26,7 +26,7 @@ import { slugify } from './slug.js'
  * app renders the page (ssr.js).
  *
  * @param {string} shell
- * @param {object} cave
+ * @param {Cave} cave
  * @param {string} id
  * @param {{name: string, slug: string}} [sistema]
  * @param {string} [path]

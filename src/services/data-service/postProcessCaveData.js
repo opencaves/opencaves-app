@@ -67,8 +67,8 @@ function buildMarkdown(caves) {
  * are edited independently of the caves that reference them). Also gives a
  * system's own ancestry, for its page: called with { sistemaId }.
  *
- * @param {object[]} sistemas
- * @param {object[]} connections
+ * @param {Sistema[]} sistemas
+ * @param {Connection[]} connections
  * @returns {Function}
  */
 export function buildSistemaAncestryComputer(sistemas, connections) {
@@ -136,8 +136,8 @@ const SISTEMA_MARKDOWN_FIELDS = ['description', 'direction']
  * linking, both left uncomputed in storage so they can't go stale as
  * sistemas/connections/cave names are edited independently of each other.
  *
- * @param {object} data
- * @returns {object}
+ * @param {CaveData} data
+ * @returns {CaveData}
  */
 export function postProcessCaveData(data) {
   const markdown = buildMarkdown(data.caves)

@@ -49,7 +49,7 @@ export const isOpen = (report) => OPEN_FEEDBACK_STATUSES.includes(statusOf(repor
 /**
  * A report's title, GitHub-issue style: its message's first line.
  *
- * @param {object} report
+ * @param {FeedbackReport} report
  * @returns {string}
  */
 export const titleOf = (report) => String(report.message || '').trim().split('\n')[0].trim()
@@ -57,14 +57,14 @@ export const titleOf = (report) => String(report.message || '').trim().split('\n
  * The messages of its thread: the server's count (onFeedbackReplied), and the
  * admins' former note, shown as its first reply.
  *
- * @param {object} report
+ * @param {FeedbackReport} report
  * @returns {number}
  */
 export const messageCountOf = (report) => (report.messageCount || 0) + (report.note ? 1 : 0)
 /**
  * Its latest activity: a message, a stage set, or its sending.
  *
- * @param {object} report
+ * @param {FeedbackReport} report
  * @returns {number}
  */
 export const activityOf = (report) => Math.max(...[report.createdAt, report.statusUpdatedAt, report.lastMessageAt].map((value) => toDate(value)?.getTime() || 0))
@@ -114,7 +114,7 @@ export function Initials({ name, team, size = 32 }) {
  * report then names the reply (statusReplyId), and the reply's email carries
  * the outcome.
  *
- * @param {object} report
+ * @param {FeedbackReport} report
  * @param {string} text
  * @param {string} [status]
  * @returns {Promise<void>}

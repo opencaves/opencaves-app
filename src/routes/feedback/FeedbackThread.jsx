@@ -18,7 +18,7 @@ import { Initials, RelativeTime, STATUS, sendFeedbackReply, toDate } from './fee
  * A report's thread (_feedback/{id}/messages), oldest first, live.
  *
  * @param {string} reportId
- * @returns {object[]|null}
+ * @returns {FeedbackMessage[]|null}
  */
 export function useFeedbackMessages(reportId) {
   const [messages, setMessages] = useState(null)

@@ -67,7 +67,7 @@ const domainOf = (address) => address.split('@').pop()
  * the reply domain, and whether it's its team address (team-<token>@, on the
  * admins' emails: replyAddress.js) - { token, team } - or null.
  *
- * @param {object} email
+ * @param {ReceivedEmail} email
  * @param {string} domain
  * @returns {{token: string, team: boolean}|null}
  */
@@ -88,7 +88,7 @@ export function findReplyToken(email, domain) {
  * The email's headers with lowercase names, each value a string.
  *
  * @param {Array|object} headers
- * @returns {Object<string, string>}
+ * @returns {Record<string, string>}
  */
 export function normalizeHeaders(headers) {
   const result = {}
@@ -106,7 +106,7 @@ const AUTOMATIC_SENDERS = /^(mailer-daemon|postmaster|no-?reply|do-?not-?reply|b
  * Why an email is automatic (an out-of-office, a bounce, a list), or null.
  * Never answered or added to a thread: no mail loops.
  *
- * @param {object} email
+ * @param {ReceivedEmail} email
  * @returns {string|null}
  */
 export function automaticReason(email) {
@@ -132,7 +132,7 @@ export function automaticReason(email) {
  * passes for an envelope sender (Return-Path) of the From's domain. A DMARC
  * failure refuses it whatever the rest.
  *
- * @param {object} email
+ * @param {ReceivedEmail} email
  * @param {string} expectedEmail
  * @returns {{ok: boolean, reason?: string}}
  */
@@ -221,7 +221,7 @@ export function extractReply(text) {
  * The answer's text to keep: the plain version, else the HTML's, stripped,
  * cut to `maxLength`.
  *
- * @param {object} email
+ * @param {ReceivedEmail} email
  * @param {number} maxLength
  * @returns {string}
  */

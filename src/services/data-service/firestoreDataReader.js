@@ -22,7 +22,7 @@ async function readCollection(name) {
  * Reads all 9 cave-data collections from Firestore. Caller is expected to
  * run this through postProcessCaveData() before use.
  *
- * @returns {Promise<object>}
+ * @returns {Promise<CaveData>}
  */
 export async function readCaveDataFromFirestore() {
   const entries = await Promise.all(

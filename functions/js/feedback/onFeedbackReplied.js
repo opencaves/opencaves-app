@@ -22,7 +22,7 @@ const replyMessageId = (reportId, messageId) => `<feedback-${reportId}-${message
 /**
  * The same subject for all of a report's emails: its first line.
  *
- * @param {object} report
+ * @param {FeedbackReport} report
  * @returns {string}
  */
 export function feedbackThreadSubject(report) {
@@ -35,9 +35,9 @@ export function feedbackThreadSubject(report) {
  * thread existed, saved with the report's stage) as its first team reply,
  * then its messages.
  *
- * @param {object} report
- * @param {object[]} messages
- * @returns {object[]}
+ * @param {FeedbackReport} report
+ * @param {FeedbackMessage[]} messages
+ * @returns {FeedbackMessage[]}
  */
 export function feedbackThread(report, messages) {
   // No date: the report's stage date changes with each new stage.
@@ -57,9 +57,9 @@ const toDate = (value) => (value?.toDate ? value.toDate() : value instanceof Dat
  * @param {object} reply
  * @param {string} reply.language
  * @param {string} reply.reportId
- * @param {object} reply.report
- * @param {object[]} reply.messages
- * @param {object} reply.current
+ * @param {FeedbackReport} reply.report
+ * @param {FeedbackMessage[]} reply.messages
+ * @param {FeedbackMessage} reply.current
  * @param {string} reply.name
  * @param {string} [reply.replyTo=FEEDBACK_REPLY_TO]
  * @param {string|null} [reply.unsubscribeUrl=null] - The author's unsubscribe link (email/unsubscribe.js),
@@ -120,8 +120,8 @@ export async function feedbackReplyEmail({ language, reportId, report, messages,
  *
  * @param {object} answer
  * @param {string} answer.reportId
- * @param {object} answer.report
- * @param {object} answer.message
+ * @param {FeedbackReport} answer.report
+ * @param {FeedbackMessage} answer.message
  * @param {string} answer.authorName
  * @param {string|null} [answer.replyTo=null]
  * @returns {{subject: string, html: string, text: string}}

@@ -41,7 +41,7 @@ export async function unsubscribeLink(uid) {
  * The account (its _users doc snapshot) a token belongs to, or null.
  *
  * @param {string} token
- * @returns {Promise<DocumentSnapshot|null>}
+ * @returns {Promise<import('firebase-admin/firestore').DocumentSnapshot|null>}
  */
 export async function accountOfUnsubscribeToken(token) {
   if (!isUnsubscribeToken(token)) return null

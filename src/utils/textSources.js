@@ -11,7 +11,7 @@ const sourceOf = (entry) => entry?.source || ''
 /**
  * A record's text sources, as an edit form holds them ({ source: '' } for none).
  *
- * @param {object} record
+ * @param {Cave|Sistema} record
  * @param {string[]} fields
  * @returns {object}
  */
@@ -25,7 +25,7 @@ export function textSourcesOf(record, fields) {
  * (undone, retyped), they get their saved source back.
  *
  * @param {object} form
- * @param {object} original - The saved record.
+ * @param {Cave|Sistema} original - The saved record.
  * @param {string} field
  * @param {*} value
  * @returns {object} The form.
@@ -47,7 +47,7 @@ export function withTextChange(form, original, field, value) {
  * they were checked) or removed (a text left empty has no source) - or
  * undefined when none changed.
  *
- * @param {object} original
+ * @param {Cave|Sistema} original
  * @param {object} form
  * @param {string[]} fields
  * @returns {object|undefined}

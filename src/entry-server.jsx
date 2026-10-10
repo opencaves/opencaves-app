@@ -41,8 +41,8 @@ export const ROUTE_MODULES = {
  * @param {object} options
  * @param {string} options.url - The page's full address (its host decides the emulators' file
  *   addresses: localhost).
- * @param {object} options.raw - With maps and assets: the data (pageState.js).
- * @param {object[]} options.maps
+ * @param {CaveData} options.raw - With maps and assets: the data (pageState.js).
+ * @param {CaveMap[]} options.maps
  * @param {object[]} options.assets
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.

@@ -24,9 +24,9 @@ export function useCanTrashMaps() {
  * renders `dialog`.
  *
  * @param {object} [options]
- * @param {(map: object) => Promise} [options.onAfterTrash] - Runs once it's done (e.g. moving the
+ * @param {(map: CaveMap) => Promise} [options.onAfterTrash] - Runs once it's done (e.g. moving the
  *   viewer on to another map).
- * @returns {{requestTrash: (map: object) => void, dialog: React.ReactNode}}
+ * @returns {{requestTrash: (map: CaveMap) => void, dialog: React.ReactNode}}
  */
 export function useTrashMapConfirm({ onAfterTrash = noopAsync } = {}) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })

@@ -656,7 +656,7 @@ function getLanguages(data) {
  * — see that file for why.
  *
  * @param {object} data
- * @returns {object}
+ * @returns {CaveData}
  */
 export function processDataForStorage(data) {
 
