@@ -48,11 +48,10 @@ time { font: inherit; color: inherit; text-decoration: underline dotted; text-un
 .exact { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .tooltip {
   position: fixed; inset: auto; z-index: 2147483647; box-sizing: border-box; width: max-content; max-width: min(20rem, calc(100vw - 16px)); height: auto;
-  margin: 0; padding: 4px 8px; border: 0; border-radius: 4px; overflow: visible;
+  margin: 0; min-height: 24px; padding: 4px 8px; border: 0; border-radius: 4px; overflow: visible;
   background: var(--oc-relative-time-tooltip-background, var(--mui-sys-color-inverseSurface, #313033));
   color: var(--oc-relative-time-tooltip-color, var(--mui-sys-color-inverseOnSurface, #f4eff4));
-  box-shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 2px 6px 2px rgb(0 0 0 / 15%);
-  font-family: inherit; font-size: 0.75rem; font-style: normal; font-weight: 400; line-height: 1rem; letter-spacing: 0.025em;
+  font-family: inherit; font-size: 0.75rem; font-style: normal; font-weight: 400; line-height: 1rem; letter-spacing: 0.025rem;
   text-align: start; text-decoration: none; text-transform: none; white-space: normal; overflow-wrap: anywhere;
 }
 .tooltip:not(.open) { display: none; }

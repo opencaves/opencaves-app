@@ -472,20 +472,21 @@ const lightThemeOptions = {
     },
     MuiTooltip: {
       styleOverrides: {
+        // M3's plain tooltip: the inverse surface (dark on light, light on
+        // dark), 4px corners (extra-small shape), 24dp tall at least, body
+        // small text, no elevation - as <oc-relative-time>'s tooltip.
         tooltip: {
-          backgroundColor: '#000',
-          color: '#fff',
-          paddingStart: '8px',
-          paddingEnd: '8px',
-          paddingTop: '2px',
-          paddingBottom: '2px',
+          backgroundColor: 'var(--mui-sys-color-inverseSurface)',
+          color: 'var(--mui-sys-color-inverseOnSurface)',
+          minHeight: 24,
+          boxSizing: 'border-box',
+          padding: '4px 8px',
           margin: '4px!important',
-
-          borderRadius: '6px',
-          lineHeight: '1.25rem',
-          fontWeight: '400',
-          letterSpacing: '0.01428571em',
-          fontSize: 'var(--oc-map-text-secondary-font-size)',
+          borderRadius: 4,
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          fontWeight: 400,
+          letterSpacing: '0.025rem',
         },
       },
     },
