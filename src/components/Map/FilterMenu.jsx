@@ -326,7 +326,7 @@ export default function MapFilterMenu({ props }) {
             const primary = accessibilities.find((a) => a.key === key).label
             const secondary = accessibilities.find((a) => a.key === key).description
             const nb = getDataStat('accessibility', key)
-            const onClick = (e) => handleShowAccessibilities(e.target.checked, key)
+            const onClick = () => handleShowAccessibilities(!checked, key)
             const k = `accessibility.${key}.${index}`
 
             return <FilterMenuItem key={k} primary={primary} secondary={secondary} nb={nb} checked={checked} onClick={onClick} />
