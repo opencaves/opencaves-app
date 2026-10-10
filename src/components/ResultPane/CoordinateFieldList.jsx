@@ -5,24 +5,25 @@ import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import AddButton from '@/components/AddButton.jsx'
 import CoordinateField, { coordinateInRange } from './CoordinateField.jsx'
 
-// A cave form's three coordinates (both cave forms keep the same form fields).
+// A cave form's four coordinates (both cave forms keep the same form fields).
 export function caveCoordinateItems(form, setForm, t) {
   return [
     { field: 'location', label: t('location'), longitude: form.longitude, latitude: form.latitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude })), validity: form.locationValidity, onValidityChange: (locationValidity) => setForm((f) => ({ ...f, locationValidity })) },
+    { field: 'parking', label: t('parking'), longitude: form.parkingLongitude, latitude: form.parkingLatitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, parkingLongitude: longitude, parkingLatitude: latitude })), validity: form.parkingValidity, onValidityChange: (parkingValidity) => setForm((f) => ({ ...f, parkingValidity })) },
     { field: 'entrance', label: t('entrance'), longitude: form.entranceLongitude, latitude: form.entranceLatitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, entranceLongitude: longitude, entranceLatitude: latitude })), validity: form.entranceValidity, onValidityChange: (entranceValidity) => setForm((f) => ({ ...f, entranceValidity })) },
     { field: 'key', label: t('key'), longitude: form.keyLongitude, latitude: form.keyLatitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, keyLongitude: longitude, keyLatitude: latitude })), validity: form.keyValidity, onValidityChange: (keyValidity) => setForm((f) => ({ ...f, keyValidity })) },
   ]
 }
 
-// Whether a cave form's three coordinates are all within range (the forms
+// Whether a cave form's four coordinates are all within range (the forms
 // don't save otherwise).
 export function caveCoordinatesInRange(form) {
-  return coordinateInRange(form.longitude, form.latitude) && coordinateInRange(form.entranceLongitude, form.entranceLatitude) && coordinateInRange(form.keyLongitude, form.keyLatitude)
+  return coordinateInRange(form.longitude, form.latitude) && coordinateInRange(form.parkingLongitude, form.parkingLatitude) && coordinateInRange(form.entranceLongitude, form.entranceLatitude) && coordinateInRange(form.keyLongitude, form.keyLatitude)
 }
 
 const isFilled = ({ longitude, latitude }) => `${longitude ?? ''}` !== '' || `${latitude ?? ''}` !== ''
 
-// A form's coordinates (a cave's location, entrance and key; a system's
+// A form's coordinates (a cave's location, parking, entrance and key; a system's
 // location), one of each at most: only those with a value are shown, the
 // others offered by Add coordinates - a menu of them, or, with one left (a
 // system's location, a cave's last), a button adding it by name ("Add

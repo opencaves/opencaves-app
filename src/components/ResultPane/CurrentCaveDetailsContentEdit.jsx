@@ -107,12 +107,15 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     facilities: !!cave.facilities,
     longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
+    parkingLongitude: normalizeCoordinateValue(cave.parking?.longitude ?? ''),
+    parkingLatitude: normalizeCoordinateValue(cave.parking?.latitude ?? ''),
     entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
     entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
     keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
     keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
     // Each coordinate's validity (valid / unknown / invalid): one without it is unconfirmed.
     locationValidity: cave.location?.validity || 'unknown',
+    parkingValidity: cave.parking?.validity || 'unknown',
     entranceValidity: cave.entrance?.validity || 'unknown',
     keyValidity: cave.keys?.[0]?.validity || 'unknown',
     nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
@@ -185,6 +188,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
+      }
+
+      if (form.parkingLongitude === '' && form.parkingLatitude === '' && cave.parking) {
+        fields.parking = deleteField()
+      } else if (form.parkingLongitude !== '' && form.parkingLatitude !== '') {
+        fields.parking = { longitude: Number(num(form.parkingLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.parkingLatitude, COORDINATE_DECIMALS)), validity: form.parkingValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
