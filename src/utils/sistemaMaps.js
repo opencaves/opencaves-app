@@ -4,8 +4,8 @@
  * `connections`, like postProcessCaveData.js's ancestry).
  *
  * @param {string} sistemaId
- * @param {object[]} sistemas
- * @param {object[]} connections
+ * @param {Sistema[]} sistemas
+ * @param {Connection[]} connections
  * @returns {{id: string, sistemaId: string}[]} `[{ id, sistemaId }]`, own sistema first, each map id once, tagged with the
  *   sistema that actually holds it so edits/removals target that sistema.
  */

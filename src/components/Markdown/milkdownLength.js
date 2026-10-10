@@ -220,7 +220,7 @@ export const lengthInputRule = $inputRule((ctx) =>
  *
  * @param {{value: string, unit: string}} labels - The fields' accessible names.
  * @param {object} [options]
- * @param {(view: EditorView, pos: number, focus?: boolean) => boolean} [options.cancelInsert] - Escape in (or an empty) tag - undo its insertion if it
+ * @param {(view: import('@milkdown/prose/view').EditorView, pos: number, focus?: boolean) => boolean} [options.cancelInsert] - Escape in (or an empty) tag - undo its insertion if it
  *   was just inserted (true), or not (false).
  * @param {() => void} [options.endInsert] - The chip left.
  * @returns {Array}
@@ -233,7 +233,7 @@ export function milkdownLength(labels, options = {}) {
 /**
  * The chip's editor at a position (after inserting a tag): focus its value.
  *
- * @param {EditorView} view
+ * @param {import('@milkdown/prose/view').EditorView} view
  * @param {number} pos
  */
 export function focusLength(view, pos) {

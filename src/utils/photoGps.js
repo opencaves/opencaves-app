@@ -51,7 +51,7 @@ function cavePoints(cave) {
  * GPS tags, or a cave without coordinates, passes.
  *
  * @param {File[]} files
- * @param {object} cave
+ * @param {Cave} cave
  * @returns {Promise<{file: File, distance: number}[]>}
  */
 export async function photosFarFromCave(files, cave) {

@@ -29,7 +29,7 @@ const TWO_LINES_ON_PHONES = { display: { xs: '-webkit-box', sm: 'block' }, Webki
  * visitors where there's no system to add one to.
  *
  * @param {object} props
- * @param {object[]} [props.pageMaps] - Every map, from
+ * @param {CaveMap[]} [props.pageMaps] - Every map, from
  *   the page that waited for them (its own query starts empty, drawing nothing
  *   for a moment, and the section then pushed the page down).
  */

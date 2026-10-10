@@ -8,7 +8,7 @@
 /**
  * Whether a record (plain data, or a DocumentSnapshot) is in the trash.
  *
- * @param {object|DocumentSnapshot} record
+ * @param {Trashable|import('firebase/firestore').DocumentSnapshot} record
  * @returns {boolean}
  */
 export function isTrashed(record) {
@@ -21,7 +21,7 @@ export function isTrashed(record) {
  * A QuerySnapshot without its trashed documents, with the same shape its
  * readers use (docs, empty, size, metadata, forEach).
  *
- * @param {QuerySnapshot} snapshot
+ * @param {import('firebase/firestore').QuerySnapshot} snapshot
  * @returns {object}
  */
 export function withoutTrashed(snapshot) {

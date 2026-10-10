@@ -92,7 +92,7 @@ function processedData(raw) {
  * The page's cave data in full (state.data's shape): entry-server.jsx's check,
  * and its fallback.
  *
- * @param {object} raw
+ * @param {CaveData} raw
  * @returns {object}
  */
 export function fullPageData(raw) {
@@ -103,9 +103,9 @@ export function fullPageData(raw) {
 /**
  * @param {{kind: string, id?: string}} page - {@link pageOf}'s.
  * @param {object} sources
- * @param {object} sources.raw - The 9 cave-data collections as the app reads them ({ id, ...data },
+ * @param {CaveData} sources.raw - The 9 cave-data collections as the app reads them ({ id, ...data },
  *   readCaveDataFromFirestore).
- * @param {object[]} [sources.maps=[]] - The maps collection.
+ * @param {CaveMap[]} [sources.maps=[]] - The maps collection.
  * @param {{id: string, data: object}[]} [sources.assets=[]] - The page's
  *   cave's photos ([{ id, data }]), if a cave's page.
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's

@@ -7,7 +7,7 @@ import { SEARCH_BAR_HEIGHT, SEARCH_BAR_RADIUS } from '@/config/app.js'
  * in a 48dp slot - its touch target - 4dp from the end; opaque inside only. The browser's own clear control for a
  * search input hidden (the field has its own).
  *
- * @param {Theme} theme
+ * @param {import('@mui/material/styles').Theme} theme
  * @returns {object}
  */
 export const SEARCH_FIELD_SX = (theme) => ({

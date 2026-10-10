@@ -42,6 +42,10 @@ Every exported function, component and hook (in `src/` and `functions/js/`) carr
 - `{@link name}` for a function or constant of the same file or imported into it;
 - `@throws` where the function throws on purpose.
 
+The records' shapes (`Cave`, `Sistema`, `Connection`, `Area`, `CaveAsset`, `CaveMap`, `CaveData`, `FeedbackReport`, `FeedbackMessage`, `UserSettings`...) are `@typedef`s in `src/types.js`, and the server's in `functions/js/types.js`. Both are global (scripts with no import/export, included by `jsconfig.json` and `functions/js/jsconfig.json`): name them bare, `@param {Cave} cave`, never import them; a new field the code reads or writes goes there too.
+
+Run `npm run lint:jsdoc` after changing exported functions or their JSDoc: it checks the format and flags drift (a `@param` naming a parameter that no longer exists, a type that doesn't parse).
+
 **Any change to the code updates its JSDoc in the same change.** A renamed, added, removed or retyped parameter, a new return value, a changed behaviour the description states, a new `throw` — the block must still say what the code does. A stale `@param` is worse than none.
 
 ## Documentation
@@ -63,6 +67,7 @@ The Node scripts in `scripts/` print their help when run with no arguments (or `
 - `node scripts/tag-lengths.js -l` (`-p` for production) — turns the plain-text lengths in the Markdown fields into `:length[...]` tags, shown in each reader's units; a dry run that lists the changes unless `--write`.
 - `firebase deploy` — deploys everything; scope with `--only hosting`, `--only functions`, or `--only functions:js:<name>` for a single function
 - `gcloud storage buckets update gs://opencaves.appspot.com --cors-file=storage.cors.json` — applies the Storage bucket's CORS config, which `firebase deploy` does **not** carry. The app loads bucket images with `crossOrigin="anonymous"` (so the service worker caches them at real size instead of as opaque responses), so without this CORS config those images fail to load entirely.
+- `npm run lint:jsdoc` — checks the JSDoc blocks of `src/` and `functions/js/` (eslint-plugin-jsdoc only, `eslint.config.js`: no other lint rules); fails on any warning
 - No test suite currently exists in this repo.
 
 ## Commit messages

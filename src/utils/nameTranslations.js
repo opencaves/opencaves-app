@@ -5,7 +5,7 @@
  * the page, and only in the reader's own language (none in French). The
  * name's own language left out.
  *
- * @param {object} cave
+ * @param {Cave} cave
  * @param {string} appLanguage
  * @param {object[]} [languages=[]] - The content languages (the store's data.languages: code, and
  *   their names keyed by content language).

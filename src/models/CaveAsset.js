@@ -168,12 +168,6 @@ export default class CaveAsset {
   //   this.#url = url
   // }
 
-  /**
-   * 
-   * @param {*} sizes 
-   * @returns 
-   */
-
   // URL of one resized version (see resize-images' IMAGE_SIZES) - the exact
   // URL <Picture> requests for it, which the offline downloads rely on.
   getThumbnailUrl(dimension, format = THUMBNAIL_FORMATS[0]) {

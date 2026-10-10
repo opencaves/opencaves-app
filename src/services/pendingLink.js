@@ -45,7 +45,7 @@ export function clearPendingLink() {
 /**
  * Links the kept credential to the signed-in user, when it's the same email.
  *
- * @param {User} user
+ * @param {import('firebase/auth').User} user
  * @returns {Promise<string|null>} The linked provider's id, or null when there was nothing to link.
  */
 export async function linkPendingCredential(user) {

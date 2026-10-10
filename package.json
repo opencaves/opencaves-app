@@ -9,6 +9,7 @@
     "serve": "serve -p 4000 -s build",
     "build": "node scripts/map-layer/build-tiles.js --check && vite build && vite build --ssr src/entry-server.jsx",
     "build:tiles": "node scripts/map-layer/build-tiles.js --build",
+    "lint:jsdoc": "eslint src functions/js --max-warnings 0",
     "deploy": "firebase deploy",
     "deploy:beta": "firebase hosting:channel:deploy beta",
     "postinstall": "patch-package"
@@ -117,6 +118,8 @@
     "@emotion/server": "^11.11.0",
     "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^10.0.5",
+    "eslint": "^10.12.0",
+    "eslint-plugin-jsdoc": "^65.2.4",
     "exceljs": "^4.4.0",
     "firebase-admin": "^14.5.0",
     "patch-package": "^8.0.1",

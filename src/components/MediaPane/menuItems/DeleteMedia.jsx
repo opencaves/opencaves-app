@@ -24,9 +24,9 @@ export function useDeleteMedia() {
  * menu's items unmount when it closes.
  *
  * @param {object} [options]
- * @param {(mediaAsset: object) => Promise} [options.onBeforeDelete] - Runs
+ * @param {(mediaAsset: import('../../../models/CaveAsset.js').default) => Promise} [options.onBeforeDelete] - Runs
  *   first (e.g. moving the viewer to the next photo).
- * @returns {{requestDelete: (mediaAsset: object) => void, dialog: React.ReactNode}}
+ * @returns {{requestDelete: (mediaAsset: import('../../../models/CaveAsset.js').default) => void, dialog: React.ReactNode}}
  */
 export function useDeleteMediaConfirm({ onBeforeDelete = noopAsync } = {}) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })

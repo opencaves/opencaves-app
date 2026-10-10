@@ -7,7 +7,7 @@ const ID = /^[-_A-Za-z0-9]{1,64}$/
  * The original's path, from its download link (`url`) when it's one of ours.
  *
  * @param {string} mapId
- * @param {object} [data={}] - The map's record.
+ * @param {CaveMap} [data={}] - The map's record.
  * @returns {string[]}
  */
 export function mapOriginalPaths(mapId, data = {}) {
@@ -21,7 +21,7 @@ export function mapOriginalPaths(mapId, data = {}) {
  * Every path a map's files may have in Storage.
  *
  * @param {string} mapId
- * @param {object} [data={}] - The map's record.
+ * @param {CaveMap} [data={}] - The map's record.
  * @returns {string[]}
  */
 export function mapFilePaths(mapId, data = {}) {

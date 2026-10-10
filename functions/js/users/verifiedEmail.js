@@ -9,7 +9,7 @@ const TRUSTED_PROVIDERS = ['google.com', 'microsoft.com']
  * provider. An account made through Firebase's sign-up API with any address
  * isn't, and doesn't get the editor role.
  *
- * @param {UserRecord} userRecord
+ * @param {import('firebase-admin/auth').UserRecord} userRecord
  * @returns {boolean}
  */
 export function hasVerifiedEmail(userRecord) {

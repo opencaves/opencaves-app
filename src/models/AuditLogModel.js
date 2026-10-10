@@ -40,10 +40,10 @@ function filterConstraints({ authorId, collection: collectionName, action, from,
  * One page of entries, newest first.
  *
  * @param {object} [filters] - { authorId, collection, action, from, to }, each optional.
- * @param {DocumentSnapshot|null} [cursor=null] - `cursor` (the previous page's) for the
+ * @param {import('firebase/firestore').DocumentSnapshot|null} [cursor=null] - `cursor` (the previous page's) for the
  *   next one.
  * @param {number} [pageSize=AUDIT_PAGE_SIZE]
- * @returns {Promise<{entries: object[], cursor: DocumentSnapshot|null, hasMore: boolean}>}
+ * @returns {Promise<{entries: object[], cursor: import('firebase/firestore').DocumentSnapshot|null, hasMore: boolean}>}
  */
 export async function getAuditPage(filters, cursor = null, pageSize = AUDIT_PAGE_SIZE) {
   const constraints = [...filterConstraints(filters), cursor && startAfter(cursor), limit(pageSize)].filter(Boolean)

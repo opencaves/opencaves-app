@@ -194,7 +194,7 @@ export async function clearPreviews() {
  * order - most recently saved first) so each one becomes fully available as
  * soon as possible and gets its own progress.
  *
- * @param {Object<string, string[]>} urlsByCave
+ * @param {Record<string, string[]>} urlsByCave
  * @param {object} [options]
  * @param {AbortSignal} [options.signal]
  * @param {(caveId: string, result: {downloaded: number, failed: number}) => void} [options.onCaveDone] - Called as onCaveDone(caveId,
@@ -274,7 +274,7 @@ function viewerDimension() {
  * copies and thumbnails - not the original uploads).
  *
  * @param {string} caveId
- * @param {{caves: object[], sistemas: object[], connections: object[]}} data
+ * @param {{caves: Cave[], sistemas: Sistema[], connections: Connection[]}} data
  * @returns {Promise<string[]>}
  */
 export async function getSavedCaveUrls(caveId, { caves, sistemas, connections }) {

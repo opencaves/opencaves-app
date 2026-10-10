@@ -1,5 +1,6 @@
 /**
- * source: https://stackoverflow.com/questions/16541676/what-are-best-practices-for-detecting-pixel-ratio-density/54770411#54770411
+ * The screen's device pixel ratio - in Firefox, estimated from resolution
+ * media queries (1.5, 2 or 0.7). Source: https://stackoverflow.com/questions/16541676/what-are-best-practices-for-detecting-pixel-ratio-density/54770411#54770411
  *
  * @returns {number}
  */
