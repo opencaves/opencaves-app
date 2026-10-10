@@ -24,8 +24,13 @@ const SVGO_CONFIG = {
   }],
 }
 
-// An SVG made smaller, the drawing unchanged. Never worse than what came in:
-// an SVG SVGO can't handle, or doesn't shrink, is kept as it is.
+/**
+ * An SVG made smaller, the drawing unchanged. Never worse than what came in:
+ * an SVG SVGO can't handle, or doesn't shrink, is kept as it is.
+ *
+ * @param {string} svg
+ * @returns {string}
+ */
 export function minifySvg(svg) {
   const source = String(svg)
   try {
@@ -37,9 +42,14 @@ export function minifySvg(svg) {
   }
 }
 
-// Stored gzip-compressed (Content-Encoding: gzip): browsers unzip it as it
-// loads, clients that don't accept gzip get it unzipped by Storage, and the
-// Admin SDK's download() unzips it. Survey maps shrink about 85% more.
+/**
+ * Stored gzip-compressed (Content-Encoding: gzip): browsers unzip it as it
+ * loads, clients that don't accept gzip get it unzipped by Storage, and the
+ * Admin SDK's download() unzips it. Survey maps shrink about 85% more.
+ *
+ * @param {string} svg
+ * @returns {Buffer}
+ */
 export function gzipSvg(svg) {
   return gzipSync(Buffer.from(svg), { level: 9 })
 }

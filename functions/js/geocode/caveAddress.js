@@ -20,9 +20,11 @@ const LANGUAGE_PATTERN = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/
 const CACHE_FOUND = 'public, max-age=86400, s-maxage=2592000'
 const CACHE_NONE = 'public, max-age=3600, s-maxage=86400'
 
-// GET /api/address/<caveId>?lang=<language> -> { address } (null when there
-// is none). It takes a cave's id, not coordinates, so it can only ever look
-// up the caves' own positions - nobody can run their geocoding through it.
+/**
+ * GET /api/address/<caveId>?lang=<language> -> { address } (null when there
+ * is none). It takes a cave's id, not coordinates, so it can only ever look
+ * up the caves' own positions - nobody can run their geocoding through it.
+ */
 export const caveAddress = onRequest({ region: REGION, secrets: [GOOGLE_GEOCODING_API_KEY], maxInstances: 5 }, async (req, res) => {
   const caveId = decodeURIComponent(req.path.split('/').filter(Boolean).pop() || '')
   const language = String(req.query.lang || 'en')

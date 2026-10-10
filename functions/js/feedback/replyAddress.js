@@ -34,15 +34,25 @@ async function replyToken(reportRef) {
   })
 }
 
-// The address its author answers the team's emails to; the team's inbox
-// (FEEDBACK_REPLY_TO) while no reply domain is set.
+/**
+ * The address its author answers the team's emails to; the team's inbox
+ * ({@link FEEDBACK_REPLY_TO}) while no reply domain is set.
+ *
+ * @param {DocumentReference} reportRef
+ * @returns {Promise<string>}
+ */
 export async function authorReplyAddress(reportRef) {
   if (!FEEDBACK_REPLY_DOMAIN) return FEEDBACK_REPLY_TO
   return `${await replyToken(reportRef)}@${FEEDBACK_REPLY_DOMAIN}`
 }
 
-// The address the admins answer its notifications to (a team reply); none
-// while no reply domain is set.
+/**
+ * The address the admins answer its notifications to (a team reply); none
+ * while no reply domain is set.
+ *
+ * @param {DocumentReference} reportRef
+ * @returns {Promise<string|null>}
+ */
 export async function teamReplyAddress(reportRef) {
   if (!FEEDBACK_REPLY_DOMAIN) return null
   return `${TEAM_ADDRESS_PREFIX}${await replyToken(reportRef)}@${FEEDBACK_REPLY_DOMAIN}`

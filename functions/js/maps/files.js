@@ -3,7 +3,13 @@
 // copies (maps/derived/) and a PDF's SVG pages (maps/{svgId}).
 const ID = /^[-_A-Za-z0-9]{1,64}$/
 
-// The original's path, from its download link (`url`) when it's one of ours.
+/**
+ * The original's path, from its download link (`url`) when it's one of ours.
+ *
+ * @param {string} mapId
+ * @param {object} [data={}] - The map's record.
+ * @returns {string[]}
+ */
 export function mapOriginalPaths(mapId, data = {}) {
   const fromUrl = /\/o\/([^?#]+)/.exec(data.url || '')?.[1]
   const urlPath = fromUrl ? decodeURIComponent(fromUrl) : null
@@ -11,6 +17,13 @@ export function mapOriginalPaths(mapId, data = {}) {
   return [`maps/${mapId}`, `maps/original-pdf/${mapId}`]
 }
 
+/**
+ * Every path a map's files may have in Storage.
+ *
+ * @param {string} mapId
+ * @param {object} [data={}] - The map's record.
+ * @returns {string[]}
+ */
 export function mapFilePaths(mapId, data = {}) {
   if (!ID.test(mapId)) return []
   const svgIds = (Array.isArray(data.svgIds) ? data.svgIds : []).filter((id) => typeof id === 'string' && ID.test(id))

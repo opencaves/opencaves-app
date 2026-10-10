@@ -29,9 +29,14 @@ async function readIndexData() {
   })
 }
 
-// The index data from the records themselves ({ id, ...fields }): from
-// Firestore here, or from the data the app renders the pages with (ssr.js),
-// so the page functions don't read the collections twice.
+/**
+ * The index data from the records themselves ({ id, ...fields }): from
+ * Firestore here, or from the data the app renders the pages with (ssr.js),
+ * so the page functions don't read the collections twice.
+ *
+ * @param {object} records
+ * @returns {object}
+ */
 export function groupIndexData(records) {
   const caves = records.caves
     .map(({ id, name, area, sistemaId }) => ({ id, name: name?.value?.trim() || null, area: area || null, sistemaId: sistemaId || null }))
@@ -97,8 +102,12 @@ export async function loadIndexData() {
 
 let sistemaSlugsCache = null
 
-// Every public sistema's slug and name by id, for the cave page's link to
-// its system: only the names are read.
+/**
+ * Every public sistema's slug and name by id, for the cave page's link to
+ * its system: only the names are read.
+ *
+ * @returns {Promise<object>}
+ */
 export async function loadSistemaSlugs() {
   if (sistemaSlugsCache && Date.now() - sistemaSlugsCache.at < DATA_TTL_MS) return sistemaSlugsCache.data
   const snapshot = await db.collection('sistemas').select('name', 'public').get()

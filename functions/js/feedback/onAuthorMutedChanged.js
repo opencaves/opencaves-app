@@ -6,10 +6,16 @@ import { FEEDBACK_COLL_NAME, REGION, USERS_COLL_NAME } from '../constants.js'
 
 const isMuted = (data) => data?.feedbackEmails === false
 
-// An account's feedbackEmails setting (its settings page, or the emails'
-// unsubscribe link), mirrored on its reports as authorMuted: the admins'
-// Feedback page shows that their replies won't be emailed - without the
-// admins reading the account's settings (_users stays its owner's).
+/**
+ * An account's feedbackEmails setting (its settings page, or the emails'
+ * unsubscribe link), mirrored on its reports as authorMuted: the admins'
+ * Feedback page shows that their replies won't be emailed - without the
+ * admins reading the account's settings (_users stays its owner's).
+ *
+ * @param {string} uid
+ * @param {boolean} muted
+ * @returns {Promise<void>}
+ */
 export async function mirrorAuthorMuted(uid, muted) {
   const reports = await db.collection(FEEDBACK_COLL_NAME).where('userId', '==', uid).get()
   const writer = db.bulkWriter()

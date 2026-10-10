@@ -119,14 +119,16 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   logger.info('Converted PDF map to vector SVG pages', { mapId, pages: previewUrls.length })
 })
 
-// Image maps (scans, usually large JPEG/PNG) get a WebP viewing copy and
-// thumbnail, stored as previewUrl/thumbnailUrl - which the app already
-// prefers over the original `url` for display (and offline downloads). The
-// original upload stays untouched as `url`, for the "Original file" download.
-// SVG uploads are cleaned and compressed (storedSvg), then get only the
-// thumbnail: the SVG
-// itself is the best viewing copy (sharp at any zoom), but can weigh
-// megabytes - too much for a card.
+/**
+ * Image maps (scans, usually large JPEG/PNG) get a WebP viewing copy and
+ * thumbnail, stored as previewUrl/thumbnailUrl - which the app already
+ * prefers over the original `url` for display (and offline downloads). The
+ * original upload stays untouched as `url`, for the "Original file" download.
+ * SVG uploads are cleaned and compressed ({@link storedSvg}), then get only the
+ * thumbnail: the SVG
+ * itself is the best viewing copy (sharp at any zoom), but can weigh
+ * megabytes - too much for a card.
+ */
 export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSeconds: 300 }, async event => {
   const { bucket: bucketName, name: originalPath, contentType, metadata } = event.data
   const match = /^maps\/([^/]+)$/.exec(originalPath || '')

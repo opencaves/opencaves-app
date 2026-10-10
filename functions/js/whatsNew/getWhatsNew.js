@@ -62,11 +62,13 @@ function groupMedia(additions, kind, caves) {
   return [...groups.values()].map(({ media, ...group }) => ({ ...group, count: media.length, media: media.slice(0, MEDIA_SHOWN) }))
 }
 
-// What's new, built from the audit log as it is now: the caves, cave systems,
-// connections and maps people added in the app (its "create" entries), the
-// photos uploaded and the videos added to caves, newest first - each still
-// there and shown, with its current name, the date it was added and its
-// author's display name. Anyone may call it (the page is public).
+/**
+ * What's new, built from the audit log as it is now: the caves, cave systems,
+ * connections and maps people added in the app (its "create" entries), the
+ * photos uploaded and the videos added to caves, newest first - each still
+ * there and shown, with its current name, the date it was added and its
+ * author's display name. Anyone may call it (the page is public).
+ */
 export const getWhatsNew = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async () => {
   if (cached && Date.now() - cached.time < CACHE_MS) return cached.answer
 

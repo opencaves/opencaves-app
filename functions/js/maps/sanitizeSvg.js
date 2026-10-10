@@ -22,10 +22,15 @@ function getPurify() {
 // The XML declaration and doctype, which the parser would keep as text.
 const PROLOG = /^\uFEFF?\s*(<\?xml[^>]*\?>\s*)?(<!DOCTYPE[^>[]*(\[[^\]]*\])?\s*>\s*)?/i
 
-// An uploaded SVG without anything that can run code or reach outside it:
-// scripts, event attributes (onload=...), javascript: links, embedded web
-// content (foreignObject), outside references. The drawing itself (paths,
-// text, styles, filters, embedded images) is kept as it was.
+/**
+ * An uploaded SVG without anything that can run code or reach outside it:
+ * scripts, event attributes (onload=...), javascript: links, embedded web
+ * content (foreignObject), outside references. The drawing itself (paths,
+ * text, styles, filters, embedded images) is kept as it was.
+ *
+ * @param {string} svg
+ * @returns {string}
+ */
 export function sanitizeSvg(svg) {
   const clean = getPurify().sanitize(String(svg).replace(PROLOG, ''), {
     USE_PROFILES: { svg: true, svgFilters: true },
