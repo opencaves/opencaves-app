@@ -117,16 +117,17 @@ registerRoute(
 // the bucket (CaveAsset.js). Each URL's content never changes (uploaded with
 // an immutable Cache-Control), so cache-first is safe. The app loads them in
 // CORS mode (crossOrigin="anonymous", bucket CORS in storage.cors.json), so
-// entries count against quota at their real size. Opaque (status 0)
-// responses are still accepted for any <img> without crossOrigin. The cache
-// name changed when CORS mode came in, so no earlier opaque entry is ever
-// served to a CORS request (which the browser would reject).
+// entries count against quota at their real size. Only CORS responses are
+// kept: the cache matches by address alone, so an opaque copy (a CSS
+// background's, or any <img> without crossOrigin) would be served to the
+// app's CORS requests for that file, which the browser rejects - a broken
+// picture, for as long as the copy lasts.
 registerRoute(
   ({ url, request }) => url.origin === 'https://storage.googleapis.com' && url.pathname.startsWith('/opencaves.appspot.com/') && !isOfflineDownload(request),
   preferOfflineCaches(new CacheFirst({
     cacheName: cacheName('cave-images-cors'),
     plugins: [
-      new CacheableResponsePlugin({ statuses: [0, 200] }),
+      new CacheableResponsePlugin({ statuses: [200] }),
       new ExpirationPlugin({ maxEntries: 3000, maxAgeSeconds: 90 * 24 * 60 * 60, purgeOnQuotaError: true }),
     ],
   }))
@@ -206,10 +207,21 @@ registerRoute(
   })
 )
 
+// Opaque copies kept by earlier versions in the pictures' cache (the landing
+// page's hero photo, a CSS background): each broke that picture for the
+// app's CORS requests. Removed on activation.
+async function purgeOpaquePictures() {
+  const cache = await caches.open(cacheName('cave-images-cors'))
+  for (const request of await cache.keys()) {
+    const response = await cache.match(request)
+    if (!response || response.type === 'opaque') await cache.delete(request)
+  }
+}
+
 // Drop the pre-CORS picture cache (opaque entries, replaced by
-// cave-images-cors above).
+// cave-images-cors above), and the opaque copies left in that one.
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.delete(cacheName('cave-images')))
+  event.waitUntil(Promise.all([caches.delete(cacheName('cave-images')), purgeOpaquePictures()]))
 })
 
 // This allows the web app to trigger skipWaiting via

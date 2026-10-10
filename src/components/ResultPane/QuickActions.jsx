@@ -167,6 +167,16 @@ export default function QuickActions({ cave }) {
     })
   }
 
+  // Driving ends where the car is left: at the cave's parking when it has one,
+  // otherwise at the cave (through its entrance).
+  function openCaveDirections() {
+    if (cave.parking) {
+      openDirections(cave.parking)
+    } else {
+      openDirections(cave.location, cave.entrance)
+    }
+  }
+
   // Comes back to this cave once the account is created / signed in to.
   function goToAuth(path) {
     setAccountPromptOpen(false)
@@ -224,9 +234,9 @@ export default function QuickActions({ cave }) {
                   overflow: 'visible',
                 }}
               >
-                {cave.location && (
+                {(cave.location || cave.parking) && (
                   <QuickActionsItem>
-                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={() => openDirections(cave.location, cave.entrance)}>
+                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={openCaveDirections}>
                       {t('directions')}
                     </Button>
                   </QuickActionsItem>
@@ -258,10 +268,10 @@ export default function QuickActions({ cave }) {
           aria-label={t('ariaLabel', { name: caveName })}
         >
           <Grid container>
-            {cave.location && (
+            {(cave.location || cave.parking) && (
               <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid container sx={{ justifyContent: 'center' }}>
-                  <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave.location, cave.entrance)}>
+                  <ButtonLg primary aria-label={t('directions')} onClick={openCaveDirections}>
                     <Grid container direction="column">
                       <Grid>
                         <IconLg>

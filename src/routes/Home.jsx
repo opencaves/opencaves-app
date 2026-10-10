@@ -132,17 +132,28 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          // Smaller on small screens (the 1536 photo and 4160 px backdrop on a phone).
-          backgroundImage: {
-            xs: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1024')}), ` : ''}url(${heroBackgroundSmall})`,
-            md: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1536')}), ` : ''}url(${heroBackground})`,
-          },
+          // The site's own photo until the cave's loads; smaller on small
+          // screens (the 4160 px backdrop on a phone).
+          backgroundImage: { xs: `url(${heroBackgroundSmall})`, md: `url(${heroBackground})` },
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           px: { xs: 3, sm: 6, md: 8 },
           py: { xs: 6, sm: 9, md: 11 },
+          // The content above the photo and its shade.
+          '& > :not(.oc-home--hero-photo, .oc-home--hero-shade)': { position: 'relative', zIndex: 1 },
         }}
       >
+        {/* The cave's photo as an image, not a CSS background: a background is
+            fetched without CORS, and that copy (kept by the service worker)
+            broke the same file in the photo viewer, which asks for it with
+            CORS. 1024 on small screens, 1536 from md (900 px) up. */}
+        {heroPhoto && (
+          <picture className="oc-home--hero-photo" aria-hidden="true">
+            <source media="(min-width: 900px)" srcSet={heroPhoto.getThumbnailUrl('1536')} />
+            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          </picture>
+        )}
+        <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
         <Box sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }} aria-hidden="true">
           <Logo />
         </Box>

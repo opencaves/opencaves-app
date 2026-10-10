@@ -12,6 +12,7 @@ import HydrationDone from '@/ssr/HydrationDone.jsx'
 import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
+import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
 // import reportWebVitals from './reportWebVitals'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
@@ -21,6 +22,9 @@ import '@/utils/externalFileDrag.js'
 if (isPhone() && /^\/map(\/|$)/.test(window.location.pathname)) {
   loadIonic()
 }
+
+// Firestore's internal failures, recovered rather than left on the error page.
+watchFirestoreFailures()
 
 // A page the server rendered (entry-server.jsx: the public pages, in
 // English) is hydrated - the app takes over the server's HTML - when the

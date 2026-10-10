@@ -524,11 +524,13 @@
     "copyCoordinates": "Copiar coordenadas",
     "copyKeyCoordinates": "Copiar coordenadas clave",
     "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
+    "copyParkingCoordinates": "Copiar coordenadas del estacionamiento",
     "directionsToCave": "Cómo llegar a la cueva",
     "directionsToKey": "Cómo llegar a la llave",
     "directionsToSistema": "Cómo llegar al sistema",
     "area": "Zona: {{area}}",
     "directionsToEntrance": "Cómo llegar a la entrada",
+    "directionsToParking": "Cómo llegar al estacionamiento",
     "addressLoading": "Cargando dirección…",
     "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
     "addressNotAvailable": "Dirección no disponible",
@@ -584,6 +586,7 @@
       "coordinates": "Coordenadas",
       "location": "Ubicación",
       "entrance": "Entrada",
+      "parking": "Estacionamiento",
       "key": "Llave",
       "longitude": "Longitud",
       "latitude": "Latitud",
@@ -596,6 +599,7 @@
       "addOneCoordinates": {
         "location": "Agregar coordenadas de la ubicación",
         "entrance": "Agregar coordenadas de la entrada",
+        "parking": "Agregar coordenadas del estacionamiento",
         "key": "Agregar coordenadas de la llave",
         "sistemaLocation": "Agregar coordenadas de la ubicación"
       },
@@ -692,7 +696,11 @@
     },
     "cenoteEntrance": "Cenote de entrada",
     "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video añadido",
+    "videoAlreadyAdded": "Este video ya está en la lista.",
+    "videoDeleted": "Video eliminado",
+    "videoAddError": "No se pudo añadir el video. Inténtalo de nuevo."
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -1006,8 +1014,10 @@
     "markers": {
       "location": "Ubicación de la cueva",
       "entrance": "Entrada del cenote",
+      "parking": "Estacionamiento",
       "key": "Ubicación de la llave",
       "entranceShort": "Entrada",
+      "parkingShort": "Estacionamiento",
       "keyShort": "Llave"
     },
     "caveLayer": {

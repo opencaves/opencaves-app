@@ -524,11 +524,13 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
+    "copyParkingCoordinates": "Copy parking coordinates",
     "directionsToCave": "Directions to the cave",
     "directionsToKey": "Directions to the key",
     "directionsToSistema": "Directions to the system",
     "area": "Area: {{area}}",
     "directionsToEntrance": "Directions to the entrance",
+    "directionsToParking": "Directions to the parking",
     "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
     "addressNotAvailable": "Address not available",
@@ -584,6 +586,7 @@
       "coordinates": "Coordinates",
       "location": "Location",
       "entrance": "Entrance",
+      "parking": "Parking",
       "key": "Key",
       "longitude": "Longitude",
       "latitude": "Latitude",
@@ -596,6 +599,7 @@
       "addOneCoordinates": {
         "location": "Add location coordinates",
         "entrance": "Add entrance coordinates",
+        "parking": "Add parking coordinates",
         "key": "Add key coordinates",
         "sistemaLocation": "Add location coordinates"
       },
@@ -692,7 +696,11 @@
     },
     "cenoteEntrance": "Cenote entrance",
     "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video added",
+    "videoAlreadyAdded": "This video is already in the list.",
+    "videoDeleted": "Video deleted",
+    "videoAddError": "The video couldn't be added. Please try again."
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -1006,8 +1014,10 @@
     "markers": {
       "location": "Cave location",
       "entrance": "Cave entrance",
+      "parking": "Cave parking",
       "key": "Key location",
       "entranceShort": "Entrance",
+      "parkingShort": "Parking",
       "keyShort": "Key"
     },
     "caveLayer": {

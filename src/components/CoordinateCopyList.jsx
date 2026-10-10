@@ -88,7 +88,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
   )
 }
 
-// A record's points (a cave's location, entrance and keys; a system's
+// A record's points (a cave's location, entrance, parking and keys; a system's
 // location) laid out as in the map pane's list: each copies its coordinates
 // when clicked and has a Directions button. rows: { key, icon, text,
 // copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.

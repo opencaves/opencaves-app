@@ -31,11 +31,14 @@ http://ionicframework.com/docs/theming/ */
   --oc-marker-selected-color: #7faef5;
   // A page's surface (Layout's white page and frame), its translucent form
   // over a background image (dashboard, admin pages), a bar stuck over the
-  // page's content, and the scrollbars' thumb.
+  // page's content, and the scrollbars' thumb (every scrollbar, the galleries'
+  // too: about 2.4:1 against the light surface, 3:1 against the dark one;
+  // stronger hovered or dragged).
   --oc-page-surface: #fff;
   --oc-page-surface-translucent: rgba(255, 255, 255, 0.9);
   --oc-page-surface-stuck: rgba(255, 255, 255, 0.94);
-  --oc-scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --oc-scrollbar-thumb: rgba(0, 0, 0, 0.32);
+  --oc-scrollbar-thumb-active: rgba(0, 0, 0, 0.5);
   // The edge around a cave system's cookie (SistemaCookie).
   --oc-sistema-cookie-edge: rgba(0, 0, 0, 0.55);
   --oc-marker-selected-font-size: 1.1em;
@@ -85,7 +88,8 @@ http://ionicframework.com/docs/theming/ */
   --oc-page-surface: #1c1b1f;
   --oc-page-surface-translucent: rgba(28, 27, 31, 0.9);
   --oc-page-surface-stuck: rgba(28, 27, 31, 0.94);
-  --oc-scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --oc-scrollbar-thumb: rgba(255, 255, 255, 0.32);
+  --oc-scrollbar-thumb-active: rgba(255, 255, 255, 0.5);
   --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
   // The dark theme's app bar: MD3's surface top app bar - the surface, the
   // surface container once scrolled under, the current page on a
@@ -183,12 +187,3 @@ http://ionicframework.com/docs/theming/ */
   }
 }
 
-// The photos, videos and survey maps strips: their items rest in the middle
-// (src/utils/mediaStrip.js), the strip's scrolling element (Scrollbars' view)
-// snapping to each one's centre.
-.oc-media-strip > .oc-scrollbar > div:first-child {
-  scroll-snap-type: x mandatory;
-}
-.oc-media-strip--item {
-  scroll-snap-align: center;
-}

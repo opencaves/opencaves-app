@@ -13,9 +13,9 @@ const initialState = {
   // Cross-component coordinate picking: the cave edit form (rendered inside
   // ResultPane) sets which field it wants next, Map.jsx's own click handler
   // (a sibling component, not a child) fills it in on the next map click.
-  pickingCoordinateFor: null, // 'location' | 'entrance' | null
+  pickingCoordinateFor: null, // 'location' | 'parking' | 'entrance' | 'key' | null
   pickedCoordinate: null, // { field, longitude, latitude } | null
-  // Live mirror of the edit form's own (possibly unsaved) location/entrance
+  // Live mirror of the edit form's own (possibly unsaved) location/parking/entrance/key
   // values, keyed by field name, so Map.jsx can render a pin for each
   // populated field without waiting for a save.
   editFieldCoordinates: {}, // { [field]: { longitude, latitude } }

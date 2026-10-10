@@ -7,7 +7,7 @@ import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Box, Button, ButtonBase, Typography } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip } from '@/utils/mediaStrip.js'
+import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import mapsModel from '@/models/MapModel.js'
 import { isTrashed } from '@/utils/trash.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
@@ -139,11 +139,15 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       const maxScrollLeft = scrollWidth - clientWidth
       const direction = Math.sign(event.deltaY || event.deltaX)
       if (!direction || maxScrollLeft <= 0) return
-      scrollStrip(scrollbar.view, direction)
+      scrollStrip(scrollbar.view, event)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
+    const stopSnapping = snapOnSettle(scrollbar.view, container)
+    return () => {
+      container.removeEventListener('wheel', onWheel)
+      stopSnapping()
+    }
   }, [selectedMaps.length])
 
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])

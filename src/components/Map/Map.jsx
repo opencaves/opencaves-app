@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import LoginRounded from '@mui/icons-material/LoginRounded'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
@@ -27,7 +28,7 @@ import GeolocateTooltip from './GeolocateTooltip.jsx'
 import CaveMarker from './CaveMarker.jsx'
 import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
 
-// Decorative markers (a cave's entrance and keys, edited coordinates) keep
+// Decorative markers (a cave's parking, entrance and keys, edited coordinates) keep
 // Mapbox's role="img", with a real label instead of its "Map marker". Cave
 // pins drop that role (see CaveMarker).
 function labelMarker(label) {
@@ -52,7 +53,8 @@ const MARKER_ANIMATION_DURATION_MS = 680
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const EDIT_FIELD_BADGE_ICONS = {
-  entrance: LoginRounded,
+  parking: LocalParkingRounded,
+  entrance: EntranceRounded,
   key: VpnKeyRounded,
 }
 
@@ -60,7 +62,7 @@ const EDIT_FIELD_BADGE_ICONS = {
 // layout, and how many unchanged frames count as settled.
 // An embedded map's first view of its cave (OCMap's embedded).
 const EMBEDDED_ZOOM = 15
-// The selected cave's entrance and key points: their icon alone, in the
+// The selected cave's parking, entrance and key points: their icon alone, in the
 // pin's colour, with a dark edge and a soft shadow so any colour reads over
 // the imagery, at the size it had in the pin's head, its label under it. The
 // marker's top sits half an icon above the point, so the icon is centred on it.
@@ -969,11 +971,19 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                   )
                 })}
 
+            {selectedCave && !isWidePaneEditMode && selectedCave.parking && (
+              <Marker key={`selected-parking-${selectedCave.id}`} ref={labelMarker(t('markers.parking'))} longitude={selectedCave.parking.longitude} latitude={selectedCave.parking.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                <Box className="oc-map--marker marker" sx={POINT_SX}>
+                  <LocalParkingRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <div className="oc-map--marker-label marker-label">{t('markers.parkingShort')}</div>
+                </Box>
+              </Marker>
+            )}
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
               <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
                 {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
                 <Box className="oc-map--marker marker" sx={POINT_SX}>
-                  <LoginRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <EntranceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
                   <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>

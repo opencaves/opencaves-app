@@ -24,11 +24,12 @@ export async function photoPosition(file) {
 }
 
 // The cave's known points - every coordinate field it has: its position, its
-// entrance and where its key is (a photo can be of the gate or fence there),
+// entrance, its parking and where its key is (a photo can be of the gate or
+// fence there, or of the sign at the parking),
 // those marked invalid left out.
 function cavePoints(cave) {
-  const { location, entrance, keys } = cave || {}
-  return [location, entrance, ...(Array.isArray(keys) ? keys : [])].filter(
+  const { location, entrance, parking, keys } = cave || {}
+  return [location, entrance, parking, ...(Array.isArray(keys) ? keys : [])].filter(
     (point) => Number.isFinite(point?.latitude) && Number.isFinite(point?.longitude) && point.validity !== 'invalid',
   )
 }
