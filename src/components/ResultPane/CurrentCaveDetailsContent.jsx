@@ -7,7 +7,7 @@ import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import LocationDisabledRounded from '@mui/icons-material/LocationDisabledRounded'
-import LoginRounded from '@mui/icons-material/LoginRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import TerrainRounded from '@mui/icons-material/TerrainRounded'
@@ -159,7 +159,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
         {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
-        {entranceText && <CoordinateRow icon={<LoginRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
+        {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
         {keysTexts &&
           keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}

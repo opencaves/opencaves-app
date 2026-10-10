@@ -61,3 +61,14 @@ export function LineCookie({ sx, ...props }) {
     </SvgIcon>
   )
 }
+
+// A cave's entrance: two posts flaring out at both ends, the way in between
+// them. Drawn in strokes like Material's Rounded icons, but heavier (3, not 2)
+// so it keeps its shape at the map's 13 px, beside the filled parking and key.
+export function EntranceRounded({ className, ...props }) {
+  return (
+    <SvgIcon className={['oc-entrance-rounded', className].filter(Boolean).join(' ')} viewBox="0 0 24 24" {...props}>
+      <path d="M4 1.5 8 5.5v13l-4 4M20 1.5l-4 4v13l4 4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </SvgIcon>
+  )
+}

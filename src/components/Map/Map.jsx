@@ -6,7 +6,7 @@ import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
 import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
-import LoginRounded from '@mui/icons-material/LoginRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
@@ -54,7 +54,7 @@ const MARKER_ANIMATION_DURATION_MS = 680
 // which point it is.
 const EDIT_FIELD_BADGE_ICONS = {
   parking: LocalParkingRounded,
-  entrance: LoginRounded,
+  entrance: EntranceRounded,
   key: VpnKeyRounded,
 }
 
@@ -983,7 +983,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
               <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
                 {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
                 <Box className="oc-map--marker marker" sx={POINT_SX}>
-                  <LoginRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <EntranceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
                   <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>
