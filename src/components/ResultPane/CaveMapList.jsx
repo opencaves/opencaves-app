@@ -96,13 +96,17 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
   )
 }
 
-// Maps belong to a sistema (shared by every cave in it), not to an individual
-// cave - this tab is a view onto `sistemaId`'s sistema.maps plus its ancestor
-// sistemas' maps, read and written directly (not staged in the cave's own
-// edit form) since it isn't this cave's own data. New maps are added to the
-// cave's own sistema; inherited ones can only be removed from their own
-// sistema, since removing them here would affect every sibling cave.
-// mapPath(id): a map's address (a page's gallery); the map's viewer otherwise.
+/**
+ * Maps belong to a sistema (shared by every cave in it), not to an individual
+ * cave - this tab is a view onto `sistemaId`'s sistema.maps plus its ancestor
+ * sistemas' maps, read and written directly (not staged in the cave's own
+ * edit form) since it isn't this cave's own data. New maps are added to the
+ * cave's own sistema; inherited ones can only be removed from their own
+ * sistema, since removing them here would affect every sibling cave.
+ *
+ * @param {object} props
+ * @param {(id: string) => string} [props.mapPath] - A map's address (a page's gallery); the map's viewer otherwise.
+ */
 export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo, mapPath }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')

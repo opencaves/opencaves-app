@@ -15,13 +15,18 @@ const DENSE_SX = {
   '& .MuiSelect-select': { py: '4px' },
 }
 
-// An edit form's Source picker (the `sources` collection), starting with an
-// "Add a source" entry that creates one in place (NewSourceDialog) and
-// selects it. onChange gets the chosen source id ('' for none). As wide as
-// its longest option (measured in the field's own font, with its padding and
-// arrow), never wider than its row; compact (small) unless size says otherwise.
-// dense: a caption-sized, underlined picker (13px text, about 32px tall), for
-// one that sits under another field rather than heading its section.
+/**
+ * An edit form's Source picker (the `sources` collection), starting with an
+ * "Add a source" entry that creates one in place ({@link NewSourceDialog}) and
+ * selects it. As wide as
+ * its longest option (measured in the field's own font, with its padding and
+ * arrow), never wider than its row; compact (small) unless size says otherwise.
+ *
+ * @param {object} props
+ * @param {(id: string) => void} props.onChange - Gets the chosen source id ('' for none).
+ * @param {boolean} [props.dense=false] - A caption-sized, underlined picker (13px text, about 32px tall), for
+ *   one that sits under another field rather than heading its section.
+ */
 export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small', dense = false }) {
   const { t } = useTranslation('newSourceDialog')
   const [adding, setAdding] = useState(false)

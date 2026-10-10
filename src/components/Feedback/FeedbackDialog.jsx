@@ -75,15 +75,17 @@ function KindCard({ kind, selected, onSelect }) {
   )
 }
 
-// The Send feedback form (openFeedback): a beta tester tells the OpenCaves
-// team about a bug, something misleading or an idea - its kind, a message
-// (a hint and a placeholder per kind: a bug's steps to reproduce it), the
-// page it's about (the page it was opened from, editable), and the browser
-// (its user agent, filled in unseen), with the app's language (the email
-// telling the author its outcome is in it). Saved to
-// _feedback for the admins (the dashboard's Feedback page), who also get it
-// by email (onFeedbackCreated). An account is needed: anyone else is asked
-// to sign up or log in first.
+/**
+ * The Send feedback form (openFeedback): a beta tester tells the OpenCaves
+ * team about a bug, something misleading or an idea - its kind, a message
+ * (a hint and a placeholder per kind: a bug's steps to reproduce it), the
+ * page it's about (the page it was opened from, editable), and the browser
+ * (its user agent, filled in unseen), with the app's language (the email
+ * telling the author its outcome is in it). Saved to
+ * _feedback for the admins (the dashboard's Feedback page), who also get it
+ * by email (onFeedbackCreated). An account is needed: anyone else is asked
+ * to sign up or log in first.
+ */
 export default function FeedbackDialog() {
   const { t, i18n } = useTranslation('feedback')
   const theme = useTheme()

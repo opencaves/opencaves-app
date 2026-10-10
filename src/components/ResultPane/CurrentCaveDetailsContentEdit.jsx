@@ -45,12 +45,14 @@ function MarkdownField({ label, value, onChange, minRows, resizable }) {
   return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
 }
 
-// Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
-// layout as the read-only view (CurrentCaveDetailsContent), swapped for
-// editable fields, for quick in-context tweaks without leaving the map.
-// Covers the fields an editor is likely to touch often; the full field set
-// (aka, rating, reporter, note, exploration date, cover image) stays in the
-// dedicated admin form.
+/**
+ * Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
+ * layout as the read-only view (CurrentCaveDetailsContent), swapped for
+ * editable fields, for quick in-context tweaks without leaving the map.
+ * Covers the fields an editor is likely to touch often; the full field set
+ * (aka, rating, reporter, note, exploration date, cover image) stays in the
+ * dedicated admin form.
+ */
 export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')

@@ -1,6 +1,11 @@
-// Props for an edit form's section heading (a Typography, or a field's
-// labelProps): a semantic h2 with the accented left bar. Shared by the
-// sistema and cave edit forms so their sections look the same.
+/**
+ * Props for an edit form's section heading (a Typography, or a field's
+ * labelProps): a semantic h2 with the accented left bar. Shared by the
+ * sistema and cave edit forms so their sections look the same.
+ *
+ * @param {string} [className]
+ * @returns {object}
+ */
 export function formSectionHeadingProps(className) {
   return {
     component: 'h2',

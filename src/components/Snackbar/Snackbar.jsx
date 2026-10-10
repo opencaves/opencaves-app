@@ -5,9 +5,12 @@ import Slide from '@mui/material/Slide'
 import Close from '@mui/icons-material/CloseRounded'
 import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 
-// onClose: told when it closes on its own (a click away, its close button,
-// its time up), so whoever opened it knows it's closed - and can open it
-// again (SnackbarProvider: a next message didn't show after a click away).
+/**
+ * @param {object} props
+ * @param {() => void} [props.onClose] - Told when it closes on its own (a click away, its close button,
+ *   its time up), so whoever opened it knows it's closed - and can open it
+ *   again (SnackbarProvider: a next message didn't show after a click away).
+ */
 export default function Snackbar({ open = false, message, autoHide = true, autoHideDuration = null, hideOnClickAway = false, action = null, showCloseButton = false, onClose, children, sx = {} }) {
 
   const [_open, setOpen] = useState(open)

@@ -8,8 +8,10 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { openDirections } from '@/utils/directions.js'
 import { getOS } from '@/utils/getOS.js'
 
-// "Copied to clipboard", after a row's copy - except on Android (13+), which
-// says so itself.
+/**
+ * "Copied to clipboard", after a row's copy - except on Android (13+), which
+ * says so itself.
+ */
 export function useCopiedConfirmation() {
   const { t } = useTranslation('resultPane')
   const [openSnackbar] = useSnackbar()
@@ -19,11 +21,13 @@ export function useCopiedConfirmation() {
   }
 }
 
-// One point's row: its icon, its coordinates (a click copies them, the copy
-// icon at its end saying so on hover - tooltip: false leaves the tooltip out,
-// on phones), and a Directions button at its right. Also the map pane's rows
-// (in its own list): they carry its class names too (oc-icon-copy...), which
-// its styles use.
+/**
+ * One point's row: its icon, its coordinates (a click copies them, the copy
+ * icon at its end saying so on hover - tooltip: false leaves the tooltip out,
+ * on phones), and a Directions button at its right. Also the map pane's rows
+ * (in its own list): they carry its class names too (oc-icon-copy...), which
+ * its styles use.
+ */
 export function CoordinateRow({ icon, text, copyText, copyLabel, point, directionsLabel, onCopied, tooltip = true }) {
   const [tooltipOpen, setTooltipOpen] = useState(false)
   const copyIconRef = useRef(null)
@@ -88,10 +92,15 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
   )
 }
 
-// A record's points (a cave's location, entrance, parking and keys; a system's
-// location) laid out as in the map pane's list: each copies its coordinates
-// when clicked and has a Directions button. rows: { key, icon, text,
-// copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.
+/**
+ * A record's points (a cave's location, entrance, parking and keys; a system's
+ * location) laid out as in the map pane's list: each copies its coordinates
+ * when clicked and has a Directions button.
+ *
+ * @param {object} props
+ * @param {object[]} props.rows - { key, icon, text,
+ *   copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.
+ */
 export default function CoordinateCopyList({ rows, sx }) {
   const onCopied = useCopiedConfirmation()
   return (

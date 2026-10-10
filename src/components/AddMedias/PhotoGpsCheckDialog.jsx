@@ -22,10 +22,15 @@ function useFormatDistance() {
   }
 }
 
-// Before an upload: the photos whose GPS position is far from the cenote, to
-// leave out or upload anyway - with several, each can be skipped on its own
-// (the last one skipped, the rest go ahead). onDone gets the photos skipped;
-// closing it cancels the upload.
+/**
+ * Before an upload: the photos whose GPS position is far from the cenote, to
+ * leave out or upload anyway - with several, each can be skipped on its own
+ * (the last one skipped, the rest go ahead). Closing it cancels the upload.
+ *
+ * @param {object} props
+ * @param {{file: File, distance: number}[]} props.far
+ * @param {(skipped: File[]) => void} props.onDone - Gets the photos skipped.
+ */
 export default function PhotoGpsCheckDialog({ caveName, far, onDone, onCancel }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia.gpsCheck' })
   const formatDistance = useFormatDistance()

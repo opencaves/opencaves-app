@@ -18,8 +18,12 @@ import EditRounded from '@mui/icons-material/EditRounded'
 // little (towards a label, past the gap between the buttons) doesn't close it.
 const CLOSE_DELAY_MS = 500
 
-// The editor actions, shared with the mobile result pane's header
-// (EditCaveButtons), which offers them when this FAB is hidden.
+/**
+ * The editor actions, shared with the mobile result pane's header
+ * (EditCaveButtons), which offers them when this FAB is hidden.
+ *
+ * @returns {{canEdit: boolean, caveId: string, isEditingCave: boolean, editCave: () => void, exitEditMode: () => void, addNewCave: () => void}}
+ */
 export function useEditCaveActions() {
   const { caveId } = useParams()
   const navigate = useNavigate()

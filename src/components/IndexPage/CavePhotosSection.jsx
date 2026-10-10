@@ -18,11 +18,13 @@ import EmptySectionText from './EmptySectionText.jsx'
 // The photos a cave's page shows (its Show all pane has them all).
 const MAX_PHOTOS = 12
 
-// A cave's photos, its cover first, each opening in the page's gallery
-// (/caves/:caveId/photos/:id, PhotoGallery): a carousel on phones (a grid
-// wider) of the first ones, its Show all pane with every one. Under them,
-// the photos added offline still waiting to upload, and Add pictures
-// (editors; the others are asked to log in) - shown with no photo yet too.
+/**
+ * A cave's photos, its cover first, each opening in the page's gallery
+ * (/caves/:caveId/photos/:id, PhotoGallery): a carousel on phones (a grid
+ * wider) of the first ones, its Show all pane with every one. Under them,
+ * the photos added offline still waiting to upload, and Add pictures
+ * (editors; the others are asked to log in) - shown with no photo yet too.
+ */
 export default function CavePhotosSection({ caveId, title }) {
   const { t } = useTranslation('indexPages')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })

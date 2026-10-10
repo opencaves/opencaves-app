@@ -15,12 +15,14 @@ const DONE_HIGHLIGHT_MS = 6000
 // line height), so the row keeps its height.
 const PROGRESS_SX = { height: 4, borderRadius: 2, my: 'calc((1.43em - 4px) / 2)' }
 
-// The "Make available offline" setting in the account menu: opt-in (per
-// device) download of every cave's cover thumbnail and every map for offline
-// use - done by OfflineMediaSync; this row shows its progress (a bar), then
-// that it's done (a cloud with a check, green for a few seconds); turned
-// off, a bar deflating as the files are removed. The whole row
-// is the switch (role/aria-checked); the Switch itself is decorative.
+/**
+ * The "Make available offline" setting in the account menu: opt-in (per
+ * device) download of every cave's cover thumbnail and every map for offline
+ * use - done by OfflineMediaSync; this row shows its progress (a bar), then
+ * that it's done (a cloud with a check, green for a few seconds); turned
+ * off, a bar deflating as the files are removed. The whole row
+ * is the switch (role/aria-checked); the Switch itself is decorative.
+ */
 export default function OfflinePreviewsToggle({ sx }) {
   const { t } = useTranslation('offline')
   const enabled = useOfflinePreviewsEnabled()

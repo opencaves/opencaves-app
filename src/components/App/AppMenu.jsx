@@ -6,10 +6,12 @@ import AppMenuIcon from './AppMenuIcon.jsx'
 import AppMenuPanel from './AppMenuPanel.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 
-// The account button (avatar, or the logo when signed out) and its account
-// card. The card holds buttons and links, not just menu items, so it's a
-// labeled dialog-style Popover rather than an ARIA menu (which may only
-// contain menu items).
+/**
+ * The account button (avatar, or the logo when signed out) and its account
+ * card. The card holds buttons and links, not just menu items, so it's a
+ * labeled dialog-style Popover rather than an ARIA menu (which may only
+ * contain menu items).
+ */
 export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, className, ...props }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const isSmall = useSmall()

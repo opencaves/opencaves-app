@@ -7,10 +7,15 @@ import AuthButton from './AuthButton.jsx'
 import OfflineAuthNote from './OfflineAuthNote.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
-// "Forgot password?": an email with a link to set a new password (Firebase's
-// own page, in the app's language - auth.languageCode). The same answer
-// whether or not the email has an account, so the form can't be used to find
-// out who has one. initialEmail: what the log-in form already holds.
+/**
+ * "Forgot password?": an email with a link to set a new password (Firebase's
+ * own page, in the app's language - auth.languageCode). The same answer
+ * whether or not the email has an account, so the form can't be used to find
+ * out who has one.
+ *
+ * @param {object} props
+ * @param {string} [props.initialEmail=''] - What the log-in form already holds.
+ */
 export default function PasswordResetDialog({ open, onClose, initialEmail = '' }) {
   const { t } = useTranslation('auth', { keyPrefix: 'passwordReset' })
   const { t: tErrors } = useTranslation('errors')

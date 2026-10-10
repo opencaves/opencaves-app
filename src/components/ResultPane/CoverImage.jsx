@@ -29,10 +29,12 @@ function Container({ width, children }) {
   )
 }
 
-// Fluid by default: fills whatever width its container gives it (so it
-// scales with the result pane - e.g. when quick-edit mode doubles the
-// pane's width) rather than being pinned to a fixed pixel size, keeping its
-// aspect ratio via CSS instead of a computed pixel height.
+/**
+ * Fluid by default: fills whatever width its container gives it (so it
+ * scales with the result pane - e.g. when quick-edit mode doubles the
+ * pane's width) rather than being pinned to a fixed pixel size, keeping its
+ * aspect ratio via CSS instead of a computed pixel height.
+ */
 export default function CoverImage({ caveId, width = '100%' }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'coverImage' })
   const { promptForMedias } = useAddMedias()

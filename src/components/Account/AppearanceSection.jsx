@@ -4,9 +4,11 @@ import { Box, MenuItem, TextField } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 import { COLOR_MODES, saveAccountColorMode } from '@/services/colorModePreference.js'
 
-// The account page's display mode setting: Automatic (the device's light or
-// dark setting), Light or Dark. Kept on this device by MUI, and in the
-// signed-in account so it follows the person (applied at sign-in, ManageAuth).
+/**
+ * The account page's display mode setting: Automatic (the device's light or
+ * dark setting), Light or Dark. Kept on this device by MUI, and in the
+ * signed-in account so it follows the person (applied at sign-in, ManageAuth).
+ */
 export default function AppearanceSection() {
   const { t } = useTranslation('account')
   const { mode, setMode } = useColorScheme()

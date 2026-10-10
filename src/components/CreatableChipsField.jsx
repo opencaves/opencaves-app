@@ -18,12 +18,17 @@ function unique(values) {
   })
 }
 
-// Several free-text values as chips (e.g. an exploration's team: one chip per
-// person or group), suggesting the values already in use so people reuse the
-// existing spelling. Enter, a comma or a semicolon makes a chip, a pasted
-// "A, B, C" makes three, and the text still typed when leaving the field is
-// kept. A new value is offered as an explicit "Add" entry. onChange receives
-// the list of strings.
+/**
+ * Several free-text values as chips (e.g. an exploration's team: one chip per
+ * person or group), suggesting the values already in use so people reuse the
+ * existing spelling. Enter, a comma or a semicolon makes a chip, a pasted
+ * "A, B, C" makes three, and the text still typed when leaving the field is
+ * kept. A new value is offered as an explicit "Add" entry.
+ *
+ * @param {object} props
+ * @param {(value: string[]) => void} props.onChange - Receives
+ *   the list of strings.
+ */
 export default function CreatableChipsField({ label, value, onChange, options, size, fullWidth = true, className }) {
   const { t } = useTranslation('creatableTextField')
   const [input, setInput] = useState('')

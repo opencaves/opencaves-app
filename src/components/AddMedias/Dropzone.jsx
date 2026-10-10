@@ -8,7 +8,10 @@ import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 import DropIcon from '@/images/media-pane/drop.svg?react'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
-// caveId: the cave the photos go to (the map's open cave otherwise).
+/**
+ * @param {object} props
+ * @param {string} [props.caveId] - The cave the photos go to (the map's open cave otherwise).
+ */
 export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
   const theme = useTheme()
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })

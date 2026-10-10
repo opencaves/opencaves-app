@@ -5,11 +5,13 @@ import { shellCaveName } from '@/utils/shell.js'
 import '@/routes/NoMatch.scss'
 import './MapState.scss'
 
-// The map page while it loads: a still picture of it (the satellite map's
-// tone, its right-hand buttons, and on a cave's address its details pane),
-// the real page drawing itself over it - not a logo screen it would jump
-// from. index.html's splash (#oc-shell) draws the same before the app has
-// loaded: keep the two in step.
+/**
+ * The map page while it loads: a still picture of it (the satellite map's
+ * tone, its right-hand buttons, and on a cave's address its details pane),
+ * the real page drawing itself over it - not a logo screen it would jump
+ * from. index.html's splash (#oc-shell) draws the same before the app has
+ * loaded: keep the two in step.
+ */
 export const MapLoading = forwardRef(function MapLoading(props, ref) {
   const withPane = /^\/map\/[^/]/.test(window.location.pathname)
   // The splash's cave name, kept: the page's first text stays put.
@@ -54,8 +56,10 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
   )
 })
 
-// The map failing: the "something went wrong" page's layout (the 404 page's,
-// with its own picture), offering to reload; the error itself in development.
+/**
+ * The map failing: the "something went wrong" page's layout (the 404 page's,
+ * with its own picture), offering to reload; the error itself in development.
+ */
 export function MapError({ error }) {
   const { t } = useTranslation('404')
   return (

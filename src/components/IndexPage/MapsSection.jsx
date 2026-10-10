@@ -19,15 +19,20 @@ import EmptySectionText from './EmptySectionText.jsx'
 // brief text in carousels). Not the name on the map, on its own opaque band.
 const TWO_LINES_ON_PHONES = { display: { xs: '-webkit-box', sm: 'block' }, WebkitLineClamp: { xs: 2, sm: 'none' }, WebkitBoxOrient: 'vertical', overflow: { xs: 'hidden', sm: 'visible' } }
 
-// A system's survey maps (its own and those of the systems it joined, as the
-// details pane's Maps tab), each with its date and who drew it. A map opens
-// in the page's gallery (<pagePath>/maps/:id, MapGallery). A carousel on
-// phones (a grid wider), its Show all pane with every map. Under them, the
-// maps added offline still waiting to upload, and Add map (editors; the
-// others are asked to log in) - shown with no map yet too, except to
-// visitors where there's no system to add one to. pageMaps: every map, from
-// the page that waited for them (its own query starts empty, drawing nothing
-// for a moment, and the section then pushed the page down).
+/**
+ * A system's survey maps (its own and those of the systems it joined, as the
+ * details pane's Maps tab), each with its date and who drew it. A map opens
+ * in the page's gallery (<pagePath>/maps/:id, MapGallery). A carousel on
+ * phones (a grid wider), its Show all pane with every map. Under them, the
+ * maps added offline still waiting to upload, and Add map (editors; the
+ * others are asked to log in) - shown with no map yet too, except to
+ * visitors where there's no system to add one to.
+ *
+ * @param {object} props
+ * @param {object[]} [props.pageMaps] - Every map, from
+ *   the page that waited for them (its own query starts empty, drawing nothing
+ *   for a moment, and the section then pushed the page down).
+ */
 export default function MapsSection({ sistemaId, sistemas, connections, pagePath, title, card = false, pageMaps }) {
   const { t: tMaps } = useTranslation('mapsPicker')
   const [ownMaps, ownLoading] = mapsModel.useAll()

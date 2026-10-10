@@ -3,7 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { RELATIVE_TIME_TAG, defineRelativeTimeElement } from './relativeTimeElement.js'
 
-// A Date, a Firestore Timestamp, or a plain { seconds } object, as a Date.
+/**
+ * A Date, a Firestore Timestamp, or a plain { seconds } object, as a Date.
+ *
+ * @param {Date|Timestamp|{seconds: number, nanoseconds?: number}} value
+ * @returns {Date|null}
+ */
 export function toDate(value) {
   if (!value) return null
   if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value
@@ -12,11 +17,13 @@ export function toDate(value) {
   return null
 }
 
-// A date as "3 minutes ago", kept up to date: the <oc-relative-time> element
-// (relativeTimeElement.js), registered here from the browser. Its light DOM
-// is the fallback - the date, in UTC, the same on the server and in the
-// browser (hydration) - shown until the element is defined; its exact date
-// and time on hover is the element's own title.
+/**
+ * A date as "3 minutes ago", kept up to date: the <oc-relative-time> element
+ * (relativeTimeElement.js), registered here from the browser. Its light DOM
+ * is the fallback - the date, in UTC, the same on the server and in the
+ * browser (hydration) - shown until the element is defined; its exact date
+ * and time on hover is the element's own title.
+ */
 export default function RelativeTime({ value, className }) {
   const { i18n } = useTranslation()
   useEffect(() => defineRelativeTimeElement(), [])

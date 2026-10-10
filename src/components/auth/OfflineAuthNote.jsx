@@ -3,8 +3,10 @@ import { Box, Typography } from '@mui/material'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
 
-// Offline, on the sign-in and sign-up screens: they need a connection (their
-// buttons are disabled meanwhile - AuthButton). Gone once back online.
+/**
+ * Offline, on the sign-in and sign-up screens: they need a connection (their
+ * buttons are disabled meanwhile - AuthButton). Gone once back online.
+ */
 export default function OfflineAuthNote({ sx }) {
   const { t } = useTranslation('auth')
   const online = useOnline()

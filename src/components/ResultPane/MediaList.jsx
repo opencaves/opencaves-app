@@ -18,7 +18,10 @@ import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 // The primary's darker tone, its lighter one in dark mode.
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
-// photoPath(id): a photo's address (a page's gallery); the map's viewer otherwise.
+/**
+ * @param {object} props
+ * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
+ */
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).

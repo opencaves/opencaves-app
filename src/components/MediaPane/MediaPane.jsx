@@ -24,6 +24,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
+/**
+ * The media pane's route loader: the cave's photos.
+ */
 export async function mediaPaneLoader({ params }) {
   return getAssetList(params.caveId)
 }

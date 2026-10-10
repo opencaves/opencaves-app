@@ -5,7 +5,14 @@ import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import AddButton from '@/components/AddButton.jsx'
 import CoordinateField, { coordinateInRange } from './CoordinateField.jsx'
 
-// A cave form's four coordinates (both cave forms keep the same form fields).
+/**
+ * A cave form's four coordinates (both cave forms keep the same form fields).
+ *
+ * @param {object} form
+ * @param {Function} setForm
+ * @param {Function} t
+ * @returns {object[]}
+ */
 export function caveCoordinateItems(form, setForm, t) {
   return [
     { field: 'location', label: t('location'), longitude: form.longitude, latitude: form.latitude, onChange: ({ longitude, latitude }) => setForm((f) => ({ ...f, longitude, latitude })), validity: form.locationValidity, onValidityChange: (locationValidity) => setForm((f) => ({ ...f, locationValidity })) },
@@ -15,22 +22,33 @@ export function caveCoordinateItems(form, setForm, t) {
   ]
 }
 
-// Whether a cave form's four coordinates are all within range (the forms
-// don't save otherwise).
+/**
+ * Whether a cave form's four coordinates are all within range (the forms
+ * don't save otherwise).
+ *
+ * @param {object} form
+ * @returns {boolean}
+ */
 export function caveCoordinatesInRange(form) {
   return coordinateInRange(form.longitude, form.latitude) && coordinateInRange(form.parkingLongitude, form.parkingLatitude) && coordinateInRange(form.entranceLongitude, form.entranceLatitude) && coordinateInRange(form.keyLongitude, form.keyLatitude)
 }
 
 const isFilled = ({ longitude, latitude }) => `${longitude ?? ''}` !== '' || `${latitude ?? ''}` !== ''
 
-// A form's coordinates (a cave's location, parking, entrance and key; a system's
-// location), one of each at most: only those with a value are shown, the
-// others offered by Add coordinates - a menu of them, or, with one left (a
-// system's location, a cave's last), a button adding it by name ("Add
-// entrance coordinates"). One added shows its empty field; its X clears it and
-// puts it back in the menu. items: [{ field, label, longitude, latitude, onChange,
-// validity?, onValidityChange? }]; fieldProps: shared by every field
-// (mapBelowOnPhones, labelProps, canPickOnMap).
+/**
+ * A form's coordinates (a cave's location, parking, entrance and key; a system's
+ * location), one of each at most: only those with a value are shown, the
+ * others offered by Add coordinates - a menu of them, or, with one left (a
+ * system's location, a cave's last), a button adding it by name ("Add
+ * entrance coordinates"). One added shows its empty field; its X clears it and
+ * puts it back in the menu.
+ *
+ * @param {object} props
+ * @param {object[]} props.items - [{ field, label, longitude, latitude, onChange,
+ *   validity?, onValidityChange? }]
+ * @param {object} [props.fieldProps={}] - Shared by every field
+ *   (mapBelowOnPhones, labelProps, canPickOnMap).
+ */
 export default function CoordinateFieldList({ items, fieldProps = {}, sx }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Added in this session, still empty: shown all the same.

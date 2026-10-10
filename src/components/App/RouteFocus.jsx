@@ -8,10 +8,12 @@ const HEADING_WAIT_MS = 3000
 // Read by screen readers, not shown.
 const VISUALLY_HIDDEN = { position: 'absolute', width: 1, height: 1, p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
 
-// Keyboard and screen-reader users after an in-app navigation: the focus
-// left on <body> (the link they used is gone) moves to the new page's h1, which
-// screen readers read. When the focus is still somewhere (the app bar's links,
-// its search), it stays there and the new page's title is announced instead.
+/**
+ * Keyboard and screen-reader users after an in-app navigation: the focus
+ * left on <body> (the link they used is gone) moves to the new page's h1, which
+ * screen readers read. When the focus is still somewhere (the app bar's links,
+ * its search), it stays there and the new page's title is announced instead.
+ */
 export default function RouteFocus() {
   const { pathname } = useLocation()
   const [announcement, setAnnouncement] = useState('')

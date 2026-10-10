@@ -3,9 +3,14 @@ import { Box, MenuItem, TextField, Typography } from '@mui/material'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { AUTOMATIC, useLanguageChoice } from '@/components/LanguagePicker.jsx'
 
-// The account page's language setting: a fixed language, or Automatic (the
-// browser's). Kept on this device, and in the signed-in account so it follows
-// the person (see services/languagePreference.js).
+/**
+ * The account page's language setting: a fixed language, or Automatic (the
+ * browser's). Kept on this device, and in the signed-in account so it follows
+ * the person (see services/languagePreference.js).
+ *
+ * @param {object} props
+ * @param {boolean} [props.asField=false] - A labelled field inside another section (the account's personal info).
+ */
 export default function LanguageSection({ headingProps = {}, asField = false }) {
   const { t } = useTranslation('account')
   // Also picks up the account's language when it's applied at sign-in.

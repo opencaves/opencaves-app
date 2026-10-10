@@ -16,10 +16,14 @@ function Preview({ file }) {
   return url ? <Box component="img" src={url} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /> : <PictureAsPdfRounded color="primary" fontSize="large" />
 }
 
-// The photos or maps added offline and still waiting to upload (filter:
-// which - e.g. a cave's photos), each with its preview, "Waiting to upload"
-// (or "Upload failed") and a button to cancel or remove it. onRemoved(item):
-// told after one is removed (the edit form drops its map from the list).
+/**
+ * The photos or maps added offline and still waiting to upload (filter:
+ * which - e.g. a cave's photos), each with its preview, "Waiting to upload"
+ * (or "Upload failed") and a button to cancel or remove it.
+ *
+ * @param {object} props
+ * @param {(item: object) => void} [props.onRemoved] - Told after one is removed (the edit form drops its map from the list).
+ */
 export default function PendingUploadsStrip({ filter, onRemoved, sx }) {
   const { t } = useTranslation('offline', { keyPrefix: 'pending' })
   const [openSnackbar] = useSnackbar()
