@@ -153,8 +153,9 @@ ${plain(text)}`,
 
 // { html, text } for an email: `hero` (an optional overline, a title, an
 // optional lead) on the primary-coloured band, then the blocks, then
-// `footer` (a short line on why the reader got it).
-export function renderEmail({ language = 'en', preheader = '', hero, blocks, footer = '' }) {
+// `footer` (a short line on why the reader got it), then, if given,
+// `unsubscribe` ({ text, label, href }): a small line linking to it.
+export function renderEmail({ language = 'en', preheader = '', hero, blocks, footer = '', unsubscribe = null }) {
   const body = blocks.map((block) => HTML_BLOCKS[block.type](block)).join('\n')
   const html = `<!doctype html>
 <html lang="${escape(language)}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>${escape(hero.title)}</title></head>
@@ -172,8 +173,9 @@ ${hero.lead ? `<p style="margin:12px 0 0;font-size:17px;line-height:26px;color:#
 ${body}
 </td></tr>
 <tr><td style="padding:20px 24px;text-align:center;font-size:12px;line-height:18px;color:${C.muted};">${rich(footer)}${footer ? '<br>' : ''}<a href="${SITE_URL}" style="color:${C.muted};">opencaves.org</a></td></tr>
+${unsubscribe ? `<tr><td style="padding:0 24px 20px;text-align:center;font-size:11px;line-height:16px;color:${C.muted};">${escape(unsubscribe.text)} <a href="${escape(unsubscribe.href)}" style="color:${C.muted};">${escape(unsubscribe.label)}</a></td></tr>` : ''}
 </table></td></tr></table></body></html>`
-  const text = [hero.title, hero.lead && plain(hero.lead), ...blocks.map((block) => TEXT_BLOCKS[block.type](block)), footer && plain(footer), SITE_URL].filter(Boolean).join('\n\n')
+  const text = [hero.title, hero.lead && plain(hero.lead), ...blocks.map((block) => TEXT_BLOCKS[block.type](block)), footer && plain(footer), SITE_URL, unsubscribe && `${unsubscribe.text} ${unsubscribe.label}: ${unsubscribe.href}`].filter(Boolean).join('\n\n')
   return { html, text }
 }
 

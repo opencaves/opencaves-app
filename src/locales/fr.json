@@ -159,7 +159,15 @@
     "appearanceHint": "Affichage clair ou sombre, sur cet appareil et partout où vous vous connectez.",
     "appearance_system": "Automatique (réglage de l’appareil)",
     "appearance_light": "Clair",
-    "appearance_dark": "Sombre"
+    "appearance_dark": "Sombre",
+    "emails": {
+      "title": "Courriels",
+      "feedbackReplies": "M’envoyer par courriel les réponses de l’équipe à mes commentaires",
+      "feedbackRepliesHint": "Quand l’équipe d’OpenCaves répond à un signalement ou à une idée que vous avez envoyé. Ses réponses restent sur OpenCaves dans tous les cas.",
+      "turnedOn": "Les réponses de l’équipe vous seront envoyées par courriel",
+      "turnedOff": "Les réponses de l’équipe ne vous seront plus envoyées par courriel",
+      "saveError": "Ce paramètre n’a pas pu être enregistré. Veuillez réessayer."
+    }
   },
   "auth": {
     "dialog": {
@@ -1747,6 +1755,9 @@
         "team": "Équipe d’OpenCaves",
         "replyLabel": "Réponse à {{name}}",
         "replyPlaceholder": "Votre réponse, envoyée par courriel avec toute la conversation…",
+        "replyPlaceholderMuted": "Votre réponse, ajoutée à la conversation…",
+        "mutedHint": "{{name}} a désactivé les courriels sur ses commentaires : votre réponse ne lui sera pas envoyée par courriel. Elle reste dans la conversation.",
+        "sentMuted": "Réponse envoyée. {{name}} a désactivé les courriels sur ses commentaires : elle ne lui sera pas envoyée par courriel.",
         "send": "Envoyer",
         "sendOptions": "Envoyer et changer l’étape",
         "sendAndClose": "Envoyer et marquer comme {{status}}",
@@ -1795,7 +1806,8 @@
         "page": "Page",
         "language": "Langue",
         "browser": "Navigateur",
-        "lastEmailed": "Dernier courriel à l’auteur"
+        "lastEmailed": "Dernier courriel à l’auteur",
+        "authorMuted": "L’auteur a désactivé les courriels sur ses commentaires"
       },
       "timeline": {
         "opened": "a ouvert",

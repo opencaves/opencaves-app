@@ -14,6 +14,7 @@ import OfflineStorageSection from '@/components/Offline/OfflineStorageSection.js
 import LanguageSection from '@/components/Account/LanguageSection.jsx'
 import UnitsSection from '@/components/Account/UnitsSection.jsx'
 import AppearanceSection from '@/components/Account/AppearanceSection.jsx'
+import FeedbackEmailsSection from '@/components/Account/FeedbackEmailsSection.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
@@ -197,6 +198,8 @@ export default function Account() {
           <>
             <Divider sx={formSectionDividerSx} />
             <SavedCavesList headingProps={sectionHeadingProps} />
+            <Divider sx={formSectionDividerSx} />
+            <FeedbackEmailsSection headingProps={sectionHeadingProps} />
           </>
         )}
 

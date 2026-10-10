@@ -1,7 +1,7 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { logger } from 'firebase-functions/v2'
-import { auth } from '../init.js'
-import { FEEDBACK_COLL_NAME, REGION, SITE_URL } from '../constants.js'
+import { auth, db } from '../init.js'
+import { FEEDBACK_COLL_NAME, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
 import { teamReplyAddress } from './replyAddress.js'
@@ -28,6 +28,13 @@ export async function adminEmails() {
 export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const report = event.data?.data()
   if (!report) return
+  // An author who turned the feedback emails off: the report says so to the
+  // admins (authorMuted, kept up to date by onAuthorMutedChanged).
+  try {
+    if ((await db.collection(USERS_COLL_NAME).doc(report.userId).get()).get('feedbackEmails') === false) await event.data.ref.update({ authorMuted: true })
+  } catch (error) {
+    logger.error('[feedback] the author’s email setting could not be read', { id: event.params.id, error: error.message })
+  }
   try {
     const [to, ...bcc] = await adminEmails()
     if (!to) {

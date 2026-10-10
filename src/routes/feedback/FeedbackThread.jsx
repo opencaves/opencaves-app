@@ -211,7 +211,7 @@ export function ReplyForm({ report, authorLabel, myName }) {
     setSending(true)
     try {
       await sendFeedbackReply(report, trimmed, status)
-      openSnackbar(t('admin.thread.sent', { name: authorLabel }), { severity: 'success' })
+      openSnackbar(t(report.authorMuted ? 'admin.thread.sentMuted' : 'admin.thread.sent', { name: authorLabel }), { severity: 'success' })
       setText('')
     } catch (error) {
       console.error(error)
@@ -226,7 +226,14 @@ export function ReplyForm({ report, authorLabel, myName }) {
         <Initials name={myName} team size={AVATAR} />
       </Box>
       <Box sx={{ flex: 1, minWidth: 0 }}>
-        <MarkdownField label={t('admin.thread.replyLabel', { name: authorLabel })} value={text} onChange={(event) => setText(event.target.value)} minRows={4} placeholder={t('admin.thread.replyPlaceholder')} />
+        <MarkdownField label={t('admin.thread.replyLabel', { name: authorLabel })} value={text} onChange={(event) => setText(event.target.value)} minRows={4} placeholder={t(report.authorMuted ? 'admin.thread.replyPlaceholderMuted' : 'admin.thread.replyPlaceholder')} />
+        {/* The author turned the feedback emails off (authorMuted, mirrored
+            by the server): the reply only joins the thread. */}
+        {report.authorMuted && (
+          <Typography className="oc-feedback-reply-form--muted" variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+            {t('admin.thread.mutedHint', { name: authorLabel })}
+          </Typography>
+        )}
         {tooLong && (
           <Typography variant="body2" sx={{ mt: 0.5, color: 'error.main' }}>
             {t('admin.thread.tooLong', { count: FEEDBACK_REPLY_MAX_LENGTH })}

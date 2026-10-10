@@ -11,12 +11,13 @@ export const TEAM_ADDRESS_PREFIX = 'team-'
 
 // A report's reply token (the local part of its reply address): 24 random
 // lowercase letters and digits - unguessable, and safe from mail servers that
-// lowercase addresses (push ids are case-sensitive).
+// lowercase addresses (push ids are case-sensitive). `length`: other tokens
+// (an account's unsubscribe token, email/unsubscribe.js) are longer.
 const TOKEN_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789'
-export function newReplyToken() {
+export function newReplyToken(length = 24) {
   // 252 = 7 × 36: bytes above it are skipped, so every character is as likely.
   let token = ''
-  while (token.length < 24) for (const byte of randomBytes(32)) if (byte < 252 && token.length < 24) token += TOKEN_ALPHABET[byte % 36]
+  while (token.length < length) for (const byte of randomBytes(32)) if (byte < 252 && token.length < length) token += TOKEN_ALPHABET[byte % 36]
   return token
 }
 

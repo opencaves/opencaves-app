@@ -352,8 +352,12 @@ service cloud.firestore {
 
     // An account's own document (created at sign-up by the beforeUserCreated
     // blocking function, with email and savedPlaces). The person may only
-    // change their UI language, units and display mode in it (the account
-    // page's settings; language and units absent for Automatic) - the other fields stay server-managed.
+    // change their UI language, units, display mode and whether the team's
+    // replies to their feedback are emailed to them in it (the account page's
+    // settings; language and units absent for Automatic, feedbackEmails
+    // absent for yes) - the other fields stay server-managed, among them
+    // unsubscribeToken (the emails' unsubscribe link, email/unsubscribe.js),
+    // which the owner may read but never write.
     match /_users/{uid} {
       function isAccountOwner() {
         return request.auth != null && request.auth.uid == uid
@@ -369,8 +373,11 @@ service cloud.firestore {
       function hasValidColorMode() {
         return !('colorMode' in request.resource.data) || request.resource.data.colorMode in ['system', 'light', 'dark']
       }
-      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
-      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
+      function hasValidFeedbackEmails() {
+        return !('feedbackEmails' in request.resource.data) || request.resource.data.feedbackEmails is bool
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
     }
 
     // Caves a user saved from the result pane's Save quick action. Private
@@ -383,4 +390,4 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['savedAt'])
     }
   }
-}
+}

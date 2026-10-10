@@ -5,6 +5,7 @@ import { auth, db } from '../init.js'
 import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_TO, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
+import { unsubscribeLink } from '../email/unsubscribe.js'
 import { FEEDBACK_EMAIL_CONTENT } from './emailContent.js'
 import { adminEmails } from './onFeedbackCreated.js'
 import { authorReplyAddress, teamReplyAddress } from './replyAddress.js'
@@ -40,7 +41,9 @@ const toDate = (value) => (value?.toDate ? value.toDate() : value instanceof Dat
 // (one of `messages`, the report's thread so far): the reply on top - and the
 // outcome, when it closed the report - then the earlier messages, newest
 // first, down to the author's report.
-export async function feedbackReplyEmail({ language, reportId, report, messages, current, name, replyTo = FEEDBACK_REPLY_TO }) {
+// unsubscribeUrl (optional): the author's unsubscribe link (email/unsubscribe.js),
+// in a small line at the very end.
+export async function feedbackReplyEmail({ language, reportId, report, messages, current, name, replyTo = FEEDBACK_REPLY_TO, unsubscribeUrl = null }) {
   const { renderMarkdown } = await import('../email/markdown.js')
   const lang = FEEDBACK_EMAIL_CONTENT[language] ? language : 'en'
   const c = FEEDBACK_EMAIL_CONTENT[lang]
@@ -78,6 +81,7 @@ export async function feedbackReplyEmail({ language, reportId, report, messages,
       { type: 'signoff', lines: c.signoff },
     ],
     footer: replyTo ? c.footerReply : c.footer,
+    unsubscribe: unsubscribeUrl ? { ...c.unsubscribe, href: unsubscribeUrl } : null,
   })
 
   // In reply to the thread's previous email (or its root), referencing them all.
@@ -130,7 +134,9 @@ async function emailAdminsTheAnswer(id, reportRef, message) {
 // (authorReplyAddress), where the author's answer comes back into the thread
 // (feedbackInbound). The author's answers aren't emailed back: the admins get
 // them (authorAnswerEmail), with the team's address (teamReplyAddress) to
-// answer by email - a team reply.
+// answer by email - a team reply. An author who turned these emails off
+// (_users' feedbackEmails false) isn't emailed; the others' emails end with
+// an unsubscribe link, and carry the List-Unsubscribe headers.
 export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}/${FEEDBACK_MESSAGES_COLL_NAME}/{messageId}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const message = event.data?.data()
   if (!message) return
@@ -157,14 +163,22 @@ export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_
       logger.warn('[feedback] the reply has no one to email', { id, messageId })
       return
     }
-    const language = report.language || (await db.collection(USERS_COLL_NAME).doc(report.userId).get()).get('language')
+    const settings = await db.collection(USERS_COLL_NAME).doc(report.userId).get()
+    // The author turned these emails off (their settings, or the emails'
+    // unsubscribe link): the reply stays in the thread, unemailed.
+    if (settings.get('feedbackEmails') === false) {
+      logger.info('[feedback] the author turned the feedback emails off: the reply is not emailed', { id, messageId })
+      if (!report.authorMuted) await reportRef.update({ authorMuted: true })
+      return
+    }
+    const language = report.language || settings.get('language')
     const current = { id: messageId, ...message }
     // The thread up to this reply (not one written since).
     const created = toDate(message.createdAt)?.getTime() ?? Infinity
     const messages = messagesSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })).filter((m) => m.id === messageId || (toDate(m.createdAt)?.getTime() ?? 0) <= created)
-    const replyTo = await authorReplyAddress(reportRef)
-    const { subject, html, text, headers } = await feedbackReplyEmail({ language: String(language || '').slice(0, 2), reportId: id, report, messages, current, name: author.displayName?.split(' ')[0] || '', replyTo })
-    const result = await sendEmail({ to: author.email, subject, html, text, headers, ...(replyTo && { replyTo }) })
+    const [replyTo, unsubscribe] = await Promise.all([authorReplyAddress(reportRef), unsubscribeLink(report.userId)])
+    const { subject, html, text, headers } = await feedbackReplyEmail({ language: String(language || '').slice(0, 2), reportId: id, report, messages, current, name: author.displayName?.split(' ')[0] || '', replyTo, unsubscribeUrl: unsubscribe.url })
+    const result = await sendEmail({ to: author.email, subject, html, text, headers: { ...headers, ...unsubscribe.headers }, ...(replyTo && { replyTo }) })
     if (result.sent) {
       await Promise.all([event.data.ref.update({ emailedAt: FieldValue.serverTimestamp() }), reportRef.update({ reporterEmailedAt: FieldValue.serverTimestamp() })])
     }
