@@ -331,6 +331,14 @@ export function useCoverImage(caveId) {
   return [coverImage, loading, error]
 }
 
+/**
+ * The image-processing extension's address for a Storage image, resized, as WebP.
+ *
+ * @param {string} source - The image's path in the bucket.
+ * @param {object} [resize={}]
+ * @param {number} [quality=80]
+ * @returns {string}
+ */
 export function getImageAssetUrl(source, resize = {}, quality = 80) {
 
   const url = `https://${FIREBASE_CONFIG.location}-${FIREBASE_CONFIG.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`

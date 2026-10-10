@@ -2,11 +2,18 @@ import { useState } from 'react'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { ssrQuerySnapshot } from '@/ssr/ssrContext.js'
 
-// useCollection (react-firebase-hooks), which on a page the server rendered
-// (entry-server.jsx) starts with the results the server read for it (key:
-// ssrContext.js) instead of loading: the server draws the page with them, and
-// the browser's first render is the same (hydration) - until Firestore's own
-// results replace them. Elsewhere, useCollection as it is.
+/**
+ * {@link useCollection} (react-firebase-hooks), which on a page the server rendered
+ * (entry-server.jsx) starts with the results the server read for it (key:
+ * ssrContext.js) instead of loading: the server draws the page with them, and
+ * the browser's first render is the same (hydration) - until Firestore's own
+ * results replace them. Elsewhere, {@link useCollection} as it is.
+ *
+ * @param {string} key
+ * @param {Query|null} query
+ * @param {object} [options]
+ * @returns {[QuerySnapshot|undefined, boolean, Error|undefined]}
+ */
 export function useSsrCollection(key, query, options) {
   // Kept from the first render (the hydration), for its key only: another
   // cave's page in the same component loads as usual.

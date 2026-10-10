@@ -8,6 +8,11 @@ const FADE_MS = 180
 const splash = typeof document === 'undefined' ? null : document.getElementById('oc-shell')
 const shellCave = { name: splash?.dataset.caveName, path: splash?.dataset.path }
 
+/**
+ * The cave name the splash shows, when the splash was for this address.
+ *
+ * @returns {string|undefined}
+ */
 export function shellCaveName() {
   return shellCave.path === window.location.pathname ? shellCave.name : undefined
 }

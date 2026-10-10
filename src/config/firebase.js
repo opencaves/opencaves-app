@@ -36,6 +36,11 @@ const isLocal = location.hostname === 'localhost'
 // with every page - their SDKs weighed on every phone's start for nothing.
 // getStorageService(): the Storage SDK's functions and the app's storage.
 let storageService = null
+/**
+ * The Storage SDK, loaded once on demand, with the app's `storage` (the emulator's when local).
+ *
+ * @returns {Promise<object>}
+ */
 export function getStorageService() {
   storageService ||= import('firebase/storage').then((sdk) => {
     const storage = sdk.getStorage(app)
@@ -55,8 +60,13 @@ function getFunctionsService() {
   return functionsService
 }
 
-// A callable function, as httpsCallable(functions, name) gives: called with
-// its data, it resolves to { data }.
+/**
+ * A callable function, as httpsCallable(functions, name) gives: called with
+ * its data, it resolves to { data }.
+ *
+ * @param {string} name
+ * @returns {(data: *) => Promise<{data: *}>}
+ */
 export function callable(name) {
   return async (data) => {
     const { httpsCallable, functions } = await getFunctionsService()

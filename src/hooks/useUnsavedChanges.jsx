@@ -4,22 +4,27 @@ import { useTranslation } from 'react-i18next'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
-// Tracks an edit form's unsaved changes against a baseline (the values it
-// was loaded or last saved with), and guards leaving while there are some:
-// in-app navigations get a Save / Discard / Keep editing dialog, closing or
-// reloading the tab the browser's own prompt.
-//
-// - initial: the baseline, for forms whose values are ready on first render;
-//   the others call setBaseline() once loaded. No baseline = no changes.
-// - onSave: the form's save, for the dialog's Save. It counts as saved once
-//   it has called setBaseline() (so a failed or refused save stays put).
-// - canSave: whether the form is currently valid enough to save.
-// - within: the page's address - moving under it (e.g. its galleries, over
-//   the form, which stays) isn't leaving.
-//
-// The baseline also lives in a ref, updated synchronously: a form that
-// navigates right after saving or deleting (in the same tick, before
-// re-rendering) must not be blocked by its own navigation.
+/**
+ * Tracks an edit form's unsaved changes against a baseline (the values it
+ * was loaded or last saved with), and guards leaving while there are some:
+ * in-app navigations get a Save / Discard / Keep editing dialog, closing or
+ * reloading the tab the browser's own prompt.
+ *
+ * The baseline also lives in a ref, updated synchronously: a form that
+ * navigates right after saving or deleting (in the same tick, before
+ * re-rendering) must not be blocked by its own navigation.
+ *
+ * @param {object} form
+ * @param {object} [options]
+ * @param {object} [options.initial] - The baseline, for forms whose values are ready on first render;
+ *   the others call setBaseline() once loaded. No baseline = no changes.
+ * @param {() => *} [options.onSave] - The form's save, for the dialog's Save. It counts as saved once
+ *   it has called setBaseline() (so a failed or refused save stays put).
+ * @param {boolean} [options.canSave=true] - Whether the form is currently valid enough to save.
+ * @param {string} [options.within] - The page's address - moving under it (e.g. its galleries, over
+ *   the form, which stays) isn't leaving.
+ * @returns {{isDirty: boolean, setBaseline: (value: object) => void, discardChanges: () => void, unsavedChangesDialog: React.ReactNode}}
+ */
 export function useUnsavedChanges(form, { initial, onSave, canSave = true, within } = {}) {
   const { t } = useTranslation('app', { keyPrefix: 'unsavedChanges' })
   const [baseline, setBaselineState] = useState(() => (initial === undefined ? null : JSON.stringify(initial)))

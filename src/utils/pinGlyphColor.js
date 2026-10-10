@@ -9,7 +9,12 @@ export const PIN_GLYPH_DARK = '#000'
 // mid-tone reds/greens/blues keep the usual white glyph.
 const LIGHT_PIN_LUMINANCE = 0.4
 
-// Glyph color for a pin filled with `pinColor` (its sistema's color).
+/**
+ * Glyph color for a pin filled with `pinColor` (its sistema's color).
+ *
+ * @param {string} pinColor
+ * @returns {string}
+ */
 export function getPinGlyphColor(pinColor) {
   try {
     return getLuminance(pinColor) > LIGHT_PIN_LUMINANCE ? PIN_GLYPH_DARK : PIN_GLYPH_LIGHT

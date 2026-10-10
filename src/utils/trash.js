@@ -5,15 +5,25 @@
 // photos, the maps are few) - except the Trash tab, which queries
 // where('deletedAt', '!=', null).
 
-// Whether a record (plain data, or a DocumentSnapshot) is in the trash.
+/**
+ * Whether a record (plain data, or a DocumentSnapshot) is in the trash.
+ *
+ * @param {object|DocumentSnapshot} record
+ * @returns {boolean}
+ */
 export function isTrashed(record) {
   if (!record) return false
   const deletedAt = typeof record.get === 'function' && typeof record.data === 'function' ? record.get('deletedAt') : record.deletedAt
   return deletedAt != null
 }
 
-// A QuerySnapshot without its trashed documents, with the same shape its
-// readers use (docs, empty, size, metadata, forEach).
+/**
+ * A QuerySnapshot without its trashed documents, with the same shape its
+ * readers use (docs, empty, size, metadata, forEach).
+ *
+ * @param {QuerySnapshot} snapshot
+ * @returns {object}
+ */
 export function withoutTrashed(snapshot) {
   if (!snapshot) return snapshot
   const docs = snapshot.docs.filter((d) => !isTrashed(d))

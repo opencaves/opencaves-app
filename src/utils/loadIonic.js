@@ -6,7 +6,9 @@ export const PHONE_MEDIA_QUERY = theme.breakpoints.down('sm').replace(/^@media\s
 
 let ionicPromise = null
 
-// Loads (once) the Ionic module (ionic.js) - see there for why it's on demand.
+/**
+ * Loads (once) the Ionic module (ionic.js) - see there for why it's on demand.
+ */
 export function loadIonic() {
   ionicPromise ??= import('./ionic.js')
   return ionicPromise

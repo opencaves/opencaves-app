@@ -3,11 +3,17 @@ import { collection, doc as docRef, getDoc, getDocs, query, where } from 'fireba
 import { db } from '@/config/firebase.js'
 import { isTrashed } from '@/utils/trash.js'
 
-// The scan a cave layer drawing was traced from: its "maps" document, found by
-// the importKey its config carries (mapImportKey - the same in every database,
-// unlike the document's id), or for a map added in the app (no importKey) by
-// its id (mapId: the production mirror keeps the ids). Null while loading, or
-// when there's none (or it's in the trash).
+/**
+ * The scan a cave layer drawing was traced from: its "maps" document, found by
+ * the importKey its config carries (mapImportKey - the same in every database,
+ * unlike the document's id), or for a map added in the app (no importKey) by
+ * its id (mapId: the production mirror keeps the ids). Null while loading, or
+ * when there's none (or it's in the trash).
+ *
+ * @param {string} [importKey]
+ * @param {string} [mapId]
+ * @returns {object|null}
+ */
 export function useMapScan(importKey, mapId) {
   const [scan, setScan] = useState(null)
 

@@ -58,13 +58,19 @@ function buildMarkdown(caves) {
   }
 }
 
-// Builds a per-cave sistema ancestry walker from the sistemas/connections
-// collections. Mirrors the app's previous sheet-import-time
-// getSistemaAncestry() computation, applied at read time instead, since
-// Firestore stores each cave's direct sistemaId rather than a precomputed
-// ancestry chain (which would otherwise go stale as sistemas/connections
-// are edited independently of the caves that reference them). Also gives a
-// system's own ancestry, for its page: called with { sistemaId }.
+/**
+ * Builds a per-cave sistema ancestry walker from the sistemas/connections
+ * collections. Mirrors the app's previous sheet-import-time
+ * getSistemaAncestry() computation, applied at read time instead, since
+ * Firestore stores each cave's direct sistemaId rather than a precomputed
+ * ancestry chain (which would otherwise go stale as sistemas/connections
+ * are edited independently of the caves that reference them). Also gives a
+ * system's own ancestry, for its page: called with { sistemaId }.
+ *
+ * @param {object[]} sistemas
+ * @param {object[]} connections
+ * @returns {Function}
+ */
 export function buildSistemaAncestryComputer(sistemas, connections) {
   const sistemaNamesFromId = new Map()
   const sistemasById = new Map()
@@ -124,10 +130,15 @@ export function buildSistemaAncestryComputer(sistemas, connections) {
 const CAVE_MARKDOWN_FIELDS = ['description', 'accessDetails', 'accessibilityDetails', 'direction']
 const SISTEMA_MARKDOWN_FIELDS = ['description', 'direction']
 
-// Turns the raw shape read from Firestore into the shape the app actually
-// consumes: computes each cave's sistema ancestry and applies markdown
-// linking, both left uncomputed in storage so they can't go stale as
-// sistemas/connections/cave names are edited independently of each other.
+/**
+ * Turns the raw shape read from Firestore into the shape the app actually
+ * consumes: computes each cave's sistema ancestry and applies markdown
+ * linking, both left uncomputed in storage so they can't go stale as
+ * sistemas/connections/cave names are edited independently of each other.
+ *
+ * @param {object} data
+ * @returns {object}
+ */
 export function postProcessCaveData(data) {
   const markdown = buildMarkdown(data.caves)
   const getSistemaAncestry = buildSistemaAncestryComputer(data.sistemas, data.connections)

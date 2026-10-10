@@ -11,11 +11,18 @@ const KIND_ORDER = ['areas', 'sistemas', 'caves']
 // Names compared as every search of the site does (utils/searchText.js).
 const fold = foldSearch
 
-// The site's search (SiteSearch on the landing page, AppBarSearch in the app
-// bar): the suggestions for what's typed - every word found, names starting
-// with it first, grouped by kind - among the caves and cave systems, plus
-// the areas when asked. Each has a label, maybe a secondary text, and where
-// it leads.
+/**
+ * The site's search (SiteSearch on the landing page, AppBarSearch in the app
+ * bar): the suggestions for what's typed - every word found, names starting
+ * with it first, grouped by kind - among the caves and cave systems, plus
+ * the areas when asked. Each has a label, maybe a secondary text, and where
+ * it leads.
+ *
+ * @param {string} input
+ * @param {object} [options]
+ * @param {boolean} [options.areas=false] - The areas too.
+ * @returns {{kind: string, id: string, label: string, secondary?: string, to: string}[]}
+ */
 export function useSiteSearch(input, { areas = false } = {}) {
   const { t } = useTranslation('indexPages')
   const { data, partial } = useIndexData()

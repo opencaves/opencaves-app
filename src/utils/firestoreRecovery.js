@@ -31,7 +31,11 @@ function readSteps() {
 
 let recovering = false
 
-// Starts the next step; false when both were already tried.
+/**
+ * Starts the next step.
+ *
+ * @returns {boolean} False when both were already tried.
+ */
 export function recoverFromFirestoreFailure() {
   if (recovering) return true
   const steps = readSteps()
@@ -51,7 +55,9 @@ export function recoverFromFirestoreFailure() {
   return true
 }
 
-// Failures outside React's rendering (a listener's promise, a callback).
+/**
+ * Failures outside React's rendering (a listener's promise, a callback).
+ */
 export function watchFirestoreFailures() {
   const handle = (error) => {
     if (isFirestoreFailure(error)) recoverFromFirestoreFailure()

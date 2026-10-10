@@ -17,9 +17,13 @@ const DOWNLOAD_CONCURRENCY = 4
 
 export const offlineSupported = typeof window !== 'undefined' && 'caches' in window
 
-// Cellular connections and data-saver mode don't download (where the browser
-// exposes them - navigator.connection is Chromium-only); the next sync on a
-// better connection picks the downloads up.
+/**
+ * Cellular connections and data-saver mode don't download (where the browser
+ * exposes them - navigator.connection is Chromium-only); the next sync on a
+ * better connection picks the downloads up.
+ *
+ * @returns {boolean}
+ */
 export function isMeteredConnection() {
   const connection = navigator.connection
   return !!connection && (connection.saveData || connection.type === 'cellular')
@@ -76,8 +80,12 @@ export function consumeJustSaved(caveId) {
   return justSaved.delete(caveId)
 }
 
-// Marks downloads as held back (offline, or metered connection) so the UI
-// can say so instead of looking done.
+/**
+ * Marks downloads as held back (offline, or metered connection) so the UI
+ * can say so instead of looking done.
+ *
+ * @param {string} key - previewsStatusKey, or {@link savedCaveStatusKey}(caveId).
+ */
 export function setWaiting(key) {
   setStatus(key, { state: 'waiting' })
 }
@@ -123,7 +131,13 @@ async function openAndPrune(cacheName, wanted) {
   return { cache, cachedUrls }
 }
 
-// Makes the previews cache hold exactly `urls`.
+/**
+ * Makes the previews cache hold exactly `urls`.
+ *
+ * @param {string[]} urls
+ * @param {object} [options]
+ * @param {AbortSignal} [options.signal]
+ */
 export async function syncPreviews(urls, { signal } = {}) {
   if (!offlineSupported) return null
   clearRun++ // stops a removal still running
@@ -174,11 +188,18 @@ export async function clearPreviews() {
   clearStatus(previewsStatusKey)
 }
 
-// Makes the saved-cenotes cache hold exactly the files of `urlsByCave`
-// ({ caveId: [urls] }), downloading one cenote at a time (in the given
-// order - most recently saved first) so each one becomes fully available as
-// soon as possible and gets its own progress. Calls onCaveDone(caveId,
-// { downloaded, failed }) after each cenote that needed downloading.
+/**
+ * Makes the saved-cenotes cache hold exactly the files of `urlsByCave`
+ * ({ caveId: [urls] }), downloading one cenote at a time (in the given
+ * order - most recently saved first) so each one becomes fully available as
+ * soon as possible and gets its own progress.
+ *
+ * @param {Object<string, string[]>} urlsByCave
+ * @param {object} [options]
+ * @param {AbortSignal} [options.signal]
+ * @param {(caveId: string, result: {downloaded: number, failed: number}) => void} [options.onCaveDone] - Called as onCaveDone(caveId,
+ *   { downloaded, failed }) after each cenote that needed downloading.
+ */
 export async function syncSavedCaves(urlsByCave, { signal, onCaveDone } = {}) {
   if (!offlineSupported) return
 
@@ -222,11 +243,13 @@ export async function syncSavedCaves(urlsByCave, { signal, onCaveDone } = {}) {
   }
 }
 
-// Frees everything downloaded for offline use or cached while browsing
-// (pictures, maps, map tiles), keeping the app's own precached files
-// (Workbox's 'oc-app-...' cache) so the app itself still starts offline.
-// Firestore's offline copy of the cave data is left alone too - it's small
-// and the app can't show anything without it.
+/**
+ * Frees everything downloaded for offline use or cached while browsing
+ * (pictures, maps, map tiles), keeping the app's own precached files
+ * (Workbox's 'oc-app-...' cache) so the app itself still starts offline.
+ * Firestore's offline copy of the cave data is left alone too - it's small
+ * and the app can't show anything without it.
+ */
 export async function clearOfflineMedia() {
   if (!offlineSupported) return
   const names = await caches.keys()
@@ -244,10 +267,16 @@ function viewerDimension() {
   return needed <= 1024 ? '1024' : needed <= 1536 ? '1536' : '4k'
 }
 
-// Everything a saved cenote shows: its pictures at the sizes the app displays
-// (thumbnails, cover, the viewer size for this device, panoramas' originals),
-// and its sistema's and ancestor sistemas' maps (their WebP/SVG viewing
-// copies and thumbnails - not the original uploads).
+/**
+ * Everything a saved cenote shows: its pictures at the sizes the app displays
+ * (thumbnails, cover, the viewer size for this device, panoramas' originals),
+ * and its sistema's and ancestor sistemas' maps (their WebP/SVG viewing
+ * copies and thumbnails - not the original uploads).
+ *
+ * @param {string} caveId
+ * @param {{caves: object[], sistemas: object[], connections: object[]}} data
+ * @returns {Promise<string[]>}
+ */
 export async function getSavedCaveUrls(caveId, { caves, sistemas, connections }) {
   const urls = []
   const fullSize = viewerDimension()
@@ -282,8 +311,12 @@ function mapUrls(map) {
   return urls
 }
 
-// The "Offline" setting: every cave's cover thumbnail, every map, and the
-// cave layer's passages up to PREVIEW_TILES_MAX_ZOOM.
+/**
+ * The "Offline" setting: every cave's cover thumbnail, every map, and the
+ * cave layer's passages up to {@link PREVIEW_TILES_MAX_ZOOM}.
+ *
+ * @returns {Promise<string[]>}
+ */
 export async function getPreviewUrls() {
   const [covers, maps, layer] = await Promise.all([CaveAsset.getAllCoverImages(), mapsModel.getAll(), loadCaveLayer()])
   const tiles = layer ? [...layer.tiles].filter((tile) => Number(tile.split('/')[0]) <= PREVIEW_TILES_MAX_ZOOM).map(tileUrl).concat(layerFileUrls()) : []

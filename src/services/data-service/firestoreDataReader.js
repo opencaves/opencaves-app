@@ -18,8 +18,12 @@ async function readCollection(name) {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
 }
 
-// Reads all 9 cave-data collections from Firestore. Caller is expected to
-// run this through postProcessCaveData() before use.
+/**
+ * Reads all 9 cave-data collections from Firestore. Caller is expected to
+ * run this through postProcessCaveData() before use.
+ *
+ * @returns {Promise<object>}
+ */
 export async function readCaveDataFromFirestore() {
   const entries = await Promise.all(
     Object.entries(COLLECTION_NAMES).map(async ([key, name]) => [key, await readCollection(name)])

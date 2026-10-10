@@ -10,8 +10,12 @@ const mapIndexLoading = fetch(CAVE_LAYER.MAPS)
   .then((maps) => (mapIndex = maps))
   .catch(() => (mapIndex = {}))
 
-// The layer's maps and the ones whose drawing is hidden for everyone
-// (caveLayerSettings), kept up to date.
+/**
+ * The layer's maps and the ones whose drawing is hidden for everyone
+ * (caveLayerSettings), kept up to date.
+ *
+ * @returns {{maps: object, hiddenMaps: Array}}
+ */
 export function useCaveLayerMaps() {
   const [maps, setMaps] = useState(mapIndex || {})
   const [hiddenMaps, setHiddenMaps] = useState([])

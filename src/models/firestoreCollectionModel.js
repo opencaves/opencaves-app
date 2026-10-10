@@ -9,14 +9,20 @@ const converter = {
   fromFirestore: (snapshot, options) => ({ id: snapshot.id, ...snapshot.data(options) })
 }
 
-// Shared read/write access for the plain-object cave-data collections
-// (caves, sistemas, connections, and the reference-data collections). Mirrors
-// the converter + useCollection pattern established in models/CaveAsset.js,
-// the only other Firestore data-access precedent in this app, generalized
-// since these collections don't need per-entity classes/behavior.
-// trash: the collection's deletions go to the trash (utils/trash.js) - its
-// reads then skip the records in it (useAll({ includeTrashed: true }) keeps
-// them, for a reader that must tell a trashed record from a missing one).
+/**
+ * Shared read/write access for the plain-object cave-data collections
+ * (caves, sistemas, connections, and the reference-data collections). Mirrors
+ * the converter + useCollection pattern established in models/CaveAsset.js,
+ * the only other Firestore data-access precedent in this app, generalized
+ * since these collections don't need per-entity classes/behavior.
+ *
+ * @param {string} collectionName
+ * @param {object} [options]
+ * @param {boolean} [options.trash=false] - The collection's deletions go to the trash (utils/trash.js) - its
+ *   reads then skip the records in it (useAll({ includeTrashed: true }) keeps
+ *   them, for a reader that must tell a trashed record from a missing one).
+ * @returns {object}
+ */
 export function createCollectionModel(collectionName, { trash = false } = {}) {
   const collectionRef = collection(db, collectionName).withConverter(converter)
   const visible = (item) => !trash || !isTrashed(item)
