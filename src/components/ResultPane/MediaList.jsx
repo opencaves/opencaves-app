@@ -137,7 +137,7 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   return (
     <>
       {mediaList && !mediaList.empty && (
-        <MediaStrip className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={assetsList} sx={sx} {...props}>
+        <MediaStrip start="start" className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={assetsList} sx={sx} {...props}>
           {assetsList}
         </MediaStrip>
       )}

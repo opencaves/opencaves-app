@@ -43,6 +43,9 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {number|string} [props.height=props.itemHeight] - Its row's height, if a CSS length other than itemHeight.
  * @param {number} [props.gap=0] - The space between columns (px).
  * @param {unknown} [props.rebuildKey] - Changes when its items change: the cylinder is made again.
+ * @param {'center'|'start'} [props.start='center'] - Where its first item is at first, on the cylinder: in the middle
+ *   (a snap point), or flush with the viewing area's start - its left, its right in a right-to-left language (no snap
+ *   point there: snapping waits for the reader's first scroll, wheel, touch or key).
  * @param {boolean} [props.cylinder=true] - On the cylinder (always flat for reduced motion).
  * @param {number} [props.radius=100] - The cylinder's sides' radius (px).
  * @param {number} [props.flat=0.4] - Its flat front's share of the strip's width.
@@ -54,7 +57,7 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {string} [props.className]
  * @param {Sx} [props.sx]
  */
-export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
+export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, start = 'center', cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
   const ownScrollbarsRef = useRef(null)
   const scrollbarsRef = callerScrollbarsRef ?? ownScrollbarsRef
   const rowRef = useRef(null)
@@ -75,12 +78,16 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const width = scrollWidth - clientWidth
       const wheelDirection = Math.sign(event.deltaY || event.deltaX)
       if (!wheelDirection || width <= 0) return
-      if ((wheelDirection < 0 && Math.round(scrollLeft) <= 0) || (wheelDirection > 0 && Math.round(scrollLeft) >= width)) return
+      // Forward is the reading direction: toward the left, at negative
+      // positions, right to left.
+      const rtl = getComputedStyle(scrollbar.view).direction === 'rtl'
+      const progress = rtl ? -scrollLeft : scrollLeft
+      if ((wheelDirection < 0 && Math.round(progress) <= 0) || (wheelDirection > 0 && Math.round(progress) >= width)) return
 
       // Snapping (the cylinder): a native scroll, which the browser takes to
       // the next column that way; flat, the wheel's own distance (scrollStrip).
       if (scrollbar.view.style.scrollSnapType) {
-        scrollbar.view.scrollBy({ left: wheelDirection, behavior: 'smooth' })
+        scrollbar.view.scrollBy({ left: rtl ? -wheelDirection : wheelDirection, behavior: 'smooth' })
         return
       }
       scrollStrip(scrollbar.view, event)
@@ -218,11 +225,17 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const columns = columnsOf()
       if (!columns.length) return
       if (stale) {
-        // Room before the first column and after the last: either can be
-        // scrolled to the middle - the strip starts on the first one there.
-        const padding = parseFloat(getComputedStyle(row.parentElement).paddingLeft) || 0
-        row.style.marginLeft = `${Math.max(0, view.clientWidth / 2 - columns[0].offsetWidth / 2 - padding)}px`
-        row.style.marginRight = `${Math.max(0, view.clientWidth / 2 - columns.at(-1).offsetWidth / 2 - padding)}px`
+        // Room before the first column and after the last, in the reading
+        // direction: either can be scrolled to the middle - the strip starts
+        // on the first one there.
+        const padding = parseFloat(getComputedStyle(row.parentElement).paddingInlineStart) || 0
+        const roomBefore = Math.max(0, view.clientWidth / 2 - columns[0].offsetWidth / 2 - padding)
+        row.style.marginInlineStart = `${roomBefore}px`
+        row.style.marginInlineEnd = `${Math.max(0, view.clientWidth / 2 - columns.at(-1).offsetWidth / 2 - padding)}px`
+        // Starting at the start: the first item flush with the viewing area's
+        // start, past the room before it - until the reader scrolls (a
+        // right-to-left strip scrolls toward negative positions).
+        if (holdStart) view.scrollLeft = rtl ? -roomBefore : roomBefore
         // The row's flat plane is in front of the turned items: it lets the
         // pointer through to them.
         row.style.pointerEvents = 'none'
@@ -236,7 +249,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const middle = viewRect.left + viewRect.width / 2
       const firstMiddle = row.getBoundingClientRect().left + columns[0].offsetLeft + columns[0].offsetWidth / 2
       const lastMiddle = row.getBoundingClientRect().left + columns.at(-1).offsetLeft + columns.at(-1).offsetWidth / 2
-      const past = Math.min(0, lastMiddle - middle) || Math.max(0, firstMiddle - middle)
+      // The leftmost and rightmost: the first and the last, or the other way
+      // round right to left.
+      const leftMiddle = Math.min(firstMiddle, lastMiddle)
+      const rightMiddle = Math.max(firstMiddle, lastMiddle)
+      const past = Math.min(0, rightMiddle - middle) || Math.max(0, leftMiddle - middle)
       if (Math.abs(past) >= 1) {
         view.scrollLeft += past
       }
@@ -273,8 +290,55 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       if (!layer.contains(event.target)) rebuild()
     }
 
+    // Snapping (mandatory) would take a start-aligned strip back to the
+    // middle of a column: it waits for the reader's first move, the start
+    // held till then - a wheel notch or a key at once (in the capture phase,
+    // before the wheel's own handler, which scrolls natively once snapping is
+    // on); a press or a touch once let go, so a drag follows the pointer and
+    // settles on a column where it ends (switched on during it, the strip
+    // would jump to a snap point).
+    const rtl = getComputedStyle(view).direction === 'rtl'
+    let holdStart = start === 'start'
+    const frameElement = view.parentElement
+    const atOnce = ['wheel', 'keydown']
+    const presses = ['pointerdown', 'touchstart']
+    // Not pointercancel: the browser sends it as soon as a touch becomes a
+    // pan (or a press a native drag), mid-gesture.
+    const letGo = ['pointerup', 'touchend', 'touchcancel', 'dragend']
+    function release() {
+      holdStart = false
+      view.style.scrollSnapType = 'x mandatory'
+      stopWaiting()
+    }
+    let pressedAt = 0
+    function pressed() {
+      // Held no longer (a drag moves it), snapping not yet.
+      holdStart = false
+      pressedAt = view.scrollLeft
+      presses.forEach((type) => frameElement.removeEventListener(type, pressed, true))
+      letGo.forEach((type) => window.addEventListener(type, letGoOf, true))
+    }
+    // Let go: snapping on if the strip moved; a click (it didn't) leaves it
+    // at the start, waiting again.
+    function letGoOf() {
+      letGo.forEach((type) => window.removeEventListener(type, letGoOf, true))
+      if (Math.abs(view.scrollLeft - pressedAt) >= 1) {
+        release()
+        return
+      }
+      holdStart = true
+      presses.forEach((type) => frameElement.addEventListener(type, pressed, { capture: true, passive: true }))
+    }
+    function stopWaiting() {
+      atOnce.forEach((type) => frameElement.removeEventListener(type, release, true))
+      presses.forEach((type) => frameElement.removeEventListener(type, pressed, true))
+      letGo.forEach((type) => window.removeEventListener(type, letGoOf, true))
+    }
     layout()
-    view.style.scrollSnapType = 'x mandatory'
+    if (holdStart) {
+      atOnce.forEach((type) => frameElement.addEventListener(type, release, { capture: true, passive: true }))
+      presses.forEach((type) => frameElement.addEventListener(type, pressed, { capture: true, passive: true }))
+    } else release()
     view.addEventListener('scroll', schedule, { passive: true })
     row.addEventListener('load', onLoad, true)
     const observer = new ResizeObserver(rebuild)
@@ -282,6 +346,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     observer.observe(row)
     return () => {
       cancelAnimationFrame(frame)
+      stopWaiting()
       view.style.scrollSnapType = ''
       view.removeEventListener('scroll', schedule)
       row.removeEventListener('load', onLoad, true)
@@ -294,9 +359,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         column.style.visibility = ''
         column.style.pointerEvents = ''
       }
-      Object.assign(row.style, { marginLeft: '', marginRight: '', pointerEvents: '' })
+      Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
     }
-  }, [rebuildKey, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth])
+  }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth])
 
   return (
     <Box
