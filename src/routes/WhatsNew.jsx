@@ -16,9 +16,15 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { youtubeThumbnail } from '@/utils/videos.js'
+import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 const getWhatsNew = callable('getWhatsNew')
+// A cave's or a system's icon in its system's colour, as its map pin (the
+// default colour without one), with the thin edge SistemaArrow uses so pale
+// colours stay visible.
+const iconColorSx = (color) => ({ color: color || SISTEMA_DEFAULT_COLOR, filter: 'drop-shadow(0 0 0.6px var(--oc-sistema-cookie-edge))' })
+
 const KINDS = ['caves', 'sistemas', 'connections', 'maps', 'photos', 'videos']
 const CHANGES = ['added', 'modified', 'removed']
 
@@ -176,11 +182,11 @@ export default function WhatsNew() {
       if (item.kind === 'caves') {
         const cave = data.caves.find((c) => c.id === item.docId)
         const sistema = data.sistemasById.get(cave?.sistemaId || item.sistemaId)
-        return { ...item, at, icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon>, label: cave?.name || item.name || t('unnamedCave'), to: cave ? `/caves/${item.docId}` : null, context: inSistema(sistema, cave?.name || item.name) }
+        return { ...item, at, icon: <SvgIcon inheritViewBox sx={iconColorSx(cave?.sistemas?.at(-1)?.color || sistema?.color)}><CaveIcon /></SvgIcon>, label: cave?.name || item.name || t('unnamedCave'), to: cave ? `/caves/${item.docId}` : null, context: inSistema(sistema, cave?.name || item.name) }
       }
       if (item.kind === 'sistemas') {
         const sistema = data.sistemasById.get(item.docId)
-        return { ...item, at, icon: <SvgIcon inheritViewBox><CaveSystemIcon /></SvgIcon>, label: sistema?.name || item.name || t('unnamedSistema'), to: sistema?.slug ? `/sistemas/${sistema.slug}` : null, context: null }
+        return { ...item, at, icon: <SvgIcon component={CaveSystemIcon} inheritViewBox sx={iconColorSx(sistema?.color)} />, label: sistema?.name || item.name || t('unnamedSistema'), to: sistema?.slug ? `/sistemas/${sistema.slug}` : null, context: null }
       }
       if (item.kind === 'connections') {
         const child = data.sistemasById.get(item.sistemaId)
