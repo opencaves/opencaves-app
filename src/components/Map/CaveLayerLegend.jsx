@@ -119,6 +119,9 @@ export default function CaveLayerLegend({ isLarge }) {
         // editors, the edit FAB (56px, 16px above it) and its open actions;
         // 16px between each, as between those two.
         right: 'var(--oc-map-control-edge-margin)',
+        // Over the map's pins, the picked and the current one included
+        // (z-index 1: Marker.scss).
+        zIndex: 2,
         bottom: `calc(var(--oc-result-pane-sm-height, 0px) + var(--oc-map-control-edge-margin) + 56px + 16px${isEditor ? ' + 56px + 16px' : ''} + var(--oc-edit-fab-actions-height, 0px))`,
         transition: `bottom 200ms ease, opacity 150ms ease, visibility 150ms ease, width ${foldMs}ms ${easing[fold]}`,
         // Its content, held at the open width while the box narrows, is clipped.
