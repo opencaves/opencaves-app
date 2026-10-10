@@ -42,7 +42,10 @@ import { homeBounds } from './homeBounds.js'
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
 
-Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
+// Through a variable: TypeScript reads Object.defineProperty on
+// mapboxgl.config, in a JS file, as declaring mapboxgl here.
+const mapboxConfig = mapboxgl.config
+Object.defineProperty(mapboxConfig, 'EVENTS_URL', {
   configurable: true,
   value: null,
 })
@@ -67,6 +70,7 @@ const EMBEDDED_ZOOM = 15
 // the imagery, at the size it had in the pin's head, its label under it. The
 // marker's top sits half an icon above the point, so the icon is centred on it.
 const POINT_ICON_SX = { fontSize: 13, filter: 'drop-shadow(0 0 1px #23272b) drop-shadow(0 0 0.5px #23272b) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))' }
+/** @type {[number, number]} */
 const POINT_ICON_OFFSET = [0, -6.5]
 const POINT_SX = { display: 'flex', flexDirection: 'column', alignItems: 'center' }
 const SETTLE_TIMEOUT = 2000
@@ -91,14 +95,14 @@ function hasSavedViewState(viewState) {
  *   CoordinatesMapPreview reading its center).
  */
 export default function OCMap({ mapRef: externalMapRef } = {}) {
-  const internalMapRef = useRef()
+  const internalMapRef = useRef(null)
   const mapRef = externalMapRef ?? internalMapRef
   // A small map inside a page (CoordinatesMapPreview, the edit pages): no pane
   // over it to make room for, and not the map page's view - it opens on the
   // edited cave and doesn't move the map page's remembered view.
   const embedded = Boolean(externalMapRef)
-  const mapContainerRef = useRef()
-  const currentMarkerRef = useRef()
+  const mapContainerRef = useRef(null)
+  const currentMarkerRef = useRef(null)
   const { isSaved } = useSavedCaves()
 
   const dataLoadingState = useSelector((/** @type {RootState} */ state) => state.data.dataLoadingState)
@@ -150,14 +154,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     const bounds = startsAtHome && !embedded && caveData.length > 0 ? homeBounds(caveData) : null
     return bounds ? { bounds, fitBoundsOptions: { padding: { top: 96, bottom: 40, left: 40, right: 96 }, maxZoom: 13 } } : null
   })
+  /** @type {Partial<import('react-map-gl/mapbox').ViewState> & { bounds?: [[number, number], [number, number]], fitBoundsOptions?: import('mapbox-gl').FitBoundsOptions }} */
   const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : (homeViewState ?? defaultViewState))
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
-  const [activeMarkerElem, doSetActiveMarkerElem] = useState()
+  const [activeMarkerElem, doSetActiveMarkerElem] = useState(/** @type {HTMLElement} */ (undefined))
   const [zoomLevel, setZoomLevel] = useState(initialMapViewState.zoom)
   const [isDraggingCurrentMarker, setIsDraggingCurrentMarker] = useState(false)
-  const [mapBounds, setMapBounds] = useState()
+  const [mapBounds, setMapBounds] = useState(/** @type {import('mapbox-gl').LngLatBounds} */ (undefined))
   const [mapLoaded, setMapLoaded] = useState(false)
   // The map being dragged: the closed-hand cursor (the open one otherwise).
   const [isDragging, setIsDragging] = useState(false)
@@ -319,7 +324,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const pendingPinRef = useRef(null)
 
   // Stable for CaveMarker (memoized): they call this render's handlers.
-  const markerHandlersRef = useRef()
+  const markerHandlersRef = useRef(null)
   markerHandlersRef.current = { onMarkerClick, onFieldMarkerDragEnd }
   const handleMarkerClick = useCallback((event, cave) => markerHandlersRef.current.onMarkerClick(event, cave), [])
   const handleMarkerDragStart = useCallback(() => setIsDraggingCurrentMarker(true), [])
@@ -517,7 +522,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     requestAnimationFrame(step)
   }
 
-  const cameraFrameRef = useRef()
+  const cameraFrameRef = useRef(null)
   function moveCameraTo(cave, { animate = true, offsetForPane = true } = {}) {
     cancelAnimationFrame(cameraFrameRef.current)
     const move = () => {
@@ -619,7 +624,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     writeMapHash(mapRef.current?.getMap())
 
     // Set initial map bounds
-    setMapBounds()
+    setMapBounds(undefined)
 
     // flyToMarker(false)
   }
@@ -876,7 +881,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   // A first visit: framed on the caves as soon as they're there.
-  const fittedHomeRef = useRef(false)
+  const fittedHomeRef = useRef(/** @type {boolean | 'fresh'} */ (false))
   useEffect(() => {
     // 'fresh': just framed - a reset request that opened the map is done.
     if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = 'fresh'

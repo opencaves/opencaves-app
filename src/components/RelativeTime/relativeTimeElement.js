@@ -113,6 +113,7 @@ function formatRelativeTime(date, language, now = Date.now()) {
   const format = new Intl.RelativeTimeFormat(language, { numeric: 'auto' })
   // Under 45 s: "now".
   if (Math.abs(age) < 45 * SECOND) return format.format(0, 'second')
+  /** @type {[number, Intl.RelativeTimeFormatUnit]} */
   const [value, unit] = Math.abs(age) < HOUR ? [age / MINUTE, 'minute'] : Math.abs(age) < DAY ? [age / HOUR, 'hour'] : [age / DAY, 'day']
   return format.format(-Math.round(value), unit)
 }

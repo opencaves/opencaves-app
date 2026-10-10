@@ -5,6 +5,12 @@ import { Box, Typography } from '@mui/material'
  * "Deleted account"…), and under it their raw account id - small and
  * selectable, to search for it in the Firebase console. No id (a change made
  * by the server itself): the name only.
+ *
+ * @param {object} props
+ * @param {string} [props.uid]
+ * @param {string} props.accountLabel
+ * @param {string} [props.className]
+ * @param {Sx} [props.sx]
  */
 export default function PersonLabel({ uid, accountLabel, className, sx }) {
   return (

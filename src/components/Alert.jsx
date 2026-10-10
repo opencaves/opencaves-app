@@ -5,6 +5,17 @@ import { Grid } from '@mui/material'
 import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
+/**
+ * An error dialog: a header and its message, a hint, a button to dismiss it.
+ *
+ * @param {object} props
+ * @param {boolean} [props.open=false]
+ * @param {() => void} props.onClose
+ * @param {import('react').ReactNode} props.header
+ * @param {import('react').ReactNode} [props.hint]
+ * @param {import('react').ReactNode} props.dismissLabel
+ * @param {import('react').ReactNode} [props.children]
+ */
 export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, children }) {
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
 

@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material'
  * text (a cave's system) beside it.
  *
  * @param {(kind: string) => string} groupLabel - A kind's heading.
- * @returns {Function} The Autocomplete's renderGroup.
+ * @returns {(params: import('@mui/material').AutocompleteRenderGroupParams) => import('react').ReactNode} The Autocomplete's renderGroup.
  */
 export function renderSearchGroup(groupLabel) {
   return function SearchGroup(params) {

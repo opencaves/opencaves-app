@@ -16,8 +16,16 @@ function OfflinePlaceholder({ className, style }) {
   )
 }
 
+/**
+ * An image (a <picture> when it has sources), loaded with CORS so the service
+ * worker caches it at its real size; one that couldn't load offline shows a
+ * cloud icon instead.
+ *
+ * @param {import('react').ImgHTMLAttributes<HTMLImageElement> & { sources?: { srcSet?: string, media?: string, type?: string }[] }} props - The
+ *   <img>'s, and the <picture>'s `sources`.
+ */
 export default function Picture({ sources, ...props }) {
-  const pictureRef = useRef()
+  const pictureRef = useRef(null)
   const online = useOnline()
   const [missingOffline, setMissingOffline] = useState(false)
   useEffect(() => {

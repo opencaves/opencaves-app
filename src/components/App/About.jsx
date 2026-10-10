@@ -7,6 +7,11 @@ import { CHANGELOG_URL } from '@/config/app.js'
 import LogoLight from '@/images/logo/brand_light.svg?react'
 import LogoDark from '@/images/logo/brand_dark.svg?react'
 
+/**
+ * The About page's content: the logo, what the app is, its links.
+ *
+ * @param {import('@mui/material/Box').BoxProps} props - Its root's (a Box's).
+ */
 export default function About({ className, ...props }) {
   const { t } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')

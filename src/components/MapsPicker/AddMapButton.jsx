@@ -31,7 +31,7 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
   const isSmall = useSmall()
   const [sistemas] = SistemaModel.useAll()
   const sistema = sistemas.find((s) => s.id === sistemaId)
-  const fileInputRef = useRef()
+  const fileInputRef = useRef(null)
   const [pendingFile, setPendingFile] = useState(null)
   const [pendingDetails, setPendingDetails] = useState(emptyPendingDetails)
   const { uploadMap, uploading, progress, current, error, clearError } = useMapUpload()

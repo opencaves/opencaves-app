@@ -7,6 +7,7 @@ import { registerPanoramaViewer } from './panoramaViews.js'
 
 /**
  * @param {object} props
+ * @param {object} props.media - The photo (a 360Â° one in the panorama viewer).
  * @param {(locked: boolean) => void} [props.onSwipeLock] - Whether the gallery's carousel must leave swipes alone
  *   (the photo zoomed in, or a pinch under way) - {@link PictureViewer}.
  */

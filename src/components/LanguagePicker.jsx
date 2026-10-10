@@ -72,6 +72,9 @@ function LanguageOptions({ id, anchorEl, onClose, language }) {
 /**
  * A menu row (the account menu, the phone's drawer): Language, the current
  * one below it, opening the list of languages.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
  */
 export function LanguageListItem({ sx }) {
   const { t } = useTranslation('languagePicker')
@@ -104,6 +107,9 @@ export function LanguageListItem({ sx }) {
 
 /**
  * A text button for a page's foot: the current language, opening the list.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
  */
 export function LanguageButton({ sx }) {
   const { t } = useTranslation('languagePicker')

@@ -14,6 +14,15 @@ import { mediaItemPadding, mediaItemRadius } from './config.js'
 // How long the active thumbnail follows the list's growth after it becomes active.
 const FOLLOW_GROWTH_MS = 2000
 
+/**
+ * A photo's thumbnail in the media pane's list, with its menu.
+ *
+ * @param {object} props - Also its root's.
+ * @param {string} [props.className]
+ * @param {object} props.mediaAsset - The photo (a CaveAsset document).
+ * @param {boolean} [props.isActive] - The one shown.
+ * @param {(mediaAsset: object, isActive: boolean) => void} [props.onBeforeDelete] - Before it's deleted.
+ */
 export default function MediaThumbnail({ mediaAsset, isActive, onBeforeDelete = noop, ...props }) {
 
   const { direction, palette } = useTheme()

@@ -15,6 +15,8 @@ const SECTION_TITLE = '[class*="--section-title"]'
  * field draws stays in place for screen readers and labelling, hidden from
  * sight, and its text is repeated above (hidden from screen readers, so it's
  * read once).
+ *
+ * @param {import('@mui/material/Box').BoxProps} props - The section's (a Box's); `sx`, the card's.
  */
 export default function FormSection({ children, sx, ...props }) {
   const cardRef = useRef(null)

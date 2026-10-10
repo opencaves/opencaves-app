@@ -15,9 +15,9 @@ const HALO = 'rgba(0, 0, 0, 0.75)'
  *
  * @param {string} kind
  * @param {*} text
- * @returns {Array}
+ * @returns {import('mapbox-gl').ExpressionSpecification}
  */
-export const surveySymbolImage = (kind, text) => ['concat', PREFIX + kind + ':', text]
+export const surveySymbolImage = (kind, text) => /** @type {import('mapbox-gl').ExpressionSpecification} */ (['concat', PREFIX + kind + ':', text])
 
 function draw(kind, text) {
   const canvas = document.createElement('canvas')

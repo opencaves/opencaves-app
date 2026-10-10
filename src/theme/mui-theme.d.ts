@@ -5,6 +5,10 @@
 import '@mui/material/styles'
 import '@mui/material/Typography'
 import '@mui/material/Button'
+import '@mui/material/Paper'
+import '@mui/material/AccordionSummary'
+import '@mui/material/AccordionDetails'
+import '@mui/material/IconButton'
 
 /** M3 color roles the theme defines (light and dark schemes). */
 interface OcSysColor {
@@ -139,5 +143,31 @@ declare module '@mui/material/Button' {
     google: true
     microsoft: true
     apple: true
+  }
+}
+
+// The theme's own component variants (Theme.jsx's `variants`): the system
+// history's accordion, the Markdown toolbar's compact icon buttons.
+declare module '@mui/material/Paper' {
+  interface PaperPropsVariantOverrides {
+    sistemaHistory: true
+  }
+}
+
+declare module '@mui/material/AccordionSummary' {
+  interface AccordionSummaryOwnProps {
+    variant?: 'sistemaHistory'
+  }
+}
+
+declare module '@mui/material/AccordionDetails' {
+  interface AccordionDetailsProps {
+    variant?: 'sistemaHistory'
+  }
+}
+
+declare module '@mui/material/IconButton' {
+  interface IconButtonPropsSizeOverrides {
+    compact: true
   }
 }

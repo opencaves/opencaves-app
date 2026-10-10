@@ -10,6 +10,11 @@ const sourcesModel = createCollectionModel('sources')
  * words come from - its record's textSources entry for that field ("Source:
  * Gerrard 2015"). Nothing when it has none, and nothing for anyone but
  * admins: an editing note, not part of the public page.
+ *
+ * @param {object} props
+ * @param {Cave | Sistema} props.record
+ * @param {string} props.field - The text's field ('description', 'directions'...).
+ * @param {Sx} [props.sx]
  */
 export default function TextSource({ record, field, sx }) {
   const { t } = useTranslation('textSource')

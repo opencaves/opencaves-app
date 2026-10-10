@@ -1,4 +1,5 @@
-// The web components the app renders in JSX - for the type checker only
+// The web components the app renders in JSX, and the CSS custom properties
+// its style props set - for the type checker only
 // (npm run typecheck): Swiper's elements (the sign-up steps) and the app's
 // <oc-relative-time> (components/RelativeTime/relativeTimeElement.js).
 
@@ -13,6 +14,11 @@ type CustomElementProps = import('react').DetailedHTMLProps<import('react').HTML
 }
 
 declare module 'react' {
+  // CSS custom properties in a style prop (style={{ '--oc-...': value }}).
+  interface CSSProperties {
+    [property: `--${string}`]: string | number | undefined
+  }
+
   namespace JSX {
     interface IntrinsicElements {
       'swiper-container': CustomElementProps

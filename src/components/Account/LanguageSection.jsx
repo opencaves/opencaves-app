@@ -9,6 +9,7 @@ import { AUTOMATIC, useLanguageChoice } from '@/components/LanguagePicker.jsx'
  * the person (see services/languagePreference.js).
  *
  * @param {object} props
+ * @param {object} [props.headingProps={}] - Its heading's.
  * @param {boolean} [props.asField=false] - A labelled field inside another section (the account's personal info).
  */
 export default function LanguageSection({ headingProps = {}, asField = false }) {

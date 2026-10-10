@@ -160,7 +160,7 @@ const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
 }))
 
 export default function SearchBar() {
-  const searchBarRef = useRef()
+  const searchBarRef = useRef(null)
   // A combobox (WAI-ARIA): the focus stays in the field, the arrows move
   // through the results (aria-activedescendant), Enter opens the one shown.
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -289,7 +289,7 @@ export default function SearchBar() {
     const searchResults = [
       ...idResults,
       ...searchIndex
-        .search(searchTerm, { enrich: true })
+        .search(searchTerm)
         .filter((result) => !idMatched.has(result.id))
         .map((result) => {
           result.hints = markHints(result, searchTerm)
@@ -360,7 +360,8 @@ export default function SearchBar() {
     // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
     // Close the phone's keyboard: the field kept focus through the tap.
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     setValue(getCaveName(selectedCave.name))
     clearSearchResults()
     setBackBtnOn(false)

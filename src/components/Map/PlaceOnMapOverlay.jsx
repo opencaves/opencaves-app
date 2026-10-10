@@ -29,7 +29,7 @@ export default function PlaceOnMapOverlay({ mapRef }) {
   const dispatch = useDispatch()
   const placeOnMap = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap)
   const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
-  const barRef = useRef()
+  const barRef = useRef(null)
   const [center, setCenter] = useState(null)
   const [pinY, setPinY] = useState(null)
 

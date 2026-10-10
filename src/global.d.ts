@@ -20,5 +20,5 @@ interface Navigator {
   /** Installed on iOS's home screen (Safari only). */
   standalone?: boolean
   /** The Network Information API (Chromium only). */
-  connection?: { saveData?: boolean; type?: string }
+  connection?: EventTarget & { saveData?: boolean; type?: string }
 }

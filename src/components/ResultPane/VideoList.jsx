@@ -65,6 +65,19 @@ function getEmbedUrl(value) {
 // more. 16:9.
 const VIDEO_WIDTH = 280
 
+/**
+ * A cave's videos (YouTube and Facebook links), in a strip; editable when it
+ * has an onChange.
+ *
+ * @param {object} props
+ * @param {string} props.caveId
+ * @param {string[] | string} [props.videos] - Their URLs (a string: separated by "|").
+ * @param {(videos: string[]) => void} [props.onChange] - Given the new list (one added or removed).
+ * @param {boolean} [props.showTitle=true]
+ * @param {boolean} [props.showAdd=false] - An Add button even without onChange (it asks to log in).
+ * @param {() => void} [props.onAddUnauthorized] - That Add button's click.
+ * @param {Sx} [props.sx]
+ */
 export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
@@ -74,7 +87,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const [shownIndex, setShownIndex] = useState(null)
   // For the offline save's messages.
   const caveName = useSelector((/** @type {RootState} */ state) => state.data.caves.find((cave) => cave.id === caveId)?.name?.value) || ''
-  const scrollbarsRef = useRef()
+  const scrollbarsRef = useRef(null)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [newVideoUrl, setNewVideoUrl] = useState('')
   const [editingIndex, setEditingIndex] = useState(null)

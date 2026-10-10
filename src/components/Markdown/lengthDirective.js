@@ -31,7 +31,8 @@ const toNumber = (digits) => Number(digits.replace(/[\s,]/g, ''))
  * metres } or null.
  *
  * @param {string} text
- * @returns {{value: number, unit: string, metres: number}|null}
+ * @returns {{value: number, unit: string, metres: number, significantDigits: number, written: string}|null} Also
+ *   its significant digits and the value as written ("1,240").
  */
 export function parseLength(text) {
   const match = /^\s*(\d[\d\s,.]*)\s*([a-z']+)\s*$/i.exec(text || '')
@@ -62,7 +63,7 @@ export const TEXT_SPELLINGS = Object.values(LENGTH_UNITS)
  * text (index, length) and parseLength's result, or null.
  *
  * @param {string} text
- * @returns {{value: number, unit: string, metres: number, index: number, length: number}|null}
+ * @returns {{value: number, unit: string, metres: number, significantDigits: number, written: string, index: number, length: number}|null}
  */
 export function findLength(text) {
   const match = new RegExp(`(\\d[\\d,.]*(?:\\s\\d{3})*)\\s*(${TEXT_SPELLINGS})(?![a-z])`, 'i').exec(text || '')

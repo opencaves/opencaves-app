@@ -11,6 +11,7 @@ import { automaticUnits, UNIT_SYSTEMS } from '@/utils/units.js'
  * Kept on this device, and in the signed-in account so it follows the person.
  *
  * @param {object} props
+ * @param {object} [props.headingProps={}] - Its heading's.
  * @param {boolean} [props.asField=false] - A labelled field inside another section (the account's personal info).
  */
 export default function UnitsSection({ headingProps = {}, asField = false }) {

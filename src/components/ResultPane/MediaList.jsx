@@ -19,8 +19,12 @@ import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
 /**
- * @param {object} props
- * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
+ * @param {object} props - Also its root's (a Box's).
+ * @param {string} props.caveId
+ * @param {boolean} [props.editable=false]
+ * @param {(id: string) => string} [props.photoPath]
+ * @param {Sx} [props.sx]
+ * @param {string} [props.className] - A photo's address (a page's gallery); the map's viewer otherwise.
  */
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -32,7 +36,7 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
-  const scrollbarsRef = useRef()
+  const scrollbarsRef = useRef(null)
 
   function closeDeleteDialog() {
     if (deleting) return
@@ -291,6 +295,13 @@ function MediaListCol({ children, width = 'full', isLast = false, height = ASSET
   )
 }
 
+/**
+ * A cell of a photo column: a full-height photo or a half one.
+ *
+ * @param {import('@mui/material/Grid').GridProps & { width?: 'full' | 'half' | number, height?: number, position?: 'top' | 'bottom' }} props - A
+ *   Grid's; `width` 'full' or 'half' (a number matches neither: no minimum
+ *   width), `position` the half photo's.
+ */
 function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.height, position = 'top', ...props }) {
   const widths = {
     full: ASSETS_LIST_CONFIG.height,

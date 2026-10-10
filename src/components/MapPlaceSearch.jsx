@@ -31,6 +31,7 @@ const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0
  * cross then sits on it, ready to confirm.
  *
  * @param {object} props
+ * @param {import('react').RefObject<import('react-map-gl/mapbox').MapRef>} props.mapRef - The map it moves.
  * @param {number} [props.centerOffsetY=0] - How far below the
  *   map's center (px) the result should land, for a cross that isn't centered
  *   (PlaceOnMapOverlay's, above the phone sheet).

@@ -124,6 +124,12 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
   )
 }
 
+/**
+ * The form's values: the fields as typed (numbers as shown, in the reader's
+ * units), plus the system's text sources once loaded.
+ *
+ * @type {{ name: string, color: string, area: string, description: string, direction: string, textSources?: object, length: string | number, maxDepth: string | number, source: string, explorations: object[], aka: string[], maps: string[], longitude: string, latitude: string, parentSistemaId: string }}
+ */
 const emptyForm = {
   name: '',
   color: '',
@@ -164,6 +170,12 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
 
 /**
  * @param {object} props
+ * @param {string} [props.sistemaId] - The system edited (a new one without).
+ * @param {(title: string) => void} [props.onTitleChange] - Told the form's title (the system's name).
+ * @param {() => void} [props.onDone] - Once saved or cancelled.
+ * @param {() => void} [props.onDeleted]
+ * @param {(dirty: boolean) => void} [props.onDirtyChange] - Told whether it has unsaved changes.
+ * @param {boolean} [props.showMapPreview=false] - Its location's map beside the coordinates.
  * @param {string} [props.backLabel] - The back arrow's label, where it leads (the systems by default).
  */
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
@@ -355,7 +367,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).flatMap((exploration) => teamNames(exploration.team))), ...form.explorations.flatMap((exploration) => teamNames(exploration.team))])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery) || matchesId(s.id, parentSearchQuery)) : otherSistemas
-  const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />
+  const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} />
   const colorField = isSmall ? (
     <Grid size="auto">{colorPicker}</Grid>
   ) : (

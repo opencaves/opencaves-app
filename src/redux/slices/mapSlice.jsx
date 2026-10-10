@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  viewState: {},
+  viewState: /** @type {Partial<import('react-map-gl/mapbox').ViewState>} */ ({}),
   // showPopup: false,
   popupData: {},
   currentCave: null,

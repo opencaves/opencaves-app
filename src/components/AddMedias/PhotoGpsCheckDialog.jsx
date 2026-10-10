@@ -28,8 +28,10 @@ function useFormatDistance() {
  * (the last one skipped, the rest go ahead). Closing it cancels the upload.
  *
  * @param {object} props
+ * @param {string} [props.caveName]
  * @param {{file: File, distance: number}[]} props.far
  * @param {(skipped: File[]) => void} props.onDone - Gets the photos skipped.
+ * @param {() => void} props.onCancel - Closing it: the upload is cancelled.
  */
 export default function PhotoGpsCheckDialog({ caveName, far, onDone, onCancel }) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia.gpsCheck' })

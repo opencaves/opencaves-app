@@ -18,7 +18,8 @@ export default function AddMediasProvider({ children, caveId }) {
 
   async function promptForMedias() {
     try {
-      const files = await fileOpen(pickerOpts)
+      // An array: the picker allows several files (multiple).
+      const files = /** @type {import('browser-fs-access').FileWithHandle[]} */ (await fileOpen(pickerOpts))
 
       if (files.length > 0) {
         setMedias(files)

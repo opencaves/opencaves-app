@@ -10,6 +10,8 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 /**
  * @param {object} props
+ * @param {boolean} [props.open=false]
+ * @param {() => void} [props.onDrop] - Called once files are dropped.
  * @param {string} [props.caveId] - The cave the photos go to (the map's open cave otherwise).
  */
 export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {

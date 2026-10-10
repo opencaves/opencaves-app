@@ -34,8 +34,8 @@ function easeOutQuad(t, b = 0, c = 1, d = 1) {
 const FOCUS_EDGE_MARGIN = 32
 
 export default function ResultPaneSm({ children, cave, ...props }) {
-  const modalRef = useRef({})
-  const paneHeadRef = useRef({})
+  const modalRef = useRef(/** @type {HTMLIonModalElement} */ ({}))
+  const paneHeadRef = useRef(/** @type {HTMLDivElement} */ ({}))
 
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
@@ -185,7 +185,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   useEffect(() => {
     const dY = 0.5
     const y = (1 - paneOpenFactor) * dY * 50
-    paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', paneOpenFactor)
+    paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', String(paneOpenFactor))
     paneHeadRef.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
     // Fully faded out, it's gone for taps, the keyboard and screen readers
     // too - the search bar is back in its place.

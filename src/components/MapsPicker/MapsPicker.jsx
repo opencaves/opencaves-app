@@ -43,8 +43,11 @@ function MapThumbnail({ map, size }) {
  * ColorPicker's `colors` palette.
  *
  * @param {object} props
+ * @param {import('react').ReactNode} [props.label]
  * @param {string[]} [props.value=[]] - An array of map doc IDs.
  * @param {(value: string[]) => void} props.onChange - Receives the updated array.
+ * @param {string} [props.sistemaName=''] - The system's, a new map's default title.
+ * @param {object} [props.labelProps={}] - The label's.
  */
 export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {} }) {
   const { t } = useTranslation('mapsPicker')

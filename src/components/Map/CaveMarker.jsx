@@ -28,7 +28,7 @@ function unlabelMarker(marker) {
 // - showLabel: its name is shown (zoomed in enough, or edit mode)
 // - editMode: links go to the cave's edit page; replace: links replace the
 //   current history entry (from one cave's pane to another's)
-export default memo(function CaveMarker({ cave, current, draggable, dragging, showLabel, saved, editMode, replace, onMarkerClick, onDragStart, onDragEnd }) {
+export default memo(function CaveMarker(/** @type {{ cave: Cave, current?: boolean, draggable?: boolean, dragging?: boolean, showLabel?: boolean, saved?: boolean, editMode?: boolean, replace?: boolean, onMarkerClick: (event: object, cave: Cave) => void, onDragStart?: () => void, onDragEnd?: (event: object) => void }} */ { cave, current, draggable, dragging, showLabel, saved, editMode, replace, onMarkerClick, onDragStart, onDragEnd }) {
   const { t } = useTranslation('map')
   const caveName = cave.name?.value || t('caveNameUnknown')
   // Never undefined: the glyph's colour is worked out from it (getPinGlyphColor).

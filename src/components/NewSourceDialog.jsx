@@ -15,6 +15,8 @@ const emptyForm = { name: '', description: '', note: '' }
  * have to send the editor off to /sources and back.
  *
  * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
  * @param {string} [props.initialName=''] - Prefills the
  *   name.
  * @param {(id: string) => void} props.onCreated - Gets the new record's id once it's saved.

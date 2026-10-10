@@ -13,6 +13,13 @@ function DefaultMenuItemComponent(props) {
   )
 }
 
+/**
+ * A button that opens the file picker to add photos (useAddMedias): its
+ * `component`, an element (a Button saying "Add pictures" by default), given
+ * the other props and the click.
+ *
+ * @param {{ component?: import('react').ReactElement<any> } & Record<string, any>} props
+ */
 export default function AddMediasButton({ component = <DefaultMenuItemComponent />, ...props }) {
   const { promptForMedias } = useAddMedias()
 

@@ -59,7 +59,8 @@ function MapListItemMenu({ map, onEdit, onTrash }) {
   const [anchorEl, setAnchorEl] = useState(null)
   function act(action) {
     setAnchorEl(null)
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     action(map)
   }
   return (

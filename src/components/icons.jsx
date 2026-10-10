@@ -70,6 +70,8 @@ export function LineCookie({ sx, ...props }) {
  * A cave's entrance: two posts flaring out at both ends, the way in between
  * them. Drawn in strokes like Material's Rounded icons, but heavier (3, not 2)
  * so it keeps its shape at the map's 13 px, beside the filled parking and key.
+ *
+ * @param {import('@mui/material/SvgIcon').SvgIconProps} props
  */
 export function EntranceRounded({ className, ...props }) {
   return (

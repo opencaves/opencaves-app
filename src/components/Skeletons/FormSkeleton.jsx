@@ -15,6 +15,8 @@ const fieldSx = { height: 56, borderRadius: '4px 4px 0 0', transform: 'none' }
  * readers get "Loading…" once (a status), not the shapes.
  *
  * @param {object} props
+ * @param {string} [props.className]
+ * @param {Sx} [props.sx]
  * @param {boolean} [props.header=true] - Include the page header (false when the page already shows it)
  * @param {Array} [props.lead=[]] - Field widths on the page itself, before the cards (a cave's name)
  * @param {object[]} [props.sections] - One card each: { title, fields }, title whether it has a

@@ -9,6 +9,13 @@ import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedC
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './FilterMenu.scss'
 
+/**
+ * The filter menu's head: its title, and its close button.
+ *
+ * @param {object} props - Also its root's.
+ * @param {string} props.title
+ * @param {import('react').ReactNode} [props.children]
+ */
 function FilterMenuHead({ title, children, ...props }) {
   const { t } = useTranslation('filter')
   const dispatch = useDispatch()
@@ -95,6 +102,16 @@ function FilterMenuSectionHeader({ children, ...props }) {
 
 // A filter: the whole row is its switch (role switch, its label the row's
 // text) - not a button holding a second, unlabelled switch.
+/**
+ * A filter row (see above).
+ *
+ * @param {object} props
+ * @param {string} props.primary - Its label.
+ * @param {string} [props.secondary] - Its description.
+ * @param {number | string} [props.nb] - How many caves it covers.
+ * @param {boolean} props.checked
+ * @param {(event: import('react').MouseEvent) => void} props.onClick
+ */
 function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   return (
     <ListItem disablePadding className="oc-filter-menu--item">
@@ -219,8 +236,8 @@ export default function MapFilterMenu({ props }) {
     return dataStats?.[prop]?.[value] || 0
   }
 
-  const accessibilities = t('accessibility.items', { returnObjects: true })
-  const accesses = t('access.items', { returnObjects: true })
+  const accessibilities = /** @type {{ key: string, label: string, description: string }[]} */ (t('accessibility.items', { returnObjects: true }))
+  const accesses = /** @type {{ key: string, label: string, description: string }[]} */ (t('access.items', { returnObjects: true }))
   const isSmall = useSmall()
 
   return (

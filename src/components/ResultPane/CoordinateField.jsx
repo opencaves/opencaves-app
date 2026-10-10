@@ -86,6 +86,12 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 }
 /**
  * @param {object} props
+ * @param {string} props.field - The coordinate's field ('coordinates', 'coordinates2'...).
+ * @param {string} props.label
+ * @param {number | string} [props.longitude]
+ * @param {number | string} [props.latitude]
+ * @param {(coordinates: { longitude: number | string, latitude: number | string }) => void} props.onChange
+ * @param {object} [props.labelProps={}] - The label's.
  * @param {boolean} [props.canPickOnMap=true] - Whether there's a map on screen to tap (on phones, the admin
  *   edit pages' {@link CoordinatesMapPreview}); without one, phones only get My
  *   location and Remove.

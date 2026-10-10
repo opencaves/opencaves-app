@@ -28,6 +28,20 @@ const BREADCRUMBS_SX = {
   '& .MuiBreadcrumbs-li > a': { py: '14px', my: '-14px' },
 }
 
+/**
+ * An index page's heading row (see above).
+ *
+ * @param {object} props
+ * @param {string} props.title
+ * @param {import('react').ReactNode} [props.subtitle]
+ * @param {string} [props.backTo]
+ * @param {string} [props.addTo]
+ * @param {string} [props.addLabel]
+ * @param {string} [props.editTo]
+ * @param {string} [props.editLabel]
+ * @param {{ label: string, to: string }[]} [props.trail]
+ * @param {string} [props.current]
+ */
 export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()

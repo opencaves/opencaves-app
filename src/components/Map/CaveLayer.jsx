@@ -124,6 +124,7 @@ function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
  * named, and a click on it offers to hide its drawing, or show it again.
  *
  * @param {object} props
+ * @param {string} [props.selectedSistemaId] - The open cave's system.
  * @param {string} [props.mapId] - That map's drawing only, always shown (even hidden for everyone) and
  *   never in the edit mode - the admin's original-vs-drawing viewer.
  */
@@ -170,7 +171,8 @@ export default function CaveLayer({ selectedSistemaId, mapId }) {
       const layers = EDITABLE_LAYERS.filter((id) => map.getLayer(id))
       const features = layers.length ? map.queryRenderedFeatures([[x - HOVER_PADDING, y - HOVER_PADDING], [x + HOVER_PADDING, y + HOVER_PADDING]], { layers }) : []
       const feature = features.find((f) => f.layer.id !== 'oc-caves-water') || features[0]
-      return feature ? { name: feature.properties.map, lngLat: event.lngLat } : null
+      // properties: GeoJSON's Feature, whose types (@types/geojson) aren't installed.
+      return feature ? { name: /** @type {any} */ (feature).properties.map, lngLat: event.lngLat } : null
     }
     const onMove = (event) => {
       const next = target(event)

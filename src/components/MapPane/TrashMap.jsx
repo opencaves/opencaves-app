@@ -24,7 +24,7 @@ export function useCanTrashMaps() {
  * renders `dialog`.
  *
  * @param {object} [options]
- * @param {(map: CaveMap) => Promise} [options.onAfterTrash] - Runs once it's done (e.g. moving the
+ * @param {(map: CaveMap) => void | Promise<void>} [options.onAfterTrash] - Runs once it's done (e.g. moving the
  *   viewer on to another map).
  * @returns {{requestTrash: (map: CaveMap) => void, dialog: React.ReactNode}}
  */

@@ -10,7 +10,10 @@ import PinIcon from '@/images/map/pin.svg?react'
  * full icon's bounding box to land in that head, not straddle the taper.
  *
  * @param {object} props
+ * @param {number} [props.size=20] - Its width, in px.
  * @param {React.ElementType} [props.overlay] - The glyph.
+ * @param {string} [props.color='white'] - The pin's.
+ * @param {string} [props.overlayColor='#111827'] - The glyph's.
  */
 export default function PinBadgeIcon({ size = 20, overlay: Overlay, color = 'white', overlayColor = '#111827' }) {
   return (

@@ -22,7 +22,8 @@ export default function GalleryOverlay({ className, onClose, returnFocus, childr
   const content = useRef(null)
   useLayoutEffect(() => {
     opener.current = document.activeElement
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     setOpen(true)
   }, [])
 

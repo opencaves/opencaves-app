@@ -27,7 +27,7 @@ export default function UploadMedias({ medias, caveId }) {
   const { t: tOffline } = useTranslation('offline')
   const [uploading, setUploading] = useState(false)
   const [isDone, setIsDone] = useState(done)
-  const [errorAlertOpen, setErrorAlertOpen] = useState(false)
+  const [errorAlertOpen, setErrorAlertOpen] = useState(/** @type {boolean | Error} */ (false))
   // The cave the photos go to: its coordinates (position, entrance, parking, key), for the GPS check.
   const cave = useSelector((/** @type {RootState} */ state) => (caveId && (state.map.data?.find?.((c) => c.id === caveId) || state.data.caves?.find?.((c) => c.id === caveId))) || state.map.currentCave)
   // Photos taken far from the cave, waiting for the person's choice: { files, far }.
@@ -108,7 +108,7 @@ export default function UploadMedias({ medias, caveId }) {
       setTimeout(() => {
         setUploading(false)
         setIsDone(false)
-        openSnackbar(t('success', { count: done?.count ?? 0 }), { severity: 'success' })
+        openSnackbar(t('success', { count: done ? done.count : 0 }), { severity: 'success' })
       }, UPLOADING_DONE_HIDE_DELAY)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +120,7 @@ export default function UploadMedias({ medias, caveId }) {
 
   return (
     <>
-      <Snackbar className="oc-upload-medias" open={uploading} autoHide={false}>
+      <Snackbar open={uploading} autoHide={false}>
         <UploadInfo total={uploadTotal} progress={progress} current={current} />
       </Snackbar>
 
@@ -134,7 +134,7 @@ export default function UploadMedias({ medias, caveId }) {
       )}
 
       {errorAlertOpen && (
-        <ErrorAlert className="oc-upload-medias--error-alert" open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
+        <ErrorAlert open={true} onClose={onErrorAlertClose} header={t('errorHeader')} dismissLabel={t('unknownErrorBtn')} hint={error?.code === 'wrong-media-type' ? t('wrongMediaTypeHint') : undefined}>
           {error?.code === 'wrong-media-type' ? <WrongMediaTypeMessage fileNames={error.fileNames} /> : <Typography color="text.secondary">{t(error?.code === 'offline' ? 'needsConnection' : 'unknownError')}</Typography>}
         </ErrorAlert>
       )}
@@ -184,7 +184,11 @@ function WrongMediaTypeMessage({ fileNames }) {
   )
 }
 
-export const UploadInfo = forwardRef((props, ref) => {
+/**
+ * An upload's progress: the file being sent ({ index, url, type }), a bar, "2 of
+ * 5".
+ */
+export const UploadInfo = forwardRef((/** @type {{ total: number, progress: number, current: { index?: number, url?: string, type?: string } | null }} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) => {
   const { total, progress, current } = props
   const { t } = useTranslation('mediaPane', { keyPrefix: 'addMedia' })
 
@@ -253,6 +257,7 @@ export const UploadInfo = forwardRef((props, ref) => {
               },
             }}
           />
+          {/* @ts-expect-error MUI 9's Typography has no system props: fontSize goes to the DOM, unapplied (sx={{ fontSize: 'small' }} would apply it). */}
           <Typography
             className="oc-upload-info--secondary"
             fontSize="small"

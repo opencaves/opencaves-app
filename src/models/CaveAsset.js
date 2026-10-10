@@ -292,6 +292,14 @@ export function useCaveAssetsList(caveId) {
   return [visible, loading, error]
 }
 
+/**
+ * A cave's cover photo, live (the server's on a page it rendered).
+ *
+ * @param {string} caveId
+ * @returns {[import('firebase/firestore').QueryDocumentSnapshot<CaveAsset> | undefined, boolean, Error | undefined]} The
+ *   cover's document (undefined when it has none, a cover in the trash
+ *   included), whether it's loading, the error.
+ */
 export function useCoverImage(caveId) {
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
   // On a page the server rendered: the server's (ssrContext.js).
@@ -299,7 +307,7 @@ export function useCoverImage(caveId) {
   // Read from the snapshot, not copied to state by an effect: that took one
   // more render, in which the cave seemed to have no cover. A cover in the
   // trash isn't one.
-  const coverImage = snapshot?.docs.find((d) => !isTrashed(d))
+  const coverImage = /** @type {import('firebase/firestore').QueryDocumentSnapshot<CaveAsset>} */ (snapshot?.docs.find((d) => !isTrashed(d)))
 
   return [coverImage, loading, error]
 }

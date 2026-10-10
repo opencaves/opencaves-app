@@ -40,7 +40,7 @@ export default function OfflineMediaSync() {
   const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
   const networkTick = useNetworkChangeTick()
   // Read inside async callbacks without re-running the effects.
-  const latest = useRef({})
+  const latest = useRef(/** @type {{ t?: import('i18next').TFunction, tMap?: import('i18next').TFunction, openSnackbar?: Function, caves?: Cave[] }} */ ({}))
   latest.current = { t, tMap, openSnackbar, caves }
 
   // Saved cenotes. Signed out, the cache is left as-is rather than wiped
