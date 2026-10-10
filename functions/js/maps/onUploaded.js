@@ -2,18 +2,20 @@ import { randomBytes } from 'node:crypto'
 import { getStorage } from 'firebase-admin/storage'
 import { logger } from 'firebase-functions/logger'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
-import { PDFDocument } from 'pdf-lib'
-import { convertPdfToSvg } from 'pdf-into-svg'
 import sharp from 'sharp'
 import pushId from 'unique-push-id'
 import { db } from '../init.js'
-import { sanitizeSvg } from './sanitizeSvg.js'
-import { gzipSvg, minifySvg } from './compressSvg.js'
+
+// The map libraries (jsdom, SVGO, pdf-lib, pdf-into-svg: ~100 MB) are
+// imported when a map comes in, not with this file: every function of the
+// codebase loads every file at its start, and with them the page functions
+// (indexPages, sitemap, cavePage) went past their 256 MiB.
 
 // An SVG as stored: cleaned (sanitizeSvg), made smaller (minifySvg), then
 // gzip-compressed (stored with Content-Encoding: gzip, see compressSvg.js).
 // The flags say both were done.
-function storedSvg(svg) {
+async function storedSvg(svg) {
+  const [{ sanitizeSvg }, { gzipSvg, minifySvg }] = await Promise.all([import('./sanitizeSvg.js'), import('./compressSvg.js')])
   return gzipSvg(minifySvg(sanitizeSvg(svg)))
 }
 const STORED_SVG_FLAGS = { ocSanitized: 'true', ocCompressed: 'true' }
@@ -75,6 +77,7 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
   const [, mapId] = match
   const bucket = getStorage().bucket(bucketName)
   const [pdf] = await bucket.file(originalPath).download()
+  const [{ PDFDocument }, { convertPdfToSvg }] = await Promise.all([import('pdf-lib'), import('pdf-into-svg')])
   let title
   try {
     title = (await PDFDocument.load(pdf, { ignoreEncryption: true })).getTitle()?.trim()
@@ -99,7 +102,7 @@ export const onMapPdfUploaded = onObjectFinalized({ memory: '1GiB', timeoutSecon
     // Keep the PDF intact; each SVG retains the page's vector paths and text.
     // Cleaned and compressed like an uploaded SVG (a PDF can carry scripts
     // and links too).
-    previewUrls.push(await saveWithDownloadUrl(bucket, `maps/${svgIds[index]}`, storedSvg(svg), 'image/svg+xml', STORED_SVG_FLAGS, 'gzip'))
+    previewUrls.push(await saveWithDownloadUrl(bucket, `maps/${svgIds[index]}`, await storedSvg(svg), 'image/svg+xml', STORED_SVG_FLAGS, 'gzip'))
   }
 
   // A small raster of the first page for the map cards - a full SVG page can
@@ -141,7 +144,7 @@ export const onMapImageUploaded = onObjectFinalized({ memory: '2GiB', timeoutSec
     if (metadata?.ocSanitized !== 'true') {
       const file = bucket.file(originalPath)
       const [raw] = await file.download()
-      await file.save(storedSvg(raw), {
+      await file.save(await storedSvg(raw), {
         metadata: {
           contentType,
           contentEncoding: 'gzip',
