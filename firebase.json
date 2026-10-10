@@ -118,6 +118,10 @@
           "function": "caveAddress"
         },
         {
+          "source": "/email/unsubscribe",
+          "function": "feedbackUnsubscribe"
+        },
+        {
           "source": "**",
           "destination": "/app.html"
         }

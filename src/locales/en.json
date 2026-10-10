@@ -159,7 +159,15 @@
     "appearanceHint": "Light or dark display, on this device and wherever you sign in.",
     "appearance_system": "Automatic (device setting)",
     "appearance_light": "Light",
-    "appearance_dark": "Dark"
+    "appearance_dark": "Dark",
+    "emails": {
+      "title": "Emails",
+      "feedbackReplies": "Email me the team’s replies to my feedback",
+      "feedbackRepliesHint": "When the OpenCaves team answers a report or idea you sent. Their replies stay on OpenCaves either way.",
+      "turnedOn": "The team’s replies will be emailed to you",
+      "turnedOff": "The team’s replies won’t be emailed to you anymore",
+      "saveError": "Couldn’t save this setting. Please try again."
+    }
   },
   "auth": {
     "dialog": {
@@ -1748,6 +1756,9 @@
         "team": "OpenCaves team",
         "replyLabel": "Reply to {{name}}",
         "replyPlaceholder": "Your reply, emailed to them with the whole conversation…",
+        "replyPlaceholderMuted": "Your reply, added to the conversation…",
+        "mutedHint": "{{name}} muted feedback emails: your reply won’t be emailed. It stays in the conversation.",
+        "sentMuted": "Reply sent. {{name}} muted feedback emails: it won’t be emailed.",
         "send": "Send",
         "sendOptions": "Send and change the stage",
         "sendAndClose": "Send and mark as {{status}}",
@@ -1796,7 +1807,8 @@
         "page": "Page",
         "language": "Language",
         "browser": "Browser",
-        "lastEmailed": "Author last emailed"
+        "lastEmailed": "Author last emailed",
+        "authorMuted": "The author muted feedback emails"
       },
       "timeline": {
         "opened": "opened",

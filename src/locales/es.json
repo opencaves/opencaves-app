@@ -159,7 +159,15 @@
     "appearanceHint": "Modo claro u oscuro, en este dispositivo y dondequiera que inicies sesión.",
     "appearance_system": "Automático (ajuste del dispositivo)",
     "appearance_light": "Claro",
-    "appearance_dark": "Oscuro"
+    "appearance_dark": "Oscuro",
+    "emails": {
+      "title": "Correos",
+      "feedbackReplies": "Enviarme por correo las respuestas del equipo a mis comentarios",
+      "feedbackRepliesHint": "Cuando el equipo de OpenCaves responde a un reporte o una idea que enviaste. Sus respuestas siguen en OpenCaves de todos modos.",
+      "turnedOn": "Recibirás por correo las respuestas del equipo",
+      "turnedOff": "Ya no recibirás por correo las respuestas del equipo",
+      "saveError": "No se pudo guardar este ajuste. Inténtalo de nuevo."
+    }
   },
   "auth": {
     "dialog": {
@@ -1748,6 +1756,9 @@
         "team": "Equipo de OpenCaves",
         "replyLabel": "Respuesta a {{name}}",
         "replyPlaceholder": "Tu respuesta, enviada por correo con toda la conversación…",
+        "replyPlaceholderMuted": "Tu respuesta, añadida a la conversación…",
+        "mutedHint": "{{name}} desactivó los correos sobre sus comentarios: tu respuesta no se le enviará por correo. Queda en la conversación.",
+        "sentMuted": "Respuesta enviada. {{name}} desactivó los correos sobre sus comentarios: no se le enviará por correo.",
         "send": "Enviar",
         "sendOptions": "Enviar y cambiar la etapa",
         "sendAndClose": "Enviar y marcar como {{status}}",
@@ -1796,7 +1807,8 @@
         "page": "Página",
         "language": "Idioma",
         "browser": "Navegador",
-        "lastEmailed": "Último correo al autor"
+        "lastEmailed": "Último correo al autor",
+        "authorMuted": "El autor desactivó los correos sobre sus comentarios"
       },
       "timeline": {
         "opened": "abrió",

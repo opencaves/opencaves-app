@@ -1,7 +1,8 @@
 // The emails to a report's author, in the language they wrote it in: the
 // team's replies (onFeedbackReplied), with the outcome when a reply closed the
 // report as done or rejected (its done/rejected texts). A stage changed on its
-// own emails no one: only replies do.
+// own emails no one: only replies do. unsubscribe: the small line at their
+// very end, a link that turns them off (feedbackUnsubscribe).
 export const FEEDBACK_EMAIL_CONTENT = {
   en: {
     kinds: { bug: 'bug report', misleading: 'report', idea: 'idea' },
@@ -18,6 +19,7 @@ export const FEEDBACK_EMAIL_CONTENT = {
     signoff: ['Thank you for helping,', '**The OpenCaves team**'],
     footer: 'You get this email because you sent feedback from OpenCaves.',
     footerReply: 'You get this email because you sent feedback from OpenCaves. Reply to it to answer the team.',
+    unsubscribe: { text: 'Don’t want these emails?', label: 'Unsubscribe' },
   },
   fr: {
     kinds: { bug: 'signalement de bogue', misleading: 'signalement', idea: 'idée' },
@@ -34,6 +36,7 @@ export const FEEDBACK_EMAIL_CONTENT = {
     signoff: ['Merci de votre aide,', '**L’équipe d’OpenCaves**'],
     footer: 'Vous recevez ce courriel parce que vous avez envoyé un commentaire depuis OpenCaves.',
     footerReply: 'Vous recevez ce courriel parce que vous avez envoyé un commentaire depuis OpenCaves. Répondez-y pour écrire à l’équipe.',
+    unsubscribe: { text: 'Vous ne voulez plus de ces courriels ?', label: 'Se désabonner' },
   },
   es: {
     kinds: { bug: 'reporte de error', misleading: 'reporte', idea: 'idea' },
@@ -50,5 +53,6 @@ export const FEEDBACK_EMAIL_CONTENT = {
     signoff: ['Gracias por tu ayuda,', '**El equipo de OpenCaves**'],
     footer: 'Recibes este correo porque enviaste un comentario desde OpenCaves.',
     footerReply: 'Recibes este correo porque enviaste un comentario desde OpenCaves. Respóndelo para escribirle al equipo.',
+    unsubscribe: { text: '¿No quieres recibir estos correos?', label: 'Cancelar la suscripción' },
   },
 }

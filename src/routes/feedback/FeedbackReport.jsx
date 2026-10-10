@@ -5,6 +5,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
+import NotificationsOffOutlined from '@mui/icons-material/NotificationsOffOutlined'
 import RadioButtonCheckedRounded from '@mui/icons-material/RadioButtonCheckedRounded'
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
 import { auth, db } from '@/config/firebase.js'
@@ -183,6 +184,16 @@ export default function FeedbackReport() {
           {report.reporterEmailedAt && (
             <Field label={t('admin.report.lastEmailed')}>
               <RelativeTime value={report.reporterEmailedAt} />
+            </Field>
+          )}
+          {/* authorMuted: mirrored by the server from the author's settings
+              (onAuthorMutedChanged) - admins don't read _users. */}
+          {report.authorMuted && (
+            <Field>
+              <Box className="oc-feedback-report--muted" sx={{ display: 'flex', alignItems: 'center', gap: 1, typography: 'body2', color: 'text.secondary' }}>
+                <NotificationsOffOutlined fontSize="small" />
+                {t('admin.report.authorMuted')}
+              </Box>
             </Field>
           )}
           <Field>
