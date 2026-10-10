@@ -41,6 +41,18 @@ if (!customElements.get('swiper-container')) {
 const SLIDE_DOT = [0, 1, 1, 2, 3, 4]
 const STEP_DOTS = 5
 
+/**
+ * @typedef {Omit<Partial<ValidityState>, 'customError'> & { valid?: boolean, customError?: false | string }} InputValidity
+ *   What TextInput reports of its field (onValidityChange).
+ */
+
+/**
+ * Signing up with an email, step by step: the email, the link sent to it, the
+ * email again (opened on another device), the name, the password.
+ *
+ * @param {object} props
+ * @param {boolean} props.open
+ */
 export default function SignupWithEmail({ open: initialOpen }) {
   const logoHeight = 100
   const logoWidth = 185
@@ -49,7 +61,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const { t } = useTranslation('auth', { keyPrefix: 'signup.withEmailDialog' })
   const { t: ts } = useTranslation('auth', { keyPrefix: 'signup.withEmailDialog.steps' })
   const { t: tErrors } = useTranslation('errors', { keyPrefix: 'auth' })
-  const swiperRef = useRef()
+  const swiperRef = useRef(null)
   const [swiperReady, setSwiperReady] = useState(false)
   const setSwiperContainerRef = useCallback((node) => {
     swiperRef.current = node
@@ -69,7 +81,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [registrationComplete, setRegistrationComplete] = useState(false)
   const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false)
   const [resetOpen, setResetOpen] = useState(false)
-  const [signinMethodsForEmail, setSigninMethodsForEmail] = useState()
+  const [signinMethodsForEmail, setSigninMethodsForEmail] = useState(/** @type {string[]} */ (undefined))
   // How the account using the email signs in (email in use).
   const inUseMethods = signinMethodsForEmail || []
   const usesPassword = inUseMethods.includes('password')
@@ -86,16 +98,17 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [password, setPassword] = useState('')
 
   const [firstNameInputHelperText, setFirstNameInputHelperText] = useState(' ')
-  const [firstNameInputValidity, setFirstNameInputValidity] = useState({ valid: false })
+  const [firstNameInputValidity, setFirstNameInputValidity] = useState(/** @type {InputValidity} */ ({ valid: false }))
 
   const [emailInputHelperText, setEmailInputHelperText] = useState(' ')
-  const [emailInputValidity, setEmailInputValidity] = useState({})
+  const [emailInputValidity, setEmailInputValidity] = useState(/** @type {InputValidity} */ ({}))
   const [emailInputEmpty, setEmailInputEmpty] = useState(true)
 
   const [email2InputHelperText, setEmail2InputHelperText] = useState(' ')
-  const [email2InputValidity, setEmail2InputValidity] = useState(false)
+  // {} (not yet reported): as false was, its `valid` is undefined.
+  const [email2InputValidity, setEmail2InputValidity] = useState(/** @type {InputValidity} */ ({}))
   const [email2InputEmpty, setEmail2InputEmpty] = useState(true)
-  const [email2InputCustomError, setEmail2InputCustomError] = useState(false)
+  const [email2InputCustomError, setEmail2InputCustomError] = useState(/** @type {false | string} */ (false))
   const [email2Prefilled, setEmail2Prefilled] = useState(false)
 
   const [passwordInputValid, setPasswordInputValid] = useState(false)
@@ -807,7 +820,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
                   <SectionForm>
                     <SectionDetails>{ts('password.details')}</SectionDetails>
                     <SectionFields>
-                      <PasswordInput label={ts('password.passwordLabel')} type="password" name="password" value={password} fullWidth required autoComplete="new-password" minLength={PASSWORD_MIN_LENGTH} inputMode="password" error={passwordInputError} onChange={onPasswordInputChange} onKeyUp={onPasswordInputKeyUp} />
+                      <PasswordInput label={ts('password.passwordLabel')} type="password" name="password" value={password} fullWidth required autoComplete="new-password" minLength={PASSWORD_MIN_LENGTH} error={passwordInputError} onChange={onPasswordInputChange} onKeyUp={onPasswordInputKeyUp} />
                     </SectionFields>
 
                     <Progress enabled={stepPasswordLoading} />

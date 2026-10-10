@@ -7,6 +7,8 @@ import 'react'
 /** A custom element's props: an HTML element's, plus its own attributes. */
 type CustomElementProps = import('react').DetailedHTMLProps<import('react').HTMLAttributes<HTMLElement>, HTMLElement> & {
   [attribute: `${string}-${string}`]: unknown
+  /** Swiper's transition, in milliseconds. */
+  speed?: string
   className?: string
 }
 
