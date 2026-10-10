@@ -419,9 +419,15 @@ export const routes = [
                 ...requireAdmin(() => import('@/routes/audits/Audits.jsx')),
               },
               {
-                // The beta testers' reports (Send feedback).
+                // The beta testers' reports (Send feedback), listed like
+                // GitHub's issues (?state, q, kind, stage, sort)...
                 path: 'feedback',
-                ...requireAdmin(() => import('@/routes/feedback/FeedbackAdmin.jsx')),
+                ...requireAdmin(() => import('@/routes/feedback/FeedbackList.jsx')),
+              },
+              {
+                // ...and each one on its own page, its thread and replies.
+                path: 'feedback/:feedbackId',
+                ...requireAdmin(() => import('@/routes/feedback/FeedbackReport.jsx')),
               },
               {
                 // Any other address: not found, the app bar kept.

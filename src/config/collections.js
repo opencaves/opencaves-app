@@ -12,3 +12,6 @@ export const AUDIT_LOG_COLLECTION = '_auditLog'
 // The beta testers' reports (the Send feedback form): written by their
 // author, read and closed by admins (the Feedback page), emailed to them.
 export const FEEDBACK_COLLECTION = '_feedback'
+// A report's thread (_feedback/{id}/messages): the team's replies, emailed to
+// its author (onFeedbackReplied).
+export const FEEDBACK_MESSAGES_COLLECTION = 'messages'

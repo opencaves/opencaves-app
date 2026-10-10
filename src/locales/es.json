@@ -1720,10 +1720,6 @@
     "admin": {
       "title": "Comentarios",
       "back": "Volver al panel",
-      "shown": {
-        "open": "Abiertos",
-        "all": "Todos"
-      },
       "status": {
         "new": "Nuevo",
         "confirmed": "Confirmado",
@@ -1741,24 +1737,81 @@
         "duplicate": "Ya reportado"
       },
       "changeStatus": "Etapa: {{status}}. Cambiarla",
-      "statusSet": "{{status}} - por {{name}}, {{date}}",
       "none": "No hay reportes aquí.",
       "delete": "Borrar",
-      "page": "Página:",
-      "browser": "Navegador:",
-      "note": "Nota",
-      "notePlaceholder": "Por qué se rechazó, de qué es duplicado, qué se hizo…",
       "closeTitle": "Marcar como {{status}}",
-      "closeText": "{{name}} recibirá el resultado por correo, con esta nota.",
-      "noteForReporter": "Nota para el autor",
+      "closeText": "{{name}} recibirá el resultado por correo. Agrega una respuesta para contarle más: se envía con el resultado, en un solo correo, y se suma a la conversación del reporte.",
+      "replyForReporter": "Respuesta al autor (opcional)",
       "closePlaceholder": {
         "done": "Qué se corrigió o añadió, y dónde verlo…",
         "rejected": "Por qué no se actuará al respecto…"
       },
       "closeConfirm": "Guardar y enviar",
-      "reporterEmailed": "Autor avisado por correo: {{date}}",
+      "closeConfirmReply": "Enviar la respuesta",
       "deleteTitle": "¿Borrar este reporte?",
-      "deleteText": "Se borrará para siempre."
+      "deleteText": "Se borrará para siempre.",
+      "statusError": "No se pudo cambiar la etapa. Inténtalo de nuevo.",
+      "deleteError": "No se pudo borrar el reporte. Inténtalo de nuevo.",
+      "thread": {
+        "label": "Conversación",
+        "team": "Equipo de OpenCaves",
+        "replyLabel": "Respuesta a {{name}}",
+        "replyPlaceholder": "Tu respuesta, enviada por correo con toda la conversación…",
+        "send": "Enviar",
+        "sendOptions": "Enviar y cambiar la etapa",
+        "sendAndClose": "Enviar y marcar como {{status}}",
+        "sent": "Respuesta enviada: {{name}} la recibirá por correo.",
+        "sendError": "No se pudo enviar la respuesta. Inténtalo de nuevo.",
+        "tooLong": "Como máximo {{count}} caracteres",
+        "emailed": "Enviada por correo",
+        "legacyNote": "Nota anterior"
+      },
+      "list": {
+        "search": "Buscar reportes",
+        "searchLabel": "Buscar reportes: mensaje, autor, página",
+        "clearSearch": "Borrar la búsqueda",
+        "clearFilters": "Borrar búsqueda, filtros y orden",
+        "open": "{{count}} abiertos",
+        "closed": "{{count}} cerrados",
+        "kind": "Tipo",
+        "allKinds": "Todos los tipos",
+        "stage": "Etapa",
+        "allStages": "Todas las etapas",
+        "sort": "Orden",
+        "sorts": {
+          "newest": "Más recientes",
+          "oldest": "Más antiguos",
+          "activity": "Actividad reciente"
+        },
+        "opened": "Abierto",
+        "by": "por {{name}}",
+        "messages_one": "{{count}} mensaje",
+        "messages_other": "{{count}} mensajes",
+        "untitled": "(sin texto)",
+        "noMatch": "Ningún reporte coincide con esta búsqueda o estos filtros."
+      },
+      "report": {
+        "back": "Volver a los reportes",
+        "open": "Abierto",
+        "closed": "Cerrado",
+        "openedThis": "abrió este reporte",
+        "notFound": "Este reporte no existe o fue borrado.",
+        "details": "Detalles del reporte",
+        "stage": "Etapa",
+        "kind": "Tipo",
+        "author": "Autor",
+        "page": "Página",
+        "language": "Idioma",
+        "browser": "Navegador",
+        "lastEmailed": "Último correo al autor",
+        "danger": "Reporte"
+      },
+      "timeline": {
+        "opened": "abrió",
+        "commented": "respondió",
+        "repliedByEmail": "respondió por correo",
+        "stageSet": "puso la etapa en {{status}}"
+      }
     },
     "messageTooShort": "Al menos {{count}} caracteres"
   },

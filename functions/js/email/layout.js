@@ -94,6 +94,18 @@ function quote({ text }) {
   return `<div style="margin:0 0 20px;padding:14px 18px;background:${C.surface};border-left:4px solid ${C.primary};border-radius:4px;font-size:15px;line-height:23px;color:${C.text};">${rich(text)}</div>`
 }
 
+// A message of a thread (a feedback report's): who wrote it and when, above
+// its text - `html` already rendered (email/markdown.js), or the plain
+// `text` (escaped, line breaks kept). `highlight`: the newest one, on the
+// container tint; the earlier ones are quieter, with a side rule.
+function message({ label, html, text, highlight }) {
+  const content = html ?? rich(text)
+  const box = highlight ? `background:${C.container};border-radius:14px;padding:16px 20px;` : `background:${C.surface};border-left:4px solid ${C.border};border-radius:4px;padding:12px 18px;`
+  return `<div style="margin:0 0 ${highlight ? 24 : 14}px;${box}font-family:${FONT};">
+<div style="font-size:13px;line-height:18px;font-weight:700;color:${highlight ? C.primary : C.muted};margin:0 0 6px;">${escape(label)}</div>
+<div style="font-size:${highlight ? 16 : 15}px;line-height:${highlight ? 24 : 23}px;color:${C.text};">${content}</div></div>`
+}
+
 // Label: value rows.
 function facts({ items }) {
   const rows = items
@@ -113,6 +125,8 @@ const HTML_BLOCKS = {
   quote,
   callout,
   facts,
+  message,
+  h2: ({ text }) => `<h2 style="${H2}margin:8px 0 14px;">${escape(text)}</h2>`,
   signoff: ({ lines }) => `<p style="${P}margin-top:8px;">${lines.map(rich).join('<br>')}</p>`,
 }
 
@@ -127,6 +141,13 @@ const TEXT_BLOCKS = {
 ${plain(text)}`,
   quote: ({ text }) => plain(text).split('\n').map((line) => `> ${line}`).join('\n'),
   facts: ({ items }) => items.map(({ label, value, href }) => `${label}: ${href || value}`).join('\n'),
+  // The plain text (Markdown reads as text) under its label: the newest
+  // message as is, the earlier ones quoted.
+  message: ({ label, text, highlight }) => {
+    const body = String(text ?? '').trim()
+    return highlight ? `${label}\n\n${body}` : `${label}\n${body.split('\n').map((line) => `> ${line}`).join('\n')}`
+  },
+  h2: ({ text }) => `--- ${text} ---`,
   signoff: ({ lines }) => lines.map(plain).join('\n'),
 }
 

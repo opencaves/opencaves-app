@@ -1719,10 +1719,6 @@
     "admin": {
       "title": "Commentaires",
       "back": "Retour au tableau de bord",
-      "shown": {
-        "open": "Ouverts",
-        "all": "Tous"
-      },
       "status": {
         "new": "Nouveau",
         "confirmed": "Confirmé",
@@ -1740,24 +1736,81 @@
         "duplicate": "Déjà signalé"
       },
       "changeStatus": "Étape : {{status}}. La changer",
-      "statusSet": "{{status}} - par {{name}}, {{date}}",
       "none": "Aucun rapport ici.",
       "delete": "Supprimer",
-      "page": "Page :",
-      "browser": "Navigateur :",
-      "note": "Note",
-      "notePlaceholder": "Pourquoi il a été rejeté, de quoi il est le doublon, ce qui a été fait…",
       "closeTitle": "Marquer comme {{status}}",
-      "closeText": "{{name}} recevra le résultat par courriel, avec cette note.",
-      "noteForReporter": "Note pour l’auteur",
+      "closeText": "{{name}} recevra le résultat par courriel. Ajoutez une réponse pour en dire plus : elle part avec le résultat, dans un seul courriel, et s’ajoute à la conversation du rapport.",
+      "replyForReporter": "Réponse à l’auteur (facultatif)",
       "closePlaceholder": {
         "done": "Ce qui a été corrigé ou ajouté, et où le voir…",
         "rejected": "Pourquoi il n’y sera pas donné suite…"
       },
       "closeConfirm": "Enregistrer et envoyer",
-      "reporterEmailed": "Auteur averti par courriel : {{date}}",
+      "closeConfirmReply": "Envoyer la réponse",
       "deleteTitle": "Supprimer ce rapport ?",
-      "deleteText": "Il sera supprimé pour de bon."
+      "deleteText": "Il sera supprimé pour de bon.",
+      "statusError": "L’étape n’a pas pu être changée. Veuillez réessayer.",
+      "deleteError": "Le rapport n’a pas pu être supprimé. Veuillez réessayer.",
+      "thread": {
+        "label": "Conversation",
+        "team": "Équipe d’OpenCaves",
+        "replyLabel": "Réponse à {{name}}",
+        "replyPlaceholder": "Votre réponse, envoyée par courriel avec toute la conversation…",
+        "send": "Envoyer",
+        "sendOptions": "Envoyer et changer l’étape",
+        "sendAndClose": "Envoyer et marquer comme {{status}}",
+        "sent": "Réponse envoyée : {{name}} la recevra par courriel.",
+        "sendError": "La réponse n’a pas pu être envoyée. Veuillez réessayer.",
+        "tooLong": "{{count}} caractères au plus",
+        "emailed": "Envoyée par courriel",
+        "legacyNote": "Ancienne note"
+      },
+      "list": {
+        "search": "Chercher un rapport",
+        "searchLabel": "Chercher un rapport : message, auteur, page",
+        "clearSearch": "Effacer la recherche",
+        "clearFilters": "Effacer recherche, filtres et tri",
+        "open": "{{count}} ouverts",
+        "closed": "{{count}} fermés",
+        "kind": "Type",
+        "allKinds": "Tous les types",
+        "stage": "Étape",
+        "allStages": "Toutes les étapes",
+        "sort": "Tri",
+        "sorts": {
+          "newest": "Plus récents",
+          "oldest": "Plus anciens",
+          "activity": "Activité récente"
+        },
+        "opened": "Ouvert",
+        "by": "par {{name}}",
+        "messages_one": "{{count}} message",
+        "messages_other": "{{count}} messages",
+        "untitled": "(sans texte)",
+        "noMatch": "Aucun rapport ne correspond à cette recherche ou à ces filtres."
+      },
+      "report": {
+        "back": "Retour aux rapports",
+        "open": "Ouvert",
+        "closed": "Fermé",
+        "openedThis": "a ouvert ce rapport",
+        "notFound": "Ce rapport n’existe pas ou a été supprimé.",
+        "details": "Détails du rapport",
+        "stage": "Étape",
+        "kind": "Type",
+        "author": "Auteur",
+        "page": "Page",
+        "language": "Langue",
+        "browser": "Navigateur",
+        "lastEmailed": "Dernier courriel à l’auteur",
+        "danger": "Rapport"
+      },
+      "timeline": {
+        "opened": "a ouvert",
+        "commented": "a répondu",
+        "repliedByEmail": "a répondu par courriel",
+        "stageSet": "a mis l’étape à {{status}}"
+      }
     },
     "messageTooShort": "Au moins {{count}} caractères"
   },
