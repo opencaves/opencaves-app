@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
-import LoginRounded from '@mui/icons-material/LoginRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
@@ -108,7 +108,7 @@ export default function CavePage() {
   const points = [
     location && { key: 'location', icon: <MyLocationRounded />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
     isPoint(cave.parking) && { key: 'parking', icon: <LocalParkingRounded />, text: coordinates(cave.parking), copyText: coordinates(cave.parking), copyLabel: tPane('copyParkingCoordinates'), point: cave.parking, directionsLabel: tPane('directionsToParking') },
-    isPoint(cave.entrance) && { key: 'entrance', icon: <LoginRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
+    isPoint(cave.entrance) && { key: 'entrance', icon: <EntranceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
   ].filter(Boolean)
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
