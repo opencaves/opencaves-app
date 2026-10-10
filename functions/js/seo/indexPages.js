@@ -5,7 +5,7 @@ import { db } from '../init.js'
 import { cavePageMeta } from './cavePage.js'
 import { loadSsr, renderWithApp } from './ssr.js'
 import { APP_TITLE, GITHUB_URL, SITE_URL } from '../constants.js'
-import { decodeSegment, escapeHtml, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { decodeSegment, escapeHtml, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadIndexData, loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -243,13 +243,13 @@ export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async 
     if (!meta) {
       // The app shows its own "not found"; search engines get the status.
       res.set('Cache-Control', 'public, max-age=60')
-      res.status(404).send(await notFoundShell(req))
+      sendHtml(req, res, await notFoundShell(req), 404)
       return
     }
     const html = await pageHtml(req, meta)
     // As the cave page: short in browsers, an hour at the CDN edge.
     res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
-    res.send(html)
+    sendHtml(req, res, html)
   } catch (error) {
     logger.error('[indexPages] the page could not be served', { path: req.path, error: error.message })
     res.redirect(302, '/map')

@@ -3,6 +3,7 @@
 // tags and text into it. Search engines and link previews get the page's
 // content in the HTML; the app then replaces #root and reuses those <head>
 // tags (src/utils/headTags.js), so the two must stay in step.
+import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
 import { APP_TITLE, SITE_URL } from '../constants.js'
 const SHELL_TTL_MS = 5 * 60 * 1000
 
@@ -28,6 +29,39 @@ export async function shellFor(req) {
   const html = await response.text()
   shells.set(origin, { html, at: Date.now() })
   return html
+}
+
+// The pages compressed by the function itself: Hosting passes a function's
+// response on as it is, uncompressed (measured: the server-rendered /caves
+// arrived at 678 KB; Brotli brings it to about 63 KB). Brotli at quality 5
+// (about 4 ms for that page; 11 is barely smaller and far slower), gzip for a
+// client without it. Vary: the CDN keeps one copy per encoding.
+const BROTLI_QUALITY = 5
+// The compressed copies of the latest pages, so a page the function keeps
+// (ssr.js) isn't compressed again on each request.
+const COMPRESSED_MAX = 40
+const compressed = new Map()
+
+function compress(html, encoding) {
+  const key = `${encoding}:${html}`
+  let body = compressed.get(key)
+  if (!body) {
+    body = encoding === 'br' ? brotliCompressSync(html, { params: { [zlib.BROTLI_PARAM_QUALITY]: BROTLI_QUALITY, [zlib.BROTLI_PARAM_SIZE_HINT]: Buffer.byteLength(html) } }) : gzipSync(html)
+    compressed.set(key, body)
+    if (compressed.size > COMPRESSED_MAX) compressed.delete(compressed.keys().next().value)
+  }
+  return body
+}
+
+// Sends a page's HTML compressed as the client accepts (headers set before).
+export function sendHtml(req, res, html, status = 200) {
+  const accepted = req.get('accept-encoding') || ''
+  const encoding = /\bbr\b/.test(accepted) ? 'br' : /\bgzip\b/.test(accepted) ? 'gzip' : null
+  res.set('Vary', 'Accept-Encoding')
+  res.status(status)
+  if (!encoding) return res.send(html)
+  res.set('Content-Encoding', encoding)
+  return res.send(compress(html, encoding))
 }
 
 export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])

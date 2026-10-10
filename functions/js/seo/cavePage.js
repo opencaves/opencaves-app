@@ -3,7 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { APP_TITLE, SITE_URL } from '../constants.js'
-import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -105,7 +105,7 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   if (!snapshot?.exists) {
     // The app shows its own "not found"; search engines get the status.
     res.set('Cache-Control', 'public, max-age=60')
-    res.status(404).send(shell)
+    sendHtml(req, res, shell, 404)
     return
   }
   // Short in browsers (the app is the page they use), longer at the CDN edge:
@@ -117,5 +117,5 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
     const { slugs, names } = await loadSistemaSlugs()
     if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
   }
-  res.send(cavePageHtml(shell, cave, id, sistema))
+  sendHtml(req, res, cavePageHtml(shell, cave, id, sistema))
 })
