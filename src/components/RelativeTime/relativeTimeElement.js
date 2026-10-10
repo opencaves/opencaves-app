@@ -4,7 +4,9 @@
 // past DATE_AFTER the date itself (Intl.DateTimeFormat), in an open shadow
 // root: a <time part="time">, styleable from outside with
 // oc-relative-time::part(time). Its exact date and time is the host's title
-// (set here unless the page sets one). Its light DOM - the fallback the server
+// (set here unless the page sets one), and, for screen readers - the title
+// is out of their reach, and keyboard and touch users' - visually hidden
+// text after the relative one. Its light DOM - the fallback the server
 // and React render, a date - shows only until the element is defined: the
 // shadow root has no <slot>.
 //
@@ -25,6 +27,7 @@ const DATE_AFTER = 30 * DAY
 const STYLES = `
 :host { display: inline; }
 time { font: inherit; color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; }
+.exact { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 `
 
 // The relative text of `date` (a Date), `now` being now, in `language`.
@@ -121,6 +124,11 @@ function createElementClass() {
       adoptStyles(root)
       this.timeElement = document.createElement('time')
       this.timeElement.setAttribute('part', 'time')
+      this.relativeText = document.createTextNode('')
+      // The exact date, read by screen readers only (.exact).
+      this.exactText = document.createElement('span')
+      this.exactText.className = 'exact'
+      this.timeElement.append(this.relativeText, this.exactText)
       root.append(this.timeElement)
       // A title the page set itself is kept; ours follows the date.
       this.ownTitle = !this.hasAttribute('title')
@@ -157,14 +165,17 @@ function createElementClass() {
       const time = this.time
       if (time == null) {
         this.timeElement.removeAttribute('datetime')
-        this.timeElement.textContent = ''
+        this.relativeText.data = ''
+        this.exactText.textContent = ''
         return
       }
       const date = new Date(time)
       const language = this.language
       this.timeElement.setAttribute('datetime', date.toISOString())
-      this.timeElement.textContent = formatRelativeTime(date, language)
-      if (this.ownTitle) this.setAttribute('title', formatExactTime(date, language))
+      const exact = formatExactTime(date, language)
+      this.relativeText.data = formatRelativeTime(date, language)
+      this.exactText.textContent = ` (${exact})`
+      if (this.ownTitle) this.setAttribute('title', exact)
     }
   }
 }
