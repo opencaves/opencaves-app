@@ -138,11 +138,20 @@ const gutterSx = {
   whiteSpace: 'nowrap',
 }
 
-// One field's change. Short values: old -> new chips. Texts, and objects as
-// pretty JSON: a GitHub-like line diff under a header with the field's name
-// and its +added -removed line counts. beforeLabel/afterLabel name the two
-// sides when they aren't before/after (a conflict: expected/now). oneSided:
-// a creation or deletion, whose missing side isn't shown as "(none)".
+/**
+ * One field's change. Short values: old -> new chips. Texts, and objects as
+ * pretty JSON: a GitHub-like line diff under a header with the field's name
+ * and its +added -removed line counts.
+ *
+ * @param {object} props
+ * @param {string} props.field - The field's name.
+ * @param {*} props.before - Its value before.
+ * @param {*} props.after - After.
+ * @param {string} [props.beforeLabel] - With afterLabel, name the two
+ *   sides when they aren't before/after (a conflict: expected/now).
+ * @param {string} [props.afterLabel]
+ * @param {boolean} [props.oneSided=false] - A creation or deletion, whose missing side isn't shown as "(none)".
+ */
 export function FieldChange({ field, before, after, beforeLabel, afterLabel, oneSided = false }) {
   const { t, i18n } = useTranslation('audits')
   const compact = isCompactValue(before) && isCompactValue(after)
@@ -199,8 +208,10 @@ export function FieldChange({ field, before, after, beforeLabel, afterLabel, one
   )
 }
 
-// What an entry changed: each changed field old -> new; for a creation or a
-// deletion (only one side), every field of the record, all added or removed.
+/**
+ * What an entry changed: each changed field old -> new; for a creation or a
+ * deletion (only one side), every field of the record, all added or removed.
+ */
 export default function AuditEntryDetails({ entry, accountLabel }) {
   const { t, i18n } = useTranslation('audits')
   const fields = entryFields(entry)

@@ -47,8 +47,13 @@ const tileIndexLoading = fetch(CAVE_LAYER.INDEX)
   // rather than none - the ones kept on the device still show.
   .catch(() => (tileIndex = null))
 
-// For the map's transformRequest: a cave tile not in the index is answered
-// with the empty tile instead of being fetched.
+/**
+ * For the map's transformRequest: a cave tile not in the index is answered
+ * with the empty tile instead of being fetched.
+ *
+ * @param {string} url
+ * @returns {{url: string}}
+ */
 export function caveTileRequest(url) {
   const match = tileIndex && url.match(/\/tiles\/caves\/(\d+\/\d+\/\d+)\.pbf/)
   if (match && !tileIndex.has(match[1])) return { url: new URL(CAVE_LAYER.EMPTY_TILE, window.location.origin).href }
@@ -106,27 +111,32 @@ function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
   )
 }
 
-// The cave layer: the passages traced from the cave survey maps (walls,
-// survey lines, water, drawn details) and their symbols (entrances, depths,
-// place names, flow), with the options of the map's layer button (the
-// caveLayer slice): shown or not; every system or only the selected cave's
-// (selectedSistemaId: its system and the ones merged into it); each system in
-// its colour (from the database: a colour changed in the admin UI shows
-// without rebuilding the tiles) or all in one colour. The maps whose drawing
-// editors hid (caveLayerSettings) are left out for everyone - shown in grey in
-// the edit mode (editors), where the map under the pointer is outlined and
-// named, and a click on it offers to hide its drawing, or show it again.
-// mapId: that map's drawing only, always shown (even hidden for everyone) and
-// never in the edit mode - the admin's original-vs-drawing viewer.
+/**
+ * The cave layer: the passages traced from the cave survey maps (walls,
+ * survey lines, water, drawn details) and their symbols (entrances, depths,
+ * place names, flow), with the options of the map's layer button (the
+ * caveLayer slice): shown or not; every system or only the selected cave's
+ * (selectedSistemaId: its system and the ones merged into it); each system in
+ * its colour (from the database: a colour changed in the admin UI shows
+ * without rebuilding the tiles) or all in one colour. The maps whose drawing
+ * editors hid (caveLayerSettings) are left out for everyone - shown in grey in
+ * the edit mode (editors), where the map under the pointer is outlined and
+ * named, and a click on it offers to hide its drawing, or show it again.
+ *
+ * @param {object} props
+ * @param {string} [props.selectedSistemaId] - The open cave's system.
+ * @param {string} [props.mapId] - That map's drawing only, always shown (even hidden for everyone) and
+ *   never in the edit mode - the admin's original-vs-drawing viewer.
+ */
 export default function CaveLayer({ selectedSistemaId, mapId }) {
   const theme = useTheme()
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })
   const [openSnackbar] = useSnackbar()
   const { current: map } = useMap()
-  const sistemas = useSelector((state) => state.data.sistemas)
-  const connections = useSelector((state) => state.data.connections)
-  const roles = useSelector((state) => state.session.roles)
-  const { visible, scope, colorBySistema, editMode: editModeChosen } = useSelector((state) => state.caveLayer)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
+  const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
+  const { visible, scope, colorBySistema, editMode: editModeChosen } = useSelector((/** @type {RootState} */ state) => state.caveLayer)
   const editMode = !mapId && editModeChosen && visible && roles.includes('editor')
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const units = useUnits()
@@ -161,7 +171,8 @@ export default function CaveLayer({ selectedSistemaId, mapId }) {
       const layers = EDITABLE_LAYERS.filter((id) => map.getLayer(id))
       const features = layers.length ? map.queryRenderedFeatures([[x - HOVER_PADDING, y - HOVER_PADDING], [x + HOVER_PADDING, y + HOVER_PADDING]], { layers }) : []
       const feature = features.find((f) => f.layer.id !== 'oc-caves-water') || features[0]
-      return feature ? { name: feature.properties.map, lngLat: event.lngLat } : null
+      // properties: GeoJSON's Feature, whose types (@types/geojson) aren't installed.
+      return feature ? { name: /** @type {any} */ (feature).properties.map, lngLat: event.lngLat } : null
     }
     const onMove = (event) => {
       const next = target(event)

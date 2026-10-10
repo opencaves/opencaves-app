@@ -131,7 +131,13 @@ const card = (section, key) => {
   return { icon: ICONS[key], title, text, ...(linkLabel && { link: { label: linkLabel, href: `${SITE_URL}${LINKS[key]}` } }) }
 }
 
-// { subject, html, text } of the welcome email in a language (en, fr, es).
+/**
+ * { subject, html, text } of the welcome email in a language (en, fr, es).
+ *
+ * @param {string} language
+ * @param {string} name
+ * @returns {{subject: string, html: string, text: string}}
+ */
 export function welcomeEmail(language, name) {
   const c = CONTENT[language] || CONTENT.en
   const { html, text } = renderEmail({
@@ -156,9 +162,14 @@ export function welcomeEmail(language, name) {
 }
 
 
-// Called by the app once an account has its editor role (ManageAuth): sends
-// it the welcome email, once - _users/{uid}.welcomeEmailSentAt records it -
-// and only to an account created since WELCOME_SINCE. language: the app's.
+/**
+ * Called by the app once an account has its editor role (ManageAuth): sends
+ * it the welcome email, once - _users/{uid}.welcomeEmailSentAt records it -
+ * and only to an account created since {@link WELCOME_SINCE}.
+ *
+ * @param {CallableRequest} request - Its data's language: the app's.
+ * @throws {HttpsError} unauthenticated without an account (anonymous included).
+ */
 export const sendWelcomeEmail = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, secrets: [RESEND_API_KEY] }, async (request) => {
   const uid = request.auth?.uid
   if (!uid || request.auth.token.firebase?.sign_in_provider === 'anonymous') throw new HttpsError('unauthenticated', 'An account is needed.')

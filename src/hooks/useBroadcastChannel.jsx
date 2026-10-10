@@ -69,7 +69,7 @@ export function useBroadcastChannel(
  * Works in browser that support Broadcast Channel API natively. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API#browser_compatibility).
  * To support other browsers, install and use [broadcastchannel-polyfill](https://www.npmjs.com/package/broadcastchannel-polyfill).
  */
-export function useBroadcastState(channelName, initialState) {
+function useBroadcastState(channelName, initialState) {
   const [state, setState] = useState(initialState)
   const setter = useBroadcastChannel(channelName, ev => setState(ev.data))
   useEffect(() => setter(state), [setter, state])

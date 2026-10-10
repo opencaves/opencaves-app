@@ -2,10 +2,10 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-import en from './locales/en'
-import fr from './locales/fr'
-import es from './locales/es'
-import yua from './locales/yua'
+import en from './locales/en.json'
+import fr from './locales/fr.json'
+import es from './locales/es.json'
+import yua from './locales/yua.json'
 import { APP_LANGUAGE_CODES, APP_LANGUAGE_STORAGE_KEY, FALLBACK_LANGUAGES } from '@/config/appLanguages.js'
 
 i18n
@@ -66,10 +66,13 @@ i18n
     // }
   })
 
-// Screen readers pick their voice from it.
-i18n.on('languageChanged', (lng) => {
-  document.documentElement.lang = i18n.resolvedLanguage || lng
-})
-if (i18n.resolvedLanguage) document.documentElement.lang = i18n.resolvedLanguage
+// Screen readers pick their voice from it. (The server, rendering the public
+// pages in English, sets its page's lang itself: entry-server.jsx.)
+if (typeof document !== 'undefined') {
+  i18n.on('languageChanged', (lng) => {
+    document.documentElement.lang = i18n.resolvedLanguage || lng
+  })
+  if (i18n.resolvedLanguage) document.documentElement.lang = i18n.resolvedLanguage
+}
 
 export default i18n

@@ -12,7 +12,7 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 export default function LogIn() {
   const navigate = useNavigate()
-  const continueUrl = useSelector((state) => state.session.continueUrl)
+  const continueUrl = useSelector((/** @type {RootState} */ state) => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'login' })
 
   function onSuccess() {
@@ -26,7 +26,7 @@ export default function LogIn() {
 
   return (
     <>
-      <Grid className="oc-log-in" container direction="column" sx={{ m: 4, alignItems: 'center' }}>
+      <Grid className="oc-log-in" container sx={{ flexDirection: 'column', m: 4, alignItems: 'center' }}>
         <Stack
           spacing={4}
           sx={{

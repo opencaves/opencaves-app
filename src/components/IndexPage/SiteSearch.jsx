@@ -6,10 +6,12 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from './searchSuggestions.jsx'
 
-// A search across the caves, cave systems and areas, with suggestions as one
-// types (grouped by kind; a cave shows its system; useSiteSearch): picking
-// one opens its page, Enter on free text opens the caves' list filtered by it.
-// No button of its own: Enter (the phone keyboard's Search key) submits.
+/**
+ * A search across the caves, cave systems and areas, with suggestions as one
+ * types (grouped by kind; a cave shows its system; {@link useSiteSearch}): picking
+ * one opens its page, Enter on free text opens the caves' list filtered by it.
+ * No button of its own: Enter (the phone keyboard's Search key) submits.
+ */
 export default function SiteSearch({ sx, inputSx }) {
   const { t } = useTranslation('home')
   const navigate = useNavigate()
@@ -51,8 +53,8 @@ export default function SiteSearch({ sx, inputSx }) {
             sx={inputSx}
             slotProps={{
               ...params.slotProps,
-              htmlInput: { ...params.slotProps?.htmlInput, ...params.inputProps, 'aria-label': t('hero.searchPlaceholder'), enterKeyHint: 'search' },
-              input: { ...params.InputProps, ...params.slotProps?.input, startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
+              htmlInput: { ...params.slotProps?.htmlInput, 'aria-label': t('hero.searchPlaceholder'), enterKeyHint: 'search' },
+              input: { ...params.slotProps?.input, startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
             }}
           />
         )}

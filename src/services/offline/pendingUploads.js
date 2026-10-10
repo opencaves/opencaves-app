@@ -49,9 +49,6 @@ export async function removePendingUpload(id) {
   await refresh()
 }
 
-// The uploads still waiting for this account (asked before signing out).
-export const pendingCountFor = (uid) => items.filter((item) => item.uid === uid).length
-
 export async function loadPendingUploads() {
   await refresh()
   return items

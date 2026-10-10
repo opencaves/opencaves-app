@@ -37,10 +37,18 @@ function MapThumbnail({ map, size }) {
   )
 }
 
-// A shared library of map files (survey maps: images or PDFs), picked from
-// by every sistema - not scoped to one sistema, same sharing model as
-// ColorPicker's `colors` palette. `value` is an array of map doc IDs;
-// `onChange` receives the updated array.
+/**
+ * A shared library of map files (survey maps: images or PDFs), picked from
+ * by every sistema - not scoped to one sistema, same sharing model as
+ * ColorPicker's `colors` palette.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} [props.label]
+ * @param {string[]} [props.value=[]] - An array of map doc IDs.
+ * @param {(value: string[]) => void} props.onChange - Receives the updated array.
+ * @param {string} [props.sistemaName=''] - The system's, a new map's default title.
+ * @param {object} [props.labelProps={}] - The label's.
+ */
 export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {} }) {
   const { t } = useTranslation('mapsPicker')
   const isSmall = useSmall()
@@ -115,7 +123,7 @@ export default function MapsPicker({ label, value = [], onChange, sistemaName = 
         {selectedMaps.map((m) => (
           <Card key={m.id} className="oc-maps-picker--card" title={[m.date, m.authors?.join(', ')].filter(Boolean).join(' · ') || undefined} sx={{ width: 160, position: 'relative', flexShrink: 0 }}>
             <IconButton size="small" onClick={() => removeChip(m.id)} aria-label={t('removeMap')} sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
             <CardActionArea component="a" href={m.previewUrl || m.url} target="_blank" rel="noopener noreferrer">
               <Box sx={{ height: 120, bgcolor: 'action.hover', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>{m.contentType === 'application/pdf' && !m.previewUrl && !m.thumbnailUrl ? <DescriptionRounded sx={{ fontSize: 48, color: 'text.secondary' }} /> : <Box component="img" src={m.thumbnailUrl || m.previewUrl || m.url} alt={m.name} crossOrigin="anonymous" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />}</Box>

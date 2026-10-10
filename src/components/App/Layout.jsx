@@ -108,7 +108,7 @@ export default function Layout() {
     const events = ['wheel', 'touchstart', 'keydown', 'pointerdown']
     events.forEach((type) => scroller.addEventListener(type, stop, { passive: true }))
     // How far the section's top is from where scrolling to it puts it.
-    const offset = (section) => section.getBoundingClientRect().top - scroller.getBoundingClientRect().top - parseFloat(getComputedStyle(section).scrollMarginTop || 0)
+    const offset = (section) => section.getBoundingClientRect().top - scroller.getBoundingClientRect().top - parseFloat(getComputedStyle(section).scrollMarginTop || '0')
     let last = null
     let still = 0
     const settle = () => {
@@ -186,7 +186,7 @@ export default function Layout() {
       <AppBar />
       {/* One column, never wider than the page (sized by its content, a
           wide form pushed the page past the screen's edge on phones). */}
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
+      <Container id="main" className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
         borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing

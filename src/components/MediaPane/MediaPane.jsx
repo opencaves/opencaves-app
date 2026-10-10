@@ -24,6 +24,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
+/**
+ * The media pane's route loader: the cave's photos.
+ */
 export async function mediaPaneLoader({ params }) {
   return getAssetList(params.caveId)
 }
@@ -36,7 +39,7 @@ export default function MediaPane() {
   const mediaPaneRef = useRef(null)
   const paneWidth = usePaneWidth()
   const { caveId, mediaId } = useParams()
-  const currentCave = useSelector(state => state.map.currentCave)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
   const [mediaListSnapshot, loading, error] = useCaveAssetsList(caveId)
   const initialMediaList = useLoaderData()
   const navigate = useNavigate()

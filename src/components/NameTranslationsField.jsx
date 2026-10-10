@@ -2,9 +2,11 @@ import { Box, IconButton, MenuItem, TextField, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import AddButton from '@/components/AddButton.jsx'
 
-// One row per language, each language selectable in at most one row at a
-// time (its own current selection stays available to itself, but disappears
-// from every other row's options once picked).
+/**
+ * One row per language, each language selectable in at most one row at a
+ * time (its own current selection stays available to itself, but disappears
+ * from every other row's options once picked).
+ */
 export default function NameTranslationsField({ label, rows, languages, onChange, addLabel, removeLabel, languageLabel, valueLabel, labelProps = {} }) {
   const usedLangs = rows.map((r) => r.lang).filter(Boolean)
   const unusedLanguages = languages.filter((l) => !usedLangs.includes(l.code))
@@ -47,7 +49,7 @@ export default function NameTranslationsField({ label, rows, languages, onChange
             </TextField>
             <TextField size="small" label={valueLabel} fullWidth value={row.value} onChange={(e) => updateAt(index, { value: e.target.value })} />
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
           </Box>
         ))}

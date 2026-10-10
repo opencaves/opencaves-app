@@ -11,6 +11,7 @@ import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, u
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { removeShell } from '@/utils/shell.js'
+import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -52,7 +53,7 @@ ${reason}`)
         <span>{t('title')}</span>
         <Tooltip title={copied ? t('copied') : t('copy')}>
           <IconButton className="no-match--copy" size="small" onClick={copy} aria-label={copied ? t('copied') : t('copy')}>
-            {copied ? <CheckRounded fontSize="small" /> : <ContentCopyRounded fontSize="small" />}
+            {copied ? <CheckRounded /> : <ContentCopyRounded />}
           </IconButton>
         </Tooltip>
       </summary>
@@ -66,8 +67,13 @@ ${reason}`)
   )
 }
 
-// inLayout: inside the pages' layout (app bar, search kept), not the whole
-// window; a bad cave or system address offers its list too.
+/**
+ * A bad cave or system address offers its list too.
+ *
+ * @param {object} props
+ * @param {boolean} [props.inLayout=false] - Inside the pages' layout (app bar, search kept), not the whole
+ *   window.
+ */
 export default function NoMatch({ inLayout = false }) {
   const { t } = useTranslation('404')
   const { t: tHome } = useTranslation('home')
@@ -80,7 +86,7 @@ export default function NoMatch({ inLayout = false }) {
   const notFound = !error || (isRouteErrorResponse(error) && error.status === 404)
   // offlinePreview: the development preview of the offline page
   // (/dev/error/offline), shown as offline while online.
-  const kind = notFound ? 'notFound' : online && !error?.offlinePreview ? 'failed' : 'offline'
+  const kind = notFound ? 'notFound' : online && !/** @type {{ offlinePreview?: boolean }} */ (error)?.offlinePreview ? 'failed' : 'offline'
   const navigate = useNavigate()
   const { t: tApp } = useTranslation('app')
   // Back where the visitor came from; to the home page when this is the
@@ -90,6 +96,14 @@ export default function NoMatch({ inLayout = false }) {
   useEffect(() => {
     if (error && !notFound) console.error(error)
   }, [error, notFound])
+
+  // Firestore failed inside (its SDK's bug): recovered with a reload; once
+  // the automatic steps are spent, the button reloads too - loading the
+  // page's data again can't work until then.
+  const firestoreFailed = isFirestoreFailure(error)
+  useEffect(() => {
+    if (firestoreFailed) recoverFromFirestoreFailure()
+  }, [firestoreFailed])
 
   // An error page outside Layout (a route failing, the map's): index.html's
   // splash goes, as no page will remove it.
@@ -118,7 +132,7 @@ export default function NoMatch({ inLayout = false }) {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} direction="column" sx={{ height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} sx={{ flexDirection: 'column', height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen
           view's back arrow at its top left), on a light disc over the photo. */}
       {kind === 'offline' && (
@@ -141,7 +155,7 @@ export default function NoMatch({ inLayout = false }) {
             </Button>
           </Grid>
         ) : (
-          <Button variant="contained" disableElevation onClick={() => revalidator.revalidate()} loading={revalidator.state === 'loading'}>
+          <Button variant="contained" disableElevation onClick={() => (firestoreFailed ? window.location.reload() : revalidator.revalidate())} loading={revalidator.state === 'loading'}>
             {t('retryBtn')}
           </Button>
         )}

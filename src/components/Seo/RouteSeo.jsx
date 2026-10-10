@@ -5,12 +5,14 @@ import { SITE_URL } from '@/config/app.js'
 import { canonicalPath, isIndexable, isPublicIndexPath } from '@/utils/seo.js'
 import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 
-// Per-route search-engine basics, for every page under AppRoot: a canonical
-// URL, noindex on private/admin pages, and the localized default description
-// - except on cave pages, whose description CaveSeo sets, and the index pages
-// (/caves, /sistemas, an area, a system), which set their own
-// (useIndexPageHead). (Effects run children-first, so this must not
-// overwrite it there.)
+/**
+ * Per-route search-engine basics, for every page under AppRoot: a canonical
+ * URL, noindex on private/admin pages, and the localized default description
+ * - except on cave pages, whose description CaveSeo sets, and the index pages
+ * (/caves, /sistemas, an area, a system), which set their own
+ * (useIndexPageHead). (Effects run children-first, so this must not
+ * overwrite it there.)
+ */
 export default function RouteSeo() {
   const { t, i18n } = useTranslation('seo')
   const { pathname } = useLocation()

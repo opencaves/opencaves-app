@@ -1,8 +1,14 @@
 import Button from '@mui/material/Button'
 import { useOnline } from '@/hooks/useOnline.jsx'
 
-// Disabled offline: signing in and up need the server (OfflineAuthNote says
-// so). disabled: also busy - its spinner (loading) shows.
+/**
+ * Disabled offline: signing in and up need the server (OfflineAuthNote says
+ * so).
+ *
+ * @param {import('@mui/material/Button').ButtonProps & { Component?: import('react').ElementType } & Record<string, any>} props - A
+ *   Button's, rendered as `Component` (Button by default); `disabled` also
+ *   means busy - its spinner (loading) shows.
+ */
 export default function AuthButton({ Component = Button, disabled, startIcon, endIcon, sx = {}, className, children, ...props }) {
   const online = useOnline()
 

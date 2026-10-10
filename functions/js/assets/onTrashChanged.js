@@ -2,11 +2,13 @@ import { onDocumentUpdated } from 'firebase-functions/v2/firestore'
 import { db } from '../init.js'
 import { CAVES_ASSETS_COLL_NAME } from '../constants.js'
 
-// A cave keeps a cover among its photos outside the trash: a cover deleted
-// to the trash (deletedAt set) hands it to the cave's oldest other photo,
-// and a photo restored to a cave left without a cover becomes it.
-// Only reacts to deletedAt appearing or going: its own isCover writes
-// (and onAssetUpdated's) don't come back here.
+/**
+ * A cave keeps a cover among its photos outside the trash: a cover deleted
+ * to the trash (deletedAt set) hands it to the cave's oldest other photo,
+ * and a photo restored to a cave left without a cover becomes it.
+ * Only reacts to deletedAt appearing or going: its own isCover writes
+ * don't come back here.
+ */
 export const onAssetTrashChanged = onDocumentUpdated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, async (event) => {
   const wasTrashed = !!event.data.before.get('deletedAt')
   const isTrashed = !!event.data.after.get('deletedAt')

@@ -5,8 +5,12 @@ import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 import Picture from '@/components/Picture.jsx'
 import { registerPanoramaViewer } from './panoramaViews.js'
 
-// onSwipeLock(locked): whether the gallery's carousel must leave swipes alone
-// (the photo zoomed in, or a pinch under way) - PictureViewer.
+/**
+ * @param {object} props
+ * @param {object} props.media - The photo (a 360Â° one in the panorama viewer).
+ * @param {(locked: boolean) => void} [props.onSwipeLock] - Whether the gallery's carousel must leave swipes alone
+ *   (the photo zoomed in, or a pinch under way) - {@link PictureViewer}.
+ */
 export default function MediaViewer({ media, onSwipeLock }) {
   const { t } = useTranslation('mediaPane')
 

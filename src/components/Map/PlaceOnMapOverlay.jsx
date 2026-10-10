@@ -15,19 +15,21 @@ import PlaceCross from '@/components/Map/PlaceCross.jsx'
 // Read by screen readers, not drawn.
 const visuallyHidden = { position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
 
-// The phone edit form's "place on map" mode (mapSlice.placeOnMap), shown over
-// the map while ResultPaneSm keeps the sheet minimized: a fixed cross marks
-// the center of the visible map; the person pans the map under it (or
-// searches a place) and confirms, which hands the coordinate back to the
-// form's CoordinateField (setPickedCoordinate) - or closes. Same controls as
-// the admin pages' map preview (CoordinatesMapPreview).
-// Portaled to <body>: above the search bar (1000) and the sheet (999).
+/**
+ * The phone edit form's "place on map" mode (mapSlice.placeOnMap), shown over
+ * the map while ResultPaneSm keeps the sheet minimized: a fixed cross marks
+ * the center of the visible map; the person pans the map under it (or
+ * searches a place) and confirms, which hands the coordinate back to the
+ * form's CoordinateField ({@link setPickedCoordinate}) - or closes. Same controls as
+ * the admin pages' map preview (CoordinatesMapPreview).
+ * Portaled to <body>: above the search bar (1000) and the sheet (999).
+ */
 export default function PlaceOnMapOverlay({ mapRef }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const placeOnMap = useSelector((state) => state.map.placeOnMap)
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const barRef = useRef()
+  const placeOnMap = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const barRef = useRef(null)
   const [center, setCenter] = useState(null)
   const [pinY, setPinY] = useState(null)
 

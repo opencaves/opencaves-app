@@ -5,17 +5,25 @@ import { EMULATOR_AUTHOR_ID } from '@/config/audits.js'
 
 const listUsersFn = callable('listUsers')
 
-// The accounts (listUsers, as on the Users page), to show who made a change
-// by name rather than by account id. accountLabel(uid): the account's display
-// name, else its email; the local emulators' label; "deleted account" for an
-// id no account has (once the list is in); the id itself while it loads or
-// when it couldn't be read.
-export function useAccounts() {
+/**
+ * The accounts (listUsers, as on the Users page), to show who made a change
+ * by name rather than by account id. Admins only (listUsers): pass
+ * enabled: false for anyone else - nothing is asked, and the list stays empty.
+ *
+ * @param {object} [options]
+ * @param {boolean} [options.enabled] - False: listUsers isn't called (default true).
+ * @returns {{accountLabel: (uid: string) => string, accountList: object[], loading: boolean, failed: boolean}} accountLabel(uid): the account's display
+ *   name, else its email; the local emulators' label; "deleted account" for an
+ *   id no account has (once the list is in); the id itself while it loads or
+ *   when it couldn't be read.
+ */
+export function useAccounts({ enabled = true } = {}) {
   const { t } = useTranslation('audits')
   const [accounts, setAccounts] = useState(null)
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {
+    if (!enabled) return undefined
     let cancelled = false
     listUsersFn()
       .then(({ data }) => {
@@ -28,7 +36,7 @@ export function useAccounts() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [enabled])
 
   const accountLabel = useCallback(
     (uid) => {

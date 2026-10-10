@@ -7,7 +7,10 @@ const StyledLink = styled(Link)({
   textDecoration: 'none !important'
 })
 
-const UnstyledLink = forwardRef(function UnstyledLink({ className, ...props }, ref) {
+/**
+ * A router Link in its surrounding text's color, not underlined.
+ */
+const UnstyledLink = forwardRef(function UnstyledLink(/** @type {import('react-router-dom').LinkProps} */ { className, ...props }, /** @type {import('react').Ref<HTMLAnchorElement>} */ ref) {
   return <StyledLink ref={ref} className={`oc-unstyled-link ${className || ''}`.trim()} {...props} />
 })
 

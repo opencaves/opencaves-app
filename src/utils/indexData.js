@@ -7,9 +7,14 @@ import { slugify } from './slug.js'
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
-// Every public sistema's address segment by id - its id, as a cave's
-// (/sistemas/<id>, like /caves/<id>). All are public today; one marked
-// otherwise has no page.
+/**
+ * Every public sistema's address segment by id - its id, as a cave's
+ * (/sistemas/<id>, like /caves/<id>). All are public today; one marked
+ * otherwise has no page.
+ *
+ * @param {Sistema[]} sistemas
+ * @returns {Map<string, string>}
+ */
 export function sistemaSlugs(sistemas) {
   return new Map(sistemas.filter((sistema) => sistema.public !== false).map(({ id }) => [id, id]))
 }
@@ -17,9 +22,11 @@ export function sistemaSlugs(sistemas) {
 export function buildIndexData({ caves = [], sistemas = [], areas = [], connections = [] }) {
   // name: null for an unnamed cave (the pages say "(Unnamed cave)"), listed
   // after the named ones.
+  // located: whether it has coordinates - given as such by the data a
+  // server-rendered page carries (src/ssr/pageState.js), without them.
   const caveItems = caves
-    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.location?.latitude != null && cave.location?.longitude != null }))
-    .sort((a, b) => (!a.name || !b.name ? !a.name - !b.name : byName(a, b)))
+    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.located ?? (cave.location?.latitude != null && cave.location?.longitude != null) }))
+    .sort((a, b) => (!a.name || !b.name ? Number(!a.name) - Number(!b.name) : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)
   const sistemaItems = sistemas
@@ -70,8 +77,15 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   return { caves: caveItems, sistemas: sistemaItems, sistemasById, sistemasBySlug, areas: areaItems, areasBySlug, connections: links }
 }
 
-// Items grouped by their area, areas in alphabetical order, those without
-// one (or with one that has no slug) last, under a null area.
+/**
+ * Items grouped by their area, areas in alphabetical order, those without
+ * one (or with one that has no slug) last, under a null area.
+ *
+ * @param {object[]} items
+ * @param {Map<string, object>} areasBySlug
+ * @param {(item: object) => string} [areaOf] - The item's area name (its `area` by default).
+ * @returns {{area: object|null, items: object[]}[]}
+ */
 export function groupByArea(items, areasBySlug, areaOf = (item) => item.area) {
   const groups = new Map()
   items.forEach((item) => {
@@ -81,4 +95,18 @@ export function groupByArea(items, areasBySlug, areaOf = (item) => item.area) {
     groups.get(key).items.push(item)
   })
   return [...groups.values()].sort((a, b) => (!a.area ? 1 : !b.area ? -1 : byName(a.area, b.area)))
+}
+
+/**
+ * The landing page's figures (Home): how many caves and public systems, and
+ * the areas that have caves, with their count.
+ *
+ * @returns {{caves: number, sistemas: number, regions: {name: string, slug: string, count: number}[]}}
+ */
+export function homeFigures(data) {
+  return {
+    caves: data.caves.length,
+    sistemas: data.sistemas.length,
+    regions: data.areas.filter((area) => area.caves.length > 0).map(({ name, slug, caves }) => ({ name, slug, count: caves.length })),
+  }
 }

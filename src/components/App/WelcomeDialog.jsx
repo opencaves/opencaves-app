@@ -38,19 +38,21 @@ function markSeen() {
   }
 }
 
-// A welcome on a first visit (once per device): what OpenCaves is, an
-// invitation to help complete the cave data - with an account to create, or
-// thanks for the one they have - and the beta's warning: edits aren't kept
-// for good yet, so it's the time to try.
+/**
+ * A welcome on a first visit (once per device): what OpenCaves is, an
+ * invitation to help complete the cave data - with an account to create, or
+ * thanks for the one they have - and the beta's warning: edits aren't kept
+ * for good yet, so it's the time to try.
+ */
 export default function WelcomeDialog() {
   const { t } = useTranslation('welcome')
   const dispatch = useDispatch()
   const location = useLocation()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   // Whether the account is known yet (a signed-in user looks signed out
   // until Firebase Auth restores the session): the welcome waits for it, to
   // say the right thing.
-  const authResolved = useSelector((state) => state.session.authResolved)
+  const authResolved = useSelector((/** @type {RootState} */ state) => state.session.authResolved)
   const [open, setOpen] = useState(false)
   // Decided once per visit: shown, or not to show.
   const decided = useRef(false)
@@ -99,7 +101,7 @@ export default function WelcomeDialog() {
         </Box>
       </DialogContent>
       {/* Side by side; stacked on a narrow phone, the main action on top. */}
-      <DialogActions sx={{ px: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
+      <DialogActions sx={{ px: 3, pt: 2.5, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
         {isLoggedIn ? (
           <Button variant="contained" disableElevation onClick={close}>
             {t('start')}

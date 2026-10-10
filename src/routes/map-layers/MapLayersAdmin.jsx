@@ -32,13 +32,15 @@ function belowAppBar(theme) {
   return Object.fromEntries(Object.entries(theme.mixins.toolbar).map(([key, value]) => (key === 'minHeight' ? ['top', value] : [key, { top: value.minHeight }])))
 }
 
-// Admins: the maps in the cave layer (maps.json, from the tiles build, by the
-// configs' ids), each shown or hidden for everyone (settings/caveLayer.hiddenMaps
-// - the same list as the layer's edit mode on the map), with a link to it on the
-// map. A row opens its original next to its drawing (MapCompareViewer); on a
-// wide screen it shows the scan's thumbnail (the "maps" document with its
-// mapImportKey). Its "To process" tab (?tab=toProcess): the maps added in
-// the app not turned into the layer yet (MapsToProcess).
+/**
+ * Admins: the maps in the cave layer (maps.json, from the tiles build, by the
+ * configs' ids), each shown or hidden for everyone (settings/caveLayer.hiddenMaps
+ * - the same list as the layer's edit mode on the map), with a link to it on the
+ * map. A row opens its original next to its drawing ({@link MapCompareViewer}); on a
+ * wide screen it shows the scan's thumbnail (the "maps" document with its
+ * mapImportKey). Its "To process" tab (?tab=toProcess): the maps added in
+ * the app not turned into the layer yet ({@link MapsToProcess}).
+ */
 export default function MapLayersAdmin() {
   const { t } = useTranslation(['mapLayersAdmin', 'dashboard'])
   const { setTitle } = useTitle()
@@ -50,7 +52,7 @@ export default function MapLayersAdmin() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') === 'toProcess' ? 'toProcess' : 'layer'
   const { toProcess, skipped } = useMapsToProcess()
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const [search, setSearch] = useState('')
   const [savingId, setSavingId] = useState(null)

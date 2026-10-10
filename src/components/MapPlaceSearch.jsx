@@ -23,16 +23,22 @@ const DEFAULT_ZOOM = 14
 const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)'
 
 
-// A search field over a coordinates map (CoordinatesMapPreview): finds the
-// app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
-// to the Yucatán, in the UI language, nearest the map's center first).
-// Picking one only moves the map - with "Place on map"'s cross showing, the
-// cross then sits on it, ready to confirm. centerOffsetY: how far below the
-// map's center (px) the result should land, for a cross that isn't centered
-// (PlaceOnMapOverlay's, above the phone sheet).
+/**
+ * A search field over a coordinates map (CoordinatesMapPreview): finds the
+ * app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
+ * to the Yucatán, in the UI language, nearest the map's center first).
+ * Picking one only moves the map - with "Place on map"'s cross showing, the
+ * cross then sits on it, ready to confirm.
+ *
+ * @param {object} props
+ * @param {import('react').RefObject<import('react-map-gl/mapbox').MapRef>} props.mapRef - The map it moves.
+ * @param {number} [props.centerOffsetY=0] - How far below the
+ *   map's center (px) the result should land, for a cross that isn't centered
+ *   (PlaceOnMapOverlay's, above the phone sheet).
+ */
 export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit.placeSearch' })
-  const caves = useSelector((state) => state.data.caves)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
   const [input, setInput] = useState('')
   // The picked result stays shown in the field.
   const [selected, setSelected] = useState(null)

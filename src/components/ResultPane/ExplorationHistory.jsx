@@ -27,20 +27,28 @@ function formatDate(date, language) {
   const [year, month, day] = date.split('-').map(Number)
   if (!month) return String(year)
   const value = new Date(Date.UTC(year, month - 1, day || 1))
+  /** @type {Intl.DateTimeFormatOptions} */
   const options = day ? { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' } : { year: 'numeric', month: 'long', timeZone: 'UTC' }
   return new Intl.DateTimeFormat(language, options).format(value)
 }
 
-// The exploration history of a cave's systems (its own and those it joined),
-// in calendar order where the dates allow, each entry with its system's name
-// when there's more than one system. headingProps: its heading's, e.g. an h2
-// on a system's own page; showNotes: false leaves out each entry's notes (its
-// sources).
-export default function ExplorationHistory({ sistemas, headingProps, showNotes = true, showHeading = true }) {
+/**
+ * The exploration history of a cave's systems (its own and those it joined),
+ * in calendar order where the dates allow, each entry with its system's name
+ * when there's more than one system. Each entry's notes (its sources) are an editing aid,
+ * seen in the edit forms only, never here.
+ *
+ * @param {object} props
+ * @param {Sistema[]} props.sistemas - The systems whose explorations it lists.
+ * @param {boolean} [props.showHeading=true]
+ * @param {object} [props.headingProps] - Its heading's, e.g. an h2
+ *   on a system's own page.
+ */
+export default function ExplorationHistory({ sistemas, headingProps, showHeading = true }) {
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas
-    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, sistemaColor: sistema.color, notes: showNotes ? exploration.notes : null })))
-    .filter((e) => e.date || teamNames(e.team).length || e.description || e.notes)
+    .flatMap((sistema) => (sistema?.explorations || []).map((exploration) => ({ ...exploration, sistemaName: sistema.name, sistemaColor: sistema.color })))
+    .filter((e) => e.date || teamNames(e.team).length || e.description)
     .map((entry, index) => ({ entry, index }))
     .sort((a, b) => sortKey(a.entry.date).localeCompare(sortKey(b.entry.date)) || a.index - b.index)
     .map(({ entry }) => entry)
@@ -113,11 +121,6 @@ export default function ExplorationHistory({ sistemas, headingProps, showNotes =
               <Box sx={{ typography: 'body2', '& .oc-markdown p': { my: 0.5 } }}>
                 <Markdown>{entry.description}</Markdown>
               </Box>
-            )}
-            {entry.notes && (
-              <Typography variant="caption" component="p" sx={{ color: 'text.secondary' }}>
-                {entry.notes}
-              </Typography>
             )}
           </Box>
         ))}

@@ -8,12 +8,13 @@ import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
-import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 
 // The strip wrapped around a vertical cylinder, its axis at the middle of
 // the strip's visible area, its radius half that area's width: the photos
@@ -34,23 +35,34 @@ const cylinderOn = () => !window.matchMedia('(prefers-reduced-motion: reduce)').
 // The primary's darker tone, its lighter one in dark mode.
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
-// photoPath(id): a photo's address (a page's gallery); the map's viewer otherwise.
-// addTile(size): the strip's last tile, adding photos (an AddPhotosTile of
-// that size); addButton: shown instead when the cave has no photo yet.
+/**
+ * A cave's photo strip: its photos and videos in columns (a wide one, then
+ * two stacked), "more" and "add photos" tiles at its end. Wrapped around a
+ * cylinder as it scrolls, unless the reader prefers reduced motion.
+ *
+ * @param {object} props - Also its root's (a Box's).
+ * @param {string} props.caveId
+ * @param {boolean} [props.editable=false]
+ * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
+ * @param {(size: 'full'|'half') => import('react').ReactNode} [props.addTile] - The strip's last tile, adding photos (an AddPhotosTile of that size).
+ * @param {import('react').ReactNode} [props.addButton] - Shown instead when the cave has no photo yet.
+ * @param {Sx} [props.sx]
+ * @param {string} [props.className]
+ */
 export default function MediaList({ caveId, editable = false, photoPath, addTile, addButton, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
-  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
+  const canDelete = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
-  const scrollbarsRef = useRef()
-  const rowRef = useRef()
+  const scrollbarsRef = useRef(null)
+  const rowRef = useRef(null)
   const hasAddTile = Boolean(addTile)
-  const sliceLayerRef = useRef()
+  const sliceLayerRef = useRef(null)
   // Above and below the strip: room for the zoomed cylinder.
   const zoomRoom = cylinderOn() ? Math.ceil((assetsListHeight * (CYLINDER_ZOOM - 1)) / 2) : 0
 
@@ -102,23 +114,22 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
       }
 
       // Snapping (the cylinder): a native scroll, which the browser takes to
-      // the next column that way.
+      // the next column that way; flat, the wheel's own distance (scrollStrip).
       if (scrollbar.view.style.scrollSnapType) {
         scrollbar.view.scrollBy({ left: wheelDirection, behavior: 'smooth' })
         return
       }
-
-      const scrollStep = SCROLLBAR_STEP_FACTOR * wheelDirection
-      const func = wheelDirection > 0 ? Math.min : Math.max
-      const clampValue = wheelDirection > 0 ? width : 0
-      const newScrollLeft = scrollLeft + scrollStep
-      const clampedScrollLeft = func(clampValue, newScrollLeft)
-
-      scrollbar.scrollLeft(clampedScrollLeft)
+      scrollStrip(scrollbar.view, event)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
+    // The cylinder snaps with CSS (scroll-snap, its effect below); flat, the
+    // strip glides to the nearest item once still.
+    const stopSnapping = cylinderOn() ? () => {} : snapOnSettle(scrollbar.view, container)
+    return () => {
+      container.removeEventListener('wheel', onWheel)
+      stopSnapping()
+    }
   }, [mediaList])
 
   // The cylinder (CYLINDER_SLICE): its slices made again when the photos or
@@ -325,18 +336,8 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      const docs = [...mediaList.docs].sort((a, b) => {
-        const aCover = a.data().isCover ? 1 : 0
-        const bCover = b.data().isCover ? 1 : 0
-
-        if (aCover !== bCover) {
-          return bCover - aCover
-        }
-
-        const aDate = a.data().date?.toDate?.() ?? 0
-        const bDate = b.data().date?.toDate?.() ?? 0
-        return bDate - aDate
-      })
+      // In the order every view shows them (CaveAsset.js's photoOrder).
+      const { docs } = mediaList
 
       const assetsListLength = Math.min(docs.length, assetsListMaxLength)
       const assetItems = []
@@ -410,7 +411,7 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
       {mediaList?.empty && addButton}
       {mediaList && !mediaList.empty && (
         <Box
-          className={`oc-media-list ${className || ''}`.trim()}
+          className={`oc-media-list oc-media-strip ${className || ''}`.trim()}
           sx={{
             marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
             height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight + zoomRoom * 2}px)`,
@@ -431,7 +432,7 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
               },
             }}
           >
-            <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               <Grid ref={rowRef} container direction="row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', transformStyle: 'preserve-3d' }}>
                 {assetsList}
                 {addTile && (
@@ -488,7 +489,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
   return status === 'loading' ? (
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
-    <Box className="oc-media-list--picture" sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
+    <Box className="oc-media-list--picture oc-media-strip--item" sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={Link} to={photoPath ? photoPath(media.id) : editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} state={photoPath ? { fromPage: true } : undefined} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
@@ -507,7 +508,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
             }}
             sx={{ position: 'absolute', top: 6, right: 6, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}
           >
-            <CloseRounded fontSize="small" />
+            <CloseRounded />
           </IconButton>
         </Tooltip>
       )}
@@ -539,12 +540,19 @@ function MediaListCol({ children, width = 'full', isLast = false, height = ASSET
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
 }
 
+/**
+ * A cell of a photo column: a full-height photo or a half one.
+ *
+ * @param {import('@mui/material/Grid').GridProps & { width?: 'full' | 'half' | number, height?: number, position?: 'top' | 'bottom' }} props - A
+ *   Grid's; `width` 'full' or 'half' (a number matches neither: no minimum
+ *   width), `position` the half photo's.
+ */
 function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.height, position = 'top', ...props }) {
   const widths = {
     full: ASSETS_LIST_CONFIG.height,
@@ -552,7 +560,7 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
@@ -564,7 +572,7 @@ function StripTile({ icon, label, className, sx, ...props }) {
   return (
     <ButtonBase
       {...props}
-      className={['oc-media-list--tile', className].filter(Boolean).join(' ')}
+      className={['oc-media-list--tile', 'oc-media-strip--item', className].filter(Boolean).join(' ')}
       sx={[
         {
           borderRadius: '.5rem',
@@ -581,7 +589,7 @@ function StripTile({ icon, label, className, sx, ...props }) {
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
+      <Grid container sx={{ flexDirection: 'column', alignItems: 'center', rowGap: 0.75 }}>
         {icon}
         <Typography
           sx={(theme) => ({

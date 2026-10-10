@@ -11,12 +11,19 @@ function splitLines(text) {
   return text ? text.split(/\r?\n/) : []
 }
 
-// [{ type: 'same' | 'removed' | 'added', text, oldNo?, newNo?, parts? }]:
-// each line with its numbers on the old and new sides. In a block of
-// removed lines followed by added ones, the n-th of each are paired, and get
-// `parts` (their wordDiff, without the other side's words) when they share
-// enough to be the same line edited.
+/**
+ * [{ type: 'same' | 'removed' | 'added', text, oldNo?, newNo?, parts? }]:
+ * each line with its numbers on the old and new sides. In a block of
+ * removed lines followed by added ones, the n-th of each are paired, and get
+ * `parts` (their {@link wordDiff}, without the other side's words) when they share
+ * enough to be the same line edited.
+ *
+ * @param {string} [before='']
+ * @param {string} [after='']
+ * @returns {object[]}
+ */
 export function lineDiff(before = '', after = '') {
+  /** @type {{type: 'same'|'removed'|'added', text: string, oldNo?: number, newNo?: number, parts?: {type: 'same'|'removed'|'added', text: string}[]}[]} */
   const rows = []
   let oldNo = 0
   let newNo = 0
@@ -49,10 +56,16 @@ export function lineDiff(before = '', after = '') {
   return rows
 }
 
-// The rows as hunks: changed lines with `context` unchanged lines around
-// them, and the longer runs of unchanged lines folded into gaps:
-// [{ kind: 'rows', rows } | { kind: 'gap', rows }]. A gap no longer than
-// what it would hide plus one line isn't worth folding.
+/**
+ * The rows as hunks: changed lines with `context` unchanged lines around
+ * them, and the longer runs of unchanged lines folded into gaps:
+ * [{ kind: 'rows', rows } | { kind: 'gap', rows }]. A gap no longer than
+ * what it would hide plus one line isn't worth folding.
+ *
+ * @param {object[]} rows - {@link lineDiff}'s rows.
+ * @param {number} [context=3]
+ * @returns {object[]}
+ */
 export function toHunks(rows, context = 3) {
   const keep = rows.map(() => false)
   rows.forEach((row, i) => {
@@ -78,7 +91,12 @@ export function toHunks(rows, context = 3) {
   return merged
 }
 
-// How many lines were added and removed.
+/**
+ * How many lines were added and removed.
+ *
+ * @param {object[]} rows
+ * @returns {{added: number, removed: number}}
+ */
 export function lineCounts(rows) {
   return { added: rows.filter((r) => r.type === 'added').length, removed: rows.filter((r) => r.type === 'removed').length }
 }

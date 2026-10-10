@@ -40,6 +40,13 @@ const TIPS = ['one', 'steps', 'page', 'device']
 const iconCircle = (theme) => ({ width: 48, height: 48, flexShrink: 0, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.primary, '& svg': { fontSize: 26 } })
 const cardSx = (theme) => ({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1, p: 2.5, borderRadius: 4, height: '100%', bgcolor: theme.vars.palette.background.paper, border: `1px solid ${theme.vars.palette.divider}` })
 
+/**
+ * A section's heading, with a line under it.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {import('react').ReactNode} [props.sub] - The line under it.
+ */
 function SectionTitle({ children, sub }) {
   return (
     <Box sx={{ mb: 2.5 }}>
@@ -53,15 +60,17 @@ function SectionTitle({ children, sub }) {
 
 const grid = (min) => ({ listStyle: 'none', m: 0, p: 0, display: 'grid', gap: 2, gridTemplateColumns: `repeat(auto-fill, minmax(${min}px, 1fr))` })
 
-// /what-can-i-do during the beta: what testers can do - report bugs,
-// misleading things and ideas (each opening the Send feedback form, its kind
-// picked; FeedbackDialog), what to try, how to report well, and what's good to
-// know (the beta's data can be reset). The 1.0 page replaces it (branch
-// what-can-i-do).
+/**
+ * /what-can-i-do during the beta: what testers can do - report bugs,
+ * misleading things and ideas (each opening the Send feedback form, its kind
+ * picked; FeedbackDialog), what to try, how to report well, and what's good to
+ * know (the beta's data can be reset). The 1.0 page replaces it (branch
+ * what-can-i-do).
+ */
 export default function BetaWhatCanIDo() {
   const { t } = useTranslation('betaTesting')
   const { setTitle } = useTitle()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
 
   useEffect(() => {
     setTitle(t('title'))

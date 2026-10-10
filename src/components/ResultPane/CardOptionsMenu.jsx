@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom'
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 
-// A single "more options" trigger (vertical three dots, top-right of a
-// media/map/video card) opening a menu of actions - replaces what used to
-// be a row of always-visible icon buttons, so a card's overlay chrome stays
-// to one control no matter how many actions it has.
-// sx: the trigger's placement on a card with a title bar (centred on it).
+/**
+ * A single "more options" trigger (vertical three dots, top-right of a
+ * media/map/video card) opening a menu of actions - replaces what used to
+ * be a row of always-visible icon buttons, so a card's overlay chrome stays
+ * to one control no matter how many actions it has.
+ *
+ * @param {object} props
+ * @param {string} props.ariaLabel - The trigger's.
+ * @param {{ label: string, icon: import('react').ReactNode, onClick?: () => void, to?: string, danger?: boolean }[]} props.actions - The
+ *   menu's items (`to`: a link); `danger` ones in the error color.
+ * @param {Sx} [props.sx] - The trigger's placement on a card with a title bar (centred on it).
+ */
 export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -35,7 +42,7 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
           ...sx,
         }}
       >
-        <MoreVertRounded fontSize="small" />
+        <MoreVertRounded />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {actions.map((action) => (
@@ -47,7 +54,8 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
               handleClose()
               // Focus off the menu's button first: an action opening a dialog
               // would otherwise hide the page with focus still inside it.
-              document.activeElement?.blur()
+              const focused = /** @type {HTMLElement} */ (document.activeElement)
+              focused?.blur()
               action.onClick?.()
             }}
             sx={action.danger ? { color: 'error.main' } : undefined}

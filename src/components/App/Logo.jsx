@@ -14,10 +14,15 @@ const ImgRoot = styled(Box, {
 })(({ theme }) => ({
 }))
 
-const Logo = forwardRef(function Logo(props, ref) {
+/**
+ * The app's logo, its light or dark drawing by the color scheme. `variant`:
+ * 'logo' (the default), 'brand' or 'brand-short'; `colorScheme` forces one
+ * scheme's drawing.
+ */
+const Logo = forwardRef(function Logo(/** @type {{ variant?: 'logo' | 'brand' | 'brand-short', alt?: string, colorScheme?: 'light' | 'dark', width?: number | string, height?: number | string, mb?: object | number, sx?: object, className?: string } & Record<string, any>} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
   const { variant = 'logo', alt = '', colorScheme, width, height, mb, sx, className, ...other } = props
   const { mode } = useColorScheme()
-  const [src, setSrc] = useState()
+  const [src, setSrc] = useState(/** @type {string} */ (undefined))
 
   function getSrc(variant, mode) {
 

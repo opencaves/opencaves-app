@@ -14,7 +14,7 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 export default function Signup() {
   const navigate = useNavigate()
-  const continueUrl = useSelector((state) => state.session.continueUrl)
+  const continueUrl = useSelector((/** @type {RootState} */ state) => state.session.continueUrl)
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
   // const { state } = useLocation()
 
@@ -33,7 +33,7 @@ export default function Signup() {
 
   return (
     <>
-      <Grid className="oc-signup" container direction="column" sx={{ m: 4, alignItems: 'center' }}>
+      <Grid className="oc-signup" container sx={{ flexDirection: 'column', m: 4, alignItems: 'center' }}>
         <Logo
           variant="brand"
           sx={{

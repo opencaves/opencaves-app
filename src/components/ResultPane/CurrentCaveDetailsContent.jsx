@@ -7,7 +7,8 @@ import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import LocationDisabledRounded from '@mui/icons-material/LocationDisabledRounded'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import TerrainRounded from '@mui/icons-material/TerrainRounded'
 import { Link as RouterLink } from 'react-router-dom'
@@ -65,7 +66,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   })
 
   let hasAddressOrCoordinates = false
-  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
+  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText, parkingText
 
   if (cave.location) {
     address = <Address caveId={cave.id} longitude={cave.location.longitude} latitude={cave.location.latitude} />
@@ -81,6 +82,10 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   if (cave.entrance) {
     entranceText = `${cave.entrance.latitude}, ${cave.entrance.longitude}`
+  }
+
+  if (cave.parking) {
+    parkingText = `${cave.parking.latitude}, ${cave.parking.longitude}`
   }
 
   function handleAddressTooltipOpen() {
@@ -152,7 +157,9 @@ export default function CurrentCaveDetailsContent({ cave }) {
           </ListItem>
         )}
 
-        {entranceText && <CoordinateRow icon={<FenceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
+        {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
+
+        {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
         {keysTexts &&
           keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
@@ -183,10 +190,6 @@ export default function CurrentCaveDetailsContent({ cave }) {
       {cave.description && (
         <>
           <Divider />
-          {/* Titled like the other sections (it had none). */}
-          <div className="details-container">
-            <h2 className="h2">{t('descriptionHeader')}</h2>
-          </div>
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />

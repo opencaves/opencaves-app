@@ -37,14 +37,22 @@ async function ensureEditorRole() {
   throw new Error('Your account is missing the editor role required to upload media.')
 }
 
+/**
+ * Uploads photos to a cave, one after the other, with their progress.
+ *
+ * @param {string} [caveId] - The cave (the map's open cave otherwise).
+ * @returns {{ uploadCaveImages: (files: File[]) => Promise<void>, current: { index: number, url: string } | null, progress: number | null, done: false | { count: number } | undefined, error: (Error & { code?: string, fileNames?: string[] }) | null }} The
+ *   upload function, the photo being sent, the percent sent, `done` once
+ *   all are (how many), the error that stopped it.
+ */
 export function useUploadCaveImages(caveId) {
-  const user = useSelector((state) => state.session.user)
-  const currentCave = useSelector((state) => state.map.currentCave)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
 
   const [current, setCurrent] = useState(null)
   const [progress, setProgress] = useState(null)
   const [error, setError] = useState(null)
-  const [done, setDone] = useState(false)
+  const [done, setDone] = useState(/** @type {false | { count: number } | undefined} */ (false))
   const [bytesTransferred, setBytesTransferred] = useState(null)
   const [totalBytes, setTotalBytes] = useState(0)
   const isLoggedIn = useLoggedIn()
@@ -66,7 +74,7 @@ export function useUploadCaveImages(caveId) {
         const wrongTypeFiles = findWrongMediaTypeFiles(files)
         if (wrongTypeFiles.length > 0) {
           const fileNames = wrongTypeFiles.map((file) => file.name)
-          const wrongTypeError = new Error(`Unsupported media type for file(s): ${fileNames.join(', ')}`)
+          const wrongTypeError = /** @type {Error & { code?: string, fileNames?: string[] }} */ (new Error(`Unsupported media type for file(s): ${fileNames.join(', ')}`))
           wrongTypeError.code = 'wrong-media-type'
           wrongTypeError.fileNames = fileNames
           throw wrongTypeError
@@ -111,7 +119,7 @@ export function useUploadCaveImages(caveId) {
       }
     } catch (error) {
       console.error('[uploadCaveImages] error: %o', error)
-      setDone()
+      setDone(undefined)
       setError(error)
       reset()
     }

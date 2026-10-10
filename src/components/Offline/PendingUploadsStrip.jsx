@@ -16,10 +16,16 @@ function Preview({ file }) {
   return url ? <Box component="img" src={url} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /> : <PictureAsPdfRounded color="primary" fontSize="large" />
 }
 
-// The photos or maps added offline and still waiting to upload (filter:
-// which - e.g. a cave's photos), each with its preview, "Waiting to upload"
-// (or "Upload failed") and a button to cancel or remove it. onRemoved(item):
-// told after one is removed (the edit form drops its map from the list).
+/**
+ * The photos or maps added offline and still waiting to upload (filter:
+ * which - e.g. a cave's photos), each with its preview, "Waiting to upload"
+ * (or "Upload failed") and a button to cancel or remove it.
+ *
+ * @param {object} props
+ * @param {(item: object) => boolean} [props.filter] - Which waiting uploads it shows.
+ * @param {Sx} [props.sx]
+ * @param {(item: object) => void} [props.onRemoved] - Told after one is removed (the edit form drops its map from the list).
+ */
 export default function PendingUploadsStrip({ filter, onRemoved, sx }) {
   const { t } = useTranslation('offline', { keyPrefix: 'pending' })
   const [openSnackbar] = useSnackbar()
@@ -43,7 +49,7 @@ export default function PendingUploadsStrip({ filter, onRemoved, sx }) {
               <Preview file={item.file} />
               <Tooltip title={failed ? t('remove') : t('cancel')}>
                 <IconButton size="small" onClick={() => remove(item)} aria-label={`${failed ? t('remove') : t('cancel')}: ${label}`} sx={{ position: 'absolute', top: 4, right: 4, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}>
-                  <CloseRounded fontSize="small" />
+                  <CloseRounded />
                 </IconButton>
               </Tooltip>
             </Box>

@@ -23,22 +23,24 @@ function useNetworkChangeTick() {
   return tick
 }
 
-// Keeps the offline caches in line with what should be available offline on
-// this device - every saved cenote's pictures and maps, and (when turned on)
-// every cave's cover thumbnail - and reports finished downloads. Renders
-// nothing; mounted once in App, inside the SnackbarProvider.
+/**
+ * Keeps the offline caches in line with what should be available offline on
+ * this device - every saved cenote's pictures and maps, and (when turned on)
+ * every cave's cover thumbnail - and reports finished downloads. Renders
+ * nothing; mounted once in App, inside the SnackbarProvider.
+ */
 export default function OfflineMediaSync() {
   const { t } = useTranslation('offline')
   const { t: tMap } = useTranslation('map')
   const [openSnackbar] = useSnackbar()
   const { canSave, loading, savedCaveIds } = useSavedCaves()
   const previewsEnabled = useOfflinePreviewsEnabled()
-  const caves = useSelector((state) => state.data.caves)
-  const sistemas = useSelector((state) => state.data.sistemas)
-  const connections = useSelector((state) => state.data.connections)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
+  const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
   const networkTick = useNetworkChangeTick()
   // Read inside async callbacks without re-running the effects.
-  const latest = useRef({})
+  const latest = useRef(/** @type {{ t?: import('i18next').TFunction, tMap?: import('i18next').TFunction, openSnackbar?: Function, caves?: Cave[] }} */ ({}))
   latest.current = { t, tMap, openSnackbar, caves }
 
   // Saved cenotes. Signed out, the cache is left as-is rather than wiped

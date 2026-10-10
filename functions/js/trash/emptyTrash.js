@@ -37,9 +37,15 @@ async function purge({ collection, id }, adminUid) {
   }
 }
 
-// Empties (part of) the trash (admins, the Audits page's Trash): photos and
-// maps deleted to it are deleted for good, with their files. Only records in
-// the trash (deletedAt set) are deleted.
+/**
+ * Empties (part of) the trash (admins, the Audits page's Trash): photos and
+ * maps deleted to it are deleted for good, with their files. Only records in
+ * the trash (deletedAt set) are deleted.
+ *
+ * @param {CallableRequest} request - Its data: { items: [{ collection, id }] }.
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument for bad items.
+ */
 export const emptyTrash = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   requireAdmin(request, 'Only admins can empty the trash.')
 

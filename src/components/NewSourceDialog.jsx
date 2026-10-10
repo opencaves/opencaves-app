@@ -10,9 +10,17 @@ import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 const sourcesModel = createCollectionModel('sources')
 const emptyForm = { name: '', description: '', note: '' }
 
-// Creates a `sources` record in place, so a form with a source picker doesn't
-// have to send the editor off to /sources and back. `initialName` prefills the
-// name; `onCreated(id)` gets the new record's id once it's saved.
+/**
+ * Creates a `sources` record in place, so a form with a source picker doesn't
+ * have to send the editor off to /sources and back.
+ *
+ * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
+ * @param {string} [props.initialName=''] - Prefills the
+ *   name.
+ * @param {(id: string) => void} props.onCreated - Gets the new record's id once it's saved.
+ */
 export default function NewSourceDialog({ open, initialName = '', onClose, onCreated }) {
   const { t } = useTranslation('newSourceDialog')
   const settleWrite = useSettleWrite()

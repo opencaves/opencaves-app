@@ -2,9 +2,18 @@ import { useSelector } from 'react-redux'
 import { Avatar } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 
+/**
+ * The account button's icon: the user's avatar (their initial), or an
+ * account placeholder when signed out.
+ *
+ * @param {object} props
+ * @param {'light' | 'dark'} [props.logoColorScheme] - The background it sits on ('dark': the app bar).
+ * @param {{ width?: number | string, height?: number | string }} [props.logoSx] - The placeholder's size (28 by default).
+ * @param {object} [props.avatarSx]
+ */
 export default function AppMenuIcon({ logoColorScheme, logoSx, avatarSx }) {
-  const user = useSelector(state => state.session.user)
-  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
 
   // Signed out: the account placeholder, not the logo - the logo leads home
   // (the app bar's, the map search bar's), so it can't also open this menu.

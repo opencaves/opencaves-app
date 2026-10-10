@@ -1,12 +1,14 @@
 import { Box } from '@mui/material'
 
-export const CROSS_SIZE = 48
+const CROSS_SIZE = 48
 
-// The "Place on map" cross (CoordinatesMapPreview, PlaceOnMapOverlay):
-// centered on the point being placed. Thin white lines with a dark outline
-// stay visible over any imagery; the gap at the center keeps the exact spot
-// itself uncovered. `sx` positions its center (it's translated by half its
-// size).
+/**
+ * The "Place on map" cross (CoordinatesMapPreview, PlaceOnMapOverlay):
+ * centered on the point being placed. Thin white lines with a dark outline
+ * stay visible over any imagery; the gap at the center keeps the exact spot
+ * itself uncovered. `sx` positions its center (it's translated by half its
+ * size).
+ */
 export default function PlaceCross({ sx }) {
   return (
     <Box

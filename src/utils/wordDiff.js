@@ -7,10 +7,16 @@
 // added rather than diffed: the table would cost too much memory and time.
 const MAX_CELLS = 4_000_000
 
-// The longest common subsequence of two lists, after setting aside their
-// common start and end (an edit usually touches a small part):
-// [{ type: 'same' | 'removed' | 'added', value }], in order, removals before
-// additions where both happen at one place.
+/**
+ * The longest common subsequence of two lists, after setting aside their
+ * common start and end (an edit usually touches a small part):
+ * [{ type: 'same' | 'removed' | 'added', value }], in order, removals before
+ * additions where both happen at one place.
+ *
+ * @param {Array} a
+ * @param {Array} b
+ * @returns {{type: 'same'|'removed'|'added', value: *}[]}
+ */
 export function diffSequences(a, b) {
   let start = 0
   while (start < a.length && start < b.length && a[start] === b[start]) start++
@@ -21,6 +27,7 @@ export function diffSequences(a, b) {
     endB--
   }
 
+  /** @type {{type: 'same'|'removed'|'added', value: *}[]} */
   const ops = []
   for (let k = 0; k < start; k++) ops.push({ type: 'same', value: a[k] })
 
@@ -67,9 +74,16 @@ function tokenize(text) {
   return text.match(/\s+|[^\s]+/g) || []
 }
 
-// A word-level diff of two texts: [{ type: 'same' | 'removed' | 'added',
-// text }], whitespace kept, so joining the parts gives back either text.
+/**
+ * A word-level diff of two texts: [{ type: 'same' | 'removed' | 'added',
+ * text }], whitespace kept, so joining the parts gives back either text.
+ *
+ * @param {string} [before='']
+ * @param {string} [after='']
+ * @returns {{type: 'same'|'removed'|'added', text: string}[]}
+ */
 export function wordDiff(before = '', after = '') {
+  /** @type {{type: 'same'|'removed'|'added', text: string}[]} */
   const parts = []
   for (const { type, value } of diffSequences(tokenize(before), tokenize(after))) {
     const last = parts[parts.length - 1]

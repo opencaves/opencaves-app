@@ -4,6 +4,14 @@ import { GoogleAuthProvider } from 'firebase/auth'
 import AuthWithProvider from './AuthWithProvider.jsx'
 import GoogleGLogo from '@/images/app/auth/google-g-logo.svg?react'
 
+/**
+ * The sign-up button for a Google account.
+ *
+ * @param {object} props - Also AuthWithProvider's.
+ * @param {string} [props.message] - The button's text (its own by default).
+ * @param {() => void} [props.onSuccess] - Called once signed up, instead of going on.
+ * @param {string} [props.className]
+ */
 export default function AuthWithGoogle({ message, onSuccess, className, ...props }) {
   const { t } = useTranslation('auth', { keyPrefix: 'signup' })
 

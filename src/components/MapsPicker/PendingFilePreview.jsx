@@ -8,22 +8,31 @@ const CLICK_ZOOM_STEP = 1
 // The wheel's zoom per unit of delta (a mouse notch is ~100: about x1.2).
 const WHEEL_ZOOM_RATE = 0.0018
 
-// A large, zoomable/pannable preview of a map file, shown in the map details
-// form so the person confirming a title/authors can actually make out
-// details on the map - important since survey maps are often dense and a
-// static thumbnail alone isn't enough. Covers three cases:
-//  - a not-yet-uploaded local `file` (new map)
-//  - an already-uploaded map with a ready vector preview (`existingUrl` is
-//    that preview - pass no `existingContentType` so it's treated as an image)
-//  - an already-uploaded PDF map whose server-side conversion hasn't
-//    finished yet (`existingUrl` is the original PDF, `existingContentType`
-//    is 'application/pdf') - the original is fetched and converted
-//    client-side too, so editing still shows something better than a bare
-//    icon in that (usually brief) window.
-// A PDF is converted to SVG with the same pdf-into-svg conversion the server
-// runs for the permanent preview, so this looks the same; it takes a
-// moment, hence the spinner while that's in progress. Images (and already-
-// converted previews) show instantly.
+/**
+ * A large, zoomable/pannable preview of a map file, shown in the map details
+ * form so the person confirming a title/authors can actually make out
+ * details on the map - important since survey maps are often dense and a
+ * static thumbnail alone isn't enough. Covers three cases:
+ *  - a not-yet-uploaded local `file` (new map)
+ *  - an already-uploaded map with a ready vector preview (`existingUrl` is
+ *    that preview - pass no `existingContentType` so it's treated as an image)
+ *  - an already-uploaded PDF map whose server-side conversion hasn't
+ *    finished yet (`existingUrl` is the original PDF, `existingContentType`
+ *    is 'application/pdf') - the original is fetched and converted
+ *    client-side too, so editing still shows something better than a bare
+ *    icon in that (usually brief) window.
+ * A PDF is converted to SVG with the same pdf-into-svg conversion the server
+ * runs for the permanent preview, so this looks the same; it takes a
+ * moment, hence the spinner while that's in progress. Images (and already-
+ * converted previews) show instantly.
+ *
+ * @param {object} props
+ * @param {File} [props.file] - A file not uploaded yet.
+ * @param {string} [props.existingUrl] - Or an uploaded one's address.
+ * @param {string} [props.existingContentType] - That one's type.
+ * @param {number} [props.width=200]
+ * @param {number} [props.height=200]
+ */
 export default function PendingFilePreview({ file, existingUrl, existingContentType, width = 200, height = 200 }) {
   const [objectUrl, setObjectUrl] = useState(null)
   const [convertingPdf, setConvertingPdf] = useState(false)

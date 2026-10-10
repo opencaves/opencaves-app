@@ -28,10 +28,15 @@ export function isValidPartialDate(value, { allowRange = true } = {}) {
   return isRealDate(value)
 }
 
-// description: what the date is (e.g. when a connection was established),
-// shown in the hint before the accepted precisions.
-// As wide as its widest value (a full date, 2019-06-15 - wider than a range,
-// 2019-2021) or its label, whichever is longer; its hint may run wider.
+/**
+ * As wide as its widest value (a full date, 2019-06-15 - wider than a range,
+ * 2019-2021) or its label, whichever is longer; its hint may run wider.
+ *
+ * @param {import('@mui/material/TextField').TextFieldProps & { value?: string, allowRange?: boolean, description?: string }} props - A
+ *   TextField's; `allowRange` accepts a range of years (2019-2021),
+ *   `description` says what the date is (e.g. when a connection was
+ *   established), shown in the hint before the accepted precisions.
+ */
 export default function PartialDateField({ value, allowRange = true, description, className, sx, label, ...props }) {
   const { t } = useTranslation('partialDateField')
   const invalid = !isValidPartialDate(value, { allowRange })

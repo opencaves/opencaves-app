@@ -1,5 +1,49 @@
 # Changelog
 
+## [1.0.0-beta-14](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-13...v1.0.0-beta-14) (2026-10-10)
+
+Feedback becomes a conversation: the team answers by email and you can answer back, members can follow the ideas and fixes, What's new tells what changed, and the public pages open faster.
+
+
+### Features
+
+* **Feedback replies:** the team answers a report from the app, and its author gets the whole conversation by email; replying to that email adds to it. Admins can answer the "new report" email the same way.
+* **Ideas and fixes:** signed-in members can read every report and the team's replies (read only), from the account menu and the dashboard - to follow what's coming.
+* **Feedback pages** look like a project's issue tracker: Open and Closed tabs, search, filters, a page per report with its timeline; a whole row opens its report.
+* **Feedback emails:** members can turn off the team's reply emails in their account (Emails), or with the link at the bottom of an email.
+* **New reports** show as a count on the admins' account button, beside Dashboard in its menu, and on the dashboard.
+* **What's new** says whether each item was added, modified or removed, with the fields changed; filter by change, and share a filtered list by its address.
+* **Parking:** a cave can have a parking point; Directions lead to it. Coordinates list the cave, parking, entrance and key in that order.
+* **Icons:** a new entrance icon (two flared posts), a cenote with a bigger opening, the Map entry in the app's gold, and system icons in their system's colour on What's new.
+* **Dates** like "3 minutes ago" update by themselves and show the exact date on hover or keyboard focus.
+* **Tooltips** follow Material 3 and wait a moment before showing on hover.
+* **Public pages** (the home page, caves, systems) are rendered on the server: they show at once and search engines read them fully.
+
+### Fixes
+
+* **Photos:** a gallery's photos and the photo viewer show them in the same order; photos load in the installed app; scrolling the strips is smooth again.
+* **Videos:** adding a video works again, the same video can't be added twice, and adding or deleting one says so.
+* **Accessibility:** a skip link that reaches the content, a readable Open chip, clearer scrollbars in dark mode, no console errors on missing pages.
+* **Reliability:** the app recovers from a browser database error by itself; the public pages no longer run out of memory or break during an update.
+
+## [1.0.0-beta-13](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-12...v1.0.0-beta-13) (2026-10-09)
+
+Smoother and easier to reach: the map flies to a cave without a jump, new pins and icons, and the photos, videos and survey maps work well with a keyboard.
+
+
+### Features
+
+* **Map pins** take Material's pin shape, the cave drawing inside; a selected cave's entrance and key show as their icon alone, in the pin's colour, labelled Entrance and Key.
+* **Entrance icon:** an arrow going into a door instead of the fence, on the map, in the detail pane, on the cave's page and in the edit form.
+* **Picking a cave on the map:** the camera flies there smoothly and the pin's bounce starts with it; panning and picking a cave do less work.
+* **Opening the app:** the map's loading screen looks like the map and goes away sooner; every page waits until it's styled before showing, so no more flash of unstyled text.
+* **Detail pane:** on a computer it grows and shrinks smoothly as it opens, closes and its content changes; in a system's tree, an arrow in the system's colour leads to each one.
+* **Photos, videos and survey maps:** each strip settles with an item in the middle; with a keyboard, the focused item scrolls to the middle and the down and up arrows leave the strip (and come back).
+* **Keyboard focus** shows clearly on the tabs, photos, videos and survey maps (it was cut off).
+* **Icon buttons** follow Material 3's sizes, with a larger touch area everywhere.
+* **Dashboard:** the Admin group sits under Caves, with Reference data beside them.
+* **Editing notes stay with the editors:** a text's Source line shows to admins only, and an exploration's notes (its sources) only in the edit forms.
+
 ## [1.0.0-beta-12](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-11...v1.0.0-beta-12) (2026-10-08)
 
 A usability pass over the whole app: clearer words, easier on a phone and with a keyboard, a cave page with its address and directions, and a fresh look for the icons.

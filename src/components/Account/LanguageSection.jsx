@@ -2,10 +2,17 @@ import { useTranslation } from 'react-i18next'
 import { Box, MenuItem, TextField, Typography } from '@mui/material'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { AUTOMATIC, useLanguageChoice } from '@/components/LanguagePicker.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
-// The account page's language setting: a fixed language, or Automatic (the
-// browser's). Kept on this device, and in the signed-in account so it follows
-// the person (see services/languagePreference.js).
+/**
+ * The account page's language setting: a fixed language, or Automatic (the
+ * browser's). Kept on this device, and in the signed-in account so it follows
+ * the person (see services/languagePreference.js).
+ *
+ * @param {object} props
+ * @param {object} [props.headingProps={}] - Its heading's.
+ * @param {boolean} [props.asField=false] - A labelled field inside another section (the account's personal info).
+ */
 export default function LanguageSection({ headingProps = {}, asField = false }) {
   const { t } = useTranslation('account')
   // Also picks up the account's language when it's applied at sign-in.
@@ -13,7 +20,7 @@ export default function LanguageSection({ headingProps = {}, asField = false }) 
 
   return (
     // id: the #language anchor (/account#language, linked from the welcome email).
-    <Box component={asField ? 'div' : 'section'} className="oc-language-section" id="language" sx={{ scrollMarginTop: 'calc(64px + 16px)' }}>
+    <Box component={asField ? 'div' : 'section'} className="oc-language-section" id="language" sx={sectionAnchorSx}>
       {/* asField: a labelled field inside another section (the account's personal info). */}
       {!asField && (
         <Typography component="h2" variant="h6" {...headingProps} id="oc-language-section-title">

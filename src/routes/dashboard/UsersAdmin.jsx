@@ -6,6 +6,7 @@ import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import DeleteRounded from '@mui/icons-material/DeleteRounded'
 import AcUnitRounded from '@mui/icons-material/AcUnitRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
+import IconButtonGroup from '@/components/IconButtonGroup.jsx'
 import { auth, callable } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
@@ -194,7 +195,7 @@ export default function UsersAdmin() {
                     MD3 standard icon buttons: 40dp, 24dp icon, 8dp apart so
                     their 48dp touch targets don't overlap; the last icon 24dp
                     from the row's edge (the list's 16dp padding + 8dp). */}
-                <Box className="oc-users-admin--actions" sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+                <IconButtonGroup className="oc-users-admin--actions" sx={{ ml: 'auto' }}>
                   {user.uid !== auth.currentUser?.uid ? (
                     <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
                       <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
@@ -209,7 +210,7 @@ export default function UsersAdmin() {
                       <DeleteRounded />
                     </IconButton>
                   </Tooltip>
-                </Box>
+                </IconButtonGroup>
               </ListItem>
             ))}
           </List>

@@ -7,13 +7,17 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 // a class ending in --section-title).
 const SECTION_TITLE = '[class*="--section-title"]'
 
-// A section of an edit form: its fields on a card of the dashboard's opaque,
-// bordered surface (DASHBOARD_SURFACE_SX), standing out on the dashboard
-// pages' translucent page (and as a bordered card on an opaque one).
-// Its heading shows above the card, not on it: the heading the section's
-// field draws stays in place for screen readers and labelling, hidden from
-// sight, and its text is repeated above (hidden from screen readers, so it's
-// read once).
+/**
+ * A section of an edit form: its fields on a card of the dashboard's opaque,
+ * bordered surface ({@link DASHBOARD_SURFACE_SX}), standing out on the dashboard
+ * pages' translucent page (and as a bordered card on an opaque one).
+ * Its heading shows above the card, not on it: the heading the section's
+ * field draws stays in place for screen readers and labelling, hidden from
+ * sight, and its text is repeated above (hidden from screen readers, so it's
+ * read once).
+ *
+ * @param {import('@mui/material/Box').BoxProps} props - The section's (a Box's); `sx`, the card's.
+ */
 export default function FormSection({ children, sx, ...props }) {
   const cardRef = useRef(null)
   const [title, setTitle] = useState('')

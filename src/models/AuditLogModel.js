@@ -25,6 +25,7 @@ function toEntry(snapshot) {
 
 // filters: { authorId, collection, action, from, to } (from/to: Dates), each
 // optional.
+/** @param {{authorId?: string, collection?: string, action?: string, from?: Date, to?: Date}} [filters] */
 function filterConstraints({ authorId, collection: collectionName, action, from, to } = {}) {
   return [
     authorId && where('authorId', '==', authorId),
@@ -36,15 +37,28 @@ function filterConstraints({ authorId, collection: collectionName, action, from,
   ].filter(Boolean)
 }
 
-// One page of entries, newest first; `cursor` (the previous page's) for the
-// next one.
+/**
+ * One page of entries, newest first.
+ *
+ * @param {object} [filters] - { authorId, collection, action, from, to }, each optional.
+ * @param {import('firebase/firestore').DocumentSnapshot|null} [cursor=null] - `cursor` (the previous page's) for the
+ *   next one.
+ * @param {number} [pageSize=AUDIT_PAGE_SIZE]
+ * @returns {Promise<{entries: object[], cursor: import('firebase/firestore').DocumentSnapshot|null, hasMore: boolean}>}
+ */
 export async function getAuditPage(filters, cursor = null, pageSize = AUDIT_PAGE_SIZE) {
   const constraints = [...filterConstraints(filters), cursor && startAfter(cursor), limit(pageSize)].filter(Boolean)
   const { docs } = await getDocs(query(auditLog, ...constraints))
   return { entries: docs.map(toEntry), cursor: docs[docs.length - 1] ?? null, hasMore: docs.length === pageSize }
 }
 
-// Every entry of one author since a date, newest first (page after page).
+/**
+ * Every entry of one author since a date, newest first (page after page).
+ *
+ * @param {string} authorId
+ * @param {Date} since
+ * @returns {Promise<object[]>}
+ */
 export async function getAllAuthorEntriesSince(authorId, since) {
   const entries = []
   let cursor = null
@@ -62,10 +76,17 @@ function chunks(items, size = AUDIT_BATCH_LIMIT) {
   return result
 }
 
-// Undoes entries (ids, newest first), AUDIT_BATCH_LIMIT at a time, the newest
-// chunk first. force: undo even where the record changed since (conflicts).
-// onProgress(done, total) after each chunk. The results of every chunk:
-// [{ id, status: 'undone'|'conflict'|'skipped'|'error', reason?, conflicts? }]
+/**
+ * Undoes entries, {@link AUDIT_BATCH_LIMIT} at a time, the newest
+ * chunk first.
+ *
+ * @param {string[]} ids - The entries' ids, newest first.
+ * @param {object} [options]
+ * @param {boolean} [options.force=false] - Undo even where the record changed since (conflicts).
+ * @param {(done: number, total: number) => void} [options.onProgress] - After each chunk.
+ * @returns {Promise<object[]>} The results of every chunk:
+ *   [{ id, status: 'undone'|'conflict'|'skipped'|'error', reason?, conflicts? }]
+ */
 export async function undoAuditEntries(ids, { force = false, onProgress } = {}) {
   const results = []
   for (const chunk of chunks(ids)) {
@@ -82,8 +103,15 @@ export async function undoAuditEntries(ids, { force = false, onProgress } = {}) 
   return results
 }
 
-// Deletes trash items for good ([{ collection, id }]), AUDIT_BATCH_LIMIT at a
-// time: { deleted: [...], errors: [{ collection, id, reason }] }.
+/**
+ * Deletes trash items for good, {@link AUDIT_BATCH_LIMIT} at a
+ * time.
+ *
+ * @param {{collection: string, id: string}[]} items - [{ collection, id }].
+ * @param {object} [options]
+ * @param {(done: number, total: number) => void} [options.onProgress]
+ * @returns {Promise<{deleted: Array, errors: {collection: string, id: string, reason: string}[]}>} { deleted: [...], errors: [{ collection, id, reason }] }.
+ */
 export async function emptyTrash(items, { onProgress } = {}) {
   const deleted = []
   const errors = []
@@ -103,8 +131,14 @@ export async function emptyTrash(items, { onProgress } = {}) {
   return { deleted, errors }
 }
 
-// A record as it is now (null when it no longer exists), for the entries'
-// links.
+/**
+ * A record as it is now (null when it no longer exists), for the entries'
+ * links.
+ *
+ * @param {string} collectionName
+ * @param {string} id
+ * @returns {Promise<object|null>}
+ */
 export async function getRecord(collectionName, id) {
   const snapshot = await getDoc(doc(db, collectionName, id))
   return snapshot.exists() ? snapshot.data() : null

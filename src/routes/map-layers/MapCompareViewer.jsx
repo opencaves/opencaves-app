@@ -6,20 +6,27 @@ import Map, { Layer, Source } from 'react-map-gl/mapbox'
 import { MAP_PROPS } from '@/config/map.js'
 import CaveLayer, { caveTileRequest } from '@/components/Map/CaveLayer.jsx'
 
-// The extent of the scan's corners, [[west, south], [east, north]].
+/**
+ * The extent of the scan's corners, [[west, south], [east, north]].
+ *
+ * @param {[number, number][]} corners - Its [longitude, latitude] corners.
+ * @returns {[[number, number], [number, number]]}
+ */
 function boundsOf(corners) {
   const lngs = corners.map(([lng]) => lng)
   const lats = corners.map(([, lat]) => lat)
   return [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]]
 }
 
-// A map's original and its drawing, both on the ground, cross-faded with a
-// slider: two maps kept on the same view, the drawing's on top at the
-// slider's opacity - the original at one end, the drawing at the other. The
-// satellite imagery is the same in both, so only the original and the drawing
-// fade into each other. The original is the image the drawing was traced from,
-// at the corners the tracing placed it (maps.json's "scan", georef_scans.py),
-// so the two line up.
+/**
+ * A map's original and its drawing, both on the ground, cross-faded with a
+ * slider: two maps kept on the same view, the drawing's on top at the
+ * slider's opacity - the original at one end, the drawing at the other. The
+ * satellite imagery is the same in both, so only the original and the drawing
+ * fade into each other. The original is the image the drawing was traced from,
+ * at the corners the tracing placed it (maps.json's "scan", georef_scans.py),
+ * so the two line up.
+ */
 export default function MapCompareViewer({ map, open, onClose }) {
   const { t } = useTranslation('mapLayersAdmin', { keyPrefix: 'viewer' })
   // The drawing's share: 0, the original alone; 1, the drawing alone.
@@ -50,7 +57,7 @@ export default function MapCompareViewer({ map, open, onClose }) {
     mapboxAccessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
     initialViewState: { bounds: boundsOf(map.scan), fitBoundsOptions: { padding: 24 } },
     transformRequest: caveTileRequest,
-    style: { position: 'absolute', inset: 0 },
+    style: /** @type {import('react').CSSProperties} */ ({ position: 'absolute', inset: 0 }),
   }
 
   return (

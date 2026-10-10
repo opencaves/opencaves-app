@@ -1,10 +1,13 @@
+/** @type {Intl.NumberFormatOptions} */
 const defaultFormatProps = { maximumSignificantDigits: 2, style: 'unit' }
 
 function re(...parts) {
   return parts.map(x => (x instanceof RegExp) ? x.source : x).join('')
 }
 
+/** @type {Intl.NumberFormatOptions} */
 const footFormatProps = { ...defaultFormatProps, unit: 'foot' }
+/** @type {Intl.NumberFormatOptions} */
 const meterFormatProps = { ...defaultFormatProps, unit: 'meter' }
 
 function round(number, precision) {
@@ -16,7 +19,7 @@ function nbsp(str) {
   return `${str}`.replaceAll(/\s/g, '\xa0')
 }
 
-export function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
+function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
 
   if (unit === 'meter') {
     const lengthInFeet = length / 0.3048
@@ -29,8 +32,14 @@ export function formatLength(length, { unit, locale } = { unit: 'meter', locale:
 
 }
 
-// The text outside the `:length[...]` tags (Markdown's lengthDirective.js):
-// a tagged length is shown in the reader's units by the tag, not rewritten here.
+/**
+ * The text outside the `:length[...]` tags (Markdown's lengthDirective.js):
+ * a tagged length is shown in the reader's units by the tag, not rewritten here.
+ *
+ * @param {string} str
+ * @param {string} [locale='en']
+ * @returns {string}
+ */
 export function normalizeLengths(str, locale = 'en') {
   return str.split(/(:length\[[^\]]*\])/).map((part, i) => (i % 2 ? part : normalizeUntaggedLengths(part, locale))).join('')
 }

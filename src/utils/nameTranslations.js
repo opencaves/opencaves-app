@@ -1,11 +1,18 @@
-// A cave's name translations as one labelled line per language ("Anglais :
-// The Bees"), the same on the map's pane and the cave page - shown bare under
-// the name (it read like a type: "Cenote" for Dzulo), merged into "aka" on
-// the page, and only in the reader's own language (none in French). The
-// name's own language left out.
-//
-// languages: the content languages (the store's data.languages: code, and
-// their names keyed by content language).
+/**
+ * A cave's name translations as one labelled line per language ("Anglais :
+ * The Bees"), the same on the map's pane and the cave page - shown bare under
+ * the name (it read like a type: "Cenote" for Dzulo), merged into "aka" on
+ * the page, and only in the reader's own language (none in French). The
+ * name's own language left out.
+ *
+ * @param {Cave} cave
+ * @param {string} appLanguage
+ * @param {object[]} [languages=[]] - The content languages (the store's data.languages: code, and
+ *   their names keyed by content language).
+ * @param {(language: string, names: string) => *} [format] - One line from the language's name and
+ *   the names, comma-separated ("language: names" by default).
+ * @returns {Array}
+ */
 export function nameTranslationLines(cave, appLanguage, languages = [], format = (language, names) => `${language}: ${names}`) {
   const translations = cave?.nameTranslations || {}
   const display = (() => {

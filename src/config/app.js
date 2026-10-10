@@ -1,5 +1,3 @@
-import { ASSETS_LIST_CONFIG, COVER_IMAGE_HEIGHT_RATIO } from './resultPane'
-
 const PANE_SM_MINIMAL_HEIGHT = /* padding top: var(--oc-pane-padding-block) * 1.4 */ (16 * 1.4) + /* header height */ 30 + /* padding bottom  */ (16 * .6) + 73.33
 
 export const APP_NAME = 'OpenCaves'
@@ -20,7 +18,9 @@ export const COMPACT_LANDSCAPE_QUERY = '(orientation: landscape) and (max-height
 export const PANE_OPEN_THRESHOLD = .7
 export const PANE_INITIAL_BREAKPOINT = .33
 // export const PANE_BREAKPOINTS = [.08, .33, 1]
-export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / window.innerHeight, .33, 1]
+// (The server, rendering the public pages, has no window: the map's sheet is
+// never drawn there.)
+export const PANE_BREAKPOINTS = [PANE_SM_MINIMAL_HEIGHT / (typeof window === 'undefined' ? 800 : window.innerHeight), .33, 1]
 export const RESULT_PANE_MIN_HEIGHT = 300
 // The search bar, as Material Design 3's: 56dp tall, fully rounded (half its
 // height), 16dp from the screen's edges - on desktop too, where 24dp would
@@ -36,17 +36,11 @@ export const SEARCH_BAR_RADIUS = `${SEARCH_BAR_HEIGHT / 2}px`
 export const RESULT_PANE_STICKY_TOP = SEARCH_BAR_MARGIN + SEARCH_BAR_HEIGHT + 8
 export const SNACKBAR_DEFAULT_AUTO_HIDE_DURATION = 6000
 export const SCROLLBAR_TRACK_HEIGHT = 8
-export const SCROLLBAR_STEP_FACTOR = 38
 export const THUMBNAIL_FORMATS = ['webp']
 export const THUMBNAIL_FOLDER = 'thumbnails'
 // A panorama's small copies, which can show a view taken in the viewer
 // instead of the whole flattened sphere (the setViewThumbnail function).
 export const VIEW_THUMBNAIL_SIZES = ['coverImage', 'resultThumbnail', 'mediaThumbnail']
-export const CAVE_ASSETS_SIZES = {
-  coverImage: `${PANE_WIDTH}x${Math.round(PANE_WIDTH * COVER_IMAGE_HEIGHT_RATIO)}`,
-  resultThumbnail: `${Math.round(ASSETS_LIST_CONFIG.widthRatio * ASSETS_LIST_CONFIG.height)}x${ASSETS_LIST_CONFIG.height}`,
-  mediaThumbnail: '400x800'
-}
 
 const MAGNIFICATION_FACTOR = 1.5022
 

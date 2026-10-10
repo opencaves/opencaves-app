@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +11,8 @@ import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import GitHub from '@mui/icons-material/GitHub'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
+import { useCaveData } from '@/hooks/useCaveData.js'
+import { homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
@@ -81,10 +83,12 @@ function useCoverPhotos() {
   return photos
 }
 
-// / - the landing page, for cave divers around the world: what OpenCaves is
-// (a cave search, the map), some of its caves, its figures, the safety
-// warning and the disclaimer (up front, not in the fine print), what's in
-// it, its regions, how to contribute, and the language.
+/**
+ * / - the landing page, for cave divers around the world: what OpenCaves is
+ * (a cave search, the map), some of its caves, its figures, the safety
+ * warning and the disclaimer (up front, not in the fine print), what's in
+ * it, its regions, how to contribute, and the language.
+ */
 export default function Home() {
   // i18n: numbers in the app's language (858, not the browser's format).
   const { t, i18n } = useTranslation('home')
@@ -92,9 +96,13 @@ export default function Home() {
   const { t: tAbout } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
   const { t: tIndex } = useTranslation('indexPages')
-  const { data } = useIndexData()
+  const { data, partial } = useIndexData()
+  // The figures: the server's, on the page it rendered (it sends them, not
+  // every cave: src/ssr/pageState.js), until the store has the data.
+  const { figures: serverFigures } = useCaveData()
+  const figures = useMemo(() => serverFigures || homeFigures(data), [serverFigures, data])
   const [heroPhoto, ...photos] = useCoverPhotos()
-  const regions = data.areas.filter((area) => area.caves.length > 0)
+  const { regions } = figures
 
   useIndexPageHead({ title: t('title'), description: t('description') })
 
@@ -126,17 +134,28 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          // Smaller on small screens (the 1536 photo and 4160 px backdrop on a phone).
-          backgroundImage: {
-            xs: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1024')}), ` : ''}url(${heroBackgroundSmall})`,
-            md: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1536')}), ` : ''}url(${heroBackground})`,
-          },
+          // The site's own photo until the cave's loads; smaller on small
+          // screens (the 4160 px backdrop on a phone).
+          backgroundImage: { xs: `url(${heroBackgroundSmall})`, md: `url(${heroBackground})` },
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           px: { xs: 3, sm: 6, md: 8 },
           py: { xs: 6, sm: 9, md: 11 },
+          // The content above the photo and its shade.
+          '& > :not(.oc-home--hero-photo, .oc-home--hero-shade)': { position: 'relative', zIndex: 1 },
         }}
       >
+        {/* The cave's photo as an image, not a CSS background: a background is
+            fetched without CORS, and that copy (kept by the service worker)
+            broke the same file in the photo viewer, which asks for it with
+            CORS. 1024 on small screens, 1536 from md (900 px) up. */}
+        {heroPhoto && (
+          <picture className="oc-home--hero-photo" aria-hidden="true">
+            <source media="(min-width: 900px)" srcSet={heroPhoto.getThumbnailUrl('1536')} />
+            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          </picture>
+        )}
+        <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
         <Box sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }} aria-hidden="true">
           <Logo />
         </Box>
@@ -185,10 +204,10 @@ export default function Home() {
             {t('hero.openMap')}
           </Button>
           {/* The two directories: text buttons, without a border, beside the main call. */}
-          {[
+          {/** @type {[string, string, import('react').ReactElement][]} */ ([
             ['caves', '/caves', caveIcon],
             ['sistemas', '/sistemas', sistemaIcon],
-          ].map(([key, to, icon]) => (
+          ]).map(([key, to, icon]) => (
             <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: { xs: 3.5, sm: 2 }, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
               {t(`hero.browse.${key}`)}
             </Button>
@@ -197,11 +216,11 @@ export default function Home() {
       </Box>
 
       {/* The figures, live from the data. */}
-      {data.caves.length > 0 && (
+      {figures.caves > 0 && (
         <Grid container spacing={2} className="oc-home--figures" component="section" aria-label={t('figures.label')}>
           {[
-            ['caves', data.caves.length, '/caves', caveIcon],
-            ['sistemas', data.sistemas.length, '/sistemas', sistemaIcon],
+            ['caves', figures.caves, '/caves', caveIcon],
+            ['sistemas', figures.sistemas, '/sistemas', sistemaIcon],
           ].map(([key, count, to, icon]) => (
             <Grid key={key} size={{ xs: 12, sm: 6 }}>
               <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
@@ -239,8 +258,9 @@ export default function Home() {
         </Alert>
       </Box>
 
-      {/* Some of the caves, with their photos. */}
-      {photos.length > 0 && (
+      {/* Some of the caves, with their photos - named once the store has
+          every cave (not only the server's figures). */}
+      {photos.length > 0 && !partial && (
         <Box component="section" className="oc-home--discover">
           <SectionTitle title={t('discover.title')} subtitle={t('discover.subtitle')} />
           <Grid container spacing={2}>
@@ -303,7 +323,7 @@ export default function Home() {
           <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {regions.map((area) => (
               <li key={area.slug}>
-                <Chip component={RouterLink} to={`/caves#${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.caves.length}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
+                <Chip component={RouterLink} to={`/caves#${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.count}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
               </li>
             ))}
           </Box>

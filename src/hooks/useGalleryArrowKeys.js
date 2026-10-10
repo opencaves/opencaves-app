@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
 
-// A gallery's left and right arrow keys: the previous and next picture,
-// wherever the focus is on the page (the lightbox only listened while it had
-// focus itself, which it never got) - but not while typing in a field, moving
-// a slider, or with a menu or dialog open over the gallery.
-// controllerRef: the lightbox's controller ref (prev, next).
+/**
+ * A gallery's left and right arrow keys: the previous and next picture,
+ * wherever the focus is on the page (the lightbox only listened while it had
+ * focus itself, which it never got) - but not while typing in a field, moving
+ * a slider, or with a menu or dialog open over the gallery.
+ *
+ * @param {React.RefObject} controllerRef - The lightbox's controller ref (prev, next).
+ */
 export function useGalleryArrowKeys(controllerRef) {
   useEffect(() => {
     function onKeyDown(event) {

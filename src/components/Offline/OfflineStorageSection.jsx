@@ -6,12 +6,17 @@ import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineM
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
-// The account page's "Offline use" section: how much this site stores on the
-// device (navigator.storage.estimate(): cave data, downloaded and cached
-// pictures/maps/map tiles, the app's own files) and a way to free the
-// pictures and maps.
-// headingProps: the page's section heading style (see Account).
+/**
+ * The account page's "Offline use" section: how much this site stores on the
+ * device (navigator.storage.estimate(): cave data, downloaded and cached
+ * pictures/maps/map tiles, the app's own files) and a way to free the
+ * pictures and maps.
+ *
+ * @param {object} props
+ * @param {object} [props.headingProps={}] - The page's section heading style (see Account).
+ */
 export default function OfflineStorageSection({ headingProps = {} }) {
   const { t, i18n } = useTranslation('account', { keyPrefix: 'offline' })
   const [openSnackbar] = useSnackbar()
@@ -64,7 +69,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
   }
 
   return (
-    <Box component="section" className="oc-offline-storage-section">
+    <Box component="section" className="oc-offline-storage-section" id="offline-use" sx={sectionAnchorSx}>
       <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>

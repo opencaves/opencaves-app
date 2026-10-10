@@ -3,15 +3,17 @@ import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
-// Text-only Privacy · Terms links at the map's bottom-left corner: white with
-// a black outline (like the map's marker labels), readable over any imagery.
-// The white is set on the nav and inherited: a global
-// `a:not(.MuiButtonBase-root) { color: inherit }` rule outranks a color set
-// on the links themselves.
-//
-// Fixed at the bottom-left corner of the map, on every screen size: on
-// phones the result pane's sheet simply covers them while it's open, and on
-// wider screens the result pane (z-index 998) does when one is open there.
+/**
+ * Text-only Privacy · Terms links at the map's bottom-left corner: white with
+ * a black outline (like the map's marker labels), readable over any imagery.
+ * The white is set on the nav and inherited: a global
+ * `a:not(.MuiButtonBase-root) { color: inherit }` rule outranks a color set
+ * on the links themselves.
+ *
+ * Fixed at the bottom-left corner of the map, on every screen size: on
+ * phones the result pane's sheet simply covers them while it's open, and on
+ * wider screens the result pane (z-index 998) does when one is open there.
+ */
 export default function MapLegalLinks() {
   const { t } = useTranslation('legal', { keyPrefix: 'links' })
 

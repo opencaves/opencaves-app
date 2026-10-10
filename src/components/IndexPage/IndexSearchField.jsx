@@ -6,19 +6,24 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
+import { isHydrating } from '@/ssr/ssrContext.js'
 
 // Names compared as every search of the site does (utils/searchText.js):
 // "Chac Mól", "Chac-Mol" and "chacmol" match "chac mol".
 export const fold = foldSearch
 
-// An index page's search, kept in the address (?q=), so Back and a shared
-// link keep it. matches(texts): every word of the search is in one of the
-// texts (a record's name, other names, system, area...); matchesFolded: the
-// same in a text already folded (fold) - a long list's, prepared once.
-// query is the field's (as typed, its own state: the address only follows
-// it once typing pauses - written on every letter, a fast second letter was
-// lost); the matching follows it a little behind (useDeferredValue), so
-// typing never waits for a long list to redraw.
+/**
+ * An index page's search, kept in the address (?q=), so Back and a shared
+ * link keep it. matches(texts): every word of the search is in one of the
+ * texts (a record's name, other names, system, area...); matchesFolded: the
+ * same in a text already folded (fold) - a long list's, prepared once.
+ * query is the field's (as typed, its own state: the address only follows
+ * it once typing pauses - written on every letter, a fast second letter was
+ * lost); the matching follows it a little behind ({@link useDeferredValue}), so
+ * typing never waits for a long list to redraw.
+ *
+ * @returns {{query: string, setQuery: (query: string) => void, matches: (texts: string[]) => boolean, matchesFolded: (text: string) => boolean, searching: boolean, searchedQuery: string}}
+ */
 export function useIndexSearch() {
   const [searchParams, setSearchParams] = useSearchParams()
   const addressQuery = searchParams.get('q') || ''
@@ -60,12 +65,23 @@ export function useIndexSearch() {
   return { query, setQuery, matches, matchesFolded, searching: words.length > 0, searchedQuery: deferredQuery }
 }
 
-// How many of a long page's sections to draw: the first few at once, then a
-// few more in each background render after (the page shows, and scrolls,
-// before every row is drawn, and no single redraw is long). Again from the
-// first few when the sections change (resetKey: a new search's).
+/**
+ * How many of a long page's sections to draw: the first few at once, then a
+ * few more in each background render after (the page shows, and scrolls,
+ * before every row is drawn, and no single redraw is long). Again from the
+ * first few when the sections change (resetKey: a new search's). All of
+ * them on the server and in the hydration of its page (ssrContext.js): the
+ * page's HTML lists every one (for search engines too).
+ *
+ * @param {number} total
+ * @param {*} resetKey
+ * @param {object} [options]
+ * @param {number} [options.first=3]
+ * @param {number} [options.step=3]
+ * @returns {number}
+ */
 export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {}) {
-  const [state, setState] = useState({ key: resetKey, count: first })
+  const [state, setState] = useState(() => ({ key: resetKey, count: import.meta.env.SSR || isHydrating() ? total : first }))
   const count = state.key === resetKey ? state.count : first
   useEffect(() => {
     if (state.key !== resetKey) {
@@ -79,10 +95,18 @@ export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {
   return Math.min(count, total)
 }
 
-// The search field above an index page's list, and its result line
-// (status), kept in view below the app bar while the list scrolls by. Only
-// the field itself is opaque (the list passes under it around the field).
-// label: its accessible name, when the placeholder is shorter (cut on phones).
+/**
+ * The search field above an index page's list, and its result line
+ * (status), kept in view below the app bar while the list scrolls by. Only
+ * the field itself is opaque (the list passes under it around the field).
+ *
+ * @param {object} props
+ * @param {string} props.query
+ * @param {(query: string) => void} props.setQuery
+ * @param {string} [props.placeholder]
+ * @param {import('react').ReactNode} [props.status] - The results line under it.
+ * @param {string} [props.label] - Its accessible name, when the placeholder is shorter (cut on phones).
+ */
 export default function IndexSearchField({ query, setQuery, placeholder, label, status }) {
   const { t } = useTranslation('indexPages')
   // Its height, for what sticks under it (IndexSection's stickyTitle):

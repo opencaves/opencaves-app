@@ -13,18 +13,41 @@ export function automaticUnits() {
   return IMPERIAL_REGIONS.includes(region) ? 'imperial' : 'metric'
 }
 
-// The choice ('auto', 'metric' or 'imperial') as a unit system.
-export const resolveUnits = (choice) => (UNIT_SYSTEMS.includes(choice) ? choice : automaticUnits())
+/**
+ * The choice ('auto', 'metric' or 'imperial') as a unit system.
+ *
+ * @param {string} choice
+ * @returns {'metric'|'imperial'}
+ */
+export const resolveUnits = (choice) => (UNIT_SYSTEMS.includes(choice) ? /** @type {'metric'|'imperial'} */ (choice) : automaticUnits())
 
-// Metres -> the person's unit, and back.
+/**
+ * Metres -> the person's unit, and back.
+ *
+ * @param {number} metres
+ * @param {'metric'|'imperial'} units
+ * @returns {number}
+ */
 export const fromMetres = (metres, units) => (units === 'imperial' ? metres / METRES_PER_FOOT : metres)
 export const toMetres = (value, units) => (units === 'imperial' ? value * METRES_PER_FOOT : value)
 
-// The unit's symbol: 'm' or 'ft'.
+/**
+ * The unit's symbol: 'm' or 'ft'.
+ *
+ * @param {'metric'|'imperial'} units
+ * @returns {string}
+ */
 export const lengthUnit = (units) => (units === 'imperial' ? 'ft' : 'm')
 
-// A stored length or depth (metres) as the person reads it: in their units,
-// a whole number ("9 m", "1,234 ft").
+/**
+ * A stored length or depth (metres) as the person reads it: in their units,
+ * a whole number ("9 m", "1,234 ft").
+ *
+ * @param {number} metres
+ * @param {'metric'|'imperial'} units
+ * @param {string} locale
+ * @returns {string}
+ */
 export function formatMeasure(metres, units, locale) {
   const value = fromMetres(Number(metres), units)
   return `${value.toLocaleString(locale, { maximumFractionDigits: 0 })} ${lengthUnit(units)}`

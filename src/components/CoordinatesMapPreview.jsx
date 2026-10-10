@@ -16,39 +16,42 @@ import { COORDINATE_DECIMALS, PLACE_ZOOM } from '@/config/map.js'
 import PlaceCross from '@/components/Map/PlaceCross.jsx'
 
 
-// Inline map beside an edit page's CoordinateFields (cave and sistema admin
-// pages). Map.jsx's own CSS fills its nearest positioned ancestor with a
-// defined height (it's built to fill the whole /map page) - this box supplies
-// both so it renders as an inline preview here instead. Dragging the
-// CoordinateField pin icons or clicking the map still works via the same
-// pickingCoordinateFor/editFieldCoordinates redux state CoordinateField
-// itself dispatches to.
-//
-// Its corner button makes it cover the whole screen (a fixed overlay, not the
-// Fullscreen API, which iPhone Safari only supports for video); the same
-// button or Escape brings it back.
-//
-// On phones a CoordinateField's "Place on map" (mapSlice.crossPickFor) shows
-// a fixed cross at the center, like the map's own place-on-map mode: the
-// person pans the map under it, then confirms.
-//
-// hideOnPhones: no map here on phones - the cave page, whose three coordinate
-// pairs would otherwise sit above a map that's mostly just in the way there;
-// instead, the CoordinateField being placed opens its own right below itself
-// (its mapBelowOnPhones), which goes away again once placed.
+/**
+ * Inline map beside an edit page's CoordinateFields (cave and sistema admin
+ * pages). Map.jsx's own CSS fills its nearest positioned ancestor with a
+ * defined height (it's built to fill the whole /map page) - this box supplies
+ * both so it renders as an inline preview here instead. Dragging the
+ * CoordinateField pin icons or clicking the map still works via the same
+ * pickingCoordinateFor/editFieldCoordinates redux state CoordinateField
+ * itself dispatches to.
+ *
+ * Its corner button makes it cover the whole screen (a fixed overlay, not the
+ * Fullscreen API, which iPhone Safari only supports for video); the same
+ * button or Escape brings it back.
+ *
+ * On phones a CoordinateField's "Place on map" (mapSlice.crossPickFor) shows
+ * a fixed cross at the center, like the map's own place-on-map mode: the
+ * person pans the map under it, then confirms.
+ *
+ * @param {object} props
+ * @param {boolean} [props.hideOnPhones=false] - No map here on phones - the cave page, whose three coordinate
+ *   pairs would otherwise sit above a map that's mostly just in the way there;
+ *   instead, the CoordinateField being placed opens its own right below itself
+ *   (its mapBelowOnPhones), which goes away again once placed.
+ */
 export default function CoordinatesMapPreview({ hideOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const mapRef = useRef()
-  const boxRef = useRef()
+  const mapRef = useRef(null)
+  const boxRef = useRef(null)
   const isSmall = useSmall()
   // Taller while placing with the cross: more room to aim.
   const [expanded, setExpanded] = useState(false)
   // The live coordinates under the cross while placing.
   const [crossCenter, setCrossCenter] = useState(null)
   const [fullscreen, setFullscreen] = useState(false)
-  const crossPickFor = useSelector((state) => state.map.crossPickFor)
-  const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
+  const crossPickFor = useSelector((/** @type {RootState} */ state) => state.map.crossPickFor)
+  const editFieldCoordinates = useSelector((/** @type {RootState} */ state) => state.map.editFieldCoordinates)
 
   const hidden = hideOnPhones && isSmall
 
@@ -138,11 +141,11 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
       }
     >
       <Tooltip title={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')}>
-        <IconButton size={fullscreen || isSmall ? 'medium' : 'small'} aria-label={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')} onClick={() => setFullscreen((v) => !v)} sx={{ ...(isSmall && { width: 48, height: 48 }), position: 'absolute', top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, right: fullscreen ? 12 : 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
-          {fullscreen ? <FullscreenExitRounded /> : <FullscreenRounded fontSize={isSmall ? 'medium' : 'small'} />}
+        <IconButton size={fullscreen || isSmall ? 'medium' : 'small'} aria-label={fullscreen ? t('exitFullscreenMap') : t('fullscreenMap')} onClick={() => setFullscreen((v) => !v)} sx={{ position: 'absolute', top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, right: fullscreen ? 12 : 8, zIndex: 1, bgcolor: 'background.paper', boxShadow: 1, '&:hover': { bgcolor: 'background.paper' } }}>
+          {fullscreen ? <FullscreenExitRounded /> : <FullscreenRounded />}
         </IconButton>
       </Tooltip>
-      {/* Top left, up to the full-screen button (48dp + margins). */}
+      {/* Top left, up to the full-screen button (its 48dp touch target + margins). */}
       <Box className="oc-coordinates-map-preview--search" sx={{ position: 'absolute', zIndex: 2, top: fullscreen ? 'calc(12px + env(safe-area-inset-top))' : 8, left: fullscreen ? 12 : 8, right: fullscreen ? 72 : 64, maxWidth: 360 }}>
         <MapPlaceSearch mapRef={mapRef} />
       </Box>

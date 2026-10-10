@@ -59,7 +59,8 @@ function MapListItemMenu({ map, onEdit, onTrash }) {
   const [anchorEl, setAnchorEl] = useState(null)
   function act(action) {
     setAnchorEl(null)
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     action(map)
   }
   return (
@@ -146,6 +147,11 @@ function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
   )
 }
 
+/**
+ * The map pane's route loader: the maps of the cave's sistema and of the ones it joined.
+ *
+ * @returns {Promise<{sistemaId: string|null, mapRefs: {id: string, sistemaId: string}[], maps: object[]}>}
+ */
 export async function mapPaneLoader({ params }) {
   const cave = await CaveModel.getById(params.caveId)
   const sistemaId = cave?.sistemaId || null
@@ -155,10 +161,12 @@ export async function mapPaneLoader({ params }) {
   return { sistemaId, mapRefs, maps }
 }
 
-// Clicking a map opens this - the same drawer + big-viewer structure as
-// Pictures' MediaPane.jsx, reusing that established pattern instead of a
-// one-off lightbox, since maps benefit from the same "browse while viewing"
-// shape pictures already have.
+/**
+ * Clicking a map opens this - the same drawer + big-viewer structure as
+ * Pictures' MediaPane.jsx, reusing that established pattern instead of a
+ * one-off lightbox, since maps benefit from the same "browse while viewing"
+ * shape pictures already have.
+ */
 export default function MapPane() {
   const { t } = useTranslation('mediaPane')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -168,8 +176,8 @@ export default function MapPane() {
   const { caveId, mapId } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const canTrash = useCanTrashMaps()
   const initial = useLoaderData()
   const returnTo = location.state?.from || `/map/${caveId}`

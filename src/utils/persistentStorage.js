@@ -23,8 +23,10 @@ export async function requestPersistentStorage() {
   }
 }
 
-// Installed as an app (home screen / desktop PWA), where offline use is the
-// whole point.
+/**
+ * Installed as an app (home screen / desktop PWA), where offline use is the
+ * whole point.
+ */
 export function isInstalledApp() {
   return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true
 }

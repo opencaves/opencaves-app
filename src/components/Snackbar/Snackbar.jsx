@@ -5,9 +5,21 @@ import Slide from '@mui/material/Slide'
 import Close from '@mui/icons-material/CloseRounded'
 import { SNACKBAR_DEFAULT_AUTO_HIDE_DURATION } from '@/config/app.js'
 
-// onClose: told when it closes on its own (a click away, its close button,
-// its time up), so whoever opened it knows it's closed - and can open it
-// again (SnackbarProvider: a next message didn't show after a click away).
+/**
+ * @param {object} props
+ * @param {boolean} [props.open=false]
+ * @param {import('react').ReactNode} [props.message]
+ * @param {boolean} [props.autoHide=true]
+ * @param {number|null} [props.autoHideDuration=null]
+ * @param {boolean} [props.hideOnClickAway=false]
+ * @param {import('react').ReactNode} [props.action=null]
+ * @param {boolean} [props.showCloseButton=false]
+ * @param {import('react').ReactNode} [props.children] - Shown instead of the message.
+ * @param {object} [props.sx={}] - Applied with children only.
+ * @param {() => void} [props.onClose] - Told when it closes on its own (a click away, its close button,
+ *   its time up), so whoever opened it knows it's closed - and can open it
+ *   again (SnackbarProvider: a next message didn't show after a click away).
+ */
 export default function Snackbar({ open = false, message, autoHide = true, autoHideDuration = null, hideOnClickAway = false, action = null, showCloseButton = false, onClose, children, sx = {} }) {
 
   const [_open, setOpen] = useState(open)
@@ -24,7 +36,6 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
       <IconButton
         aria-label={t('close.ariaLabel')}
         color='inherit'
-        sx={{ p: 0.5 }}
         onClick={closeSnackbar}
       >
         <Close />
@@ -64,7 +75,7 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
         open={_open}
         slots={{ transition: Slide }}
         // Its action and close button centered beside the text (M3).
-        slotProps={{ transition: { direction: 'up' } }}
+        slotProps={{ transition: /** @type {import('@mui/material/transitions').TransitionProps} */ ({ direction: 'up' }) }}
         sx={children ? sx : {}}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         action={
@@ -86,7 +97,7 @@ export default function Snackbar({ open = false, message, autoHide = true, autoH
         // TransitionProps={{ onExited: onSnackbarExited }}
         onClose={onSnackbarClose}
       >
-        {children}
+        {/** @type {import('react').ReactElement} */ (children)}
       </MUISnackbar>
     </Portal>
   )

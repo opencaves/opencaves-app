@@ -5,7 +5,7 @@ import { useServiceWorker } from '@/hooks/useServiceWorker.jsx'
 import { useCheckForAppUpdates } from '@/hooks/useCheckForAppUpdates.jsx'
 
 export default function ManageAppUpdate() {
-  const { waitingWorker, showReload, reloadPage } = useServiceWorker(1000)
+  const { waitingWorker, showReload, reloadPage } = useServiceWorker()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('app')
 
@@ -32,8 +32,10 @@ export default function ManageAppUpdate() {
   return <UpdateSnackbar open={open} onReload={onSnackbarBtnClick} />
 }
 
-// The "update available" snackbar, its Reload button its action (also shown
-// by the snackbars' preview, /dev/snackbars).
+/**
+ * The "update available" snackbar, its Reload button its action (also shown
+ * by the snackbars' preview, /dev/snackbars).
+ */
 export function UpdateSnackbar({ open, onReload }) {
   const { t } = useTranslation('app')
   return (
@@ -49,7 +51,7 @@ export function UpdateSnackbar({ open, onReload }) {
       // Bottom centre, as every other snackbar (MUI's default is the left).
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       slots={{ transition: Slide }}
-      slotProps={{ transition: { direction: 'up' } }}
+      slotProps={{ transition: /** @type {Partial<import('@mui/material/Slide').SlideProps>} */ ({ direction: 'up' }) }}
     />
   )
 }

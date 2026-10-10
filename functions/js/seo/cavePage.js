@@ -3,7 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
 import { APP_TITLE, SITE_URL } from '../constants.js'
-import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -16,11 +16,27 @@ import { slugify } from './slug.js'
 // own index.html (shared.js's shellFor). It links to the cave's area and
 // system pages and to /caves, so crawlers reach those too.
 
-// sistema: the cave's system ({ name, slug }), if any; path: the page's
-// address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
-// Both are known to search engines by its own page: one URL per cave, not two
-// near-identical pages (Google skipped them as duplicates).
+/**
+ * sistema: the cave's system ({ name, slug }), if any; path: the page's
+ * address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
+ * Both are known to search engines by its own page: one URL per cave, not two
+ * near-identical pages (Google skipped them as duplicates).
+ * {@link cavePageMeta}: the page's <head> data and its text (body); cavePageHtml: the
+ * page itself. structuredData: in the text (body), and in <head> when the
+ * app renders the page (ssr.js).
+ *
+ * @param {string} shell
+ * @param {Cave} cave
+ * @param {string} id
+ * @param {{name: string, slug: string}} [sistema]
+ * @param {string} [path]
+ * @returns {string}
+ */
 export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
+  return renderPage(shell, cavePageMeta(cave, id, sistema, path))
+}
+
+export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
   // Its name alone, as the app's titles (no "Cenote" prefix: "Cenote Cenote
@@ -69,13 +85,16 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const trail = path.startsWith('/caves/')
     ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/caves#${slugify(area)}` }] : []), { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
-  return renderPage(shell, { title, description, path, canonical, body, ogType: 'place', trail })
+  return { title, description, path, canonical, body, ogType: 'place', trail, structuredData }
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and
 // can't carry markup into the page.
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 
+/**
+ * /map/<caveId>, server-rendered for search engines ({@link cavePageHtml}).
+ */
 export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   let id = ''
   try {
@@ -98,7 +117,7 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   if (!snapshot?.exists) {
     // The app shows its own "not found"; search engines get the status.
     res.set('Cache-Control', 'public, max-age=60')
-    res.status(404).send(shell)
+    sendHtml(req, res, shell, 404)
     return
   }
   // Short in browsers (the app is the page they use), longer at the CDN edge:
@@ -110,5 +129,5 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
     const { slugs, names } = await loadSistemaSlugs()
     if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
   }
-  res.send(cavePageHtml(shell, cave, id, sistema))
+  sendHtml(req, res, cavePageHtml(shell, cave, id, sistema))
 })

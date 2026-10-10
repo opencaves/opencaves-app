@@ -2,8 +2,15 @@ import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { useColorScheme } from '@mui/material/styles'
 
-// ModeSwitcher is an example interface for toggling between modes.
-// Material UI does not provide the toggle interface—you have to build it yourself.
+/**
+ * ModeSwitcher is an example interface for toggling between modes.
+ * Material UI does not provide the toggle interface—you have to build it yourself.
+ */
+/**
+ * In development: a button switching the light and dark modes.
+ *
+ * @param {import('@mui/material/Button').ButtonProps} props
+ */
 export default function ModeSwitcher({ className, ...props }) {
   const { mode, setMode } = useColorScheme()
   const [mounted, setMounted] = useState(false)
@@ -39,9 +46,6 @@ export default function ModeSwitcher({ className, ...props }) {
         lineHeight: '2.5em',
         // zIndex: 1000000,
         zIndex: 'calc(var(--mui-zIndex-modal) - 1)',
-        '&:hover': {
-          opacity: 1
-        }
       }}
       className={`oc-mode-switcher ${className || ''}`.trim()}
       {...props}

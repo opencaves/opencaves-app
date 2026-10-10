@@ -54,6 +54,7 @@
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
       "feedback": "Envoyer un commentaire",
+      "feedbackList": "Idées et corrections",
       "whatCanIDo": "Que puis-je faire ?",
       "whatsNew": "Nouveautés",
       "drawer": {
@@ -67,7 +68,9 @@
       "welcome": "Bienvenue sur {{name}}",
       "welcomeText": "Connectez-vous pour sauvegarder vos grottes préférées et contribuer.",
       "close": "Fermer",
-      "signInMenu": "Se connecter ou s’inscrire"
+      "signInMenu": "Se connecter ou s’inscrire",
+      "newFeedbackAria_one": "{{count}} nouveau commentaire",
+      "newFeedbackAria_other": "{{count}} nouveaux commentaires"
     },
     "snackbar": {
       "saved": "Modifications de {{name}} enregistrées",
@@ -159,7 +162,15 @@
     "appearanceHint": "Affichage clair ou sombre, sur cet appareil et partout où vous vous connectez.",
     "appearance_system": "Automatique (réglage de l’appareil)",
     "appearance_light": "Clair",
-    "appearance_dark": "Sombre"
+    "appearance_dark": "Sombre",
+    "emails": {
+      "title": "Courriels",
+      "feedbackReplies": "M’envoyer par courriel les réponses de l’équipe à mes commentaires",
+      "feedbackRepliesHint": "Quand l’équipe d’OpenCaves répond à un signalement ou à une idée que vous avez envoyé. Ses réponses restent sur OpenCaves dans tous les cas.",
+      "turnedOn": "Les réponses de l’équipe vous seront envoyées par courriel",
+      "turnedOff": "Les réponses de l’équipe ne vous seront plus envoyées par courriel",
+      "saveError": "Ce paramètre n’a pas pu être enregistré. Veuillez réessayer."
+    }
   },
   "auth": {
     "dialog": {
@@ -523,11 +534,13 @@
     "copyCoordinates": "Copier les coordonnées",
     "copyKeyCoordinates": "Copier les coordonnées de la clé",
     "copyEntranceCoordinates": "Copier les coordonnées de l'entrée",
+    "copyParkingCoordinates": "Copier les coordonnées du stationnement",
     "directionsToCave": "Itinéraire vers la grotte",
     "directionsToKey": "Itinéraire vers la clé",
     "directionsToSistema": "Itinéraire vers le réseau",
     "area": "Région : {{area}}",
     "directionsToEntrance": "Itinéraire vers l'entrée",
+    "directionsToParking": "Itinéraire vers le stationnement",
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
     "addressNotAvailable": "Adresse non disponible",
@@ -583,6 +596,7 @@
       "coordinates": "Coordonnées",
       "location": "Emplacement",
       "entrance": "Entrée",
+      "parking": "Stationnement",
       "key": "Clé",
       "longitude": "Longitude",
       "latitude": "Latitude",
@@ -595,6 +609,7 @@
       "addOneCoordinates": {
         "location": "Ajouter les coordonnées de l'emplacement",
         "entrance": "Ajouter les coordonnées de l'entrée",
+        "parking": "Ajouter les coordonnées du stationnement",
         "key": "Ajouter les coordonnées de la clé",
         "sistemaLocation": "Ajouter les coordonnées de l'emplacement"
       },
@@ -692,7 +707,10 @@
     "cenoteEntrance": "Cénote d'entrée",
     "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau.",
     "nameTranslation": "{{language}} : {{names}}",
-    "descriptionHeader": "Description"
+    "videoAdded": "Vidéo ajoutée",
+    "videoAlreadyAdded": "Cette vidéo est déjà dans la liste.",
+    "videoDeleted": "Vidéo supprimée",
+    "videoAddError": "La vidéo n’a pas pu être ajoutée. Veuillez réessayer."
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -736,14 +754,7 @@
       }
     },
     "addMedia": {
-      "header": "Ajoutez des photos de {{name}}",
-      "dragHere": "Faites glisser les photos ici",
       "dropHere": "Déposez des fichiers n’importe où pour les téléverser",
-      "or": "ou",
-      "btn": "Cliquez pour sélectionner des fichiers",
-      "closeBtn": {
-        "ariaLabel": "fermer"
-      },
       "success_one": "1 photo ajoutée",
       "success_other": "{{count}} photos ajoutées",
       "errorHeader": "Oups !",
@@ -1006,8 +1017,10 @@
     "markers": {
       "location": "Emplacement de la grotte",
       "entrance": "Entrée de la cénote",
+      "parking": "Stationnement",
       "key": "Emplacement de la clé",
       "entranceShort": "Entrée",
+      "parkingShort": "Stationnement",
       "keyShort": "Clé"
     },
     "caveLayer": {
@@ -1160,8 +1173,11 @@
     "connectionOfSistema": "la connexion de {{name}}",
     "connectionDateHint": "Date à laquelle la connexion entre les deux réseaux a été établie.",
     "adminSection": "Administration",
+    "feedbackSection": "Commentaires",
     "manageMapLayers": "Couches de la carte",
     "manageFeedback": "Commentaires",
+    "followFeedback": "Idées et corrections",
+    "followFeedbackText": "Ce que les testeurs ont signalé, et ce qui s’en vient",
     "newFeedback_one": "{{count}} nouveau",
     "newFeedback_other": "{{count}} nouveaux",
     "manageAudits": "Audits",
@@ -1557,8 +1573,8 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "description": "Les grottes, réseaux, connexions, cartes, photos et vidéos récemment ajoutés à {{name}}.",
-    "subtitle": "Les derniers ajouts à {{name}}, les plus récents en premier.",
+    "description": "Les grottes, réseaux, connexions, cartes, photos et vidéos récemment ajoutés, modifiés ou retirés de {{name}}.",
+    "subtitle": "Les derniers ajouts, modifications et retraits sur {{name}}, les plus récents en premier.",
     "filters": {
       "all": "Tout",
       "caves": "Grottes",
@@ -1566,7 +1582,13 @@
       "connections": "Connexions",
       "maps": "Topographies",
       "photos": "Photos",
-      "videos": "Vidéos"
+      "videos": "Vidéos",
+      "allChanges": "Tous les changements",
+      "added": "Ajouts",
+      "modified": "Modifications",
+      "removed": "Retraits",
+      "kindsLabel": "Contenu",
+      "changesLabel": "Changement"
     },
     "kinds": {
       "caves": "Grotte",
@@ -1585,11 +1607,58 @@
     "unnamedMap": "Carte sans titre",
     "recently": "Récemment",
     "none": "Rien de nouveau pour le moment.",
-    "failed": "Les derniers ajouts n'ont pas pu être chargés.",
+    "failed": "Les derniers changements n'ont pas pu être chargés.",
     "photosAdded_one": "{{count}} photo de {{name}}",
     "photosAdded_other": "{{count}} photos de {{name}}",
     "videosAdded_one": "{{count}} vidéo de {{name}}",
-    "videosAdded_other": "{{count}} vidéos de {{name}}"
+    "videosAdded_other": "{{count}} vidéos de {{name}}",
+    "changes": {
+      "added": "Ajout",
+      "modified": "Modification",
+      "removed": "Retrait"
+    },
+    "modifiedBy": "modifié par {{name}}",
+    "removedBy": "retiré par {{name}}",
+    "changedFields": "modifié : {{fields}}",
+    "fields": {
+      "name": "nom",
+      "nameTranslations": "traductions du nom",
+      "aka": "autres noms",
+      "keys": "emplacement de la clé",
+      "location": "emplacement",
+      "entrance": "entrée",
+      "parking": "stationnement",
+      "sistemaId": "réseau",
+      "parentSistemaId": "réseau rejoint",
+      "area": "région",
+      "source": "source",
+      "access": "accès",
+      "accessDetails": "détails de l'accès",
+      "accessibility": "accessibilité",
+      "accessibilityDetails": "détails de l'accessibilité",
+      "description": "description",
+      "direction": "pour s'y rendre",
+      "note": "notes",
+      "reporter": "signalé par",
+      "explorationDate": "date d'exploration",
+      "cenoteEntrance": "entrée de cénote",
+      "facilities": "installations",
+      "fees": "frais",
+      "textSources": "sources des textes",
+      "color": "couleur",
+      "length": "distance explorée",
+      "maxDepth": "profondeur max.",
+      "public": "visibilité",
+      "explorations": "historique d'exploration",
+      "connectionDate": "date de connexion",
+      "authors": "auteurs",
+      "date": "date",
+      "url": "fichier",
+      "contentType": "type de fichier",
+      "videos": "vidéos",
+      "maps": "topographies",
+      "activities": "activités"
+    }
   },
   "betaTesting": {
     "badge": "Bêta",
@@ -1710,10 +1779,6 @@
     "admin": {
       "title": "Commentaires",
       "back": "Retour au tableau de bord",
-      "shown": {
-        "open": "Ouverts",
-        "all": "Tous"
-      },
       "status": {
         "new": "Nouveau",
         "confirmed": "Confirmé",
@@ -1731,24 +1796,83 @@
         "duplicate": "Déjà signalé"
       },
       "changeStatus": "Étape : {{status}}. La changer",
-      "statusSet": "{{status}} - par {{name}}, {{date}}",
       "none": "Aucun rapport ici.",
       "delete": "Supprimer",
-      "page": "Page :",
-      "browser": "Navigateur :",
-      "note": "Note",
-      "notePlaceholder": "Pourquoi il a été rejeté, de quoi il est le doublon, ce qui a été fait…",
-      "closeTitle": "Marquer comme {{status}}",
-      "closeText": "{{name}} recevra le résultat par courriel, avec cette note.",
-      "noteForReporter": "Note pour l’auteur",
-      "closePlaceholder": {
-        "done": "Ce qui a été corrigé ou ajouté, et où le voir…",
-        "rejected": "Pourquoi il n’y sera pas donné suite…"
-      },
-      "closeConfirm": "Enregistrer et envoyer",
-      "reporterEmailed": "Auteur averti par courriel : {{date}}",
       "deleteTitle": "Supprimer ce rapport ?",
-      "deleteText": "Il sera supprimé pour de bon."
+      "deleteText": "Il sera supprimé pour de bon.",
+      "statusError": "L’étape n’a pas pu être changée. Veuillez réessayer.",
+      "deleteError": "Le rapport n’a pas pu être supprimé. Veuillez réessayer.",
+      "thread": {
+        "label": "Conversation",
+        "team": "Équipe d’OpenCaves",
+        "replyLabel": "Réponse à {{name}}",
+        "replyPlaceholder": "Votre réponse, envoyée par courriel avec toute la conversation…",
+        "replyPlaceholderMuted": "Votre réponse, ajoutée à la conversation…",
+        "mutedHint": "{{name}} a désactivé les courriels sur ses commentaires : votre réponse ne lui sera pas envoyée par courriel. Elle reste dans la conversation.",
+        "sentMuted": "Réponse envoyée. {{name}} a désactivé les courriels sur ses commentaires : elle ne lui sera pas envoyée par courriel.",
+        "send": "Envoyer",
+        "sendOptions": "Envoyer et changer l’étape",
+        "sendAndClose": "Envoyer et marquer comme {{status}}",
+        "sent": "Réponse envoyée : {{name}} la recevra par courriel.",
+        "sendError": "La réponse n’a pas pu être envoyée. Veuillez réessayer.",
+        "tooLong": "{{count}} caractères au plus",
+        "emailed": "Envoyée par courriel",
+        "legacyNote": "Ancienne note",
+        "attachmentsDropped_one": "{{count}} pièce jointe non conservée",
+        "attachmentsDropped_other": "{{count}} pièces jointes non conservées"
+      },
+      "list": {
+        "search": "Chercher un rapport",
+        "searchLabel": "Chercher un rapport : message, auteur, page",
+        "clearSearch": "Effacer la recherche",
+        "clearFilters": "Effacer recherche, filtres et tri",
+        "open": "{{count}} ouverts",
+        "closed": "{{count}} fermés",
+        "kind": "Type",
+        "allKinds": "Tous les types",
+        "stage": "Étape",
+        "allStages": "Toutes les étapes",
+        "sort": "Tri",
+        "sorts": {
+          "newest": "Plus récents",
+          "oldest": "Plus anciens",
+          "activity": "Activité récente"
+        },
+        "opened": "Ouvert",
+        "by": "par {{name}}",
+        "messages_one": "{{count}} message",
+        "messages_other": "{{count}} messages",
+        "untitled": "(sans texte)",
+        "noMatch": "Aucun rapport ne correspond à cette recherche ou à ces filtres."
+      },
+      "report": {
+        "back": "Retour aux rapports",
+        "open": "Ouvert",
+        "closed": "Fermé",
+        "openedThis": "a ouvert ce rapport",
+        "notFound": "Ce rapport n’existe pas ou a été supprimé.",
+        "details": "Détails du rapport",
+        "stage": "Étape",
+        "kind": "Type",
+        "author": "Auteur",
+        "page": "Page",
+        "language": "Langue",
+        "browser": "Navigateur",
+        "lastEmailed": "Dernier courriel à l’auteur",
+        "authorMuted": "L’auteur a désactivé les courriels sur ses commentaires"
+      },
+      "timeline": {
+        "opened": "a ouvert",
+        "commented": "a répondu",
+        "repliedByEmail": "a répondu par courriel",
+        "stageSet": "a mis l’étape à {{status}}"
+      }
+    },
+    "members": {
+      "title": "Idées et corrections",
+      "intro": "Ce que les testeurs ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
+      "you": "Vous",
+      "someone": "Un membre"
     },
     "messageTooShort": "Au moins {{count}} caractères"
   },
@@ -1888,5 +2012,9 @@
     "lightbox": "Visionneuse",
     "gallery": "Galerie",
     "position": "{index} sur {total}"
+  },
+  "yesNoSwitch": {
+    "no": "Non",
+    "yes": "Oui"
   }
 }

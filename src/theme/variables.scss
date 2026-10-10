@@ -31,11 +31,17 @@ http://ionicframework.com/docs/theming/ */
   --oc-marker-selected-color: #7faef5;
   // A page's surface (Layout's white page and frame), its translucent form
   // over a background image (dashboard, admin pages), a bar stuck over the
-  // page's content, and the scrollbars' thumb.
+  // page's content, and the scrollbars' thumb (every scrollbar, the galleries'
+  // too: about 2.4:1 against the light surface, 3:1 against the dark one;
+  // stronger hovered or dragged).
   --oc-page-surface: #fff;
+  // The secondary colour (the app's gold) where it sits on a surface: its main
+  // tone is 2:1 on white, this one 4.4:1 (the Map entry's icon, NavDrawer).
+  --oc-secondary-on-surface: #8f7700;
   --oc-page-surface-translucent: rgba(255, 255, 255, 0.9);
   --oc-page-surface-stuck: rgba(255, 255, 255, 0.94);
-  --oc-scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --oc-scrollbar-thumb: rgba(0, 0, 0, 0.32);
+  --oc-scrollbar-thumb-active: rgba(0, 0, 0, 0.5);
   // The edge around a cave system's cookie (SistemaCookie).
   --oc-sistema-cookie-edge: rgba(0, 0, 0, 0.55);
   --oc-marker-selected-font-size: 1.1em;
@@ -83,9 +89,11 @@ http://ionicframework.com/docs/theming/ */
   --oc-icon-color-secondary: #989da1;
   --oc-text-color-secondary: #b8b5b1;
   --oc-page-surface: #1c1b1f;
+  --oc-secondary-on-surface: var(--mui-palette-secondary-main);
   --oc-page-surface-translucent: rgba(28, 27, 31, 0.9);
   --oc-page-surface-stuck: rgba(28, 27, 31, 0.94);
-  --oc-scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --oc-scrollbar-thumb: rgba(255, 255, 255, 0.32);
+  --oc-scrollbar-thumb-active: rgba(255, 255, 255, 0.5);
   --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
   // The dark theme's app bar: MD3's surface top app bar - the surface, the
   // surface container once scrolled under, the current page on a
@@ -129,9 +137,39 @@ http://ionicframework.com/docs/theming/ */
   outline: 3px solid var(--oc-focus-ring);
   outline-offset: 2px;
 }
-// A table row's ring inside it (outside, it would overlap its neighbours).
-.MuiTableRow-root[tabindex]:focus-visible {
+// The ring's corners slightly rounded (M3's extra-small, 4dp) where the
+// element has none of its own: weightless (:where), so any radius a component
+// sets - a pill button's, a photo's - wins.
+:where(a, button, summary, [tabindex], [role='button'], [role='link'], [role='tab'], [role='menuitem'], [role='option'], [role='switch'], [role='checkbox'], [role='radio'], [role='slider']):where(:focus-visible),
+:where(.MuiButtonBase-root.Mui-focusVisible) {
+  border-radius: 4px;
+}
+// A table row's ring inside it (outside, it would overlap its neighbours);
+// a tab's, a photo's and a video's too: what holds them hides what overflows
+// it (the tab strip the ring's top and bottom, a photo's or a video's
+// rounded box all of it).
+.MuiTableRow-root[tabindex]:focus-visible,
+.MuiTab-root.Mui-focusVisible,
+.oc-media-list .MuiButtonBase-root.Mui-focusVisible,
+.oc-video-list--item .MuiButtonBase-root.Mui-focusVisible {
   outline-offset: -3px;
+}
+// Rounded as their box.
+.oc-media-list .MuiButtonBase-root.Mui-focusVisible,
+.oc-video-list--item .MuiButtonBase-root.Mui-focusVisible {
+  border-radius: 0.5rem;
+}
+// A survey map's: its name and author bars lie over its link, and would hide
+// a ring inside it - drawn by the card's edge instead, above them.
+.oc-cave-map-list--item:has(> .Mui-focusVisible) {
+  > .Mui-focusVisible {
+    outline: none;
+  }
+
+  &::after {
+    z-index: 2;
+    border: 3px solid var(--oc-focus-ring);
+  }
 }
 // Not inside text fields (their underline or outline shows focus), nor on a
 // list row, whose state layer does (an outline there overlaps its neighbours).

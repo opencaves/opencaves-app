@@ -6,15 +6,20 @@ import CheckRounded from '@mui/icons-material/CheckRounded'
 import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import { APP_LANGUAGES } from '@/config/appLanguages.js'
 import { chooseLanguage, readDeviceLanguage } from '@/services/languagePreference.js'
+import { useHydrated } from '@/hooks/useHydrated.js'
 
 export const AUTOMATIC = 'auto'
 
-// The app language picked (a code, or AUTOMATIC: the browser's), kept in step
-// with changes made elsewhere (another picker, the account's language applied
-// at sign-in), and the name of the language Automatic gives.
+/**
+ * The app language picked (a code, or {@link AUTOMATIC}: the browser's), kept in step
+ * with changes made elsewhere (another picker, the account's language applied
+ * at sign-in), and the name of the language Automatic gives.
+ *
+ * @returns {{choice: string, choose: (code: string) => void, automaticName: string, currentName: string}}
+ */
 export function useLanguageChoice() {
   const { i18n } = useTranslation()
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
   const [choice, setChoice] = useState(() => readDeviceLanguage() || AUTOMATIC)
 
   useEffect(() => {
@@ -28,10 +33,13 @@ export function useLanguageChoice() {
     chooseLanguage(next === AUTOMATIC ? null : next, user)
   }
 
-  // The primary subtag: two letters, or three (e.g. yua).
-  const browserLanguage = (navigator.languages?.[0] || navigator.language || '').split('-')[0].toLowerCase()
+  // The primary subtag: two letters, or three (e.g. yua). On the server and
+  // while its page hydrates (useHydrated), the page's language instead: the
+  // server can't know the browser's.
+  const hydrated = useHydrated()
+  const browserLanguage = hydrated ? (navigator.languages?.[0] || navigator.language || '').split('-')[0].toLowerCase() : i18n.resolvedLanguage
   const automaticName = (APP_LANGUAGES.find(({ code }) => code === browserLanguage) || APP_LANGUAGES[0]).nativeName
-  const currentName = choice === AUTOMATIC ? automaticName : APP_LANGUAGES.find(({ code }) => code === choice)?.nativeName
+  const currentName = choice === AUTOMATIC || !hydrated ? automaticName : APP_LANGUAGES.find(({ code }) => code === choice)?.nativeName
 
   return { choice, choose, automaticName, currentName }
 }
@@ -61,8 +69,13 @@ function LanguageOptions({ id, anchorEl, onClose, language }) {
   )
 }
 
-// A menu row (the account menu, the phone's drawer): Language, the current
-// one below it, opening the list of languages.
+/**
+ * A menu row (the account menu, the phone's drawer): Language, the current
+ * one below it, opening the list of languages.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
+ */
 export function LanguageListItem({ sx }) {
   const { t } = useTranslation('languagePicker')
   const language = useLanguageChoice()
@@ -92,7 +105,12 @@ export function LanguageListItem({ sx }) {
   )
 }
 
-// A text button for a page's foot: the current language, opening the list.
+/**
+ * A text button for a page's foot: the current language, opening the list.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
+ */
 export function LanguageButton({ sx }) {
   const { t } = useTranslation('languagePicker')
   const language = useLanguageChoice()

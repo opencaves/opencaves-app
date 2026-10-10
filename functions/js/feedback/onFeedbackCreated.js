@@ -1,15 +1,20 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { logger } from 'firebase-functions/v2'
-import { auth } from '../init.js'
-import { FEEDBACK_COLL_NAME, REGION, SITE_URL } from '../constants.js'
+import { auth, db } from '../init.js'
+import { FEEDBACK_COLL_NAME, FEEDBACK_PRIVATE_COLL_NAME, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
+import { teamReplyAddress } from './replyAddress.js'
 
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 
-// Every admin's email address (accounts whose roles include admin).
-async function adminEmails() {
+/**
+ * Every admin's email address (accounts whose roles include admin).
+ *
+ * @returns {Promise<string[]>}
+ */
+export async function adminEmails() {
   const emails = []
   let pageToken
   do {
@@ -20,20 +25,51 @@ async function adminEmails() {
   return emails
 }
 
-// A tester's report (the beta's Send feedback form, _feedback): the admins
-// get it by email - its kind, the page it's about, who sent it and the
-// message - and read and close it on the dashboard's Feedback page. A failure
-// is logged: the report itself is saved.
+/**
+ * The name a report shows its readers (every registered account): its
+ * author's display name - never anything taken from their email; none
+ * without one.
+ *
+ * @param {import('firebase-admin/auth').UserRecord|null} author
+ * @returns {string|null}
+ */
+export function feedbackAuthorName(author) {
+  return author?.displayName?.trim().slice(0, 100) || null
+}
+
+/**
+ * A tester's report (the beta's Send feedback form, _feedback): it gets its
+ * author's name (authorName - the members reading it can't look accounts
+ * up), and the admins get it by email - its kind, the page it's about, who
+ * sent it, the browser (its _feedbackPrivate doc) and the message - and read
+ * and close it on the dashboard's Feedback page. A failure is logged: the
+ * report itself is saved.
+ */
 export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const report = event.data?.data()
   if (!report) return
+  const author = await auth.getUser(report.userId).catch(() => null)
+  // Its author's name, and whether they turned the feedback emails off: the
+  // report says so to the admins (authorMuted, kept up to date by
+  // onAuthorMutedChanged).
+  try {
+    const authorName = feedbackAuthorName(author)
+    const muted = (await db.collection(USERS_COLL_NAME).doc(report.userId).get()).get('feedbackEmails') === false
+    if (authorName || muted) await event.data.ref.update({ ...(authorName && { authorName }), ...(muted && { authorMuted: true }) })
+  } catch (error) {
+    logger.error('[feedback] the author’s name or email setting could not be saved', { id: event.params.id, error: error.message })
+  }
   try {
     const [to, ...bcc] = await adminEmails()
     if (!to) {
       logger.warn('[feedback] no admin to email', { id: event.params.id })
       return
     }
-    const author = await auth.getUser(report.userId).catch(() => null)
+    // The browser: in the report's private doc (written with it), or on the
+    // report from an older version of the app.
+    const browser = (await db.collection(FEEDBACK_PRIVATE_COLL_NAME).doc(event.params.id).get().catch(() => null))?.get('browser') || report.browser
+    // Answering this email is a team reply (feedbackInbound, replyAddress.js).
+    const replyTo = await teamReplyAddress(event.data.ref)
     const kind = KINDS[report.kind] || report.kind
     const page = report.page ? `${SITE_URL}${report.page}` : ''
     const from = author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId
@@ -41,11 +77,11 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
       preheader: String(report.message).slice(0, 120),
       hero: { overline: 'Beta feedback', title: `${ICONS[report.kind] || ''} ${kind}`.trim() },
       blocks: [
-        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...(report.browser ? [{ label: 'Browser', value: report.browser }] : [])] },
+        { type: 'facts', items: [{ label: 'From', value: from }, { label: 'Page', value: page || '-', href: page || undefined }, ...(browser ? [{ label: 'Browser', value: browser }] : [])] },
         { type: 'quote', text: report.message },
-        { type: 'button', label: 'See all reports', href: `${SITE_URL}/feedback` },
+        { type: 'button', label: 'Open the report', href: `${SITE_URL}/feedback/${event.params.id}` },
       ],
-      footer: 'You get this email because you are an OpenCaves admin.',
+      footer: replyTo ? 'You get this email because you are an OpenCaves admin. Reply to it to answer the reporter: your reply joins the report.' : 'You get this email because you are an OpenCaves admin.',
     })
     await sendEmail({
       to,
@@ -53,6 +89,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
       subject: `[OpenCaves beta] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
       html,
       text,
+      ...(replyTo && { replyTo }),
     })
   } catch (error) {
     logger.error('[feedback] the admins could not be emailed', { id: event.params.id, error: error.message })

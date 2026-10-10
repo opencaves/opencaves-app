@@ -1,5 +1,14 @@
 import { Box } from '@mui/material'
 
+/**
+ * A separator with a word in the middle of its line ("or").
+ *
+ * @param {object} props - Also a Box's.
+ * @param {string} [props.strokeWidth] - Each line's minimum width (2em by default).
+ * @param {object} [props.sx]
+ * @param {import('react').ReactNode} props.children - The word.
+ * @param {string} [props.className]
+ */
 export default function Or({ strokeWidth, sx, children, className, ...props }) {
 
   return (

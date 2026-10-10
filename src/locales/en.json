@@ -54,6 +54,7 @@
       "about": "About",
       "about_withName": "About {{name}}",
       "feedback": "Send feedback",
+      "feedbackList": "Ideas and fixes",
       "whatCanIDo": "What can I do?",
       "whatsNew": "What's new",
       "drawer": {
@@ -67,7 +68,9 @@
       "welcome": "Welcome to {{name}}",
       "welcomeText": "Log in to save your favorite caves and contribute.",
       "close": "Close",
-      "signInMenu": "Log in or sign up"
+      "signInMenu": "Log in or sign up",
+      "newFeedbackAria_one": "{{count}} new feedback report",
+      "newFeedbackAria_other": "{{count}} new feedback reports"
     },
     "snackbar": {
       "saved": "Changes to {{name}} saved",
@@ -159,7 +162,15 @@
     "appearanceHint": "Light or dark display, on this device and wherever you sign in.",
     "appearance_system": "Automatic (device setting)",
     "appearance_light": "Light",
-    "appearance_dark": "Dark"
+    "appearance_dark": "Dark",
+    "emails": {
+      "title": "Emails",
+      "feedbackReplies": "Email me the team’s replies to my feedback",
+      "feedbackRepliesHint": "When the OpenCaves team answers a report or idea you sent. Their replies stay on OpenCaves either way.",
+      "turnedOn": "The team’s replies will be emailed to you",
+      "turnedOff": "The team’s replies won’t be emailed to you anymore",
+      "saveError": "Couldn’t save this setting. Please try again."
+    }
   },
   "auth": {
     "dialog": {
@@ -524,11 +535,13 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
+    "copyParkingCoordinates": "Copy parking coordinates",
     "directionsToCave": "Directions to the cave",
     "directionsToKey": "Directions to the key",
     "directionsToSistema": "Directions to the system",
     "area": "Area: {{area}}",
     "directionsToEntrance": "Directions to the entrance",
+    "directionsToParking": "Directions to the parking",
     "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
     "addressNotAvailable": "Address not available",
@@ -584,6 +597,7 @@
       "coordinates": "Coordinates",
       "location": "Location",
       "entrance": "Entrance",
+      "parking": "Parking",
       "key": "Key",
       "longitude": "Longitude",
       "latitude": "Latitude",
@@ -596,6 +610,7 @@
       "addOneCoordinates": {
         "location": "Add location coordinates",
         "entrance": "Add entrance coordinates",
+        "parking": "Add parking coordinates",
         "key": "Add key coordinates",
         "sistemaLocation": "Add location coordinates"
       },
@@ -693,7 +708,10 @@
     "cenoteEntrance": "Cenote entrance",
     "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
     "nameTranslation": "{{language}}: {{names}}",
-    "descriptionHeader": "Description"
+    "videoAdded": "Video added",
+    "videoAlreadyAdded": "This video is already in the list.",
+    "videoDeleted": "Video deleted",
+    "videoAddError": "The video couldn't be added. Please try again."
   },
   "mediaPane": {
     "header": "{{name}}",
@@ -737,14 +755,7 @@
       }
     },
     "addMedia": {
-      "header": "Upload photos of {{name}}",
-      "dragHere": "Drag photos here",
       "dropHere": "Drop the files here …",
-      "or": "or",
-      "btn": "Click to select files",
-      "closeBtn": {
-        "ariaLabel": "close"
-      },
       "success_one": "1 photo added",
       "success_other": "{{count}} photos added",
       "errorHeader": "Oops!",
@@ -1007,8 +1018,10 @@
     "markers": {
       "location": "Cave location",
       "entrance": "Cave entrance",
+      "parking": "Cave parking",
       "key": "Key location",
       "entranceShort": "Entrance",
+      "parkingShort": "Parking",
       "keyShort": "Key"
     },
     "caveLayer": {
@@ -1161,8 +1174,11 @@
     "connectionOfSistema": "the connection of {{name}}",
     "connectionDateHint": "When the connection between the two cave systems was established.",
     "adminSection": "Administration",
+    "feedbackSection": "Feedback",
     "manageMapLayers": "Map layers",
     "manageFeedback": "Feedback",
+    "followFeedback": "Ideas and fixes",
+    "followFeedbackText": "What testers have reported, and what's coming",
     "newFeedback_one": "{{count}} new",
     "newFeedback_other": "{{count}} new",
     "manageAudits": "Audits",
@@ -1558,8 +1574,8 @@
   },
   "whatsNew": {
     "title": "What's new",
-    "description": "The caves, cave systems, connections, maps, photos and videos recently added to {{name}}.",
-    "subtitle": "The latest additions to {{name}}, newest first.",
+    "description": "The caves, cave systems, connections, maps, photos and videos recently added, modified or removed on {{name}}.",
+    "subtitle": "The latest additions, changes and removals on {{name}}, newest first.",
     "filters": {
       "all": "All",
       "caves": "Caves",
@@ -1567,7 +1583,13 @@
       "connections": "Connections",
       "maps": "Survey maps",
       "photos": "Photos",
-      "videos": "Videos"
+      "videos": "Videos",
+      "allChanges": "All changes",
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed",
+      "kindsLabel": "Content",
+      "changesLabel": "Change"
     },
     "kinds": {
       "caves": "Cave",
@@ -1586,11 +1608,58 @@
     "unnamedMap": "Untitled map",
     "recently": "Recently",
     "none": "Nothing new yet.",
-    "failed": "The latest additions couldn't be loaded.",
+    "failed": "The latest changes couldn't be loaded.",
     "photosAdded_one": "{{count}} photo of {{name}}",
     "photosAdded_other": "{{count}} photos of {{name}}",
     "videosAdded_one": "{{count}} video of {{name}}",
-    "videosAdded_other": "{{count}} videos of {{name}}"
+    "videosAdded_other": "{{count}} videos of {{name}}",
+    "changes": {
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed"
+    },
+    "modifiedBy": "modified by {{name}}",
+    "removedBy": "removed by {{name}}",
+    "changedFields": "changed: {{fields}}",
+    "fields": {
+      "name": "name",
+      "nameTranslations": "name translations",
+      "aka": "other names",
+      "keys": "key location",
+      "location": "location",
+      "entrance": "entrance",
+      "parking": "parking",
+      "sistemaId": "system",
+      "parentSistemaId": "joined system",
+      "area": "area",
+      "source": "source",
+      "access": "access",
+      "accessDetails": "access details",
+      "accessibility": "accessibility",
+      "accessibilityDetails": "accessibility details",
+      "description": "description",
+      "direction": "getting there",
+      "note": "notes",
+      "reporter": "reporter",
+      "explorationDate": "exploration date",
+      "cenoteEntrance": "cenote entrance",
+      "facilities": "facilities",
+      "fees": "fees",
+      "textSources": "text sources",
+      "color": "colour",
+      "length": "distance explored",
+      "maxDepth": "max depth",
+      "public": "visibility",
+      "explorations": "exploration history",
+      "connectionDate": "connection date",
+      "authors": "authors",
+      "date": "date",
+      "url": "file",
+      "contentType": "file type",
+      "videos": "videos",
+      "maps": "survey maps",
+      "activities": "activities"
+    }
   },
   "betaTesting": {
     "badge": "Beta",
@@ -1711,10 +1780,6 @@
     "admin": {
       "title": "Feedback",
       "back": "Back to the dashboard",
-      "shown": {
-        "open": "Open",
-        "all": "All"
-      },
       "status": {
         "new": "New",
         "confirmed": "Confirmed",
@@ -1732,24 +1797,83 @@
         "duplicate": "Already reported"
       },
       "changeStatus": "Stage: {{status}}. Change it",
-      "statusSet": "{{status}} - by {{name}}, {{date}}",
       "none": "No reports here.",
       "delete": "Delete",
-      "page": "Page:",
-      "browser": "Browser:",
-      "note": "Note",
-      "notePlaceholder": "Why it was rejected, what it duplicates, what was done…",
-      "closeTitle": "Mark as {{status}}",
-      "closeText": "{{name}} will be emailed the outcome, with this note.",
-      "noteForReporter": "Note for the reporter",
-      "closePlaceholder": {
-        "done": "What was fixed or added, and where to see it…",
-        "rejected": "Why it won’t be acted on…"
-      },
-      "closeConfirm": "Save and email",
-      "reporterEmailed": "Reporter emailed: {{date}}",
       "deleteTitle": "Delete this report?",
-      "deleteText": "It will be deleted for good."
+      "deleteText": "It will be deleted for good.",
+      "statusError": "The stage couldn’t be changed. Please try again.",
+      "deleteError": "The report couldn’t be deleted. Please try again.",
+      "thread": {
+        "label": "Conversation",
+        "team": "OpenCaves team",
+        "replyLabel": "Reply to {{name}}",
+        "replyPlaceholder": "Your reply, emailed to them with the whole conversation…",
+        "replyPlaceholderMuted": "Your reply, added to the conversation…",
+        "mutedHint": "{{name}} muted feedback emails: your reply won’t be emailed. It stays in the conversation.",
+        "sentMuted": "Reply sent. {{name}} muted feedback emails: it won’t be emailed.",
+        "send": "Send",
+        "sendOptions": "Send and change the stage",
+        "sendAndClose": "Send and mark as {{status}}",
+        "sent": "Reply sent: {{name}} will get it by email.",
+        "sendError": "The reply couldn’t be sent. Please try again.",
+        "tooLong": "At most {{count}} characters",
+        "emailed": "Emailed",
+        "legacyNote": "Former note",
+        "attachmentsDropped_one": "{{count}} attachment not kept",
+        "attachmentsDropped_other": "{{count}} attachments not kept"
+      },
+      "list": {
+        "search": "Search reports",
+        "searchLabel": "Search reports: message, author, page",
+        "clearSearch": "Clear the search",
+        "clearFilters": "Clear search, filters and sort",
+        "open": "{{count}} Open",
+        "closed": "{{count}} Closed",
+        "kind": "Kind",
+        "allKinds": "All kinds",
+        "stage": "Stage",
+        "allStages": "All stages",
+        "sort": "Sort",
+        "sorts": {
+          "newest": "Newest",
+          "oldest": "Oldest",
+          "activity": "Latest activity"
+        },
+        "opened": "Opened",
+        "by": "by {{name}}",
+        "messages_one": "{{count}} message",
+        "messages_other": "{{count}} messages",
+        "untitled": "(no text)",
+        "noMatch": "No reports match this search or these filters."
+      },
+      "report": {
+        "back": "Back to the reports",
+        "open": "Open",
+        "closed": "Closed",
+        "openedThis": "opened this report",
+        "notFound": "This report doesn’t exist or was deleted.",
+        "details": "Report details",
+        "stage": "Stage",
+        "kind": "Kind",
+        "author": "Author",
+        "page": "Page",
+        "language": "Language",
+        "browser": "Browser",
+        "lastEmailed": "Author last emailed",
+        "authorMuted": "The author muted feedback emails"
+      },
+      "timeline": {
+        "opened": "opened",
+        "commented": "replied",
+        "repliedByEmail": "replied by email",
+        "stageSet": "set the stage to {{status}}"
+      }
+    },
+    "members": {
+      "title": "Ideas and fixes",
+      "intro": "What testers have reported, and what the OpenCaves team is doing about it: follow what's coming.",
+      "you": "You",
+      "someone": "A member"
     },
     "messageTooShort": "At least {{count}} characters"
   },
@@ -1889,5 +2013,9 @@
     "lightbox": "Viewer",
     "gallery": "Gallery",
     "position": "{index} of {total}"
+  },
+  "yesNoSwitch": {
+    "no": "No",
+    "yes": "Yes"
   }
 }

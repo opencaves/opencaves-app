@@ -5,9 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
+import { useCaveData } from '@/hooks/useCaveData.js'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
 import { useCoverImage } from '@/models/CaveAsset.js'
 import mapsModel from '@/models/MapModel.js'
@@ -29,7 +31,7 @@ import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import CaveVideosSection from '@/components/IndexPage/CaveVideosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
-import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
@@ -50,25 +52,27 @@ function CaveCover({ cover }) {
   )
 }
 
-// /caves/<id>: a cave's own page - what the map's details pane shows, as a
-// page: its area and system, location, access, description, photos and its
-// system's exploration history, and a link to it on the map (/map/<id>).
-// Editors edit it at /caves/<id>/edit.
+/**
+ * /caves/<id>: a cave's own page - what the map's details pane shows, as a
+ * page: its area and system, location, access, description, photos and its
+ * system's exploration history, and a link to it on the map (/map/<id>).
+ * Editors edit it at /caves/<id>/edit.
+ */
 export default function CavePage() {
   const { caveId } = useParams()
   const { t } = useTranslation('indexPages')
   const { t: tPane, i18n } = useTranslation('resultPane')
   const { data, loading } = useIndexData()
-  const languages = useSelector((state) => state.data.languages)
+  const { languages, caves } = useCaveData()
   // Asked for alongside the data, and waited for: drawn once the page knows
   // whether there is one, the cover no longer pushes the page down when it
   // arrives (a 216-444px jump).
   const [cover, coverLoading] = useCoverImage(caveId)
   // Its system's maps (MapsSection), waited for too.
   const [allMaps, mapsLoading] = mapsModel.useAll()
-  const cave = useSelector((state) => state.data.caves.find((c) => c.id === caveId))
+  const cave = useMemo(() => caves.find((c) => c.id === caveId), [caves, caveId])
   // Editors: photos dragged anywhere over the page go to this cave, as on the map.
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
 
   const name = cave?.name?.value?.trim() || ''
@@ -88,7 +92,9 @@ export default function CavePage() {
   }, [cave, data])
 
   if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back onMap />
-  if (!cave) throwNotFound()
+  // No such cave: the "not found" page, rendered rather than thrown - a
+  // thrown error is logged to the console by React and React Router.
+  if (!cave) return <NoMatch inLayout />
 
   const area = cave.area ? data.areasBySlug.get(slugify(cave.area)) || null : null
   const sistema = cave.sistemaId ? data.sistemasById.get(cave.sistemaId) || null : null
@@ -106,7 +112,8 @@ export default function CavePage() {
   const isPoint = (point) => point?.latitude != null && point?.longitude != null
   const points = [
     location && { key: 'location', icon: <MyLocationRounded />, text: coordinates(location), copyText: coordinates(location), copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToCave') },
-    isPoint(cave.entrance) && { key: 'entrance', icon: <FenceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
+    isPoint(cave.parking) && { key: 'parking', icon: <LocalParkingRounded />, text: coordinates(cave.parking), copyText: coordinates(cave.parking), copyLabel: tPane('copyParkingCoordinates'), point: cave.parking, directionsLabel: tPane('directionsToParking') },
+    isPoint(cave.entrance) && { key: 'entrance', icon: <EntranceRounded />, text: coordinates(cave.entrance), copyText: coordinates(cave.entrance), copyLabel: tPane('copyEntranceCoordinates'), point: cave.entrance, directionsLabel: tPane('directionsToEntrance') },
     ...(Array.isArray(cave.keys) ? cave.keys.filter(isPoint) : []).map((key, index) => ({ key: `key-${index}`, icon: <KeyRounded />, text: coordinates(key), copyText: coordinates(key), copyLabel: tPane('copyCoordinates'), point: key, directionsLabel: tPane('directionsToKey') })),
   ].filter(Boolean)
   const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
@@ -200,7 +207,7 @@ export default function CavePage() {
       {hasHistory && (
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-cave-page--history" card>
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+            <ExplorationHistory sistemas={historySistemas} showHeading={false} />
           </Box>
         </IndexSection>
       )}

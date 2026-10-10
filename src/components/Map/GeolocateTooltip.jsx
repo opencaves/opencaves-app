@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from '@mui/material'
 
-// The map's location button is Mapbox's own (GeolocateControl), labelled with
-// a native title in English. This gives it the map's other buttons' tooltip
-// (MUI, to its left) and a translated label: its title removed - again
-// whenever Mapbox sets it back -, aria-label set. mapContainer: the map's
-// element, where the control appears once the map has loaded.
+/**
+ * The map's location button is Mapbox's own (GeolocateControl), labelled with
+ * a native title in English. This gives it the map's other buttons' tooltip
+ * (MUI, to its left) and a translated label: its title removed - again
+ * whenever Mapbox sets it back -, aria-label set.
+ *
+ * @param {object} props
+ * @param {HTMLElement} props.mapContainer - The map's
+ *   element, where the control appears once the map has loaded.
+ */
 export default function GeolocateTooltip({ mapContainer }) {
   const { t } = useTranslation('map')
   const label = t('geolocate.findMyLocation')

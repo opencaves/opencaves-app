@@ -94,6 +94,18 @@ function quote({ text }) {
   return `<div style="margin:0 0 20px;padding:14px 18px;background:${C.surface};border-left:4px solid ${C.primary};border-radius:4px;font-size:15px;line-height:23px;color:${C.text};">${rich(text)}</div>`
 }
 
+// A message of a thread (a feedback report's): who wrote it and when, above
+// its text - `html` already rendered (email/markdown.js), or the plain
+// `text` (escaped, line breaks kept). `highlight`: the newest one, on the
+// container tint; the earlier ones are quieter, with a side rule.
+function message({ label, html, text, highlight }) {
+  const content = html ?? rich(text)
+  const box = highlight ? `background:${C.container};border-radius:14px;padding:16px 20px;` : `background:${C.surface};border-left:4px solid ${C.border};border-radius:4px;padding:12px 18px;`
+  return `<div style="margin:0 0 ${highlight ? 24 : 14}px;${box}font-family:${FONT};">
+<div style="font-size:13px;line-height:18px;font-weight:700;color:${highlight ? C.primary : C.muted};margin:0 0 6px;">${escape(label)}</div>
+<div style="font-size:${highlight ? 16 : 15}px;line-height:${highlight ? 24 : 23}px;color:${C.text};">${content}</div></div>`
+}
+
 // Label: value rows.
 function facts({ items }) {
   const rows = items
@@ -113,6 +125,8 @@ const HTML_BLOCKS = {
   quote,
   callout,
   facts,
+  message,
+  h2: ({ text }) => `<h2 style="${H2}margin:8px 0 14px;">${escape(text)}</h2>`,
   signoff: ({ lines }) => `<p style="${P}margin-top:8px;">${lines.map(rich).join('<br>')}</p>`,
 }
 
@@ -127,13 +141,32 @@ const TEXT_BLOCKS = {
 ${plain(text)}`,
   quote: ({ text }) => plain(text).split('\n').map((line) => `> ${line}`).join('\n'),
   facts: ({ items }) => items.map(({ label, value, href }) => `${label}: ${href || value}`).join('\n'),
+  // The plain text (Markdown reads as text) under its label: the newest
+  // message as is, the earlier ones quoted.
+  message: ({ label, text, highlight }) => {
+    const body = String(text ?? '').trim()
+    return highlight ? `${label}\n\n${body}` : `${label}\n${body.split('\n').map((line) => `> ${line}`).join('\n')}`
+  },
+  h2: ({ text }) => `--- ${text} ---`,
   signoff: ({ lines }) => lines.map(plain).join('\n'),
 }
 
-// { html, text } for an email: `hero` (an optional overline, a title, an
-// optional lead) on the primary-coloured band, then the blocks, then
-// `footer` (a short line on why the reader got it).
-export function renderEmail({ language = 'en', preheader = '', hero, blocks, footer = '' }) {
+/**
+ * { html, text } for an email: `hero` (an optional overline, a title, an
+ * optional lead) on the primary-coloured band, then the blocks, then
+ * `footer` (a short line on why the reader got it), then, if given,
+ * `unsubscribe` ({ text, label, href }): a small line linking to it.
+ *
+ * @param {object} email
+ * @param {string} [email.language='en']
+ * @param {string} [email.preheader='']
+ * @param {{overline?: string, title: string, lead?: string}} email.hero
+ * @param {object[]} email.blocks
+ * @param {string} [email.footer='']
+ * @param {{text: string, label: string, href: string}|null} [email.unsubscribe=null]
+ * @returns {{html: string, text: string}}
+ */
+export function renderEmail({ language = 'en', preheader = '', hero, blocks, footer = '', unsubscribe = null }) {
   const body = blocks.map((block) => HTML_BLOCKS[block.type](block)).join('\n')
   const html = `<!doctype html>
 <html lang="${escape(language)}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>${escape(hero.title)}</title></head>
@@ -151,13 +184,23 @@ ${hero.lead ? `<p style="margin:12px 0 0;font-size:17px;line-height:26px;color:#
 ${body}
 </td></tr>
 <tr><td style="padding:20px 24px;text-align:center;font-size:12px;line-height:18px;color:${C.muted};">${rich(footer)}${footer ? '<br>' : ''}<a href="${SITE_URL}" style="color:${C.muted};">opencaves.org</a></td></tr>
+${unsubscribe ? `<tr><td style="padding:0 24px 20px;text-align:center;font-size:11px;line-height:16px;color:${C.muted};">${escape(unsubscribe.text)} <a href="${escape(unsubscribe.href)}" style="color:${C.muted};">${escape(unsubscribe.label)}</a></td></tr>` : ''}
 </table></td></tr></table></body></html>`
-  const text = [hero.title, hero.lead && plain(hero.lead), ...blocks.map((block) => TEXT_BLOCKS[block.type](block)), footer && plain(footer), SITE_URL].filter(Boolean).join('\n\n')
+  const text = [hero.title, hero.lead && plain(hero.lead), ...blocks.map((block) => TEXT_BLOCKS[block.type](block)), footer && plain(footer), SITE_URL, unsubscribe && `${unsubscribe.text} ${unsubscribe.label}: ${unsubscribe.href}`].filter(Boolean).join('\n\n')
   return { html, text }
 }
 
-// A short email of plain paragraphs (the account notices): the first is the
-// greeting, the last the signature.
+/**
+ * A short email of plain paragraphs (the account notices): the first is the
+ * greeting, the last the signature.
+ *
+ * @param {object} notice
+ * @param {string} notice.language
+ * @param {string} notice.title
+ * @param {string[]} notice.paragraphs
+ * @param {string} notice.footer
+ * @returns {{html: string, text: string}}
+ */
 export function renderNotice({ language, title, paragraphs, footer }) {
   const body = paragraphs.slice(0, -1).map((text) => ({ type: 'p', text }))
   return renderEmail({ language, preheader: paragraphs[1] || '', hero: { title }, blocks: [...body, { type: 'signoff', lines: paragraphs.at(-1).split('\n') }], footer })

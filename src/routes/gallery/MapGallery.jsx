@@ -10,17 +10,19 @@ import MapPaneDetails from '@/components/MapPane/MapPaneDetails.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import GalleryOverlay from './GalleryOverlay.jsx'
 
-// /caves/:caveId/maps/:mapId, /sistemas/:sistemaId/maps/:mapId - a system's
-// maps (its own and those of the systems it joined, as its page's Maps
-// section), over the page that opened it, which hands over the system and
-// the data (Outlet context). The map's viewer, with its tools: Edit
-// (editors, /edit), the trash (admins). Only these maps; the arrow or
-// Escape lead back to the page.
+/**
+ * /caves/:caveId/maps/:mapId, /sistemas/:sistemaId/maps/:mapId - a system's
+ * maps (its own and those of the systems it joined, as its page's Maps
+ * section), over the page that opened it, which hands over the system and
+ * the data (Outlet context). The map's viewer, with its tools: Edit
+ * (editors, /edit), the trash (admins). Only these maps; the arrow or
+ * Escape lead back to the page.
+ */
 export default function MapGallery() {
   const { mapId } = useParams()
   // The page's systems and connections, or (the cave's edit page, which has
   // none) the live ones.
-  const context = useOutletContext()
+  const context = /** @type {{ sistemaId?: string, sistemas?: Sistema[], connections?: Connection[] }} */ (useOutletContext())
   const [liveSistemas] = SistemaModel.useAll()
   const [liveConnections] = ConnectionModel.useAll()
   const { sistemaId } = context
@@ -28,7 +30,7 @@ export default function MapGallery() {
   const connections = context.connections || liveConnections
   const navigate = useNavigate()
   const location = useLocation()
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const canTrash = useCanTrashMaps()
   // With the trashed ones: one trashed while open leaves the list.
   const [mapFiles, loading] = mapsModel.useAll({ includeTrashed: true })

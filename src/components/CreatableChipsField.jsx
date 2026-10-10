@@ -18,12 +18,23 @@ function unique(values) {
   })
 }
 
-// Several free-text values as chips (e.g. an exploration's team: one chip per
-// person or group), suggesting the values already in use so people reuse the
-// existing spelling. Enter, a comma or a semicolon makes a chip, a pasted
-// "A, B, C" makes three, and the text still typed when leaving the field is
-// kept. A new value is offered as an explicit "Add" entry. onChange receives
-// the list of strings.
+/**
+ * Several free-text values as chips (e.g. an exploration's team: one chip per
+ * person or group), suggesting the values already in use so people reuse the
+ * existing spelling. Enter, a comma or a semicolon makes a chip, a pasted
+ * "A, B, C" makes three, and the text still typed when leaving the field is
+ * kept. A new value is offered as an explicit "Add" entry.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} [props.label]
+ * @param {string[]} [props.value]
+ * @param {string[]} [props.options] - The values offered (the existing spellings).
+ * @param {'small' | 'medium'} [props.size]
+ * @param {boolean} [props.fullWidth=true]
+ * @param {string} [props.className]
+ * @param {(value: string[]) => void} props.onChange - Receives
+ *   the list of strings.
+ */
 export default function CreatableChipsField({ label, value, onChange, options, size, fullWidth = true, className }) {
   const { t } = useTranslation('creatableTextField')
   const [input, setInput] = useState('')
@@ -54,7 +65,7 @@ export default function CreatableChipsField({ label, value, onChange, options, s
         else setInput(next)
       }}
       onChange={(event, next) => {
-        onChange(unique(next.flatMap((option) => split(typeof option === 'string' ? option : option.inputValue))))
+        onChange(unique(next.flatMap((option) => split(typeof option === 'string' ? option : /** @type {{ inputValue: string }} */ (option).inputValue))))
         setInput('')
       }}
       onBlur={() => input.trim() && add([input])}
@@ -64,10 +75,10 @@ export default function CreatableChipsField({ label, value, onChange, options, s
         if (typed && !allOptions.some((option) => option.toLowerCase() === typed.toLowerCase())) filtered.push({ inputValue: typed })
         return filtered
       }}
-      getOptionLabel={(option) => (typeof option === 'string' ? option : option.inputValue)}
+      getOptionLabel={(option) => (typeof option === 'string' ? option : /** @type {{ inputValue: string }} */ (option).inputValue)}
       renderOption={({ key, ...props }, option) => (
         <li key={key} {...props}>
-          {typeof option === 'string' ? option : t('add', { value: option.inputValue })}
+          {typeof option === 'string' ? option : t('add', { value: /** @type {{ inputValue: string }} */ (option).inputValue })}
         </li>
       )}
       renderInput={(params) => <TextField {...params} label={label} />}

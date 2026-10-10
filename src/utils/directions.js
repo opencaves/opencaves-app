@@ -1,5 +1,10 @@
-// Driving directions to a point ({ latitude, longitude }), through an
-// optional waypoint, in Google Maps - or Apple Maps on iOS.
+/**
+ * Driving directions to a point ({ latitude, longitude }), through an
+ * optional waypoint, in Google Maps - or Apple Maps on iOS.
+ *
+ * @param {{latitude: number, longitude: number}} destination
+ * @param {{latitude: number, longitude: number}} [waypoint]
+ */
 export function openDirections(destination, waypoint) {
   const url = new URL('https://www.google.com/maps/dir/?api=1&travelmode=driving')
   url.searchParams.append('destination', `${destination.latitude},${destination.longitude}`)

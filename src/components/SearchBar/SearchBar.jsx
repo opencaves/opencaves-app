@@ -142,12 +142,11 @@ function searchIds(caves, searchTerm) {
     .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: highlight(cave.id, regexp) } }))
 }
 
+// Stacked (the menu and back buttons cross-fade), centred in the 48dp slot.
 const ActionButton = styled(IconButton)({
-  width: '48px',
-  height: '48px',
   position: 'absolute',
-  left: 0,
-  top: 0,
+  left: 4,
+  top: 4,
 })
 
 const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
@@ -161,7 +160,7 @@ const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
 }))
 
 export default function SearchBar() {
-  const searchBarRef = useRef()
+  const searchBarRef = useRef(null)
   // A combobox (WAI-ARIA): the focus stays in the field, the arrows move
   // through the results (aria-activedescendant), Enter opens the one shown.
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -171,11 +170,11 @@ export default function SearchBar() {
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
 
-  const data = useSelector((state) => state.data.caves)
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const searchBarOff = useSelector((state) => state.app.searchBarOff)
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
-  const roles = useSelector((state) => state.session.roles)
+  const data = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const searchBarOff = useSelector((/** @type {RootState} */ state) => state.app.searchBarOff)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
 
   const location = useLocation()
   // Kept in sync with ResultPane.jsx/Map.jsx's own edit-mode check.
@@ -290,7 +289,7 @@ export default function SearchBar() {
     const searchResults = [
       ...idResults,
       ...searchIndex
-        .search(searchTerm, { enrich: true })
+        .search(searchTerm)
         .filter((result) => !idMatched.has(result.id))
         .map((result) => {
           result.hints = markHints(result, searchTerm)
@@ -361,7 +360,8 @@ export default function SearchBar() {
     // Let the route update currentCave so Map can detect and fly to a new selection.
     const selectedCave = selectCaveById(id)
     // Close the phone's keyboard: the field kept focus through the tap.
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     setValue(getCaveName(selectedCave.name))
     clearSearchResults()
     setBackBtnOn(false)
@@ -454,8 +454,9 @@ export default function SearchBar() {
             '&:has(.oc-search-bar--field input:focus-visible)': { outline: '3px solid var(--oc-focus-ring)', outlineOffset: 2 },
           }}
         >
-          {/* 56px with its border; 48px buttons centred in it, 4px from its
-              ends, so their 24px icons are 16px in (MD3's spacing). */}
+          {/* 56px with its border; 48px slots centred in it, 4px from its
+              ends, each holding a 40dp button (its 48dp touch target the
+              slot), so their 24px icons are 16px in (MD3's spacing). */}
           <Grid container className="oc-search-bar--field" sx={{ alignItems: 'center', minHeight: SEARCH_BAR_HEIGHT - 2, px: '3px' }}>
             <Grid
               sx={{
@@ -494,6 +495,8 @@ export default function SearchBar() {
             <Box
               sx={{
                 width: '48px',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             >
               {showClearBtn && (
@@ -501,10 +504,6 @@ export default function SearchBar() {
                   <IconButton
                     disableRipple
                     aria-label={t('actionButton.clear.ariaLabel')}
-                    sx={{
-                      width: '48px',
-                      height: '48px',
-                    }}
                     onClick={onSearchbarInputClear}
                   >
                     <ClearIcon />
@@ -530,10 +529,7 @@ export default function SearchBar() {
                 disableRipple
                 id="oc-search-filter-btn"
                 aria-label={t('actionButton.filter.ariaLabel')}
-                sx={{
-                  width: '48px',
-                  height: '48px',
-                }}
+                sx={{ m: 0.5 }}
                 onClick={onFilterBtnClick}
               >
                 <TuneIcon />

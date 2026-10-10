@@ -10,9 +10,11 @@ import { useAccounts } from './useAccounts.js'
 
 const TABS = ['changes', 'trash']
 
-// /audits (admins): who changed what in the data, to look at and undo
-// (Changes), and the photos and maps deleted to the trash, to restore or
-// delete for good (Trash, ?tab=trash).
+/**
+ * /audits (admins): who changed what in the data, to look at and undo
+ * (Changes), and the photos and maps deleted to the trash, to restore or
+ * delete for good (Trash, ?tab=trash).
+ */
 export default function Audits() {
   const { t } = useTranslation(['audits', 'dashboard'])
   const { setTitle } = useTitle()

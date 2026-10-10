@@ -36,10 +36,6 @@ function setId(oldId) {
 
   const newId = oldId
 
-  if (str === 'Loading...') {
-    oldId = generateId()
-  }
-
   if (typeof _objectIdMap[oldId] === 'undefined') {
     _objectIdMap[oldId] = newId
   }
@@ -112,13 +108,19 @@ function nameTrans(old) {
 // split off.
 const TRAILING_EXPLORATION_DATE = /^(.*?)[,\s]+(\d{4}\s*-\s*\d{4}|\d{4}(?:-\d{2}(?:-\d{2})?)?)$/
 
-// { team, date } from a Team cell and its Date cell: whenever the team ends
-// with a date, that whole date is the exploration's date and is removed from
-// the team. `conflict` flags a Date cell that said something else (not the
-// same date, nor a less precise one it falls within, like 1999 for
-// 1999-07): the team's date still wins, the Date cell's is dropped - and
-// reported (see teamDateConflicts).
-export function splitExplorationTeam(team, date) {
+/**
+ * { team, date } from a Team cell and its Date cell: whenever the team ends
+ * with a date, that whole date is the exploration's date and is removed from
+ * the team. `conflict` flags a Date cell that said something else (not the
+ * same date, nor a less precise one it falls within, like 1999 for
+ * 1999-07): the team's date still wins, the Date cell's is dropped - and
+ * reported (see {@link teamDateConflicts}).
+ *
+ * @param {string} team
+ * @param {string} date
+ * @returns {{team: string, date: string, conflict: boolean}}
+ */
+function splitExplorationTeam(team, date) {
   const match = TRAILING_EXPLORATION_DATE.exec(team || '')
   if (!match) return { team, date, conflict: false }
   const teamOnly = match[1].trim()
@@ -641,12 +643,17 @@ function getLanguages(data) {
   }))
 }
 
-// Produces the Firestore "storage" shape: raw (untransformed) markdown text
-// and a plain sistemaId/sistemaColor foreign key on each cave, rather than
-// the fully-linked markdown and precomputed sistema ancestry the app used to
-// consume directly. Those two derived pieces are now computed client-side at
-// read time, in postProcessCaveData.js, from whatever's actually in Firestore
-// — see that file for why.
+/**
+ * Produces the Firestore "storage" shape: raw (untransformed) markdown text
+ * and a plain sistemaId/sistemaColor foreign key on each cave, rather than
+ * the fully-linked markdown and precomputed sistema ancestry the app used to
+ * consume directly. Those two derived pieces are now computed client-side at
+ * read time, in postProcessCaveData.js, from whatever's actually in Firestore
+ * — see that file for why.
+ *
+ * @param {object} data
+ * @returns {CaveData}
+ */
 export function processDataForStorage(data) {
 
   initIds(data)

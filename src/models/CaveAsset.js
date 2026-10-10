@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import getId from 'unique-push-id'
-import { builder } from '@invertase/image-processing-api'
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { useSsrCollection } from '@/hooks/useSsrCollection.js'
+import { pageHostname } from '@/ssr/ssrContext.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { auth, callable, db, getStorageService } from '@/config/firebase.js'
 import { isTrashed, withoutTrashed } from '@/utils/trash.js'
@@ -12,10 +12,21 @@ import { assertOnline } from '@/utils/assertOnline.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 
-// A cave's photo list with its cover first, the others kept in their order.
-function coverFirst(list) {
+// A photo's date in ms: when it was taken (its camera's data), else its
+// upload time (onUploaded.js). A Timestamp, or its plain JSON in a page the
+// server rendered (ssrContext.js).
+function photoTime(doc) {
+  const date = doc.get('date')
+  return date?.toMillis?.() ?? (date?.seconds != null ? date.seconds * 1000 : 0)
+}
+
+// A cave's photo list in the order every view shows it (the Photos tab, the
+// viewer, the cave page, the gallery): its cover first, then the newest
+// first; the same date in upload order (the ids, push ids, sort by time),
+// so photos never swap places.
+function photoOrder(list) {
   if (!list) return list
-  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0))
+  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0) || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
   return { ...list, docs, forEach: (callback, thisArg) => docs.forEach(callback, thisArg) }
 }
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
@@ -80,12 +91,12 @@ export default class CaveAsset {
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
-    const { docs, empty, size } = coverFirst(withoutTrashed(await getDocs(q)))
+    const { docs, empty, size } = photoOrder(withoutTrashed(await getDocs(q)))
     const assetList = { docs, empty, size }
 
     if (useSnapshot) {
       onSnapshot(q, (snapshot) => {
-        const { docs, empty, size } = coverFirst(withoutTrashed(snapshot))
+        const { docs, empty, size } = photoOrder(withoutTrashed(snapshot))
         assetList.docs = docs
         assetList.empty = empty
         assetList.size = size
@@ -95,47 +106,27 @@ export default class CaveAsset {
     return assetList
   }
 
-  static async getCoverImage(caveId, useSnapshot = true) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
-
-        if (useSnapshot) {
-          const result = { data: null }
-          onSnapshot(q, snapshot => {
-            const querySnapshot = withoutTrashed(snapshot)
-            if (querySnapshot.empty) {
-              result.data = null
-              return
-            }
-
-            result.data = querySnapshot.docs[0].data()
-
-          })
-
-          return resolve(result)
-        }
-
-        const querySnapshot = withoutTrashed(await getDocs(q))
-
-        if (querySnapshot.empty) {
-          return resolve(null)
-        }
-
-        resolve(querySnapshot.docs[0])
-
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
+  /**
+   * @param {{caveId?: string, userId?: string, isCover?: boolean, type?: string}} [fields]
+   */
   constructor({ caveId, userId, isCover = false, type = 'image' } = {}) {
     this.id = getId()
     this.caveId = caveId
     this.userId = userId
     this.isCover = isCover
     this.type = type
+    // Set by upload() or read from the record (the converter): declared for
+    // the type checker only - no value, so toObject() doesn't carry them unset.
+    /** @type {string|undefined} */
+    this.originalName
+    /** @type {string|undefined} */
+    this.fullPath
+    /** @type {string|undefined} */
+    this.mediaType
+    /** @type {number|undefined} */
+    this.thumbnailRevision
+    /** @type {number|undefined} */
+    this.viewThumbnailRevision
   }
 
   toObject() {
@@ -148,7 +139,7 @@ export default class CaveAsset {
   // storage rules): unlike the thumbnails, originals aren't public objects,
   // so their storage.googleapis.com URL answers 403.
   get url() {
-    const host = window.location.hostname === 'localhost' ? 'http://localhost:9199' : 'https://firebasestorage.googleapis.com'
+    const host = pageHostname() === 'localhost' ? 'http://localhost:9199' : 'https://firebasestorage.googleapis.com'
     return `${host}/v0/b/${FIREBASE_CONFIG.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
   }
 
@@ -156,16 +147,11 @@ export default class CaveAsset {
   //   this.#url = url
   // }
 
-  /**
-   * 
-   * @param {*} sizes 
-   * @returns 
-   */
-
   // URL of one resized version (see resize-images' IMAGE_SIZES) - the exact
   // URL <Picture> requests for it, which the offline downloads rely on.
   getThumbnailUrl(dimension, format = THUMBNAIL_FORMATS[0]) {
-    const isProd = window.location.hostname !== 'localhost'
+    // (The server, rendering a page, gives its request's host.)
+    const isProd = pageHostname() !== 'localhost'
     const baseUrl = isProd ? `https://storage.googleapis.com/${FIREBASE_CONFIG.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
     const url = new URL(baseUrl)
     // Copies redone (scripts/fix-photo-orientation.js) carry their revision in
@@ -296,41 +282,34 @@ export function useCaveAssetsList(caveId) {
     [caveId],
   )
 
-  const [snapshot, loading, error] = useCollection(q, {
+  const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
-  // Without the photos in the trash (same shape: docs, empty, size), the
-  // cover first.
-  const visible = useMemo(() => coverFirst(withoutTrashed(snapshot)), [snapshot])
+  // Without the photos in the trash (same shape: docs, empty, size), in
+  // their order (photoOrder).
+  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot)), [snapshot])
 
   return [visible, loading, error]
 }
 
+/**
+ * A cave's cover photo, live (the server's on a page it rendered).
+ *
+ * @param {string} caveId
+ * @returns {[import('firebase/firestore').QueryDocumentSnapshot<CaveAsset> | undefined, boolean, Error | undefined]} The
+ *   cover's document (undefined when it has none, a cover in the trash
+ *   included), whether it's loading, the error.
+ */
 export function useCoverImage(caveId) {
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
-  const [snapshot, loading, error] = useCollection(q)
+  // On a page the server rendered: the server's (ssrContext.js).
+  const [snapshot, loading, error] = useSsrCollection(`cover:${caveId}`, q)
   // Read from the snapshot, not copied to state by an effect: that took one
   // more render, in which the cave seemed to have no cover. A cover in the
   // trash isn't one.
-  const coverImage = snapshot?.docs.find((d) => !isTrashed(d))
+  const coverImage = /** @type {import('firebase/firestore').QueryDocumentSnapshot<CaveAsset>} */ (snapshot?.docs.find((d) => !isTrashed(d)))
 
   return [coverImage, loading, error]
-}
-
-export function getImageAssetUrl(source, resize = {}, quality = 80) {
-
-  const url = `https://${FIREBASE_CONFIG.location}-${FIREBASE_CONFIG.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
-
-  const options = builder()
-    .input({
-      type: 'gcs',
-      source,
-    })
-    .resize(resize)
-    .output({ webp: { reductionEffort: 3, quality } })
-    .toEncodedString()
-
-  return `${url}${options}`
 }
 
 const converter = {
@@ -340,7 +319,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision', 'viewThumbnailRevision', 'thumbnailView', 'deletedAt', 'deletedBy']
+    const props = ['id', '_created', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision', 'viewThumbnailRevision', 'thumbnailView', 'deletedAt', 'deletedBy']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]
@@ -359,5 +338,4 @@ const converter = {
 export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
 export const restoreById = CaveAsset.restoreById
-export const getCoverImage = CaveAsset.getCoverImage
 export const getAssetList = CaveAsset.getAssetList

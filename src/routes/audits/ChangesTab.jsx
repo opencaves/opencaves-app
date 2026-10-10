@@ -31,15 +31,17 @@ const NO_FILTERS = { collection: '', action: '', authorId: '', from: '', to: '' 
 
 const recordKey = (entry) => `${entry.collection}/${entry.docId}`
 
-// The Changes tab: the audit log, newest first, filtered by collection,
-// author and dates, a page at a time; each change can be looked at and, when
-// it's the app's own edit, undone - one, the selected ones, or all of an
-// author's since a date.
+/**
+ * The Changes tab: the audit log, newest first, filtered by collection,
+ * author and dates, a page at a time; each change can be looked at and, when
+ * it's the app's own edit, undone - one, the selected ones, or all of an
+ * author's since a date.
+ */
 export default function ChangesTab({ accountLabel, accountList }) {
   const { t, i18n } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()
-  const caves = useSelector((state) => state.data.caves)
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const [filters, setFilters] = useState(NO_FILTERS)
   const [entries, setEntries] = useState([])
   const [cursor, setCursor] = useState(null)
@@ -125,8 +127,8 @@ export default function ChangesTab({ accountLabel, accountList }) {
       keys.map((key) => {
         const [collectionName, id] = key.split('/')
         return getRecord(collectionName, id)
-          .then((record) => [key, record])
-          .catch(() => [key, null])
+          .then((record) => /** @type {[string, object]} */ ([key, record]))
+          .catch(() => /** @type {[string, object]} */ ([key, null]))
       }),
     ).then((found) => {
       if (!cancelled) setRecords((prev) => new Map([...prev, ...found]))
@@ -188,7 +190,7 @@ export default function ChangesTab({ accountLabel, accountList }) {
     setUndoing(true)
     try {
       const undoResults = await undoAuditEntries(newestFirst(ids), { force })
-      setResults((prev) => new Map([...prev, ...undoResults.map((result) => [result.id, result])]))
+      setResults((prev) => new Map([...prev, ...undoResults.map((result) => /** @type {[string, object]} */ ([result.id, result]))]))
       const failed = undoResults.some((result) => result.status === 'error')
       openSnackbar(resultsSummary(t, undoResults), { severity: failed ? null : 'success' })
       setConflicts(undoResults.filter((result) => result.status === 'conflict'))

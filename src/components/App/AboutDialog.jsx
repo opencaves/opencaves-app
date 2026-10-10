@@ -7,10 +7,12 @@ import About from './About.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { OPEN_ABOUT_EVENT } from '@/utils/aboutDialog.js'
 
-// About, over the page shown (openAboutDialog): the address says /about
-// while it's open - a history entry of its own, outside the router, so the
-// page under it stays as it is - and Back or closing it returns to the
-// page's. A visit straight to /about gets the About page instead.
+/**
+ * About, over the page shown (openAboutDialog): the address says /about
+ * while it's open - a history entry of its own, outside the router, so the
+ * page under it stays as it is - and Back or closing it returns to the
+ * page's. A visit straight to /about gets the About page instead.
+ */
 export default function AboutDialog() {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('about', { keyPrefix: 'dialog' })

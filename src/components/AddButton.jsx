@@ -1,14 +1,18 @@
 import { Button } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
 
-// The edit forms' "+ Add something" button, sized per M3's outlined button
-// with a leading icon: 40dp tall (16dp before the icon, 24dp after the
-// label), an 18dp icon, and a 48dp touch target that
-// reaches 4dp past the top and bottom edges without being drawn - into the
-// surrounding spacing (at least 16dp everywhere it's used), which M3 allows
-// as long as it doesn't overlap another target, so no extra margin that
-// would knock the layout off the 8dp grid. Pass
-// startIcon for another leading icon (e.g. Add pictures' camera).
+/**
+ * The edit forms' "+ Add something" button, sized per M3's outlined button
+ * with a leading icon: 40dp tall (16dp before the icon, 24dp after the
+ * label), an 18dp icon, and a 48dp touch target that
+ * reaches 4dp past the top and bottom edges without being drawn - into the
+ * surrounding spacing (at least 16dp everywhere it's used), which M3 allows
+ * as long as it doesn't overlap another target, so no extra margin that
+ * would knock the layout off the 8dp grid. Pass
+ * startIcon for another leading icon (e.g. Add pictures' camera).
+ *
+ * @param {import('@mui/material/Button').ButtonProps & Record<string, any>} props - A Button's; `startIcon`, a "+" by default.
+ */
 export default function AddButton({ className, sx, startIcon, children, ...props }) {
   return (
     <Button

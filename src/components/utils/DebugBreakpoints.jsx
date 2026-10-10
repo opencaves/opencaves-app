@@ -9,7 +9,7 @@ export default function DebugBreakpoints() {
   const isMd = useMediaQuery(theme.breakpoints.only('md'))
   const isLg = useMediaQuery(theme.breakpoints.only('lg'))
   const isXl = useMediaQuery(theme.breakpoints.up('xl'))
-  const [breakpoint, setBreakpoint] = useState()
+  const [breakpoint, setBreakpoint] = useState(/** @type {string} */ (undefined))
 
   useEffect(() => {
     isXs && setBreakpoint('xs')

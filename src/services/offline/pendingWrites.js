@@ -3,6 +3,12 @@
 // changes syncing.
 let count = 0
 
+/**
+ * Counts a write as pending until its promise settles.
+ *
+ * @param {Promise} write
+ * @returns {Promise} The same promise.
+ */
 export function trackWrite(write) {
   count += 1
   const done = () => {

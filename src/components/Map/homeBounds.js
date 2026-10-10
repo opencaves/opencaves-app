@@ -1,10 +1,16 @@
 import { HOME_AREA_BBOX } from '@/config/map.js'
 
-// The box around the caves with coordinates inside the home area
-// (HOME_AREA_BBOX), as [[west, south], [east, north]] for the map's fitBounds -
-// or null when there are none.
+/**
+ * The box around the caves with coordinates inside the home area
+ * ({@link HOME_AREA_BBOX}), as [[west, south], [east, north]] for the map's fitBounds -
+ * or null when there are none.
+ *
+ * @param {Cave[]} caves
+ * @returns {[[number, number], [number, number]]|null}
+ */
 export function homeBounds(caves) {
   const [west, south, east, north] = HOME_AREA_BBOX
+  /** @type {[[number, number], [number, number]]} */
   let box = null
   for (const cave of caves || []) {
     const { longitude, latitude } = cave.location || {}

@@ -8,10 +8,12 @@ const HEADING_WAIT_MS = 3000
 // Read by screen readers, not shown.
 const VISUALLY_HIDDEN = { position: 'absolute', width: 1, height: 1, p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }
 
-// Keyboard and screen-reader users after an in-app navigation: the focus
-// left on <body> (the link they used is gone) moves to the new page's h1, which
-// screen readers read. When the focus is still somewhere (the app bar's links,
-// its search), it stays there and the new page's title is announced instead.
+/**
+ * Keyboard and screen-reader users after an in-app navigation: the focus
+ * left on <body> (the link they used is gone) moves to the new page's h1, which
+ * screen readers read. When the focus is still somewhere (the app bar's links,
+ * its search), it stays there and the new page's title is announced instead.
+ */
 export default function RouteFocus() {
   const { pathname } = useLocation()
   const [announcement, setAnnouncement] = useState('')
@@ -29,7 +31,7 @@ export default function RouteFocus() {
     let frame
     const lost = () => !document.activeElement || document.activeElement === document.body
     const look = () => {
-      const heading = [...document.querySelectorAll('main h1, h1')].find((h1) => h1.offsetParent && h1.textContent.trim())
+      const heading = [.../** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('main h1, h1'))].find((h1) => h1.offsetParent && h1.textContent.trim())
       if (heading && lost()) {
         if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1')
         heading.focus({ preventScroll: true })

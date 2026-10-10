@@ -154,11 +154,17 @@ async function undoEntry(id, { force, adminUid }) {
   }
 }
 
-// Undoes audit log entries (admins, the Audits page): each brought back as
-// it was before the entry's change, newest first, each in its own
-// transaction. An entry whose fields were changed again since is a conflict
-// (nothing written) unless `force`. The undo is logged as its own entry
-// (action undo, undoOf), which can be undone in turn.
+/**
+ * Undoes audit log entries (admins, the Audits page): each brought back as
+ * it was before the entry's change, newest first, each in its own
+ * transaction. An entry whose fields were changed again since is a conflict
+ * (nothing written) unless `force`. The undo is logged as its own entry
+ * (action undo, undoOf), which can be undone in turn.
+ *
+ * @param {CallableRequest} request - Its data: { ids, force }.
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument for bad ids or force.
+ */
 export const undoAuditEntries = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   requireAdmin(request, 'Only admins can undo changes.')
 

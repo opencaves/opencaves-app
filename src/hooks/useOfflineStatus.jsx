@@ -1,13 +1,20 @@
 import { useSyncExternalStore } from 'react'
 import { getOfflineStatus, getSavedCavesStatuses, subscribeToOfflineStatus } from '@/services/offline/offlineMedia.js'
 
-// Download status of one offline item (previewsStatusKey or
-// savedCaveStatusKey(caveId)): { state, done, total, failed }, or undefined.
+/**
+ * Download status of one offline item (previewsStatusKey or
+ * savedCaveStatusKey(caveId)): { state, done, total, failed }, or undefined.
+ *
+ * @param {string} key
+ * @returns {{state: string, done: number, total: number, failed: number}|undefined}
+ */
 export function useOfflineStatus(key) {
   return useSyncExternalStore(subscribeToOfflineStatus, () => getOfflineStatus(key))
 }
 
-// Totals across every saved cenote, for the account page's summary line.
+/**
+ * Totals across every saved cenote, for the account page's summary line.
+ */
 export function useSavedCavesOfflineSummary() {
   return useSyncExternalStore(subscribeToOfflineStatus, getSummary)
 }

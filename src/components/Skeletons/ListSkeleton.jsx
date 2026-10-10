@@ -17,25 +17,32 @@ const GROUP_TITLE_WIDTHS = [140, 110, 170, 125]
 // Rows per group, cycled, so groups don't all look alike.
 const GROUP_SIZES = [4, 2, 5, 3]
 
-// Stand-in for a list while its data loads - rows shaped like the real ones
-// (a leading icon or color square, a title and a secondary line, divided) -
-// instead of a bare "Loading…". Screen readers get "Loading…" once (a
-// status), not the shapes.
-// - rows: how many placeholder rows (at least - see fill)
-// - fill: reach down to the bottom of the page (a whole page loading),
-//   with as many rows as that takes; false for a list within a loaded page
-// - leading: 'square' (color swatch), 'circle' (icon/avatar) or null
-// - secondary: whether rows have a second, smaller line
-// - count / search: the list's own header, when it has one - its item count
-//   line and its (small, outlined, rounded) search field
-// - grouped: rows under group headings (a list grouped by area, with
-//   ListSubheaders)
-// - card: the rows on an opaque rounded card, as the dashboard's lists are
-//   (DASHBOARD_LIST_SX), the last without its divider; grouped, one card
-//   per group with its title above (IndexSection's card)
-// - trailing: how many action icons end each row (edit, delete)
-// - columns: a table instead (its header row, then one-line rows of that
-//   many cells, the middle one narrow when odd - ConnectionList's arrow)
+/**
+ * Stand-in for a list while its data loads - rows shaped like the real ones
+ * (a leading icon or color square, a title and a secondary line, divided) -
+ * instead of a bare "Loading…". Screen readers get "Loading…" once (a
+ * status), not the shapes.
+ *
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {Sx} [props.sx]
+ * @param {number} [props.rows=6] - How many placeholder rows (at least - see fill)
+ * @param {boolean} [props.fill=true] - Reach down to the bottom of the page (a whole page loading),
+ *   with as many rows as that takes; false for a list within a loaded page
+ * @param {'square'|'circle'|null} [props.leading='square'] - 'square' (color swatch), 'circle' (icon/avatar) or null
+ * @param {boolean} [props.secondary=true] - Whether rows have a second, smaller line
+ * @param {boolean} [props.count=false] - With search: the list's own header, when it has one - its item count
+ *   line
+ * @param {boolean} [props.search=false] - With count: the list's own header - its (small, outlined, rounded) search field
+ * @param {boolean} [props.grouped=false] - Rows under group headings (a list grouped by area, with
+ *   ListSubheaders)
+ * @param {boolean} [props.card=false] - The rows on an opaque rounded card, as the dashboard's lists are
+ *   ({@link DASHBOARD_LIST_SX}), the last without its divider; grouped, one card
+ *   per group with its title above (IndexSection's card)
+ * @param {number} [props.trailing=0] - How many action icons end each row (edit, delete)
+ * @param {number} [props.columns=0] - A table instead (its header row, then one-line rows of that
+ *   many cells, the middle one narrow when odd - ConnectionList's arrow)
+ */
 export default function ListSkeleton({ rows = 6, leading = 'square', secondary = true, count = false, search = false, grouped = false, card = false, trailing = 0, columns = 0, fill = true, className, sx }) {
   const { t } = useTranslation('app')
   const ref = useRef(null)
@@ -48,7 +55,7 @@ export default function ListSkeleton({ rows = 6, leading = 'square', secondary =
         {t('loading')}
       </Box>
       {count && <Skeleton aria-hidden="true" variant="text" sx={{ fontSize: '0.875rem', width: 90, mb: search ? 2 : 1 }} />}
-      {search && <Skeleton aria-hidden="true" variant="rounded" sx={(theme) => ({ height: 40, borderRadius: `${theme.shape.borderRadius * 4}px`, mb: 2 })} />}
+      {search && <Skeleton aria-hidden="true" variant="rounded" sx={(theme) => ({ height: 40, borderRadius: `${/** @type {number} */ (theme.shape.borderRadius) * 4}px`, mb: 2 })} />}
       {blocks.map(({ heading, rows: blockRows }, blockIndex) => (
         <Box key={blockIndex} aria-hidden="true" sx={card && grouped ? { mb: 3 } : undefined}>
           {/* An area's name: above its card, or a subheader row in the list. */}

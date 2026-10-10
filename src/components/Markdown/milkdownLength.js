@@ -6,9 +6,9 @@ import remarkLengthDirective, { LENGTH_DIRECTIVE, LENGTH_UNITS, TEXT_SPELLINGS, 
 // The `:length[45 m]` tag in the Markdown editor (MarkdownField): parsed by
 // the same remark plugin as the page, shown as a chip, and written back as
 // its raw tag (an 'html' node: saved as is, so the brackets aren't escaped).
-export const lengthRemark = $remark('remarkLengthDirective', () => remarkLengthDirective)
+const lengthRemark = $remark('remarkLengthDirective', () => remarkLengthDirective)
 
-export const lengthSchema = $nodeSchema('length_directive', () => ({
+const lengthSchema = $nodeSchema('length_directive', () => ({
   group: 'inline',
   inline: true,
   atom: true,
@@ -83,10 +83,10 @@ class LengthView {
       }
     })
     this.dom.addEventListener('focusin', (event) => {
-      if (!this.dom.contains(event.relatedTarget)) this.initialText = this.node.attrs.text
+      if (!this.dom.contains(/** @type {Node} */ (event.relatedTarget))) this.initialText = this.node.attrs.text
     })
     this.dom.addEventListener('focusout', (event) => {
-      if (this.dom.contains(event.relatedTarget)) return
+      if (this.dom.contains(/** @type {Node} */ (event.relatedTarget))) return
       // Left empty: a tag just inserted gives back the text it replaced,
       // another is removed.
       if (!this.input.value.trim() && !this.options.cancelInsert?.(this.view, this.getPos(), false)) this.remove()
@@ -202,7 +202,7 @@ class LengthView {
 // becomes its symbol. Not in code, and not "in" or "mi", common words.
 const TYPED_LENGTH = new RegExp(`(?:^|[^\\w.,])((?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?)\\s?(${TEXT_SPELLINGS})([\\s.,;:!?)])$`, 'i')
 
-export const lengthInputRule = $inputRule((ctx) =>
+const lengthInputRule = $inputRule((ctx) =>
   new InputRule(TYPED_LENGTH, (state, match, start, end) => {
     const [whole, number, spelling, after] = match
     const length = parseLength(`${number} ${spelling}`)
@@ -215,16 +215,28 @@ export const lengthInputRule = $inputRule((ctx) =>
   }),
 )
 
-// The plugins, with the fields' accessible names.
-// options.cancelInsert(view, pos, focus): Escape in (or an empty) tag - undo its insertion if it
-// was just inserted (true), or not (false); options.endInsert(): the chip left.
+/**
+ * The plugins.
+ *
+ * @param {{value: string, unit: string}} labels - The fields' accessible names.
+ * @param {object} [options]
+ * @param {(view: import('@milkdown/prose/view').EditorView, pos: number, focus?: boolean) => boolean} [options.cancelInsert] - Escape in (or an empty) tag - undo its insertion if it
+ *   was just inserted (true), or not (false).
+ * @param {() => void} [options.endInsert] - The chip left.
+ * @returns {Array}
+ */
 export function milkdownLength(labels, options = {}) {
   const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels, options))
   return [lengthRemark, lengthSchema, lengthView, lengthInputRule].flat()
 }
 
-// The chip's editor at a position (after inserting a tag): focus its value.
+/**
+ * The chip's editor at a position (after inserting a tag): focus its value.
+ *
+ * @param {import('@milkdown/prose/view').EditorView} view
+ * @param {number} pos
+ */
 export function focusLength(view, pos) {
-  const dom = view.nodeDOM(pos)
-  dom?.querySelector?.('.oc-length-chip--value')?.focus()
+  const dom = /** @type {HTMLElement} */ (view.nodeDOM(pos))
+  dom?.querySelector?.(/** @type {'input'} */ ('.oc-length-chip--value'))?.focus()
 }

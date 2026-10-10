@@ -6,16 +6,20 @@ import { db } from '@/config/firebase.js'
 import { CAVE_LAYER } from '@/config/map.js'
 import { isTrashed } from '@/utils/trash.js'
 
-// The maps added in the app (no importKey: the bulk import's maps are
-// another work list) that no map-layer config names yet (configs.json, from
-// the tiles build: "mapId"), so still to be turned into the cave layer:
-// toProcess; and those an admin marked not for the layer (layerSkipReason):
-// skipped. Each { id, name, url, contentType, thumbnail, sistemas,
-// layerSkipReason, layerSkippedBy, layerSkippedAt }. Computed, not stored: a
-// map leaves the list as soon as the tiles are built with its config.
+/**
+ * The maps added in the app (no importKey: the bulk import's maps are
+ * another work list) that no map-layer config names yet (configs.json, from
+ * the tiles build: "mapId"), so still to be turned into the cave layer:
+ * toProcess; and those an admin marked not for the layer (layerSkipReason):
+ * skipped. Each { id, name, url, contentType, thumbnail, sistemas,
+ * layerSkipReason, layerSkippedBy, layerSkippedAt }. Computed, not stored: a
+ * map leaves the list as soon as the tiles are built with its config.
+ *
+ * @returns {{toProcess: object[], skipped: object[], loading: boolean}}
+ */
 export function useMapsToProcess() {
   const [snapshot, loading] = useCollection(collection(db, 'maps'))
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const [configured, setConfigured] = useState(null)
 
   useEffect(() => {
@@ -33,7 +37,7 @@ export function useMapsToProcess() {
     const added = snapshot.docs
       .filter((doc) => !isTrashed(doc) && !doc.get('importKey') && !configured.has(doc.id))
       .map((doc) => {
-        const map = doc.data()
+        const map = /** @type {CaveMap} */ (doc.data())
         return { ...map, id: doc.id, thumbnail: map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null), sistemas: sistemasOf.get(doc.id) || [] }
       })
     return { toProcess: added.filter((map) => !map.layerSkipReason), skipped: added.filter((map) => map.layerSkipReason), loading }

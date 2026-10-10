@@ -9,10 +9,17 @@ import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedC
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './FilterMenu.scss'
 
+/**
+ * The filter menu's head: its title, and its close button.
+ *
+ * @param {object} props - Also its root's.
+ * @param {string} props.title
+ * @param {import('react').ReactNode} [props.children]
+ */
 function FilterMenuHead({ title, children, ...props }) {
   const { t } = useTranslation('filter')
   const dispatch = useDispatch()
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
   function onFilterMenuCloseBtnClick() {
     dispatch(toggleFilterMenu(!filterMenuOpen))
@@ -95,6 +102,16 @@ function FilterMenuSectionHeader({ children, ...props }) {
 
 // A filter: the whole row is its switch (role switch, its label the row's
 // text) - not a button holding a second, unlabelled switch.
+/**
+ * A filter row (see above).
+ *
+ * @param {object} props
+ * @param {string} props.primary - Its label.
+ * @param {string} [props.secondary] - Its description.
+ * @param {number | string} [props.nb] - How many caves it covers.
+ * @param {boolean} props.checked
+ * @param {(event: import('react').MouseEvent) => void} props.onClick
+ */
 function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   return (
     <ListItem disablePadding className="oc-filter-menu--item">
@@ -135,19 +152,23 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   )
 }
 
-export default function MapFilterMenu({ props }) {
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+/**
+ * The map's filter menu: a drawer on the right, its filters by area, access
+ * and accessibility.
+ */
+export default function MapFilterMenu() {
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
-  const showAreas = useSelector((state) => state.search.showAreas)
-  const showValidCoordinates = useSelector((state) => state.search.showValidCoordinates)
-  const showInvalidCoordinates = useSelector((state) => state.search.showInvalidCoordinates)
-  const showUnconfirmedCoordinates = useSelector((state) => state.search.showUnconfirmedCoordinates)
-  const showCenoteEntrances = useSelector((state) => state.search.showCenoteEntrances) !== false
-  const showOtherCenotes = useSelector((state) => state.search.showOtherCenotes) !== false
-  const showAccesses = useSelector((state) => state.search.showAccesses)
-  const showAccessibilities = useSelector((state) => state.search.showAccessibilities)
+  const showAreas = useSelector((/** @type {RootState} */ state) => state.search.showAreas)
+  const showValidCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showValidCoordinates)
+  const showInvalidCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showInvalidCoordinates)
+  const showUnconfirmedCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showUnconfirmedCoordinates)
+  const showCenoteEntrances = useSelector((/** @type {RootState} */ state) => state.search.showCenoteEntrances) !== false
+  const showOtherCenotes = useSelector((/** @type {RootState} */ state) => state.search.showOtherCenotes) !== false
+  const showAccesses = useSelector((/** @type {RootState} */ state) => state.search.showAccesses)
+  const showAccessibilities = useSelector((/** @type {RootState} */ state) => state.search.showAccessibilities)
 
-  const dataStats = useSelector((state) => state.map.dataStats)
+  const dataStats = useSelector((/** @type {RootState} */ state) => state.map.dataStats)
 
   const dispatch = useDispatch()
   const { t } = useTranslation('filter')
@@ -219,13 +240,12 @@ export default function MapFilterMenu({ props }) {
     return dataStats?.[prop]?.[value] || 0
   }
 
-  const accessibilities = t('accessibility.items', { returnObjects: true })
-  const accesses = t('access.items', { returnObjects: true })
+  const accessibilities = /** @type {{ key: string, label: string, description: string }[]} */ (t('accessibility.items', { returnObjects: true }))
+  const accesses = /** @type {{ key: string, label: string, description: string }[]} */ (t('access.items', { returnObjects: true }))
   const isSmall = useSmall()
 
   return (
     <SwipeableDrawer
-      {...props}
       className="oc-filter-menu"
       // Closed (it stays in the page, persistent): out of reach of the
       // keyboard and screen readers - its headings came before the page's h1.
@@ -302,7 +322,7 @@ export default function MapFilterMenu({ props }) {
             const primary = accessibilities.find((a) => a.key === key).label
             const secondary = accessibilities.find((a) => a.key === key).description
             const nb = getDataStat('accessibility', key)
-            const onClick = (e) => handleShowAccessibilities(e.target.checked, key)
+            const onClick = () => handleShowAccessibilities(!checked, key)
             const k = `accessibility.${key}.${index}`
 
             return <FilterMenuItem key={k} primary={primary} secondary={secondary} nb={nb} checked={checked} onClick={onClick} />

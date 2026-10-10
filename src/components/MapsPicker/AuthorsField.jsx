@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, TextField } from '@mui/material'
 import mapsModel from '@/models/MapModel.js'
 
-// A chip-style, multi-value authors input suggested from every author name
-// already used across all maps, so repeat contributors get picked
-// consistently instead of being retyped (and possibly misspelled) each time.
+/**
+ * A chip-style, multi-value authors input suggested from every author name
+ * already used across all maps, so repeat contributors get picked
+ * consistently instead of being retyped (and possibly misspelled) each time.
+ */
 export default function AuthorsField({ value, onChange }) {
   const { t } = useTranslation('mapsPicker')
   const [maps] = mapsModel.useAll()

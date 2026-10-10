@@ -1,14 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
 
-// "Skip to content": the first stop for the keyboard, shown only once it has
-// the focus; it moves the focus past the app bar (10 stops) to the page's
-// main content - the map on the map page, which has no <main>.
+/**
+ * "Skip to content": the first stop for the keyboard, shown only once it has
+ * the focus; it moves the focus past the app bar (10 stops) to the page's
+ * main content, #main (the pages' <main>, the map's result pane) - the map
+ * itself on the map page with no cave open.
+ */
 export default function SkipLink() {
   const { t } = useTranslation('app')
 
   function skip(event) {
-    const target = document.querySelector('main') || document.querySelector('.mapboxgl-canvas')
+    const target = document.getElementById('main') || document.querySelector('main') || document.querySelector('.mapboxgl-canvas')
     if (!target) return
     event.preventDefault()
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1')

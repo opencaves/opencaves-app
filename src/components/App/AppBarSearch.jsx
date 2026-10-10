@@ -8,14 +8,16 @@ import { useSmall } from '@/hooks/useSmall.jsx'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from '@/components/IndexPage/searchSuggestions.jsx'
 
-// The app bar's search, on every page but the map (which has its own): the
-// caves and the cave systems (useSiteSearch). Picking one opens its page
-// (/caves/:id, /sistemas/:id);
-// Enter on free text opens the caves' list filtered by it. A pill-shaped
-// field in the bar on wide screens; below, a search button that opens the
-// field over the whole bar, with a back arrow to close it - revealed in a
-// circle growing from the button, and closed back into it (M3's container
-// transform, as a circular reveal).
+/**
+ * The app bar's search, on every page but the map (which has its own): the
+ * caves and the cave systems ({@link useSiteSearch}). Picking one opens its page
+ * (/caves/:id, /sistemas/:id);
+ * Enter on free text opens the caves' list filtered by it. A pill-shaped
+ * field in the bar on wide screens; below, a search button that opens the
+ * field over the whole bar, with a back arrow to close it - revealed in a
+ * circle growing from the button, and closed back into it (M3's container
+ * transform, as a circular reveal).
+ */
 export default function AppBarSearch() {
   const { t } = useTranslation('appBarSearch')
   const theme = useTheme()

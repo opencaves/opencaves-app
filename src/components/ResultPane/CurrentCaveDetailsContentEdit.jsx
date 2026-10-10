@@ -40,17 +40,29 @@ const accessesModel = createCollectionModel('accesses')
 const accessibilitiesModel = createCollectionModel('accessibilities')
 const languagesModel = createCollectionModel('languages')
 
+/**
+ * The shared MarkdownField, with the edit form's placeholder.
+ *
+ * @param {object} props
+ * @param {string} props.label
+ * @param {string} [props.value]
+ * @param {(event: {target: {value: string}}) => void} props.onChange
+ * @param {number} [props.minRows]
+ * @param {boolean} [props.resizable]
+ */
 function MarkdownField({ label, value, onChange, minRows, resizable }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
 }
 
-// Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
-// layout as the read-only view (CurrentCaveDetailsContent), swapped for
-// editable fields, for quick in-context tweaks without leaving the map.
-// Covers the fields an editor is likely to touch often; the full field set
-// (aka, rating, reporter, note, exploration date, cover image) stays in the
-// dedicated admin form.
+/**
+ * Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
+ * layout as the read-only view (CurrentCaveDetailsContent), swapped for
+ * editable fields, for quick in-context tweaks without leaving the map.
+ * Covers the fields an editor is likely to touch often; the full field set
+ * (aka, rating, reporter, note, exploration date, cover image) stays in the
+ * dedicated admin form.
+ */
 export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
@@ -60,13 +72,13 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const dispatch = useDispatch()
   const isSmall = useSmall()
   // The map's "place on map" mode takes over the screen: no Save bar then.
-  const placingOnMap = useSelector((state) => !!state.map.placeOnMap)
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const placingOnMap = useSelector((/** @type {RootState} */ state) => !!state.map.placeOnMap)
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
   // Sorts the Sistema dropdown nearest-first, live as the map is panned.
-  const mapCenter = useSelector((state) => state.map.viewState)
+  const mapCenter = useSelector((/** @type {RootState} */ state) => state.map.viewState)
 
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()
@@ -107,12 +119,15 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     facilities: !!cave.facilities,
     longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
+    parkingLongitude: normalizeCoordinateValue(cave.parking?.longitude ?? ''),
+    parkingLatitude: normalizeCoordinateValue(cave.parking?.latitude ?? ''),
     entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
     entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
     keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
     keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
     // Each coordinate's validity (valid / unknown / invalid): one without it is unconfirmed.
     locationValidity: cave.location?.validity || 'unknown',
+    parkingValidity: cave.parking?.validity || 'unknown',
     entranceValidity: cave.entrance?.validity || 'unknown',
     keyValidity: cave.keys?.[0]?.validity || 'unknown',
     nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
@@ -185,6 +200,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
+      }
+
+      if (form.parkingLongitude === '' && form.parkingLatitude === '' && cave.parking) {
+        fields.parking = deleteField()
+      } else if (form.parkingLongitude !== '' && form.parkingLatitude !== '') {
+        fields.parking = { longitude: Number(num(form.parkingLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.parkingLatitude, COORDINATE_DECIMALS)), validity: form.parkingValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
@@ -308,11 +329,10 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   )
 
   // M3 touch sizing for the whole form on phones (it's built from dense,
-  // desktop-sized controls shared with the admin pages): 48dp targets with
-  // 24dp icons for icon buttons, 40dp-tall buttons, standard-size switches.
+  // desktop-sized controls shared with the admin pages): 40dp-tall buttons,
+  // standard-size switches. Icon buttons get their 48dp touch target from
+  // the theme (MuiIconButton).
   const phoneTouchSizing = {
-    '& .MuiIconButton-root': { width: 48, height: 48, p: 0 },
-    '& .MuiIconButton-root .MuiSvgIcon-root': { fontSize: 24 },
     '& .MuiButton-root': { minHeight: 40 },
   }
 

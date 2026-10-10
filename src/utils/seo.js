@@ -1,8 +1,13 @@
 // Search-engine helpers shared by RouteSeo and CaveSeo.
 
-// The one URL each indexable page should be known by: a cave's place on the
-// map and its sub-views (medias, maps, edit, sistemas) all point to the cave's
-// own page, /caves/<id> (as the server-rendered pages, functions/js/seo).
+/**
+ * The one URL each indexable page should be known by: a cave's place on the
+ * map and its sub-views (medias, maps, edit, sistemas) all point to the cave's
+ * own page, /caves/<id> (as the server-rendered pages, functions/js/seo).
+ *
+ * @param {string} pathname
+ * @returns {string}
+ */
 export function canonicalPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   const cave = /^\/map\/([^/]+)/.exec(path)
@@ -10,23 +15,38 @@ export function canonicalPath(pathname) {
   return path
 }
 
-// The public index pages: the cenotes and the cave systems by area, an area,
-// a cave system, a cave's own page (not their editors' /edit addresses).
+/**
+ * The public index pages: the cenotes and the cave systems by area, an area,
+ * a cave system, a cave's own page (not their editors' /edit addresses).
+ *
+ * @param {string} pathname
+ * @returns {boolean}
+ */
 export function isPublicIndexPath(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   return path === '/caves' || path === '/sistemas' || /^\/(caves|sistemas|areas)\/(?!edit$)[^/]+$/.test(path)
 }
 
-// Public pages worth indexing. Everything else (account, sign-in, the
-// editors' admin pages, edit modes) gets noindex.
+/**
+ * Public pages worth indexing. Everything else (account, sign-in, the
+ * editors' admin pages, edit modes) gets noindex.
+ *
+ * @param {string} pathname
+ * @returns {boolean}
+ */
 export function isIndexable(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   if (/\/edit(\/|$)/.test(path)) return false
   return path === '/' || path === '/map' || /^\/map\/[^/]+(\/(medias|maps)(\/[^/]+)?)?$/.test(path) || ['/about', '/privacy', '/terms'].includes(path) || isPublicIndexPath(path)
 }
 
-// Plain text from the app's Markdown (cave descriptions), for meta
-// descriptions: link text kept, syntax dropped, whitespace collapsed.
+/**
+ * Plain text from the app's Markdown (cave descriptions), for meta
+ * descriptions: link text kept, syntax dropped, whitespace collapsed.
+ *
+ * @param {string} [markdown='']
+ * @returns {string}
+ */
 export function markdownToPlainText(markdown = '') {
   return markdown
     // Length tags (:length[45 m]) as their value, a whole number (as the
@@ -42,7 +62,13 @@ export function markdownToPlainText(markdown = '') {
     .trim()
 }
 
-// Cuts at a word boundary, for search-result snippets (~155-160 chars).
+/**
+ * Cuts at a word boundary, for search-result snippets (~155-160 chars).
+ *
+ * @param {string} text
+ * @param {number} [max=158]
+ * @returns {string}
+ */
 export function truncate(text, max = 158) {
   if (text.length <= max) return text
   const cut = text.slice(0, max - 1)

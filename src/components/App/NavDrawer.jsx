@@ -21,16 +21,26 @@ import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 
 const DRAWER_WIDTH = 240
 
-// Whether a link's page is the one shown: / only itself, the others their
-// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
-export const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
+/**
+ * Whether a link's page is the one shown: / only itself, the others their
+ * section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+ *
+ * @param {string} to
+ * @param {string} pathname
+ * @returns {boolean}
+ */
+const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
 
-// The site's pages, and the dashboard for editors: the app bar's links and
-// the phone drawer's. current(to): 'page' for the page shown (aria-current).
+/**
+ * The site's pages, and the dashboard for editors: the app bar's links and
+ * the phone drawer's.
+ *
+ * @returns {{navItems: object[], dashboardItem: object, canAccessDashboard: boolean, current: (to: string) => 'page'|undefined}} current(to): 'page' for the page shown (aria-current).
+ */
 export function useNavItems() {
   const location = useLocation()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const dispatch = useDispatch()
   const navItems = [
@@ -45,15 +55,22 @@ export function useNavItems() {
     { key: 'about', to: '/about', icon: <InfoRounded />, onClick: openAboutDialog },
   ]
   const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
+  /** @type {(to: string) => 'page' | undefined} */
   const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
   return { navItems, dashboardItem, canAccessDashboard, current }
 }
 
-// The phone's navigation drawer, opened from the app bar's menu button or the
-// map search bar's: its header (the logo and title, a link home, and a close
-// button), the site's pages, then the dashboard (editors), then About last,
-// each group set apart by a divider. No Home item: the header links there.
-// zIndex: over the map page's Ionic sheet (its own, much higher, stacking).
+/**
+ * The phone's navigation drawer, opened from the app bar's menu button or the
+ * map search bar's: its header (the logo and title, a link home, and a close
+ * button), the site's pages, then the dashboard (editors), then About last,
+ * each group set apart by a divider. No Home item: the header links there.
+ *
+ * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
+ * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
+ */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
@@ -93,7 +110,8 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
-                    <ListItemIcon>{icon}</ListItemIcon>
+                    {/* The Map entry's icon in the app's gold, as in the app bar. */}
+                    <ListItemIcon sx={key === 'map' ? { color: 'var(--oc-secondary-on-surface)' } : undefined}>{icon}</ListItemIcon>
                     <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
                   </ListItemButton>
                 </ListItem>

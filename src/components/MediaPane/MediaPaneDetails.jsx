@@ -27,7 +27,7 @@ import 'yet-another-react-lightbox/styles.css'
 import './lightbox.scss'
 
 const Main = styled('main')(
-  ({ theme, open }) => {
+  ({ theme }) => {
 
     return ({
       flexGrow: 1,
@@ -42,9 +42,16 @@ const Main = styled('main')(
 // The viewer over the whole app window (useOrientationFullscreen's fallback).
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
-// alwaysShowBack: the back arrow whatever the screen (a page's gallery,
-// with no list pane beside it); onBack: what it does (a link up otherwise);
-// showCounter: "3 / 12" at the top (no list beside it either).
+/**
+ * @param {object} props
+ * @param {string} props.mediaId - The photo shown.
+ * @param {{ docs: object[], size: number }} props.medias - The photos it moves between (a query snapshot's docs).
+ * @param {(item: object, isActive: boolean) => void} [props.onBeforeDelete] - Before one is deleted.
+ * @param {boolean} [props.alwaysShowBack=false] - The back arrow whatever the screen (a page's gallery,
+ *   with no list pane beside it).
+ * @param {() => void} [props.onBack] - What it does (a link up otherwise).
+ * @param {boolean} [props.showCounter=false] - "3 / 12" at the top (no list beside it either).
+ */
 export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack, showCounter = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
@@ -80,6 +87,9 @@ export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwa
     const { id, url, usePanoramaViewer, mediaType } = media
     // Not the uploaded file's name: it isn't public (cavesAssetsPrivate).
     const filename = `opencaves-${id}.${(mediaType || 'image/jpeg').split('/')[1].replace('jpeg', 'jpg')}`
+    // Any: a photo's slide has sources (drawn by MediaViewer), no src, which
+    // the lightbox's types want on every image.
+    /** @type {any} */
     const slide = {
       mediaId: id,
       type: usePanoramaViewer ? 'panorama' : 'image',

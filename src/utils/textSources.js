@@ -8,14 +8,28 @@ export const SISTEMA_TEXT_FIELDS = ['description', 'direction']
 
 const sourceOf = (entry) => entry?.source || ''
 
-// A record's text sources, as an edit form holds them ({ source: '' } for none).
+/**
+ * A record's text sources, as an edit form holds them ({ source: '' } for none).
+ *
+ * @param {Cave|Sistema} record
+ * @param {string[]} fields
+ * @returns {object}
+ */
 export function textSourcesOf(record, fields) {
   return Object.fromEntries(fields.map((field) => [field, { source: sourceOf(record?.textSources?.[field]) }]))
 }
 
-// A form's text changed. Edited, the words are the app's: their source becomes
-// OpenCaves - unless the editor picked one since. Back to the saved words
-// (undone, retyped), they get their saved source back.
+/**
+ * A form's text changed. Edited, the words are the app's: their source becomes
+ * OpenCaves - unless the editor picked one since. Back to the saved words
+ * (undone, retyped), they get their saved source back.
+ *
+ * @param {object} form
+ * @param {Cave|Sistema} original - The saved record.
+ * @param {string} field
+ * @param {*} value
+ * @returns {object} The form.
+ */
 export function withTextChange(form, original, field, value) {
   const saved = `${original?.[field] ?? ''}`
   const savedSource = sourceOf(original?.textSources?.[field])
@@ -28,9 +42,16 @@ export function withTextChange(form, original, field, value) {
   return { ...form, [field]: value, ...(source !== current && { textSources: { ...form.textSources, [field]: { source } } }) }
 }
 
-// What a save writes: the entries the form changed - set (with the month
-// they were checked) or removed (a text left empty has no source) - or
-// undefined when none changed.
+/**
+ * What a save writes: the entries the form changed - set (with the month
+ * they were checked) or removed (a text left empty has no source) - or
+ * undefined when none changed.
+ *
+ * @param {Cave|Sistema} original
+ * @param {object} form
+ * @param {string[]} fields
+ * @returns {object|undefined}
+ */
 export function textSourcesUpdate(original, form, fields) {
   const checkedAt = new Date().toISOString().slice(0, 7)
   const update = {}

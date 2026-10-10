@@ -25,7 +25,7 @@ import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
-import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 
@@ -82,9 +82,11 @@ function sistemaDetails(sistema, data) {
   return { area, ancestry, children, caves, historySistemas }
 }
 
-// /sistemas/<id>: a cave system - its area, length and depth, description,
-// connections, exploration history and cenotes. Editors edit it at
-// /sistemas/<id>/edit.
+/**
+ * /sistemas/<id>: a cave system - its area, length and depth, description,
+ * connections, exploration history and cenotes. Editors edit it at
+ * /sistemas/<id>/edit.
+ */
 export default function SistemaPage() {
   const { sistemaId } = useParams()
   const { t, i18n } = useTranslation('indexPages')
@@ -107,7 +109,7 @@ export default function SistemaPage() {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
     if (match) return <Navigate to={`/sistemas/${match.slug}`} replace />
-    throwNotFound()
+    return <NoMatch inLayout />
   }
 
   const { area, ancestry, children, caves, historySistemas } = details
@@ -241,7 +243,7 @@ export default function SistemaPage() {
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
           {/* Without the entries' sources (their notes); its title is the section's. */}
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+            <ExplorationHistory sistemas={historySistemas} showHeading={false} />
           </Box>
         </IndexSection>
       )}

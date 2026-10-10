@@ -38,7 +38,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
   // taller meanwhile; scrolling stays the Scrollbars' own.
   const exitingRef = useRef(exiting)
   exitingRef.current = exiting
-  const transitionsRef = useRef()
+  const transitionsRef = useRef(null)
   transitionsRef.current = { widthTransition, openTransition, closeTransition, resizeTransition }
   const setHeightRef = useRef(null)
 
@@ -137,6 +137,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
         '@media (prefers-reduced-motion: reduce)': { transition: 'none !important' },
       }}
       component="main"
+      id="main"
     >
       <Scrollbars
         ref={scrollbarsRef}

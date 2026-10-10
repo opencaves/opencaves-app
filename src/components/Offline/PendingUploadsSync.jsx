@@ -19,13 +19,15 @@ const RETRY_MS = 60000
 // (refused by the rules, a file gone bad) marks it failed.
 const TRANSIENT = /network|retry-limit|unavailable|deadline|unknown|offline|canceled|cancelled/i
 
-// Uploads the photos and maps added offline (pendingUploads.js), one at a
-// time, while the app is open, online and on Wi-Fi (not on mobile data or
-// with data saver, where the browser can tell) - each by the account that
-// added it. Says each is uploaded, or couldn't be.
+/**
+ * Uploads the photos and maps added offline (pendingUploads.js), one at a
+ * time, while the app is open, online and on Wi-Fi (not on mobile data or
+ * with data saver, where the browser can tell) - each by the account that
+ * added it. Says each is uploaded, or couldn't be.
+ */
 export default function PendingUploadsSync() {
-  const uid = useSelector((state) => state.session.user?.uid)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const uid = useSelector((/** @type {RootState} */ state) => state.session.user?.uid)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   const { t } = useTranslation('offline', { keyPrefix: 'pending' })
   const [openSnackbar] = useSnackbar()
   const running = useRef(false)

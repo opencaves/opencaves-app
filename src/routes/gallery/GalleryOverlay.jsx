@@ -4,13 +4,15 @@ import { Box, Modal } from '@mui/material'
 // How long the viewer has to show its Back button (it loads the list first).
 const AUTOFOCUS_WAIT_MS = 2000
 
-// A page's gallery (PhotoGallery, MapGallery): over the whole window, above
-// the page it belongs to, which stays under it. A modal: focus kept inside,
-// the page hidden from screen readers and still, Escape closes it.
-// Keyboard: the focus starts on the viewer's Back button ([data-oc-autofocus]),
-// Escape closes it from anywhere inside (the lightbox keeps its keys to
-// itself), and closing it gives the focus back - to returnFocus() (e.g. the
-// photo last shown on the page), or to what opened it.
+/**
+ * A page's gallery (PhotoGallery, MapGallery): over the whole window, above
+ * the page it belongs to, which stays under it. A modal: focus kept inside,
+ * the page hidden from screen readers and still, Escape closes it.
+ * Keyboard: the focus starts on the viewer's Back button ([data-oc-autofocus]),
+ * Escape closes it from anywhere inside (the lightbox keeps its keys to
+ * itself), and closing it gives the focus back - to returnFocus() (e.g. the
+ * photo last shown on the page), or to what opened it.
+ */
 export default function GalleryOverlay({ className, onClose, returnFocus, children }) {
   // Opened once the link that led here has let go of focus: the modal hides
   // the page (aria-hidden on #root) before taking focus, which the browser
@@ -20,7 +22,8 @@ export default function GalleryOverlay({ className, onClose, returnFocus, childr
   const content = useRef(null)
   useLayoutEffect(() => {
     opener.current = document.activeElement
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     setOpen(true)
   }, [])
 

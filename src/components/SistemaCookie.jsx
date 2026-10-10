@@ -1,9 +1,11 @@
 import { LineCookie } from '@/components/icons.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
-// A cave system's colour, as a cave diver's line cookie, beside its name.
-// Text-sized by default. A thin edge keeps a light colour (the default,
-// white) visible on a light page, and a dark one on a dark page.
+/**
+ * A cave system's colour, as a cave diver's line cookie, beside its name.
+ * Text-sized by default. A thin edge keeps a light colour (the default,
+ * white) visible on a light page, and a dark one on a dark page.
+ */
 export default function SistemaCookie({ color, sx }) {
   return (
     <LineCookie

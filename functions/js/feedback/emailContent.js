@@ -1,0 +1,58 @@
+// The emails to a report's author, in the language they wrote it in: the
+// team's replies (onFeedbackReplied), with the outcome when a reply closed the
+// report as done or rejected (its done/rejected texts). A stage changed on its
+// own emails no one: only replies do. unsubscribe: the small line at their
+// very end, a link that turns them off (feedbackUnsubscribe).
+export const FEEDBACK_EMAIL_CONTENT = {
+  en: {
+    kinds: { bug: 'bug report', misleading: 'report', idea: 'idea' },
+    done: { subject: 'Your OpenCaves feedback was handled', overline: 'Done', title: 'Thank you: it’s done', lead: (kind) => `Your ${kind} was handled by the OpenCaves team.` },
+    rejected: { subject: 'About your OpenCaves feedback', overline: 'Closed', title: 'We looked at your feedback', lead: (kind) => `The OpenCaves team looked at your ${kind} and won’t act on it for now.` },
+    greeting: (name) => `Hi${name ? ` ${name}` : ''},`,
+    yours: 'You wrote:',
+    reply: { overline: 'Reply', title: 'The OpenCaves team replied', lead: (kind) => `About your ${kind}.` },
+    team: 'The OpenCaves team',
+    you: 'You',
+    earlier: 'Earlier in this conversation',
+    more: 'Keep the reports coming: every one helps.',
+    button: 'Send more feedback',
+    signoff: ['Thank you for helping,', '**The OpenCaves team**'],
+    footer: 'You get this email because you sent feedback from OpenCaves.',
+    footerReply: 'You get this email because you sent feedback from OpenCaves. Reply to it to answer the team.',
+    unsubscribe: { text: 'Don’t want these emails?', label: 'Unsubscribe' },
+  },
+  fr: {
+    kinds: { bug: 'signalement de bogue', misleading: 'signalement', idea: 'idée' },
+    done: { subject: 'Votre commentaire OpenCaves a été traité', overline: 'Fait', title: 'Merci : c’est fait', lead: (kind) => `L’équipe d’OpenCaves a traité votre ${kind}.` },
+    rejected: { subject: 'À propos de votre commentaire OpenCaves', overline: 'Fermé', title: 'Nous avons examiné votre commentaire', lead: (kind) => `L’équipe d’OpenCaves a examiné votre ${kind} et n’y donnera pas suite pour l’instant.` },
+    greeting: (name) => `Bonjour${name ? ` ${name}` : ''},`,
+    yours: 'Vous avez écrit :',
+    reply: { overline: 'Réponse', title: 'L’équipe d’OpenCaves vous a répondu', lead: (kind) => `À propos de votre ${kind}.` },
+    team: 'L’équipe d’OpenCaves',
+    you: 'Vous',
+    earlier: 'Plus tôt dans cette conversation',
+    more: 'Continuez à nous écrire : chaque rapport aide.',
+    button: 'Envoyer un autre commentaire',
+    signoff: ['Merci de votre aide,', '**L’équipe d’OpenCaves**'],
+    footer: 'Vous recevez ce courriel parce que vous avez envoyé un commentaire depuis OpenCaves.',
+    footerReply: 'Vous recevez ce courriel parce que vous avez envoyé un commentaire depuis OpenCaves. Répondez-y pour écrire à l’équipe.',
+    unsubscribe: { text: 'Vous ne voulez plus de ces courriels ?', label: 'Se désabonner' },
+  },
+  es: {
+    kinds: { bug: 'reporte de error', misleading: 'reporte', idea: 'idea' },
+    done: { subject: 'Tu comentario en OpenCaves fue atendido', overline: 'Hecho', title: 'Gracias: ya está hecho', lead: (kind) => `El equipo de OpenCaves atendió tu ${kind}.` },
+    rejected: { subject: 'Sobre tu comentario en OpenCaves', overline: 'Cerrado', title: 'Revisamos tu comentario', lead: (kind) => `El equipo de OpenCaves revisó tu ${kind} y por ahora no actuará al respecto.` },
+    greeting: (name) => `Hola${name ? ` ${name}` : ''}:`,
+    yours: 'Escribiste:',
+    reply: { overline: 'Respuesta', title: 'El equipo de OpenCaves te respondió', lead: (kind) => `Sobre tu ${kind}.` },
+    team: 'El equipo de OpenCaves',
+    you: 'Tú',
+    earlier: 'Antes en esta conversación',
+    more: 'Sigue enviándonos tus reportes: cada uno ayuda.',
+    button: 'Enviar otro comentario',
+    signoff: ['Gracias por tu ayuda,', '**El equipo de OpenCaves**'],
+    footer: 'Recibes este correo porque enviaste un comentario desde OpenCaves.',
+    footerReply: 'Recibes este correo porque enviaste un comentario desde OpenCaves. Respóndelo para escribirle al equipo.',
+    unsubscribe: { text: '¿No quieres recibir estos correos?', label: 'Cancelar la suscripción' },
+  },
+}

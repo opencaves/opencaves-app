@@ -5,9 +5,11 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
-// The Privacy policy and Terms of service pages (/privacy, /terms). Their
-// text is Markdown kept in the locale files (legal.<page>.body), so each
-// language has its own complete, reviewable document.
+/**
+ * The Privacy policy and Terms of service pages (/privacy, /terms). Their
+ * text is Markdown kept in the locale files (legal.<page>.body), so each
+ * language has its own complete, reviewable document.
+ */
 export default function LegalPage({ page }) {
   const { t } = useTranslation('legal')
   const { setTitle } = useTitle()

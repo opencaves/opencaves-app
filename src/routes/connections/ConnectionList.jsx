@@ -22,7 +22,7 @@ export default function ConnectionList() {
   const [sistemas] = SistemaModel.useAll()
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('parent')
-  const [sortDirection, setSortDirection] = useState('asc')
+  const [sortDirection, setSortDirection] = useState(/** @type {'asc' | 'desc'} */ ('asc'))
   const sistemaNames = new Map(sistemas.map((sistema) => [sistema.id, sistema.name || sistema.id]))
   const filtered = connections
     .filter((connection) => connection.sistemaId && connection.parentSistemaId)

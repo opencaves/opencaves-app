@@ -10,14 +10,25 @@ import { FieldChange } from './AuditEntryDetails.jsx'
 import { When } from './AuditEntryRow.jsx'
 import PersonLabel, { AccountOption } from './PersonLabel.jsx'
 
-// How many of each undo result: { undone, conflict, skipped, error }.
-export function countResults(results) {
+/**
+ * How many of each undo result: { undone, conflict, skipped, error }.
+ *
+ * @param {{status: string}[]} results
+ * @returns {{undone: number, conflict: number, skipped: number, error: number}}
+ */
+function countResults(results) {
   const counts = { undone: 0, conflict: 0, skipped: 0, error: 0 }
   for (const { status } of results) counts[status] = (counts[status] ?? 0) + 1
   return counts
 }
 
-// "3 undone, 1 conflict…" - the statuses that happened.
+/**
+ * "3 undone, 1 conflict…" - the statuses that happened.
+ *
+ * @param {Function} t
+ * @param {{status: string}[]} results
+ * @returns {string}
+ */
 export function resultsSummary(t, results) {
   const counts = countResults(results)
   return ['undone', 'conflict', 'skipped', 'error']
@@ -43,7 +54,9 @@ function EntrySummary({ entry, label, accountLabel }) {
   )
 }
 
-// Before undoing: the list of what will be undone.
+/**
+ * Before undoing: the list of what will be undone.
+ */
 export function UndoConfirmDialog({ entries, labelOf, accountLabel, onConfirm, onClose }) {
   const { t } = useTranslation('audits')
   const fullScreen = useSmall()
@@ -71,8 +84,10 @@ export function UndoConfirmDialog({ entries, labelOf, accountLabel, onConfirm, o
   )
 }
 
-// Undos the server refused because the record changed since: each field's
-// value the undo expected and the one it found. Force undo overwrites them.
+/**
+ * Undos the server refused because the record changed since: each field's
+ * value the undo expected and the one it found. Force undo overwrites them.
+ */
 export function ConflictsDialog({ conflicts, entriesById, labelOf, accountLabel, busy, onForce, onClose }) {
   const { t } = useTranslation('audits')
   const fullScreen = useSmall()
@@ -119,9 +134,11 @@ function toLocalInput(date) {
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
 }
 
-// "Undo all changes by <author> since <date>": the author and the date, a
-// preview of how many changes that is, then the undo (newest first, in
-// chunks) and its results.
+/**
+ * "Undo all changes by <author> since <date>": the author and the date, a
+ * preview of how many changes that is, then the undo (newest first, in
+ * chunks) and its results.
+ */
 export function BulkUndoDialog({ open, accountList, accountLabel, onClose, onConflicts, onDone }) {
   const { t, i18n } = useTranslation('audits')
   const fullScreen = useSmall()

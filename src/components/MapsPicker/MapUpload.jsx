@@ -12,9 +12,17 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { assertOnline } from '@/utils/assertOnline.js'
 import { addPendingUpload } from '@/services/offline/pendingUploads.js'
 
-// A map file sent to Storage and its record made (id: its record's id - a
-// waiting upload's reserved one): the map ({ id, ...record }). onProgress:
-// its percent sent. Throws as the upload does (offline: code 'offline').
+/**
+ * A map file sent to Storage and its record made.
+ *
+ * @param {File} file
+ * @param {{title?: string, authors?: string[], date?: string, note?: string}} [details]
+ * @param {object} [options]
+ * @param {string} [options.id] - Its record's id - a waiting upload's reserved one (a new push id by default).
+ * @param {(percent: number) => void} [options.onProgress] - Its percent sent.
+ * @returns {Promise<CaveMap>} The map ({ id, ...record }).
+ * @throws {Error} As the upload does (offline: code 'offline').
+ */
 export async function uploadMapFile(file, { title, authors = [], date, note } = {}, { id = pushId(), onProgress } = {}) {
   assertOnline()
   const isPdf = file.type === 'application/pdf'
@@ -30,9 +38,13 @@ export async function uploadMapFile(file, { title, authors = [], date, note } = 
   return { id, ...map }
 }
 
-// A map's title always comes from the person uploading it (see MapUploadDetailsFields)
-// rather than being guessed from the file, so every map has a name the person
-// who added it actually chose.
+/**
+ * A map's title always comes from the person uploading it (see MapUploadDetailsFields)
+ * rather than being guessed from the file, so every map has a name the person
+ * who added it actually chose.
+ *
+ * @returns {{uploadMap: Function, uploading: boolean, progress: number, current: *, error: *, clearError: () => void}}
+ */
 export function useMapUpload() {
   const { t } = useTranslation('mapsPicker')
   const [uploading, setUploading] = useState(false)
@@ -107,7 +119,9 @@ export function useMapUpload() {
   return { uploadMap, uploading, progress, current, error, clearError: () => setError(null) }
 }
 
-// The upload's progress and its error; its success is the shared snackbar's.
+/**
+ * The upload's progress and its error; its success is the shared snackbar's.
+ */
 export default function MapUploadFeedback({ uploading, progress, current, error, clearError }) {
   const { t } = useTranslation('mapsPicker')
 

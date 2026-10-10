@@ -69,11 +69,14 @@ const emptyForm = {
   nameTranslations: [],
   longitude: '',
   latitude: '',
+  parkingLongitude: '',
+  parkingLatitude: '',
   entranceLongitude: '',
   entranceLatitude: '',
   keyLongitude: '',
   keyLatitude: '',
   locationValidity: 'valid',
+  parkingValidity: 'valid',
   entranceValidity: 'valid',
   keyValidity: 'valid',
 }
@@ -118,7 +121,7 @@ export default function CaveEdit() {
   const [isNew, setIsNew] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   // Deleting a cave: admins only (as in firestore.rules).
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   // Kept around only to diff nameTranslations on save (see handleSave) -
   // setDoc's merge:true merges nested maps key-by-key, so a language
   // dropped from the form needs an explicit deleteField() sentinel to
@@ -164,12 +167,15 @@ export default function CaveEdit() {
         })),
         longitude: normalizeCoordinateValue(cave?.location?.longitude ?? ''),
         latitude: normalizeCoordinateValue(cave?.location?.latitude ?? ''),
+        parkingLongitude: normalizeCoordinateValue(cave?.parking?.longitude ?? ''),
+        parkingLatitude: normalizeCoordinateValue(cave?.parking?.latitude ?? ''),
         entranceLongitude: normalizeCoordinateValue(cave?.entrance?.longitude ?? ''),
         entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
         keyLongitude: normalizeCoordinateValue(cave?.keys?.[0]?.longitude ?? ''),
         keyLatitude: normalizeCoordinateValue(cave?.keys?.[0]?.latitude ?? ''),
         // Each coordinate's validity: one without it is unconfirmed.
         locationValidity: cave?.location?.validity || 'unknown',
+        parkingValidity: cave?.parking?.validity || 'unknown',
         entranceValidity: cave?.entrance?.validity || 'unknown',
         keyValidity: cave?.keys?.[0]?.validity || 'unknown',
       }
@@ -193,7 +199,7 @@ export default function CaveEdit() {
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
+      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'parkingLongitude', 'parkingLatitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
     }
   }
 
@@ -228,6 +234,12 @@ export default function CaveEdit() {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
+      }
+
+      if (form.parkingLongitude === '' && form.parkingLatitude === '' && originalCave?.parking) {
+        fields.parking = deleteField()
+      } else if (form.parkingLongitude !== '' && form.parkingLatitude !== '') {
+        fields.parking = { longitude: Number(num(form.parkingLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.parkingLatitude, COORDINATE_DECIMALS)), validity: form.parkingValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && originalCave?.entrance) {

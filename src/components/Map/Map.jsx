@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
@@ -27,7 +28,7 @@ import GeolocateTooltip from './GeolocateTooltip.jsx'
 import CaveMarker from './CaveMarker.jsx'
 import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
 
-// Decorative markers (a cave's entrance and keys, edited coordinates) keep
+// Decorative markers (a cave's parking, entrance and keys, edited coordinates) keep
 // Mapbox's role="img", with a real label instead of its "Map marker". Cave
 // pins drop that role (see CaveMarker).
 function labelMarker(label) {
@@ -41,7 +42,10 @@ import { homeBounds } from './homeBounds.js'
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
 
-Object.defineProperty(mapboxgl.config, 'EVENTS_URL', {
+// Through a variable: TypeScript reads Object.defineProperty on
+// mapboxgl.config, in a JS file, as declaring mapboxgl here.
+const mapboxConfig = mapboxgl.config
+Object.defineProperty(mapboxConfig, 'EVENTS_URL', {
   configurable: true,
   value: null,
 })
@@ -52,7 +56,8 @@ const MARKER_ANIMATION_DURATION_MS = 680
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const EDIT_FIELD_BADGE_ICONS = {
-  entrance: FenceRounded,
+  parking: LocalParkingRounded,
+  entrance: EntranceRounded,
   key: VpnKeyRounded,
 }
 
@@ -60,11 +65,12 @@ const EDIT_FIELD_BADGE_ICONS = {
 // layout, and how many unchanged frames count as settled.
 // An embedded map's first view of its cave (OCMap's embedded).
 const EMBEDDED_ZOOM = 15
-// The selected cave's entrance and key points: their icon alone, in the
+// The selected cave's parking, entrance and key points: their icon alone, in the
 // pin's colour, with a dark edge and a soft shadow so any colour reads over
 // the imagery, at the size it had in the pin's head, its label under it. The
 // marker's top sits half an icon above the point, so the icon is centred on it.
 const POINT_ICON_SX = { fontSize: 13, filter: 'drop-shadow(0 0 1px #23272b) drop-shadow(0 0 0.5px #23272b) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))' }
+/** @type {[number, number]} */
 const POINT_ICON_OFFSET = [0, -6.5]
 const POINT_SX = { display: 'flex', flexDirection: 'column', alignItems: 'center' }
 const SETTLE_TIMEOUT = 2000
@@ -83,31 +89,34 @@ function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
 }
 
-// mapRef: optional, for a parent that needs the map itself (e.g.
-// CoordinatesMapPreview reading its center).
+/**
+ * @param {object} [props]
+ * @param {React.RefObject} [props.mapRef] - Optional, for a parent that needs the map itself (e.g.
+ *   CoordinatesMapPreview reading its center).
+ */
 export default function OCMap({ mapRef: externalMapRef } = {}) {
-  const internalMapRef = useRef()
+  const internalMapRef = useRef(null)
   const mapRef = externalMapRef ?? internalMapRef
   // A small map inside a page (CoordinatesMapPreview, the edit pages): no pane
   // over it to make room for, and not the map page's view - it opens on the
   // edited cave and doesn't move the map page's remembered view.
   const embedded = Boolean(externalMapRef)
-  const mapContainerRef = useRef()
-  const currentMarkerRef = useRef()
+  const mapContainerRef = useRef(null)
+  const currentMarkerRef = useRef(null)
   const { isSaved } = useSavedCaves()
 
-  const dataLoadingState = useSelector((state) => state.data.dataLoadingState)
-  const searchOptions = useSelector((state) => state.search)
-  const _currentCave = useSelector((state) => state.map.currentCave)
-  const savedViewState = useSelector((state) => state.map.viewState)
-  const currentZoomLevel = useSelector((state) => state.map.currentZoomLevel)
-  const mapData = useSelector((state) => state.map.data)
-  const caveData = useSelector((state) => state.data.caves)
-  const pickingCoordinateFor = useSelector((state) => state.map.pickingCoordinateFor)
-  const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
-  const flyToCoordinateRequest = useSelector((state) => state.map.flyToCoordinateRequest)
-  const viewResetRequested = useSelector((state) => state.map.viewResetRequested)
-  const roles = useSelector((state) => state.session.roles)
+  const dataLoadingState = useSelector((/** @type {RootState} */ state) => state.data.dataLoadingState)
+  const searchOptions = useSelector((/** @type {RootState} */ state) => state.search)
+  const _currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const savedViewState = useSelector((/** @type {RootState} */ state) => state.map.viewState)
+  const currentZoomLevel = useSelector((/** @type {RootState} */ state) => state.map.currentZoomLevel)
+  const mapData = useSelector((/** @type {RootState} */ state) => state.map.data)
+  const caveData = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const pickingCoordinateFor = useSelector((/** @type {RootState} */ state) => state.map.pickingCoordinateFor)
+  const editFieldCoordinates = useSelector((/** @type {RootState} */ state) => state.map.editFieldCoordinates)
+  const flyToCoordinateRequest = useSelector((/** @type {RootState} */ state) => state.map.flyToCoordinateRequest)
+  const viewResetRequested = useSelector((/** @type {RootState} */ state) => state.map.viewResetRequested)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
 
   const { caveId } = useParams()
   const { setTitle: setPageTitle } = useTitle()
@@ -145,14 +154,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     const bounds = startsAtHome && !embedded && caveData.length > 0 ? homeBounds(caveData) : null
     return bounds ? { bounds, fitBoundsOptions: { padding: { top: 96, bottom: 40, left: 40, right: 96 }, maxZoom: 13 } } : null
   })
+  /** @type {Partial<import('react-map-gl/mapbox').ViewState> & { bounds?: [[number, number], [number, number]], fitBoundsOptions?: import('mapbox-gl').FitBoundsOptions }} */
   const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : (homeViewState ?? defaultViewState))
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
-  const [activeMarkerElem, doSetActiveMarkerElem] = useState()
+  const [activeMarkerElem, doSetActiveMarkerElem] = useState(/** @type {HTMLElement} */ (undefined))
   const [zoomLevel, setZoomLevel] = useState(initialMapViewState.zoom)
   const [isDraggingCurrentMarker, setIsDraggingCurrentMarker] = useState(false)
-  const [mapBounds, setMapBounds] = useState()
+  const [mapBounds, setMapBounds] = useState(/** @type {import('mapbox-gl').LngLatBounds} */ (undefined))
   const [mapLoaded, setMapLoaded] = useState(false)
   // The map being dragged: the closed-hand cursor (the open one otherwise).
   const [isDragging, setIsDragging] = useState(false)
@@ -314,7 +324,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const pendingPinRef = useRef(null)
 
   // Stable for CaveMarker (memoized): they call this render's handlers.
-  const markerHandlersRef = useRef()
+  const markerHandlersRef = useRef(null)
   markerHandlersRef.current = { onMarkerClick, onFieldMarkerDragEnd }
   const handleMarkerClick = useCallback((event, cave) => markerHandlersRef.current.onMarkerClick(event, cave), [])
   const handleMarkerDragStart = useCallback(() => setIsDraggingCurrentMarker(true), [])
@@ -512,7 +522,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     requestAnimationFrame(step)
   }
 
-  const cameraFrameRef = useRef()
+  const cameraFrameRef = useRef(null)
   function moveCameraTo(cave, { animate = true, offsetForPane = true } = {}) {
     cancelAnimationFrame(cameraFrameRef.current)
     const move = () => {
@@ -613,8 +623,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     setMapLoaded(true)
     writeMapHash(mapRef.current?.getMap())
 
-    // Set initial map bounds
-    setMapBounds()
+    // No bounds until the map first moves (updateMapBounds): every pin
+    // shows meanwhile.
+    setMapBounds(undefined)
 
     // flyToMarker(false)
   }
@@ -871,7 +882,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   // A first visit: framed on the caves as soon as they're there.
-  const fittedHomeRef = useRef(false)
+  const fittedHomeRef = useRef(/** @type {boolean | 'fresh'} */ (false))
   useEffect(() => {
     // 'fresh': just framed - a reset request that opened the map is done.
     if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = 'fresh'
@@ -969,11 +980,19 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                   )
                 })}
 
+            {selectedCave && !isWidePaneEditMode && selectedCave.parking && (
+              <Marker key={`selected-parking-${selectedCave.id}`} ref={labelMarker(t('markers.parking'))} longitude={selectedCave.parking.longitude} latitude={selectedCave.parking.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                <Box className="oc-map--marker marker" sx={POINT_SX}>
+                  <LocalParkingRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <div className="oc-map--marker-label marker-label">{t('markers.parkingShort')}</div>
+                </Box>
+              </Marker>
+            )}
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
               <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
                 {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
                 <Box className="oc-map--marker marker" sx={POINT_SX}>
-                  <FenceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <EntranceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
                   <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>

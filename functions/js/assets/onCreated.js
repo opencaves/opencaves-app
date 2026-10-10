@@ -7,6 +7,9 @@ const ignoreDeleted = (error) => {
   if (error.code !== 5) throw error
 }
 
+/**
+ * A new photo record stamped with its creation time (_created, _modified).
+ */
 export const onAssetCreated = onDocumentCreated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, event => {
   const snapshot = event.data
 

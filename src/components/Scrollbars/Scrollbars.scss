@@ -6,6 +6,17 @@
     }
   }
 
+  // The thumb, both ways (--oc-scrollbar-thumb, variables.scss).
+  &--thumb {
+    background-color: var(--oc-scrollbar-thumb);
+    transition: background-color 150ms var(--mui-sys-motion-easing-standard);
+
+    &:hover,
+    &:active {
+      background-color: var(--oc-scrollbar-thumb-active);
+    }
+  }
+
   &--autohide:hover {
     .oc-scrollbar--track {
       opacity: 1;

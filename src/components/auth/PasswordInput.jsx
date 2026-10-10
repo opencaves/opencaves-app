@@ -7,9 +7,14 @@ import Visibility from '@mui/icons-material/VisibilityRounded'
 import VisibilityOff from '@mui/icons-material/VisibilityOffRounded'
 
 // Vite's CJS interop for this package's default export is inconsistent across environments.
-const PasswordStrengthBar = PasswordStrengthBarModule.default?.default ?? PasswordStrengthBarModule.default ?? PasswordStrengthBarModule
+const PasswordStrengthBar = /** @type {any} */ (PasswordStrengthBarModule).default?.default ?? PasswordStrengthBarModule.default ?? PasswordStrengthBarModule
 
-const PasswordInput = forwardRef(function PasswordInput(props, ref) {
+/**
+ * A password field with a show/hide button and a strength bar, that reports
+ * whether it's valid once the user has typed in it. Its props are a
+ * TextField's; `minLength` is the strength bar's.
+ */
+const PasswordInput = forwardRef(function PasswordInput(/** @type {import('@mui/material/TextField').TextFieldProps & { minLength?: number, onValidityChange?: (valid: boolean) => void }} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
   const { value, minLength = 4, error = false, onValidityChange = () => {}, onKeyUp = () => {}, children, ...others } = props
 
   const { t } = useTranslation('passwordInput')
@@ -19,8 +24,6 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
   const [inputError, setInputError] = useState(error)
   const [showPassword, setShowPassword] = useState(false)
   const inputRef = useRef(null)
-  const nthUpdate = useRef(0)
-  const firstUpdate = useRef(import.meta.env.PROD ? 1 : 2)
 
   function updateValidity() {
     const valid = inputRef?.current.checkValidity()
@@ -59,16 +62,6 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValid])
-
-  useEffect(() => {
-    if (nthUpdate.current < firstUpdate.current) {
-      firstUpdate.current++
-      return
-    }
-
-    setInputState('determinate')
-    updateValidity()
-  }, [onValidityChange])
 
   return (
     <Box className="oc-password-input">
