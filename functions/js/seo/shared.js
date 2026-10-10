@@ -142,11 +142,14 @@ const withHead = (shell, head) => shell
   .replace(/<meta name="description"[^>]*>\s*/i, '')
   .replace(/<head>/i, () => `<head>\n  ${head}`)
 
-// The shell with the page's <head> tags and #root content (body: its HTML,
-// already escaped) - the page as text, which the app replaces when it starts.
+// The shell with the page's <head> tags and, when it has a text (body: its
+// HTML, already escaped), that text and its breadcrumbs in #root - which the
+// app replaces when it starts.
 export function renderPage(shell, page) {
   const { head, breadcrumbs } = pageHead(page)
-  return withHead(shell, head).replace('<div id="root"></div>', () => `<div id="root">${breadcrumbs ? breadcrumbs.html : ''}${page.body}</div>`)
+  const html = withHead(shell, head)
+  if (!page.body) return html
+  return html.replace('<div id="root"></div>', () => `<div id="root">${breadcrumbs ? breadcrumbs.html : ''}${page.body}</div>`)
 }
 
 // A string as a <script>'s JSON: nothing in it can close the element.

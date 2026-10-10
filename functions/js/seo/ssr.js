@@ -4,6 +4,7 @@ import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
 import { CAVES_COLL_NAME } from '../constants.js'
 import { renderSsrPage } from './shared.js'
+import { groupIndexData } from './indexData.js'
 
 // The public pages rendered by the app itself (src/entry-server.jsx), for
 // indexPages.js: the page's HTML as the app draws it, which the app then
@@ -100,6 +101,17 @@ async function readData() {
   const data = { raw: Object.fromEntries(entries), maps: mapsSnap.docs.map((doc) => ({ id: doc.id, data: plain(doc.data()) })) }
   dataCache = { data, at: Date.now() }
   return data
+}
+
+let indexCache = null
+
+// The data the page functions need for a page's <head> (indexPages.js):
+// indexData.js's grouping, and the caves by id - from the data the app
+// renders the pages with, not read again.
+export async function loadPageIndex() {
+  const { raw } = await readData()
+  if (indexCache?.raw !== raw) indexCache = { raw, data: { ...groupIndexData(raw), cavesById: new Map(raw.caves.map((cave) => [cave.id, cave])) } }
+  return indexCache.data
 }
 
 // The page at req's address, rendered by the app, as HTML - with meta (the

@@ -217,8 +217,10 @@ A deploy uploads the working copy, including uncommitted changes.
 from that same build: after a build, deploy the hosting **and** the
 `indexPages` function together (`firebase deploy`, or `--only
 hosting,functions:js:indexPages`), or those pages are drawn with the previous
-build's code and files. Without `functions/js/ssr/`, they are served as text
-in the app's shell, as before.
+build's code and files. Without `functions/js/ssr/` (or if the server
+rendering fails), they are served as the app's shell with the page's title,
+description and other `<head>` tags (a cave's page also with its text), and
+the browser draws them.
 
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10

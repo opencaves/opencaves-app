@@ -21,20 +21,26 @@ async function readIndexData() {
     db.collection('areas').get(),
     db.collection('connections').get(),
   ])
+  return groupIndexData({
+    caves: cavesSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+    sistemas: sistemasSnap.docs.map((doc) => ({ id: doc.id, updateTime: doc.updateTime, ...doc.data() })),
+    areas: areasSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+    connections: connectionsSnap.docs.map((doc) => doc.data()),
+  })
+}
 
-  const caves = cavesSnap.docs
-    .map((doc) => {
-      const { name, area, sistemaId } = doc.data()
-      return { id: doc.id, name: name?.value?.trim() || null, area: area || null, sistemaId: sistemaId || null }
-    })
+// The index data from the records themselves ({ id, ...fields }): from
+// Firestore here, or from the data the app renders the pages with (ssr.js),
+// so the page functions don't read the collections twice.
+export function groupIndexData(records) {
+  const caves = records.caves
+    .map(({ id, name, area, sistemaId }) => ({ id, name: name?.value?.trim() || null, area: area || null, sistemaId: sistemaId || null }))
     // Unnamed caves (there are some) after the named ones.
     .sort((a, b) => (!a.name || !b.name ? !a.name - !b.name : byName(a, b)))
 
   // All sistemas are public today; one marked otherwise has no page. Slugs
   // over the public ones, as the app makes them (src/utils/indexData.js).
-  const sistemaDocs = sistemasSnap.docs
-    .map((doc) => ({ id: doc.id, updateTime: doc.updateTime, ...doc.data() }))
-    .filter((sistema) => sistema.public !== false)
+  const sistemaDocs = records.sistemas.filter((sistema) => sistema.public !== false)
   // A system's address segment is its id (/sistemas/<id>, like /caves/<id>).
   const sistemas = sistemaDocs
     .map((sistema) => ({ ...sistema, name: sistema.name || sistema.id, slug: sistema.id }))
@@ -58,7 +64,7 @@ async function readIndexData() {
     }
     return area
   }
-  areasSnap.docs.forEach((doc) => addArea(doc.data().name || doc.id, true))
+  records.areas.forEach((area) => addArea(area.name || area.id, true))
   caves.forEach((cave) => cave.area && addArea(cave.area).caves.push(cave))
   sistemas.forEach((sistema) => sistema.area && addArea(sistema.area).sistemas.push(sistema))
   // An area's systems also include those of its cenotes (most systems have
@@ -76,8 +82,7 @@ async function readIndexData() {
   })
   const areas = [...areasBySlug.values()].sort(byName)
 
-  const connections = connectionsSnap.docs
-    .map((doc) => doc.data())
+  const connections = records.connections
     .filter(({ sistemaId, parentSistemaId }) => sistemaId && parentSistemaId)
 
   return { caves, sistemas, sistemasById, sistemasBySlug, areas, areasBySlug, connections }
