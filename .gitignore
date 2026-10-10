@@ -43,3 +43,6 @@ __pycache__/
 
 # Local values of the Cloud Functions secrets (the emulator reads them): never committed.
 .secret.local
+
+# Firebase Auth exports (firebase auth:export): accounts and password hashes, never committed
+users.json
