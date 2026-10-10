@@ -17,5 +17,6 @@ export const OPEN_FEEDBACK_STATUSES = ['new', 'confirmed', 'inProgress']
 // (onFeedbackStatusChanged's TOLD) - or, closed with a reply, that reply
 // with the outcome (onFeedbackReplied).
 export const TOLD_FEEDBACK_STATUSES = ['done', 'rejected']
-// A team reply's longest text (firestore.rules' _feedback messages).
+// A thread message's longest text: a team reply (firestore.rules' _feedback
+// messages), an author's answer by email (cut there: functions' constants.js).
 export const FEEDBACK_REPLY_MAX_LENGTH = 10000

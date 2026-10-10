@@ -1764,7 +1764,9 @@
         "sendError": "No se pudo enviar la respuesta. Inténtalo de nuevo.",
         "tooLong": "Como máximo {{count}} caracteres",
         "emailed": "Enviada por correo",
-        "legacyNote": "Nota anterior"
+        "legacyNote": "Nota anterior",
+        "attachmentsDropped_one": "{{count}} archivo adjunto no conservado",
+        "attachmentsDropped_other": "{{count}} archivos adjuntos no conservados"
       },
       "list": {
         "search": "Buscar reportes",

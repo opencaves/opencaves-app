@@ -1,11 +1,13 @@
+import { randomBytes } from 'node:crypto'
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_TO, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
+import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_TO, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
 import { FEEDBACK_EMAIL_CONTENT } from './onFeedbackStatusChanged.js'
+import { adminEmails } from './onFeedbackCreated.js'
 
 const MAIL_DOMAIN = 'opencaves.org'
 
@@ -29,6 +31,33 @@ export function feedbackThread(report, messages) {
   // No date: the report's stage date changes with each new stage.
   const legacy = report.note ? [{ id: null, from: 'team', text: report.note, createdAt: null, legacy: true }] : []
   return [...legacy, ...messages]
+}
+
+// A report's reply token (the local part of its reply address): 24 random
+// lowercase letters and digits - unguessable, and safe from mail servers that
+// lowercase addresses (push ids are case-sensitive).
+const TOKEN_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789'
+export function newReplyToken() {
+  // 252 = 7 × 36: bytes above it are skipped, so every character is as likely.
+  let token = ''
+  while (token.length < 24) for (const byte of randomBytes(32)) if (byte < 252 && token.length < 24) token += TOKEN_ALPHABET[byte % 36]
+  return token
+}
+
+// The report's reply address: its own at FEEDBACK_REPLY_DOMAIN (its token
+// created on its first team reply, by the server only), else the team's
+// inbox, FEEDBACK_REPLY_TO.
+async function replyAddress(reportRef) {
+  if (!FEEDBACK_REPLY_DOMAIN) return FEEDBACK_REPLY_TO
+  const token = await db.runTransaction(async (transaction) => {
+    const snapshot = await transaction.get(reportRef)
+    const existing = snapshot.get('replyToken')
+    if (existing) return existing
+    const created = newReplyToken()
+    transaction.update(reportRef, { replyToken: created })
+    return created
+  })
+  return `${token}@${FEEDBACK_REPLY_DOMAIN}`
 }
 
 const toDate = (value) => (value?.toDate ? value.toDate() : value instanceof Date ? value : null)
@@ -83,14 +112,49 @@ export async function feedbackReplyEmail({ language, reportId, report, messages,
   return { subject: feedbackThreadSubject(report), html, text, headers }
 }
 
+// { subject, html, text } of the admins' email about an author's answer (by
+// email, feedbackInbound): who, about which report, the answer, and a link to
+// the report. In English, like the admins' other emails.
+export function authorAnswerEmail({ reportId, report, message, authorName }) {
+  const title = String(report.message || '').trim().split('\n')[0].trim().slice(0, 70)
+  const dropped = message.droppedAttachments
+  const { html, text } = renderEmail({
+    preheader: String(message.text || '').replace(/\s+/g, ' ').slice(0, 120),
+    hero: { overline: 'Beta feedback', title: `${authorName} replied`, lead: `About “${title}”` },
+    blocks: [
+      { type: 'quote', text: message.text },
+      ...(dropped ? [{ type: 'p', text: `${dropped} attachment${dropped > 1 ? 's were' : ' was'} not kept.` }] : []),
+      { type: 'button', label: 'Open the report', href: `${SITE_URL}/feedback/${reportId}` },
+    ],
+    footer: 'You get this email because you are an OpenCaves admin.',
+  })
+  return { subject: `[OpenCaves beta] ${authorName} replied to “${title}”`, html, text }
+}
+
+async function emailAdminsTheAnswer(id, reportRef, message) {
+  try {
+    const [to, ...bcc] = await adminEmails()
+    if (!to) return
+    const report = (await reportRef.get()).data()
+    if (!report) return
+    const author = await auth.getUser(report.userId).catch(() => null)
+    const authorName = author?.displayName || author?.email || 'The author'
+    await sendEmail({ to, bcc, ...authorAnswerEmail({ reportId: id, report, message, authorName }) })
+  } catch (error) {
+    logger.error('[feedback] the admins could not be told of the answer', { id, error: error.message })
+  }
+}
+
 // A message of a report's thread (_feedback/{id}/messages): counted on the
 // report (messageCount, lastMessageAt). A team reply (the admins' Feedback
 // page): its author gets it by email, with the whole thread, in the
 // language they wrote the report in - one email per reply, the outcome
 // included when the reply closed the report (onFeedbackStatusChanged then
 // sends none). emailedAt (on the reply) and reporterEmailedAt (on the
-// report) record it. The author's own answers (Part 2: inbound email) aren't
-// emailed back.
+// report) record it; its reply_to is the report's own address
+// (replyAddress), where the author's answer comes back into the thread
+// (feedbackInbound). The author's answers aren't emailed back: the admins get
+// them (authorAnswerEmail).
 export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}/${FEEDBACK_MESSAGES_COLL_NAME}/{messageId}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const message = event.data?.data()
   if (!message) return
@@ -104,7 +168,10 @@ export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_
   } catch (error) {
     logger.error('[feedback] the thread count could not be kept', { id, messageId, error: error.message })
   }
-  if (message.from !== 'team') return
+  if (message.from !== 'team') {
+    await emailAdminsTheAnswer(id, reportRef, message)
+    return
+  }
   try {
     const [reportSnapshot, messagesSnapshot] = await Promise.all([reportRef.get(), reportRef.collection(FEEDBACK_MESSAGES_COLL_NAME).orderBy('createdAt').get()])
     const report = reportSnapshot.data()
@@ -119,8 +186,9 @@ export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_
     // The thread up to this reply (not one written since).
     const created = toDate(message.createdAt)?.getTime() ?? Infinity
     const messages = messagesSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })).filter((m) => m.id === messageId || (toDate(m.createdAt)?.getTime() ?? 0) <= created)
-    const { subject, html, text, headers } = await feedbackReplyEmail({ language: String(language || '').slice(0, 2), reportId: id, report, messages, current, name: author.displayName?.split(' ')[0] || '' })
-    const result = await sendEmail({ to: author.email, subject, html, text, headers, ...(FEEDBACK_REPLY_TO && { replyTo: FEEDBACK_REPLY_TO }) })
+    const replyTo = await replyAddress(reportRef)
+    const { subject, html, text, headers } = await feedbackReplyEmail({ language: String(language || '').slice(0, 2), reportId: id, report, messages, current, name: author.displayName?.split(' ')[0] || '', replyTo })
+    const result = await sendEmail({ to: author.email, subject, html, text, headers, ...(replyTo && { replyTo }) })
     if (result.sent) {
       await Promise.all([event.data.ref.update({ emailedAt: FieldValue.serverTimestamp() }), reportRef.update({ reporterEmailedAt: FieldValue.serverTimestamp() })])
     }
