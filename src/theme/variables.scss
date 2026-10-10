@@ -183,12 +183,3 @@ http://ionicframework.com/docs/theming/ */
   }
 }
 
-// The photos, videos and survey maps strips: their items rest in the middle
-// (src/utils/mediaStrip.js), the strip's scrolling element (Scrollbars' view)
-// snapping to each one's centre.
-.oc-media-strip > .oc-scrollbar > div:first-child {
-  scroll-snap-type: x mandatory;
-}
-.oc-media-strip--item {
-  scroll-snap-align: center;
-}
