@@ -36,10 +36,6 @@ function setId(oldId) {
 
   const newId = oldId
 
-  if (str === 'Loading...') {
-    oldId = generateId()
-  }
-
   if (typeof _objectIdMap[oldId] === 'undefined') {
     _objectIdMap[oldId] = newId
   }

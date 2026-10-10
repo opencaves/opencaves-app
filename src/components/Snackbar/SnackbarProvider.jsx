@@ -10,8 +10,8 @@ export const SnackbarContext = createContext(null)
 export default function SnackbarProvider({ children }) {
 
   const [open, setOpen] = useState(false)
-  const [_message, setMessage] = useState('')
-  const [_children, setChildren] = useState()
+  const [_message, setMessage] = useState(/** @type {import('react').ReactNode} */ (''))
+  const [_children, setChildren] = useState(/** @type {import('react').ReactNode} */ (undefined))
   const [_showCloseButton, setShowCloseButton] = useState(false)
   const [_action, setAction] = useState(null)
   const [_sx, setSx] = useState({})
@@ -25,6 +25,7 @@ export default function SnackbarProvider({ children }) {
 
   // severity 'success': a green check before the message (e.g. "saved");
   // icon: another icon there (green too with severity 'success').
+  /** @param {{message?: import('react').ReactNode, autoHide?: boolean, hideOnClickAway?: boolean, action?: import('react').ReactNode, showCloseButton?: boolean, children?: import('react').ReactNode, sx?: object, severity?: 'success'|null, icon?: import('react').ReactNode}} options */
   function openSnackbar({ message, autoHide = true, hideOnClickAway = false, action = null, showCloseButton = false, children = false, sx = {}, severity = null, icon = null }) {
 
     if (children) {

@@ -99,7 +99,7 @@ export function ssrQuerySnapshot(key, converter) {
     const raw = revive(data)
     const snapshot = { id, exists: () => true, get: (field) => field.split('.').reduce((value, part) => value?.[part], raw), metadata: { fromCache: false, hasPendingWrites: false } }
     snapshot.data = () => raw
-    const converted = converter ? converter.fromFirestore(snapshot) : raw
+    const converted = converter ? converter.fromFirestore(/** @type {import('firebase/firestore').QueryDocumentSnapshot} */ (/** @type {unknown} */ (snapshot))) : raw
     return { ...snapshot, data: () => converted }
   })
   return { docs, size: docs.length, empty: docs.length === 0, metadata: { fromCache: false, hasPendingWrites: false }, forEach: (callback, thisArg) => docs.forEach(callback, thisArg) }

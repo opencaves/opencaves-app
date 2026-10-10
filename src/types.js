@@ -315,3 +315,10 @@
  * @property {string|null} at - ISO date of the change (a group's latest).
  * @property {string|null} authorName - Its author's display name.
  */
+
+/**
+ * The Redux store's state (redux/store.jsx), for useSelector's callbacks:
+ * `useSelector((/** @type {RootState} *\/ state) => state.session.user)`.
+ *
+ * @typedef {ReturnType<typeof import('./redux/store.jsx').store.getState>} RootState
+ */

@@ -14,8 +14,8 @@ import { USERS_COLLECTION } from '@/config/collections.js'
  * @returns {{canSave: boolean, loading: boolean, savedCaveIds: string[], isSaved: (caveId: string) => boolean, saveCave: (caveId: string) => Promise<void>, unsaveCave: Function, restoreCave: Function}}
  */
 export function useSavedCaves() {
-  const uid = useSelector((state) => state.session.user?.uid)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const uid = useSelector((/** @type {RootState} */ state) => state.session.user?.uid)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   const canSave = !!uid && isLoggedIn
 
   const savedQuery = useMemo(() => (canSave ? query(collection(db, USERS_COLLECTION, uid, 'savedCaves'), orderBy('savedAt', 'desc')) : null), [canSave, uid])
