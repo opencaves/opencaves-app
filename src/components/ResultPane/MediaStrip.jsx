@@ -318,12 +318,6 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }), { position: 'relative', marginBottom: 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + ${zoomRoom * 2}px)` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
     >
-      {/* TEMPORARY (debug): the cylinder's two settings. */}
-      {cylinderOn() && (
-        <Box component="span" className="oc-media-strip--debug-settings" sx={{ position: 'absolute', top: 0, right: 'var(--oc-pane-padding-inline)', zIndex: 2, px: 0.75, borderRadius: 1, fontSize: 11, lineHeight: '18px', fontFamily: 'monospace', bgcolor: 'error.main', color: 'common.white', pointerEvents: 'none' }}>
-          radius {sideRadius}px · flat {flatShare}
-        </Box>
-      )}
       <Scrollbars
         ref={scrollbarsRef}
         autoHide
