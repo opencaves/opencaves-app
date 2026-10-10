@@ -4,6 +4,7 @@ import { auth } from '../init.js'
 import { FEEDBACK_COLL_NAME, REGION, SITE_URL } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
+import { teamReplyAddress } from './replyAddress.js'
 
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
@@ -34,6 +35,8 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
       return
     }
     const author = await auth.getUser(report.userId).catch(() => null)
+    // Answering this email is a team reply (feedbackInbound, replyAddress.js).
+    const replyTo = await teamReplyAddress(event.data.ref)
     const kind = KINDS[report.kind] || report.kind
     const page = report.page ? `${SITE_URL}${report.page}` : ''
     const from = author ? `${author.displayName || '-'} <${author.email || '-'}>` : report.userId
@@ -45,7 +48,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
         { type: 'quote', text: report.message },
         { type: 'button', label: 'Open the report', href: `${SITE_URL}/feedback/${event.params.id}` },
       ],
-      footer: 'You get this email because you are an OpenCaves admin.',
+      footer: replyTo ? 'You get this email because you are an OpenCaves admin. Reply to it to answer the reporter: your reply joins the report.' : 'You get this email because you are an OpenCaves admin.',
     })
     await sendEmail({
       to,
@@ -53,6 +56,7 @@ export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_
       subject: `[OpenCaves beta] ${kind}: ${String(report.message).split('\n')[0].slice(0, 70)}`,
       html,
       text,
+      ...(replyTo && { replyTo }),
     })
   } catch (error) {
     logger.error('[feedback] the admins could not be emailed', { id: event.params.id, error: error.message })

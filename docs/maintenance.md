@@ -214,7 +214,13 @@ token and, if the email really comes from the report's author, adds its new
 text (the quoted conversation and signature removed) to the thread as their
 comment ("by email" on the Feedback page; attachments aren't kept, only
 counted). A closed report reopens (stage New, no email to the author), and the
-admins get an email ("<author> replied to ..."). Dropped, and only logged
+admins get an email ("<author> replied to ..."). The admins' emails (a new report, an
+author's answer) have their own reply address, `team-<token>@reply.opencaves.org`:
+an admin answering one of them writes a team reply, added to the thread and
+emailed to the author as if written on the Feedback page (accepted only from
+an admin account's address, not disabled or frozen, its mail authenticated;
+a team reply doesn't reopen the report). Two addresses, so an admin who sent
+a report answers as the email they got. Dropped, and only logged
 (never their text): automatic mail (out-of-office, bounces, lists - no mail
 loops), an unknown address, and a sender who isn't the author or whose mail
 isn't authenticated (DKIM or DMARC passing, or SPF passing for the From's
