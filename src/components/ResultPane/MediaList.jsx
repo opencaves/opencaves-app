@@ -26,9 +26,11 @@ const CYLINDER_PERSPECTIVE = 900
 // The cylinder brought toward us: its front this much larger than the flat
 // strip (the strip taller by as much, so nothing is cut off).
 const CYLINDER_ZOOM = 1.25
-// Its front flattened: a flat band this share of the strip's width, the
-// curve starting from its edges in line with it (no crease).
-const CYLINDER_FLAT = 1 / 5
+// Its front flat across this share of the strip's width, its sides rounded
+// on a cylinder of CYLINDER_RADIUS px from the band's edges, in line with it
+// (no crease); what goes past a side's quarter turn is out of sight.
+const CYLINDER_FLAT = 0.4
+const CYLINDER_RADIUS = 100
 // The flat strip for reduced motion.
 const cylinderOn = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -230,12 +232,12 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
 
     // Where a point of the flat strip lands on the cylinder: its arc from the
     // middle is its distance on the strip. Flat across the front band, then
-    // round, the curve's radius such that the sides reach the strip's edges.
+    // round on CYLINDER_RADIUS.
     // Forward by as much as makes its front CYLINDER_ZOOM times larger.
     const forward = CYLINDER_PERSPECTIVE * (1 - 1 / CYLINDER_ZOOM)
     function place(x, center, radius) {
-      const flat = (radius * 2 * CYLINDER_FLAT) / 2
-      const bend = radius - flat
+      const flat = radius * CYLINDER_FLAT
+      const bend = CYLINDER_RADIUS
       const distance = x - center
       const side = Math.sign(distance)
       const theta = Math.max(0, Math.abs(distance) - flat) / bend
