@@ -45,6 +45,14 @@ const readableField = (field) => field.replace(/([a-z])([A-Z])/g, '$1 $2').toLow
 // its picked values, the known ones only (an empty set shows them all), and
 // its setter, which replaces the history entry - a filter isn't a page to go
 // back to.
+/**
+ * A filter group kept in the address (see above).
+ *
+ * @param {string} name - Its query parameter.
+ * @param {string[]} known - Its values, in order.
+ * @returns {[Set<string>, (values: Set<string>) => void, (value: string) => void]} The
+ *   picked values, their setter, a toggle of one value.
+ */
 function useFilterParam(name, known) {
   const [params, setParams] = useSearchParams()
   const raw = params.getAll(name).join(' ')

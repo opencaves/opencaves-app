@@ -23,7 +23,8 @@ export function prefetchMap() {
     loadResultPane().catch(() => {})
     if (isPhone()) loadIonic().catch(() => {})
   }
-  const whenIdle = () => ('requestIdleCallback' in window ? window.requestIdleCallback(start, { timeout: 6000 }) : window.setTimeout(start, 2000))
+  // window as a Window: the type check reads it as never once requestIdleCallback isn't in it.
+  const whenIdle = () => ('requestIdleCallback' in window ? window.requestIdleCallback(start, { timeout: 6000 }) : /** @type {Window} */ (window).setTimeout(start, 2000))
   if (document.readyState === 'complete') whenIdle()
   else window.addEventListener('load', whenIdle, { once: true })
 }

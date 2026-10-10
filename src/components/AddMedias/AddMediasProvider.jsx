@@ -5,6 +5,14 @@ import UploadMedias from './UploadMedias.jsx'
 import { AddMediasContext } from './AddMediasContext.js'
 import { ACCEPTED_EXTENSIONS, ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
 
+/**
+ * Lets its children open the file picker to add photos (useAddMedias), and
+ * uploads what's picked.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {string} [props.caveId] - The cave the photos go to (the map's open cave otherwise).
+ */
 export default function AddMediasProvider({ children, caveId }) {
   const [medias, setMedias] = useState([])
   const { t } = useTranslation('mediaPane')

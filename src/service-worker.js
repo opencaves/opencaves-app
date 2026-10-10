@@ -220,7 +220,7 @@ async function purgeOpaquePictures() {
 
 // Drop the pre-CORS picture cache (opaque entries, replaced by
 // cave-images-cors above), and the opaque copies left in that one.
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', (/** @type {Event & { waitUntil: (promise: Promise<unknown>) => void }} */ event) => {
   event.waitUntil(Promise.all([caches.delete(cacheName('cave-images')), purgeOpaquePictures()]))
 })
 

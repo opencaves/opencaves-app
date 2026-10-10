@@ -22,7 +22,7 @@ export default function MapGallery() {
   const { mapId } = useParams()
   // The page's systems and connections, or (the cave's edit page, which has
   // none) the live ones.
-  const context = useOutletContext()
+  const context = /** @type {{ sistemaId?: string, sistemas?: Sistema[], connections?: Connection[] }} */ (useOutletContext())
   const [liveSistemas] = SistemaModel.useAll()
   const [liveConnections] = ConnectionModel.useAll()
   const { sistemaId } = context

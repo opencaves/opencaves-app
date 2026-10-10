@@ -270,6 +270,7 @@ export const routes = [
                 children: [
                   {
                     path: 'with-email',
+                    // @ts-expect-error No onClose: closing the dialog calls an undefined onClose (AuthPrompt's onTransitionExited) and throws.
                     lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
                   },
                 ],

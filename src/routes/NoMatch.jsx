@@ -86,7 +86,7 @@ export default function NoMatch({ inLayout = false }) {
   const notFound = !error || (isRouteErrorResponse(error) && error.status === 404)
   // offlinePreview: the development preview of the offline page
   // (/dev/error/offline), shown as offline while online.
-  const kind = notFound ? 'notFound' : online && !error?.offlinePreview ? 'failed' : 'offline'
+  const kind = notFound ? 'notFound' : online && !/** @type {{ offlinePreview?: boolean }} */ (error)?.offlinePreview ? 'failed' : 'offline'
   const navigate = useNavigate()
   const { t: tApp } = useTranslation('app')
   // Back where the visitor came from; to the home page when this is the

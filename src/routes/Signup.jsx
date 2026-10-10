@@ -19,6 +19,6 @@ export default function SignupPage() {
   }, [pathname, t])
 
   return (
-    <Signup className="oc-signup" />
+    <Signup />
   )
 }

@@ -152,6 +152,13 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
   )
 }
 
+/**
+ * The map's filter menu: a drawer on the right, its filters by area, access
+ * and accessibility.
+ *
+ * @param {object} props
+ * @param {object} [props.props] - Spread on the drawer (a prop named `props`: no caller passes it).
+ */
 export default function MapFilterMenu({ props }) {
   const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 

@@ -30,13 +30,21 @@ export { default as RelativeTime, toDate } from '@/components/RelativeTime/Relat
 // the other registered accounts only read them - Ideas and fixes), the
 // kinds' and stages' looks, the stage menu, dates, avatars and the writes.
 
-// Each kind's icon and label colour.
+/**
+ * Each kind's icon and label colour.
+ *
+ * @type {Record<string, { icon: import('react').ReactElement, color: import('@mui/material/Chip').ChipProps['color'] }>}
+ */
 export const KINDS = {
   bug: { icon: <BugReportRounded />, color: 'error' },
   misleading: { icon: <ReportGmailerrorredRounded />, color: 'warning' },
   idea: { icon: <LightbulbRounded />, color: 'info' },
 }
-// Each stage's icon and chip colour.
+/**
+ * Each stage's icon and chip colour.
+ *
+ * @type {Record<string, { icon: import('react').ReactElement, color: import('@mui/material/Chip').ChipProps['color'] }>}
+ */
 export const STATUS = {
   new: { icon: <FiberNewRounded />, color: 'primary' },
   confirmed: { icon: <VerifiedRounded />, color: 'secondary' },
@@ -183,6 +191,10 @@ export async function deleteFeedbackReport(id) {
  * A report's stage, changeable from a menu. Changing it emails no one - only
  * replies do (the reply box's "Send and mark as done/rejected" sends the
  * stage with the reply, in one email).
+ *
+ * @param {object} props
+ * @param {FeedbackReport} props.report
+ * @param {'small' | 'medium'} [props.size='small']
  */
 export function StatusMenu({ report, size = 'small' }) {
   const { t } = useTranslation('feedback')
@@ -232,6 +244,11 @@ export function StatusMenu({ report, size = 'small' }) {
 /**
  * A report's stage, as a plain label (what the members see: only admins
  * change it, with StatusMenu).
+ *
+ * @param {object} props
+ * @param {FeedbackReport} props.report
+ * @param {'small' | 'medium'} [props.size='small']
+ * @param {string} [props.className='oc-feedback-stage']
  */
 export function StageChip({ report, size = 'small', className = 'oc-feedback-stage' }) {
   const { t } = useTranslation('feedback')
@@ -241,6 +258,10 @@ export function StageChip({ report, size = 'small', className = 'oc-feedback-sta
 
 /**
  * The kind, as a coloured label.
+ *
+ * @param {object} props
+ * @param {string} props.kind
+ * @param {'small' | 'medium'} [props.size='small']
  */
 export function KindChip({ kind, size = 'small' }) {
   const { t } = useTranslation('feedback')

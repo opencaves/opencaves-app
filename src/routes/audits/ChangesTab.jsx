@@ -127,8 +127,8 @@ export default function ChangesTab({ accountLabel, accountList }) {
       keys.map((key) => {
         const [collectionName, id] = key.split('/')
         return getRecord(collectionName, id)
-          .then((record) => [key, record])
-          .catch(() => [key, null])
+          .then((record) => /** @type {[string, object]} */ ([key, record]))
+          .catch(() => /** @type {[string, object]} */ ([key, null]))
       }),
     ).then((found) => {
       if (!cancelled) setRecords((prev) => new Map([...prev, ...found]))
@@ -190,7 +190,7 @@ export default function ChangesTab({ accountLabel, accountList }) {
     setUndoing(true)
     try {
       const undoResults = await undoAuditEntries(newestFirst(ids), { force })
-      setResults((prev) => new Map([...prev, ...undoResults.map((result) => [result.id, result])]))
+      setResults((prev) => new Map([...prev, ...undoResults.map((result) => /** @type {[string, object]} */ ([result.id, result]))]))
       const failed = undoResults.some((result) => result.status === 'error')
       openSnackbar(resultsSummary(t, undoResults), { severity: failed ? null : 'success' })
       setConflicts(undoResults.filter((result) => result.status === 'conflict'))

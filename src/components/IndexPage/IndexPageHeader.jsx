@@ -32,7 +32,7 @@ const BREADCRUMBS_SX = {
  * An index page's heading row (see above).
  *
  * @param {object} props
- * @param {string} props.title
+ * @param {import('react').ReactNode} props.title
  * @param {import('react').ReactNode} [props.subtitle]
  * @param {string} [props.backTo]
  * @param {string} [props.addTo]

@@ -40,6 +40,13 @@ const TIPS = ['one', 'steps', 'page', 'device']
 const iconCircle = (theme) => ({ width: 48, height: 48, flexShrink: 0, borderRadius: '50%', display: 'grid', placeItems: 'center', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.primary, '& svg': { fontSize: 26 } })
 const cardSx = (theme) => ({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1, p: 2.5, borderRadius: 4, height: '100%', bgcolor: theme.vars.palette.background.paper, border: `1px solid ${theme.vars.palette.divider}` })
 
+/**
+ * A section's heading, with a line under it.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {import('react').ReactNode} [props.sub] - The line under it.
+ */
 function SectionTitle({ children, sub }) {
   return (
     <Box sx={{ mb: 2.5 }}>

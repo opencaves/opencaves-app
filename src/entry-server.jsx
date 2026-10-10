@@ -42,8 +42,8 @@ export const ROUTE_MODULES = {
  * @param {string} options.url - The page's full address (its host decides the emulators' file
  *   addresses: localhost).
  * @param {CaveData} options.raw - With maps and assets: the data (pageState.js).
- * @param {CaveMap[]} options.maps
- * @param {object[]} options.assets
+ * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
+ * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.
  * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.

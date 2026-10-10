@@ -8,7 +8,7 @@ import { Box, Typography } from '@mui/material'
  *
  * @param {object} props
  * @param {string} [props.uid]
- * @param {string} props.accountLabel
+ * @param {(uid: string) => string} props.accountLabel - A person's name, from their uid.
  * @param {string} [props.className]
  * @param {Sx} [props.sx]
  */
