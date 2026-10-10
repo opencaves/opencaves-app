@@ -12,7 +12,7 @@ const exitStyles = {
   transform: 'translate3d(50px, 0, 0)'
 }
 
-export const forwardTransitionStyles = {
+const forwardTransitionStyles = {
   entering: enterStyles,
   entered: enterStyles,
   exiting: exitStyles,

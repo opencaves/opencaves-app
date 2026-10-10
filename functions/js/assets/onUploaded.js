@@ -1,6 +1,5 @@
 import { getStorage } from 'firebase-admin/storage'
 import { onObjectFinalized } from 'firebase-functions/v2/storage'
-import { create } from 'exif-parser'
 // The full build: the lite one can't read PNGs (it threw, and their photo
 // record was never written).
 import exifr from 'exifr/dist/full.esm.mjs'
@@ -8,6 +7,7 @@ import sharp from 'sharp'
 import { logger } from 'firebase-functions/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 import { generateResizedImageHandler } from '../resize-images/index.js'
+import { readExifTags } from './exifTags.js'
 import { db } from '../init.js'
 import { writeAuditLog } from '../audit/log.js'
 import { CAVES_ASSETS_COLL_NAME, CAVES_ASSETS_PRIVATE_COLL_NAME, THUMBNAILS_FOLDER } from '../constants.js'
@@ -101,27 +101,22 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
       const downloadResponse = await bucket.file(filePath).download()
       const imageBuffer = downloadResponse[0]
 
-      // exif-parser only understands the JPEG/TIFF marker structure; it throws
-      // on other formats (e.g. webp, png), which must not block asset creation.
+      // EXIF: JPEGs only (the other formats get their size from sharp below).
+      // A file it can't read must not block asset creation.
       let tags = null
 
       if (assetData.mediaType === 'image/jpeg' || assetData.mediaType === 'image/jpg') {
         try {
-          const parser = create(imageBuffer)
-          parser.enableImageSize(true)
+          tags = await readExifTags(imageBuffer)
 
-          const result = parser.parse()
-
-          logger.log('[onAssetUploaded] Found metadatas: %o', result)
-
-          tags = result.tags
+          logger.log('[onAssetUploaded] Found metadatas: %o', tags)
         } catch (error) {
           logger.warn('[onAssetUploaded] Could not read EXIF metadata: %o', error)
         }
       }
 
       if (tags) {
-        const { DateTime, DateTimeOriginal, ModifyDate, ImageHeight, ImageWidth, GPSLongitude, GPSLatitude, GPSAltitude, Orientation } = tags
+        const { DateTimeOriginal, ModifyDate, ImageHeight, ImageWidth, GPSLongitude, GPSLatitude, GPSAltitude, Orientation } = tags
 
         // The size as shown: orientations 5-8 turn the photo a quarter, so
         // the sensor's width is its height.
@@ -131,10 +126,10 @@ export const onAssetUploaded = onObjectFinalized({ memory: '2GiB', concurrency: 
           assetData.height = quarterTurned ? ImageWidth : ImageHeight
         }
 
+        // When it was taken, else last changed (tag 0x0132, "DateTime" in the
+        // EXIF spec: ModifyDate here).
         if (DateTimeOriginal) {
           assetData.date = new Timestamp(DateTimeOriginal, 0)
-        } else if (DateTime) {
-          assetData.date = new Timestamp(DateTime, 0)
         } else if (ModifyDate) {
           assetData.date = new Timestamp(ModifyDate, 0)
         }

@@ -29,7 +29,7 @@ const DRAWER_WIDTH = 240
  * @param {string} pathname
  * @returns {boolean}
  */
-export const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
+const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
 
 /**
  * The site's pages, and the dashboard for editors: the app bar's links and

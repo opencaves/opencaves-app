@@ -16,7 +16,7 @@ import PersonLabel, { AccountOption } from './PersonLabel.jsx'
  * @param {{status: string}[]} results
  * @returns {{undone: number, conflict: number, skipped: number, error: number}}
  */
-export function countResults(results) {
+function countResults(results) {
   const counts = { undone: 0, conflict: 0, skipped: 0, error: 0 }
   for (const { status } of results) counts[status] = (counts[status] ?? 0) + 1
   return counts

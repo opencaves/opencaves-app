@@ -120,7 +120,7 @@ const TRAILING_EXPLORATION_DATE = /^(.*?)[,\s]+(\d{4}\s*-\s*\d{4}|\d{4}(?:-\d{2}
  * @param {string} date
  * @returns {{team: string, date: string, conflict: boolean}}
  */
-export function splitExplorationTeam(team, date) {
+function splitExplorationTeam(team, date) {
   const match = TRAILING_EXPLORATION_DATE.exec(team || '')
   if (!match) return { team, date, conflict: false }
   const teamOnly = match[1].trim()
