@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Skeleton, Tooltip, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
-import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import { Grid } from '@mui/material'
 import MediaStrip from './MediaStrip.jsx'
 import Picture from '@/components/Picture.jsx'
@@ -19,19 +18,17 @@ const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...t
 
 /**
  * A cave's photo strip: its photos and videos in columns (a wide one, then
- * two stacked), "more" and "add photos" tiles at its end, on a
+ * two stacked), a "more photos" tile at its end, on a
  * {@link MediaStrip} (its cylinder, its scrolling).
  *
  * @param {object} props - Also its root's (a Box's).
  * @param {string} props.caveId
  * @param {boolean} [props.editable=false]
  * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
- * @param {(size: 'full'|'half') => import('react').ReactNode} [props.addTile] - The strip's last tile, adding photos (an AddPhotosTile of that size).
- * @param {import('react').ReactNode} [props.addButton] - Shown instead when the cave has no photo yet.
  * @param {Sx} [props.sx]
  * @param {string} [props.className]
  */
-export default function MediaList({ caveId, editable = false, photoPath, addTile, addButton, sx, className, ...props }) {
+export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
   const canDelete = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
@@ -41,7 +38,6 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
-  const hasAddTile = Boolean(addTile)
 
   function closeDeleteDialog() {
     if (deleting) return
@@ -99,9 +95,8 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
 
       const lastColIdx = getColPosition(assetItems.length - 1)
 
-      // With the add tile after them, none of the photos' columns is last.
       function isLastCol(i) {
-        return !hasAddTile && getColPosition(i) === lastColIdx
+        return getColPosition(i) === lastColIdx
       }
 
       for (i = 0; i < assetItems.length; i += 3) {
@@ -137,25 +132,13 @@ export default function MediaList({ caveId, editable = false, photoPath, addTile
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mediaList, editable, canDelete, caveId, photoPath, hasAddTile])
-
-  // The add tile keeps the strip's wide, narrow (two stacked), wide... columns:
-  // after a wide column (its photos - and "more photos" - a multiple of 3,
-  // plus 1), a narrow one; a wide one otherwise.
-  const stripItems = mediaList ? Math.min(mediaList.size, assetsListMaxLength) + (mediaList.size > assetsListMaxLength ? 1 : 0) : 0
-  const addTileSize = stripItems % 3 === 1 ? 'half' : 'full'
+  }, [mediaList, editable, canDelete, caveId, photoPath])
 
   return (
     <>
-      {mediaList?.empty && addButton}
       {mediaList && !mediaList.empty && (
         <MediaStrip className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={assetsList} sx={sx} {...props}>
           {assetsList}
-          {addTile && (
-            <MediaListCol width={addTileSize} isLast>
-              {addTile(addTileSize)}
-            </MediaListCol>
-          )}
         </MediaStrip>
       )}
       <Dialog className="oc-media-list--delete-dialog" open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
@@ -277,7 +260,7 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   )
 }
 
-// A tile at the strip's end ("more photos", "add photos"): an icon over a
+// A tile at the strip's end ("more photos"): an icon over a
 // label, on a light tint of the primary colour.
 function StripTile({ icon, label, className, sx, ...props }) {
   return (
@@ -322,12 +305,3 @@ function MoreMedias({ width, height, to, state }) {
   return <StripTile component={Link} to={to} state={state} className="oc-media-list--more" sx={{ width, height }} icon={<PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />} label={t('morePicturesBtn')} />
 }
 
-// The strip's last tile: adding photos (its onClick given by its caller -
-// the file picker, or signing in), a wide or a narrow column's width.
-export function AddPhotosTile({ size = 'half', ...props }) {
-  const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const fullWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
-  const width = size === 'full' ? fullWidth : fullWidth / 2 - ASSETS_LIST_CONFIG.spacing / 2
-
-  return <StripTile {...props} className={['oc-media-list--add', props.className].filter(Boolean).join(' ')} sx={{ width, height: ASSETS_LIST_CONFIG.height }} icon={<AddAPhotoRounded fontSize="small" sx={primaryToneSx} />} label={t('addPictures')} />
-}

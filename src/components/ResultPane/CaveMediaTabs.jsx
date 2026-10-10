@@ -8,7 +8,7 @@ import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import { setCaveMediaTab } from '@/redux/slices/appSlice.jsx'
-import MediaList, { AddPhotosTile } from './MediaList.jsx'
+import MediaList from './MediaList.jsx'
 import VideoList from './VideoList.jsx'
 import CaveMapList from './CaveMapList.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
@@ -48,9 +48,9 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   }
   const requireLoginForPhotos = useRequireLogin('photos')
 
-  // Adding photos, as the strip's last tile or (no photo yet) a button: the
-  // file picker - in its own provider for a standalone upload - or, for a
-  // visitor, signing in.
+  // Adding photos, a button under the strip at all times (as the videos' and
+  // the maps'): the file picker - in its own provider for a standalone
+  // upload - or, for a visitor, signing in.
   function addPictures(look) {
     if (!editable && !isEditor) {
       return cloneElement(look, { onClick: requireLoginForPhotos })
@@ -58,7 +58,6 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
     const button = <AddMediasButton component={look} />
     return standaloneUpload ? <AddMediasProvider caveId={caveId}>{button}</AddMediasProvider> : button
   }
-  const addPicturesTile = (size) => addPictures(<AddPhotosTile size={size} />)
   const addPicturesButton = (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
       {addPictures(<AddButton startIcon={<AddAPhotoRounded />}>{t('addPictures')}</AddButton>)}
@@ -78,9 +77,10 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
       </Tabs>
       {!isNew && (
         <Box role="tabpanel" id={`${tabId}-pictures-panel`} aria-labelledby={`${tabId}-pictures-tab`} hidden={activeTab !== 'pictures'} sx={{ display: activeTab === 'pictures' ? 'flex' : 'none', flexDirection: 'column', gap: 2, pt: 2 }}>
-          <MediaList caveId={caveId} editable={editable} photoPath={photoPath} addTile={addPicturesTile} addButton={addPicturesButton} />
+          <MediaList caveId={caveId} editable={editable} photoPath={photoPath} />
           {/* Photos added offline, waiting to upload. */}
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
+          {addPicturesButton}
         </Box>
       )}
       <Box role="tabpanel" id={`${tabId}-videos-panel`} aria-labelledby={`${tabId}-videos-tab`} hidden={activeTab !== 'videos'} sx={{ display: activeTab === 'videos' ? 'block' : 'none', pt: 2 }}>
