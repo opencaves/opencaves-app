@@ -107,7 +107,8 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
-                    <ListItemIcon>{icon}</ListItemIcon>
+                    {/* The Map entry's icon in the app's gold, as in the app bar. */}
+                    <ListItemIcon sx={key === 'map' ? { color: 'var(--oc-secondary-on-surface)' } : undefined}>{icon}</ListItemIcon>
                     <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
                   </ListItemButton>
                 </ListItem>
