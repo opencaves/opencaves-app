@@ -120,6 +120,7 @@
     "exceljs": "^4.4.0",
     "firebase-admin": "^14.5.0",
     "patch-package": "^8.0.1",
+    "playwright": "^1.64.0",
     "postcss-logical": "^9.0.1",
     "serve": "^14.2.6",
     "source-map-explorer": "^2.5.3",

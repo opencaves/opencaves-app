@@ -16,34 +16,90 @@ import { decodeSegment, plainParagraphs, renderPage, sendHtml, shellFor, truncat
 // rewritten here (firebase.json).
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 
-function cavesPage() {
+// A cave's name for structured data: as its own page's (cavePage.js).
+const caveName = (cave) => cave.name || '(Unnamed cave)'
+
+// An index page's structured data (schema.org): the page as a collection,
+// its items listed in the page's order - all of them: /caves' ~860 caves
+// add ~98 KB to its HTML, but ~10 KB sent (Brotli, which sendHtml uses for
+// nearly every client; ~20 KB gzipped) on a page of ~64 KB sent.
+function collectionJsonLd({ name, description, path }, items) {
   return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: `${SITE_URL}${path}`,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: items.length,
+      itemListElement: items.map(({ name: itemName, path: itemPath }, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}${itemPath}`, name: itemName })),
+    },
+  }
+}
+
+function cavesPage(data) {
+  const page = {
     title: `Caves of the Yucatán by area / ${APP_TITLE}`,
     // The app's (src/locales/en.json indexPages.caves.description), word for word.
     description: 'Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.',
     path: '/caves',
     trail: [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }],
   }
+  return { ...page, jsonLd: collectionJsonLd({ name: 'Caves of the Yucatán by area', ...page }, data.caves.map((cave) => ({ name: caveName(cave), path: `/caves/${cave.id}` }))) }
 }
 
-function sistemasPage() {
-  return {
+function sistemasPage(data) {
+  const page = {
     title: `Cave systems of the Yucatán / ${APP_TITLE}`,
     description: 'The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.',
     path: '/sistemas',
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }],
   }
+  return { ...page, jsonLd: collectionJsonLd({ name: 'Cave systems of the Yucatán', ...page }, data.sistemas.map((sistema) => ({ name: sistema.name, path: `/sistemas/${sistema.slug}` }))) }
 }
 
-function sistemaPage(sistema) {
+// A system's caves as its page lists them (src/routes/sistemas/SistemaPage.jsx):
+// its own, and those of every system that joined it.
+function sistemaCaves(sistema, data) {
+  const memberIds = new Set([sistema.id])
+  const queue = [sistema.id]
+  while (queue.length > 0) {
+    const parentId = queue.shift()
+    data.connections.forEach(({ sistemaId, parentSistemaId }) => {
+      if (parentSistemaId === parentId && !memberIds.has(sistemaId)) {
+        memberIds.add(sistemaId)
+        queue.push(sistemaId)
+      }
+    })
+  }
+  return data.caves.filter((cave) => memberIds.has(cave.sistemaId))
+}
+
+function sistemaPage(sistema, data) {
   const summary = plainParagraphs(sistema.description).join(' ')
+  const description = truncate(summary
+    ? `${sistema.name} cave system (Yucatán, Mexico): ${summary}`
+    : `${sistema.name} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.`)
+  const path = `/sistemas/${sistema.slug}`
+  const aka = Array.isArray(sistema.aka) ? sistema.aka.filter(Boolean) : []
   return {
     title: `${sistema.name} system / ${APP_TITLE}`,
-    description: truncate(summary
-      ? `${sistema.name} cave system (Yucatán, Mexico): ${summary}`
-      : `${sistema.name} cave system in the Yucatán, Mexico: length, depth, connections, exploration history and cenotes on OpenCaves.`),
-    path: `/sistemas/${sistema.slug}`,
-    trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path: `/sistemas/${sistema.slug}` }],
+    description,
+    path,
+    trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path }],
+    // The system as a place, its caves in it (each as its own page's: cavePage.js).
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'Place',
+      name: sistema.name,
+      description,
+      url: `${SITE_URL}${path}`,
+      address: { '@type': 'PostalAddress', addressCountry: 'MX' },
+      ...(aka.length && { alternateName: aka }),
+      containsPlace: sistemaCaves(sistema, data).map((cave) => ({ '@type': 'TouristAttraction', name: caveName(cave), url: `${SITE_URL}/caves/${cave.id}` })),
+    },
   }
 }
 
@@ -72,16 +128,16 @@ function pageFor(path, data) {
   if (extra !== undefined) return null
   const segment = decodeSegment(rawSegment)
   if (section === 'caves') {
-    if (rawSegment === undefined) return cavesPage()
+    if (rawSegment === undefined) return cavesPage(data)
     // A cave's own page (cavePage.js's <head>, at this address), looked up
     // in the handler: { cave: <id> }. (/caves/edit is the app's editor page, never
     // rewritten here.)
     return CAVE_ID_PATTERN.test(segment) && segment !== 'edit' ? { cave: segment } : null
   }
   if (section === 'sistemas') {
-    if (rawSegment === undefined) return sistemasPage()
+    if (rawSegment === undefined) return sistemasPage(data)
     const sistema = CAVE_ID_PATTERN.test(segment) && data.sistemasBySlug.get(segment)
-    return sistema ? sistemaPage(sistema) : null
+    return sistema ? sistemaPage(sistema, data) : null
   }
   return null
 }
