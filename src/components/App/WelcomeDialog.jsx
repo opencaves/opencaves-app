@@ -99,7 +99,7 @@ export default function WelcomeDialog() {
         </Box>
       </DialogContent>
       {/* Side by side; stacked on a narrow phone, the main action on top. */}
-      <DialogActions sx={{ px: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
+      <DialogActions sx={{ px: 3, pt: 2.5, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
         {isLoggedIn ? (
           <Button variant="contained" disableElevation onClick={close}>
             {t('start')}
