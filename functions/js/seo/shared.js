@@ -5,12 +5,12 @@
 // tags (src/utils/headTags.js), so the two must stay in step.
 import { brotliCompressSync, constants as zlib, gzipSync } from 'node:zlib'
 import { APP_TITLE, SITE_URL } from '../constants.js'
-const SHELL_TTL_MS = 5 * 60 * 1000
 
 // The hosts whose app shell may serve as the page: the site and this
 // project's Hosting domains (preview channels: opencaves--<channel>-<hash>).
 const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[-a-z0-9]+)?\.(web\.app|firebaseapp\.com))$/
 
+// The last shell fetched from each origin: used only when fetching fails.
 const shells = new Map()
 
 // The served site's app shell - app.html, the build's index.html renamed so
@@ -18,17 +18,24 @@ const shells = new Map()
 // index.html from a build made before (a preview channel has its own build);
 // the production one when called directly (the emulator) or from any other
 // host (a forged X-Forwarded-Host must not choose where the page comes from).
+// Fetched on every call (19 KB, ~80 ms; these functions run only when the CDN
+// hasn't the page): a shell kept for minutes outlived a deploy - pages drawn
+// on the old build's shell named files Hosting no longer had, and the CDN
+// kept them an hour. (Hosting ignores If-None-Match: no cheaper check.)
 export async function shellFor(req) {
   const host = (req.get('x-forwarded-host') || req.hostname || '').toLowerCase()
   const origin = ALLOWED_HOST_PATTERN.test(host) ? `https://${host}` : SITE_URL
-  const cached = shells.get(origin)
-  if (cached && Date.now() - cached.at < SHELL_TTL_MS) return cached.html
-  let response = await fetch(`${origin}/app.html`)
-  if (response.status === 404) response = await fetch(`${origin}/index.html`)
-  if (!response.ok) throw new Error(`app shell from ${origin}: ${response.status}`)
-  const html = await response.text()
-  shells.set(origin, { html, at: Date.now() })
-  return html
+  try {
+    let response = await fetch(`${origin}/app.html`, { cache: 'no-store' })
+    if (response.status === 404) response = await fetch(`${origin}/index.html`, { cache: 'no-store' })
+    if (!response.ok) throw new Error(`app shell from ${origin}: ${response.status}`)
+    const html = await response.text()
+    shells.set(origin, html)
+    return html
+  } catch (error) {
+    if (shells.has(origin)) return shells.get(origin)
+    throw error
+  }
 }
 
 // The pages compressed by the function itself: Hosting passes a function's
