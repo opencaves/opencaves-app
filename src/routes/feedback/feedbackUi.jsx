@@ -18,11 +18,11 @@ import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRou
 import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_MESSAGES_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_REPLY_MAX_LENGTH, FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES, TOLD_FEEDBACK_STATUSES } from '@/utils/feedback.js'
-import { toDate } from '@/components/RelativeTime.jsx'
+import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 
-export { default as RelativeTime, toDate } from '@/components/RelativeTime.jsx'
+export { default as RelativeTime, toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 
 // What the Feedback pages (the list, /feedback, and a report's page,
 // /feedback/:feedbackId) share: the kinds' and stages' looks, the stage menu,

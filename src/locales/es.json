@@ -1951,9 +1951,5 @@
     "lightbox": "Visor",
     "gallery": "Galería",
     "position": "{index} de {total}"
-  },
-  "relativeTime": {
-    "justNow": "justo ahora",
-    "on": "el {{date}}"
   }
 }

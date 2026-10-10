@@ -1950,9 +1950,5 @@
     "lightbox": "Visionneuse",
     "gallery": "Galerie",
     "position": "{index} sur {total}"
-  },
-  "relativeTime": {
-    "justNow": "à l’instant",
-    "on": "le {{date}}"
   }
 }
