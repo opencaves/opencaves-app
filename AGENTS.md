@@ -36,6 +36,14 @@ OpenCaves: a React/Vite/Ionic web app for finding cave-diving caves - today ceno
 
 Add short comments where they clarify non-obvious behavior, constraints, or reasoning. Keep comments concise and avoid narrating code that is already self-explanatory.
 
+Every exported function, component and hook (in `src/` and `functions/js/`) carries a JSDoc block, as in `src/utils/mediaStrip.js`:
+- the description first (no `@function`/`@description`), in the same short style;
+- `@param {Type} name - text` and `@returns` only where they add information, with types read from the code (never invented); `[name]` for an optional parameter, `[name=value]` for a default;
+- `{@link name}` for a function or constant of the same file or imported into it;
+- `@throws` where the function throws on purpose.
+
+**Any change to the code updates its JSDoc in the same change.** A renamed, added, removed or retyped parameter, a new return value, a changed behaviour the description states, a new `throw` — the block must still say what the code does. A stale `@param` is worse than none.
+
 ## Documentation
 
 How-to guides for people running and maintaining the app (maintenance tasks, bulk imports) live in `docs/`, listed in `docs/README.md`. Write new guides there, as lowercase kebab-case `.md` files, and add them to that index; keep only `README.md`, `CHANGELOG.md` and `AGENTS.md` at the root. When a command below changes, update its guide too (most are covered in `docs/maintenance.md`).
