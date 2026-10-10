@@ -12,6 +12,10 @@ export const AUDITED_COLLECTIONS = ['caves', 'sistemas', 'connections', 'accesse
 // then for good (emptyTrash).
 export const TRASH_COLLECTIONS = ['cavesAssets', 'maps']
 
+// The fields only the server writes (photo stamps, a map's derived files):
+// not the app users' changes (onDataWritten in the emulator, getWhatsNew).
+export const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds'])
+
 // Entries are deleted this long after they're written, by the TTL policy on
 // expireAt (firestore.indexes.json).
 const RETENTION_MONTHS = 12

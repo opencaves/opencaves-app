@@ -78,7 +78,8 @@ ratings and `_caveRatings`), frozen accounts and audit log, which stay
 untouched - except that the local audit log's additions that production
 lacks (its "create" entries for caves, systems, connections, maps and photos,
 and the caves' changes that added videos) are copied to it, so the What's new page (`/whats-new`, built from the audit log) lists them
-there too. What's only in production is deleted, files included. Production's
+there too. Local edits and deletions aren't copied: production's What's new
+shows as Modified and Removed only what was changed there. What's only in production is deleted, files included. Production's
 documents are first saved to `_data/backups/production-<date>/`; its deleted
 files are not. Copied files carry `ocSync=true`, so the upload functions
 don't rebuild them. The trash comes along as it is. Production keeps its own
@@ -164,6 +165,22 @@ map is also taken off the sistemas that list it.
 
 Entries are deleted 12 months after they're written (`expireAt`, a TTL
 policy deployed with the indexes: `firebase deploy --only firestore:indexes`).
+
+The public What's new page (`/whats-new`, the `getWhatsNew` function, cached
+5 minutes) is built from this log: each caves, sistemas, connections and maps
+record marked **Added** (its `create` entry, if it's still there and shown),
+**Modified** (its `update` entries and the admins' undos that updated it, one
+item per record, author and UTC day, listing the fields changed - not the
+server's fields, nor the trash's, nor a cave's `videos` and a system's `maps`,
+shown as items of their own; edits by the author who added it that same day
+fold into the addition) or **Removed** (deleted, emptied from the trash, moved
+to the trash or its creation undone, and not back since: named from its last
+values, without a link; a system that wasn't public isn't listed), plus the
+photos and videos added to caves. It reads the latest 600 creates, deletes,
+undos and purges, and apart from them the latest 600 updates, so a day of
+edits can't push the additions out; of its 300 items at most 100 are
+modifications and 50 removals. Its queries use the `_auditLog` indexes on
+`action, at` and `action, collection, at` (`firestore.indexes.json`).
 
 Changes made by scripts and functions (the Google Sheet sync, the mirror to
 production, the photo triggers) aren't recorded. The emulators don't say who
