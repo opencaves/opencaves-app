@@ -30,8 +30,9 @@ function Field({ label, children }) {
   )
 }
 
-// The open/closed badge (GitHub's issue state): closed as done in the
-// secondary colour, otherwise neutral.
+// The open/closed badge (GitHub's issue state): open in the success colour's
+// dark tone (white on the main green was 3:1, under text's 4.5:1), closed as
+// done in the secondary colour, otherwise neutral.
 function StateBadge({ report }) {
   const { t } = useTranslation('feedback')
   const open = isOpen(report)
@@ -41,7 +42,7 @@ function StateBadge({ report }) {
       icon={open ? <RadioButtonCheckedRounded /> : <CheckCircleOutlineRounded />}
       label={t(open ? 'admin.report.open' : 'admin.report.closed')}
       color={open ? 'success' : statusOf(report) === 'done' ? 'secondary' : 'default'}
-      sx={{ fontWeight: 600 }}
+      sx={(theme) => ({ fontWeight: 600, ...(open && { bgcolor: theme.vars.palette.success.dark, color: theme.vars.palette.common.white, '& .MuiChip-icon': { color: 'inherit' } }) })}
     />
   )
 }

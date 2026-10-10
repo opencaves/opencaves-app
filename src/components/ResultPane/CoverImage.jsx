@@ -7,14 +7,10 @@ import { useAddMedias } from '@/components/AddMedias/useAddMedias.jsx'
 import UnstyledLink from '@/components/UnstyledLink.jsx'
 import Tooltip from '@/components/Tooltip.jsx'
 import Picture from '@/components/Picture.jsx'
-import { getCoverImage, useCoverImage } from '@/models/CaveAsset.js'
+import { useCoverImage } from '@/models/CaveAsset.js'
 import { COVER_IMAGE_HEIGHT_RATIO } from '@/config/resultPane.js'
 import defaultMediaCardImage from '@/images/result-pane/card-media.webp'
 import transparentPixel from '@/images/transparentPixel.js'
-
-export async function loadCoverImage(caveId) {
-  return getCoverImage(caveId, false)
-}
 
 const ASPECT_RATIO = 1 / COVER_IMAGE_HEIGHT_RATIO
 

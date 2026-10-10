@@ -137,6 +137,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
         '@media (prefers-reduced-motion: reduce)': { transition: 'none !important' },
       }}
       component="main"
+      id="main"
     >
       <Scrollbars
         ref={scrollbarsRef}

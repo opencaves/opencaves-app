@@ -250,9 +250,6 @@ export default defineConfig(({ isSsrBuild }) => ({
     react({
       include: /\.(js|jsx|ts|tsx)$/,
       jsxRuntime: 'automatic',
-      babel: {
-        presets: ['@babel/preset-react']
-      }
     }),
     svgrPlugin(),
     loadAppAfterFirstPaint(),

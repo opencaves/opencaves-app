@@ -752,14 +752,7 @@
       }
     },
     "addMedia": {
-      "header": "Ajoutez des photos de {{name}}",
-      "dragHere": "Faites glisser les photos ici",
       "dropHere": "Déposez des fichiers n’importe où pour les téléverser",
-      "or": "ou",
-      "btn": "Cliquez pour sélectionner des fichiers",
-      "closeBtn": {
-        "ariaLabel": "fermer"
-      },
       "success_one": "1 photo ajoutée",
       "success_other": "{{count}} photos ajoutées",
       "errorHeader": "Oups !",

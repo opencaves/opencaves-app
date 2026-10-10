@@ -29,8 +29,6 @@ firebase-export-*
 .env.test.local
 .env.production.local
 *.log*
-functions/py/out.png
-functions/py/t.jpg
 
 # Local emulator snapshots
 /*
