@@ -1,6 +1,6 @@
 import { cloneElement, forwardRef, useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { useTheme, Slide } from '@mui/material'
+import { useTheme } from '@mui/material'
 
 const enterStyles = {
   opacity: 1,
@@ -83,11 +83,4 @@ export const Forward = forwardRef(function Forward(props, ref) {
       }
     </CSSTransition>
   )
-})
-
-/**
- * A slide up (MUI's Slide).
- */
-export const Awef = forwardRef(function Awef(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
 })
