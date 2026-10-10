@@ -102,7 +102,7 @@ Two things are **deliberately** computed client-side at read time, not stored in
 
 ## Auth & roles
 
-Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...` in `firestore.rules`). Every registered user is an editor **by design** (`assignRole` at sign-up, or `ManageAuth.jsx`'s call to the `ensureEditorRole` callable) — as long as their email is verified (`functions/js/users/verifiedEmail.js`: the app's emailed sign-up link verifies it; Google and Microsoft sign-ins are trusted). Anonymous sessions (every visitor gets one, to keep their choices until they sign up) never get it, and deletes are admin-only: caves, sistemas, reference data and photos, in `firestore.rules`/`storage.rules` and in the UI.
+Custom claim `roles` is an array (checked as `'editor' in ...`/ `'admin' in ...` in `firestore.rules`). Every registered user is an editor **by design** (`assignRole` at sign-up, or `ManageAuth.jsx`'s call to the `ensureEditorRole` callable) — as long as their email is verified (`functions/js/users/verifiedEmail.js`: the app's emailed sign-up link verifies it; Google and Microsoft sign-ins are trusted). Anonymous sessions never get it (the app creates none today: visitors stay signed out until they sign in, and an anonymous session would count as not registered in the rules and `isAnonymous` checks; to bring them back, carry them into the new account with `linkWithPopup` on the current Firebase user), and deletes are admin-only: caves, sistemas, reference data and photos, in `firestore.rules`/`storage.rules` and in the UI.
 
 ## Routing conventions
 
