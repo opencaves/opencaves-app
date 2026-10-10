@@ -10,7 +10,7 @@ const DefaultThumb = forwardRef(function DefaultThumb(/** @type {import('react')
 })
 
 const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal(/** @type {TrackProps & { trackHorizontalProps?: TrackProps }} */ { style, trackHorizontalProps = {}, ...otherProps }, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
-  const { style: trackHorizontalStyle, trackHorizontalOtherProps } = trackHorizontalProps
+  const { style: trackHorizontalStyle, ...trackHorizontalOtherProps } = trackHorizontalProps
 
   return (
     <div
@@ -32,7 +32,7 @@ const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal(/** @t
 })
 
 const DefaultTrackVertical = forwardRef(function DefaultTrackVertical(/** @type {TrackProps & { trackVerticalProps?: TrackProps }} */ { style, trackVerticalProps = {}, ...otherProps }, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
-  const { style: trackVerticalStyle, trackVerticalOtherProps } = trackVerticalProps
+  const { style: trackVerticalStyle, ...trackVerticalOtherProps } = trackVerticalProps
 
   return (
     <div
