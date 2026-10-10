@@ -5,7 +5,7 @@ import { auth, db } from '../init.js'
 import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_TO, REGION, SITE_URL, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
-import { FEEDBACK_EMAIL_CONTENT } from './onFeedbackStatusChanged.js'
+import { FEEDBACK_EMAIL_CONTENT } from './emailContent.js'
 import { adminEmails } from './onFeedbackCreated.js'
 import { authorReplyAddress, teamReplyAddress } from './replyAddress.js'
 
@@ -124,8 +124,8 @@ async function emailAdminsTheAnswer(id, reportRef, message) {
 // report (messageCount, lastMessageAt). A team reply (the admins' Feedback
 // page): its author gets it by email, with the whole thread, in the
 // language they wrote the report in - one email per reply, the outcome
-// included when the reply closed the report (onFeedbackStatusChanged then
-// sends none). emailedAt (on the reply) and reporterEmailedAt (on the
+// included when the reply closed the report (a stage changed on its own
+// emails no one). emailedAt (on the reply) and reporterEmailedAt (on the
 // report) record it; its reply_to is the report's own address
 // (authorReplyAddress), where the author's answer comes back into the thread
 // (feedbackInbound). The author's answers aren't emailed back: the admins get

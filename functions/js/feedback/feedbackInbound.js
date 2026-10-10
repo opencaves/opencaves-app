@@ -86,8 +86,7 @@ export async function receiveFeedbackEmail(emailId, helpers) {
       ...(droppedAttachments && { droppedAttachments }),
     })
     // A closed report reopens when its author still has something to say
-    // (a team reply leaves its stage alone). 'new' sends no email
-    // (onFeedbackStatusChanged only tells done/rejected).
+    // (a team reply leaves its stage alone): a stage change emails no one.
     const reopened = !address.team && CLOSED.includes(current.get('status'))
     if (reopened) transaction.update(reportRef, { status: 'new', statusUpdatedAt: FieldValue.serverTimestamp(), statusUpdatedBy: report.userId || 'email' })
     return { added: messageRef.id, reportId: reportRef.id, team: address.team, reopened, by: sender.by }

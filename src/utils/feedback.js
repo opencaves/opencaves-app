@@ -13,9 +13,9 @@ export function openFeedback(kind) {
 // rejected (not a problem, or not something to do) or a duplicate of another.
 export const FEEDBACK_STATUSES = ['new', 'confirmed', 'inProgress', 'done', 'rejected', 'duplicate']
 export const OPEN_FEEDBACK_STATUSES = ['new', 'confirmed', 'inProgress']
-// Closing a report as one of these emails its author the outcome
-// (onFeedbackStatusChanged's TOLD) - or, closed with a reply, that reply
-// with the outcome (onFeedbackReplied).
+// The stages a reply can close a report with ("Send and mark as..."): the
+// reply's email then carries the outcome (onFeedbackReplied). A stage changed
+// on its own emails no one.
 export const TOLD_FEEDBACK_STATUSES = ['done', 'rejected']
 // A thread message's longest text: a team reply (firestore.rules' _feedback
 // messages), an author's answer by email (cut there: functions' constants.js).

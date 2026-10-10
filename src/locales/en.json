@@ -1739,15 +1739,6 @@
       "changeStatus": "Stage: {{status}}. Change it",
       "none": "No reports here.",
       "delete": "Delete",
-      "closeTitle": "Mark as {{status}}",
-      "closeText": "{{name}} will be emailed the outcome. Add a reply to tell them more: it is sent with the outcome, in one email, and joins the report’s conversation.",
-      "replyForReporter": "Reply to the reporter (optional)",
-      "closePlaceholder": {
-        "done": "What was fixed or added, and where to see it…",
-        "rejected": "Why it won’t be acted on…"
-      },
-      "closeConfirm": "Save and email",
-      "closeConfirmReply": "Send the reply",
       "deleteTitle": "Delete this report?",
       "deleteText": "It will be deleted for good.",
       "statusError": "The stage couldn’t be changed. Please try again.",
@@ -1805,8 +1796,7 @@
         "page": "Page",
         "language": "Language",
         "browser": "Browser",
-        "lastEmailed": "Author last emailed",
-        "danger": "Report"
+        "lastEmailed": "Author last emailed"
       },
       "timeline": {
         "opened": "opened",

@@ -1739,15 +1739,6 @@
       "changeStatus": "Etapa: {{status}}. Cambiarla",
       "none": "No hay reportes aquí.",
       "delete": "Borrar",
-      "closeTitle": "Marcar como {{status}}",
-      "closeText": "{{name}} recibirá el resultado por correo. Agrega una respuesta para contarle más: se envía con el resultado, en un solo correo, y se suma a la conversación del reporte.",
-      "replyForReporter": "Respuesta al autor (opcional)",
-      "closePlaceholder": {
-        "done": "Qué se corrigió o añadió, y dónde verlo…",
-        "rejected": "Por qué no se actuará al respecto…"
-      },
-      "closeConfirm": "Guardar y enviar",
-      "closeConfirmReply": "Enviar la respuesta",
       "deleteTitle": "¿Borrar este reporte?",
       "deleteText": "Se borrará para siempre.",
       "statusError": "No se pudo cambiar la etapa. Inténtalo de nuevo.",
@@ -1805,8 +1796,7 @@
         "page": "Página",
         "language": "Idioma",
         "browser": "Navegador",
-        "lastEmailed": "Último correo al autor",
-        "danger": "Reporte"
+        "lastEmailed": "Último correo al autor"
       },
       "timeline": {
         "opened": "abrió",
