@@ -28,5 +28,5 @@ export async function requestPersistentStorage() {
  * whole point.
  */
 export function isInstalledApp() {
-  return window.matchMedia?.('(display-mode: standalone)').matches || /** @type {Navigator & {standalone?: boolean}} */ (window.navigator).standalone === true
+  return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true
 }

@@ -8,5 +8,5 @@
     "resolveJsonModule": true,
     "types": ["vite/client"]
   },
-  "include": ["src/utils/**/*.js", "src/types.js"]
+  "include": ["src/services/**/*.js", "src/services/**/*.jsx", "src/types.js"]
 }
