@@ -12,6 +12,9 @@ import '@mui/material/IconButton'
 
 /** M3 color roles the theme defines (light and dark schemes). */
 interface OcSysColor {
+  surface: string
+  surfaceContainerLowest: string
+  surfaceContainerLow: string
   surfaceContainerHigh: string
   surfaceContainerHighest: string
   outlineVariant: string

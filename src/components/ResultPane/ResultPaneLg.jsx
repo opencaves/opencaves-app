@@ -126,16 +126,22 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
       {...props}
       ref={cardRef}
       className="oc-result-pane oc-result-pane-lg"
-      sx={{
+      sx={(theme) => ({
         position: 'relative',
         boxShadow: 5,
+        // M3's standard side sheet: the surface (not paper's white, its lowest
+        // container - what sits on it), without the dark theme's elevation
+        // tint; its contents that match it read the variable.
+        '--oc-result-pane-surface-color': theme.vars.sys.color.surface,
+        bgcolor: 'var(--oc-result-pane-surface-color)',
+        backgroundImage: 'none',
         '.MuiCardContent-root': {
           p: 0,
         },
         maxWidth: editMode ? `min(${PANE_WIDTH * 2}px, 80vw)` : `${PANE_WIDTH}px`,
         transition: widthTransition,
         '@media (prefers-reduced-motion: reduce)': { transition: 'none !important' },
-      }}
+      })}
       component="main"
       id="main"
     >

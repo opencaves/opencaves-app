@@ -1,10 +1,11 @@
 // The sheet and its top bar (a sibling, outside the sheet: it can't inherit
-// from it) share one surface color.
+// from it) share one surface color: M3's bottom sheet, surface container low
+// (the pane beside the map on a computer is the surface: ResultPaneLg).
 .oc-result-pane-sm,
 .oc-result-pane--head {
   // --mui-, not --md-: the theme (@mui/material's extendTheme) emits its
   // palette under MUI's default prefix.
-  --oc-result-pane-surface-color: var(--mui-palette-background-paper);
+  --oc-result-pane-surface-color: var(--mui-sys-color-surfaceContainerLow);
 }
 
 .oc-result-pane-sm {
@@ -52,6 +53,9 @@
     margin: 0;
     padding-top: 0;
     transition: 0.125s padding-top;
+    // The sheet's surface, not the Card's paper (nor its dark elevation tint).
+    background-color: var(--oc-result-pane-surface-color);
+    background-image: none;
   }
 
   .oc-result-pane--header {

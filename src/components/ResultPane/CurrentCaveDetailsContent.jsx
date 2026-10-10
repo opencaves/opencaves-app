@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopyRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
@@ -106,100 +106,100 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   return (
     <Box className="oc-current-cave-details-content oc-result-pane--content">
-      <QuickActions cave={cave}></QuickActions>
+      {/* Its sections, each a rounded block (CurrentCaveDetailsContent.scss). */}
+      <Box component="section" className="oc-details-section">
+        <QuickActions cave={cave}></QuickActions>
+      </Box>
 
-      <Divider />
+      <Box component="section" className="oc-details-section">
+        <CaveMediaTabs caveId={cave.id} videos={cave.videos} sistemaId={cave.sistemaId} editable={false} />
+      </Box>
 
-      <CaveMediaTabs caveId={cave.id} videos={cave.videos} sistemaId={cave.sistemaId} editable={false} />
+      <Box component="section" className="oc-details-section">
+        <List dense className="oc-results-copy-list">
+          {hasAddressOrCoordinates && (
+            <>
+              {address && (
+                <CopyToClipboard text={addressText} placement="bottom-end" onCopy={handleAddressCopy}>
+                  <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
+                    <ConditionalWrapper
+                      condition={!isSmall}
+                      wrapper={(children) => (
+                        <Tooltip describeChild title={t('copyAddress')} slotProps={underCopyIcon(() => addressCopyRef.current)} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
+                          {children}
+                        </Tooltip>
+                      )}
+                    >
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <LocationOnRounded color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={address} />
+                        <ListItemIcon ref={addressCopyRef} className="oc-icon-copy-container">
+                          <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
+                        </ListItemIcon>
+                      </ListItemButton>
+                    </ConditionalWrapper>
+                  </ListItem>
+                </CopyToClipboard>
+              )}
 
-      <Divider />
+              {coordinatesText && <CoordinateRow icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
+            </>
+          )}
 
-      <List dense className="oc-results-copy-list">
-        {hasAddressOrCoordinates && (
-          <>
-            {address && (
-              <CopyToClipboard text={addressText} placement="bottom-end" onCopy={handleAddressCopy}>
-                <ListItem disablePadding secondaryAction={<DirectionsAction point={cave.location} label={t('directionsToCave')} />}>
-                  <ConditionalWrapper
-                    condition={!isSmall}
-                    wrapper={(children) => (
-                      <Tooltip describeChild title={t('copyAddress')} slotProps={underCopyIcon(() => addressCopyRef.current)} open={addressTooltipOpen} onOpen={handleAddressTooltipOpen} onClose={handleAddressTooltipClose}>
-                        {children}
-                      </Tooltip>
-                    )}
-                  >
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <LocationOnRounded color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary={address} />
-                      <ListItemIcon ref={addressCopyRef} className="oc-icon-copy-container">
-                        <ContentCopy className="oc-icon-copy" style={{ fontSize: '1.125rem' }} />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </ConditionalWrapper>
-                </ListItem>
-              </CopyToClipboard>
-            )}
+          {!hasAddressOrCoordinates && (
+            <ListItem disablePadding>
+              <ListItemButton disabled>
+                <ListItemIcon>
+                  <LocationDisabledRounded color="primary" />
+                </ListItemIcon>
+                <ListItemText primary={t('locationNotAvailable')} />
+              </ListItemButton>
+            </ListItem>
+          )}
 
-            {coordinatesText && <CoordinateRow icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
-          </>
-        )}
+          {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
-        {!hasAddressOrCoordinates && (
-          <ListItem disablePadding>
-            <ListItemButton disabled>
-              <ListItemIcon>
-                <LocationDisabledRounded color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={t('locationNotAvailable')} />
-            </ListItemButton>
-          </ListItem>
-        )}
+          {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
-        {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
-
-        {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
-
-        {keysTexts &&
-          keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
-        {/* The cave's area, linked to its section of the cave list (/caves#<slug>). */}
-        {cave.area && slugify(cave.area) && (
-          <ListItem disablePadding className="oc-results-copy-list--area">
-            <ListItemButton component={RouterLink} to={`/caves#${slugify(cave.area)}`}>
-              <ListItemIcon>
-                <TerrainRounded color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={t('area', { area: cave.area })} />
-            </ListItemButton>
-          </ListItem>
-        )}
-      </List>
+          {keysTexts &&
+            keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
+          {/* The cave's area, linked to its section of the cave list (/caves#<slug>). */}
+          {cave.area && slugify(cave.area) && (
+            <ListItem disablePadding className="oc-results-copy-list--area">
+              <ListItemButton component={RouterLink} to={`/caves#${slugify(cave.area)}`}>
+                <ListItemIcon>
+                  <TerrainRounded color="primary" />
+                </ListItemIcon>
+                <ListItemText primary={t('area', { area: cave.area })} />
+              </ListItemButton>
+            </ListItem>
+          )}
+        </List>
+      </Box>
 
       {cave.sistemas && cave.sistemas.length > 0 && (
-        <>
-          <Divider />
+        <Box component="section" className="oc-details-section">
           <SistemaHistory sistemaHistory={cave.sistemas} />
-        </>
+        </Box>
       )}
 
-      <Divider />
-
-      <Access cave={cave} />
+      <Box component="section" className="oc-details-section">
+        <Access cave={cave} />
+      </Box>
 
       {cave.description && (
-        <>
-          <Divider />
+        <Box component="section" className="oc-details-section">
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
           </div>
-        </>
+        </Box>
       )}
 
       {cave.direction && (
-        <>
-          <Divider />
+        <Box component="section" className="oc-details-section">
           <div className="details-container">
             <h2 className="h2">{t('directionsHeader')}</h2>
           </div>
@@ -207,7 +207,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
             <Markdown>{cave.direction}</Markdown>
             <TextSource record={cave} field="direction" />
           </div>
-        </>
+        </Box>
       )}
 
     </Box>
