@@ -10,7 +10,7 @@ export const PENDING_LINK_EVENT = 'oc:pending-link'
 /**
  * From the auth/account-exists-with-different-credential error.
  *
- * @param {Error} error
+ * @param {import('firebase/app').FirebaseError} error
  * @returns {boolean} True when kept.
  */
 export function savePendingLink(error) {

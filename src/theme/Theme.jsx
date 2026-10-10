@@ -572,7 +572,8 @@ const darkThemeOptions = {
   },
 }
 
-export const theme = extendTheme({
+// Cast: MUI's types don't know the app's own `sys` and `oc` token groups.
+export const theme = extendTheme(/** @type {import('@mui/material/styles').CssVarsThemeOptions} */ ({
   sys: lightThemeOptions.sys,
   oc: lightThemeOptions.oc,
   colorSchemeSelector: 'data-mui-color-scheme',
@@ -580,4 +581,4 @@ export const theme = extendTheme({
     light: lightThemeOptions,
     dark: merge({}, lightThemeOptions, darkThemeOptions),
   },
-})
+}))

@@ -26,7 +26,7 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   // server-rendered page carries (src/ssr/pageState.js), without them.
   const caveItems = caves
     .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.located ?? (cave.location?.latitude != null && cave.location?.longitude != null) }))
-    .sort((a, b) => (!a.name || !b.name ? !a.name - !b.name : byName(a, b)))
+    .sort((a, b) => (!a.name || !b.name ? Number(!a.name) - Number(!b.name) : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)
   const sistemaItems = sistemas

@@ -10,7 +10,7 @@ import i18n from 'i18next'
  */
 export function assertOnline() {
   if (typeof navigator === 'undefined' || navigator.onLine !== false) return
-  const error = new Error(i18n.t('app:snackbar.needsConnection'))
+  const error = /** @type {Error & {code?: string}} */ (new Error(i18n.t('app:snackbar.needsConnection')))
   error.code = 'offline'
   throw error
 }

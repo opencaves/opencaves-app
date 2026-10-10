@@ -27,6 +27,7 @@ export function diffSequences(a, b) {
     endB--
   }
 
+  /** @type {{type: 'same'|'removed'|'added', value: *}[]} */
   const ops = []
   for (let k = 0; k < start; k++) ops.push({ type: 'same', value: a[k] })
 
@@ -82,6 +83,7 @@ function tokenize(text) {
  * @returns {{type: 'same'|'removed'|'added', text: string}[]}
  */
 export function wordDiff(before = '', after = '') {
+  /** @type {{type: 'same'|'removed'|'added', text: string}[]} */
   const parts = []
   for (const { type, value } of diffSequences(tokenize(before), tokenize(after))) {
     const last = parts[parts.length - 1]
