@@ -42,6 +42,11 @@ const NAV_LINK_SX = (theme) => ({
   [theme.breakpoints.down('lg')]: { px: 1 },
 })
 
+// The Map link's icon in the secondary colour (the app's gold), set apart
+// from the other links: the map is the app's heart. Its own colour in every
+// state, the active one included.
+const MAP_ICON_SX = (theme) => ({ '& .MuiButton-startIcon': { color: theme.vars.palette.secondary.main } })
+
 // Material Design 3's small top app bar: 64dp tall on phones too (MUI's is
 // 56px there, 48px sideways - '&&' outweighs its media queries), 4dp at its
 // ends on phones, where its icon buttons are 48dp touch targets. No shadow;
@@ -208,7 +213,7 @@ export default function AppBar() {
             {!isSmall && (
               <Grid sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
-                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
+                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
