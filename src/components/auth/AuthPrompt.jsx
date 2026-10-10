@@ -177,61 +177,6 @@ function AuthDialogCloseBtn({ onClose, ...props }) {
   )
 }
 
-export function Step({ instructions, fields, actions, gap = 2, className, children, ...props }) {
-  function Container({ children }) {
-    return actions || fields || instructions ? (
-      <Grid
-        className="oc-step--container"
-        container
-        direction="column"
-        sx={{
-          width: {
-            xs: '100%',
-            sm: '42ch',
-          },
-          rowGap: gap,
-        }}
-      >
-        {children}
-      </Grid>
-    ) : null
-  }
-
-  return (
-    <Grid
-      {...props}
-      className={`oc-step ${className || ''}`.trim()}
-      container
-      direction="column"
-      size="grow"
-      sx={{
-        mb: {
-          xs: 2,
-          lg: 8,
-        },
-        alignItems: 'center',
-        alignContent: 'center',
-        rowGap: gap,
-      }}
-    >
-      {children}
-      <Container>
-        {instructions}
-        {fields && (
-          <Grid container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }}>
-            {fields}
-          </Grid>
-        )}
-        {actions && (
-          <Grid container direction="column" sx={{ mt: gap * 0.75, alignItems: 'stretch', rowGap: gap }}>
-            {actions}
-          </Grid>
-        )}
-      </Container>
-    </Grid>
-  )
-}
-
 export function Header({ children }) {
   const headerId = useContext(HeaderIdContext)
   return (
