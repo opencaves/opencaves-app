@@ -13,10 +13,21 @@ import { assertOnline } from '@/utils/assertOnline.js'
 
 const CAVES_ASSETS_COLL_NAME = 'cavesAssets'
 
-// A cave's photo list with its cover first, the others kept in their order.
-function coverFirst(list) {
+// A photo's date in ms: when it was taken (its camera's data), else its
+// upload time (onUploaded.js). A Timestamp, or its plain JSON in a page the
+// server rendered (ssrContext.js).
+function photoTime(doc) {
+  const date = doc.get('date')
+  return date?.toMillis?.() ?? (date?.seconds != null ? date.seconds * 1000 : 0)
+}
+
+// A cave's photo list in the order every view shows it (the Photos tab, the
+// viewer, the cave page, the gallery): its cover first, then the newest
+// first; the same date in upload order (the ids, push ids, sort by time),
+// so photos never swap places.
+function photoOrder(list) {
   if (!list) return list
-  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0))
+  const docs = [...list.docs].sort((a, b) => (b.get('isCover') ? 1 : 0) - (a.get('isCover') ? 1 : 0) || photoTime(b) - photoTime(a) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
   return { ...list, docs, forEach: (callback, thisArg) => docs.forEach(callback, thisArg) }
 }
 const COLL = collection(db, CAVES_ASSETS_COLL_NAME)
@@ -81,12 +92,12 @@ export default class CaveAsset {
   static async getAssetList(caveId, useSnapshot = true) {
     const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image')).withConverter(converter)
 
-    const { docs, empty, size } = coverFirst(withoutTrashed(await getDocs(q)))
+    const { docs, empty, size } = photoOrder(withoutTrashed(await getDocs(q)))
     const assetList = { docs, empty, size }
 
     if (useSnapshot) {
       onSnapshot(q, (snapshot) => {
-        const { docs, empty, size } = coverFirst(withoutTrashed(snapshot))
+        const { docs, empty, size } = photoOrder(withoutTrashed(snapshot))
         assetList.docs = docs
         assetList.empty = empty
         assetList.size = size
@@ -301,9 +312,9 @@ export function useCaveAssetsList(caveId) {
   const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
-  // Without the photos in the trash (same shape: docs, empty, size), the
-  // cover first.
-  const visible = useMemo(() => coverFirst(withoutTrashed(snapshot)), [snapshot])
+  // Without the photos in the trash (same shape: docs, empty, size), in
+  // their order (photoOrder).
+  const visible = useMemo(() => photoOrder(withoutTrashed(snapshot)), [snapshot])
 
   return [visible, loading, error]
 }
