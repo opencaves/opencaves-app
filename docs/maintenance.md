@@ -175,8 +175,17 @@ emulator has no TTL: local entries stay until deleted.
 ## Emails
 
 The Cloud Functions send email with [Resend](https://resend.com) from
-`noreply@opencaves.org` (`functions/js/email/sendEmail.js`); today only the
-freeze and unfreeze notices. The opencaves.org domain must be verified in the Resend account
+`noreply@opencaves.org` (`functions/js/email/sendEmail.js`): the freeze and
+unfreeze notices, and the beta feedback's - a new report to the admins
+(`onFeedbackCreated`), its outcome to its author when it's marked done or
+rejected (`onFeedbackStatusChanged`), and each team reply written on the
+Feedback page (`onFeedbackReplied`). A reply goes to the report's author with
+the whole conversation, in the language of the report; a reply sent with
+"Send and mark as done/rejected" (or written in the stage dialog) carries the
+outcome too, and is the only email of that change. A report's emails share a
+subject and `Message-ID`/`References` headers, so mail apps show them as one
+conversation. Answers by email aren't received yet: the emails don't invite
+one until `FEEDBACK_REPLY_TO` (`functions/js/constants.js`) is set. The opencaves.org domain must be verified in the Resend account
 (its DNS records), or Resend refuses to send. The API key (a send-only key) is
 the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
 

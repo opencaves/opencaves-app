@@ -20,8 +20,9 @@ service cloud.firestore {
 
     // The beta testers' reports (the Send feedback form): an account (not an
     // anonymous session) sends its own - a kind, a message, the page it's
-    // about - as new; admins read them, mark them done or new, and delete
-    // them. onFeedbackCreated emails them to the admins.
+    // about - as new; admins read them, move them through their stages,
+    // reply to them and delete them. onFeedbackCreated emails them to the
+    // admins.
     match /_feedback/{report} {
       allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
         && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'browser', 'language', 'userId', 'createdAt', 'status'])
@@ -35,11 +36,36 @@ service cloud.firestore {
         && request.resource.data.status == 'new'
       allow read, delete: if isAdmin()
       // Its stage (src/utils/feedback.js' FEEDBACK_STATUSES), who set it and
-      // when, and the admins' note.
-      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusUpdatedAt', 'statusUpdatedBy', 'note'])
+      // when. A stage set with a team reply (one batch) names that reply,
+      // statusReplyId: onFeedbackStatusChanged then leaves the email to
+      // onFeedbackReplied, so the author gets one email. The admins' former
+      // `note` is only read now (shown as the thread's first reply).
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusUpdatedAt', 'statusUpdatedBy', 'statusReplyId'])
         && request.resource.data.status in ['new', 'confirmed', 'inProgress', 'done', 'rejected', 'duplicate']
         && (!('statusUpdatedBy' in request.resource.data) || request.resource.data.statusUpdatedBy is string)
-        && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 2000))
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['statusReplyId'])
+          || (request.resource.data.statusReplyId is string
+            && getAfter(/databases/$(database)/documents/_feedback/$(report)/messages/$(request.resource.data.statusReplyId)).data.status == request.resource.data.status))
+
+      // Its thread: the team's replies, written by admins from the Feedback
+      // page and emailed to the author (onFeedbackReplied) - Markdown, with
+      // the stage the reply set if it closed the report (in the same batch,
+      // which names it: statusReplyId). The author's answers (from:
+      // 'author', via: 'email') are written only by the server.
+      match /messages/{message} {
+        allow read, delete: if isAdmin()
+        allow create: if isAdmin() && exists(/databases/$(database)/documents/_feedback/$(report))
+          && request.resource.data.keys().hasAll(['from', 'text', 'createdAt', 'userId', 'via'])
+          && request.resource.data.keys().hasOnly(['from', 'text', 'createdAt', 'userId', 'via', 'status'])
+          && request.resource.data.from == 'team' && request.resource.data.via == 'app'
+          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 10000
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.userId == request.auth.uid
+          && (!('status' in request.resource.data)
+            || (request.resource.data.status in ['done', 'rejected']
+              && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.status == request.resource.data.status
+              && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.statusReplyId == message))
+      }
     }
 
     // A photo's uploader and original file name (onAssetUploaded): admins only.
