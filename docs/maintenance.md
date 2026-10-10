@@ -222,6 +222,15 @@ rendering fails), they are served as the app's shell with the page's title,
 description and other `<head>` tags (a cave's page also with its text), and
 the browser draws them.
 
+Two safeguards keep the two builds together. `firebase deploy` (Hosting or
+the functions) first runs `node scripts/check-ssr-build.js --check`, which
+stops the deploy when `build/` and `functions/js/ssr/` come from different
+builds, or one is missing: run `npm run build` again. And if Hosting is
+deployed alone all the same, the page functions see that the site's build
+isn't theirs and serve the pages as the app's shell, drawn in the browser,
+until the functions are deployed too: the logs show `[ssr] the site and the
+server build differ`.
+
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10
 seconds to load the functions code. This is usually a slow cold start, not a

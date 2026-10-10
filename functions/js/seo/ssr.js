@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
 import { CAVES_COLL_NAME } from '../constants.js'
-import { renderSsrPage } from './shared.js'
+import { renderSsrPage, shellFor } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
 // The public pages rendered by the app itself (src/entry-server.jsx), for
@@ -103,6 +103,30 @@ async function readData() {
   return data
 }
 
+// The app's entry script, hashed by its content: one name per build
+// (scripts/check-ssr-build.js compares the two builds by it too).
+const ENTRY_PATTERN = /assets\/index-[\w-]+\.js/
+const entryOf = (html) => html.match(ENTRY_PATTERN)?.[0] || null
+const warnedBuilds = new Set()
+
+// Whether this server build is the one the site serves. A Hosting deploy
+// without the functions (or the functions from an older build) would have
+// the pages name files the site no longer has: then they're served as the
+// site's own shell (indexPages.js), drawn in the browser. Not checked in the
+// emulator, whose shell is production's.
+async function isSiteBuild(req, ssr) {
+  if (process.env.FUNCTIONS_EMULATOR === 'true') return true
+  const site = entryOf(await shellFor(req))
+  const server = entryOf(ssr.shell)
+  if (site === server) return true
+  const key = `${site} ${server}`
+  if (!warnedBuilds.has(key)) {
+    warnedBuilds.add(key)
+    logger.warn('[ssr] the site and the server build differ: pages drawn in the browser until Hosting and the functions are deployed together', { site, server })
+  }
+  return false
+}
+
 let indexCache = null
 
 // The data the page functions need for a page's <head> (indexPages.js):
@@ -116,10 +140,11 @@ export async function loadPageIndex() {
 
 // The page at req's address, rendered by the app, as HTML - with meta (the
 // page's <head> data: indexPages.js's) - or null when the app can't render
-// it (no server build, not one of its pages); throws when rendering fails.
+// it (no server build, a build other than the site's, not one of its
+// pages); throws when rendering fails.
 export async function renderWithApp(req, meta) {
   const ssr = await loadSsr()
-  if (!ssr) return null
+  if (!ssr || !(await isSiteBuild(req, ssr))) return null
   const page = ssr.pageOf(req.path)
   if (!page) return null
   const { raw, maps } = await readData()
