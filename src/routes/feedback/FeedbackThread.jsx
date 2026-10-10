@@ -82,7 +82,7 @@ function Comment({ name, team, date, action, marks, children }) {
             {name}
           </Typography>
           <Typography variant="body2" component="span" sx={{ opacity: 0.8 }}>
-            {action} {date && <RelativeTime value={date} />}
+            {action} {date && <RelativeTime value={date} focusable />}
           </Typography>
           <Box sx={{ flex: 1 }} />
           {marks}
@@ -141,7 +141,7 @@ function StageEvent({ status, name, date }) {
         <Box component="strong" sx={{ color: 'text.primary' }}>
           {name}
         </Box>{' '}
-        {t('admin.timeline.stageSet', { status: t(`admin.status.${status}`) })} <RelativeTime value={date} />
+        {t('admin.timeline.stageSet', { status: t(`admin.status.${status}`) })} <RelativeTime value={date} focusable />
       </Typography>
     </Box>
   )

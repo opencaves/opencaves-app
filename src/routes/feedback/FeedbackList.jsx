@@ -75,13 +75,14 @@ function FilterMenu({ className, label, value, options, onChange, allLabel }) {
 // it when and from which page, and how many messages its thread has. The
 // whole row opens the report - its only action: the title's link stretched
 // over it (::after), still the row's one link for keyboards and screen
-// readers; the focus ring drawn on the row. Its time and message count stay
-// above the link, for their tooltips.
+// readers; the focus ring drawn on the row. Its message count stays above
+// the link, for its tooltip; its time doesn't (a click or tap on it opens the
+// report too), so it's not underlined as having one.
 function ReportRow({ report, authorName, search }) {
   const { t } = useTranslation('feedback')
   const count = messageCountOf(report)
   return (
-    <Box component="li" className="oc-feedback-list--row" sx={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 1.5, px: 2, py: 1.5, borderTop: 1, borderColor: 'divider', cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, '&:hover .oc-feedback-list--title': { color: 'primary.main' }, '&:has(.oc-feedback-list--title:focus-visible)': { outline: 2, outlineColor: 'primary.main', outlineOffset: -2 }, '& oc-relative-time': { position: 'relative', zIndex: 1 } }}>
+    <Box component="li" className="oc-feedback-list--row" sx={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 1.5, px: 2, py: 1.5, borderTop: 1, borderColor: 'divider', cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, '&:hover .oc-feedback-list--title': { color: 'primary.main' }, '&:has(.oc-feedback-list--title:focus-visible)': { outline: 2, outlineColor: 'primary.main', outlineOffset: -2 }, '& oc-relative-time::part(time)': { textDecoration: 'none' } }}>
       <StateIcon report={report} sx={{ mt: '2px', fontSize: 20 }} />
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
