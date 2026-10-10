@@ -9,9 +9,50 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
 
 // A wheel's lines or pages as pixels.
 const WHEEL_LINE = 16
+// A pixel step this large is a mouse wheel's notch (Chrome, Safari: ~100 px),
+// not a trackpad's stream of small steps.
+const WHEEL_NOTCH = 40
+// The share of the way left the glide covers every 1/60 s.
+const GLIDE = 0.2
+
+// Each strip's wheel glide: where it's heading, its frame, where it last put the strip.
+const glides = new WeakMap()
+
+function stopGlide(view) {
+  const glide = glides.get(view)
+  if (glide) cancelAnimationFrame(glide.frame)
+  glides.delete(view)
+}
+
+function glideTo(view, target) {
+  let glide = glides.get(view)
+  if (!glide) {
+    glide = { target, frame: 0, at: view.scrollLeft, time: performance.now() }
+    glides.set(view, glide)
+  }
+  glide.target = target
+  if (glide.frame) return
+  const step = (now) => {
+    // Moved by something else (its scrollbar dragged, a snap): let it be.
+    if (Math.abs(view.scrollLeft - glide.at) > 2) return stopGlide(view)
+    const left = glide.target - glide.at
+    const share = 1 - Math.pow(1 - GLIDE, (now - glide.time) / (1000 / 60))
+    glide.time = now
+    // At least a pixel a frame, or a rounded scrollLeft could hold it short.
+    const move = Math.abs(left) <= 1 ? left : Math.sign(left) * Math.max(1, Math.abs(left * share))
+    view.scrollLeft = glide.at + move
+    glide.at = view.scrollLeft
+    if (Math.abs(glide.target - glide.at) < 1) return stopGlide(view)
+    glide.frame = requestAnimationFrame(step)
+  }
+  glide.time = performance.now()
+  glide.frame = requestAnimationFrame(step)
+}
 
 /**
- * The wheel scrolls the strip sideways, by the wheel's own distance.
+ * The wheel scrolls the strip sideways, by the wheel's own distance: a mouse
+ * wheel's notches glide there, a trackpad's steps (already smooth) and a
+ * reader who prefers reduced motion move it at once.
  *
  * @param {HTMLElement} view - The strip's scrolling element.
  * @param {WheelEvent} event
@@ -19,7 +60,15 @@ const WHEEL_LINE = 16
 export function scrollStrip(view, event) {
   const delta = event.deltaY || event.deltaX
   const pixels = event.deltaMode === 1 ? delta * WHEEL_LINE : event.deltaMode === 2 ? delta * view.clientWidth : delta
-  view.scrollLeft += pixels
+  const notch = event.deltaMode !== 0 || Math.abs(pixels) >= WHEEL_NOTCH
+  if (!notch || reducedMotion()) {
+    stopGlide(view)
+    view.scrollLeft += pixels
+    return
+  }
+  const max = view.scrollWidth - view.clientWidth
+  const from = glides.get(view)?.target ?? view.scrollLeft
+  glideTo(view, Math.max(0, Math.min(max, from + pixels)))
 }
 
 // How long the strip stays still before it's settled.
