@@ -12,9 +12,9 @@ import { APP_NAME } from '@/config/app.js'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
-import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CaveIcon from '@/images/map/cave.svg?react'
+import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { youtubeThumbnail } from '@/utils/videos.js'
 import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
@@ -180,7 +180,7 @@ export default function WhatsNew() {
       }
       if (item.kind === 'sistemas') {
         const sistema = data.sistemasById.get(item.docId)
-        return { ...item, at, icon: <SistemaArrow color={sistema?.color} />, label: sistema?.name || item.name || t('unnamedSistema'), to: sistema?.slug ? `/sistemas/${sistema.slug}` : null, context: null }
+        return { ...item, at, icon: <SvgIcon inheritViewBox><CaveSystemIcon /></SvgIcon>, label: sistema?.name || item.name || t('unnamedSistema'), to: sistema?.slug ? `/sistemas/${sistema.slug}` : null, context: null }
       }
       if (item.kind === 'connections') {
         const child = data.sistemasById.get(item.sistemaId)
