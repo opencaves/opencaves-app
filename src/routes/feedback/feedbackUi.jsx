@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { collection, doc, getDocs, serverTimestamp, updateDoc, writeBatch } from 'firebase/firestore'
-import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
+import { Avatar, Box, Chip, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import BugReportRounded from '@mui/icons-material/BugReportRounded'
 import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
 import LightbulbRounded from '@mui/icons-material/LightbulbRounded'
@@ -17,10 +17,9 @@ import RadioButtonCheckedRounded from '@mui/icons-material/RadioButtonCheckedRou
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
 import { auth, db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_MESSAGES_COLLECTION } from '@/config/collections.js'
-import { FEEDBACK_REPLY_MAX_LENGTH, FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES, TOLD_FEEDBACK_STATUSES } from '@/utils/feedback.js'
+import { FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
-import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 
 export { default as RelativeTime, toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 
@@ -92,9 +91,8 @@ export function Initials({ name, team, size = 32 }) {
 
 // A team reply to a report, emailed to its author (onFeedbackReplied). With a
 // stage (done, rejected) it also closes the report, in the same batch: the
-// report then names the reply (statusReplyId), so the author gets this one
-// email - the reply, with the outcome - and not also the outcome's own
-// (onFeedbackStatusChanged).
+// report then names the reply (statusReplyId), and the reply's email carries
+// the outcome.
 export async function sendFeedbackReply(report, text, status) {
   const reportRef = doc(db, FEEDBACK_COLLECTION, report.id)
   const messageRef = doc(collection(reportRef, FEEDBACK_MESSAGES_COLLECTION))
@@ -116,51 +114,22 @@ export async function deleteFeedbackReport(id) {
   await batch.commit()
 }
 
-// A report's stage, as a chip opening the menu that changes it. Done or
-// rejected, its author is emailed: a dialog first takes an optional reply -
-// with one, it's sent with the stage, one email with both (onFeedbackReplied);
-// without, they're emailed the outcome alone (onFeedbackStatusChanged).
-export function StatusMenu({ report, authorLabel, size = 'small' }) {
+// A report's stage, changeable from a menu. Changing it emails no one - only
+// replies do (the reply box's "Send and mark as done/rejected" sends the
+// stage with the reply, in one email).
+export function StatusMenu({ report, size = 'small' }) {
   const { t } = useTranslation('feedback')
   const [openSnackbar] = useSnackbar()
   const [anchor, setAnchor] = useState(null)
-  const [closing, setClosing] = useState(null)
-  const [reply, setReply] = useState('')
   const current = statusOf(report)
-  const trimmed = reply.trim()
-  const tooLong = trimmed.length > FEEDBACK_REPLY_MAX_LENGTH
-
-  function save(status) {
-    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status, statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid }).catch((error) => {
-      console.error(error)
-      openSnackbar(t('admin.statusError'))
-    })
-  }
 
   function change(status) {
     setAnchor(null)
     if (status === current) return
-    if (TOLD_FEEDBACK_STATUSES.includes(status)) {
-      setReply('')
-      setClosing(status)
-      return
-    }
-    save(status)
-  }
-
-  function close() {
-    const status = closing
-    setClosing(null)
-    if (!trimmed) {
-      save(status)
-      return
-    }
-    sendFeedbackReply(report, trimmed, status)
-      .then(() => openSnackbar(t('admin.thread.sent', { name: authorLabel }), { severity: 'success' }))
-      .catch((error) => {
-        console.error(error)
-        openSnackbar(t('admin.thread.sendError'))
-      })
+    updateDoc(doc(db, FEEDBACK_COLLECTION, report.id), { status, statusUpdatedAt: serverTimestamp(), statusUpdatedBy: auth.currentUser.uid }).catch((error) => {
+      console.error(error)
+      openSnackbar(t('admin.statusError'))
+    })
   }
 
   return (
@@ -189,24 +158,6 @@ export function StatusMenu({ report, authorLabel, size = 'small' }) {
           </MenuItem>
         ))}
       </Menu>
-      <Dialog className="oc-feedback-close-dialog" open={Boolean(closing)} onClose={() => setClosing(null)} maxWidth="sm" fullWidth>
-        <DialogTitle>{closing && t('admin.closeTitle', { status: t(`admin.status.${closing}`) })}</DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ mb: 2 }}>{t('admin.closeText', { name: authorLabel })}</DialogContentText>
-          <MarkdownField label={t('admin.replyForReporter')} placeholder={closing ? t(`admin.closePlaceholder.${closing}`) : ''} value={reply} onChange={(event) => setReply(event.target.value)} minRows={3} />
-          {tooLong && (
-            <Typography variant="body2" sx={{ mt: 0.5, color: 'error.main' }}>
-              {t('admin.thread.tooLong', { count: FEEDBACK_REPLY_MAX_LENGTH })}
-            </Typography>
-          )}
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setClosing(null)}>{t('cancel')}</Button>
-          <Button variant="contained" onClick={close} disabled={tooLong}>
-            {trimmed ? t('admin.closeConfirmReply') : t('admin.closeConfirm')}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   )
 }

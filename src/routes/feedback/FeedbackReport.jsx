@@ -20,9 +20,11 @@ import { FeedbackTimeline, ReplyForm, useFeedbackMessages } from './FeedbackThre
 function Field({ label, children }) {
   return (
     <Box className="oc-feedback-report--field" sx={{ py: 1.5, '&:first-of-type': { pt: 0 } }}>
-      <Typography variant="caption" component="h2" sx={{ display: 'block', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>
-        {label}
-      </Typography>
+      {label && (
+        <Typography variant="caption" component="h2" sx={{ display: 'block', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>
+          {label}
+        </Typography>
+      )}
       <Box sx={{ typography: 'body2', overflowWrap: 'anywhere' }}>{children}</Box>
     </Box>
   )
@@ -147,7 +149,7 @@ export default function FeedbackReport() {
 
         <Box component="aside" className="oc-feedback-report--side" aria-label={t('admin.report.details')} sx={{ ...DASHBOARD_SURFACE_SX, p: 2, '& > .oc-feedback-report--field + .oc-feedback-report--field': { borderTop: 1, borderColor: 'divider' } }}>
           <Field label={t('admin.report.stage')}>
-            <StatusMenu report={report} authorLabel={authorName} />
+            <StatusMenu report={report} />
             {report.statusUpdatedBy && (
               <Typography variant="body2" sx={{ mt: 0.75, color: 'text.secondary' }}>
                 {accountLabel(report.statusUpdatedBy)} · <RelativeTime value={report.statusUpdatedAt} />
@@ -175,7 +177,7 @@ export default function FeedbackReport() {
           {languageName && <Field label={t('admin.report.language')}>{languageName}</Field>}
           {report.browser && (
             <Field label={t('admin.report.browser')}>
-              <Box sx={{ color: 'text.secondary' }}>{report.browser}</Box>
+              <Box className="oc-feedback-report--browser" sx={{ typography: 'caption', color: 'text.secondary', overflowWrap: 'anywhere' }}>{report.browser}</Box>
             </Field>
           )}
           {report.reporterEmailedAt && (
@@ -183,7 +185,7 @@ export default function FeedbackReport() {
               <RelativeTime value={report.reporterEmailedAt} />
             </Field>
           )}
-          <Field label={t('admin.report.danger')}>
+          <Field>
             <Button className="oc-feedback-report--delete" size="small" color="error" variant="outlined" startIcon={<DeleteOutlineRounded />} onClick={() => setToDelete(true)}>
               {t('admin.delete')}
             </Button>

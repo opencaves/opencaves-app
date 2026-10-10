@@ -177,12 +177,11 @@ emulator has no TTL: local entries stay until deleted.
 The Cloud Functions send email with [Resend](https://resend.com) from
 `noreply@opencaves.org` (`functions/js/email/sendEmail.js`): the freeze and
 unfreeze notices, and the beta feedback's - a new report to the admins
-(`onFeedbackCreated`), its outcome to its author when it's marked done or
-rejected (`onFeedbackStatusChanged`), and each team reply written on the
-Feedback page (`onFeedbackReplied`). A reply goes to the report's author with
-the whole conversation, in the language of the report; a reply sent with
-"Send and mark as done/rejected" (or written in the stage dialog) carries the
-outcome too, and is the only email of that change. A report's emails share a
+(`onFeedbackCreated`), and each team reply written on the Feedback page
+(`onFeedbackReplied`). Only replies email a report's author: changing its
+stage emails no one. A reply goes to the author with the whole conversation,
+in the language of the report; one sent with "Send and mark as done/rejected"
+carries the outcome too. A report's emails share a
 subject and `Message-ID`/`References` headers, so mail apps show them as one
 conversation. Their Reply-To is the report's own address,
 `<replyToken>@reply.opencaves.org` (`FEEDBACK_REPLY_DOMAIN` in
