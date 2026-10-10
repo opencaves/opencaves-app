@@ -68,7 +68,9 @@
       "welcome": "Bienvenue sur {{name}}",
       "welcomeText": "Connectez-vous pour sauvegarder vos grottes préférées et contribuer.",
       "close": "Fermer",
-      "signInMenu": "Se connecter ou s’inscrire"
+      "signInMenu": "Se connecter ou s’inscrire",
+      "newFeedbackAria_one": "{{count}} nouveau commentaire",
+      "newFeedbackAria_other": "{{count}} nouveaux commentaires"
     },
     "snackbar": {
       "saved": "Modifications de {{name}} enregistrées",

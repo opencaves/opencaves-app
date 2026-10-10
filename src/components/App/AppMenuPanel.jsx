@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -22,6 +22,7 @@ import { openFeedback } from '@/utils/feedback.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
+import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 
 /**
  * The account menu's content, in the style of Google Maps' account card: a
@@ -29,12 +30,14 @@ import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
  * welcome with Log in / Sign up when not), the other actions grouped on white
  * rounded sections over the card's tinted surface - among them, once signed
  * in, Ideas and fixes (/feedback: the testers' reports and what the team does
- * about them) - and the legal links at the bottom. Rendered in AppMenu's
+ * about them) and, for admins, the count of new reports beside Dashboard -
+ * and the legal links at the bottom. Rendered in AppMenu's
  * Popover.
  */
 export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tLegal } = useTranslation('legal', { keyPrefix: 'links' })
+  const { t: tDashboard } = useTranslation('dashboard')
   const dispatch = useDispatch()
   const location = useLocation()
   const [openSnackbar] = useSnackbar()
@@ -42,6 +45,8 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const canUseDashboard = isLoggedIn && roles.includes('editor')
+  // The new feedback reports, beside the Dashboard entry (admins only).
+  const newFeedback = useNewFeedbackCount(isLoggedIn && roles.includes('admin'))
 
   const displayName = user?.displayName?.trim()
   const initial = displayName?.[0]?.toUpperCase()
@@ -150,6 +155,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
                 <SettingsRounded />
               </ListItemIcon>
               <ListItemText primary={t('admin')} />
+              {newFeedback > 0 && <Chip className="oc-app-menu-panel--new-feedback" size="small" color="secondary" label={tDashboard('newFeedback', { count: newFeedback })} sx={{ ml: 1 }} />}
             </ListItemButton>
           )}
           {canUseDashboard && offlineSupported && <Divider component="div" role="presentation" />}

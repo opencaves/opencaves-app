@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                       <FeedbackRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageFeedback')} />
-                    {newFeedback > 0 && <Chip className="oc-admin-dashboard--new-feedback" size="small" color="primary" label={t('newFeedback', { count: newFeedback })} />}
+                    {newFeedback > 0 && <Chip className="oc-admin-dashboard--new-feedback" size="small" color="secondary" label={t('newFeedback', { count: newFeedback })} />}
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
