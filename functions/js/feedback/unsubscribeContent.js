@@ -2,6 +2,11 @@
 // language.
 export const UNSUBSCRIBE_PAGE_CONTENT = {
   en: {
+    confirmTitle: 'Stop feedback emails?',
+    confirmHeading: 'Stop the feedback emails?',
+    confirmText: 'You won’t be emailed the OpenCaves team’s replies to your feedback anymore. They’ll stay on OpenCaves, and you can turn the emails back on in your account settings.',
+    confirmButton: 'Unsubscribe',
+    settingsLink: 'Open my settings instead',
     title: 'Unsubscribed',
     heading: 'You won’t get feedback emails anymore',
     text: 'The OpenCaves team’s replies to your feedback stay on OpenCaves, but they won’t be emailed to you.',
@@ -14,6 +19,11 @@ export const UNSUBSCRIBE_PAGE_CONTENT = {
     errorText: 'Your choice couldn’t be saved. Please try again later, or turn the feedback emails off in your account settings.',
   },
   fr: {
+    confirmTitle: 'Arrêter les courriels ?',
+    confirmHeading: 'Arrêter les courriels sur vos commentaires ?',
+    confirmText: 'Les réponses de l’équipe d’OpenCaves à vos commentaires ne vous seront plus envoyées par courriel. Elles resteront sur OpenCaves, et vous pourrez réactiver les courriels dans les paramètres de votre compte.',
+    confirmButton: 'Se désabonner',
+    settingsLink: 'Ouvrir plutôt mes paramètres',
     title: 'Désabonnement',
     heading: 'Vous ne recevrez plus de courriels sur vos commentaires',
     text: 'Les réponses de l’équipe d’OpenCaves à vos commentaires restent sur OpenCaves, mais ne vous seront plus envoyées par courriel.',
@@ -26,6 +36,11 @@ export const UNSUBSCRIBE_PAGE_CONTENT = {
     errorText: 'Votre choix n’a pas pu être enregistré. Réessayez plus tard, ou désactivez les courriels sur vos commentaires dans les paramètres de votre compte.',
   },
   es: {
+    confirmTitle: '¿Dejar de recibir correos?',
+    confirmHeading: '¿Dejar de recibir correos sobre tus comentarios?',
+    confirmText: 'Ya no recibirás por correo las respuestas del equipo de OpenCaves a tus comentarios. Seguirán en OpenCaves, y podrás volver a activar los correos en la configuración de tu cuenta.',
+    confirmButton: 'Cancelar suscripción',
+    settingsLink: 'Abrir mi configuración',
     title: 'Suscripción cancelada',
     heading: 'Ya no recibirás correos sobre tus comentarios',
     text: 'Las respuestas del equipo de OpenCaves a tus comentarios siguen en OpenCaves, pero ya no te llegarán por correo.',

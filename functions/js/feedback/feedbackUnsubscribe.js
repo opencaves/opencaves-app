@@ -12,7 +12,9 @@ const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':
 // A small page of its own (no app bundle): the OpenCaves name, a heading, a
 // text and a link to the settings, light or dark like the device. Colours:
 // the app theme's (src/theme/Theme.jsx).
-function page({ language, title, heading, paragraphs, button }) {
+// action: the form's address and button label ({ url, label }), for the
+// confirmation; the settings button then becomes a plain link under it.
+function page({ language, title, heading, paragraphs, button, action = null }) {
   return `<!doctype html>
 <html lang="${language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="color-scheme" content="light dark">
 <title>${escape(title)} · OpenCaves</title>
@@ -25,13 +27,18 @@ main{width:100%;max-width:480px;background:var(--oc-card);border-radius:20px;pad
 .oc-unsubscribe--brand{display:inline-block;margin:0 0 20px;font-size:20px;font-weight:600;color:var(--oc-primary);text-decoration:none}
 h1{margin:0 0 12px;font-size:24px;line-height:32px;font-weight:600}
 p{margin:0 0 14px;color:var(--oc-muted)}
-.oc-unsubscribe--button{display:inline-block;margin-top:8px;padding:10px 24px;border-radius:20px;background:var(--oc-primary);color:var(--oc-on-primary);font-weight:600;text-decoration:none}
+.oc-unsubscribe--button{display:inline-block;margin-top:8px;padding:10px 24px;border:0;border-radius:20px;background:var(--oc-primary);color:var(--oc-on-primary);font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.oc-unsubscribe--form{margin:0}
+.oc-unsubscribe--link{display:inline-block;margin-top:16px;color:var(--oc-primary)}
 </style></head>
 <body><main class="oc-unsubscribe">
 <a class="oc-unsubscribe--brand" href="${SITE_URL}">OpenCaves</a>
 <h1>${escape(heading)}</h1>
 ${paragraphs.map((text) => `<p>${escape(text)}</p>`).join('\n')}
-<a class="oc-unsubscribe--button" href="${SETTINGS_URL}">${escape(button)}</a>
+${action
+    ? `<form class="oc-unsubscribe--form" method="post" action="${escape(action.url)}"><input type="hidden" name="confirm" value="1"><button class="oc-unsubscribe--button" type="submit">${escape(action.label)}</button></form>
+<a class="oc-unsubscribe--link" href="${SETTINGS_URL}">${escape(button)}</a>`
+    : `<a class="oc-unsubscribe--button" href="${SETTINGS_URL}">${escape(button)}</a>`}
 </main></body></html>`
 }
 
@@ -44,12 +51,15 @@ function languageOf(req, account) {
 }
 
 // The feedback emails' unsubscribe link (/email/unsubscribe?t=<token>, a
-// Hosting rewrite; the token: email/unsubscribe.js): turns the account's
-// feedbackEmails setting off, without signing in. GET (the link in the
-// email): a page saying so, with a link to the settings to turn them back
-// on. POST (RFC 8058's one-click, the mail app's own Unsubscribe button):
-// the same, a short answer. Idempotent. An unknown or malformed token: 400,
-// with no detail. Never cached; the token is never logged.
+// Hosting rewrite; the token: email/unsubscribe.js), without signing in.
+// Opening it (GET) changes nothing - mail scanners open every link of an
+// email: a page asks to confirm, its button posting back (confirm=1); then
+// the account's feedbackEmails is turned off and a page says so, with a link
+// to the settings to turn them back on (already off: that page at once). A
+// POST without confirm is RFC 8058's one-click (the mail app's own
+// Unsubscribe button, List-Unsubscribe-Post): turned off, a short answer.
+// Idempotent. An unknown or malformed token: 400, with no detail. Never
+// cached; the token is never logged.
 export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }, async (req, res) => {
   res.set('Cache-Control', 'no-store')
   res.set('X-Robots-Tag', 'noindex')
@@ -59,21 +69,26 @@ export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }
     res.set('Allow', 'GET, POST').status(405).end()
     return
   }
+  // The confirmation page's own button, as opposed to a mail app's one-click.
+  const confirmed = post && String(req.body?.confirm || '') === '1'
+  const token = String(req.query.t || '')
   let account = null
   let failed = false
+  let off = false
   try {
-    account = await accountOfUnsubscribeToken(String(req.query.t || ''))
-    // A HEAD (a link checker) changes nothing.
-    if (account && req.method !== 'HEAD' && account.get('feedbackEmails') !== false) {
+    account = await accountOfUnsubscribeToken(token)
+    off = account?.get('feedbackEmails') === false
+    if (account && post && !off) {
       await account.ref.update({ feedbackEmails: false })
-      logger.info('[feedback] an author unsubscribed from the feedback emails', { uid: account.id, via: post ? 'one-click' : 'link' })
+      off = true
+      logger.info('[feedback] an author unsubscribed from the feedback emails', { uid: account.id, via: confirmed ? 'page' : 'one-click' })
     }
   } catch (error) {
     failed = true
     logger.error('[feedback] the unsubscribe failed', { error: error.message })
   }
 
-  if (post) {
+  if (post && !confirmed) {
     res.status(failed ? 500 : account ? 200 : 400).type('text/plain').send(failed ? 'Error' : account ? 'Unsubscribed' : 'Invalid link')
     return
   }
@@ -84,6 +99,10 @@ export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }
     res.status(500).type('html').send(page({ language, title: c.errorTitle, heading: c.errorTitle, paragraphs: [c.errorText], button: c.button }))
   } else if (!account) {
     res.status(400).type('html').send(page({ language, title: c.invalidTitle, heading: c.invalidHeading, paragraphs: [c.invalidText], button: c.button }))
+  } else if (!off) {
+    // The address the page was opened at, for its form (relative: Hosting's).
+    const url = `/email/unsubscribe?t=${encodeURIComponent(token)}`
+    res.status(200).type('html').send(page({ language, title: c.confirmTitle, heading: c.confirmHeading, paragraphs: [c.confirmText], button: c.settingsLink, action: { url, label: c.confirmButton } }))
   } else {
     res.status(200).type('html').send(page({ language, title: c.title, heading: c.heading, paragraphs: [c.text, c.settings], button: c.button }))
   }
