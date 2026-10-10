@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { collection, doc, getDocs, serverTimestamp, updateDoc, writeBatch } from 'firebase/firestore'
 import { Avatar, Box, Chip, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
@@ -16,16 +17,18 @@ import CheckRounded from '@mui/icons-material/CheckRounded'
 import RadioButtonCheckedRounded from '@mui/icons-material/RadioButtonCheckedRounded'
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
 import { auth, db } from '@/config/firebase.js'
-import { FEEDBACK_COLLECTION, FEEDBACK_MESSAGES_COLLECTION } from '@/config/collections.js'
+import { FEEDBACK_COLLECTION, FEEDBACK_MESSAGES_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_STATUSES, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { useAccounts } from '@/routes/audits/useAccounts.js'
 
 export { default as RelativeTime, toDate } from '@/components/RelativeTime/RelativeTime.jsx'
 
 // What the Feedback pages (the list, /feedback, and a report's page,
-// /feedback/:feedbackId) share: the kinds' and stages' looks, the stage menu,
-// dates, avatars and the writes.
+// /feedback/:feedbackId) share: who reads them (admins manage the reports;
+// the other registered accounts only read them - Ideas and fixes), the
+// kinds' and stages' looks, the stage menu, dates, avatars and the writes.
 
 // Each kind's icon and label colour.
 export const KINDS = {
@@ -68,6 +71,36 @@ export const messageCountOf = (report) => (report.messageCount || 0) + (report.n
  * @returns {number}
  */
 export const activityOf = (report) => Math.max(...[report.createdAt, report.statusUpdatedAt, report.lastMessageAt].map((value) => toDate(value)?.getTime() || 0))
+
+/**
+ * Who reads the Feedback pages, and the names they show. Admins manage the
+ * reports and see every account by name (useAccounts: listUsers). Anyone
+ * else (a registered account) only reads them: never an email, no listUsers
+ * - a report's author is its authorName (written by the server), "You" on
+ * their own, and every team member is the OpenCaves team.
+ *
+ * @returns {{isAdmin: boolean, authorOf: (report: FeedbackReport) => string, labelsFor: (report: FeedbackReport) => (uid: string) => string, accountList: object[]}}
+ *   authorOf(report): its author's name; labelsFor(report): who wrote a
+ *   message of its thread or set its stage, by account id; accountList: the
+ *   accounts with their emails, admins only (empty for anyone else).
+ */
+export function useFeedbackReader() {
+  const { t } = useTranslation('feedback')
+  const roles = useSelector((state) => state.session.roles)
+  const myUid = useSelector((state) => state.session.user?.uid)
+  const isAdmin = roles.includes('admin')
+  const { accountLabel, accountList } = useAccounts({ enabled: isAdmin })
+  const authorOf = useCallback(
+    (report) => {
+      if (isAdmin) return accountLabel(report.userId)
+      if (report.userId && report.userId === myUid) return t('members.you')
+      return report.authorName || t('members.someone')
+    },
+    [isAdmin, accountLabel, myUid, t],
+  )
+  const labelsFor = useCallback((report) => (isAdmin ? accountLabel : (uid) => (uid && uid === report.userId ? authorOf(report) : t('admin.thread.team'))), [isAdmin, accountLabel, authorOf, t])
+  return { isAdmin, authorOf, labelsFor, accountList }
+}
 
 /**
  * The open/closed mark (GitHub's issue state): open, closed as done, or
@@ -131,7 +164,7 @@ export async function sendFeedbackReply(report, text, status) {
 
 /**
  * A report, deleted with its thread (a deleted document keeps its
- * subcollections).
+ * subcollections) and its private doc (_feedbackPrivate: its browser).
  *
  * @param {string} id
  * @returns {Promise<void>}
@@ -141,6 +174,7 @@ export async function deleteFeedbackReport(id) {
   const messages = await getDocs(collection(reportRef, FEEDBACK_MESSAGES_COLLECTION))
   const batch = writeBatch(db)
   messages.forEach((message) => batch.delete(message.ref))
+  batch.delete(doc(db, FEEDBACK_PRIVATE_COLLECTION, id))
   batch.delete(reportRef)
   await batch.commit()
 }
@@ -193,6 +227,16 @@ export function StatusMenu({ report, size = 'small' }) {
       </Menu>
     </>
   )
+}
+
+/**
+ * A report's stage, as a plain label (what the members see: only admins
+ * change it, with StatusMenu).
+ */
+export function StageChip({ report, size = 'small', className = 'oc-feedback-stage' }) {
+  const { t } = useTranslation('feedback')
+  const status = statusOf(report)
+  return <Chip className={className} size={size} icon={STATUS[status].icon} color={STATUS[status].color} label={t(`admin.status.${status}`)} />
 }
 
 /**

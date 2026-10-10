@@ -105,13 +105,13 @@ function Mark({ icon, label }) {
   )
 }
 
-// A comment's marks: a team reply emailed to the author; the attachments of
-// an author's answer by email (feedbackInbound - its header says "replied by
-// email"), not kept.
-function MessageMarks({ message }) {
+// A comment's marks: a team reply emailed to the author (admins only); the
+// attachments of an author's answer by email (feedbackInbound - its header
+// says "replied by email"), not kept.
+function MessageMarks({ message, readOnly }) {
   const { t } = useTranslation('feedback')
   const marks = []
-  if (message.emailedAt) marks.push(<Mark key="emailed" icon={<MarkEmailReadOutlined />} label={t('admin.thread.emailed')} />)
+  if (message.emailedAt && !readOnly) marks.push(<Mark key="emailed" icon={<MarkEmailReadOutlined />} label={t('admin.thread.emailed')} />)
   if (message.droppedAttachments > 0) marks.push(<Mark key="attachments" icon={<AttachFileRounded />} label={t('admin.thread.attachmentsDropped', { count: message.droppedAttachments })} />)
   return marks.length ? <Box sx={{ display: 'inline-flex', flexWrap: 'wrap', columnGap: 1.5, rowGap: 0.5 }}>{marks}</Box> : null
 }
@@ -152,8 +152,14 @@ function StageEvent({ status, name, date }) {
  * note (before the thread) as the first reply - with the stages set, each
  * where it happened: those set with a reply (the reply's status), and the
  * report's current one (statusUpdatedAt/By) when no reply set it.
+ *
+ * @param {object} props
+ * @param {FeedbackReport} props.report
+ * @param {FeedbackMessage[]} props.messages
+ * @param {(uid: string) => string} props.accountLabel - Who an account is (useFeedbackReader's labelsFor: the members see the author and the team only).
+ * @param {boolean} [props.readOnly] - A member's view: no admin hints (a reply's "Emailed").
  */
-export function FeedbackTimeline({ report, messages, accountLabel }) {
+export function FeedbackTimeline({ report, messages, accountLabel, readOnly = false }) {
   const { t } = useTranslation('feedback')
   const authorName = accountLabel(report.userId)
   const items = []
@@ -189,7 +195,7 @@ export function FeedbackTimeline({ report, messages, accountLabel }) {
             team={item.message.from === 'team'}
             date={item.message.createdAt}
             action={t(item.message.via === 'email' ? 'admin.timeline.repliedByEmail' : 'admin.timeline.commented')}
-            marks={<MessageMarks message={item.message} />}
+            marks={<MessageMarks message={item.message} readOnly={readOnly} />}
           >
             {item.message.from === 'team' ? <Markdown>{item.message.text}</Markdown> : <Typography sx={{ whiteSpace: 'pre-wrap' }}>{item.message.text}</Typography>}
           </Comment>

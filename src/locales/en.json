@@ -54,6 +54,7 @@
       "about": "About",
       "about_withName": "About {{name}}",
       "feedback": "Send feedback",
+      "feedbackList": "Ideas and fixes",
       "whatCanIDo": "What can I do?",
       "whatsNew": "What's new",
       "drawer": {
@@ -1178,8 +1179,11 @@
     "connectionOfSistema": "the connection of {{name}}",
     "connectionDateHint": "When the connection between the two cave systems was established.",
     "adminSection": "Administration",
+    "feedbackSection": "Feedback",
     "manageMapLayers": "Map layers",
     "manageFeedback": "Feedback",
+    "followFeedback": "Ideas and fixes",
+    "followFeedbackText": "What testers have reported, and what's coming",
     "newFeedback_one": "{{count}} new",
     "newFeedback_other": "{{count}} new",
     "manageAudits": "Audits",
@@ -1869,6 +1873,12 @@
         "repliedByEmail": "replied by email",
         "stageSet": "set the stage to {{status}}"
       }
+    },
+    "members": {
+      "title": "Ideas and fixes",
+      "intro": "What testers have reported, and what the OpenCaves team is doing about it: follow what's coming.",
+      "you": "You",
+      "someone": "A member"
     },
     "messageTooShort": "At least {{count}} characters"
   },

@@ -18,23 +18,33 @@ service cloud.firestore {
       return hasRole('admin')
     }
 
+    // A registered account: signed in, not an anonymous session, not frozen
+    // (an editor or not - an unverified email has no role yet).
+    function isRegistered() {
+      return isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && !exists(/databases/$(database)/documents/_frozenUsers/$(request.auth.uid))
+    }
+
     // The beta testers' reports (the Send feedback form): an account (not an
     // anonymous session) sends its own - a kind, a message, the page it's
-    // about - as new; admins read them, move them through their stages,
-    // reply to them and delete them. onFeedbackCreated emails them to the
-    // admins.
+    // about - as new; every registered account reads them and their threads
+    // (Ideas and fixes: what's coming), so nothing private is kept here -
+    // the browser is in _feedbackPrivate. Admins move them through their
+    // stages, reply to them and delete them. onFeedbackCreated emails them to
+    // the admins and adds authorName (the account's display name), which
+    // clients never write.
     match /_feedback/{report} {
       allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
-        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'browser', 'language', 'userId', 'createdAt', 'status'])
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'language', 'userId', 'createdAt', 'status'])
         && request.resource.data.kind in ['bug', 'misleading', 'idea']
         && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
         && request.resource.data.page is string && request.resource.data.page.size() <= 500
         && (!('language' in request.resource.data) || (request.resource.data.language is string && request.resource.data.language.size() <= 10))
-        && (!('browser' in request.resource.data) || (request.resource.data.browser is string && request.resource.data.browser.size() <= 500))
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.createdAt == request.time
         && request.resource.data.status == 'new'
-      allow read, delete: if isAdmin()
+      allow read: if isRegistered() || isAdmin()
+      allow delete: if isAdmin()
       // Its stage (src/utils/feedback.js' FEEDBACK_STATUSES), who set it and
       // when. A stage set with a team reply (one batch) names that reply,
       // statusReplyId: onFeedbackStatusChanged then leaves the email to
@@ -53,7 +63,8 @@ service cloud.firestore {
       // which names it: statusReplyId). The author's answers (from:
       // 'author', via: 'email') are written only by the server.
       match /messages/{message} {
-        allow read, delete: if isAdmin()
+        allow read: if isRegistered() || isAdmin()
+        allow delete: if isAdmin()
         allow create: if isAdmin() && exists(/databases/$(database)/documents/_feedback/$(report))
           && request.resource.data.keys().hasAll(['from', 'text', 'createdAt', 'userId', 'via'])
           && request.resource.data.keys().hasOnly(['from', 'text', 'createdAt', 'userId', 'via', 'status'])
@@ -71,6 +82,20 @@ service cloud.firestore {
     // A photo's uploader and original file name (onAssetUploaded): admins only.
     match /_cavesAssetsPrivate/{document} {
       allow read: if isAdmin()
+    }
+
+    // What of a report only admins read: its browser, written by its author
+    // with the report (one batch: the report must not exist before it, and
+    // be theirs after it - a lone doc, or one for another report, is
+    // refused), and the reply token the server adds (feedback/replyAddress.js).
+    match /_feedbackPrivate/{report} {
+      allow read, delete: if isAdmin()
+      allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && !exists(/databases/$(database)/documents/_feedback/$(report))
+        && existsAfter(/databases/$(database)/documents/_feedback/$(report))
+        && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.userId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['browser'])
+        && request.resource.data.browser is string && request.resource.data.browser.size() <= 500
     }
 
     // Who changed or deleted what, from the app (functions/js/audit), the
@@ -390,4 +415,4 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['savedAt'])
     }
   }
-}
+}

@@ -420,14 +420,17 @@ export const routes = [
               },
               {
                 // The beta testers' reports (Send feedback), listed like
-                // GitHub's issues (?state, q, kind, stage, sort)...
+                // GitHub's issues (?state, q, kind, stage, sort)... Every
+                // registered account reads them (Ideas and fixes: what's
+                // coming), admins manage them; anonymous visitors are sent
+                // to log in, as for /account.
                 path: 'feedback',
-                ...requireAdmin(() => import('@/routes/feedback/FeedbackList.jsx')),
+                ...requireAuth(() => import('@/routes/feedback/FeedbackList.jsx')),
               },
               {
                 // ...and each one on its own page, its thread and replies.
                 path: 'feedback/:feedbackId',
-                ...requireAdmin(() => import('@/routes/feedback/FeedbackReport.jsx')),
+                ...requireAuth(() => import('@/routes/feedback/FeedbackReport.jsx')),
               },
               {
                 // Any other address: not found, the app bar kept.

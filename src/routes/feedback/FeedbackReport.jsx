@@ -9,12 +9,11 @@ import NotificationsOffOutlined from '@mui/icons-material/NotificationsOffOutlin
 import RadioButtonCheckedRounded from '@mui/icons-material/RadioButtonCheckedRounded'
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
 import { auth, db } from '@/config/firebase.js'
-import { FEEDBACK_COLLECTION } from '@/config/collections.js'
+import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
-import { KindChip, RelativeTime, StatusMenu, deleteFeedbackReport, isOpen, messageCountOf, statusOf, titleOf } from './feedbackUi.jsx'
+import { KindChip, RelativeTime, StageChip, StatusMenu, deleteFeedbackReport, isOpen, messageCountOf, statusOf, titleOf, useFeedbackReader } from './feedbackUi.jsx'
 import { FeedbackTimeline, ReplyForm, useFeedbackMessages } from './FeedbackThread.jsx'
 
 // One labelled entry of the side panel.
@@ -48,11 +47,14 @@ function StateBadge({ report }) {
 }
 
 /**
- * /feedback/:feedbackId (admins): one report, as GitHub shows an issue - its
- * title (its message's first line) and state, its timeline (the report, the
- * thread's messages, the stages set), the reply box, and a side panel (under
- * the timeline on phones) with its stage (changeable), kind, page, browser,
- * language and author, and its deletion.
+ * /feedback/:feedbackId: one report, as GitHub shows an issue - its title
+ * (its message's first line) and state, its timeline (the report, the
+ * thread's messages, the stages set), and a side panel (under the timeline
+ * on phones) with its stage, kind, author and page. Admins also get the
+ * reply box, the stage menu, the author's email, the language, the browser
+ * (its _feedbackPrivate doc, admins only), the email hints and its deletion;
+ * every other registered account only reads it (Ideas and fixes), the
+ * author by name only (useFeedbackReader).
  */
 export default function FeedbackReport() {
   const { t, i18n } = useTranslation('feedback')
@@ -60,9 +62,11 @@ export default function FeedbackReport() {
   const location = useLocation()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
-  const { accountLabel, accountList } = useAccounts()
+  const { isAdmin, authorOf, labelsFor, accountList } = useFeedbackReader()
   const [openSnackbar] = useSnackbar()
   const [report, setReport] = useState(undefined)
+  // Its browser: admins only, in its private doc.
+  const [browser, setBrowser] = useState(null)
   const [toDelete, setToDelete] = useState(false)
   const messages = useFeedbackMessages(feedbackId)
   const back = `/feedback${location.state?.from || ''}`
@@ -81,7 +85,17 @@ export default function FeedbackReport() {
   )
 
   useEffect(() => {
-    setTitle(report ? titleOf(report) : t('admin.title'))
+    setBrowser(null)
+    if (!isAdmin) return undefined
+    return onSnapshot(
+      doc(db, FEEDBACK_PRIVATE_COLLECTION, feedbackId),
+      (snapshot) => setBrowser(snapshot.get('browser') || null),
+      (error) => console.error(error),
+    )
+  }, [feedbackId, isAdmin])
+
+  useEffect(() => {
+    setTitle(report ? titleOf(report) : t(isAdmin ? 'admin.title' : 'members.title'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t, report?.message])
 
@@ -112,8 +126,13 @@ export default function FeedbackReport() {
     )
   }
 
-  const authorName = accountLabel(report.userId)
+  const accountLabel = labelsFor(report)
+  const authorName = authorOf(report)
+  // Admins only (accountList is empty for anyone else).
   const authorEmail = accountList.find((account) => account.uid === report.userId)?.email
+  // An older report's browser, on the report itself until
+  // scripts/move-feedback-private.js moves it.
+  const browserShown = browser || report.browser
   const me = auth.currentUser?.displayName || auth.currentUser?.email || ''
   const count = messageCountOf(report)
   let languageName = report.language || null
@@ -146,13 +165,13 @@ export default function FeedbackReport() {
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) 260px' }, gap: 3, alignItems: 'start' }}>
         <Box className="oc-feedback-report--main" sx={{ minWidth: 0 }}>
-          <FeedbackTimeline report={report} messages={messages} accountLabel={accountLabel} />
-          <ReplyForm report={report} authorLabel={authorName} myName={me} />
+          <FeedbackTimeline report={report} messages={messages} accountLabel={accountLabel} readOnly={!isAdmin} />
+          {isAdmin && <ReplyForm report={report} authorLabel={authorName} myName={me} />}
         </Box>
 
         <Box component="aside" className="oc-feedback-report--side" aria-label={t('admin.report.details')} sx={{ ...DASHBOARD_SURFACE_SX, p: 2, '& > .oc-feedback-report--field + .oc-feedback-report--field': { borderTop: 1, borderColor: 'divider' } }}>
           <Field label={t('admin.report.stage')}>
-            <StatusMenu report={report} />
+            {isAdmin ? <StatusMenu report={report} /> : <StageChip report={report} />}
             {report.statusUpdatedBy && (
               <Typography variant="body2" sx={{ mt: 0.75, color: 'text.secondary' }}>
                 {accountLabel(report.statusUpdatedBy)} · <RelativeTime value={report.statusUpdatedAt} />
@@ -164,7 +183,7 @@ export default function FeedbackReport() {
           </Field>
           <Field label={t('admin.report.author')}>
             <div>{authorName}</div>
-            {authorEmail && (
+            {isAdmin && authorEmail && (
               <Box component="a" href={`mailto:${authorEmail}`} sx={{ color: 'primary.main' }}>
                 {authorEmail}
               </Box>
@@ -177,20 +196,20 @@ export default function FeedbackReport() {
               </Box>
             </Field>
           )}
-          {languageName && <Field label={t('admin.report.language')}>{languageName}</Field>}
-          {report.browser && (
+          {isAdmin && languageName && <Field label={t('admin.report.language')}>{languageName}</Field>}
+          {isAdmin && browserShown && (
             <Field label={t('admin.report.browser')}>
-              <Box className="oc-feedback-report--browser" sx={{ typography: 'caption', color: 'text.secondary', overflowWrap: 'anywhere' }}>{report.browser}</Box>
+              <Box className="oc-feedback-report--browser" sx={{ typography: 'caption', color: 'text.secondary', overflowWrap: 'anywhere' }}>{browserShown}</Box>
             </Field>
           )}
-          {report.reporterEmailedAt && (
+          {isAdmin && report.reporterEmailedAt && (
             <Field label={t('admin.report.lastEmailed')}>
               <RelativeTime value={report.reporterEmailedAt} />
             </Field>
           )}
           {/* authorMuted: mirrored by the server from the author's settings
               (onAuthorMutedChanged) - admins don't read _users. */}
-          {report.authorMuted && (
+          {isAdmin && report.authorMuted && (
             <Field>
               <Box className="oc-feedback-report--muted" sx={{ display: 'flex', alignItems: 'center', gap: 1, typography: 'body2', color: 'text.secondary' }}>
                 <NotificationsOffOutlined fontSize="small" />
@@ -198,11 +217,13 @@ export default function FeedbackReport() {
               </Box>
             </Field>
           )}
-          <Field>
-            <Button className="oc-feedback-report--delete" size="small" color="error" variant="outlined" startIcon={<DeleteOutlineRounded />} onClick={() => setToDelete(true)}>
-              {t('admin.delete')}
-            </Button>
-          </Field>
+          {isAdmin && (
+            <Field>
+              <Button className="oc-feedback-report--delete" size="small" color="error" variant="outlined" startIcon={<DeleteOutlineRounded />} onClick={() => setToDelete(true)}>
+                {t('admin.delete')}
+              </Button>
+            </Field>
+          )}
         </Box>
       </Box>
 
