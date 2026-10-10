@@ -34,26 +34,36 @@
  */
 
 /**
- * A feedback report (`_feedback`).
+ * A feedback report (`_feedback`), read by every registered account: nothing
+ * private on it (see {@link FeedbackPrivate}).
  *
  * @typedef {object} FeedbackReport
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser]
+ * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
+ * @property {string} [authorName] - Its author's display name (onFeedbackCreated), shown to the members; none without one.
  * @property {Timestamp} createdAt
  * @property {'new'|'confirmed'|'inProgress'|'done'|'rejected'|'duplicate'} status
  * @property {Timestamp} [statusUpdatedAt]
  * @property {string} [statusUpdatedBy] - An admin's uid, or the author's when their answer by email reopened it.
  * @property {string} [statusReplyId] - The team reply that set its stage.
  * @property {string} [note] - The admins' former note (shown as the thread's first reply).
- * @property {string} [replyToken] - Its reply address' local part (feedback/replyAddress.js).
+ * @property {string} [replyToken] - Older reports only (now in {@link FeedbackPrivate}), until scripts/move-feedback-private.js moves it.
  * @property {boolean} [authorMuted] - The author turned the feedback emails off.
  * @property {Timestamp} [reporterEmailedAt]
  * @property {number} [messageCount]
  * @property {Timestamp} [lastMessageAt]
+ */
+
+/**
+ * What of a report only admins read (`_feedbackPrivate/{id}`, the report's id).
+ *
+ * @typedef {object} FeedbackPrivate
+ * @property {string} [browser] - Its author's user agent, written with the report.
+ * @property {string} [replyToken] - Its reply address' local part (feedback/replyAddress.js).
  */
 
 /**

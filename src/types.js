@@ -228,16 +228,19 @@
  */
 
 /**
- * A feedback report (`_feedback`), sent from the Send feedback form.
+ * A feedback report (`_feedback`), sent from the Send feedback form - read by
+ * every registered account (Ideas and fixes): nothing private on it (see
+ * {@link FeedbackPrivate}).
  *
  * @typedef {object} FeedbackReport
  * @property {string} id
  * @property {'bug'|'misleading'|'idea'} kind
  * @property {string} message
  * @property {string} page - The page it's about.
- * @property {string} [browser]
+ * @property {string} [browser] - Older reports only, until scripts/move-feedback-private.js moves it to {@link FeedbackPrivate}.
  * @property {string} [language] - The app language it was sent in.
  * @property {string} userId - Its author.
+ * @property {string} [authorName] - Server: its author's display name, shown to the members (none without one).
  * @property {Timestamp} createdAt
  * @property {'new'|'confirmed'|'inProgress'|'done'|'rejected'|'duplicate'} status - utils/feedback.js' FEEDBACK_STATUSES.
  * @property {Timestamp} [statusUpdatedAt]
@@ -248,6 +251,15 @@
  * @property {Timestamp} [reporterEmailedAt] - Server: when a team reply was last emailed to the author.
  * @property {number} [messageCount] - Server: its thread's messages.
  * @property {Timestamp} [lastMessageAt] - Server.
+ */
+
+/**
+ * What of a report only admins read (`_feedbackPrivate/{id}`, the report's
+ * id): its browser, written with the report, in the same batch.
+ *
+ * @typedef {object} FeedbackPrivate
+ * @property {string} [browser] - Its author's user agent.
+ * @property {string} [replyToken] - Server: its reply address' local part.
  */
 
 /**

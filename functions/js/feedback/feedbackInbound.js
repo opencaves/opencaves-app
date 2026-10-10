@@ -3,7 +3,7 @@ import { defineSecret } from 'firebase-functions/params'
 import { FieldValue } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_MAX_LENGTH, FROZEN_USERS_COLL_NAME, REGION } from '../constants.js'
+import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_PRIVATE_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_MAX_LENGTH, FROZEN_USERS_COLL_NAME, REGION } from '../constants.js'
 
 // Resend's inbound email (docs/maintenance.md, "Emails"): the webhook's
 // signing secret (Resend's dashboard, Webhooks), and a full-access API key to
@@ -63,10 +63,16 @@ export async function receiveFeedbackEmail(emailId, helpers) {
   if (!address) return { dropped: 'no reply token' }
   const reason = automaticReason(email)
   if (reason) return { dropped: 'automatic', reason }
-  const found = await db.collection(FEEDBACK_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
+  // The token is in the report's private doc (replyAddress.js), whose id is
+  // the report's - or, not moved yet (scripts/move-feedback-private.js), on
+  // the report itself.
+  let found = await db.collection(FEEDBACK_PRIVATE_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
+  if (found.empty) found = await db.collection(FEEDBACK_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
   if (found.empty) return { dropped: 'unknown token' }
-  const reportRef = found.docs[0].ref
-  const report = found.docs[0].data()
+  const reportRef = db.collection(FEEDBACK_COLL_NAME).doc(found.docs[0].id)
+  const reportSnapshot = await reportRef.get()
+  if (!reportSnapshot.exists) return { dropped: 'unknown token' }
+  const report = reportSnapshot.data()
   // Who must have sent it: the author, or for the team address an admin.
   const writer = address.team
     ? await adminByEmail(emailAddress(email.from || normalizeHeaders(email.headers).from))

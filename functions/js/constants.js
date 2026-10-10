@@ -17,15 +17,19 @@ export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
 export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
-// The beta testers' reports (Send feedback): admins only, emailed to them.
+// The beta testers' reports (Send feedback): read by every registered
+// account (Ideas and fixes), managed by admins, emailed to them.
 export const FEEDBACK_COLL_NAME = '_feedback'
+// What of a report only admins read (its browser, its reply token), apart
+// from the report the members read.
+export const FEEDBACK_PRIVATE_COLL_NAME = '_feedbackPrivate'
 // A report's thread: the team's replies (from the app, emailed to its
 // author by onFeedbackReplied) and its author's answers by email
 // (feedbackInbound).
 export const FEEDBACK_MESSAGES_COLL_NAME = 'messages'
 // Where a report's author answers the team's replies (the emails' reply_to).
 // FEEDBACK_REPLY_DOMAIN set: each report's own address on that domain,
-// <replyToken>@<domain> (a random token kept on the report), whose mail
+// <replyToken>@<domain> (a random token kept in its _feedbackPrivate doc), whose mail
 // Resend receives and hands to feedbackInbound - the answer joins the
 // report's thread. Needs the domain's receiving set up in Resend (MX at
 // Porkbun) and the webhook: see docs/maintenance.md, "Emails". null: the

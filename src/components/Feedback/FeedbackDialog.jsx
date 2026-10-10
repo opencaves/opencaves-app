@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import BugReportRounded from '@mui/icons-material/BugReportRounded'
 import ReportGmailerrorredRounded from '@mui/icons-material/ReportGmailerrorredRounded'
@@ -14,7 +14,7 @@ import LinkRounded from '@mui/icons-material/LinkRounded'
 import SendRounded from '@mui/icons-material/SendRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { auth, db } from '@/config/firebase.js'
-import { FEEDBACK_COLLECTION } from '@/config/collections.js'
+import { FEEDBACK_COLLECTION, FEEDBACK_PRIVATE_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_EVENT } from '@/utils/feedback.js'
 import { toServiceLanguage } from '@/utils/lang.js'
 import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
@@ -81,10 +81,12 @@ function KindCard({ kind, selected, onSelect }) {
  * (a hint and a placeholder per kind: a bug's steps to reproduce it), the
  * page it's about (the page it was opened from, editable), and the browser
  * (its user agent, filled in unseen), with the app's language (the email
- * telling the author its outcome is in it). Saved to
- * _feedback for the admins (the dashboard's Feedback page), who also get it
- * by email (onFeedbackCreated). An account is needed: anyone else is asked
- * to sign up or log in first.
+ * telling the author its outcome is in it). Saved to _feedback - read by
+ * every registered account (Ideas and fixes), managed by the admins (the
+ * dashboard's Feedback page), who also get it by email (onFeedbackCreated) -
+ * and the browser, which only admins read, to _feedbackPrivate, in the same
+ * batch. An account is needed: anyone else is asked to sign up or log in
+ * first.
  */
 export default function FeedbackDialog() {
   const { t, i18n } = useTranslation('feedback')
@@ -122,8 +124,14 @@ export default function FeedbackDialog() {
   async function send() {
     setSending(true)
     try {
-      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), browser: navigator.userAgent.slice(0, 500), language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
-      const status = await settleWrite(addDoc(collection(db, FEEDBACK_COLLECTION), report), { name: t('itemName') })
+      const report = { kind, message: message.trim(), page: page.trim().slice(0, 500), language: toServiceLanguage(i18n.language), userId: auth.currentUser.uid, createdAt: serverTimestamp(), status: 'new' }
+      // The report, read by every member, and its browser, admins only (one
+      // batch: firestore.rules accepts the private doc only with its report).
+      const reportRef = doc(collection(db, FEEDBACK_COLLECTION))
+      const batch = writeBatch(db)
+      batch.set(reportRef, report)
+      batch.set(doc(db, FEEDBACK_PRIVATE_COLLECTION, reportRef.id), { browser: navigator.userAgent.slice(0, 500) })
+      const status = await settleWrite(batch.commit(), { name: t('itemName') })
       setOpen(false)
       if (status === 'saved') openSnackbar(t('sent'), { severity: 'success' })
     } catch (error) {

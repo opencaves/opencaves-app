@@ -54,6 +54,7 @@
       "about": "Acerca de",
       "about_withName": "Acerca de {{name}}",
       "feedback": "Enviar comentarios",
+      "feedbackList": "Ideas y correcciones",
       "whatCanIDo": "¿Qué puedo hacer?",
       "whatsNew": "Novedades",
       "drawer": {
@@ -1178,8 +1179,11 @@
     "connectionOfSistema": "la conexión de {{name}}",
     "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
     "adminSection": "Administración",
+    "feedbackSection": "Comentarios",
     "manageMapLayers": "Capas del mapa",
     "manageFeedback": "Comentarios",
+    "followFeedback": "Ideas y correcciones",
+    "followFeedbackText": "Lo que han señalado los participantes de la beta y lo que viene",
     "newFeedback_one": "{{count}} nuevo",
     "newFeedback_other": "{{count}} nuevos",
     "manageAudits": "Auditorías",
@@ -1869,6 +1873,12 @@
         "repliedByEmail": "respondió por correo",
         "stageSet": "puso la etapa en {{status}}"
       }
+    },
+    "members": {
+      "title": "Ideas y correcciones",
+      "intro": "Lo que han señalado los participantes de la beta y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
+      "you": "Tú",
+      "someone": "Un miembro"
     },
     "messageTooShort": "Al menos {{count}} caracteres"
   },

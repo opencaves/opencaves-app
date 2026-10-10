@@ -10,6 +10,7 @@ import InfoRounded from '@mui/icons-material/InfoRounded'
 import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
+import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -26,8 +27,10 @@ import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
  * The account menu's content, in the style of Google Maps' account card: a
  * header (avatar, greeting and "Manage your account" when signed in; a
  * welcome with Log in / Sign up when not), the other actions grouped on white
- * rounded sections over the card's tinted surface, and the legal links at the
- * bottom. Rendered in AppMenu's Popover.
+ * rounded sections over the card's tinted surface - among them, once signed
+ * in, Ideas and fixes (/feedback: the testers' reports and what the team does
+ * about them) - and the legal links at the bottom. Rendered in AppMenu's
+ * Popover.
  */
 export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
@@ -170,6 +173,15 @@ export default function AppMenuPanel({ onClose, titleId }) {
           </ListItemIcon>
           <ListItemText primary={t('feedback')} />
         </ListItemButton>
+        {/* Registered accounts: the reports sent, and what's coming of them. */}
+        {isLoggedIn && (
+          <ListItemButton className="oc-app-menu--feedback-list" component={Link} to="/feedback" onClick={onClose} sx={rowSx}>
+            <ListItemIcon>
+              <TipsAndUpdatesRounded />
+            </ListItemIcon>
+            <ListItemText primary={t('feedbackList')} />
+          </ListItemButton>
+        )}
         <ListItemButton
           component={Link}
           to="/about"

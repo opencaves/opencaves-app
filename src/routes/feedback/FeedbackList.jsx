@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
-import { Box, Button, Chip, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
@@ -15,12 +15,11 @@ import { db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_KINDS, OPEN_FEEDBACK_STATUSES } from '@/utils/feedback.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
-import { useAccounts } from '@/routes/audits/useAccounts.js'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 import { useIndexSearch } from '@/components/IndexPage/IndexSearchField.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
-import { CLOSED_FEEDBACK_STATUSES, KINDS, KindChip, RelativeTime, STATUS, StateIcon, activityOf, isOpen, messageCountOf, statusOf, titleOf, toDate } from './feedbackUi.jsx'
+import { CLOSED_FEEDBACK_STATUSES, KINDS, KindChip, RelativeTime, STATUS, StageChip, StateIcon, activityOf, isOpen, messageCountOf, statusOf, titleOf, toDate, useFeedbackReader } from './feedbackUi.jsx'
 
 const SORTS = ['newest', 'oldest', 'activity']
 const SORTERS = {
@@ -81,7 +80,6 @@ function FilterMenu({ className, label, value, options, onChange, allLabel }) {
 function ReportRow({ report, authorName, search }) {
   const { t } = useTranslation('feedback')
   const count = messageCountOf(report)
-  const status = statusOf(report)
   return (
     <Box component="li" className="oc-feedback-list--row" sx={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 1.5, px: 2, py: 1.5, borderTop: 1, borderColor: 'divider', cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, '&:hover .oc-feedback-list--title': { color: 'primary.main' }, '&:has(.oc-feedback-list--title:focus-visible)': { outline: 2, outlineColor: 'primary.main', outlineOffset: -2 }, '& oc-relative-time': { position: 'relative', zIndex: 1 } }}>
       <StateIcon report={report} sx={{ mt: '2px', fontSize: 20 }} />
@@ -97,7 +95,7 @@ function ReportRow({ report, authorName, search }) {
             {titleOf(report) || t('admin.list.untitled')}
           </Typography>
           <KindChip kind={report.kind} />
-          <Chip className="oc-feedback-list--stage" size="small" icon={STATUS[status].icon} color={STATUS[status].color} label={t(`admin.status.${status}`)} />
+          <StageChip report={report} className="oc-feedback-list--stage" />
         </Box>
         <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary', overflowWrap: 'anywhere' }}>
           {t('admin.list.opened')} <RelativeTime value={report.createdAt} /> {t('admin.list.by', { name: authorName })}
@@ -119,19 +117,22 @@ function ReportRow({ report, authorName, search }) {
 }
 
 /**
- * /feedback (admins): the beta testers' reports (the Send feedback form,
- * _feedback), as GitHub lists issues: Open and Closed tabs (open: new,
- * confirmed or in progress; closed: done, rejected or a duplicate), a search
- * (message, author's name or email, page), kind and stage filters and a
- * sort - all in the address (?state, q, kind, stage, sort), so back/forward
+ * /feedback: the beta testers' reports (the Send feedback form, _feedback),
+ * as GitHub lists issues: Open and Closed tabs (open: new, confirmed or in
+ * progress; closed: done, rejected or a duplicate), a search (message,
+ * author's name - and email, for admins - page), kind and stage filters and
+ * a sort - all in the address (?state, q, kind, stage, sort), so back/forward
  * and shared links keep them. Each report opens its own page
- * (/feedback/:feedbackId, FeedbackReport). The new ones were also emailed to
- * the admins (onFeedbackCreated).
+ * (/feedback/:feedbackId, FeedbackReport). Admins manage them (the new ones
+ * were also emailed to them, onFeedbackCreated); every other registered
+ * account reads them, as Ideas and fixes - to follow what's coming - with
+ * their authors' names only (useFeedbackReader).
  */
 export default function FeedbackList() {
   const { t } = useTranslation('feedback')
   const { setTitle } = useTitle()
-  const { accountLabel, accountList } = useAccounts()
+  const { isAdmin, authorOf, accountList } = useFeedbackReader()
+  const title = t(isAdmin ? 'admin.title' : 'members.title')
   const [params, setParams] = useSearchParams()
   const [reports, setReports] = useState(null)
 
@@ -155,9 +156,9 @@ export default function FeedbackList() {
   }
 
   useEffect(() => {
-    setTitle(t('admin.title'))
+    setTitle(title)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t])
+  }, [title])
 
   useEffect(
     () =>
@@ -172,12 +173,13 @@ export default function FeedbackList() {
     [],
   )
 
+  // The authors' emails: admins only (accountList is empty for anyone else).
   const emails = useMemo(() => new Map(accountList.map((account) => [account.uid, account.email])), [accountList])
   // The search and kind filter first (the tabs count what they leave), then
   // the tab and stage.
   const matching = useMemo(
-    () => (reports || []).filter((report) => (!kind || report.kind === kind) && matches([report.message, report.page, accountLabel(report.userId), emails.get(report.userId)].filter(Boolean))),
-    [reports, kind, matches, accountLabel, emails],
+    () => (reports || []).filter((report) => (!kind || report.kind === kind) && matches([report.message, report.page, authorOf(report), emails.get(report.userId)].filter(Boolean))),
+    [reports, kind, matches, authorOf, emails],
   )
   const openCount = matching.filter(isOpen).length
   const list = matching.filter((report) => (state === 'open') === isOpen(report) && (!stage || statusOf(report) === stage)).sort(SORTERS[sort])
@@ -195,9 +197,14 @@ export default function FeedbackList() {
           </IconButton>
         </Tooltip>
         <Typography component="h1" variant="h5">
-          {t('admin.title')}
+          {title}
         </Typography>
       </Box>
+      {!isAdmin && (
+        <Typography className="oc-feedback-list--intro" variant="body2" sx={{ color: 'text.secondary', mt: -1, mb: 2 }}>
+          {t('members.intro')}
+        </Typography>
+      )}
 
       <TextField
         className="oc-feedback-list--search"
@@ -244,7 +251,7 @@ export default function FeedbackList() {
 
       <Box sx={DASHBOARD_LIST_SX}>
         <Box className="oc-feedback-list--toolbar" sx={(theme) => ({ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 0.5, px: 1, py: 0.75, bgcolor: theme.vars.sys.color.surfaceContainer })}>
-          <Box role="tablist" aria-label={t('admin.title')} sx={{ display: 'flex', gap: 0.5 }}>
+          <Box role="tablist" aria-label={title} sx={{ display: 'flex', gap: 0.5 }}>
             <Button role="tab" aria-selected={state === 'open'} size="small" startIcon={<RadioButtonCheckedRounded />} onClick={() => update({ state: null, stage: null })} sx={tabSx(state === 'open')}>
               {t('admin.list.open', { count: openCount })}
             </Button>
@@ -266,7 +273,7 @@ export default function FeedbackList() {
         ) : (
           <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0 }}>
             {list.map((report) => (
-              <ReportRow key={report.id} report={report} authorName={accountLabel(report.userId)} search={search} />
+              <ReportRow key={report.id} report={report} authorName={authorOf(report)} search={search} />
             ))}
           </Box>
         )}

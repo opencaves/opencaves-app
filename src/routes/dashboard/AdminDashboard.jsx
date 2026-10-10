@@ -12,6 +12,7 @@ import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
 import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
+import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
@@ -45,6 +46,13 @@ const dashboardItemSx = (theme) => ({
   },
 })
 
+/**
+ * /dashboard: the pages to manage the data, as the account's roles allow -
+ * editors the caves, systems, connections and reference data; admins also
+ * the users, map layers, feedback (with the count of new reports) and
+ * audits. Anyone who isn't an admin gets Ideas and fixes instead: the
+ * testers' reports, to read (/feedback).
+ */
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
@@ -171,6 +179,26 @@ export default function AdminDashboard() {
                       <HistoryRounded />
                     </ListItemIcon>
                     <ListItemText primary={t('manageAudits')} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Box>
+          )}
+
+          {/* Everyone else: the testers' reports, to read (Ideas and fixes) -
+              the admins' Feedback entry above manages them. */}
+          {!isAdmin && (
+            <Box component="section" className="oc-admin-dashboard--feedback" sx={{ gridArea: 'admin' }}>
+              <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                {t('feedbackSection')}
+              </Typography>
+              <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/feedback" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <TipsAndUpdatesRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('followFeedback')} secondary={t('followFeedbackText')} />
                   </ListItemButton>
                 </ListItem>
               </List>

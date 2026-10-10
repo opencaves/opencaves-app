@@ -111,6 +111,27 @@ which each reader sees in their units. A conversion written next to a length
 `--write` it only lists the changes: read them before saving. Re-runnable.
 A sync from the Google Sheet brings the untagged text back: run it again after.
 
+## Move the feedback reports' private fields
+
+```
+node scripts/move-feedback-private.js -l           # local emulators: dry run, lists the changes
+node scripts/move-feedback-private.js -l --write   # saves them
+node scripts/move-feedback-private.js -p           # production (dry run; add --write to save)
+```
+
+Every registered account reads the beta feedback reports (`/feedback`, Ideas
+and fixes), so a report holds nothing private: its `browser` and its reply
+token (`replyToken`) live in `_feedbackPrivate/{id}`, which only admins read,
+and its author is shown by `authorName` (their display name, written by
+`onFeedbackCreated`). This one-time script moves `browser` and `replyToken`
+off the reports sent before, to `_feedbackPrivate`, and fills in their
+`authorName` from Auth (nothing for an account without a display name).
+Re-runnable: moved reports are left alone. Run it in production once the
+Firestore rules, the functions and the app are deployed (`-p`, then `-p
+--write`, after `gcloud auth application-default login`): until then those
+reports' browsers stay readable by members, and their reply tokens keep
+working from the report.
+
 ## Give someone a role
 
 ```
