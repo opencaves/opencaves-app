@@ -471,6 +471,13 @@ const lightThemeOptions = {
       },
     },
     MuiTooltip: {
+      // On hover after half a second (a pointer just crossing shows nothing),
+      // the next one at once while browsing them; keyboard focus shows it
+      // at once (MUI's own). <oc-relative-time>'s tooltip waits the same.
+      defaultProps: {
+        enterDelay: 500,
+        enterNextDelay: 100,
+      },
       styleOverrides: {
         // M3's plain tooltip: the inverse surface (dark on light, light on
         // dark), 4px corners (extra-small shape), 24dp tall at least, body

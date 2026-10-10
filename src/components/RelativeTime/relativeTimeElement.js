@@ -11,7 +11,9 @@
 // - for screen readers, visually hidden text after the relative one,
 //   shorter (no weekday), and none once the date itself is shown;
 // - for everyone else, a tooltip (part="tooltip", aria-hidden: screen
-//   readers have the text above) on mouse hover and on keyboard focus, in
+//   readers have the text above) on mouse hover (after a short delay,
+//   shorter while tooltips are being browsed) and on keyboard focus (at
+//   once), in
 //   the top layer (Popover API, else position: fixed). It stays while the
 //   pointer is over it and until hover and focus leave, and Escape hides it
 //   without moving focus (WCAG 1.4.13). The host has no title: a native one
@@ -64,6 +66,20 @@ const TOOLTIP_MARGIN = 8
 // How long the tooltip waits before hiding once the pointer leaves, so it
 // can cross the gap onto the tooltip (hoverable), in ms.
 const TOOLTIP_HIDE_DELAY = 150
+// On hover the tooltip waits TOOLTIP_SHOW_DELAY (a pointer just crossing
+// shows nothing) - TOOLTIP_NEXT_DELAY while one is open or closed less than
+// TOOLTIP_WARM_MS ago (a tooltip, ours or an MUI one: browsing tooltips isn't
+// slowed down), as the theme's MuiTooltip (enterDelay, enterNextDelay). On
+// keyboard focus it shows at once. In ms.
+const TOOLTIP_SHOW_DELAY = 500
+const TOOLTIP_NEXT_DELAY = 100
+const TOOLTIP_WARM_MS = 500
+
+// The element's tooltips open now, and when the last one closed.
+let openTooltips = 0
+let lastTooltipClosedAt = 0
+// Whether a tooltip was just being read: then the next one shows quickly.
+const tooltipsWarm = () => openTooltips > 0 || Date.now() - lastTooltipClosedAt < TOOLTIP_WARM_MS || Boolean(document.querySelector('.MuiTooltip-popper'))
 
 /**
  * The locale Intl actually uses for `language` (its own fallback when it
@@ -230,19 +246,27 @@ function createElementClass() {
       this.dismissed = false
       this.tooltipOpen = false
       this.hideTimer = null
+      this.showTimer = null
       // Whether the tabindex is ours (focusable), not the page's.
       this.ownTabindex = false
       this.addEventListener('pointerenter', (event) => {
         if (event.pointerType === 'touch') return
         clearTimeout(this.hideTimer)
-        if (!this.hovered) this.dismissed = false
-        this.hovered = true
-        this.updateTooltip()
+        // Back from the gap or the tooltip itself: still shown.
+        if (this.hovered) return
+        clearTimeout(this.showTimer)
+        this.showTimer = setTimeout(() => {
+          this.dismissed = false
+          this.hovered = true
+          this.updateTooltip()
+        }, tooltipsWarm() ? TOOLTIP_NEXT_DELAY : TOOLTIP_SHOW_DELAY)
       })
       // The pointer crossing the gap onto the tooltip - a shadow descendant,
       // so entering it re-enters the host - keeps it (hoverable).
       this.addEventListener('pointerleave', (event) => {
         if (event.pointerType === 'touch') return
+        // Left before the delay ran out: it never shows.
+        clearTimeout(this.showTimer)
         clearTimeout(this.hideTimer)
         this.hideTimer = setTimeout(() => {
           this.hovered = false
@@ -290,6 +314,7 @@ function createElementClass() {
     disconnectedCallback() {
       unsubscribe(this)
       clearTimeout(this.hideTimer)
+      clearTimeout(this.showTimer)
       this.hovered = false
       this.focused = false
       this.updateTooltip()
@@ -320,6 +345,8 @@ function createElementClass() {
       const open = (this.hovered || this.focused) && !this.dismissed && this.isConnected && Boolean(this.tooltip.textContent)
       if (open === this.tooltipOpen) return
       this.tooltipOpen = open
+      openTooltips += open ? 1 : -1
+      if (!open) lastTooltipClosedAt = Date.now()
       this.tooltip.classList.toggle('open', open)
       if (popover) {
         try {
