@@ -290,6 +290,7 @@
  * @property {'metric'|'imperial'} [units]
  * @property {'system'|'light'|'dark'} [colorMode]
  * @property {boolean} [feedbackEmails] - False: the team's replies to their feedback aren't emailed.
+ * @property {boolean} [mapLegendOpen] - The map legend left open or closed; absent until first toggled.
  * @property {string} [email] - Server: written at sign-up.
  * @property {unknown[]} [savedPlaces] - Server: written (empty) at sign-up; saved caves are in its savedCaves.
  * @property {string} [unsubscribeToken] - Server: the emails' unsubscribe link (read-only for its owner).

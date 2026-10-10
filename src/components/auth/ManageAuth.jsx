@@ -9,7 +9,8 @@ import { toServiceLanguage } from '@/utils/lang.js'
 import { applyLanguage, loadAccountLanguage } from '@/services/languagePreference.js'
 import { loadAccountUnits } from '@/services/unitsPreference.js'
 import { loadAccountColorMode } from '@/services/colorModePreference.js'
-import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
+import { loadAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
+import { setMapLegendOpen, setUnits } from '@/redux/slices/preferencesSlice.jsx'
 
 const ensureEditorRole = callable('ensureEditorRole')
 const sendWelcomeEmail = callable('sendWelcomeEmail')
@@ -159,6 +160,13 @@ export default function ManageAuth() {
         if (colorMode) setMode(colorMode)
       } catch (error) {
         console.warn('[ManageAuth] Unable to load the account display mode:', error)
+      }
+      // And whether the map legend was left open (CaveLayerLegend).
+      try {
+        const legendOpen = await loadAccountMapLegendOpen(user.uid)
+        if (legendOpen !== null) dispatch(setMapLegendOpen(legendOpen))
+      } catch (error) {
+        console.warn('[ManageAuth] Unable to load the map legend state:', error)
       }
     })
   }, [dispatch, setMode])
