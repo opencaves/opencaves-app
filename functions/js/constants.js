@@ -22,10 +22,11 @@ export const FEEDBACK_COLL_NAME = '_feedback'
 // A report's thread: the team's replies (from the app, emailed to its
 // author by onFeedbackReplied) and, later, its author's answers by email.
 export const FEEDBACK_MESSAGES_COLL_NAME = 'messages'
-// The address a report's author answers the team's replies to (reply_to).
-// null until inbound email exists (a signed per-thread address on
-// reply.opencaves.org): the emails then don't invite an answer by email.
-export const FEEDBACK_REPLY_TO = null
+// The address a report's author answers the team's replies to (reply_to):
+// the team's inbox, read by the admins, until inbound email exists (a signed
+// per-thread address on reply.opencaves.org, whose answers join the thread).
+// null: the emails don't invite an answer by email.
+export const FEEDBACK_REPLY_TO = 'feedback@opencaves.org'
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'

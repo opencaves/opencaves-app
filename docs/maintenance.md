@@ -184,8 +184,11 @@ the whole conversation, in the language of the report; a reply sent with
 "Send and mark as done/rejected" (or written in the stage dialog) carries the
 outcome too, and is the only email of that change. A report's emails share a
 subject and `Message-ID`/`References` headers, so mail apps show them as one
-conversation. Answers by email aren't received yet: the emails don't invite
-one until `FEEDBACK_REPLY_TO` (`functions/js/constants.js`) is set. The opencaves.org domain must be verified in the Resend account
+conversation. Their Reply-To is `FEEDBACK_REPLY_TO` (`functions/js/constants.js`),
+`feedback@opencaves.org`: an author's answer reaches the team's inbox, not the
+report's thread, until replies by email are received (a per-thread address on
+`reply.opencaves.org`). That address must exist and be read (opencaves.org's
+mail is Google's). The opencaves.org domain must be verified in the Resend account
 (its DNS records), or Resend refuses to send. The API key (a send-only key) is
 the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
 
