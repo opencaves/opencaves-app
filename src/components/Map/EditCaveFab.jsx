@@ -175,8 +175,10 @@ export default function EditCaveFab() {
             '0 0 4px',
           ].map((blur) => `${blur} ${theme.vars.palette.background.paper}`).join(', '),
         },
-        // Labels take clicks (actionSlots): the hand, as on their buttons.
-        '& .oc-edit-cave-fab--label': { cursor: 'pointer', pointerEvents: 'auto' },
+        // Labels take clicks (actionSlots): the hand, as on their buttons -
+        // only while open: a closed dial keeps them in the page, invisible,
+        // where they'd catch the pointer and open it.
+        [`& .${speedDialActionClasses.staticTooltip}:not(.${speedDialActionClasses.staticTooltipClosed}) .oc-edit-cave-fab--label`]: { cursor: 'pointer', pointerEvents: 'auto' },
         // A label and its button are one control: hovering either hovers
         // both - the button in its hover colour, the label paler.
         [`& .${speedDialActionClasses.staticTooltip}:hover:not(:has(.Mui-disabled))`]: {
