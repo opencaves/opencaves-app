@@ -25,6 +25,7 @@ function toEntry(snapshot) {
 
 // filters: { authorId, collection, action, from, to } (from/to: Dates), each
 // optional.
+/** @param {{authorId?: string, collection?: string, action?: string, from?: Date, to?: Date}} [filters] */
 function filterConstraints({ authorId, collection: collectionName, action, from, to } = {}) {
   return [
     authorId && where('authorId', '==', authorId),

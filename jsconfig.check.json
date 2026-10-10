@@ -8,5 +8,5 @@
     "resolveJsonModule": true,
     "types": ["vite/client"]
   },
-  "include": ["src/utils/**/*.js", "src/services/**/*.js", "src/services/**/*.jsx", "src/types.js", "src/global.d.ts"]
+  "include": ["src/utils/**/*.js", "src/services/**/*.js", "src/services/**/*.jsx", "src/models/**/*.js", "src/config/**/*.js", "src/redux/**/*.js", "src/redux/**/*.jsx", "src/types.js", "src/global.d.ts"]
 }
