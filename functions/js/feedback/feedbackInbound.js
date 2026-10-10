@@ -3,7 +3,7 @@ import { defineSecret } from 'firebase-functions/params'
 import { FieldValue } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_MAX_LENGTH, REGION } from '../constants.js'
+import { FEEDBACK_COLL_NAME, FEEDBACK_MESSAGES_COLL_NAME, FEEDBACK_REPLY_DOMAIN, FEEDBACK_REPLY_MAX_LENGTH, FROZEN_USERS_COLL_NAME, REGION } from '../constants.js'
 
 // Resend's inbound email (docs/maintenance.md, "Emails"): the webhook's
 // signing secret (Resend's dashboard, Webhooks), and a full-access API key to
@@ -34,22 +34,39 @@ async function fetchReceivedEmail(emailId) {
   return fetchFromResend(emailId)
 }
 
-// One received email: added to its report's thread when it's its author's
-// answer. Returns what happened, for the log; throws only on a failure worth
-// Resend's retry (each email is added once: its message's id is the email's).
+// The admin account an address belongs to - an admin, not disabled nor
+// frozen (_frozenUsers) - or null.
+async function adminByEmail(address) {
+  if (!address) return null
+  const user = await auth.getUserByEmail(address).catch(() => null)
+  if (!user || user.disabled || !Array.isArray(user.customClaims?.roles) || !user.customClaims.roles.includes('admin')) return null
+  const frozen = await db.collection(FROZEN_USERS_COLL_NAME).doc(user.uid).get()
+  return frozen.exists ? null : user
+}
+
+// One received email, added to its report's thread: at its address, its
+// author's answer; at its team address (team-<token>@, on the admins'
+// emails), an admin's team reply - emailed to the author like one written in
+// the app (onFeedbackReplied). Returns what happened, for the log; throws
+// only on a failure worth Resend's retry (each email is added once: its
+// message's id is the email's).
 export async function receiveFeedbackEmail(emailId, helpers) {
-  const { automaticReason, checkSender, findReplyToken, replyText } = helpers
+  const { automaticReason, checkSender, emailAddress, findReplyToken, normalizeHeaders, replyText } = helpers
   const email = await fetchReceivedEmail(emailId)
-  const token = findReplyToken(email, FEEDBACK_REPLY_DOMAIN)
-  if (!token) return { dropped: 'no reply token' }
+  const address = findReplyToken(email, FEEDBACK_REPLY_DOMAIN)
+  if (!address) return { dropped: 'no reply token' }
   const reason = automaticReason(email)
   if (reason) return { dropped: 'automatic', reason }
-  const found = await db.collection(FEEDBACK_COLL_NAME).where('replyToken', '==', token).limit(1).get()
+  const found = await db.collection(FEEDBACK_COLL_NAME).where('replyToken', '==', address.token).limit(1).get()
   if (found.empty) return { dropped: 'unknown token' }
   const reportRef = found.docs[0].ref
   const report = found.docs[0].data()
-  const author = await auth.getUser(report.userId).catch(() => null)
-  const sender = checkSender(email, author?.email)
+  // Who must have sent it: the author, or for the team address an admin.
+  const writer = address.team
+    ? await adminByEmail(emailAddress(email.from || normalizeHeaders(email.headers).from))
+    : await auth.getUser(report.userId).catch(() => null)
+  if (!writer) return { dropped: 'sender', reason: address.team ? 'not an admin' : 'no author', reportId: reportRef.id }
+  const sender = checkSender(email, writer.email)
   if (!sender.ok) return { dropped: 'sender', reason: sender.reason, reportId: reportRef.id }
   const text = replyText(email, FEEDBACK_REPLY_MAX_LENGTH)
   if (!text) return { dropped: 'empty', reportId: reportRef.id }
@@ -60,19 +77,20 @@ export async function receiveFeedbackEmail(emailId, helpers) {
     const [existing, current] = await Promise.all([transaction.get(messageRef), transaction.get(reportRef)])
     if (existing.exists) return { dropped: 'duplicate', reportId: reportRef.id }
     transaction.create(messageRef, {
-      from: 'author',
+      from: address.team ? 'team' : 'author',
       text,
       createdAt: FieldValue.serverTimestamp(),
-      userId: report.userId,
+      userId: writer.uid,
       via: 'email',
       ...(email.message_id && { emailMessageId: String(email.message_id).slice(0, 500) }),
       ...(droppedAttachments && { droppedAttachments }),
     })
-    // A closed report reopens: the author still has something to say. 'new'
-    // sends no email (onFeedbackStatusChanged only tells done/rejected).
-    const reopened = CLOSED.includes(current.get('status'))
+    // A closed report reopens when its author still has something to say
+    // (a team reply leaves its stage alone). 'new' sends no email
+    // (onFeedbackStatusChanged only tells done/rejected).
+    const reopened = !address.team && CLOSED.includes(current.get('status'))
     if (reopened) transaction.update(reportRef, { status: 'new', statusUpdatedAt: FieldValue.serverTimestamp(), statusUpdatedBy: report.userId || 'email' })
-    return { added: messageRef.id, reportId: reportRef.id, reopened, by: sender.by }
+    return { added: messageRef.id, reportId: reportRef.id, team: address.team, reopened, by: sender.by }
   })
 }
 
