@@ -2013,5 +2013,9 @@
     "lightbox": "Visor",
     "gallery": "Galería",
     "position": "{index} de {total}"
+  },
+  "yesNoSwitch": {
+    "no": "No",
+    "yes": "Sí"
   }
 }

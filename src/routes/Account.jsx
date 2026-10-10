@@ -17,10 +17,16 @@ import AppearanceSection from '@/components/Account/AppearanceSection.jsx'
 import FeedbackEmailsSection from '@/components/Account/FeedbackEmailsSection.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
-import { formSectionDividerSx, formSectionHeadingProps } from '@/components/formSectionHeading.js'
+import { formSectionDividerSx, formSectionHeadingProps, sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-account--section-title')
 
+/**
+ * The account page (/account): the person's info and settings. Each section
+ * has an English anchor, whatever the app's language (/account#emails):
+ * #personal-info (with #language, #units, #appearance), #saved-caves,
+ * #emails, #offline-use, #change-password.
+ */
 export default function Account() {
   const { t } = useTranslation('account')
   const user = useSelector((/** @type {RootState} */ state) => state.session.user)
@@ -174,7 +180,7 @@ export default function Account() {
 
         <Divider sx={formSectionDividerSx} />
 
-        <Box component="section" className="oc-account--personal-info">
+        <Box component="section" className="oc-account--personal-info" id="personal-info" sx={sectionAnchorSx}>
           <Typography {...sectionHeadingProps}>{t('personalInfo')}</Typography>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap', gap: 1.5 }}>
             <TextField size="small" label={t('name')} value={name} onChange={(event) => setName(event.target.value)} error={nameError} helperText={nameError ? t('nameSaveError') : undefined} disabled={savingName || signedOut} sx={{ flex: { xs: '1 1 100%', sm: '1 1 280px' } }} />
@@ -209,7 +215,7 @@ export default function Account() {
         {hasPasswordProvider && (
           <>
             <Divider sx={formSectionDividerSx} />
-            <Box component="section" className="oc-account--password">
+            <Box component="section" className="oc-account--password" id="change-password" sx={sectionAnchorSx}>
               <Typography {...sectionHeadingProps}>{t('changePassword')}</Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <TextField type="password" size="small" label={t('currentPassword')} value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} disabled={passwordSaving || signedOut} autoComplete="current-password" />

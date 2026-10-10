@@ -4,6 +4,7 @@ import { Box, MenuItem, TextField, Typography } from '@mui/material'
 import { setUnits } from '@/redux/slices/preferencesSlice.jsx'
 import { saveAccountUnits } from '@/services/unitsPreference.js'
 import { automaticUnits, UNIT_SYSTEMS } from '@/utils/units.js'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 /**
  * The account page's units setting: metric, imperial, or Automatic (by the
@@ -29,7 +30,7 @@ export default function UnitsSection({ headingProps = {}, asField = false }) {
   }
 
   return (
-    <Box component={asField ? 'div' : 'section'} className="oc-units-section">
+    <Box component={asField ? 'div' : 'section'} className="oc-units-section" id="units" sx={sectionAnchorSx}>
       {/* asField: a labelled field inside another section (the account's personal info). */}
       {!asField && (
         <Typography component="h2" variant="h6" {...headingProps} id="oc-units-section-title">
