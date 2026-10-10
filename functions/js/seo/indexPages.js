@@ -142,26 +142,31 @@ function pageFor(path, data) {
   return null
 }
 
-// The page as the app renders it (ssr.js), or - no server build, or the
-// rendering failing - the app's shell with the page's <head> (and, for a
+// { html, rendered }: the page as the app renders it (ssr.js), or - no
+// server build, a build other than the site's (a deploy under way), or the
+// rendering failing - the site's shell with the page's <head> (and, for a
 // cave, its text: cavePage.js's), which the app renders in the browser.
 async function pageHtml(req, meta) {
   try {
     const html = await renderWithApp(req, meta)
-    if (html) return html
+    if (html) return { html, rendered: true }
   } catch (error) {
     logger.error('[indexPages] the app could not render the page', { path: req.path, error: error.stack || error.message })
   }
-  return renderPage(await shellFor(req), meta)
+  return { html: renderPage(await shellFor(req), meta), rendered: false }
 }
 
-// The app's shell for a "not found": the server build's (ssr.js), else the site's.
+// The app's shell for a "not found": the site's own (its files are those
+// Hosting serves, even during a deploy); in the emulator, whose site shell
+// is production's, the server build's.
 async function notFoundShell(req) {
-  try {
-    const ssr = await loadSsr()
-    if (ssr) return ssr.shell
-  } catch {
-    // The site's, then.
+  if (process.env.FUNCTIONS_EMULATOR === 'true') {
+    try {
+      const ssr = await loadSsr()
+      if (ssr) return ssr.shell
+    } catch {
+      // The site's, then.
+    }
   }
   return shellFor(req)
 }
@@ -190,9 +195,12 @@ export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async 
       sendHtml(req, res, await notFoundShell(req), 404)
       return
     }
-    const html = await pageHtml(req, meta)
-    // As the cave page: short in browsers, an hour at the CDN edge.
-    res.set('Cache-Control', 'public, max-age=300, s-maxage=3600')
+    const { html, rendered } = await pageHtml(req, meta)
+    // As the cave page: short in browsers, an hour at the CDN edge. A page
+    // the app couldn't render isn't kept: during a deploy (the functions and
+    // Hosting go live a few seconds apart) it's the moment's shell, and the
+    // CDN would serve it for an hour after its files are gone.
+    res.set('Cache-Control', rendered ? 'public, max-age=300, s-maxage=3600' : 'no-store')
     sendHtml(req, res, html)
   } catch (error) {
     logger.error('[indexPages] the page could not be served', { path: req.path, error: error.message })
