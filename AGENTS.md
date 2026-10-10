@@ -64,6 +64,10 @@ Do not append a `Co-Authored-By: Claude ...` (or similar agent-attribution) trai
 
 Always push right after committing, as part of the same action rather than a separate, later step.
 
+## Branches
+
+Name a branch by its kind: `fix/<slug>` for a fix, `feature/<slug>` for a new feature, `audit/<slug>` for a fix coming out of an audit (one branch per fix). Changes go to `main` through a pull request; once it's merged, delete the branch, both locally and on GitHub.
+
 ## Data model
 
 Firestore collections: `caves`, `sistemas`, `connections`, `accesses`, `accessibilities`, `sources`, `areas`, `colors`, `languages` (cave data), plus `cavesAssets` (media) and `maps`. **The app's own collections are prefixed `_`** (grouped apart from the cave data in the Firebase console; keep it for any new one, collection names in `src/config/collections.js` and `functions/js/constants.js`): `_users/{uid}` (an account's settings, and its `savedCaves/{caveId}`), `_settings` (shared app settings, e.g. the cave layer's hidden maps), `_cavesAssetsPrivate` (each photo's uploader and original file name, admin-only), and, written only by the server, `_auditLog` (who changed what from the app, and admins' user management - `functions/js/audit/`) and `_frozenUsers` (frozen accounts, checked by the rules so a freeze takes effect before the token expires). Ratings live under their cave, `caves/{caveId}/ratings/{uid}` (one 1–5 rating per user, editors/admins only), private to their author (and admins); everyone reads the cave's public summary `_caveRatings/{caveId}` (average, count) instead, kept by the `onRatingWritten` function (`functions/js/ratings/`) - so who rated what isn't public. `_users`, `_frozenUsers`, `_auditLog` and `_caveRatings` stay production's own in `scripts/sync-to-production.js`. Document IDs are Firebase push-ID—formatted and stable (carried over from a previous Firebase-backed version of the app, then a stint on a Google Sheet, now back to Firestore).
