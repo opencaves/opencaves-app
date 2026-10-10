@@ -23,7 +23,6 @@ import { Progress, Section, SectionActions, SectionDetails, SectionFields, Secti
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useBroadcastChannel } from '@/hooks/useBroadcastChannel.jsx'
-import { Forward } from '../Transitions.jsx'
 import { auth } from '@/config/firebase.js'
 import { setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { DEFAULT_CONTINUE_URL, FIRST_NAME_MIN_LENGTH, AUTH_SECTION_GAP, PASSWORD_MIN_LENGTH } from '@/config/auth.js'

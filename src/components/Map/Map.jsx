@@ -623,7 +623,8 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     setMapLoaded(true)
     writeMapHash(mapRef.current?.getMap())
 
-    // Set initial map bounds
+    // No bounds until the map first moves (updateMapBounds): every pin
+    // shows meanwhile.
     setMapBounds(undefined)
 
     // flyToMarker(false)

@@ -24,8 +24,6 @@ const PasswordInput = forwardRef(function PasswordInput(/** @type {import('@mui/
   const [inputError, setInputError] = useState(error)
   const [showPassword, setShowPassword] = useState(false)
   const inputRef = useRef(null)
-  const nthUpdate = useRef(0)
-  const firstUpdate = useRef(import.meta.env.PROD ? 1 : 2)
 
   function updateValidity() {
     const valid = inputRef?.current.checkValidity()
@@ -64,16 +62,6 @@ const PasswordInput = forwardRef(function PasswordInput(/** @type {import('@mui/
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValid])
-
-  useEffect(() => {
-    if (nthUpdate.current < firstUpdate.current) {
-      firstUpdate.current++
-      return
-    }
-
-    setInputState('determinate')
-    updateValidity()
-  }, [onValidityChange])
 
   return (
     <Box className="oc-password-input">

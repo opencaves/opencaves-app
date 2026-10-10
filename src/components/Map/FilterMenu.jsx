@@ -155,11 +155,8 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
 /**
  * The map's filter menu: a drawer on the right, its filters by area, access
  * and accessibility.
- *
- * @param {object} props
- * @param {object} [props.props] - Spread on the drawer (a prop named `props`: no caller passes it).
  */
-export default function MapFilterMenu({ props }) {
+export default function MapFilterMenu() {
   const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
   const showAreas = useSelector((/** @type {RootState} */ state) => state.search.showAreas)
@@ -249,7 +246,6 @@ export default function MapFilterMenu({ props }) {
 
   return (
     <SwipeableDrawer
-      {...props}
       className="oc-filter-menu"
       // Closed (it stays in the page, persistent): out of reach of the
       // keyboard and screen readers - its headings came before the page's h1.
