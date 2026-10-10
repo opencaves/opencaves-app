@@ -17,8 +17,10 @@ export function sistemaSlugs(sistemas) {
 export function buildIndexData({ caves = [], sistemas = [], areas = [], connections = [] }) {
   // name: null for an unnamed cave (the pages say "(Unnamed cave)"), listed
   // after the named ones.
+  // located: whether it has coordinates - given as such by the data a
+  // server-rendered page carries (src/ssr/pageState.js), without them.
   const caveItems = caves
-    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.location?.latitude != null && cave.location?.longitude != null }))
+    .map((cave) => ({ id: cave.id, name: cave.name?.value?.trim() || null, aka: Array.isArray(cave.aka) ? cave.aka : [], area: cave.area || null, sistemaId: cave.sistemaId || null, located: cave.located ?? (cave.location?.latitude != null && cave.location?.longitude != null) }))
     .sort((a, b) => (!a.name || !b.name ? !a.name - !b.name : byName(a, b)))
 
   const slugs = sistemaSlugs(sistemas)
@@ -81,4 +83,14 @@ export function groupByArea(items, areasBySlug, areaOf = (item) => item.area) {
     groups.get(key).items.push(item)
   })
   return [...groups.values()].sort((a, b) => (!a.area ? 1 : !b.area ? -1 : byName(a.area, b.area)))
+}
+
+// The landing page's figures (Home): how many caves and public systems, and
+// the areas that have caves, with their count.
+export function homeFigures(data) {
+  return {
+    caves: data.caves.length,
+    sistemas: data.sistemas.length,
+    regions: data.areas.filter((area) => area.caves.length > 0).map(({ name, slug, caves }) => ({ name, slug, count: caves.length })),
+  }
 }

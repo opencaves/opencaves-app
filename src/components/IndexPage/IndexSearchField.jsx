@@ -6,6 +6,7 @@ import SearchRounded from '@mui/icons-material/SearchRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 import { foldSearch, searchMatcher } from '@/utils/searchText.js'
+import { isHydrating } from '@/ssr/ssrContext.js'
 
 // Names compared as every search of the site does (utils/searchText.js):
 // "Chac Mól", "Chac-Mol" and "chacmol" match "chac mol".
@@ -63,9 +64,11 @@ export function useIndexSearch() {
 // How many of a long page's sections to draw: the first few at once, then a
 // few more in each background render after (the page shows, and scrolls,
 // before every row is drawn, and no single redraw is long). Again from the
-// first few when the sections change (resetKey: a new search's).
+// first few when the sections change (resetKey: a new search's). All of
+// them on the server and in the hydration of its page (ssrContext.js): the
+// page's HTML lists every one (for search engines too).
 export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {}) {
-  const [state, setState] = useState({ key: resetKey, count: first })
+  const [state, setState] = useState(() => ({ key: resetKey, count: import.meta.env.SSR || isHydrating() ? total : first }))
   const count = state.key === resetKey ? state.count : first
   useEffect(() => {
     if (state.key !== resetKey) {

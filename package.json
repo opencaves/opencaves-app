@@ -7,7 +7,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "dev": "concurrently --kill-others --prefix none \"firebase --debug emulators:start --import=./.emulator-data\" \"vite\" \"node scripts/emulator-autosave.js\"",
     "serve": "serve -p 4000 -s build",
-    "build": "node scripts/map-layer/build-tiles.js --check && vite build",
+    "build": "node scripts/map-layer/build-tiles.js --check && vite build && vite build --ssr src/entry-server.jsx",
     "build:tiles": "node scripts/map-layer/build-tiles.js --build",
     "deploy": "firebase deploy",
     "deploy:beta": "firebase hosting:channel:deploy beta",
@@ -114,11 +114,13 @@
     "yet-another-react-lightbox": "^3.32.2"
   },
   "devDependencies": {
+    "@emotion/server": "^11.11.0",
     "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^10.0.5",
     "exceljs": "^4.4.0",
     "firebase-admin": "^14.5.0",
     "patch-package": "^8.0.1",
+    "playwright": "^1.64.0",
     "postcss-logical": "^9.0.1",
     "serve": "^14.2.6",
     "source-map-explorer": "^2.5.3",

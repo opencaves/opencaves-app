@@ -72,6 +72,10 @@ const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
+  // A page the server rendered (entry-server.jsx): the state it was rendered
+  // with (the app's title), so the app's first render is the server's
+  // (hydration). Its cave data stays out of the store (useCaveData).
+  preloadedState: window.__OC_SSR__?.state,
   devTools: import.meta.env.DEV,
   middleware: (getDefaultMiddleware) => {
     const defaultMiddlewares = getDefaultMiddleware({
@@ -95,4 +99,7 @@ export const store = configureStore({
   },
 })
 
-export const persistor = persistStore(store)
+// On a page the server rendered, the stored state is read once the page is
+// hydrated (index.jsx): read before, it would make the first render differ
+// from the server's.
+export const persistor = persistStore(store, window.__OC_SSR__ ? { manualPersist: true } : undefined)

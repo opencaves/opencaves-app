@@ -4,7 +4,8 @@ const FADE_MS = 180
 
 // The cave name index.html's splash shows (from the server's text), and the
 // address it was for: read before the splash goes, for MapLoading to keep.
-const splash = document.getElementById('oc-shell')
+// (None on the server, which renders the public pages: entry-server.jsx.)
+const splash = typeof document === 'undefined' ? null : document.getElementById('oc-shell')
 const shellCave = { name: splash?.dataset.caveName, path: splash?.dataset.path }
 
 export function shellCaveName() {

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { collection, deleteDoc, deleteField, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { useSsrCollection } from '@/hooks/useSsrCollection.js'
 import { auth, db } from '@/config/firebase.js'
 import { isTrashed } from '@/utils/trash.js'
 
@@ -70,7 +70,9 @@ export function createCollectionModel(collectionName, { trash = false } = {}) {
     },
 
     useAll({ includeTrashed = false } = {}) {
-      const [snapshot, loading, error] = useCollection(collectionRef)
+      // On a page the server rendered: the server's (ssrContext.js), by the
+      // collection's name.
+      const [snapshot, loading, error] = useSsrCollection(collectionName, collectionRef)
       const items = useMemo(() => snapshot?.docs.map(d => d.data()).filter((item) => includeTrashed || visible(item)) || [], [snapshot, includeTrashed])
       return [items, loading, error]
     }

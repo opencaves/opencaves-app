@@ -212,6 +212,46 @@ firebase deploy --only firestore:rules,firestore:indexes   # security rules, ind
 
 A deploy uploads the working copy, including uncommitted changes.
 
+`npm run build` also builds the server rendering of the public pages (`/`,
+`/caves`, a cave's page, `/sistemas`, a system's page) into `functions/js/ssr/`,
+from that same build: after a build, deploy the hosting **and** the
+`indexPages` function together (`firebase deploy`, or `--only
+hosting,functions:js:indexPages`), or those pages are drawn with the previous
+build's code and files. Without `functions/js/ssr/` (or if the server
+rendering fails), they are served as the app's shell with the page's title,
+description and other `<head>` tags (a cave's page also with its text), and
+the browser draws them.
+
+Two safeguards keep the two builds together. `firebase deploy` (Hosting or
+the functions) first runs `node scripts/check-ssr-build.js --check`, which
+stops the deploy when `build/` and `functions/js/ssr/` come from different
+builds, or one is missing: run `npm run build` again. And if Hosting is
+deployed alone all the same, the page functions see that the site's build
+isn't theirs and serve the pages as the app's shell, drawn in the browser,
+until the functions are deployed too: the logs show `[ssr] the site and the
+server build differ`.
+
+After deploying Hosting and the functions, check the server-rendered pages in
+a real browser, on the live site or on a preview channel:
+
+```
+node scripts/check-hydration.js --url https://opencaves.org
+node scripts/check-hydration.js --url https://opencaves--<channel>-<hash>.web.app --cave=<id> --sistema=<id>
+```
+
+It loads `/`, `/caves`, `/sistemas`, a cave's page and a system's page (the
+first ones the lists link to, unless `--cave=`/`--sistema=` name them - with
+"=", as cave ids start with "-") and a missing cave, in English, each with a
+random `?oc-check=` query so the CDN's cached copy doesn't answer. For each it
+checks the status (404 for the missing cave), that the response is compressed
+(br or gzip), that the server rendered it (`window.__OC_SSR__`,
+`html[data-oc-ssr]`) and the app hydrated it to the end, with no page error
+and no hydration message in the console (React's, or the app's `[hydrate]`
+ones), and that the title after hydration is the server's. One line per page;
+it exits 1 when a check fails (`-v` also lists the pages' other console
+errors). It uses Chrome when installed, else Playwright's Chromium: run `npx
+playwright install chromium` once.
+
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10
 seconds to load the functions code. This is usually a slow cold start, not a

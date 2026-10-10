@@ -3,6 +3,7 @@
     {
       "target": "opencaves",
       "public": "build",
+      "predeploy": "node scripts/check-ssr-build.js --check",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -154,6 +155,7 @@
     {
       "source": "functions/js",
       "codebase": "js",
+      "predeploy": "node scripts/check-ssr-build.js --check",
       "ignore": [
         "node_modules",
         ".git",

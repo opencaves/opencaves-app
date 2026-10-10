@@ -2,7 +2,8 @@ import { useMemo } from 'react'
 import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import getId from 'unique-push-id'
 import { builder } from '@invertase/image-processing-api'
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { useSsrCollection } from '@/hooks/useSsrCollection.js'
+import { pageHostname } from '@/ssr/ssrContext.js'
 import { breakpoints } from '@/theme/Theme.jsx'
 import { auth, callable, db, getStorageService } from '@/config/firebase.js'
 import { isTrashed, withoutTrashed } from '@/utils/trash.js'
@@ -148,7 +149,7 @@ export default class CaveAsset {
   // storage rules): unlike the thumbnails, originals aren't public objects,
   // so their storage.googleapis.com URL answers 403.
   get url() {
-    const host = window.location.hostname === 'localhost' ? 'http://localhost:9199' : 'https://firebasestorage.googleapis.com'
+    const host = pageHostname() === 'localhost' ? 'http://localhost:9199' : 'https://firebasestorage.googleapis.com'
     return `${host}/v0/b/${FIREBASE_CONFIG.storageBucket}/o/${encodeURIComponent(this.fullPath)}?alt=media`
   }
 
@@ -165,7 +166,8 @@ export default class CaveAsset {
   // URL of one resized version (see resize-images' IMAGE_SIZES) - the exact
   // URL <Picture> requests for it, which the offline downloads rely on.
   getThumbnailUrl(dimension, format = THUMBNAIL_FORMATS[0]) {
-    const isProd = window.location.hostname !== 'localhost'
+    // (The server, rendering a page, gives its request's host.)
+    const isProd = pageHostname() !== 'localhost'
     const baseUrl = isProd ? `https://storage.googleapis.com/${FIREBASE_CONFIG.storageBucket}` : `http://localhost:9199/v0/b/${FIREBASE_CONFIG.storageBucket}/o/?alt=media`
     const url = new URL(baseUrl)
     // Copies redone (scripts/fix-photo-orientation.js) carry their revision in
@@ -296,7 +298,7 @@ export function useCaveAssetsList(caveId) {
     [caveId],
   )
 
-  const [snapshot, loading, error] = useCollection(q, {
+  const [snapshot, loading, error] = useSsrCollection(`photos:${caveId}`, q, {
     snapshotListenOptions: { includeMetadataChanges: true }
   })
   // Without the photos in the trash (same shape: docs, empty, size), the
@@ -308,7 +310,8 @@ export function useCaveAssetsList(caveId) {
 
 export function useCoverImage(caveId) {
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
-  const [snapshot, loading, error] = useCollection(q)
+  // On a page the server rendered: the server's (ssrContext.js).
+  const [snapshot, loading, error] = useSsrCollection(`cover:${caveId}`, q)
   // Read from the snapshot, not copied to state by an effect: that took one
   // more render, in which the cave seemed to have no cover. A cover in the
   // trash isn't one.

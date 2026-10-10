@@ -13,9 +13,9 @@ import { getOS } from '@/utils/getOS.js'
 export function useCopiedConfirmation() {
   const { t } = useTranslation('resultPane')
   const [openSnackbar] = useSnackbar()
-  const isAndroid = getOS() === 'Android'
+  // Asked at the copy, not while rendering (the server renders this too).
   return () => {
-    if (!isAndroid) openSnackbar(t('copiedToClipboard'), { severity: 'success' })
+    if (getOS() !== 'Android') openSnackbar(t('copiedToClipboard'), { severity: 'success' })
   }
 }
 
