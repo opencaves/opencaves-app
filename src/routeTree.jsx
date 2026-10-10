@@ -227,8 +227,8 @@ export const routes = [
         element: <Layout />,
         children: [
           {
-            // A page failing or not found (throwNotFound) inside the layout: the
-            // app bar and its search stay (the root's NoMatch replaced them).
+            // A page failing inside the layout: the app bar and its search
+            // stay (the root's NoMatch replaced them).
             errorElement: <NoMatch inLayout />,
             children: [
               {
