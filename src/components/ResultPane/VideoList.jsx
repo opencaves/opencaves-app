@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -9,9 +8,10 @@ import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import { centerFocused, centerItem, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -60,25 +60,31 @@ function getEmbedUrl(value) {
   return null
 }
 
+// A video's width in the strip: narrower than the pane's (about 352 px
+// inside its padding), so the next video shows beside it - a sign there are
+// more. 16:9.
+const VIDEO_WIDTH = 280
+
 export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((state) => state.session.roles)
   const settleWrite = useSettleWrite()
+  const [openSnackbar] = useSnackbar()
+  // A video just added: scrolled to once drawn (it goes at the strip's end).
+  const [shownIndex, setShownIndex] = useState(null)
   // For the offline save's messages.
   const caveName = useSelector((state) => state.data.caves.find((cave) => cave.id === caveId)?.name?.value) || ''
   const scrollbarsRef = useRef()
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [newVideoUrl, setNewVideoUrl] = useState('')
   const [editingIndex, setEditingIndex] = useState(null)
-  const [saving, setSaving] = useState(false)
   const [activeVideo, setActiveVideo] = useState(null)
   const [videoToDelete, setVideoToDelete] = useState(null)
-  const [deleteError, setDeleteError] = useState(false)
   const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
   const canEdit = roles.includes('editor') || roles.includes('admin')
   // Deleting a video: admins only.
   const canDelete = roles.includes('admin')
-  const videoWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio * 1.5
+  const videoWidth = VIDEO_WIDTH
   const videoHeight = (videoWidth * 9) / 16
   // Narrower where the place it's in says so (--oc-video-max-width, e.g. a
   // card on a phone), keeping its 16:9 shape.
@@ -89,6 +95,26 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   function isValidVideoUrl(value) {
     return getEmbedUrl(value) !== null
   }
+
+  // Already in the list, in any of its link's forms (youtu.be or watch?v=,
+  // with or without www): the same player address. Not the one being edited.
+  function isListedVideo(value) {
+    const embedUrl = getEmbedUrl(value)
+    return embedUrl !== null && videoUrls.some((video, index) => index !== editingIndex && getEmbedUrl(video) === embedUrl)
+  }
+
+  useEffect(() => {
+    if (shownIndex === null) return undefined
+    // Once drawn: the list grows when the app's data has refreshed.
+    const frame = requestAnimationFrame(() => {
+      const view = scrollbarsRef.current?.view
+      const item = view?.querySelectorAll('.oc-video-list--item')[shownIndex]
+      if (!item) return
+      centerItem(view, item)
+      setShownIndex(null)
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [shownIndex, videoUrls.length])
 
   function closeAddDialog() {
     setAddDialogOpen(false)
@@ -101,13 +127,15 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   async function saveVideos(nextVideos) {
     if (onChange) {
       onChange(nextVideos)
-      return
+      return 'form'
     }
     // Offline, kept on the device and synced later (useSettleWrite).
     const status = await settleWrite(CaveModel.save(caveId, { videos: nextVideos }), { name: caveName })
+    // The app's data refreshed in the background: waiting for it (a full
+    // reload) kept the dialog open for seconds after the save was done.
     invalidateData()
-    if (status === 'saved') await getData()
-    else getData().catch((error) => console.warn(error))
+    getData().catch((error) => console.warn(error))
+    return status
   }
 
   async function addVideo() {
@@ -117,12 +145,20 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     } else {
       nextVideos[editingIndex] = newVideoUrl.trim()
     }
-    setSaving(true)
+    const adding = editingIndex === null
+    // Closed at once: the list shows the change straight away (Firestore's
+    // local write), the server's confirmation takes seconds. A new video goes
+    // at the strip's end, out of sight: scrolled to. Said once confirmed
+    // (saved offline: useSettleWrite says so); failed, Firestore takes it
+    // back out and the snackbar says so.
+    closeAddDialog()
+    if (adding) setShownIndex(nextVideos.length - 1)
     try {
-      await saveVideos(nextVideos)
-      closeAddDialog()
-    } finally {
-      setSaving(false)
+      const status = await saveVideos(nextVideos)
+      if (adding && status === 'saved') openSnackbar(t('videoAdded'), { severity: 'success' })
+    } catch (error) {
+      console.error(error)
+      openSnackbar(t('videoAddError'), { severity: 'error' })
     }
   }
 
@@ -133,27 +169,25 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
       onChange(videoUrls.filter((_, videoIndex) => videoIndex !== index))
       return
     }
-    setDeleteError(false)
     setVideoToDelete(index)
   }
 
   function closeDeleteDialog() {
-    if (saving) return
     setVideoToDelete(null)
-    setDeleteError(false)
   }
 
+  // Closed at once, as adding (the list shows it gone straight away); said
+  // either way in a snackbar once the server answers (saved offline,
+  // useSettleWrite says so).
   async function confirmDelete() {
-    setSaving(true)
-    setDeleteError(false)
+    const nextVideos = videoUrls.filter((_, videoIndex) => videoIndex !== videoToDelete)
+    setVideoToDelete(null)
     try {
-      await saveVideos(videoUrls.filter((_, videoIndex) => videoIndex !== videoToDelete))
-      setVideoToDelete(null)
+      const status = await saveVideos(nextVideos)
+      if (status === 'saved') openSnackbar(t('videoDeleted'), { severity: 'success' })
     } catch (error) {
       console.error(error)
-      setDeleteError(true)
-    } finally {
-      setSaving(false)
+      openSnackbar(t('edit.deleteVideoError'), { severity: 'error' })
     }
   }
 
@@ -277,13 +311,13 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         <DialogTitle>{editingIndex === null ? t('addVideoTitle') : t('edit.editVideo')}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>{t('videoUrlHelp')}</DialogContentText>
-          <TextField autoFocus fullWidth label={t('videoUrl')} placeholder="https://" value={newVideoUrl} onChange={(event) => setNewVideoUrl(event.target.value)} error={!!newVideoUrl.trim() && !isValidVideoUrl(newVideoUrl)} helperText={!!newVideoUrl.trim() && !isValidVideoUrl(newVideoUrl) ? t('invalidVideoUrl') : ' '} />
+          <TextField autoFocus fullWidth label={t('videoUrl')} placeholder="https://" value={newVideoUrl} onChange={(event) => setNewVideoUrl(event.target.value)} error={!!newVideoUrl.trim() && (!isValidVideoUrl(newVideoUrl) || isListedVideo(newVideoUrl))} helperText={!newVideoUrl.trim() ? ' ' : !isValidVideoUrl(newVideoUrl) ? t('invalidVideoUrl') : isListedVideo(newVideoUrl) ? t('videoAlreadyAdded') : ' '} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeAddDialog} disabled={saving}>
+          <Button onClick={closeAddDialog}>
             {t('edit.cancel')}
           </Button>
-          <Button variant="contained" onClick={addVideo} disabled={saving || !isValidVideoUrl(newVideoUrl)}>
+          <Button variant="contained" onClick={addVideo} disabled={!isValidVideoUrl(newVideoUrl) || isListedVideo(newVideoUrl)}>
             {editingIndex === null ? t('addVideo') : t('edit.save')}
           </Button>
         </DialogActions>
@@ -292,13 +326,12 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         <DialogTitle>{t('edit.deleteVideo')}</DialogTitle>
         <DialogContent>
           <DialogContentText>{t('edit.deleteVideoConfirm')}</DialogContentText>
-          {deleteError && <Alert severity="error" sx={{ mt: 2 }}>{t('edit.deleteVideoError')}</Alert>}
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDeleteDialog} disabled={saving}>
+          <Button onClick={closeDeleteDialog}>
             {t('edit.cancel')}
           </Button>
-          <Button color="error" onClick={confirmDelete} disabled={saving}>
+          <Button color="error" onClick={confirmDelete}>
             {t('edit.delete')}
           </Button>
         </DialogActions>

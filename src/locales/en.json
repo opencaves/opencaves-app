@@ -692,7 +692,11 @@
     },
     "cenoteEntrance": "Cenote entrance",
     "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video added",
+    "videoAlreadyAdded": "This video is already in the list.",
+    "videoDeleted": "Video deleted",
+    "videoAddError": "The video couldn't be added. Please try again."
   },
   "mediaPane": {
     "header": "{{name}}",
