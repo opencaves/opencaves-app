@@ -257,11 +257,11 @@ export const UploadInfo = forwardRef((/** @type {{ total: number, progress: numb
               },
             }}
           />
-          {/* @ts-expect-error MUI 9's Typography has no system props: fontSize goes to the DOM, unapplied (sx={{ fontSize: 'small' }} would apply it). */}
+          {/* Small, a detail under the bar (in sx: MUI 9's Typography has no fontSize prop). */}
           <Typography
             className="oc-upload-info--secondary"
-            fontSize="small"
             sx={{
+              fontSize: 'small',
               textAlign: 'right',
               lineHeight: 1,
               marginTop: '.7em',
