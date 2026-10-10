@@ -19,7 +19,7 @@ export const AUTOMATIC = 'auto'
  */
 export function useLanguageChoice() {
   const { i18n } = useTranslation()
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
   const [choice, setChoice] = useState(() => readDeviceLanguage() || AUTOMATIC)
 
   useEffect(() => {
@@ -72,6 +72,9 @@ function LanguageOptions({ id, anchorEl, onClose, language }) {
 /**
  * A menu row (the account menu, the phone's drawer): Language, the current
  * one below it, opening the list of languages.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
  */
 export function LanguageListItem({ sx }) {
   const { t } = useTranslation('languagePicker')
@@ -104,6 +107,9 @@ export function LanguageListItem({ sx }) {
 
 /**
  * A text button for a page's foot: the current language, opening the list.
+ *
+ * @param {object} props
+ * @param {Sx} [props.sx]
  */
 export function LanguageButton({ sx }) {
   const { t } = useTranslation('languagePicker')

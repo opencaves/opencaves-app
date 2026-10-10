@@ -13,6 +13,7 @@ import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflin
 import { offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 // One saved cenote's offline download state, beside its name: a progress
 // ring while downloading, a cloud-check once everything is on the device.
@@ -25,6 +26,7 @@ function CaveOfflineIndicator({ caveId }) {
     const progress = status.total > 0 ? Math.round((status.done / status.total) * 100) : 0
     return <CircularProgress variant="determinate" value={progress} size={16} thickness={5} aria-label={t('downloadingPercent', { progress })} />
   }
+  /** @type {[import('react').ElementType, string, 'success' | 'warning' | 'disabled']} */
   const [Icon, label, color] = status.state === 'ready' ? [CloudDoneRounded, t('caveAvailable'), 'success'] : status.state === 'incomplete' ? [CloudOffRounded, t('caveIncompleteShort'), 'warning'] : [CloudOffRounded, t('caveNotYet'), 'disabled']
   return (
     <Tooltip title={label}>
@@ -83,7 +85,7 @@ export default function SavedCavesList({ headingProps = {} }) {
       )
       .catch((error) => console.error(error))
   }
-  const caves = useSelector((state) => state.data.caves)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
 
   // Cave names come from the shared cave data, which the map normally loads -
   // make sure it's there when this page is opened directly.
@@ -98,7 +100,7 @@ export default function SavedCavesList({ headingProps = {} }) {
   }, [caves, savedCaveIds])
 
   return (
-    <Box component="section" className="oc-saved-caves-list">
+    <Box component="section" className="oc-saved-caves-list" id="saved-caves" sx={sectionAnchorSx}>
       <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>

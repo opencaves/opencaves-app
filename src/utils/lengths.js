@@ -1,10 +1,13 @@
+/** @type {Intl.NumberFormatOptions} */
 const defaultFormatProps = { maximumSignificantDigits: 2, style: 'unit' }
 
 function re(...parts) {
   return parts.map(x => (x instanceof RegExp) ? x.source : x).join('')
 }
 
+/** @type {Intl.NumberFormatOptions} */
 const footFormatProps = { ...defaultFormatProps, unit: 'foot' }
+/** @type {Intl.NumberFormatOptions} */
 const meterFormatProps = { ...defaultFormatProps, unit: 'meter' }
 
 function round(number, precision) {
@@ -16,7 +19,7 @@ function nbsp(str) {
   return `${str}`.replaceAll(/\s/g, '\xa0')
 }
 
-export function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
+function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
 
   if (unit === 'meter') {
     const lengthInFeet = length / 0.3048

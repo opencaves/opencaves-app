@@ -52,6 +52,7 @@ export default function OfflinePreviewsToggle({ sx }) {
     return null
   }
 
+  /** @type {import('react').ReactNode} */
   let secondary = justRemoved && !enabled ? t('previewsRemoved') : t('previewsHint')
   if (status?.state === 'removing') {
     // Turned off: the bar deflates as the files are removed.

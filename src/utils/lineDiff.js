@@ -23,6 +23,7 @@ function splitLines(text) {
  * @returns {object[]}
  */
 export function lineDiff(before = '', after = '') {
+  /** @type {{type: 'same'|'removed'|'added', text: string, oldNo?: number, newNo?: number, parts?: {type: 'same'|'removed'|'added', text: string}[]}[]} */
   const rows = []
   let oldNo = 0
   let newNo = 0

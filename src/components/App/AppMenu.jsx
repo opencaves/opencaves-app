@@ -13,10 +13,14 @@ import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
  * labeled dialog-style Popover rather than an ARIA menu (which may only
  * contain menu items). For admins, a badge on the button counts the new
  * feedback reports (in its accessible name too).
+ *
+ * @param {Omit<import('@mui/material/Button').ButtonProps, 'sx'> & { sx?: import('@mui/system').SystemStyleObject<import('@mui/material').Theme> | ((theme: import('@mui/material').Theme) => import('@mui/system').SystemStyleObject<import('@mui/material').Theme>), logoColorScheme?: 'light' | 'dark', logoSx?: { width?: number | string, height?: number | string }, avatarSx?: object }} props - The
+ *   button's; `logoColorScheme`, the background it sits on ('dark': the app
+ *   bar), `logoSx` the signed-out icon's size, `avatarSx` the avatar's.
  */
 export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, className, ...props }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const isAdmin = useSelector((state) => state.session.isLoggedIn && state.session.roles.includes('admin'))
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn && state.session.roles.includes('admin'))
   const newFeedback = useNewFeedbackCount(isAdmin)
   const isSmall = useSmall()
   const theme = useTheme()

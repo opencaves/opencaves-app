@@ -56,7 +56,7 @@ const dashboardItemSx = (theme) => ({
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
-  const roles = useSelector((state) => state.session.roles)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
   // The testers' reports still to read.

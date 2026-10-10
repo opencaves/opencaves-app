@@ -22,6 +22,12 @@ import { openDirections } from '@/utils/directions.js'
 import './QuickActions.scss'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
+/**
+ * A large quick action button (an icon over its label).
+ *
+ * @param {import('@mui/material/ButtonBase').ButtonBaseProps & { primary?: boolean }} props - A
+ *   ButtonBase's; `primary`, in the primary color.
+ */
 function ButtonLg({ primary, children, ...props }) {
   return (
     <ButtonBase
@@ -126,7 +132,7 @@ export default function QuickActions({ cave }) {
   const isSmall = useSmall()
 
   async function handleShareOpen() {
-    const shareURL = new URL(window.location)
+    const shareURL = new URL(window.location.href)
     shareURL.hash = ''
     await Share.share({
       title: t('shareTitle', { name: caveName }),
@@ -272,7 +278,7 @@ export default function QuickActions({ cave }) {
               <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid container sx={{ justifyContent: 'center' }}>
                   <ButtonLg primary aria-label={t('directions')} onClick={openCaveDirections}>
-                    <Grid container direction="column">
+                    <Grid container sx={{ flexDirection: 'column' }}>
                       <Grid>
                         <IconLg>
                           <DirectionsIcon />
@@ -289,7 +295,7 @@ export default function QuickActions({ cave }) {
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
                 <ButtonLg id="save-btn" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick}>
-                  <Grid container direction="column">
+                  <Grid container sx={{ flexDirection: 'column' }}>
                     <Grid>
                       <IconLg>
                         {saveIcon}
@@ -306,7 +312,7 @@ export default function QuickActions({ cave }) {
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
                 <ButtonLg id="share-btn" aria-label={t('share')} onClick={handleShareOpen}>
-                  <Grid container direction="column">
+                  <Grid container sx={{ flexDirection: 'column' }}>
                     <Grid>
                       <IconLg>
                         <ShareIcon />

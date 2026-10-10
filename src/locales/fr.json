@@ -2040,5 +2040,9 @@
     "lightbox": "Visionneuse",
     "gallery": "Galerie",
     "position": "{index} sur {total}"
+  },
+  "yesNoSwitch": {
+    "no": "Non",
+    "yes": "Oui"
   }
 }

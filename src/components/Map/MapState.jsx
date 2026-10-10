@@ -63,7 +63,7 @@ export const MapLoading = forwardRef(function MapLoading(props, ref) {
 export function MapError({ error }) {
   const { t } = useTranslation('404')
   return (
-    <Grid container className="oc-map-error no-match--container no-match--error" direction="column" sx={{ position: 'absolute', inset: 0, justifyContent: 'center', alignItems: 'center' }}>
+    <Grid container className="oc-map-error no-match--container no-match--error" sx={{ flexDirection: 'column', position: 'absolute', inset: 0, justifyContent: 'center', alignItems: 'center' }}>
       <Grid className="no-match--box">
         <h1 className="no-match--header">{t('failed.header')}</h1>
         <p>{t('failed.description')}</p>

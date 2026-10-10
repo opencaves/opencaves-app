@@ -9,8 +9,8 @@ import { COORDINATE_DECIMALS } from '../../config/map.js'
  * the flat-earth approximation (accurate enough across a region as small as
  * the Yucatán) skips the cost of a proper haversine calculation.
  *
- * @param {{longitude: number, latitude: number}} [a]
- * @param {{longitude: number, latitude: number}} [b]
+ * @param {{longitude?: number, latitude?: number}} [a]
+ * @param {{longitude?: number, latitude?: number}} [b]
  * @returns {number} Infinity when either point is missing, so entries without a location sort
  *   to the end rather than throwing or landing in an arbitrary spot.
  */
@@ -100,7 +100,7 @@ export function arrStr(str) {
  * Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
  * array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
  *
- * @param {{lang: string, description: string}[]} [descriptions]
+ * @param {{lang: string, description: string}[]|undefined} descriptions
  * @param {string} lang
  * @param {string} [fallbackLang='eng']
  * @returns {string}

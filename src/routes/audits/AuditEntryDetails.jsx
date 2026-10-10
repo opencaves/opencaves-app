@@ -144,6 +144,9 @@ const gutterSx = {
  * and its +added -removed line counts.
  *
  * @param {object} props
+ * @param {string} props.field - The field's name.
+ * @param {*} props.before - Its value before.
+ * @param {*} props.after - After.
  * @param {string} [props.beforeLabel] - With afterLabel, name the two
  *   sides when they aren't before/after (a conflict: expected/now).
  * @param {string} [props.afterLabel]

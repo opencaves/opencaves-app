@@ -1,8 +1,10 @@
 import { useEffect, useId, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Switch, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import YesNoSwitch from '@/components/YesNoSwitch.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { saveFeedbackEmails, watchFeedbackEmails } from '@/services/feedbackEmailsPreference.js'
 
@@ -10,11 +12,11 @@ import { saveFeedbackEmails, watchFeedbackEmails } from '@/services/feedbackEmai
  * The account page's Emails section: whether the team's replies to the
  * person's feedback are emailed to them (on by default; the emails'
  * unsubscribe link turns it off). Saved at once, confirmed by a snackbar.
- * Signed-in accounts only.
+ * Signed-in accounts only. Its anchor: #emails.
  */
 export default function FeedbackEmailsSection({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'emails' })
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
   const uid = user && !user.isAnonymous ? user.uid : null
   const [enabled, setEnabled] = useState(null)
   const [saving, setSaving] = useState(false)
@@ -47,7 +49,7 @@ export default function FeedbackEmailsSection({ headingProps = {} }) {
   }
 
   return (
-    <Box component="section" className="oc-feedback-emails-section">
+    <Box component="section" className="oc-feedback-emails-section" id="emails" sx={sectionAnchorSx}>
       <Typography {...headingProps}>{t('title')}</Typography>
       <Box component="label" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, cursor: 'pointer' }}>
         <Box sx={{ minWidth: 0, flex: 1, pt: 0.75 }}>
@@ -56,7 +58,7 @@ export default function FeedbackEmailsSection({ headingProps = {} }) {
             {t('feedbackRepliesHint')}
           </Typography>
         </Box>
-        <Switch className="oc-feedback-emails-section--switch" checked={enabled ?? true} disabled={enabled === null || saving} onChange={handleChange} slotProps={{ input: { 'aria-labelledby': labelId, 'aria-describedby': hintId } }} />
+        <YesNoSwitch className="oc-feedback-emails-section--switch" checked={enabled ?? true} disabled={enabled === null || saving} onChange={handleChange} slotProps={{ input: { 'aria-labelledby': labelId, 'aria-describedby': hintId } }} />
       </Box>
     </Box>
   )

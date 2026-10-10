@@ -10,6 +10,8 @@ import AddRounded from '@mui/icons-material/AddRounded'
  * as long as it doesn't overlap another target, so no extra margin that
  * would knock the layout off the 8dp grid. Pass
  * startIcon for another leading icon (e.g. Add pictures' camera).
+ *
+ * @param {import('@mui/material/Button').ButtonProps & Record<string, any>} props - A Button's; `startIcon`, a "+" by default.
  */
 export default function AddButton({ className, sx, startIcon, children, ...props }) {
   return (

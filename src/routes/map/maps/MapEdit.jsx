@@ -10,7 +10,7 @@ import EditMapDialog from '@/components/MapsPicker/EditMapDialog.jsx'
  */
 export default function MapEdit() {
   const { mapId } = useParams()
-  const { maps = [] } = useOutletContext() || {}
+  const { maps = [] } = /** @type {{ maps?: CaveMap[] }} */ (useOutletContext()) || {}
   const navigate = useNavigate()
   const location = useLocation()
   const map = maps.find((m) => m.id === mapId) || null

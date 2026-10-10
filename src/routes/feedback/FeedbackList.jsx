@@ -30,6 +30,17 @@ const SORTERS = {
 
 // A toolbar dropdown (GitHub's list filters): a button naming the filter -
 // its value when one is picked - opening its choices.
+/**
+ * A toolbar dropdown (see above).
+ *
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {string} props.label
+ * @param {string} [props.value]
+ * @param {{ value: string, label: string, icon?: import("react").ReactNode }[]} props.options
+ * @param {(value: string) => void} props.onChange
+ * @param {string} [props.allLabel] - A first choice clearing the filter (none: a choice is always picked, a sort).
+ */
 function FilterMenu({ className, label, value, options, onChange, allLabel }) {
   const [anchor, setAnchor] = useState(null)
   const picked = options.find((option) => option.value === value)

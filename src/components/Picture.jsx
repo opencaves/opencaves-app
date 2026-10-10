@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
@@ -16,8 +16,15 @@ function OfflinePlaceholder({ className, style }) {
   )
 }
 
+/**
+ * An image (a <picture> when it has sources), loaded with CORS so the service
+ * worker caches it at its real size; one that couldn't load offline shows a
+ * cloud icon instead.
+ *
+ * @param {import('react').ImgHTMLAttributes<HTMLImageElement> & { sources?: { srcSet?: string, media?: string, type?: string }[] }} props - The
+ *   <img>'s, and the <picture>'s `sources`.
+ */
 export default function Picture({ sources, ...props }) {
-  const pictureRef = useRef()
   const online = useOnline()
   const [missingOffline, setMissingOffline] = useState(false)
   useEffect(() => {
@@ -58,18 +65,11 @@ export default function Picture({ sources, ...props }) {
     return <img alt={alt} srcSet={src} crossOrigin={crossOrigin} draggable={draggable} className={`oc-picture--img ${className || ''}`.trim()} onError={handleError} {...sizesProp} {...rest} />
   }
 
-  useEffect(() => {
-    if (pictureRef && pictureRef.current) {
-      pictureRef.current.naturalWidth = 3072
-      pictureRef.current.naturalHeight = 1728
-    }
-  }, [pictureRef])
-
   if (missingOffline) return <OfflinePlaceholder className={props.className} style={props.style} />
 
   if (sources) {
     return (
-      <picture ref={pictureRef} className={`oc-picture ${props.className || ''}`.trim()} style={{ display: 'flex' }}>
+      <picture className={`oc-picture ${props.className || ''}`.trim()} style={{ display: 'flex' }}>
         {renderSources()}
         {renderImage(true)}
       </picture>

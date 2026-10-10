@@ -4,6 +4,12 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 
 /**
  * A dialog's "X", at its top right (give the DialogTitle room for it: pr 7).
+ *
+ * @param {object} props
+ * @param {() => void} props.onClick
+ * @param {boolean} [props.disabled=false]
+ * @param {string} [props.label] - Its tooltip and accessible name (else "Close").
+ * @param {string} [props.className]
  */
 export default function DialogCloseButton({ onClick, disabled = false, label, className }) {
   const { t } = useTranslation('app')

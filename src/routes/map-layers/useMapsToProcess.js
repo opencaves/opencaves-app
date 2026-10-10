@@ -19,7 +19,7 @@ import { isTrashed } from '@/utils/trash.js'
  */
 export function useMapsToProcess() {
   const [snapshot, loading] = useCollection(collection(db, 'maps'))
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const [configured, setConfigured] = useState(null)
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export function useMapsToProcess() {
     const added = snapshot.docs
       .filter((doc) => !isTrashed(doc) && !doc.get('importKey') && !configured.has(doc.id))
       .map((doc) => {
-        const map = doc.data()
+        const map = /** @type {CaveMap} */ (doc.data())
         return { ...map, id: doc.id, thumbnail: map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null), sistemas: sistemasOf.get(doc.id) || [] }
       })
     return { toProcess: added.filter((map) => !map.layerSkipReason), skipped: added.filter((map) => map.layerSkipReason), loading }

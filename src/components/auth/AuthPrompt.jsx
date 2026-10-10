@@ -16,6 +16,18 @@ const gap = 2
 // dialogTitle bar): the Header takes this id, the Dialog points at it.
 const HeaderIdContext = createContext(undefined)
 
+/**
+ * The auth forms' dialog (full screen on phones), with the logo above its
+ * content; it's named after the Header inside it.
+ *
+ * @param {object} props
+ * @param {boolean} props.open
+ * @param {string} [props.title] - The page title while it's open.
+ * @param {import('react').ReactNode} [props.dialogTitle] - A title bar's content.
+ * @param {import('react').ReactNode} [props.children]
+ * @param {() => void} [props.onClose]
+ * @param {string} [props.className]
+ */
 export default function AuthPrompt({ open: initialOpen, title, dialogTitle, children, onClose, className }) {
   const logoHeight = 100
   const logoWidth = 185
@@ -109,8 +121,8 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
         )}
         <Grid
           container
-          direction="column"
           sx={{
+            flexDirection: 'column',
             width: {
               xs: '100%',
               sm: '80%',
@@ -177,61 +189,12 @@ function AuthDialogCloseBtn({ onClose, ...props }) {
   )
 }
 
-export function Step({ instructions, fields, actions, gap = 2, className, children, ...props }) {
-  function Container({ children }) {
-    return actions || fields || instructions ? (
-      <Grid
-        className="oc-step--container"
-        container
-        direction="column"
-        sx={{
-          width: {
-            xs: '100%',
-            sm: '42ch',
-          },
-          rowGap: gap,
-        }}
-      >
-        {children}
-      </Grid>
-    ) : null
-  }
-
-  return (
-    <Grid
-      {...props}
-      className={`oc-step ${className || ''}`.trim()}
-      container
-      direction="column"
-      size="grow"
-      sx={{
-        mb: {
-          xs: 2,
-          lg: 8,
-        },
-        alignItems: 'center',
-        alignContent: 'center',
-        rowGap: gap,
-      }}
-    >
-      {children}
-      <Container>
-        {instructions}
-        {fields && (
-          <Grid container direction="column" size="grow" sx={{ pt: 0.75, rowGap: gap }}>
-            {fields}
-          </Grid>
-        )}
-        {actions && (
-          <Grid container direction="column" sx={{ mt: gap * 0.75, alignItems: 'stretch', rowGap: gap }}>
-            {actions}
-          </Grid>
-        )}
-      </Container>
-    </Grid>
-  )
-}
-
+/**
+ * An auth dialog's heading, which names it.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ */
 export function Header({ children }) {
   const headerId = useContext(HeaderIdContext)
   return (

@@ -106,12 +106,27 @@ export default class CaveAsset {
     return assetList
   }
 
+  /**
+   * @param {{caveId?: string, userId?: string, isCover?: boolean, type?: string}} [fields]
+   */
   constructor({ caveId, userId, isCover = false, type = 'image' } = {}) {
     this.id = getId()
     this.caveId = caveId
     this.userId = userId
     this.isCover = isCover
     this.type = type
+    // Set by upload() or read from the record (the converter): declared for
+    // the type checker only - no value, so toObject() doesn't carry them unset.
+    /** @type {string|undefined} */
+    this.originalName
+    /** @type {string|undefined} */
+    this.fullPath
+    /** @type {string|undefined} */
+    this.mediaType
+    /** @type {number|undefined} */
+    this.thumbnailRevision
+    /** @type {number|undefined} */
+    this.viewThumbnailRevision
   }
 
   toObject() {
@@ -277,6 +292,14 @@ export function useCaveAssetsList(caveId) {
   return [visible, loading, error]
 }
 
+/**
+ * A cave's cover photo, live (the server's on a page it rendered).
+ *
+ * @param {string} caveId
+ * @returns {[import('firebase/firestore').QueryDocumentSnapshot<CaveAsset> | undefined, boolean, Error | undefined]} The
+ *   cover's document (undefined when it has none, a cover in the trash
+ *   included), whether it's loading, the error.
+ */
 export function useCoverImage(caveId) {
   const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
   // On a page the server rendered: the server's (ssrContext.js).
@@ -284,7 +307,7 @@ export function useCoverImage(caveId) {
   // Read from the snapshot, not copied to state by an effect: that took one
   // more render, in which the cave seemed to have no cover. A cover in the
   // trash isn't one.
-  const coverImage = snapshot?.docs.find((d) => !isTrashed(d))
+  const coverImage = /** @type {import('firebase/firestore').QueryDocumentSnapshot<CaveAsset>} */ (snapshot?.docs.find((d) => !isTrashed(d)))
 
   return [coverImage, loading, error]
 }

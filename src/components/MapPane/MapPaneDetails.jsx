@@ -60,6 +60,11 @@ const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto'
 
 /**
  * @param {object} props
+ * @param {string} props.mapId - The map shown.
+ * @param {CaveMap[]} props.maps - The maps it moves between.
+ * @param {string} [props.sistemaId]
+ * @param {string} [props.returnTo] - Where back leads.
+ * @param {(map: CaveMap) => void | Promise<void>} [props.onTrash] - Before a map goes to the trash.
  * @param {(id: string) => string} [props.mapPath] - A map's address (the map's viewer by default; a page's gallery
  *   has its own).
  * @param {boolean} [props.alwaysShowBack=false] - The back arrow whatever the screen (no list

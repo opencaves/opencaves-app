@@ -53,8 +53,8 @@ export default function SiteSearch({ sx, inputSx }) {
             sx={inputSx}
             slotProps={{
               ...params.slotProps,
-              htmlInput: { ...params.slotProps?.htmlInput, ...params.inputProps, 'aria-label': t('hero.searchPlaceholder'), enterKeyHint: 'search' },
-              input: { ...params.InputProps, ...params.slotProps?.input, startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
+              htmlInput: { ...params.slotProps?.htmlInput, 'aria-label': t('hero.searchPlaceholder'), enterKeyHint: 'search' },
+              input: { ...params.slotProps?.input, startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
             }}
           />
         )}

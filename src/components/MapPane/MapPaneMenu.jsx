@@ -26,7 +26,8 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
   // #root) with focus still inside it, which the browser blocks.
   function act(action) {
     handleClose()
-    document.activeElement?.blur()
+    const focused = /** @type {HTMLElement} */ (document.activeElement)
+    focused?.blur()
     action(map)
   }
 

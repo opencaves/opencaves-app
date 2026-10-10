@@ -21,6 +21,7 @@ export function formatFullDate(date, language) {
   return date ? new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(date) : ''
 }
 
+/** @type {[Intl.RelativeTimeFormatUnit, number][]} */
 const RELATIVE_UNITS = [
   ['year', 365 * 24 * 3600],
   ['month', 30 * 24 * 3600],

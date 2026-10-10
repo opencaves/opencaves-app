@@ -33,7 +33,7 @@ export function When({ value }) {
 // exists), its state (undone, an undo of another change), the result of an
 // undo just asked for; a checkbox and an Undo button when it can be undone;
 // expanded, the change itself.
-export default memo(function AuditEntryRow({ entry, label, path, accountLabel, selected, onToggleSelected, expanded, onToggleExpanded, onUndo, result, busy }) {
+export default memo(function AuditEntryRow(/** @type {{ entry: object, label: string, path?: string, accountLabel: (uid: string) => string, selected?: boolean, onToggleSelected?: (id: string) => void, expanded?: boolean, onToggleExpanded?: (id: string) => void, onUndo?: (ids: string[]) => void, result?: object, busy?: boolean }} */ { entry, label, path, accountLabel, selected, onToggleSelected, expanded, onToggleExpanded, onUndo, result, busy }) {
   const { t } = useTranslation('audits')
   const undoable = isUndoable(entry)
   const detailsId = `oc-audit-entry-${entry.id}`

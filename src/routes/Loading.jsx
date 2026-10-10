@@ -25,7 +25,7 @@ export default function Loading() {
 
   return (
     <>
-      <MapLoading className="oc-loading" />
+      <MapLoading />
       {isMapRoute && <SearchBarMockup />}
     </>
   )

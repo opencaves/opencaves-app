@@ -129,6 +129,13 @@ function CardGrid({ group, items, min = 230 }) {
   )
 }
 
+/**
+ * A section's heading, with a line under it.
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {import('react').ReactNode} [props.sub] - The line under it.
+ */
 function SectionTitle({ children, sub }) {
   return (
     <Box sx={{ mb: 2.5 }}>
@@ -149,7 +156,7 @@ function SectionTitle({ children, sub }) {
 export default function WhatCanIDo() {
   const { t } = useTranslation('whatCanIDo')
   const { setTitle } = useTitle()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
 
   useEffect(() => {
     setTitle(t('title'))

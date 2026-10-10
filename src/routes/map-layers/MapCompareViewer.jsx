@@ -6,7 +6,12 @@ import Map, { Layer, Source } from 'react-map-gl/mapbox'
 import { MAP_PROPS } from '@/config/map.js'
 import CaveLayer, { caveTileRequest } from '@/components/Map/CaveLayer.jsx'
 
-// The extent of the scan's corners, [[west, south], [east, north]].
+/**
+ * The extent of the scan's corners, [[west, south], [east, north]].
+ *
+ * @param {[number, number][]} corners - Its [longitude, latitude] corners.
+ * @returns {[[number, number], [number, number]]}
+ */
 function boundsOf(corners) {
   const lngs = corners.map(([lng]) => lng)
   const lats = corners.map(([, lat]) => lat)
@@ -52,7 +57,7 @@ export default function MapCompareViewer({ map, open, onClose }) {
     mapboxAccessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
     initialViewState: { bounds: boundsOf(map.scan), fitBoundsOptions: { padding: 24 } },
     transformRequest: caveTileRequest,
-    style: { position: 'absolute', inset: 0 },
+    style: /** @type {import('react').CSSProperties} */ ({ position: 'absolute', inset: 0 }),
   }
 
   return (

@@ -100,6 +100,7 @@ export function CoordinateRow({ icon, text, copyText, copyLabel, point, directio
  * @param {object} props
  * @param {object[]} props.rows - { key, icon, text,
  *   copyText, copyLabel, point ({ latitude, longitude }), directionsLabel }.
+ * @param {Sx} [props.sx]
  */
 export default function CoordinateCopyList({ rows, sx }) {
   const onCopied = useCopiedConfirmation()

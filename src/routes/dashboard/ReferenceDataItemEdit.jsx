@@ -31,7 +31,7 @@ const emptyFields = (fields) => Object.fromEntries(fields.map((f) => [f, '']))
 // visit), from the small areas collection itself, rather than waiting for
 // the whole cave data to load.
 function useItemId(collectionName, param) {
-  const storeAreas = useSelector((state) => state.data.areas)
+  const storeAreas = useSelector((/** @type {RootState} */ state) => state.data.areas)
   const needsAreas = collectionName === 'areas' && param !== 'new'
   const [fetchedAreas, setFetchedAreas] = useState(null)
   useEffect(() => {

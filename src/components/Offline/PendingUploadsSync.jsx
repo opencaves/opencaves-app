@@ -26,8 +26,8 @@ const TRANSIENT = /network|retry-limit|unavailable|deadline|unknown|offline|canc
  * added it. Says each is uploaded, or couldn't be.
  */
 export default function PendingUploadsSync() {
-  const uid = useSelector((state) => state.session.user?.uid)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const uid = useSelector((/** @type {RootState} */ state) => state.session.user?.uid)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   const { t } = useTranslation('offline', { keyPrefix: 'pending' })
   const [openSnackbar] = useSnackbar()
   const running = useRef(false)

@@ -108,7 +108,7 @@ export default function Layout() {
     const events = ['wheel', 'touchstart', 'keydown', 'pointerdown']
     events.forEach((type) => scroller.addEventListener(type, stop, { passive: true }))
     // How far the section's top is from where scrolling to it puts it.
-    const offset = (section) => section.getBoundingClientRect().top - scroller.getBoundingClientRect().top - parseFloat(getComputedStyle(section).scrollMarginTop || 0)
+    const offset = (section) => section.getBoundingClientRect().top - scroller.getBoundingClientRect().top - parseFloat(getComputedStyle(section).scrollMarginTop || '0')
     let last = null
     let still = 0
     const settle = () => {

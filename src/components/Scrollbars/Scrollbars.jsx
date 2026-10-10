@@ -3,12 +3,14 @@ import { Scrollbars as Scrollbars3 } from 'react-custom-scrollbars-3'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import './Scrollbars.scss'
 
-const DefaultThumb = forwardRef(function DefaultThumb(props, ref) {
+/** @typedef {{ style?: import('react').CSSProperties } & Record<string, any>} TrackProps A track's props, from the library or Scrollbars' callers. */
+
+const DefaultThumb = forwardRef(function DefaultThumb(/** @type {import('react').HTMLAttributes<HTMLDivElement>} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
   return <div ref={ref} {...props} />
 })
 
-const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ style, trackHorizontalProps = {}, ...otherProps }, ref) {
-  const { style: trackHorizontalStyle, trackHorizontalOtherProps } = trackHorizontalProps
+const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal(/** @type {TrackProps & { trackHorizontalProps?: TrackProps }} */ { style, trackHorizontalProps = {}, ...otherProps }, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
+  const { style: trackHorizontalStyle, ...trackHorizontalOtherProps } = trackHorizontalProps
 
   return (
     <div
@@ -29,8 +31,8 @@ const DefaultTrackHorizontal = forwardRef(function DefaultTrackHorizontal({ styl
   )
 })
 
-const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, trackVerticalProps = {}, ...otherProps }, ref) {
-  const { style: trackVerticalStyle, trackVerticalOtherProps } = trackVerticalProps
+const DefaultTrackVertical = forwardRef(function DefaultTrackVertical(/** @type {TrackProps & { trackVerticalProps?: TrackProps }} */ { style, trackVerticalProps = {}, ...otherProps }, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
+  const { style: trackVerticalStyle, ...trackVerticalOtherProps } = trackVerticalProps
 
   return (
     <div
@@ -51,7 +53,12 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
   )
 })
 
-const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, trackHorizontalProps = {}, trackVerticalProps = {}, ...props }, ref) {
+/**
+ * react-custom-scrollbars-3's Scrollbars with the app's thumbs and tracks,
+ * shown on hover when `autoHide`. Its props are the library's, plus
+ * `trackHorizontalProps` and `trackVerticalProps` (each track's `style`).
+ */
+const Scrollbars = forwardRef(function Scrollbars(/** @type {import('react-custom-scrollbars-3').ScrollbarProps & { trackHorizontalProps?: TrackProps, trackVerticalProps?: TrackProps } & Record<string, any>} */ { children, autoHide = true, trackHorizontalProps = {}, trackVerticalProps = {}, ...props }, /** @type {import('react').Ref<import('react-custom-scrollbars-3').Scrollbars>} */ ref) {
   // The app's thumb, both ways: the horizontal one (the galleries') used to be
   // the library's own 20% black, nearly invisible on the dark theme.
   function renderThumb({ style, ...props }) {

@@ -105,6 +105,11 @@ function MapPreview({ caveId, map, index, returnTo, mapPath, menu = false }) {
  * sistema, since removing them here would affect every sibling cave.
  *
  * @param {object} props
+ * @param {string} props.caveId
+ * @param {string} [props.sistemaId] - The cave's system, whose maps it shows too.
+ * @param {boolean} [props.canAdd=true]
+ * @param {() => void} [props.onAddUnauthorized] - Add's click when it can't add.
+ * @param {string} [props.returnTo] - Where the map's form goes back to.
  * @param {(id: string) => string} [props.mapPath] - A map's address (a page's gallery); the map's viewer otherwise.
  */
 export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUnauthorized, returnTo, mapPath }) {
@@ -115,7 +120,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   // With the maps in the trash, to leave out the sistema's references to them
   // (kept, so a restored map comes back), not show them as unknown files.
   const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
-  const scrollbarsRef = useRef()
+  const scrollbarsRef = useRef(null)
   const navigate = useNavigate()
 
   // Admins: deleting the map itself (to the trash), not only from this sistema.

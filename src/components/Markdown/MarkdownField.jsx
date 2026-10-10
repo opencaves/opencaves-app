@@ -73,9 +73,15 @@ const HEADING_LEVELS = [1, 2, 3]
  * passed to another .use() call, same as commonmark/gfm are here.
  *
  * @param {object} props
+ * @param {import('react').ReactNode} props.label
+ * @param {string} [props.value]
  * @param {(event: {target: {value: string}}) => void} props.onChange - Keeps the exact (event) => event.target.value contract every
  *   call site already used with the old textarea, so no caller needed to
  *   change when this was rewritten.
+ * @param {number} [props.minRows=3]
+ * @param {boolean} [props.resizable=false]
+ * @param {string} [props.placeholder='']
+ * @param {object} [props.labelProps={}] - The label's.
  */
 export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '', labelProps = {} }) {
   const { t } = useTranslation('markdownField')

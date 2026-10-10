@@ -3,6 +3,7 @@ import pushId from 'unique-push-id'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Chip, Typography } from '@mui/material'
+import CancelRounded from '@mui/icons-material/CancelRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -90,7 +91,8 @@ export default function CaveIndex() {
           color="primary"
           label={t(`caves.filters.${filter}`, { count: caves.length })}
           onDelete={() => setSearchParams((params) => { const next = new URLSearchParams(params); next.delete('filter'); return next }, { replace: true })}
-          slotProps={{ deleteIcon: { 'aria-label': t('caves.filters.clear') } }}
+          // Its own icon, to name it: a Chip has no deleteIcon slot.
+          deleteIcon={<CancelRounded aria-label={t('caves.filters.clear')} />}
           sx={{ mb: 3 }}
         />
       )}

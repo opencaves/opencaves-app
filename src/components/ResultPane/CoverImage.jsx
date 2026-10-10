@@ -115,9 +115,6 @@ export default function CoverImage({ caveId, width = '100%' }) {
             to={`medias/${coverImage.id}`}
             style={{
               display: 'block',
-              ':hover': {
-                '--oc-cover-image-add-btn-opacity': '1',
-              },
             }}
           >
             <Picture

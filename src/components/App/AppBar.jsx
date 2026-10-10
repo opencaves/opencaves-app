@@ -72,7 +72,7 @@ export default function AppBar() {
   // it. Wider screens keep an edit page's own header in view instead
   // (EditPageHeader, sticky).
   const isPhone = useSmall()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   // The page scrolled under the bar (its scroll area, Layout's).
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {

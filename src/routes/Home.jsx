@@ -204,10 +204,10 @@ export default function Home() {
             {t('hero.openMap')}
           </Button>
           {/* The two directories: text buttons, without a border, beside the main call. */}
-          {[
+          {/** @type {[string, string, import('react').ReactElement][]} */ ([
             ['caves', '/caves', caveIcon],
             ['sistemas', '/sistemas', sistemaIcon],
-          ].map(([key, to, icon]) => (
+          ]).map(([key, to, icon]) => (
             <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: { xs: 3.5, sm: 2 }, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
               {t(`hero.browse.${key}`)}
             </Button>

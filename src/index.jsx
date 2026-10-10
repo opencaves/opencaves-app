@@ -13,7 +13,6 @@ import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
-// import reportWebVitals from './reportWebVitals'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
 // fetched right away when the map is the page opened; other pages get it
@@ -109,8 +108,3 @@ function afterLoad(run, delay) {
   else window.addEventListener('load', later, { once: true })
 }
 afterLoad(initTagManager, 4000)
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals(console.log)

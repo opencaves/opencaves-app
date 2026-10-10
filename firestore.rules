@@ -401,8 +401,11 @@ service cloud.firestore {
       function hasValidFeedbackEmails() {
         return !('feedbackEmails' in request.resource.data) || request.resource.data.feedbackEmails is bool
       }
-      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
-      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
+      function hasValidMapLegendOpen() {
+        return !('mapLegendOpen' in request.resource.data) || request.resource.data.mapLegendOpen is bool
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidMapLegendOpen()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails', 'mapLegendOpen']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails() && hasValidMapLegendOpen()
     }
 
     // Caves a user saved from the result pane's Save quick action. Private

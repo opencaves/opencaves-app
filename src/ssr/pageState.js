@@ -105,7 +105,7 @@ export function fullPageData(raw) {
  * @param {object} sources
  * @param {CaveData} sources.raw - The 9 cave-data collections as the app reads them ({ id, ...data },
  *   readCaveDataFromFirestore).
- * @param {CaveMap[]} [sources.maps=[]] - The maps collection.
+ * @param {{id: string, data: CaveMap}[]} [sources.maps=[]] - The maps collection ([{ id, data }]).
  * @param {{id: string, data: object}[]} [sources.assets=[]] - The page's
  *   cave's photos ([{ id, data }]), if a cave's page.
  * @returns {{data: object, queries: object, found: boolean}} { data (the page's

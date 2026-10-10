@@ -102,7 +102,7 @@ function GridSkeleton() {
 export default function TrashTab({ accountLabel }) {
   const { t } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()
-  const caves = useSelector((state) => state.data.caves)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
   const [photos, setPhotos] = useState([])
   const [maps, setMaps] = useState([])
   const [loading, setLoading] = useState(true)

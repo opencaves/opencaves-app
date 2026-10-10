@@ -26,6 +26,7 @@ const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
  * hovered or focused.
  *
  * @param {object} props
+ * @param {string} [props.className]
  * @param {object[]} props.items - { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
  *   before its name; color: a sistema's colour, as
  *   a line arrow before its name ({@link SistemaArrow}); secondary: muted text on a

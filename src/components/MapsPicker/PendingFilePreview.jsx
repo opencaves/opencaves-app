@@ -25,6 +25,13 @@ const WHEEL_ZOOM_RATE = 0.0018
  * runs for the permanent preview, so this looks the same; it takes a
  * moment, hence the spinner while that's in progress. Images (and already-
  * converted previews) show instantly.
+ *
+ * @param {object} props
+ * @param {File} [props.file] - A file not uploaded yet.
+ * @param {string} [props.existingUrl] - Or an uploaded one's address.
+ * @param {string} [props.existingContentType] - That one's type.
+ * @param {number} [props.width=200]
+ * @param {number} [props.height=200]
  */
 export default function PendingFilePreview({ file, existingUrl, existingContentType, width = 200, height = 200 }) {
   const [objectUrl, setObjectUrl] = useState(null)

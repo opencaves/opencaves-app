@@ -290,6 +290,7 @@
  * @property {'metric'|'imperial'} [units]
  * @property {'system'|'light'|'dark'} [colorMode]
  * @property {boolean} [feedbackEmails] - False: the team's replies to their feedback aren't emailed.
+ * @property {boolean} [mapLegendOpen] - The map legend left open or closed; absent until first toggled.
  * @property {string} [email] - Server: written at sign-up.
  * @property {unknown[]} [savedPlaces] - Server: written (empty) at sign-up; saved caves are in its savedCaves.
  * @property {string} [unsubscribeToken] - Server: the emails' unsubscribe link (read-only for its owner).
@@ -314,4 +315,18 @@
  * @property {Array<object|string>} [media] - Photos ({ id, thumbnailRevision, viewThumbnailRevision }) or video URLs: the first few.
  * @property {string|null} at - ISO date of the change (a group's latest).
  * @property {string|null} authorName - Its author's display name.
+ */
+
+/**
+ * The Redux store's state (redux/store.jsx), for useSelector's callbacks:
+ * `useSelector((/** @type {RootState} *\/ state) => state.session.user)`.
+ *
+ * @typedef {ReturnType<typeof import('./redux/store.jsx').store.getState>} RootState
+ */
+
+/**
+ * A MUI `sx` prop (an object, an array of them, or a function of the
+ * theme), for the components that take one and pass it on.
+ *
+ * @typedef {import('@mui/material').SxProps<import('@mui/material').Theme>} Sx
  */

@@ -38,7 +38,7 @@ export default function ResultPaneLg({ children, editMode, cave, ...props }) {
   // taller meanwhile; scrolling stays the Scrollbars' own.
   const exitingRef = useRef(exiting)
   exitingRef.current = exiting
-  const transitionsRef = useRef()
+  const transitionsRef = useRef(null)
   transitionsRef.current = { widthTransition, openTransition, closeTransition, resizeTransition }
   const setHeightRef = useRef(null)
 

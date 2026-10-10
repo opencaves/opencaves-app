@@ -11,7 +11,7 @@ import { inSsrPage, ssrPageData } from '@/ssr/ssrContext.js'
  * another page waits for the store's, as on a first visit.
  */
 export function useCaveData() {
-  const data = useSelector((state) => state.data)
+  const data = useSelector((/** @type {RootState} */ state) => state.data)
   const { pathname } = useLocation()
   const page = ssrPageData()
   return page && data.caves.length === 0 && inSsrPage(page.path, pathname) ? page.data : data

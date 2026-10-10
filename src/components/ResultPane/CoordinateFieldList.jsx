@@ -48,6 +48,7 @@ const isFilled = ({ longitude, latitude }) => `${longitude ?? ''}` !== '' || `${
  *   validity?, onValidityChange? }]
  * @param {object} [props.fieldProps={}] - Shared by every field
  *   (mapBelowOnPhones, labelProps, canPickOnMap).
+ * @param {Sx} [props.sx]
  */
 export default function CoordinateFieldList({ items, fieldProps = {}, sx }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })

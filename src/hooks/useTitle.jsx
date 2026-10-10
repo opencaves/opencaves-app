@@ -5,7 +5,7 @@ import { APP_TITLE } from '@/config/app.js'
 export function useTitle() {
 
   const dispatch = useDispatch()
-  const title = useSelector(state => state.app.title)
+  const title = useSelector((/** @type {RootState} */ state) => state.app.title)
 
   return {
     title,

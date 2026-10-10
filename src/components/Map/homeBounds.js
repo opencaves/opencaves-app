@@ -10,6 +10,7 @@ import { HOME_AREA_BBOX } from '@/config/map.js'
  */
 export function homeBounds(caves) {
   const [west, south, east, north] = HOME_AREA_BBOX
+  /** @type {[[number, number], [number, number]]} */
   let box = null
   for (const cave of caves || []) {
     const { longitude, latitude } = cave.location || {}

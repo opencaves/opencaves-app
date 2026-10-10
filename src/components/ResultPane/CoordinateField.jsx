@@ -36,11 +36,11 @@ const FIELD_BADGE_ICONS = {
 // A typed longitude/latitude within the Earth's range (or empty): the map
 // throws on a latitude past ±90, which crashed the whole edit page.
 const inRange = (value, max) => value === '' || value === null || typeof value === 'undefined' || (Number.isFinite(Number(value)) && Math.abs(Number(value)) <= max)
-export const longitudeInRange = (value) => inRange(value, 180)
-export const latitudeInRange = (value) => inRange(value, 90)
+const longitudeInRange = (value) => inRange(value, 180)
+const latitudeInRange = (value) => inRange(value, 90)
 export const coordinateInRange = (longitude, latitude) => longitudeInRange(longitude) && latitudeInRange(latitude)
 
-export const COORDINATE_VALIDITIES = [
+const COORDINATE_VALIDITIES = [
   { value: 'valid', color: 'success', Icon: CheckRounded },
   { value: 'unknown', color: 'warning', Icon: QuestionMarkRounded },
   { value: 'invalid', color: 'error', Icon: PriorityHighRounded },
@@ -86,6 +86,12 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 }
 /**
  * @param {object} props
+ * @param {string} props.field - The coordinate's field ('coordinates', 'coordinates2'...).
+ * @param {string} props.label
+ * @param {number | string} [props.longitude]
+ * @param {number | string} [props.latitude]
+ * @param {(coordinates: { longitude: number | string, latitude: number | string }) => void} props.onChange
+ * @param {object} [props.labelProps={}] - The label's.
  * @param {boolean} [props.canPickOnMap=true] - Whether there's a map on screen to tap (on phones, the admin
  *   edit pages' {@link CoordinatesMapPreview}); without one, phones only get My
  *   location and Remove.
@@ -102,9 +108,9 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, onRemove, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
-  const picking = useSelector((state) => state.map.crossPickFor === field)
-  const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
+  const pickedCoordinate = useSelector((/** @type {RootState} */ state) => state.map.pickedCoordinate)
+  const picking = useSelector((/** @type {RootState} */ state) => state.map.crossPickFor === field)
+  const placingInSheet = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
   // Set and on the Earth: only then shown on (and flown to on) the map.
   const onEarth = isSet && coordinateInRange(longitude, latitude)

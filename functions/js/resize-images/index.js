@@ -20,7 +20,6 @@ import { getFunctions } from 'firebase-admin/functions'
 import { getExtensions } from 'firebase-admin/extensions'
 import fs from 'fs'
 import * as functions from 'firebase-functions/v1'
-import { mkdirp } from 'mkdirp'
 import os from 'os'
 import path from 'path'
 import sharp from 'sharp'
@@ -65,7 +64,7 @@ export async function generateResizedImageHandler(object, verbose = true) {
 
     // Create the temp directory where the storage file will be downloaded.
     !verbose || logs.tempDirectoryCreating(tempLocalDir)
-    await mkdirp(tempLocalDir)
+    await fs.promises.mkdir(tempLocalDir, { recursive: true })
     !verbose || logs.tempDirectoryCreated(tempLocalDir)
 
     // Download file from bucket.

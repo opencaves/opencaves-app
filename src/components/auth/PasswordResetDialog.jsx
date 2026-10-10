@@ -14,6 +14,8 @@ import DialogCloseButton from '@/components/DialogCloseButton.jsx'
  * out who has one.
  *
  * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
  * @param {string} [props.initialEmail=''] - What the log-in form already holds.
  */
 export default function PasswordResetDialog({ open, onClose, initialEmail = '' }) {

@@ -13,7 +13,7 @@ export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) 
   const popoverActions = useRef(null)
   const resizeObserver = useRef(null)
   const open = Boolean(anchorEl)
-  const isLoggedIn = useSelector(state => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   const setDeleteMediaMenuItem = useDeleteMedia()
   const setUseAsCoverImageMenuItem = useUseAsCoverImage()
   const { requestDelete, dialog: deleteDialog } = useDeleteMediaConfirm({ onBeforeDelete })
@@ -66,7 +66,8 @@ export default function MediaPaneMenu({ mediaAsset, onBeforeDelete, ...props }) 
           handleClose()
           // An item opening a dialog: focus off the menu's button first, or
           // the dialog hides the page with focus still inside it.
-          document.activeElement?.blur()
+          const focused = /** @type {HTMLElement} */ (document.activeElement)
+          focused?.blur()
         }}
         slotProps={{
           paper: {

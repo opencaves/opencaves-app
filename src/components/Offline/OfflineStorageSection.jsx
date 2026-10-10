@@ -6,6 +6,7 @@ import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineM
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 /**
  * The account page's "Offline use" section: how much this site stores on the
@@ -68,7 +69,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
   }
 
   return (
-    <Box component="section" className="oc-offline-storage-section">
+    <Box component="section" className="oc-offline-storage-section" id="offline-use" sx={sectionAnchorSx}>
       <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>

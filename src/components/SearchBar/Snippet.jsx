@@ -2,15 +2,16 @@ import { useTranslation } from 'react-i18next'
 import { Typography, styled } from '@mui/material'
 import { Grid } from '@mui/material'
 
-const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
+// Typed as Typography: styled()'s type drops its `component` prop.
+const SnippetTextPrimary = /** @type {typeof Typography} */ (styled(Typography)(({ theme }) => ({
   fontSize: '0.875rem',
   color: theme.vars.palette.text.secondary,
-}))
+})))
 
-const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
+const SnippetTextSecondary = /** @type {typeof Typography} */ (styled(Typography)(({ theme }) => ({
   fontSize: '0.75rem',
   color: theme.vars.palette.text.secondary,
-}))
+})))
 
 export default function Snippet({ result }) {
   const { t } = useTranslation('searchBar')

@@ -34,8 +34,8 @@ function easeOutQuad(t, b = 0, c = 1, d = 1) {
 const FOCUS_EDGE_MARGIN = 32
 
 export default function ResultPaneSm({ children, cave, ...props }) {
-  const modalRef = useRef({})
-  const paneHeadRef = useRef({})
+  const modalRef = useRef(/** @type {HTMLIonModalElement} */ ({}))
+  const paneHeadRef = useRef(/** @type {HTMLDivElement} */ ({}))
 
   const dispatch = useDispatch()
   const { t: tMap } = useTranslation('map')
@@ -43,9 +43,9 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const caveName = cave.name?.value || tMap('caveNameUnknown')
 
   const firstBreakpoint = PANE_BREAKPOINTS[0]
-  const initialBreakpoint = useSelector((state) => state.app.resultPaneSmCurrentBreakpoint)
-  const resultPaneOpen = useSelector((state) => state.app.resultPaneSmOpen)
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const initialBreakpoint = useSelector((/** @type {RootState} */ state) => state.app.resultPaneSmCurrentBreakpoint)
+  const resultPaneOpen = useSelector((/** @type {RootState} */ state) => state.app.resultPaneSmOpen)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
   const [breakpoints, setBreakpoints] = useState(PANE_BREAKPOINTS)
   const [breakpoint, setBreakpoint] = useState(0)
@@ -56,7 +56,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const [paneMinimizeFactor, setPaneMinimizeFactor] = useState(modalPosition)
   const [titleHidden, setTitleHidden] = useState(false)
 
-  const searchBarOff = useSelector((state) => state.app.searchBarOff)
+  const searchBarOff = useSelector((/** @type {RootState} */ state) => state.app.searchBarOff)
 
   const paneBreakpointsThreshold = PANE_BREAKPOINTS[PANE_BREAKPOINTS.length - 2]
 
@@ -185,7 +185,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   useEffect(() => {
     const dY = 0.5
     const y = (1 - paneOpenFactor) * dY * 50
-    paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', paneOpenFactor)
+    paneHeadRef.current?.style?.setProperty('--oc-result-pane-head-surface-opacity', String(paneOpenFactor))
     paneHeadRef.current?.style?.setProperty('transform', `translate3d(0, -${y}px, 0)`)
     // Fully faded out, it's gone for taps, the keyboard and screen readers
     // too - the search bar is back in its place.
@@ -238,7 +238,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   // The phone edit form's "place on map" mode (PlaceOnMapOverlay): minimize
   // the sheet so the map shows, then put it back exactly where it was -
   // same height, same scroll position in the form - when the mode ends.
-  const placeOnMap = useSelector((state) => state.map.placeOnMap)
+  const placeOnMap = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap)
   const placeOnMapReturnRef = useRef(null)
   useEffect(() => {
     const modal = modalRef.current

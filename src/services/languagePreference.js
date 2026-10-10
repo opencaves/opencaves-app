@@ -9,7 +9,7 @@ import { USERS_COLLECTION } from '@/config/collections.js'
 // signed-in account, in Firestore (users/{uid}.language) so it follows them
 // to other devices. null means Automatic: the browser's language.
 
-export function isSupportedLanguage(code) {
+function isSupportedLanguage(code) {
   return APP_LANGUAGE_CODES.includes(code)
 }
 
@@ -52,7 +52,7 @@ export async function loadAccountLanguage(uid) {
  * @param {string|null} code
  * @returns {Promise<void>}
  */
-export function saveAccountLanguage(uid, code) {
+function saveAccountLanguage(uid, code) {
   return setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true })
 }
 

@@ -19,7 +19,7 @@ export function automaticUnits() {
  * @param {string} choice
  * @returns {'metric'|'imperial'}
  */
-export const resolveUnits = (choice) => (UNIT_SYSTEMS.includes(choice) ? choice : automaticUnits())
+export const resolveUnits = (choice) => (UNIT_SYSTEMS.includes(choice) ? /** @type {'metric'|'imperial'} */ (choice) : automaticUnits())
 
 /**
  * Metres -> the person's unit, and back.

@@ -16,7 +16,7 @@ import { addPendingUpload } from '@/services/offline/pendingUploads.js'
  * A map file sent to Storage and its record made.
  *
  * @param {File} file
- * @param {{title: string, authors?: string[], date?: string, note?: string}} [details]
+ * @param {{title?: string, authors?: string[], date?: string, note?: string}} [details]
  * @param {object} [options]
  * @param {string} [options.id] - Its record's id - a waiting upload's reserved one (a new push id by default).
  * @param {(percent: number) => void} [options.onProgress] - Its percent sent.

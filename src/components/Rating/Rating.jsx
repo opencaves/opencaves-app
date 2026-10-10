@@ -16,9 +16,9 @@ import './Rating.scss'
 export default function OCRating({ caveId, sx }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'rating' })
   const [openSnackbar] = useSnackbar()
-  const uid = useSelector((state) => state.session.user?.uid)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
+  const uid = useSelector((/** @type {RootState} */ state) => state.session.user?.uid)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const canRate = !!uid && isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const { average, count, own } = useCaveRatings(caveId, canRate ? uid : undefined)
 
