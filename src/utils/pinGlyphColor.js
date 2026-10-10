@@ -1,7 +1,7 @@
 import { getLuminance } from '@mui/material/styles'
 
-export const PIN_GLYPH_LIGHT = '#fff'
-export const PIN_GLYPH_DARK = '#000'
+const PIN_GLYPH_LIGHT = '#fff'
+const PIN_GLYPH_DARK = '#000'
 
 // Relative luminance above which a pin's white glyph washes out. Deliberately
 // higher than the ~0.18 point where black strictly out-contrasts white, so

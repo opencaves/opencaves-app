@@ -36,11 +36,11 @@ const FIELD_BADGE_ICONS = {
 // A typed longitude/latitude within the Earth's range (or empty): the map
 // throws on a latitude past ±90, which crashed the whole edit page.
 const inRange = (value, max) => value === '' || value === null || typeof value === 'undefined' || (Number.isFinite(Number(value)) && Math.abs(Number(value)) <= max)
-export const longitudeInRange = (value) => inRange(value, 180)
-export const latitudeInRange = (value) => inRange(value, 90)
+const longitudeInRange = (value) => inRange(value, 180)
+const latitudeInRange = (value) => inRange(value, 90)
 export const coordinateInRange = (longitude, latitude) => longitudeInRange(longitude) && latitudeInRange(latitude)
 
-export const COORDINATE_VALIDITIES = [
+const COORDINATE_VALIDITIES = [
   { value: 'valid', color: 'success', Icon: CheckRounded },
   { value: 'unknown', color: 'warning', Icon: QuestionMarkRounded },
   { value: 'invalid', color: 'error', Icon: PriorityHighRounded },

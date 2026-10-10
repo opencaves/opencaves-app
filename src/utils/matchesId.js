@@ -2,7 +2,7 @@
 // random-looking strings (push IDs like "-KPZkVQP2PNj9c43QysV", Auth UIDs),
 // so a shorter term would match nearly every one of them by chance and bury
 // the name matches.
-export const MIN_ID_TERM_LENGTH = 4
+const MIN_ID_TERM_LENGTH = 4
 
 /**
  * Whether a search term finds a record by its ID: case-insensitive, anywhere

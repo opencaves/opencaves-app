@@ -10,8 +10,8 @@ import { CAVE_LAYER } from '@/config/map.js'
 // for storage images and maps (see service-worker.js - keep names in sync).
 // Each cache is reconciled against a wanted-URL list, so removing a saved
 // cenote or turning previews off frees its files.
-export const OFFLINE_SAVED_CAVES_CACHE = 'oc-offline-saved-caves-v1'
-export const OFFLINE_PREVIEWS_CACHE = 'oc-offline-previews-v1'
+const OFFLINE_SAVED_CAVES_CACHE = 'oc-offline-saved-caves-v1'
+const OFFLINE_PREVIEWS_CACHE = 'oc-offline-previews-v1'
 
 const DOWNLOAD_CONCURRENCY = 4
 

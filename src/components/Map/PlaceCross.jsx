@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 
-export const CROSS_SIZE = 48
+const CROSS_SIZE = 48
 
 /**
  * The "Place on map" cross (CoordinatesMapPreview, PlaceOnMapOverlay):

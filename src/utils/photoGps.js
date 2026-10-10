@@ -9,7 +9,7 @@ const EARTH_RADIUS = 6371008.8
  * @param {{latitude: number, longitude: number}} b
  * @returns {number}
  */
-export function distanceMetres(a, b) {
+function distanceMetres(a, b) {
   const rad = Math.PI / 180
   const dLat = (b.latitude - a.latitude) * rad
   const dLng = (b.longitude - a.longitude) * rad
@@ -24,7 +24,7 @@ export function distanceMetres(a, b) {
  * @param {File} file
  * @returns {Promise<{latitude: number, longitude: number}|null>}
  */
-export async function photoPosition(file) {
+async function photoPosition(file) {
   try {
     const { gps } = await import('exifr/dist/lite.esm.mjs')
     const position = await gps(file)

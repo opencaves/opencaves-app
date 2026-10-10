@@ -6,9 +6,9 @@ import remarkLengthDirective, { LENGTH_DIRECTIVE, LENGTH_UNITS, TEXT_SPELLINGS, 
 // The `:length[45 m]` tag in the Markdown editor (MarkdownField): parsed by
 // the same remark plugin as the page, shown as a chip, and written back as
 // its raw tag (an 'html' node: saved as is, so the brackets aren't escaped).
-export const lengthRemark = $remark('remarkLengthDirective', () => remarkLengthDirective)
+const lengthRemark = $remark('remarkLengthDirective', () => remarkLengthDirective)
 
-export const lengthSchema = $nodeSchema('length_directive', () => ({
+const lengthSchema = $nodeSchema('length_directive', () => ({
   group: 'inline',
   inline: true,
   atom: true,
@@ -202,7 +202,7 @@ class LengthView {
 // becomes its symbol. Not in code, and not "in" or "mi", common words.
 const TYPED_LENGTH = new RegExp(`(?:^|[^\\w.,])((?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?)\\s?(${TEXT_SPELLINGS})([\\s.,;:!?)])$`, 'i')
 
-export const lengthInputRule = $inputRule((ctx) =>
+const lengthInputRule = $inputRule((ctx) =>
   new InputRule(TYPED_LENGTH, (state, match, start, end) => {
     const [whole, number, spelling, after] = match
     const length = parseLength(`${number} ${spelling}`)

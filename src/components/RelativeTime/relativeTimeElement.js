@@ -88,7 +88,7 @@ const tooltipsWarm = () => openTooltips > 0 || Date.now() - lastTooltipClosedAt 
  * @param {string} language
  * @returns {string|undefined}
  */
-export function resolveLanguage(language) {
+function resolveLanguage(language) {
   try {
     return new Intl.RelativeTimeFormat(language).resolvedOptions().locale
   } catch {
@@ -104,7 +104,7 @@ export function resolveLanguage(language) {
  * @param {number} [now=Date.now()]
  * @returns {string}
  */
-export function formatRelativeTime(date, language, now = Date.now()) {
+function formatRelativeTime(date, language, now = Date.now()) {
   const age = now - date.getTime()
   if (Math.abs(age) >= DATE_AFTER) {
     const sameYear = date.getFullYear() === new Date(now).getFullYear()
@@ -127,7 +127,7 @@ export function formatRelativeTime(date, language, now = Date.now()) {
  * @param {'full'|'long'} [dateStyle='full']
  * @returns {string}
  */
-export const formatExactTime = (date, language, dateStyle = 'full') => new Intl.DateTimeFormat(language, { dateStyle, timeStyle: 'short' }).format(date)
+const formatExactTime = (date, language, dateStyle = 'full') => new Intl.DateTimeFormat(language, { dateStyle, timeStyle: 'short' }).format(date)
 
 // Sets `element`'s `name` attribute to `value` (removes it for null), only
 // when it changes: an unchanged write would still fire mutation and

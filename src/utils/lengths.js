@@ -16,7 +16,7 @@ function nbsp(str) {
   return `${str}`.replaceAll(/\s/g, '\xa0')
 }
 
-export function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
+function formatLength(length, { unit, locale } = { unit: 'meter', locale: 'en' }) {
 
   if (unit === 'meter') {
     const lengthInFeet = length / 0.3048
