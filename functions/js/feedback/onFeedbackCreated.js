@@ -9,7 +9,7 @@ const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 
 // Every admin's email address (accounts whose roles include admin).
-async function adminEmails() {
+export async function adminEmails() {
   const emails = []
   let pageToken
   do {

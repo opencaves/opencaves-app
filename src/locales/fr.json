@@ -1763,7 +1763,9 @@
         "sendError": "La réponse n’a pas pu être envoyée. Veuillez réessayer.",
         "tooLong": "{{count}} caractères au plus",
         "emailed": "Envoyée par courriel",
-        "legacyNote": "Ancienne note"
+        "legacyNote": "Ancienne note",
+        "attachmentsDropped_one": "{{count}} pièce jointe non conservée",
+        "attachmentsDropped_other": "{{count}} pièces jointes non conservées"
       },
       "list": {
         "search": "Chercher un rapport",

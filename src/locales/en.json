@@ -1764,7 +1764,9 @@
         "sendError": "The reply couldn’t be sent. Please try again.",
         "tooLong": "At most {{count}} characters",
         "emailed": "Emailed",
-        "legacyNote": "Former note"
+        "legacyNote": "Former note",
+        "attachmentsDropped_one": "{{count}} attachment not kept",
+        "attachmentsDropped_other": "{{count}} attachments not kept"
       },
       "list": {
         "search": "Search reports",

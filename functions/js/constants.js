@@ -20,13 +20,22 @@ export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
 // The beta testers' reports (Send feedback): admins only, emailed to them.
 export const FEEDBACK_COLL_NAME = '_feedback'
 // A report's thread: the team's replies (from the app, emailed to its
-// author by onFeedbackReplied) and, later, its author's answers by email.
+// author by onFeedbackReplied) and its author's answers by email
+// (feedbackInbound).
 export const FEEDBACK_MESSAGES_COLL_NAME = 'messages'
-// The address a report's author answers the team's replies to (reply_to):
-// the team's inbox, read by the admins, until inbound email exists (a signed
-// per-thread address on reply.opencaves.org, whose answers join the thread).
-// null: the emails don't invite an answer by email.
+// Where a report's author answers the team's replies (the emails' reply_to).
+// FEEDBACK_REPLY_DOMAIN set: each report's own address on that domain,
+// <replyToken>@<domain> (a random token kept on the report), whose mail
+// Resend receives and hands to feedbackInbound - the answer joins the
+// report's thread. Needs the domain's receiving set up in Resend (MX at
+// Porkbun) and the webhook: see docs/maintenance.md, "Emails". null: the
+// answers go to FEEDBACK_REPLY_TO, the team's inbox (a Porkbun forward to the
+// admin), read by hand; both null: the emails don't invite an answer.
+export const FEEDBACK_REPLY_DOMAIN = 'reply.opencaves.org'
 export const FEEDBACK_REPLY_TO = 'feedback@opencaves.org'
+// A thread message's longest text (src/utils/feedback.js'
+// FEEDBACK_REPLY_MAX_LENGTH, firestore.rules): an emailed answer is cut there.
+export const FEEDBACK_REPLY_MAX_LENGTH = 10000
 
 // Storage constants
 export const BUCKET_NAME = 'opencaves.appspot.com'

@@ -5,6 +5,7 @@ import { Box, Button, ButtonGroup, Chip, ListItemIcon, ListItemText, Menu, MenuI
 import SendRounded from '@mui/icons-material/SendRounded'
 import ArrowDropDownRounded from '@mui/icons-material/ArrowDropDownRounded'
 import MarkEmailReadOutlined from '@mui/icons-material/MarkEmailReadOutlined'
+import AttachFileRounded from '@mui/icons-material/AttachFileRounded'
 import { db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION, FEEDBACK_MESSAGES_COLLECTION } from '@/config/collections.js'
 import { FEEDBACK_REPLY_MAX_LENGTH, TOLD_FEEDBACK_STATUSES } from '@/utils/feedback.js'
@@ -89,6 +90,27 @@ function Comment({ name, team, date, action, marks, children }) {
   )
 }
 
+// A comment's small mark, in its header: an icon and a short label.
+function Mark({ icon, label }) {
+  return (
+    <Typography className="oc-feedback-comment--mark" variant="caption" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, opacity: 0.85, '& svg': { fontSize: 16 } }}>
+      {icon}
+      {label}
+    </Typography>
+  )
+}
+
+// A comment's marks: a team reply emailed to the author; the attachments of
+// an author's answer by email (feedbackInbound - its header says "replied by
+// email"), not kept.
+function MessageMarks({ message }) {
+  const { t } = useTranslation('feedback')
+  const marks = []
+  if (message.emailedAt) marks.push(<Mark key="emailed" icon={<MarkEmailReadOutlined />} label={t('admin.thread.emailed')} />)
+  if (message.droppedAttachments > 0) marks.push(<Mark key="attachments" icon={<AttachFileRounded />} label={t('admin.thread.attachmentsDropped', { count: message.droppedAttachments })} />)
+  return marks.length ? <Box sx={{ display: 'inline-flex', flexWrap: 'wrap', columnGap: 1.5, rowGap: 0.5 }}>{marks}</Box> : null
+}
+
 // A small timeline event: a stage set.
 function StageEvent({ status, name, date }) {
   const { t } = useTranslation('feedback')
@@ -160,14 +182,7 @@ export function FeedbackTimeline({ report, messages, accountLabel }) {
             team={item.message.from === 'team'}
             date={item.message.createdAt}
             action={t(item.message.via === 'email' ? 'admin.timeline.repliedByEmail' : 'admin.timeline.commented')}
-            marks={
-              item.message.emailedAt && (
-                <Typography variant="caption" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, opacity: 0.85 }}>
-                  <MarkEmailReadOutlined sx={{ fontSize: 16 }} />
-                  {t('admin.thread.emailed')}
-                </Typography>
-              )
-            }
+            marks={<MessageMarks message={item.message} />}
           >
             {item.message.from === 'team' ? <Markdown>{item.message.text}</Markdown> : <Typography sx={{ whiteSpace: 'pre-wrap' }}>{item.message.text}</Typography>}
           </Comment>

@@ -184,11 +184,14 @@ the whole conversation, in the language of the report; a reply sent with
 "Send and mark as done/rejected" (or written in the stage dialog) carries the
 outcome too, and is the only email of that change. A report's emails share a
 subject and `Message-ID`/`References` headers, so mail apps show them as one
-conversation. Their Reply-To is `FEEDBACK_REPLY_TO` (`functions/js/constants.js`),
-`feedback@opencaves.org`: an author's answer reaches the team's inbox, not the
-report's thread, until replies by email are received (a per-thread address on
-`reply.opencaves.org`). That address must exist and be read (opencaves.org's
-mail is Google's). The opencaves.org domain must be verified in the Resend account
+conversation. Their Reply-To is the report's own address,
+`<replyToken>@reply.opencaves.org` (`FEEDBACK_REPLY_DOMAIN` in
+`functions/js/constants.js`; the token, random, is written on the report by
+the server on its first team reply): the author's answer comes back into the
+report's thread (see "Replies by email" below). With `FEEDBACK_REPLY_DOMAIN`
+set to `null`, the Reply-To is `FEEDBACK_REPLY_TO`, `feedback@opencaves.org`,
+the team's inbox (a forward to the admin at Porkbun), and answers are read
+there by hand. That address must exist and be read. The opencaves.org domain must be verified in the Resend account
 (its DNS records), or Resend refuses to send. The API key (a send-only key) is
 the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
 
@@ -200,6 +203,61 @@ firebase deploy --only functions                 # the functions use the new ver
 Replace it in Resend (create a new key, set it, delete the old one) if it was
 ever shared. In the emulators nothing is sent: the email is written to the
 functions' log. Each send shows in the Resend dashboard's logs.
+
+### Replies by email
+
+An author's answer to a team reply joins the report's thread: Resend receives
+the mail sent to `reply.opencaves.org` and calls the `feedbackInbound`
+function (a webhook, event `email.received`), which checks the webhook's
+signature, reads the email from Resend's API, finds the report by the address'
+token and, if the email really comes from the report's author, adds its new
+text (the quoted conversation and signature removed) to the thread as their
+comment ("by email" on the Feedback page; attachments aren't kept, only
+counted). A closed report reopens (stage New, no email to the author), and the
+admins get an email ("<author> replied to ..."). Dropped, and only logged
+(never their text): automatic mail (out-of-office, bounces, lists - no mail
+loops), an unknown address, and a sender who isn't the author or whose mail
+isn't authenticated (DKIM or DMARC passing, or SPF passing for the From's
+domain; a DMARC failure is always refused). Each email is added once, even if
+Resend delivers the webhook again.
+
+Set up, once:
+
+1. **Resend, Domains**: add `reply.opencaves.org` with **receiving** turned on
+   (sending isn't needed for it). Resend shows its MX record.
+2. **Porkbun, DNS of opencaves.org**: add that MX record for the host `reply`
+   (the exact value and priority Resend shows for it). It touches only the subdomain: opencaves.org's own mail is
+   unchanged. Wait for Resend to show the domain verified.
+3. **Resend, Webhooks**: add an endpoint
+   `https://northamerica-northeast1-opencaves.cloudfunctions.net/feedbackInbound`
+   with the event `email.received`. Copy its signing secret (`whsec_...`).
+4. **The secrets** (Google Secret Manager):
+
+   ```
+   firebase functions:secrets:set RESEND_WEBHOOK_SECRET   # paste the whsec_... secret
+   firebase functions:secrets:set RESEND_INBOUND_KEY      # a Resend API key with full access (already set)
+   ```
+
+   `RESEND_INBOUND_KEY` reads the received emails (the send-only
+   `RESEND_API_KEY` can't).
+5. **Deploy, in this order**: the secrets first (step 4), then
+   `firebase deploy --only functions:js:feedbackInbound` (the webhook, and its
+   URL in step 3 starts answering), check it (below), then
+   `firebase deploy --only functions` for `onFeedbackReplied`, whose emails then
+   carry the per-report Reply-To. Until that last deploy, answers keep going
+   to `feedback@opencaves.org`. Deploying it before receiving works would
+   send answers to an address that bounces.
+
+Check it: reply from the app to a report of your own (an account whose email
+you read), answer the email from that mailbox, and the answer shows in the
+report's thread within a minute; the webhook's deliveries show in Resend's
+Webhooks page, and the function's log (`firebase functions:log --only
+feedbackInbound`) says why an email was dropped. Locally, the emulator has no
+Resend: an email can come from a fixture file
+(`<temp folder>/opencaves-inbound-fixtures/<email id>.json`, the shape of
+Resend's received email), with a webhook signed with the test secret of
+`functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
+committed).
 
 ## Apply the Storage CORS config
 
