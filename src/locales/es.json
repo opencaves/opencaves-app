@@ -68,7 +68,9 @@
       "welcome": "Te damos la bienvenida a {{name}}",
       "welcomeText": "Inicia sesión para guardar tus cuevas favoritas y contribuir.",
       "close": "Cerrar",
-      "signInMenu": "Iniciar sesión o registrarse"
+      "signInMenu": "Iniciar sesión o registrarse",
+      "newFeedbackAria_one": "{{count}} comentario nuevo",
+      "newFeedbackAria_other": "{{count}} comentarios nuevos"
     },
     "snackbar": {
       "saved": "Cambios en {{name}} guardados",

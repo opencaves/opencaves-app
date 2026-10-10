@@ -68,7 +68,9 @@
       "welcome": "Welcome to {{name}}",
       "welcomeText": "Log in to save your favorite caves and contribute.",
       "close": "Close",
-      "signInMenu": "Log in or sign up"
+      "signInMenu": "Log in or sign up",
+      "newFeedbackAria_one": "{{count}} new feedback report",
+      "newFeedbackAria_other": "{{count}} new feedback reports"
     },
     "snackbar": {
       "saved": "Changes to {{name}} saved",
