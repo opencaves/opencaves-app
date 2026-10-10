@@ -82,9 +82,11 @@ function sistemaDetails(sistema, data) {
   return { area, ancestry, children, caves, historySistemas }
 }
 
-// /sistemas/<id>: a cave system - its area, length and depth, description,
-// connections, exploration history and cenotes. Editors edit it at
-// /sistemas/<id>/edit.
+/**
+ * /sistemas/<id>: a cave system - its area, length and depth, description,
+ * connections, exploration history and cenotes. Editors edit it at
+ * /sistemas/<id>/edit.
+ */
 export default function SistemaPage() {
   const { sistemaId } = useParams()
   const { t, i18n } = useTranslation('indexPages')

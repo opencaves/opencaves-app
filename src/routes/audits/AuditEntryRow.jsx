@@ -13,7 +13,9 @@ import { formatFullDate, formatRelative, toDate } from './auditFormat.js'
 // The action's chip colour (M3 roles): additions, deletions, undos.
 const ACTION_COLORS = { create: 'success', delete: 'error', purge: 'error', deleteUser: 'error', undo: 'info' }
 
-// When it happened: relative ("5 minutes ago"), the full date on hover.
+/**
+ * When it happened: relative ("5 minutes ago"), the full date on hover.
+ */
 export function When({ value }) {
   const { i18n } = useTranslation()
   const date = toDate(value)

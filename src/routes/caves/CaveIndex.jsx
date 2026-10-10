@@ -11,8 +11,10 @@ import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/components/IndexPage/IndexSearchField.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
-// /caves: every cenote, by area (each area's own page linked from its
-// heading), those with no area last. Editors' list: /caves/edit.
+/**
+ * /caves: every cenote, by area (each area's own page linked from its
+ * heading), those with no area last. Editors' list: /caves/edit.
+ */
 export default function CaveIndex() {
   const { t } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')

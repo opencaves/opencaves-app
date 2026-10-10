@@ -67,8 +67,13 @@ ${reason}`)
   )
 }
 
-// inLayout: inside the pages' layout (app bar, search kept), not the whole
-// window; a bad cave or system address offers its list too.
+/**
+ * A bad cave or system address offers its list too.
+ *
+ * @param {object} props
+ * @param {boolean} [props.inLayout=false] - Inside the pages' layout (app bar, search kept), not the whole
+ *   window.
+ */
 export default function NoMatch({ inLayout = false }) {
   const { t } = useTranslation('404')
   const { t: tHome } = useTranslation('home')

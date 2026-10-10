@@ -4,10 +4,12 @@ import { useCaveAssetsList } from '@/models/CaveAsset.js'
 import MediaPaneDetails from '@/components/MediaPane/MediaPaneDetails.jsx'
 import GalleryOverlay from './GalleryOverlay.jsx'
 
-// /caves/:caveId/photos/:mediaId - the cave's photos, over its page (CavePage):
-// the map's photo viewer, with its tools (cover, delete) for those allowed.
-// Only this cave's photos; the arrow, Escape or the last photo deleted lead
-// back to the page.
+/**
+ * /caves/:caveId/photos/:mediaId - the cave's photos, over its page (CavePage):
+ * the map's photo viewer, with its tools (cover, delete) for those allowed.
+ * Only this cave's photos; the arrow, Escape or the last photo deleted lead
+ * back to the page.
+ */
 export default function PhotoGallery() {
   const { caveId, mediaId } = useParams()
   const navigate = useNavigate()

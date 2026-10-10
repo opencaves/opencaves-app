@@ -84,11 +84,13 @@ const photoThumbnail = (caveId, { id, thumbnailRevision, viewThumbnailRevision }
   return asset.getThumbnailUrl('resultThumbnail')
 }
 
-// /whats-new: the caves, cave systems, connections and maps people added in
-// the app (the audit log's create entries, getWhatsNew), and the photos and
-// videos added to caves (by cave and day), newest first, by day - each linked
-// to its page, with who added it. Names come from the app's
-// data when it has the record, the server's otherwise.
+/**
+ * /whats-new: the caves, cave systems, connections and maps people added in
+ * the app (the audit log's create entries, {@link getWhatsNew}), and the photos and
+ * videos added to caves (by cave and day), newest first, by day - each linked
+ * to its page, with who added it. Names come from the app's
+ * data when it has the record, the server's otherwise.
+ */
 export default function WhatsNew() {
   const { t, i18n } = useTranslation('whatsNew')
   const { data } = useIndexData()

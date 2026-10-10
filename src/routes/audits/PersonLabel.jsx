@@ -1,9 +1,11 @@
 import { Box, Typography } from '@mui/material'
 
-// A person on the Audits page: their name (accountLabel: display name, email,
-// "Deleted account"…), and under it their raw account id - small and
-// selectable, to search for it in the Firebase console. No id (a change made
-// by the server itself): the name only.
+/**
+ * A person on the Audits page: their name (accountLabel: display name, email,
+ * "Deleted account"…), and under it their raw account id - small and
+ * selectable, to search for it in the Firebase console. No id (a change made
+ * by the server itself): the name only.
+ */
 export default function PersonLabel({ uid, accountLabel, className, sx }) {
   return (
     <Box component="span" className={['oc-audit-person', className].filter(Boolean).join(' ')} sx={[{ display: 'inline-flex', flexDirection: 'column', minWidth: 0, verticalAlign: 'top' }, ...(Array.isArray(sx) ? sx : [sx])]}>
@@ -19,8 +21,10 @@ export default function PersonLabel({ uid, accountLabel, className, sx }) {
   )
 }
 
-// An author filter's option: the name, and the email under it when the name
-// isn't the email itself.
+/**
+ * An author filter's option: the name, and the email under it when the name
+ * isn't the email itself.
+ */
 export function AccountOption({ account }) {
   return (
     <Box component="span" className="oc-audit-person oc-audit-person--option" sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>

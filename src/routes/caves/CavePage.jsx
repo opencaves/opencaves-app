@@ -52,10 +52,12 @@ function CaveCover({ cover }) {
   )
 }
 
-// /caves/<id>: a cave's own page - what the map's details pane shows, as a
-// page: its area and system, location, access, description, photos and its
-// system's exploration history, and a link to it on the map (/map/<id>).
-// Editors edit it at /caves/<id>/edit.
+/**
+ * /caves/<id>: a cave's own page - what the map's details pane shows, as a
+ * page: its area and system, location, access, description, photos and its
+ * system's exploration history, and a link to it on the map (/map/<id>).
+ * Editors edit it at /caves/<id>/edit.
+ */
 export default function CavePage() {
   const { caveId } = useParams()
   const { t } = useTranslation('indexPages')

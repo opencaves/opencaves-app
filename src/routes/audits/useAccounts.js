@@ -5,11 +5,15 @@ import { EMULATOR_AUTHOR_ID } from '@/config/audits.js'
 
 const listUsersFn = callable('listUsers')
 
-// The accounts (listUsers, as on the Users page), to show who made a change
-// by name rather than by account id. accountLabel(uid): the account's display
-// name, else its email; the local emulators' label; "deleted account" for an
-// id no account has (once the list is in); the id itself while it loads or
-// when it couldn't be read.
+/**
+ * The accounts (listUsers, as on the Users page), to show who made a change
+ * by name rather than by account id.
+ *
+ * @returns {{accountLabel: (uid: string) => string, accountList: object[], loading: boolean, failed: boolean}} accountLabel(uid): the account's display
+ *   name, else its email; the local emulators' label; "deleted account" for an
+ *   id no account has (once the list is in); the id itself while it loads or
+ *   when it couldn't be read.
+ */
 export function useAccounts() {
   const { t } = useTranslation('audits')
   const [accounts, setAccounts] = useState(null)
