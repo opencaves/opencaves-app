@@ -121,7 +121,7 @@
     "firebase-admin": "^14.5.0",
     "patch-package": "^8.0.1",
     "playwright": "^1.64.0",
-    "postcss-logical": "^9.0.1",
+    "postcss-logical": "^9.0.2",
     "serve": "^14.2.6",
     "source-map-explorer": "^2.5.3",
     "swr": "^2.5.1",
