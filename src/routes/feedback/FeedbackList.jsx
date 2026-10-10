@@ -73,13 +73,17 @@ function FilterMenu({ className, label, value, options, onChange, allLabel }) {
 
 // One report of the list (GitHub's issue row): its state, its title (its
 // message's first line, linking to its page), its kind and stage, who sent
-// it when and from which page, and how many messages its thread has.
+// it when and from which page, and how many messages its thread has. The
+// whole row opens the report - its only action: the title's link stretched
+// over it (::after), still the row's one link for keyboards and screen
+// readers; the focus ring drawn on the row. Its time and message count stay
+// above the link, for their tooltips.
 function ReportRow({ report, authorName, search }) {
   const { t } = useTranslation('feedback')
   const count = messageCountOf(report)
   const status = statusOf(report)
   return (
-    <Box component="li" className="oc-feedback-list--row" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, px: 2, py: 1.5, borderTop: 1, borderColor: 'divider', '&:hover': { bgcolor: 'action.hover' } }}>
+    <Box component="li" className="oc-feedback-list--row" sx={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 1.5, px: 2, py: 1.5, borderTop: 1, borderColor: 'divider', cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, '&:hover .oc-feedback-list--title': { color: 'primary.main' }, '&:has(.oc-feedback-list--title:focus-visible)': { outline: 2, outlineColor: 'primary.main', outlineOffset: -2 }, '& oc-relative-time': { position: 'relative', zIndex: 1 } }}>
       <StateIcon report={report} sx={{ mt: '2px', fontSize: 20 }} />
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
@@ -88,7 +92,7 @@ function ReportRow({ report, authorName, search }) {
             to={`/feedback/${report.id}`}
             state={{ from: search }}
             className="oc-feedback-list--title"
-            sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none', overflowWrap: 'anywhere', '&:hover, &:focus-visible': { color: 'primary.main', textDecoration: 'underline' } }}
+            sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none', overflowWrap: 'anywhere', outline: 'none', '&::after': { content: '""', position: 'absolute', inset: 0 }, '&:hover, &:focus-visible': { color: 'primary.main', textDecoration: 'underline' } }}
           >
             {titleOf(report) || t('admin.list.untitled')}
           </Typography>
@@ -102,7 +106,7 @@ function ReportRow({ report, authorName, search }) {
       </Box>
       {count > 0 && (
         <Tooltip title={t('admin.list.messages', { count })}>
-          <Box className="oc-feedback-list--count" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', flex: 'none', mt: '2px' }} aria-label={t('admin.list.messages', { count })}>
+          <Box className="oc-feedback-list--count" sx={{ position: 'relative', zIndex: 1, cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', flex: 'none', mt: '2px' }} aria-label={t('admin.list.messages', { count })}>
             <ChatBubbleOutlineRounded sx={{ fontSize: 18 }} />
             <Typography variant="body2" component="span">
               {count}
