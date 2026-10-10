@@ -1,5 +1,4 @@
 import { forwardRef } from 'react'
-import { useTheme } from '@mui/material'
 import { Scrollbars as Scrollbars3 } from 'react-custom-scrollbars-3'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import './Scrollbars.scss'
@@ -53,14 +52,14 @@ const DefaultTrackVertical = forwardRef(function DefaultTrackVertical({ style, t
 })
 
 const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, trackHorizontalProps = {}, trackVerticalProps = {}, ...props }, ref) {
-  const { palette } = useTheme()
-
+  // The app's thumb, both ways: the horizontal one (the galleries') used to be
+  // the library's own 20% black, nearly invisible on the dark theme.
   function renderThumb({ style, ...props }) {
     return (
       <DefaultThumb
+        className="oc-scrollbar--thumb"
         style={{
           ...style,
-          backgroundColor: palette.Scrollbar.bg,
           borderRadius: 'inherit',
           cursor: 'pointer',
         }}
@@ -82,7 +81,7 @@ const Scrollbars = forwardRef(function Scrollbars({ children, autoHide = true, t
     })
 
   return (
-    <Scrollbars3 ref={ref} {...props} className={`oc-scrollbar${autoHide ? ' oc-scrollbar--autohide' : ''}`} autoHide={false} renderTrackHorizontal={renderTrackHorizontal} renderTrackVertical={renderTrackVertical} renderThumbVertical={renderThumb}>
+    <Scrollbars3 ref={ref} {...props} className={`oc-scrollbar${autoHide ? ' oc-scrollbar--autohide' : ''}`} autoHide={false} renderTrackHorizontal={renderTrackHorizontal} renderTrackVertical={renderTrackVertical} renderThumbVertical={renderThumb} renderThumbHorizontal={props.renderThumbHorizontal || renderThumb}>
       {children}
     </Scrollbars3>
   )
