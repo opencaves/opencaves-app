@@ -753,14 +753,7 @@
       }
     },
     "addMedia": {
-      "header": "Upload photos of {{name}}",
-      "dragHere": "Drag photos here",
       "dropHere": "Drop the files here …",
-      "or": "or",
-      "btn": "Click to select files",
-      "closeBtn": {
-        "ariaLabel": "close"
-      },
       "success_one": "1 photo added",
       "success_other": "{{count}} photos added",
       "errorHeader": "Oops!",

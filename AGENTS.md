@@ -23,7 +23,7 @@ OpenCaves: a React/Vite/Ionic web app for finding cave-diving caves - today ceno
 - Firebase: Firestore (data), Auth (custom-claim roles), Storage (media), Cloud Functions v2 (`functions/js/`, region `northamerica-northeast1`), Hosting (the `opencaves` site; the `opencaves-api` site and its placeholder `/v1` function were removed, unused)
 - `vite-plugin-pwa` (`injectManifest` strategy) builds `src/service-worker.js` into a real file with a precache manifest — Vite has no equivalent to CRA's webpack plugin for this, so don't remove that plugin config thinking it's redundant.
 - i18n via `react-i18next`, locale files at `src/locales/{en,fr,es,yua}.json` — the app is in English, French and Spanish, plus a partial Yucatec Maya (`yua`) whose missing strings fall back to Spanish (`FALLBACK_LANGUAGES` in `src/config/appLanguages.js`). Outside services (geocoding, auth emails) get `toServiceLanguage()`, not the raw app language. **Never hardcode user-facing labels/strings in component files.** Add the string to both `en.json`/`fr.json` under a namespace matching (or nested under) the component's area — e.g. `quickActions`, `resultPane`, `map` — and render it via `useTranslation('namespace')`'s `t('key')`, following the existing components as precedent. This applies to every user-facing string: buttons, field labels, tooltips, placeholders, dialog text, aria-labels.
-- `functions/py/` exists but is **not** in `firebase.json`'s `functions` config — it's not deployed, don't assume it's live.
+- `functions/js/` is the only Cloud Functions code: `functions/py/` (an undeployed Python experiment) was removed.
 - **Two kinds of languages — keep them distinct.** *App (UI) languages* are what the interface is shown in: en/fr/es, one per locale file, listed in `src/config/appLanguages.js`. *Content languages* are what cave data is written in (name translations, descriptions): data in the Firestore `languages` collection (ISO 639-2, e.g. eng, spa, myn), which can include languages the UI isn't translated into. The only bridge is `APP_TO_CONTENT_LANGUAGE` in `src/config/contentLanguages.js` (`toContentLanguage()` in `utils/lang.js`).
 
 ## Config
@@ -44,7 +44,7 @@ Every exported function, component and hook (in `src/` and `functions/js/`) carr
 
 The records' shapes (`Cave`, `Sistema`, `Connection`, `Area`, `CaveAsset`, `CaveMap`, `CaveData`, `FeedbackReport`, `FeedbackMessage`, `UserSettings`...) are `@typedef`s in `src/types.js`, and the server's in `functions/js/types.js`. Both are global (scripts with no import/export, included by `jsconfig.json` and `functions/js/jsconfig.json`): name them bare, `@param {Cave} cave`, never import them; a new field the code reads or writes goes there too.
 
-Run `npm run lint:jsdoc` after changing exported functions or their JSDoc: it checks the format and flags drift (a `@param` naming a parameter that no longer exists, a type that doesn't parse).
+Run `npm run lint:jsdoc` after changing exported functions or their JSDoc: it checks the format and flags drift (a `@param` naming a parameter that no longer exists, a type that doesn't parse). `npm run typecheck` goes further: TypeScript checks the code against its JSDoc types (strict mode off) - for now only `src/utils/` (`jsconfig.utils.json`), which doesn't pass cleanly yet, so it isn't a gate.
 
 **Any change to the code updates its JSDoc in the same change.** A renamed, added, removed or retyped parameter, a new return value, a changed behaviour the description states, a new `throw` — the block must still say what the code does. A stale `@param` is worse than none.
 
@@ -68,6 +68,7 @@ The Node scripts in `scripts/` print their help when run with no arguments (or `
 - `firebase deploy` — deploys everything; scope with `--only hosting`, `--only functions`, or `--only functions:js:<name>` for a single function
 - `gcloud storage buckets update gs://opencaves.appspot.com --cors-file=storage.cors.json` — applies the Storage bucket's CORS config, which `firebase deploy` does **not** carry. The app loads bucket images with `crossOrigin="anonymous"` (so the service worker caches them at real size instead of as opaque responses), so without this CORS config those images fail to load entirely.
 - `npm run lint:jsdoc` — checks the JSDoc blocks of `src/` and `functions/js/` (eslint-plugin-jsdoc only, `eslint.config.js`: no other lint rules); fails on any warning
+- `npm run typecheck` — type-checks `src/utils/` against its JSDoc with TypeScript (`tsc -p jsconfig.utils.json`, strict off; no output files). Covers `src/utils/` only for now, and still reports errors there
 - No test suite currently exists in this repo.
 
 ## Commit messages

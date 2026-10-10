@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { collection, deleteField, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import getId from 'unique-push-id'
-import { builder } from '@invertase/image-processing-api'
 import { useSsrCollection } from '@/hooks/useSsrCollection.js'
 import { pageHostname } from '@/ssr/ssrContext.js'
 import { breakpoints } from '@/theme/Theme.jsx'
@@ -105,41 +104,6 @@ export default class CaveAsset {
     }
 
     return assetList
-  }
-
-  static async getCoverImage(caveId, useSnapshot = true) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const q = query(COLL, where('caveId', '==', caveId), where('type', '==', 'image'), where('isCover', '==', true)).withConverter(converter)
-
-        if (useSnapshot) {
-          const result = { data: null }
-          onSnapshot(q, snapshot => {
-            const querySnapshot = withoutTrashed(snapshot)
-            if (querySnapshot.empty) {
-              result.data = null
-              return
-            }
-
-            result.data = querySnapshot.docs[0].data()
-
-          })
-
-          return resolve(result)
-        }
-
-        const querySnapshot = withoutTrashed(await getDocs(q))
-
-        if (querySnapshot.empty) {
-          return resolve(null)
-        }
-
-        resolve(querySnapshot.docs[0])
-
-      } catch (error) {
-        reject(error)
-      }
-    })
   }
 
   constructor({ caveId, userId, isCover = false, type = 'image' } = {}) {
@@ -325,30 +289,6 @@ export function useCoverImage(caveId) {
   return [coverImage, loading, error]
 }
 
-/**
- * The image-processing extension's address for a Storage image, resized, as WebP.
- *
- * @param {string} source - The image's path in the bucket.
- * @param {object} [resize={}]
- * @param {number} [quality=80]
- * @returns {string}
- */
-export function getImageAssetUrl(source, resize = {}, quality = 80) {
-
-  const url = `https://${FIREBASE_CONFIG.location}-${FIREBASE_CONFIG.projectId}.cloudfunctions.net/ext-image-processing-api-handler/process?operations=`
-
-  const options = builder()
-    .input({
-      type: 'gcs',
-      source,
-    })
-    .resize(resize)
-    .output({ webp: { reductionEffort: 3, quality } })
-    .toEncodedString()
-
-  return `${url}${options}`
-}
-
 const converter = {
   toFirestore: (caveAsset) => {
     return caveAsset.toObject()
@@ -375,5 +315,4 @@ const converter = {
 export const getById = CaveAsset.getById
 export const deleteById = CaveAsset.deleteById
 export const restoreById = CaveAsset.restoreById
-export const getCoverImage = CaveAsset.getCoverImage
 export const getAssetList = CaveAsset.getAssetList

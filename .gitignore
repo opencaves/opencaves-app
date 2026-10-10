@@ -30,8 +30,9 @@ firebase-export-*
 .env.test.local
 .env.production.local
 *.log*
-functions/py/out.png
-functions/py/t.jpg
+# Cloud Functions log dumps (firebase functions:log > logs.json): they hold
+# users' emails, IPs and signed URLs
+logs.json
 /.vscode
 /_data
 
