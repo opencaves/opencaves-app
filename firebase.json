@@ -135,9 +135,6 @@
     "functions": {
       "port": 5001
     },
-    "database": {
-      "port": 9000
-    },
     "hosting": {
       "port": 5000
     },
@@ -150,9 +147,6 @@
     },
     "storage": {
       "port": 9199
-    },
-    "pubsub": {
-      "port": 8085
     }
   },
   "functions": [

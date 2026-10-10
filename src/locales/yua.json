@@ -327,13 +327,7 @@
       }
     },
     "addMedia": {
-      "dragHere": "Pul le oochelo'ob way a'ala'",
       "dropHere": "P'at le archivo'ob way a'ala'…",
-      "or": "wa",
-      "btn": "Péech' way utia'al a yéeyik archivo'ob",
-      "closeBtn": {
-        "ariaLabel": "k'al"
-      },
       "success_one": "Ts'a'ab 1 oochel",
       "success_other": "Ts'a'ab {{count}} oochelo'ob",
       "errorHeader": "¡Ay!",
