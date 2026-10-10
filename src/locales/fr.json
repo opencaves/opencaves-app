@@ -523,11 +523,13 @@
     "copyCoordinates": "Copier les coordonnées",
     "copyKeyCoordinates": "Copier les coordonnées de la clé",
     "copyEntranceCoordinates": "Copier les coordonnées de l'entrée",
+    "copyParkingCoordinates": "Copier les coordonnées du stationnement",
     "directionsToCave": "Itinéraire vers la grotte",
     "directionsToKey": "Itinéraire vers la clé",
     "directionsToSistema": "Itinéraire vers le réseau",
     "area": "Région : {{area}}",
     "directionsToEntrance": "Itinéraire vers l'entrée",
+    "directionsToParking": "Itinéraire vers le stationnement",
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
     "addressNotAvailable": "Adresse non disponible",
@@ -583,6 +585,7 @@
       "coordinates": "Coordonnées",
       "location": "Emplacement",
       "entrance": "Entrée",
+      "parking": "Stationnement",
       "key": "Clé",
       "longitude": "Longitude",
       "latitude": "Latitude",
@@ -595,6 +598,7 @@
       "addOneCoordinates": {
         "location": "Ajouter les coordonnées de l'emplacement",
         "entrance": "Ajouter les coordonnées de l'entrée",
+        "parking": "Ajouter les coordonnées du stationnement",
         "key": "Ajouter les coordonnées de la clé",
         "sistemaLocation": "Ajouter les coordonnées de l'emplacement"
       },
@@ -1009,8 +1013,10 @@
     "markers": {
       "location": "Emplacement de la grotte",
       "entrance": "Entrée de la cénote",
+      "parking": "Stationnement",
       "key": "Emplacement de la clé",
       "entranceShort": "Entrée",
+      "parkingShort": "Stationnement",
       "keyShort": "Clé"
     },
     "caveLayer": {

@@ -8,6 +8,7 @@ import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import LocationDisabledRounded from '@mui/icons-material/LocationDisabledRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import TerrainRounded from '@mui/icons-material/TerrainRounded'
 import { Link as RouterLink } from 'react-router-dom'
@@ -65,7 +66,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   })
 
   let hasAddressOrCoordinates = false
-  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
+  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText, parkingText
 
   if (cave.location) {
     address = <Address caveId={cave.id} longitude={cave.location.longitude} latitude={cave.location.latitude} />
@@ -81,6 +82,10 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   if (cave.entrance) {
     entranceText = `${cave.entrance.latitude}, ${cave.entrance.longitude}`
+  }
+
+  if (cave.parking) {
+    parkingText = `${cave.parking.latitude}, ${cave.parking.longitude}`
   }
 
   function handleAddressTooltipOpen() {
@@ -151,6 +156,8 @@ export default function CurrentCaveDetailsContent({ cave }) {
             </ListItemButton>
           </ListItem>
         )}
+
+        {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
         {entranceText && <CoordinateRow icon={<LoginRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 

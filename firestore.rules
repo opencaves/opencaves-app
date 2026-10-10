@@ -166,14 +166,14 @@ service cloud.firestore {
     }
 
     function isValidCave(d, k) {
-      return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'sistemaId', 'sistemaColor', 'area', 'source',
+      return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'parking', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
           'explorationDate', 'videos', 'cenoteEntrance', 'facilities', 'fees', 'textSources'])
         && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
           && d.name.value is string && d.name.value.size() <= 240
           && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
         && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && items(d, k, 'keys', 20)
-        && point(d, k, 'location') && point(d, k, 'entrance')
+        && point(d, k, 'location') && point(d, k, 'entrance') && point(d, k, 'parking')
         && recordId(d, k, 'sistemaId') && color(d, k, 'sistemaColor') && text(d, k, 'area', 240) && recordId(d, k, 'source')
         && text(d, k, 'access', 240) && text(d, k, 'accessDetails', 4000) && text(d, k, 'accessibility', 240) && text(d, k, 'accessibilityDetails', 4000)
         && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000) && text(d, k, 'reporter', 240)
