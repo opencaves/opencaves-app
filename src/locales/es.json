@@ -692,7 +692,11 @@
     },
     "cenoteEntrance": "Cenote de entrada",
     "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas.",
-    "nameTranslation": "{{language}}: {{names}}"
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video añadido",
+    "videoAlreadyAdded": "Este video ya está en la lista.",
+    "videoDeleted": "Video eliminado",
+    "videoAddError": "No se pudo añadir el video. Inténtalo de nuevo."
   },
   "mediaPane": {
     "header": "{{name}}",

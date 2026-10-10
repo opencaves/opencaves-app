@@ -691,7 +691,11 @@
     },
     "cenoteEntrance": "Cénote d'entrée",
     "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau.",
-    "nameTranslation": "{{language}} : {{names}}"
+    "nameTranslation": "{{language}} : {{names}}",
+    "videoAdded": "Vidéo ajoutée",
+    "videoAlreadyAdded": "Cette vidéo est déjà dans la liste.",
+    "videoDeleted": "Vidéo supprimée",
+    "videoAddError": "La vidéo n’a pas pu être ajoutée. Veuillez réessayer."
   },
   "mediaPane": {
     "header": "{{name}}",

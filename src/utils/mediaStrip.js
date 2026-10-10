@@ -83,15 +83,21 @@ export function snapOnSettle(view, container) {
   }
 }
 
-// An item reached with the keyboard: scrolled to the middle of the strip
-// (where the strip would settle anyway) - a click leaves it where it is.
-// view: the strip's scrolling element.
-export function centerFocused(event, view) {
-  if (!view || !event.target.matches(':focus-visible')) return
+// An item scrolled to the middle of the strip (where the strip would settle
+// anyway): one just added, one reached with the keyboard.
+export function centerItem(view, item) {
+  if (!view || !item) return
   const viewRect = view.getBoundingClientRect()
-  const itemRect = event.target.getBoundingClientRect()
+  const itemRect = item.getBoundingClientRect()
   const offset = (itemRect.left + itemRect.right) / 2 - (viewRect.left + viewRect.right) / 2
   view.scrollTo({ left: view.scrollLeft + offset, behavior: reducedMotion() ? 'auto' : 'smooth' })
+}
+
+// An item reached with the keyboard: centred - a click leaves it where it is.
+// view: the strip's scrolling element.
+export function centerFocused(event, view) {
+  if (!event.target.matches(':focus-visible')) return
+  centerItem(view, event.target)
 }
 
 // What Tab can reach.
