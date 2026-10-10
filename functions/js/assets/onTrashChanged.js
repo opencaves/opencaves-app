@@ -7,7 +7,7 @@ import { CAVES_ASSETS_COLL_NAME } from '../constants.js'
  * to the trash (deletedAt set) hands it to the cave's oldest other photo,
  * and a photo restored to a cave left without a cover becomes it.
  * Only reacts to deletedAt appearing or going: its own isCover writes
- * (and onAssetUpdated's) don't come back here.
+ * don't come back here.
  */
 export const onAssetTrashChanged = onDocumentUpdated(`${CAVES_ASSETS_COLL_NAME}/{assetId}`, async (event) => {
   const wasTrashed = !!event.data.before.get('deletedAt')
