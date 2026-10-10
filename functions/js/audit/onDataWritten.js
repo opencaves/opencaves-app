@@ -2,14 +2,10 @@ import { onDocumentWrittenWithAuthContext } from 'firebase-functions/v2/firestor
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
 import { REGION } from '../constants.js'
-import { AUDIT_LOG_COLL_NAME, AUDITED_COLLECTIONS, writeAuditLog } from './log.js'
+import { AUDIT_LOG_COLL_NAME, AUDITED_COLLECTIONS, SERVER_FIELDS, writeAuditLog } from './log.js'
 import { changedFields, pickFields } from './values.js'
 
 const IS_EMULATOR = process.env.FUNCTIONS_EMULATOR === 'true'
-
-// The fields only the server writes (photo stamps, a map's derived files):
-// in the emulator, a change to these alone is the server's, not logged.
-const SERVER_FIELDS = new Set(['_created', '_modified', '_updated', 'previewUrl', 'previewUrls', 'thumbnailUrl', 'svgIds'])
 
 // Only the app's users' changes are logged: not those made by scripts and
 // functions (the production mirror, the photo triggers, an undo - which
@@ -78,6 +74,7 @@ function auditCollection(collection) {
     if (IS_EMULATOR) {
       // Photo records are only ever created by the server (onAssetUploaded).
       if (action === 'create' && collection === 'cavesAssets') return
+      // A change to the server's fields alone is the server's, not logged.
       if (action === 'update' && entry.changedFields.every((field) => SERVER_FIELDS.has(field))) return
       if (await isUndoOrPurgeWrite(event, collection)) return
     }

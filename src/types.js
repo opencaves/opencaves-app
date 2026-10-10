@@ -282,3 +282,24 @@
  * @property {unknown[]} [savedPlaces] - Server: written (empty) at sign-up; saved caves are in its savedCaves.
  * @property {string} [unsubscribeToken] - Server: the emails' unsubscribe link (read-only for its owner).
  */
+
+/**
+ * An item of the What's new page, as the getWhatsNew callable sends it (its
+ * server-side twin is in functions/js/types.js): a record added, modified or
+ * removed, or a cave's photos or videos added (one per cave, author and day).
+ *
+ * @typedef {object} WhatsNewItem
+ * @property {'added'|'modified'|'removed'} change - Photos and videos are always added.
+ * @property {'caves'|'sistemas'|'connections'|'maps'|'photos'|'videos'} kind
+ * @property {string} docId - The record's id (photos, videos: an id of the group).
+ * @property {string|null} [name] - Its current name (removed: its last).
+ * @property {string|null} [sistemaId] - A cave's system, a connection's joining system.
+ * @property {string|null} [parentSistemaId] - A connection's other system.
+ * @property {string|null} [thumbnailUrl] - A map's thumbnail (never for a removed one).
+ * @property {string[]} [fields] - Modified: the fields changed that day, by their stored names.
+ * @property {string} [caveId] - Photos, videos: their cave.
+ * @property {number} [count] - Photos, videos: how many.
+ * @property {Array<object|string>} [media] - Photos ({ id, thumbnailRevision, viewThumbnailRevision }) or video URLs: the first few.
+ * @property {string|null} at - ISO date of the change (a group's latest).
+ * @property {string|null} authorName - Its author's display name.
+ */
