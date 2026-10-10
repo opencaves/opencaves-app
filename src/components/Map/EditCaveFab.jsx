@@ -131,8 +131,13 @@ export default function EditCaveFab() {
         visibility: 'var(--oc-map-controls-visibility, visible)',
         transition: 'opacity 150ms ease, visibility 150ms ease',
         zIndex: 'var(--oc-app-menu-z-index)',
-        // Each action's label on one line, on M3's label surface (a raised
-        // container-tone chip), readable over any part of the map.
+        // The icon in full text colour: MUI's default grey (text.secondary)
+        // looked washed out, dark mode most.
+        [`& .${speedDialActionClasses.fab}:not(.Mui-disabled)`]: {
+          color: 'text.primary',
+        },
+        // Each action's label on one line, as plain text with a halo (below),
+        // readable over any part of the map.
         // A disabled action (Edit cave, while already editing it) gets a
         // container-tone surface (light or dark grey with the mode) -
         // distinct from the enabled actions' paper, but unlike MUI's default
@@ -151,18 +156,37 @@ export default function EditCaveFab() {
           opacity: 0.6,
         },
         [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
-          bgcolor: theme.vars.sys.color.surfaceContainerHigh,
+          bgcolor: 'transparent',
           color: 'text.primary',
-          borderRadius: '8px',
-          boxShadow: theme.shadows[2],
+          boxShadow: 'none',
           whiteSpace: 'nowrap',
-          px: 1.5,
-          py: 0.75,
-          mr: -1,
+          px: 0.5,
+          py: 0,
+          mr: 0,
+          // M3's label medium.
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
           fontWeight: 500,
+          letterSpacing: '0.03125rem',
+          // No chip: a halo in the paper's colour keeps it readable over the map.
+          textShadow: [
+            '0 0 2px',
+            '0 0 3px',
+            '0 0 4px',
+          ].map((blur) => `${blur} ${theme.vars.palette.background.paper}`).join(', '),
         },
         // Labels take clicks (actionSlots): the hand, as on their buttons.
         '& .oc-edit-cave-fab--label': { cursor: 'pointer', pointerEvents: 'auto' },
+        // A label and its button are one control: hovering either hovers
+        // both - the button in its hover colour, the label paler.
+        [`& .${speedDialActionClasses.staticTooltip}:hover:not(:has(.Mui-disabled))`]: {
+          [`& .${speedDialActionClasses.fab}`]: {
+            bgcolor: theme.vars.palette.SpeedDialAction.fabHoverBg,
+          },
+          [`& .${speedDialActionClasses.staticTooltipLabel}`]: {
+            opacity: 0.8,
+          },
+        },
       })}
     >
       {/* tooltip.open makes MUI render each action's title as a fixed label
