@@ -19,7 +19,7 @@ import { isTrashed } from '@/utils/trash.js'
  */
 export function useMapsToProcess() {
   const [snapshot, loading] = useCollection(collection(db, 'maps'))
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const [configured, setConfigured] = useState(null)
 
   useEffect(() => {

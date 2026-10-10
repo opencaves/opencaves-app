@@ -19,7 +19,7 @@ export const AUTOMATIC = 'auto'
  */
 export function useLanguageChoice() {
   const { i18n } = useTranslation()
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
   const [choice, setChoice] = useState(() => readDeviceLanguage() || AUTOMATIC)
 
   useEffect(() => {

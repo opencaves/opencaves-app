@@ -40,8 +40,8 @@ const recordKey = (entry) => `${entry.collection}/${entry.docId}`
 export default function ChangesTab({ accountLabel, accountList }) {
   const { t, i18n } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()
-  const caves = useSelector((state) => state.data.caves)
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const [filters, setFilters] = useState(NO_FILTERS)
   const [entries, setEntries] = useState([])
   const [cursor, setCursor] = useState(null)

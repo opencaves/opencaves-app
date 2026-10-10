@@ -86,8 +86,8 @@ export const activityOf = (report) => Math.max(...[report.createdAt, report.stat
  */
 export function useFeedbackReader() {
   const { t } = useTranslation('feedback')
-  const roles = useSelector((state) => state.session.roles)
-  const myUid = useSelector((state) => state.session.user?.uid)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
+  const myUid = useSelector((/** @type {RootState} */ state) => state.session.user?.uid)
   const isAdmin = roles.includes('admin')
   const { accountLabel, accountList } = useAccounts({ enabled: isAdmin })
   const authorOf = useCallback(

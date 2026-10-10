@@ -14,9 +14,9 @@ export function Section({ children, className, ...props }) {
       {...props}
       className={`oc-section oc-auth-section ${className || ''}`.trim()}
       container
-      direction="column"
       size="grow"
       sx={{
+        flexDirection: 'column',
         mb: {
           xs: 2,
           lg: 8,
@@ -41,7 +41,7 @@ export function SectionDetails({ children, ...props }) {
 
 export function SectionForm({ children, ...props }) {
   return (
-    <Grid className="oc-section-form oc-auth-section-form" container direction="column" sx={{ width, rowGap: AUTH_SECTION_GAP }} {...props}>
+    <Grid className="oc-section-form oc-auth-section-form" container sx={{ flexDirection: 'column', width, rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )
@@ -49,7 +49,7 @@ export function SectionForm({ children, ...props }) {
 
 export function SectionFields({ children, ...props }) {
   return (
-    <Grid className="oc-section-fields oc-auth-section-fields" container direction="column" size="grow" sx={{ pt: 0.75, rowGap: AUTH_SECTION_GAP }} {...props}>
+    <Grid className="oc-section-fields oc-auth-section-fields" container size="grow" sx={{ flexDirection: 'column', pt: 0.75, rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )
@@ -57,7 +57,7 @@ export function SectionFields({ children, ...props }) {
 
 export function SectionActions({ children, ...props }) {
   return (
-    <Grid className="oc-section-actions oc-auth-section-actions" container direction="column" sx={{ mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: AUTH_SECTION_GAP }} {...props}>
+    <Grid className="oc-section-actions oc-auth-section-actions" container sx={{ flexDirection: 'column', mt: 1, alignItems: 'stretch', textAlign: 'center', rowGap: AUTH_SECTION_GAP }} {...props}>
       {children}
     </Grid>
   )
@@ -71,7 +71,7 @@ export function Progress({ enabled = false }) {
   }, [enabled])
 
   return (
-    <Grid className="oc-progress" container direction="column" sx={{ alignItems: 'center', visibility: enabled ? 'visible' : 'hidden' }}>
+    <Grid className="oc-progress" container sx={{ flexDirection: 'column', alignItems: 'center', visibility: enabled ? 'visible' : 'hidden' }}>
       <Grid
         sx={{
           width,

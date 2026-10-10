@@ -83,7 +83,7 @@ export default function SavedCavesList({ headingProps = {} }) {
       )
       .catch((error) => console.error(error))
   }
-  const caves = useSelector((state) => state.data.caves)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
 
   // Cave names come from the shared cave data, which the map normally loads -
   // make sure it's there when this page is opened directly.

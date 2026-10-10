@@ -36,7 +36,7 @@ export function ErrorAlert({ open = false, onClose, header, hint, dismissLabel, 
       {/* The app's rule: an X on every dialog. */}
       <DialogCloseButton onClick={handleClose} />
       <DialogContent sx={{ pt: 4 }}>
-        <Grid container direction="column" sx={{ gap: 1, alignItems: 'center' }}>
+        <Grid container sx={{ flexDirection: 'column', gap: 1, alignItems: 'center' }}>
           <ReportProblemRounded color="warning" sx={{ fontSize: '3rem', mb: 1 }} />
           {header && (
             <Typography variant="h5" component="p" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>

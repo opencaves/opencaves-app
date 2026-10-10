@@ -25,7 +25,7 @@ const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...t
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
-  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
+  const canDelete = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)
@@ -285,7 +285,7 @@ function MediaListCol({ children, width = 'full', isLast = false, height = ASSET
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
@@ -298,7 +298,7 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
@@ -328,7 +328,7 @@ function MoreMedias({ width, height, to, state }) {
         },
       }}
     >
-      <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
+      <Grid container sx={{ flexDirection: 'column', alignItems: 'center', rowGap: 0.75 }}>
         <PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />
         <Typography
           sx={(theme) => ({

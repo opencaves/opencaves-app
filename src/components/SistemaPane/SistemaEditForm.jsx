@@ -167,7 +167,7 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
  * @param {string} [props.backLabel] - The back arrow's label, where it leads (the systems by default).
  */
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
   const [colors, colorsLoading] = colorsModel.useAll()
   // Length and depth are stored in metres, shown and entered in the person's units.

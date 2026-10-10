@@ -102,9 +102,9 @@ function LabeledAction({ icon, label, onClick, disabled }) {
 export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, onRemove, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const pickedCoordinate = useSelector((state) => state.map.pickedCoordinate)
-  const picking = useSelector((state) => state.map.crossPickFor === field)
-  const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
+  const pickedCoordinate = useSelector((/** @type {RootState} */ state) => state.map.pickedCoordinate)
+  const picking = useSelector((/** @type {RootState} */ state) => state.map.crossPickFor === field)
+  const placingInSheet = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
   // Set and on the Earth: only then shown on (and flown to on) the map.
   const onEarth = isSet && coordinateInRange(longitude, latitude)

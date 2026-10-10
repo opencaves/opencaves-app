@@ -23,8 +23,8 @@ const sectionHeadingProps = formSectionHeadingProps('oc-account--section-title')
 
 export default function Account() {
   const { t } = useTranslation('account')
-  const user = useSelector((state) => state.session.user)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [name, setName] = useState(user?.displayName || user?.name || '')

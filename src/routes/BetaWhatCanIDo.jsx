@@ -63,7 +63,7 @@ const grid = (min) => ({ listStyle: 'none', m: 0, p: 0, display: 'grid', gap: 2,
 export default function BetaWhatCanIDo() {
   const { t } = useTranslation('betaTesting')
   const { setTitle } = useTitle()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
 
   useEffect(() => {
     setTitle(t('title'))

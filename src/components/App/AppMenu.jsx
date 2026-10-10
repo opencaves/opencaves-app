@@ -15,8 +15,8 @@ import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
  * feedback reports (in its accessible name too).
  */
 export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, className, ...props }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const isAdmin = useSelector((state) => state.session.isLoggedIn && state.session.roles.includes('admin'))
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn && state.session.roles.includes('admin'))
   const newFeedback = useNewFeedbackCount(isAdmin)
   const isSmall = useSmall()
   const theme = useTheme()

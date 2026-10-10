@@ -12,7 +12,7 @@ import { COLOR_MODES, saveAccountColorMode } from '@/services/colorModePreferenc
 export default function AppearanceSection() {
   const { t } = useTranslation('account')
   const { mode, setMode } = useColorScheme()
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
 
   function handleChange(event) {
     const next = event.target.value

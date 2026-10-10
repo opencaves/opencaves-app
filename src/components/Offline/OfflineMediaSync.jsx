@@ -35,9 +35,9 @@ export default function OfflineMediaSync() {
   const [openSnackbar] = useSnackbar()
   const { canSave, loading, savedCaveIds } = useSavedCaves()
   const previewsEnabled = useOfflinePreviewsEnabled()
-  const caves = useSelector((state) => state.data.caves)
-  const sistemas = useSelector((state) => state.data.sistemas)
-  const connections = useSelector((state) => state.data.connections)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
+  const connections = useSelector((/** @type {RootState} */ state) => state.data.connections)
   const networkTick = useNetworkChangeTick()
   // Read inside async callbacks without re-running the effects.
   const latest = useRef({})

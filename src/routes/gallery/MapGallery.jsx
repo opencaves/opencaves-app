@@ -30,7 +30,7 @@ export default function MapGallery() {
   const connections = context.connections || liveConnections
   const navigate = useNavigate()
   const location = useLocation()
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const canTrash = useCanTrashMaps()
   // With the trashed ones: one trashed while open leaves the list.
   const [mapFiles, loading] = mapsModel.useAll({ includeTrashed: true })

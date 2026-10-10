@@ -50,8 +50,8 @@ export default function CoordinatesMapPreview({ hideOnPhones = false }) {
   // The live coordinates under the cross while placing.
   const [crossCenter, setCrossCenter] = useState(null)
   const [fullscreen, setFullscreen] = useState(false)
-  const crossPickFor = useSelector((state) => state.map.crossPickFor)
-  const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
+  const crossPickFor = useSelector((/** @type {RootState} */ state) => state.map.crossPickFor)
+  const editFieldCoordinates = useSelector((/** @type {RootState} */ state) => state.map.editFieldCoordinates)
 
   const hidden = hideOnPhones && isSmall
 

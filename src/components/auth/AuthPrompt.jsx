@@ -109,8 +109,8 @@ export default function AuthPrompt({ open: initialOpen, title, dialogTitle, chil
         )}
         <Grid
           container
-          direction="column"
           sx={{
+            flexDirection: 'column',
             width: {
               xs: '100%',
               sm: '80%',

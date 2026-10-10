@@ -14,7 +14,7 @@ const sourcesModel = createCollectionModel('sources')
 export default function TextSource({ record, field, sx }) {
   const { t } = useTranslation('textSource')
   const [sources] = sourcesModel.useAll()
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   if (!isAdmin) return null
   const entry = record?.textSources?.[field]
   if (!entry?.source) return null

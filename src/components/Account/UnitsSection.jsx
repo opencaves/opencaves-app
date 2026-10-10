@@ -16,8 +16,8 @@ import { automaticUnits, UNIT_SYSTEMS } from '@/utils/units.js'
 export default function UnitsSection({ headingProps = {}, asField = false }) {
   const { t } = useTranslation('account')
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.session.user)
-  const choice = useSelector((state) => state.preferences?.units) || 'auto'
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const choice = useSelector((/** @type {RootState} */ state) => state.preferences?.units) || 'auto'
 
   function handleChange(event) {
     const next = event.target.value

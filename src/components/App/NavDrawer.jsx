@@ -39,8 +39,8 @@ const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname ==
  */
 export function useNavItems() {
   const location = useLocation()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const dispatch = useDispatch()
   const navItems = [

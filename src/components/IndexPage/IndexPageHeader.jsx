@@ -31,7 +31,7 @@ const BREADCRUMBS_SX = {
 export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
-  const roles = useSelector((state) => state.session.roles)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
 

@@ -30,8 +30,8 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   const mapPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/maps/${id}`), [galleryPath])
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const isEditor = useSelector((state) => state.session.roles.includes('editor'))
-  const tab = useSelector((state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('editor'))
+  const tab = useSelector((/** @type {RootState} */ state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
   const tabId = useId()
   const activeTab = isNew ? 'videos' : tab
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])

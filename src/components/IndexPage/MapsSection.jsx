@@ -38,7 +38,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const [ownMaps, ownLoading] = mapsModel.useAll()
   const allMaps = pageMaps || ownMaps
   const loading = pageMaps ? false : ownLoading
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('maps')
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))

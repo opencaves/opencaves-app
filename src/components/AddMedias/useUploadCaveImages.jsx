@@ -38,8 +38,8 @@ async function ensureEditorRole() {
 }
 
 export function useUploadCaveImages(caveId) {
-  const user = useSelector((state) => state.session.user)
-  const currentCave = useSelector((state) => state.map.currentCave)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
 
   const [current, setCurrent] = useState(null)
   const [progress, setProgress] = useState(null)

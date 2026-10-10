@@ -18,8 +18,8 @@ export default function LogInWithProvider({ Provider, message, color, onSuccess,
   const [disabled, setDisabled] = useState(false)
   const isSmall = useSmall()
   const isAnonymous = useAnonymous()
-  const user = useSelector((state) => state.session.user)
-  const continueUrl = useSelector((state) => state.session.continueUrl)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const continueUrl = useSelector((/** @type {RootState} */ state) => state.session.continueUrl)
 
   function onLogInWithProviderSuccess() {
     if (onSuccess) {

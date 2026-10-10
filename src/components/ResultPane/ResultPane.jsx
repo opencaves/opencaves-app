@@ -42,8 +42,8 @@ export default function ResultPane() {
   const lastLocationRef = useRef(currentLocation)
   if (!exiting) lastLocationRef.current = currentLocation
   const location = lastLocationRef.current
-  const caves = useSelector(state => state.map.data)
-  const roles = useSelector(state => state.session.roles)
+  const caves = useSelector((/** @type {RootState} */ state) => state.map.data)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const isSmall = useSmall()
   const { setTitle } = useTitle()
   const [currentCave, _setCurrentCave] = useState()

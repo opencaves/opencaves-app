@@ -74,7 +74,7 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const inUseMethods = signinMethodsForEmail || []
   const usesPassword = inUseMethods.includes('password')
   const usesEmail = usesPassword || inUseMethods.includes('emailLink')
-  const continueUrl = useSelector((state) => state.session.continueUrl)
+  const continueUrl = useSelector((/** @type {RootState} */ state) => state.session.continueUrl)
 
   const [currentStep, setCurrentStep] = useState(searchParams.has(emailValidatedParam) ? emailCallbackStep : 0)
   const initialStep = currentStep
@@ -518,8 +518,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
       >
         <Grid
           container
-          direction="column"
           sx={{
+            flexDirection: 'column',
             width: {
               xs: '100%',
               sm: '80%',
@@ -660,8 +660,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
                   ) : (
                     <Grid
                       container
-                      direction="column"
                       sx={{
+                        flexDirection: 'column',
                         alignItems: 'center',
                         mt: 2,
                         mb: 4,
@@ -701,8 +701,8 @@ export default function SignupWithEmail({ open: initialOpen }) {
                       <>
                         <Grid
                           container
-                          direction="column"
                           sx={{
+                            flexDirection: 'column',
                             alignItems: 'center',
                             mt: 2,
                             mb: 4,

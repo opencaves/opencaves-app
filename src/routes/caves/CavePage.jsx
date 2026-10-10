@@ -72,7 +72,7 @@ export default function CavePage() {
   const [allMaps, mapsLoading] = mapsModel.useAll()
   const cave = useMemo(() => caves.find((c) => c.id === caveId), [caves, caveId])
   // Editors: photos dragged anywhere over the page go to this cave, as on the map.
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const [dropzoneOpen, closeDropzone] = useWindowFileDrop(isEditor && Boolean(cave))
 
   const name = cave?.name?.value?.trim() || ''

@@ -14,7 +14,7 @@ export default function Message({ message, footer, type, fontSize }) {
       }}
     >
       <Grid container direction="row" sx={{ flexWrap: 'nowrap', alignItems: 'center' }}>
-        <Grid container direction="column">
+        <Grid container sx={{ flexDirection: 'column' }}>
           {type === 'error' ? <WarningRounded color="warning" sx={{ mr: 1.5, fontSize: '1.5em' }} /> : <CheckCircleOutlineRounded color="success" sx={{ mr: 1.5, fontSize: '1.5em' }} />}
         </Grid>
         <Grid size="grow">{message}</Grid>

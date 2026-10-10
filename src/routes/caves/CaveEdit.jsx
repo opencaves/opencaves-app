@@ -121,7 +121,7 @@ export default function CaveEdit() {
   const [isNew, setIsNew] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   // Deleting a cave: admins only (as in firestore.rules).
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   // Kept around only to diff nameTranslations on save (see handleSave) -
   // setDoc's merge:true merges nested maps key-by-key, so a language
   // dropped from the form needs an explicit deleteField() sentinel to

@@ -43,9 +43,9 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const caveName = cave.name?.value || tMap('caveNameUnknown')
 
   const firstBreakpoint = PANE_BREAKPOINTS[0]
-  const initialBreakpoint = useSelector((state) => state.app.resultPaneSmCurrentBreakpoint)
-  const resultPaneOpen = useSelector((state) => state.app.resultPaneSmOpen)
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const initialBreakpoint = useSelector((/** @type {RootState} */ state) => state.app.resultPaneSmCurrentBreakpoint)
+  const resultPaneOpen = useSelector((/** @type {RootState} */ state) => state.app.resultPaneSmOpen)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
   const [breakpoints, setBreakpoints] = useState(PANE_BREAKPOINTS)
   const [breakpoint, setBreakpoint] = useState(0)
@@ -56,7 +56,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   const [paneMinimizeFactor, setPaneMinimizeFactor] = useState(modalPosition)
   const [titleHidden, setTitleHidden] = useState(false)
 
-  const searchBarOff = useSelector((state) => state.app.searchBarOff)
+  const searchBarOff = useSelector((/** @type {RootState} */ state) => state.app.searchBarOff)
 
   const paneBreakpointsThreshold = PANE_BREAKPOINTS[PANE_BREAKPOINTS.length - 2]
 
@@ -238,7 +238,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
   // The phone edit form's "place on map" mode (PlaceOnMapOverlay): minimize
   // the sheet so the map shows, then put it back exactly where it was -
   // same height, same scroll position in the form - when the mode ends.
-  const placeOnMap = useSelector((state) => state.map.placeOnMap)
+  const placeOnMap = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap)
   const placeOnMapReturnRef = useRef(null)
   useEffect(() => {
     const modal = modalRef.current

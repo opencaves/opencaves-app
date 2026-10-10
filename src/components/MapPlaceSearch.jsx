@@ -37,7 +37,7 @@ const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0
  */
 export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit.placeSearch' })
-  const caves = useSelector((state) => state.data.caves)
+  const caves = useSelector((/** @type {RootState} */ state) => state.data.caves)
   const [input, setInput] = useState('')
   // The picked result stays shown in the field.
   const [selected, setSelected] = useState(null)

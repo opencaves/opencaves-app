@@ -15,7 +15,7 @@ import { noopAsync } from '@/utils/noop.js'
  * @returns {boolean}
  */
 export function useCanTrashMaps() {
-  return useSelector((state) => state.session.roles.includes('admin'))
+  return useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
 }
 
 /**

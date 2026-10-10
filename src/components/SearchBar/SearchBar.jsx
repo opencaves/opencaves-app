@@ -170,11 +170,11 @@ export default function SearchBar() {
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
 
-  const data = useSelector((state) => state.data.caves)
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const searchBarOff = useSelector((state) => state.app.searchBarOff)
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
-  const roles = useSelector((state) => state.session.roles)
+  const data = useSelector((/** @type {RootState} */ state) => state.data.caves)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const searchBarOff = useSelector((/** @type {RootState} */ state) => state.app.searchBarOff)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
 
   const location = useLocation()
   // Kept in sync with ResultPane.jsx/Map.jsx's own edit-mode check.

@@ -12,7 +12,7 @@ import './FilterMenu.scss'
 function FilterMenuHead({ title, children, ...props }) {
   const { t } = useTranslation('filter')
   const dispatch = useDispatch()
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
   function onFilterMenuCloseBtnClick() {
     dispatch(toggleFilterMenu(!filterMenuOpen))
@@ -136,18 +136,18 @@ function FilterMenuItem({ primary, secondary, nb, checked, onClick }) {
 }
 
 export default function MapFilterMenu({ props }) {
-  const filterMenuOpen = useSelector((state) => state.app.filterMenuOpen)
+  const filterMenuOpen = useSelector((/** @type {RootState} */ state) => state.app.filterMenuOpen)
 
-  const showAreas = useSelector((state) => state.search.showAreas)
-  const showValidCoordinates = useSelector((state) => state.search.showValidCoordinates)
-  const showInvalidCoordinates = useSelector((state) => state.search.showInvalidCoordinates)
-  const showUnconfirmedCoordinates = useSelector((state) => state.search.showUnconfirmedCoordinates)
-  const showCenoteEntrances = useSelector((state) => state.search.showCenoteEntrances) !== false
-  const showOtherCenotes = useSelector((state) => state.search.showOtherCenotes) !== false
-  const showAccesses = useSelector((state) => state.search.showAccesses)
-  const showAccessibilities = useSelector((state) => state.search.showAccessibilities)
+  const showAreas = useSelector((/** @type {RootState} */ state) => state.search.showAreas)
+  const showValidCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showValidCoordinates)
+  const showInvalidCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showInvalidCoordinates)
+  const showUnconfirmedCoordinates = useSelector((/** @type {RootState} */ state) => state.search.showUnconfirmedCoordinates)
+  const showCenoteEntrances = useSelector((/** @type {RootState} */ state) => state.search.showCenoteEntrances) !== false
+  const showOtherCenotes = useSelector((/** @type {RootState} */ state) => state.search.showOtherCenotes) !== false
+  const showAccesses = useSelector((/** @type {RootState} */ state) => state.search.showAccesses)
+  const showAccessibilities = useSelector((/** @type {RootState} */ state) => state.search.showAccessibilities)
 
-  const dataStats = useSelector((state) => state.map.dataStats)
+  const dataStats = useSelector((/** @type {RootState} */ state) => state.map.dataStats)
 
   const dispatch = useDispatch()
   const { t } = useTranslation('filter')

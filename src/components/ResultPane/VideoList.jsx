@@ -67,13 +67,13 @@ const VIDEO_WIDTH = 280
 
 export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
   const { t } = useTranslation('resultPane')
-  const roles = useSelector((state) => state.session.roles)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const settleWrite = useSettleWrite()
   const [openSnackbar] = useSnackbar()
   // A video just added: scrolled to once drawn (it goes at the strip's end).
   const [shownIndex, setShownIndex] = useState(null)
   // For the offline save's messages.
-  const caveName = useSelector((state) => state.data.caves.find((cave) => cave.id === caveId)?.name?.value) || ''
+  const caveName = useSelector((/** @type {RootState} */ state) => state.data.caves.find((cave) => cave.id === caveId)?.name?.value) || ''
   const scrollbarsRef = useRef()
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [newVideoUrl, setNewVideoUrl] = useState('')

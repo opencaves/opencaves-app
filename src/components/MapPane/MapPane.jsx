@@ -175,8 +175,8 @@ export default function MapPane() {
   const { caveId, mapId } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const canTrash = useCanTrashMaps()
   const initial = useLoaderData()
   const returnTo = location.state?.from || `/map/${caveId}`
