@@ -1,5 +1,6 @@
-# Auto detect text files and perform LF normalization
-*                 text=auto
+# Auto detect text files, stored and checked out with LF line endings
+# (whatever core.autocrlf says: Git for Windows defaults it to true)
+*                 text=auto eol=lf
 
 #
 # The above will handle all files NOT found below
