@@ -186,11 +186,3 @@ http://ionicframework.com/docs/theming/ */
     transform: translateX(-8.333%);
   }
 }
-
-
-// <oc-relative-time>'s fallback date (its light DOM, shown until the element
-// is defined: relativeTimeElement.js), underlined as the element's own text.
-oc-relative-time:not(:defined) {
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}

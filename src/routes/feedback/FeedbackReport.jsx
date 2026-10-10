@@ -156,7 +156,7 @@ export default function FeedbackReport() {
               <Box component="strong" sx={{ color: 'text.primary' }}>
                 {authorName}
               </Box>{' '}
-              {t('admin.report.openedThis')} <RelativeTime value={report.createdAt} /> · {t('admin.list.messages', { count })}
+              {t('admin.report.openedThis')} <RelativeTime value={report.createdAt} focusable /> · {t('admin.list.messages', { count })}
             </Typography>
           </Box>
         </Box>
@@ -174,7 +174,7 @@ export default function FeedbackReport() {
             {isAdmin ? <StatusMenu report={report} /> : <StageChip report={report} />}
             {report.statusUpdatedBy && (
               <Typography variant="body2" sx={{ mt: 0.75, color: 'text.secondary' }}>
-                {accountLabel(report.statusUpdatedBy)} · <RelativeTime value={report.statusUpdatedAt} />
+                {accountLabel(report.statusUpdatedBy)} · <RelativeTime value={report.statusUpdatedAt} focusable />
               </Typography>
             )}
           </Field>
@@ -204,7 +204,7 @@ export default function FeedbackReport() {
           )}
           {isAdmin && report.reporterEmailedAt && (
             <Field label={t('admin.report.lastEmailed')}>
-              <RelativeTime value={report.reporterEmailedAt} />
+              <RelativeTime value={report.reporterEmailedAt} focusable />
             </Field>
           )}
           {/* authorMuted: mirrored by the server from the author's settings
