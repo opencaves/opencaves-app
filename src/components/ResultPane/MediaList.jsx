@@ -7,7 +7,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip } from '@/utils/mediaStrip.js'
+import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
@@ -78,11 +78,15 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
         return
       }
 
-      scrollStrip(scrollbar.view, wheelDirection)
+      scrollStrip(scrollbar.view, event)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
+    const stopSnapping = snapOnSettle(scrollbar.view, container)
+    return () => {
+      container.removeEventListener('wheel', onWheel)
+      stopSnapping()
+    }
   }, [mediaList])
 
   useEffect(() => {

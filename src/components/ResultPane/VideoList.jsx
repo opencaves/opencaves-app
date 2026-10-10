@@ -9,7 +9,7 @@ import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip } from '@/utils/mediaStrip.js'
+import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
@@ -178,11 +178,15 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         return
       }
 
-      scrollStrip(scrollbar.view, direction)
+      scrollStrip(scrollbar.view, event)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
+    const stopSnapping = snapOnSettle(scrollbar.view, container)
+    return () => {
+      container.removeEventListener('wheel', onWheel)
+      stopSnapping()
+    }
   }, [videoUrls.length])
 
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
