@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, MenuItem, TextField } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 import { COLOR_MODES, saveAccountColorMode } from '@/services/colorModePreference.js'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 /**
  * The account page's display mode setting: Automatic (the device's light or
@@ -26,7 +27,7 @@ export default function AppearanceSection() {
   if (!mode) return null
 
   return (
-    <Box className="oc-appearance-section">
+    <Box className="oc-appearance-section" id="appearance" sx={sectionAnchorSx}>
       <TextField select size="small" label={t('appearance')} value={mode} onChange={handleChange} helperText={t('appearanceHint')} sx={{ width: 340, maxWidth: '100%' }}>
         {COLOR_MODES.map((option) => (
           <MenuItem key={option} value={option}>

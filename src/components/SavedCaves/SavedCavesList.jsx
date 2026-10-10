@@ -13,6 +13,7 @@ import { useOfflineStatus, useSavedCavesOfflineSummary } from '@/hooks/useOfflin
 import { offlineSupported, savedCaveStatusKey } from '@/services/offline/offlineMedia.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import { sectionAnchorSx } from '@/components/formSectionHeading.js'
 
 // One saved cenote's offline download state, beside its name: a progress
 // ring while downloading, a cloud-check once everything is on the device.
@@ -99,7 +100,7 @@ export default function SavedCavesList({ headingProps = {} }) {
   }, [caves, savedCaveIds])
 
   return (
-    <Box component="section" className="oc-saved-caves-list">
+    <Box component="section" className="oc-saved-caves-list" id="saved-caves" sx={sectionAnchorSx}>
       <Typography component="h2" variant="h6" {...headingProps}>
         {t('title')}
       </Typography>
