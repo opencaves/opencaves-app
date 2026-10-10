@@ -219,11 +219,14 @@ rewrite (`firebase.json`, before the `**` catch-all) to the
 `feedbackUnsubscribe` function. The token is the account's own, 32 random
 lowercase letters and digits, written by the server as `unsubscribeToken` on
 `_users/{uid}` with the first email that needs it (the rules never let a
-client write it; it goes with the account). A GET (the link) turns the emails
-off and answers a small page in the account's language, with a link to the
-settings; a POST is the mail apps' own one-click Unsubscribe button (RFC 8058:
-each email carries `List-Unsubscribe: <that link>` and `List-Unsubscribe-Post:
-List-Unsubscribe=One-Click`), answered 200 with a short text. An unknown or
+client write it; it goes with the account). Opening the link (GET) changes
+nothing - mail scanners open every link of an email: a small page in the
+account's language asks to confirm, and its Unsubscribe button (a POST with
+`confirm=1`) turns the emails off and says so, with a link to the settings
+(already off: that page at once). A POST without it is the mail apps' own
+one-click Unsubscribe button (RFC 8058: each email carries `List-Unsubscribe:
+<that link>` and `List-Unsubscribe-Post: List-Unsubscribe=One-Click`): turned
+off, answered 200 with a short text. An unknown or
 malformed token gets a 400 page with no detail. Never cached, and the token is
 never logged. To deploy it: `firebase deploy --only
 functions:js:feedbackUnsubscribe,functions:js:onAuthorMutedChanged,functions:js:onFeedbackReplied,functions:js:onFeedbackCreated,firestore:rules`,
