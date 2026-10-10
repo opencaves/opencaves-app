@@ -191,7 +191,6 @@
  * @property {number} [viewThumbnailRevision] - A panorama's small copies made from a view (setViewThumbnail).
  * @property {{yaw: number, pitch: number, zoom: number}} [thumbnailView] - That view.
  * @property {Timestamp} [_created] - Stamped by the server (onAssetCreated).
- * @property {Timestamp} [_updated]
  */
 
 /**

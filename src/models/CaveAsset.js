@@ -356,7 +356,7 @@ const converter = {
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options)
     const caveAsset = new CaveAsset(data)
-    const props = ['id', '_created', '_updated', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision', 'viewThumbnailRevision', 'thumbnailView', 'deletedAt', 'deletedBy']
+    const props = ['id', '_created', 'date', 'width', 'height', 'orientation', 'isCover', 'position', 'usePanoramaViewer', 'projectionType', 'poseHeadingDegrees', 'mediaType', 'type', 'fullPath', 'thumbnailRevision', 'viewThumbnailRevision', 'thumbnailView', 'deletedAt', 'deletedBy']
     props.forEach(prop => {
       if (Reflect.has(data, prop)) {
         caveAsset[prop] = data[prop]
