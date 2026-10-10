@@ -1588,7 +1588,9 @@
       "allChanges": "All changes",
       "added": "Added",
       "modified": "Modified",
-      "removed": "Removed"
+      "removed": "Removed",
+      "kindsLabel": "Content",
+      "changesLabel": "Change"
     },
     "kinds": {
       "caves": "Cave",

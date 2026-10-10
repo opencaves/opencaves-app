@@ -1587,7 +1587,9 @@
       "allChanges": "Tous les changements",
       "added": "Ajouts",
       "modified": "Modifications",
-      "removed": "Retraits"
+      "removed": "Retraits",
+      "kindsLabel": "Contenu",
+      "changesLabel": "Changement"
     },
     "kinds": {
       "caves": "Grotte",

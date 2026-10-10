@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Chip, Skeleton, Stack, SvgIcon, Typography } from '@mui/material'
 import LinkRounded from '@mui/icons-material/LinkRounded'
@@ -35,14 +35,30 @@ const CHANGE_CHIP_SX = {
 // (explorationDate: "exploration date").
 const readableField = (field) => field.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()
 
-// Toggles one value of a filter group's set.
-const toggleIn = (setter) => (value) =>
-  setter((current) => {
-    const next = new Set(current)
+// A filter group kept in the address (?kind=caves&kind=maps&change=added):
+// its picked values, the known ones only (an empty set shows them all), and
+// its setter, which replaces the history entry - a filter isn't a page to go
+// back to.
+function useFilterParam(name, known) {
+  const [params, setParams] = useSearchParams()
+  const raw = params.getAll(name).join(' ')
+  const picked = useMemo(() => new Set(raw.split(' ').filter((value) => known.includes(value))), [raw, known])
+  const setPicked = (values) =>
+    setParams((current) => {
+      const next = new URLSearchParams(current)
+      next.delete(name)
+      // In the group's own order, so one choice has one address.
+      for (const value of known) if (values.has(value)) next.append(name, value)
+      return next
+    }, { replace: true })
+  const toggle = (value) => {
+    const next = new Set(picked)
     if (next.has(value)) next.delete(value)
     else next.add(value)
-    return next
-  })
+    setPicked(next)
+  }
+  return [picked, setPicked, toggle]
+}
 
 // What's new, built by the server from the audit log as it is now
 // (getWhatsNew): loading until it answers.
@@ -125,18 +141,17 @@ function ChangeChip({ change }) {
  * day - each marked Added, Modified (with the fields changed) or Removed,
  * linked to its page (a removed one isn't), with who did it. Names come from
  * the app's data when it has the record, the server's otherwise. Two filter
- * groups, by kind and by change, each showing all when none is picked.
+ * groups, by kind and by change, each showing all when none is picked, kept
+ * in the address (?kind=caves&kind=maps&change=added).
  */
 export default function WhatsNew() {
   const { t, i18n } = useTranslation('whatsNew')
   const { data } = useIndexData()
   const { items, loading, failed } = useWhatsNew()
-  // The kinds shown: none picked shows them all.
-  const [kinds, setKinds] = useState(() => new Set())
-  // The changes shown (added, modified, removed): none picked shows them all.
-  const [changes, setChanges] = useState(() => new Set())
-  const toggleKind = toggleIn(setKinds)
-  const toggleChange = toggleIn(setChanges)
+  // The kinds shown, and the changes (added, modified, removed): none picked
+  // shows them all. Both in the address, so a filtered list can be shared.
+  const [kinds, setKinds, toggleKind] = useFilterParam('kind', KINDS)
+  const [changes, setChanges, toggleChange] = useFilterParam('change', CHANGES)
 
   useIndexPageHead({ title: t('title'), description: t('description', { name: APP_NAME }) })
 
@@ -215,41 +230,46 @@ export default function WhatsNew() {
       {failed && <Typography color="error">{t('failed')}</Typography>}
 
       {/* Filters by kind, with their counts. */}
-      <Stack direction="row" className="oc-whats-new--filters" sx={{ flexWrap: 'wrap', gap: 1, mb: 1.5 }}>
-        {/* Several kinds at once; All shows every kind again. */}
-        {['all', ...KINDS].map((k) => {
-          const selected = k === 'all' ? kinds.size === 0 : kinds.has(k)
-          return (
-            <Chip
-              key={k}
-              label={`${t(`filters.${k}`)} ${k === 'all' ? rows.filter(changeShown).length : counts[k]}`}
-              onClick={() => (k === 'all' ? setKinds(new Set()) : toggleKind(k))}
-              color={selected ? 'primary' : 'default'}
-              variant={selected ? 'filled' : 'outlined'}
-              disabled={k !== 'all' && counts[k] === 0 && !selected}
-              aria-pressed={selected}
-            />
-          )
-        })}
-      </Stack>
+      {/* The two filter groups, a line between them: one group could be
+          taken for both. Their names are for screen readers (aria-label). */}
+      <Box className="oc-whats-new--filter-groups" sx={{ display: 'grid', rowGap: 1.5, mb: 3 }}>
+        <Stack direction="row" role="group" aria-label={t('filters.kindsLabel')} className="oc-whats-new--filters" sx={{ flexWrap: 'wrap', gap: 1 }}>
+          {/* Several kinds at once; All shows every kind again. */}
+          {['all', ...KINDS].map((k) => {
+            const selected = k === 'all' ? kinds.size === 0 : kinds.has(k)
+            return (
+              <Chip
+                key={k}
+                label={`${t(`filters.${k}`)} ${k === 'all' ? rows.filter(changeShown).length : counts[k]}`}
+                onClick={() => (k === 'all' ? setKinds(new Set()) : toggleKind(k))}
+                color={selected ? 'primary' : 'default'}
+                variant={selected ? 'filled' : 'outlined'}
+                disabled={k !== 'all' && counts[k] === 0 && !selected}
+                aria-pressed={selected}
+              />
+            )
+          })}
+        </Stack>
 
-      {/* Filters by change (added, modified, removed), apart from the kinds. */}
-      <Stack direction="row" className="oc-whats-new--change-filters" sx={{ flexWrap: 'wrap', gap: 1, mb: 3 }}>
-        {['allChanges', ...CHANGES].map((c) => {
-          const selected = c === 'allChanges' ? changes.size === 0 : changes.has(c)
-          return (
-            <Chip
-              key={c}
-              label={`${t(`filters.${c}`)} ${c === 'allChanges' ? rows.filter(kindShown).length : changeCounts[c]}`}
-              onClick={() => (c === 'allChanges' ? setChanges(new Set()) : toggleChange(c))}
-              color={selected ? 'primary' : 'default'}
-              variant={selected ? 'filled' : 'outlined'}
-              disabled={c !== 'allChanges' && changeCounts[c] === 0 && !selected}
-              aria-pressed={selected}
-            />
-          )
-        })}
-      </Stack>
+        <Box aria-hidden sx={{ borderTop: 1, borderColor: 'divider' }} />
+        {/* Filters by change (added, modified, removed), apart from the kinds. */}
+        <Stack direction="row" role="group" aria-label={t('filters.changesLabel')} className="oc-whats-new--change-filters" sx={{ flexWrap: 'wrap', gap: 1 }}>
+          {['allChanges', ...CHANGES].map((c) => {
+            const selected = c === 'allChanges' ? changes.size === 0 : changes.has(c)
+            return (
+              <Chip
+                key={c}
+                label={`${t(`filters.${c}`)} ${c === 'allChanges' ? rows.filter(kindShown).length : changeCounts[c]}`}
+                onClick={() => (c === 'allChanges' ? setChanges(new Set()) : toggleChange(c))}
+                color={selected ? 'primary' : 'default'}
+                variant={selected ? 'filled' : 'outlined'}
+                disabled={c !== 'allChanges' && changeCounts[c] === 0 && !selected}
+                aria-pressed={selected}
+              />
+            )
+          })}
+        </Stack>
+      </Box>
 
       {days.length === 0 && !failed && <Typography sx={{ color: 'text.secondary' }}>{t('none')}</Typography>}
 

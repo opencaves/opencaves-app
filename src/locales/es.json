@@ -1588,7 +1588,9 @@
       "allChanges": "Todos los cambios",
       "added": "Añadidos",
       "modified": "Modificados",
-      "removed": "Retirados"
+      "removed": "Retirados",
+      "kindsLabel": "Contenido",
+      "changesLabel": "Cambio"
     },
     "kinds": {
       "caves": "Cueva",
