@@ -1,33 +1,34 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, InputAdornment, Link, MenuItem, Stack, SvgIcon, TextField, Typography } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Link, Stack, SvgIcon, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import TimelineRounded from '@mui/icons-material/TimelineRounded'
 import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
-import TranslateRounded from '@mui/icons-material/TranslateRounded'
 import GitHub from '@mui/icons-material/GitHub'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
+import { useCaveData } from '@/hooks/useCaveData.js'
+import { homeFigures } from '@/utils/indexData.js'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 import SiteSearch from '@/components/IndexPage/SiteSearch.jsx'
 import CaveAsset from '@/models/CaveAsset.js'
 import { prefetchMap } from '@/routes/mapRoute.js'
-import { APP_LANGUAGES } from '@/config/appLanguages.js'
-import { chooseLanguage } from '@/services/languagePreference.js'
+import { resetView } from '@/redux/slices/mapSlice.jsx'
+import { LanguageButton } from '@/components/LanguagePicker.jsx'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 // The logo's version for dark backgrounds (the header's photo).
 import Logo from '@/images/logo/brand_dark.svg?react'
 import heroBackground from '@/images/404/bg.webp'
+import heroBackgroundSmall from '@/images/404/bg-small.webp'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import './Home.scss'
+import { CHANGELOG_URL, GITHUB_URL } from '@/config/app.js'
 
-const GITHUB_URL = 'https://github.com/opencaves/opencaves-app'
-const CHANGELOG_URL = 'https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md'
 // How many cave photos the Discover strip shows, picked at random each visit.
 const DISCOVER_COUNT = 6
 
@@ -82,44 +83,26 @@ function useCoverPhotos() {
   return photos
 }
 
-// The language of the page - and, signed in, of the account's preference.
-function LanguageMenu() {
-  const { t, i18n } = useTranslation('home')
-  const user = useSelector((state) => state.session.user)
-  const current = APP_LANGUAGES.some(({ code }) => code === i18n.resolvedLanguage) ? i18n.resolvedLanguage : 'en'
-  return (
-    <TextField
-      select
-      size="small"
-      className="oc-home--language"
-      // No field background: a plain choice in the footer.
-      variant="standard"
-      value={current}
-      onChange={(event) => chooseLanguage(event.target.value, user)}
-      sx={{ minWidth: 180 }}
-      slotProps={{ input: { disableUnderline: true, startAdornment: <InputAdornment position="start"><TranslateRounded fontSize="small" /></InputAdornment> }, select: { inputProps: { 'aria-label': t('footer.language') }, SelectDisplayProps: { 'aria-label': t('footer.language') } } }}
-    >
-      {APP_LANGUAGES.map(({ code, nativeName }) => (
-        <MenuItem key={code} value={code} lang={code}>
-          {nativeName}
-        </MenuItem>
-      ))}
-    </TextField>
-  )
-}
-
-// / - the landing page, for cave divers around the world: what OpenCaves is
-// (a cave search, the map), some of its caves, its figures, the safety
-// warning and the disclaimer (up front, not in the fine print), what's in
-// it, its regions, how to contribute, and the language.
+/**
+ * / - the landing page, for cave divers around the world: what OpenCaves is
+ * (a cave search, the map), some of its caves, its figures, the safety
+ * warning and the disclaimer (up front, not in the fine print), what's in
+ * it, its regions, how to contribute, and the language.
+ */
 export default function Home() {
-  const { t } = useTranslation('home')
+  // i18n: numbers in the app's language (858, not the browser's format).
+  const { t, i18n } = useTranslation('home')
+  const dispatch = useDispatch()
   const { t: tAbout } = useTranslation('about')
   const { t: tLegal } = useTranslation('legal')
   const { t: tIndex } = useTranslation('indexPages')
-  const { data } = useIndexData()
+  const { data, partial } = useIndexData()
+  // The figures: the server's, on the page it rendered (it sends them, not
+  // every cave: src/ssr/pageState.js), until the store has the data.
+  const { figures: serverFigures } = useCaveData()
+  const figures = useMemo(() => serverFigures || homeFigures(data), [serverFigures, data])
   const [heroPhoto, ...photos] = useCoverPhotos()
-  const regions = data.areas.filter((area) => area.caves.length > 0)
+  const { regions } = figures
 
   useIndexPageHead({ title: t('title'), description: t('description') })
 
@@ -151,13 +134,28 @@ export default function Home() {
           borderRadius: 3,
           overflow: 'hidden',
           color: '#fff',
-          backgroundImage: `linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%), ${heroPhoto ? `url(${heroPhoto.getThumbnailUrl('1536')}), ` : ''}url(${heroBackground})`,
+          // The site's own photo until the cave's loads; smaller on small
+          // screens (the 4160 px backdrop on a phone).
+          backgroundImage: { xs: `url(${heroBackgroundSmall})`, md: `url(${heroBackground})` },
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           px: { xs: 3, sm: 6, md: 8 },
           py: { xs: 6, sm: 9, md: 11 },
+          // The content above the photo and its shade.
+          '& > :not(.oc-home--hero-photo, .oc-home--hero-shade)': { position: 'relative', zIndex: 1 },
         }}
       >
+        {/* The cave's photo as an image, not a CSS background: a background is
+            fetched without CORS, and that copy (kept by the service worker)
+            broke the same file in the photo viewer, which asks for it with
+            CORS. 1024 on small screens, 1536 from md (900 px) up. */}
+        {heroPhoto && (
+          <picture className="oc-home--hero-photo" aria-hidden="true">
+            <source media="(min-width: 900px)" srcSet={heroPhoto.getThumbnailUrl('1536')} />
+            <Box component="img" src={heroPhoto.getThumbnailUrl('1024')} alt="" crossOrigin="anonymous" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          </picture>
+        )}
+        <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
         <Box sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }} aria-hidden="true">
           <Logo />
         </Box>
@@ -171,7 +169,9 @@ export default function Home() {
           sx={{ maxWidth: 560, mb: 3 }}
           inputSx={(theme) => ({ '& .MuiOutlinedInput-root': { borderRadius: theme.shape.borderRadius * 6, bgcolor: theme.vars.palette.background.paper, boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }, '& fieldset': { border: 0 } })}
         />
-        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
+        {/* Wrapped on a phone: the two directories in a tight column under the
+            map's button, their icons lined up with its icon. */}
+        <Stack direction="row" sx={{ flexWrap: 'wrap', columnGap: 1, rowGap: { xs: 0.5, sm: 1 }, alignItems: 'center' }}>
           {/* The page's main call: larger, in the brand's gold, with a glow;
               its arrow moves forward and the button lifts on hover. */}
           <Button
@@ -181,12 +181,16 @@ export default function Home() {
             size="large"
             component={RouterLink}
             to="/map"
+            // The whole area, as the menu's Map: not the last view kept.
+            onClick={() => dispatch(resetView())}
             startIcon={<MapRounded />}
             endIcon={<ArrowForwardRounded className="oc-home--map-arrow" />}
             sx={(theme) => ({
               borderRadius: 8,
+              // The search field's height (56 px).
+              height: 56,
               px: 3.5,
-              py: 1.5,
+              mb: { xs: 1, sm: 0 },
               fontSize: '1.05rem',
               fontWeight: 600,
               boxShadow: `0 6px 24px rgba(${theme.vars.palette.secondary.mainChannel} / 0.45)`,
@@ -204,7 +208,7 @@ export default function Home() {
             ['caves', '/caves', caveIcon],
             ['sistemas', '/sistemas', sistemaIcon],
           ].map(([key, to, icon]) => (
-            <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: 2, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
+            <Button key={key} className={`oc-home--browse-${key}`} variant="text" size="large" component={RouterLink} to={to} startIcon={icon} sx={{ borderRadius: 6, px: { xs: 3.5, sm: 2 }, color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
               {t(`hero.browse.${key}`)}
             </Button>
           ))}
@@ -212,18 +216,18 @@ export default function Home() {
       </Box>
 
       {/* The figures, live from the data. */}
-      {data.caves.length > 0 && (
+      {figures.caves > 0 && (
         <Grid container spacing={2} className="oc-home--figures" component="section" aria-label={t('figures.label')}>
           {[
-            ['caves', data.caves.length, '/caves', caveIcon],
-            ['sistemas', data.sistemas.length, '/sistemas', sistemaIcon],
+            ['caves', figures.caves, '/caves', caveIcon],
+            ['sistemas', figures.sistemas, '/sistemas', sistemaIcon],
           ].map(([key, count, to, icon]) => (
             <Grid key={key} size={{ xs: 12, sm: 6 }}>
               <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
                 <CardActionArea component={RouterLink} to={to} sx={{ height: '100%', p: 2.5, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
                   <IconBadge size={56}>{icon}</IconBadge>
                   <Box>
-                    <Typography sx={{ typography: 'h4', color: 'var(--mui-sys-color-primary)', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString()}</Typography>
+                    <Typography sx={{ typography: 'h4', color: 'var(--mui-sys-color-primary)', fontWeight: 600, lineHeight: 1.1 }}>{count.toLocaleString(i18n.resolvedLanguage)}</Typography>
                     <Typography sx={{ color: 'text.secondary' }}>{t(`figures.${key}`, { count })}</Typography>
                   </Box>
                 </CardActionArea>
@@ -254,8 +258,9 @@ export default function Home() {
         </Alert>
       </Box>
 
-      {/* Some of the caves, with their photos. */}
-      {photos.length > 0 && (
+      {/* Some of the caves, with their photos - named once the store has
+          every cave (not only the server's figures). */}
+      {photos.length > 0 && !partial && (
         <Box component="section" className="oc-home--discover">
           <SectionTitle title={t('discover.title')} subtitle={t('discover.subtitle')} />
           <Grid container spacing={2}>
@@ -265,7 +270,8 @@ export default function Home() {
                 <Grid key={photo.id} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Card sx={{ borderRadius: 3, height: '100%', transition: 'transform 200ms ease, box-shadow 200ms ease', '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 } }}>
                     <CardActionArea component={RouterLink} to={`/caves/${photo.caveId}`} sx={{ height: '100%' }}>
-                      <CardMedia component="img" image={photo.getThumbnailUrl('coverImage')} alt={name} loading="lazy" crossOrigin="anonymous" sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }} />
+                      {/* Empty alt: its name is the heading beside it (read twice before). */}
+                      <CardMedia component="img" image={photo.getThumbnailUrl('coverImage')} alt="" loading="lazy" crossOrigin="anonymous" sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }} />
                       <CardContent>
                         <Typography component="h3" variant="h6" sx={{ lineHeight: 1.3 }}>
                           {name}
@@ -317,7 +323,7 @@ export default function Home() {
           <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {regions.map((area) => (
               <li key={area.slug}>
-                <Chip component={RouterLink} to={`/caves#${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.caves.length}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
+                <Chip component={RouterLink} to={`/caves#${area.slug}`} clickable variant="outlined" label={`${area.name} · ${area.count}`} sx={{ fontSize: 15, py: 2.25, px: 0.5, borderRadius: 4 }} />
               </li>
             ))}
           </Box>
@@ -352,8 +358,9 @@ export default function Home() {
       </Box>
 
       {/* The footer: the site's pages, and the language. */}
-      <Box className="oc-home--footer" component="footer" sx={{ pt: 3, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography component="nav" aria-label={tLegal('links.ariaLabel')} variant="body2" sx={{ color: 'text.secondary', display: 'flex', flexWrap: 'wrap', columnGap: 2, rowGap: 1 }}>
+      {/* Centred on a phone, where its two parts stack. */}
+      <Box className="oc-home--footer" component="footer" sx={{ pt: 3, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center', justifyContent: { xs: 'center', sm: 'space-between' } }}>
+        <Typography component="nav" aria-label={tLegal('links.ariaLabel')} variant="body2" sx={{ color: 'text.secondary', display: 'flex', flexWrap: 'wrap', justifyContent: { xs: 'center', sm: 'flex-start' }, columnGap: 2, rowGap: 1 }}>
           <Link component={RouterLink} to="/about" onClick={openAboutDialog}>
             {t('footer.about')}
           </Link>
@@ -362,7 +369,7 @@ export default function Home() {
           <Link component={RouterLink} to="/terms">{tLegal('terms.title')}</Link>
           <Link href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer">{tAbout('whatsNew')}</Link>
         </Typography>
-        <LanguageMenu />
+        <LanguageButton />
       </Box>
     </Box>
   )

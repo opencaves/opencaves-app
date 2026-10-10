@@ -1,4 +1,5 @@
 import { deleteField } from 'firebase/firestore'
+import { OPEN_CAVES_SOURCE_ID } from '@/config/app.js'
 
 // The Markdown fields that carry a source (textSources.<field>: { source,
 // checkedAt }) - the prose; facts (coordinates, depths...) don't.
@@ -7,22 +8,50 @@ export const SISTEMA_TEXT_FIELDS = ['description', 'direction']
 
 const sourceOf = (entry) => entry?.source || ''
 
-// A record's text sources, as an edit form holds them ({ source: '' } for none).
+/**
+ * A record's text sources, as an edit form holds them ({ source: '' } for none).
+ *
+ * @param {Cave|Sistema} record
+ * @param {string[]} fields
+ * @returns {object}
+ */
 export function textSourcesOf(record, fields) {
   return Object.fromEntries(fields.map((field) => [field, { source: sourceOf(record?.textSources?.[field]) }]))
 }
 
-// A form's text changed: the first edit of the saved words clears the source
-// they had (the new words aren't the source's); one picked again stays.
+/**
+ * A form's text changed. Edited, the words are the app's: their source becomes
+ * OpenCaves - unless the editor picked one since. Back to the saved words
+ * (undone, retyped), they get their saved source back.
+ *
+ * @param {object} form
+ * @param {Cave|Sistema} original - The saved record.
+ * @param {string} field
+ * @param {*} value
+ * @returns {object} The form.
+ */
 export function withTextChange(form, original, field, value) {
-  const firstEdit = `${form[field] ?? ''}` === `${original?.[field] ?? ''}`
-  const keptOriginal = sourceOf(form.textSources?.[field]) && sourceOf(form.textSources[field]) === sourceOf(original?.textSources?.[field])
-  return { ...form, [field]: value, ...(firstEdit && keptOriginal && { textSources: { ...form.textSources, [field]: { source: '' } } }) }
+  const saved = `${original?.[field] ?? ''}`
+  const savedSource = sourceOf(original?.textSources?.[field])
+  const current = sourceOf(form.textSources?.[field])
+  // Still the source the form started with, or OpenCaves set by an earlier edit: not the editor's pick.
+  const automatic = current === savedSource || current === OPEN_CAVES_SOURCE_ID
+  let source = current
+  if (`${value}` === saved) source = automatic ? savedSource : current
+  else if (automatic) source = OPEN_CAVES_SOURCE_ID
+  return { ...form, [field]: value, ...(source !== current && { textSources: { ...form.textSources, [field]: { source } } }) }
 }
 
-// What a save writes: the entries the form changed - set (with the month
-// they were checked) or removed (a text left empty has no source) - or
-// undefined when none changed.
+/**
+ * What a save writes: the entries the form changed - set (with the month
+ * they were checked) or removed (a text left empty has no source) - or
+ * undefined when none changed.
+ *
+ * @param {Cave|Sistema} original
+ * @param {object} form
+ * @param {string[]} fields
+ * @returns {object|undefined}
+ */
 export function textSourcesUpdate(original, form, fields) {
   const checkedAt = new Date().toISOString().slice(0, 7)
   const update = {}

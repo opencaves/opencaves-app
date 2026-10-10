@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react'
 import pushId from 'unique-push-id'
-import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Link, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
@@ -13,8 +12,10 @@ import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
-// /sistemas: every cave system, by its own area, those with none last.
-// Editors' list: /sistemas/edit.
+/**
+ * /sistemas: every cave system, by its own area, those with none last.
+ * Editors' list: /sistemas/edit.
+ */
 export default function SistemaIndex() {
   const { t } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')
@@ -44,15 +45,8 @@ export default function SistemaIndex() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
         current={t('menu.sistemas', { ns: 'app' })}
         title={t('sistemas.title')}
-        subtitle={
-          <>
-            {t('sistemaCount', { count: data.sistemas.length })}
-            {' · '}
-            <Link component={RouterLink} to="/caves" underline="hover">
-              {t('caves.title')}
-            </Link>
-          </>
-        }
+        // Short: its count, by area (the caves' list is in the menu).
+        subtitle={t('sistemas.subtitle', { count: data.sistemas.length })}
         addTo={`/sistemas/${newId}/edit`}
         addLabel={t('sistemas.add')}
       />
@@ -62,7 +56,8 @@ export default function SistemaIndex() {
       <IndexSearchField
         query={query}
         setQuery={setQuery}
-        placeholder={t('search.sistemas')}
+        placeholder={t('search.sistemasShort')}
+        label={t('search.sistemas')}
         status={searching ? (sistemas.length ? t('search.results', { count: sistemas.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 

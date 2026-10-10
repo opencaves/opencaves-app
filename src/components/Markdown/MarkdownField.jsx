@@ -15,8 +15,8 @@ import FormatStrikethroughRounded from '@mui/icons-material/FormatStrikethroughR
 import HorizontalRuleRounded from '@mui/icons-material/HorizontalRuleRounded'
 import LinkRounded from '@mui/icons-material/LinkRounded'
 import TitleRounded from '@mui/icons-material/TitleRounded'
-import Redo from '@mui/icons-material/Redo'
-import Undo from '@mui/icons-material/Undo'
+import Redo from '@mui/icons-material/RedoRounded'
+import Undo from '@mui/icons-material/UndoRounded'
 import { Editor, rootCtx, defaultValueCtx, editorViewCtx, editorViewOptionsCtx } from '@milkdown/core'
 import { TextSelection } from '@milkdown/prose/state'
 import { undoInputRule } from '@milkdown/prose/inputrules'
@@ -33,6 +33,10 @@ import './MarkdownField.scss'
 
 const CAVE_LINK_PREFIX = 'oc:'
 
+// A toolbar button with a menu (an icon and its arrow): on a touch screen, as
+// wide as the others (48dp), so the toolbar wraps no more than it did.
+const MENU_BUTTON_SX = { '@media (pointer: coarse)': { px: '2px' } }
+
 // The formatting toolbar. Each entry's command is one of Milkdown's own
 // command/mark/node plugins (see the imports above) - adding a button for a
 // new markdown convention later just means adding its command here, same as
@@ -48,28 +52,31 @@ const TOOLBAR_BUTTONS_AFTER_HEADINGS = [{ key: 'quote', icon: FormatQuoteRounded
 
 const HEADING_LEVELS = [1, 2, 3]
 
-// A WYSIWYG markdown editor (Milkdown: ProseMirror for editing, backed by
-// remark/micromark for markdown parsing) in place of the previous
-// Markdown/Preview tabbed textarea - typing renders formatting live instead
-// of showing raw ** and # syntax. A toolbar covers the common formatting
-// actions, and a "view source" toggle swaps in a plain textarea bound to
-// the exact same markdown string for anyone who wants to edit the raw text
-// directly - both edit the same value, so switching between them mid-edit
-// just works.
-//
-// Built directly on Milkdown's core + commonmark/gfm presets rather than its
-// batteries-included @milkdown/crepe editor: Crepe pulls in its optional
-// features (AI, LaTeX, CodeMirror, image embedding) as static imports, not
-// behind its runtime on/off config, so using it roughly doubled this app's
-// bundle even with everything but the base editor turned off. This stack
-// only bundles what's actually used, and stays open to growing later - a
-// new markdown convention becomes a Milkdown plugin (a node/mark spec, a
-// remark syntax extension, or a preset like the two already used below)
-// passed to another .use() call, same as commonmark/gfm are here.
-//
-// onChange keeps the exact (event) => event.target.value contract every
-// call site already used with the old textarea, so no caller needed to
-// change when this was rewritten.
+/**
+ * A WYSIWYG markdown editor (Milkdown: ProseMirror for editing, backed by
+ * remark/micromark for markdown parsing) in place of the previous
+ * Markdown/Preview tabbed textarea - typing renders formatting live instead
+ * of showing raw ** and # syntax. A toolbar covers the common formatting
+ * actions, and a "view source" toggle swaps in a plain textarea bound to
+ * the exact same markdown string for anyone who wants to edit the raw text
+ * directly - both edit the same value, so switching between them mid-edit
+ * just works.
+ *
+ * Built directly on Milkdown's core + commonmark/gfm presets rather than its
+ * batteries-included @milkdown/crepe editor: Crepe pulls in its optional
+ * features (AI, LaTeX, CodeMirror, image embedding) as static imports, not
+ * behind its runtime on/off config, so using it roughly doubled this app's
+ * bundle even with everything but the base editor turned off. This stack
+ * only bundles what's actually used, and stays open to growing later - a
+ * new markdown convention becomes a Milkdown plugin (a node/mark spec, a
+ * remark syntax extension, or a preset like the two already used below)
+ * passed to another .use() call, same as commonmark/gfm are here.
+ *
+ * @param {object} props
+ * @param {(event: {target: {value: string}}) => void} props.onChange - Keeps the exact (event) => event.target.value contract every
+ *   call site already used with the old textarea, so no caller needed to
+ *   change when this was rewritten.
+ */
 export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '', labelProps = {} }) {
   const { t } = useTranslation('markdownField')
   const theme = useTheme()
@@ -385,8 +392,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         {TOOLBAR_BUTTONS_BEFORE_HEADINGS.map(({ key, icon: Icon, command, payload }) => (
           <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
             <span>
-              <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                <Icon fontSize="small" />
+              <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                <Icon />
               </IconButton>
             </span>
           </Tooltip>
@@ -394,9 +401,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.link')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu}>
-              <LinkRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.link')} aria-haspopup="menu" aria-expanded={linkMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={openLinkMenu} sx={MENU_BUTTON_SX}>
+              <LinkRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -407,8 +414,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.length')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
-              <StraightenRounded fontSize="small" />
+            <IconButton size="compact" aria-label={t('toolbar.length')} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={insertLength}>
+              <StraightenRounded />
             </IconButton>
           </span>
         </Tooltip>
@@ -417,9 +424,9 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
 
         <Tooltip title={t('toolbar.heading')} describeChild>
           <span>
-            <IconButton size="small" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)}>
-              <TitleRounded fontSize="small" />
-              <ArrowDropDownRounded fontSize="small" sx={{ ml: -0.5 }} />
+            <IconButton size="compact" aria-label={t('toolbar.heading')} aria-haspopup="menu" aria-expanded={headingMenuAnchor ? 'true' : undefined} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={(e) => setHeadingMenuAnchor(e.currentTarget)} sx={MENU_BUTTON_SX}>
+              <TitleRounded />
+              <ArrowDropDownRounded sx={{ ml: -0.5 }} />
             </IconButton>
           </span>
         </Tooltip>
@@ -437,8 +444,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
           ) : (
             <Tooltip key={key} title={t(`toolbar.${key}`)} describeChild>
               <span>
-                <IconButton size="small" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
-                  <Icon fontSize="small" />
+                <IconButton size="compact" aria-label={t(`toolbar.${key}`)} disabled={sourceMode} onMouseDown={(e) => e.preventDefault()} onClick={() => runCommand(command, payload)}>
+                  <Icon />
                 </IconButton>
               </span>
             </Tooltip>
@@ -446,8 +453,8 @@ export default function MarkdownField({ label, value, onChange, minRows = 3, res
         )}
         <Box sx={{ flex: 1 }} />
         <Tooltip title={sourceMode ? t('toolbar.viewFormatted') : t('toolbar.viewSource')}>
-          <IconButton size="small" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
-            <CodeRounded fontSize="small" />
+          <IconButton size="compact" aria-label={t('toolbar.viewSource')} aria-pressed={sourceMode} color={sourceMode ? 'primary' : 'default'} onClick={() => setSourceMode((v) => !v)}>
+            <CodeRounded />
           </IconButton>
         </Tooltip>
       </Box>

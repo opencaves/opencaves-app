@@ -10,12 +10,14 @@ import MapPaneDetails from '@/components/MapPane/MapPaneDetails.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
 import GalleryOverlay from './GalleryOverlay.jsx'
 
-// /caves/:caveId/maps/:mapId, /sistemas/:sistemaId/maps/:mapId - a system's
-// maps (its own and those of the systems it joined, as its page's Maps
-// section), over the page that opened it, which hands over the system and
-// the data (Outlet context). The map's viewer, with its tools: Edit
-// (editors, /edit), the trash (admins). Only these maps; the arrow or
-// Escape lead back to the page.
+/**
+ * /caves/:caveId/maps/:mapId, /sistemas/:sistemaId/maps/:mapId - a system's
+ * maps (its own and those of the systems it joined, as its page's Maps
+ * section), over the page that opened it, which hands over the system and
+ * the data (Outlet context). The map's viewer, with its tools: Edit
+ * (editors, /edit), the trash (admins). Only these maps; the arrow or
+ * Escape lead back to the page.
+ */
 export default function MapGallery() {
   const { mapId } = useParams()
   // The page's systems and connections, or (the cave's edit page, which has
@@ -60,7 +62,7 @@ export default function MapGallery() {
   })
 
   return (
-    <GalleryOverlay className="oc-map-gallery" onClose={close}>
+    <GalleryOverlay className="oc-map-gallery" onClose={close} returnFocus={() => document.querySelector(`a[href$="/maps/${mapId}"]`)}>
       {maps.length > 0 && <MapPaneDetails mapId={mapId} maps={maps} sistemaId={sistemaId} returnTo={pagePath} mapPath={mapPath} onTrash={canTrash ? requestTrash : undefined} canEdit={isEditor} alwaysShowBack onBack={close} captioned />}
       {/* /edit: the map's Edit dialog (routes/map/maps/MapEdit.jsx). */}
       <Outlet context={{ maps }} />

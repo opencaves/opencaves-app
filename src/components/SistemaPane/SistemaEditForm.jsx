@@ -13,12 +13,12 @@ import { invalidateData, getData } from '@/services/data-service.jsx'
 import { num } from '@/services/data-service/types.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import CoordinateFieldList from '@/components/ResultPane/CoordinateFieldList.jsx'
+import { coordinateInRange } from '@/components/ResultPane/CoordinateField.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import ColorPicker from '@/components/ColorPicker/ColorPicker.jsx'
 import MapsPicker from '@/components/MapsPicker/MapsPicker.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import PartialDateField, { isValidPartialDate } from '@/components/PartialDateField.jsx'
-import CreatableTextField from '@/components/CreatableTextField.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import StickyActionBar from '@/components/StickyActionBar.jsx'
 import AddButton from '@/components/AddButton.jsx'
@@ -36,11 +36,21 @@ import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
+import CreatableChipsField from '@/components/CreatableChipsField.jsx'
+import { teamNames } from '@/utils/explorationTeam.js'
+
+const colorsModel = createCollectionModel('colors')
+// One of the colours list's hex values, at random ('' with none).
+const randomListColor = (colors) => {
+  const hexes = (colors || []).map((c) => c.hex).filter(Boolean)
+  return hexes.length ? hexes[Math.floor(Math.random() * hexes.length)] : ''
+}
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
 
-const emptyExploration = { date: '', team: '', description: '', notes: '' }
+// team: its names, one chip each (a list; older records hold one string).
+const emptyExploration = { date: '', team: [], description: '', notes: '' }
 const sectionHeadingProps = formSectionHeadingProps('oc-sistema-edit-form--section-title')
 
 function parseLocalizedNumber(value, locale) {
@@ -58,6 +68,10 @@ function parseLocalizedNumber(value, locale) {
   const number = Number(normalized)
   return normalized && Number.isFinite(number) ? number : null
 }
+
+// The longest system and the deepest cave a form takes, in metres: beyond,
+// a typo (99999 for a depth). Below 0 neither makes sense.
+const MAX_METRES = { length: 1000000, maxDepth: 1000 }
 
 function formatLocalizedNumber(value, locale) {
   const number = parseLocalizedNumber(value, locale)
@@ -86,14 +100,14 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
         {values.map((exploration, index) => (
           <Box key={index} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1.5, position: 'relative' }}>
             <IconButton size="small" onClick={() => removeAt(index)} aria-label={removeLabel} sx={{ position: 'absolute', top: 4, right: 4 }}>
-              <CloseRounded fontSize="small" />
+              <CloseRounded />
             </IconButton>
             <Grid container spacing={1.5} sx={{ pr: 4 }}>
               <Grid size={12}>
-                <CreatableTextField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
+                <CreatableChipsField size="small" label={teamLabel} options={teamOptions} value={exploration.team} onChange={(team) => updateAt(index, { team })} />
               </Grid>
               <Grid size={12}>
-                <PartialDateField size="small" label={dateLabel} description={dateHint} fullWidth value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
+                <PartialDateField size="small" label={dateLabel} description={dateHint} value={exploration.date} onChange={(e) => updateAt(index, { date: e.target.value })} />
               </Grid>
               <Grid size={12}>
                 <MarkdownField label={descriptionLabel} value={exploration.description} onChange={(e) => updateAt(index, { description: e.target.value })} minRows={3} resizable />
@@ -148,10 +162,14 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
   { title: true, fields: [{ kind: 'markdown', height: 140 }] },
 ]
 
-// backLabel: the back arrow's label, where it leads (the systems by default).
+/**
+ * @param {object} props
+ * @param {string} [props.backLabel] - The back arrow's label, where it leads (the systems by default).
+ */
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')
+  const [colors, colorsLoading] = colorsModel.useAll()
   // Length and depth are stored in metres, shown and entered in the person's units.
   const units = useUnits()
   const shown = (metres) => (metres === '' || metres == null ? '' : Math.round(fromMetres(Number(metres), units) * 10) / 10)
@@ -179,12 +197,23 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
   const [focusedNumberField, setFocusedNumberField] = useState(null)
+  // Emptied by the person: "Name is required" (not on a new, untouched form).
+  const [nameTouched, setNameTouched] = useState(false)
   const [parentSearch, setParentSearch] = useState('')
   const parentSearchInputRef = useRef(null)
 
   const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
-  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => form[name] !== '' && parseLocalizedNumber(form[name], locale) === null)
-  const canSave = !!form.name && !hasInvalidExplorationDate && !hasInvalidMeasurement
+  // A number, from 0 to its maximum (in the person's units); the error to show, or null.
+  function measurementError(name) {
+    if (form[name] === '') return null
+    const value = parseLocalizedNumber(form[name], locale)
+    if (value === null) return t('measurementInvalid')
+    const max = Math.round(fromMetres(MAX_METRES[name], units))
+    return value < 0 || value > max ? t('measurementRange', { max: new Intl.NumberFormat(locale).format(max), unit: lengthUnit(units) }) : null
+  }
+  const hasInvalidMeasurement = ['length', 'maxDepth'].some((name) => measurementError(name))
+  const nameMissing = !form.name.trim()
+  const canSave = !nameMissing && !hasInvalidExplorationDate && !hasInvalidMeasurement && coordinateInRange(form.longitude, form.latitude)
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave })
 
   useEffect(() => {
@@ -192,7 +221,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   }, [isDirty, onDirtyChange])
 
   useEffect(() => {
-    if (sistemasLoading || connectionsLoading) {
+    if (sistemasLoading || connectionsLoading || colorsLoading) {
       return
     }
 
@@ -202,7 +231,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     setIsNew(!sistema)
     const loaded = {
       name: sistema?.name || '',
-      color: sistema?.color || '',
+      // A new system starts with a colour from the list, at random (shown,
+      // and changeable, before it's saved).
+      color: sistema ? sistema.color || '' : randomListColor(colors),
       area: sistema?.area || '',
       description: sistema?.description || '',
       direction: sistema?.direction || '',
@@ -210,7 +241,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       length: shown(sistema?.length ?? ''),
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
-      explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e })),
+      explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e, team: teamNames(e.team) })),
       aka: sistema?.aka || [],
       maps: sistema?.maps || [],
       longitude: normalizeCoordinateValue(sistema?.location?.longitude ?? ''),
@@ -220,7 +251,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     setForm(loaded)
     setBaseline(loaded)
     setLoading(false)
-  }, [connections, connectionsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
+    // colorsLoading, not colors: a change to the colours list mustn't reload the form.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connections, connectionsLoading, colorsLoading, sistemaId, sistemas, sistemasLoading, setBaseline])
 
   useEffect(() => {
     // Every edit page's title says so ("Edit …"); a new one stays "New …".
@@ -243,17 +276,21 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
     const maxDepth = form.maxDepth === '' ? null : parseLocalizedNumber(form.maxDepth, locale)
     if ((form.length !== '' && length === null) || (form.maxDepth !== '' && maxDepth === null)) return
 
-    const savedForm = form
+    // No colour chosen: one at random from the colours list, so its pins and
+    // arrows aren't left without one (they showed white, with a white glyph).
+    const color = form.color || randomListColor(colors)
+    const savedForm = color === form.color ? form : { ...form, color }
+    if (savedForm !== form) setForm(savedForm)
     setSaving(true)
     try {
       const trimmedAka = form.aka.map((s) => s.trim()).filter(Boolean)
-      const trimmedExplorations = form.explorations.filter((e) => e.date || e.team || e.description || e.notes)
+      const trimmedExplorations = form.explorations.filter((e) => e.date || e.team.length || e.description || e.notes).map(({ team, ...e }) => (team.length ? { ...e, team } : e))
 
       const fields = {
         // The texts' sources the form changed (textSources).
         textSources: textSourcesUpdate(sistema, form, SISTEMA_TEXT_FIELDS),
         name: form.name,
-        color: orDelete(form.color),
+        color: orDelete(color),
         area: orDelete(form.area),
         description: orDelete(form.description),
         direction: orDelete(form.direction),
@@ -315,7 +352,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
   const areasById = new Map(areas.map((a) => [a.id, a.name]))
   const otherSistemas = sistemas.filter((s) => s.id !== sistemaId)
-  const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).map((exploration) => exploration.team?.trim()).filter(Boolean)), ...form.explorations.map((exploration) => exploration.team?.trim()).filter(Boolean)])].sort((first, second) => first.localeCompare(second))
+  const teamOptions = [...new Set([...sistemas.flatMap((sistema) => (sistema.explorations || []).flatMap((exploration) => teamNames(exploration.team))), ...form.explorations.flatMap((exploration) => teamNames(exploration.team))])].sort((first, second) => first.localeCompare(second))
   const parentSearchQuery = parentSearch.trim().toLowerCase()
   const visibleParentSistemas = parentSearchQuery ? otherSistemas.filter((s) => (s.name || s.id).toLowerCase().includes(parentSearchQuery) || (areasById.get(s.area) || '').toLowerCase().includes(parentSearchQuery) || matchesId(s.id, parentSearchQuery)) : otherSistemas
   const colorPicker = <ColorPicker label={t('color')} value={form.color} onChange={(hex) => setForm((f) => ({ ...f, color: hex }))} fullWidth={false} />
@@ -334,7 +371,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {t('sistemaTitle', { name: form.name || sistemaId })}
+          {t('sistemaTitle', { name: form.name || sistemas.find((item) => item.id === sistemaId)?.name || sistemaId })}
         </Typography>
       </EditPageHeader>
 
@@ -344,7 +381,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         <FormSection>
           <Grid container spacing={2}>
         <Grid size={12}>
-          <TextField label={t('name')} fullWidth required {...field('name')} />
+          <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
         </Grid>
         {/* Wider screens: Color on its own line after Name, then Parent
             sistema on its own, then Area and Source side by side. Phones keep
@@ -410,15 +447,16 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
 
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
-          <SourceSelect label={t('source')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
+          {/* The area dropdown's size (beside it): aligned. */}
+          <SourceSelect size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}
         <Grid size={{ xs: 7, sm: 'auto' }} sx={{ width: { sm: 240 } }}>
-          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.length !== '' && parseLocalizedNumber(form.length, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('length')} helperText={measurementError('length')} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
         <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
-          <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={form.maxDepth !== '' && parseLocalizedNumber(form.maxDepth, locale) === null} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('maxDepth')} helperText={measurementError('maxDepth')} sx={{ '& input': { textAlign: 'right' } }} />
         </Grid>
 
           </Grid>
@@ -472,6 +510,13 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
           <MarkdownField label={t('direction')} value={form.direction} onChange={(e) => setForm((f) => withTextChange(f, sistema, 'direction', e.target.value))} minRows={5} resizable labelProps={sectionHeadingProps} />
           {form.direction?.trim() && <TextSourceField value={form.textSources?.direction} onChange={(value) => setForm((f) => ({ ...f, textSources: { ...f.textSources, direction: value } }))} sources={sources} />}
         </Grid>
+
+          </Grid>
+        </FormSection>
+        {/* Its own card: a card shows its first heading only (FormSection),
+            so under the directions this one never showed. */}
+        <FormSection>
+          <Grid container spacing={2}>
 
         <Grid size={12}>
           <ExplorationsField label={t('explorations')} addLabel={t('addExploration')} removeLabel={t('removeExploration')} dateLabel={t('explorationDate')} dateHint={t('explorationDateHint')} teamLabel={t('explorationTeam')} teamOptions={teamOptions} descriptionLabel={t('explorationDescription')} notesLabel={t('explorationNotes')} values={form.explorations} onChange={(explorations) => setForm((f) => ({ ...f, explorations }))} labelProps={sectionHeadingProps} />

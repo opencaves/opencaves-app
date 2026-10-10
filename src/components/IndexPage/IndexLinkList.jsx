@@ -3,33 +3,37 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Tooltip } from '@mui/material'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
-import { MAP, SLASH } from './MapOffOutlined.jsx'
+import { MAP_BODY, MAP_OFF_BODY } from './mapIcons.js'
 import caveSvg from '@/images/map/cave.svg?raw'
 
-// The map icons (MapOutlined, and MapOffOutlined's crossed-out map) as CSS
+// The map icons (MapRounded, and its crossed-out version) as CSS
 // masks, painted in the icon's color: no icon component per row.
 const svgUrl = (body) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>${body}</svg>`)}")`
-const MAP_ICON = svgUrl(`<path d='${MAP}'/>`)
+const MAP_ICON = svgUrl(MAP_BODY)
 // The cave glyph (the nav menu's), before each cave.
 const CAVE_ICON = `url("data:image/svg+xml,${encodeURIComponent(caveSvg)}")`
-const MAP_OFF_ICON = svgUrl(`<mask id='m'><rect width='24' height='24' fill='white'/><path d='M2.1 2.1-.02 4.22l19.8 19.8 2.12-2.12z'/></mask><path d='${MAP}' mask='url(%23m)'/><path d='${SLASH}'/>`)
+const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
 
-// Links to caves or cave systems, in as many columns as the page's width
-// holds (one on phones), each a block link: the whole row is the link (its
-// primary action), with a state layer on hover and focus. items:
-// { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
-// before its name; color: a sistema's colour, as
-// a line arrow before its name (SistemaArrow); secondary: muted text on a
-// second line (a cave's system), on one line (cut with an ellipsis) - a long
-// name wraps; mapTo: the record on the map, the row's secondary action - a
-// map icon at its end, shown on hover or focus (always on touch screens);
-// noMap: the icon disabled (a cave without coordinates isn't on the map).
-//
-// A list can hold hundreds of rows (/caves): each is plain elements, styled
-// from the list (one set of styles, not one per row) - no ripple, no MUI
-// Tooltip per row, which made the page slow to show and to filter; its icons
-// are CSS masks, and one tooltip for the whole list follows the map icon
-// hovered or focused.
+/**
+ * Links to caves or cave systems, in as many columns as the page's width
+ * holds (one on phones), each a block link: the whole row is the link (its
+ * primary action), with a state layer on hover and focus.
+ *
+ * A list can hold hundreds of rows (/caves): each is plain elements, styled
+ * from the list (one set of styles, not one per row) - no ripple, no MUI
+ * Tooltip per row, which made the page slow to show and to filter; its icons
+ * are CSS masks, and one tooltip for the whole list follows the map icon
+ * hovered or focused.
+ *
+ * @param {object} props
+ * @param {object[]} props.items - { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
+ *   before its name; color: a sistema's colour, as
+ *   a line arrow before its name ({@link SistemaArrow}); secondary: muted text on a
+ *   second line (a cave's system), on one line (cut with an ellipsis) - a long
+ *   name wraps; mapTo: the record on the map, the row's secondary action - a
+ *   map icon at its end, shown on hover or focus (always on touch screens);
+ *   noMap: the icon disabled (a cave without coordinates isn't on the map).
+ */
 function IndexLinkList({ items, className }) {
   const { t } = useTranslation('indexPages')
   const [tip, setTip] = useState(null)

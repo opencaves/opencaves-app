@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+import { useCaveData } from '@/hooks/useCaveData.js'
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material'
 import HelpOutlineRounded from '@mui/icons-material/HelpOutlineRounded'
@@ -17,15 +17,14 @@ import NotSafeIcon from '@/images/accessibilities/not-safe.svg?react'
 import InaccessibleIcon from '@/images/accessibilities/inaccessible.svg?react'
 import JungleIcon from '@/images/accessibilities/jungle.svg?react'
 import VariableIcon from '@/images/accessibilities/variable.svg?react'
-import ScubaDivingIcon from '@mui/icons-material/ScubaDiving'
+import ScubaDivingIcon from '@mui/icons-material/ScubaDivingRounded'
 import FeesYesIcon from '@/images/fees/fees-yes.svg?react'
 import FeesNoIcon from '@/images/fees/fees-no.svg?react'
 import './Access.scss'
 
 export default function Access({ cave }) {
   const { t } = useTranslation(['resultPane', 'accesses', 'accessibilities'])
-  const accesses = useSelector((state) => state.data.accesses)
-  const accessibilities = useSelector((state) => state.data.accessibilities)
+  const { accesses, accessibilities } = useCaveData()
 
   // An icon in its fixed-size box (the same size for every item).
   function iconBox(icon) {

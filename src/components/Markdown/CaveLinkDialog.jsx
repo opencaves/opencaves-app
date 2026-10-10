@@ -5,6 +5,8 @@ import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { matchesId } from '@/utils/matchesId.js'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const areasModel = createCollectionModel('areas')
 
@@ -12,12 +14,6 @@ const areasModel = createCollectionModel('areas')
 // narrow it down by typing anyway.
 const MAX_OPTIONS = 100
 
-function normalize(text) {
-  return (text || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-}
 
 // Split out so the Firestore listeners only run while the dialog is open (MUI
 // unmounts Dialog children when closed), not once per markdown field on the page.
@@ -50,14 +46,16 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
 
   // Matches cave names, alternate names, area names and IDs.
   function filterOptions(options, { inputValue }) {
-    const term = normalize(inputValue.trim())
-    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => normalize(text).includes(term)) || matchesId(cave.id, term)) : options
+    // Names compared as every search of the site does (utils/searchText.js).
+    const term = inputValue.trim()
+    const matchesText = searchMatcher(term)
+    const matches = term ? options.filter((cave) => [cave.name, ...cave.aka, cave.area].some((text) => matchesText(foldSearch(text))) || matchesId(cave.id, term)) : options
     return matches.slice(0, MAX_OPTIONS)
   }
 
   return (
     <>
-      <DialogTitle>{t('toolbar.linkCaveTitle')}</DialogTitle>
+      <DialogTitle sx={{ pr: 7 }}>{t('toolbar.linkCaveTitle')}</DialogTitle>
       <DialogContent>
         <Autocomplete
           sx={{ pt: 1 }}
@@ -96,6 +94,8 @@ function CaveLinkDialogContent({ initialCaveId, onClose, onConfirm }) {
 export default function CaveLinkDialog({ open, initialCaveId, onClose, onConfirm }) {
   return (
     <Dialog className="oc-cave-link-dialog" open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={onClose} />
       <CaveLinkDialogContent initialCaveId={initialCaveId} onClose={onClose} onConfirm={onConfirm} />
     </Dialog>
   )

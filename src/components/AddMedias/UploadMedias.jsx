@@ -28,7 +28,7 @@ export default function UploadMedias({ medias, caveId }) {
   const [uploading, setUploading] = useState(false)
   const [isDone, setIsDone] = useState(done)
   const [errorAlertOpen, setErrorAlertOpen] = useState(false)
-  // The cave the photos go to: its coordinates (position, entrance, key), for the GPS check.
+  // The cave the photos go to: its coordinates (position, entrance, parking, key), for the GPS check.
   const cave = useSelector((state) => (caveId && (state.map.data?.find?.((c) => c.id === caveId) || state.data.caves?.find?.((c) => c.id === caveId))) || state.map.currentCave)
   // Photos taken far from the cave, waiting for the person's choice: { files, far }.
   const [review, setReview] = useState(null)
@@ -193,13 +193,17 @@ export const UploadInfo = forwardRef((props, ref) => {
       ref={ref}
       className="oc-upload-info"
       elevation={6}
-      sx={{
+      // A snackbar's colours (M3's inverse surface), as the others.
+      sx={(theme) => ({
         flexGrow: 1,
         display: 'flex',
+        bgcolor: theme.vars.sys.color.inverseSurface,
+        color: theme.vars.sys.color.inverseOnSurface,
+        '& .oc-upload-info--secondary': { color: theme.vars.sys.color.inverseOnSurface, opacity: 0.8 },
         minWidth: {
           sm: 444,
         },
-      }}
+      })}
     >
       <Grid sx={{ position: 'relative', width: '33%' }}>
         {current?.type === 'application/pdf' ? (
@@ -220,7 +224,7 @@ export const UploadInfo = forwardRef((props, ref) => {
           }}
         >
           <Typography
-            color="text.secondary"
+            className="oc-upload-info--secondary"
             sx={{
               lineHeight: 1,
               margin: 0,
@@ -250,7 +254,7 @@ export const UploadInfo = forwardRef((props, ref) => {
             }}
           />
           <Typography
-            color="text.secondary"
+            className="oc-upload-info--secondary"
             fontSize="small"
             sx={{
               textAlign: 'right',

@@ -6,53 +6,61 @@ import { Alert, Box, Button, ButtonBase, Stack, SvgIcon, Typography } from '@mui
 import MapRounded from '@mui/icons-material/MapRounded'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
-import NewReleasesOutlined from '@mui/icons-material/NewReleasesOutlined'
+import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded'
 import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded'
 import StarOutlineRounded from '@mui/icons-material/StarOutlineRounded'
-import AddLocationAltOutlined from '@mui/icons-material/AddLocationAltOutlined'
-import EditLocationAltOutlined from '@mui/icons-material/EditLocationAltOutlined'
+import AddLocationAltRounded from '@mui/icons-material/AddLocationAltRounded'
+import EditLocationAltRounded from '@mui/icons-material/EditLocationAltRounded'
 import DriveFileRenameOutlineRounded from '@mui/icons-material/DriveFileRenameOutlineRounded'
-import FactCheckOutlined from '@mui/icons-material/FactCheckOutlined'
+import FactCheckRounded from '@mui/icons-material/FactCheckRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
 import EditNoteRounded from '@mui/icons-material/EditNoteRounded'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
-import AdminPanelSettingsOutlined from '@mui/icons-material/AdminPanelSettingsOutlined'
+import AdminPanelSettingsRounded from '@mui/icons-material/AdminPanelSettingsRounded'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { useTitle } from '@/hooks/useTitle.jsx'
+import { openFeedback } from '@/utils/feedback.js'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
-// Each card's icon and, for some, where it leads (its text, title and action
-// label in the locale files: whatCanIDo.<group>.<key>).
+// Each card's icon and, for some, where it leads (to) or what it does
+// (onClick) (its text, title and action label in the locale files:
+// whatCanIDo.<group>.<key>).
 const EXPLORE = [
   { key: 'find', icon: <MapRounded />, to: '/map' },
   { key: 'read', icon: <MenuBookRounded />, to: '/caves' },
   { key: 'directions', icon: <DirectionsRounded /> },
-  { key: 'whatsNew', icon: <NewReleasesOutlined />, to: '/whats-new' },
+  { key: 'whatsNew', icon: <NewReleasesRounded />, to: '/whats-new' },
 ]
 const CONTRIBUTE = [
   { key: 'save', icon: <BookmarkBorderRounded /> },
   { key: 'rate', icon: <StarOutlineRounded /> },
-  { key: 'addCave', icon: <AddLocationAltOutlined />, to: '/caves' },
-  { key: 'coordinates', icon: <EditLocationAltOutlined />, to: '/caves?filter=no-coordinates' },
+  { key: 'addCave', icon: <AddLocationAltRounded />, to: '/caves' },
+  { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?filter=no-coordinates' },
   { key: 'names', icon: <DriveFileRenameOutlineRounded />, to: '/caves?filter=unnamed' },
-  { key: 'checkFacts', icon: <FactCheckOutlined /> },
+  { key: 'checkFacts', icon: <FactCheckRounded /> },
   { key: 'access', icon: <KeyRounded /> },
   { key: 'texts', icon: <EditNoteRounded /> },
-  { key: 'media', icon: <AddAPhotoOutlined /> },
+  { key: 'media', icon: <AddAPhotoRounded /> },
   { key: 'systems', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox />, to: '/sistemas' },
+  // The Send feedback form (FeedbackDialog: sign-in first for visitors).
+  { key: 'feedback', icon: <FeedbackRounded />, onClick: () => openFeedback() },
 ]
 const GOOD_TO_KNOW = [
   { key: 'public', icon: <PublicRounded /> },
   { key: 'mistakes', icon: <HistoryRounded /> },
-  { key: 'admins', icon: <AdminPanelSettingsOutlined /> },
+  { key: 'admins', icon: <AdminPanelSettingsRounded /> },
 ]
 
 // One thing to do: its icon in a tonal circle, a title and a line; a card
-// that leads somewhere is a link (its action said at its foot).
+// that leads somewhere is a link, one that does something a button (its
+// action said at its foot).
 function ActionCard({ group, item }) {
   const { t } = useTranslation('whatCanIDo')
-  const link = item.to ? { component: RouterLink, to: item.to } : { component: 'div', disableRipple: true, tabIndex: -1 }
+  const actionable = Boolean(item.to || item.onClick)
+  const link = item.to ? { component: RouterLink, to: item.to } : item.onClick ? { component: 'button', type: 'button', onClick: item.onClick } : { component: 'div', disableRipple: true, tabIndex: -1 }
   return (
     <ButtonBase
       {...link}
@@ -70,8 +78,8 @@ function ActionCard({ group, item }) {
         border: `1px solid ${theme.vars.palette.divider}`,
         color: 'text.primary',
         transition: 'transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease',
-        cursor: item.to ? 'pointer' : 'default',
-        ...(item.to && {
+        cursor: actionable ? 'pointer' : 'default',
+        ...(actionable && {
           '&:hover, &.Mui-focusVisible': { transform: 'translateY(-2px)', boxShadow: 3, borderColor: theme.vars.sys.color.primary },
         }),
         '@media (prefers-reduced-motion: reduce)': { transition: 'none', '&:hover': { transform: 'none' } },
@@ -98,8 +106,8 @@ function ActionCard({ group, item }) {
       <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, flex: 1 }}>
         {t(`${group}.${item.key}.text`)}
       </Typography>
-      {item.to && (
-        <Typography variant="body2" sx={{ color: 'var(--mui-sys-color-primary)', fontWeight: 600 }}>
+      {actionable && (
+        <Typography variant="body2" sx={(theme) => ({ color: theme.vars.sys.color.primary, fontWeight: 600 })}>
           {t(`${group}.${item.key}.action`)} →
         </Typography>
       )}
@@ -107,8 +115,8 @@ function ActionCard({ group, item }) {
   )
 }
 
-// min: a card's narrowest width - wider for the Contribute cards, nine of
-// them in three rows of three.
+// min: a card's narrowest width - wider for the Contribute cards, three to a
+// row on a computer.
 function CardGrid({ group, items, min = 230 }) {
   return (
     <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, display: 'grid', gap: 2, gridTemplateColumns: `repeat(auto-fill, minmax(${min}px, 1fr))` }}>
@@ -132,10 +140,12 @@ function SectionTitle({ children, sub }) {
   )
 }
 
-// /what-can-i-do: what OpenCaves' users can do - explore, then, signed up,
-// add and correct caves and their photos, videos and maps, check their facts -
-// as cards under a hero band, then what's good to know. Visitors who aren't
-// signed in are invited to sign up.
+/**
+ * /what-can-i-do: what OpenCaves' users can do - explore, then, signed up,
+ * add and correct caves and their photos, videos and maps, check their facts,
+ * send feedback (FeedbackDialog) - as cards under a hero band, then what's
+ * good to know. Visitors who aren't signed in are invited to sign up.
+ */
 export default function WhatCanIDo() {
   const { t } = useTranslation('whatCanIDo')
   const { setTitle } = useTitle()
@@ -153,7 +163,7 @@ export default function WhatCanIDo() {
         component="header"
         sx={(theme) => ({ borderRadius: 4, px: { xs: 3, sm: 6 }, py: { xs: 4, sm: 6 }, mb: { xs: 4, sm: 6 }, color: '#fff', backgroundImage: `linear-gradient(120deg, ${theme.vars.palette.primary.dark}, ${theme.vars.palette.primary.main})` })}
       >
-        <Typography component="h1" sx={{ typography: { xs: 'h4', sm: 'h3' }, fontWeight: 500, mb: 1.5 }} data-appbar-page-title>
+        <Typography component="h1" sx={{ ...PAGE_TITLE_SX, mb: 1.5 }} data-appbar-page-title>
           {t('title')}
         </Typography>
         <Typography sx={{ fontSize: { sm: '1.15rem' }, maxWidth: 640, opacity: 0.92, lineHeight: 1.6, mb: 3 }}>{t('lead')}</Typography>
@@ -190,7 +200,7 @@ export default function WhatCanIDo() {
         <Stack spacing={2} component="ul" sx={{ listStyle: 'none', m: 0, p: 0, mb: 3 }}>
           {GOOD_TO_KNOW.map(({ key, icon }) => (
             <Box component="li" key={key} sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-              <Box aria-hidden="true" sx={{ color: 'var(--mui-sys-color-primary)', mt: 0.25, '& svg': { fontSize: 26 } }}>
+              <Box aria-hidden="true" sx={(theme) => ({ color: theme.vars.sys.color.primary, mt: 0.25, '& svg': { fontSize: 26 } })}>
                 {icon}
               </Box>
               <Box>

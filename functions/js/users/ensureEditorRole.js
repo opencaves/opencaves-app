@@ -3,6 +3,15 @@ import { auth } from '../init.js'
 import { ENFORCE_APP_CHECK, REGION } from '../constants.js'
 import { hasVerifiedEmail } from './verifiedEmail.js'
 
+/**
+ * The caller's editor role, given when it's missing (every verified account is
+ * an editor): its roles, and whether it's frozen.
+ *
+ * @param {CallableRequest} request
+ * @returns {Promise<{roles: string[], frozen?: boolean}>}
+ * @throws {HttpsError} unauthenticated when not signed in; permission-denied
+ *   for an anonymous session ("Sign up to edit.") or an unverified email.
+ */
 export const ensureEditorRole = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   const uid = request.auth?.uid
 

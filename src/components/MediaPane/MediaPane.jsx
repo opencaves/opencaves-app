@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Drawer, IconButton, Typography, styled, useTheme } from '@mui/material'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
 import { getAssetList, useCaveAssetsList } from '@/models/CaveAsset.js'
@@ -24,6 +24,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
+/**
+ * The media pane's route loader: the cave's photos.
+ */
 export async function mediaPaneLoader({ params }) {
   return getAssetList(params.caveId)
 }
@@ -172,7 +175,7 @@ export default function MediaPane() {
                 color='primary'
                 aria-label={t('addPictureBtn.tooltip')}
               >
-                <AddAPhotoOutlined />
+                <AddAPhotoRounded />
               </IconButton>
             }
           />

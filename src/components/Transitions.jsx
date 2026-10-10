@@ -1,6 +1,6 @@
 import { cloneElement, forwardRef, useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { useTheme, Slide } from '@mui/material'
+import { useTheme } from '@mui/material'
 
 const enterStyles = {
   opacity: 1,
@@ -19,6 +19,9 @@ export const forwardTransitionStyles = {
   exited: exitStyles,
 }
 
+/**
+ * A transition: in from 50px to the right as it fades in, out the same way.
+ */
 export const Forward = forwardRef(function Forward(props, ref) {
   const nodeRef = useRef(null)
   const { children, in: inProp, ...others } = props
@@ -80,8 +83,4 @@ export const Forward = forwardRef(function Forward(props, ref) {
       }
     </CSSTransition>
   )
-})
-
-export const Awef = forwardRef(function Awef(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
 })

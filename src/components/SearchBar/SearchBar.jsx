@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import MiniSearch from 'minisearch'
 import { Tooltip, Collapse, Fade, IconButton, InputBase, Divider, List, ListItem, ListItemButton, Typography, Box, Grid, styled } from '@mui/material'
-import Clear from '@mui/icons-material/Clear'
-import Tune from '@mui/icons-material/Tune'
-import ArrowBack from '@mui/icons-material/ArrowBack'
-import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
+import Clear from '@mui/icons-material/ClearRounded'
+import Tune from '@mui/icons-material/TuneRounded'
+import ArrowBack from '@mui/icons-material/ArrowBackRounded'
+import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
+import LocationOffRounded from '@mui/icons-material/LocationOffRounded'
 import AppMenu from '@/components/App/AppMenu.jsx'
 import MenuRounded from '@mui/icons-material/MenuRounded'
 import NavDrawer from '@/components/App/NavDrawer.jsx'
@@ -20,6 +21,7 @@ import { SPACE_OR_PUNCTUATION, MAYAN_QUOTATION } from '@/utils/regexes.js'
 import { matchesId } from '@/utils/matchesId.js'
 import Snippet from './Snippet.jsx'
 import { SEARCH_BAR_HEIGHT, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
+import { removeShell } from '@/utils/shell.js'
 import './SearchBar.scss'
 
 // flex, not inline: an inline wrapper sits the icon on the text baseline,
@@ -35,14 +37,14 @@ const ClearIcon = () => (
   </Box>
 )
 const TuneIcon = () => <Tune aria-hidden="true" />
-const LocationOnOutlinedIcon = ({ sx }) => (
+const LocationOnIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    <LocationOnOutlined />
+    <LocationOnRounded />
   </Box>
 )
-const LocationOffOutlinedIcon = ({ sx }) => (
+const LocationOffIcon = ({ sx }) => (
   <Box component="span" aria-hidden="true" sx={sx}>
-    <LocationOnOutlined />
+    <LocationOffRounded />
   </Box>
 )
 
@@ -140,12 +142,11 @@ function searchIds(caves, searchTerm) {
     .map((cave) => ({ id: cave.id, name: cave.name?.value, aka: cave.aka, area: cave.area, location: cave.location?.validity, hints: { id: highlight(cave.id, regexp) } }))
 }
 
+// Stacked (the menu and back buttons cross-fade), centred in the 48dp slot.
 const ActionButton = styled(IconButton)({
-  width: '48px',
-  height: '48px',
   position: 'absolute',
-  left: 0,
-  top: 0,
+  left: 4,
+  top: 4,
 })
 
 const SnippetTextPrimary = styled(Typography)(({ theme }) => ({
@@ -160,7 +161,11 @@ const SnippetTextSecondary = styled(Typography)(({ theme }) => ({
 
 export default function SearchBar() {
   const searchBarRef = useRef()
-  const resultItemsRef = useRef([])
+  // A combobox (WAI-ARIA): the focus stays in the field, the arrows move
+  // through the results (aria-activedescendant), Enter opens the one shown.
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const listboxId = useId()
+  const optionId = (index) => `${listboxId}-option-${index}`
   const [value, doSetValue] = useState('')
   const { t } = useTranslation('searchBar')
   const { t: tMap } = useTranslation('map')
@@ -176,12 +181,21 @@ export default function SearchBar() {
   const isEditMode = location.pathname.endsWith('/edit') && roles.includes('editor')
 
   const [searchResults, setSearchResults] = useState([])
+  // The text the results are for ('' once cleared - e.g. a cave picked, its
+  // name then in the field): "no results" only for a search really made.
+  const [searchedTerm, setSearchedTerm] = useState('')
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [showClearBtn, setShowClearBtn] = useState(false)
   const [searchBarHasFocus, setSearchBarHasFocus] = useState(false)
   const [backBtnOn, setBackBtnOn] = useState(false)
 
-  const searchIndex = new MiniSearch(indexOptions)
+  // Built once per data change: rebuilt on every render, indexing every cave
+  // took a large part of the work when a cave was picked (and each keystroke).
+  const searchIndex = useMemo(() => {
+    const index = new MiniSearch(indexOptions)
+    index.addAll(data)
+    return index
+  }, [data])
 
   const navigate = useNavigate()
 
@@ -213,6 +227,7 @@ export default function SearchBar() {
   }
 
   function clearSearchResults() {
+    setSearchedTerm('')
     setSearchResults([])
   }
 
@@ -222,10 +237,9 @@ export default function SearchBar() {
     }
 
     setBackBtnOn(false)
+    setSearchedTerm('')
     setSearchResults([])
   }
-
-  searchIndex.addAll(data)
 
   useEffect(() => {
     const select = (state) => state.map.currentCave
@@ -284,6 +298,7 @@ export default function SearchBar() {
     ].slice(0, 10)
 
     setSearchResults(searchResults)
+    setSearchedTerm(searchTerm)
   }
 
   function onSearchbarFocus(event) {
@@ -308,10 +323,17 @@ export default function SearchBar() {
 
   async function onSearchbarInputKeyDown(event) {
     // Handle various keyboard events
-    if (event.key === 'ArrowDown') {
-      if (resultItemsRef.current.length > 0) {
-        resultItemsRef.current[0].focus()
-      }
+    const count = searchResults.length
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && count > 0) {
+      event.preventDefault()
+      const step = event.key === 'ArrowDown' ? 1 : -1
+      setActiveIndex((index) => (index < 0 ? (step > 0 ? 0 : count - 1) : (index + step + count) % count))
+    }
+
+    // The result shown, or the first one.
+    if (event.key === 'Enter' && count > 0) {
+      event.preventDefault()
+      onResultsItemClick(searchResults[activeIndex >= 0 ? activeIndex : 0].id)
     }
 
     if (event.key === 'Escape') {
@@ -328,7 +350,10 @@ export default function SearchBar() {
     clearSearchResults()
     setBackBtnOn(false)
     dispatch(clearCurrentCave())
-    navigate(`/map`, { replace: true })
+    // Opened from the map in this history: back to that entry (as the pane's
+    // close does); otherwise this entry becomes the bare map.
+    if (location.state?.fromMap) navigate(-1)
+    else navigate(`/map`, { replace: true })
   }
 
   function onResultsItemClick(id) {
@@ -339,8 +364,21 @@ export default function SearchBar() {
     setValue(getCaveName(selectedCave.name))
     clearSearchResults()
     setBackBtnOn(false)
-    navigate(`/map/${id}`, { replace: true })
+    // Like a pin: a new history entry from the bare map (Back returns to
+    // it), the same entry when switching from one cave to another.
+    navigate(`/map/${id}`, { replace: !!currentCave })
   }
+
+  // New results: nothing shown in them yet.
+  useEffect(() => {
+    setActiveIndex(-1)
+  }, [searchResults])
+
+  // The result shown kept in view.
+  useEffect(() => {
+    if (activeIndex >= 0) document.getElementById(optionId(activeIndex))?.scrollIntoView({ block: 'nearest' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex])
 
   function onBackBtnClick() {
     restoreSearchState()
@@ -351,12 +389,13 @@ export default function SearchBar() {
   }
 
   useEffect(() => {
-    setShowSearchResults(searchResults.length > 0 && searchBarHasFocus)
-  }, [searchResults, searchBarHasFocus])
+    // Something typed and nothing found: shown too, said (it showed nothing).
+    setShowSearchResults((searchResults.length > 0 || (searchedTerm.trim().length > 0 && searchedTerm === value)) && searchBarHasFocus)
+  }, [searchResults, searchBarHasFocus, searchedTerm, value])
 
   // The real search bar is here: index.html's static shell of it can go.
   useEffect(() => {
-    document.getElementById('oc-shell')?.remove()
+    removeShell()
   }, [])
 
   // Exposing the search bar height as a css custom property
@@ -394,6 +433,7 @@ export default function SearchBar() {
           },
         }}
         role="search"
+        aria-label={t('inputAriaLabel')}
         className="oc-search-bar"
         onFocus={onSearchbarFocus}
       >
@@ -408,10 +448,14 @@ export default function SearchBar() {
             borderWidth: 1,
             borderStyle: 'solid',
             m: `${SEARCH_BAR_MARGIN}px ${SEARCH_BAR_MARGIN}px 0`,
+            // The app's focus ring around the bar while its field has the
+            // focus (a field shows it by its outline elsewhere; this one has none).
+            '&:has(.oc-search-bar--field input:focus-visible)': { outline: '3px solid var(--oc-focus-ring)', outlineOffset: 2 },
           }}
         >
-          {/* 56px with its border; 48px buttons centred in it, 4px from its
-              ends, so their 24px icons are 16px in (MD3's spacing). */}
+          {/* 56px with its border; 48px slots centred in it, 4px from its
+              ends, each holding a 40dp button (its 48dp touch target the
+              slot), so their 24px icons are 16px in (MD3's spacing). */}
           <Grid container className="oc-search-bar--field" sx={{ alignItems: 'center', minHeight: SEARCH_BAR_HEIGHT - 2, px: '3px' }}>
             <Grid
               sx={{
@@ -438,11 +482,20 @@ export default function SearchBar() {
                 </ActionButton>
               </Fade>
             </Grid>
-            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{ 'aria-label': t('inputAriaLabel') }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
+            <InputBase value={value} sx={{ flex: 1 }} placeholder={t('placeholder')} fullWidth inputProps={{
+                'aria-label': t('inputAriaLabel'),
+                role: 'combobox',
+                'aria-autocomplete': 'list',
+                'aria-expanded': showSearchResults,
+                'aria-controls': listboxId,
+                'aria-activedescendant': showSearchResults && activeIndex >= 0 ? optionId(activeIndex) : undefined,
+              }} onChange={onSearchbarInputChange} onFocus={onSearchbarInputFocus} onBlur={onSearchbarInputFocus} onKeyDown={onSearchbarInputKeyDown} onKeyUp={onSearchbarInputKeyUp} />
 
             <Box
               sx={{
                 width: '48px',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             >
               {showClearBtn && (
@@ -450,10 +503,6 @@ export default function SearchBar() {
                   <IconButton
                     disableRipple
                     aria-label={t('actionButton.clear.ariaLabel')}
-                    sx={{
-                      width: '48px',
-                      height: '48px',
-                    }}
                     onClick={onSearchbarInputClear}
                   >
                     <ClearIcon />
@@ -479,10 +528,7 @@ export default function SearchBar() {
                 disableRipple
                 id="oc-search-filter-btn"
                 aria-label={t('actionButton.filter.ariaLabel')}
-                sx={{
-                  width: '48px',
-                  height: '48px',
-                }}
+                sx={{ m: 0.5 }}
                 onClick={onFilterBtnClick}
               >
                 <TuneIcon />
@@ -510,14 +556,23 @@ export default function SearchBar() {
             <Collapse in={showSearchResults}>
               <div className="oc-search-bar--results">
                 <List
+                  id={listboxId}
+                  role="listbox"
+                  aria-label={t('inputAriaLabel')}
                   sx={{
                     fontSize: '0.8125rem',
                   }}
                 >
-                  {searchResults.map((result) => {
+                  {searchResults.length === 0 && searchedTerm.trim() && searchedTerm === value && (
+                    <ListItem className="oc-search-bar--no-results" role="presentation" aria-live="polite" sx={{ px: 2, py: 1.5, color: 'text.secondary' }}>
+                      {t('noResults', { query: value.trim() })}
+                    </ListItem>
+                  )}
+                  {searchResults.map((result, index) => {
                     return (
                       <ListItem
                         disablePadding
+                        role="presentation"
                         key={result.id}
                         sx={{
                           '&:last-child > .MuiListItemButton-root': {
@@ -527,8 +582,8 @@ export default function SearchBar() {
                       >
                         {/* No focus move on press: the input's blur would collapse the results
                             before the press ends, so a quick tap would land on the map instead. */}
-                        <ListItemButton ref={(element) => resultItemsRef.current.push(element)} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
-                          {result.location === 'valid' ? <LocationOnOutlinedIcon sx={resultsItemIconStyle} /> : <LocationOffOutlinedIcon sx={resultsItemIconStyle} />}
+                        <ListItemButton id={optionId(index)} role="option" aria-selected={index === activeIndex} selected={index === activeIndex} tabIndex={-1} onMouseDown={(event) => event.preventDefault()} onClick={() => onResultsItemClick(result.id)}>
+                          {result.location === 'valid' ? <LocationOnIcon sx={resultsItemIconStyle} /> : <LocationOffIcon sx={resultsItemIconStyle} />}
                           <Box
                             sx={{
                               width: '100%',

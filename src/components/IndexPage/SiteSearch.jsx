@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Autocomplete, Box, Button, InputAdornment, TextField } from '@mui/material'
+import { Autocomplete, Box, InputAdornment, TextField } from '@mui/material'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import { useSiteSearch } from '@/hooks/useSiteSearch.js'
 import { renderSearchGroup, renderSearchOption } from './searchSuggestions.jsx'
 
-// A search across the caves, cave systems and areas, with suggestions as one
-// types (grouped by kind; a cave shows its system; useSiteSearch): picking
-// one opens its page, Enter on free text opens the caves' list filtered by it.
+/**
+ * A search across the caves, cave systems and areas, with suggestions as one
+ * types (grouped by kind; a cave shows its system; {@link useSiteSearch}): picking
+ * one opens its page, Enter on free text opens the caves' list filtered by it.
+ * No button of its own: Enter (the phone keyboard's Search key) submits.
+ */
 export default function SiteSearch({ sx, inputSx }) {
   const { t } = useTranslation('home')
   const navigate = useNavigate()
@@ -22,7 +25,7 @@ export default function SiteSearch({ sx, inputSx }) {
   }
 
   return (
-    <Box component="form" role="search" className="oc-site-search" onSubmit={(event) => { event.preventDefault(); searchAll() }} sx={{ display: 'flex', gap: 1, ...sx }}>
+    <Box component="form" role="search" aria-label={t('hero.searchPlaceholder')} className="oc-site-search" onSubmit={(event) => { event.preventDefault(); searchAll() }} sx={{ display: 'flex', ...sx }}>
       <Autocomplete
         freeSolo
         fullWidth
@@ -45,19 +48,17 @@ export default function SiteSearch({ sx, inputSx }) {
             className="oc-site-search--field"
             // Outlined whatever the theme's default, so inputSx can style it.
             variant="outlined"
-            placeholder={t('hero.searchPlaceholder')}
+            // Short: the long one (its name) was cut on phones.
+            placeholder={t('hero.searchShort')}
             sx={inputSx}
             slotProps={{
               ...params.slotProps,
-              htmlInput: { ...params.slotProps?.htmlInput, ...params.inputProps, 'aria-label': t('hero.searchPlaceholder') },
+              htmlInput: { ...params.slotProps?.htmlInput, ...params.inputProps, 'aria-label': t('hero.searchPlaceholder'), enterKeyHint: 'search' },
               input: { ...params.InputProps, ...params.slotProps?.input, startAdornment: <InputAdornment position="start"><SearchRounded /></InputAdornment> },
             }}
           />
         )}
       />
-      <Button type="submit" variant="contained" sx={{ borderRadius: 6, px: 3, flexShrink: 0 }}>
-        {t('hero.search')}
-      </Button>
     </Box>
   )
 }

@@ -2,7 +2,8 @@ import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
 import { REGION, CAVES_COLL_NAME } from '../constants.js'
 import { db } from '../init.js'
-import { APP_TITLE, SITE_URL, escapeHtml, jsonLdScript, plainParagraphs, renderPage, shellFor, truncate } from './shared.js'
+import { APP_TITLE, SITE_URL } from '../constants.js'
+import { escapeHtml, jsonLdScript, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
 import { loadSistemaSlugs } from './indexData.js'
 import { slugify } from './slug.js'
 
@@ -15,21 +16,39 @@ import { slugify } from './slug.js'
 // own index.html (shared.js's shellFor). It links to the cave's area and
 // system pages and to /caves, so crawlers reach those too.
 
-// sistema: the cave's system ({ name, slug }), if any; path: the page's
-// address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
-// Both are known to search engines by its own page: one URL per cave, not two
-// near-identical pages (Google skipped them as duplicates).
+/**
+ * sistema: the cave's system ({ name, slug }), if any; path: the page's
+ * address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
+ * Both are known to search engines by its own page: one URL per cave, not two
+ * near-identical pages (Google skipped them as duplicates).
+ * {@link cavePageMeta}: the page's <head> data and its text (body); cavePageHtml: the
+ * page itself. structuredData: in the text (body), and in <head> when the
+ * app renders the page (ssr.js).
+ *
+ * @param {string} shell
+ * @param {Cave} cave
+ * @param {string} id
+ * @param {{name: string, slug: string}} [sistema]
+ * @param {string} [path]
+ * @returns {string}
+ */
 export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
+  return renderPage(shell, cavePageMeta(cave, id, sistema, path))
+}
+
+export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
   const area = cave.area || null
   const name = cave.name?.value || ''
-  // As in the index pages (indexPages.js): an unnamed cave isn't "Cenote Cenote".
-  // Its title says it has no name in parentheses - a placeholder, not a
-  // name (as the app's page); the description's sentence doesn't.
-  const label = name ? `Cenote ${name}` : '(Unnamed cave)'
+  // Its name alone, as the app's titles (no "Cenote" prefix: "Cenote Cenote
+  // Theater", and not every cave is a cenote). No name: in parentheses - a
+  // placeholder, not a name (as the app's page); the description's sentence
+  // doesn't.
+  const label = name || '(Unnamed cave)'
   const paragraphs = plainParagraphs(cave.description)
   const summary = paragraphs.join(' ')
   const subject = name ? label : 'An unnamed cave'
-  const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
+  // As the app's (seo.caveDescriptionPrefix / caveDescriptionFallback).
+  const description = truncate(summary ? `${subject} (Yucatán, Mexico): ${summary}` : `${subject}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.`)
   const title = `${label} / ${APP_TITLE}`
   const canonical = `/caves/${id}`
   const url = `${SITE_URL}${canonical}`
@@ -52,6 +71,8 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
     aka.length ? `<p>Also known as ${escapeHtml(aka.join(', '))}</p>` : '',
     location ? `<p>Location: ${Number(location.latitude).toFixed(5)}, ${Number(location.longitude).toFixed(5)} (Yucatán, Mexico)</p>` : '',
     ...paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
+    // How to get there, as the cave page shows it.
+    ...(cave.direction ? [`<h2>Getting there</h2>`, ...plainParagraphs(cave.direction).map((p) => `<p>${escapeHtml(p)}</p>`)] : []),
     area ? `<p>Area: <a href="/caves#${escapeHtml(slugify(area))}">${escapeHtml(area)}</a></p>` : '',
     sistema ? `<p>Cave system: <a href="/sistemas/${escapeHtml(sistema.slug)}">${escapeHtml(sistema.name)}</a></p>` : '',
     path === `/map/${id}` ? `<p><a href="/caves/${escapeHtml(id)}">${escapeHtml(label)}'s page</a></p>` : `<p><a href="/map/${escapeHtml(id)}">${escapeHtml(label)} on the map</a></p>`,
@@ -64,13 +85,16 @@ export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   const trail = path.startsWith('/caves/')
     ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/caves#${slugify(area)}` }] : []), { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
-  return renderPage(shell, { title, description, path, canonical, body, ogType: 'place', trail })
+  return { title, description, path, canonical, body, ogType: 'place', trail, structuredData }
 }
 
 // A cave id as the app makes them (push ids): anything else is no cave - and
 // can't carry markup into the page.
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 
+/**
+ * /map/<caveId>, server-rendered for search engines ({@link cavePageHtml}).
+ */
 export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   let id = ''
   try {
@@ -93,7 +117,7 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   if (!snapshot?.exists) {
     // The app shows its own "not found"; search engines get the status.
     res.set('Cache-Control', 'public, max-age=60')
-    res.status(404).send(shell)
+    sendHtml(req, res, shell, 404)
     return
   }
   // Short in browsers (the app is the page they use), longer at the CDN edge:
@@ -105,5 +129,5 @@ export const cavePage = onRequest({ region: REGION }, async (req, res) => {
     const { slugs, names } = await loadSistemaSlugs()
     if (names.has(cave.sistemaId)) sistema = { name: names.get(cave.sistemaId), slug: slugs.get(cave.sistemaId) }
   }
-  res.send(cavePageHtml(shell, cave, id, sistema))
+  sendHtml(req, res, cavePageHtml(shell, cave, id, sistema))
 })

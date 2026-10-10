@@ -1,6 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Text source",
+    "fieldHint": "Where this text comes from. Your own words? Choose OpenCaves.",
     "none": "None",
     "known": "Source: {{name}}"
   },
@@ -47,11 +48,13 @@
       "admin": "Dashboard",
       "signup": "Sign up",
       "login": "Log in",
-      "addPictures": "Add Pictures",
+      "addPictures": "Add photos",
       "logout": "Log out",
       "logoutSuccess": "You've been successfully logged out.",
       "about": "About",
       "about_withName": "About {{name}}",
+      "feedback": "Send feedback",
+      "feedbackList": "Ideas and fixes",
       "whatCanIDo": "What can I do?",
       "whatsNew": "What's new",
       "drawer": {
@@ -65,7 +68,9 @@
       "welcome": "Welcome to {{name}}",
       "welcomeText": "Log in to save your favorite caves and contribute.",
       "close": "Close",
-      "signInMenu": "Log in or sign up"
+      "signInMenu": "Log in or sign up",
+      "newFeedbackAria_one": "{{count}} new feedback report",
+      "newFeedbackAria_other": "{{count}} new feedback reports"
     },
     "snackbar": {
       "saved": "Changes to {{name}} saved",
@@ -97,7 +102,9 @@
       "showAll": "Show all: {{title}}",
       "label": "{{title}}, carousel",
       "showAllLink": "Show all"
-    }
+    },
+    "nameRequired": "Name is required",
+    "skipToContent": "Skip to content"
   },
   "account": {
     "profile": "Profile",
@@ -116,14 +123,16 @@
     "currentPasswordIncorrect": "Current password is incorrect.",
     "passwordSaveError": "Could not update the password.",
     "email": "Email",
-    "signOut": "Sign Out",
+    "signOut": "Log out",
     "signedOut": "Signed out",
     "savedCaves": {
-      "title": "Saved cenotes",
-      "empty": "You haven’t saved any cenotes yet. Use the Save button on a cenote to add it here.",
+      "title": "Saved caves",
+      "empty": "You haven’t saved any caves yet. Use the Save button on a cave to add it here.",
       "remove": "Remove from saved",
       "removeNamed": "Remove {{name}} from saved",
-      "sistema": "Sistema {{name}}"
+      "sistema": "Sistema {{name}}",
+      "removed": "{{name}} removed from your saved caves",
+      "undo": "Undo"
     },
     "offline": {
       "title": "Offline use",
@@ -133,16 +142,16 @@
       "notPersisted": "The browser may remove this data if the device runs low on space.",
       "clear": "Clear offline data",
       "confirmTitle": "Clear offline data?",
-      "confirmText": "Downloaded pictures, maps and map areas will be removed from this device, and “Make available offline” will be turned off.",
+      "confirmText": "Downloaded photos, maps and map areas will be removed from this device, and “Make available offline” will be turned off.",
       "confirmClear": "Clear",
       "cancel": "Cancel",
       "cleared": "Offline data cleared",
       "clearError": "Could not clear the offline data.",
-      "confirmTextSaved": "Your saved cenotes stay saved and will download again the next time you’re on Wi-Fi."
+      "confirmTextSaved": "Your saved caves stay saved and will download again the next time you’re on Wi-Fi."
     },
     "language": "Language",
     "languageAutomatic": "Automatic ({{language}})",
-    "languageHint": "Automatic follows your browser's language. Your choice is kept on this device.",
+    "languageHint": "Automatic follows your browser's language. Your choice applies on this device and wherever you sign in.",
     "personalInfo": "Personal info",
     "units": "Units",
     "unitsHint": "For lengths and depths: on the map, in cave and system details.",
@@ -153,7 +162,15 @@
     "appearanceHint": "Light or dark display, on this device and wherever you sign in.",
     "appearance_system": "Automatic (device setting)",
     "appearance_light": "Light",
-    "appearance_dark": "Dark"
+    "appearance_dark": "Dark",
+    "emails": {
+      "title": "Emails",
+      "feedbackReplies": "Email me the team’s replies to my feedback",
+      "feedbackRepliesHint": "When the OpenCaves team answers a report or idea you sent. Their replies stay on OpenCaves either way.",
+      "turnedOn": "The team’s replies will be emailed to you",
+      "turnedOff": "The team’s replies won’t be emailed to you anymore",
+      "saveError": "Couldn’t save this setting. Please try again."
+    }
   },
   "auth": {
     "dialog": {
@@ -212,9 +229,12 @@
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "This email is already in use",
-              "details": "An account is already using the email <strong>{{email}}</strong>.<br /> Try another email or log in with Google.",
+              "details": "An account already uses <strong>{{email}}</strong>.<br /> Log in to it, or try another email.",
               "previousBtn": "Try another email",
-              "loginWithGoogle": "LogIn with Google"
+              "loginWithGoogle": "Log in with Google",
+              "loginWithEmail": "Log in with this email",
+              "forgotPassword": "Forgot your password?",
+              "loginWithMicrosoft": "Log in with Microsoft"
             },
             "emailSentNotification": {
               "header": "Check your emails",
@@ -288,7 +308,7 @@
   "about": {
     "title": "About",
     "version": "Version {{version}}",
-    "whatsNew": "What's new",
+    "whatsNew": "Release notes",
     "dialog": {
       "ariaLabel": "About {{name}}",
       "close": "close"
@@ -318,20 +338,20 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Actions for cenote {{name}}",
+    "ariaLabel": "Actions for {{name}}",
     "directions": "Directions",
     "save": "Save",
     "share": "Share",
-    "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Share",
     "saved": "Saved",
     "savedMessage": "Saved to your profile",
-    "unsavedMessage": "Removed from your saved cenotes",
-    "saveError": "Could not update your saved cenotes.",
+    "unsavedMessage": "Removed from your saved caves",
+    "saveError": "Could not update your saved caves.",
     "accountPrompt": {
-      "title": "Save your favorite cenotes",
-      "text": "Create a free account to save cenote {{name}} and find all your saved cenotes on your profile.",
+      "title": "Save your favorite caves",
+      "text": "Create a free account to save {{name}} and find all your saved caves on your profile.",
       "notNow": "Not now",
       "logIn": "Log in",
       "signUp": "Create an account"
@@ -388,13 +408,14 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Search cenotes"
+    "inputAriaLabel": "Search caves",
+    "noResults": "No cave matches “{{query}}”."
   },
   "filter": {
-    "windowTitle": "Filter Cenotes",
+    "windowTitle": "Filter caves",
     "close": "Close",
     "coordinate": {
-      "heading": "GPS Coordinate",
+      "heading": "GPS coordinates",
       "showValidCoordinates": "Show valid coordinates",
       "showInvalidCoordinates": "Show invalid coordinates",
       "showUnconfirmedCoordinates": "Show unconfirmed coordinates"
@@ -483,14 +504,14 @@
       ]
     },
     "cenoteType": {
-      "heading": "Cenote type",
+      "heading": "Cave type",
       "showCenoteEntrances": "Show cenote entrances",
-      "showOtherCenotes": "Show other cenotes"
+      "showOtherCenotes": "Show other caves"
     },
     "closeBtn": "Close the filters"
   },
   "resultPane": {
-    "title": "Cenote {{name}}",
+    "title": "{{name}}",
     "videosHeader": "Videos",
     "videoFrameTitle": "Video {{index}}",
     "playVideo": "Play video {{index}}",
@@ -514,11 +535,13 @@
     "copyCoordinates": "Copy coordinates",
     "copyKeyCoordinates": "Copy key coordinates",
     "copyEntranceCoordinates": "Copy entrance coordinates",
-    "directionsToCave": "Directions to the cenote",
+    "copyParkingCoordinates": "Copy parking coordinates",
+    "directionsToCave": "Directions to the cave",
     "directionsToKey": "Directions to the key",
     "directionsToSistema": "Directions to the system",
     "area": "Area: {{area}}",
     "directionsToEntrance": "Directions to the entrance",
+    "directionsToParking": "Directions to the parking",
     "addressLoading": "Loading address…",
     "addressLoadingError": "Failed to load address: {{errMessage}}",
     "addressNotAvailable": "Address not available",
@@ -526,13 +549,13 @@
     "locationNotAvailable": "Location not available",
     "coverImage": {
       "addImages": {
-        "tooltip": "Add pictures"
+        "tooltip": "Add photos"
       },
       "seeImages": {
-        "tooltip": "See pictures"
+        "tooltip": "See photos"
       }
     },
-    "morePicturesBtn": "More pictures",
+    "morePicturesBtn": "More photos",
     "menu": {
       "ariaLabel": "More",
       "myAccount": "My Account",
@@ -549,20 +572,20 @@
       "removeNameTranslation": "Remove translation",
       "nameTranslationLanguage": "Language",
       "nameTranslationValue": "Translated name",
-      "pictures": "Pictures",
-      "addPictures": "Add pictures",
-      "deletePicture": "Delete picture",
-      "deletePictureConfirm": "This picture goes to the trash: an admin can restore it from Audits > Trash.",
-      "deletePictureError": "Could not delete the picture. Please try again.",
+      "pictures": "Photos",
+      "addPictures": "Add photos",
+      "deletePicture": "Delete photo",
+      "deletePictureConfirm": "This photo goes to the trash: an admin can restore it from Audits > Trash.",
+      "deletePictureError": "Could not delete the photo. Please try again.",
       "videos": "Videos",
       "videoUrl": "Video URL",
       "addVideo": "Add video",
       "editVideo": "Edit video",
       "deleteVideo": "Delete video",
-      "deleteVideoConfirm": "This video will be removed from the cenote.",
+      "deleteVideoConfirm": "This video will be removed from the cave.",
       "deleteVideoError": "Could not delete the video. Please try again.",
       "note": "Note(s)",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "addMap": "Add map",
       "editMap": "Edit map",
       "mapOptions": "Map options",
@@ -574,20 +597,36 @@
       "coordinates": "Coordinates",
       "location": "Location",
       "entrance": "Entrance",
+      "parking": "Parking",
       "key": "Key",
       "longitude": "Longitude",
       "latitude": "Latitude",
+      "longitudeRange": "-180 to 180",
+      "latitudeRange": "-90 to 90",
       "dragPinToMap": "Drag this marker onto the map to set this location",
       "navigateToCoordinate": "Center the map here",
       "removeCoordinate": "Remove coordinates",
       "addCoordinates": "Add coordinates",
+      "addOneCoordinates": {
+        "location": "Add location coordinates",
+        "entrance": "Add entrance coordinates",
+        "parking": "Add parking coordinates",
+        "key": "Add key coordinates",
+        "sistemaLocation": "Add location coordinates"
+      },
       "pickMyLocation": "Use my current location",
+      "myLocationError": {
+        "denied": "Location is blocked for this site: allow it in your browser’s settings, or place the point on the map.",
+        "unavailable": "Your position isn’t available right now. Try again outdoors, or place the point on the map.",
+        "timeout": "Finding your position took too long. Try again, or place the point on the map.",
+        "unsupported": "This browser can’t give your position. Place the point on the map instead."
+      },
       "none": "(none)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
       "sistemaSearchPlaceholder": "Search",
       "source": "Source",
-      "sourceHint": "Where this sistema's information comes from",
+      "sourceHint": "Where this cave's information comes from. Your own findings? Choose OpenCaves.",
       "access": "Access",
       "accessGroup": "Access",
       "accessibility": "Accessibility",
@@ -596,8 +635,6 @@
       "feesHint": "Whether visiting this cave requires paying an entrance fee",
       "facilities": "Facilities",
       "facilitiesHint": "Whether facilities such as restrooms or changing areas are available on site",
-      "activities": "Activities",
-      "activitiesHint": "Whether additional activities (e.g. swimming, snorkeling) are offered at this location",
       "accessDetails": "Access details",
       "accessibilityDetails": "Accessibility details",
       "description": "Description",
@@ -611,8 +648,8 @@
       "caveDeleteError": "Couldn't delete {{name}}. Please try again.",
       "save": "Save",
       "cancel": "Cancel",
-      "newCave": "New cenote",
-      "caveTitle": "Cenote {{name}}",
+      "newCave": "New cave",
+      "caveTitle": "{{name}}",
       "backToCaves": "Back to caves",
       "backToCave": "Back to the cave's page",
       "placeOnMap": "Place on map",
@@ -631,13 +668,13 @@
       "media": "Media",
       "notes": "Notes",
       "placeSearch": {
-        "label": "Search for a place or a cenote",
-        "placeholder": "Search a place or a cenote",
+        "label": "Search for a place or a cave",
+        "placeholder": "Search a place or a cave",
         "hint": "Type at least 2 letters",
         "searching": "Searching…",
         "noResults": "Nothing found",
         "error": "Places can't be searched right now",
-        "cenotes": "Cenotes",
+        "cenotes": "Caves",
         "places": "Places"
       },
       "cenoteEntrance": "Cenote entrance",
@@ -669,57 +706,56 @@
       "saveError": "Could not save your rating."
     },
     "cenoteEntrance": "Cenote entrance",
-    "cenoteEntranceDescription": "A cenote divers use to enter a cave system."
+    "cenoteEntranceDescription": "A cenote divers use to enter a cave system.",
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video added",
+    "videoAlreadyAdded": "This video is already in the list.",
+    "videoDeleted": "Video deleted",
+    "videoAddError": "The video couldn't be added. Please try again."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Back",
       "ariaLabel": "Back"
     },
     "addPictureBtn": {
-      "tooltip": "Add pictures",
-      "ariaLabel": "add pictures"
+      "tooltip": "Add photos",
+      "ariaLabel": "Add photos"
     },
     "empty": {
-      "header": "No images yet!",
-      "btn": "Add images"
+      "header": "No photos yet!",
+      "btn": "Add photos"
     },
     "share": {
       "title": "View « {{title}} » on OpenCaves.org",
       "text": "View « {{title}}"
     },
-    "images": "images",
+    "images": "photos",
     "menu": {
       "ariaLabel": "More",
-      "useAsCoverImage": "Use as cover image",
-      "useAsCoverSuccess": "Cover image changed.",
-      "useAsCoverFail": "Failed to change cover image.",
+      "useAsCoverImage": "Use as cover photo",
+      "useAsCoverSuccess": "Cover photo changed.",
+      "useAsCoverFail": "Could not change the cover photo.",
       "useViewAsThumbnail": "Use this view as thumbnail",
       "useViewAsThumbnailSuccess": "Thumbnail changed to this view.",
       "useViewAsThumbnailFail": "Failed to change the thumbnail.",
-      "viewOriginalImage": "View original image",
+      "viewOriginalImage": "View original photo",
       "deleteAction": "Delete photo",
       "deleteSuccess": "Photo moved to the trash.",
       "deleteFail": "Couldn't delete the photo.",
       "deleteConfirmTitle": "Delete this photo?",
       "deleteConfirm": "The photo goes to the trash: an admin can restore it from Audits > Trash.",
-      "deleteCancel": "Cancel"
+      "deleteCancel": "Cancel",
+      "isCoverImage": "This is the cover photo"
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Show image"
+        "ariaLabel": "Show photo"
       }
     },
     "addMedia": {
-      "header": "Upload photos of Cenote {{name}}",
-      "dragHere": "Drag photos here",
       "dropHere": "Drop the files here …",
-      "or": "or",
-      "btn": "Click to select files",
-      "closeBtn": {
-        "ariaLabel": "close"
-      },
       "success_one": "1 photo added",
       "success_other": "{{count}} photos added",
       "errorHeader": "Oops!",
@@ -731,10 +767,10 @@
       "uploadingTo": "Uploading to",
       "countMedias": "{{index}} of {{total}}",
       "gpsCheck": {
-        "title_one": "This photo was taken far from the cenote",
-        "title_other": "{{count}} photos were taken far from the cenote",
-        "text_one": "Its GPS position is more than {{distance}} from {{cave}}. Is it really a photo of this cenote?",
-        "text_other": "Their GPS positions are more than {{distance}} from {{cave}}. Are they really photos of this cenote?",
+        "title_one": "This photo was taken far from the cave",
+        "title_other": "{{count}} photos were taken far from the cave",
+        "text_one": "Its GPS position is more than {{distance}} from {{cave}}. Is it really a photo of this cave?",
+        "text_other": "Their GPS positions are more than {{distance}} from {{cave}}. Are they really photos of this cave?",
         "distance": "{{distance}} away",
         "skip_one": "Skip this photo",
         "skip_other": "Skip these photos",
@@ -742,7 +778,9 @@
         "cancelButton": "Cancel",
         "cancel": "Cancel the upload"
       },
-      "needsConnection": "You’re offline: uploading needs a connection."
+      "needsConnection": "You’re offline: uploading needs a connection.",
+      "rejected_one": "{{count}} file not added: only photos (JPEG, PNG, WebP, AVIF) can be added here.",
+      "rejected_other": "{{count}} files not added: only photos (JPEG, PNG, WebP, AVIF) can be added here."
     },
     "details": {
       "empty": "There is nothing here"
@@ -819,18 +857,19 @@
     "explorationNotes": "Notes",
     "newSistema": "New sistema",
     "sistemaTitle": "Sistema {{name}}",
-    "backToSistemas": "Back to sistemas",
+    "backToSistemas": "Back to cave systems",
     "backToSistema": "Back to the system's page",
     "name": "Name",
     "parentSistema": "Parent sistema",
     "area": "Area",
     "color": "Color",
     "source": "Source",
+    "sourceHint": "Where this cave system's information comes from. Your own findings? Choose OpenCaves.",
     "location": "Location",
     "maxDepth": "Max depth ({{unit}})",
     "description": "Description",
     "direction": "Getting there",
-    "maps": "Maps",
+    "maps": "Survey maps",
     "none": "(none)",
     "deleteConfirm": "Delete this sistema?",
     "delete": "Delete",
@@ -838,7 +877,9 @@
     "exit": "Exit",
     "save": "Save",
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
-    "explorationDateHint": "When this exploration took place."
+    "explorationDateHint": "When this exploration took place.",
+    "measurementInvalid": "Enter a number",
+    "measurementRange": "From 0 to {{max}} {{unit}}"
   },
   "mapsPicker": {
     "close": "Close",
@@ -866,7 +907,8 @@
     "add": "Add",
     "mapDateHint": "When the map was drawn or published.",
     "cartography": "Cartography: {{names}}",
-    "needsConnection": "You’re offline: uploading needs a connection."
+    "needsConnection": "You’re offline: uploading needs a connection.",
+    "wrongType": "Choose an image or a PDF."
   },
   "colorPicker": {
     "addColor": "Add a color",
@@ -968,22 +1010,27 @@
       "ariaLabel": "Edit cave data",
       "editCave": "Edit this cave",
       "addNewCave": "Add new cave",
-      "exitEditMode": "Exit edit mode"
+      "exitEditMode": "Exit edit mode",
+      "editCaveNoneSelected": "Select a cave to edit it"
     },
     "error": "Something went wrong",
     "savedCave": "Saved",
     "markers": {
       "location": "Cave location",
       "entrance": "Cave entrance",
-      "key": "Key location"
+      "parking": "Cave parking",
+      "key": "Key location",
+      "entranceShort": "Entrance",
+      "parkingShort": "Parking",
+      "keyShort": "Key"
     },
     "caveLayer": {
       "button": "Map layers",
       "title": "Cave passages",
       "scope": "Systems",
       "all": "All systems",
-      "selected": "Only the selected cenote's system",
-      "selectedHint": "Select a cenote first",
+      "selected": "Only the selected cave’s system",
+      "selectedHint": "Select a cave first",
       "colors": "Colours",
       "bySystem": "By system",
       "single": "One colour",
@@ -1026,14 +1073,22 @@
         "openScan": "Open the original map"
       },
       "panelTitle": "Map layers",
-      "turnOn": "Turn on map layers",
-      "turnOff": "Turn off map layers"
+      "show": "Show the passages"
+    },
+    "controls": {
+      "locationNotAvailable": "Location not available",
+      "mapTitle": "Map",
+      "scrollZoom": "Use Ctrl + scroll to zoom the map",
+      "scrollZoomMac": "Use ⌘ + scroll to zoom the map",
+      "touchPan": "Use two fingers to move the map",
+      "toggleAttribution": "Toggle attribution",
+      "logo": "Mapbox logo"
     }
   },
   "dashboard": {
     "noSistemaArea": "No area assigned",
     "backToDashboard": "Back to dashboard",
-    "manageSistemaConnections": "Manage sistemas connexions",
+    "manageSistemaConnections": "Manage cave system connections",
     "searchSistemaConnections": "Search connections",
     "newSistemaConnection": "New sistema connection",
     "chooseSistemaToConnect": "Choose a sistema to connect",
@@ -1045,8 +1100,9 @@
     "backToConnections": "Back to connections",
     "childSistema": "Sistema",
     "parentSistema": "Parent sistema",
-    "searchParentSistema": "Search sistemas or areas",
+    "searchParentSistema": "Search cave systems or areas",
     "connectionSource": "Source",
+    "connectionSourceHint": "Where this connection's information comes from. Your own findings? Choose OpenCaves.",
     "noSource": "(none)",
     "connectionDate": "Connection date",
     "connectionNote": "Note(s)",
@@ -1067,13 +1123,13 @@
     "cavesSection": "Caves",
     "referenceDataSection": "Reference data",
     "manageCaves": "Manage caves",
-    "manageSistemas": "Manage sistemas",
+    "manageSistemas": "Manage cave systems",
     "caves": "Caves",
     "sistemas": "Sistemas",
     "caveCount_one": "{{count}} cave",
     "caveCount_other": "{{count}} caves",
     "sistemaCount_one": "{{count}} sistema",
-    "sistemaCount_other": "{{count}} sistemas",
+    "sistemaCount_other": "{{count}} cave systems",
     "searchByName": "Search by name",
     "newCave": "New cave",
     "newSistema": "New sistema",
@@ -1116,9 +1172,15 @@
     },
     "parentSistemaHint": "The larger sistema this one is connected to. Leave it empty if it's a sistema of its own.",
     "connectionOfSistema": "the connection of {{name}}",
-    "connectionDateHint": "When the connection between the two sistemas was established.",
+    "connectionDateHint": "When the connection between the two cave systems was established.",
     "adminSection": "Administration",
+    "feedbackSection": "Feedback",
     "manageMapLayers": "Map layers",
+    "manageFeedback": "Feedback",
+    "followFeedback": "Ideas and fixes",
+    "followFeedbackText": "What testers have reported, and what's coming",
+    "newFeedback_one": "{{count}} new",
+    "newFeedback_other": "{{count}} new",
     "manageAudits": "Audits",
     "backToCaveIndex": "Back to the caves",
     "backToSistemaIndex": "Back to the cave systems",
@@ -1148,14 +1210,15 @@
     "connection": {
       "offline": "You're offline. Saved caves are still available.",
       "online": "You're back online.",
-      "onlineSyncing": "You're back online. Your changes are syncing."
+      "onlineSyncing": "You're back online. Your changes are syncing.",
+      "offlineNoSaved": "You're offline. Photos and maps you've already viewed are still here."
     },
-    "caveReady": "Cenote {{name}} is available offline",
-    "caveIncomplete": "Cenote {{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
-    "previewsReady": "Cenote previews, maps and cave passages are available offline",
+    "caveReady": "{{name}} is available offline",
+    "caveIncomplete": "{{name}} is saved, but some files couldn’t be downloaded. We’ll retry later.",
+    "previewsReady": "Cave previews, maps and passages are available offline",
     "previewsIncomplete": "Some previews or maps couldn’t be downloaded. We’ll retry later.",
     "previewsLabel": "Make available offline",
-    "previewsHint": "Cenote previews, maps and cave passages",
+    "previewsHint": "Cave previews, maps and passages",
     "waitingForWifi": "Waiting for Wi-Fi",
     "waitingForConnection": "Waiting for a connection",
     "downloadingCount": "Downloading for offline use… {{done}} / {{total}}",
@@ -1170,12 +1233,12 @@
     "caveIncompleteShort": "Partly available offline",
     "caveNotYet": "Not downloaded yet",
     "savedIncomplete": "Some files couldn’t be downloaded. We’ll retry later.",
-    "savedAvailable": "All saved cenotes are available offline",
+    "savedAvailable": "All saved caves are available offline",
     "hint": {
       "offline": "You're offline: only the photos and maps you've already viewed are on this device.",
-      "save": "Save this cenote to keep all of it for your next dive.",
-      "account": "Create an account to save cenotes for offline use.",
-      "system": "Save one of its cenotes to keep its maps for your next dive.",
+      "save": "Save this cave to keep all of it for your next dive.",
+      "account": "Create an account to save caves for offline use.",
+      "system": "Save one of its caves to keep its maps for your next dive.",
       "saveButton": "Save",
       "signupButton": "Sign up"
     },
@@ -1196,7 +1259,7 @@
       "signOutTitle": "Uploads still waiting",
       "signOutText_one": "A photo or map you added offline hasn't been uploaded yet. It only uploads for your account: signing out leaves it on this device until you sign back in.",
       "signOutText_other": "{{count}} photos or maps you added offline haven't been uploaded yet. They only upload for your account: signing out leaves them on this device until you sign back in.",
-      "signOutConfirm": "Sign out anyway",
+      "signOutConfirm": "Log out anyway",
       "signOutCancel": "Stay signed in"
     }
   },
@@ -1219,8 +1282,8 @@
   "seo": {
     "defaultDescription": "OpenCaves is the reference for finding cenotes in the Yucatán, Mexico: new caves to dive, verified GPS coordinates, useful descriptions, pictures and maps.",
     "mapHeading": "OpenCaves: map of the cenotes of the Yucatán",
-    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, Mexico):",
-    "caveDescriptionFallback": "Cenote {{name}} in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
+    "caveDescriptionPrefix": "{{name}} (Yucatán, Mexico):",
+    "caveDescriptionFallback": "{{name}}, a cave in the Yucatán, Mexico: location, access, pictures and maps on OpenCaves.",
     "notFoundTitle": "Page not found",
     "mapTitle": "Cenote map of the Yucatán"
   },
@@ -1305,11 +1368,11 @@
       "deleteUser": "Account deleted"
     },
     "collections": {
-      "caves": "Cenotes",
+      "caves": "Caves",
       "sistemas": "Sistemas",
       "connections": "Sistema connections",
       "cavesAssets": "Photos",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "accesses": "Accesses",
       "accessibilities": "Accessibilities",
       "sources": "Sources",
@@ -1447,12 +1510,16 @@
       },
       "title": "Caves of the Yucatán by area",
       "description": "Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.",
-      "add": "Add a cave"
+      "add": "Add a cave",
+      "subtitle_one": "{{count}} cave, by area.",
+      "subtitle_other": "{{count}} caves, by area."
     },
     "sistemas": {
       "title": "Cave systems of the Yucatán",
       "description": "The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.",
-      "add": "Add a cave system"
+      "add": "Add a cave system",
+      "subtitle_one": "{{count}} cave system, by area.",
+      "subtitle_other": "{{count}} cave systems, by area."
     },
     "sistema": {
       "title": "{{name}} system",
@@ -1476,7 +1543,9 @@
       "clear": "Clear the search",
       "results_one": "{{count}} result",
       "results_other": "{{count}} results",
-      "none": "Nothing matches “{{query}}”."
+      "none": "Nothing matches “{{query}}”.",
+      "cavesShort": "Cave, system or area",
+      "sistemasShort": "System or area"
     },
     "onMap": "Show on the map",
     "onMapOf": "{{name}} on the map",
@@ -1491,7 +1560,13 @@
       "openPhoto": "Open photo {{n}}"
     },
     "notOnMap": "Not on the map: no coordinates yet",
-    "maps": "Maps"
+    "maps": "Survey maps",
+    "searchNoResult": "No cave or system matches “{{query}}” - search all caves",
+    "empty": {
+      "photos": "No photos yet.",
+      "videos": "No videos yet.",
+      "maps": "No survey maps yet."
+    }
   },
   "appBarSearch": {
     "placeholder": "Search caves and systems",
@@ -1506,22 +1581,28 @@
   },
   "whatsNew": {
     "title": "What's new",
-    "description": "The caves, cave systems, connections, maps, photos and videos recently added to {{name}}.",
-    "subtitle": "The latest additions to {{name}}, newest first.",
+    "description": "The caves, cave systems, connections, maps, photos and videos recently added, modified or removed on {{name}}.",
+    "subtitle": "The latest additions, changes and removals on {{name}}, newest first.",
     "filters": {
       "all": "All",
       "caves": "Caves",
       "sistemas": "Cave systems",
       "connections": "Connections",
-      "maps": "Maps",
+      "maps": "Survey maps",
       "photos": "Photos",
-      "videos": "Videos"
+      "videos": "Videos",
+      "allChanges": "All changes",
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed",
+      "kindsLabel": "Content",
+      "changesLabel": "Change"
     },
     "kinds": {
       "caves": "Cave",
       "sistemas": "Cave system",
       "connections": "Connection",
-      "maps": "Map",
+      "maps": "Survey map",
       "photos": "Photos",
       "videos": "Videos"
     },
@@ -1534,11 +1615,192 @@
     "unnamedMap": "Untitled map",
     "recently": "Recently",
     "none": "Nothing new yet.",
-    "failed": "The latest additions couldn't be loaded.",
+    "failed": "The latest changes couldn't be loaded.",
     "photosAdded_one": "{{count}} photo of {{name}}",
     "photosAdded_other": "{{count}} photos of {{name}}",
     "videosAdded_one": "{{count}} video of {{name}}",
-    "videosAdded_other": "{{count}} videos of {{name}}"
+    "videosAdded_other": "{{count}} videos of {{name}}",
+    "changes": {
+      "added": "Added",
+      "modified": "Modified",
+      "removed": "Removed"
+    },
+    "modifiedBy": "modified by {{name}}",
+    "removedBy": "removed by {{name}}",
+    "changedFields": "changed: {{fields}}",
+    "fields": {
+      "name": "name",
+      "nameTranslations": "name translations",
+      "aka": "other names",
+      "keys": "key location",
+      "location": "location",
+      "entrance": "entrance",
+      "parking": "parking",
+      "sistemaId": "system",
+      "parentSistemaId": "joined system",
+      "area": "area",
+      "source": "source",
+      "access": "access",
+      "accessDetails": "access details",
+      "accessibility": "accessibility",
+      "accessibilityDetails": "accessibility details",
+      "description": "description",
+      "direction": "getting there",
+      "note": "notes",
+      "reporter": "reporter",
+      "explorationDate": "exploration date",
+      "cenoteEntrance": "cenote entrance",
+      "facilities": "facilities",
+      "fees": "fees",
+      "textSources": "text sources",
+      "color": "colour",
+      "length": "distance explored",
+      "maxDepth": "max depth",
+      "public": "visibility",
+      "explorations": "exploration history",
+      "connectionDate": "connection date",
+      "authors": "authors",
+      "date": "date",
+      "url": "file",
+      "contentType": "file type",
+      "videos": "videos",
+      "maps": "survey maps",
+      "activities": "activities"
+    }
+  },
+  "feedback": {
+    "title": "Send feedback",
+    "tab": "Feedback",
+    "intro": "Tell the OpenCaves team about a bug, something misleading, or an idea. Thank you for helping!",
+    "kindLabel": "What is it about?",
+    "kinds": {
+      "bug": "Bug",
+      "misleading": "Misleading",
+      "idea": "Idea"
+    },
+    "kindText": {
+      "bug": "Something broke or doesn’t work.",
+      "misleading": "Something is confusing or looks wrong.",
+      "idea": "Something is missing or could be better."
+    },
+    "hints": {
+      "bug": "Write the steps to reproduce it, one per line, so we can see it happen too: what you did, what you expected, and what happened instead.",
+      "misleading": "Say what is misleading - a label, a feature, some data - and what you understood. If data looks wrong, tell us what you think is right and how you know.",
+      "idea": "Describe what you would like OpenCaves to do, and when it would help you: before a dive, after one, to share something?"
+    },
+    "messageLabel": "Your message",
+    "placeholders": {
+      "bug": "1. Open the page of…\n2. Click…\n3. …\n\nExpected: …\nWhat happened: …",
+      "misleading": "The label/feature/data that is misleading, and what you understood…",
+      "idea": "I would like to be able to…"
+    },
+    "pageLabel": "Page",
+    "pageHelp": "The page it is about (filled in for you).",
+    "cancel": "Cancel",
+    "close": "Close",
+    "send": "Send",
+    "sent": "Thank you! Your feedback was sent to the OpenCaves team.",
+    "error": "Your feedback couldn't be sent. Please try again.",
+    "itemName": "Your feedback",
+    "admin": {
+      "title": "Feedback",
+      "back": "Back to the dashboard",
+      "status": {
+        "new": "New",
+        "confirmed": "Confirmed",
+        "inProgress": "In progress",
+        "done": "Done",
+        "rejected": "Rejected",
+        "duplicate": "Duplicate"
+      },
+      "statusHelp": {
+        "new": "Not looked at yet",
+        "confirmed": "A real problem, or an idea to do",
+        "inProgress": "Being worked on",
+        "done": "Fixed or added",
+        "rejected": "Not a problem, or not to do",
+        "duplicate": "Already reported"
+      },
+      "changeStatus": "Stage: {{status}}. Change it",
+      "none": "No reports here.",
+      "delete": "Delete",
+      "deleteTitle": "Delete this report?",
+      "deleteText": "It will be deleted for good.",
+      "statusError": "The stage couldn’t be changed. Please try again.",
+      "deleteError": "The report couldn’t be deleted. Please try again.",
+      "thread": {
+        "label": "Conversation",
+        "team": "OpenCaves team",
+        "replyLabel": "Reply to {{name}}",
+        "replyPlaceholder": "Your reply, emailed to them with the whole conversation…",
+        "replyPlaceholderMuted": "Your reply, added to the conversation…",
+        "mutedHint": "{{name}} muted feedback emails: your reply won’t be emailed. It stays in the conversation.",
+        "sentMuted": "Reply sent. {{name}} muted feedback emails: it won’t be emailed.",
+        "send": "Send",
+        "sendOptions": "Send and change the stage",
+        "sendAndClose": "Send and mark as {{status}}",
+        "sent": "Reply sent: {{name}} will get it by email.",
+        "sendError": "The reply couldn’t be sent. Please try again.",
+        "tooLong": "At most {{count}} characters",
+        "emailed": "Emailed",
+        "legacyNote": "Former note",
+        "attachmentsDropped_one": "{{count}} attachment not kept",
+        "attachmentsDropped_other": "{{count}} attachments not kept"
+      },
+      "list": {
+        "search": "Search reports",
+        "searchLabel": "Search reports: message, author, page",
+        "clearSearch": "Clear the search",
+        "clearFilters": "Clear search, filters and sort",
+        "open": "{{count}} Open",
+        "closed": "{{count}} Closed",
+        "kind": "Kind",
+        "allKinds": "All kinds",
+        "stage": "Stage",
+        "allStages": "All stages",
+        "sort": "Sort",
+        "sorts": {
+          "newest": "Newest",
+          "oldest": "Oldest",
+          "activity": "Latest activity"
+        },
+        "opened": "Opened",
+        "by": "by {{name}}",
+        "messages_one": "{{count}} message",
+        "messages_other": "{{count}} messages",
+        "untitled": "(no text)",
+        "noMatch": "No reports match this search or these filters."
+      },
+      "report": {
+        "back": "Back to the reports",
+        "open": "Open",
+        "closed": "Closed",
+        "openedThis": "opened this report",
+        "notFound": "This report doesn’t exist or was deleted.",
+        "details": "Report details",
+        "stage": "Stage",
+        "kind": "Kind",
+        "author": "Author",
+        "page": "Page",
+        "language": "Language",
+        "browser": "Browser",
+        "lastEmailed": "Author last emailed",
+        "authorMuted": "The author muted feedback emails"
+      },
+      "timeline": {
+        "opened": "opened",
+        "commented": "replied",
+        "repliedByEmail": "replied by email",
+        "stageSet": "set the stage to {{status}}"
+      }
+    },
+    "members": {
+      "title": "Ideas and fixes",
+      "intro": "What testers have reported, and what the OpenCaves team is doing about it: follow what's coming.",
+      "you": "You",
+      "someone": "A member"
+    },
+    "messageTooShort": "At least {{count}} characters"
   },
   "whatCanIDo": {
     "title": "What can I do?",
@@ -1614,6 +1876,11 @@
         "title": "Complete the cave systems",
         "text": "Their length and depth, their exploration history, and how they connect.",
         "action": "Browse the systems"
+      },
+      "feedback": {
+        "title": "Tell us what's wrong",
+        "text": "Something broken, misleading or missing: every report reaches the OpenCaves team, who answer by email.",
+        "action": "Send feedback"
       }
     },
     "goodToKnow": {
@@ -1644,11 +1911,11 @@
       "lead": "OpenCaves gathers what cave divers want to know about caves and cave systems around the world: where they are, how to get in, how they connect, what the surveys show. Open, and built by divers. It starts with the cenotes of the Yucatán.",
       "searchPlaceholder": "Find a cave, a system or an area",
       "openMap": "Open the map",
-      "search": "Search",
       "browse": {
         "caves": "Browse the caves",
         "sistemas": "Browse the systems"
-      }
+      },
+      "searchShort": "Cave, system or area"
     },
     "figures": {
       "label": "OpenCaves in figures",
@@ -1699,14 +1966,13 @@
     "contribute": {
       "whatCanIDo": "What can I do?",
       "title": "Built by divers",
-      "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings. The app itself is open source.",
+      "text": "OpenCaves is open data: anyone can read it, and divers keep it up to date. Sign up to add caves, photos, videos and ratings, and get updates on new caves and systems. The app itself is open source.",
       "signup": "Sign up to contribute",
       "github": "OpenCaves on GitHub"
     },
     "footer": {
       "whatCanIDo": "What can I do?",
-      "about": "About",
-      "language": "Language"
+      "about": "About"
     },
     "warningsLabel": "Before you dive",
     "search": {
@@ -1729,5 +1995,51 @@
     "inviteMember": "Thanks for being part of the crew! Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Help us keep the cave data complete and up to date - every diver's notes count.",
     "betaMember": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! We'll let you know when the beta is over.",
     "start": "Let's dive in"
+  },
+  "authPrompt": {
+    "close": "Close",
+    "notNow": "Not now",
+    "logIn": "Log in",
+    "signUp": "Create an account",
+    "photos": {
+      "title": "Add your photos",
+      "text": "Create a free account to add photos to caves - what you saw helps the next divers."
+    },
+    "videos": {
+      "title": "Add a video",
+      "text": "Create a free account to add videos to caves."
+    },
+    "maps": {
+      "title": "Add a survey map",
+      "text": "Create a free account to add survey maps to cave systems."
+    },
+    "feedback": {
+      "title": "Tell us what you found",
+      "text": "Create a free account to send feedback to the OpenCaves team, so we can follow up on it."
+    },
+    "default": {
+      "title": "An account is needed",
+      "text": "Create a free account, or log in, to do this."
+    }
+  },
+  "languagePicker": {
+    "label": "Language",
+    "automatic": "Automatic ({{language}})"
+  },
+  "lightbox": {
+    "previous": "Previous",
+    "next": "Next",
+    "close": "Close",
+    "share": "Share",
+    "download": "Download",
+    "enterFullscreen": "Full screen",
+    "exitFullscreen": "Exit full screen",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "slide": "Slide",
+    "carousel": "Carousel",
+    "lightbox": "Viewer",
+    "gallery": "Gallery",
+    "position": "{index} of {total}"
   }
 }

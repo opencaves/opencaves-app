@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as RouterLink } from 'react-router-dom'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Link, Typography } from '@mui/material'
-import ExpandMore from '@mui/icons-material/ExpandMore'
+import ExpandMore from '@mui/icons-material/ExpandMoreRounded'
 import { Grid } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
 import { getSistemaById } from '@/models/Sistema.js'
@@ -10,6 +10,7 @@ import CaveSystemIcon from '@/images/cave-system.svg?react'
 import ExplorationHistory from './ExplorationHistory.jsx'
 import { useSistemaSlugs } from '@/hooks/useIndexData.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
+import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { RESULT_PANE_STICKY_TOP, SEARCH_BAR_MARGIN, SEARCH_BAR_RADIUS, SEARCH_BAR_SHADOW } from '@/config/app.js'
 
 // A system's name as a link to its page (/sistemas/<id>), in the text's
@@ -25,7 +26,8 @@ function SistemaLink({ slug, children }) {
 }
 
 export default function Sistema({ sistemaHistory }) {
-  const { t: t2 } = useTranslation('resultPane')
+  // i18n: dates in the app's language (the browser's otherwise).
+  const { t: t2, i18n } = useTranslation('resultPane')
   const slugs = useSistemaSlugs()
 
   const hasSistemaAncestry = sistemaHistory.length > 1
@@ -95,23 +97,27 @@ export default function Sistema({ sistemaHistory }) {
               </Typography>
               {currentSistema.createdAt && (
                 <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+                  {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString(i18n.resolvedLanguage)}
                 </Typography>
               )}
             </Box>
           </AccordionSummary>
-          {/* Under the header ("… system"): the names alone. */}
+          {/* Under the header ("… system"): the names, each after its
+              system's line arrow, in its colour. */}
           <AccordionDetails variant="sistemaHistory">
             {sistemaHistory.map((sistema, i) => {
+              const arrow = <SistemaArrow color={sistemas[i].color} sx={{ mr: 0.75 }} />
               const sistemaName =
                 i === 0 ? (
                   <Typography variant="caveDetailsItemText">
+                    {arrow}
                     <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
                   </Typography>
                 ) : (
                   <Box>
                     <SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 'inherit' }} />
                     <Typography variant="caveDetailsItemText">
+                      {arrow}
                       <SistemaLink slug={slugs.get(sistema.id)}>{sistema.name}</SistemaLink>
                     </Typography>{' '}
                     {sistema.date && (
@@ -155,7 +161,7 @@ export default function Sistema({ sistemaHistory }) {
           </Typography>
           {currentSistema.createdAt && (
             <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString()}
+              {new Date(currentSistema.createdAt.toDate?.() ?? currentSistema.createdAt).toLocaleDateString(i18n.resolvedLanguage)}
             </Typography>
           )}
         </Box>

@@ -9,12 +9,14 @@ function findScrollParent(element) {
   return window
 }
 
-// An edit page's back button + title row. Above phone width it sticks below
-// the app bar while the form scrolls (a shadow once it's actually stuck, like
-// StickyActionBar); on phones it scrolls away and AppBar shows the title in
-// the toolbar instead (its data-appbar-page-title). --oc-edit-header-top is
-// where it sticks: the app bar's height by default, 0 inside a pane with its
-// own scroll area (SistemaEditPane).
+/**
+ * An edit page's back button + title row. Above phone width it sticks below
+ * the app bar while the form scrolls (a shadow once it's actually stuck, like
+ * StickyActionBar); on phones it scrolls away and AppBar shows the title in
+ * the toolbar instead (its data-appbar-page-title). --oc-edit-header-top is
+ * where it sticks: the app bar's height by default, 0 inside a pane with its
+ * own scroll area (SistemaEditPane).
+ */
 export default function EditPageHeader({ children }) {
   const isSmall = useSmall()
   const headerRef = useRef(null)

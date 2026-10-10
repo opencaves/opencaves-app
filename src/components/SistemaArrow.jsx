@@ -1,10 +1,12 @@
 import { LineArrow } from '@/components/icons.jsx'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
 
-// A cave system's colour, as a cave diver's line arrow, beside its name in
-// lists and texts (the system page's title keeps the line cookie,
-// SistemaCookie). Text-sized by default, with the cookie's thin edge, which
-// keeps a light colour (the default, white) visible on a light page.
+/**
+ * A cave system's colour, as a cave diver's line arrow, beside its name in
+ * lists and texts (the system page's title keeps the line cookie,
+ * SistemaCookie). Text-sized by default, with the cookie's thin edge, which
+ * keeps a light colour (the default, white) visible on a light page.
+ */
 export default function SistemaArrow({ color, sx }) {
   return (
     <LineArrow

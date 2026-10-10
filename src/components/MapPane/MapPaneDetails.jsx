@@ -14,6 +14,7 @@ import { IconButton, styled, useTheme } from '@mui/material'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { useOrientationFullscreen } from '@/hooks/useOrientationFullscreen.js'
 import { useGalleryArrowKeys } from '@/hooks/useGalleryArrowKeys.js'
+import { useLightboxLabels } from '@/hooks/useLightboxLabels.js'
 import ArrowForwardIosRounded from '@mui/icons-material/ArrowForwardIosRounded'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
@@ -57,11 +58,17 @@ const MAP_MAX_ZOOM_PIXEL_RATIO = 20
 // The viewer over the whole app window (useOrientationFullscreen's fallback).
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
-// mapPath(id): a map's address (the map's viewer by default; a page's gallery
-// has its own); alwaysShowBack: the back arrow whatever the screen (no list
-// pane beside it); onBack: what it does (a link to returnTo otherwise);
-// canEdit: the Edit item in its menu; captioned: "3 / 12" at the top and each
-// map's name, year and cartographers under it (no list beside it).
+/**
+ * @param {object} props
+ * @param {(id: string) => string} [props.mapPath] - A map's address (the map's viewer by default; a page's gallery
+ *   has its own).
+ * @param {boolean} [props.alwaysShowBack=false] - The back arrow whatever the screen (no list
+ *   pane beside it).
+ * @param {() => void} [props.onBack] - What it does (a link to returnTo otherwise).
+ * @param {boolean} [props.canEdit=true] - The Edit item in its menu.
+ * @param {boolean} [props.captioned=false] - "3 / 12" at the top and each
+ *   map's name, year and cartographers under it (no list beside it).
+ */
 export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTrash, mapPath, alwaysShowBack = false, onBack, canEdit = true, captioned = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its
@@ -78,6 +85,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   const immersive = useOrientationFullscreen(fullscreenRef)
   const showBackArrow = alwaysShowBack || isSmall || isFullscreen || immersive
   const { t } = useTranslation('mediaPane')
+  const labels = useLightboxLabels()
   const { t: tMaps } = useTranslation('mapsPicker')
   const currentIndex = maps.findIndex((map) => map.id === mapId)
   const currentMap = maps.find((map) => map.id === mapId)
@@ -128,6 +136,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
   return (
     <Main className="oc-map-pane-details" sx={immersive ? IMMERSIVE_SX : undefined}>
       <Lightbox
+        labels={labels}
         index={currentIndex}
         slides={slides}
         fullscreen={{ auto: false, ref: fullscreenRef }}
@@ -137,6 +146,7 @@ export default function MapPaneDetails({ mapId, maps, sistemaId, returnTo, onTra
               <IconButton
               key="oc-map-pane-details-back-btn"
               aria-label={t('backBtn.ariaLabel')}
+              data-oc-autofocus
               {...(onBack ? { onClick: onBack } : { component: Link, to: returnTo })}
               disableRipple
               sx={{ color: 'var(--yarl__color_button,hsla(0,0%,100%,.8))' }}

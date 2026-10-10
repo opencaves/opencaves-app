@@ -7,7 +7,12 @@ import { OAuthProvider, linkWithCredential } from 'firebase/auth'
 const KEY = 'oc-pending-link'
 export const PENDING_LINK_EVENT = 'oc:pending-link'
 
-// From the auth/account-exists-with-different-credential error. True when kept.
+/**
+ * From the auth/account-exists-with-different-credential error.
+ *
+ * @param {Error} error
+ * @returns {boolean} True when kept.
+ */
 export function savePendingLink(error) {
   const credential = OAuthProvider.credentialFromError(error)
   const email = error?.customData?.email
@@ -37,8 +42,12 @@ export function clearPendingLink() {
   }
 }
 
-// Links the kept credential to the signed-in user, when it's the same email.
-// Returns the linked provider's id, or null when there was nothing to link.
+/**
+ * Links the kept credential to the signed-in user, when it's the same email.
+ *
+ * @param {import('firebase/auth').User} user
+ * @returns {Promise<string|null>} The linked provider's id, or null when there was nothing to link.
+ */
 export async function linkPendingCredential(user) {
   const pending = readPendingLink()
   if (!pending || !user?.email || user.email.toLowerCase() !== pending.email.toLowerCase()) return null

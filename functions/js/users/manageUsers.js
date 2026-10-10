@@ -3,6 +3,7 @@ import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
 import { ENFORCE_APP_CHECK, FROZEN_USERS_COLL_NAME, REGION, USERS_COLL_NAME } from '../constants.js'
 import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
+import { renderNotice } from '../email/layout.js'
 import { writeAuditLog } from '../audit/log.js'
 import { requireAdmin as requireAdminRole } from './requireAdmin.js'
 
@@ -25,6 +26,14 @@ async function listAllAuthUsers() {
   return users
 }
 
+/**
+ * Every registered account (anonymous sessions left out), for the admins'
+ * Users page.
+ *
+ * @param {CallableRequest} request
+ * @returns {Promise<{users: object[]}>}
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin}).
+ */
 export const listUsers = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
@@ -48,6 +57,15 @@ export const listUsers = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_C
   }
 })
 
+/**
+ * An account's roles, set by an admin.
+ *
+ * @param {CallableRequest} request - Its data: { uid, roles }.
+ * @returns {Promise<{roles: string[]}>} Its roles now.
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument for a missing uid or an unknown role; failed-precondition
+ *   for a frozen account, the caller's own admin role, or the last admin.
+ */
 export const setUserRoles = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 
@@ -125,8 +143,11 @@ async function emailAccount(user, emails) {
   if (!user.email) return false
   try {
     const language = (await db.collection(USERS_COLL_NAME).doc(user.uid).get()).get('language')
-    const { subject, text } = emails[language] || emails.en
-    const result = await sendEmail({ to: user.email, subject, text })
+    const lang = emails[language] ? language : 'en'
+    const { subject, text: body } = emails[lang]
+    // The subject is its title, its paragraphs the text's.
+    const { html, text } = renderNotice({ language: lang, title: subject, paragraphs: body.split('\n\n') })
+    const result = await sendEmail({ to: user.email, subject, html, text })
     return result.sent
   } catch (error) {
     logger.error('[setUserFrozen] the email could not be sent', { uid: user.uid, error: error.message })
@@ -134,12 +155,18 @@ async function emailAccount(user, emails) {
   }
 }
 
-// Freezes an account: all its editing rights removed (its roles emptied, kept
-// in frozenRoles for unfreezing), and the auto-granted editor role
-// (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
-// current ID token still works until it expires (up to an hour), then it
-// signs in again without them. Unfreezing gives its roles back. The account
-// is told both times by email.
+/**
+ * Freezes an account: all its editing rights removed (its roles emptied, kept
+ * in frozenRoles for unfreezing), and the auto-granted editor role
+ * (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
+ * current ID token still works until it expires (up to an hour), then it
+ * signs in again without them. Unfreezing gives its roles back. The account
+ * is told both times by email.
+ *
+ * @param {CallableRequest} request - Its data: { uid, frozen }.
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument without uid and frozen; failed-precondition for the caller's own account.
+ */
 export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 
@@ -182,6 +209,15 @@ export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_A
   return { frozen: false, roles: restored, emailed }
 })
 
+/**
+ * An account deleted by an admin.
+ *
+ * @param {CallableRequest} request - Its data: { uid }.
+ * @returns {Promise<{uid: string}>}
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument for a missing uid; failed-precondition for the caller's
+ *   own account.
+ */
 export const deleteUser = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async request => {
   requireAdmin(request)
 

@@ -1,17 +1,22 @@
 import { useCallback } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
+import { useLocation } from 'react-router-dom'
+import { buildContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 
-// For an action only accounts can take (adding a photo or a map): to sign up
-// (an anonymous visitor) or log in, coming back here afterwards.
-export function useRequireLogin() {
+export const AUTH_PROMPT_EVENT = 'oc-auth-prompt'
+
+/**
+ * For an action only accounts can take (adding a photo, a video or a map,
+ * sending feedback): asks first why an account is needed (AuthPromptDialog,
+ * worded for the action) - it jumped straight to a bare log-in page - then
+ * signs up or logs in, coming back here afterwards.
+ *
+ * @param {string} [reason='default'] - 'photos',
+ *   'videos', 'maps', 'feedback' (else a general wording).
+ * @returns {() => void}
+ */
+export function useRequireLogin(reason = 'default') {
   const location = useLocation()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const isAnonymous = useSelector((state) => state.session.isAnonymous)
   return useCallback(() => {
-    dispatch(setContinueUrl(buildContinueUrl(location)))
-    navigate(isAnonymous ? '/signup' : '/login')
-  }, [dispatch, location, navigate, isAnonymous])
+    window.dispatchEvent(new CustomEvent(AUTH_PROMPT_EVENT, { detail: { reason, continueUrl: buildContinueUrl(location) } }))
+  }, [location, reason])
 }

@@ -7,17 +7,21 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import { Grid } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
+import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
-import { SCROLLBAR_STEP_FACTOR, SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 
 // The primary's darker tone, its lighter one in dark mode.
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
-// photoPath(id): a photo's address (a page's gallery); the map's viewer otherwise.
+/**
+ * @param {object} props
+ * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
+ */
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
@@ -77,35 +81,23 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
         return
       }
 
-      const scrollStep = SCROLLBAR_STEP_FACTOR * wheelDirection
-      const func = wheelDirection > 0 ? Math.min : Math.max
-      const clampValue = wheelDirection > 0 ? width : 0
-      const newScrollLeft = scrollLeft + scrollStep
-      const clampedScrollLeft = func(clampValue, newScrollLeft)
-
-      scrollbar.scrollLeft(clampedScrollLeft)
+      scrollStrip(scrollbar.view, event)
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
+    const stopSnapping = snapOnSettle(scrollbar.view, container)
+    return () => {
+      container.removeEventListener('wheel', onWheel)
+      stopSnapping()
+    }
   }, [mediaList])
 
   useEffect(() => {
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      const docs = [...mediaList.docs].sort((a, b) => {
-        const aCover = a.data().isCover ? 1 : 0
-        const bCover = b.data().isCover ? 1 : 0
-
-        if (aCover !== bCover) {
-          return bCover - aCover
-        }
-
-        const aDate = a.data().date?.toDate?.() ?? 0
-        const bDate = b.data().date?.toDate?.() ?? 0
-        return bDate - aDate
-      })
+      // In the order every view shows them (CaveAsset.js's photoOrder).
+      const { docs } = mediaList
 
       const assetsListLength = Math.min(docs.length, assetsListMaxLength)
       const assetItems = []
@@ -171,7 +163,7 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
     <>
       {mediaList && !mediaList.empty && (
         <Box
-          className={`oc-media-list ${className || ''}`.trim()}
+          className={`oc-media-list oc-media-strip ${className || ''}`.trim()}
           sx={{
             marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
             height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
@@ -192,7 +184,7 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
               },
             }}
           >
-            <Box sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
               <Grid container direction="row" sx={{ width: 'min-content', display: 'flex', flexWrap: 'nowrap' }}>
                 {assetsList}
               </Grid>
@@ -242,7 +234,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
   return status === 'loading' ? (
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
-    <Box sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
+    <Box className="oc-media-strip--item" sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={Link} to={photoPath ? photoPath(media.id) : editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} state={photoPath ? { fromPage: true } : undefined} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
@@ -261,7 +253,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
             }}
             sx={{ position: 'absolute', top: 6, right: 6, color: 'common.white', bgcolor: 'rgb(0 0 0 / 0.5)', '&:hover': { bgcolor: 'rgb(0 0 0 / 0.65)' } }}
           >
-            <CloseRounded fontSize="small" />
+            <CloseRounded />
           </IconButton>
         </Tooltip>
       )}
@@ -320,6 +312,7 @@ function MoreMedias({ width, height, to, state }) {
       component={Link}
       to={to}
       state={state}
+      className="oc-media-strip--item"
       sx={{
         borderRadius: '.5rem',
         backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,

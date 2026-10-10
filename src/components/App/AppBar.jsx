@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
-import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
 import { Grid } from '@mui/material'
@@ -41,6 +41,11 @@ const NAV_LINK_SX = (theme) => ({
   // Below 1200px, closer together.
   [theme.breakpoints.down('lg')]: { px: 1 },
 })
+
+// The Map link's icon in the secondary colour (the app's gold), set apart
+// from the other links: the map is the app's heart. Its own colour in every
+// state, the active one included.
+const MAP_ICON_SX = (theme) => ({ '& .MuiButton-startIcon': { color: theme.vars.palette.secondary.main } })
 
 // Material Design 3's small top app bar: 64dp tall on phones too (MUI's is
 // 56px there, 48px sideways - '&&' outweighs its media queries), 4dp at its
@@ -202,11 +207,13 @@ export default function AppBar() {
             </Typography>
           </Button>
 
-          <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content' }}>
+          {/* Centred on the bar's height, links and buttons alike (the links
+              sat 4 px higher than the buttons on the right). */}
+          <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content', alignItems: 'center' }}>
             {!isSmall && (
-              <Grid sx={{ mr: 1, display: 'flex', gap: 0.5 }}>
+              <Grid sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
-                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={NAV_LINK_SX}>
+                  <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
                   </Button>
                 ))}
@@ -229,7 +236,7 @@ export default function AppBar() {
                 <>
                   <Tooltip title={t('signInMenu')}>
                     <IconButton color="inherit" aria-label={t('signInMenu')} aria-haspopup="menu" aria-expanded={signInMenuAnchor ? 'true' : undefined} aria-controls={signInMenuAnchor ? 'oc-app-bar-sign-in-menu' : undefined} onClick={(event) => setSignInMenuAnchor(event.currentTarget)} sx={{ p: 1.5 }}>
-                      <AccountCircleOutlined />
+                      <AccountCircleRounded />
                     </IconButton>
                   </Tooltip>
                   <Menu id="oc-app-bar-sign-in-menu" className="oc-app-bar--sign-in-menu" anchorEl={signInMenuAnchor} open={Boolean(signInMenuAnchor)} onClose={() => setSignInMenuAnchor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>

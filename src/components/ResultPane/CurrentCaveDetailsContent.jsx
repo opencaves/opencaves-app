@@ -2,14 +2,15 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import DirectionsOutlined from '@mui/icons-material/DirectionsOutlined'
-import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
-import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
-import LocationDisabledOutlined from '@mui/icons-material/LocationDisabledOutlined'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import ContentCopy from '@mui/icons-material/ContentCopyRounded'
+import DirectionsRounded from '@mui/icons-material/DirectionsRounded'
+import LocationOnRounded from '@mui/icons-material/LocationOnRounded'
+import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
+import LocationDisabledRounded from '@mui/icons-material/LocationDisabledRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
 import KeyRounded from '@mui/icons-material/KeyRounded'
-import TerrainOutlined from '@mui/icons-material/TerrainOutlined'
+import TerrainRounded from '@mui/icons-material/TerrainRounded'
 import { Link as RouterLink } from 'react-router-dom'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
@@ -31,7 +32,7 @@ function DirectionsAction({ point, label }) {
   return (
     <Tooltip title={label}>
       <IconButton className="oc-results-copy-list--directions" aria-label={label} onClick={() => openDirections(point)}>
-        <DirectionsOutlined />
+        <DirectionsRounded />
       </IconButton>
     </Tooltip>
   )
@@ -65,7 +66,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
   })
 
   let hasAddressOrCoordinates = false
-  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText
+  let address, addressText, coordinatesText, coordinatesTextCopy, keysTexts, entranceText, parkingText
 
   if (cave.location) {
     address = <Address caveId={cave.id} longitude={cave.location.longitude} latitude={cave.location.latitude} />
@@ -81,6 +82,10 @@ export default function CurrentCaveDetailsContent({ cave }) {
 
   if (cave.entrance) {
     entranceText = `${cave.entrance.latitude}, ${cave.entrance.longitude}`
+  }
+
+  if (cave.parking) {
+    parkingText = `${cave.parking.latitude}, ${cave.parking.longitude}`
   }
 
   function handleAddressTooltipOpen() {
@@ -125,7 +130,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
                   >
                     <ListItemButton>
                       <ListItemIcon>
-                        <LocationOnOutlined color="primary" />
+                        <LocationOnRounded color="primary" />
                       </ListItemIcon>
                       <ListItemText primary={address} />
                       <ListItemIcon ref={addressCopyRef} className="oc-icon-copy-container">
@@ -137,7 +142,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
               </CopyToClipboard>
             )}
 
-            {coordinatesText && <CoordinateRow icon={<MyLocationOutlined color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
+            {coordinatesText && <CoordinateRow icon={<MyLocationRounded color="primary" />} text={coordinatesText} copyText={coordinatesTextCopy} copyLabel={t('copyCoordinates')} point={cave.location} directionsLabel={t('directionsToCave')} onCopied={confirmCopied} tooltip={!isSmall} />}
           </>
         )}
 
@@ -145,14 +150,16 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <ListItem disablePadding>
             <ListItemButton disabled>
               <ListItemIcon>
-                <LocationDisabledOutlined color="primary" />
+                <LocationDisabledRounded color="primary" />
               </ListItemIcon>
               <ListItemText primary={t('locationNotAvailable')} />
             </ListItemButton>
           </ListItem>
         )}
 
-        {entranceText && <CoordinateRow icon={<FenceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
+        {parkingText && <CoordinateRow icon={<LocalParkingRounded color="primary" />} text={parkingText} copyText={parkingText} copyLabel={t('copyParkingCoordinates')} point={cave.parking} directionsLabel={t('directionsToParking')} onCopied={confirmCopied} tooltip={!isSmall} />}
+
+        {entranceText && <CoordinateRow icon={<EntranceRounded color="primary" />} text={entranceText} copyText={entranceText} copyLabel={t('copyEntranceCoordinates')} point={cave.entrance} directionsLabel={t('directionsToEntrance')} onCopied={confirmCopied} tooltip={!isSmall} />}
 
         {keysTexts &&
           keysTexts.map((keyText, index) => <CoordinateRow key={keyText} icon={<KeyRounded color="primary" />} text={keyText} copyText={keyText} copyLabel={t('copyCoordinates')} point={cave.keys[index]} directionsLabel={t('directionsToKey')} onCopied={confirmCopied} tooltip={!isSmall} />)}
@@ -161,7 +168,7 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <ListItem disablePadding className="oc-results-copy-list--area">
             <ListItemButton component={RouterLink} to={`/caves#${slugify(cave.area)}`}>
               <ListItemIcon>
-                <TerrainOutlined color="primary" />
+                <TerrainRounded color="primary" />
               </ListItemIcon>
               <ListItemText primary={t('area', { area: cave.area })} />
             </ListItemButton>

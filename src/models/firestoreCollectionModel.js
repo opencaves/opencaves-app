@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { collection, deleteDoc, deleteField, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { useSsrCollection } from '@/hooks/useSsrCollection.js'
 import { auth, db } from '@/config/firebase.js'
 import { isTrashed } from '@/utils/trash.js'
 
@@ -9,14 +9,20 @@ const converter = {
   fromFirestore: (snapshot, options) => ({ id: snapshot.id, ...snapshot.data(options) })
 }
 
-// Shared read/write access for the plain-object cave-data collections
-// (caves, sistemas, connections, and the reference-data collections). Mirrors
-// the converter + useCollection pattern established in models/CaveAsset.js,
-// the only other Firestore data-access precedent in this app, generalized
-// since these collections don't need per-entity classes/behavior.
-// trash: the collection's deletions go to the trash (utils/trash.js) - its
-// reads then skip the records in it (useAll({ includeTrashed: true }) keeps
-// them, for a reader that must tell a trashed record from a missing one).
+/**
+ * Shared read/write access for the plain-object cave-data collections
+ * (caves, sistemas, connections, and the reference-data collections). Mirrors
+ * the converter + useCollection pattern established in models/CaveAsset.js,
+ * the only other Firestore data-access precedent in this app, generalized
+ * since these collections don't need per-entity classes/behavior.
+ *
+ * @param {string} collectionName
+ * @param {object} [options]
+ * @param {boolean} [options.trash=false] - The collection's deletions go to the trash (utils/trash.js) - its
+ *   reads then skip the records in it (useAll({ includeTrashed: true }) keeps
+ *   them, for a reader that must tell a trashed record from a missing one).
+ * @returns {object}
+ */
 export function createCollectionModel(collectionName, { trash = false } = {}) {
   const collectionRef = collection(db, collectionName).withConverter(converter)
   const visible = (item) => !trash || !isTrashed(item)
@@ -70,7 +76,9 @@ export function createCollectionModel(collectionName, { trash = false } = {}) {
     },
 
     useAll({ includeTrashed = false } = {}) {
-      const [snapshot, loading, error] = useCollection(collectionRef)
+      // On a page the server rendered: the server's (ssrContext.js), by the
+      // collection's name.
+      const [snapshot, loading, error] = useSsrCollection(collectionName, collectionRef)
       const items = useMemo(() => snapshot?.docs.map(d => d.data()).filter((item) => includeTrashed || visible(item)) || [], [snapshot, includeTrashed])
       return [items, loading, error]
     }

@@ -350,7 +350,7 @@ export default function ResultPaneSm({ children, cave, ...props }) {
               height: () => (breakpoint === 1 ? '100%' : null),
             }}
           >
-            <Card className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`} component="main">
+            <Card className={`oc-result-pane--card${breakpoint === 1 ? ' oc-full-height' : ''}`} component="main" id="main">
               {/* One tree at every breakpoint: rendering the children under a
                   different wrapper per breakpoint (as this used to) made React
                   remount the whole pane whenever the sheet left or reached

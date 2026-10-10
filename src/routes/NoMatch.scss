@@ -112,3 +112,15 @@
     }
   }
 }
+
+// Inside the pages' layout (app bar kept): a page's heading, not a poster's.
+.oc-no-match.no-match--in-layout .no-match--header {
+  text-transform: none;
+  // The page title's size (PAGE_TITLE_SX, components/pageTitle.js): the h5
+  // font on phones, h4 from 600px up.
+  font: var(--mui-font-h5);
+
+  @media (min-width: 600px) {
+    font: var(--mui-font-h4);
+  }
+}

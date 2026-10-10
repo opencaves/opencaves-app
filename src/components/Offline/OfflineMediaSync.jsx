@@ -23,10 +23,12 @@ function useNetworkChangeTick() {
   return tick
 }
 
-// Keeps the offline caches in line with what should be available offline on
-// this device - every saved cenote's pictures and maps, and (when turned on)
-// every cave's cover thumbnail - and reports finished downloads. Renders
-// nothing; mounted once in App, inside the SnackbarProvider.
+/**
+ * Keeps the offline caches in line with what should be available offline on
+ * this device - every saved cenote's pictures and maps, and (when turned on)
+ * every cave's cover thumbnail - and reports finished downloads. Renders
+ * nothing; mounted once in App, inside the SnackbarProvider.
+ */
 export default function OfflineMediaSync() {
   const { t } = useTranslation('offline')
   const { t: tMap } = useTranslation('map')

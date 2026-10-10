@@ -70,20 +70,13 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Ba'ax je'el u beeta'al yéetel u ts'ono'otil {{name}}",
     "directions": "Bej",
     "save": "Kanáant",
     "share": "T'oxt",
-    "shareTitle": "Ts'ono'ot {{name}} / OpenCaves.org",
-    "shareText": "Ts'ono'ot {{name}}\n",
     "shareDialogTitle": "T'oxt",
     "saved": "Kanáanta'an",
     "savedMessage": "Kanáanta'ab ta perfil",
-    "unsavedMessage": "Luk'sa'ab ti' a ts'ono'oto'ob",
-    "saveError": "Ma' páajchaj u túumbenkúunsa'al a ts'ono'oto'ob.",
     "accountPrompt": {
-      "title": "Kanáant a ts'ono'oto'ob",
-      "text": "Beet jump'éel cuenta, ma' tu bo'ota'al, utia'al a kanáantik u ts'ono'otil {{name}} yéetel a kaxtik tuláakal a ts'ono'oto'ob ta perfil.",
       "notNow": "Ma' bejla'e'",
       "logIn": "Ook",
       "signUp": "Beet jump'éel cuenta"
@@ -119,11 +112,9 @@
         "myn": "maaya t'aan"
       },
       "id": "ID"
-    },
-    "inputAriaLabel": "Kaxt ts'ono'oto'ob"
+    }
   },
   "filter": {
-    "windowTitle": "Yéey ts'ono'oto'ob",
     "close": "K'al",
     "coordinate": {
       "heading": "Coordenadas GPS",
@@ -261,15 +252,11 @@
       "sistemaGroup": "Sistema",
       "sistemaSearchPlaceholder": "Kaxt",
       "source": "Tu'ux u taal",
-      "sourceHint": "Tu'ux u taal u tsolil le sistemaa'",
       "access": "Bix u yookol",
       "accessibility": "Bix u náats'al",
       "fees": "Bo'olo'ob",
-      "feesHint": "Wa k'a'abet u bo'ota'al u yookol ti' le ts'ono'ota'",
       "facilities": "Ba'alo'ob yaan te'elo'",
       "facilitiesHint": "Wa yaan baño wa u kúuchil u k'eexa'al nook' te'elo'",
-      "activities": "Ba'ax ku páajtal u beeta'al",
-      "activitiesHint": "Wa ku páajtal u beeta'al u láak' ba'alo'ob (ichkíil, buceo, uláak') te'elo'",
       "accessDetails": "U tsolil bix u yookol",
       "accessibilityDetails": "U tsolil bix u náats'al",
       "description": "Tsolil",
@@ -282,9 +269,6 @@
       "cancel": "Xu'ul",
       "accessGroup": "Bix u yookol",
       "accessibilityGroup": "Bix u náats'al",
-      "newCave": "Túumben ts'ono'ot",
-      "caveTitle": "Ts'ono'ot {{name}}",
-      "backToCaves": "Suut ti' ts'ono'oto'ob",
       "placeOnMap": "Ts'áa ti' le mapa",
       "placeOnMapTitle": "Ts'áa: {{label}}",
       "placeOnMapHint": "Péek le mapa utia'al a ts'áak le chíikulil tu'ux yaan",
@@ -301,19 +285,15 @@
       "media": "Oochelo'ob yéetel videos",
       "notes": "Ts'íibo'ob",
       "placeSearch": {
-        "label": "Kaxt jump'éel kúuchil wa jump'éel ts'ono'ot",
-        "placeholder": "Kaxt jump'éel kúuchil wa jump'éel ts'ono'ot",
         "hint": "Ts'íibt kex ka'ap'éel le'etra",
         "searching": "Táan u kaxta'al…",
         "noResults": "Mix ba'al kaxta'abi'",
         "error": "Ma' tu páajtal u kaxta'al kúuchilo'ob bejla'e'",
-        "cenotes": "Ts'ono'oto'ob",
         "places": "Kúuchilo'ob"
       }
     }
   },
   "mediaPane": {
-    "header": "Ts'ono'ot {{name}}",
     "backBtn": {
       "tooltip": "Suut",
       "ariaLabel": "Suut"
@@ -347,14 +327,7 @@
       }
     },
     "addMedia": {
-      "header": "Líik'es u oochelo'ob u ts'ono'otil {{name}}",
-      "dragHere": "Pul le oochelo'ob way a'ala'",
       "dropHere": "P'at le archivo'ob way a'ala'…",
-      "or": "wa",
-      "btn": "Péech' way utia'al a yéeyik archivo'ob",
-      "closeBtn": {
-        "ariaLabel": "k'al"
-      },
       "success_one": "Ts'a'ab 1 oochel",
       "success_other": "Ts'a'ab {{count}} oochelo'ob",
       "errorHeader": "¡Ay!",
@@ -574,14 +547,11 @@
     "caveNameUnknown": "(mina'an u k'aaba')",
     "editFab": {
       "ariaLabel": "K'eex u ts'íibil le ts'ono'oto'",
-      "editCave": "K'eex le ts'ono'ota'",
-      "addNewCave": "Ts'áa túumben ts'ono'ot",
       "exitEditMode": "Jóok' ti' k'eex"
     },
     "error": "Yaan ba'ax ma' páajchaji'",
     "savedCave": "Kanáanta'an",
     "markers": {
-      "location": "Tu'ux yaan le ts'ono'oto'",
       "entrance": "U jool le ts'ono'oto'",
       "key": "Tu'ux yaan u llaveil"
     }

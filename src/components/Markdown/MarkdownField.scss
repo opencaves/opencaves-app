@@ -81,6 +81,22 @@
         display: none;
         margin-left: 0.25em;
         cursor: pointer;
+
+        // Its open list is drawn by the system, which paints it with the
+        // dropdown's own background before its options: transparent, the list
+        // flashed white when it opened. The theme's surface, with a little
+        // room and rounding inside the chip.
+        background-color: var(--mui-palette-background-paper);
+        border-radius: 0.3em;
+        padding: 0 0.15em;
+
+        // Transparent options with the dark theme's pale text were unreadable
+        // on a light system list: the theme's own surface and text, in either
+        // theme.
+        option {
+          background-color: var(--mui-palette-background-paper);
+          color: var(--mui-palette-text-primary);
+        }
       }
 
       .oc-length-chip:focus-within .oc-length-chip--unit {

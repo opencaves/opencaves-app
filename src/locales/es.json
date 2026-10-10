@@ -1,6 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Fuente del texto",
+    "fieldHint": "De dónde proviene este texto. ¿Son tus propias palabras? Elige OpenCaves.",
     "none": "Ninguna",
     "known": "Fuente: {{name}}"
   },
@@ -52,6 +53,8 @@
       "logoutSuccess": "Has cerrado sesión correctamente.",
       "about": "Acerca de",
       "about_withName": "Acerca de {{name}}",
+      "feedback": "Enviar comentarios",
+      "feedbackList": "Ideas y correcciones",
       "whatCanIDo": "¿Qué puedo hacer?",
       "whatsNew": "Novedades",
       "drawer": {
@@ -65,7 +68,9 @@
       "welcome": "Te damos la bienvenida a {{name}}",
       "welcomeText": "Inicia sesión para guardar tus cuevas favoritas y contribuir.",
       "close": "Cerrar",
-      "signInMenu": "Iniciar sesión o registrarse"
+      "signInMenu": "Iniciar sesión o registrarse",
+      "newFeedbackAria_one": "{{count}} comentario nuevo",
+      "newFeedbackAria_other": "{{count}} comentarios nuevos"
     },
     "snackbar": {
       "saved": "Cambios en {{name}} guardados",
@@ -97,7 +102,9 @@
       "showAll": "Mostrar todo: {{title}}",
       "label": "{{title}}, carrusel",
       "showAllLink": "Mostrar todo"
-    }
+    },
+    "nameRequired": "El nombre es obligatorio",
+    "skipToContent": "Ir al contenido"
   },
   "account": {
     "profile": "Perfil",
@@ -119,11 +126,13 @@
     "signOut": "Cerrar sesión",
     "signedOut": "Sesión cerrada",
     "savedCaves": {
-      "title": "Cenotes guardados",
-      "empty": "Aún no has guardado ningún cenote. Usa el botón Guardar de un cenote para añadirlo aquí.",
+      "title": "Cuevas guardadas",
+      "empty": "Aún no has guardado ninguna cueva. Usa el botón Guardar de una cueva para añadirla aquí.",
       "remove": "Quitar de guardados",
       "removeNamed": "Quitar {{name}} de guardados",
-      "sistema": "Sistema {{name}}"
+      "sistema": "Sistema {{name}}",
+      "removed": "{{name}} quitada de tus cuevas guardadas",
+      "undo": "Deshacer"
     },
     "offline": {
       "title": "Uso sin conexión",
@@ -133,19 +142,19 @@
       "notPersisted": "El navegador puede eliminar estos datos si el dispositivo se queda sin espacio.",
       "clear": "Borrar los datos sin conexión",
       "confirmTitle": "¿Borrar los datos sin conexión?",
-      "confirmText": "Las imágenes, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión».",
+      "confirmText": "Las fotos, mapas y zonas del mapa descargados se eliminarán de este dispositivo, y se desactivará «Hacer disponible sin conexión».",
       "confirmClear": "Borrar",
       "cancel": "Cancelar",
       "cleared": "Datos sin conexión borrados",
       "clearError": "No se pudieron borrar los datos sin conexión.",
-      "confirmTextSaved": "Tus cenotes guardados seguirán guardados y se descargarán de nuevo la próxima vez que estés en Wi-Fi."
+      "confirmTextSaved": "Tus cuevas guardadas seguirán guardadas y se descargarán de nuevo la próxima vez que estés en Wi-Fi."
     },
     "language": "Idioma",
     "languageAutomatic": "Automático ({{language}})",
-    "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se guarda en este dispositivo.",
+    "languageHint": "Automático sigue el idioma de tu navegador. Tu elección se aplica en este dispositivo y dondequiera que inicies sesión.",
     "personalInfo": "Información personal",
     "units": "Unidades",
-    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cenotes y sistemas.",
+    "unitsHint": "Para longitudes y profundidades: en el mapa y en los detalles de cuevas y sistemas.",
     "unitsAutomatic": "Automático ({{units}})",
     "units_metric": "Métrico (m)",
     "units_imperial": "Imperial (pies)",
@@ -153,7 +162,15 @@
     "appearanceHint": "Modo claro u oscuro, en este dispositivo y dondequiera que inicies sesión.",
     "appearance_system": "Automático (ajuste del dispositivo)",
     "appearance_light": "Claro",
-    "appearance_dark": "Oscuro"
+    "appearance_dark": "Oscuro",
+    "emails": {
+      "title": "Correos",
+      "feedbackReplies": "Enviarme por correo las respuestas del equipo a mis comentarios",
+      "feedbackRepliesHint": "Cuando el equipo de OpenCaves responde a un reporte o una idea que enviaste. Sus respuestas siguen en OpenCaves de todos modos.",
+      "turnedOn": "Recibirás por correo las respuestas del equipo",
+      "turnedOff": "Ya no recibirás por correo las respuestas del equipo",
+      "saveError": "No se pudo guardar este ajuste. Inténtalo de nuevo."
+    }
   },
   "auth": {
     "dialog": {
@@ -212,9 +229,12 @@
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "Este correo electrónico ya está en uso",
-              "details": "Ya existe una cuenta que usa el correo <strong>{{email}}</strong>.<br /> Prueba con otro correo o inicia sesión con Google.",
+              "details": "Una cuenta ya usa <strong>{{email}}</strong>.<br /> Inicia sesión en ella, o prueba otro correo.",
               "previousBtn": "Probar con otro correo",
-              "loginWithGoogle": "Iniciar sesión con Google"
+              "loginWithGoogle": "Iniciar sesión con Google",
+              "loginWithEmail": "Iniciar sesión con este correo",
+              "forgotPassword": "¿Olvidaste tu contraseña?",
+              "loginWithMicrosoft": "Iniciar sesión con Microsoft"
             },
             "emailSentNotification": {
               "header": "Revisa tu correo",
@@ -288,7 +308,7 @@
   "about": {
     "title": "Acerca de",
     "version": "Versión {{version}}",
-    "whatsNew": "Novedades",
+    "whatsNew": "Notas de la versión",
     "dialog": {
       "ariaLabel": "Acerca de {{name}}",
       "close": "cerrar"
@@ -318,20 +338,20 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Acciones para el cenote {{name}}",
+    "ariaLabel": "Acciones para {{name}}",
     "directions": "Cómo llegar",
     "save": "Guardar",
     "share": "Compartir",
-    "shareTitle": "Cenote {{name}} / OpenCaves.org",
-    "shareText": "Cenote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Compartir",
     "saved": "Guardado",
     "savedMessage": "Guardado en tu perfil",
-    "unsavedMessage": "Eliminado de tus cenotes guardados",
-    "saveError": "No se pudieron actualizar tus cenotes guardados.",
+    "unsavedMessage": "Eliminada de tus cuevas guardadas",
+    "saveError": "No se pudieron actualizar tus cuevas guardadas.",
     "accountPrompt": {
-      "title": "Guarda tus cenotes favoritos",
-      "text": "Crea una cuenta gratuita para guardar el cenote {{name}} y encontrar todos tus cenotes guardados en tu perfil.",
+      "title": "Guarda tus cuevas favoritas",
+      "text": "Crea una cuenta gratuita para guardar {{name}} y encontrar todas tus cuevas guardadas en tu perfil.",
       "notNow": "Ahora no",
       "logIn": "Iniciar sesión",
       "signUp": "Crear una cuenta"
@@ -388,10 +408,11 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Buscar cenotes"
+    "inputAriaLabel": "Buscar cuevas",
+    "noResults": "Ninguna cueva coincide con «{{query}}»."
   },
   "filter": {
-    "windowTitle": "Filtrar cenotes",
+    "windowTitle": "Filtrar cuevas",
     "close": "Cerrar",
     "coordinate": {
       "heading": "Coordenadas GPS",
@@ -483,25 +504,25 @@
       ]
     },
     "cenoteType": {
-      "heading": "Tipo de cenote",
+      "heading": "Tipo de cueva",
       "showCenoteEntrances": "Mostrar cenotes de entrada",
-      "showOtherCenotes": "Mostrar otros cenotes"
+      "showOtherCenotes": "Mostrar otras cuevas"
     },
     "closeBtn": "Cerrar los filtros"
   },
   "resultPane": {
-    "title": "Cenote {{name}}",
-    "videosHeader": "Vídeos",
-    "videoFrameTitle": "Vídeo {{index}}",
-    "playVideo": "Reproducir vídeo {{index}}",
+    "title": "{{name}}",
+    "videosHeader": "Videos",
+    "videoFrameTitle": "Video {{index}}",
+    "playVideo": "Reproducir video {{index}}",
     "closeVideo": "Cerrar el video",
-    "openVideo": "Abrir vídeo {{index}}",
-    "addVideos": "Añadir vídeos",
-    "addVideoTitle": "Añadir un vídeo",
-    "videoUrl": "URL del vídeo",
-    "videoUrlHelp": "Pega el enlace de un vídeo de YouTube, Vimeo o Facebook. Cópialo desde el botón Compartir del vídeo, o desde la barra de direcciones de tu navegador mientras lo ves.",
-    "invalidVideoUrl": "Este no es el enlace de un vídeo de YouTube, Vimeo o Facebook.",
-    "addVideo": "Añadir vídeo",
+    "openVideo": "Abrir video {{index}}",
+    "addVideos": "Añadir videos",
+    "addVideoTitle": "Añadir un video",
+    "videoUrl": "URL del video",
+    "videoUrlHelp": "Pega el enlace de un video de YouTube, Vimeo o Facebook. Cópialo desde el botón Compartir del video, o desde la barra de direcciones de tu navegador mientras lo ves.",
+    "invalidVideoUrl": "Este no es el enlace de un video de YouTube, Vimeo o Facebook.",
+    "addVideo": "Añadir video",
     "accessHeader": "Acceso",
     "aka": "alias",
     "directionsHeader": "Cómo llegar",
@@ -514,11 +535,13 @@
     "copyCoordinates": "Copiar coordenadas",
     "copyKeyCoordinates": "Copiar coordenadas clave",
     "copyEntranceCoordinates": "Copiar coordenadas de la entrada",
-    "directionsToCave": "Cómo llegar al cenote",
+    "copyParkingCoordinates": "Copiar coordenadas del estacionamiento",
+    "directionsToCave": "Cómo llegar a la cueva",
     "directionsToKey": "Cómo llegar a la llave",
     "directionsToSistema": "Cómo llegar al sistema",
     "area": "Zona: {{area}}",
     "directionsToEntrance": "Cómo llegar a la entrada",
+    "directionsToParking": "Cómo llegar al estacionamiento",
     "addressLoading": "Cargando dirección…",
     "addressLoadingError": "Error al cargar la dirección: {{errMessage}}",
     "addressNotAvailable": "Dirección no disponible",
@@ -554,15 +577,15 @@
       "deletePicture": "Eliminar foto",
       "deletePictureConfirm": "Esta foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
       "deletePictureError": "No se pudo eliminar la foto. Inténtalo de nuevo.",
-      "videos": "Vídeos",
-      "videoUrl": "URL del vídeo",
-      "addVideo": "Añadir vídeo",
-      "editVideo": "Editar vídeo",
-      "deleteVideo": "Eliminar vídeo",
-      "deleteVideoConfirm": "Este vídeo se quitará del cenote.",
-      "deleteVideoError": "No se pudo eliminar el vídeo. Inténtalo de nuevo.",
+      "videos": "Videos",
+      "videoUrl": "URL del video",
+      "addVideo": "Añadir video",
+      "editVideo": "Editar video",
+      "deleteVideo": "Eliminar video",
+      "deleteVideoConfirm": "Este video se quitará de la cueva.",
+      "deleteVideoError": "No se pudo eliminar el video. Inténtalo de nuevo.",
       "note": "Nota(s)",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "addMap": "Añadir mapa",
       "editMap": "Editar mapa",
       "mapOptions": "Opciones del mapa",
@@ -574,28 +597,42 @@
       "coordinates": "Coordenadas",
       "location": "Ubicación",
       "entrance": "Entrada",
+      "parking": "Estacionamiento",
       "key": "Llave",
       "longitude": "Longitud",
       "latitude": "Latitud",
+      "longitudeRange": "-180 a 180",
+      "latitudeRange": "-90 a 90",
       "dragPinToMap": "Arrastra este marcador al mapa para definir esta ubicación",
       "navigateToCoordinate": "Centrar el mapa aquí",
       "removeCoordinate": "Eliminar coordenadas",
       "addCoordinates": "Agregar coordenadas",
+      "addOneCoordinates": {
+        "location": "Agregar coordenadas de la ubicación",
+        "entrance": "Agregar coordenadas de la entrada",
+        "parking": "Agregar coordenadas del estacionamiento",
+        "key": "Agregar coordenadas de la llave",
+        "sistemaLocation": "Agregar coordenadas de la ubicación"
+      },
       "pickMyLocation": "Usar mi ubicación actual",
+      "myLocationError": {
+        "denied": "La ubicación está bloqueada para este sitio: permítela en la configuración del navegador, o coloca el punto en el mapa.",
+        "unavailable": "Tu posición no está disponible ahora. Inténtalo al aire libre, o coloca el punto en el mapa.",
+        "timeout": "Encontrar tu posición tardó demasiado. Inténtalo de nuevo, o coloca el punto en el mapa.",
+        "unsupported": "Este navegador no puede dar tu posición. Coloca el punto en el mapa."
+      },
       "none": "(ninguno)",
       "sistema": "Sistema",
       "sistemaGroup": "Sistema",
       "sistemaSearchPlaceholder": "Buscar",
       "source": "Fuente",
-      "sourceHint": "De dónde proviene la información de este sistema",
+      "sourceHint": "De dónde proviene la información de esta cueva. ¿Son tus propios hallazgos? Elige OpenCaves.",
       "access": "Acceso",
       "accessibility": "Accesibilidad",
       "fees": "Costos",
-      "feesHint": "Indica si visitar este cenote requiere pagar una tarifa de entrada",
+      "feesHint": "Indica si visitar esta cueva requiere pagar una tarifa de entrada",
       "facilities": "Instalaciones",
       "facilitiesHint": "Indica si hay instalaciones como baños o vestidores disponibles en el lugar",
-      "activities": "Actividades",
-      "activitiesHint": "Indica si se ofrecen actividades adicionales (nadar, bucear, etc.) en este lugar",
       "accessDetails": "Detalles de acceso",
       "accessibilityDetails": "Detalles de accesibilidad",
       "description": "Descripción",
@@ -611,9 +648,9 @@
       "cancel": "Cancelar",
       "accessGroup": "Acceso",
       "accessibilityGroup": "Accesibilidad",
-      "newCave": "Nuevo cenote",
-      "caveTitle": "Cenote {{name}}",
-      "backToCaves": "Volver a los cenotes",
+      "newCave": "Nueva cueva",
+      "caveTitle": "{{name}}",
+      "backToCaves": "Volver a las cuevas",
       "backToCave": "Volver a la página del cenote",
       "placeOnMap": "Colocar en el mapa",
       "placeOnMapTitle": "Colocar: {{label}}",
@@ -631,13 +668,13 @@
       "media": "Multimedia",
       "notes": "Notas",
       "placeSearch": {
-        "label": "Buscar un lugar o un cenote",
-        "placeholder": "Buscar un lugar o un cenote",
+        "label": "Buscar un lugar o una cueva",
+        "placeholder": "Buscar un lugar o una cueva",
         "hint": "Escribe al menos 2 letras",
         "searching": "Buscando…",
         "noResults": "Sin resultados",
         "error": "No se pueden buscar lugares en este momento",
-        "cenotes": "Cenotes",
+        "cenotes": "Cuevas",
         "places": "Lugares"
       },
       "cenoteEntrance": "Cenote de entrada",
@@ -665,21 +702,26 @@
       "count_one": "({{count}} calificación)",
       "count_other": "({{count}} calificaciones)",
       "yourRating": "Tu calificación",
-      "rateThisCave": "Califica este cenote",
+      "rateThisCave": "Califica esta cueva",
       "saveError": "No se pudo guardar tu calificación."
     },
     "cenoteEntrance": "Cenote de entrada",
-    "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas."
+    "cenoteEntranceDescription": "Un cenote por el que los buzos entran a un sistema de cuevas.",
+    "nameTranslation": "{{language}}: {{names}}",
+    "videoAdded": "Video añadido",
+    "videoAlreadyAdded": "Este video ya está en la lista.",
+    "videoDeleted": "Video eliminado",
+    "videoAddError": "No se pudo añadir el video. Inténtalo de nuevo."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Atrás",
       "ariaLabel": "Atrás"
     },
     "addPictureBtn": {
       "tooltip": "Añadir fotos",
-      "ariaLabel": "añadir fotos"
+      "ariaLabel": "Añadir fotos"
     },
     "empty": {
       "header": "¡Aún no hay fotos!",
@@ -692,34 +734,28 @@
     "images": "fotos",
     "menu": {
       "ariaLabel": "Más",
-      "useAsCoverImage": "Usar como imagen de portada",
-      "useAsCoverSuccess": "Imagen de portada cambiada.",
-      "useAsCoverFail": "No se pudo cambiar la imagen de portada.",
+      "useAsCoverImage": "Usar como foto de portada",
+      "useAsCoverSuccess": "Foto de portada cambiada.",
+      "useAsCoverFail": "No se pudo cambiar la foto de portada.",
       "useViewAsThumbnail": "Usar esta vista como miniatura",
       "useViewAsThumbnailSuccess": "La miniatura muestra ahora esta vista.",
       "useViewAsThumbnailFail": "No se pudo cambiar la miniatura.",
-      "viewOriginalImage": "Ver imagen original",
+      "viewOriginalImage": "Ver foto original",
       "deleteAction": "Eliminar la foto",
       "deleteSuccess": "Foto movida a la papelera.",
       "deleteFail": "No se pudo eliminar la foto.",
       "deleteConfirmTitle": "¿Eliminar esta foto?",
       "deleteConfirm": "La foto va a la papelera: un administrador puede restaurarla desde Auditorías > Papelera.",
-      "deleteCancel": "Cancelar"
+      "deleteCancel": "Cancelar",
+      "isCoverImage": "Es la foto de portada"
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Mostrar imagen"
+        "ariaLabel": "Mostrar foto"
       }
     },
     "addMedia": {
-      "header": "Sube fotos del cenote {{name}}",
-      "dragHere": "Arrastra las fotos aquí",
       "dropHere": "Suelta los archivos aquí…",
-      "or": "o",
-      "btn": "Haz clic para seleccionar archivos",
-      "closeBtn": {
-        "ariaLabel": "cerrar"
-      },
       "success_one": "1 foto añadida",
       "success_other": "{{count}} fotos añadidas",
       "errorHeader": "¡Ups!",
@@ -731,10 +767,10 @@
       "uploadingTo": "Subiendo a",
       "countMedias": "{{index}} de {{total}}",
       "gpsCheck": {
-        "title_one": "Esta foto se tomó lejos del cenote",
-        "title_other": "{{count}} fotos se tomaron lejos del cenote",
-        "text_one": "Su posición GPS está a más de {{distance}} de {{cave}}. ¿Es realmente una foto de este cenote?",
-        "text_other": "Sus posiciones GPS están a más de {{distance}} de {{cave}}. ¿Son realmente fotos de este cenote?",
+        "title_one": "Esta foto se tomó lejos de la cueva",
+        "title_other": "{{count}} fotos se tomaron lejos de la cueva",
+        "text_one": "Su posición GPS está a más de {{distance}} de {{cave}}. ¿Es realmente una foto de esta cueva?",
+        "text_other": "Sus posiciones GPS están a más de {{distance}} de {{cave}}. ¿Son realmente fotos de esta cueva?",
         "distance": "a {{distance}}",
         "skip_one": "Omitir esta foto",
         "skip_other": "Omitir estas fotos",
@@ -742,7 +778,9 @@
         "cancelButton": "Cancelar",
         "cancel": "Cancelar la subida"
       },
-      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
+      "needsConnection": "Estás sin conexión: subir archivos necesita una conexión.",
+      "rejected_one": "{{count}} archivo no añadido: aquí solo se pueden añadir fotos (JPEG, PNG, WebP, AVIF).",
+      "rejected_other": "{{count}} archivos no añadidos: aquí solo se pueden añadir fotos (JPEG, PNG, WebP, AVIF)."
     },
     "details": {
       "empty": "No hay nada aquí"
@@ -826,11 +864,12 @@
     "area": "Zona",
     "color": "Color",
     "source": "Fuente",
+    "sourceHint": "De dónde proviene la información de este sistema. ¿Son tus propios hallazgos? Elige OpenCaves.",
     "location": "Ubicación",
     "maxDepth": "Profundidad máx. ({{unit}})",
     "description": "Descripción",
     "direction": "Cómo llegar",
-    "maps": "Mapas",
+    "maps": "Topografías",
     "none": "(ninguno)",
     "deleteConfirm": "¿Eliminar este sistema?",
     "delete": "Eliminar",
@@ -838,7 +877,9 @@
     "exit": "Salir",
     "save": "Guardar",
     "parentSistemaHint": "El sistema más grande al que está conectado este. Déjalo vacío si es un sistema independiente.",
-    "explorationDateHint": "Cuándo tuvo lugar esta exploración."
+    "explorationDateHint": "Cuándo tuvo lugar esta exploración.",
+    "measurementInvalid": "Introduce un número",
+    "measurementRange": "De 0 a {{max}} {{unit}}"
   },
   "mapsPicker": {
     "close": "Cerrar",
@@ -866,7 +907,8 @@
     "add": "Agregar",
     "mapDateHint": "Cuándo se dibujó o publicó el mapa.",
     "cartography": "Cartografía: {{names}}",
-    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión."
+    "needsConnection": "Estás sin conexión: subir archivos necesita una conexión.",
+    "wrongType": "Elige una imagen o un PDF."
   },
   "colorPicker": {
     "addColor": "Agregar un color",
@@ -965,25 +1007,30 @@
     "title": "Mapa",
     "caveNameUnknown": "(Cueva sin nombre)",
     "editFab": {
-      "ariaLabel": "Editar datos del cenote",
-      "editCave": "Editar este cenote",
-      "addNewCave": "Añadir nuevo cenote",
-      "exitEditMode": "Salir del modo de edición"
+      "ariaLabel": "Editar datos de la cueva",
+      "editCave": "Editar esta cueva",
+      "addNewCave": "Añadir nueva cueva",
+      "exitEditMode": "Salir del modo de edición",
+      "editCaveNoneSelected": "Selecciona una cueva para editarla"
     },
     "error": "Algo salió mal",
     "savedCave": "Guardado",
     "markers": {
-      "location": "Ubicación del cenote",
+      "location": "Ubicación de la cueva",
       "entrance": "Entrada del cenote",
-      "key": "Ubicación de la llave"
+      "parking": "Estacionamiento",
+      "key": "Ubicación de la llave",
+      "entranceShort": "Entrada",
+      "parkingShort": "Estacionamiento",
+      "keyShort": "Llave"
     },
     "caveLayer": {
       "button": "Capas del mapa",
       "title": "Galerías",
       "scope": "Sistemas",
       "all": "Todos los sistemas",
-      "selected": "Solo el sistema del cenote seleccionado",
-      "selectedHint": "Selecciona primero un cenote",
+      "selected": "Solo el sistema de la cueva seleccionada",
+      "selectedHint": "Selecciona primero una cueva",
       "colors": "Colores",
       "bySystem": "Por sistema",
       "single": "Un solo color",
@@ -1026,8 +1073,16 @@
         "openScan": "Abrir el mapa original"
       },
       "panelTitle": "Capas del mapa",
-      "turnOn": "Activar las capas del mapa",
-      "turnOff": "Desactivar las capas del mapa"
+      "show": "Mostrar las galerías"
+    },
+    "controls": {
+      "locationNotAvailable": "Ubicación no disponible",
+      "mapTitle": "Mapa",
+      "scrollZoom": "Usa Ctrl + la rueda para hacer zoom en el mapa",
+      "scrollZoomMac": "Usa ⌘ + la rueda para hacer zoom en el mapa",
+      "touchPan": "Usa dos dedos para mover el mapa",
+      "toggleAttribution": "Mostrar u ocultar los créditos",
+      "logo": "Logotipo de Mapbox"
     }
   },
   "dashboard": {
@@ -1047,6 +1102,7 @@
     "parentSistema": "Sistema principal",
     "searchParentSistema": "Buscar sistemas o áreas",
     "connectionSource": "Fuente",
+    "connectionSourceHint": "De dónde proviene la información de esta conexión. ¿Son tus propios hallazgos? Elige OpenCaves.",
     "noSource": "(ninguna)",
     "connectionDate": "Fecha de conexión",
     "connectionNote": "Nota(s)",
@@ -1118,7 +1174,13 @@
     "connectionOfSistema": "la conexión de {{name}}",
     "connectionDateHint": "Cuándo se estableció la conexión entre los dos sistemas.",
     "adminSection": "Administración",
+    "feedbackSection": "Comentarios",
     "manageMapLayers": "Capas del mapa",
+    "manageFeedback": "Comentarios",
+    "followFeedback": "Ideas y correcciones",
+    "followFeedbackText": "Lo que han señalado los participantes de la beta y lo que viene",
+    "newFeedback_one": "{{count}} nuevo",
+    "newFeedback_other": "{{count}} nuevos",
     "manageAudits": "Auditorías",
     "backToCaveIndex": "Volver a las cuevas",
     "backToSistemaIndex": "Volver a los sistemas de cuevas",
@@ -1148,14 +1210,15 @@
     "connection": {
       "offline": "Estás sin conexión. Las cuevas guardadas siguen disponibles.",
       "online": "Vuelves a estar en línea.",
-      "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando."
+      "onlineSyncing": "Vuelves a estar en línea. Tus cambios se están sincronizando.",
+      "offlineNoSaved": "Estás sin conexión. Las fotos y los mapas que ya viste siguen disponibles."
     },
-    "caveReady": "El cenote {{name}} está disponible sin conexión",
-    "caveIncomplete": "El cenote {{name}} está guardado, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "previewsReady": "Las vistas previas de los cenotes, los mapas y las galerías están disponibles sin conexión",
+    "caveReady": "{{name}} está disponible sin conexión",
+    "caveIncomplete": "{{name}} está guardada, pero algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
+    "previewsReady": "Las vistas previas de las cuevas, los mapas y las galerías están disponibles sin conexión",
     "previewsIncomplete": "Algunas vistas previas o mapas no se pudieron descargar. Lo intentaremos más tarde.",
     "previewsLabel": "Hacer disponible sin conexión",
-    "previewsHint": "Vistas de cenotes, mapas y galerías",
+    "previewsHint": "Vistas de cuevas, mapas y galerías",
     "waitingForWifi": "Esperando Wi-Fi",
     "waitingForConnection": "Esperando conexión",
     "downloadingCount": "Descargando para usar sin conexión… {{done}} / {{total}}",
@@ -1170,12 +1233,12 @@
     "caveIncompleteShort": "Parcialmente disponible sin conexión",
     "caveNotYet": "Aún no descargado",
     "savedIncomplete": "Algunos archivos no se pudieron descargar. Lo intentaremos más tarde.",
-    "savedAvailable": "Todos los cenotes guardados están disponibles sin conexión",
+    "savedAvailable": "Todas las cuevas guardadas están disponibles sin conexión",
     "hint": {
       "offline": "Estás sin conexión: solo las fotos y los mapas que ya viste están en este dispositivo.",
-      "save": "Guarda este cenote para tenerlo completo en tu próxima inmersión.",
-      "account": "Crea una cuenta para guardar cenotes y usarlos sin conexión.",
-      "system": "Guarda uno de sus cenotes para tener sus mapas en tu próxima inmersión.",
+      "save": "Guarda esta cueva para tenerla completa en tu próxima inmersión.",
+      "account": "Crea una cuenta para guardar cuevas y usarlas sin conexión.",
+      "system": "Guarda una de sus cuevas para tener sus mapas en tu próxima inmersión.",
       "saveButton": "Guardar",
       "signupButton": "Registrarse"
     },
@@ -1219,8 +1282,8 @@
   "seo": {
     "defaultDescription": "OpenCaves es la referencia para encontrar cenotes en Yucatán, México: nuevas cuevas para bucear, coordenadas GPS verificadas, descripciones útiles, fotos y mapas.",
     "mapHeading": "OpenCaves: mapa de los cenotes de Yucatán",
-    "caveDescriptionPrefix": "Cenote {{name}} (Yucatán, México):",
-    "caveDescriptionFallback": "Cenote {{name}} en Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
+    "caveDescriptionPrefix": "{{name}} (Yucatán, México):",
+    "caveDescriptionFallback": "{{name}}, una cueva de Yucatán, México: ubicación, acceso, fotos y mapas en OpenCaves.",
     "notFoundTitle": "Página no encontrada",
     "mapTitle": "Mapa de cenotes de Yucatán"
   },
@@ -1305,11 +1368,11 @@
       "deleteUser": "Cuenta eliminada"
     },
     "collections": {
-      "caves": "Cenotes",
+      "caves": "Cuevas",
       "sistemas": "Sistemas",
       "connections": "Conexiones de sistemas",
       "cavesAssets": "Fotos",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "accesses": "Accesos",
       "accessibilities": "Accesibilidades",
       "sources": "Fuentes",
@@ -1447,12 +1510,16 @@
       },
       "title": "Cuevas de Yucatán por zona",
       "description": "Todos los cenotes de Yucatán, México, listados en OpenCaves por zona, cada uno con su ubicación, acceso, fotos y mapas.",
-      "add": "Añadir una cueva"
+      "add": "Añadir una cueva",
+      "subtitle_one": "{{count}} cueva, por zona.",
+      "subtitle_other": "{{count}} cuevas, por zona."
     },
     "sistemas": {
       "title": "Sistemas de cuevas de Yucatán",
       "description": "Los sistemas de cuevas inundadas de Yucatán, México, por zona: su longitud, profundidad, conexiones, historia de exploración y cenotes, en OpenCaves.",
-      "add": "Añadir un sistema"
+      "add": "Añadir un sistema",
+      "subtitle_one": "{{count}} sistema de cuevas, por zona.",
+      "subtitle_other": "{{count}} sistemas de cuevas, por zona."
     },
     "sistema": {
       "title": "Sistema {{name}}",
@@ -1476,7 +1543,9 @@
       "clear": "Borrar la búsqueda",
       "results_one": "{{count}} resultado",
       "results_other": "{{count}} resultados",
-      "none": "Nada coincide con «{{query}}»."
+      "none": "Nada coincide con «{{query}}».",
+      "cavesShort": "Cueva, sistema o zona",
+      "sistemasShort": "Sistema o zona"
     },
     "onMap": "Ver en el mapa",
     "onMapOf": "{{name}} en el mapa",
@@ -1491,7 +1560,13 @@
       "openPhoto": "Abrir la foto {{n}}"
     },
     "notOnMap": "No está en el mapa: aún sin coordenadas",
-    "maps": "Mapas"
+    "maps": "Topografías",
+    "searchNoResult": "Ninguna cueva ni sistema coincide con «{{query}}» - buscar en todas las cuevas",
+    "empty": {
+      "photos": "Aún no hay fotos.",
+      "videos": "Aún no hay videos.",
+      "maps": "Aún no hay topografías."
+    }
   },
   "appBarSearch": {
     "placeholder": "Buscar cuevas y sistemas",
@@ -1506,24 +1581,30 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "description": "Las cuevas, sistemas, conexiones, mapas, fotos y vídeos añadidos recientemente a {{name}}.",
-    "subtitle": "Lo último añadido a {{name}}, lo más reciente primero.",
+    "description": "Las cuevas, sistemas, conexiones, mapas, fotos y videos añadidos, modificados o retirados recientemente en {{name}}.",
+    "subtitle": "Lo último añadido, modificado o retirado en {{name}}, lo más reciente primero.",
     "filters": {
       "all": "Todo",
       "caves": "Cuevas",
       "sistemas": "Sistemas",
       "connections": "Conexiones",
-      "maps": "Mapas",
+      "maps": "Topografías",
       "photos": "Fotos",
-      "videos": "Vídeos"
+      "videos": "Videos",
+      "allChanges": "Todos los cambios",
+      "added": "Añadidos",
+      "modified": "Modificados",
+      "removed": "Retirados",
+      "kindsLabel": "Contenido",
+      "changesLabel": "Cambio"
     },
     "kinds": {
       "caves": "Cueva",
       "sistemas": "Sistema",
       "connections": "Conexión",
-      "maps": "Mapa",
+      "maps": "Topografía",
       "photos": "Fotos",
-      "videos": "Vídeos"
+      "videos": "Videos"
     },
     "inSistema": "en {{name}}",
     "mapOf": "mapa de {{name}}",
@@ -1534,11 +1615,192 @@
     "unnamedMap": "Mapa sin título",
     "recently": "Recientemente",
     "none": "Nada nuevo por ahora.",
-    "failed": "No se pudieron cargar las últimas novedades.",
+    "failed": "No se pudieron cargar los últimos cambios.",
     "photosAdded_one": "{{count}} foto de {{name}}",
     "photosAdded_other": "{{count}} fotos de {{name}}",
-    "videosAdded_one": "{{count}} vídeo de {{name}}",
-    "videosAdded_other": "{{count}} vídeos de {{name}}"
+    "videosAdded_one": "{{count}} video de {{name}}",
+    "videosAdded_other": "{{count}} videos de {{name}}",
+    "changes": {
+      "added": "Añadido",
+      "modified": "Modificado",
+      "removed": "Retirado"
+    },
+    "modifiedBy": "modificado por {{name}}",
+    "removedBy": "retirado por {{name}}",
+    "changedFields": "cambió: {{fields}}",
+    "fields": {
+      "name": "nombre",
+      "nameTranslations": "traducciones del nombre",
+      "aka": "otros nombres",
+      "keys": "ubicación de la llave",
+      "location": "ubicación",
+      "entrance": "entrada",
+      "parking": "estacionamiento",
+      "sistemaId": "sistema",
+      "parentSistemaId": "sistema unido",
+      "area": "zona",
+      "source": "fuente",
+      "access": "acceso",
+      "accessDetails": "detalles del acceso",
+      "accessibility": "accesibilidad",
+      "accessibilityDetails": "detalles de accesibilidad",
+      "description": "descripción",
+      "direction": "cómo llegar",
+      "note": "notas",
+      "reporter": "reportado por",
+      "explorationDate": "fecha de exploración",
+      "cenoteEntrance": "entrada de cenote",
+      "facilities": "instalaciones",
+      "fees": "cuotas",
+      "textSources": "fuentes de los textos",
+      "color": "color",
+      "length": "distancia explorada",
+      "maxDepth": "profundidad máx.",
+      "public": "visibilidad",
+      "explorations": "historial de exploración",
+      "connectionDate": "fecha de conexión",
+      "authors": "autores",
+      "date": "fecha",
+      "url": "archivo",
+      "contentType": "tipo de archivo",
+      "videos": "videos",
+      "maps": "topografías",
+      "activities": "actividades"
+    }
+  },
+  "feedback": {
+    "title": "Enviar comentarios",
+    "tab": "Comentarios",
+    "intro": "Cuéntale al equipo de OpenCaves sobre un error, algo engañoso o una idea. ¡Gracias por tu ayuda!",
+    "kindLabel": "¿De qué se trata?",
+    "kinds": {
+      "bug": "Error",
+      "misleading": "Engañoso",
+      "idea": "Idea"
+    },
+    "kindText": {
+      "bug": "Algo falla o no funciona.",
+      "misleading": "Algo es confuso o parece erróneo.",
+      "idea": "Algo falta o podría ser mejor."
+    },
+    "hints": {
+      "bug": "Escribe los pasos para reproducirlo, uno por línea, para que también lo veamos: qué hiciste, qué esperabas y qué pasó en cambio.",
+      "misleading": "Di qué es engañoso - una etiqueta, una función, un dato - y qué entendiste. Si un dato parece erróneo, dinos cuál crees que es el correcto y cómo lo sabes.",
+      "idea": "Describe qué te gustaría que hiciera OpenCaves, y cuándo te ayudaría: ¿antes de una inmersión, después, para compartir algo?"
+    },
+    "messageLabel": "Tu mensaje",
+    "placeholders": {
+      "bug": "1. Abrir la página de…\n2. Hacer clic en…\n3. …\n\nEsperado: …\nQué pasó: …",
+      "misleading": "La etiqueta/función/dato engañoso, y qué entendiste…",
+      "idea": "Me gustaría poder…"
+    },
+    "pageLabel": "Página",
+    "pageHelp": "La página de la que se trata (completada para ti).",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "send": "Enviar",
+    "sent": "¡Gracias! Tu comentario se envió al equipo de OpenCaves.",
+    "error": "No se pudo enviar tu comentario. Inténtalo de nuevo.",
+    "itemName": "Tu comentario",
+    "admin": {
+      "title": "Comentarios",
+      "back": "Volver al panel",
+      "status": {
+        "new": "Nuevo",
+        "confirmed": "Confirmado",
+        "inProgress": "En curso",
+        "done": "Hecho",
+        "rejected": "Rechazado",
+        "duplicate": "Duplicado"
+      },
+      "statusHelp": {
+        "new": "Aún sin revisar",
+        "confirmed": "Un problema real, o una idea por hacer",
+        "inProgress": "En proceso",
+        "done": "Corregido o añadido",
+        "rejected": "No es un problema, o no se hará",
+        "duplicate": "Ya reportado"
+      },
+      "changeStatus": "Etapa: {{status}}. Cambiarla",
+      "none": "No hay reportes aquí.",
+      "delete": "Borrar",
+      "deleteTitle": "¿Borrar este reporte?",
+      "deleteText": "Se borrará para siempre.",
+      "statusError": "No se pudo cambiar la etapa. Inténtalo de nuevo.",
+      "deleteError": "No se pudo borrar el reporte. Inténtalo de nuevo.",
+      "thread": {
+        "label": "Conversación",
+        "team": "Equipo de OpenCaves",
+        "replyLabel": "Respuesta a {{name}}",
+        "replyPlaceholder": "Tu respuesta, enviada por correo con toda la conversación…",
+        "replyPlaceholderMuted": "Tu respuesta, añadida a la conversación…",
+        "mutedHint": "{{name}} desactivó los correos sobre sus comentarios: tu respuesta no se le enviará por correo. Queda en la conversación.",
+        "sentMuted": "Respuesta enviada. {{name}} desactivó los correos sobre sus comentarios: no se le enviará por correo.",
+        "send": "Enviar",
+        "sendOptions": "Enviar y cambiar la etapa",
+        "sendAndClose": "Enviar y marcar como {{status}}",
+        "sent": "Respuesta enviada: {{name}} la recibirá por correo.",
+        "sendError": "No se pudo enviar la respuesta. Inténtalo de nuevo.",
+        "tooLong": "Como máximo {{count}} caracteres",
+        "emailed": "Enviada por correo",
+        "legacyNote": "Nota anterior",
+        "attachmentsDropped_one": "{{count}} archivo adjunto no conservado",
+        "attachmentsDropped_other": "{{count}} archivos adjuntos no conservados"
+      },
+      "list": {
+        "search": "Buscar reportes",
+        "searchLabel": "Buscar reportes: mensaje, autor, página",
+        "clearSearch": "Borrar la búsqueda",
+        "clearFilters": "Borrar búsqueda, filtros y orden",
+        "open": "{{count}} abiertos",
+        "closed": "{{count}} cerrados",
+        "kind": "Tipo",
+        "allKinds": "Todos los tipos",
+        "stage": "Etapa",
+        "allStages": "Todas las etapas",
+        "sort": "Orden",
+        "sorts": {
+          "newest": "Más recientes",
+          "oldest": "Más antiguos",
+          "activity": "Actividad reciente"
+        },
+        "opened": "Abierto",
+        "by": "por {{name}}",
+        "messages_one": "{{count}} mensaje",
+        "messages_other": "{{count}} mensajes",
+        "untitled": "(sin texto)",
+        "noMatch": "Ningún reporte coincide con esta búsqueda o estos filtros."
+      },
+      "report": {
+        "back": "Volver a los reportes",
+        "open": "Abierto",
+        "closed": "Cerrado",
+        "openedThis": "abrió este reporte",
+        "notFound": "Este reporte no existe o fue borrado.",
+        "details": "Detalles del reporte",
+        "stage": "Etapa",
+        "kind": "Tipo",
+        "author": "Autor",
+        "page": "Página",
+        "language": "Idioma",
+        "browser": "Navegador",
+        "lastEmailed": "Último correo al autor",
+        "authorMuted": "El autor desactivó los correos sobre sus comentarios"
+      },
+      "timeline": {
+        "opened": "abrió",
+        "commented": "respondió",
+        "repliedByEmail": "respondió por correo",
+        "stageSet": "puso la etapa en {{status}}"
+      }
+    },
+    "members": {
+      "title": "Ideas y correcciones",
+      "intro": "Lo que han señalado los participantes de la beta y lo que hace el equipo de OpenCaves al respecto: sigue lo que viene.",
+      "you": "Tú",
+      "someone": "Un miembro"
+    },
+    "messageTooShort": "Al menos {{count}} caracteres"
   },
   "whatCanIDo": {
     "title": "¿Qué puedo hacer?",
@@ -1614,6 +1876,11 @@
         "title": "Completar los sistemas",
         "text": "Su longitud y profundidad, la historia de su exploración, y sus conexiones.",
         "action": "Ver los sistemas"
+      },
+      "feedback": {
+        "title": "Cuéntanos qué falla",
+        "text": "Algo roto, engañoso o que falta: cada mensaje llega al equipo de OpenCaves, que responde por correo.",
+        "action": "Enviar comentarios"
       }
     },
     "goodToKnow": {
@@ -1644,11 +1911,11 @@
       "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",
       "searchPlaceholder": "Buscar una cueva, un sistema o una zona",
       "openMap": "Abrir el mapa",
-      "search": "Buscar",
       "browse": {
         "caves": "Explorar las cuevas",
         "sistemas": "Explorar los sistemas"
-      }
+      },
+      "searchShort": "Cueva, sistema o zona"
     },
     "figures": {
       "label": "OpenCaves en cifras",
@@ -1699,14 +1966,13 @@
     "contribute": {
       "whatCanIDo": "¿Qué puedo hacer?",
       "title": "Hecho por buzos",
-      "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones. La aplicación misma es de código abierto.",
+      "text": "OpenCaves son datos abiertos: cualquiera puede consultarlos, y los buzos los mantienen al día. Regístrate para añadir cuevas, fotos, videos y valoraciones, y seguir las nuevas cuevas y sistemas. La aplicación misma es de código abierto.",
       "signup": "Regístrate para contribuir",
       "github": "OpenCaves en GitHub"
     },
     "footer": {
       "whatCanIDo": "¿Qué puedo hacer?",
-      "about": "Acerca de",
-      "language": "Idioma"
+      "about": "Acerca de"
     },
     "warningsLabel": "Antes de bucear",
     "search": {
@@ -1729,5 +1995,51 @@
     "inviteMember": "¡Gracias por ser parte del equipo! ¿Buceaste en un lugar que nos falta? ¿Viste una profundidad desactualizada, una entrada equivocada o un mapa que no tenemos? Ayúdanos a mantener los datos completos y al día - las notas de cada buzo cuentan.",
     "betaMember": "<strong>Estamos en beta.</strong> Tus cambios todavía no son permanentes: todos los datos pueden reemplazarse en cualquier momento. Así que es el momento perfecto para probar las herramientas de edición - adelante, explora, ¡no puedes romper nada para siempre! Te avisaremos cuando termine la beta.",
     "start": "¡A bucear!"
+  },
+  "authPrompt": {
+    "close": "Cerrar",
+    "notNow": "Ahora no",
+    "logIn": "Iniciar sesión",
+    "signUp": "Crear una cuenta",
+    "photos": {
+      "title": "Añade tus fotos",
+      "text": "Crea una cuenta gratuita para añadir fotos a las cuevas: lo que viste ayuda a los próximos buzos."
+    },
+    "videos": {
+      "title": "Añade un video",
+      "text": "Crea una cuenta gratuita para añadir videos a las cuevas."
+    },
+    "maps": {
+      "title": "Añade un mapa topográfico",
+      "text": "Crea una cuenta gratuita para añadir mapas topográficos a los sistemas."
+    },
+    "feedback": {
+      "title": "Cuéntanos lo que encontraste",
+      "text": "Crea una cuenta gratuita para enviar comentarios al equipo de OpenCaves, para que podamos darles seguimiento."
+    },
+    "default": {
+      "title": "Se necesita una cuenta",
+      "text": "Crea una cuenta gratuita, o inicia sesión, para hacer esto."
+    }
+  },
+  "languagePicker": {
+    "label": "Idioma",
+    "automatic": "Automático ({{language}})"
+  },
+  "lightbox": {
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "close": "Cerrar",
+    "share": "Compartir",
+    "download": "Descargar",
+    "enterFullscreen": "Pantalla completa",
+    "exitFullscreen": "Salir de pantalla completa",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "slide": "Diapositiva",
+    "carousel": "Carrusel",
+    "lightbox": "Visor",
+    "gallery": "Galería",
+    "position": "{index} de {total}"
   }
 }

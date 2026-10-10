@@ -1,7 +1,7 @@
 import { useCallback, useId, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { Box, Tab, Tabs } from '@mui/material'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
@@ -14,12 +14,16 @@ import CaveMapList from './CaveMapList.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
-// Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
-// the app slice's Redux state rather than component state, since that slice
-// is already persisted to sessionStorage (see redux/store.jsx) - reloading
-// the same cave's pane comes back to the tab the person was on for free.
-// galleryPath: the page whose galleries open its photos and maps (the cave's
-// edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
+/**
+ * Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
+ * the app slice's Redux state rather than component state, since that slice
+ * is already persisted to sessionStorage (see redux/store.jsx) - reloading
+ * the same cave's pane comes back to the tab the person was on for free.
+ *
+ * @param {object} props
+ * @param {string} [props.galleryPath] - The page whose galleries open its photos and maps (the cave's
+ *   edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
+ */
 export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaId, isNew = false, standaloneUpload = false, editable = true, galleryPath }) {
   // Stable: the photo list rebuilds when its photoPath changes.
   const photoPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/photos/${id}`), [galleryPath])
@@ -35,9 +39,11 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
   }
-  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{t('addPictures')}</AddMediasButton>
+  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoRounded />} />}>{t('addPictures')}</AddMediasButton>
 
-  const requireLogin = useRequireLogin()
+  const requireLoginForPhotos = useRequireLogin('photos')
+  const requireLoginForVideos = useRequireLogin('videos')
+  const requireLoginForMaps = useRequireLogin('maps')
 
   return (
     <Box sx={{ my: editable ? 0 : 'var(--oc-pane-padding-block)' }}>
@@ -55,7 +61,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
             {!editable && !isEditor ? (
-              <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
+              <AddButton startIcon={<AddAPhotoRounded />} onClick={requireLoginForPhotos}>
                 {t('addPictures')}
               </AddButton>
             ) : standaloneUpload ? (
@@ -67,10 +73,10 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
         </Box>
       )}
       <Box role="tabpanel" id={`${tabId}-videos-panel`} aria-labelledby={`${tabId}-videos-tab`} hidden={activeTab !== 'videos'} sx={{ display: activeTab === 'videos' ? 'block' : 'none', pt: 2 }}>
-        <VideoList caveId={caveId} videos={videos} onChange={editable ? onVideosChange : undefined} showAdd={!editable} onAddUnauthorized={requireLogin} showTitle={false} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)', pt: 0 }} />
+        <VideoList caveId={caveId} videos={videos} onChange={editable ? onVideosChange : undefined} showAdd={!editable} onAddUnauthorized={requireLoginForVideos} showTitle={false} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)', pt: 0 }} />
       </Box>
       <Box role="tabpanel" id={`${tabId}-maps-panel`} aria-labelledby={`${tabId}-maps-tab`} hidden={activeTab !== 'maps'} sx={{ display: activeTab === 'maps' ? 'block' : 'none', pt: 2 }}>
-        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLogin} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} mapPath={mapPath} />
+        <CaveMapList caveId={caveId} sistemaId={sistemaId} canAdd={isEditor} onAddUnauthorized={requireLoginForMaps} returnTo={editable ? `/map/${caveId}/edit` : `/map/${caveId}`} mapPath={mapPath} />
       </Box>
     </Box>
   )

@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, CircularProgress, Grid, IconButton, MenuItem, SvgIcon, Tooltip, TextField, Typography } from '@mui/material'
 import AddLocationAltRounded from '@mui/icons-material/AddLocationAltRounded'
 import CenterFocusStrongRounded from '@mui/icons-material/CenterFocusStrongRounded'
-import CircleRounded from '@mui/icons-material/CircleRounded'
+import CheckRounded from '@mui/icons-material/CheckRounded'
+import QuestionMarkRounded from '@mui/icons-material/QuestionMarkRounded'
+import PriorityHighRounded from '@mui/icons-material/PriorityHighRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { setPickingCoordinateFor, setEditFieldCoordinate, clearEditFieldCoordinate, clearPickedCoordinate, requestFlyToCoordinate, startPlaceOnMap, startCrossPick, endCrossPick } from '@/redux/slices/mapSlice.jsx'
@@ -17,20 +20,30 @@ import { ResultPaneSmContext } from './ResultPaneSmContext.js'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import CoordinatesMapPreview from '@/components/CoordinatesMapPreview.jsx'
 import { COORDINATE_DECIMALS } from '@/config/map.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 // Special-point fields (as opposed to the cave's own sistema-colored
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const FIELD_BADGE_ICONS = {
-  entrance: FenceRounded,
+  parking: LocalParkingRounded,
+  entrance: EntranceRounded,
   key: VpnKeyRounded,
 }
 
-// A coordinate's validity (location.validity...), each with its clue colour.
+// A coordinate's validity (location.validity...), each with its icon and
+// clue colour (a palette colour: its dark tone in the light theme).
+// A typed longitude/latitude within the Earth's range (or empty): the map
+// throws on a latitude past ±90, which crashed the whole edit page.
+const inRange = (value, max) => value === '' || value === null || typeof value === 'undefined' || (Number.isFinite(Number(value)) && Math.abs(Number(value)) <= max)
+export const longitudeInRange = (value) => inRange(value, 180)
+export const latitudeInRange = (value) => inRange(value, 90)
+export const coordinateInRange = (longitude, latitude) => longitudeInRange(longitude) && latitudeInRange(latitude)
+
 export const COORDINATE_VALIDITIES = [
-  { value: 'valid', color: 'success.main' },
-  { value: 'unknown', color: 'warning.main' },
-  { value: 'invalid', color: 'error.main' },
+  { value: 'valid', color: 'success', Icon: CheckRounded },
+  { value: 'unknown', color: 'warning', Icon: QuestionMarkRounded },
+  { value: 'invalid', color: 'error', Icon: PriorityHighRounded },
 ]
 
 // Longitude/latitude pair. The action row includes a draggable icon that can
@@ -71,16 +84,21 @@ function LabeledAction({ icon, label, onClick, disabled }) {
     </ButtonBase>
   )
 }
-// canPickOnMap: whether there's a map on screen to tap (on phones, the admin
-// edit pages' CoordinatesMapPreview); without one, phones only get My
-// location and Remove. mapBelowOnPhones: on phones, "Place on map" opens a
-// map right below this field instead (for a page whose own map preview is
-// hidden on phones, see CoordinatesMapPreview's hideOnPhones).
-// validity / onValidityChange: the coordinate's validity, as a dropdown with a
-// colour clue; a new value - typed, picked on the map or "my location" - makes
-// it valid.
-// onRemove: what its X does (CoordinateFieldList: clears it and hides it);
-// otherwise the X only clears it.
+/**
+ * @param {object} props
+ * @param {boolean} [props.canPickOnMap=true] - Whether there's a map on screen to tap (on phones, the admin
+ *   edit pages' {@link CoordinatesMapPreview}); without one, phones only get My
+ *   location and Remove.
+ * @param {boolean} [props.mapBelowOnPhones=false] - On phones, "Place on map" opens a
+ *   map right below this field instead (for a page whose own map preview is
+ *   hidden on phones, see CoordinatesMapPreview's hideOnPhones).
+ * @param {string} [props.validity] - The coordinate's validity, as a dropdown with a
+ *   colour clue; a new value - typed, picked on the map or "my location" - makes
+ *   it valid.
+ * @param {(validity: string) => void} [props.onValidityChange]
+ * @param {() => void} [props.onRemove] - What its X does (CoordinateFieldList: clears it and hides it);
+ *   otherwise the X only clears it.
+ */
 export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, onRemove, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
@@ -88,7 +106,10 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const picking = useSelector((state) => state.map.crossPickFor === field)
   const placingInSheet = useSelector((state) => state.map.placeOnMap?.field === field)
   const isSet = longitude !== '' && latitude !== ''
+  // Set and on the Earth: only then shown on (and flown to on) the map.
+  const onEarth = isSet && coordinateInRange(longitude, latitude)
   const [locating, setLocating] = useState(false)
+  const [openSnackbar] = useSnackbar()
   const inPhoneSheet = !!useContext(ResultPaneSmContext)
   const isSmall = useSmall()
 
@@ -128,7 +149,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   // would clear-then-reset the marker (and flicker it) on every change
   // instead of only when the field truly goes away.
   useEffect(() => {
-    if (isSet) {
+    if (onEarth) {
       // With its validity, so the map's pin shows it (valid or not) live.
       dispatch(setEditFieldCoordinate({ field, longitude: Number(longitude), latitude: Number(latitude), validity }))
     } else {
@@ -146,8 +167,11 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [field])
 
+  // My position, or why not (it failed silently: nothing happened when the
+  // browser had no location or it was blocked). Given up after 15 s.
   function onPickMyLocationClick() {
     if (!navigator.geolocation) {
+      openSnackbar(t('myLocationError.unsupported'))
       return
     }
 
@@ -160,16 +184,19 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       (error) => {
         console.error('[CoordinateField] geolocation error:', error)
         setLocating(false)
+        openSnackbar(t(`myLocationError.${{ 1: 'denied', 2: 'unavailable', 3: 'timeout' }[error.code] || 'unavailable'}`))
       },
+      { timeout: 15000 },
     )
   }
 
   function onNavigateToClick() {
+    if (!onEarth) return
     dispatch(requestFlyToCoordinate({ longitude: Number(num(longitude, COORDINATE_DECIMALS)), latitude: Number(num(latitude, COORDINATE_DECIMALS)) }))
   }
 
   function onPlaceOnMapClick() {
-    dispatch(startPlaceOnMap({ field, label, ...(isSet && { longitude, latitude }) }))
+    dispatch(startPlaceOnMap({ field, label, ...(onEarth && { longitude, latitude }) }))
   }
 
   // Phones on the admin edit pages: dragging the pin doesn't work by touch,
@@ -210,9 +237,12 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': { WebkitAppearance: 'none', m: 0 },
   }
 
-  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
-  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
-  const dot = (value) => <CircleRounded sx={{ fontSize: 12, color: COORDINATE_VALIDITIES.find((v) => v.value === value)?.color, flex: 'none' }} />
+  const longitudeInput = <TextField size="small" label={t('longitude')} type="number" sx={coordinateInputSx} value={longitude} error={!longitudeInRange(longitude)} helperText={longitudeInRange(longitude) ? undefined : t('longitudeRange')} onChange={(e) => change({ longitude: normalizeCoordinateValue(e.target.value), latitude: normalizeCoordinateValue(latitude) })} />
+  const latitudeInput = <TextField size="small" label={t('latitude')} type="number" sx={coordinateInputSx} value={latitude} error={!latitudeInRange(latitude)} helperText={latitudeInRange(latitude) ? undefined : t('latitudeRange')} onChange={(e) => change({ longitude: normalizeCoordinateValue(longitude), latitude: normalizeCoordinateValue(e.target.value) })} />
+  const dot = (value) => {
+    const { Icon, color } = COORDINATE_VALIDITIES.find((v) => v.value === value) || COORDINATE_VALIDITIES[1]
+    return <Icon sx={(theme) => ({ fontSize: 18, flex: 'none', color: theme.vars.palette[color].dark, ...theme.applyStyles('dark', { color: theme.vars.palette[color].main }) })} />
+  }
   const validityInput = onValidityChange && (
     <TextField
       select
@@ -222,12 +252,13 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
       disabled={!isSet}
       onChange={(e) => onValidityChange(e.target.value)}
       // One width whatever the choice (fits the longest, "Non confirmée"),
-      // so the rows line up.
-      sx={{ width: 172 }}
-      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
+      // so the rows line up - its value in the smaller body size, to keep it
+      // narrow.
+      sx={{ width: 162, '& .MuiSelect-select': { pr: '28px !important' } }}
+      slotProps={{ select: { renderValue: (value) => <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '0.875rem' }}>{dot(value)}{t(`validity.${value}`)}</Box> } }}
     >
       {COORDINATE_VALIDITIES.map(({ value }) => (
-        <MenuItem key={value} value={value} sx={{ gap: 1 }}>
+        <MenuItem key={value} value={value} dense sx={{ gap: 1 }}>
           {dot(value)}
           {t(`validity.${value}`)}
         </MenuItem>
@@ -248,7 +279,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     <Tooltip title={t('pickMyLocation')} describeChild>
       <span>
         <IconButton size="small" onClick={onPickMyLocationClick} disabled={locating} aria-label={t('pickMyLocation')}>
-          {locating ? <CircularProgress size={20} /> : <MyLocationRounded fontSize="small" />}
+          {locating ? <CircularProgress size={20} /> : <MyLocationRounded />}
         </IconButton>
       </span>
     </Tooltip>
@@ -258,7 +289,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
     <Tooltip title={t('removeCoordinate')} describeChild>
       <span>
         <IconButton size="small" onClick={onClearClick} disabled={!isSet && !onRemove} aria-label={t('removeCoordinate')}>
-          <CloseRounded fontSize="small" />
+          <CloseRounded />
         </IconButton>
       </span>
     </Tooltip>
@@ -267,7 +298,7 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
   const navigateOrPinButton = isSet ? (
     <Tooltip title={t('navigateToCoordinate')}>
       <IconButton size="small" onClick={onNavigateToClick} aria-label={t('navigateToCoordinate')}>
-        <CenterFocusStrongRounded fontSize="small" />
+        <CenterFocusStrongRounded />
       </IconButton>
     </Tooltip>
   ) : (
@@ -292,9 +323,10 @@ export default function CoordinateField({ field, label, longitude, latitude, onC
         // on map" is the sheet's place-on-map mode in the map's result pane,
         // tap-to-pick on the admin pages' map preview.
         <>
-          {/* Sharing the screen's width (their desktop widths ran past its
-              edge): the numbers narrower, the validity a little wider. */}
-          <Box className="oc-coordinate-field--inputs" sx={{ display: 'flex', alignItems: 'center', gap: 1, '& > .MuiTextField-root': { width: 'auto', minWidth: 0, flex: '1 1 0' }, '& > .MuiTextField-root:nth-of-type(3)': { flexGrow: 1.75 }, '& .MuiInputBase-input': { px: '10px' }, '& .MuiInputLabel-root': { left: '-2px', maxWidth: 'calc(100% - 16px)' } }}>
+          {/* The two numbers sharing the screen's width, the validity on its
+              own row below them (all three on one row cut "Longitude", the
+              numbers and "Non confirmé" short). */}
+          <Box className="oc-coordinate-field--inputs" sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, '& > .MuiTextField-root': { width: 'auto', minWidth: 0, flex: '1 1 calc(50% - 4px)' }, '& > .MuiTextField-root:nth-of-type(3)': { flexBasis: '100%' }, '& .MuiInputBase-input': { px: '10px' }, '& .MuiInputLabel-root': { left: '-2px', maxWidth: 'calc(100% - 16px)' } }}>
             {longitudeInput}
             {latitudeInput}
             {validityInput}

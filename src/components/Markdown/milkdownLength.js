@@ -215,15 +215,27 @@ export const lengthInputRule = $inputRule((ctx) =>
   }),
 )
 
-// The plugins, with the fields' accessible names.
-// options.cancelInsert(view, pos, focus): Escape in (or an empty) tag - undo its insertion if it
-// was just inserted (true), or not (false); options.endInsert(): the chip left.
+/**
+ * The plugins.
+ *
+ * @param {{value: string, unit: string}} labels - The fields' accessible names.
+ * @param {object} [options]
+ * @param {(view: import('@milkdown/prose/view').EditorView, pos: number, focus?: boolean) => boolean} [options.cancelInsert] - Escape in (or an empty) tag - undo its insertion if it
+ *   was just inserted (true), or not (false).
+ * @param {() => void} [options.endInsert] - The chip left.
+ * @returns {Array}
+ */
 export function milkdownLength(labels, options = {}) {
   const lengthView = $view(lengthSchema.node, () => (node, view, getPos) => new LengthView(node, view, getPos, labels, options))
   return [lengthRemark, lengthSchema, lengthView, lengthInputRule].flat()
 }
 
-// The chip's editor at a position (after inserting a tag): focus its value.
+/**
+ * The chip's editor at a position (after inserting a tag): focus its value.
+ *
+ * @param {import('@milkdown/prose/view').EditorView} view
+ * @param {number} pos
+ */
 export function focusLength(view, pos) {
   const dom = view.nodeDOM(pos)
   dom?.querySelector?.('.oc-length-chip--value')?.focus()

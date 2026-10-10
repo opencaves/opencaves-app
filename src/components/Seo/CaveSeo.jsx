@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCaveRatings } from '@/models/Rating.js'
-import { SITE_URL, markdownToPlainText, truncate } from '@/utils/seo.js'
+import { SITE_URL } from '@/config/app.js'
+import { markdownToPlainText, truncate } from '@/utils/seo.js'
 import { setHeadMeta } from '@/utils/headTags.js'
 
-// A cave page's own meta description (RouteSeo leaves it to this on cave
-// pages) and schema.org TouristAttraction data (name, coordinates, aggregate
-// rating).
+/**
+ * A cave page's own meta description (RouteSeo leaves it to this on cave
+ * pages) and schema.org TouristAttraction data (name, coordinates, aggregate
+ * rating).
+ */
 export default function CaveSeo({ cave }) {
   const { t } = useTranslation('seo')
   const { average, count } = useCaveRatings(cave.id)

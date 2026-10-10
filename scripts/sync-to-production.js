@@ -3,8 +3,9 @@
 // ends up with exactly the local documents and files - everything but its
 // users (accounts, _users/* - settings, saved caves), its frozen accounts
 // (_frozenUsers), its audit log (_auditLog: only the additions it lacks -
-// records, photos, videos - are copied, for the What's new page) and its ratings (the caves' ratings
-// subcollections, _caveRatings), which stay untouched.
+// records, photos, videos - are copied, for the What's new page), its ratings
+// (the caves' ratings subcollections, _caveRatings) and its testers' reports
+// (_feedback, and their private docs _feedbackPrivate), which stay untouched.
 //
 // - Firestore: every other collection. New documents are created, differing
 //   ones overwritten whole, the ones only in production deleted. Map
@@ -39,7 +40,7 @@ const PROJECT_ID = 'opencaves'
 const BUCKET = 'opencaves.appspot.com'
 // Production's own: its users, which accounts are frozen, its audit log, and
 // its ratings' summaries (the ratings themselves, under the caves, aren't copied).
-const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings']
+const KEEP = ['_users', '_frozenUsers', '_auditLog', '_caveRatings', '_feedback', '_feedbackPrivate']
 const STORAGE_PREFIXES = ['caves/', 'maps/']
 const FIRESTORE_EMULATOR = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080'
 const STORAGE_EMULATOR = process.env.FIREBASE_STORAGE_EMULATOR_HOST || '127.0.0.1:9199'

@@ -31,22 +31,28 @@
   <link rel="mask-icon" href="/pwa/icons/safari-pinned-tab.svg" color="#145e79" />
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
-  <meta name="apple-mobile-web-app-title" content="Open Caves" />
-  <meta name="application-name" content="Open Caves" />
+  <meta name="apple-mobile-web-app-title" content="OpenCaves" />
+  <meta name="application-name" content="OpenCaves" />
   <meta name="msapplication-TileColor" content="#145e79" />
   <meta name="msapplication-config" content="/pwa/icons/browserconfig.xml" />
   <meta name="theme-color" content="#145e79" />
 
-  <!-- The map shell: a static copy of the map page while it loads - its
-       search bar over its loading screen (logo, title, spinner) - painted
-       from this HTML alone, before the app's JavaScript (well over 1 MB) has
-       loaded and run. Same geometry as the real ones (SearchBar, and
-       MapLoading/MapState.scss - keep them in sync), which replace it: App
-       removes it once it renders, so the page looks the same until the map
-       appears. Map routes only, and light mode only (no white flash before a
-       dark search bar). -->
+  <!-- The splash (#oc-shell): painted from this HTML alone, before the app's
+       JavaScript (well over 1 MB) has loaded and run, over the search
+       engines' text the server puts in #root (covered, not hidden: it stays
+       content). On the map, a still picture of the map page, as the app's own
+       loading screen draws it (MapLoading/MapState.scss, SearchBarMockup -
+       same geometry and colours, keep them in sync): the satellite map's
+       tone, the search bar, the right-hand buttons, and on a cave's address
+       (oc-shell--cave) its details pane - the page already most of the way to
+       the map, not a logo screen; the router's loading screen, the same
+       picture, removes it (routes/Loading.jsx). On the other pages
+       (oc-shell--page), the page with its app bar's strip and a loading
+       screen; Layout removes it once the page has rendered (utils/shell.js).
+       Dark colours in the dark scheme (oc-shell--dark). -->
   <style>
-    #oc-shell { position: fixed; inset: 0; background: #ebebeb; }
+    #oc-shell { position: fixed; inset: 0; z-index: 2147483000; background: #ebebeb; transition: opacity 180ms ease-out; }
+    #oc-shell.oc-shell--out { opacity: 0; pointer-events: none; }
     #oc-shell .oc-shell--search { position: absolute; top: 16px; left: 16px; right: 16px; box-sizing: border-box; height: 56px; display: flex; align-items: center; background: #fff; border: 1px solid #fff; border-radius: 28px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02); }
     #oc-shell .oc-shell--search svg { position: absolute; left: 15px; width: 24px; height: 24px; fill: rgba(0, 0, 0, 0.54); }
     @media (min-width: 600px) { #oc-shell .oc-shell--search { right: auto; width: 368px; } }
@@ -60,20 +66,112 @@
     @media (min-width: 800px) { #oc-shell .oc-shell--title { font-size: 6rem; } }
     #oc-shell .oc-shell--spinner { margin-top: 3rem; display: inline-block; position: relative; width: 16.6667%; aspect-ratio: 2; }
     #oc-shell .oc-shell--dot { fill: #000; transform-origin: center center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation: oc-shell-dots 0.75s linear infinite; }
+    #oc-shell .oc-shell--bar, #oc-shell .oc-shell--loading { display: none; }
+    /* The map (not oc-shell--page): MapState.scss's .oc-map-loading. */
+    #oc-shell .oc-shell--map { position: absolute; inset: 0; overflow: hidden; background: #3f4f36; }
+    #oc-shell .oc-shell--map .oc-shell--spinner { position: absolute; margin: 0; left: calc(50% - 24px); top: calc(50% - 12px); width: 48px; height: 24px; }
+    #oc-shell .oc-shell--map .oc-shell--dot { fill: rgba(255, 255, 255, 0.85); }
+    #oc-shell .oc-shell--ctl { position: absolute; right: 16px; width: 56px; height: 56px; border-radius: 50%; background: #fff; box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12); }
+    #oc-shell .oc-shell--account { display: none; }
+    #oc-shell .oc-shell--layers { top: 88px; width: 48px; height: 48px; }
+    #oc-shell .oc-shell--locate { bottom: 16px; }
+    #oc-shell .oc-shell--pane { display: none; position: absolute; left: 0; right: 0; bottom: 0; height: calc((100% - 48px) * 0.33); background: #fff; border-radius: 16px 16px 0 0; }
+    #oc-shell .oc-shell--pane::before { content: ''; position: absolute; top: 13px; left: calc(50% - 27px); width: 54px; height: 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.11); }
+    #oc-shell.oc-shell--cave .oc-shell--pane { display: block; }
+    #oc-shell.oc-shell--cave .oc-shell--locate { bottom: calc((100% - 48px) * 0.33 + 32px); }
+    #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--spinner { top: calc((100% - (100% - 48px) * 0.33) / 2 - 12px); }
+    #oc-shell .oc-shell--cover { display: none; height: 200px; background: #222d3a; }
+    #oc-shell .oc-shell--bone { display: block; height: 14px; border-radius: 4px; background: rgba(0, 0, 0, 0.11); }
+    #oc-shell .oc-shell--head { padding: 23px 22px 0; height: 102px; box-sizing: border-box; }
+    /* The cave's name: as the pane's title (22px Roboto), only a touch larger and
+       in Arial's metrics, as MapLoading's - the real title, painted seconds
+       later, is then no larger a paint than this one (Largest Contentful
+       Paint), whatever fonts the device has. */
+    #oc-shell .oc-shell--name { width: 45%; height: 22px; margin: 4px 0 16px; }
+    #oc-shell.oc-shell--named .oc-shell--bone.oc-shell--name { width: auto; height: 30px; margin: 0 0 12px; border-radius: 0; background: none; font: 400 24px/30px Helvetica, Arial, sans-serif; color: rgba(0, 0, 0, 0.87); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #oc-shell .oc-shell--head .oc-shell--bone + .oc-shell--bone { width: 48%; }
+    #oc-shell .oc-shell--actions { display: flex; gap: 12px; padding: 0 22px; height: 60px; box-sizing: border-box; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+    #oc-shell .oc-shell--actions span { flex: none; width: 132px; height: 42px; border-radius: 21px; border: 1px solid rgba(0, 0, 0, 0.11); box-sizing: border-box; }
+    #oc-shell .oc-shell--actions span:first-child { border: 0; background: #145e79; }
+    #oc-shell .oc-shell--tabs { display: flex; gap: 44px; margin: 0 22px; padding: 32px 22px 0; height: 64px; box-sizing: border-box; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+    #oc-shell .oc-shell--tabs .oc-shell--bone { width: 52px; }
+    #oc-shell .oc-shell--row { padding: 24px 22px 0 62px; }
+    #oc-shell .oc-shell--row .oc-shell--bone { width: 60%; }
+    @media (min-width: 600px) {
+      #oc-shell .oc-shell--ctl { right: 24px; width: 56px; height: 56px; }
+      #oc-shell .oc-shell--account { display: block; top: 24px; box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+      #oc-shell .oc-shell--layers { top: 96px; }
+      #oc-shell .oc-shell--locate, #oc-shell.oc-shell--cave .oc-shell--locate { bottom: 24px; }
+      #oc-shell .oc-shell--pane { top: 0; right: auto; width: 400px; height: auto; border-radius: 4px; box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12); }
+      #oc-shell .oc-shell--pane::before { display: none; }
+      #oc-shell.oc-shell--cave .oc-shell--map .oc-shell--spinner { left: calc(50% + 200px - 24px); top: calc(50% - 12px); }
+      #oc-shell .oc-shell--cover { display: block; }
+      #oc-shell .oc-shell--head { padding-top: 41px; height: 105px; border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+      #oc-shell .oc-shell--actions { justify-content: space-around; gap: 0; padding: 23px 41px 0; height: 99px; }
+      #oc-shell .oc-shell--actions span { width: 36px; height: 36px; border-radius: 50%; }
+    }
+    /* The other pages: the page's surface, the app bar's strip (AppBar.jsx,
+       64px; --oc-app-bar-bg), the loading screen under it - no search bar. */
+    #oc-shell.oc-shell--page { background: #fff; }
+    #oc-shell.oc-shell--page .oc-shell--bar { display: block; height: 64px; background: #145e79; }
+    #oc-shell.oc-shell--page .oc-shell--loading { display: flex; top: 64px; }
+    #oc-shell.oc-shell--page .oc-shell--search, #oc-shell.oc-shell--page .oc-shell--map { display: none; }
+    #oc-shell.oc-shell--page .oc-shell--logo { fill: #ebebeb; }
+    #oc-shell.oc-shell--page .oc-shell--title { color: #ebebeb; }
+    #oc-shell.oc-shell--page .oc-shell--dot { fill: #145e79; }
+    /* Dark: the dark theme's surface and paper (#1c1b1f), its app bar the
+       surface too, the mark just above it (MapState.scss), its primary. */
+    #oc-shell.oc-shell--dark, #oc-shell.oc-shell--dark .oc-shell--bar { background: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--search { background: #1c1b1f; border-color: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--search svg { fill: rgba(255, 255, 255, 0.56); }
+    #oc-shell.oc-shell--dark .oc-shell--logo { fill: #302f33; }
+    #oc-shell.oc-shell--dark .oc-shell--title { color: #302f33; }
+    #oc-shell.oc-shell--dark .oc-shell--dot { fill: #087e91; }
+    #oc-shell.oc-shell--dark .oc-shell--map .oc-shell--dot { fill: rgba(255, 255, 255, 0.85); }
+    #oc-shell.oc-shell--dark .oc-shell--ctl, #oc-shell.oc-shell--dark .oc-shell--pane { background: #1c1b1f; }
+    #oc-shell.oc-shell--dark .oc-shell--bone, #oc-shell.oc-shell--dark .oc-shell--pane::before { background: rgba(255, 255, 255, 0.13); }
+    #oc-shell.oc-shell--dark .oc-shell--head, #oc-shell.oc-shell--dark .oc-shell--actions, #oc-shell.oc-shell--dark .oc-shell--tabs { border-color: rgba(255, 255, 255, 0.12); }
+    #oc-shell.oc-shell--dark.oc-shell--named .oc-shell--name.oc-shell--bone { color: #dedbd7; }
+    #oc-shell.oc-shell--dark .oc-shell--actions span { border-color: rgba(255, 255, 255, 0.13); }
+    #oc-shell.oc-shell--dark .oc-shell--actions span:first-child { background: #087e91; }
+    @media (prefers-reduced-motion: reduce) {
+      #oc-shell { transition: none; }
+      #oc-shell .oc-shell--dot { animation: none; }
+    }
   </style>
 </head>
 
 <body>
   <div id="oc-shell" aria-hidden="true">
+    <div class="oc-shell--bar"></div>
     <div class="oc-shell--loading">
       <div class="oc-shell--box">
         <svg class="oc-shell--logo" viewBox="-.0015623 -2.7662e-5 92.193 100"><path class="p1" d="M76.57 55.43l-36.23-36L22 1.2A14.48 14.48 0 0 0 16.2 0C7.37 0 .19 8.1 0 18.16v43.47a18.67 18.67 0 0 0 18.43 18.91H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.63-9.19z" /><path class="p2" d="M73.76 19.46H23a17.86 17.86 0 0 0-10 15.92 17.46 17.46 0 0 0 2.61 9.2l36.23 36L70.23 98.8A14.52 14.52 0 0 0 76 100c8.82 0 16-8.09 16.19-18.15V38.36a18.67 18.67 0 0 0-18.43-18.9z" /><path class="p3" d="M15.61 44.58l36.23 36H69.2a17.86 17.86 0 0 0 10-15.92 17.4 17.4 0 0 0-2.62-9.19l-36.23-36H23a17.86 17.86 0 0 0-10 15.91 17.46 17.46 0 0 0 2.61 9.2z" /></svg>
-        <div class="oc-shell--title">Open Caves</div>
+        <div class="oc-shell--title">OpenCaves</div>
         <div class="oc-shell--spinner">
           <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: 30%"><circle transform="translate(32,32)" r="10" /></svg>
           <svg class="oc-shell--dot" viewBox="0 0 64 64" style="animation-delay: -111ms"><circle transform="translate(32,32)" r="10" /></svg>
           <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: -30%; animation-delay: -220ms"><circle transform="translate(32,32)" r="10" /></svg>
         </div>
+      </div>
+    </div>
+    <div class="oc-shell--map">
+      <div class="oc-shell--spinner">
+        <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: 30%"><circle transform="translate(32,32)" r="10" /></svg>
+        <svg class="oc-shell--dot" viewBox="0 0 64 64" style="animation-delay: -111ms"><circle transform="translate(32,32)" r="10" /></svg>
+        <svg class="oc-shell--dot" viewBox="0 0 64 64" style="left: -30%; animation-delay: -220ms"><circle transform="translate(32,32)" r="10" /></svg>
+      </div>
+      <span class="oc-shell--ctl oc-shell--account"></span>
+      <span class="oc-shell--ctl oc-shell--layers"></span>
+      <span class="oc-shell--ctl oc-shell--locate"></span>
+      <div class="oc-shell--pane">
+        <div class="oc-shell--cover"></div>
+        <div class="oc-shell--head"><span class="oc-shell--bone oc-shell--name"></span><span class="oc-shell--bone"></span></div>
+        <div class="oc-shell--actions"><span></span><span></span><span></span></div>
+        <div class="oc-shell--tabs"><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span><span class="oc-shell--bone"></span></div>
+        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
+        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
+        <div class="oc-shell--row"><span class="oc-shell--bone"></span></div>
       </div>
     </div>
     <div class="oc-shell--search">
@@ -84,16 +182,57 @@
     (function () {
       var shell = document.getElementById('oc-shell')
       var path = location.pathname
+      // A page the server rendered with the app (functions/js/seo/ssr.js, in
+      // English): its content is the first paint, no splash over it - unless
+      // the app will show it in another language (it then renders it anew,
+      // src/index.jsx): the splash then, as before, over the English. The
+      // language as i18next finds it (src/i18n.js): the one picked on the
+      // account page (oc-language, src/config/appLanguages.js), else the
+      // browser's first one the app has (en, fr, es, yua; keep in step).
+      if (document.documentElement.hasAttribute('data-oc-ssr')) {
+        var language = null
+        try {
+          language = localStorage.getItem('oc-language')
+        } catch (e) {}
+        if (!language) {
+          var wanted = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']
+          for (var i = 0; i < wanted.length && !language; i++) {
+            var code = String(wanted[i]).toLowerCase().split('-')[0]
+            if (/^(en|fr|es|yua)$/.test(code)) language = code
+          }
+        }
+        if (!language || language === 'en') {
+          shell.remove()
+          return
+        }
+      }
       var isMapRoute = path === '/map' || path.indexOf('/map/') === 0
       var mode = null
       try {
         mode = localStorage.getItem('mui-mode')
       } catch (e) {}
       var dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      if (!isMapRoute || dark) {
-        shell.remove()
-        return
+      if (!isMapRoute) shell.classList.add('oc-shell--page')
+      else if (/^\/map\/[^/]/.test(path)) {
+        shell.classList.add('oc-shell--cave')
+        // The cave's name, from the title the server gave the page ("<name> /
+        // OpenCaves", cavePage.js), where its pane will show it: the page's
+        // first text, painted at once (MapLoading keeps it, utils/shell.js).
+        // Not the server's placeholder for an unnamed cave.
+        var named = /^(.+) \/ OpenCaves$/.exec(document.title)
+        if (named && named[1].charAt(0) !== '(') {
+          shell.querySelector('.oc-shell--name').textContent = named[1]
+          shell.classList.add('oc-shell--named')
+          shell.setAttribute('data-cave-name', named[1])
+          shell.setAttribute('data-path', path)
+        }
       }
+      if (dark) shell.classList.add('oc-shell--dark')
+      // The app never starting (its scripts failing): the server's text
+      // after all, rather than a splash forever. (App has its own, sooner.)
+      setTimeout(function () {
+        shell.remove()
+      }, 20000)
     })()
   </script>
   <div id="root"></div>

@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip, Typography } from '@mui/material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
+import { useSmall } from '@/hooks/useSmall.jsx'
 import AddButton from '@/components/AddButton.jsx'
 import PartialDateField from '@/components/PartialDateField.jsx'
 import DraggableDialogPaper from '@/components/DraggableDialogPaper.jsx'
@@ -9,6 +11,7 @@ import MapSistemaField from '@/components/MapsPicker/MapSistemaField.jsx'
 import PendingFilePreview from '@/components/MapsPicker/PendingFilePreview.jsx'
 import MapUploadFeedback, { useMapUpload } from '@/components/MapsPicker/MapUpload.jsx'
 import SistemaModel from '@/models/SistemaModel.js'
+import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 
@@ -19,9 +22,13 @@ const emptyPendingDetails = { title: '', date: '', authors: [], note: '' }
 // canAdd: editors; the others get onAddUnauthorized (e.g. to log in), or no
 // button. A cave without a system can't take a map: the button is disabled,
 // saying so. spaced: room above it (after a list of maps).
+const PREVIEW_SIZE = 440
+
 export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthorized, spaced = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tMaps } = useTranslation('mapsPicker')
+  const [openSnackbar] = useSnackbar()
+  const isSmall = useSmall()
   const [sistemas] = SistemaModel.useAll()
   const sistema = sistemas.find((s) => s.id === sistemaId)
   const fileInputRef = useRef()
@@ -41,6 +48,12 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
     const file = event.target.files?.[0]
     event.target.value = ''
     if (!file) return
+    // An image or a PDF only (the picker's "All files" let anything through,
+    // a .txt then shown as a PDF).
+    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+      openSnackbar(tMaps('wrongType'))
+      return
+    }
     setPendingFile(file)
     setPendingDetails({ ...emptyPendingDetails, title: sistema?.name || '' })
   }
@@ -66,6 +79,9 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
     setPendingDetails(emptyPendingDetails)
   }
 
+  // The preview at the screen's width on a phone (its size drives its zoom limits).
+  const previewSize = isSmall ? Math.min(window.innerWidth - 48, PREVIEW_SIZE) : PREVIEW_SIZE
+
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'center', pt: spaced ? 2 : 0 }}>
@@ -83,18 +99,27 @@ export default function AddMapButton({ sistemaId, canAdd = true, onAddUnauthoriz
       <input ref={fileInputRef} type="file" hidden accept="image/*,application/pdf" onChange={handleFileSelected} />
       <MapUploadFeedback uploading={uploading} progress={progress} current={current} error={error} clearError={clearError} />
 
-      <Dialog className="oc-add-map-button--dialog" open={!!pendingFile} onClose={cancelPendingUpload} maxWidth={false} PaperComponent={DraggableDialogPaper}>
-        <DialogTitle noWrap className="oc-draggable-dialog--handle" sx={{ cursor: 'move' }}>
+      {/* Phones: full screen, the preview above the form at the screen's
+          width, no dragging (as EditMapDialog) - it kept a 900px layout, its
+          title, preview and buttons off the screen. */}
+      <Dialog className="oc-add-map-button--dialog" open={!!pendingFile} onClose={cancelPendingUpload} maxWidth={false} fullScreen={isSmall} PaperComponent={isSmall ? undefined : DraggableDialogPaper}>
+        <DialogTitle noWrap className={isSmall ? undefined : 'oc-draggable-dialog--handle'} sx={{ cursor: isSmall ? undefined : 'move', pr: 7 }}>
           {pendingFile?.name}
         </DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 900 }}>
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
-            <Box sx={{ width: 440, height: 440, flexShrink: 0 }}>
-              <PendingFilePreview file={pendingFile} width={440} height={440} />
+        {/* Outside the title: the title is the drag handle. */}
+        <Tooltip title={tMaps('close')}>
+          <IconButton className="oc-add-map-button--close" aria-label={tMaps('close')} onClick={cancelPendingUpload} disabled={uploading} sx={{ position: 'absolute', top: 12, right: 12 }}>
+            <CloseRounded />
+          </IconButton>
+        </Tooltip>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: isSmall ? 'auto' : 900 }}>
+          <Box sx={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', gap: isSmall ? 2 : 1.5, pt: isSmall ? 1 : 0 }}>
+            <Box sx={{ width: previewSize, height: previewSize, flexShrink: 0, alignSelf: 'center' }}>
+              <PendingFilePreview file={pendingFile} width={previewSize} height={previewSize} />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
               <MapSistemaField autoFocus value={pendingDetails.title} onChange={(title) => setPendingDetails((d) => ({ ...d, title }))} />
-              <PartialDateField size="small" label={tMaps('mapDate')} description={tMaps('mapDateHint')} fullWidth value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
+              <PartialDateField size="small" label={tMaps('mapDate')} description={tMaps('mapDateHint')} value={pendingDetails.date} onChange={(e) => setPendingDetails((d) => ({ ...d, date: e.target.value }))} />
               <AuthorsField value={pendingDetails.authors} onChange={(authors) => setPendingDetails((d) => ({ ...d, authors }))} />
               <TextField size="small" label={tMaps('mapNote')} fullWidth multiline minRows={2} value={pendingDetails.note} onChange={(e) => setPendingDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
             </Box>

@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase } from '@mui/material'
-import AddAPhotoOutlined from '@mui/icons-material/AddAPhotoOutlined'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
 import AddButton from '@/components/AddButton.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import AddMediasButton from '@/components/MediaPane/AddMediasButton.jsx'
@@ -13,20 +13,23 @@ import { useCaveAssetsList } from '@/models/CaveAsset.js'
 import Picture from '@/components/Picture.jsx'
 import Carousel from '@/components/Carousel/Carousel.jsx'
 import IndexSection from './IndexSection.jsx'
+import EmptySectionText from './EmptySectionText.jsx'
 
 // The photos a cave's page shows (its Show all pane has them all).
 const MAX_PHOTOS = 12
 
-// A cave's photos, its cover first, each opening in the page's gallery
-// (/caves/:caveId/photos/:id, PhotoGallery): a carousel on phones (a grid
-// wider) of the first ones, its Show all pane with every one. Under them,
-// the photos added offline still waiting to upload, and Add pictures
-// (editors; the others are asked to log in) - shown with no photo yet too.
+/**
+ * A cave's photos, its cover first, each opening in the page's gallery
+ * (/caves/:caveId/photos/:id, PhotoGallery): a carousel on phones (a grid
+ * wider) of the first ones, its Show all pane with every one. Under them,
+ * the photos added offline still waiting to upload, and Add pictures
+ * (editors; the others are asked to log in) - shown with no photo yet too.
+ */
 export default function CavePhotosSection({ caveId, title }) {
   const { t } = useTranslation('indexPages')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const isEditor = useSelector((state) => state.session.roles).includes('editor')
-  const requireLogin = useRequireLogin()
+  const requireLogin = useRequireLogin('photos')
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])
   const [list, loading] = useCaveAssetsList(caveId)
   if (loading || !list) return null
@@ -41,15 +44,16 @@ export default function CavePhotosSection({ caveId, title }) {
   // Editors pick photos (or drop them on the page); the others log in first.
   const addButton = isEditor ? (
     <AddMediasProvider caveId={caveId}>
-      <AddMediasButton component={<AddButton startIcon={<AddAPhotoOutlined />} />}>{tEdit('addPictures')}</AddMediasButton>
+      <AddMediasButton component={<AddButton startIcon={<AddAPhotoRounded />} />}>{tEdit('addPictures')}</AddMediasButton>
     </AddMediasProvider>
   ) : (
-    <AddButton startIcon={<AddAPhotoOutlined />} onClick={requireLogin}>
+    <AddButton startIcon={<AddAPhotoRounded />} onClick={requireLogin}>
       {tEdit('addPictures')}
     </AddButton>
   )
   return (
     <IndexSection id="photos" title={title} count={list.size || undefined} className="oc-cave-page--photos" card>
+      {photos.length === 0 && <EmptySectionText>{t('empty.photos')}</EmptySectionText>}
       {photos.length > 0 && (
         <Carousel allItems={items} gridMinWidth="240px" gridGap={1.5} label={title}>
           {items.slice(0, MAX_PHOTOS)}

@@ -8,16 +8,26 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import mapsModel from '@/models/MapModel.js'
 import { noopAsync } from '@/utils/noop.js'
 
-// Deleting a map itself (not removing it from a sistema): admins only, as
-// deleting it was in firestore.rules.
+/**
+ * Deleting a map itself (not removing it from a sistema): admins only, as
+ * deleting it was in firestore.rules.
+ *
+ * @returns {boolean}
+ */
 export function useCanTrashMaps() {
   return useSelector((state) => state.session.roles.includes('admin'))
 }
 
-// The confirmation before a map goes to the trash - out of every sistema
-// that shows it, until an admin restores it (Audits > Trash). The owner
-// renders `dialog`; onAfterTrash(map) runs once it's done (e.g. moving the
-// viewer on to another map).
+/**
+ * The confirmation before a map goes to the trash - out of every sistema
+ * that shows it, until an admin restores it (Audits > Trash). The owner
+ * renders `dialog`.
+ *
+ * @param {object} [options]
+ * @param {(map: CaveMap) => Promise} [options.onAfterTrash] - Runs once it's done (e.g. moving the
+ *   viewer on to another map).
+ * @returns {{requestTrash: (map: CaveMap) => void, dialog: React.ReactNode}}
+ */
 export function useTrashMapConfirm({ onAfterTrash = noopAsync } = {}) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [openSnackbar] = useSnackbar()

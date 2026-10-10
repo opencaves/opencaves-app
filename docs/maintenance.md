@@ -78,7 +78,8 @@ ratings and `_caveRatings`), frozen accounts and audit log, which stay
 untouched - except that the local audit log's additions that production
 lacks (its "create" entries for caves, systems, connections, maps and photos,
 and the caves' changes that added videos) are copied to it, so the What's new page (`/whats-new`, built from the audit log) lists them
-there too. What's only in production is deleted, files included. Production's
+there too. Local edits and deletions aren't copied: production's What's new
+shows as Modified and Removed only what was changed there. What's only in production is deleted, files included. Production's
 documents are first saved to `_data/backups/production-<date>/`; its deleted
 files are not. Copied files carry `ocSync=true`, so the upload functions
 don't rebuild them. The trash comes along as it is. Production keeps its own
@@ -109,6 +110,27 @@ which each reader sees in their units. A conversion written next to a length
 (`40 ft (12 m)`) is dropped, and a range gets a tag at each end. Without
 `--write` it only lists the changes: read them before saving. Re-runnable.
 A sync from the Google Sheet brings the untagged text back: run it again after.
+
+## Move the feedback reports' private fields
+
+```
+node scripts/move-feedback-private.js -l           # local emulators: dry run, lists the changes
+node scripts/move-feedback-private.js -l --write   # saves them
+node scripts/move-feedback-private.js -p           # production (dry run; add --write to save)
+```
+
+Every registered account reads the beta feedback reports (`/feedback`, Ideas
+and fixes), so a report holds nothing private: its `browser` and its reply
+token (`replyToken`) live in `_feedbackPrivate/{id}`, which only admins read,
+and its author is shown by `authorName` (their display name, written by
+`onFeedbackCreated`). This one-time script moves `browser` and `replyToken`
+off the reports sent before, to `_feedbackPrivate`, and fills in their
+`authorName` from Auth (nothing for an account without a display name).
+Re-runnable: moved reports are left alone. Run it in production once the
+Firestore rules, the functions and the app are deployed (`-p`, then `-p
+--write`, after `gcloud auth application-default login`): until then those
+reports' browsers stay readable by members, and their reply tokens keep
+working from the report.
 
 ## Give someone a role
 
@@ -165,6 +187,22 @@ map is also taken off the sistemas that list it.
 Entries are deleted 12 months after they're written (`expireAt`, a TTL
 policy deployed with the indexes: `firebase deploy --only firestore:indexes`).
 
+The public What's new page (`/whats-new`, the `getWhatsNew` function, cached
+5 minutes) is built from this log: each caves, sistemas, connections and maps
+record marked **Added** (its `create` entry, if it's still there and shown),
+**Modified** (its `update` entries and the admins' undos that updated it, one
+item per record, author and UTC day, listing the fields changed - not the
+server's fields, nor the trash's, nor a cave's `videos` and a system's `maps`,
+shown as items of their own; edits by the author who added it that same day
+fold into the addition) or **Removed** (deleted, emptied from the trash, moved
+to the trash or its creation undone, and not back since: named from its last
+values, without a link; a system that wasn't public isn't listed), plus the
+photos and videos added to caves. It reads the latest 600 creates, deletes,
+undos and purges, and apart from them the latest 600 updates, so a day of
+edits can't push the additions out; of its 300 items at most 100 are
+modifications and 50 removals. Its queries use the `_auditLog` indexes on
+`action, at` and `action, collection, at` (`firestore.indexes.json`).
+
 Changes made by scripts and functions (the Google Sheet sync, the mirror to
 production, the photo triggers) aren't recorded. The emulators don't say who
 made a change, so locally every write is recorded as `emulator`'s - scripts
@@ -175,8 +213,22 @@ emulator has no TTL: local entries stay until deleted.
 ## Emails
 
 The Cloud Functions send email with [Resend](https://resend.com) from
-`noreply@opencaves.org` (`functions/js/email/sendEmail.js`); today only the
-freeze and unfreeze notices. The opencaves.org domain must be verified in the Resend account
+`noreply@opencaves.org` (`functions/js/email/sendEmail.js`): the freeze and
+unfreeze notices, and the beta feedback's - a new report to the admins
+(`onFeedbackCreated`), and each team reply written on the Feedback page
+(`onFeedbackReplied`). Only replies email a report's author: changing its
+stage emails no one. A reply goes to the author with the whole conversation,
+in the language of the report; one sent with "Send and mark as done/rejected"
+carries the outcome too. A report's emails share a
+subject and `Message-ID`/`References` headers, so mail apps show them as one
+conversation. Their Reply-To is the report's own address,
+`<replyToken>@reply.opencaves.org` (`FEEDBACK_REPLY_DOMAIN` in
+`functions/js/constants.js`; the token, random, is written on the report by
+the server on its first team reply): the author's answer comes back into the
+report's thread (see "Replies by email" below). With `FEEDBACK_REPLY_DOMAIN`
+set to `null`, the Reply-To is `FEEDBACK_REPLY_TO`, `feedback@opencaves.org`,
+the team's inbox (a forward to the admin at Porkbun), and answers are read
+there by hand. That address must exist and be read. The opencaves.org domain must be verified in the Resend account
 (its DNS records), or Resend refuses to send. The API key (a send-only key) is
 the `RESEND_API_KEY` secret, in Google Secret Manager - never in a file:
 
@@ -188,6 +240,96 @@ firebase deploy --only functions                 # the functions use the new ver
 Replace it in Resend (create a new key, set it, delete the old one) if it was
 ever shared. In the emulators nothing is sent: the email is written to the
 functions' log. Each send shows in the Resend dashboard's logs.
+
+### Unsubscribe
+
+An author can stop the team's reply emails: the **Emails** switch on their
+account page (`/account`), or the "Unsubscribe" link at the very end of each
+reply email, which works without signing in. Either sets `feedbackEmails:
+false` on their `_users/{uid}`; `onFeedbackReplied` then sends nothing (the
+reply still joins the thread, and the log says it wasn't emailed), and the
+report shows "The author muted feedback emails" on the Feedback page (the
+`authorMuted` flag the server mirrors on their reports, `onAuthorMutedChanged`,
+since admins don't read `_users`). The switch turns them back on.
+
+The link is `https://opencaves.org/email/unsubscribe?t=<token>`: a Hosting
+rewrite (`firebase.json`, before the `**` catch-all) to the
+`feedbackUnsubscribe` function. The token is the account's own, 32 random
+lowercase letters and digits, written by the server as `unsubscribeToken` on
+`_users/{uid}` with the first email that needs it (the rules never let a
+client write it; it goes with the account). Opening the link (GET) changes
+nothing - mail scanners open every link of an email: a small page in the
+account's language asks to confirm, and its Unsubscribe button (a POST with
+`confirm=1`) turns the emails off and says so, with a link to the settings
+(already off: that page at once). A POST without it is the mail apps' own
+one-click Unsubscribe button (RFC 8058: each email carries `List-Unsubscribe:
+<that link>` and `List-Unsubscribe-Post: List-Unsubscribe=One-Click`): turned
+off, answered 200 with a short text. An unknown or
+malformed token gets a 400 page with no detail. Never cached, and the token is
+never logged. To deploy it: `firebase deploy --only
+functions:js:feedbackUnsubscribe,functions:js:onAuthorMutedChanged,functions:js:onFeedbackReplied,functions:js:onFeedbackCreated,firestore:rules`,
+then `firebase deploy --only hosting` (the rewrite needs the function first).
+
+### Replies by email
+
+An author's answer to a team reply joins the report's thread: Resend receives
+the mail sent to `reply.opencaves.org` and calls the `feedbackInbound`
+function (a webhook, event `email.received`), which checks the webhook's
+signature, reads the email from Resend's API, finds the report by the address'
+token and, if the email really comes from the report's author, adds its new
+text (the quoted conversation and signature removed) to the thread as their
+comment ("by email" on the Feedback page; attachments aren't kept, only
+counted). A closed report reopens (stage New, no email to the author), and the
+admins get an email ("<author> replied to ..."). The admins' emails (a new report, an
+author's answer) have their own reply address, `team-<token>@reply.opencaves.org`:
+an admin answering one of them writes a team reply, added to the thread and
+emailed to the author as if written on the Feedback page (accepted only from
+an admin account's address, not disabled or frozen, its mail authenticated;
+a team reply doesn't reopen the report). Two addresses, so an admin who sent
+a report answers as the email they got. Dropped, and only logged
+(never their text): automatic mail (out-of-office, bounces, lists - no mail
+loops), an unknown address, and a sender who isn't the author or whose mail
+isn't authenticated (DKIM or DMARC passing, or SPF passing for the From's
+domain; a DMARC failure is always refused). Each email is added once, even if
+Resend delivers the webhook again.
+
+Set up, once:
+
+1. **Resend, Domains**: add `reply.opencaves.org` with **receiving** turned on
+   (sending isn't needed for it). Resend shows its MX record.
+2. **Porkbun, DNS of opencaves.org**: add that MX record for the host `reply`
+   (the exact value and priority Resend shows for it). It touches only the subdomain: opencaves.org's own mail is
+   unchanged. Wait for Resend to show the domain verified.
+3. **Resend, Webhooks**: add an endpoint
+   `https://northamerica-northeast1-opencaves.cloudfunctions.net/feedbackInbound`
+   with the event `email.received`. Copy its signing secret (`whsec_...`).
+4. **The secrets** (Google Secret Manager):
+
+   ```
+   firebase functions:secrets:set RESEND_WEBHOOK_SECRET   # paste the whsec_... secret
+   firebase functions:secrets:set RESEND_INBOUND_KEY      # a Resend API key with full access (already set)
+   ```
+
+   `RESEND_INBOUND_KEY` reads the received emails (the send-only
+   `RESEND_API_KEY` can't).
+5. **Deploy, in this order**: the secrets first (step 4), then
+   `firebase deploy --only functions:js:feedbackInbound` (the webhook, and its
+   URL in step 3 starts answering), check it (below), then
+   `firebase deploy --only functions` for `onFeedbackReplied`, whose emails then
+   carry the per-report Reply-To. Until that last deploy, answers keep going
+   to `feedback@opencaves.org`. Deploying it before receiving works would
+   send answers to an address that bounces.
+
+Check it: reply from the app to a report of your own (an account whose email
+you read), answer the email from that mailbox, and the answer shows in the
+report's thread within a minute; the webhook's deliveries show in Resend's
+Webhooks page, and the function's log (`firebase functions:log --only
+feedbackInbound`) says why an email was dropped. Locally, the emulator has no
+Resend: an email can come from a fixture file
+(`<temp folder>/opencaves-inbound-fixtures/<email id>.json`, the shape of
+Resend's received email), with a webhook signed with the test secret of
+`functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
+committed).
 
 ## Apply the Storage CORS config
 
@@ -211,6 +353,46 @@ firebase deploy --only firestore:rules,firestore:indexes   # security rules, ind
 ```
 
 A deploy uploads the working copy, including uncommitted changes.
+
+`npm run build` also builds the server rendering of the public pages (`/`,
+`/caves`, a cave's page, `/sistemas`, a system's page) into `functions/js/ssr/`,
+from that same build: after a build, deploy the hosting **and** the
+`indexPages` function together (`firebase deploy`, or `--only
+hosting,functions:js:indexPages`), or those pages are drawn with the previous
+build's code and files. Without `functions/js/ssr/` (or if the server
+rendering fails), they are served as the app's shell with the page's title,
+description and other `<head>` tags (a cave's page also with its text), and
+the browser draws them.
+
+Two safeguards keep the two builds together. `firebase deploy` (Hosting or
+the functions) first runs `node scripts/check-ssr-build.js --check`, which
+stops the deploy when `build/` and `functions/js/ssr/` come from different
+builds, or one is missing: run `npm run build` again. And if Hosting is
+deployed alone all the same, the page functions see that the site's build
+isn't theirs and serve the pages as the app's shell, drawn in the browser,
+until the functions are deployed too: the logs show `[ssr] the site and the
+server build differ`.
+
+After deploying Hosting and the functions, check the server-rendered pages in
+a real browser, on the live site or on a preview channel:
+
+```
+node scripts/check-hydration.js --url https://opencaves.org
+node scripts/check-hydration.js --url https://opencaves--<channel>-<hash>.web.app --cave=<id> --sistema=<id>
+```
+
+It loads `/`, `/caves`, `/sistemas`, a cave's page and a system's page (the
+first ones the lists link to, unless `--cave=`/`--sistema=` name them - with
+"=", as cave ids start with "-") and a missing cave, in English, each with a
+random `?oc-check=` query so the CDN's cached copy doesn't answer. For each it
+checks the status (404 for the missing cave), that the response is compressed
+(br or gzip), that the server rendered it (`window.__OC_SSR__`,
+`html[data-oc-ssr]`) and the app hydrated it to the end, with no page error
+and no hydration message in the console (React's, or the app's `[hydrate]`
+ones), and that the title after hydration is the server's. One line per page;
+it exits 1 when a check fails (`-v` also lists the pages' other console
+errors). It uses Chrome when installed, else Playwright's Chromium: run `npx
+playwright install chromium` once.
 
 If a functions deploy fails with *"User code failed to load. Cannot determine
 backend specification. Timeout after 10000"*, the CLI took more than 10

@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material'
 import PageFab from '@/components/PageFab.jsx'
-import Add from '@mui/icons-material/Add'
+import Add from '@mui/icons-material/AddRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
-import Delete from '@mui/icons-material/Delete'
-import Edit from '@mui/icons-material/Edit'
+import Delete from '@mui/icons-material/DeleteRounded'
+import Edit from '@mui/icons-material/EditRounded'
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import { pickDescription } from '@/services/data-service/types.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
@@ -18,6 +18,7 @@ import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
 import { slugify } from '@/utils/slug.js'
+import IconButtonGroup from '@/components/IconButtonGroup.jsx'
 
 function getHexHue(hex) {
   let value = String(hex || '')
@@ -137,16 +138,17 @@ export default function ReferenceDataEditor() {
               disablePadding
               secondaryAction={
                 canEdit && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <IconButton size="large" onClick={() => navigate(editPath(item))} aria-label={t('edit')}>
+                // MD3 standard icon buttons (40dp, 48dp touch targets).
+                <IconButtonGroup className="oc-reference-data-editor--actions">
+                  <IconButton onClick={() => navigate(editPath(item))} aria-label={t('edit')}>
                     <Edit />
                   </IconButton>
                   {isAdmin && (
-                    <IconButton size="large" onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
+                    <IconButton onClick={() => setDeleteTarget(item)} aria-label={t('delete')}>
                       <Delete />
                     </IconButton>
                   )}
-                </Box>
+                </IconButtonGroup>
                 )
               }
             >

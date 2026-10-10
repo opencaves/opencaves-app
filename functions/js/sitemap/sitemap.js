@@ -1,9 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https'
-import { REGION, CAVES_COLL_NAME } from '../constants.js'
+import { REGION, CAVES_COLL_NAME, SITE_URL } from '../constants.js'
 import { db } from '../init.js'
 import { loadIndexData } from '../seo/indexData.js'
-
-const SITE_URL = 'https://opencaves.org'
 
 function escapeXml(value) {
   return value.replace(/[<>&'"]/g, (char) => ({

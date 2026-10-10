@@ -30,8 +30,9 @@ firebase-export-*
 .env.test.local
 .env.production.local
 *.log*
-functions/py/out.png
-functions/py/t.jpg
+# Cloud Functions log dumps (firebase functions:log > logs.json): they hold
+# users' emails, IPs and signed URLs
+logs.json
 /.vscode
 /_data
 
@@ -43,3 +44,6 @@ __pycache__/
 
 # Local values of the Cloud Functions secrets (the emulator reads them): never committed.
 .secret.local
+
+# Firebase Auth exports (firebase auth:export): accounts and password hashes, never committed
+users.json

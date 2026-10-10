@@ -11,15 +11,19 @@ import PaletteRounded from '@mui/icons-material/PaletteRounded'
 import PeopleRounded from '@mui/icons-material/PeopleRounded'
 import LayersRounded from '@mui/icons-material/LayersRounded'
 import HistoryRounded from '@mui/icons-material/HistoryRounded'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
+import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import PublicRounded from '@mui/icons-material/PublicRounded'
 import SourceRounded from '@mui/icons-material/SourceRounded'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useMapsToProcess } from '@/routes/map-layers/useMapsToProcess.js'
+import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { REFERENCE_DATA_CONFIGS } from './referenceDataConfigs.js'
 import LegalLinks from '@/components/App/LegalLinks.jsx'
-
+
+
 const REFERENCE_COLLECTIONS = [
   { collection: 'accesses', icon: LockOpenRounded },
   { collection: 'accessibilities', icon: AccessibleRounded },
@@ -42,12 +46,21 @@ const dashboardItemSx = (theme) => ({
   },
 })
 
+/**
+ * /dashboard: the pages to manage the data, as the account's roles allow -
+ * editors the caves, systems, connections and reference data; admins also
+ * the users, map layers, feedback (with the count of new reports) and
+ * audits. Anyone who isn't an admin gets Ideas and fixes instead: the
+ * testers' reports, to read (/feedback).
+ */
 export default function AdminDashboard() {
   const { t } = useTranslation('dashboard')
   const { setTitle } = useTitle()
   const roles = useSelector((state) => state.session.roles)
   const isEditor = roles.includes('editor')
   const isAdmin = roles.includes('admin')
+  // The testers' reports still to read.
+  const newFeedback = useNewFeedbackCount(isAdmin)
   const mapsToProcess = useMapsToProcess().toProcess.length
 
   useEffect(() => {
@@ -84,10 +97,11 @@ export default function AdminDashboard() {
           <Box sx={{ width: 56, height: 4, mt: 1.5, borderRadius: 2, bgcolor: 'secondary.main' }} />
         </Box>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }, gap: 3, alignItems: 'start' }}>
+        {/* Caves with Admin under it, Reference data beside them (one column on a phone: caves, admin, reference data). */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }, gridTemplateAreas: { xs: '"caves" "admin" "reference"', md: '"caves reference" "admin reference"' }, gridTemplateRows: { md: 'auto 1fr' }, gap: 3, alignItems: 'start' }}>
           {isEditor && (
             <>
-              <Box component="section">
+              <Box component="section" sx={{ gridArea: 'caves' }}>
                 <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
                   {t('cavesSection')}
                 </Typography>
@@ -123,29 +137,11 @@ export default function AdminDashboard() {
                 </List>
               </Box>
 
-              <Box component="section">
-                <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
-                  {t('referenceDataSection')}
-                </Typography>
-                <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
-                  {/* Colours and languages: admins only (adminOnly). */}
-                  {REFERENCE_COLLECTIONS.filter(({ collection }) => isAdmin || !REFERENCE_DATA_CONFIGS[collection]?.adminOnly).map(({ collection, icon: Icon }) => (
-                    <ListItem key={collection} disablePadding>
-                      <ListItemButton component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
-                        <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
-                          <Icon />
-                        </ListItemIcon>
-                        <ListItemText primary={t(`collections.${collection}.title`)} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
             </>
           )}
 
           {isAdmin && (
-            <Box component="section">
+            <Box component="section" sx={{ gridArea: 'admin' }}>
               <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
                 {t('adminSection')}
               </Typography>
@@ -169,6 +165,15 @@ export default function AdminDashboard() {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/feedback" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <FeedbackRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('manageFeedback')} />
+                    {newFeedback > 0 && <Chip className="oc-admin-dashboard--new-feedback" size="small" color="secondary" label={t('newFeedback', { count: newFeedback })} />}
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
                   <ListItemButton component={Link} to="/audits" divider sx={dashboardItemSx}>
                     <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
                       <HistoryRounded />
@@ -176,6 +181,47 @@ export default function AdminDashboard() {
                     <ListItemText primary={t('manageAudits')} />
                   </ListItemButton>
                 </ListItem>
+              </List>
+            </Box>
+          )}
+
+          {/* Everyone else: the testers' reports, to read (Ideas and fixes) -
+              the admins' Feedback entry above manages them. */}
+          {!isAdmin && (
+            <Box component="section" className="oc-admin-dashboard--feedback" sx={{ gridArea: 'admin' }}>
+              <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                {t('feedbackSection')}
+              </Typography>
+              <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to="/feedback" divider sx={dashboardItemSx}>
+                    <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                      <TipsAndUpdatesRounded />
+                    </ListItemIcon>
+                    <ListItemText primary={t('followFeedback')} secondary={t('followFeedbackText')} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Box>
+          )}
+
+          {isEditor && (
+            <Box component="section" sx={{ gridArea: 'reference' }}>
+              <Typography component="h2" variant="overline" sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em' }}>
+                {t('referenceDataSection')}
+              </Typography>
+              <List disablePadding sx={{ overflow: 'hidden', border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: DASHBOARD_SURFACE }}>
+                {/* Colours and languages: admins only (adminOnly). */}
+                {REFERENCE_COLLECTIONS.filter(({ collection }) => isAdmin || !REFERENCE_DATA_CONFIGS[collection]?.adminOnly).map(({ collection, icon: Icon }) => (
+                  <ListItem key={collection} disablePadding>
+                    <ListItemButton component={Link} to={`/${collection}`} divider sx={dashboardItemSx}>
+                      <ListItemIcon sx={{ minWidth: 44, color: 'primary.main' }}>
+                        <Icon />
+                      </ListItemIcon>
+                      <ListItemText primary={t(`collections.${collection}.title`)} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
               </List>
             </Box>
           )}

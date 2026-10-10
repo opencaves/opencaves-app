@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, LinearProgress, Skeleton, Tooltip, Typography } from '@mui/material'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import RefreshRounded from '@mui/icons-material/RefreshRounded'
 import RestoreFromTrashRounded from '@mui/icons-material/RestoreFromTrashRounded'
@@ -37,7 +37,7 @@ function MapThumbnail({ map }) {
   if (src && !failed) {
     return <Box component="img" src={src} alt="" loading="lazy" crossOrigin="anonymous" onError={() => setFailed(true)} sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
   }
-  return <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>{map.contentType === 'application/pdf' ? <PictureAsPdfRounded color="action" fontSize="large" /> : <MapOutlined color="action" fontSize="large" />}</Box>
+  return <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>{map.contentType === 'application/pdf' ? <PictureAsPdfRounded color="action" fontSize="large" /> : <MapRounded color="action" fontSize="large" />}</Box>
 }
 
 // One item: its thumbnail with a checkbox over it, its name (a photo: its
@@ -95,8 +95,10 @@ function GridSkeleton() {
   )
 }
 
-// The Trash tab: the photos and maps admins deleted, to restore or to delete
-// for good (emptyTrash, which also removes their files).
+/**
+ * The Trash tab: the photos and maps admins deleted, to restore or to delete
+ * for good ({@link emptyTrash}, which also removes their files).
+ */
 export default function TrashTab({ accountLabel }) {
   const { t } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()

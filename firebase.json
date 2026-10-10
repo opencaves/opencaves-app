@@ -3,6 +3,7 @@
     {
       "target": "opencaves",
       "public": "build",
+      "predeploy": "node scripts/check-ssr-build.js --check",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -117,6 +118,10 @@
           "function": "caveAddress"
         },
         {
+          "source": "/email/unsubscribe",
+          "function": "feedbackUnsubscribe"
+        },
+        {
           "source": "**",
           "destination": "/app.html"
         }
@@ -130,9 +135,6 @@
     "functions": {
       "port": 5001
     },
-    "database": {
-      "port": 9000
-    },
     "hosting": {
       "port": 5000
     },
@@ -145,20 +147,20 @@
     },
     "storage": {
       "port": 9199
-    },
-    "pubsub": {
-      "port": 8085
     }
   },
   "functions": [
     {
       "source": "functions/js",
       "codebase": "js",
+      "predeploy": "node scripts/check-ssr-build.js --check",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
+        "firebase-debug.*.log",
+        "types.js",
+        "jsconfig.json"
       ]
     }
   ],

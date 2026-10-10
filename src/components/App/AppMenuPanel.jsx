@@ -3,29 +3,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
-import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined'
+import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import FeedbackRounded from '@mui/icons-material/FeedbackRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
+import TipsAndUpdatesRounded from '@mui/icons-material/TipsAndUpdatesRounded'
 import { auth } from '@/config/firebase.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import OfflinePreviewsToggle from './menu/OfflinePreviewsToggle.jsx'
+import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 import { APP_NAME } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
+import { openFeedback } from '@/utils/feedback.js'
 import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
+import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
+import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 
-// The account menu's content, in the style of Google Maps' account card: a
-// header (avatar, greeting and "Manage your account" when signed in; a
-// welcome with Log in / Sign up when not), the other actions grouped on white
-// rounded sections over the card's tinted surface, and the legal links at the
-// bottom. Rendered in AppMenu's Popover.
+/**
+ * The account menu's content, in the style of Google Maps' account card: a
+ * header (avatar, greeting and "Manage your account" when signed in; a
+ * welcome with Log in / Sign up when not), the other actions grouped on white
+ * rounded sections over the card's tinted surface - among them, once signed
+ * in, Ideas and fixes (/feedback: the testers' reports and what the team does
+ * about them) and, for admins, the count of new reports beside Dashboard -
+ * and the legal links at the bottom. Rendered in AppMenu's
+ * Popover.
+ */
 export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tLegal } = useTranslation('legal', { keyPrefix: 'links' })
+  const { t: tDashboard } = useTranslation('dashboard')
   const dispatch = useDispatch()
   const location = useLocation()
   const [openSnackbar] = useSnackbar()
@@ -33,6 +45,8 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const canUseDashboard = isLoggedIn && roles.includes('editor')
+  // The new feedback reports, beside the Dashboard entry (admins only).
+  const newFeedback = useNewFeedbackCount(isLoggedIn && roles.includes('admin'))
 
   const displayName = user?.displayName?.trim()
   const initial = displayName?.[0]?.toUpperCase()
@@ -99,7 +113,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
           </>
         ) : (
           <>
-            <AccountCircleOutlined sx={{ fontSize: 72, color: 'text.secondary', mt: 3, mb: 1 }} />
+            <AccountCircleRounded sx={{ fontSize: 72, color: 'text.secondary', mt: 3, mb: 1 }} />
             <Typography id={titleId} component="h2" sx={{ fontSize: 22, lineHeight: '28px', fontWeight: 400, mb: 1 }}>
               {t('welcome', { name: APP_NAME })}
             </Typography>
@@ -141,6 +155,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
                 <SettingsRounded />
               </ListItemIcon>
               <ListItemText primary={t('admin')} />
+              {newFeedback > 0 && <Chip className="oc-app-menu-panel--new-feedback" size="small" color="secondary" label={tDashboard('newFeedback', { count: newFeedback })} sx={{ ml: 1 }} />}
             </ListItemButton>
           )}
           {canUseDashboard && offlineSupported && <Divider component="div" role="presentation" />}
@@ -149,6 +164,30 @@ export default function AppMenuPanel({ onClose, titleId }) {
       )}
 
       <List component="div" disablePadding sx={sectionSx}>
+        <LanguageListItem sx={rowSx} />
+        {/* The beta: tell the team about a bug, something misleading, an idea. */}
+        <ListItemButton
+          className="oc-app-menu--feedback"
+          onClick={() => {
+            onClose()
+            openFeedback()
+          }}
+          sx={rowSx}
+        >
+          <ListItemIcon>
+            <FeedbackRounded />
+          </ListItemIcon>
+          <ListItemText primary={t('feedback')} />
+        </ListItemButton>
+        {/* Registered accounts: the reports sent, and what's coming of them. */}
+        {isLoggedIn && (
+          <ListItemButton className="oc-app-menu--feedback-list" component={Link} to="/feedback" onClick={onClose} sx={rowSx}>
+            <ListItemIcon>
+              <TipsAndUpdatesRounded />
+            </ListItemIcon>
+            <ListItemText primary={t('feedbackList')} />
+          </ListItemButton>
+        )}
         <ListItemButton
           component={Link}
           to="/about"
@@ -159,20 +198,20 @@ export default function AppMenuPanel({ onClose, titleId }) {
           sx={rowSx}
         >
           <ListItemIcon>
-            <InfoOutlined />
+            <InfoRounded />
           </ListItemIcon>
           <ListItemText primary={t('about', { context: 'withName', name: APP_NAME })} />
         </ListItemButton>
       </List>
 
       <Box component="nav" aria-label={tLegal('ariaLabel')} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 1.5, typography: 'caption', color: 'text.secondary' }}>
-        <Box component={Link} to="/privacy" onClick={onClose} sx={{ color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
+        <Box component={Link} to="/privacy" onClick={onClose} sx={{ ...TOUCH_TARGET_SX, color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
           {tLegal('privacy')}
         </Box>
         <Box component="span" aria-hidden="true">
           ·
         </Box>
-        <Box component={Link} to="/terms" onClick={onClose} sx={{ color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
+        <Box component={Link} to="/terms" onClick={onClose} sx={{ ...TOUCH_TARGET_SX, color: 'inherit', textDecoration: 'none', px: 0.5, minHeight: 24, display: 'inline-flex', alignItems: 'center', '&:hover, &:focus-visible': { textDecoration: 'underline' } }}>
           {tLegal('terms')}
         </Box>
       </Box>

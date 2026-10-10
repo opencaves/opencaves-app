@@ -1,6 +1,7 @@
 {
   "textSource": {
     "fieldLabel": "Source du texte",
+    "fieldHint": "D'où provient ce texte. Vos propres mots ? Choisissez OpenCaves.",
     "none": "Aucune",
     "known": "Source : {{name}}"
   },
@@ -49,9 +50,11 @@
       "login": "Se connecter",
       "logout": "Se déconnecter",
       "logoutSuccess": "Vous avez été déconnecté avec succès.",
-      "addPictures": "Ajouter des images",
+      "addPictures": "Ajouter des photos",
       "about": "À propos",
       "about_withName": "À propos d'{{name}}",
+      "feedback": "Envoyer un commentaire",
+      "feedbackList": "Idées et corrections",
       "whatCanIDo": "Que puis-je faire ?",
       "whatsNew": "Nouveautés",
       "drawer": {
@@ -65,7 +68,9 @@
       "welcome": "Bienvenue sur {{name}}",
       "welcomeText": "Connectez-vous pour sauvegarder vos grottes préférées et contribuer.",
       "close": "Fermer",
-      "signInMenu": "Se connecter ou s’inscrire"
+      "signInMenu": "Se connecter ou s’inscrire",
+      "newFeedbackAria_one": "{{count}} nouveau commentaire",
+      "newFeedbackAria_other": "{{count}} nouveaux commentaires"
     },
     "snackbar": {
       "saved": "Modifications de {{name}} enregistrées",
@@ -97,7 +102,9 @@
       "showAll": "Tout afficher : {{title}}",
       "label": "{{title}}, carrousel",
       "showAllLink": "Tout afficher"
-    }
+    },
+    "nameRequired": "Le nom est obligatoire",
+    "skipToContent": "Aller au contenu"
   },
   "account": {
     "profile": "Profil",
@@ -119,11 +126,13 @@
     "signOut": "Se déconnecter",
     "signedOut": "Déconnecté",
     "savedCaves": {
-      "title": "Cénotes sauvegardées",
-      "empty": "Vous n’avez encore sauvegardé aucune cénote. Utilisez le bouton Sauvegarder d’une cénote pour l’ajouter ici.",
+      "title": "Grottes sauvegardées",
+      "empty": "Vous n’avez encore sauvegardé aucune grotte. Utilisez le bouton Sauvegarder d’une grotte pour l’ajouter ici.",
       "remove": "Retirer des sauvegardées",
       "removeNamed": "Retirer {{name}} des sauvegardées",
-      "sistema": "Sistema {{name}}"
+      "sistema": "Réseau {{name}}",
+      "removed": "{{name}} retirée de vos grottes sauvegardées",
+      "undo": "Annuler"
     },
     "offline": {
       "title": "Utilisation hors ligne",
@@ -133,19 +142,19 @@
       "notPersisted": "Le navigateur peut supprimer ces données si l’appareil manque d’espace.",
       "clear": "Effacer les données hors ligne",
       "confirmTitle": "Effacer les données hors ligne ?",
-      "confirmText": "Les images, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé.",
+      "confirmText": "Les photos, cartes et zones de carte téléchargées seront supprimées de cet appareil, et « Rendre disponible hors ligne » sera désactivé.",
       "confirmClear": "Effacer",
       "cancel": "Annuler",
       "cleared": "Données hors ligne effacées",
       "clearError": "Impossible d’effacer les données hors ligne.",
-      "confirmTextSaved": "Vos cénotes sauvegardées le restent et seront téléchargées à nouveau lors de votre prochaine connexion Wi-Fi."
+      "confirmTextSaved": "Vos grottes sauvegardées le restent et seront téléchargées à nouveau lors de votre prochaine connexion Wi-Fi."
     },
     "language": "Langue",
     "languageAutomatic": "Automatique ({{language}})",
-    "languageHint": "Automatique suit la langue de votre navigateur. Votre choix est conservé sur cet appareil.",
+    "languageHint": "Automatique suit la langue de votre navigateur. Votre choix s’applique sur cet appareil et partout où vous vous connectez.",
     "personalInfo": "Informations personnelles",
     "units": "Unités",
-    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des cénotes et des réseaux.",
+    "unitsHint": "Pour les longueurs et profondeurs : sur la carte, dans les détails des grottes et des réseaux.",
     "unitsAutomatic": "Automatique ({{units}})",
     "units_metric": "Métrique (m)",
     "units_imperial": "Impérial (pi)",
@@ -153,7 +162,15 @@
     "appearanceHint": "Affichage clair ou sombre, sur cet appareil et partout où vous vous connectez.",
     "appearance_system": "Automatique (réglage de l’appareil)",
     "appearance_light": "Clair",
-    "appearance_dark": "Sombre"
+    "appearance_dark": "Sombre",
+    "emails": {
+      "title": "Courriels",
+      "feedbackReplies": "M’envoyer par courriel les réponses de l’équipe à mes commentaires",
+      "feedbackRepliesHint": "Quand l’équipe d’OpenCaves répond à un signalement ou à une idée que vous avez envoyé. Ses réponses restent sur OpenCaves dans tous les cas.",
+      "turnedOn": "Les réponses de l’équipe vous seront envoyées par courriel",
+      "turnedOff": "Les réponses de l’équipe ne vous seront plus envoyées par courriel",
+      "saveError": "Ce paramètre n’a pas pu être enregistré. Veuillez réessayer."
+    }
   },
   "auth": {
     "dialog": {
@@ -205,16 +222,19 @@
           "email": {
             "header": "Entrez votre courriel",
             "label": "Courriel",
-            "loginInvite": "Vous avez déjà un compte?",
+            "loginInvite": "Vous avez déjà un compte ?",
             "loginBtn": "Connectez-vous",
             "continueBtn": "Suivant"
           },
           "emailSentAndEmailVerification": {
             "emailInUse": {
               "header": "Ce courriel est déjà utilisé",
-              "details": "Un compte utilise déjà le courriel <strong>{{email}}</strong>.<br /> Vous pouvez choisir de vous connecter avec Google ou d'essayer un autre courriel.",
+              "details": "Un compte utilise déjà <strong>{{email}}</strong>.<br /> Connectez-vous à ce compte, ou essayez un autre courriel.",
               "previousBtn": "Essayez un autre courriel",
-              "loginWithGoogle": "Connectez-vous avec Google"
+              "loginWithGoogle": "Se connecter avec Google",
+              "loginWithEmail": "Se connecter avec ce courriel",
+              "forgotPassword": "Mot de passe oublié ?",
+              "loginWithMicrosoft": "Se connecter avec Microsoft"
             },
             "emailSentNotification": {
               "header": "Vérifiez vos courriels",
@@ -224,7 +244,7 @@
           "emailCallback": {
             "header": " ",
             "invalidActionCode": {
-              "header": "Lien email expiré",
+              "header": "Lien de connexion expiré",
               "details": "Le lien de validation par courriel que vous avez utilisé a expiré.",
               "previousBtn": "Réessayez"
             },
@@ -260,7 +280,7 @@
         }
       },
       "goToLogIn": {
-        "invite": "Vous avez déjà un compte?",
+        "invite": "Vous avez déjà un compte ?",
         "btn": "Connectez-vous"
       },
       "withMicrosoft": "S'inscrire avec Microsoft"
@@ -287,7 +307,7 @@
   "about": {
     "title": "À propos",
     "version": "Version {{version}}",
-    "whatsNew": "Nouveautés",
+    "whatsNew": "Notes de version",
     "dialog": {
       "ariaLabel": "À propos d'{{name}}",
       "close": "fermer"
@@ -301,7 +321,7 @@
       "emailMissing": "Veuillez saisir un courriel",
       "firstNameMissing": "Veuillez saisir un prénom",
       "firstNameTooShort": "Le prénom doit faire au moins {{minLength}} caractères",
-      "passwordMissing": "Please enter your password",
+      "passwordMissing": "Veuillez entrer votre mot de passe",
       "passwordWrong": "Mauvais mot de passe",
       "userNotFound": "Votre compte n'a pas été trouvé",
       "default": "Une erreur s'est produite. Veuillez réessayer plus tard.",
@@ -317,20 +337,20 @@
     }
   },
   "quickActions": {
-    "ariaLabel": "Actions pour la cénote {{name}}",
-    "directions": "Directions",
+    "ariaLabel": "Actions pour {{name}}",
+    "directions": "Itinéraire",
     "save": "Sauvegarder",
     "share": "Partager",
-    "shareTitle": "Cénote {{name}} / OpenCaves.org",
-    "shareText": "Cénote {{name}}\n",
+    "shareTitle": "{{name}} / OpenCaves.org",
+    "shareText": "{{name}}\n",
     "shareDialogTitle": "Partager",
     "saved": "Sauvegardée",
     "savedMessage": "Sauvegardée dans votre profil",
-    "unsavedMessage": "Retirée de vos cénotes sauvegardées",
-    "saveError": "Impossible de mettre à jour vos cénotes sauvegardées.",
+    "unsavedMessage": "Retirée de vos grottes sauvegardées",
+    "saveError": "Impossible de mettre à jour vos grottes sauvegardées.",
     "accountPrompt": {
-      "title": "Sauvegardez vos cénotes préférées",
-      "text": "Créez un compte gratuit pour sauvegarder la cénote {{name}} et retrouver toutes vos cénotes sauvegardées dans votre profil.",
+      "title": "Sauvegardez vos grottes préférées",
+      "text": "Créez un compte gratuit pour sauvegarder {{name}} et retrouver toutes vos grottes sauvegardées dans votre profil.",
       "notNow": "Plus tard",
       "logIn": "Se connecter",
       "signUp": "Créer un compte"
@@ -387,10 +407,11 @@
       },
       "id": "ID"
     },
-    "inputAriaLabel": "Rechercher des cénotes"
+    "inputAriaLabel": "Rechercher des grottes",
+    "noResults": "Aucune grotte ne correspond à « {{query}} »."
   },
   "filter": {
-    "windowTitle": "Filtrer les cenotes",
+    "windowTitle": "Filtrer les grottes",
     "close": "Fermer",
     "coordinate": {
       "heading": "Coordonnées GPS",
@@ -482,14 +503,14 @@
       ]
     },
     "cenoteType": {
-      "heading": "Type de cénote",
+      "heading": "Type de grotte",
       "showCenoteEntrances": "Afficher les cénotes d'entrée",
-      "showOtherCenotes": "Afficher les autres cénotes"
+      "showOtherCenotes": "Afficher les autres grottes"
     },
     "closeBtn": "Fermer les filtres"
   },
   "resultPane": {
-    "title": "Cénote {{name}}",
+    "title": "{{name}}",
     "videosHeader": "Vidéos",
     "videoFrameTitle": "Vidéo {{index}}",
     "playVideo": "Lire la vidéo {{index}}",
@@ -504,7 +525,7 @@
     "accessHeader": "Accès",
     "aka": "alias",
     "directionsHeader": "S'y rendre",
-    "cenote": "Cenote",
+    "cenote": "Cénote",
     "sistema": "Réseau {{ system }}",
     "explorationHistory": "Historique d'exploration",
     "coordinateValidityUnknown": "non confirmé",
@@ -513,11 +534,13 @@
     "copyCoordinates": "Copier les coordonnées",
     "copyKeyCoordinates": "Copier les coordonnées de la clé",
     "copyEntranceCoordinates": "Copier les coordonnées de l'entrée",
-    "directionsToCave": "Itinéraire vers la cénote",
+    "copyParkingCoordinates": "Copier les coordonnées du stationnement",
+    "directionsToCave": "Itinéraire vers la grotte",
     "directionsToKey": "Itinéraire vers la clé",
     "directionsToSistema": "Itinéraire vers le réseau",
     "area": "Région : {{area}}",
     "directionsToEntrance": "Itinéraire vers l'entrée",
+    "directionsToParking": "Itinéraire vers le stationnement",
     "addressLoading": "Chargement de l'adresse...",
     "addressLoadingError": "Échec du chargement de l'adresse : {{errMessage}}",
     "addressNotAvailable": "Adresse non disponible",
@@ -525,13 +548,13 @@
     "locationNotAvailable": "Lieu non disponible",
     "coverImage": {
       "addImages": {
-        "tooltip": "Ajouter des images"
+        "tooltip": "Ajouter des photos"
       },
       "seeImages": {
-        "tooltip": "Voir les images"
+        "tooltip": "Voir les photos"
       }
     },
-    "morePicturesBtn": "Plus d'images",
+    "morePicturesBtn": "Plus de photos",
     "menu": {
       "ariaLabel": "Plus",
       "myAccount": "Mon compte",
@@ -548,20 +571,20 @@
       "removeNameTranslation": "Supprimer cette traduction",
       "nameTranslationLanguage": "Langue",
       "nameTranslationValue": "Nom traduit",
-      "pictures": "Images",
-      "addPictures": "Ajouter des images",
-      "deletePicture": "Supprimer l'image",
-      "deletePictureConfirm": "Cette image va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
-      "deletePictureError": "Impossible de supprimer l'image. Veuillez réessayer.",
+      "pictures": "Photos",
+      "addPictures": "Ajouter des photos",
+      "deletePicture": "Supprimer la photo",
+      "deletePictureConfirm": "Cette photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
+      "deletePictureError": "Impossible de supprimer la photo. Veuillez réessayer.",
       "videos": "Vidéos",
       "videoUrl": "URL de la vidéo",
       "addVideo": "Ajouter une vidéo",
       "editVideo": "Modifier la vidéo",
       "deleteVideo": "Supprimer la vidéo",
-      "deleteVideoConfirm": "Cette vidéo sera retirée de la cénote.",
+      "deleteVideoConfirm": "Cette vidéo sera retirée de la grotte.",
       "deleteVideoError": "Impossible de supprimer la vidéo. Veuillez réessayer.",
       "note": "Note(s)",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "addMap": "Ajouter une carte",
       "editMap": "Modifier la carte",
       "mapOptions": "Options de la carte",
@@ -569,30 +592,44 @@
       "originalFile": "Fichier original",
       "openMap": "Ouvrir la carte",
       "openMapNumber": "Ouvrir la carte {{index}}",
-      "mapsNeedSistema": "Associez un sistema à cette cénote pour ajouter des cartes",
+      "mapsNeedSistema": "Associez un réseau à cette cénote pour ajouter des cartes",
       "coordinates": "Coordonnées",
       "location": "Emplacement",
       "entrance": "Entrée",
+      "parking": "Stationnement",
       "key": "Clé",
       "longitude": "Longitude",
       "latitude": "Latitude",
+      "longitudeRange": "-180 à 180",
+      "latitudeRange": "-90 à 90",
       "dragPinToMap": "Faites glisser ce repère sur la carte pour définir cet emplacement",
       "navigateToCoordinate": "Centrer la carte ici",
       "removeCoordinate": "Supprimer les coordonnées",
       "addCoordinates": "Ajouter des coordonnées",
+      "addOneCoordinates": {
+        "location": "Ajouter les coordonnées de l'emplacement",
+        "entrance": "Ajouter les coordonnées de l'entrée",
+        "parking": "Ajouter les coordonnées du stationnement",
+        "key": "Ajouter les coordonnées de la clé",
+        "sistemaLocation": "Ajouter les coordonnées de l'emplacement"
+      },
       "pickMyLocation": "Utiliser ma position actuelle",
+      "myLocationError": {
+        "denied": "La localisation est bloquée pour ce site : autorisez-la dans les réglages du navigateur, ou placez le point sur la carte.",
+        "unavailable": "Votre position n’est pas disponible pour l’instant. Réessayez à l’extérieur, ou placez le point sur la carte.",
+        "timeout": "La recherche de votre position a pris trop de temps. Réessayez, ou placez le point sur la carte.",
+        "unsupported": "Ce navigateur ne peut pas donner votre position. Placez plutôt le point sur la carte."
+      },
       "none": "(aucun)",
       "sistema": "Réseau",
       "source": "Source",
-      "sourceHint": "D'où proviennent les informations sur ce réseau",
+      "sourceHint": "D'où proviennent les informations sur cette grotte. Vos propres constats ? Choisissez OpenCaves.",
       "access": "Accès",
       "accessibility": "Accessibilité",
       "fees": "Frais",
-      "feesHint": "Indique si la visite de cette cénote nécessite de payer un droit d'entrée",
+      "feesHint": "Indique si la visite de cette grotte nécessite de payer un droit d’entrée",
       "facilities": "Installations",
       "facilitiesHint": "Indique si des installations comme des toilettes ou des vestiaires sont disponibles sur place",
-      "activities": "Activités",
-      "activitiesHint": "Indique si des activités supplémentaires (natation, plongée libre, etc.) sont proposées sur place",
       "accessDetails": "Détails d'accès",
       "accessibilityDetails": "Détails d'accessibilité",
       "description": "Description",
@@ -610,9 +647,9 @@
       "sistemaSearchPlaceholder": "Rechercher",
       "accessGroup": "Accès",
       "accessibilityGroup": "Accessibilité",
-      "newCave": "Nouvelle cénote",
-      "caveTitle": "Cénote {{name}}",
-      "backToCaves": "Retour aux cénotes",
+      "newCave": "Nouvelle grotte",
+      "caveTitle": "{{name}}",
+      "backToCaves": "Retour aux grottes",
       "backToCave": "Retour à la page de la cénote",
       "placeOnMap": "Placer sur la carte",
       "placeOnMapTitle": "Placer : {{label}}",
@@ -630,13 +667,13 @@
       "media": "Médias",
       "notes": "Notes",
       "placeSearch": {
-        "label": "Rechercher un lieu ou une cénote",
-        "placeholder": "Rechercher un lieu ou une cénote",
+        "label": "Rechercher un lieu ou une grotte",
+        "placeholder": "Rechercher un lieu ou une grotte",
         "hint": "Tapez au moins 2 lettres",
         "searching": "Recherche…",
         "noResults": "Aucun résultat",
         "error": "La recherche de lieux est indisponible pour le moment",
-        "cenotes": "Cénotes",
+        "cenotes": "Grottes",
         "places": "Lieux"
       },
       "cenoteEntrance": "Cénote d'entrée",
@@ -650,7 +687,7 @@
       "exit": "Quitter",
       "trashMap": "Supprimer la carte",
       "trashMapTitle": "Supprimer cette carte ?",
-      "trashMapConfirm": "« {{name}} » va à la corbeille et disparaît de tous les sistemas qui la montrent. Un administrateur peut la restaurer depuis Audits > Corbeille.",
+      "trashMapConfirm": "« {{name}} » va à la corbeille et disparaît de tous les réseaux qui la montrent. Un administrateur peut la restaurer depuis Audits > Corbeille.",
       "trashMapSuccess": "Carte mise à la corbeille.",
       "trashMapError": "Impossible de supprimer la carte.",
       "openPhoto": "Ouvrir la photo {{n}}"
@@ -664,61 +701,60 @@
       "count_one": "({{count}} note)",
       "count_other": "({{count}} notes)",
       "yourRating": "Votre note",
-      "rateThisCave": "Noter cette cénote",
+      "rateThisCave": "Noter cette grotte",
       "saveError": "Impossible d’enregistrer votre note."
     },
     "cenoteEntrance": "Cénote d'entrée",
-    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau."
+    "cenoteEntranceDescription": "Une cénote par laquelle les plongeurs entrent dans un réseau.",
+    "nameTranslation": "{{language}} : {{names}}",
+    "videoAdded": "Vidéo ajoutée",
+    "videoAlreadyAdded": "Cette vidéo est déjà dans la liste.",
+    "videoDeleted": "Vidéo supprimée",
+    "videoAddError": "La vidéo n’a pas pu être ajoutée. Veuillez réessayer."
   },
   "mediaPane": {
-    "header": "Cenote {{name}}",
+    "header": "{{name}}",
     "backBtn": {
       "tooltip": "Retour",
       "ariaLabel": "Retour"
     },
     "addPictureBtn": {
-      "tooltip": "Ajouter des images",
-      "ariaLabel": "ajouter des images"
+      "tooltip": "Ajouter des photos",
+      "ariaLabel": "Ajouter des photos"
     },
     "empty": {
-      "header": "Aucune image pour le moment !",
-      "btn": "Ajouter des images"
+      "header": "Aucune photo pour le moment !",
+      "btn": "Ajouter des photos"
     },
     "share": {
       "title": "Voir « {{title}} » sur OpenCaves.org",
       "text": "Voir « {{title}}"
     },
-    "images": "images",
+    "images": "photos",
     "menu": {
       "ariaLabel": "Plus",
-      "useAsCoverImage": "Utiliser comme image de couverture",
-      "useAsCoverSuccess": "Image de couverture modifiée.",
-      "useAsCoverFail": "La modification de l'image de couverture à échoué.",
+      "useAsCoverImage": "Utiliser comme photo de couverture",
+      "useAsCoverSuccess": "Photo de couverture modifiée.",
+      "useAsCoverFail": "La modification de la photo de couverture a échoué.",
       "useViewAsThumbnail": "Utiliser cette vue comme vignette",
       "useViewAsThumbnailSuccess": "La vignette montre maintenant cette vue.",
       "useViewAsThumbnailFail": "La modification de la vignette a échoué.",
-      "viewOriginalImage": "Afficher l'image originale",
+      "viewOriginalImage": "Afficher la photo originale",
       "deleteAction": "Supprimer la photo",
       "deleteSuccess": "Photo mise à la corbeille.",
       "deleteFail": "Impossible de supprimer la photo.",
       "deleteConfirmTitle": "Supprimer cette photo ?",
       "deleteConfirm": "La photo va à la corbeille : un administrateur peut la restaurer depuis Audits > Corbeille.",
-      "deleteCancel": "Annuler"
+      "deleteCancel": "Annuler",
+      "isCoverImage": "C’est la photo de couverture"
     },
     "mediaThumbnailItem": {
       "openBtn": {
-        "ariaLabel": "Afficher l'image"
+        "ariaLabel": "Afficher la photo"
       }
     },
     "addMedia": {
-      "header": "Téléchargez des photos de la cénote {{name}}",
-      "dragHere": "Faites glisser les photos ici",
-      "dropHere": "Déposez des fichiers n'importe où pour les télécharger",
-      "or": "ou",
-      "btn": "Cliquez pour sélectionner des fichiers",
-      "closeBtn": {
-        "ariaLabel": "fermer"
-      },
+      "dropHere": "Déposez des fichiers n’importe où pour les téléverser",
       "success_one": "1 photo ajoutée",
       "success_other": "{{count}} photos ajoutées",
       "errorHeader": "Oups !",
@@ -727,13 +763,13 @@
       "wrongMediaTypeHint": "Les formats Webp et Avif fonctionnent bien.",
       "unknownError": "Quelque chose s'est mal passé. Veuillez réessayer.",
       "unknownErrorBtn": "OK",
-      "uploadingTo": "Téléchargement vers",
+      "uploadingTo": "Téléversement vers",
       "countMedias": "{{index}} de {{total}}",
       "gpsCheck": {
-        "title_one": "Cette photo a été prise loin de la cénote",
-        "title_other": "{{count}} photos ont été prises loin de la cénote",
-        "text_one": "Sa position GPS est à plus de {{distance}} de {{cave}}. S’agit-il bien d’une photo de cette cénote ?",
-        "text_other": "Leurs positions GPS sont à plus de {{distance}} de {{cave}}. S’agit-il bien de photos de cette cénote ?",
+        "title_one": "Cette photo a été prise loin de la grotte",
+        "title_other": "{{count}} photos ont été prises loin de la grotte",
+        "text_one": "Sa position GPS est à plus de {{distance}} de {{cave}}. S’agit-il bien d’une photo de cette grotte ?",
+        "text_other": "Leurs positions GPS sont à plus de {{distance}} de {{cave}}. S’agit-il bien de photos de cette grotte ?",
         "distance": "à {{distance}}",
         "skip_one": "Ignorer cette photo",
         "skip_other": "Ignorer ces photos",
@@ -741,7 +777,9 @@
         "cancelButton": "Annuler",
         "cancel": "Annuler l’envoi"
       },
-      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
+      "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion.",
+      "rejected_one": "{{count}} fichier non ajouté : seules des photos (JPEG, PNG, WebP, AVIF) peuvent être ajoutées ici.",
+      "rejected_other": "{{count}} fichiers non ajoutés : seules des photos (JPEG, PNG, WebP, AVIF) peuvent être ajoutées ici."
     },
     "details": {
       "empty": "Il n'y a rien ici"
@@ -762,8 +800,8 @@
       "linkWeb": "Lien web",
       "linkCave": "Lien vers une grotte",
       "linkCaveTitle": "Lien vers une grotte",
-      "linkCaveSearch": "Rechercher une grotte ou une zone",
-      "linkCaveNoArea": "Aucune zone attribuée",
+      "linkCaveSearch": "Rechercher une grotte ou une région",
+      "linkCaveNoArea": "Aucune région attribuée",
       "linkCaveNoResults": "Aucune grotte trouvée",
       "heading": "Titre",
       "heading1": "Titre 1",
@@ -816,28 +854,31 @@
     "explorationTeam": "Équipe",
     "explorationDescription": "Description",
     "explorationNotes": "Notes",
-    "newSistema": "Nouveau sistema",
-    "sistemaTitle": "Sistema {{name}}",
-    "backToSistemas": "Retour aux sistemas",
+    "newSistema": "Nouveau réseau",
+    "sistemaTitle": "Réseau {{name}}",
+    "backToSistemas": "Retour aux réseaux",
     "backToSistema": "Retour à la page du système",
     "name": "Nom",
-    "parentSistema": "Sistema parent",
+    "parentSistema": "Réseau parent",
     "area": "Région",
     "color": "Couleur",
     "source": "Source",
+    "sourceHint": "D'où proviennent les informations sur ce réseau. Vos propres constats ? Choisissez OpenCaves.",
     "location": "Emplacement",
     "maxDepth": "Profondeur max. ({{unit}})",
     "description": "Description",
     "direction": "Comment s’y rendre",
-    "maps": "Cartes",
+    "maps": "Topographies",
     "none": "(aucun)",
-    "deleteConfirm": "Supprimer ce sistema ?",
+    "deleteConfirm": "Supprimer ce réseau ?",
     "delete": "Supprimer",
     "cancel": "Annuler",
     "exit": "Quitter",
     "save": "Enregistrer",
-    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
-    "explorationDateHint": "Date à laquelle cette exploration a eu lieu."
+    "parentSistemaHint": "Le réseau plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un réseau à part entière.",
+    "explorationDateHint": "Date à laquelle cette exploration a eu lieu.",
+    "measurementInvalid": "Entrez un nombre",
+    "measurementRange": "De 0 à {{max}} {{unit}}"
   },
   "mapsPicker": {
     "close": "Fermer",
@@ -854,7 +895,7 @@
     "invalidMapFile": "Choisissez une image ou un fichier PDF.",
     "dismiss": "Fermer",
     "empty": "Aucune carte téléversée pour l'instant",
-    "mapTitle": "Sistema",
+    "mapTitle": "Réseau",
     "mapDate": "Date",
     "mapNote": "Note(s)",
     "mapAuthors": "Auteurs",
@@ -865,7 +906,8 @@
     "add": "Ajouter",
     "mapDateHint": "Date à laquelle la carte a été dessinée ou publiée.",
     "cartography": "Cartographie : {{names}}",
-    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion."
+    "needsConnection": "Vous êtes hors ligne : le téléversement nécessite une connexion.",
+    "wrongType": "Choisissez une image ou un PDF."
   },
   "colorPicker": {
     "addColor": "Ajouter une couleur",
@@ -921,7 +963,7 @@
   "accessibilities": {
     "jungle": {
       "label": "Dans la jungle",
-      "description": "Il n'y a pas de chemin menant au cenote."
+      "description": "Il n’y a pas de chemin menant à la cénote."
     },
     "not-safe": {
       "label": "Pas sécurisé",
@@ -964,25 +1006,30 @@
     "title": "Carte",
     "caveNameUnknown": "(Grotte sans nom)",
     "editFab": {
-      "ariaLabel": "Modifier les données de la cénote",
-      "editCave": "Modifier cette cénote",
-      "addNewCave": "Ajouter une nouvelle cénote",
-      "exitEditMode": "Quitter le mode édition"
+      "ariaLabel": "Modifier les données de la grotte",
+      "editCave": "Modifier cette grotte",
+      "addNewCave": "Ajouter une nouvelle grotte",
+      "exitEditMode": "Quitter le mode édition",
+      "editCaveNoneSelected": "Sélectionnez une grotte pour la modifier"
     },
     "error": "Une erreur est survenue",
     "savedCave": "Sauvegardée",
     "markers": {
-      "location": "Emplacement de la cénote",
+      "location": "Emplacement de la grotte",
       "entrance": "Entrée de la cénote",
-      "key": "Emplacement de la clé"
+      "parking": "Stationnement",
+      "key": "Emplacement de la clé",
+      "entranceShort": "Entrée",
+      "parkingShort": "Stationnement",
+      "keyShort": "Clé"
     },
     "caveLayer": {
       "button": "Couches de la carte",
       "title": "Galeries",
       "scope": "Réseaux",
       "all": "Tous les réseaux",
-      "selected": "Seulement le réseau de la cénote sélectionnée",
-      "selectedHint": "Sélectionnez d'abord une cénote",
+      "selected": "Seulement le réseau de la grotte sélectionnée",
+      "selectedHint": "Sélectionnez d’abord une grotte",
       "colors": "Couleurs",
       "bySystem": "Par réseau",
       "single": "Une seule couleur",
@@ -1025,12 +1072,20 @@
         "openScan": "Ouvrir la carte d’origine"
       },
       "panelTitle": "Couches de la carte",
-      "turnOn": "Activer les couches de la carte",
-      "turnOff": "Désactiver les couches de la carte"
+      "show": "Afficher les galeries"
+    },
+    "controls": {
+      "locationNotAvailable": "Position non disponible",
+      "mapTitle": "Carte",
+      "scrollZoom": "Utilisez Ctrl + la molette pour zoomer sur la carte",
+      "scrollZoomMac": "Utilisez ⌘ + la molette pour zoomer sur la carte",
+      "touchPan": "Utilisez deux doigts pour déplacer la carte",
+      "toggleAttribution": "Afficher ou masquer les crédits",
+      "logo": "Logo Mapbox"
     }
   },
   "dashboard": {
-    "noSistemaArea": "Aucune zone attribuée",
+    "noSistemaArea": "Aucune région attribuée",
     "backToDashboard": "Retour au tableau de bord",
     "manageSistemaConnections": "Gérer les connexions entre réseaux",
     "searchSistemaConnections": "Rechercher des connexions",
@@ -1044,8 +1099,9 @@
     "backToConnections": "Retour aux connexions",
     "childSistema": "Réseau",
     "parentSistema": "Réseau parent",
-    "searchParentSistema": "Rechercher des réseaux ou des zones",
+    "searchParentSistema": "Rechercher des réseaux ou des régions",
     "connectionSource": "Source",
+    "connectionSourceHint": "D'où proviennent les informations sur cette connexion. Vos propres constats ? Choisissez OpenCaves.",
     "noSource": "(aucune)",
     "connectionDate": "Date de connexion",
     "connectionNote": "Note(s)",
@@ -1066,16 +1122,16 @@
     "cavesSection": "Cénotes",
     "referenceDataSection": "Données de référence",
     "manageCaves": "Gérer les cénotes",
-    "manageSistemas": "Gérer les sistemas",
+    "manageSistemas": "Gérer les réseaux",
     "caves": "Cénotes",
-    "sistemas": "Sistemas",
+    "sistemas": "Réseaux",
     "caveCount_one": "{{count}} cénote",
     "caveCount_other": "{{count}} cénotes",
-    "sistemaCount_one": "{{count}} sistema",
-    "sistemaCount_other": "{{count}} sistemas",
+    "sistemaCount_one": "{{count}} réseau",
+    "sistemaCount_other": "{{count}} réseaux",
     "searchByName": "Rechercher par nom",
     "newCave": "Nouvelle cénote",
-    "newSistema": "Nouveau sistema",
+    "newSistema": "Nouveau réseau",
     "unnamedCave": "(Grotte sans nom)",
     "unnamedSistema": "(Réseau sans nom)",
     "back": "Retour",
@@ -1113,11 +1169,17 @@
         "newItem": "Nouvelle langue"
       }
     },
-    "parentSistemaHint": "Le sistema plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un sistema à part entière.",
+    "parentSistemaHint": "Le réseau plus grand auquel celui-ci est connecté. Laissez vide s'il s'agit d'un réseau à part entière.",
     "connectionOfSistema": "la connexion de {{name}}",
-    "connectionDateHint": "Date à laquelle la connexion entre les deux sistemas a été établie.",
+    "connectionDateHint": "Date à laquelle la connexion entre les deux réseaux a été établie.",
     "adminSection": "Administration",
+    "feedbackSection": "Commentaires",
     "manageMapLayers": "Couches de la carte",
+    "manageFeedback": "Commentaires",
+    "followFeedback": "Idées et corrections",
+    "followFeedbackText": "Ce que les testeurs ont signalé, et ce qui s’en vient",
+    "newFeedback_one": "{{count}} nouveau",
+    "newFeedback_other": "{{count}} nouveaux",
     "manageAudits": "Audits",
     "backToCaveIndex": "Retour aux grottes",
     "backToSistemaIndex": "Retour aux réseaux",
@@ -1145,16 +1207,17 @@
   },
   "offline": {
     "connection": {
-      "offline": "Vous êtes hors ligne. Les grottes enregistrées restent disponibles.",
+      "offline": "Vous êtes hors ligne. Les grottes sauvegardées restent disponibles.",
       "online": "Vous êtes de nouveau en ligne.",
-      "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent."
+      "onlineSyncing": "Vous êtes de nouveau en ligne. Vos modifications se synchronisent.",
+      "offlineNoSaved": "Vous êtes hors ligne. Les photos et les cartes déjà consultées restent disponibles."
     },
-    "caveReady": "La cénote {{name}} est disponible hors ligne",
-    "caveIncomplete": "La cénote {{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "previewsReady": "Les aperçus des cénotes, les cartes et les galeries sont disponibles hors ligne",
+    "caveReady": "{{name}} est disponible hors ligne",
+    "caveIncomplete": "{{name}} est sauvegardée, mais certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
+    "previewsReady": "Les aperçus des grottes, les cartes et les galeries sont disponibles hors ligne",
     "previewsIncomplete": "Certains aperçus ou cartes n’ont pas pu être téléchargés. Nouvel essai plus tard.",
     "previewsLabel": "Rendre disponible hors ligne",
-    "previewsHint": "Aperçus des cénotes, cartes et galeries",
+    "previewsHint": "Aperçus des grottes, cartes et galeries",
     "waitingForWifi": "En attente du Wi-Fi",
     "waitingForConnection": "En attente d’une connexion",
     "downloadingCount": "Téléchargement pour utilisation hors ligne… {{done}} / {{total}}",
@@ -1169,13 +1232,13 @@
     "caveIncompleteShort": "Partiellement disponible hors ligne",
     "caveNotYet": "Pas encore téléchargée",
     "savedIncomplete": "Certains fichiers n’ont pas pu être téléchargés. Nouvel essai plus tard.",
-    "savedAvailable": "Toutes les cénotes sauvegardées sont disponibles hors ligne",
+    "savedAvailable": "Toutes les grottes sauvegardées sont disponibles hors ligne",
     "hint": {
       "offline": "Vous êtes hors ligne : seules les photos et les cartes déjà consultées sont sur cet appareil.",
-      "save": "Enregistrez cette cénote pour la garder au complet pour votre prochaine plongée.",
-      "account": "Créez un compte pour enregistrer des cénotes pour une utilisation hors ligne.",
-      "system": "Enregistrez une de ses cénotes pour garder ses cartes pour votre prochaine plongée.",
-      "saveButton": "Enregistrer",
+      "save": "Sauvegardez cette grotte pour la garder au complet pour votre prochaine plongée.",
+      "account": "Créez un compte pour sauvegarder des grottes pour une utilisation hors ligne.",
+      "system": "Sauvegardez une de ses grottes pour garder ses cartes pour votre prochaine plongée.",
+      "saveButton": "Sauvegarder",
       "signupButton": "S'inscrire"
     },
     "notOnDevice": "Non disponible hors ligne",
@@ -1218,8 +1281,8 @@
   "seo": {
     "defaultDescription": "OpenCaves est la référence pour trouver des cénotes au Yucatán, au Mexique : de nouvelles grottes à plonger, des coordonnées GPS vérifiées, des descriptions utiles, des photos et des cartes.",
     "mapHeading": "OpenCaves : carte des cénotes du Yucatán",
-    "caveDescriptionPrefix": "Cénote {{name}} (Yucatán, Mexique) :",
-    "caveDescriptionFallback": "Cénote {{name}} au Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
+    "caveDescriptionPrefix": "{{name}} (Yucatán, Mexique) :",
+    "caveDescriptionFallback": "{{name}}, une grotte du Yucatán, au Mexique : emplacement, accès, photos et cartes sur OpenCaves.",
     "notFoundTitle": "Page introuvable",
     "mapTitle": "Carte des cénotes du Yucatán"
   },
@@ -1304,11 +1367,11 @@
       "deleteUser": "Compte supprimé"
     },
     "collections": {
-      "caves": "Cénotes",
-      "sistemas": "Sistemas",
-      "connections": "Connexions de sistemas",
+      "caves": "Grottes",
+      "sistemas": "Réseaux",
+      "connections": "Connexions de réseaux",
       "cavesAssets": "Photos",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "accesses": "Accès",
       "accessibilities": "Accessibilités",
       "sources": "Sources",
@@ -1446,12 +1509,16 @@
       },
       "title": "Les grottes du Yucatán par région",
       "description": "Toutes les cénotes du Yucatán, au Mexique, répertoriées sur OpenCaves par région, chacune avec son emplacement, son accès, des photos et des plans.",
-      "add": "Ajouter une grotte"
+      "add": "Ajouter une grotte",
+      "subtitle_one": "{{count}} grotte, par région.",
+      "subtitle_other": "{{count}} grottes, par région."
     },
     "sistemas": {
       "title": "Les réseaux du Yucatán",
       "description": "Les réseaux noyés du Yucatán, au Mexique, par région : leur longueur, leur profondeur, leurs connexions, l’histoire de leur exploration et leurs cénotes, sur OpenCaves.",
-      "add": "Ajouter un réseau"
+      "add": "Ajouter un réseau",
+      "subtitle_one": "{{count}} réseau, par région.",
+      "subtitle_other": "{{count}} réseaux, par région."
     },
     "sistema": {
       "title": "Réseau {{name}}",
@@ -1475,7 +1542,9 @@
       "clear": "Effacer la recherche",
       "results_one": "{{count}} résultat",
       "results_other": "{{count}} résultats",
-      "none": "Rien ne correspond à « {{query}} »."
+      "none": "Rien ne correspond à « {{query}} ».",
+      "cavesShort": "Grotte, réseau ou région",
+      "sistemasShort": "Réseau ou région"
     },
     "onMap": "Voir sur la carte",
     "onMapOf": "{{name}} sur la carte",
@@ -1490,7 +1559,13 @@
       "openPhoto": "Ouvrir la photo {{n}}"
     },
     "notOnMap": "Pas sur la carte : aucune coordonnée pour l’instant",
-    "maps": "Cartes"
+    "maps": "Topographies",
+    "searchNoResult": "Aucune grotte ni aucun réseau ne correspond à « {{query}} » - chercher dans toutes les grottes",
+    "empty": {
+      "photos": "Aucune photo pour l’instant.",
+      "videos": "Aucune vidéo pour l’instant.",
+      "maps": "Aucune topographie pour l’instant."
+    }
   },
   "appBarSearch": {
     "placeholder": "Chercher des grottes et des réseaux",
@@ -1505,22 +1580,28 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "description": "Les grottes, réseaux, connexions, cartes, photos et vidéos récemment ajoutés à {{name}}.",
-    "subtitle": "Les derniers ajouts à {{name}}, les plus récents en premier.",
+    "description": "Les grottes, réseaux, connexions, cartes, photos et vidéos récemment ajoutés, modifiés ou retirés de {{name}}.",
+    "subtitle": "Les derniers ajouts, modifications et retraits sur {{name}}, les plus récents en premier.",
     "filters": {
       "all": "Tout",
       "caves": "Grottes",
       "sistemas": "Réseaux",
       "connections": "Connexions",
-      "maps": "Cartes",
+      "maps": "Topographies",
       "photos": "Photos",
-      "videos": "Vidéos"
+      "videos": "Vidéos",
+      "allChanges": "Tous les changements",
+      "added": "Ajouts",
+      "modified": "Modifications",
+      "removed": "Retraits",
+      "kindsLabel": "Contenu",
+      "changesLabel": "Changement"
     },
     "kinds": {
       "caves": "Grotte",
       "sistemas": "Réseau",
       "connections": "Connexion",
-      "maps": "Carte",
+      "maps": "Topographie",
       "photos": "Photos",
       "videos": "Vidéos"
     },
@@ -1533,11 +1614,192 @@
     "unnamedMap": "Carte sans titre",
     "recently": "Récemment",
     "none": "Rien de nouveau pour le moment.",
-    "failed": "Les derniers ajouts n'ont pas pu être chargés.",
+    "failed": "Les derniers changements n'ont pas pu être chargés.",
     "photosAdded_one": "{{count}} photo de {{name}}",
     "photosAdded_other": "{{count}} photos de {{name}}",
     "videosAdded_one": "{{count}} vidéo de {{name}}",
-    "videosAdded_other": "{{count}} vidéos de {{name}}"
+    "videosAdded_other": "{{count}} vidéos de {{name}}",
+    "changes": {
+      "added": "Ajout",
+      "modified": "Modification",
+      "removed": "Retrait"
+    },
+    "modifiedBy": "modifié par {{name}}",
+    "removedBy": "retiré par {{name}}",
+    "changedFields": "modifié : {{fields}}",
+    "fields": {
+      "name": "nom",
+      "nameTranslations": "traductions du nom",
+      "aka": "autres noms",
+      "keys": "emplacement de la clé",
+      "location": "emplacement",
+      "entrance": "entrée",
+      "parking": "stationnement",
+      "sistemaId": "réseau",
+      "parentSistemaId": "réseau rejoint",
+      "area": "région",
+      "source": "source",
+      "access": "accès",
+      "accessDetails": "détails de l'accès",
+      "accessibility": "accessibilité",
+      "accessibilityDetails": "détails de l'accessibilité",
+      "description": "description",
+      "direction": "pour s'y rendre",
+      "note": "notes",
+      "reporter": "signalé par",
+      "explorationDate": "date d'exploration",
+      "cenoteEntrance": "entrée de cénote",
+      "facilities": "installations",
+      "fees": "frais",
+      "textSources": "sources des textes",
+      "color": "couleur",
+      "length": "distance explorée",
+      "maxDepth": "profondeur max.",
+      "public": "visibilité",
+      "explorations": "historique d'exploration",
+      "connectionDate": "date de connexion",
+      "authors": "auteurs",
+      "date": "date",
+      "url": "fichier",
+      "contentType": "type de fichier",
+      "videos": "vidéos",
+      "maps": "topographies",
+      "activities": "activités"
+    }
+  },
+  "feedback": {
+    "title": "Envoyer des commentaires",
+    "tab": "Commentaires",
+    "intro": "Signalez à l'équipe d'OpenCaves un bogue, quelque chose de trompeur, ou une idée. Merci de votre aide !",
+    "kindLabel": "De quoi s’agit-il ?",
+    "kinds": {
+      "bug": "Bogue",
+      "misleading": "Trompeur",
+      "idea": "Idée"
+    },
+    "kindText": {
+      "bug": "Quelque chose ne marche pas.",
+      "misleading": "Quelque chose est confus ou semble faux.",
+      "idea": "Quelque chose manque ou pourrait être mieux."
+    },
+    "hints": {
+      "bug": "Décrivez les étapes pour reproduire le problème, une par ligne, afin que nous le voyions aussi : ce que vous avez fait, ce que vous attendiez, et ce qui s’est passé à la place.",
+      "misleading": "Dites ce qui est trompeur - un libellé, une fonction, une donnée - et ce que vous avez compris. Si une donnée semble fausse, dites-nous ce qui est juste selon vous, et comment vous le savez.",
+      "idea": "Décrivez ce que vous aimeriez qu’OpenCaves fasse, et quand cela vous aiderait : avant une plongée, après, pour partager quelque chose ?"
+    },
+    "messageLabel": "Votre message",
+    "placeholders": {
+      "bug": "1. Ouvrir la page de…\n2. Cliquer sur…\n3. …\n\nAttendu : …\nCe qui s’est passé : …",
+      "misleading": "Le libellé/la fonction/la donnée trompeuse, et ce que vous avez compris…",
+      "idea": "J’aimerais pouvoir…"
+    },
+    "pageLabel": "Page",
+    "pageHelp": "La page concernée (remplie pour vous).",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "send": "Envoyer",
+    "sent": "Merci ! Votre commentaire a été envoyé à l'équipe d'OpenCaves.",
+    "error": "Votre commentaire n'a pas pu être envoyé. Veuillez réessayer.",
+    "itemName": "Votre commentaire",
+    "admin": {
+      "title": "Commentaires",
+      "back": "Retour au tableau de bord",
+      "status": {
+        "new": "Nouveau",
+        "confirmed": "Confirmé",
+        "inProgress": "En cours",
+        "done": "Fait",
+        "rejected": "Rejeté",
+        "duplicate": "Doublon"
+      },
+      "statusHelp": {
+        "new": "Pas encore examiné",
+        "confirmed": "Un vrai problème, ou une idée à réaliser",
+        "inProgress": "En traitement",
+        "done": "Corrigé ou ajouté",
+        "rejected": "Pas un problème, ou pas à faire",
+        "duplicate": "Déjà signalé"
+      },
+      "changeStatus": "Étape : {{status}}. La changer",
+      "none": "Aucun rapport ici.",
+      "delete": "Supprimer",
+      "deleteTitle": "Supprimer ce rapport ?",
+      "deleteText": "Il sera supprimé pour de bon.",
+      "statusError": "L’étape n’a pas pu être changée. Veuillez réessayer.",
+      "deleteError": "Le rapport n’a pas pu être supprimé. Veuillez réessayer.",
+      "thread": {
+        "label": "Conversation",
+        "team": "Équipe d’OpenCaves",
+        "replyLabel": "Réponse à {{name}}",
+        "replyPlaceholder": "Votre réponse, envoyée par courriel avec toute la conversation…",
+        "replyPlaceholderMuted": "Votre réponse, ajoutée à la conversation…",
+        "mutedHint": "{{name}} a désactivé les courriels sur ses commentaires : votre réponse ne lui sera pas envoyée par courriel. Elle reste dans la conversation.",
+        "sentMuted": "Réponse envoyée. {{name}} a désactivé les courriels sur ses commentaires : elle ne lui sera pas envoyée par courriel.",
+        "send": "Envoyer",
+        "sendOptions": "Envoyer et changer l’étape",
+        "sendAndClose": "Envoyer et marquer comme {{status}}",
+        "sent": "Réponse envoyée : {{name}} la recevra par courriel.",
+        "sendError": "La réponse n’a pas pu être envoyée. Veuillez réessayer.",
+        "tooLong": "{{count}} caractères au plus",
+        "emailed": "Envoyée par courriel",
+        "legacyNote": "Ancienne note",
+        "attachmentsDropped_one": "{{count}} pièce jointe non conservée",
+        "attachmentsDropped_other": "{{count}} pièces jointes non conservées"
+      },
+      "list": {
+        "search": "Chercher un rapport",
+        "searchLabel": "Chercher un rapport : message, auteur, page",
+        "clearSearch": "Effacer la recherche",
+        "clearFilters": "Effacer recherche, filtres et tri",
+        "open": "{{count}} ouverts",
+        "closed": "{{count}} fermés",
+        "kind": "Type",
+        "allKinds": "Tous les types",
+        "stage": "Étape",
+        "allStages": "Toutes les étapes",
+        "sort": "Tri",
+        "sorts": {
+          "newest": "Plus récents",
+          "oldest": "Plus anciens",
+          "activity": "Activité récente"
+        },
+        "opened": "Ouvert",
+        "by": "par {{name}}",
+        "messages_one": "{{count}} message",
+        "messages_other": "{{count}} messages",
+        "untitled": "(sans texte)",
+        "noMatch": "Aucun rapport ne correspond à cette recherche ou à ces filtres."
+      },
+      "report": {
+        "back": "Retour aux rapports",
+        "open": "Ouvert",
+        "closed": "Fermé",
+        "openedThis": "a ouvert ce rapport",
+        "notFound": "Ce rapport n’existe pas ou a été supprimé.",
+        "details": "Détails du rapport",
+        "stage": "Étape",
+        "kind": "Type",
+        "author": "Auteur",
+        "page": "Page",
+        "language": "Langue",
+        "browser": "Navigateur",
+        "lastEmailed": "Dernier courriel à l’auteur",
+        "authorMuted": "L’auteur a désactivé les courriels sur ses commentaires"
+      },
+      "timeline": {
+        "opened": "a ouvert",
+        "commented": "a répondu",
+        "repliedByEmail": "a répondu par courriel",
+        "stageSet": "a mis l’étape à {{status}}"
+      }
+    },
+    "members": {
+      "title": "Idées et corrections",
+      "intro": "Ce que les testeurs ont signalé, et ce que l’équipe d’OpenCaves en fait : suivez ce qui s’en vient.",
+      "you": "Vous",
+      "someone": "Un membre"
+    },
+    "messageTooShort": "Au moins {{count}} caractères"
   },
   "whatCanIDo": {
     "title": "Que puis-je faire ?",
@@ -1613,6 +1875,11 @@
         "title": "Compléter les réseaux",
         "text": "Leur longueur et leur profondeur, l'historique de leur exploration, et leurs connexions.",
         "action": "Parcourir les réseaux"
+      },
+      "feedback": {
+        "title": "Signalez ce qui ne va pas",
+        "text": "Quelque chose de cassé, de trompeur ou de manquant : chaque message parvient à l’équipe d’OpenCaves, qui répond par courriel.",
+        "action": "Envoyer un commentaire"
       }
     },
     "goodToKnow": {
@@ -1643,11 +1910,11 @@
       "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les réseaux du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",
       "searchPlaceholder": "Trouver une grotte, un réseau ou une région",
       "openMap": "Ouvrir la carte",
-      "search": "Chercher",
       "browse": {
         "caves": "Parcourir les grottes",
         "sistemas": "Parcourir les réseaux"
-      }
+      },
+      "searchShort": "Grotte, réseau ou région"
     },
     "figures": {
       "label": "OpenCaves en chiffres",
@@ -1686,7 +1953,7 @@
       },
       "offline": {
         "title": "Hors ligne",
-        "text": "Enregistrez des grottes sur votre téléphone avant de partir, pour les avoir là où il n’y a pas de réseau."
+        "text": "Sauvegardez des grottes sur votre téléphone avant de partir, pour les avoir là où il n’y a pas de réseau."
       },
       "subtitle": "Tout ce qu’un plongeur souterrain consulte avant de partir, au même endroit."
     },
@@ -1698,14 +1965,13 @@
     "contribute": {
       "whatCanIDo": "Que puis-je faire ?",
       "title": "Construit par des plongeurs",
-      "text": "OpenCaves, ce sont des données ouvertes : tout le monde peut les consulter, et les plongeurs les tiennent à jour. Inscrivez-vous pour ajouter des grottes, des photos, des vidéos et des notes. L’application elle-même est libre.",
+      "text": "OpenCaves, ce sont des données ouvertes : tout le monde peut les consulter, et les plongeurs les tiennent à jour. Inscrivez-vous pour ajouter des grottes, des photos, des vidéos et des notes, et suivre les nouvelles grottes et les nouveaux réseaux. L’application elle-même est libre.",
       "signup": "S’inscrire pour contribuer",
       "github": "OpenCaves sur GitHub"
     },
     "footer": {
       "whatCanIDo": "Que puis-je faire ?",
-      "about": "À propos",
-      "language": "Langue"
+      "about": "À propos"
     },
     "warningsLabel": "Avant de plonger",
     "search": {
@@ -1728,5 +1994,51 @@
     "inviteMember": "Merci de faire partie de l'équipe ! Vous avez plongé un endroit qui nous manque ? Repéré une profondeur dépassée, une mauvaise entrée ou un plan qu'on n'a pas ? Aidez-nous à garder les données complètes et à jour - les notes de chaque plongeur comptent.",
     "betaMember": "<strong>Nous sommes en bêta.</strong> Vos modifications ne sont pas encore permanentes : toutes les données peuvent être remplacées à tout moment. C'est donc le moment idéal pour essayer les outils d'édition - allez-y, fouillez, vous ne pouvez rien casser pour de bon ! Nous vous préviendrons à la fin de la bêta.",
     "start": "On plonge !"
+  },
+  "authPrompt": {
+    "close": "Fermer",
+    "notNow": "Pas maintenant",
+    "logIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "photos": {
+      "title": "Ajoutez vos photos",
+      "text": "Créez un compte gratuit pour ajouter des photos aux grottes : ce que vous avez vu aide les prochains plongeurs."
+    },
+    "videos": {
+      "title": "Ajoutez une vidéo",
+      "text": "Créez un compte gratuit pour ajouter des vidéos aux grottes."
+    },
+    "maps": {
+      "title": "Ajoutez une carte topographique",
+      "text": "Créez un compte gratuit pour ajouter des cartes topographiques aux réseaux."
+    },
+    "feedback": {
+      "title": "Dites-nous ce que vous avez trouvé",
+      "text": "Créez un compte gratuit pour envoyer vos commentaires à l’équipe d’OpenCaves, afin que nous puissions y donner suite."
+    },
+    "default": {
+      "title": "Un compte est nécessaire",
+      "text": "Créez un compte gratuit, ou connectez-vous, pour faire ceci."
+    }
+  },
+  "languagePicker": {
+    "label": "Langue",
+    "automatic": "Automatique ({{language}})"
+  },
+  "lightbox": {
+    "previous": "Précédente",
+    "next": "Suivante",
+    "close": "Fermer",
+    "share": "Partager",
+    "download": "Télécharger",
+    "enterFullscreen": "Plein écran",
+    "exitFullscreen": "Quitter le plein écran",
+    "zoomIn": "Agrandir",
+    "zoomOut": "Réduire",
+    "slide": "Diapositive",
+    "carousel": "Carrousel",
+    "lightbox": "Visionneuse",
+    "gallery": "Galerie",
+    "position": "{index} sur {total}"
   }
 }

@@ -26,8 +26,13 @@ export const LENGTH_UNITS = {
 const unitOf = (spelling) => Object.keys(LENGTH_UNITS).find((unit) => LENGTH_UNITS[unit].spellings.some((s) => new RegExp(`^${s}$`, 'i').test(spelling)))
 const toNumber = (digits) => Number(digits.replace(/[\s,]/g, ''))
 
-// "45 m", "13.7m", "148 ft", "148'", "1,234 ft", "2 miles" -> { value, unit,
-// metres } or null.
+/**
+ * "45 m", "13.7m", "148 ft", "148'", "1,234 ft", "2 miles" -> { value, unit,
+ * metres } or null.
+ *
+ * @param {string} text
+ * @returns {{value: number, unit: string, metres: number}|null}
+ */
 export function parseLength(text) {
   const match = /^\s*(\d[\d\s,.]*)\s*([a-z']+)\s*$/i.exec(text || '')
   const unit = match && unitOf(match[2])
@@ -52,8 +57,13 @@ export const TEXT_SPELLINGS = Object.values(LENGTH_UNITS)
   .sort((a, b) => b.length - a.length)
   .join('|')
 
-// The first length in some text ("about 200 meters!"): its place in the
-// text (index, length) and parseLength's result, or null.
+/**
+ * The first length in some text ("about 200 meters!"): its place in the
+ * text (index, length) and parseLength's result, or null.
+ *
+ * @param {string} text
+ * @returns {{value: number, unit: string, metres: number, index: number, length: number}|null}
+ */
 export function findLength(text) {
   const match = new RegExp(`(\\d[\\d,.]*(?:\\s\\d{3})*)\\s*(${TEXT_SPELLINGS})(?![a-z])`, 'i').exec(text || '')
   const parsed = match && parseLength(`${match[1]} ${match[2]}`)
@@ -72,13 +82,15 @@ function asText(node) {
   return `${marks}${node.name}${label}${attributes}`
 }
 
-// The remark plugin, for the page renderer (react-markdown) and the editor
-// (Milkdown): parses directives (micromark-extension-directive), keeps
-// `:length[...]` - marked for the renderer as <span data-length="45 m"> - and
-// turns every other directive back into its text. Parsing only: saving goes
-// through the editor's own serializer, which writes a length back as its raw
-// tag - remark-directive's serializer would also escape every colon in the
-// text ("Note\:see").
+/**
+ * The remark plugin, for the page renderer (react-markdown) and the editor
+ * (Milkdown): parses directives (micromark-extension-directive), keeps
+ * `:length[...]` - marked for the renderer as <span data-length="45 m"> - and
+ * turns every other directive back into its text. Parsing only: saving goes
+ * through the editor's own serializer, which writes a length back as its raw
+ * tag - remark-directive's serializer would also escape every colon in the
+ * text ("Note\:see").
+ */
 export default function remarkLengthDirective() {
   const data = this.data()
   ;(data.micromarkExtensions || (data.micromarkExtensions = [])).push(directive())

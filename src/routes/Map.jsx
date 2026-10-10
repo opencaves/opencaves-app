@@ -1,5 +1,5 @@
-import { Suspense, lazy, useState } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
 import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { MapLoading } from '@/components/Map/MapState.jsx'
@@ -10,6 +10,7 @@ import EditCaveFab from '@/components/Map/EditCaveFab.jsx'
 import CaveLayerButton from '@/components/Map/CaveLayerButton.jsx'
 import CaveLayerLegend from '@/components/Map/CaveLayerLegend.jsx'
 import MapLegalLinks from '@/components/Map/MapLegalLinks.jsx'
+import ResultPaneOutlet from '@/components/ResultPane/ResultPaneOutlet.jsx'
 import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
 import Dev from '@/components/utils/Dev.jsx'
 import SearchBarMockup from '@/components/SearchBar/SearchBarMockup.jsx'
@@ -36,6 +37,24 @@ export default function MapPage() {
   // Decided once, at mount: switching wrappers later (a resized window)
   // would remount the whole map.
   const [PageRoot] = useState(() => (isPhone() ? IonApp : 'div'))
+
+  // Marks a cave's history entry as reached from the bare map (state
+  // fromMap), so closing it goes back to that entry instead of adding /map
+  // again (CurrentCaveDetailsHeader, SearchBar): a new entry from /map gets
+  // the mark, switching caves in place carries it. Kept in the entry itself,
+  // so Back and Forward keep it.
+  const location = useLocation()
+  const navigate = useNavigate()
+  const navigationType = useNavigationType()
+  const previous = useRef(null)
+  useEffect(() => {
+    const before = previous.current
+    previous.current = location
+    if (!caveId || location.state?.fromMap || !before) return
+    const fromBareMap = navigationType === 'PUSH' && before.pathname === '/map'
+    const switchedInPlace = navigationType === 'REPLACE' && before.state?.fromMap
+    if (fromBareMap || switchedInPlace) navigate(`${location.pathname}${location.search}${location.hash}`, { replace: true, state: { ...location.state, fromMap: true } })
+  }, [location, caveId, navigationType, navigate])
 
   return (
     // While Ionic loads (phones): the loading screen, not a blank page.
@@ -106,7 +125,7 @@ export default function MapPage() {
             }
           />
           <CaveLayerLegend isLarge={isLarge} />
-          <Outlet />
+          <ResultPaneOutlet keepOnExit={isLarge} />
           <Dev
             sx={{
               '--oc-mode-switcher-right': isLarge ? 'calc(var(--oc-map-control-edge-margin) + 56px + 16px)' : '16px',

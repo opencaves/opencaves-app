@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, renameSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -72,6 +72,8 @@ function loadAppAfterFirstPaint() {
         started = true
         var head = document.head
         window.__ocAppStylesheets = Promise.all(stylesheets.map(function (href) {
+          // A page the server rendered has them already (functions/js/seo/ssr.js).
+          if (document.querySelector('link[rel="stylesheet"][href="' + href + '"]')) return null
           return new Promise(function (resolve) {
             var link = document.createElement('link')
             link.rel = 'stylesheet'
@@ -81,7 +83,8 @@ function loadAppAfterFirstPaint() {
             head.appendChild(link)
           })
         }))
-        preloads.forEach(function (href) {
+        // A server-rendered page's own route code (functions/js/seo/ssr.js).
+        preloads.concat(window.__ocPagePreloads || []).forEach(function (href) {
           var link = document.createElement('link')
           link.rel = 'modulepreload'
           link.crossOrigin = ''
@@ -94,8 +97,27 @@ function loadAppAfterFirstPaint() {
         script.src = ${JSON.stringify(found.entry)}
         head.appendChild(script)
       }
-      requestAnimationFrame(function () { setTimeout(start) })
-      setTimeout(start, 300)
+      // A page the server rendered with the app (functions/js/seo/ssr.js):
+      // its content is the first paint - after it has painted (its stylesheets
+      // and its HTML in), or a second at most. Otherwise the splash: right
+      // after the first frame.
+      var observed = false
+      if (document.documentElement.hasAttribute('data-oc-ssr') && window.PerformanceObserver) {
+        try {
+          new PerformanceObserver(function (list, observer) {
+            if (list.getEntriesByName('first-contentful-paint').length) {
+              observer.disconnect()
+              setTimeout(start)
+            }
+          }).observe({ type: 'paint', buffered: true })
+          observed = true
+        } catch (e) {}
+      }
+      if (observed) setTimeout(start, 1000)
+      else {
+        requestAnimationFrame(function () { setTimeout(start) })
+        setTimeout(start, 300)
+      }
     })()
   </script>
 </body>`
@@ -105,9 +127,66 @@ function loadAppAfterFirstPaint() {
   }
 }
 
-export default defineConfig({
-  build: {
+// The server build (vite build --ssr src/entry-server.jsx, npm run build),
+// which renders the public pages for functions/js/seo/ssr.js: the store and
+// Firebase set up for the server instead of the browser.
+const SERVER_MODULES = {
+  [path.resolve(import.meta.dirname, 'src/redux/store.jsx')]: path.resolve(import.meta.dirname, 'src/redux/store.server.jsx'),
+  [path.resolve(import.meta.dirname, 'src/config/firebase.js')]: path.resolve(import.meta.dirname, 'src/ssr/firebase.server.js'),
+}
+
+function serverModules() {
+  return {
+    name: 'oc-server-modules',
+    enforce: 'pre',
+    async resolveId(source, importer, options) {
+      if (!options?.ssr && !this.environment?.config?.build?.ssr) return null
+      const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
+      return resolved && SERVER_MODULES[path.normalize(resolved.id)] ? SERVER_MODULES[path.normalize(resolved.id)] : null
+    },
+  }
+}
+
+// The server build takes the client build's page (app.html, its shell) and
+// manifest (which files each page needs) along: the function serves them
+// together, so the two always match. OC_CLIENT_OUT_DIR: the client build's
+// folder, when not build/.
+function copyClientBuild() {
+  let outDir
+  return {
+    name: 'oc-copy-client-build',
+    apply: 'build',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    writeBundle() {
+      const clientDir = path.resolve(import.meta.dirname, process.env.OC_CLIENT_OUT_DIR || 'build')
+      mkdirSync(outDir, { recursive: true })
+      copyFileSync(path.join(clientDir, 'app.html'), path.join(outDir, 'app.html'))
+      copyFileSync(path.join(clientDir, '.vite', 'manifest.json'), path.join(outDir, 'manifest.json'))
+    },
+  }
+}
+
+export default defineConfig(({ isSsrBuild }) => ({
+  // The server build (functions/js/ssr/entry-server.js and its chunks) with
+  // every dependency in it - the function's package doesn't list the app's.
+  // Split as the app (its lazy routes, chunks of their own): a function
+  // instance only loads the public pages' code, not the map's or the admin's.
+  ...(isSsrBuild && {
+    ssr: { noExternal: true },
+    // public/ is the site's (Hosting), not the function's.
+    publicDir: false,
+  }),
+  build: isSsrBuild ? {
+    outDir: 'functions/js/ssr',
+    emptyOutDir: true,
+  } : {
     outDir: 'build',
+    // .vite/manifest.json: the files each page needs, for the server-rendered
+    // pages' <link>s (functions/js/seo/ssr.js). Not served (Hosting ignores
+    // dot folders, firebase.json).
+    manifest: true,
     rollupOptions: {
       output: {
         // Split heavy, independently-versioned vendor libraries into their
@@ -128,7 +207,9 @@ export default defineConfig({
             // every page then preloaded all of Mapbox (only the map needs it).
             { name: 'mapbox', test: /node_modules[\\/](mapbox-gl|react-map-gl)[\\/]/, priority: 50, includeDependenciesRecursively: false },
             { name: 'mui', test: /node_modules[\\/](@mui|@emotion)[\\/]/, priority: 40 },
-            { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/]/, priority: 40 },
+            // Storage and Functions left out: loaded on first use (config/firebase.js),
+            // they get chunks of their own instead of riding with every page.
+            { name: 'firebase', test: /node_modules[\\/](firebase|@firebase)[\\/](?!(storage|functions)([\\/]|$))/, priority: 40 },
             { name: 'photo-sphere-viewer', test: /node_modules[\\/](@photo-sphere-viewer|react-photo-sphere-viewer)[\\/]/, priority: 40 },
             { name: 'swiper', test: /node_modules[\\/]swiper[\\/]/, priority: 40 },
             // Not its dependencies either (as mapbox): the shared helper would move here.
@@ -159,14 +240,16 @@ export default defineConfig({
     // reload the page - clicking Map layers on /dashboard just reloaded it.
     entries: ['index.html', 'src/**/*.{js,jsx}'],
   },
-  plugins: [
+  plugins: isSsrBuild ? [
+    serverModules(),
+    react({ include: /\.(js|jsx|ts|tsx)$/, jsxRuntime: 'automatic' }),
+    svgrPlugin(),
+    copyClientBuild(),
+  ] : [
     appShellName(),
     react({
       include: /\.(js|jsx|ts|tsx)$/,
       jsxRuntime: 'automatic',
-      babel: {
-        presets: ['@babel/preset-react']
-      }
     }),
     svgrPlugin(),
     loadAppAfterFirstPaint(),
@@ -222,4 +305,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

@@ -23,7 +23,7 @@ import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import RepeatableTextField from '@/components/RepeatableTextField.jsx'
 import NameTranslationsField from '@/components/NameTranslationsField.jsx'
-import CoordinateFieldList, { caveCoordinateItems } from '@/components/ResultPane/CoordinateFieldList.jsx'
+import CoordinateFieldList, { caveCoordinateItems, caveCoordinatesInRange } from '@/components/ResultPane/CoordinateFieldList.jsx'
 import BooleanToggleField from '@/components/ResultPane/BooleanToggleField.jsx'
 import CaveMediaTabs from '@/components/ResultPane/CaveMediaTabs.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -33,6 +33,7 @@ import EditPageHeader from '@/components/EditPageHeader.jsx'
 import SourceSelect from '@/components/SourceSelect.jsx'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
 
 const sectionHeadingProps = formSectionHeadingProps('oc-cave-edit--section-title')
 // For a heading placed directly in the form's column, whose 16dp gap already
@@ -60,7 +61,6 @@ const emptyForm = {
   cenoteEntrance: false,
   fees: false,
   facilities: false,
-  activities: false,
   explorationDate: '',
   reporter: '',
   note: '',
@@ -69,11 +69,14 @@ const emptyForm = {
   nameTranslations: [],
   longitude: '',
   latitude: '',
+  parkingLongitude: '',
+  parkingLatitude: '',
   entranceLongitude: '',
   entranceLatitude: '',
   keyLongitude: '',
   keyLatitude: '',
   locationValidity: 'valid',
+  parkingValidity: 'valid',
   entranceValidity: 'valid',
   keyValidity: 'valid',
 }
@@ -110,6 +113,9 @@ export default function CaveEdit() {
   }
 
   const [form, setForm] = useState(emptyForm)
+  // Emptied by the person: "Name is required" (not on a new, untouched form).
+  const [nameTouched, setNameTouched] = useState(false)
+  const nameMissing = !form.name.trim()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
@@ -121,7 +127,7 @@ export default function CaveEdit() {
   // dropped from the form needs an explicit deleteField() sentinel to
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !!form.name, within: `/caves/${caveId}/edit` })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !nameMissing && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
 
   useEffect(() => {
     let cancelled = false
@@ -150,7 +156,6 @@ export default function CaveEdit() {
         cenoteEntrance: !!cave?.cenoteEntrance,
         fees: !!cave?.fees,
         facilities: !!cave?.facilities,
-        activities: !!cave?.activities,
         explorationDate: cave?.explorationDate || '',
         reporter: cave?.reporter || '',
         note: cave?.note || '',
@@ -162,12 +167,15 @@ export default function CaveEdit() {
         })),
         longitude: normalizeCoordinateValue(cave?.location?.longitude ?? ''),
         latitude: normalizeCoordinateValue(cave?.location?.latitude ?? ''),
+        parkingLongitude: normalizeCoordinateValue(cave?.parking?.longitude ?? ''),
+        parkingLatitude: normalizeCoordinateValue(cave?.parking?.latitude ?? ''),
         entranceLongitude: normalizeCoordinateValue(cave?.entrance?.longitude ?? ''),
         entranceLatitude: normalizeCoordinateValue(cave?.entrance?.latitude ?? ''),
         keyLongitude: normalizeCoordinateValue(cave?.keys?.[0]?.longitude ?? ''),
         keyLatitude: normalizeCoordinateValue(cave?.keys?.[0]?.latitude ?? ''),
         // Each coordinate's validity: one without it is unconfirmed.
         locationValidity: cave?.location?.validity || 'unknown',
+        parkingValidity: cave?.parking?.validity || 'unknown',
         entranceValidity: cave?.entrance?.validity || 'unknown',
         keyValidity: cave?.keys?.[0]?.validity || 'unknown',
       }
@@ -184,14 +192,14 @@ export default function CaveEdit() {
 
   useEffect(() => {
     // Every edit page's title says so ("Edit …"); a new one stays "New …".
-    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || caveId }) }))
+    setTitle(isNew ? t('newCave') : tApp('editTitle', { title: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, form.name, t, tApp])
 
   function field(name) {
     return {
       value: form[name],
-      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
+      onChange: (e) => setForm((f) => ({ ...f, [name]: ['longitude', 'latitude', 'parkingLongitude', 'parkingLatitude', 'entranceLongitude', 'entranceLatitude', 'keyLongitude', 'keyLatitude'].includes(name) ? normalizeCoordinateValue(e.target.value) : e.target.value })),
     }
   }
 
@@ -214,7 +222,6 @@ export default function CaveEdit() {
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
-        activities: form.activities,
         explorationDate: orDelete(form.explorationDate),
         reporter: orDelete(form.reporter),
         note: orDelete(form.note),
@@ -227,6 +234,12 @@ export default function CaveEdit() {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
+      }
+
+      if (form.parkingLongitude === '' && form.parkingLatitude === '' && originalCave?.parking) {
+        fields.parking = deleteField()
+      } else if (form.parkingLongitude !== '' && form.parkingLatitude !== '') {
+        fields.parking = { longitude: Number(num(form.parkingLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.parkingLatitude, COORDINATE_DECIMALS)), validity: form.parkingValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && originalCave?.entrance) {
@@ -261,7 +274,7 @@ export default function CaveEdit() {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || caveId }) })
+      const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) })
       setBaseline(savedForm)
       setIsNew(false)
       // Stays on the form after saving. The saved doc becomes the new
@@ -274,12 +287,12 @@ export default function CaveEdit() {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || caveId }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || caveId }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) }))
     } finally {
       setSaving(false)
     }
@@ -287,7 +300,7 @@ export default function CaveEdit() {
 
   async function handleDelete() {
     setDeleteDialogOpen(false)
-    const name = t('caveTitle', { name: form.name || caveId })
+    const name = t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })
     const removal = CaveModel.remove(caveId)
     // Offline, Firestore only settles the delete once the server has it: it's
     // done on the device now, said so, and an error later still told.
@@ -341,7 +354,7 @@ export default function CaveEdit() {
           <ArrowBackRounded />
         </IconButton>
         <Typography component="h1" variant="h5" data-appbar-page-title>
-          {isNew ? t('newCave') : t('caveTitle', { name: form.name || caveId })}
+          {isNew ? t('newCave') : t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })}
         </Typography>
       </EditPageHeader>
 
@@ -349,7 +362,7 @@ export default function CaveEdit() {
           translucent page. */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {/* The name on the page itself, the sections below on cards. */}
-        <TextField label={t('name')} fullWidth required {...field('name')} />
+        <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
         <FormSection>
 
         <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
@@ -430,7 +443,7 @@ export default function CaveEdit() {
         <FormSection>
 
         <Typography {...columnHeadingProps}>{t('accessGroup')}</Typography>
-        <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
+        <TextField select label={t('access')} {...field('access')} sx={fitSelectSx([t('access'), t('none'), ...accesses.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.access && !accesses.some((a) => a.id === form.access) && (
             <MenuItem value={form.access} sx={{ display: 'none' }}>
@@ -455,7 +468,7 @@ export default function CaveEdit() {
         <FormSection>
 
         <Typography {...columnHeadingProps}>{t('accessibilityGroup')}</Typography>
-        <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
+        <TextField select label={t('accessibility')} {...field('accessibility')} sx={fitSelectSx([t('accessibility'), t('none'), ...accessibilities.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
           <MenuItem value="">{t('none')}</MenuItem>
           {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
             <MenuItem value={form.accessibility} sx={{ display: 'none' }}>
@@ -480,7 +493,6 @@ export default function CaveEdit() {
           <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
           <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
           <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
-          <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
         </Box>
 
         </FormSection>
@@ -514,7 +526,7 @@ export default function CaveEdit() {
           </Button>
         )}
         {isDirty ? (
-          <Button variant="contained" onClick={handleSave} disabled={saving || !form.name}>
+          <Button variant="contained" onClick={handleSave} disabled={saving || nameMissing || !caveCoordinatesInRange(form)}>
             {t('save')}
           </Button>
         ) : (

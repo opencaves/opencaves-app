@@ -3,21 +3,26 @@ import { useTranslation } from 'react-i18next'
 import { Box, Skeleton } from '@mui/material'
 import { useFillHeight } from '@/components/Skeletons/useFillHeight.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
+import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 const cardSx = { ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 } }
 
-// An index page while the cave data loads (a first visit): its breadcrumb
-// and heading, then its content on cards, as the page draws them.
-// - item: a cave's or a system's own page (CavePage, SistemaPage) - the "On
-//   the map" button, the facts card, then titled cards (access, photos...);
-//   otherwise a list page (/caves, /sistemas, an area): titled sections of
-//   links in columns (IndexLinkList)
-// - search: the list page's search field above its sections (/caves, /sistemas)
-// - card: each section's links on an opaque card (/caves, /sistemas, one per
-//   area), else under an underlined title, a map icon ending each link (an
-//   area's page)
-// - back: a back arrow before the title (IndexPageHeader's backTo)
-// - onMap: the "On the map" button under the heading (a cave's page)
+/**
+ * An index page while the cave data loads (a first visit): its breadcrumb
+ * and heading, then its content on cards, as the page draws them.
+ *
+ * @param {object} props
+ * @param {boolean} [props.item=false] - A cave's or a system's own page (CavePage, SistemaPage) - the "On
+ *   the map" button, the facts card, then titled cards (access, photos...);
+ *   otherwise a list page (/caves, /sistemas, an area): titled sections of
+ *   links in columns (IndexLinkList)
+ * @param {boolean} [props.search=false] - The list page's search field above its sections (/caves, /sistemas)
+ * @param {boolean} [props.card=false] - Each section's links on an opaque card (/caves, /sistemas, one per
+ *   area), else under an underlined title, a map icon ending each link (an
+ *   area's page)
+ * @param {boolean} [props.back=false] - A back arrow before the title (IndexPageHeader's backTo)
+ * @param {boolean} [props.onMap=false] - The "On the map" button under the heading (a cave's page)
+ */
 export default function IndexPageSkeleton({ item = false, search = false, card = false, back = false, onMap = false }) {
   return (
     <Box className="oc-index-page-skeleton">
@@ -26,7 +31,7 @@ export default function IndexPageSkeleton({ item = false, search = false, card =
         {/* The back arrow, in the margin above phone width (IndexPageHeader). */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {back && <Skeleton variant="circular" width={24} height={24} sx={{ flexShrink: 0, mx: 1, ml: { xs: 1, sm: -3 }, mr: 0.5 }} />}
-          <Skeleton variant="text" sx={{ typography: { xs: 'h5', sm: 'h4' }, width: 'min(100%, 420px)' }} />
+          <Skeleton variant="text" sx={{ ...PAGE_TITLE_SX, width: 'min(100%, 420px)' }} />
         </Box>
         <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 120, ml: back ? { xs: 6, sm: 0 } : 0 }} />
       </Box>

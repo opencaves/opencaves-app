@@ -6,9 +6,9 @@ import { Trans, useTranslation } from 'react-i18next'
 import { checkActionCode, fetchSignInMethodsForEmail, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, updatePassword, updateProfile } from 'firebase/auth'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Grid } from '@mui/material'
-import ArrowBack from '@mui/icons-material/ArrowBack'
+import ArrowBack from '@mui/icons-material/ArrowBackRounded'
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded'
-import Close from '@mui/icons-material/Close'
+import Close from '@mui/icons-material/CloseRounded'
 import SendRounded from '@mui/icons-material/SendRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { register } from 'swiper/element/bundle'
@@ -17,6 +17,8 @@ import PasswordInput from './PasswordInput.jsx'
 import AuthButton from './AuthButton.jsx'
 import TextInput from './TextInput.jsx'
 import AuthWithGoogle from './AuthWithGoogle.jsx'
+import AuthWithMicrosoft from './AuthWithMicrosoft.jsx'
+import PasswordResetDialog from './PasswordResetDialog.jsx'
 import { Progress, Section, SectionActions, SectionDetails, SectionFields, SectionForm } from './Section.jsx'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -34,6 +36,10 @@ const emailValidatedParam = 'email-valid'
 if (!customElements.get('swiper-container')) {
   register()
 }
+
+// Each slide's dot: the email link's slide (2) shares "check your inbox".
+const SLIDE_DOT = [0, 1, 1, 2, 3, 4]
+const STEP_DOTS = 5
 
 export default function SignupWithEmail({ open: initialOpen }) {
   const logoHeight = 100
@@ -62,7 +68,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
   const [header, setHeader] = useState(' ')
   const [registrationComplete, setRegistrationComplete] = useState(false)
   const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false)
+  const [resetOpen, setResetOpen] = useState(false)
   const [signinMethodsForEmail, setSigninMethodsForEmail] = useState()
+  // How the account using the email signs in (email in use).
+  const inUseMethods = signinMethodsForEmail || []
+  const usesPassword = inUseMethods.includes('password')
+  const usesEmail = usesPassword || inUseMethods.includes('emailLink')
   const continueUrl = useSelector((state) => state.session.continueUrl)
 
   const [currentStep, setCurrentStep] = useState(searchParams.has(emailValidatedParam) ? emailCallbackStep : 0)
@@ -459,9 +470,6 @@ export default function SignupWithEmail({ open: initialOpen }) {
       fullWidth
       maxWidth={isMd ? 'sm' : 'md'}
       open={open}
-      sx={{
-        '--swiper-pagination-color': 'var(--mui-palette-secondary-main)',
-      }}
       // TransitionComponent={Grow}
       transitionDuration={{
         enter: theme.oc.sys.motion.duration.emphasizedDecelerate,
@@ -490,9 +498,9 @@ export default function SignupWithEmail({ open: initialOpen }) {
             <IconButton
               aria-label={isSmall ? t('closeBtnSm.ariaLabel') : t('closeBtn.ariaLabel')}
               onClick={onClose}
-              sx={{
-                p: 0,
-              }}
+              // The icon where the title's padding ends, as before the
+              // button had its own (the theme's 40dp icon button).
+              sx={{ m: -1 }}
             >
               {isSmall ? <ArrowBack /> : <Close />}
             </IconButton>
@@ -566,11 +574,12 @@ export default function SignupWithEmail({ open: initialOpen }) {
               className="oc-signup-with-email--steps"
               ref={setSwiperContainerRef}
               initial-slide={initialStep}
-              allow-touch-move={import.meta.env.DEV}
+              // Not draggable (it was in development): dragging skipped steps,
+              // the name's included. The buttons move it.
+              allow-touch-move="false"
               slides-per-view="1"
               speed="350"
               // css-mode
-              pagination
             >
               {/*
                * Step 0 - Enter email
@@ -612,22 +621,39 @@ export default function SignupWithEmail({ open: initialOpen }) {
                       </SectionDetails>
                       <SectionForm>
                         <SectionActions>
+                          {/* Log in the way the account signs in (it offered Google to
+                              every account, a password one included), then another email. */}
+                          {usesEmail && (
+                            <AuthButton onClick={() => navigate('/login/with-email', { state: { email } })}>
+                              {ts('emailSentAndEmailVerification.emailInUse.loginWithEmail')}
+                            </AuthButton>
+                          )}
+                          {usesPassword && (
+                            <Typography component="button" type="button" onClick={() => setResetOpen(true)} sx={{ fontSize: 'small', display: 'block', mx: 'auto', p: 0, border: 0, bgcolor: 'transparent', color: 'var(--mui-sys-color-primary)', textDecoration: 'underline', cursor: 'pointer', font: 'inherit' }}>
+                              {ts('emailSentAndEmailVerification.emailInUse.forgotPassword')}
+                            </Typography>
+                          )}
+                          {inUseMethods.includes('google.com') && <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />}
+                          {inUseMethods.includes('microsoft.com') && <AuthWithMicrosoft message={ts('emailSentAndEmailVerification.emailInUse.loginWithMicrosoft')} />}
+
                           <AuthButton
+                            variant="outlined"
                             onClick={() => {
                               previousStep()
                             }}
                           >
                             {ts('emailSentAndEmailVerification.emailInUse.previousBtn')}
                           </AuthButton>
-
-                          <AuthWithGoogle message={ts('emailSentAndEmailVerification.emailInUse.loginWithGoogle')} />
-                          <Box sx={{ mt: 1 }}>
-                            <p style={{ margin: 0, textAlign: 'center' }}>
-                              <small>
-                                {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
-                              </small>
-                            </p>
-                          </Box>
+                          {/* A method the buttons don't cover: the log-in page. */}
+                          {!usesEmail && !inUseMethods.some((method) => ['google.com', 'microsoft.com'].includes(method)) && (
+                            <Box sx={{ mt: 1 }}>
+                              <p style={{ margin: 0, textAlign: 'center' }}>
+                                <small>
+                                  {ts('email.loginInvite')} <Link to={`/login`}>{ts('email.loginBtn')}</Link>
+                                </small>
+                              </p>
+                            </Box>
+                          )}
                         </SectionActions>
                       </SectionForm>
                     </>
@@ -829,9 +855,19 @@ export default function SignupWithEmail({ open: initialOpen }) {
                 </Section>
               </swiper-slide>
             </swiper-container>
+            {/* The steps a person goes through - email, check your inbox,
+                name, password, done: five dots, not the six slides (the email
+                link's slide - another device, a bad link - is part of
+                checking the inbox). */}
+            <Box className="oc-signup-with-email--dots" aria-hidden="true" sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 2 }}>
+              {Array.from({ length: STEP_DOTS }, (_, dot) => (
+                <Box key={dot} sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: dot === SLIDE_DOT[currentStep] ? 'secondary.main' : 'action.disabled', transition: 'background-color 200ms' }} />
+              ))}
+            </Box>
           </Box>
         </Grid>
       </DialogContent>
+      <PasswordResetDialog open={resetOpen} onClose={() => setResetOpen(false)} initialEmail={email} />
     </Dialog>
   )
 }

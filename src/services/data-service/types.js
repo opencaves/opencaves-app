@@ -3,12 +3,17 @@
 import { COORDINATE_DECIMALS } from '../../config/map.js'
 
 
-// Squared distance between two {longitude, latitude} points - only meant for
-// relative sorting (nearest-first), not as an actual displayed distance, so
-// the flat-earth approximation (accurate enough across a region as small as
-// the Yucatán) skips the cost of a proper haversine calculation. Returns
-// Infinity when either point is missing, so entries without a location sort
-// to the end rather than throwing or landing in an arbitrary spot.
+/**
+ * Squared distance between two {longitude, latitude} points - only meant for
+ * relative sorting (nearest-first), not as an actual displayed distance, so
+ * the flat-earth approximation (accurate enough across a region as small as
+ * the Yucatán) skips the cost of a proper haversine calculation.
+ *
+ * @param {{longitude: number, latitude: number}} [a]
+ * @param {{longitude: number, latitude: number}} [b]
+ * @returns {number} Infinity when either point is missing, so entries without a location sort
+ *   to the end rather than throwing or landing in an arbitrary spot.
+ */
 export function squaredDistance(a, b) {
   if (!a || !b || typeof a.longitude !== 'number' || typeof a.latitude !== 'number' || typeof b.longitude !== 'number' || typeof b.latitude !== 'number') {
     return Infinity
@@ -54,6 +59,12 @@ export function str(str) {
   return str.trim()
 }
 
+/**
+ * A 'yes' or 'no' cell as a boolean (undefined otherwise).
+ *
+ * @param {string} str
+ * @returns {boolean|undefined}
+ */
 export function bol(str) {
   if (isEmpty(str)) {
     return
@@ -72,6 +83,12 @@ export function num(num, digits) {
   return ret
 }
 
+/**
+ * A cell's values, separated by "|".
+ *
+ * @param {string} str
+ * @returns {string[]|undefined}
+ */
 export function arrStr(str) {
   if (isEmpty(str)) {
     return
@@ -79,8 +96,15 @@ export function arrStr(str) {
   return str.split('|')
 }
 
-// Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
-// array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
+/**
+ * Picks the description for `lang` out of a `descriptions: [{ lang, description }]`
+ * array (as stored on accesses/accessibilities), falling back to `fallbackLang`.
+ *
+ * @param {{lang: string, description: string}[]} [descriptions]
+ * @param {string} lang
+ * @param {string} [fallbackLang='eng']
+ * @returns {string}
+ */
 export function pickDescription(descriptions, lang, fallbackLang = 'eng') {
   if (!descriptions) {
     return ''
@@ -89,6 +113,15 @@ export function pickDescription(descriptions, lang, fallbackLang = 'eng') {
   return match?.description || ''
 }
 
+/**
+ * A record's location from its longitude and latitude fields (and its validity, from `validProp`).
+ *
+ * @param {object} obj
+ * @param {string} lngProp
+ * @param {string} latProp
+ * @param {string|null} [validProp=null]
+ * @returns {{longitude: number, latitude: number, validity?: *}|undefined}
+ */
 export function loc(obj, lngProp, latProp, validProp = null) {
   if (typeof obj[lngProp] === 'undefined' || obj[lngProp] === '' || obj[latProp] === '') {
     return

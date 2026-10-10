@@ -3,7 +3,7 @@ import { Link as RouterLink, Navigate, Outlet, useParams } from 'react-router-do
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import SubdirectoryArrowRightRoundedIcon from '@mui/icons-material/SubdirectoryArrowRightRounded'
-import MyLocationOutlined from '@mui/icons-material/MyLocationOutlined'
+import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { buildSistemaAncestryComputer } from '@/services/data-service/postProcessCaveData.js'
@@ -17,6 +17,7 @@ import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
 import MapsSection from '@/components/IndexPage/MapsSection.jsx'
+import mapsModel from '@/models/MapModel.js'
 import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
@@ -24,8 +25,9 @@ import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
-import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
+import { teamNames } from '@/utils/explorationTeam.js'
 
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -80,15 +82,20 @@ function sistemaDetails(sistema, data) {
   return { area, ancestry, children, caves, historySistemas }
 }
 
-// /sistemas/<id>: a cave system - its area, length and depth, description,
-// connections, exploration history and cenotes. Editors edit it at
-// /sistemas/<id>/edit.
+/**
+ * /sistemas/<id>: a cave system - its area, length and depth, description,
+ * connections, exploration history and cenotes. Editors edit it at
+ * /sistemas/<id>/edit.
+ */
 export default function SistemaPage() {
   const { sistemaId } = useParams()
   const { t, i18n } = useTranslation('indexPages')
   const { t: tPane } = useTranslation('resultPane')
   const units = useUnits()
   const { data, loading } = useIndexData()
+  // The maps (MapsSection's list), waited for like the data: drawn late, the
+  // section pushed everything under it down.
+  const [allMaps, mapsLoading] = mapsModel.useAll()
   const sistema = data.sistemasById.get(sistemaId)
   const details = useMemo(() => (sistema ? sistemaDetails(sistema, data) : null), [sistema, data])
 
@@ -97,12 +104,12 @@ export default function SistemaPage() {
   const description = sistema ? truncate(summary ? `${t('sistema.descriptionPrefix', { name: sistema.name })} ${summary}` : t('sistema.description', { name: sistema.name })) : null
   useIndexPageHead({ title, description })
 
-  if (loading) return <IndexPageSkeleton item back />
+  if (loading || mapsLoading) return <IndexPageSkeleton item back />
   if (!sistema) {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
     if (match) return <Navigate to={`/sistemas/${match.slug}`} replace />
-    throwNotFound()
+    return <NoMatch inLayout />
   }
 
   const { area, ancestry, children, caves, historySistemas } = details
@@ -123,7 +130,7 @@ export default function SistemaPage() {
   // directions to it.
   const location = sistema.location?.latitude != null && sistema.location?.longitude != null ? sistema.location : null
   const coordinates = location ? `${Number(location.latitude).toFixed(COORDINATE_DECIMALS)}, ${Number(location.longitude).toFixed(COORDINATE_DECIMALS)}` : ''
-  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || e.team || e.description))
+  const hasHistory = historySistemas.some((s) => (s.explorations || []).some((e) => e.date || teamNames(e.team).length || e.description))
 
   return (
     <div className="oc-sistema-page">
@@ -137,7 +144,7 @@ export default function SistemaPage() {
           </>
         }
         subtitle={sistema.aka?.length > 0 ? `${tPane('aka')} ${sistema.aka.join(', ')}` : null}
-        backTo="/sistemas"
+        backTo={area ? `/sistemas#${area.slug}` : '/sistemas'}
         editTo={`/sistemas/${sistema.slug}/edit`}
         editLabel={t('sistema.edit', { name: sistema.name })}
       />
@@ -159,7 +166,7 @@ export default function SistemaPage() {
 
       {location && (
         <IndexSection id="location" title={t('sistema.location')} className="oc-sistema-page--location" card>
-          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationOutlined />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
+          <CoordinateCopyList rows={[{ key: 'location', icon: <MyLocationRounded />, text: coordinates, copyText: coordinates, copyLabel: tPane('copyCoordinates'), point: location, directionsLabel: tPane('directionsToSistema') }]} sx={{ mx: -1 }} />
         </IndexSection>
       )}
 
@@ -228,7 +235,7 @@ export default function SistemaPage() {
       <OfflineSaveHint />
 
       {/* Opened in the page's gallery (MapGallery, in the Outlet below). */}
-      <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card />
+      <MapsSection sistemaId={sistema.id} sistemas={data.sistemas} connections={data.connections} pagePath={`/sistemas/${sistemaId}`} title={t('maps')} card pageMaps={allMaps} />
 
       {hasHistory && (
         // ExplorationHistory lines up with the details pane's icons there;
@@ -236,7 +243,7 @@ export default function SistemaPage() {
         <IndexSection id="history" title={tPane('explorationHistory')} className="oc-sistema-page--history" card>
           {/* Without the entries' sources (their notes); its title is the section's. */}
           <Box sx={{ '& .oc-exploration-history': { mt: 0, ml: 0 } }}>
-            <ExplorationHistory sistemas={historySistemas} showNotes={false} showHeading={false} />
+            <ExplorationHistory sistemas={historySistemas} showHeading={false} />
           </Box>
         </IndexSection>
       )}

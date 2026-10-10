@@ -55,6 +55,23 @@ and `fill_passages.py` tints the white passages of a bold-wall scan so the
 `colour-fill` method can trace them. A map that needs its own preparation
 has a script in `prep/` (e.g. `prep/joolis.py`, which merges two editions of
 the Joolis map); run it before tracing.
+
+Two prototypes help start a config; they are not part of the steps above,
+and `npm run build:tiles` doesn't run them:
+- `prepare_scan.py <image> <name> <output folder>` OCRs a scanned (or
+  straightened) map, keeps the text lines naming a cave of the **local
+  database** that has a position, and finds the largest group of them that
+  agree on one similarity fit (at least three; namesakes and misreadings are
+  left out). It writes a starting `maps/<name>.json` (only reports if it
+  exists) and crops of each control point to review: the points sit on the
+  labels, not the openings, so each one is still moved and checked by hand
+  (see "Placement").
+- `profile_vector.py <maps-import folder> <output folder>` profiles the vector
+  PDF maps listed in a maps-import folder's `matched.csv`: their stroke
+  styles and how much line each draws, the scale bar's and the north
+  indication's words, and the cave names that match a positioned cave of the
+  local database (the control points available - a map with none can't be
+  placed yet). Writes `vector-profiles.json` and prints a summary.
 Every script's docstring documents its options; the config keys are
 documented where the code reads them.
 
@@ -68,7 +85,7 @@ points, or by its scale bar and north plus one or more points.
   bars can be wrong (Xel-Há, Yax Chen). Check against the ground: cenote
   ponds visible on the satellite, OpenStreetMap roads and water, and the maps
   already placed in the same area.
-- **Trusted positions:** a cave whose coordinates have the *Open Caves*
+- **Trusted positions:** a cave whose coordinates have the *OpenCaves*
   source was usually located on site; other sources (Gerrard, diveseven,
   Google Maps, older maps) may be off by hundreds of metres.
 - **Unverified maps:** when no cenote of a map has a reliable position (only a
@@ -131,7 +148,7 @@ config's `entrances` to place the map, with `"written": false`.
   replaces the caves collection: run it again afterwards.
 - A position read off a map is always to be verified on site (`validity`
   `unknown`). A database position marked `invalid` may be replaced by a map's;
-  one taken on site (*Open Caves* source) never is.
+  one taken on site (*OpenCaves* source) never is.
 - An entrance **written** on a dive survey (or known to be one) is a cenote
   entrance (the caves' `cenoteEntrance` flag): matched caves not yet flagged
   are kept aside too. Unwritten entrances set no flag. (Before 2026-10-03 any

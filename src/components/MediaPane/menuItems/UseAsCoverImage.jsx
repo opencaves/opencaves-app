@@ -7,6 +7,11 @@ import { capturePanoramaView } from '@/components/MediaViewer/panoramaViews.js'
 import useRoles from '@/hooks/useRoles.jsx'
 import noop from '@/utils/noop.js'
 
+/**
+ * Whether the user can choose a photo's use as the cover: editors.
+ *
+ * @returns {boolean}
+ */
 export function useUseAsCoverImage() {
   return useRoles('editor')
 }
@@ -48,12 +53,15 @@ export default function UseAsCoverImage({ mediaAsset, onClick = noop }) {
       <ListItemIcon>
         <WallpaperRounded fontSize="small" />
       </ListItemIcon>
-      <ListItemText>{t('useAsCoverImage')}</ListItemText>
+      {/* Greyed on the cover itself: it says so. */}
+      <ListItemText>{mediaAsset.isCover ? t('isCoverImage') : t('useAsCoverImage')}</ListItemText>
     </MenuItem>
   )
 }
 
-// A panorama: its thumbnails retaken from the view on screen.
+/**
+ * A panorama: its thumbnails retaken from the view on screen.
+ */
 export function UseViewAsThumbnail({ mediaAsset, onClick = noop }) {
 
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })

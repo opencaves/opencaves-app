@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next'
 import mapboxgl, { LngLat, Point } from 'mapbox-gl'
 import Map, { Marker, GeolocateControl } from 'react-map-gl/mapbox'
 import { Box, Fade, SvgIcon } from '@mui/material'
-import FenceRounded from '@mui/icons-material/FenceRounded'
+import LocalParkingRounded from '@mui/icons-material/LocalParkingRounded'
+import { EntranceRounded } from '@/components/icons.jsx'
 import VpnKeyRounded from '@mui/icons-material/VpnKeyRounded'
 import { useTheme } from '@mui/material/styles'
 import { chain, debounce } from 'underscore'
-import { setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
+import { clearViewResetRequest, setViewState, setCurrentCave as setCurrentCaveInStore, clearCurrentCave, setMapData, setPickedCoordinate, setEditFieldCoordinate, clearFlyToCoordinateRequest } from '@/redux/slices/mapSlice.jsx'
 import { MapLoading, MapError } from './MapState.jsx'
 import { useMapUiReady } from './useMapUiReady.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -20,7 +21,6 @@ import { SISTEMA_DEFAULT_COLOR, INITIAL_VIEW_STATE as defaultViewState, MAP_PROP
 import { num } from '@/services/data-service/types.js'
 import PinIcon from '@/images/map/pin.svg?react'
 import PinBadgeIcon from './PinBadgeIcon.jsx'
-import { getPinGlyphColor } from '@/utils/pinGlyphColor.js'
 import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 import { locationViewState, writeMapHash } from './location-view-state.js'
 import PlaceOnMapOverlay from './PlaceOnMapOverlay.jsx'
@@ -28,7 +28,7 @@ import GeolocateTooltip from './GeolocateTooltip.jsx'
 import CaveMarker from './CaveMarker.jsx'
 import CaveLayer, { caveTileRequest } from './CaveLayer.jsx'
 
-// Decorative markers (a cave's entrance and keys, edited coordinates) keep
+// Decorative markers (a cave's parking, entrance and keys, edited coordinates) keep
 // Mapbox's role="img", with a real label instead of its "Map marker". Cave
 // pins drop that role (see CaveMarker).
 function labelMarker(label) {
@@ -37,6 +37,7 @@ function labelMarker(label) {
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './Map.scss'
 import './Marker.scss'
+import { homeBounds } from './homeBounds.js'
 
 // Pins revealed per frame on first load (see markerLimit).
 const MARKER_REVEAL_BATCH = 15
@@ -52,12 +53,22 @@ const MARKER_ANIMATION_DURATION_MS = 680
 // location marker) get a white pin badged with a small glyph identifying
 // which point it is.
 const EDIT_FIELD_BADGE_ICONS = {
-  entrance: FenceRounded,
+  parking: LocalParkingRounded,
+  entrance: EntranceRounded,
   key: VpnKeyRounded,
 }
 
 // How long after centering on a cave (phone) its offset keeps following the
 // layout, and how many unchanged frames count as settled.
+// An embedded map's first view of its cave (OCMap's embedded).
+const EMBEDDED_ZOOM = 15
+// The selected cave's parking, entrance and key points: their icon alone, in the
+// pin's colour, with a dark edge and a soft shadow so any colour reads over
+// the imagery, at the size it had in the pin's head, its label under it. The
+// marker's top sits half an icon above the point, so the icon is centred on it.
+const POINT_ICON_SX = { fontSize: 13, filter: 'drop-shadow(0 0 1px #23272b) drop-shadow(0 0 0.5px #23272b) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))' }
+const POINT_ICON_OFFSET = [0, -6.5]
+const POINT_SX = { display: 'flex', flexDirection: 'column', alignItems: 'center' }
 const SETTLE_TIMEOUT = 2000
 const SETTLE_FRAMES = 10
 
@@ -74,11 +85,18 @@ function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
 }
 
-// mapRef: optional, for a parent that needs the map itself (e.g.
-// CoordinatesMapPreview reading its center).
+/**
+ * @param {object} [props]
+ * @param {React.RefObject} [props.mapRef] - Optional, for a parent that needs the map itself (e.g.
+ *   CoordinatesMapPreview reading its center).
+ */
 export default function OCMap({ mapRef: externalMapRef } = {}) {
   const internalMapRef = useRef()
   const mapRef = externalMapRef ?? internalMapRef
+  // A small map inside a page (CoordinatesMapPreview, the edit pages): no pane
+  // over it to make room for, and not the map page's view - it opens on the
+  // edited cave and doesn't move the map page's remembered view.
+  const embedded = Boolean(externalMapRef)
   const mapContainerRef = useRef()
   const currentMarkerRef = useRef()
   const { isSaved } = useSavedCaves()
@@ -93,6 +111,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const pickingCoordinateFor = useSelector((state) => state.map.pickingCoordinateFor)
   const editFieldCoordinates = useSelector((state) => state.map.editFieldCoordinates)
   const flyToCoordinateRequest = useSelector((state) => state.map.flyToCoordinateRequest)
+  const viewResetRequested = useSelector((state) => state.map.viewResetRequested)
   const roles = useSelector((state) => state.session.roles)
 
   const { caveId } = useParams()
@@ -115,7 +134,23 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // A position in the URL (a shared link) wins over the last one seen here.
   const [hashViewState] = useState(locationViewState)
   const persistedViewStateAvailable = hasSavedViewState(savedViewState)
-  const initialMapViewState = hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : defaultViewState)
+  // Neither (a first visit, or after the nav's Map item): the default view,
+  // fitted to the home area's caves once they and the map have loaded.
+  // (Not a link to a cave: it goes to the cave.)
+  const [startsAtHome] = useState(() => !hashViewState && !persistedViewStateAvailable && !caveId)
+  const [embeddedViewState] = useState(() => {
+    const location = embedded && caveData.find((cave) => cave.id === caveId)?.location
+    return location?.longitude != null ? { ...defaultViewState, longitude: location.longitude, latitude: location.latitude, zoom: EMBEDDED_ZOOM } : null
+  })
+  // Starting at home with the caves already there (from another page): framed
+  // on them from the first frame. Opened on the default view and fitted after,
+  // the map loaded that view's imagery, then jumped: its grey background
+  // flashed while the new view's imagery came in.
+  const [homeViewState] = useState(() => {
+    const bounds = startsAtHome && !embedded && caveData.length > 0 ? homeBounds(caveData) : null
+    return bounds ? { bounds, fitBoundsOptions: { padding: { top: 96, bottom: 40, left: 40, right: 96 }, maxZoom: 13 } } : null
+  })
+  const initialMapViewState = embeddedViewState ?? hashViewState ?? (persistedViewStateAvailable ? { ...defaultViewState, ...savedViewState } : (homeViewState ?? defaultViewState))
 
   const [currentCave, _setCurrentCave] = useState(_currentCave)
   const [hasInitialGoToMarker, setHasInitialGoToMarker] = useState(false)
@@ -130,6 +165,21 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation('map')
+  // Mapbox's own control labels (its buttons' names, its hints), in the app's
+  // language - they stayed English.
+  const mapLocale = useMemo(
+    () => ({
+      'GeolocateControl.FindMyLocation': t('geolocate.findMyLocation'),
+      'GeolocateControl.LocationNotAvailable': t('controls.locationNotAvailable'),
+      'Map.Title': t('controls.mapTitle'),
+      'ScrollZoomBlocker.CtrlMessage': t('controls.scrollZoom'),
+      'ScrollZoomBlocker.CmdMessage': t('controls.scrollZoomMac'),
+      'TouchPanBlocker.Message': t('controls.touchPan'),
+      'AttributionControl.ToggleAttribution': t('controls.toggleAttribution'),
+      'LogoControl.Title': t('controls.logo'),
+    }),
+    [t],
+  )
 
   const isSmall = useSmall()
 
@@ -265,6 +315,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     return chain(caves).reduce(or(filters.coordinates), []).reduce(or(filters.cenoteTypes), []).reduce(or(filters.accesses), []).value()
   }
 
+  // The pin clicked, waiting for the camera's flight to start its bounce.
+  const pendingPinRef = useRef(null)
+
   // Stable for CaveMarker (memoized): they call this render's handlers.
   const markerHandlersRef = useRef()
   markerHandlersRef.current = { onMarkerClick, onFieldMarkerDragEnd }
@@ -291,7 +344,13 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
       return
     }
 
-    setActiveMarkerElem(event.target.getElement())
+    // Its bounce starts with the camera's flight (moveCameraTo), not now: the
+    // flight waits for the cave's pane to render. Meanwhile it keeps its size.
+    if (cave.id !== caveId) {
+      const pin = event.target.getElement()
+      pin.classList.add('oc-map--marker-pending')
+      pendingPinRef.current = pin
+    }
   }
 
   const uiReady = useMapUiReady(mapLoaded, activeMarkerElem)
@@ -318,6 +377,16 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   function setActiveMarkerElem(markerElem, animate = false) {
+    // A clicked pin waits for the flight, which activates it (moveCameraTo).
+    if (markerElem && markerElem === pendingPinRef.current) {
+      return
+    }
+    // Already the active pin: left as it is (resetting it cut its bounce
+    // short with the settling animation).
+    if (markerElem?.dataset.activeClass) {
+      doSetActiveMarkerElem(markerElem)
+      return
+    }
     if (activeMarkerElem) {
       activeMarkerElem.classList.remove(activeMarkerElem.dataset.activeClass)
       delete activeMarkerElem.dataset.activeClass
@@ -342,7 +411,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   function getCenterLngLat(lng, lat, offsetForPane = true, zoom = currentZoomLevel) {
     try {
       const map = mapRef.current
-      if (!offsetForPane) {
+      if (!offsetForPane || embedded) {
         return new LngLat(lng, lat)
       }
 
@@ -448,16 +517,37 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     requestAnimationFrame(step)
   }
 
+  const cameraFrameRef = useRef()
   function moveCameraTo(cave, { animate = true, offsetForPane = true } = {}) {
-    const center = getCenterLngLat(cave.location.longitude, cave.location.latitude, offsetForPane)
-    const fn = animate ? 'flyTo' : 'jumpTo'
-
-    mapRef.current?.[fn]({
-      center,
-      zoom: currentZoomLevel,
-      ...(animate && {
-        duration: theme.oc.sys.motion.duration.emphasized,
-      }),
+    cancelAnimationFrame(cameraFrameRef.current)
+    const move = () => {
+      // The pin's bounce and the camera's flight in the same frame.
+      const pin = pendingPinRef.current
+      if (pin) {
+        pendingPinRef.current = null
+        pin.classList.remove('oc-map--marker-pending')
+        setActiveMarkerElem(pin)
+      }
+      const center = getCenterLngLat(cave.location.longitude, cave.location.latitude, offsetForPane)
+      mapRef.current?.[animate ? 'flyTo' : 'jumpTo']({
+        center,
+        // Embedded: its own zoom, not the map page's.
+        zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
+        ...(animate && {
+          duration: theme.oc.sys.motion.duration.emphasized,
+        }),
+      })
+    }
+    if (!animate) {
+      move()
+      return
+    }
+    // The flight starts two frames later: Mapbox times it by the clock, and
+    // the newly picked cave's pane renders right after this call - a block of
+    // main-thread work whose missed frames the flight skipped, its pin
+    // jumping most of the way at once.
+    cameraFrameRef.current = requestAnimationFrame(() => {
+      cameraFrameRef.current = requestAnimationFrame(move)
     })
   }
 
@@ -485,7 +575,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
 
     mapRef.current?.flyTo({
       center,
-      zoom: currentZoomLevel,
+      zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
       duration: theme.oc.sys.motion.duration.emphasized,
     })
   }
@@ -504,7 +594,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   }
 
   const onMove = debounce(function (event) {
-    dispatch(setViewState(event.viewState))
+    if (!embedded) dispatch(setViewState(event.viewState))
   }, 300)
 
   function onMoveEnd() {
@@ -647,9 +737,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   //   }
   // }, [currentRoute])
 
+  // Only when the caves change: dispatched on each cave picked too, it gave
+  // map.data and its filter counts new objects every time, and everything
+  // reading them (the filter menu, the result pane...) re-rendered while the
+  // camera flew.
   useEffect(() => {
     dispatch(setMapData(caveData.filter((c) => c.location)))
+  }, [caveData])
 
+  useEffect(() => {
     // const pathname = router.routeInfo.pathname
 
     if (!caveId) {
@@ -768,6 +864,39 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isWidePaneEditMode, isSmall])
 
+  // The default view: the home area's caves, framed clear of the search bar
+  // (homeBounds; the hard-coded center and zoom showed a different area on
+  // each screen size).
+  const caveBounds = useMemo(() => homeBounds(caveData), [caveData])
+  function fitHome(animate) {
+    const map = mapRef.current
+    if (!map || !caveBounds) return false
+    map.fitBounds(caveBounds, { padding: { top: isSmall ? 88 : 96, bottom: 40, left: 40, right: isSmall ? 40 : 96 }, maxZoom: 13, ...(animate ? { essential: false } : { duration: 0 }) })
+    return true
+  }
+
+  // A first visit: framed on the caves as soon as they're there.
+  const fittedHomeRef = useRef(false)
+  useEffect(() => {
+    // 'fresh': just framed - a reset request that opened the map is done.
+    if (startsAtHome && !fittedHomeRef.current && mapLoaded && fitHome(false)) fittedHomeRef.current = 'fresh'
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startsAtHome, mapLoaded, caveBounds])
+
+  // The nav's Map item while the map is open: back to the default view.
+  // (Opening the map, it starts there: resetView cleared the saved view.)
+  useEffect(() => {
+    // Opened by it: the map starts at home already (startsAtHome), no flight.
+    if (viewResetRequested && startsAtHome && !fittedHomeRef.current) return
+    if (viewResetRequested && startsAtHome && fittedHomeRef.current === 'fresh') {
+      fittedHomeRef.current = true
+      dispatch(clearViewResetRequest())
+      return
+    }
+    if (viewResetRequested && mapLoaded && fitHome(true)) dispatch(clearViewResetRequest())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewResetRequested, mapLoaded, caveBounds])
+
   // A CoordinateField's own "center the map here" action.
   useEffect(() => {
     if (flyToCoordinateRequest && mapLoaded) {
@@ -792,8 +921,9 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     return <MapError error={dataLoadingState.error} />
   }
 
+  // No region of its own: Mapbox's canvas is one, named (mapLocale's Map.Title).
   return (
-    <Box className="oc-map oc-map-container" ref={mapContainerRef} role="region" aria-label={t('title')}>
+    <Box className="oc-map oc-map-container" ref={mapContainerRef}>
       <Fade timeout={theme.transitions.duration.complex} in={!mapReady || dataLoadingState.state === 'loading'} unmountOnExit={true}>
         <MapLoading />
       </Fade>
@@ -807,7 +937,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
           onDragOver={onMapDragOver}
           onDrop={onMapDrop}
         >
-          <Map ref={mapRef} {...MAP_PROPS} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
+          <Map ref={mapRef} {...MAP_PROPS} locale={mapLocale} mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN} initialViewState={initialMapViewState} cursor={pickingCoordinateFor ? 'crosshair' : isDragging ? 'grabbing' : 'grab'} onClick={onMapClick} onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd} onMove={onMove} onMoveEnd={onMoveEnd} onZoom={onZoom} onZoomEnd={onZoomEnd} onLoad={onLoad} transformRequest={caveTileRequest}>
             <CaveLayer selectedSistemaId={selectedCave?.sistemaId} />
             <PlaceOnMapOverlay mapRef={mapRef} />
             <GeolocateControl
@@ -844,19 +974,30 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
                   )
                 })}
 
+            {selectedCave && !isWidePaneEditMode && selectedCave.parking && (
+              <Marker key={`selected-parking-${selectedCave.id}`} ref={labelMarker(t('markers.parking'))} longitude={selectedCave.parking.longitude} latitude={selectedCave.parking.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                <Box className="oc-map--marker marker" sx={POINT_SX}>
+                  <LocalParkingRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <div className="oc-map--marker-label marker-label">{t('markers.parkingShort')}</div>
+                </Box>
+              </Marker>
+            )}
             {selectedCave && !isWidePaneEditMode && selectedCave.entrance && (
-              <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
-                <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                  <PinBadgeIcon size={24} overlay={FenceRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
+              <Marker key={`selected-entrance-${selectedCave.id}`} ref={labelMarker(t('markers.entrance'))} longitude={selectedCave.entrance.longitude} latitude={selectedCave.entrance.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                {/* The icon alone (no pin), in the cave's pin colour, its name under it. */}
+                <Box className="oc-map--marker marker" sx={POINT_SX}>
+                  <EntranceRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                  <div className="oc-map--marker-label marker-label">{t('markers.entranceShort')}</div>
                 </Box>
               </Marker>
             )}
             {selectedCave &&
               !isWidePaneEditMode &&
               selectedCave.keys?.map((key, index) => (
-                <Marker key={`selected-key-${selectedCave.id}-${index}`} ref={labelMarker(t('markers.key'))} longitude={key.longitude} latitude={key.latitude} anchor="bottom" className="active-animate" style={{ pointerEvents: 'none' }}>
-                  <Box className="oc-map--marker-icon marker-icon" sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>
-                    <PinBadgeIcon size={24} overlay={VpnKeyRounded} color={selectedCaveMarkerColor} overlayColor={getPinGlyphColor(selectedCaveMarkerColor)} />
+                <Marker key={`selected-key-${selectedCave.id}-${index}`} ref={labelMarker(t('markers.key'))} longitude={key.longitude} latitude={key.latitude} anchor="top" offset={POINT_ICON_OFFSET} className="active-animate" style={{ pointerEvents: 'none' }}>
+                  <Box className="oc-map--marker marker" sx={POINT_SX}>
+                    <VpnKeyRounded className="oc-map--marker-icon marker-icon" sx={{ ...POINT_ICON_SX, color: selectedCaveMarkerColor }} />
+                    <div className="oc-map--marker-label marker-label">{t('markers.keyShort')}</div>
                   </Box>
                 </Marker>
               ))}

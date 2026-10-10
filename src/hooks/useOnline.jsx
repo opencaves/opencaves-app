@@ -9,9 +9,13 @@ function subscribe(callback) {
   }
 }
 
-// Whether the device has a network connection, kept up to date. false is
-// reliable (airplane mode, no network); true only means a network is there,
-// not that a server is reachable.
+/**
+ * Whether the device has a network connection, kept up to date. false is
+ * reliable (airplane mode, no network); true only means a network is there,
+ * not that a server is reachable.
+ *
+ * @returns {boolean}
+ */
 export function useOnline() {
   return useSyncExternalStore(subscribe, () => navigator.onLine, () => true)
 }

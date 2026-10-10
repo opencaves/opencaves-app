@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Switch, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import Close from '@mui/icons-material/Close'
+import Close from '@mui/icons-material/CloseRounded'
 import { toggleFilterMenu, setResultPaneSmOpen } from '@/redux/slices/appSlice.jsx'
 import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -227,6 +227,9 @@ export default function MapFilterMenu({ props }) {
     <SwipeableDrawer
       {...props}
       className="oc-filter-menu"
+      // Closed (it stays in the page, persistent): out of reach of the
+      // keyboard and screen readers - its headings came before the page's h1.
+      inert={!filterMenuOpen}
       anchor="right"
       hideBackdrop={true}
       variant="persistent"

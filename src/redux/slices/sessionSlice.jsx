@@ -4,6 +4,12 @@ export function isMapPath(pathname) {
   return /^\/map(?:\/[^/]+)?$/.test(pathname)
 }
 
+/**
+ * The address to come back to after signing in (the hash kept on the map).
+ *
+ * @param {Location} location
+ * @returns {string}
+ */
 export function buildContinueUrl(location) {
   const baseUrl = `${location.pathname}${location.search}`
 

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import pushId from 'unique-push-id'
-import { Link as RouterLink, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Chip, Link, Typography } from '@mui/material'
+import { Chip, Typography } from '@mui/material'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -13,14 +13,20 @@ import IndexSearchField, { fold, useIndexSearch, useProgressiveCount } from '@/c
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
 // The list narrowed to the caves that need something (?filter=...): the
-// What can I do? page links to them.
+// What can I do? page links to them. The server renders the address with its
+// query (functions/js/seo/ssr.js), so the first render is filtered on both
+// sides; pageState.js sends every cave's name and located.
 const FILTERS = {
   unnamed: (cave) => !cave.name,
   'no-coordinates': (cave) => !cave.located,
 }
 
-// /caves: every cenote, by area (each area's own page linked from its
-// heading), those with no area last. Editors' list: /caves/edit.
+/**
+ * /caves: every cenote, by area (each area's own page linked from its
+ * heading), those with no area last; ?filter=unnamed or ?filter=no-coordinates
+ * narrows it to those caves (a chip with their count clears it). Editors'
+ * list: /caves/edit.
+ */
 export default function CaveIndex() {
   const { t } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')
@@ -61,15 +67,8 @@ export default function CaveIndex() {
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]}
         current={t('menu.caves', { ns: 'app' })}
         title={t('caves.title')}
-        subtitle={
-          <>
-            {t('caveCount', { count: data.caves.length })}
-            {' · '}
-            <Link component={RouterLink} to="/sistemas" underline="hover">
-              {t('sistemas.title')}
-            </Link>
-          </>
-        }
+        // Short: its count, by area (the systems' list is in the menu).
+        subtitle={t('caves.subtitle', { count: data.caves.length })}
         addTo={`/caves/${newId}/edit`}
         addLabel={t('caves.add')}
       />
@@ -79,7 +78,8 @@ export default function CaveIndex() {
       <IndexSearchField
         query={query}
         setQuery={setQuery}
-        placeholder={t('search.caves')}
+        placeholder={t('search.cavesShort')}
+        label={t('search.caves')}
         status={searching ? (caves.length ? t('search.results', { count: caves.length }) : t('search.none', { query: searchedQuery })) : null}
       />
 

@@ -3,7 +3,8 @@ import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, ListSubheader, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListSubheader, MenuItem, TextField, Tooltip, Typography } from '@mui/material'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { deleteField } from 'firebase/firestore'
 import { orDelete } from '@/utils/firestoreFields.js'
 import { clearCurrentCave } from '@/redux/slices/mapSlice.jsx'
@@ -17,7 +18,7 @@ import NameTranslationsField from '@/components/NameTranslationsField.jsx'
 import { num, pickDescription, squaredDistance } from '@/services/data-service/types.js'
 import { toContentLanguage } from '@/utils/lang.js'
 import { DEFAULT_CONTENT_LANGUAGE } from '@/config/contentLanguages.js'
-import CoordinateFieldList, { caveCoordinateItems } from './CoordinateFieldList.jsx'
+import CoordinateFieldList, { caveCoordinateItems, caveCoordinatesInRange } from './CoordinateFieldList.jsx'
 import BooleanToggleField from './BooleanToggleField.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import { SISTEMA_DEFAULT_COLOR, COORDINATE_DECIMALS } from '@/config/map.js'
@@ -31,6 +32,7 @@ import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { CAVE_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
+import { FIT_SELECT_MENU_PROPS, fitSelectSx } from '@/utils/fitSelect.js'
 
 const areasModel = createCollectionModel('areas')
 const sourcesModel = createCollectionModel('sources')
@@ -43,12 +45,14 @@ function MarkdownField({ label, value, onChange, minRows, resizable }) {
   return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
 }
 
-// Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
-// layout as the read-only view (CurrentCaveDetailsContent), swapped for
-// editable fields, for quick in-context tweaks without leaving the map.
-// Covers the fields an editor is likely to touch often; the full field set
-// (aka, rating, reporter, note, exploration date, cover image) stays in the
-// dedicated admin form.
+/**
+ * Lighter-weight companion to routes/caves/CaveEdit.jsx: the same map/pane
+ * layout as the read-only view (CurrentCaveDetailsContent), swapped for
+ * editable fields, for quick in-context tweaks without leaving the map.
+ * Covers the fields an editor is likely to touch often; the full field set
+ * (aka, rating, reporter, note, exploration date, cover image) stays in the
+ * dedicated admin form.
+ */
 export default function CurrentCaveDetailsContentEdit({ cave }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const { t: tApp } = useTranslation('app')
@@ -103,15 +107,17 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     cenoteEntrance: !!cave.cenoteEntrance,
     fees: !!cave.fees,
     facilities: !!cave.facilities,
-    activities: !!cave.activities,
     longitude: normalizeCoordinateValue(cave.location?.longitude ?? ''),
     latitude: normalizeCoordinateValue(cave.location?.latitude ?? ''),
+    parkingLongitude: normalizeCoordinateValue(cave.parking?.longitude ?? ''),
+    parkingLatitude: normalizeCoordinateValue(cave.parking?.latitude ?? ''),
     entranceLongitude: normalizeCoordinateValue(cave.entrance?.longitude ?? ''),
     entranceLatitude: normalizeCoordinateValue(cave.entrance?.latitude ?? ''),
     keyLongitude: normalizeCoordinateValue(cave.keys?.[0]?.longitude ?? ''),
     keyLatitude: normalizeCoordinateValue(cave.keys?.[0]?.latitude ?? ''),
     // Each coordinate's validity (valid / unknown / invalid): one without it is unconfirmed.
     locationValidity: cave.location?.validity || 'unknown',
+    parkingValidity: cave.parking?.validity || 'unknown',
     entranceValidity: cave.entrance?.validity || 'unknown',
     keyValidity: cave.keys?.[0]?.validity || 'unknown',
     nameTranslations: Object.entries(cave.nameTranslations || {}).map(([lang, values]) => ({
@@ -138,7 +144,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paneData?.setTitleHidden])
-  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name })
+  const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { initial: form, onSave: handleSave, canSave: !!form.name && caveCoordinatesInRange(form) })
   function field(name) {
     return {
       value: form[name],
@@ -178,13 +184,18 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         cenoteEntrance: form.cenoteEntrance,
         fees: form.fees,
         facilities: form.facilities,
-        activities: form.activities,
       }
 
       if (form.longitude === '' && form.latitude === '' && cave.location) {
         fields.location = deleteField()
       } else if (form.longitude !== '' && form.latitude !== '') {
         fields.location = { longitude: Number(num(form.longitude, COORDINATE_DECIMALS)), latitude: Number(num(form.latitude, COORDINATE_DECIMALS)), validity: form.locationValidity }
+      }
+
+      if (form.parkingLongitude === '' && form.parkingLatitude === '' && cave.parking) {
+        fields.parking = deleteField()
+      } else if (form.parkingLongitude !== '' && form.parkingLatitude !== '') {
+        fields.parking = { longitude: Number(num(form.parkingLongitude, COORDINATE_DECIMALS)), latitude: Number(num(form.parkingLatitude, COORDINATE_DECIMALS)), validity: form.parkingValidity }
       }
 
       if (form.entranceLongitude === '' && form.entranceLatitude === '' && cave.entrance) {
@@ -223,7 +234,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       }
 
       // Offline, kept on the device and synced later (useSettleWrite says so).
-      const status = await settleWrite(CaveModel.save(cave.id, fields), { name: t('caveTitle', { name: form.name || cave.id }) })
+      const status = await settleWrite(CaveModel.save(cave.id, fields), { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) })
       setBaseline(savedForm)
       const refresh = async () => {
         invalidateData()
@@ -231,12 +242,12 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       }
       if (status === 'saved') {
         await refresh()
-        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.id }) }), { severity: 'success' })
+        openSnackbar(tApp('snackbar.saved', { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) }), { severity: 'success' })
       } else refresh().catch((error) => console.warn(error))
     } catch (error) {
       // Nothing saved: say so, and leave the form as it is (still changed).
       console.error(error)
-      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || cave.id }) }))
+      openSnackbar(tApp('snackbar.saveError', { name: t('caveTitle', { name: form.name || cave.name?.value || cave.id }) }))
     } finally {
       setSaving(false)
     }
@@ -296,7 +307,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         </Button>
       )}
       {isDirty ? (
-        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name} sx={{ minWidth: 88 }}>
+        <Button variant="contained" onClick={() => handleSave()} disabled={saving || !form.name || !caveCoordinatesInRange(form)} sx={{ minWidth: 88 }}>
           {t('save')}
         </Button>
       ) : (
@@ -308,16 +319,28 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   )
 
   // M3 touch sizing for the whole form on phones (it's built from dense,
-  // desktop-sized controls shared with the admin pages): 48dp targets with
-  // 24dp icons for icon buttons, 40dp-tall buttons, standard-size switches.
+  // desktop-sized controls shared with the admin pages): 40dp-tall buttons,
+  // standard-size switches. Icon buttons get their 48dp touch target from
+  // the theme (MuiIconButton).
   const phoneTouchSizing = {
-    '& .MuiIconButton-root': { width: 48, height: 48, p: 0 },
-    '& .MuiIconButton-root .MuiSvgIcon-root': { fontSize: 24 },
     '& .MuiButton-root': { minHeight: 40 },
   }
 
   return (
     <Box className="oc-current-cave-details-content-edit oc-result-pane--content" sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 'var(--oc-pane-padding-inline)', ...(isSmall && { pb: 'calc(var(--oc-pane-padding-inline) + 72px + env(safe-area-inset-bottom))', ...phoneTouchSizing }) }}>
+      {/* Its header: which cave is edited, and a way back to it (only Exit,
+          at the bottom, led out). The saved name, while the field changes. */}
+      <Box className="oc-current-cave-details-content-edit--header" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, ml: -1.5, mt: -1 }}>
+        <Tooltip title={tApp('back')}>
+          <IconButton aria-label={tApp('back')} onClick={exitEditMode} disabled={saving}>
+            <ArrowBackRounded />
+          </IconButton>
+        </Tooltip>
+        <Typography component="h1" variant="h6" noWrap sx={{ minWidth: 0 }}>
+          {tApp('editTitle', { title: t('caveTitle', { name: cave.name?.value || form.name || cave.id }) })}
+        </Typography>
+      </Box>
+
       <TextField ref={nameFieldRef} label={t('name')} fullWidth required {...field('name')} />
 
       <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} />
@@ -403,7 +426,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
       <Divider />
 
       <Typography variant="subtitle2" component="h2">{t('accessGroup')}</Typography>
-      <TextField select label={t('access')} fullWidth {...field('access')} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '' } }}>
+      <TextField select label={t('access')} {...field('access')} sx={fitSelectSx([t('access'), t('none'), ...accesses.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accesses.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.access && !accesses.some((a) => a.id === form.access) && (
           <MenuItem value={form.access} sx={{ display: 'none' }}>
@@ -426,7 +449,7 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
 
       <Divider />
       <Typography variant="subtitle2" component="h2">{t('accessibilityGroup')}</Typography>
-      <TextField select label={t('accessibility')} fullWidth {...field('accessibility')} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '' } }}>
+      <TextField select label={t('accessibility')} {...field('accessibility')} sx={fitSelectSx([t('accessibility'), t('none'), ...accessibilities.map((a) => a.name)])} slotProps={{ select: { renderValue: (value) => accessibilities.find((a) => a.id === value)?.name || '', MenuProps: FIT_SELECT_MENU_PROPS } }}>
         <MenuItem value="">{t('none')}</MenuItem>
         {form.accessibility && !accessibilities.some((a) => a.id === form.accessibility) && (
           <MenuItem value={form.accessibility} sx={{ display: 'none' }}>
@@ -451,7 +474,6 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
         <BooleanToggleField name="cenoteEntrance" value={form.cenoteEntrance} onChange={(cenoteEntrance) => setForm((f) => ({ ...f, cenoteEntrance }))} />
         <BooleanToggleField name="fees" value={form.fees} onChange={(fees) => setForm((f) => ({ ...f, fees }))} />
         <BooleanToggleField name="facilities" value={form.facilities} onChange={(facilities) => setForm((f) => ({ ...f, facilities }))} />
-        <BooleanToggleField name="activities" value={form.activities} onChange={(activities) => setForm((f) => ({ ...f, activities }))} />
       </Box>
 
       {isSmall ? !placingOnMap && createPortal(saveBar, document.body) : saveBar}

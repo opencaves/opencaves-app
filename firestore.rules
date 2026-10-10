@@ -18,9 +18,84 @@ service cloud.firestore {
       return hasRole('admin')
     }
 
+    // A registered account: signed in, not an anonymous session, not frozen
+    // (an editor or not - an unverified email has no role yet).
+    function isRegistered() {
+      return isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && !exists(/databases/$(database)/documents/_frozenUsers/$(request.auth.uid))
+    }
+
+    // The beta testers' reports (the Send feedback form): an account (not an
+    // anonymous session) sends its own - a kind, a message, the page it's
+    // about - as new; every registered account reads them and their threads
+    // (Ideas and fixes: what's coming), so nothing private is kept here -
+    // the browser is in _feedbackPrivate. Admins move them through their
+    // stages, reply to them and delete them. onFeedbackCreated emails them to
+    // the admins and adds authorName (the account's display name), which
+    // clients never write.
+    match /_feedback/{report} {
+      allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && request.resource.data.keys().hasOnly(['kind', 'message', 'page', 'language', 'userId', 'createdAt', 'status'])
+        && request.resource.data.kind in ['bug', 'misleading', 'idea']
+        && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
+        && request.resource.data.page is string && request.resource.data.page.size() <= 500
+        && (!('language' in request.resource.data) || (request.resource.data.language is string && request.resource.data.language.size() <= 10))
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.status == 'new'
+      allow read: if isRegistered() || isAdmin()
+      allow delete: if isAdmin()
+      // Its stage (src/utils/feedback.js' FEEDBACK_STATUSES), who set it and
+      // when. A stage set with a team reply (one batch) names that reply,
+      // statusReplyId: onFeedbackStatusChanged then leaves the email to
+      // onFeedbackReplied, so the author gets one email. The admins' former
+      // `note` is only read now (shown as the thread's first reply).
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusUpdatedAt', 'statusUpdatedBy', 'statusReplyId'])
+        && request.resource.data.status in ['new', 'confirmed', 'inProgress', 'done', 'rejected', 'duplicate']
+        && (!('statusUpdatedBy' in request.resource.data) || request.resource.data.statusUpdatedBy is string)
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['statusReplyId'])
+          || (request.resource.data.statusReplyId is string
+            && getAfter(/databases/$(database)/documents/_feedback/$(report)/messages/$(request.resource.data.statusReplyId)).data.status == request.resource.data.status))
+
+      // Its thread: the team's replies, written by admins from the Feedback
+      // page and emailed to the author (onFeedbackReplied) - Markdown, with
+      // the stage the reply set if it closed the report (in the same batch,
+      // which names it: statusReplyId). The author's answers (from:
+      // 'author', via: 'email') are written only by the server.
+      match /messages/{message} {
+        allow read: if isRegistered() || isAdmin()
+        allow delete: if isAdmin()
+        allow create: if isAdmin() && exists(/databases/$(database)/documents/_feedback/$(report))
+          && request.resource.data.keys().hasAll(['from', 'text', 'createdAt', 'userId', 'via'])
+          && request.resource.data.keys().hasOnly(['from', 'text', 'createdAt', 'userId', 'via', 'status'])
+          && request.resource.data.from == 'team' && request.resource.data.via == 'app'
+          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 10000
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.userId == request.auth.uid
+          && (!('status' in request.resource.data)
+            || (request.resource.data.status in ['done', 'rejected']
+              && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.status == request.resource.data.status
+              && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.statusReplyId == message))
+      }
+    }
+
     // A photo's uploader and original file name (onAssetUploaded): admins only.
     match /_cavesAssetsPrivate/{document} {
       allow read: if isAdmin()
+    }
+
+    // What of a report only admins read: its browser, written by its author
+    // with the report (one batch: the report must not exist before it, and
+    // be theirs after it - a lone doc, or one for another report, is
+    // refused), and the reply token the server adds (feedback/replyAddress.js).
+    match /_feedbackPrivate/{report} {
+      allow read, delete: if isAdmin()
+      allow create: if isSignedIn() && request.auth.token.firebase.sign_in_provider != 'anonymous'
+        && !exists(/databases/$(database)/documents/_feedback/$(report))
+        && existsAfter(/databases/$(database)/documents/_feedback/$(report))
+        && getAfter(/databases/$(database)/documents/_feedback/$(report)).data.userId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['browser'])
+        && request.resource.data.browser is string && request.resource.data.browser.size() <= 500
     }
 
     // Who changed or deleted what, from the app (functions/js/audit), the
@@ -142,19 +217,19 @@ service cloud.firestore {
     }
 
     function isValidCave(d, k) {
-      return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'sistemaId', 'sistemaColor', 'area', 'source',
+      return k.hasOnly(['name', 'nameTranslations', 'aka', 'keys', 'location', 'entrance', 'parking', 'sistemaId', 'sistemaColor', 'area', 'source',
           'access', 'accessDetails', 'accessibility', 'accessibilityDetails', 'description', 'direction', 'note', 'reporter',
-          'explorationDate', 'videos', 'activities', 'cenoteEntrance', 'facilities', 'fees', 'textSources'])
+          'explorationDate', 'videos', 'cenoteEntrance', 'facilities', 'fees', 'textSources'])
         && (!('name' in k) || !('name' in d) || d.name == null || (d.name is map && d.name.keys().hasOnly(['value', 'languageCode'])
           && d.name.value is string && d.name.value.size() <= 240
           && (!('languageCode' in d.name) || (d.name.languageCode is string && d.name.languageCode.size() <= 8))))
         && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && items(d, k, 'keys', 20)
-        && point(d, k, 'location') && point(d, k, 'entrance')
+        && point(d, k, 'location') && point(d, k, 'entrance') && point(d, k, 'parking')
         && recordId(d, k, 'sistemaId') && color(d, k, 'sistemaColor') && text(d, k, 'area', 240) && recordId(d, k, 'source')
         && text(d, k, 'access', 240) && text(d, k, 'accessDetails', 4000) && text(d, k, 'accessibility', 240) && text(d, k, 'accessibilityDetails', 4000)
         && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000) && text(d, k, 'reporter', 240)
         && partialDate(d, k, 'explorationDate') && items(d, k, 'videos', 20)
-        && flag(d, k, 'activities') && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
+        && flag(d, k, 'cenoteEntrance') && flag(d, k, 'facilities') && flag(d, k, 'fees')
         && textSources(d, k, ['description', 'direction', 'accessDetails', 'accessibilityDetails'])
     }
 
@@ -302,8 +377,12 @@ service cloud.firestore {
 
     // An account's own document (created at sign-up by the beforeUserCreated
     // blocking function, with email and savedPlaces). The person may only
-    // change their UI language, units and display mode in it (the account
-    // page's settings; language and units absent for Automatic) - the other fields stay server-managed.
+    // change their UI language, units, display mode and whether the team's
+    // replies to their feedback are emailed to them in it (the account page's
+    // settings; language and units absent for Automatic, feedbackEmails
+    // absent for yes) - the other fields stay server-managed, among them
+    // unsubscribeToken (the emails' unsubscribe link, email/unsubscribe.js),
+    // which the owner may read but never write.
     match /_users/{uid} {
       function isAccountOwner() {
         return request.auth != null && request.auth.uid == uid
@@ -319,8 +398,11 @@ service cloud.firestore {
       function hasValidColorMode() {
         return !('colorMode' in request.resource.data) || request.resource.data.colorMode in ['system', 'light', 'dark']
       }
-      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
-      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode()
+      function hasValidFeedbackEmails() {
+        return !('feedbackEmails' in request.resource.data) || request.resource.data.feedbackEmails is bool
+      }
+      allow create: if isAccountOwner() && request.resource.data.keys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
+      allow update: if isAccountOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['language', 'units', 'colorMode', 'feedbackEmails']) && hasValidLanguage() && hasValidUnits() && hasValidColorMode() && hasValidFeedbackEmails()
     }
 
     // Caves a user saved from the result pane's Save quick action. Private

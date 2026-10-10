@@ -21,9 +21,11 @@ function saved({ title, date, authors, note }) {
   return JSON.stringify({ title: title.trim(), date: date || '', authors: authors.map((a) => a.trim()).filter(Boolean), note: note.trim() })
 }
 
-// Editing a map's title/date/authors, shared by every place a map can be
-// edited from (the cave pane's Maps tab, and the map viewer's menu) so the
-// form and its save logic exist in exactly one place.
+/**
+ * Editing a map's title/date/authors, shared by every place a map can be
+ * edited from (the cave pane's Maps tab, and the map viewer's menu) so the
+ * form and its save logic exist in exactly one place.
+ */
 export default function EditMapDialog({ map, onClose }) {
   const { t } = useTranslation('mapsPicker')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -86,7 +88,7 @@ export default function EditMapDialog({ map, onClose }) {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
             <MapSistemaField autoFocus value={details.title} onChange={(title) => setDetails((d) => ({ ...d, title }))} />
-            <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} fullWidth value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
+            <PartialDateField size="small" label={t('mapDate')} description={t('mapDateHint')} value={details.date} onChange={(e) => setDetails((d) => ({ ...d, date: e.target.value }))} />
             <AuthorsField value={details.authors} onChange={(authors) => setDetails((d) => ({ ...d, authors }))} />
             <TextField size="small" label={t('mapNote')} fullWidth multiline minRows={2} value={details.note} onChange={(e) => setDetails((d) => ({ ...d, note: e.target.value }))} sx={{ '& textarea': { resize: 'vertical' } }} />
           </Box>

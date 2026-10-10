@@ -13,9 +13,9 @@ const initialState = {
   // Cross-component coordinate picking: the cave edit form (rendered inside
   // ResultPane) sets which field it wants next, Map.jsx's own click handler
   // (a sibling component, not a child) fills it in on the next map click.
-  pickingCoordinateFor: null, // 'location' | 'entrance' | null
+  pickingCoordinateFor: null, // 'location' | 'parking' | 'entrance' | 'key' | null
   pickedCoordinate: null, // { field, longitude, latitude } | null
-  // Live mirror of the edit form's own (possibly unsaved) location/entrance
+  // Live mirror of the edit form's own (possibly unsaved) location/parking/entrance/key
   // values, keyed by field name, so Map.jsx can render a pin for each
   // populated field without waiting for a save.
   editFieldCoordinates: {}, // { [field]: { longitude, latitude } }
@@ -28,12 +28,24 @@ const initialState = {
   // (in Map.jsx) runs it, ResultPaneSm moves the sheet.
   placeOnMap: null, // { field, label, longitude?, latitude? } | null
   crossPickFor: null, // field being placed with the admin pages' map preview cross (CoordinatesMapPreview) | null
+  // The nav's Map item, used while the map is open: Map.jsx goes back to the
+  // default view and clears it.
+  viewResetRequested: false,
 }
 
 export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    // The nav's Map item: the map opens on its default view, not the last
+    // one seen (and, already open, flies back to it).
+    resetView(state) {
+      state.viewState = null
+      state.viewResetRequested = true
+    },
+    clearViewResetRequest(state) {
+      state.viewResetRequested = false
+    },
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
     // doesn't actually mutate the state because it uses the Immer library,
     // which detects changes to a "draft state" and produces a brand new
@@ -142,6 +154,6 @@ export const mapSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick } = mapSlice.actions
+export const { setViewState, /* setShowPopup, */ setPopupData, setCurrentCave, clearCurrentCave, setMapData, setFilteredData, setPickingCoordinateFor, setPickedCoordinate, clearPickedCoordinate, setEditFieldCoordinate, clearEditFieldCoordinate, clearAllEditFieldCoordinates, requestFlyToCoordinate, clearFlyToCoordinateRequest, startPlaceOnMap, endPlaceOnMap, startCrossPick, endCrossPick, resetView, clearViewResetRequest } = mapSlice.actions
 
 export default mapSlice.reducer

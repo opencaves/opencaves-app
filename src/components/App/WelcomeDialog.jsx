@@ -3,18 +3,21 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Trans, useTranslation } from 'react-i18next'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
-import ScienceOutlined from '@mui/icons-material/ScienceOutlined'
+import ScienceRounded from '@mui/icons-material/ScienceRounded'
 import { APP_NAME } from '@/config/app.js'
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import LogoIcon from './LogoIcon.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 // The browser's note that this device has seen the welcome.
 const SEEN_KEY = 'oc-welcome-seen'
 // How long after the page shows before it opens (the page first, then the
 // welcome).
 const DELAY_MS = 1200
-// Pages it never opens over: signing in or up is already the next step.
-const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)/
+// Pages it never opens over: signing in or up is already the next step; and
+// a link to one cave or system (a shared link: what was asked for comes first,
+// the welcome waits for a later visit).
+const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]+/
 
 // Whether it's to show: a device that hasn't seen it. A browser that keeps
 // nothing (private mode, blocked storage) never sees it - better than on
@@ -35,10 +38,12 @@ function markSeen() {
   }
 }
 
-// A welcome on a first visit (once per device): what OpenCaves is, an
-// invitation to help complete the cave data - with an account to create, or
-// thanks for the one they have - and the beta's warning: edits aren't kept
-// for good yet, so it's the time to try.
+/**
+ * A welcome on a first visit (once per device): what OpenCaves is, an
+ * invitation to help complete the cave data - with an account to create, or
+ * thanks for the one they have - and the beta's warning: edits aren't kept
+ * for good yet, so it's the time to try.
+ */
 export default function WelcomeDialog() {
   const { t } = useTranslation('welcome')
   const dispatch = useDispatch()
@@ -75,25 +80,28 @@ export default function WelcomeDialog() {
 
   return (
     <Dialog className="oc-welcome-dialog" open={open} onClose={close} maxWidth="xs" fullWidth aria-labelledby="oc-welcome-dialog-title" aria-describedby="oc-welcome-dialog-text">
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={close} />
       <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
         <LogoIcon sx={{ width: 48, height: 48 }} />
       </Box>
       <DialogTitle id="oc-welcome-dialog-title" sx={{ textAlign: 'center', pb: 1 }}>
         {t('title', { name: APP_NAME })}
       </DialogTitle>
-      <DialogContent id="oc-welcome-dialog-text">
+      {/* dividers: when it scrolls (a phone), lines above and below say so. */}
+      <DialogContent id="oc-welcome-dialog-text" dividers>
         <Typography sx={{ mb: 2 }}>{t('intro', { name: APP_NAME })}</Typography>
         <Typography sx={{ mb: 2 }}>{t(isLoggedIn ? 'inviteMember' : 'invite')}</Typography>
         {/* The beta's warning, apart on a tonal surface. */}
         <Box className="oc-welcome-dialog--beta" sx={{ display: 'flex', gap: 1.5, p: 2, borderRadius: 3, bgcolor: 'var(--mui-sys-color-surfaceContainerHighest)' }}>
-          <ScienceOutlined sx={{ color: 'text.secondary', flexShrink: 0, mt: 0.25 }} />
+          <ScienceRounded sx={{ color: 'text.secondary', flexShrink: 0, mt: 0.25 }} />
           <Typography variant="body2">
             <Trans t={t} i18nKey={isLoggedIn ? 'betaMember' : 'beta'} components={{ strong: <strong /> }} />
           </Typography>
         </Box>
       </DialogContent>
       {/* Side by side; stacked on a narrow phone, the main action on top. */}
-      <DialogActions sx={{ px: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
+      <DialogActions sx={{ px: 3, pt: 2.5, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
         {isLoggedIn ? (
           <Button variant="contained" disableElevation onClick={close}>
             {t('start')}

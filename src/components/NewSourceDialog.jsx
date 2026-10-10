@@ -5,13 +5,20 @@ import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, 
 import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const emptyForm = { name: '', description: '', note: '' }
 
-// Creates a `sources` record in place, so a form with a source picker doesn't
-// have to send the editor off to /sources and back. `initialName` prefills the
-// name; `onCreated(id)` gets the new record's id once it's saved.
+/**
+ * Creates a `sources` record in place, so a form with a source picker doesn't
+ * have to send the editor off to /sources and back.
+ *
+ * @param {object} props
+ * @param {string} [props.initialName=''] - Prefills the
+ *   name.
+ * @param {(id: string) => void} props.onCreated - Gets the new record's id once it's saved.
+ */
 export default function NewSourceDialog({ open, initialName = '', onClose, onCreated }) {
   const { t } = useTranslation('newSourceDialog')
   const settleWrite = useSettleWrite()
@@ -67,7 +74,9 @@ export default function NewSourceDialog({ open, initialName = '', onClose, onCre
         },
       }}
     >
-      <DialogTitle>{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={onClose} disabled={saving} />
+      <DialogTitle sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
           {error && <Alert severity="error">{error}</Alert>}

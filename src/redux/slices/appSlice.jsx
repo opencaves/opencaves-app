@@ -3,7 +3,7 @@ import { APP_TITLE, PANE_INITIAL_BREAKPOINT } from '@/config/app'
 import { PANE_BREAKPOINTS } from '@/config/app'
 
 const initialState = {
-  // name: "Open Caves",
+  // name: "OpenCaves",
   title: APP_TITLE,
   searchBarOff: false,
   filterMenuOpen: false,

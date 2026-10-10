@@ -7,16 +7,19 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { clearPendingLink, linkPendingCredential, PENDING_LINK_EVENT, readPendingLink } from '@/services/pendingLink.js'
 import { googleProvider, microsoftProvider } from './providers.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 const PROVIDERS = {
   'google.com': { name: 'Google', provider: googleProvider },
   'microsoft.com': { name: 'Microsoft', provider: microsoftProvider },
 }
 
-// When a provider sign-in is refused because its email already has an
-// account (pendingLink.js): explains it and offers to sign in the way used
-// before (the other provider, or the email link); once signed in to that
-// account, the refused provider is added to it, and the person is told.
+/**
+ * When a provider sign-in is refused because its email already has an
+ * account (pendingLink.js): explains it and offers to sign in the way used
+ * before (the other provider, or the email link); once signed in to that
+ * account, the refused provider is added to it, and the person is told.
+ */
 export default function AccountLinking() {
   const { t } = useTranslation('auth', { keyPrefix: 'linking' })
   const [openSnackbar] = useSnackbar()
@@ -66,7 +69,9 @@ export default function AccountLinking() {
 
   return (
     <Dialog className="oc-account-linking" open={Boolean(pending)} onClose={cancel}>
-      <DialogTitle>{t('title')}</DialogTitle>
+      {/* The app's rule: an X on every dialog. */}
+      <DialogCloseButton onClick={cancel} />
+      <DialogTitle sx={{ pr: 7 }}>{t('title')}</DialogTitle>
       <DialogContent>
         <DialogContentText>{t('text', { email: pending?.email, provider: refused })}</DialogContentText>
       </DialogContent>

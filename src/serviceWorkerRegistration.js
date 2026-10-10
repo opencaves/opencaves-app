@@ -10,7 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
-const isLocalhost = Boolean(
+// (False on the server, which renders the public pages: entry-server.jsx.)
+const isLocalhost = typeof window !== 'undefined' && Boolean(
   window.location.hostname === 'localhost' ||
   // [::1] is the IPv6 localhost address.
   window.location.hostname === '[::1]' ||

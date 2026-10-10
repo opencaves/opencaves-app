@@ -1,2 +1,4 @@
 node_modules/
-*.log*
+*.log*# The server rendering of the public pages, built by `npm run build`
+# (vite build --ssr): deployed with the functions, not tracked.
+ssr/

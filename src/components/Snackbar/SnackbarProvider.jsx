@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react'
 import { Box, IconButton } from '@mui/material'
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
-import Close from '@mui/icons-material/Close'
+import Close from '@mui/icons-material/CloseRounded'
 import { useTranslation } from 'react-i18next'
 import Snackbar from './Snackbar.jsx'
 
@@ -53,7 +53,6 @@ export default function SnackbarProvider({ children }) {
       <IconButton
         aria-label={t('close.ariaLabel')}
         color='inherit'
-        sx={{ p: 0.5 }}
         onClick={closeSnackbar}
       >
         <Close />

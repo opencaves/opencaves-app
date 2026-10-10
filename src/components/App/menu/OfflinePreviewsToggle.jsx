@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, LinearProgress, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material'
-import CloudDoneOutlined from '@mui/icons-material/CloudDoneOutlined'
-import CloudDownloadOutlined from '@mui/icons-material/CloudDownloadOutlined'
+import CloudDoneRounded from '@mui/icons-material/CloudDoneRounded'
+import CloudDownloadRounded from '@mui/icons-material/CloudDownloadRounded'
 import { setOfflinePreviewsEnabled, useOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useOfflineStatus } from '@/hooks/useOfflineStatus.jsx'
 import { offlineSupported, previewsStatusKey } from '@/services/offline/offlineMedia.js'
@@ -15,12 +15,14 @@ const DONE_HIGHLIGHT_MS = 6000
 // line height), so the row keeps its height.
 const PROGRESS_SX = { height: 4, borderRadius: 2, my: 'calc((1.43em - 4px) / 2)' }
 
-// The "Make available offline" setting in the account menu: opt-in (per
-// device) download of every cave's cover thumbnail and every map for offline
-// use - done by OfflineMediaSync; this row shows its progress (a bar), then
-// that it's done (a cloud with a check, green for a few seconds); turned
-// off, a bar deflating as the files are removed. The whole row
-// is the switch (role/aria-checked); the Switch itself is decorative.
+/**
+ * The "Make available offline" setting in the account menu: opt-in (per
+ * device) download of every cave's cover thumbnail and every map for offline
+ * use - done by OfflineMediaSync; this row shows its progress (a bar), then
+ * that it's done (a cloud with a check, green for a few seconds); turned
+ * off, a bar deflating as the files are removed. The whole row
+ * is the switch (role/aria-checked); the Switch itself is decorative.
+ */
 export default function OfflinePreviewsToggle({ sx }) {
   const { t } = useTranslation('offline')
   const enabled = useOfflinePreviewsEnabled()
@@ -75,7 +77,7 @@ export default function OfflinePreviewsToggle({ sx }) {
   return (
     <ListItemButton className="oc-offline-previews-toggle" role="switch" aria-checked={enabled} onClick={() => setOfflinePreviewsEnabled(!enabled)} sx={sx}>
       {/* Downloaded: a cloud with a check (green just after it finishes). */}
-      <ListItemIcon sx={{ transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) }}>{ready ? <CloudDoneOutlined /> : <CloudDownloadOutlined />}</ListItemIcon>
+      <ListItemIcon sx={{ transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) }}>{ready ? <CloudDoneRounded /> : <CloudDownloadRounded />}</ListItemIcon>
       <ListItemText primary={t('previewsLabel')} secondary={secondary} slotProps={{ secondary: { component: 'div', sx: { transition: 'color 1s', ...(ready && justDone && { color: 'success.main' }) } } }} />
       {/* inert: its own checkbox input would otherwise be a control nested
           inside this one. */}

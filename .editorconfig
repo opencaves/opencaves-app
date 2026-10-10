@@ -1,0 +1,6 @@
+# Editors: LF line endings, UTF-8 (.gitattributes keeps LF in Git).
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8

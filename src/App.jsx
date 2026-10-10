@@ -5,7 +5,7 @@ import { useDispatch, useStore } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline, GlobalStyles, InitColorSchemeScript } from '@mui/material'
-import router from './router.jsx'
+import { getRouter } from './router.jsx'
 import SnackbarProvider from '@/components/Snackbar/SnackbarProvider.jsx'
 import OfflineMediaSync from '@/components/Offline/OfflineMediaSync.jsx'
 import PendingUploadsSync from '@/components/Offline/PendingUploadsSync.jsx'
@@ -13,12 +13,14 @@ import ConnectionSnackbar from '@/components/Offline/ConnectionSnackbar.jsx'
 import { subscribeToData } from '@/services/data-service.jsx'
 import { isInstalledApp, requestPersistentStorage } from '@/utils/persistentStorage.js'
 import { setDataLoadingState } from '@/redux/slices/dataSlice.jsx'
+import { ssrPageData } from '@/ssr/ssrContext.js'
 import TitleBar from '@/components/App/TitleBar.jsx'
 import ManageAppUpdate from '@/components/App/ManageAppUpdate.jsx'
 import ManageAuth from '@/components/auth/ManageAuth.jsx'
 import AccountLinking from '@/components/auth/AccountLinking.jsx'
 import Splash from '@/components/utils/Splash.jsx'
 import getDevicePixelRatio from '@/utils/getDevicePixelRatio.js'
+import { removeShell } from '@/utils/shell.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import { theme } from '@/theme/Theme.jsx'
 import { APP_TITLE } from '@/config/app.js'
@@ -33,11 +35,19 @@ import './theme/variables.scss'
 
 import './App.scss'
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
-})
+// (Not on the server, which renders the public pages: entry-server.jsx.)
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
+  })
+}
 
-const App = () => {
+/**
+ * @param {object} props
+ * @param {React.ReactNode} [props.serverRouter=null] - On the server, its static router (entry-server.jsx), in
+ *   place of the browser's.
+ */
+const App = ({ serverRouter = null }) => {
   const dispatch = useDispatch()
   const store = useStore()
   const { title } = useTitle()
@@ -49,9 +59,12 @@ const App = () => {
     // right away, and the live subscription - Firestore's cache work plus
     // reprocessing and re-rendering ~900 caves - waits until the browser is
     // idle instead of competing with the first render. First visits have
-    // nothing to show yet: subscribe right away.
+    // nothing to show yet: subscribe right away. A page the server rendered
+    // shows the part of the data it came with (useCaveData), the store's own
+    // still loading (any other page waits for it): waits too.
     const hasStoredData = store.getState().data.caves.length > 0
     dispatch(setDataLoadingState({ state: hasStoredData ? 'loaded' : 'loading' }))
+    const canWait = hasStoredData || Boolean(ssrPageData())
 
     let unsubscribe = null
     const subscribe = () => {
@@ -64,7 +77,7 @@ const App = () => {
       )
     }
 
-    if (!hasStoredData) {
+    if (!canWait) {
       subscribe()
       return () => unsubscribe?.()
     }
@@ -77,15 +90,13 @@ const App = () => {
     }
   }, [dispatch, store])
 
-  // index.html's static map shell stays under the app until the real search
-  // bar replaces it (SearchBar) - through every loading state in between.
-  // Only a page that isn't the map (a redirect, an error page) removes it
-  // here, since no search bar will.
+  // index.html's splash stays over the app through every loading state, until
+  // the page it stands for has rendered: the map's search bar (SearchBar),
+  // another page's Layout, or an error page (NoMatch) removes it. Anything
+  // else (a dev page...): gone after a while, so it can never stay stuck.
   useEffect(() => {
-    const path = window.location.pathname
-    if (!(path === '/map' || path.startsWith('/map/'))) {
-      document.getElementById('oc-shell')?.remove()
-    }
+    const timer = setTimeout(removeShell, 8000)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
@@ -121,7 +132,7 @@ const App = () => {
           </Helmet>
           <TitleBar />
           <SnackbarProvider>
-            <RouterProvider router={router} />
+            {serverRouter || <RouterProvider router={getRouter()} />}
             <OfflineMediaSync />
             {/* Photos and maps added offline, uploaded once on Wi-Fi. */}
             <PendingUploadsSync />

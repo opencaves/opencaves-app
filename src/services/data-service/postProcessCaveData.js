@@ -58,13 +58,19 @@ function buildMarkdown(caves) {
   }
 }
 
-// Builds a per-cave sistema ancestry walker from the sistemas/connections
-// collections. Mirrors the app's previous sheet-import-time
-// getSistemaAncestry() computation, applied at read time instead, since
-// Firestore stores each cave's direct sistemaId rather than a precomputed
-// ancestry chain (which would otherwise go stale as sistemas/connections
-// are edited independently of the caves that reference them). Also gives a
-// system's own ancestry, for its page: called with { sistemaId }.
+/**
+ * Builds a per-cave sistema ancestry walker from the sistemas/connections
+ * collections. Mirrors the app's previous sheet-import-time
+ * getSistemaAncestry() computation, applied at read time instead, since
+ * Firestore stores each cave's direct sistemaId rather than a precomputed
+ * ancestry chain (which would otherwise go stale as sistemas/connections
+ * are edited independently of the caves that reference them). Also gives a
+ * system's own ancestry, for its page: called with { sistemaId }.
+ *
+ * @param {Sistema[]} sistemas
+ * @param {Connection[]} connections
+ * @returns {Function}
+ */
 export function buildSistemaAncestryComputer(sistemas, connections) {
   const sistemaNamesFromId = new Map()
   const sistemasById = new Map()
@@ -110,7 +116,10 @@ export function buildSistemaAncestryComputer(sistemas, connections) {
     const chain = [{
       name: sistemaNamesFromId.get(cave.sistemaId) || 'n. d.',
       id: cave.sistemaId,
-      color: cave.sistemaColor
+      // From the system itself, as its parents (the copy on the cave goes
+      // stale, and a system without one left it undefined: a white pin with
+      // a white glyph); the default colour when the system has none.
+      color: getSistemaColor(cave.sistemaId)
     }]
     pushParent(chain)
 
@@ -121,10 +130,15 @@ export function buildSistemaAncestryComputer(sistemas, connections) {
 const CAVE_MARKDOWN_FIELDS = ['description', 'accessDetails', 'accessibilityDetails', 'direction']
 const SISTEMA_MARKDOWN_FIELDS = ['description', 'direction']
 
-// Turns the raw shape read from Firestore into the shape the app actually
-// consumes: computes each cave's sistema ancestry and applies markdown
-// linking, both left uncomputed in storage so they can't go stale as
-// sistemas/connections/cave names are edited independently of each other.
+/**
+ * Turns the raw shape read from Firestore into the shape the app actually
+ * consumes: computes each cave's sistema ancestry and applies markdown
+ * linking, both left uncomputed in storage so they can't go stale as
+ * sistemas/connections/cave names are edited independently of each other.
+ *
+ * @param {CaveData} data
+ * @returns {CaveData}
+ */
 export function postProcessCaveData(data) {
   const markdown = buildMarkdown(data.caves)
   const getSistemaAncestry = buildSistemaAncestryComputer(data.sistemas, data.connections)

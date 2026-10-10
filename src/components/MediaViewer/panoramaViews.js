@@ -2,6 +2,13 @@
 // view one shows as the photo's thumbnail (CaveAsset.setViewThumbnail).
 const viewers = new Map()
 
+/**
+ * Keeps a photo's panorama viewer, for {@link capturePanoramaView}.
+ *
+ * @param {string} mediaId
+ * @param {object} viewer
+ * @returns {() => void} Its removal.
+ */
 export function registerPanoramaViewer(mediaId, viewer) {
   viewers.set(mediaId, viewer)
   return () => {
@@ -13,9 +20,14 @@ export function registerPanoramaViewer(mediaId, viewer) {
 // so this leaves room for a sharp crop.
 const MAX_SIDE = 1600
 
-// The view the photo's viewer shows now: { image (base64 JPEG), view: { yaw,
-// pitch, zoom } }, or null when no viewer shows it. The viewer keeps its
-// drawing (preserveDrawingBuffer), so its canvas can be read at any time.
+/**
+ * The view the photo's viewer shows now: { image (base64 JPEG), view: { yaw,
+ * pitch, zoom } }, or null when no viewer shows it. The viewer keeps its
+ * drawing (preserveDrawingBuffer), so its canvas can be read at any time.
+ *
+ * @param {string} mediaId
+ * @returns {Promise<{image: string, view: {yaw: number, pitch: number, zoom: number}}|null>}
+ */
 export async function capturePanoramaView(mediaId) {
   const viewer = viewers.get(mediaId)
   const canvas = viewer?.container?.querySelector('canvas')

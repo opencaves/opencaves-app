@@ -8,13 +8,18 @@ import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 import layoutBackground from '@/images/404/bg.webp'
 import dashboardBackground from '@/images/dashboard/bg.webp'
 import pagesBackground from '@/images/pages/bg.webp'
+// Their small copies (1080-1280 px, a few times lighter) for small screens.
+import layoutBackgroundSmall from '@/images/404/bg-small.webp'
+import dashboardBackgroundSmall from '@/images/dashboard/bg-small.webp'
+import pagesBackgroundSmall from '@/images/pages/bg-small.webp'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 import { isPublicIndexPath } from '@/utils/seo.js'
+import { removeShell } from '@/utils/shell.js'
 
 // First URL segment of every dashboard (admin) page - see router.jsx. Some
 // of them also hold public pages (/caves, /sistemas/<id>...),
 // which look like the site's other pages (isPublicIndexPath).
-const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', ...Object.keys(REFERENCE_DATA_CONFIGS)])
+const DASHBOARD_SECTIONS = new Set(['dashboard', 'caves', 'sistemas', 'connections', 'users', 'audits', 'feedback', ...Object.keys(REFERENCE_DATA_CONFIGS)])
 
 export default function Layout() {
   const location = useLocation()
@@ -43,6 +48,13 @@ export default function Layout() {
   // rather than transparent borders, whose corners would join the top/bottom
   // borders diagonally).
   const sideBordersSeeThrough = (isDashboardPage && !isDashboardHome) || isSistemaPage || location.pathname === '/account'
+
+  // index.html's splash goes once the page is here: the router renders this
+  // with its page already loaded (lazy routes resolve first, under the
+  // splash), and children's effects run before this one.
+  useLayoutEffect(() => {
+    removeShell()
+  }, [])
 
   // This box, not the document, is the page's scroller (below), so the
   // router's scroll handling never reaches it: a new page opens at the top,
@@ -162,7 +174,11 @@ export default function Layout() {
         scrollBehavior: 'smooth',
         '@media (prefers-reduced-motion: reduce)': { scrollBehavior: 'auto' },
         backgroundColor: '#000',
-        backgroundImage: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
+        // Only the one for the screen's size is downloaded.
+        backgroundImage: {
+          xs: `url(${hasPagesBackground ? pagesBackgroundSmall : isDashboardPage ? dashboardBackgroundSmall : layoutBackgroundSmall})`,
+          md: `url(${hasPagesBackground ? pagesBackground : isDashboardPage ? dashboardBackground : layoutBackground})`,
+        },
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
@@ -170,7 +186,7 @@ export default function Layout() {
       <AppBar />
       {/* One column, never wider than the page (sized by its content, a
           wide form pushed the page past the screen's edge on phones). */}
-      <Container className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
+      <Container id="main" className="oc-layout--main" component="main" sx={{ py: 2, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', flexGrow: '1', bgcolor: isDashboardHome ? 'transparent' : isTranslucentPage ? 'var(--oc-page-surface-translucent)' : 'var(--oc-page-surface)', border: { xs: '0.5rem solid var(--oc-page-surface)', sm: '1rem solid var(--oc-page-surface)' }, ...(sideBordersSeeThrough && { borderLeftWidth: { xs: 0, sm: '1rem' }, borderRightWidth: { xs: 0, sm: '1rem' }, mx: { xs: '0.5rem', sm: 'auto' }, width: { xs: 'auto', sm: '100%' } }), // Square on the dashboard home, whose frame AdminDashboard draws.
         borderRadius: isDashboardHome ? 0 : sideBordersSeeThrough ? { xs: 0, sm: '4px' } : '4px' }}>
         <Outlet />
         {/* The Privacy and Terms links at every page's foot - not the landing

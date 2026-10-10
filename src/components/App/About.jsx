@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { CHANGELOG_URL } from '@/config/app.js'
 import LogoLight from '@/images/logo/brand_light.svg?react'
 import LogoDark from '@/images/logo/brand_dark.svg?react'
 
@@ -30,7 +31,7 @@ export default function About({ className, ...props }) {
       </Box>
       <Typography component="p" sx={{ fontSize: 'small', textAlign: 'center' }} color="text.secondary">
         {t('version', { version: import.meta.env.VITE_APP_VERSION })}{' '}
-        <Link href="https://github.com/opencaves/opencaves-app/blob/main/CHANGELOG.md" target="_blank" sx={{ ml: 1 }}>
+        <Link href={CHANGELOG_URL} target="_blank" sx={{ ml: 1 }}>
           {t('whatsNew')}
         </Link>
       </Typography>

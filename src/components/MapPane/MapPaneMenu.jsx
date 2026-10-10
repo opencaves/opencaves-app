@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
-import MoreVert from '@mui/icons-material/MoreVert'
+import MoreVert from '@mui/icons-material/MoreVertRounded'
 
-// Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
-// injected into the Lightbox with the same edit/delete actions already
-// available from the Maps tab's own three-dot menu. `onTrash` (admins)
-// deletes the map, to the trash; there's no removing a map from its system
-// alone (it left the map shown nowhere).
+/**
+ * Mirrors MediaPaneMenu.jsx's role in the picture viewer: a toolbar button
+ * injected into the Lightbox with the same edit/delete actions already
+ * available from the Maps tab's own three-dot menu. `onTrash` (admins)
+ * deletes the map, to the trash; there's no removing a map from its system
+ * alone (it left the map shown nowhere).
+ */
 export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const [anchorEl, setAnchorEl] = useState(null)
@@ -38,7 +40,7 @@ export default function MapPaneMenu({ map, onEdit, onTrash, ...props }) {
         sx={{ color: 'var(--yarl__color_button, hsla(0, 0%, 100%, .8))' }}
         className="oc-map-pane-menu yarl__button"
       >
-        <MoreVert sx={{ fontSize: '1.75rem' }} />
+        <MoreVert />
       </IconButton>
       <Menu
         className="oc-map-pane-menu--menu"

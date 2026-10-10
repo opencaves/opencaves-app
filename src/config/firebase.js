@@ -1,10 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, connectAuthEmulator, getAuth, getRedirectResult, indexedDBLocalPersistence, initializeAuth, signInWithPopup, signInWithRedirect } from 'firebase/auth'
-import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
-import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 // import { getAnalytics } from 'firebase/analytics'
 import i18n from '../i18n.js'
 import { toServiceLanguage } from '../utils/lang.js'
@@ -20,14 +17,62 @@ const app = initializeApp(FIREBASE_CONFIG)
 // set, it stays off. Not on localhost: the emulators don't check it.
 // eslint-disable-next-line no-restricted-globals
 if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && location.hostname !== 'localhost') {
-  initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-    isTokenAutoRefreshEnabled: true,
-  })
+  // Its SDK only then (none set: not shipped with every page). Loaded
+  // asynchronously: requests sent before it starts carry no token - check
+  // that before turning enforcement on in the console.
+  import('firebase/app-check').then(({ initializeAppCheck, ReCaptchaV3Provider }) =>
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+      isTokenAutoRefreshEnabled: true,
+    }),
+  )
 }
 
 const FUNCTIONS_REGION = FIREBASE_CONFIG.location || 'northamerica-northeast1'
-export const functions = getFunctions(app, FUNCTIONS_REGION)
+// eslint-disable-next-line no-restricted-globals
+const isLocal = location.hostname === 'localhost'
+
+// Storage and Functions: loaded on first use (an upload, a server call), not
+// with every page - their SDKs weighed on every phone's start for nothing.
+// getStorageService(): the Storage SDK's functions and the app's storage.
+let storageService = null
+/**
+ * The Storage SDK, loaded once on demand, with the app's `storage` (the emulator's when local).
+ *
+ * @returns {Promise<object>}
+ */
+export function getStorageService() {
+  storageService ||= import('firebase/storage').then((sdk) => {
+    const storage = sdk.getStorage(app)
+    if (isLocal) sdk.connectStorageEmulator(storage, '127.0.0.1', 9199)
+    return { ...sdk, storage }
+  })
+  return storageService
+}
+
+let functionsService = null
+function getFunctionsService() {
+  functionsService ||= import('firebase/functions').then((sdk) => {
+    const functions = sdk.getFunctions(app, FUNCTIONS_REGION)
+    if (isLocal) sdk.connectFunctionsEmulator(functions, '127.0.0.1', 5001)
+    return { ...sdk, functions }
+  })
+  return functionsService
+}
+
+/**
+ * A callable function, as httpsCallable(functions, name) gives: called with
+ * its data, it resolves to { data }.
+ *
+ * @param {string} name
+ * @returns {(data: *) => Promise<{data: *}>}
+ */
+export function callable(name) {
+  return async (data) => {
+    const { httpsCallable, functions } = await getFunctionsService()
+    return httpsCallable(functions, name)(data)
+  }
+}
 
 // Not getAuth(): it also sets up the popup/redirect resolver, which loads
 // Firebase's auth iframe and Google's gapi script (~130 KiB) on every page
@@ -45,8 +90,6 @@ function createAuth() {
 export const auth = createAuth()
 auth.languageCode = toServiceLanguage(i18n.resolvedLanguage)
 
-export const storage = getStorage(app)
-
 const localCache = persistentLocalCache({
   tabManager: persistentMultipleTabManager()
 })
@@ -62,8 +105,6 @@ export default app
 if (location.hostname === 'localhost') {
   connectFirestoreEmulator(db, '127.0.0.1', 8080)
   connectAuthEmulator(auth, 'http://127.0.0.1:9099/', { disableWarnings: true })
-  connectFunctionsEmulator(functions, '127.0.0.1', 5001)
-  connectStorageEmulator(storage, '127.0.0.1', 9199)
 }
 
 // Provider sign-in. A redirect (phones) comes back as a fresh page load,

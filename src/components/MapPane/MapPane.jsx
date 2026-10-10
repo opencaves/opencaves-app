@@ -8,7 +8,7 @@ import EditRounded from '@mui/icons-material/EditRounded'
 import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
-import MapOutlined from '@mui/icons-material/MapOutlined'
+import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import CaveModel from '@/models/CaveModel.js'
 import SistemaModel from '@/models/SistemaModel.js'
@@ -44,7 +44,7 @@ function MapThumbnail({ map }) {
       ) : map.contentType === 'application/pdf' ? (
         <PictureAsPdfRounded color="action" />
       ) : (
-        <MapOutlined color="action" />
+        <MapRounded color="action" />
       )}
     </Box>
   )
@@ -146,6 +146,11 @@ function MapListItem({ map, caveId, selected, state, onEdit, onTrash }) {
   )
 }
 
+/**
+ * The map pane's route loader: the maps of the cave's sistema and of the ones it joined.
+ *
+ * @returns {Promise<{sistemaId: string|null, mapRefs: {id: string, sistemaId: string}[], maps: object[]}>}
+ */
 export async function mapPaneLoader({ params }) {
   const cave = await CaveModel.getById(params.caveId)
   const sistemaId = cave?.sistemaId || null
@@ -155,10 +160,12 @@ export async function mapPaneLoader({ params }) {
   return { sistemaId, mapRefs, maps }
 }
 
-// Clicking a map opens this - the same drawer + big-viewer structure as
-// Pictures' MediaPane.jsx, reusing that established pattern instead of a
-// one-off lightbox, since maps benefit from the same "browse while viewing"
-// shape pictures already have.
+/**
+ * Clicking a map opens this - the same drawer + big-viewer structure as
+ * Pictures' MediaPane.jsx, reusing that established pattern instead of a
+ * one-off lightbox, since maps benefit from the same "browse while viewing"
+ * shape pictures already have.
+ */
 export default function MapPane() {
   const { t } = useTranslation('mediaPane')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })

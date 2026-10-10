@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { httpsCallable } from 'firebase/functions'
 import { Alert, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, ListItemText, TextField, Tooltip, Typography } from '@mui/material'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import DeleteRounded from '@mui/icons-material/DeleteRounded'
 import AcUnitRounded from '@mui/icons-material/AcUnitRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
-import { auth, functions } from '@/config/firebase.js'
+import IconButtonGroup from '@/components/IconButtonGroup.jsx'
+import { auth, callable } from '@/config/firebase.js'
 import { useTitle } from '@/hooks/useTitle.jsx'
 import ListSkeleton from '@/components/Skeletons/ListSkeleton.jsx'
 import { DASHBOARD_LIST_SX } from '@/components/dashboardSurface.js'
@@ -15,10 +15,10 @@ import { matchesId } from '@/utils/matchesId.js'
 import { SEARCH_FIELD_SX } from '@/components/searchFieldSx.js'
 import { assertOnline } from '@/utils/assertOnline.js'
 
-const listUsersFn = httpsCallable(functions, 'listUsers')
-const setUserRolesFn = httpsCallable(functions, 'setUserRoles')
-const deleteUserFn = httpsCallable(functions, 'deleteUser')
-const setUserFrozenFn = httpsCallable(functions, 'setUserFrozen')
+const listUsersFn = callable('listUsers')
+const setUserRolesFn = callable('setUserRoles')
+const deleteUserFn = callable('deleteUser')
+const setUserFrozenFn = callable('setUserFrozen')
 
 const ASSIGNABLE_ROLES = ['editor', 'admin']
 
@@ -195,7 +195,7 @@ export default function UsersAdmin() {
                     MD3 standard icon buttons: 40dp, 24dp icon, 8dp apart so
                     their 48dp touch targets don't overlap; the last icon 24dp
                     from the row's edge (the list's 16dp padding + 8dp). */}
-                <Box className="oc-users-admin--actions" sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+                <IconButtonGroup className="oc-users-admin--actions" sx={{ ml: 'auto' }}>
                   {user.uid !== auth.currentUser?.uid ? (
                     <Tooltip title={user.frozen ? t('unfreeze') : t('freeze')}>
                       <IconButton aria-label={user.frozen ? t('unfreeze') : t('freeze')} aria-pressed={user.frozen} color={user.frozen ? 'info' : 'default'} disabled={savingUid === user.uid} onClick={() => (user.frozen ? setFrozen(user, false) : setFreezeTarget(user))}>
@@ -210,7 +210,7 @@ export default function UsersAdmin() {
                       <DeleteRounded />
                     </IconButton>
                   </Tooltip>
-                </Box>
+                </IconButtonGroup>
               </ListItem>
             ))}
           </List>

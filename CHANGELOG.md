@@ -1,5 +1,101 @@
 # Changelog
 
+## [1.0.0-beta-14](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-13...v1.0.0-beta-14) (2026-10-10)
+
+Feedback becomes a conversation: the team answers by email and you can answer back, members can follow the ideas and fixes, What's new tells what changed, and the public pages open faster.
+
+
+### Features
+
+* **Feedback replies:** the team answers a report from the app, and its author gets the whole conversation by email; replying to that email adds to it. Admins can answer the "new report" email the same way.
+* **Ideas and fixes:** signed-in members can read every report and the team's replies (read only), from the account menu and the dashboard - to follow what's coming.
+* **Feedback pages** look like a project's issue tracker: Open and Closed tabs, search, filters, a page per report with its timeline; a whole row opens its report.
+* **Feedback emails:** members can turn off the team's reply emails in their account (Emails), or with the link at the bottom of an email.
+* **New reports** show as a count on the admins' account button, beside Dashboard in its menu, and on the dashboard.
+* **What's new** says whether each item was added, modified or removed, with the fields changed; filter by change, and share a filtered list by its address.
+* **Parking:** a cave can have a parking point; Directions lead to it. Coordinates list the cave, parking, entrance and key in that order.
+* **Icons:** a new entrance icon (two flared posts), a cenote with a bigger opening, the Map entry in the app's gold, and system icons in their system's colour on What's new.
+* **Dates** like "3 minutes ago" update by themselves and show the exact date on hover or keyboard focus.
+* **Tooltips** follow Material 3 and wait a moment before showing on hover.
+* **Public pages** (the home page, caves, systems) are rendered on the server: they show at once and search engines read them fully.
+
+### Fixes
+
+* **Photos:** a gallery's photos and the photo viewer show them in the same order; photos load in the installed app; scrolling the strips is smooth again.
+* **Videos:** adding a video works again, the same video can't be added twice, and adding or deleting one says so.
+* **Accessibility:** a skip link that reaches the content, a readable Open chip, clearer scrollbars in dark mode, no console errors on missing pages.
+* **Reliability:** the app recovers from a browser database error by itself; the public pages no longer run out of memory or break during an update.
+
+## [1.0.0-beta-13](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-12...v1.0.0-beta-13) (2026-10-09)
+
+Smoother and easier to reach: the map flies to a cave without a jump, new pins and icons, and the photos, videos and survey maps work well with a keyboard.
+
+
+### Features
+
+* **Map pins** take Material's pin shape, the cave drawing inside; a selected cave's entrance and key show as their icon alone, in the pin's colour, labelled Entrance and Key.
+* **Entrance icon:** an arrow going into a door instead of the fence, on the map, in the detail pane, on the cave's page and in the edit form.
+* **Picking a cave on the map:** the camera flies there smoothly and the pin's bounce starts with it; panning and picking a cave do less work.
+* **Opening the app:** the map's loading screen looks like the map and goes away sooner; every page waits until it's styled before showing, so no more flash of unstyled text.
+* **Detail pane:** on a computer it grows and shrinks smoothly as it opens, closes and its content changes; in a system's tree, an arrow in the system's colour leads to each one.
+* **Photos, videos and survey maps:** each strip settles with an item in the middle; with a keyboard, the focused item scrolls to the middle and the down and up arrows leave the strip (and come back).
+* **Keyboard focus** shows clearly on the tabs, photos, videos and survey maps (it was cut off).
+* **Icon buttons** follow Material 3's sizes, with a larger touch area everywhere.
+* **Dashboard:** the Admin group sits under Caves, with Reference data beside them.
+* **Editing notes stay with the editors:** a text's Source line shows to admins only, and an exploration's notes (its sources) only in the edit forms.
+
+## [1.0.0-beta-12](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-11...v1.0.0-beta-12) (2026-10-08)
+
+A usability pass over the whole app: clearer words, easier on a phone and with a keyboard, a cave page with its address and directions, and a fresh look for the icons.
+
+
+### Features
+
+* **Cave pages** show the cave's address and a Getting there section with its directions; empty sections say so (No photos yet) instead of showing only an Add button.
+* **Cave and cenote:** the app says "cave" (grotte, cueva) wherever it means any cave, and "cenote" only for the Yucatán's cenotes and their entrances; a cave's title no longer starts with "Cenote".
+* **OpenCaves** is spelled the same everywhere: the app bar, the page titles and the installed app's name.
+* **Language** is easier to change: in the account menu (on the map too), the phone's menu and every page's footer.
+* **Searches** find names however they're typed (Chac-Mol, chacmol, dzonot for D'zonot) and say when nothing matches; the map's search works with the keyboard's arrows and Enter; caves without a confirmed position show a crossed-out pin.
+* **The map:** the Map button and Open the map show the whole area again; Back after a search returns to the map; the map opens without a white flash; Mapbox's own buttons speak your language.
+* **Landing page:** a single search field, the buttons lined up, and a centred footer on phones.
+* **Sign-in and account:** an email already used by an account says so; an action that needs an account explains why before asking you to sign in; the forgotten-password form checks the email; un-saving a cave can be undone.
+* **Editing:** the edit page's small map opens on the cave and Center the map here keeps it in view; forms check dates, depths and lengths and say what's wrong; Name is required says so; exploration teams are a list of names; a new system gets a colour; Use my current location says why when it can't.
+* **Photos and maps:** dropping a file that isn't a photo says so, and Add map takes images and PDFs only; the photo and map viewers work with the keyboard; videos load when you press play.
+* **Phones:** larger touch targets, no more cut-off labels, the Add map dialog fits the screen, and the app bar's search opens with an animation and closes when you tap outside it.
+* **Accessibility:** a Skip to content link, headings on every page, the focus kept after moving between pages, better contrast in dark mode, and less motion when your device asks for it.
+* **Words:** one name for each thing (Topographies for survey maps, région in French), and the remaining English and typos in French fixed.
+* **Icons** in one rounded style, the cave and cave system icons and the map pins included.
+* **Faster on phones:** less code to download before a page shows.
+
+
+### Bug Fixes
+
+* **A latitude out of range** no longer crashes the edit page.
+* **Unrated caves** no longer look rated five stars in dark mode.
+* **Cave pages** no longer jump while they load.
+* **Pins** of a system without a colour are no longer white on white.
+* **The 404 page** keeps the app bar and offers the cave lists.
+
+## [1.0.0-beta-11](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-10...v1.0.0-beta-11) (2026-10-08)
+
+Tell us what you find: a Feedback button on every page, a What can I do? page for the beta, and emails that keep testers and the team in touch.
+
+
+### Features
+
+* **Send feedback** from any page: a yellow Feedback tab on the right edge (the map, the forms and the photo and map viewers included) opens a form for a bug, something misleading or an idea, with a hint for each (a bug: the steps to reproduce it); the page you were on and your browser are added for you.
+* **What can I do?** (in the menu, before What's new): what to report, what to try in the beta, and how to report well.
+* **Welcome email** for new accounts, with what to try and how to report, in your language.
+* **You hear back:** when the team closes your report as done or rejected, you get an email with their note.
+* **Admins:** every new report is emailed to them; the Feedback page (on the dashboard, with the count of new reports) moves each report through its stages - new, confirmed, in progress, done, rejected, duplicate - with a note.
+* **Emails** look like the app: logo, colours, cards and buttons (the welcome, feedback and account emails).
+* **Unnamed caves and systems** read "(Unnamed cave)" and "(Unnamed system)" everywhere, in every language.
+* **Sign-in buttons** in Google's and Microsoft's own colours, in light and dark mode.
+* **Areas** no longer have a page of their own: an area is its section of the cave and system lists (/caves#akumal), where its links and old addresses lead.
+* **Accesses and accessibilities** are read-only for editors.
+* **Audits:** the filters' lists are in alphabetical order.
+* **French:** a cave system is a "réseau".
+
 ## [1.0.0-beta-10](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-9...v1.0.0-beta-10) (2026-10-07)
 
 The new cave icon on the map, and a fix for photos that wouldn't open.

@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -8,35 +8,49 @@ import CloseRounded from '@mui/icons-material/CloseRounded'
 import HomeRounded from '@mui/icons-material/HomeRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
-import NewReleasesOutlined from '@mui/icons-material/NewReleasesOutlined'
-import VolunteerActivismOutlined from '@mui/icons-material/VolunteerActivismOutlined'
+import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded'
+import VolunteerActivismRounded from '@mui/icons-material/VolunteerActivismRounded'
 import DashboardRounded from '@mui/icons-material/DashboardRounded'
 import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
+import { resetView } from '@/redux/slices/mapSlice.jsx'
+import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 
 const DRAWER_WIDTH = 240
 
-// Whether a link's page is the one shown: / only itself, the others their
-// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+/**
+ * Whether a link's page is the one shown: / only itself, the others their
+ * section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+ *
+ * @param {string} to
+ * @param {string} pathname
+ * @returns {boolean}
+ */
 export const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
 
-// The site's pages, and the dashboard for editors: the app bar's links and
-// the phone drawer's. current(to): 'page' for the page shown (aria-current).
+/**
+ * The site's pages, and the dashboard for editors: the app bar's links and
+ * the phone drawer's.
+ *
+ * @returns {{navItems: object[], dashboardItem: object, canAccessDashboard: boolean, current: (to: string) => string|undefined}} current(to): 'page' for the page shown (aria-current).
+ */
 export function useNavItems() {
   const location = useLocation()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
   const roles = useSelector((state) => state.session.roles)
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
+  const dispatch = useDispatch()
   const navItems = [
     { key: 'home', to: '/', icon: <HomeRounded /> },
-    { key: 'map', to: '/map', icon: <MapRounded /> },
+    // The map on its default view, not where it was last left.
+    { key: 'map', to: '/map', icon: <MapRounded />, onClick: () => dispatch(resetView()) },
     { key: 'caves', to: '/caves', icon: <SvgIcon inheritViewBox><CaveIcon /></SvgIcon> },
     { key: 'sistemas', to: '/sistemas', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox /> },
-    { key: 'whatCanIDo', to: '/what-can-i-do', icon: <VolunteerActivismOutlined /> },
-    { key: 'whatsNew', to: '/whats-new', icon: <NewReleasesOutlined /> },
+    { key: 'whatCanIDo', to: '/what-can-i-do', icon: <VolunteerActivismRounded /> },
+    { key: 'whatsNew', to: '/whats-new', icon: <NewReleasesRounded /> },
     // A dialog over the page (its address still /about).
     { key: 'about', to: '/about', icon: <InfoRounded />, onClick: openAboutDialog },
   ]
@@ -45,11 +59,15 @@ export function useNavItems() {
   return { navItems, dashboardItem, canAccessDashboard, current }
 }
 
-// The phone's navigation drawer, opened from the app bar's menu button or the
-// map search bar's: its header (the logo and title, a link home, and a close
-// button), the site's pages, then the dashboard (editors), then About last,
-// each group set apart by a divider. No Home item: the header links there.
-// zIndex: over the map page's Ionic sheet (its own, much higher, stacking).
+/**
+ * The phone's navigation drawer, opened from the app bar's menu button or the
+ * map search bar's: its header (the logo and title, a link home, and a close
+ * button), the site's pages, then the dashboard (editors), then About last,
+ * each group set apart by a divider. No Home item: the header links there.
+ *
+ * @param {object} props
+ * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
+ */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
@@ -73,7 +91,8 @@ export default function NavDrawer({ open, onClose, zIndex }) {
           <Box className="oc-nav-drawer--header" sx={{ display: 'flex', alignItems: 'center', minHeight: 64, pl: 2, pr: 0.5 }}>
             <Box component={Link} to="/" aria-current={current('/')} sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0, flex: 1, color: 'text.primary', textDecoration: 'none' }}>
               <LogoIcon colorScheme={scheme} />
-              <Typography variant="h6" noWrap sx={{ color: 'text.primary' }}>
+              {/* The app's name, not a heading (an h6 with nothing above it). */}
+              <Typography component="p" variant="h6" noWrap sx={{ color: 'text.primary' }}>
                 {APP_TITLE}
               </Typography>
             </Box>
@@ -88,12 +107,16 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
-                    <ListItemIcon>{icon}</ListItemIcon>
+                    {/* The Map entry's icon in the app's gold, as in the app bar. */}
+                    <ListItemIcon sx={key === 'map' ? { color: 'var(--oc-secondary-on-surface)' } : undefined}>{icon}</ListItemIcon>
                     <ListItemText primary={t(`${key}`, { name: APP_NAME })} />
                   </ListItemButton>
                 </ListItem>
               </Fragment>
             ))}
+            <ListItem disablePadding>
+              <LanguageListItem />
+            </ListItem>
           </List>
         </Box>
       </Drawer>

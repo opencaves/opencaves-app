@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
@@ -21,7 +21,9 @@ export default function LogInWithEmail() {
   const emailInputRef = useRef(null)
   const passwordInputRef = useRef(null)
 
-  const [email, setEmail] = useState('')
+  // Filled in when coming from sign-up with an email already in use.
+  const location = useLocation()
+  const [email, setEmail] = useState(location.state?.email || '')
   const [password, setPassword] = useState('')
 
   const [emailError, setEmailError] = useState(false)

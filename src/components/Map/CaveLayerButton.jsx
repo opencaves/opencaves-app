@@ -9,13 +9,15 @@ import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
-// The map's layer button, under the account button: white, or in the primary
-// colour while the cave layer (the passages traced from the cave maps,
-// CaveLayer) is shown. It opens and closes the layers panel (not modal): a switch that shows or
-// hides the layer, then its options - every system or only the
-// selected cenote's, coloured by system or in one colour - and, for editors,
-// the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
-// everyone), with the hidden drawings to show again.
+/**
+ * The map's layer button, under the account button: white, or in the primary
+ * colour while the cave layer (the passages traced from the cave maps,
+ * CaveLayer) is shown. It opens and closes the layers panel (not modal): a switch that shows or
+ * hides the layer, then its options - every system or only the
+ * selected cenote's, coloured by system or in one colour - and, for editors,
+ * the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
+ * everyone), with the hidden drawings to show again.
+ */
 export default function CaveLayerButton({ sx }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer' })
   const dispatch = useDispatch()
@@ -80,7 +82,9 @@ export default function CaveLayerButton({ sx }) {
               <Typography id={titleId} component="h2" variant="subtitle1" sx={{ mb: 1.5, fontWeight: 500 }}>
                 {t('panelTitle')}
               </Typography>
-              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={visible ? t('turnOff') : t('turnOn')} sx={{ mb: 1 }} />
+              {/* A switch names its setting, its state is the switch (the label
+                  flipped between Turn on and Turn off). */}
+              <FormControlLabel className="oc-cave-layer-menu--switch" control={<Switch checked={visible} onChange={(event) => dispatch(setCaveLayerVisible(event.target.checked))} />} label={t('show')} sx={{ mb: 1 }} />
               {/* The layer's options, only while it's shown. */}
               <Collapse in={visible} className="oc-cave-layer-menu--options">
                 <Divider sx={{ mb: 1.5 }} />

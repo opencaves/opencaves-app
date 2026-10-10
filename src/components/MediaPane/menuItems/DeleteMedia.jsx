@@ -9,15 +9,25 @@ import useRoles from '@/hooks/useRoles.jsx'
 import { noopAsync } from '@/utils/noop.js'
 import { deleteById } from '@/models/CaveAsset.js'
 
-// Deleting a photo: admins only.
+/**
+ * Deleting a photo: admins only.
+ *
+ * @returns {boolean}
+ */
 export function useDeleteMedia() {
   return useRoles('admin')
 }
 
-// The confirmation before a photo is deleted - to the trash, where an admin
-// can restore it (Audits > Trash) or delete it for good. Its dialog is rendered by the menu's owner, outside the menu: a
-// menu's items unmount when it closes. onBeforeDelete(mediaAsset) runs
-// first (e.g. moving the viewer to the next photo).
+/**
+ * The confirmation before a photo is deleted - to the trash, where an admin
+ * can restore it (Audits > Trash) or delete it for good. Its dialog is rendered by the menu's owner, outside the menu: a
+ * menu's items unmount when it closes.
+ *
+ * @param {object} [options]
+ * @param {(mediaAsset: import('../../../models/CaveAsset.js').default) => Promise} [options.onBeforeDelete] - Runs
+ *   first (e.g. moving the viewer to the next photo).
+ * @returns {{requestDelete: (mediaAsset: import('../../../models/CaveAsset.js').default) => void, dialog: React.ReactNode}}
+ */
 export function useDeleteMediaConfirm({ onBeforeDelete = noopAsync } = {}) {
   const { t } = useTranslation('mediaPane', { keyPrefix: 'menu' })
   const [openSnackbar] = useSnackbar()

@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
-import DeleteSweepOutlined from '@mui/icons-material/DeleteSweepOutlined'
+import DeleteSweepRounded from '@mui/icons-material/DeleteSweepRounded'
 import { clearOfflineMedia, offlineSupported } from '@/services/offline/offlineMedia.js'
 import { setOfflinePreviewsEnabled } from '@/hooks/useOfflinePreviewsSetting.jsx'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
-// The account page's "Offline use" section: how much this site stores on the
-// device (navigator.storage.estimate(): cave data, downloaded and cached
-// pictures/maps/map tiles, the app's own files) and a way to free the
-// pictures and maps.
-// headingProps: the page's section heading style (see Account).
+/**
+ * The account page's "Offline use" section: how much this site stores on the
+ * device (navigator.storage.estimate(): cave data, downloaded and cached
+ * pictures/maps/map tiles, the app's own files) and a way to free the
+ * pictures and maps.
+ *
+ * @param {object} props
+ * @param {object} [props.headingProps={}] - The page's section heading style (see Account).
+ */
 export default function OfflineStorageSection({ headingProps = {} }) {
   const { t, i18n } = useTranslation('account', { keyPrefix: 'offline' })
   const [openSnackbar] = useSnackbar()
@@ -72,7 +77,7 @@ export default function OfflineStorageSection({ headingProps = {} }) {
         {persisted ? t('persisted') : t('notPersisted')}
       </Typography>
       {/* Centered on phones. */}
-      <Button variant="outlined" color="error" startIcon={<DeleteSweepOutlined />} onClick={(event) => {
+      <Button variant="outlined" color="error" startIcon={<DeleteSweepRounded />} onClick={(event) => {
             // Focus off the button first: the dialog hides the page (aria-hidden on
             // #root) before taking focus, which the browser blocks.
             event.currentTarget.blur()
@@ -82,7 +87,9 @@ export default function OfflineStorageSection({ headingProps = {} }) {
       </Button>
 
       <Dialog className="oc-offline-storage-section--confirm" open={confirmOpen} onClose={() => !clearing && setConfirmOpen(false)} aria-labelledby="oc-offline-clear-title">
-        <DialogTitle id="oc-offline-clear-title">{t('confirmTitle')}</DialogTitle>
+        {/* The app's rule: an X on every dialog. */}
+        <DialogCloseButton onClick={() => setConfirmOpen(false)} disabled={clearing} />
+        <DialogTitle id="oc-offline-clear-title" sx={{ pr: 7 }}>{t('confirmTitle')}</DialogTitle>
         <DialogContent>
           <DialogContentText>{t('confirmText')}</DialogContentText>
           <DialogContentText sx={{ mt: 1.5 }}>{t('confirmTextSaved')}</DialogContentText>

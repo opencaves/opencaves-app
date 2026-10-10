@@ -66,10 +66,13 @@ i18n
     // }
   })
 
-// Screen readers pick their voice from it.
-i18n.on('languageChanged', (lng) => {
-  document.documentElement.lang = i18n.resolvedLanguage || lng
-})
-if (i18n.resolvedLanguage) document.documentElement.lang = i18n.resolvedLanguage
+// Screen readers pick their voice from it. (The server, rendering the public
+// pages in English, sets its page's lang itself: entry-server.jsx.)
+if (typeof document !== 'undefined') {
+  i18n.on('languageChanged', (lng) => {
+    document.documentElement.lang = i18n.resolvedLanguage || lng
+  })
+  if (i18n.resolvedLanguage) document.documentElement.lang = i18n.resolvedLanguage
+}
 
 export default i18n

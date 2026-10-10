@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Box, Button, ButtonBase, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import DirectionsIcon from '@mui/icons-material/Directions'
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
-import ShareIcon from '@mui/icons-material/Share'
+import DirectionsIcon from '@mui/icons-material/DirectionsRounded'
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorderRounded'
+import BookmarkIcon from '@mui/icons-material/BookmarkRounded'
+import ShareIcon from '@mui/icons-material/ShareRounded'
 import { Share } from '@capacitor/share'
 import { Scrollbars } from 'react-custom-scrollbars-3'
 import { useSmall } from '@/hooks/useSmall.jsx'
@@ -20,6 +20,7 @@ import { isMeteredConnection, markJustSaved, offlineSupported, savedCaveStatusKe
 import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { openDirections } from '@/utils/directions.js'
 import './QuickActions.scss'
+import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 
 function ButtonLg({ primary, children, ...props }) {
   return (
@@ -166,6 +167,16 @@ export default function QuickActions({ cave }) {
     })
   }
 
+  // Driving ends where the car is left: at the cave's parking when it has one,
+  // otherwise at the cave (through its entrance).
+  function openCaveDirections() {
+    if (cave.parking) {
+      openDirections(cave.parking)
+    } else {
+      openDirections(cave.location, cave.entrance)
+    }
+  }
+
   // Comes back to this cave once the account is created / signed in to.
   function goToAuth(path) {
     setAccountPromptOpen(false)
@@ -223,9 +234,9 @@ export default function QuickActions({ cave }) {
                   overflow: 'visible',
                 }}
               >
-                {cave.location && (
+                {(cave.location || cave.parking) && (
                   <QuickActionsItem>
-                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={() => openDirections(cave.location, cave.entrance)}>
+                    <Button aria-label={t('directions')} color="primary" variant="contained" startIcon={<DirectionsIcon />} className="oc-quick-actions--btn primary" onClick={openCaveDirections}>
                       {t('directions')}
                     </Button>
                   </QuickActionsItem>
@@ -257,10 +268,10 @@ export default function QuickActions({ cave }) {
           aria-label={t('ariaLabel', { name: caveName })}
         >
           <Grid container>
-            {cave.location && (
+            {(cave.location || cave.parking) && (
               <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid container sx={{ justifyContent: 'center' }}>
-                  <ButtonLg primary aria-label={t('directions')} onClick={() => openDirections(cave.location, cave.entrance)}>
+                  <ButtonLg primary aria-label={t('directions')} onClick={openCaveDirections}>
                     <Grid container direction="column">
                       <Grid>
                         <IconLg>
@@ -313,7 +324,9 @@ export default function QuickActions({ cave }) {
       )}
 
       <Dialog className="oc-quick-actions--account-prompt" open={accountPromptOpen} onClose={() => setAccountPromptOpen(false)} aria-labelledby="oc-account-prompt-title" aria-describedby="oc-account-prompt-text">
-        <DialogTitle id="oc-account-prompt-title">{t('accountPrompt.title')}</DialogTitle>
+        {/* The app's rule: an X on every dialog. */}
+        <DialogCloseButton onClick={() => setAccountPromptOpen(false)} />
+        <DialogTitle id="oc-account-prompt-title" sx={{ pr: 7 }}>{t('accountPrompt.title')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="oc-account-prompt-text">{t('accountPrompt.text', { name: caveName })}</DialogContentText>
         </DialogContent>

@@ -22,6 +22,28 @@ export const breakpoints = {
 
 const DIVIDER_ALPHA = 0.18
 
+// MD3 icon buttons, by MUI size: small = MD3 extra small (32dp, 20dp icon),
+// medium = MD3 small, the standard one (40dp, 24dp icon), large = MD3 medium
+// (56dp, 24dp icon). Every size keeps a 48dp touch target; buttons side by
+// side are 8dp apart (IconButtonGroup) so the targets don't overlap.
+const ICON_BUTTON = {
+  touchTarget: 48,
+  gap: 8,
+  small: { size: 32, iconSize: 20 },
+  medium: { size: 40, iconSize: 24 },
+  large: { size: 56, iconSize: 24 },
+}
+// MUI's own buttons inside fields (an Autocomplete's clear and open icons)
+// keep their sizes. Only the button's own icon (its direct child) is sized:
+// icons inside a composite one - the key in a pin badge - keep theirs.
+// Weightless (:where), so a padding a component sets in its sx still wins.
+const iconButtonSize = ({ size, iconSize }) => ({
+  '&:where(:not(.MuiAutocomplete-clearIndicator):not(.MuiAutocomplete-popupIndicator))': {
+    padding: (size - iconSize) / 2,
+    '& > .MuiSvgIcon-root': { fontSize: iconSize },
+  },
+})
+
 const lightThemeOptions = {
   palette: {
     primary: {
@@ -33,11 +55,15 @@ const lightThemeOptions = {
     error: {
       main: '#d2142a',
     },
+    // Their dark tones: readable on the light surfaces (icons and text, 3:1
+    // and more - the main amber was 1.4:1).
     warning: {
       main: '#eacc01',
+      dark: '#8a6d00',
     },
     success: {
       main: '#5da426',
+      dark: '#3b7d1a',
     },
     divider: `rgba(0, 0, 0, ${DIVIDER_ALPHA})`,
     facebook: {
@@ -55,9 +81,6 @@ const lightThemeOptions = {
     apple: {
       main: '#000',
       contrastText: '#fff',
-    },
-    Scrollbar: {
-      bg: 'rgb(193 193 193)',
     },
   },
   sys: {
@@ -104,6 +127,14 @@ const lightThemeOptions = {
     },
   },
   oc: {
+    // As CSS variables too (--mui-oc-iconButton-*), for what isn't a MUI
+    // IconButton - the photo viewer's toolbar.
+    iconButton: {
+      size: `${ICON_BUTTON.medium.size}px`,
+      padding: `${(ICON_BUTTON.medium.size - ICON_BUTTON.medium.iconSize) / 2}px`,
+      gap: `${ICON_BUTTON.gap}px`,
+      touchTarget: `${ICON_BUTTON.touchTarget}px`,
+    },
     sys: {
       motion: {
         duration: {
@@ -201,6 +232,15 @@ const lightThemeOptions = {
     },
   },
   components: {
+    // Dark: a focused field's label in M3's dark primary (the palette's
+    // primary, made for the light theme, read at 2.4:1 there). Here: these
+    // components are the theme's (the default scheme's), extendTheme's own
+    // components were replaced by them.
+    MuiFormLabel: {
+      styleOverrides: {
+        root: ({ theme }) => theme.applyStyles('dark', { '&.Mui-focused': { color: theme.vars.sys.color.primary } }),
+      },
+    },
     // Primary-coloured text reads the scheme's primary role (sys.color.primary):
     // the teal itself on the light theme, a light teal on the dark one - the
     // teal palette colour was too dark there for text (3 to 3.9:1 on the dark
@@ -211,9 +251,51 @@ const lightThemeOptions = {
         root: ({ ownerState }) => (ownerState.color === 'primary' ? { color: 'var(--mui-sys-color-primary)', textDecorationColor: 'color-mix(in srgb, var(--mui-sys-color-primary) 40%, transparent)' } : {}),
       },
     },
-    MuiTab: {
+    MuiIconButton: {
       styleOverrides: {
-        root: { '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
+        // The 48dp touch target, invisible, around a smaller button. Only
+        // a hit area: the focus ring (variables.scss) is the button's own
+        // outline, so it keeps hugging the visible button.
+        root: {
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: `max(100%, ${ICON_BUTTON.touchTarget}px)`,
+            height: `max(100%, ${ICON_BUTTON.touchTarget}px)`,
+            transform: 'translate(-50%, -50%)',
+          },
+        },
+        sizeSmall: iconButtonSize(ICON_BUTTON.small),
+        sizeMedium: iconButtonSize(ICON_BUTTON.medium),
+        sizeLarge: iconButtonSize(ICON_BUTTON.large),
+      },
+      variants: [
+        {
+          // A dense toolbar's buttons (the Markdown editor's): 30px with a
+          // 20dp icon, side by side - no wider touch target, which would cover
+          // the neighbours. On a touch screen, 48dp with a 24dp icon.
+          props: { size: 'compact' },
+          style: {
+            padding: 5,
+            '& > .MuiSvgIcon-root': { fontSize: 20 },
+            '&::before': { width: '100%', height: '100%' },
+            '@media (pointer: coarse)': {
+              padding: 12,
+              '& > .MuiSvgIcon-root': { fontSize: 24 },
+            },
+          },
+        },
+      ],
+    },
+    MuiTab: {
+      // The focus ring only (variables.scss), as M3's tabs: the focus ripple's
+      // circle was cut off by the tab strip.
+      defaultProps: { disableFocusRipple: true },
+      styleOverrides: {
+        // Sentence case, as M3's tabs and the rest of the app (MUI's are capitals).
+        root: { textTransform: 'none', '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
       },
     },
     MuiTextField: {
@@ -389,21 +471,29 @@ const lightThemeOptions = {
       },
     },
     MuiTooltip: {
+      // On hover after half a second (a pointer just crossing shows nothing),
+      // the next one at once while browsing them; keyboard focus shows it
+      // at once (MUI's own). <oc-relative-time>'s tooltip waits the same.
+      defaultProps: {
+        enterDelay: 500,
+        enterNextDelay: 100,
+      },
       styleOverrides: {
+        // M3's plain tooltip: the inverse surface (dark on light, light on
+        // dark), 4px corners (extra-small shape), 24dp tall at least, body
+        // small text, no elevation - as <oc-relative-time>'s tooltip.
         tooltip: {
-          backgroundColor: '#000',
-          color: '#fff',
-          paddingStart: '8px',
-          paddingEnd: '8px',
-          paddingTop: '2px',
-          paddingBottom: '2px',
+          backgroundColor: 'var(--mui-sys-color-inverseSurface)',
+          color: 'var(--mui-sys-color-inverseOnSurface)',
+          minHeight: 24,
+          boxSizing: 'border-box',
+          padding: '4px 8px',
           margin: '4px!important',
-
-          borderRadius: '6px',
-          lineHeight: '1.25rem',
-          fontWeight: '400',
-          letterSpacing: '0.01428571em',
-          fontSize: 'var(--oc-map-text-secondary-font-size)',
+          borderRadius: 4,
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          fontWeight: 400,
+          letterSpacing: '0.025rem',
         },
       },
     },
@@ -463,9 +553,6 @@ const darkThemeOptions = {
       main: '#6Cbe2d',
     },
     divider: `rgba(255, 255, 255, ${DIVIDER_ALPHA})`,
-    Scrollbar: {
-      bg: 'rgb(62 62 62)',
-    },
     text: {
       primary: '#dedbd7',
       secondary: '#989da1',

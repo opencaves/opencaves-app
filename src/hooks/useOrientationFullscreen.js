@@ -3,18 +3,23 @@ import { useEffect, useRef, useState } from 'react'
 // How long to wait for a full-screen request before falling back.
 const FULLSCREEN_CHECK_MS = 400
 
-// In the installed app (PWA) on a touch device, a gallery follows the phone:
-// turned sideways, its viewer goes full screen (and turns with the phone:
-// the manifest allows any orientation); upright again, it leaves full screen
-// - but only a full screen the turn itself entered: one the person chose
-// (the viewer's button, before turning) stays. Also when the gallery opens
-// already sideways. fullscreenRef: the lightbox's Fullscreen plugin ref
-// (enter, exit, fullscreen).
-//
-// A browser may refuse full screen without a tap (turning the phone isn't
-// one): the viewer then covers the whole app window instead - `immersive`,
-// for the caller to style - which, in an installed app with no browser bar,
-// looks the same but for the phone's status bar.
+/**
+ * In the installed app (PWA) on a touch device, a gallery follows the phone:
+ * turned sideways, its viewer goes full screen (and turns with the phone:
+ * the manifest allows any orientation); upright again, it leaves full screen
+ * - but only a full screen the turn itself entered: one the person chose
+ * (the viewer's button, before turning) stays. Also when the gallery opens
+ * already sideways.
+ *
+ * A browser may refuse full screen without a tap (turning the phone isn't
+ * one): the viewer then covers the whole app window instead - `immersive`,
+ * for the caller to style - which, in an installed app with no browser bar,
+ * looks the same but for the phone's status bar.
+ *
+ * @param {React.RefObject} fullscreenRef - The lightbox's Fullscreen plugin ref
+ *   (enter, exit, fullscreen).
+ * @returns {boolean} `immersive`.
+ */
 export function useOrientationFullscreen(fullscreenRef) {
   const [immersive, setImmersive] = useState(false)
   // Whether the current full screen (or immersive view) came from a turn.

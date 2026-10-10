@@ -1,17 +1,23 @@
 import { useId, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Button, Popover, Tooltip, useTheme } from '@mui/material'
+import { Badge, Button, Popover, Tooltip, useTheme } from '@mui/material'
 import AppMenuIcon from './AppMenuIcon.jsx'
 import AppMenuPanel from './AppMenuPanel.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
+import { useNewFeedbackCount } from '@/routes/feedback/useNewFeedbackCount.js'
 
-// The account button (avatar, or the logo when signed out) and its account
-// card. The card holds buttons and links, not just menu items, so it's a
-// labeled dialog-style Popover rather than an ARIA menu (which may only
-// contain menu items).
+/**
+ * The account button (avatar, or the logo when signed out) and its account
+ * card. The card holds buttons and links, not just menu items, so it's a
+ * labeled dialog-style Popover rather than an ARIA menu (which may only
+ * contain menu items). For admins, a badge on the button counts the new
+ * feedback reports (in its accessible name too).
+ */
 export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, className, ...props }) {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isAdmin = useSelector((state) => state.session.isLoggedIn && state.session.roles.includes('admin'))
+  const newFeedback = useNewFeedbackCount(isAdmin)
   const isSmall = useSmall()
   const theme = useTheme()
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
@@ -38,7 +44,20 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, classNa
   return (
     <>
       <Tooltip title={t('tooltip')}>
-        <Button {...props} className={`oc-app-menu ${className || ''}`.trim()} variant={isSmall ? 'text' : 'contained'} aria-label={t('ariaLabel')} onClick={(event) => setAnchorEl(event.currentTarget)} aria-controls={open ? panelId : undefined} aria-haspopup="dialog" aria-expanded={open ? 'true' : undefined} sx={[sx, menuStyles]}>
+        <Button {...props} className={`oc-app-menu ${className || ''}`.trim()} variant={isSmall ? 'text' : 'contained'} aria-label={newFeedback ? `${t('ariaLabel')}, ${t('newFeedbackAria', { count: newFeedback })}` : t('ariaLabel')} onClick={(event) => setAnchorEl(event.currentTarget)} aria-controls={open ? panelId : undefined} aria-haspopup="dialog" aria-expanded={open ? 'true' : undefined} sx={[sx, menuStyles]}>
+          {/* M3's large badge (16dp) in the app's gold, as the menu's and the
+              dashboard's counts: the new feedback reports, admins only.
+              aria-hidden: the button's name says it. */}
+          <Badge
+            className="oc-app-menu--badge"
+            badgeContent={newFeedback}
+            max={99}
+            color="secondary"
+            overlap="circular"
+            invisible={!newFeedback}
+            slotProps={{ badge: { 'aria-hidden': true } }}
+            sx={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', '& .MuiBadge-badge': { height: 16, minWidth: 16, px: '4px', fontSize: '0.6875rem', fontWeight: 500, lineHeight: '16px' } }}
+          >
           <AppMenuIcon
             logoColorScheme={logoColorScheme}
             logoSx={logoSx}
@@ -51,6 +70,7 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, classNa
               }
             }
           />
+          </Badge>
         </Button>
       </Tooltip>
       <Popover

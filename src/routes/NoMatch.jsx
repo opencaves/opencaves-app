@@ -10,6 +10,8 @@ import { setHeadLink, setHeadMeta } from '@/utils/headTags.js'
 import { Link, isRouteErrorResponse, useLocation, useNavigate, useRevalidator, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
+import { removeShell } from '@/utils/shell.js'
+import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -51,7 +53,7 @@ ${reason}`)
         <span>{t('title')}</span>
         <Tooltip title={copied ? t('copied') : t('copy')}>
           <IconButton className="no-match--copy" size="small" onClick={copy} aria-label={copied ? t('copied') : t('copy')}>
-            {copied ? <CheckRounded fontSize="small" /> : <ContentCopyRounded fontSize="small" />}
+            {copied ? <CheckRounded /> : <ContentCopyRounded />}
           </IconButton>
         </Tooltip>
       </summary>
@@ -65,8 +67,18 @@ ${reason}`)
   )
 }
 
-export default function NoMatch() {
+/**
+ * A bad cave or system address offers its list too.
+ *
+ * @param {object} props
+ * @param {boolean} [props.inLayout=false] - Inside the pages' layout (app bar, search kept), not the whole
+ *   window.
+ */
+export default function NoMatch({ inLayout = false }) {
   const { t } = useTranslation('404')
+  const { t: tHome } = useTranslation('home')
+  const { pathname } = useLocation()
+  const list = pathname.startsWith('/caves/') ? 'caves' : pathname.startsWith('/sistemas/') ? 'sistemas' : null
   const { t: tSeo } = useTranslation('seo')
   const error = useRouteError()
   const online = useOnline()
@@ -84,6 +96,20 @@ export default function NoMatch() {
   useEffect(() => {
     if (error && !notFound) console.error(error)
   }, [error, notFound])
+
+  // Firestore failed inside (its SDK's bug): recovered with a reload; once
+  // the automatic steps are spent, the button reloads too - loading the
+  // page's data again can't work until then.
+  const firestoreFailed = isFirestoreFailure(error)
+  useEffect(() => {
+    if (firestoreFailed) recoverFromFirestoreFailure()
+  }, [firestoreFailed])
+
+  // An error page outside Layout (a route failing, the map's): index.html's
+  // splash goes, as no page will remove it.
+  useEffect(() => {
+    removeShell()
+  }, [])
 
   useEffect(() => {
     setHeadMeta('robots', 'noindex')
@@ -106,7 +132,7 @@ export default function NoMatch() {
     <Helmet>
       <title>{`${kind === 'notFound' ? tSeo('notFoundTitle') : t(`${kind}.header`)} / ${APP_TITLE}`}</title>
     </Helmet>
-    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}`} direction="column" sx={{ height: '100dvh', justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
+    <Grid container className={`oc-no-match no-match--container${kind === 'notFound' ? '' : ' no-match--error'}${kind === 'offline' ? ' no-match--with-back' : ''}${inLayout ? ' no-match--in-layout' : ''}`} direction="column" sx={{ height: inLayout ? 'auto' : '100dvh', py: inLayout ? 6 : 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap' }}>
       {/* Offline: a way back to what's on the device (MD3: a full-screen
           view's back arrow at its top left), on a light disc over the photo. */}
       {kind === 'offline' && (
@@ -118,11 +144,18 @@ export default function NoMatch() {
         <h1 className="no-match--header">{kind === 'notFound' ? t('header') : t(`${kind}.header`)}</h1>
         <p>{kind === 'notFound' ? t('description') : t(`${kind}.description`)}</p>
         {kind === 'notFound' ? (
-          <Button component={Link} variant="contained" disableElevation to="/">
-            {t('backBtn')}
-          </Button>
+          <Grid container sx={{ gap: 1.5, justifyContent: 'center' }}>
+            {list && (
+              <Button component={Link} variant="contained" disableElevation to={`/${list}`}>
+                {tHome(`hero.browse.${list}`)}
+              </Button>
+            )}
+            <Button component={Link} variant={list ? 'outlined' : 'contained'} disableElevation to="/">
+              {t('backBtn')}
+            </Button>
+          </Grid>
         ) : (
-          <Button variant="contained" disableElevation onClick={() => revalidator.revalidate()} loading={revalidator.state === 'loading'}>
+          <Button variant="contained" disableElevation onClick={() => (firestoreFailed ? window.location.reload() : revalidator.revalidate())} loading={revalidator.state === 'loading'}>
             {t('retryBtn')}
           </Button>
         )}

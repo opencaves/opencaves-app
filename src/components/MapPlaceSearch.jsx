@@ -2,12 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Autocomplete, Box, CircularProgress, InputAdornment, SvgIcon, TextField, Typography } from '@mui/material'
-import PlaceOutlined from '@mui/icons-material/PlaceOutlined'
+import PlaceRounded from '@mui/icons-material/PlaceRounded'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import PinIcon from '@/images/map/pin.svg?react'
 import { REGION_BBOX } from '@/config/map.js'
 import { matchesId } from '@/utils/matchesId.js'
 import { toServiceLanguage } from '@/utils/lang.js'
+import { foldSearch, searchMatcher } from '@/utils/searchText.js'
 
 const GEOCODE_URL = 'https://api.mapbox.com/search/geocode/v6/forward'
 const PLACE_LIMIT = 5
@@ -21,22 +22,19 @@ const DEFAULT_ZOOM = 14
 // Same pill as the main map's search bar (SearchBar).
 const SEARCH_BAR_SHADOW = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)'
 
-// Accent- and case-insensitive, so "Dos Ojos" finds "dos ojos" and "cénote"
-// finds "cenote".
-function fold(text) {
-  return (text || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-}
 
-// A search field over a coordinates map (CoordinatesMapPreview): finds the
-// app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
-// to the Yucatán, in the UI language, nearest the map's center first).
-// Picking one only moves the map - with "Place on map"'s cross showing, the
-// cross then sits on it, ready to confirm. centerOffsetY: how far below the
-// map's center (px) the result should land, for a cross that isn't centered
-// (PlaceOnMapOverlay's, above the phone sheet).
+/**
+ * A search field over a coordinates map (CoordinatesMapPreview): finds the
+ * app's own cenotes (by name, alias or ID) and places (Mapbox geocoding, limited
+ * to the Yucatán, in the UI language, nearest the map's center first).
+ * Picking one only moves the map - with "Place on map"'s cross showing, the
+ * cross then sits on it, ready to confirm.
+ *
+ * @param {object} props
+ * @param {number} [props.centerOffsetY=0] - How far below the
+ *   map's center (px) the result should land, for a cross that isn't centered
+ *   (PlaceOnMapOverlay's, above the phone sheet).
+ */
 export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'edit.placeSearch' })
   const caves = useSelector((state) => state.data.caves)
@@ -52,9 +50,9 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
 
   const caveOptions = useMemo(() => {
     if (query.length < 2) return []
-    const q = fold(query)
+    const matches = searchMatcher(query)
     return caves
-      .filter((cave) => cave.location && ([cave.name?.value, ...(cave.aka || [])].some((name) => fold(name).includes(q)) || matchesId(cave.id, query)))
+      .filter((cave) => cave.location && ([cave.name?.value, ...(cave.aka || [])].some((name) => matches(foldSearch(name))) || matchesId(cave.id, query)))
       .slice(0, CAVE_LIMIT)
       .map((cave) => ({ kind: 'cave', id: cave.id, label: cave.name?.value || cave.id, detail: cave.aka?.length ? cave.aka.join(', ') : '', center: [cave.location.longitude, cave.location.latitude] }))
   }, [caves, query])
@@ -119,7 +117,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
     const map = mapRef.current
     if (!map || !option) return
     const zoom = ZOOM_BY_TYPE[option.kind === 'cave' ? 'cave' : option.type] ?? DEFAULT_ZOOM
-    map.flyTo({ center: option.center, zoom, offset: [0, centerOffsetY], essential: true })
+    map.flyTo({ center: option.center, zoom, offset: [0, centerOffsetY] })
   }
 
   const options = [...caveOptions, ...places]
@@ -154,7 +152,7 @@ export default function MapPlaceSearch({ mapRef, centerOffsetY = 0 }) {
       slotProps={{ paper: { elevation: 3, sx: { mt: 0.5, borderRadius: 3 } } }}
       renderOption={({ key, ...props }, option) => (
         <Box component="li" key={key} {...props} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-          {option.kind === 'cave' ? <SvgIcon component={PinIcon} inheritViewBox sx={{ mt: 0.25, width: 20, height: 20, color: 'text.secondary', flexShrink: 0 }} /> : <PlaceOutlined sx={{ mt: 0.25, color: 'text.secondary', flexShrink: 0 }} fontSize="small" />}
+          {option.kind === 'cave' ? <SvgIcon component={PinIcon} inheritViewBox sx={{ mt: 0.25, width: 20, height: 20, color: 'text.secondary', flexShrink: 0 }} /> : <PlaceRounded sx={{ mt: 0.25, color: 'text.secondary', flexShrink: 0 }} fontSize="small" />}
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="body2">{option.label}</Typography>
             {option.detail && (

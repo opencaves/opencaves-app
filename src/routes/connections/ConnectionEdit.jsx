@@ -20,6 +20,7 @@ import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import StickyActionBar from '@/components/StickyActionBar.jsx'
 
 const sourcesModel = createCollectionModel('sources')
 const areasModel = createCollectionModel('areas')
@@ -283,18 +284,21 @@ export default function ConnectionEdit() {
               )),
             ])}
           </TextField>
-          <PartialDateField label={t('connectionDate')} description={t('connectionDateHint')} allowRange={false} sx={{ alignSelf: 'flex-start', width: 280 }} {...field('connectionDate')} />
-          <SourceSelect label={t('connectionSource')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
+          <PartialDateField label={t('connectionDate')} description={t('connectionDateHint')} allowRange={false} sx={{ alignSelf: 'flex-start' }} {...field('connectionDate')} />
+          <SourceSelect label={t('connectionSource')} helperText={t('connectionSourceHint')} noneLabel={t('noSource')} sources={sources} value={form.source} onChange={(source) => setForm((current) => ({ ...current, source }))} />
           <TextField label={t('connectionNote')} fullWidth multiline minRows={2} sx={{ '& textarea': { resize: 'vertical' } }} {...field('note')} />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-            <Button component={Link} to="/connections" disabled={saving}>
-              {t('cancel')}
-            </Button>
-            <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !canSave}>
-              {t('save')}
-            </Button>
-          </Box>
         </Box>
+      )}
+      {/* The forms' sticky bottom bar (they were inside the card here). */}
+      {form && (
+        <StickyActionBar gap={1}>
+          <Button component={Link} to="/connections" disabled={saving}>
+            {t('cancel')}
+          </Button>
+          <Button variant="contained" onClick={() => handleSave()} disabled={saving || !isDirty || !canSave}>
+            {t('save')}
+          </Button>
+        </StickyActionBar>
       )}
       {unsavedChangesDialog}
     </div>

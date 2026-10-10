@@ -22,7 +22,11 @@ export function readDeviceLanguage() {
   }
 }
 
-// Stores the choice on this device and switches the UI to it.
+/**
+ * Stores the choice on this device and switches the UI to it.
+ *
+ * @param {string|null} code
+ */
 export function applyLanguage(code) {
   try {
     if (code) window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, code)
@@ -41,14 +45,25 @@ export async function loadAccountLanguage(uid) {
   return isSupportedLanguage(code) ? code : null
 }
 
-// Automatic removes the field rather than storing a value.
+/**
+ * Automatic removes the field rather than storing a value.
+ *
+ * @param {string} uid
+ * @param {string|null} code
+ * @returns {Promise<void>}
+ */
 export function saveAccountLanguage(uid, code) {
   return setDoc(doc(db, USERS_COLLECTION, uid), { language: code || deleteField() }, { merge: true })
 }
 
-// A language chosen anywhere (the account page, the landing page's menu):
-// applied on this device and, for a signed-in account, saved as its
-// preference. null: Automatic.
+/**
+ * A language chosen anywhere (the account page, the landing page's menu):
+ * applied on this device and, for a signed-in account, saved as its
+ * preference.
+ *
+ * @param {string|null} code - null: Automatic.
+ * @param {object} [user]
+ */
 export function chooseLanguage(code, user) {
   const applied = applyLanguage(code)
   if (user?.uid && !user.isAnonymous) {
