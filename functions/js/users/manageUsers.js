@@ -138,12 +138,18 @@ async function emailAccount(user, emails) {
   }
 }
 
-// Freezes an account: all its editing rights removed (its roles emptied, kept
-// in frozenRoles for unfreezing), and the auto-granted editor role
-// (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
-// current ID token still works until it expires (up to an hour), then it
-// signs in again without them. Unfreezing gives its roles back. The account
-// is told both times by email.
+/**
+ * Freezes an account: all its editing rights removed (its roles emptied, kept
+ * in frozenRoles for unfreezing), and the auto-granted editor role
+ * (ensureEditorRole) withheld while frozen. Its sessions are revoked: its
+ * current ID token still works until it expires (up to an hour), then it
+ * signs in again without them. Unfreezing gives its roles back. The account
+ * is told both times by email.
+ *
+ * @param {CallableRequest} request - Its data: { uid, frozen }.
+ * @throws {HttpsError} permission-denied when the caller isn't an admin ({@link requireAdmin});
+ *   invalid-argument without uid and frozen; failed-precondition for the caller's own account.
+ */
 export const setUserFrozen = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, secrets: [RESEND_API_KEY] }, async request => {
   requireAdmin(request)
 

@@ -84,16 +84,21 @@ function LabeledAction({ icon, label, onClick, disabled }) {
     </ButtonBase>
   )
 }
-// canPickOnMap: whether there's a map on screen to tap (on phones, the admin
-// edit pages' CoordinatesMapPreview); without one, phones only get My
-// location and Remove. mapBelowOnPhones: on phones, "Place on map" opens a
-// map right below this field instead (for a page whose own map preview is
-// hidden on phones, see CoordinatesMapPreview's hideOnPhones).
-// validity / onValidityChange: the coordinate's validity, as a dropdown with a
-// colour clue; a new value - typed, picked on the map or "my location" - makes
-// it valid.
-// onRemove: what its X does (CoordinateFieldList: clears it and hides it);
-// otherwise the X only clears it.
+/**
+ * @param {object} props
+ * @param {boolean} [props.canPickOnMap=true] - Whether there's a map on screen to tap (on phones, the admin
+ *   edit pages' {@link CoordinatesMapPreview}); without one, phones only get My
+ *   location and Remove.
+ * @param {boolean} [props.mapBelowOnPhones=false] - On phones, "Place on map" opens a
+ *   map right below this field instead (for a page whose own map preview is
+ *   hidden on phones, see CoordinatesMapPreview's hideOnPhones).
+ * @param {string} [props.validity] - The coordinate's validity, as a dropdown with a
+ *   colour clue; a new value - typed, picked on the map or "my location" - makes
+ *   it valid.
+ * @param {(validity: string) => void} [props.onValidityChange]
+ * @param {() => void} [props.onRemove] - What its X does (CoordinateFieldList: clears it and hides it);
+ *   otherwise the X only clears it.
+ */
 export default function CoordinateField({ field, label, longitude, latitude, onChange, validity, onValidityChange, onRemove, labelProps = {}, canPickOnMap = true, mapBelowOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()

@@ -14,10 +14,12 @@ const PROVIDERS = {
   'microsoft.com': { name: 'Microsoft', provider: microsoftProvider },
 }
 
-// When a provider sign-in is refused because its email already has an
-// account (pendingLink.js): explains it and offers to sign in the way used
-// before (the other provider, or the email link); once signed in to that
-// account, the refused provider is added to it, and the person is told.
+/**
+ * When a provider sign-in is refused because its email already has an
+ * account (pendingLink.js): explains it and offers to sign in the way used
+ * before (the other provider, or the email link); once signed in to that
+ * account, the refused provider is added to it, and the person is told.
+ */
 export default function AccountLinking() {
   const { t } = useTranslation('auth', { keyPrefix: 'linking' })
   const [openSnackbar] = useSnackbar()

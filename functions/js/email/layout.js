@@ -151,10 +151,21 @@ ${plain(text)}`,
   signoff: ({ lines }) => lines.map(plain).join('\n'),
 }
 
-// { html, text } for an email: `hero` (an optional overline, a title, an
-// optional lead) on the primary-coloured band, then the blocks, then
-// `footer` (a short line on why the reader got it), then, if given,
-// `unsubscribe` ({ text, label, href }): a small line linking to it.
+/**
+ * { html, text } for an email: `hero` (an optional overline, a title, an
+ * optional lead) on the primary-coloured band, then the blocks, then
+ * `footer` (a short line on why the reader got it), then, if given,
+ * `unsubscribe` ({ text, label, href }): a small line linking to it.
+ *
+ * @param {object} email
+ * @param {string} [email.language='en']
+ * @param {string} [email.preheader='']
+ * @param {{overline?: string, title: string, lead?: string}} email.hero
+ * @param {object[]} email.blocks
+ * @param {string} [email.footer='']
+ * @param {{text: string, label: string, href: string}|null} [email.unsubscribe=null]
+ * @returns {{html: string, text: string}}
+ */
 export function renderEmail({ language = 'en', preheader = '', hero, blocks, footer = '', unsubscribe = null }) {
   const body = blocks.map((block) => HTML_BLOCKS[block.type](block)).join('\n')
   const html = `<!doctype html>
@@ -179,8 +190,17 @@ ${unsubscribe ? `<tr><td style="padding:0 24px 20px;text-align:center;font-size:
   return { html, text }
 }
 
-// A short email of plain paragraphs (the account notices): the first is the
-// greeting, the last the signature.
+/**
+ * A short email of plain paragraphs (the account notices): the first is the
+ * greeting, the last the signature.
+ *
+ * @param {object} notice
+ * @param {string} notice.language
+ * @param {string} notice.title
+ * @param {string[]} notice.paragraphs
+ * @param {string} notice.footer
+ * @returns {{html: string, text: string}}
+ */
 export function renderNotice({ language, title, paragraphs, footer }) {
   const body = paragraphs.slice(0, -1).map((text) => ({ type: 'p', text }))
   return renderEmail({ language, preheader: paragraphs[1] || '', hero: { title }, blocks: [...body, { type: 'signoff', lines: paragraphs.at(-1).split('\n') }], footer })

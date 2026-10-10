@@ -5,10 +5,12 @@ import { createCollectionModel } from '@/models/firestoreCollectionModel.js'
 
 const sourcesModel = createCollectionModel('sources')
 
-// Under a text (a cave's or system's description, directions...): where its
-// words come from - its record's textSources entry for that field ("Source:
-// Gerrard 2015"). Nothing when it has none, and nothing for anyone but
-// admins: an editing note, not part of the public page.
+/**
+ * Under a text (a cave's or system's description, directions...): where its
+ * words come from - its record's textSources entry for that field ("Source:
+ * Gerrard 2015"). Nothing when it has none, and nothing for anyone but
+ * admins: an editing note, not part of the public page.
+ */
 export default function TextSource({ record, field, sx }) {
   const { t } = useTranslation('textSource')
   const [sources] = sourcesModel.useAll()

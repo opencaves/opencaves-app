@@ -22,11 +22,13 @@ import { offlineSupported } from '@/services/offline/offlineMedia.js'
 import { loadPendingUploads } from '@/services/offline/pendingUploads.js'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
-// The account menu's content, in the style of Google Maps' account card: a
-// header (avatar, greeting and "Manage your account" when signed in; a
-// welcome with Log in / Sign up when not), the other actions grouped on white
-// rounded sections over the card's tinted surface, and the legal links at the
-// bottom. Rendered in AppMenu's Popover.
+/**
+ * The account menu's content, in the style of Google Maps' account card: a
+ * header (avatar, greeting and "Manage your account" when signed in; a
+ * welcome with Log in / Sign up when not), the other actions grouped on white
+ * rounded sections over the card's tinted surface, and the legal links at the
+ * bottom. Rendered in AppMenu's Popover.
+ */
 export default function AppMenuPanel({ onClose, titleId }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { t: tLegal } = useTranslation('legal', { keyPrefix: 'links' })

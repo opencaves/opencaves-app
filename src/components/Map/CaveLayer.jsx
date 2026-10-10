@@ -47,8 +47,13 @@ const tileIndexLoading = fetch(CAVE_LAYER.INDEX)
   // rather than none - the ones kept on the device still show.
   .catch(() => (tileIndex = null))
 
-// For the map's transformRequest: a cave tile not in the index is answered
-// with the empty tile instead of being fetched.
+/**
+ * For the map's transformRequest: a cave tile not in the index is answered
+ * with the empty tile instead of being fetched.
+ *
+ * @param {string} url
+ * @returns {{url: string}}
+ */
 export function caveTileRequest(url) {
   const match = tileIndex && url.match(/\/tiles\/caves\/(\d+\/\d+\/\d+)\.pbf/)
   if (match && !tileIndex.has(match[1])) return { url: new URL(CAVE_LAYER.EMPTY_TILE, window.location.origin).href }
@@ -106,18 +111,22 @@ function EditCard({ map, hidden, sistemaName, onHide, onShow, onClose }) {
   )
 }
 
-// The cave layer: the passages traced from the cave survey maps (walls,
-// survey lines, water, drawn details) and their symbols (entrances, depths,
-// place names, flow), with the options of the map's layer button (the
-// caveLayer slice): shown or not; every system or only the selected cave's
-// (selectedSistemaId: its system and the ones merged into it); each system in
-// its colour (from the database: a colour changed in the admin UI shows
-// without rebuilding the tiles) or all in one colour. The maps whose drawing
-// editors hid (caveLayerSettings) are left out for everyone - shown in grey in
-// the edit mode (editors), where the map under the pointer is outlined and
-// named, and a click on it offers to hide its drawing, or show it again.
-// mapId: that map's drawing only, always shown (even hidden for everyone) and
-// never in the edit mode - the admin's original-vs-drawing viewer.
+/**
+ * The cave layer: the passages traced from the cave survey maps (walls,
+ * survey lines, water, drawn details) and their symbols (entrances, depths,
+ * place names, flow), with the options of the map's layer button (the
+ * caveLayer slice): shown or not; every system or only the selected cave's
+ * (selectedSistemaId: its system and the ones merged into it); each system in
+ * its colour (from the database: a colour changed in the admin UI shows
+ * without rebuilding the tiles) or all in one colour. The maps whose drawing
+ * editors hid (caveLayerSettings) are left out for everyone - shown in grey in
+ * the edit mode (editors), where the map under the pointer is outlined and
+ * named, and a click on it offers to hide its drawing, or show it again.
+ *
+ * @param {object} props
+ * @param {string} [props.mapId] - That map's drawing only, always shown (even hidden for everyone) and
+ *   never in the edit mode - the admin's original-vs-drawing viewer.
+ */
 export default function CaveLayer({ selectedSistemaId, mapId }) {
   const theme = useTheme()
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.edit' })

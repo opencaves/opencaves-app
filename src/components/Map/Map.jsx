@@ -85,8 +85,11 @@ function hasSavedViewState(viewState) {
   return Number.isFinite(viewState?.longitude) && Number.isFinite(viewState?.latitude) && Number.isFinite(viewState?.zoom)
 }
 
-// mapRef: optional, for a parent that needs the map itself (e.g.
-// CoordinatesMapPreview reading its center).
+/**
+ * @param {object} [props]
+ * @param {React.RefObject} [props.mapRef] - Optional, for a parent that needs the map itself (e.g.
+ *   CoordinatesMapPreview reading its center).
+ */
 export default function OCMap({ mapRef: externalMapRef } = {}) {
   const internalMapRef = useRef()
   const mapRef = externalMapRef ?? internalMapRef

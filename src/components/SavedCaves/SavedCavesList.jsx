@@ -56,9 +56,13 @@ function OfflineSummary() {
   )
 }
 
-// The account page's "Saved cenotes" section: every cave the user saved from
-// the result pane's Save quick action, most recently saved first.
-// headingProps: the page's section heading style (see Account).
+/**
+ * The account page's "Saved cenotes" section: every cave the user saved from
+ * the result pane's Save quick action, most recently saved first.
+ *
+ * @param {object} props
+ * @param {object} [props.headingProps={}] - The page's section heading style (see Account).
+ */
 export default function SavedCavesList({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'savedCaves' })
   const { t: tMap } = useTranslation('map')

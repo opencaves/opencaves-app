@@ -16,26 +16,29 @@ import { COORDINATE_DECIMALS, PLACE_ZOOM } from '@/config/map.js'
 import PlaceCross from '@/components/Map/PlaceCross.jsx'
 
 
-// Inline map beside an edit page's CoordinateFields (cave and sistema admin
-// pages). Map.jsx's own CSS fills its nearest positioned ancestor with a
-// defined height (it's built to fill the whole /map page) - this box supplies
-// both so it renders as an inline preview here instead. Dragging the
-// CoordinateField pin icons or clicking the map still works via the same
-// pickingCoordinateFor/editFieldCoordinates redux state CoordinateField
-// itself dispatches to.
-//
-// Its corner button makes it cover the whole screen (a fixed overlay, not the
-// Fullscreen API, which iPhone Safari only supports for video); the same
-// button or Escape brings it back.
-//
-// On phones a CoordinateField's "Place on map" (mapSlice.crossPickFor) shows
-// a fixed cross at the center, like the map's own place-on-map mode: the
-// person pans the map under it, then confirms.
-//
-// hideOnPhones: no map here on phones - the cave page, whose three coordinate
-// pairs would otherwise sit above a map that's mostly just in the way there;
-// instead, the CoordinateField being placed opens its own right below itself
-// (its mapBelowOnPhones), which goes away again once placed.
+/**
+ * Inline map beside an edit page's CoordinateFields (cave and sistema admin
+ * pages). Map.jsx's own CSS fills its nearest positioned ancestor with a
+ * defined height (it's built to fill the whole /map page) - this box supplies
+ * both so it renders as an inline preview here instead. Dragging the
+ * CoordinateField pin icons or clicking the map still works via the same
+ * pickingCoordinateFor/editFieldCoordinates redux state CoordinateField
+ * itself dispatches to.
+ *
+ * Its corner button makes it cover the whole screen (a fixed overlay, not the
+ * Fullscreen API, which iPhone Safari only supports for video); the same
+ * button or Escape brings it back.
+ *
+ * On phones a CoordinateField's "Place on map" (mapSlice.crossPickFor) shows
+ * a fixed cross at the center, like the map's own place-on-map mode: the
+ * person pans the map under it, then confirms.
+ *
+ * @param {object} props
+ * @param {boolean} [props.hideOnPhones=false] - No map here on phones - the cave page, whose three coordinate
+ *   pairs would otherwise sit above a map that's mostly just in the way there;
+ *   instead, the CoordinateField being placed opens its own right below itself
+ *   (its mapBelowOnPhones), which goes away again once placed.
+ */
 export default function CoordinatesMapPreview({ hideOnPhones = false }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()

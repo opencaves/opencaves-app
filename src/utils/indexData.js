@@ -7,9 +7,14 @@ import { slugify } from './slug.js'
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 
-// Every public sistema's address segment by id - its id, as a cave's
-// (/sistemas/<id>, like /caves/<id>). All are public today; one marked
-// otherwise has no page.
+/**
+ * Every public sistema's address segment by id - its id, as a cave's
+ * (/sistemas/<id>, like /caves/<id>). All are public today; one marked
+ * otherwise has no page.
+ *
+ * @param {object[]} sistemas
+ * @returns {Map<string, string>}
+ */
 export function sistemaSlugs(sistemas) {
   return new Map(sistemas.filter((sistema) => sistema.public !== false).map(({ id }) => [id, id]))
 }
@@ -72,8 +77,15 @@ export function buildIndexData({ caves = [], sistemas = [], areas = [], connecti
   return { caves: caveItems, sistemas: sistemaItems, sistemasById, sistemasBySlug, areas: areaItems, areasBySlug, connections: links }
 }
 
-// Items grouped by their area, areas in alphabetical order, those without
-// one (or with one that has no slug) last, under a null area.
+/**
+ * Items grouped by their area, areas in alphabetical order, those without
+ * one (or with one that has no slug) last, under a null area.
+ *
+ * @param {object[]} items
+ * @param {Map<string, object>} areasBySlug
+ * @param {(item: object) => string} [areaOf] - The item's area name (its `area` by default).
+ * @returns {{area: object|null, items: object[]}[]}
+ */
 export function groupByArea(items, areasBySlug, areaOf = (item) => item.area) {
   const groups = new Map()
   items.forEach((item) => {
@@ -85,8 +97,12 @@ export function groupByArea(items, areasBySlug, areaOf = (item) => item.area) {
   return [...groups.values()].sort((a, b) => (!a.area ? 1 : !b.area ? -1 : byName(a.area, b.area)))
 }
 
-// The landing page's figures (Home): how many caves and public systems, and
-// the areas that have caves, with their count.
+/**
+ * The landing page's figures (Home): how many caves and public systems, and
+ * the areas that have caves, with their count.
+ *
+ * @returns {{caves: number, sistemas: number, regions: {name: string, slug: string, count: number}[]}}
+ */
 export function homeFigures(data) {
   return {
     caves: data.caves.length,

@@ -57,9 +57,14 @@ md.core.ruler.push('oc_email_styles', (state) => {
 // value as written.
 const untag = (text) => String(text ?? '').replace(/:length\[([^\]]*)\](\{[^}]*\})?/g, '$1')
 
-// { html, text } of a Markdown text: the HTML for the email's formatted
-// version, the text (the Markdown itself, which reads as text) for its plain
-// one.
+/**
+ * { html, text } of a Markdown text: the HTML for the email's formatted
+ * version, the text (the Markdown itself, which reads as text) for its plain
+ * one.
+ *
+ * @param {string} markdown
+ * @returns {{html: string, text: string}}
+ */
 export function renderMarkdown(markdown) {
   const source = untag(markdown)
   const text = source.replace(/\]\(oc:([^)\s]+)\)/g, (_, id) => `](${SITE_URL}/caves/${encodeURIComponent(id)})`)

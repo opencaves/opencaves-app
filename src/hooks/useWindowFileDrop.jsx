@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { isExternalFileDrag } from '@/utils/externalFileDrag.js'
 
-// Files dragged anywhere over the window (not just onto a drop zone), while
-// `enabled`: [open, close] for the full-screen drop zone (Dropzone) - open
-// while files from outside the page are over it, close once dropped. The
-// window, not an element: it covers everything (the map too, outside the
-// result pane's own DOM). The enter/leave counter: the browser fires
-// dragenter/dragleave for every element the pointer passes over.
+/**
+ * Files dragged anywhere over the window (not just onto a drop zone), while
+ * `enabled`: [open, close] for the full-screen drop zone (Dropzone) - open
+ * while files from outside the page are over it, close once dropped. The
+ * window, not an element: it covers everything (the map too, outside the
+ * result pane's own DOM). The enter/leave counter: the browser fires
+ * dragenter/dragleave for every element the pointer passes over.
+ *
+ * @param {boolean} [enabled=true]
+ * @returns {[boolean, () => void]} [open, close].
+ */
 export function useWindowFileDrop(enabled = true) {
   const [open, setOpen] = useState(false)
   const counter = useRef(0)

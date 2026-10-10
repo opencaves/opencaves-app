@@ -2,7 +2,13 @@ import { PHOTO_GPS_MAX_DISTANCE } from '@/config/mediaPane.js'
 
 const EARTH_RADIUS = 6371008.8
 
-// Metres between two { latitude, longitude } points (haversine).
+/**
+ * Metres between two { latitude, longitude } points (haversine).
+ *
+ * @param {{latitude: number, longitude: number}} a
+ * @param {{latitude: number, longitude: number}} b
+ * @returns {number}
+ */
 export function distanceMetres(a, b) {
   const rad = Math.PI / 180
   const dLat = (b.latitude - a.latitude) * rad
@@ -11,8 +17,13 @@ export function distanceMetres(a, b) {
   return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(h))
 }
 
-// The photo's GPS position from its EXIF tags, or null (none, or unreadable).
-// exifr's lite build, loaded only when a photo is checked.
+/**
+ * The photo's GPS position from its EXIF tags, or null (none, or unreadable).
+ * exifr's lite build, loaded only when a photo is checked.
+ *
+ * @param {File} file
+ * @returns {Promise<{latitude: number, longitude: number}|null>}
+ */
 export async function photoPosition(file) {
   try {
     const { gps } = await import('exifr/dist/lite.esm.mjs')
@@ -34,9 +45,15 @@ function cavePoints(cave) {
   )
 }
 
-// The photos taken farther than PHOTO_GPS_MAX_DISTANCE from every one of the
-// cave's points, with their distance to the nearest one: [{ file, distance }]. A photo without
-// GPS tags, or a cave without coordinates, passes.
+/**
+ * The photos taken farther than {@link PHOTO_GPS_MAX_DISTANCE} from every one of the
+ * cave's points, with their distance to the nearest one: [{ file, distance }]. A photo without
+ * GPS tags, or a cave without coordinates, passes.
+ *
+ * @param {File[]} files
+ * @param {object} cave
+ * @returns {Promise<{file: File, distance: number}[]>}
+ */
 export async function photosFarFromCave(files, cave) {
   const points = cavePoints(cave)
   if (!points.length) return []

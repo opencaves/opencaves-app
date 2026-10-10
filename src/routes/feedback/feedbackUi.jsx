@@ -46,23 +46,42 @@ export const CLOSED_FEEDBACK_STATUSES = FEEDBACK_STATUSES.filter((status) => !OP
 export const statusOf = (report) => (STATUS[report.status] ? report.status : 'new')
 export const isOpen = (report) => OPEN_FEEDBACK_STATUSES.includes(statusOf(report))
 
-// A report's title, GitHub-issue style: its message's first line.
+/**
+ * A report's title, GitHub-issue style: its message's first line.
+ *
+ * @param {object} report
+ * @returns {string}
+ */
 export const titleOf = (report) => String(report.message || '').trim().split('\n')[0].trim()
-// The messages of its thread: the server's count (onFeedbackReplied), and the
-// admins' former note, shown as its first reply.
+/**
+ * The messages of its thread: the server's count (onFeedbackReplied), and the
+ * admins' former note, shown as its first reply.
+ *
+ * @param {object} report
+ * @returns {number}
+ */
 export const messageCountOf = (report) => (report.messageCount || 0) + (report.note ? 1 : 0)
-// Its latest activity: a message, a stage set, or its sending.
+/**
+ * Its latest activity: a message, a stage set, or its sending.
+ *
+ * @param {object} report
+ * @returns {number}
+ */
 export const activityOf = (report) => Math.max(...[report.createdAt, report.statusUpdatedAt, report.lastMessageAt].map((value) => toDate(value)?.getTime() || 0))
 
-// The open/closed mark (GitHub's issue state): open, closed as done, or
-// closed otherwise (rejected, a duplicate).
+/**
+ * The open/closed mark (GitHub's issue state): open, closed as done, or
+ * closed otherwise (rejected, a duplicate).
+ */
 export function StateIcon({ report, sx }) {
   const status = statusOf(report)
   if (isOpen(report)) return <RadioButtonCheckedRounded className="oc-feedback-state-icon" sx={{ color: 'success.main', ...sx }} />
   return <CheckCircleOutlineRounded className="oc-feedback-state-icon" sx={{ color: status === 'done' ? 'secondary.main' : 'text.secondary', ...sx }} />
 }
 
-// A person's initials on a coloured disc: the team's in the primary colour.
+/**
+ * A person's initials on a coloured disc: the team's in the primary colour.
+ */
 export function Initials({ name, team, size = 32 }) {
   const initials =
     String(name || '?')
@@ -89,10 +108,17 @@ export function Initials({ name, team, size = 32 }) {
   )
 }
 
-// A team reply to a report, emailed to its author (onFeedbackReplied). With a
-// stage (done, rejected) it also closes the report, in the same batch: the
-// report then names the reply (statusReplyId), and the reply's email carries
-// the outcome.
+/**
+ * A team reply to a report, emailed to its author (onFeedbackReplied). With a
+ * stage (done, rejected) it also closes the report, in the same batch: the
+ * report then names the reply (statusReplyId), and the reply's email carries
+ * the outcome.
+ *
+ * @param {object} report
+ * @param {string} text
+ * @param {string} [status]
+ * @returns {Promise<void>}
+ */
 export async function sendFeedbackReply(report, text, status) {
   const reportRef = doc(db, FEEDBACK_COLLECTION, report.id)
   const messageRef = doc(collection(reportRef, FEEDBACK_MESSAGES_COLLECTION))
@@ -103,8 +129,13 @@ export async function sendFeedbackReply(report, text, status) {
   await batch.commit()
 }
 
-// A report, deleted with its thread (a deleted document keeps its
-// subcollections).
+/**
+ * A report, deleted with its thread (a deleted document keeps its
+ * subcollections).
+ *
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
 export async function deleteFeedbackReport(id) {
   const reportRef = doc(db, FEEDBACK_COLLECTION, id)
   const messages = await getDocs(collection(reportRef, FEEDBACK_MESSAGES_COLLECTION))
@@ -114,9 +145,11 @@ export async function deleteFeedbackReport(id) {
   await batch.commit()
 }
 
-// A report's stage, changeable from a menu. Changing it emails no one - only
-// replies do (the reply box's "Send and mark as done/rejected" sends the
-// stage with the reply, in one email).
+/**
+ * A report's stage, changeable from a menu. Changing it emails no one - only
+ * replies do (the reply box's "Send and mark as done/rejected" sends the
+ * stage with the reply, in one email).
+ */
 export function StatusMenu({ report, size = 'small' }) {
   const { t } = useTranslation('feedback')
   const [openSnackbar] = useSnackbar()
@@ -162,7 +195,9 @@ export function StatusMenu({ report, size = 'small' }) {
   )
 }
 
-// The kind, as a coloured label.
+/**
+ * The kind, as a coloured label.
+ */
 export function KindChip({ kind, size = 'small' }) {
   const { t } = useTranslation('feedback')
   const look = KINDS[kind] || KINDS.misleading

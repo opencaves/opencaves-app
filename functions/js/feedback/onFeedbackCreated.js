@@ -9,7 +9,11 @@ import { teamReplyAddress } from './replyAddress.js'
 const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 
-// Every admin's email address (accounts whose roles include admin).
+/**
+ * Every admin's email address (accounts whose roles include admin).
+ *
+ * @returns {Promise<string[]>}
+ */
 export async function adminEmails() {
   const emails = []
   let pageToken
@@ -21,10 +25,12 @@ export async function adminEmails() {
   return emails
 }
 
-// A tester's report (the beta's Send feedback form, _feedback): the admins
-// get it by email - its kind, the page it's about, who sent it and the
-// message - and read and close it on the dashboard's Feedback page. A failure
-// is logged: the report itself is saved.
+/**
+ * A tester's report (the beta's Send feedback form, _feedback): the admins
+ * get it by email - its kind, the page it's about, who sent it and the
+ * message - and read and close it on the dashboard's Feedback page. A failure
+ * is logged: the report itself is saved.
+ */
 export const onFeedbackCreated = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const report = event.data?.data()
   if (!report) return

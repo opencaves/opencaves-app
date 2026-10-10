@@ -1,8 +1,13 @@
 import { Box, Typography } from '@mui/material'
 
-// How the site's searches (SiteSearch, AppBarSearch) show their suggestions
-// (useSiteSearch): under a small heading per kind, each with its secondary
-// text (a cave's system) beside it. groupLabel: a kind's heading.
+/**
+ * How the site's searches (SiteSearch, AppBarSearch) show their suggestions
+ * (useSiteSearch): under a small heading per kind, each with its secondary
+ * text (a cave's system) beside it.
+ *
+ * @param {(kind: string) => string} groupLabel - A kind's heading.
+ * @returns {Function} The Autocomplete's renderGroup.
+ */
 export function renderSearchGroup(groupLabel) {
   return function SearchGroup(params) {
     // Nothing found: its line alone, no heading.

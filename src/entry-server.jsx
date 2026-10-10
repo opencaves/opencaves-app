@@ -37,11 +37,17 @@ export const ROUTE_MODULES = {
   sistema: 'src/routes/sistemas/SistemaPage.jsx',
 }
 
-// url: the page's full address (its host decides the emulators' file
-// addresses: localhost); raw, maps, assets: the data (pageState.js); title:
-// the page's <title> (the server's, functions/js/seo), the app's own title
-// (App's Helmet) until the page sets it.
-// Returns { html, styles, status, ssr } or { notFound: true }.
+/**
+ * @param {object} options
+ * @param {string} options.url - The page's full address (its host decides the emulators' file
+ *   addresses: localhost).
+ * @param {object} options.raw - With maps and assets: the data (pageState.js).
+ * @param {object[]} options.maps
+ * @param {object[]} options.assets
+ * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
+ *   (App's Helmet) until the page sets it.
+ * @returns {Promise<object>} { html, styles, status, ssr } or { notFound: true }.
+ */
 export async function render({ url, raw, maps, assets, title }) {
   const started = performance.now()
   const { pathname, hostname } = new URL(url)

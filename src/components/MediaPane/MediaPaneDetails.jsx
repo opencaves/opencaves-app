@@ -42,9 +42,13 @@ const Main = styled('main')(
 // The viewer over the whole app window (useOrientationFullscreen's fallback).
 const IMMERSIVE_SX = { position: 'fixed', inset: 0, zIndex: 30000, width: 'auto', height: 'auto' }
 
-// alwaysShowBack: the back arrow whatever the screen (a page's gallery,
-// with no list pane beside it); onBack: what it does (a link up otherwise);
-// showCounter: "3 / 12" at the top (no list beside it either).
+/**
+ * @param {object} props
+ * @param {boolean} [props.alwaysShowBack=false] - The back arrow whatever the screen (a page's gallery,
+ *   with no list pane beside it).
+ * @param {() => void} [props.onBack] - What it does (a link up otherwise).
+ * @param {boolean} [props.showCounter=false] - "3 / 12" at the top (no list beside it either).
+ */
 export default function MediaPaneDetails({ mediaId, medias, onBeforeDelete, alwaysShowBack = false, onBack, showCounter = false }) {
   // The toolbar's back arrow only where nothing else leads back: on phones
   // (the viewer alone) and in full screen - beside the list pane, its

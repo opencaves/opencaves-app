@@ -13,15 +13,20 @@ const ALLOWED_HOST_PATTERN = /^(opencaves\.org|www\.opencaves\.org|opencaves(--[
 // The last shell fetched from each origin: used only when fetching fails.
 const shells = new Map()
 
-// The served site's app shell - app.html, the build's index.html renamed so
-// Hosting doesn't serve it as a static file for / (vite.config.js) - or
-// index.html from a build made before (a preview channel has its own build);
-// the production one when called directly (the emulator) or from any other
-// host (a forged X-Forwarded-Host must not choose where the page comes from).
-// Fetched on every call (19 KB, ~80 ms; these functions run only when the CDN
-// hasn't the page): a shell kept for minutes outlived a deploy - pages drawn
-// on the old build's shell named files Hosting no longer had, and the CDN
-// kept them an hour. (Hosting ignores If-None-Match: no cheaper check.)
+/**
+ * The served site's app shell - app.html, the build's index.html renamed so
+ * Hosting doesn't serve it as a static file for / (vite.config.js) - or
+ * index.html from a build made before (a preview channel has its own build);
+ * the production one when called directly (the emulator) or from any other
+ * host (a forged X-Forwarded-Host must not choose where the page comes from).
+ * Fetched on every call (19 KB, ~80 ms; these functions run only when the CDN
+ * hasn't the page): a shell kept for minutes outlived a deploy - pages drawn
+ * on the old build's shell named files Hosting no longer had, and the CDN
+ * kept them an hour. (Hosting ignores If-None-Match: no cheaper check.)
+ *
+ * @param {Request} req
+ * @returns {Promise<string>}
+ */
 export async function shellFor(req) {
   const host = (req.get('x-forwarded-host') || req.hostname || '').toLowerCase()
   const origin = ALLOWED_HOST_PATTERN.test(host) ? `https://${host}` : SITE_URL
@@ -60,7 +65,14 @@ function compress(html, encoding) {
   return body
 }
 
-// Sends a page's HTML compressed as the client accepts (headers set before).
+/**
+ * Sends a page's HTML compressed as the client accepts (headers set before).
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {string} html
+ * @param {number} [status=200]
+ */
 export function sendHtml(req, res, html, status = 200) {
   const accepted = req.get('accept-encoding') || ''
   const encoding = /\bbr\b/.test(accepted) ? 'br' : /\bgzip\b/.test(accepted) ? 'gzip' : null
@@ -73,8 +85,13 @@ export function sendHtml(req, res, html, status = 200) {
 
 export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 
-// The app's Markdown as plain text (as src/utils/seo.js's markdownToPlainText),
-// paragraph breaks kept.
+/**
+ * The app's Markdown as plain text (as src/utils/seo.js's markdownToPlainText),
+ * paragraph breaks kept.
+ *
+ * @param {string} [markdown='']
+ * @returns {string}
+ */
 export function plainParagraphs(markdown = '') {
   return String(markdown ?? '')
     // A length tag as its value, a whole number (as the app shows it).
@@ -90,14 +107,25 @@ export function plainParagraphs(markdown = '') {
     .filter(Boolean)
 }
 
-// Cuts at a word boundary, for search-result snippets (as seo.js's truncate).
+/**
+ * Cuts at a word boundary, for search-result snippets (as seo.js's truncate).
+ *
+ * @param {string} text
+ * @param {number} [max=158]
+ * @returns {string}
+ */
 export function truncate(text, max = 158) {
   if (text.length <= max) return text
   const cut = text.slice(0, max - 1)
   return `${cut.slice(0, cut.lastIndexOf(' ') > max * 0.6 ? cut.lastIndexOf(' ') : cut.length).replace(/[\s,.;:–-]+$/, '')}…`
 }
 
-// JSON-LD inside a <script>: "<" escaped so no text can close the element.
+/**
+ * JSON-LD inside a <script>: "<" escaped so no text can close the element.
+ *
+ * @param {object} data
+ * @returns {string}
+ */
 export const jsonLdScript = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
 
 // The share image (og:image) of every page: public/og-image.png.
@@ -149,9 +177,15 @@ const withHead = (shell, head) => shell
   .replace(/<meta name="description"[^>]*>\s*/i, '')
   .replace(/<head>/i, () => `<head>\n  ${head}`)
 
-// The shell with the page's <head> tags and, when it has a text (body: its
-// HTML, already escaped), that text and its breadcrumbs in #root - which the
-// app replaces when it starts.
+/**
+ * The shell with the page's <head> tags and, when it has a text (body: its
+ * HTML, already escaped), that text and its breadcrumbs in #root - which the
+ * app replaces when it starts.
+ *
+ * @param {string} shell
+ * @param {object} page
+ * @returns {string}
+ */
 export function renderPage(shell, page) {
   const { head, breadcrumbs } = pageHead(page)
   const html = withHead(shell, head)
@@ -163,11 +197,19 @@ export function renderPage(shell, page) {
 const SCRIPT_UNSAFE = { '<': '\\u003c', '\u2028': '\\u2028', '\u2029': '\\u2029' }
 const scriptJson = (value) => JSON.stringify(value).replace(/[<\u2028\u2029]/g, (c) => SCRIPT_UNSAFE[c])
 
-// The page rendered by the app itself (ssr.js): the same <head> tags, the
-// page's styles (its stylesheets, the Emotion styles it uses) and the files
-// it needs first (links: <link> tags), its HTML in #root, and what the app
-// hydrates it with (window.__OC_SSR__, src/index.jsx). data-oc-ssr: no
-// splash over it (index.html).
+/**
+ * The page rendered by the app itself (ssr.js): the same <head> tags, the
+ * page's styles (its stylesheets, the Emotion styles it uses) and the files
+ * it needs first (links: <link> tags), its HTML in #root, and what the app
+ * hydrates it with (window.__OC_SSR__, src/index.jsx). data-oc-ssr: no
+ * splash over it (index.html).
+ *
+ * @param {string} shell
+ * @param {object} page
+ * @param {{html: string, styles: string, ssr: object}} rendered
+ * @param {string} links
+ * @returns {string}
+ */
 export function renderSsrPage(shell, page, { html, styles, ssr }, links) {
   const { head } = pageHead(page, { withStructuredData: true })
   return withHead(shell, `${head}\n  ${links}\n  ${styles}`)
@@ -175,7 +217,12 @@ export function renderSsrPage(shell, page, { html, styles, ssr }, links) {
     .replace('<div id="root"></div>', () => `<div id="root">${html}</div>\n  <script>window.__OC_SSR__ = ${scriptJson(ssr)}</script>`)
 }
 
-// The path's segment, decoded, or '' when it can't be (bad % escapes).
+/**
+ * The path's segment, decoded, or '' when it can't be (bad % escapes).
+ *
+ * @param {string} [segment='']
+ * @returns {string}
+ */
 export function decodeSegment(segment = '') {
   try {
     return decodeURIComponent(segment)

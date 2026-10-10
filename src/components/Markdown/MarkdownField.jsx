@@ -52,28 +52,31 @@ const TOOLBAR_BUTTONS_AFTER_HEADINGS = [{ key: 'quote', icon: FormatQuoteRounded
 
 const HEADING_LEVELS = [1, 2, 3]
 
-// A WYSIWYG markdown editor (Milkdown: ProseMirror for editing, backed by
-// remark/micromark for markdown parsing) in place of the previous
-// Markdown/Preview tabbed textarea - typing renders formatting live instead
-// of showing raw ** and # syntax. A toolbar covers the common formatting
-// actions, and a "view source" toggle swaps in a plain textarea bound to
-// the exact same markdown string for anyone who wants to edit the raw text
-// directly - both edit the same value, so switching between them mid-edit
-// just works.
-//
-// Built directly on Milkdown's core + commonmark/gfm presets rather than its
-// batteries-included @milkdown/crepe editor: Crepe pulls in its optional
-// features (AI, LaTeX, CodeMirror, image embedding) as static imports, not
-// behind its runtime on/off config, so using it roughly doubled this app's
-// bundle even with everything but the base editor turned off. This stack
-// only bundles what's actually used, and stays open to growing later - a
-// new markdown convention becomes a Milkdown plugin (a node/mark spec, a
-// remark syntax extension, or a preset like the two already used below)
-// passed to another .use() call, same as commonmark/gfm are here.
-//
-// onChange keeps the exact (event) => event.target.value contract every
-// call site already used with the old textarea, so no caller needed to
-// change when this was rewritten.
+/**
+ * A WYSIWYG markdown editor (Milkdown: ProseMirror for editing, backed by
+ * remark/micromark for markdown parsing) in place of the previous
+ * Markdown/Preview tabbed textarea - typing renders formatting live instead
+ * of showing raw ** and # syntax. A toolbar covers the common formatting
+ * actions, and a "view source" toggle swaps in a plain textarea bound to
+ * the exact same markdown string for anyone who wants to edit the raw text
+ * directly - both edit the same value, so switching between them mid-edit
+ * just works.
+ *
+ * Built directly on Milkdown's core + commonmark/gfm presets rather than its
+ * batteries-included @milkdown/crepe editor: Crepe pulls in its optional
+ * features (AI, LaTeX, CodeMirror, image embedding) as static imports, not
+ * behind its runtime on/off config, so using it roughly doubled this app's
+ * bundle even with everything but the base editor turned off. This stack
+ * only bundles what's actually used, and stays open to growing later - a
+ * new markdown convention becomes a Milkdown plugin (a node/mark spec, a
+ * remark syntax extension, or a preset like the two already used below)
+ * passed to another .use() call, same as commonmark/gfm are here.
+ *
+ * @param {object} props
+ * @param {(event: {target: {value: string}}) => void} props.onChange - Keeps the exact (event) => event.target.value contract every
+ *   call site already used with the old textarea, so no caller needed to
+ *   change when this was rewritten.
+ */
 export default function MarkdownField({ label, value, onChange, minRows = 3, resizable = false, placeholder = '', labelProps = {} }) {
   const { t } = useTranslation('markdownField')
   const theme = useTheme()

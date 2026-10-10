@@ -21,9 +21,11 @@ function saved({ title, date, authors, note }) {
   return JSON.stringify({ title: title.trim(), date: date || '', authors: authors.map((a) => a.trim()).filter(Boolean), note: note.trim() })
 }
 
-// Editing a map's title/date/authors, shared by every place a map can be
-// edited from (the cave pane's Maps tab, and the map viewer's menu) so the
-// form and its save logic exist in exactly one place.
+/**
+ * Editing a map's title/date/authors, shared by every place a map can be
+ * edited from (the cave pane's Maps tab, and the map viewer's menu) so the
+ * form and its save logic exist in exactly one place.
+ */
 export default function EditMapDialog({ map, onClose }) {
   const { t } = useTranslation('mapsPicker')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })

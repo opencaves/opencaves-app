@@ -48,11 +48,16 @@ function useSnackbarLift(fabRef) {
   return lift
 }
 
-// A page's floating action button, as Material Design 3 places it: a 56dp
-// FAB, round as the map's own FABs, 16dp from the screen's bottom and right edges on
-// phones (compact width), 24dp from 600px up, plus the device's safe area -
-// pushed up while a snackbar shows under it (useSnackbarLift).
-// to: a link; or onClick. label: its tooltip and accessible name.
+/**
+ * A page's floating action button, as Material Design 3 places it: a 56dp
+ * FAB, round as the map's own FABs, 16dp from the screen's bottom and right edges on
+ * phones (compact width), 24dp from 600px up, plus the device's safe area -
+ * pushed up while a snackbar shows under it ({@link useSnackbarLift}).
+ *
+ * @param {object} props
+ * @param {string} [props.to] - A link; or onClick.
+ * @param {string} props.label - Its tooltip and accessible name.
+ */
 export default function PageFab({ to, onClick, label, icon, className }) {
   const edge = (margin, side) => `calc(${margin}px + env(safe-area-inset-${side}, 0px))`
   const ref = useRef(null)

@@ -10,9 +10,13 @@ import { useHydrated } from '@/hooks/useHydrated.js'
 
 export const AUTOMATIC = 'auto'
 
-// The app language picked (a code, or AUTOMATIC: the browser's), kept in step
-// with changes made elsewhere (another picker, the account's language applied
-// at sign-in), and the name of the language Automatic gives.
+/**
+ * The app language picked (a code, or {@link AUTOMATIC}: the browser's), kept in step
+ * with changes made elsewhere (another picker, the account's language applied
+ * at sign-in), and the name of the language Automatic gives.
+ *
+ * @returns {{choice: string, choose: (code: string) => void, automaticName: string, currentName: string}}
+ */
 export function useLanguageChoice() {
   const { i18n } = useTranslation()
   const user = useSelector((state) => state.session.user)
@@ -65,8 +69,10 @@ function LanguageOptions({ id, anchorEl, onClose, language }) {
   )
 }
 
-// A menu row (the account menu, the phone's drawer): Language, the current
-// one below it, opening the list of languages.
+/**
+ * A menu row (the account menu, the phone's drawer): Language, the current
+ * one below it, opening the list of languages.
+ */
 export function LanguageListItem({ sx }) {
   const { t } = useTranslation('languagePicker')
   const language = useLanguageChoice()
@@ -96,7 +102,9 @@ export function LanguageListItem({ sx }) {
   )
 }
 
-// A text button for a page's foot: the current language, opening the list.
+/**
+ * A text button for a page's foot: the current language, opening the list.
+ */
 export function LanguageButton({ sx }) {
   const { t } = useTranslation('languagePicker')
   const language = useLanguageChoice()

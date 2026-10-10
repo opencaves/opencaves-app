@@ -47,11 +47,13 @@ function StateBadge({ report }) {
   )
 }
 
-// /feedback/:feedbackId (admins): one report, as GitHub shows an issue - its
-// title (its message's first line) and state, its timeline (the report, the
-// thread's messages, the stages set), the reply box, and a side panel (under
-// the timeline on phones) with its stage (changeable), kind, page, browser,
-// language and author, and its deletion.
+/**
+ * /feedback/:feedbackId (admins): one report, as GitHub shows an issue - its
+ * title (its message's first line) and state, its timeline (the report, the
+ * thread's messages, the stages set), the reply box, and a side panel (under
+ * the timeline on phones) with its stage (changeable), kind, page, browser,
+ * language and author, and its deletion.
+ */
 export default function FeedbackReport() {
   const { t, i18n } = useTranslation('feedback')
   const { feedbackId } = useParams()

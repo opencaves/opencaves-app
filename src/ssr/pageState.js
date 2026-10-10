@@ -55,7 +55,12 @@ function relatedSistemas(sistemaId, connections) {
   return { ancestors: walk('sistemaId', 'parentSistemaId'), descendants: walk('parentSistemaId', 'sistemaId') }
 }
 
-// The page's address: { kind: 'home' | 'caves' | 'cave' | 'sistemas' | 'sistema', id }.
+/**
+ * The page's address: { kind: 'home' | 'caves' | 'cave' | 'sistemas' | 'sistema', id }.
+ *
+ * @param {string} pathname
+ * @returns {{kind: string, id?: string}|null}
+ */
 export function pageOf(pathname) {
   const path = pathname.replace(/\/+$/, '') || '/'
   if (path === '/') return { kind: 'home' }
@@ -83,17 +88,29 @@ function processedData(raw) {
   return processed.get(raw)
 }
 
-// The page's cave data in full (state.data's shape): entry-server.jsx's check,
-// and its fallback.
+/**
+ * The page's cave data in full (state.data's shape): entry-server.jsx's check,
+ * and its fallback.
+ *
+ * @param {object} raw
+ * @returns {object}
+ */
 export function fullPageData(raw) {
   const { data } = processedData(raw)
   return { dataLoadingState: { state: 'loaded' }, expires: null, maxAge: 24 * 60 * 60, ...EMPTY, ...pick(data, Object.keys(EMPTY)) }
 }
 
-// raw: the 9 cave-data collections as the app reads them ({ id, ...data },
-// readCaveDataFromFirestore); maps: the maps collection; assets: the page's
-// cave's photos ([{ id, data }]), if a cave's page. Returns { data (the page's
-// cave data: useCaveData), queries, found }.
+/**
+ * @param {{kind: string, id?: string}} page - {@link pageOf}'s.
+ * @param {object} sources
+ * @param {object} sources.raw - The 9 cave-data collections as the app reads them ({ id, ...data },
+ *   readCaveDataFromFirestore).
+ * @param {object[]} [sources.maps=[]] - The maps collection.
+ * @param {{id: string, data: object}[]} [sources.assets=[]] - The page's
+ *   cave's photos ([{ id, data }]), if a cave's page.
+ * @returns {{data: object, queries: object, found: boolean}} { data (the page's
+ *   cave data: useCaveData), queries, found }.
+ */
 export function buildPageState(page, { raw, maps = [], assets = [] }) {
   const { data: all, index, areas } = processedData(raw)
   const cave = page.kind === 'cave' ? all.caves.find(({ id }) => id === page.id) : null

@@ -83,10 +83,12 @@ function useCoverPhotos() {
   return photos
 }
 
-// / - the landing page, for cave divers around the world: what OpenCaves is
-// (a cave search, the map), some of its caves, its figures, the safety
-// warning and the disclaimer (up front, not in the fine print), what's in
-// it, its regions, how to contribute, and the language.
+/**
+ * / - the landing page, for cave divers around the world: what OpenCaves is
+ * (a cave search, the map), some of its caves, its figures, the safety
+ * warning and the disclaimer (up front, not in the fine print), what's in
+ * it, its regions, how to contribute, and the language.
+ */
 export default function Home() {
   // i18n: numbers in the app's language (858, not the browser's format).
   const { t, i18n } = useTranslation('home')

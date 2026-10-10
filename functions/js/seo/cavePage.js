@@ -16,13 +16,22 @@ import { slugify } from './slug.js'
 // own index.html (shared.js's shellFor). It links to the cave's area and
 // system pages and to /caves, so crawlers reach those too.
 
-// sistema: the cave's system ({ name, slug }), if any; path: the page's
-// address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
-// Both are known to search engines by its own page: one URL per cave, not two
-// near-identical pages (Google skipped them as duplicates).
-// cavePageMeta: the page's <head> data and its text (body); cavePageHtml: the
-// page itself. structuredData: in the text (body), and in <head> when the
-// app renders the page (ssr.js).
+/**
+ * sistema: the cave's system ({ name, slug }), if any; path: the page's
+ * address - /map/<id> (here), or /caves/<id>, its own page (indexPages.js).
+ * Both are known to search engines by its own page: one URL per cave, not two
+ * near-identical pages (Google skipped them as duplicates).
+ * {@link cavePageMeta}: the page's <head> data and its text (body); cavePageHtml: the
+ * page itself. structuredData: in the text (body), and in <head> when the
+ * app renders the page (ssr.js).
+ *
+ * @param {string} shell
+ * @param {object} cave
+ * @param {string} id
+ * @param {{name: string, slug: string}} [sistema]
+ * @param {string} [path]
+ * @returns {string}
+ */
 export function cavePageHtml(shell, cave, id, sistema, path = `/map/${id}`) {
   return renderPage(shell, cavePageMeta(cave, id, sistema, path))
 }
@@ -83,6 +92,9 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
 // can't carry markup into the page.
 const CAVE_ID_PATTERN = /^[-_A-Za-z0-9]{1,64}$/
 
+/**
+ * /map/<caveId>, server-rendered for search engines ({@link cavePageHtml}).
+ */
 export const cavePage = onRequest({ region: REGION }, async (req, res) => {
   let id = ''
   try {

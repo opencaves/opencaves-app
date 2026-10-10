@@ -5,11 +5,23 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 // address' token, automatic mail, the sender's check and the new text of the
 // answer. No library: imported by feedbackInbound only when a webhook comes in.
 
-// A webhook signed by Resend (Svix): secret `whsec_<base64 key>`; signed
-// content `<svix-id>.<svix-timestamp>.<raw body>`, HMAC-SHA256 in base64; the
-// svix-signature header lists space-separated `v1,<signature>` entries (one
-// per key while a secret is rotated) - one match is enough. A timestamp more
-// than `toleranceSeconds` off is refused (a replayed delivery).
+/**
+ * A webhook signed by Resend (Svix): secret `whsec_<base64 key>`; signed
+ * content `<svix-id>.<svix-timestamp>.<raw body>`, HMAC-SHA256 in base64; the
+ * svix-signature header lists space-separated `v1,<signature>` entries (one
+ * per key while a secret is rotated) - one match is enough. A timestamp more
+ * than `toleranceSeconds` off is refused (a replayed delivery).
+ *
+ * @param {object} delivery
+ * @param {string} delivery.secret
+ * @param {string} delivery.id
+ * @param {string} delivery.timestamp
+ * @param {string} delivery.signature
+ * @param {string|Buffer} delivery.body
+ * @param {number} [delivery.now=Date.now()]
+ * @param {number} [delivery.toleranceSeconds=300]
+ * @returns {{ok: boolean, reason?: string}}
+ */
 export function verifyWebhookSignature({ secret, id, timestamp, signature, body, now = Date.now(), toleranceSeconds = 5 * 60 }) {
   if (!secret || !id || !timestamp || !signature || body == null) return { ok: false, reason: 'missing' }
   const seconds = Number(timestamp)
@@ -36,7 +48,12 @@ export const REPLY_TOKEN_PATTERN = /^[a-z0-9]{24}$/
 // module stays free of the app's other modules).
 const TEAM_ADDRESS_PREFIX = 'team-'
 
-// The bare address of "Name <a@b.c>" or "a@b.c", lowercased.
+/**
+ * The bare address of "Name <a@b.c>" or "a@b.c", lowercased.
+ *
+ * @param {string} value
+ * @returns {string}
+ */
 export function emailAddress(value) {
   const text = String(value ?? '').trim()
   const match = text.match(/<([^<>\s]+@[^<>\s]+)>/) || text.match(/([^\s<>"]+@[^\s<>"]+)/)
@@ -45,9 +62,15 @@ export function emailAddress(value) {
 
 const domainOf = (address) => address.split('@').pop()
 
-// The report's token among the email's recipients (to, cc, received_for) at
-// the reply domain, and whether it's its team address (team-<token>@, on the
-// admins' emails: replyAddress.js) - { token, team } - or null.
+/**
+ * The report's token among the email's recipients (to, cc, received_for) at
+ * the reply domain, and whether it's its team address (team-<token>@, on the
+ * admins' emails: replyAddress.js) - { token, team } - or null.
+ *
+ * @param {object} email
+ * @param {string} domain
+ * @returns {{token: string, team: boolean}|null}
+ */
 export function findReplyToken(email, domain) {
   const recipients = [email.to, email.cc, email.received_for].flat().filter(Boolean).map(emailAddress)
   for (const address of recipients) {
@@ -61,7 +84,12 @@ export function findReplyToken(email, domain) {
   return null
 }
 
-// The email's headers with lowercase names, each value a string.
+/**
+ * The email's headers with lowercase names, each value a string.
+ *
+ * @param {Array|object} headers
+ * @returns {Object<string, string>}
+ */
 export function normalizeHeaders(headers) {
   const result = {}
   if (Array.isArray(headers)) {
@@ -74,8 +102,13 @@ export function normalizeHeaders(headers) {
 
 const AUTOMATIC_SENDERS = /^(mailer-daemon|postmaster|no-?reply|do-?not-?reply|bounces?)([+.-]|$)/i
 
-// Why an email is automatic (an out-of-office, a bounce, a list), or null.
-// Never answered or added to a thread: no mail loops.
+/**
+ * Why an email is automatic (an out-of-office, a bounce, a list), or null.
+ * Never answered or added to a thread: no mail loops.
+ *
+ * @param {object} email
+ * @returns {string|null}
+ */
 export function automaticReason(email) {
   const headers = normalizeHeaders(email.headers)
   const autoSubmitted = headers['auto-submitted']?.trim().toLowerCase()
@@ -91,12 +124,18 @@ export function automaticReason(email) {
   return null
 }
 
-// Whether the email really comes from who it must (the report's author, or
-// for its team address the admin it names): its From address is theirs, and the receiving server's checks (Resend's `authentication`:
-// 'pass' | 'fail' | 'gray' | ...) vouch for it - DKIM passes (Resend says
-// 'gray' when the signing domain isn't the From's), or DMARC passes, or SPF
-// passes for an envelope sender (Return-Path) of the From's domain. A DMARC
-// failure refuses it whatever the rest.
+/**
+ * Whether the email really comes from who it must (the report's author, or
+ * for its team address the admin it names): its From address is theirs, and the receiving server's checks (Resend's `authentication`:
+ * 'pass' | 'fail' | 'gray' | ...) vouch for it - DKIM passes (Resend says
+ * 'gray' when the signing domain isn't the From's), or DMARC passes, or SPF
+ * passes for an envelope sender (Return-Path) of the From's domain. A DMARC
+ * failure refuses it whatever the rest.
+ *
+ * @param {object} email
+ * @param {string} expectedEmail
+ * @returns {{ok: boolean, reason?: string}}
+ */
 export function checkSender(email, expectedEmail) {
   const from = emailAddress(email.from || normalizeHeaders(email.headers).from)
   if (!from || !expectedEmail || from !== String(expectedEmail).trim().toLowerCase()) return { ok: false, reason: 'not the expected sender' }
@@ -112,8 +151,13 @@ export function checkSender(email, expectedEmail) {
 
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' }
 
-// An HTML email's text, its quoted part dropped (Gmail's gmail_quote, Apple
-// Mail's and Thunderbird's blockquote, Outlook's divRplyFwdMsg/appendonsend).
+/**
+ * An HTML email's text, its quoted part dropped (Gmail's gmail_quote, Apple
+ * Mail's and Thunderbird's blockquote, Outlook's divRplyFwdMsg/appendonsend).
+ *
+ * @param {string} html
+ * @returns {string}
+ */
 export function htmlToText(html) {
   let body = String(html ?? '')
   const cut = body.search(/<(div|blockquote)[^>]*(class="[^"]*gmail_quote|type="cite"|id="(divRplyFwdMsg|appendonsend)")|<div[^>]*id="?mail-editor-reference-message-container|<hr[^>]*id="?stopSpelling/i)
@@ -143,9 +187,14 @@ const OUTLOOK_SENT = /^\*?(sent|date|envoyé|enviado|fecha)\s*:/i
 // The phone's signature mail apps add.
 const DEVICE_SIGNATURE = /^(sent from my|envoyé de mon|enviado desde mi)\b/i
 
-// The new text of an email answer: the quoted thread and the signature
-// removed. Lines quoted with '>' go; the first quote header (or a "-- "
-// signature, or "Sent from my iPhone") ends the answer.
+/**
+ * The new text of an email answer: the quoted thread and the signature
+ * removed. Lines quoted with '>' go; the first quote header (or a "-- "
+ * signature, or "Sent from my iPhone") ends the answer.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
 export function extractReply(text) {
   const lines = String(text ?? '')
     .replace(/\r\n?/g, '\n')
@@ -168,8 +217,14 @@ export function extractReply(text) {
     .trim()
 }
 
-// The answer's text to keep: the plain version, else the HTML's, stripped,
-// cut to `maxLength`.
+/**
+ * The answer's text to keep: the plain version, else the HTML's, stripped,
+ * cut to `maxLength`.
+ *
+ * @param {object} email
+ * @param {number} maxLength
+ * @returns {string}
+ */
 export function replyText(email, maxLength) {
   const source = email.text && String(email.text).trim() ? email.text : htmlToText(email.html)
   const text = extractReply(source)

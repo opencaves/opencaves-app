@@ -171,8 +171,10 @@ async function notFoundShell(req) {
   return shellFor(req)
 }
 
-// 512 MiB: the app's server build, the cave data and the pages it keeps
-// (ssr.js) - more than the default 256.
+/**
+ * 512 MiB: the app's server build, the cave data and the pages it keeps
+ * (ssr.js) - more than the default 256.
+ */
 export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async (req, res) => {
   try {
     const data = await loadPageIndex()

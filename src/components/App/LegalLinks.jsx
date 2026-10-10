@@ -4,8 +4,10 @@ import { Box, Link } from '@mui/material'
 import { LanguageButton } from '@/components/LanguagePicker.jsx'
 import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 
-// The Privacy and Terms links, and the language, at the foot of a page (the dashboard's pages,
-// Layout and AdminDashboard), in the page's secondary text colour.
+/**
+ * The Privacy and Terms links, and the language, at the foot of a page (the dashboard's pages,
+ * Layout and AdminDashboard), in the page's secondary text colour.
+ */
 export default function LegalLinks({ sx }) {
   const { t } = useTranslation('legal')
   return (

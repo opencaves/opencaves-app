@@ -31,10 +31,12 @@ const NO_FILTERS = { collection: '', action: '', authorId: '', from: '', to: '' 
 
 const recordKey = (entry) => `${entry.collection}/${entry.docId}`
 
-// The Changes tab: the audit log, newest first, filtered by collection,
-// author and dates, a page at a time; each change can be looked at and, when
-// it's the app's own edit, undone - one, the selected ones, or all of an
-// author's since a date.
+/**
+ * The Changes tab: the audit log, newest first, filtered by collection,
+ * author and dates, a page at a time; each change can be looked at and, when
+ * it's the app's own edit, undone - one, the selected ones, or all of an
+ * author's since a date.
+ */
 export default function ChangesTab({ accountLabel, accountList }) {
   const { t, i18n } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()

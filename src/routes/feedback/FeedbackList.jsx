@@ -118,14 +118,16 @@ function ReportRow({ report, authorName, search }) {
   )
 }
 
-// /feedback (admins): the beta testers' reports (the Send feedback form,
-// _feedback), as GitHub lists issues: Open and Closed tabs (open: new,
-// confirmed or in progress; closed: done, rejected or a duplicate), a search
-// (message, author's name or email, page), kind and stage filters and a
-// sort - all in the address (?state, q, kind, stage, sort), so back/forward
-// and shared links keep them. Each report opens its own page
-// (/feedback/:feedbackId, FeedbackReport). The new ones were also emailed to
-// the admins (onFeedbackCreated).
+/**
+ * /feedback (admins): the beta testers' reports (the Send feedback form,
+ * _feedback), as GitHub lists issues: Open and Closed tabs (open: new,
+ * confirmed or in progress; closed: done, rejected or a duplicate), a search
+ * (message, author's name or email, page), kind and stage filters and a
+ * sort - all in the address (?state, q, kind, stage, sort), so back/forward
+ * and shared links keep them. Each report opens its own page
+ * (/feedback/:feedbackId, FeedbackReport). The new ones were also emailed to
+ * the admins (onFeedbackCreated).
+ */
 export default function FeedbackList() {
   const { t } = useTranslation('feedback')
   const { setTitle } = useTitle()

@@ -53,11 +53,13 @@ function SectionTitle({ children, sub }) {
 
 const grid = (min) => ({ listStyle: 'none', m: 0, p: 0, display: 'grid', gap: 2, gridTemplateColumns: `repeat(auto-fill, minmax(${min}px, 1fr))` })
 
-// /what-can-i-do during the beta: what testers can do - report bugs,
-// misleading things and ideas (each opening the Send feedback form, its kind
-// picked; FeedbackDialog), what to try, how to report well, and what's good to
-// know (the beta's data can be reset). The 1.0 page replaces it (branch
-// what-can-i-do).
+/**
+ * /what-can-i-do during the beta: what testers can do - report bugs,
+ * misleading things and ideas (each opening the Send feedback form, its kind
+ * picked; FeedbackDialog), what to try, how to report well, and what's good to
+ * know (the beta's data can be reset). The 1.0 page replaces it (branch
+ * what-can-i-do).
+ */
 export default function BetaWhatCanIDo() {
   const { t } = useTranslation('betaTesting')
   const { setTitle } = useTitle()

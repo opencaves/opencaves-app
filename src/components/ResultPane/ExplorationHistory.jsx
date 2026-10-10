@@ -31,11 +31,16 @@ function formatDate(date, language) {
   return new Intl.DateTimeFormat(language, options).format(value)
 }
 
-// The exploration history of a cave's systems (its own and those it joined),
-// in calendar order where the dates allow, each entry with its system's name
-// when there's more than one system. headingProps: its heading's, e.g. an h2
-// on a system's own page. Each entry's notes (its sources) are an editing aid,
-// seen in the edit forms only, never here.
+/**
+ * The exploration history of a cave's systems (its own and those it joined),
+ * in calendar order where the dates allow, each entry with its system's name
+ * when there's more than one system. Each entry's notes (its sources) are an editing aid,
+ * seen in the edit forms only, never here.
+ *
+ * @param {object} props
+ * @param {object} [props.headingProps] - Its heading's, e.g. an h2
+ *   on a system's own page.
+ */
 export default function ExplorationHistory({ sistemas, headingProps, showHeading = true }) {
   const { t, i18n } = useTranslation('resultPane')
   const entries = sistemas

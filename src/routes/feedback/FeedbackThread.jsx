@@ -14,7 +14,12 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import MarkdownField from '@/components/Markdown/MarkdownField.jsx'
 import { Initials, RelativeTime, STATUS, sendFeedbackReply, toDate } from './feedbackUi.jsx'
 
-// A report's thread (_feedback/{id}/messages), oldest first, live.
+/**
+ * A report's thread (_feedback/{id}/messages), oldest first, live.
+ *
+ * @param {string} reportId
+ * @returns {object[]|null}
+ */
 export function useFeedbackMessages(reportId) {
   const [messages, setMessages] = useState(null)
   useEffect(() => {
@@ -142,10 +147,12 @@ function StageEvent({ status, name, date }) {
   )
 }
 
-// The report's timeline: its message, then its thread - the admins' former
-// note (before the thread) as the first reply - with the stages set, each
-// where it happened: those set with a reply (the reply's status), and the
-// report's current one (statusUpdatedAt/By) when no reply set it.
+/**
+ * The report's timeline: its message, then its thread - the admins' former
+ * note (before the thread) as the first reply - with the stages set, each
+ * where it happened: those set with a reply (the reply's status), and the
+ * report's current one (statusUpdatedAt/By) when no reply set it.
+ */
 export function FeedbackTimeline({ report, messages, accountLabel }) {
   const { t } = useTranslation('feedback')
   const authorName = accountLabel(report.userId)
@@ -192,9 +199,11 @@ export function FeedbackTimeline({ report, messages, accountLabel }) {
   )
 }
 
-// The reply box, at the timeline's end: a Markdown field and Send - or, from
-// its menu, Send and close the report as done or rejected. One click, one
-// email.
+/**
+ * The reply box, at the timeline's end: a Markdown field and Send - or, from
+ * its menu, Send and close the report as done or rejected. One click, one
+ * email.
+ */
 export function ReplyForm({ report, authorLabel, myName }) {
   const { t } = useTranslation('feedback')
   const [openSnackbar] = useSnackbar()

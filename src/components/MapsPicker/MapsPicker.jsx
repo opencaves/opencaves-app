@@ -37,10 +37,15 @@ function MapThumbnail({ map, size }) {
   )
 }
 
-// A shared library of map files (survey maps: images or PDFs), picked from
-// by every sistema - not scoped to one sistema, same sharing model as
-// ColorPicker's `colors` palette. `value` is an array of map doc IDs;
-// `onChange` receives the updated array.
+/**
+ * A shared library of map files (survey maps: images or PDFs), picked from
+ * by every sistema - not scoped to one sistema, same sharing model as
+ * ColorPicker's `colors` palette.
+ *
+ * @param {object} props
+ * @param {string[]} [props.value=[]] - An array of map doc IDs.
+ * @param {(value: string[]) => void} props.onChange - Receives the updated array.
+ */
 export default function MapsPicker({ label, value = [], onChange, sistemaName = '', labelProps = {} }) {
   const { t } = useTranslation('mapsPicker')
   const isSmall = useSmall()

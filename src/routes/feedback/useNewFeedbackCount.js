@@ -3,8 +3,13 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '@/config/firebase.js'
 import { FEEDBACK_COLLECTION } from '@/config/collections.js'
 
-// How many testers' reports are still new (not done) - the dashboard's
-// Feedback entry shows it. Admins only (firestore.rules): 0 for anyone else.
+/**
+ * How many testers' reports are still new (not done) - the dashboard's
+ * Feedback entry shows it. Admins only (firestore.rules): 0 for anyone else.
+ *
+ * @param {boolean} enabled
+ * @returns {number}
+ */
 export function useNewFeedbackCount(enabled) {
   const [count, setCount] = useState(0)
   useEffect(() => {

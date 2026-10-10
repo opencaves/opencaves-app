@@ -15,13 +15,20 @@ const FORMATS = ['jpeg', 'png', 'webp']
 export const viewThumbnailName = (caveId, assetId, size, type, revision) =>
   `caves/${caveId}/${THUMBNAILS_FOLDER}/${assetId}_${size}-v${revision}.${type}`
 
-// A panorama's small copies (cover, result list, media list) made from the
-// view an editor took in the viewer, instead of the whole flattened sphere:
-// { assetId, image (base64), view: { yaw, pitch, zoom } }. They're saved under
-// new names (<id>_<size>-v<revision>: a new URL, past every cache - copies are
-// cached for a year), the record gets viewThumbnailRevision (the app builds
-// their URLs from it) and the view, and the previous view copies are deleted.
-// The large copies stay the panorama's.
+/**
+ * A panorama's small copies (cover, result list, media list) made from the
+ * view an editor took in the viewer, instead of the whole flattened sphere.
+ * They're saved under
+ * new names (<id>_<size>-v<revision>: a new URL, past every cache - copies are
+ * cached for a year), the record gets viewThumbnailRevision (the app builds
+ * their URLs from it) and the view, and the previous view copies are deleted.
+ * The large copies stay the panorama's.
+ *
+ * @param {CallableRequest} request - Its data: { assetId, image (base64), view: { yaw, pitch, zoom } }.
+ * @throws {HttpsError} permission-denied when the caller isn't an editor; invalid-argument for an unknown
+ *   photo or an unusable image; not-found for a photo gone or in the trash; failed-precondition for a
+ *   photo that isn't a panorama, or without a cave.
+ */
 export const setViewThumbnail = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK, memory: '1GiB' }, async (request) => {
   const roles = request.auth?.token?.roles
   if (!request.auth || !Array.isArray(roles) || !(roles.includes('editor') || roles.includes('admin'))) {

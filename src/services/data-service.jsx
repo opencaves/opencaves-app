@@ -16,12 +16,19 @@ function handleSetCaves(data) {
   store.dispatch(setExpires())
 }
 
-// Forces a refetch on the next getData() call, regardless of the expires
-// cache - used after an admin edit saves, so the map reflects it right away.
+/**
+ * Forces a refetch on the next {@link getData}() call, regardless of the expires
+ * cache - used after an admin edit saves, so the map reflects it right away.
+ */
 export function invalidateData() {
   store.dispatch(invalidateExpires())
 }
 
+/**
+ * Loads the cave data into the store, unless it's there and not expired.
+ *
+ * @returns {Promise<void>}
+ */
 export function getData() {
   return new Promise((resolve, reject) => {
     function doGetData() {

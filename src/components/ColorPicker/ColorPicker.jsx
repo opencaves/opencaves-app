@@ -19,12 +19,17 @@ const swatchSx = {
   boxSizing: 'border-box',
 }
 
-// A shared color picker, presented as a dropdown (closed trigger showing the
-// current color, opening a palette menu) so it fits the same visual slot as
-// the other TextField selects around it. The palette is drawn from the
-// `colors` reference-data collection (the same one ReferenceDataEditor.jsx
-// manages), so every entity picking a color draws from - and can grow - the
-// same shared palette, instead of each place free-typing its own hex value.
+/**
+ * A shared color picker, presented as a dropdown (closed trigger showing the
+ * current color, opening a palette menu) so it fits the same visual slot as
+ * the other {@link TextField} selects around it. The palette is drawn from the
+ * `colors` reference-data collection (the same one ReferenceDataEditor.jsx
+ * manages), so every entity picking a color draws from - and can grow - the
+ * same shared palette, instead of each place free-typing its own hex value.
+ *
+ * @param {object} props
+ * @param {boolean} [props.saveOnAdd=true] - A color added is saved to the `colors` collection at once.
+ */
 export default function ColorPicker({ label, value, onChange, saveOnAdd = true }) {
   const { t } = useTranslation('colorPicker')
   const settleWrite = useSettleWrite()

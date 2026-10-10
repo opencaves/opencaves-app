@@ -14,12 +14,16 @@ import CaveMapList from './CaveMapList.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
 
-// Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
-// the app slice's Redux state rather than component state, since that slice
-// is already persisted to sessionStorage (see redux/store.jsx) - reloading
-// the same cave's pane comes back to the tab the person was on for free.
-// galleryPath: the page whose galleries open its photos and maps (the cave's
-// edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
+/**
+ * Which of the Pictures/Videos/Maps tabs was last open, per cave: kept in
+ * the app slice's Redux state rather than component state, since that slice
+ * is already persisted to sessionStorage (see redux/store.jsx) - reloading
+ * the same cave's pane comes back to the tab the person was on for free.
+ *
+ * @param {object} props
+ * @param {string} [props.galleryPath] - The page whose galleries open its photos and maps (the cave's
+ *   edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
+ */
 export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaId, isNew = false, standaloneUpload = false, editable = true, galleryPath }) {
   // Stable: the photo list rebuilds when its photoPath changes.
   const photoPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/photos/${id}`), [galleryPath])

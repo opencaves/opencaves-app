@@ -162,7 +162,10 @@ export const SISTEMA_FORM_SKELETON_SECTIONS = [
   { title: true, fields: [{ kind: 'markdown', height: 140 }] },
 ]
 
-// backLabel: the back arrow's label, where it leads (the systems by default).
+/**
+ * @param {object} props
+ * @param {string} [props.backLabel] - The back arrow's label, where it leads (the systems by default).
+ */
 export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDeleted, onDirtyChange, showMapPreview = false, backLabel }) {
   const isAdmin = useSelector((state) => state.session.roles).includes('admin')
   const { t, i18n } = useTranslation('sistemaEditForm')

@@ -42,8 +42,11 @@ if (typeof document !== 'undefined') {
   })
 }
 
-// serverRouter: on the server, its static router (entry-server.jsx), in
-// place of the browser's.
+/**
+ * @param {object} props
+ * @param {React.ReactNode} [props.serverRouter=null] - On the server, its static router (entry-server.jsx), in
+ *   place of the browser's.
+ */
 const App = ({ serverRouter = null }) => {
   const dispatch = useDispatch()
   const store = useStore()

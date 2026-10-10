@@ -1,6 +1,12 @@
 import { getAuth } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
+/**
+ * Whether the signed-in user has every one of these roles (custom claims).
+ *
+ * @param {string|string[]} roles
+ * @returns {boolean}
+ */
 export default function useRoles(roles) {
   const auth = getAuth()
   const user = auth.currentUser

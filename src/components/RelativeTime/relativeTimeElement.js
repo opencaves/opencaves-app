@@ -30,7 +30,14 @@ time { font: inherit; color: inherit; text-decoration: underline dotted; text-un
 .exact { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 `
 
-// The relative text of `date` (a Date), `now` being now, in `language`.
+/**
+ * The relative text of `date` (a Date), `now` being now, in `language`.
+ *
+ * @param {Date} date
+ * @param {string} language
+ * @param {number} [now=Date.now()]
+ * @returns {string}
+ */
 export function formatRelativeTime(date, language, now = Date.now()) {
   const age = now - date.getTime()
   if (Math.abs(age) >= DATE_AFTER) {
@@ -44,7 +51,13 @@ export function formatRelativeTime(date, language, now = Date.now()) {
   return format.format(-Math.round(value), unit)
 }
 
-// The exact date and time, for the title.
+/**
+ * The exact date and time, for the title.
+ *
+ * @param {Date} date
+ * @param {string} language
+ * @returns {string}
+ */
 export const formatExactTime = (date, language) => new Intl.DateTimeFormat(language, { dateStyle: 'full', timeStyle: 'short' }).format(date)
 
 // --- The shared ticker -----------------------------------------------------
@@ -180,7 +193,9 @@ function createElementClass() {
   }
 }
 
-// Registers <oc-relative-time>, once; only in a browser.
+/**
+ * Registers <oc-relative-time>, once; only in a browser.
+ */
 export function defineRelativeTimeElement() {
   if (typeof customElements === 'undefined' || customElements.get(RELATIVE_TIME_TAG)) return
   customElements.define(RELATIVE_TIME_TAG, createElementClass())

@@ -50,10 +50,12 @@ function MapRow({ map, details, actions }) {
   )
 }
 
-// The Map layers page's "To process" tab (admins): the maps added in the app
-// that no map-layer config names yet (useMapsToProcess), newest first, each
-// with a link to its file and "Not for the layer" (a reason: a profile, a
-// dry cave, a sketch...); below, the maps marked so, which can go back.
+/**
+ * The Map layers page's "To process" tab (admins): the maps added in the app
+ * that no map-layer config names yet (useMapsToProcess), newest first, each
+ * with a link to its file and "Not for the layer" (a reason: a profile, a
+ * dry cave, a sketch...); below, the maps marked so, which can go back.
+ */
 export default function MapsToProcess({ toProcess, skipped }) {
   const { t, i18n } = useTranslation('mapLayersAdmin')
   const settleWrite = useSettleWrite()

@@ -95,8 +95,10 @@ function GridSkeleton() {
   )
 }
 
-// The Trash tab: the photos and maps admins deleted, to restore or to delete
-// for good (emptyTrash, which also removes their files).
+/**
+ * The Trash tab: the photos and maps admins deleted, to restore or to delete
+ * for good ({@link emptyTrash}, which also removes their files).
+ */
 export default function TrashTab({ accountLabel }) {
   const { t } = useTranslation('audits')
   const [openSnackbar] = useSnackbar()

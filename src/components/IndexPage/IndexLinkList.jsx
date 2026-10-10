@@ -14,22 +14,26 @@ const MAP_ICON = svgUrl(MAP_BODY)
 const CAVE_ICON = `url("data:image/svg+xml,${encodeURIComponent(caveSvg)}")`
 const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
 
-// Links to caves or cave systems, in as many columns as the page's width
-// holds (one on phones), each a block link: the whole row is the link (its
-// primary action), with a state layer on hover and focus. items:
-// { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
-// before its name; color: a sistema's colour, as
-// a line arrow before its name (SistemaArrow); secondary: muted text on a
-// second line (a cave's system), on one line (cut with an ellipsis) - a long
-// name wraps; mapTo: the record on the map, the row's secondary action - a
-// map icon at its end, shown on hover or focus (always on touch screens);
-// noMap: the icon disabled (a cave without coordinates isn't on the map).
-//
-// A list can hold hundreds of rows (/caves): each is plain elements, styled
-// from the list (one set of styles, not one per row) - no ripple, no MUI
-// Tooltip per row, which made the page slow to show and to filter; its icons
-// are CSS masks, and one tooltip for the whole list follows the map icon
-// hovered or focused.
+/**
+ * Links to caves or cave systems, in as many columns as the page's width
+ * holds (one on phones), each a block link: the whole row is the link (its
+ * primary action), with a state layer on hover and focus.
+ *
+ * A list can hold hundreds of rows (/caves): each is plain elements, styled
+ * from the list (one set of styles, not one per row) - no ripple, no MUI
+ * Tooltip per row, which made the page slow to show and to filter; its icons
+ * are CSS masks, and one tooltip for the whole list follows the map icon
+ * hovered or focused.
+ *
+ * @param {object} props
+ * @param {object[]} props.items - { key, to, label, cave, color, secondary, mapTo } - cave: a cave icon
+ *   before its name; color: a sistema's colour, as
+ *   a line arrow before its name ({@link SistemaArrow}); secondary: muted text on a
+ *   second line (a cave's system), on one line (cut with an ellipsis) - a long
+ *   name wraps; mapTo: the record on the map, the row's secondary action - a
+ *   map icon at its end, shown on hover or focus (always on touch screens);
+ *   noMap: the icon disabled (a cave without coordinates isn't on the map).
+ */
 function IndexLinkList({ items, className }) {
   const { t } = useTranslation('indexPages')
   const [tip, setTip] = useState(null)

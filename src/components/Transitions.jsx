@@ -19,6 +19,9 @@ export const forwardTransitionStyles = {
   exited: exitStyles,
 }
 
+/**
+ * A transition: in from 50px to the right as it fades in, out the same way.
+ */
 export const Forward = forwardRef(function Forward(props, ref) {
   const nodeRef = useRef(null)
   const { children, in: inProp, ...others } = props
@@ -82,6 +85,9 @@ export const Forward = forwardRef(function Forward(props, ref) {
   )
 })
 
+/**
+ * A slide up (MUI's Slide).
+ */
 export const Awef = forwardRef(function Awef(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })

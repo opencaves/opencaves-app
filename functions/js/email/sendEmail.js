@@ -10,10 +10,19 @@ export const RESEND_API_KEY = defineSecret('RESEND_API_KEY')
 
 const FROM = 'OpenCaves <noreply@opencaves.org>'
 
-// text: the plain version; html (optional): the formatted one (email/layout.js
-// renders both). headers (optional): extra headers, e.g. Message-ID,
-// In-Reply-To and References, which group a thread's emails in mail apps;
-// replyTo (optional): the address answers go to.
+/**
+ * @param {object} email
+ * @param {string|string[]} email.to
+ * @param {string[]} [email.bcc=[]]
+ * @param {string} email.subject
+ * @param {string} email.text - The plain version.
+ * @param {string} [email.html] - The formatted one (email/layout.js
+ *   renders both).
+ * @param {object} [email.headers] - Extra headers, e.g. Message-ID,
+ *   In-Reply-To and References, which group a thread's emails in mail apps.
+ * @param {string} [email.replyTo] - The address answers go to.
+ * @returns {Promise<object>}
+ */
 export async function sendEmail({ to, bcc = [], subject, text, html, headers, replyTo }) {
   if (process.env.FUNCTIONS_EMULATOR === 'true') {
     logger.info('[email] not sent in the emulator', { to, bcc, subject, text, html: Boolean(html), ...(headers && { headers }), ...(replyTo && { replyTo }) })

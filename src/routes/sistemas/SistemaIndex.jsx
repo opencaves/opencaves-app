@@ -12,8 +12,10 @@ import IndexLinkList from '@/components/IndexPage/IndexLinkList.jsx'
 import IndexPageSkeleton from '@/components/IndexPage/IndexPageSkeleton.jsx'
 import { useIndexPageHead } from '@/components/IndexPage/useIndexPageHead.js'
 
-// /sistemas: every cave system, by its own area, those with none last.
-// Editors' list: /sistemas/edit.
+/**
+ * /sistemas: every cave system, by its own area, those with none last.
+ * Editors' list: /sistemas/edit.
+ */
 export default function SistemaIndex() {
   const { t } = useTranslation('indexPages')
   const { t: t404 } = useTranslation('404')

@@ -50,16 +50,18 @@ function languageOf(req, account) {
   return req.acceptsLanguages(...LANGUAGES) || 'en'
 }
 
-// The feedback emails' unsubscribe link (/email/unsubscribe?t=<token>, a
-// Hosting rewrite; the token: email/unsubscribe.js), without signing in.
-// Opening it (GET) changes nothing - mail scanners open every link of an
-// email: a page asks to confirm, its button posting back (confirm=1); then
-// the account's feedbackEmails is turned off and a page says so, with a link
-// to the settings to turn them back on (already off: that page at once). A
-// POST without confirm is RFC 8058's one-click (the mail app's own
-// Unsubscribe button, List-Unsubscribe-Post): turned off, a short answer.
-// Idempotent. An unknown or malformed token: 400, with no detail. Never
-// cached; the token is never logged.
+/**
+ * The feedback emails' unsubscribe link (/email/unsubscribe?t=<token>, a
+ * Hosting rewrite; the token: email/unsubscribe.js), without signing in.
+ * Opening it (GET) changes nothing - mail scanners open every link of an
+ * email: a page asks to confirm, its button posting back (confirm=1); then
+ * the account's feedbackEmails is turned off and a page says so, with a link
+ * to the settings to turn them back on (already off: that page at once). A
+ * POST without confirm is RFC 8058's one-click (the mail app's own
+ * Unsubscribe button, List-Unsubscribe-Post): turned off, a short answer.
+ * Idempotent. An unknown or malformed token: 400, with no detail. Never
+ * cached; the token is never logged.
+ */
 export const feedbackUnsubscribe = onRequest({ region: REGION, maxInstances: 5 }, async (req, res) => {
   res.set('Cache-Control', 'no-store')
   res.set('X-Robots-Tag', 'noindex')

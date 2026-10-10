@@ -6,10 +6,12 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { saveFeedbackEmails, watchFeedbackEmails } from '@/services/feedbackEmailsPreference.js'
 
-// The account page's Emails section: whether the team's replies to the
-// person's feedback are emailed to them (on by default; the emails'
-// unsubscribe link turns it off). Saved at once, confirmed by a snackbar.
-// Signed-in accounts only.
+/**
+ * The account page's Emails section: whether the team's replies to the
+ * person's feedback are emailed to them (on by default; the emails'
+ * unsubscribe link turns it off). Saved at once, confirmed by a snackbar.
+ * Signed-in accounts only.
+ */
 export default function FeedbackEmailsSection({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'emails' })
   const user = useSelector((state) => state.session.user)

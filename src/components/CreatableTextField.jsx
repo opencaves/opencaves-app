@@ -3,11 +3,15 @@ import { useTranslation } from 'react-i18next'
 
 const filter = createFilterOptions()
 
-// A free-text field that suggests values already in use (e.g. every team or
-// reporter name entered so far), so people reuse the existing spelling but
-// can still edit it or type a new one. A new value is offered as an explicit
-// "Add" entry; the typed text is kept even if that entry isn't picked.
-// onChange receives the plain string value.
+/**
+ * A free-text field that suggests values already in use (e.g. every team or
+ * reporter name entered so far), so people reuse the existing spelling but
+ * can still edit it or type a new one. A new value is offered as an explicit
+ * "Add" entry; the typed text is kept even if that entry isn't picked.
+ *
+ * @param {object} props
+ * @param {(value: string) => void} props.onChange - Receives the plain string value.
+ */
 export default function CreatableTextField({ label, value, onChange, options, size, fullWidth = true, className }) {
   const { t } = useTranslation('creatableTextField')
 

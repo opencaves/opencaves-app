@@ -21,7 +21,11 @@ const DATA_TTL_MS = 5 * 60 * 1000
 
 let loaded = null
 
-// { render, pageOf, shell, links(kind) } from the server build, or null.
+/**
+ * { render, pageOf, shell, links(kind) } from the server build, or null.
+ *
+ * @returns {Promise<object|null>}
+ */
 export function loadSsr() {
   if (!existsSync(new URL('entry-server.js', SSR_DIR))) return Promise.resolve(null)
   loaded ||= (async () => {
@@ -129,19 +133,30 @@ async function isSiteBuild(req, ssr) {
 
 let indexCache = null
 
-// The data the page functions need for a page's <head> (indexPages.js):
-// indexData.js's grouping, and the caves by id - from the data the app
-// renders the pages with, not read again.
+/**
+ * The data the page functions need for a page's <head> (indexPages.js):
+ * indexData.js's grouping, and the caves by id - from the data the app
+ * renders the pages with, not read again.
+ *
+ * @returns {Promise<object>}
+ */
 export async function loadPageIndex() {
   const { raw } = await readData()
   if (indexCache?.raw !== raw) indexCache = { raw, data: { ...groupIndexData(raw), cavesById: new Map(raw.caves.map((cave) => [cave.id, cave])) } }
   return indexCache.data
 }
 
-// The page at req's address, rendered by the app, as HTML - with meta (the
-// page's <head> data: indexPages.js's) - or null when the app can't render
-// it (no server build, a build other than the site's, not one of its
-// pages); throws when rendering fails.
+/**
+ * The page at req's address, rendered by the app, as HTML - with meta (the
+ * page's <head> data: indexPages.js's).
+ *
+ * @param {Request} req
+ * @param {object} meta
+ * @returns {Promise<string|null>} null when the app can't render
+ *   it (no server build, a build other than the site's, not one of its
+ *   pages).
+ * @throws {Error} When rendering fails.
+ */
 export async function renderWithApp(req, meta) {
   const ssr = await loadSsr()
   if (!ssr || !(await isSiteBuild(req, ssr))) return null

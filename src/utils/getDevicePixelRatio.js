@@ -1,4 +1,8 @@
-// source: https://stackoverflow.com/questions/16541676/what-are-best-practices-for-detecting-pixel-ratio-density/54770411#54770411
+/**
+ * source: https://stackoverflow.com/questions/16541676/what-are-best-practices-for-detecting-pixel-ratio-density/54770411#54770411
+ *
+ * @returns {number}
+ */
 export default function getDevicePixelRatio() {
   var mediaQuery
   var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1

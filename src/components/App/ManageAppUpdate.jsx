@@ -32,8 +32,10 @@ export default function ManageAppUpdate() {
   return <UpdateSnackbar open={open} onReload={onSnackbarBtnClick} />
 }
 
-// The "update available" snackbar, its Reload button its action (also shown
-// by the snackbars' preview, /dev/snackbars).
+/**
+ * The "update available" snackbar, its Reload button its action (also shown
+ * by the snackbars' preview, /dev/snackbars).
+ */
 export function UpdateSnackbar({ open, onReload }) {
   const { t } = useTranslation('app')
   return (

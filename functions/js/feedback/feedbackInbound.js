@@ -44,12 +44,18 @@ async function adminByEmail(address) {
   return frozen.exists ? null : user
 }
 
-// One received email, added to its report's thread: at its address, its
-// author's answer; at its team address (team-<token>@, on the admins'
-// emails), an admin's team reply - emailed to the author like one written in
-// the app (onFeedbackReplied). Returns what happened, for the log; throws
-// only on a failure worth Resend's retry (each email is added once: its
-// message's id is the email's).
+/**
+ * One received email, added to its report's thread: at its address, its
+ * author's answer; at its team address (team-<token>@, on the admins'
+ * emails), an admin's team reply - emailed to the author like one written in
+ * the app (onFeedbackReplied). Each email is added once: its
+ * message's id is the email's.
+ *
+ * @param {string} emailId
+ * @param {object} helpers - inboundEmail.js's functions.
+ * @returns {Promise<object>} What happened, for the log.
+ * @throws {Error} Only on a failure worth Resend's retry.
+ */
 export async function receiveFeedbackEmail(emailId, helpers) {
   const { automaticReason, checkSender, emailAddress, findReplyToken, normalizeHeaders, replyText } = helpers
   const email = await fetchReceivedEmail(emailId)
@@ -93,11 +99,13 @@ export async function receiveFeedbackEmail(emailId, helpers) {
   })
 }
 
-// Resend's webhook for the mail received at FEEDBACK_REPLY_DOMAIN (event
-// email.received): signed (Svix) with RESEND_WEBHOOK_SECRET - 401 otherwise.
-// Its payload has only the email's metadata: the email itself is read from
-// Resend's API. 200 once handled (added, or dropped on purpose), 500 on a
-// failure, which Resend retries. Logs never hold an email's text.
+/**
+ * Resend's webhook for the mail received at {@link FEEDBACK_REPLY_DOMAIN} (event
+ * email.received): signed (Svix) with {@link RESEND_WEBHOOK_SECRET} - 401 otherwise.
+ * Its payload has only the email's metadata: the email itself is read from
+ * Resend's API. 200 once handled (added, or dropped on purpose), 500 on a
+ * failure, which Resend retries. Logs never hold an email's text.
+ */
 export const feedbackInbound = onRequest({ region: REGION, secrets: [RESEND_WEBHOOK_SECRET, RESEND_INBOUND_KEY], memory: '256MiB', maxInstances: 5 }, async (req, res) => {
   if (req.method !== 'POST') {
     res.set('Allow', 'POST').status(405).send('Method Not Allowed')

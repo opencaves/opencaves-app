@@ -132,20 +132,27 @@ function onArrowKey(event) {
   target.focus()
 }
 
-// A list of media (photos, maps), each child one item (a <li>), its visual
-// (the part with rounded corners) marked .oc-carousel--media and any text
-// under it. On phones, an MD3 carousel in the uncontained layout: items of
-// one size flowing past the edge, snap-scrolled (each item settling in the
-// middle; the first and last as near as they can - MD3: both scrollings suit
-// this layout); it runs to the edges of its card (bleed: the card's
-// padding, cancelled), items passing over its padding. Its items: a hover
-// and pressed state layer, a slightly changed shape while pressed, and their
-// visual sliding inside them as they scroll (parallax, without reduced
-// motion).
-// Wider screens: a grid of columns at least gridMinWidth wide. Under it, a
-// Show all link opening every item (allItems, or the items) in a pane - on
-// phones, or when allItems has more than the items shown. label: the list's
-// name (the pane's title too), said with "carousel".
+/**
+ * A list of media (photos, maps), each child one item (a <li>), its visual
+ * (the part with rounded corners) marked .oc-carousel--media and any text
+ * under it. On phones, an MD3 carousel in the uncontained layout: items of
+ * one size flowing past the edge, snap-scrolled (each item settling in the
+ * middle; the first and last as near as they can - MD3: both scrollings suit
+ * this layout); it runs to the edges of its card (bleed: the card's
+ * padding, cancelled), items passing over its padding. Its items: a hover
+ * and pressed state layer, a slightly changed shape while pressed, and their
+ * visual sliding inside them as they scroll (parallax, without reduced
+ * motion).
+ * Wider screens: a grid of columns at least gridMinWidth wide. Under it, a
+ * Show all link opening every item (allItems, or the items) in a pane - on
+ * phones, or when allItems has more than the items shown.
+ *
+ * @param {object} props
+ * @param {React.ReactNode[]} [props.allItems]
+ * @param {string} [props.gridMinWidth='200px']
+ * @param {number} [props.bleed=2]
+ * @param {string} props.label - The list's name (the pane's title too), said with "carousel".
+ */
 export default function Carousel({ children, allItems, gridMinWidth = '200px', gridGap = 2, bleed = 2, label, className, sx }) {
   const { t } = useTranslation('app', { keyPrefix: 'carousel' })
   const isPhone = useSmall()

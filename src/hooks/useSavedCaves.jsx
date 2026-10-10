@@ -5,10 +5,14 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '@/config/firebase.js'
 import { USERS_COLLECTION } from '@/config/collections.js'
 
-// Caves the signed-in user saved via the result pane's Save quick action,
-// stored as users/{uid}/savedCaves/{caveId} (see firestore.rules). Anonymous
-// and signed-out sessions have no saved caves - they're prompted to create
-// an account instead.
+/**
+ * Caves the signed-in user saved via the result pane's Save quick action,
+ * stored as users/{uid}/savedCaves/{caveId} (see firestore.rules). Anonymous
+ * and signed-out sessions have no saved caves - they're prompted to create
+ * an account instead.
+ *
+ * @returns {{canSave: boolean, loading: boolean, savedCaveIds: string[], isSaved: (caveId: string) => boolean, saveCave: (caveId: string) => Promise<void>, unsaveCave: Function, restoreCave: Function}}
+ */
 export function useSavedCaves() {
   const uid = useSelector((state) => state.session.user?.uid)
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)

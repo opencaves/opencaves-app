@@ -38,10 +38,12 @@ function markSeen() {
   }
 }
 
-// A welcome on a first visit (once per device): what OpenCaves is, an
-// invitation to help complete the cave data - with an account to create, or
-// thanks for the one they have - and the beta's warning: edits aren't kept
-// for good yet, so it's the time to try.
+/**
+ * A welcome on a first visit (once per device): what OpenCaves is, an
+ * invitation to help complete the cave data - with an account to create, or
+ * thanks for the one they have - and the beta's warning: edits aren't kept
+ * for good yet, so it's the time to try.
+ */
 export default function WelcomeDialog() {
   const { t } = useTranslation('welcome')
   const dispatch = useDispatch()

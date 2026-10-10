@@ -19,15 +19,26 @@ const MAIL_DOMAIN = 'opencaves.org'
 const rootMessageId = (reportId) => `<feedback-${reportId}@${MAIL_DOMAIN}>`
 const replyMessageId = (reportId, messageId) => `<feedback-${reportId}-${messageId}@${MAIL_DOMAIN}>`
 
-// The same subject for all of a report's emails: its first line.
+/**
+ * The same subject for all of a report's emails: its first line.
+ *
+ * @param {object} report
+ * @returns {string}
+ */
 export function feedbackThreadSubject(report) {
   const first = String(report.message || '').trim().split('\n')[0].trim()
   return `Re: ${first.length > 70 ? `${first.slice(0, 70)}…` : first}`
 }
 
-// The report's thread, oldest first: the admins' former note (before the
-// thread existed, saved with the report's stage) as its first team reply,
-// then its messages.
+/**
+ * The report's thread, oldest first: the admins' former note (before the
+ * thread existed, saved with the report's stage) as its first team reply,
+ * then its messages.
+ *
+ * @param {object} report
+ * @param {object[]} messages
+ * @returns {object[]}
+ */
 export function feedbackThread(report, messages) {
   // No date: the report's stage date changes with each new stage.
   const legacy = report.note ? [{ id: null, from: 'team', text: report.note, createdAt: null, legacy: true }] : []
@@ -37,12 +48,24 @@ export function feedbackThread(report, messages) {
 
 const toDate = (value) => (value?.toDate ? value.toDate() : value instanceof Date ? value : null)
 
-// { subject, html, text, headers } of the email of a team reply, `current`
-// (one of `messages`, the report's thread so far): the reply on top - and the
-// outcome, when it closed the report - then the earlier messages, newest
-// first, down to the author's report.
-// unsubscribeUrl (optional): the author's unsubscribe link (email/unsubscribe.js),
-// in a small line at the very end.
+/**
+ * { subject, html, text, headers } of the email of a team reply, `current`
+ * (one of `messages`, the report's thread so far): the reply on top - and the
+ * outcome, when it closed the report - then the earlier messages, newest
+ * first, down to the author's report.
+ *
+ * @param {object} reply
+ * @param {string} reply.language
+ * @param {string} reply.reportId
+ * @param {object} reply.report
+ * @param {object[]} reply.messages
+ * @param {object} reply.current
+ * @param {string} reply.name
+ * @param {string} [reply.replyTo=FEEDBACK_REPLY_TO]
+ * @param {string|null} [reply.unsubscribeUrl=null] - The author's unsubscribe link (email/unsubscribe.js),
+ *   in a small line at the very end.
+ * @returns {Promise<{subject: string, html: string, text: string, headers: object}>}
+ */
 export async function feedbackReplyEmail({ language, reportId, report, messages, current, name, replyTo = FEEDBACK_REPLY_TO, unsubscribeUrl = null }) {
   const { renderMarkdown } = await import('../email/markdown.js')
   const lang = FEEDBACK_EMAIL_CONTENT[language] ? language : 'en'
@@ -90,9 +113,19 @@ export async function feedbackReplyEmail({ language, reportId, report, messages,
   return { subject: feedbackThreadSubject(report), html, text, headers }
 }
 
-// { subject, html, text } of the admins' email about an author's answer (by
-// email, feedbackInbound): who, about which report, the answer, and a link to
-// the report. In English, like the admins' other emails.
+/**
+ * { subject, html, text } of the admins' email about an author's answer (by
+ * email, feedbackInbound): who, about which report, the answer, and a link to
+ * the report. In English, like the admins' other emails.
+ *
+ * @param {object} answer
+ * @param {string} answer.reportId
+ * @param {object} answer.report
+ * @param {object} answer.message
+ * @param {string} answer.authorName
+ * @param {string|null} [answer.replyTo=null]
+ * @returns {{subject: string, html: string, text: string}}
+ */
 export function authorAnswerEmail({ reportId, report, message, authorName, replyTo = null }) {
   const title = String(report.message || '').trim().split('\n')[0].trim().slice(0, 70)
   const dropped = message.droppedAttachments
@@ -124,19 +157,21 @@ async function emailAdminsTheAnswer(id, reportRef, message) {
   }
 }
 
-// A message of a report's thread (_feedback/{id}/messages): counted on the
-// report (messageCount, lastMessageAt). A team reply (the admins' Feedback
-// page): its author gets it by email, with the whole thread, in the
-// language they wrote the report in - one email per reply, the outcome
-// included when the reply closed the report (a stage changed on its own
-// emails no one). emailedAt (on the reply) and reporterEmailedAt (on the
-// report) record it; its reply_to is the report's own address
-// (authorReplyAddress), where the author's answer comes back into the thread
-// (feedbackInbound). The author's answers aren't emailed back: the admins get
-// them (authorAnswerEmail), with the team's address (teamReplyAddress) to
-// answer by email - a team reply. An author who turned these emails off
-// (_users' feedbackEmails false) isn't emailed; the others' emails end with
-// an unsubscribe link, and carry the List-Unsubscribe headers.
+/**
+ * A message of a report's thread (_feedback/{id}/messages): counted on the
+ * report (messageCount, lastMessageAt). A team reply (the admins' Feedback
+ * page): its author gets it by email, with the whole thread, in the
+ * language they wrote the report in - one email per reply, the outcome
+ * included when the reply closed the report (a stage changed on its own
+ * emails no one). emailedAt (on the reply) and reporterEmailedAt (on the
+ * report) record it; its reply_to is the report's own address
+ * ({@link authorReplyAddress}), where the author's answer comes back into the thread
+ * (feedbackInbound). The author's answers aren't emailed back: the admins get
+ * them ({@link authorAnswerEmail}), with the team's address ({@link teamReplyAddress}) to
+ * answer by email - a team reply. An author who turned these emails off
+ * (_users' feedbackEmails false) isn't emailed; the others' emails end with
+ * an unsubscribe link, and carry the List-Unsubscribe headers.
+ */
 export const onFeedbackReplied = onDocumentCreated({ document: `${FEEDBACK_COLL_NAME}/{id}/${FEEDBACK_MESSAGES_COLL_NAME}/{messageId}`, region: REGION, secrets: [RESEND_API_KEY] }, async (event) => {
   const message = event.data?.data()
   if (!message) return

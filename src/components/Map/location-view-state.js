@@ -6,6 +6,11 @@ import { isMapPath } from '@/redux/slices/sessionSlice.jsx'
 // mounted under modal routes such as /about, which must not get it.
 const locationHashRegEx = /^#(?<zoom>\d+(\.\d+)?)\/(?<latitude>[+-]?\d+(\.\d+)?)\/(?<longitude>[+-]?\d+(\.\d+)?)$/
 
+/**
+ * The map's view from the address's hash, or null when it has none.
+ *
+ * @returns {{zoom: number, latitude: number, longitude: number}|null}
+ */
 export function locationViewState() {
   const groups = locationHashRegEx.exec(window.location.hash)?.groups
 
@@ -29,8 +34,12 @@ function mapHashString(map) {
   return `#${zoom}/${Math.round(center.lat * m) / m}/${Math.round(center.lng * m) / m}`
 }
 
-// replaceState (not a router navigation) so moving the map doesn't add
-// history entries or re-render routes; history.state is kept for the router.
+/**
+ * replaceState (not a router navigation) so moving the map doesn't add
+ * history entries or re-render routes; history.state is kept for the router.
+ *
+ * @param {mapboxgl.Map} map
+ */
 export function writeMapHash(map) {
   const { pathname, search } = window.location
   if (!map || !isMapPath(pathname)) {

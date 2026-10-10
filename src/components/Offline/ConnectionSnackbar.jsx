@@ -11,9 +11,11 @@ import { useSavedCaves } from '@/hooks/useSavedCaves.jsx'
 // (a flaky signal) says nothing.
 const SETTLE_MS = 2000
 
-// Says when the connection goes or comes back, with a cloud crossed out or
-// checked - on a change only, not when the app starts; back online, that the
-// changes made offline are syncing, when there are some.
+/**
+ * Says when the connection goes or comes back, with a cloud crossed out or
+ * checked - on a change only, not when the app starts; back online, that the
+ * changes made offline are syncing, when there are some.
+ */
 export default function ConnectionSnackbar() {
   const online = useOnline()
   const announced = useRef(online)

@@ -10,7 +10,12 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
 // A wheel's lines or pages as pixels.
 const WHEEL_LINE = 16
 
-// The wheel scrolls the strip sideways, by the wheel's own distance.
+/**
+ * The wheel scrolls the strip sideways, by the wheel's own distance.
+ *
+ * @param {HTMLElement} view - The strip's scrolling element.
+ * @param {WheelEvent} event
+ */
 export function scrollStrip(view, event) {
   const delta = event.deltaY || event.deltaX
   const pixels = event.deltaMode === 1 ? delta * WHEEL_LINE : event.deltaMode === 2 ? delta * view.clientWidth : delta
@@ -30,10 +35,15 @@ function itemCentres(view) {
   })
 }
 
-// Once still - no scroll for SETTLE_MS, and no scrollbar drag or touch going
-// on - the strip glides to the item nearest its middle (the first and last as
-// near as the strip's ends let them). Returns the cleanup. container: the
-// element holding the strip and its scrollbar.
+/**
+ * Once still - no scroll for {@link SETTLE_MS}, and no scrollbar drag or touch going
+ * on - the strip glides to the item nearest its middle (the first and last as
+ * near as the strip's ends let them).
+ *
+ * @param {HTMLElement} view - The strip's scrolling element.
+ * @param {HTMLElement} container - The element holding the strip and its scrollbar.
+ * @returns {() => void} The cleanup.
+ */
 export function snapOnSettle(view, container) {
   if (!view || !container) return () => {}
   let timer
@@ -83,8 +93,13 @@ export function snapOnSettle(view, container) {
   }
 }
 
-// An item scrolled to the middle of the strip (where the strip would settle
-// anyway): one just added, one reached with the keyboard.
+/**
+ * An item scrolled to the middle of the strip (where the strip would settle
+ * anyway): one just added, one reached with the keyboard.
+ *
+ * @param {HTMLElement} view - The strip's scrolling element.
+ * @param {HTMLElement} item
+ */
 export function centerItem(view, item) {
   if (!view || !item) return
   const viewRect = view.getBoundingClientRect()
@@ -93,8 +108,12 @@ export function centerItem(view, item) {
   view.scrollTo({ left: view.scrollLeft + offset, behavior: reducedMotion() ? 'auto' : 'smooth' })
 }
 
-// An item reached with the keyboard: centred - a click leaves it where it is.
-// view: the strip's scrolling element.
+/**
+ * An item reached with the keyboard: centred - a click leaves it where it is.
+ *
+ * @param {FocusEvent} event - The item's focus.
+ * @param {HTMLElement} view - The strip's scrolling element.
+ */
 export function centerFocused(event, view) {
   if (!event.target.matches(':focus-visible')) return
   centerItem(view, event.target)
@@ -105,10 +124,14 @@ const TABBABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([ty
 
 const plainKey = (event, key) => event.key === key && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
 
-// The down arrow on one of its items: out of the strip, to the next element
-// Tab can reach after it, the up arrow to the last one before it (instead of
-// tabbing through every item). From there, the opposite arrow comes back to
-// that item - until the focus moves elsewhere.
+/**
+ * The down arrow on one of its items: out of the strip, to the next element
+ * Tab can reach after it, the up arrow to the last one before it (instead of
+ * tabbing through every item). From there, the opposite arrow comes back to
+ * that item - until the focus moves elsewhere.
+ *
+ * @param {KeyboardEvent} event - A keydown on the strip's content element.
+ */
 export function leaveOnArrow(event) {
   const down = plainKey(event, 'ArrowDown')
   if (!down && !plainKey(event, 'ArrowUp')) return

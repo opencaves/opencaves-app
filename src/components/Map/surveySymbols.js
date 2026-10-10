@@ -10,6 +10,13 @@ const FONT = `600 ${FONT_PX}px system-ui, -apple-system, 'Segoe UI', Roboto, san
 const TEXT = '#fff'
 const HALO = 'rgba(0, 0, 0, 0.75)'
 
+/**
+ * A survey symbol's image name, as a map expression (the image is drawn when the map asks for it: {@link registerSurveySymbols}).
+ *
+ * @param {string} kind
+ * @param {*} text
+ * @returns {Array}
+ */
 export const surveySymbolImage = (kind, text) => ['concat', PREFIX + kind + ':', text]
 
 function draw(kind, text) {
@@ -62,7 +69,12 @@ function draw(kind, text) {
   return { width: canvas.width, height: canvas.height, data: new Uint8Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer) }
 }
 
-// Answers the map's requests for these images; returns the unsubscribe.
+/**
+ * Answers the map's requests for these images.
+ *
+ * @param {mapboxgl.Map} map
+ * @returns {() => void} The unsubscribe.
+ */
 export function registerSurveySymbols(map) {
   const onMissing = ({ id }) => {
     if (!id?.startsWith(PREFIX) || map.hasImage(id)) return

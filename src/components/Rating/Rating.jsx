@@ -6,11 +6,13 @@ import { setUserRating, useCaveRatings } from '@/models/Rating.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 import './Rating.scss'
 
-// A cave's star rating: the average of everyone's ratings, live. Editors and
-// admins can rate (one rating each; the stars then show their own rating,
-// and choosing the same star again clears it); everyone else sees it
-// read-only. Empty stars are outlines in the theme's outline colour: filled
-// in one fixed light grey, an unrated cave looked rated 5/5 in dark mode.
+/**
+ * A cave's star rating: the average of everyone's ratings, live. Editors and
+ * admins can rate (one rating each; the stars then show their own rating,
+ * and choosing the same star again clears it); everyone else sees it
+ * read-only. Empty stars are outlines in the theme's outline colour: filled
+ * in one fixed light grey, an unrated cave looked rated 5/5 in dark mode.
+ */
 export default function OCRating({ caveId, sx }) {
   const { t, i18n } = useTranslation('resultPane', { keyPrefix: 'rating' })
   const [openSnackbar] = useSnackbar()

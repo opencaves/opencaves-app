@@ -7,9 +7,13 @@ import mapSlice from './slices/mapSlice.jsx'
 import caveLayerReducer from './slices/caveLayerSlice.jsx'
 import preferencesReducer from './slices/preferencesSlice.jsx'
 
-// The server's store (entry-server.jsx), in place of store.jsx in the server
-// build (vite.config.js): the same slices, without redux-persist (no browser
-// storage on the server). One per rendered page, with that page's data.
+/**
+ * The server's store (entry-server.jsx), in place of store.jsx in the server
+ * build (vite.config.js): the same slices, without redux-persist (no browser
+ * storage on the server). One per rendered page, with that page's data.
+ *
+ * @param {object} preloadedState
+ */
 export function createServerStore(preloadedState) {
   return configureStore({
     reducer: combineReducers({

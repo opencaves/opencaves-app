@@ -8,13 +8,15 @@ import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import { CAVE_LAYER } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 
-// What the cave layer's marks mean (CaveLayer's styles), while the passages
-// are shown. Bottom right, over the map's corner buttons (the locate button,
-// and for editors the edit FAB, rising with its actions when it opens:
-// EditCaveFab's --oc-edit-fab-actions-height) - not under the layer button,
-// where it read as that button's menu. On phones a chip that opens it, riding
-// above the result pane's sheet and fading with the other map controls as it
-// opens (ResultPaneSm's --oc-result-pane-sm-height and --oc-map-controls-*).
+/**
+ * What the cave layer's marks mean (CaveLayer's styles), while the passages
+ * are shown. Bottom right, over the map's corner buttons (the locate button,
+ * and for editors the edit FAB, rising with its actions when it opens:
+ * EditCaveFab's --oc-edit-fab-actions-height) - not under the layer button,
+ * where it read as that button's menu. On phones a chip that opens it, riding
+ * above the result pane's sheet and fading with the other map controls as it
+ * opens (ResultPaneSm's --oc-result-pane-sm-height and --oc-map-controls-*).
+ */
 export default function CaveLayerLegend({ isLarge }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.legend' })
   const theme = useTheme()

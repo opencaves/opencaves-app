@@ -7,20 +7,24 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 // Fields as rendered by the forms' filled TextFields: 56px tall, rounded top.
 const fieldSx = { height: 56, borderRadius: '4px 4px 0 0', transform: 'none' }
 
-// Stand-in for an edit form while its data loads, laid out like the real
-// forms - its header (back button and title), fields on the page, then its
-// sections, each on an opaque card with its heading above it (FormSection),
-// then the Cancel / Save buttons - instead of a bare "Loading…". Screen
-// readers get "Loading…" once (a status), not the shapes.
-// - header: include the page header (false when the page already shows it)
-// - lead: field widths on the page itself, before the cards (a cave's name)
-// - sections: one card each: { title, fields }, title whether it has a
-//   heading above it, fields their widths, or { width, height, helper, kind }
-//   (see Fields), e.g. [{ title: true, fields: ['100%'] }]
-// - actions: the form's Cancel / Save buttons, right-aligned below the cards
-//   (inside the last card with actions: 'inside', as the short forms have)
-// - fill: reach down to the bottom of the page, with more sections than the
-//   form needs (clipped) - for the long forms, taller than a screen
+/**
+ * Stand-in for an edit form while its data loads, laid out like the real
+ * forms - its header (back button and title), fields on the page, then its
+ * sections, each on an opaque card with its heading above it (FormSection),
+ * then the Cancel / Save buttons - instead of a bare "Loading…". Screen
+ * readers get "Loading…" once (a status), not the shapes.
+ *
+ * @param {object} props
+ * @param {boolean} [props.header=true] - Include the page header (false when the page already shows it)
+ * @param {Array} [props.lead=[]] - Field widths on the page itself, before the cards (a cave's name)
+ * @param {object[]} [props.sections] - One card each: { title, fields }, title whether it has a
+ *   heading above it, fields their widths, or { width, height, helper, kind }
+ *   (see Fields), e.g. [{ title: true, fields: ['100%'] }]
+ * @param {boolean|'inside'} [props.actions=false] - The form's Cancel / Save buttons, right-aligned below the cards
+ *   (inside the last card with actions: 'inside', as the short forms have)
+ * @param {boolean} [props.fill=true] - Reach down to the bottom of the page, with more sections than the
+ *   form needs (clipped) - for the long forms, taller than a screen
+ */
 export default function FormSkeleton({ header = true, lead = [], sections = DEFAULT_SECTIONS, actions = false, fill = true, className, sx }) {
   const { t } = useTranslation('app')
   const ref = useRef(null)

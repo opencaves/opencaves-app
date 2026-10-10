@@ -9,13 +9,15 @@ import { useCaveLayerMaps } from '@/hooks/useCaveLayerMaps.jsx'
 import { setMapHidden } from '@/services/caveLayerSettings.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
-// The map's layer button, under the account button: white, or in the primary
-// colour while the cave layer (the passages traced from the cave maps,
-// CaveLayer) is shown. It opens and closes the layers panel (not modal): a switch that shows or
-// hides the layer, then its options - every system or only the
-// selected cenote's, coloured by system or in one colour - and, for editors,
-// the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
-// everyone), with the hidden drawings to show again.
+/**
+ * The map's layer button, under the account button: white, or in the primary
+ * colour while the cave layer (the passages traced from the cave maps,
+ * CaveLayer) is shown. It opens and closes the layers panel (not modal): a switch that shows or
+ * hides the layer, then its options - every system or only the
+ * selected cenote's, coloured by system or in one colour - and, for editors,
+ * the edit mode (CaveLayer: which map a drawing comes from, and hiding it for
+ * everyone), with the hidden drawings to show again.
+ */
 export default function CaveLayerButton({ sx }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer' })
   const dispatch = useDispatch()

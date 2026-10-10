@@ -25,14 +25,24 @@ async function unsubscribeToken(uid) {
   })
 }
 
-// The account's unsubscribe link, and the headers that give mail apps their
-// own Unsubscribe button (RFC 2369, and RFC 8058's one-click POST).
+/**
+ * The account's unsubscribe link, and the headers that give mail apps their
+ * own Unsubscribe button (RFC 2369, and RFC 8058's one-click POST).
+ *
+ * @param {string} uid
+ * @returns {Promise<{url: string, headers: object}>}
+ */
 export async function unsubscribeLink(uid) {
   const url = `${SITE_URL}${UNSUBSCRIBE_PATH}?t=${await unsubscribeToken(uid)}`
   return { url, headers: { 'List-Unsubscribe': `<${url}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } }
 }
 
-// The account (its _users doc snapshot) a token belongs to, or null.
+/**
+ * The account (its _users doc snapshot) a token belongs to, or null.
+ *
+ * @param {string} token
+ * @returns {Promise<DocumentSnapshot|null>}
+ */
 export async function accountOfUnsubscribeToken(token) {
   if (!isUnsubscribeToken(token)) return null
   const snapshot = await db.collection(USERS_COLL_NAME).where('unsubscribeToken', '==', token).limit(1).get()

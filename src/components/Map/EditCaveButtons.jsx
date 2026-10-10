@@ -4,9 +4,11 @@ import AddRounded from '@mui/icons-material/AddRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
 import { useEditCaveActions } from './EditCaveFab.jsx'
 
-// The edit FAB's two actions as separate icon buttons, for the mobile result
-// pane's header - where the FAB itself is hidden once the sheet is mostly
-// open. Editors only, like the FAB.
+/**
+ * The edit FAB's two actions as separate icon buttons, for the mobile result
+ * pane's header - where the FAB itself is hidden once the sheet is mostly
+ * open. Editors only, like the FAB.
+ */
 export default function EditCaveButtons({ sx }) {
   const { t } = useTranslation('map', { keyPrefix: 'editFab' })
   const { canEdit, caveId, isEditingCave, editCave, exitEditMode, addNewCave } = useEditCaveActions()

@@ -9,10 +9,12 @@ import { AUTH_PROMPT_EVENT } from '@/hooks/useRequireLogin.jsx'
 
 const REASONS = ['photos', 'videos', 'maps', 'feedback']
 
-// Why an account is needed, before the log-in or sign-up page
-// (useRequireLogin): worded for the action, with Not now, Log in and Create
-// an account - as the map pane's Save prompt. Back here after signing up or
-// logging in (continueUrl).
+/**
+ * Why an account is needed, before the log-in or sign-up page
+ * (useRequireLogin): worded for the action, with Not now, Log in and Create
+ * an account - as the map pane's Save prompt. Back here after signing up or
+ * logging in (continueUrl).
+ */
 export default function AuthPromptDialog() {
   const { t } = useTranslation('authPrompt')
   const navigate = useNavigate()

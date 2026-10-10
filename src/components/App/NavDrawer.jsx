@@ -21,12 +21,22 @@ import { LanguageListItem } from '@/components/LanguagePicker.jsx'
 
 const DRAWER_WIDTH = 240
 
-// Whether a link's page is the one shown: / only itself, the others their
-// section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+/**
+ * Whether a link's page is the one shown: / only itself, the others their
+ * section too (/map/<cave>, /caves/<id>, /sistemas/<id>...).
+ *
+ * @param {string} to
+ * @param {string} pathname
+ * @returns {boolean}
+ */
 export const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`))
 
-// The site's pages, and the dashboard for editors: the app bar's links and
-// the phone drawer's. current(to): 'page' for the page shown (aria-current).
+/**
+ * The site's pages, and the dashboard for editors: the app bar's links and
+ * the phone drawer's.
+ *
+ * @returns {{navItems: object[], dashboardItem: object, canAccessDashboard: boolean, current: (to: string) => string|undefined}} current(to): 'page' for the page shown (aria-current).
+ */
 export function useNavItems() {
   const location = useLocation()
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
@@ -49,11 +59,15 @@ export function useNavItems() {
   return { navItems, dashboardItem, canAccessDashboard, current }
 }
 
-// The phone's navigation drawer, opened from the app bar's menu button or the
-// map search bar's: its header (the logo and title, a link home, and a close
-// button), the site's pages, then the dashboard (editors), then About last,
-// each group set apart by a divider. No Home item: the header links there.
-// zIndex: over the map page's Ionic sheet (its own, much higher, stacking).
+/**
+ * The phone's navigation drawer, opened from the app bar's menu button or the
+ * map search bar's: its header (the logo and title, a link home, and a close
+ * button), the site's pages, then the dashboard (editors), then About last,
+ * each group set apart by a divider. No Home item: the header links there.
+ *
+ * @param {object} props
+ * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
+ */
 export default function NavDrawer({ open, onClose, zIndex }) {
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()

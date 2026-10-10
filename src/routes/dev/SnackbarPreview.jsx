@@ -10,12 +10,14 @@ import Message from '@/components/Message.jsx'
 import { UploadInfo } from '@/components/AddMedias/UploadMedias.jsx'
 import { UpdateSnackbar } from '@/components/App/ManageAppUpdate.jsx'
 
-// Development only (/dev/snackbars): each kind of snackbar the app shows, to
-// look at in both color schemes - a message, "saved" (success), an error
-// with a detail line (AddMediaLg's wrong file type), an error kept open with
-// its close button, the update available (with its action) and the upload
-// progress (its content a card) - with a page's FAB, which they push up.
-// Its buttons name the kinds, for developers.
+/**
+ * Development only (/dev/snackbars): each kind of snackbar the app shows, to
+ * look at in both color schemes - a message, "saved" (success), an error
+ * with a detail line (AddMediaLg's wrong file type), an error kept open with
+ * its close button, the update available (with its action) and the upload
+ * progress (its content a card) - with a page's FAB, which they push up.
+ * Its buttons name the kinds, for developers.
+ */
 export default function SnackbarPreview() {
   const { t } = useTranslation('mediaPane')
   const { t: tApp } = useTranslation('app')
