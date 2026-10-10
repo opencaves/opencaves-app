@@ -93,18 +93,8 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
     const list = []
 
     if (mediaList && !mediaList.empty) {
-      const docs = [...mediaList.docs].sort((a, b) => {
-        const aCover = a.data().isCover ? 1 : 0
-        const bCover = b.data().isCover ? 1 : 0
-
-        if (aCover !== bCover) {
-          return bCover - aCover
-        }
-
-        const aDate = a.data().date?.toDate?.() ?? 0
-        const bDate = b.data().date?.toDate?.() ?? 0
-        return bDate - aDate
-      })
+      // In the order every view shows them (CaveAsset.js's photoOrder).
+      const { docs } = mediaList
 
       const assetsListLength = Math.min(docs.length, assetsListMaxLength)
       const assetItems = []
