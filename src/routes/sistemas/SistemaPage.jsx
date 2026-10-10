@@ -25,7 +25,7 @@ import SistemaCookie from '@/components/SistemaCookie.jsx'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
-import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
 
@@ -107,7 +107,7 @@ export default function SistemaPage() {
     // A system's name in the address (as the pages first did): its id.
     const match = data.sistemas.find((candidate) => slugify(candidate.name) === slugify(sistemaId))
     if (match) return <Navigate to={`/sistemas/${match.slug}`} replace />
-    throwNotFound()
+    return <NoMatch inLayout />
   }
 
   const { area, ancestry, children, caves, historySistemas } = details

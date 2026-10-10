@@ -30,7 +30,7 @@ import CavePhotosSection from '@/components/IndexPage/CavePhotosSection.jsx'
 import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import CaveVideosSection from '@/components/IndexPage/CaveVideosSection.jsx'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
-import { throwNotFound } from '@/components/IndexPage/notFound.js'
+import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import Dropzone from '@/components/AddMedias/Dropzone.jsx'
 import { useWindowFileDrop } from '@/hooks/useWindowFileDrop.jsx'
@@ -89,7 +89,9 @@ export default function CavePage() {
   }, [cave, data])
 
   if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back onMap />
-  if (!cave) throwNotFound()
+  // No such cave: the "not found" page, rendered rather than thrown - a
+  // thrown error is logged to the console by React and React Router.
+  if (!cave) return <NoMatch inLayout />
 
   const area = cave.area ? data.areasBySlug.get(slugify(cave.area)) || null : null
   const sistema = cave.sistemaId ? data.sistemasById.get(cave.sistemaId) || null : null
