@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+/** @type {{src: string|undefined, status: string, error?: string}} */
 const defaultState = {
   src: undefined,
   status: 'loading'

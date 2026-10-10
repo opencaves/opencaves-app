@@ -7,7 +7,7 @@ export function isMapPath(pathname) {
 /**
  * The address to come back to after signing in (the hash kept on the map).
  *
- * @param {Location} location
+ * @param {{pathname: string, search: string, hash: string}} location - The router's, or the browser's.
  * @returns {string}
  */
 export function buildContinueUrl(location) {

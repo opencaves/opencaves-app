@@ -18,7 +18,7 @@ import DialogCloseButton from '@/components/DialogCloseButton.jsx'
  * @param {object} [options]
  * @param {object} [options.initial] - The baseline, for forms whose values are ready on first render;
  *   the others call setBaseline() once loaded. No baseline = no changes.
- * @param {() => *} [options.onSave] - The form's save, for the dialog's Save. It counts as saved once
+ * @param {(options: {leaving: boolean}) => *} [options.onSave] - The form's save, for the dialog's Save. It counts as saved once
  *   it has called setBaseline() (so a failed or refused save stays put).
  * @param {boolean} [options.canSave=true] - Whether the form is currently valid enough to save.
  * @param {string} [options.within] - The page's address - moving under it (e.g. its galleries, over
