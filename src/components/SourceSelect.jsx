@@ -23,6 +23,13 @@ const DENSE_SX = {
  * arrow), never wider than its row; compact (small) unless size says otherwise.
  *
  * @param {object} props
+ * @param {import('react').ReactNode} props.label
+ * @param {string} [props.value] - The chosen source's id.
+ * @param {{ id: string, name?: string }[]} props.sources
+ * @param {string} props.noneLabel - The "none" option's.
+ * @param {import('react').ReactNode} [props.helperText]
+ * @param {string} [props.className]
+ * @param {'small' | 'medium'} [props.size='small']
  * @param {(id: string) => void} props.onChange - Gets the chosen source id ('' for none).
  * @param {boolean} [props.dense=false] - A caption-sized, underlined picker (13px text, about 32px tall), for
  *   one that sits under another field rather than heading its section.

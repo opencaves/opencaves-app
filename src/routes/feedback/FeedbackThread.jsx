@@ -42,6 +42,17 @@ const RAIL_SX = { position: 'absolute', top: 0, bottom: 0, left: { xs: 16, sm: A
 // A comment card (GitHub style): the writer's initials beside it, a header
 // (who, when, marks), then the text - the team's in Markdown, the author's as
 // written.
+/**
+ * A comment card (see above).
+ *
+ * @param {object} props
+ * @param {string} props.name - Its writer.
+ * @param {boolean} [props.team] - The team's (in Markdown).
+ * @param {Timestamp | Date} [props.date]
+ * @param {string} props.action - What the writer did ("opened this").
+ * @param {import('react').ReactNode} [props.marks] - Beside the header.
+ * @param {import('react').ReactNode} props.children
+ */
 function Comment({ name, team, date, action, marks, children }) {
   return (
     <Box className={`oc-feedback-comment oc-feedback-comment--${team ? 'team' : 'author'}`} component="li" sx={{ display: 'flex', gap: 2, position: 'relative' }}>

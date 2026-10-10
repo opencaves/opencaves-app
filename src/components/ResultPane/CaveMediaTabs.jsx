@@ -21,6 +21,13 @@ import PendingUploadsStrip from '@/components/Offline/PendingUploadsStrip.jsx'
  * the same cave's pane comes back to the tab the person was on for free.
  *
  * @param {object} props
+ * @param {string} props.caveId
+ * @param {string[] | string} [props.videos] - Their URLs (VideoList's).
+ * @param {(videos: string[]) => void} [props.onVideosChange]
+ * @param {string} [props.sistemaId]
+ * @param {boolean} [props.isNew=false] - A cave not created yet: no photos tab.
+ * @param {boolean} [props.standaloneUpload=false] - Its own upload provider (outside the media pane).
+ * @param {boolean} [props.editable=true]
  * @param {string} [props.galleryPath] - The page whose galleries open its photos and maps (the cave's
  *   edit page: <galleryPath>/photos/:id, /maps/:id); the map's viewers otherwise.
  */
@@ -30,8 +37,8 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   const mapPath = useMemo(() => galleryPath && ((id) => `${galleryPath}/maps/${id}`), [galleryPath])
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const isEditor = useSelector((state) => state.session.roles.includes('editor'))
-  const tab = useSelector((state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('editor'))
+  const tab = useSelector((/** @type {RootState} */ state) => state.app.caveMediaTabByCaveId[caveId]) || 'pictures'
   const tabId = useId()
   const activeTab = isNew ? 'videos' : tab
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])

@@ -23,6 +23,20 @@ const SECTION_ANCHOR_SX = {
   '& h2:hover .oc-index-section--anchor, & .oc-index-section--anchor:focus-visible': { opacity: 1 },
 }
 
+/**
+ * A titled part of an index page (see above).
+ *
+ * @param {object} props
+ * @param {string} [props.id]
+ * @param {import('react').ReactNode} props.title
+ * @param {number | string} [props.count]
+ * @param {import('react').ReactNode} [props.children]
+ * @param {string} [props.className]
+ * @param {boolean} [props.card=false]
+ * @param {object} [props.cardSx]
+ * @param {boolean} [props.lazy=false]
+ * @param {boolean} [props.stickyTitle=false]
+ */
 export default function IndexSection({ id, title, count, children, className, card = false, cardSx, lazy = false, stickyTitle = false }) {
   const { t } = useTranslation('indexPages')
   return (

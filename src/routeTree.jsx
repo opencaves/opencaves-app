@@ -12,8 +12,8 @@ import { deleteContinueUrl } from '@/redux/slices/sessionSlice.jsx'
 import { REFERENCE_DATA_CONFIGS } from '@/routes/dashboard/referenceDataConfigs.js'
 
 function SkipIfLoggedin({ children }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const continueUrl = useSelector((state) => state.session.continueUrl)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const continueUrl = useSelector((/** @type {RootState} */ state) => state.session.continueUrl)
   const dispatch = useDispatch()
 
   // Snapshot continueUrl so that deleteContinueUrl() (dispatched below once
@@ -36,8 +36,8 @@ function SkipIfLoggedin({ children }) {
 }
 
 function RequireAuth({ children }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const authResolved = useSelector((state) => state.session.authResolved)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const authResolved = useSelector((/** @type {RootState} */ state) => state.session.authResolved)
 
   if (!authResolved) {
     return null
@@ -53,9 +53,9 @@ function RequireAuth({ children }) {
 // visitorsTo: where anyone else goes instead (a public page at that
 // address's level) - by default sign-in, or home once signed in.
 function RequireEditor({ children, visitorsTo }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
-  const authResolved = useSelector((state) => state.session.authResolved)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
+  const authResolved = useSelector((/** @type {RootState} */ state) => state.session.authResolved)
 
   if (!authResolved) {
     return null
@@ -77,9 +77,9 @@ function RequireEditor({ children, visitorsTo }) {
 }
 
 function RequireAdmin({ children }) {
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
-  const authResolved = useSelector((state) => state.session.authResolved)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
+  const authResolved = useSelector((/** @type {RootState} */ state) => state.session.authResolved)
 
   if (!authResolved) {
     return null
@@ -270,6 +270,7 @@ export const routes = [
                 children: [
                   {
                     path: 'with-email',
+                    // @ts-expect-error No onClose: closing the dialog calls an undefined onClose (AuthPrompt's onTransitionExited) and throws.
                     lazy: () => import('@/components/auth/LogInWithEmailPrompt.jsx').then(({ default: Component }) => ({ Component: () => <Component open={true} /> })),
                   },
                 ],

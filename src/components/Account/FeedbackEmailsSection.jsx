@@ -14,7 +14,7 @@ import { saveFeedbackEmails, watchFeedbackEmails } from '@/services/feedbackEmai
  */
 export default function FeedbackEmailsSection({ headingProps = {} }) {
   const { t } = useTranslation('account', { keyPrefix: 'emails' })
-  const user = useSelector((state) => state.session.user)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
   const uid = user && !user.isAnonymous ? user.uid : null
   const [enabled, setEnabled] = useState(null)
   const [saving, setSaving] = useState(false)

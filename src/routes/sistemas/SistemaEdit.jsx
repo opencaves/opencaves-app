@@ -25,8 +25,8 @@ export default function SistemaEdit() {
   const { sistemaId: param } = useParams()
   const navigate = useNavigate()
   const { setTitle } = useTitle()
-  const sistemas = useSelector((state) => state.data.sistemas)
-  const dataLoading = useSelector((state) => state.data.dataLoadingState.state) === 'loading' && sistemas.length === 0
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
+  const dataLoading = useSelector((/** @type {RootState} */ state) => state.data.dataLoadingState.state) === 'loading' && sistemas.length === 0
   const slugs = useSistemaSlugs()
   const resolvedRef = useRef(null)
   const sistemaId = dataLoading ? null : resolveSistemaId(param, sistemas, slugs, resolvedRef.current)

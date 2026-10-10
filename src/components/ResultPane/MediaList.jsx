@@ -19,20 +19,24 @@ import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
 /**
- * @param {object} props
- * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
+ * @param {object} props - Also its root's (a Box's).
+ * @param {string} props.caveId
+ * @param {boolean} [props.editable=false]
+ * @param {(id: string) => string} [props.photoPath]
+ * @param {Sx} [props.sx]
+ * @param {string} [props.className] - A photo's address (a page's gallery); the map's viewer otherwise.
  */
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   // Deleting a photo: admins only (as in firestore.rules).
-  const canDelete = useSelector((state) => state.session.roles.includes('admin'))
+  const canDelete = useSelector((/** @type {RootState} */ state) => state.session.roles.includes('admin'))
   const [mediaList, loading, error] = useCaveAssetsList(caveId)
   const [assetsList, setAssetsList] = useState(null)
   const [pictureToDelete, setPictureToDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
-  const scrollbarsRef = useRef()
+  const scrollbarsRef = useRef(null)
 
   function closeDeleteDialog() {
     if (deleting) return
@@ -285,12 +289,19 @@ function MediaListCol({ children, width = 'full', isLast = false, height = ASSET
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
 }
 
+/**
+ * A cell of a photo column: a full-height photo or a half one.
+ *
+ * @param {import('@mui/material/Grid').GridProps & { width?: 'full' | 'half' | number, height?: number, position?: 'top' | 'bottom' }} props - A
+ *   Grid's; `width` 'full' or 'half' (a number matches neither: no minimum
+ *   width), `position` the half photo's.
+ */
 function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.height, position = 'top', ...props }) {
   const widths = {
     full: ASSETS_LIST_CONFIG.height,
@@ -298,7 +309,7 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   }
 
   return (
-    <Grid {...props} container direction="column" sx={{ minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
+    <Grid {...props} container sx={{ flexDirection: 'column', minHeight: height, minWidth: widths[width], position: 'relative', flexWrap: 'nowrap', justifyContent: width === 'full' ? 'center' : position === 'top' ? 'flex-start' : 'flex-end', alignItems: 'flex-start' }}>
       {children}
     </Grid>
   )
@@ -328,7 +339,7 @@ function MoreMedias({ width, height, to, state }) {
         },
       }}
     >
-      <Grid container direction="column" sx={{ alignItems: 'center', rowGap: 0.75 }}>
+      <Grid container sx={{ flexDirection: 'column', alignItems: 'center', rowGap: 0.75 }}>
         <PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />
         <Typography
           sx={(theme) => ({

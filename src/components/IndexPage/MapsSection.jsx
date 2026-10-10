@@ -29,6 +29,12 @@ const TWO_LINES_ON_PHONES = { display: { xs: '-webkit-box', sm: 'block' }, Webki
  * visitors where there's no system to add one to.
  *
  * @param {object} props
+ * @param {string} props.sistemaId - The system whose maps it shows (with those of the systems it joined).
+ * @param {Sistema[]} props.sistemas
+ * @param {Connection[]} props.connections
+ * @param {string} props.pagePath - The page's address, its gallery's base.
+ * @param {string} props.title
+ * @param {boolean} [props.card=false] - IndexSection's.
  * @param {CaveMap[]} [props.pageMaps] - Every map, from
  *   the page that waited for them (its own query starts empty, drawing nothing
  *   for a moment, and the section then pushed the page down).
@@ -38,7 +44,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
   const [ownMaps, ownLoading] = mapsModel.useAll()
   const allMaps = pageMaps || ownMaps
   const loading = pageMaps ? false : ownLoading
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('maps')
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
   const byId = new Map(allMaps.map((map) => [map.id, map]))

@@ -10,7 +10,10 @@ import MoreVertRounded from '@mui/icons-material/MoreVertRounded'
  * to one control no matter how many actions it has.
  *
  * @param {object} props
- * @param {object} [props.sx] - The trigger's placement on a card with a title bar (centred on it).
+ * @param {string} props.ariaLabel - The trigger's.
+ * @param {{ label: string, icon: import('react').ReactNode, onClick?: () => void, to?: string, danger?: boolean }[]} props.actions - The
+ *   menu's items (`to`: a link); `danger` ones in the error color.
+ * @param {Sx} [props.sx] - The trigger's placement on a card with a title bar (centred on it).
  */
 export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -51,7 +54,8 @@ export default function CardOptionsMenu({ ariaLabel, actions, sx }) {
               handleClose()
               // Focus off the menu's button first: an action opening a dialog
               // would otherwise hide the page with focus still inside it.
-              document.activeElement?.blur()
+              const focused = /** @type {HTMLElement} */ (document.activeElement)
+              focused?.blur()
               action.onClick?.()
             }}
             sx={action.danger ? { color: 'error.main' } : undefined}

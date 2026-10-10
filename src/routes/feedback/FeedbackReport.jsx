@@ -16,7 +16,13 @@ import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
 import { KindChip, RelativeTime, StageChip, StatusMenu, deleteFeedbackReport, isOpen, messageCountOf, statusOf, titleOf, useFeedbackReader } from './feedbackUi.jsx'
 import { FeedbackTimeline, ReplyForm, useFeedbackMessages } from './FeedbackThread.jsx'
 
-// One labelled entry of the side panel.
+/**
+ * One entry of the side panel, under its label (when it has one).
+ *
+ * @param {object} props
+ * @param {import('react').ReactNode} [props.label]
+ * @param {import('react').ReactNode} props.children
+ */
 function Field({ label, children }) {
   return (
     <Box className="oc-feedback-report--field" sx={{ py: 1.5, '&:first-of-type': { pt: 0 } }}>

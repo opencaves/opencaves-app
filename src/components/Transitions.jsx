@@ -21,13 +21,14 @@ const forwardTransitionStyles = {
 
 /**
  * A transition: in from 50px to the right as it fades in, out the same way.
+ * Its props are a CSSTransition's; its child takes the styles.
  */
-export const Forward = forwardRef(function Forward(props, ref) {
+export const Forward = forwardRef(function Forward(/** @type {{ children: import('react').ReactElement<any>, in?: boolean } & Record<string, any>} */ props, ref) {
   const nodeRef = useRef(null)
   const { children, in: inProp, ...others } = props
   const theme = useTheme()
-  const [duration, setDuration] = useState()
-  const [easing, setEasing] = useState()
+  const [duration, setDuration] = useState(/** @type {number} */ (undefined))
+  const [easing, setEasing] = useState(/** @type {string} */ (undefined))
 
   // const duration = inProp ? theme.oc.sys.duration.emphasizedDecelerate : theme.oc.sys.duration.emphasizedAccelerate
   const defaultStyle = {
@@ -53,6 +54,7 @@ export const Forward = forwardRef(function Forward(props, ref) {
   }, [inProp])
 
   return (
+    // @ts-expect-error Neither a timeout nor an addEndListener: CSSTransition needs one (Forward is unused).
     <CSSTransition
       {...others}
       nodeRef={nodeRef}

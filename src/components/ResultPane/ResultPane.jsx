@@ -42,11 +42,11 @@ export default function ResultPane() {
   const lastLocationRef = useRef(currentLocation)
   if (!exiting) lastLocationRef.current = currentLocation
   const location = lastLocationRef.current
-  const caves = useSelector(state => state.map.data)
-  const roles = useSelector(state => state.session.roles)
+  const caves = useSelector((/** @type {RootState} */ state) => state.map.data)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const isSmall = useSmall()
   const { setTitle } = useTitle()
-  const [currentCave, _setCurrentCave] = useState()
+  const [currentCave, _setCurrentCave] = useState(/** @type {Cave} */ (undefined))
 
   // The sistemas pane (and its own nested :sistemaId/edit pane) is only
   // reachable from edit mode and overlays the edit-mode pane, so it must
@@ -71,7 +71,7 @@ export default function ResultPane() {
     // Another cave: the sheet at its initial height. The first one after a
     // page load, if it's the cave the sheet was on: where it was (restored
     // with the app slice).
-    const restoring = !sheetRestoreChecked && store.getState().app.resultPaneSmCaveId === caveId
+    const restoring = !sheetRestoreChecked && /** @type {RootState} */ (store.getState()).app.resultPaneSmCaveId === caveId
     sheetRestoreChecked = true
     if (!restoring) dispatch(setResultPaneSmCurrentBreakpoint(PANE_INITIAL_BREAKPOINT))
     dispatch(setResultPaneSmCaveId(caveId))

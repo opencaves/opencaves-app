@@ -52,7 +52,7 @@ export default function MapLayersAdmin() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') === 'toProcess' ? 'toProcess' : 'layer'
   const { toProcess, skipped } = useMapsToProcess()
-  const sistemas = useSelector((state) => state.data.sistemas)
+  const sistemas = useSelector((/** @type {RootState} */ state) => state.data.sistemas)
   const { maps, hiddenMaps } = useCaveLayerMaps()
   const [search, setSearch] = useState('')
   const [savingId, setSavingId] = useState(null)

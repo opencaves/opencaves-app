@@ -17,7 +17,7 @@ function useSnackbarLift(fabRef) {
     let observed = null
     function measure() {
       const fab = fabRef.current
-      const bar = document.querySelector('.MuiSnackbar-root')
+      const bar = /** @type {HTMLElement} */ (document.querySelector('.MuiSnackbar-root'))
       if (bar !== observed) {
         resizeObserver?.disconnect()
         observed = bar
@@ -56,7 +56,10 @@ function useSnackbarLift(fabRef) {
  *
  * @param {object} props
  * @param {string} [props.to] - A link; or onClick.
+ * @param {() => void} [props.onClick]
  * @param {string} props.label - Its tooltip and accessible name.
+ * @param {import('react').ReactNode} props.icon
+ * @param {string} [props.className]
  */
 export default function PageFab({ to, onClick, label, icon, className }) {
   const edge = (margin, side) => `calc(${margin}px + env(safe-area-inset-${side}, 0px))`

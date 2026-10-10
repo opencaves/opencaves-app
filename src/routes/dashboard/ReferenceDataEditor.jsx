@@ -64,7 +64,7 @@ export default function ReferenceDataEditor() {
   const [items, loading] = model.useAll()
   const [deleteTarget, setDeleteTarget] = useState(null)
   // Deleting reference data: admins only (as in firestore.rules).
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   // Accesses and accessibilities: editors read them, admins change them (adminEdit).
   const canEdit = isAdmin || !config.adminEdit
   // An item's edit address: an area's by its slug (the anchor of its section

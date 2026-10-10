@@ -83,10 +83,10 @@ class LengthView {
       }
     })
     this.dom.addEventListener('focusin', (event) => {
-      if (!this.dom.contains(event.relatedTarget)) this.initialText = this.node.attrs.text
+      if (!this.dom.contains(/** @type {Node} */ (event.relatedTarget))) this.initialText = this.node.attrs.text
     })
     this.dom.addEventListener('focusout', (event) => {
-      if (this.dom.contains(event.relatedTarget)) return
+      if (this.dom.contains(/** @type {Node} */ (event.relatedTarget))) return
       // Left empty: a tag just inserted gives back the text it replaced,
       // another is removed.
       if (!this.input.value.trim() && !this.options.cancelInsert?.(this.view, this.getPos(), false)) this.remove()
@@ -237,6 +237,6 @@ export function milkdownLength(labels, options = {}) {
  * @param {number} pos
  */
 export function focusLength(view, pos) {
-  const dom = view.nodeDOM(pos)
-  dom?.querySelector?.('.oc-length-chip--value')?.focus()
+  const dom = /** @type {HTMLElement} */ (view.nodeDOM(pos))
+  dom?.querySelector?.(/** @type {'input'} */ ('.oc-length-chip--value'))?.focus()
 }

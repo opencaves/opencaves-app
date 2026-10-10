@@ -19,6 +19,7 @@ import { buildContinueUrl, setContinueUrl } from '@/redux/slices/sessionSlice.js
  * @param {object} props
  * @param {string|null} [props.caveId=null] - The cave; without one (a cave system's page), the advice is
  *   to save one of its cenotes.
+ * @param {Sx} [props.sx]
  */
 export default function OfflineSaveHint({ caveId = null, sx }) {
   const { t } = useTranslation('offline', { keyPrefix: 'hint' })

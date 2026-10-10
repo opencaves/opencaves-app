@@ -3,6 +3,12 @@ import { useColorScheme } from '@mui/material/styles'
 import LogoLight from '@/images/logo/logo_light.svg'
 import LogoDark from '@/images/logo/logo_dark.svg'
 
+/**
+ * The app's logo mark (no wordmark), 24px, drawn for the color scheme.
+ *
+ * @param {{ colorScheme?: 'light' | 'dark' } & import('@mui/material/Box').BoxProps} props - An
+ *   img Box's; `colorScheme` forces one scheme's drawing.
+ */
 export default function LogoIcon({ colorScheme, ...props }) {
   const { mode } = useColorScheme()
   const { sx, className, ...other } = props

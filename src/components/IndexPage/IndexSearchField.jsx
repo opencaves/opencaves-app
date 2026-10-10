@@ -101,6 +101,10 @@ export function useProgressiveCount(total, resetKey, { first = 3, step = 3 } = {
  * the field itself is opaque (the list passes under it around the field).
  *
  * @param {object} props
+ * @param {string} props.query
+ * @param {(query: string) => void} props.setQuery
+ * @param {string} [props.placeholder]
+ * @param {import('react').ReactNode} [props.status] - The results line under it.
  * @param {string} [props.label] - Its accessible name, when the placeholder is shorter (cut on phones).
  */
 export default function IndexSearchField({ query, setQuery, placeholder, label, status }) {

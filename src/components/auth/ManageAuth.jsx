@@ -61,6 +61,12 @@ function knownRoles(uid) {
   }
 }
 
+/**
+ * Follows the signed-in account (Firebase Auth) into the store: the session,
+ * its roles, its settings. Renders nothing.
+ *
+ * @returns {null}
+ */
 export default function ManageAuth() {
   const dispatch = useDispatch()
   const { setMode } = useColorScheme()
@@ -170,4 +176,6 @@ export default function ManageAuth() {
       }
     })
   }, [dispatch, setMode])
+
+  return null
 }

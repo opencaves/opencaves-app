@@ -12,7 +12,8 @@ import { RELATIVE_TIME_TAG, defineRelativeTimeElement } from './relativeTimeElem
 export function toDate(value) {
   if (!value) return null
   if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value
-  if (typeof value.toDate === 'function') return value.toDate()
+  const timestamp = /** @type {import('firebase/firestore').Timestamp} */ (value)
+  if (typeof timestamp.toDate === 'function') return timestamp.toDate()
   if (typeof value.seconds === 'number') return new Date(value.seconds * 1000 + Math.round((value.nanoseconds || 0) / 1e6))
   return null
 }
@@ -27,6 +28,7 @@ export function toDate(value) {
  *
  * @param {object} props
  * @param {Date|Timestamp|{seconds: number, nanoseconds?: number}} props.value - The date (toDate).
+ * @param {string} [props.className]
  * @param {boolean} [props.focusable=false] - A Tab stop, and a tap target on touch screens, showing its exact date on focus; never inside a link or button (it would take their click).
  */
 export default function RelativeTime({ value, className, focusable = false }) {

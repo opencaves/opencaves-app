@@ -1,7 +1,14 @@
 import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { TextField } from '@mui/material'
 
-const TextInput = forwardRef(function TextInput(props, ref) {
+/**
+ * An auth form's text field that reports its validity (the input's
+ * ValidityState, plus `customError` and `valid`) once the user has typed in
+ * it, or it has a value. Its props are a TextField's, plus the input's
+ * `maxLength`, `minLength` and `pattern`; `customError`, a message, makes it
+ * invalid.
+ */
+const TextInput = forwardRef(function TextInput(/** @type {TextInputProps} */ props, /** @type {import('react').Ref<HTMLDivElement>} */ ref) {
   function v(v) {
     const r = { name }
     for (var key in v) {
@@ -125,3 +132,5 @@ const TextInput = forwardRef(function TextInput(props, ref) {
 })
 
 export default TextInput
+
+/** @typedef {import('@mui/material/TextField').TextFieldProps & { maxLength?: number, minLength?: number, pattern?: string, customError?: boolean | string, onValidityChange?: (validity: object) => void }} TextInputProps */

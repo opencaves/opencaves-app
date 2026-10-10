@@ -28,7 +28,7 @@ export function useEditCaveActions() {
   const { caveId } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const roles = useSelector((state) => state.session.roles)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
 
   return {
     canEdit: roles.includes('editor'),

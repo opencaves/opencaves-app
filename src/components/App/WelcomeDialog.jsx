@@ -48,11 +48,11 @@ export default function WelcomeDialog() {
   const { t } = useTranslation('welcome')
   const dispatch = useDispatch()
   const location = useLocation()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
   // Whether the account is known yet (a signed-in user looks signed out
   // until Firebase Auth restores the session): the welcome waits for it, to
   // say the right thing.
-  const authResolved = useSelector((state) => state.session.authResolved)
+  const authResolved = useSelector((/** @type {RootState} */ state) => state.session.authResolved)
   const [open, setOpen] = useState(false)
   // Decided once per visit: shown, or not to show.
   const decided = useRef(false)

@@ -40,6 +40,16 @@ const accessesModel = createCollectionModel('accesses')
 const accessibilitiesModel = createCollectionModel('accessibilities')
 const languagesModel = createCollectionModel('languages')
 
+/**
+ * The shared MarkdownField, with the edit form's placeholder.
+ *
+ * @param {object} props
+ * @param {string} props.label
+ * @param {string} [props.value]
+ * @param {(event: {target: {value: string}}) => void} props.onChange
+ * @param {number} [props.minRows]
+ * @param {boolean} [props.resizable]
+ */
 function MarkdownField({ label, value, onChange, minRows, resizable }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   return <SharedMarkdownField label={label} value={value} onChange={onChange} minRows={minRows} resizable={resizable} placeholder={t('emptyPreview')} />
@@ -62,13 +72,13 @@ export default function CurrentCaveDetailsContentEdit({ cave }) {
   const dispatch = useDispatch()
   const isSmall = useSmall()
   // The map's "place on map" mode takes over the screen: no Save bar then.
-  const placingOnMap = useSelector((state) => !!state.map.placeOnMap)
-  const isAdmin = useSelector((state) => state.session.roles).includes('admin')
+  const placingOnMap = useSelector((/** @type {RootState} */ state) => !!state.map.placeOnMap)
+  const isAdmin = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('admin')
   // descriptions[].lang is a 3-letter code (matching the languages
   // collection / cave nameTranslations), not i18next's own 2-letter code.
   const descriptionLang = toContentLanguage(i18n.resolvedLanguage) || DEFAULT_CONTENT_LANGUAGE
   // Sorts the Sistema dropdown nearest-first, live as the map is panned.
-  const mapCenter = useSelector((state) => state.map.viewState)
+  const mapCenter = useSelector((/** @type {RootState} */ state) => state.map.viewState)
 
   const [sistemas] = SistemaModel.useAll()
   const [areas] = areasModel.useAll()

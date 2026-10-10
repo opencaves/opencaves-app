@@ -160,7 +160,7 @@ export function centerItem(view, item) {
 /**
  * An item reached with the keyboard: centred - a click leaves it where it is.
  *
- * @param {FocusEvent} event - The item's focus.
+ * @param {FocusEvent | import('react').FocusEvent} event - The item's focus.
  * @param {HTMLElement} view - The strip's scrolling element.
  */
 export function centerFocused(event, view) {
@@ -180,7 +180,7 @@ const plainKey = (event, key) => event.key === key && !event.altKey && !event.ct
  * tabbing through every item). From there, the opposite arrow comes back to
  * that item - until the focus moves elsewhere.
  *
- * @param {KeyboardEvent} event - A keydown on the strip's content element.
+ * @param {KeyboardEvent | import('react').KeyboardEvent} event - A keydown on the strip's content element.
  */
 export function leaveOnArrow(event) {
   const down = plainKey(event, 'ArrowDown')

@@ -38,7 +38,7 @@ import './App.scss'
 // (Not on the server, which renders the public pages: entry-server.jsx.)
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
-    document.documentElement.style.setProperty('--oc-device-pixel-ratio', getDevicePixelRatio())
+    document.documentElement.style.setProperty('--oc-device-pixel-ratio', String(getDevicePixelRatio()))
   })
 }
 
@@ -62,7 +62,7 @@ const App = ({ serverRouter = null }) => {
     // nothing to show yet: subscribe right away. A page the server rendered
     // shows the part of the data it came with (useCaveData), the store's own
     // still loading (any other page waits for it): waits too.
-    const hasStoredData = store.getState().data.caves.length > 0
+    const hasStoredData = /** @type {RootState} */ (store.getState()).data.caves.length > 0
     dispatch(setDataLoadingState({ state: hasStoredData ? 'loaded' : 'loading' }))
     const canWait = hasStoredData || Boolean(ssrPageData())
 
@@ -82,7 +82,8 @@ const App = ({ serverRouter = null }) => {
       return () => unsubscribe?.()
     }
     const idle = 'requestIdleCallback' in window
-    const handle = idle ? requestIdleCallback(subscribe, { timeout: 3000 }) : setTimeout(subscribe, 1500)
+    // A number: the browser's timer (Node's types make setTimeout's a Timeout).
+    const handle = /** @type {number} */ (idle ? requestIdleCallback(subscribe, { timeout: 3000 }) : setTimeout(subscribe, 1500))
     return () => {
       if (idle) cancelIdleCallback(handle)
       else clearTimeout(handle)
@@ -116,7 +117,8 @@ const App = ({ serverRouter = null }) => {
               ...Object.entries(theme.transitions.duration).reduce(
                 (styles, style) => ({
                   ...styles,
-                  [`--${theme.cssVarPrefix}-transition-duration-${style[0]}`]: `${style[1]}ms`,
+                  // cssVarPrefix: the CSS variables theme's (extendTheme), unknown to Theme's type.
+                  [`--${/** @type {{ cssVarPrefix?: string }} */ (theme).cssVarPrefix}-transition-duration-${style[0]}`]: `${style[1]}ms`,
                 }),
                 {},
               ),

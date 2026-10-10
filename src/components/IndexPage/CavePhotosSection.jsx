@@ -28,7 +28,7 @@ const MAX_PHOTOS = 12
 export default function CavePhotosSection({ caveId, title }) {
   const { t } = useTranslation('indexPages')
   const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const requireLogin = useRequireLogin('photos')
   const pendingPhotosOf = useCallback((item) => item.kind === 'photo' && item.caveId === caveId, [caveId])
   const [list, loading] = useCaveAssetsList(caveId)

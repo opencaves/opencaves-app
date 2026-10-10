@@ -22,6 +22,8 @@ function Preview({ file }) {
  * (or "Upload failed") and a button to cancel or remove it.
  *
  * @param {object} props
+ * @param {(item: object) => boolean} [props.filter] - Which waiting uploads it shows.
+ * @param {Sx} [props.sx]
  * @param {(item: object) => void} [props.onRemoved] - Told after one is removed (the edit form drops its map from the list).
  */
 export default function PendingUploadsStrip({ filter, onRemoved, sx }) {

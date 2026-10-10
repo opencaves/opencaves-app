@@ -35,12 +35,12 @@ const isCurrent = (to, pathname) => (to === '/' ? pathname === '/' : pathname ==
  * The site's pages, and the dashboard for editors: the app bar's links and
  * the phone drawer's.
  *
- * @returns {{navItems: object[], dashboardItem: object, canAccessDashboard: boolean, current: (to: string) => string|undefined}} current(to): 'page' for the page shown (aria-current).
+ * @returns {{navItems: object[], dashboardItem: object, canAccessDashboard: boolean, current: (to: string) => 'page'|undefined}} current(to): 'page' for the page shown (aria-current).
  */
 export function useNavItems() {
   const location = useLocation()
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const canAccessDashboard = isLoggedIn && (roles.includes('editor') || roles.includes('admin'))
   const dispatch = useDispatch()
   const navItems = [
@@ -55,6 +55,7 @@ export function useNavItems() {
     { key: 'about', to: '/about', icon: <InfoRounded />, onClick: openAboutDialog },
   ]
   const dashboardItem = { key: 'admin', to: '/dashboard', icon: <DashboardRounded /> }
+  /** @type {(to: string) => 'page' | undefined} */
   const current = (to) => (isCurrent(to, location.pathname) ? 'page' : undefined)
   return { navItems, dashboardItem, canAccessDashboard, current }
 }
@@ -66,6 +67,8 @@ export function useNavItems() {
  * each group set apart by a divider. No Home item: the header links there.
  *
  * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
  * @param {number} [props.zIndex] - Over the map page's Ionic sheet (its own, much higher, stacking).
  */
 export default function NavDrawer({ open, onClose, zIndex }) {

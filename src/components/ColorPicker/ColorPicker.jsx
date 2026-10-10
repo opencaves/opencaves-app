@@ -28,6 +28,9 @@ const swatchSx = {
  * same shared palette, instead of each place free-typing its own hex value.
  *
  * @param {object} props
+ * @param {import('react').ReactNode} [props.label]
+ * @param {string} [props.value] - The color (#rrggbb).
+ * @param {(hex: string) => void} props.onChange
  * @param {boolean} [props.saveOnAdd=true] - A color added is saved to the `colors` collection at once.
  */
 export default function ColorPicker({ label, value, onChange, saveOnAdd = true }) {

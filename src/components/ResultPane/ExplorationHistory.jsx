@@ -27,6 +27,7 @@ function formatDate(date, language) {
   const [year, month, day] = date.split('-').map(Number)
   if (!month) return String(year)
   const value = new Date(Date.UTC(year, month - 1, day || 1))
+  /** @type {Intl.DateTimeFormatOptions} */
   const options = day ? { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' } : { year: 'numeric', month: 'long', timeZone: 'UTC' }
   return new Intl.DateTimeFormat(language, options).format(value)
 }
@@ -38,6 +39,8 @@ function formatDate(date, language) {
  * seen in the edit forms only, never here.
  *
  * @param {object} props
+ * @param {Sistema[]} props.sistemas - The systems whose explorations it lists.
+ * @param {boolean} [props.showHeading=true]
  * @param {object} [props.headingProps] - Its heading's, e.g. an h2
  *   on a system's own page.
  */

@@ -41,9 +41,9 @@ export default function AppMenuPanel({ onClose, titleId }) {
   const dispatch = useDispatch()
   const location = useLocation()
   const [openSnackbar] = useSnackbar()
-  const user = useSelector((state) => state.session.user)
-  const isLoggedIn = useSelector((state) => state.session.isLoggedIn)
-  const roles = useSelector((state) => state.session.roles)
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const isLoggedIn = useSelector((/** @type {RootState} */ state) => state.session.isLoggedIn)
+  const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const canUseDashboard = isLoggedIn && roles.includes('editor')
   // The new feedback reports, beside the Dashboard entry (admins only).
   const newFeedback = useNewFeedbackCount(isLoggedIn && roles.includes('admin'))

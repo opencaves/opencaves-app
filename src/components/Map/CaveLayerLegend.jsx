@@ -27,12 +27,12 @@ import { saveAccountMapLegendOpen } from '@/services/mapLegendPreference.js'
 export default function CaveLayerLegend({ isLarge }) {
   const { t } = useTranslation('map', { keyPrefix: 'caveLayer.legend' })
   const theme = useTheme()
-  const { visible, colorBySistema } = useSelector((state) => state.caveLayer)
+  const { visible, colorBySistema } = useSelector((/** @type {RootState} */ state) => state.caveLayer)
   const units = useUnits()
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.session.user)
-  const open = useSelector((state) => state.preferences?.mapLegendOpen) ?? isLarge
-  const isEditor = useSelector((state) => state.session.roles).includes('editor')
+  const user = useSelector((/** @type {RootState} */ state) => state.session.user)
+  const open = useSelector((/** @type {RootState} */ state) => state.preferences?.mapLegendOpen) ?? isLarge
+  const isEditor = useSelector((/** @type {RootState} */ state) => state.session.roles).includes('editor')
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   // M3's motion for a container opening and closing in place: emphasized
   // decelerate in, emphasized accelerate out (none for reduced motion).

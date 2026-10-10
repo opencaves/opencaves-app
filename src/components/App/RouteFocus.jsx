@@ -31,7 +31,7 @@ export default function RouteFocus() {
     let frame
     const lost = () => !document.activeElement || document.activeElement === document.body
     const look = () => {
-      const heading = [...document.querySelectorAll('main h1, h1')].find((h1) => h1.offsetParent && h1.textContent.trim())
+      const heading = [.../** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('main h1, h1'))].find((h1) => h1.offsetParent && h1.textContent.trim())
       if (heading && lost()) {
         if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1')
         heading.focus({ preventScroll: true })

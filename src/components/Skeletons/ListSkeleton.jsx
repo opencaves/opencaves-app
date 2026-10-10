@@ -24,6 +24,8 @@ const GROUP_SIZES = [4, 2, 5, 3]
  * status), not the shapes.
  *
  * @param {object} props
+ * @param {string} [props.className]
+ * @param {Sx} [props.sx]
  * @param {number} [props.rows=6] - How many placeholder rows (at least - see fill)
  * @param {boolean} [props.fill=true] - Reach down to the bottom of the page (a whole page loading),
  *   with as many rows as that takes; false for a list within a loaded page
@@ -53,7 +55,7 @@ export default function ListSkeleton({ rows = 6, leading = 'square', secondary =
         {t('loading')}
       </Box>
       {count && <Skeleton aria-hidden="true" variant="text" sx={{ fontSize: '0.875rem', width: 90, mb: search ? 2 : 1 }} />}
-      {search && <Skeleton aria-hidden="true" variant="rounded" sx={(theme) => ({ height: 40, borderRadius: `${theme.shape.borderRadius * 4}px`, mb: 2 })} />}
+      {search && <Skeleton aria-hidden="true" variant="rounded" sx={(theme) => ({ height: 40, borderRadius: `${/** @type {number} */ (theme.shape.borderRadius) * 4}px`, mb: 2 })} />}
       {blocks.map(({ heading, rows: blockRows }, blockIndex) => (
         <Box key={blockIndex} aria-hidden="true" sx={card && grouped ? { mb: 3 } : undefined}>
           {/* An area's name: above its card, or a subheader row in the list. */}

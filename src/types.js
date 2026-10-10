@@ -323,3 +323,10 @@
  *
  * @typedef {ReturnType<typeof import('./redux/store.jsx').store.getState>} RootState
  */
+
+/**
+ * A MUI `sx` prop (an object, an array of them, or a function of the
+ * theme), for the components that take one and pass it on.
+ *
+ * @typedef {import('@mui/material').SxProps<import('@mui/material').Theme>} Sx
+ */

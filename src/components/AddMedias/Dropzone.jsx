@@ -10,6 +10,8 @@ import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
 
 /**
  * @param {object} props
+ * @param {boolean} [props.open=false]
+ * @param {() => void} [props.onDrop] - Called once files are dropped.
  * @param {string} [props.caveId] - The cave the photos go to (the map's open cave otherwise).
  */
 export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
@@ -98,7 +100,7 @@ export default function Dropzone({ open = false, onDrop = () => {}, caveId }) {
     <>
       <Dialog className="oc-dropzone" open={_open} fullScreen={true} onClose={handleClose} transitionDuration={350}>
         <Grid container {...getRootProps({ sx })}>
-          <Grid className="oc-dropzone" container direction="column" sx={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Grid className="oc-dropzone" container sx={{ flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <SvgIcon inheritViewBox sx={{ fontSize: '10rem' }} color="primary">
               <DropIcon />
             </SvgIcon>

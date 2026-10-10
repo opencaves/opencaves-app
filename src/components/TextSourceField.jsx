@@ -8,7 +8,9 @@ import SourceSelect from '@/components/SourceSelect.jsx'
  * words are the app's (withTextChange sets OpenCaves).
  *
  * @param {object} props
- * @param {{source: string}} props.value
+ * @param {{source: string}} [props.value]
+ * @param {(value: {source: string}) => void} props.onChange
+ * @param {{ id: string, name?: string }[]} props.sources
  */
 export default function TextSourceField({ value, onChange, sources }) {
   const { t } = useTranslation('textSource')

@@ -9,8 +9,8 @@ import { COORDINATE_DECIMALS } from '../../config/map.js'
  * the flat-earth approximation (accurate enough across a region as small as
  * the Yucatán) skips the cost of a proper haversine calculation.
  *
- * @param {{longitude: number, latitude: number}} [a]
- * @param {{longitude: number, latitude: number}} [b]
+ * @param {{longitude?: number, latitude?: number}} [a]
+ * @param {{longitude?: number, latitude?: number}} [b]
  * @returns {number} Infinity when either point is missing, so entries without a location sort
  *   to the end rather than throwing or landing in an arbitrary spot.
  */

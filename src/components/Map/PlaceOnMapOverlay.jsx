@@ -27,9 +27,9 @@ const visuallyHidden = { position: 'absolute', width: '1px', height: '1px', p: 0
 export default function PlaceOnMapOverlay({ mapRef }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
   const dispatch = useDispatch()
-  const placeOnMap = useSelector((state) => state.map.placeOnMap)
-  const currentCave = useSelector((state) => state.map.currentCave)
-  const barRef = useRef()
+  const placeOnMap = useSelector((/** @type {RootState} */ state) => state.map.placeOnMap)
+  const currentCave = useSelector((/** @type {RootState} */ state) => state.map.currentCave)
+  const barRef = useRef(null)
   const [center, setCenter] = useState(null)
   const [pinY, setPinY] = useState(null)
 
