@@ -115,8 +115,9 @@ export function centerItem(view, item) {
  * @param {HTMLElement} view - The strip's scrolling element.
  */
 export function centerFocused(event, view) {
-  if (!event.target.matches(':focus-visible')) return
-  centerItem(view, event.target)
+  const item = /** @type {HTMLElement} */ (event.target)
+  if (!item.matches(':focus-visible')) return
+  centerItem(view, item)
 }
 
 // What Tab can reach.
@@ -135,10 +136,10 @@ const plainKey = (event, key) => event.key === key && !event.altKey && !event.ct
 export function leaveOnArrow(event) {
   const down = plainKey(event, 'ArrowDown')
   if (!down && !plainKey(event, 'ArrowUp')) return
-  const strip = event.currentTarget
-  const item = event.target
+  const strip = /** @type {HTMLElement} */ (event.currentTarget)
+  const item = /** @type {HTMLElement} */ (event.target)
   const side = down ? Node.DOCUMENT_POSITION_FOLLOWING : Node.DOCUMENT_POSITION_PRECEDING
-  const reachable = [...document.querySelectorAll(TABBABLE)].filter(
+  const reachable = [.../** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(TABBABLE))].filter(
     (element) => strip.compareDocumentPosition(element) & side && !strip.contains(element) && element.tabIndex >= 0 && element.getClientRects().length > 0,
   )
   const target = down ? reachable[0] : reachable.at(-1)

@@ -39,7 +39,7 @@ export function useSettleWrite() {
             openSnackbar(t('syncError', { name }), { autoHide: false })
           },
         )
-        return 'pending'
+        return /** @type {'pending'} */ ('pending')
       }
       if (!navigator.onLine) return Promise.resolve(follow())
       return new Promise((resolve, reject) => {

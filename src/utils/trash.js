@@ -13,7 +13,8 @@
  */
 export function isTrashed(record) {
   if (!record) return false
-  const deletedAt = typeof record.get === 'function' && typeof record.data === 'function' ? record.get('deletedAt') : record.deletedAt
+  const snapshot = /** @type {import('firebase/firestore').DocumentSnapshot} */ (record)
+  const deletedAt = typeof snapshot.get === 'function' && typeof snapshot.data === 'function' ? snapshot.get('deletedAt') : /** @type {Trashable} */ (record).deletedAt
   return deletedAt != null
 }
 

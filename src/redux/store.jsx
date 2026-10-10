@@ -102,4 +102,4 @@ export const store = configureStore({
 // On a page the server rendered, the stored state is read once the page is
 // hydrated (index.jsx): read before, it would make the first render differ
 // from the server's.
-export const persistor = persistStore(store, window.__OC_SSR__ ? { manualPersist: true } : undefined)
+export const persistor = persistStore(store, window.__OC_SSR__ ? /** @type {import('redux-persist').PersistorOptions} */ ({ manualPersist: true }) : undefined)

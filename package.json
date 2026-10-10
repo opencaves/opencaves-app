@@ -9,7 +9,7 @@
     "build": "node scripts/map-layer/build-tiles.js --check && vite build && vite build --ssr src/entry-server.jsx",
     "build:tiles": "node scripts/map-layer/build-tiles.js --build",
     "lint:jsdoc": "eslint src functions/js --max-warnings 0",
-    "typecheck": "tsc -p jsconfig.utils.json",
+    "typecheck": "tsc -p jsconfig.check.json",
     "deploy": "firebase deploy",
     "deploy:beta": "firebase hosting:channel:deploy beta",
     "postinstall": "patch-package"

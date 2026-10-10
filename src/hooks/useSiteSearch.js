@@ -51,7 +51,7 @@ export function useSiteSearch(input, { areas = false } = {}) {
     const matches = searchMatcher(input)
     const found = entries
       .filter((entry) => matches(entry.haystack))
-      .sort((a, b) => fold(b.label).startsWith(query) - fold(a.label).startsWith(query) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
+      .sort((a, b) => Number(fold(b.label).startsWith(query)) - Number(fold(a.label).startsWith(query)) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))
       .slice(0, MAX_SUGGESTIONS)
       // Grouped by kind for the list (groupBy needs them together).
       .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind))

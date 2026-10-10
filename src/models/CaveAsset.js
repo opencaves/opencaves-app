@@ -106,12 +106,27 @@ export default class CaveAsset {
     return assetList
   }
 
+  /**
+   * @param {{caveId?: string, userId?: string, isCover?: boolean, type?: string}} [fields]
+   */
   constructor({ caveId, userId, isCover = false, type = 'image' } = {}) {
     this.id = getId()
     this.caveId = caveId
     this.userId = userId
     this.isCover = isCover
     this.type = type
+    // Set by upload() or read from the record (the converter): declared for
+    // the type checker only - no value, so toObject() doesn't carry them unset.
+    /** @type {string|undefined} */
+    this.originalName
+    /** @type {string|undefined} */
+    this.fullPath
+    /** @type {string|undefined} */
+    this.mediaType
+    /** @type {number|undefined} */
+    this.thumbnailRevision
+    /** @type {number|undefined} */
+    this.viewThumbnailRevision
   }
 
   toObject() {

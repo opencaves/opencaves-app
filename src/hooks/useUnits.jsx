@@ -10,7 +10,7 @@ import { useHydrated } from './useHydrated.js'
  * @returns {'metric'|'imperial'}
  */
 export function useUnits() {
-  const choice = useSelector((state) => state.preferences?.units)
+  const choice = useSelector((/** @type {RootState} */ state) => state.preferences?.units)
   const hydrated = useHydrated()
   return hydrated ? resolveUnits(choice) : 'metric'
 }
