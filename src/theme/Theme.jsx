@@ -82,9 +82,6 @@ const lightThemeOptions = {
       main: '#000',
       contrastText: '#fff',
     },
-    Scrollbar: {
-      bg: 'rgb(193 193 193)',
-    },
   },
   sys: {
     color: {
@@ -548,9 +545,6 @@ const darkThemeOptions = {
       main: '#6Cbe2d',
     },
     divider: `rgba(255, 255, 255, ${DIVIDER_ALPHA})`,
-    Scrollbar: {
-      bg: 'rgb(62 62 62)',
-    },
     text: {
       primary: '#dedbd7',
       secondary: '#989da1',
