@@ -212,42 +212,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         Object.assign(guide.style, { position: 'absolute', left: `${rowOffset(column).x}px`, top: '0', width: `${column.offsetWidth}px`, height: '1px', scrollSnapAlign: 'center' })
         layer.append(guide)
       }
-      // A tile (a video, a map, "more photos", "add photos"): each slice a
-      // copy of it, clipped to its strip - out of reach, the real one under it.
-      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
-      for (const tile of tiles) {
-        tile.style.opacity = ''
-        const { x, y } = rowOffset(tile)
-        const w = tile.offsetWidth
-        const h = tile.offsetHeight
-        const seeThrough = tile.classList.contains('oc-media-strip--see-through')
-        for (let sx = 0; sx < w; sx += sliceWidth) {
-          const sw = Math.min(sliceWidth, w - sx)
-          const slice = document.createElement('div')
-          // Over the next one by SLICE_OVERLAP, no seams between slices - not
-          // the last, nor when it's see-through, where an overlap would show a
-          // darker seam.
-          Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${seeThrough || sx + sw >= w ? sw : sw + SLICE_OVERLAP}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
-          const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
-          copy.inert = true
-          // Not what the cylinder set on the real one, when it's a column
-          // itself (turned, or hidden past a side).
-          Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
-          slice.append(copy)
-          stageTrack.append(slice)
-          slices.push({ slice, x: x + sx + sw / 2 })
-        }
-        tile.style.opacity = '0'
-      }
-      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
-      for (const img of images) {
-        const box = /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture'))
-        const src = img.currentSrc
-        if (!src || !img.naturalWidth) continue
+      // A picture as slices of its image (as object-fit: cover), filling
+      // `box` - its corners rounded as the box's.
+      function slicePicture(img, box) {
         const { x, y } = rowOffset(box)
         const w = box.offsetWidth
         const h = box.offsetHeight
-        // As object-fit: cover.
+        const radius = getComputedStyle(box).borderTopLeftRadius || '.5rem'
         const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight)
         const bw = img.naturalWidth * scale
         const bh = img.naturalHeight * scale
@@ -264,15 +235,62 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             top: `${y}px`,
             width: `${i === count - 1 ? sw : sw + SLICE_OVERLAP}px`,
             height: `${h}px`,
-            backgroundImage: `url("${src}")`,
+            backgroundImage: `url("${img.currentSrc}")`,
             backgroundSize: `${bw}px ${bh}px`,
             backgroundPosition: `${(w - bw) / 2 - sx}px ${(h - bh) / 2}px`,
             backfaceVisibility: 'hidden',
-            borderRadius: i === 0 ? '.5rem 0 0 .5rem' : i === count - 1 ? '0 .5rem .5rem 0' : '0',
+            borderRadius: count === 1 ? radius : i === 0 ? `${radius} 0 0 ${radius}` : i === count - 1 ? `0 ${radius} ${radius} 0` : '0',
           })
           stageTrack.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
+      }
+      const loaded = (img) => Boolean(img.currentSrc && img.naturalWidth)
+
+      // A tile (a video, a map, "more photos", "add photos"): each slice a
+      // copy of it, clipped to its strip - out of reach, the real one under it.
+      // Its picture (an image filling it: a video's still, a map's thumbnail)
+      // drawn as a photo is, slices of the image itself - copies redrew it a
+      // little differently each, thin lines between them; in the copies, over
+      // it, that image hidden and the boxes holding it see-through, its
+      // overlays (a play button, a caption) left.
+      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
+      for (const tile of tiles) {
+        tile.style.opacity = ''
+        const { x, y } = rowOffset(tile)
+        const w = tile.offsetWidth
+        const h = tile.offsetHeight
+        const tileImages = [...tile.querySelectorAll('img')]
+        const picture = tileImages.find((img) => loaded(img) && img.offsetWidth >= w - 2 && img.offsetHeight >= h - 2)
+        if (picture) slicePicture(picture, tile)
+        const seeThrough = Boolean(picture) || tile.classList.contains('oc-media-strip--see-through')
+        for (let sx = 0; sx < w; sx += sliceWidth) {
+          const sw = Math.min(sliceWidth, w - sx)
+          const slice = document.createElement('div')
+          // Over the next one by SLICE_OVERLAP, no seams between slices - not
+          // the last, nor when it's see-through, where an overlap would show a
+          // darker seam.
+          Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${seeThrough || sx + sw >= w ? sw : sw + SLICE_OVERLAP}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
+          const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
+          copy.inert = true
+          // Not what the cylinder set on the real one, when it's a column
+          // itself (turned, or hidden past a side).
+          Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
+          if (picture) {
+            const image = /** @type {HTMLElement} */ (copy.querySelectorAll('img')[tileImages.indexOf(picture)])
+            image.style.visibility = 'hidden'
+            for (let e = image.parentElement; e; e = e === copy ? null : e.parentElement) e.style.background = 'transparent'
+          }
+          slice.append(copy)
+          stageTrack.append(slice)
+          slices.push({ slice, x: x + sx + sw / 2 })
+        }
+        tile.style.opacity = '0'
+      }
+      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
+      for (const img of images) {
+        if (!loaded(img)) continue
+        slicePicture(img, /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture')))
         img.style.opacity = '0'
       }
     }
