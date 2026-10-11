@@ -24,6 +24,9 @@ const CYLINDER = {
 }
 // The flat strip for reduced motion.
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// A wheel notch's scroll (px; Chrome's is 100, times the display's scaling):
+// what moves the cylinder a column.
+const WHEEL_NOTCH = 100
 
 // The strip's columns' scroll positions, in order: where each snap guide (the
 // cylinder's, at a column's flat place) is in the middle of the view. The
@@ -121,6 +124,18 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       // (scrollStrip). Not a 1px nudge left to snapping: at the strip's end,
       // Chrome snapped it back where it was.
       if (scrollbar.view.style.scrollSnapType) {
+        // A notch's worth of wheel first: a high-resolution or free-spinning
+        // wheel sends a notch as several small events, each of which moved a
+        // column (too fast). Added up the same way, at most a column an event,
+        // the rest dropped; started again after a pause or turning back.
+        const amount = Math.abs(event.deltaY || event.deltaX) * (event.deltaMode === 1 ? 40 : event.deltaMode === 2 ? 800 : 1)
+        if (wheelDirection !== wheelTurn) wheelSum = 0
+        wheelTurn = wheelDirection
+        clearTimeout(wheelPause)
+        wheelPause = setTimeout(() => (wheelSum = 0), 250)
+        wheelSum += amount
+        if (wheelSum < WHEEL_NOTCH) return
+        wheelSum = 0
         const view = scrollbar.view
         const points = snapPoints(view)
         if (!points.length) return
@@ -137,6 +152,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     }
     let headingTo = null
     let headingTimer
+    let wheelSum = 0
+    let wheelTurn = 0
+    let wheelPause
 
     container.addEventListener('wheel', onWheel, { passive: false })
     // The cylinder snaps with CSS (scroll-snap, its effect below); flat, the
@@ -145,6 +163,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     return () => {
       container.removeEventListener('wheel', onWheel)
       clearTimeout(headingTimer)
+      clearTimeout(wheelPause)
       stopSnapping()
     }
   }, [rebuildKey, cylinder])
