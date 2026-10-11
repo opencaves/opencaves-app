@@ -845,6 +845,8 @@
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Buscar",
     "length": "Distancia explorada ({{unit}})",
+    "lengthDate": "Fecha de esa distancia",
+    "lengthDateHint": "Cuándo se levantó o se publicó. Se pone en el mes actual cuando cambia la distancia.",
     "aka": "También conocido como",
     "addAka": "Añadir nombre alternativo",
     "removeAka": "Eliminar nombre",
@@ -1649,6 +1651,7 @@
       "color": "color",
       "exploredLength": "distancia explorada",
       "length": "distancia explorada",
+      "exploredLengthDate": "fecha de la distancia explorada",
       "maxDepth": "profundidad máx.",
       "public": "visibilidad",
       "explorations": "historial de exploración",

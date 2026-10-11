@@ -28,6 +28,7 @@ import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
+import { formatPartialDate } from '@/utils/partialDate.js'
 
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -124,7 +125,8 @@ export default function SistemaPage() {
       ),
     },
     // exploredLength, or the older records' length (renamed).
-    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) },
+    // With its date, when known: "379,569 m (December 2024)".
+    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
   // Its location, as the map pane lists a cave's: copied on a click, with

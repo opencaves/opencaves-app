@@ -183,6 +183,23 @@ removed record is kept in the data file (`fromRecord`, `connectionRecords`) to
 restore it if needed. And it adds a cave, without coordinates, to each new
 system named after its cenote.
 
+## Date the systems' explored lengths
+
+```
+node scripts/date-sistema-lengths.js -l           # local emulators: dry run, lists the dates
+node scripts/date-sistema-lengths.js -l --write   # saves them
+node scripts/date-sistema-lengths.js -p           # production (dry run; add --write to save)
+```
+
+A system's explored length has a date (`exploredLengthDate`, a partial date:
+"2024-12", "2016"), shown with it on the system's page; the edit form sets it
+to the current month when the length changes. This script dates the lengths
+the systems already had (`scripts/sistema-length-dates.json`, 2026-10-11): QRSS's
+report date when the length is QRSS's figure, else the date of an exploration
+whose text states it, else 2015 for the guidebook's (Gerrard 2015). A system
+gets its date only if it has none and its length is still the one dated. Run it
+after the QRSS scripts above. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```
