@@ -7,7 +7,13 @@
 // - six caves that were in no system: a system each, from QRSS's data, the
 //   cave attached to it (fixed ids: local and production get the same);
 // - maximum depths: filled where OpenCaves had none, QRSS's where it's deeper
-//   (the deeper survey is taken as the more complete one).
+//   (the deeper survey is taken as the more complete one);
+// - merges of duplicate systems ("merge": from into into - into's fields set,
+//   from's caves and maps moved to into, the larger length and deeper depth
+//   kept, connections naming from deleted, from deleted; from's record and
+//   its connections are in the data file, to restore them);
+// - a cave for each new system named after its cenote ("createCave": no
+//   coordinates; fixed ids).
 // Each update applies only if the record still has the values it was decided
 // on ("expect"); one changed since is skipped and listed. Lengths are written
 // as exploredLength (an older `length` field removed). A dry run (the
@@ -48,9 +54,49 @@ const db = getFirestore()
 const { ops } = JSON.parse(readFileSync(DATA, 'utf8'))
 // A field's current value; a system's length may still be under its old name.
 const valueOf = (doc, field) => (field === 'exploredLength' ? (doc.get('exploredLength') ?? doc.get('length') ?? null) : (doc.get(field) ?? null))
+// Equal values, arrays and maps included.
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const writes = []
 const skipped = []
 for (const op of ops) {
+  if (op.type === 'createCave') {
+    const ref = db.collection('caves').doc(op.id)
+    if ((await ref.get()).exists) skipped.push(`${op.what}: done already`)
+    else if (!(await db.collection('sistemas').doc(op.sistemaId).get()).exists) skipped.push(`${op.what}: its system is gone - left as is`)
+    else writes.push({ op, apply: (batch) => batch.set(ref, op.record) })
+    continue
+  }
+  if (op.type === 'merge') {
+    const from = await db.collection('sistemas').doc(op.from).get()
+    const into = await db.collection('sistemas').doc(op.into).get()
+    if (!from.exists) skipped.push(`${op.what}: done already`)
+    else if (!into.exists || from.get('name') !== op.expect.fromName || into.get('name') !== op.expect.intoName) skipped.push(`${op.what}: changed since - left as is`)
+    else {
+      const { aka: akaToAdd = [], ...fields } = op.set
+      const target = { ...fields }
+      const aka = into.get('aka') || []
+      const newAka = akaToAdd.filter((name) => !aka.includes(name))
+      if (newAka.length) target.aka = [...aka, ...newAka]
+      // The larger length, the deeper depth.
+      const length = Math.max(valueOf(into, 'exploredLength') ?? 0, valueOf(from, 'exploredLength') ?? 0)
+      if (length && length !== valueOf(into, 'exploredLength')) target.exploredLength = length
+      const depth = Math.max(into.get('maxDepth') ?? 0, from.get('maxDepth') ?? 0)
+      if (depth && depth !== into.get('maxDepth')) target.maxDepth = depth
+      const maps = [...new Set([...(into.get('maps') || []), ...(from.get('maps') || [])])]
+      if (maps.length !== (into.get('maps') || []).length) target.maps = maps
+      const caves = await db.collection('caves').where('sistemaId', '==', op.from).get()
+      writes.push({
+        op,
+        apply: (batch) => {
+          batch.update(into.ref, target)
+          caves.docs.forEach((cave) => batch.update(cave.ref, { sistemaId: op.into }))
+          op.deleteConnections.forEach((id) => batch.delete(db.collection('connections').doc(id)))
+          batch.delete(from.ref)
+        },
+      })
+    }
+    continue
+  }
   if (op.type === 'create') {
     const ref = db.collection('sistemas').doc(op.id)
     const cave = await db.collection('caves').doc(op.attachCave).get()
@@ -63,10 +109,10 @@ for (const op of ops) {
   const target = { ...op.set }
   const aka = doc.get('aka') || []
   const newAka = (op.addAka || []).filter((name) => !aka.includes(name))
-  const done = doc.exists && Object.entries(target).every(([field, value]) => valueOf(doc, field) === value) && !newAka.length
+  const done = doc.exists && Object.entries(target).every(([field, value]) => same(valueOf(doc, field), value)) && !newAka.length
   if (!doc.exists) skipped.push(`${op.what}: the system is gone`)
   else if (done) skipped.push(`${op.what}: done already`)
-  else if (!Object.entries(op.expect).every(([field, value]) => valueOf(doc, field) === value)) skipped.push(`${op.what}: changed since - left as is`)
+  else if (!Object.entries(op.expect).every(([field, value]) => same(valueOf(doc, field), value))) skipped.push(`${op.what}: changed since - left as is`)
   else {
     if (newAka.length) target.aka = [...aka, ...newAka]
     if ('exploredLength' in target && doc.get('length') !== undefined) target.length = FieldValue.delete()

@@ -175,6 +175,14 @@ filled where OpenCaves had none or raised where QRSS's is deeper (matches in
 doubt left out). A change applies only if the record still has the values it
 was decided on. Run it after `import-qrss-systems.js`. Re-runnable.
 
+It also merges three duplicate systems (Venado into Cenote Venado, Yaxchen Sur
+into Yax Chen Sur, the guidebook's X’pu Ha into X-pu Ha): the kept system takes
+the other's explorations and other names, the larger length and deeper depth,
+its caves and maps; the connections naming the removed one are deleted, and the
+removed record is kept in the data file (`fromRecord`, `connectionRecords`) to
+restore it if needed. And it adds a cave, without coordinates, to each new
+system named after its cenote.
+
 ## Move the feedback reports' private fields
 
 ```

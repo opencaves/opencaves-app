@@ -1134,7 +1134,7 @@
       "qrssName": "Cenote C",
       "record": {
         "name": "Cenote C5",
-        "exploredLength": 241,
+        "exploredLength": 50.6,
         "public": true,
         "source": "-KPZg4jsKUZe0Tf3lyro",
         "color": "#e0afaf",
@@ -1144,11 +1144,11 @@
             "team": [
               "Czech and Slovak Speleo. Soc."
             ],
-            "description": "Surveyed length :length[241 m], maximum depth :length[14.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "description": "Surveyed length :length[50.6 m], maximum depth :length[12.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
             "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
           }
         ],
-        "maxDepth": 14.3
+        "maxDepth": 12.8
       }
     },
     {
@@ -1267,7 +1267,7 @@
       "qrssName": "Cenote C",
       "record": {
         "name": "Cenote C2",
-        "exploredLength": 166,
+        "exploredLength": 73.5,
         "public": true,
         "source": "-KPZg4jsKUZe0Tf3lyro",
         "color": "#e0afaf",
@@ -1277,11 +1277,11 @@
             "team": [
               "Czech and Slovak Speleo. Soc."
             ],
-            "description": "Surveyed length :length[166 m], maximum depth :length[12.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "description": "Surveyed length :length[73.5 m], maximum depth :length[14.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
             "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
           }
         ],
-        "maxDepth": 12.8
+        "maxDepth": 14.3
       }
     },
     {
