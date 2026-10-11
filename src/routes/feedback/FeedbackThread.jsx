@@ -66,7 +66,8 @@ function Comment({ name, team, date, action, marks, children }) {
           borderRadius: 2,
           border: 1,
           borderColor: team ? theme.vars.sys.color.secondaryContainer : 'divider',
-          bgcolor: 'var(--oc-page-surface)',
+          // A card: on paper, above the page.
+          bgcolor: 'background.paper',
           overflow: 'hidden',
         })}
       >
