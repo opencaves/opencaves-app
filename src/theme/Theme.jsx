@@ -49,6 +49,10 @@ const lightThemeOptions = {
     primary: {
       main: '#145e79',
     },
+    // Behind everything (the body): M3's surface, as the pages (sys.color.surface).
+    background: {
+      default: '#fbf9f7',
+    },
     secondary: {
       main: '#d9b504',
     },
@@ -85,6 +89,13 @@ const lightThemeOptions = {
   },
   sys: {
     color: {
+      // M3's surface (the page: the result pane beside the map), its lowest
+      // container (white: a card on it) and its low one (a bottom sheet: the
+      // phone's result pane): the warm neutral palette of the containers
+      // below, at M3's tones (98, 100, 96) - Material's color utilities.
+      surface: '#fbf9f7',
+      surfaceContainerLowest: '#ffffff',
+      surfaceContainerLow: '#f6f3f1',
       surfaceContainerHigh: '#eceae9',
       surfaceContainerHighest: '#dedad8',
       // M3 outline-variant: decorative edges (a thumbnail's outline).
@@ -295,7 +306,17 @@ const lightThemeOptions = {
       defaultProps: { disableFocusRipple: true },
       styleOverrides: {
         // Sentence case, as M3's tabs and the rest of the app (MUI's are capitals).
-        root: { textTransform: 'none', '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' } },
+        // M3's state layer, in the label's colour (currentColor: the primary
+        // on the selected tab, on-surface on the others, whose label darkens
+        // to it): 8% hovered, 10% focused from the keyboard (pressed: the ripple).
+        root: ({ theme }) => ({
+          textTransform: 'none',
+          transition: theme.transitions.create(['background-color', 'color'], { duration: theme.transitions.duration.shortest }),
+          '&.Mui-selected': { color: 'var(--mui-sys-color-primary)' },
+          '&:hover': { backgroundColor: 'color-mix(in srgb, currentColor 8%, transparent)' },
+          '&:hover:not(.Mui-selected)': { color: theme.vars.palette.text.primary },
+          '&.Mui-focusVisible': { backgroundColor: 'color-mix(in srgb, currentColor 10%, transparent)' },
+        }),
       },
     },
     MuiTextField: {
@@ -519,6 +540,11 @@ const lightThemeOptions = {
 const darkThemeOptions = {
   sys: {
     color: {
+      // As the light scheme's, from the palette of the containers below (it
+      // gives them back exactly), at M3's dark tones (6, 4, 10).
+      surface: '#141219',
+      surfaceContainerLowest: '#0f0d14',
+      surfaceContainerLow: '#1c1b21',
       // M3's baseline dark surface containers: a shade lighter than the
       // paper (#1c1b1f) the sections inside them use.
       surfaceContainerHigh: '#2b2930',
@@ -558,6 +584,7 @@ const darkThemeOptions = {
       secondary: '#989da1',
     },
     background: {
+      default: '#141219',
       paper: '#1c1b1f',
     },
   },

@@ -65,7 +65,9 @@ export default function IndexSection({ id, title, count, children, className, ca
             pt: '16px',
             pb: 0.5,
             borderRadius: '8px',
-            bgcolor: 'var(--oc-page-surface)',
+            // A warm tone (M3's surface container low), the list's card under
+            // it on paper.
+            bgcolor: 'var(--mui-sys-color-surfaceContainerLow)',
           }),
         }}
       >
