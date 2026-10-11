@@ -33,8 +33,10 @@ const DENSE_SX = {
  * @param {(id: string) => void} props.onChange - Gets the chosen source id ('' for none).
  * @param {boolean} [props.dense=false] - A caption-sized, underlined picker (13px text, about 32px tall), for
  *   one that sits under another field rather than heading its section.
+ * @param {boolean} [props.fullWidth=false] - As wide as its place (not its longest option), its hint wrapped
+ *   within it.
  */
-export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small', dense = false }) {
+export default function SourceSelect({ label, value, onChange, sources, noneLabel, helperText, className, size = 'small', dense = false, fullWidth = false }) {
   const { t } = useTranslation('newSourceDialog')
   const [adding, setAdding] = useState(false)
   const rootRef = useRef(null)
@@ -66,9 +68,10 @@ export default function SourceSelect({ label, value, onChange, sources, noneLabe
         size={size}
         variant={dense ? 'standard' : undefined}
         helperText={helperText}
-        fullWidth={!width}
-        // The hint may run wider than the picker (as wide as its options).
-        sx={[width && { width, maxWidth: '100%' }, dense && DENSE_SX, { '& .MuiFormHelperText-root': { width: 'max-content', maxWidth: 'min(480px, calc(100vw - 48px))' } }]}
+        fullWidth={fullWidth || !width}
+        // The hint may run wider than the picker (as wide as its options) -
+        // not when it fills its place: wrapped within it.
+        sx={[!fullWidth && width && { width, maxWidth: '100%' }, dense && DENSE_SX, !fullWidth && { '& .MuiFormHelperText-root': { width: 'max-content', maxWidth: 'min(480px, calc(100vw - 48px))' } }]}
         value={value}
         onChange={(event) => {
           if (event.target.value === ADD_SOURCE) setAdding(true)

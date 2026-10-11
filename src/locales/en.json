@@ -845,6 +845,8 @@
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Search",
     "length": "Total distance explored ({{unit}})",
+    "lengthDate": "Date of that length",
+    "lengthDateHint": "When it was surveyed or reported.",
     "aka": "Also known as",
     "addAka": "Add alternate name",
     "removeAka": "Remove name",
@@ -1649,6 +1651,7 @@
       "color": "colour",
       "exploredLength": "distance explored",
       "length": "distance explored",
+      "exploredLengthDate": "date of the distance explored",
       "maxDepth": "max depth",
       "public": "visibility",
       "explorations": "exploration history",
