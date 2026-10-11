@@ -300,9 +300,10 @@ export default function WhatsNew() {
                 viewer. */}
             {dayRows.map((row) => (
               <Box component="li" key={row.id} className="oc-whats-new--item">
+                {/* A kind's icon at the top of its item; thumbnails stay centred. */}
                 <Box
                   {...(row.to ? { component: RouterLink, to: row.to } : {})}
-                  sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 1.5, py: 1, borderRadius: 2, color: 'inherit', textDecoration: 'none', ...(row.to && { '&:hover, &:focus-visible': { bgcolor: 'action.hover' }, '&:hover .oc-whats-new--label': { textDecoration: 'underline' } }) }}
+                  sx={{ display: 'flex', alignItems: row.thumbnailUrl || row.thumbnails?.length ? 'center' : 'flex-start', gap: 2, px: 1.5, py: 1, borderRadius: 2, color: 'inherit', textDecoration: 'none', ...(row.to && { '&:hover, &:focus-visible': { bgcolor: 'action.hover' }, '&:hover .oc-whats-new--label': { textDecoration: 'underline' } }) }}
                 >
                   {row.thumbnailUrl ? (
                     <Box component="img" src={row.thumbnailUrl} alt="" loading="lazy" sx={{ width: 56, height: 42, objectFit: 'cover', borderRadius: 1, flexShrink: 0, bgcolor: 'action.hover' }} />
