@@ -260,9 +260,14 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   )
 }
 
-// A tile at the strip's end ("more photos"): an icon over a
-// label, on a light tint of the primary colour.
-function StripTile({ icon, label, className, sx, ...props }) {
+/**
+ * A tile at a strip's end ("more photos", "show all"): an icon over a label,
+ * on a light tint of the primary colour - a ButtonBase (a link with
+ * `component`), drawn on the strip's cylinder.
+ *
+ * @param {import('@mui/material/ButtonBase').ButtonBaseProps & { icon: React.ReactNode, label: React.ReactNode, component?: React.ElementType, to?: string, state?: object }} props - Its icon and label, and its ButtonBase's (a link's `component`, `to`, `state`).
+ */
+export function StripTile({ icon, label, className, sx, ...props }) {
   return (
     <ButtonBase
       {...props}

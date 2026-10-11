@@ -52,20 +52,30 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {number} [props.zoom=1.25] - How much larger its front is than the flat strip.
  * @param {number} [props.perspective=900] - Its perspective (px).
  * @param {number} [props.slice=4] - A slice's width (px).
+ * @param {boolean} [props.fill=false] - The sides' radius grows with a wide strip, so the cylinder spans its whole width
+ *   (with `radius` alone, a wide strip's cylinder takes only its middle); its band behind fills the whole strip.
  * @param {import('react').RefObject<any>} [props.scrollbarsRef] - Its Scrollbars, for a caller scrolling it (their `view`).
  * @param {import('react').ReactNode} props.children - Its columns.
  * @param {string} [props.className]
  * @param {Sx} [props.sx]
  */
-export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, start = 'center', cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
+export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, start = 'center', cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, fill = false, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
   const ownScrollbarsRef = useRef(null)
   const scrollbarsRef = callerScrollbarsRef ?? ownScrollbarsRef
   const rowRef = useRef(null)
+  // The snap guides, in the scrolled row; the slices, on a stage outside the
+  // scrolling (its track moved by the layout, in step with their bending).
   const sliceLayerRef = useRef(null)
+  const stageRef = useRef(null)
+  const trackRef = useRef(null)
   const cylinderOn = () => cylinder && !reducedMotion()
-  // Above and below the strip: room for the zoomed cylinder.
-  const zoomRoom = cylinderOn() ? Math.ceil((itemHeight * (zoom - 1)) / 2) : 0
   const rowHeight = typeof height === 'number' ? `${height}px` : height
+  // Above and below the strip: room for the zoomed cylinder - the items'
+  // own height's (a CSS length when they're sized by CSS: smaller on a
+  // phone), not the largest's.
+  const zoomShare = cylinderOn() ? (zoom - 1) / 2 : 0
+  const zoomRoom = `calc(${rowHeight} * ${zoomShare})`
+  const zoomRoomMax = Math.ceil(itemHeight * zoomShare)
 
   useEffect(() => {
     const scrollbar = scrollbarsRef.current
@@ -110,7 +120,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     const view = scrollbarsRef.current?.view
     const row = rowRef.current
     const layer = sliceLayerRef.current
-    if (!view || !row || !layer || !cylinderOn()) return undefined
+    const stage = stageRef.current
+    const stageTrack = trackRef.current
+    if (!view || !row || !layer || !stage || !stageTrack || !cylinderOn()) return undefined
     const columnsOf = () => [...row.children].filter((column) => column !== layer)
     if (!columnsOf().length) return undefined
 
@@ -130,6 +142,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     let tiles = []
     function build() {
       layer.replaceChildren()
+      stageTrack.replaceChildren()
       slices = []
       // CSS scroll snapping on each column's middle. Its snap points are the
       // targets' transformed boxes: the turned columns would shift them, so
@@ -141,7 +154,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }
       // A tile (a video, a map, "more photos", "add photos"): each slice a
       // copy of it, clipped to its strip - out of reach, the real one under it.
-      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')]).filter((tile) => !layer.contains(tile))
+      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
       for (const tile of tiles) {
         tile.style.opacity = ''
         const { x, y } = rowOffset(tile)
@@ -160,12 +173,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           // itself (turned, or hidden past a side).
           Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
           slice.append(copy)
-          layer.append(slice)
+          stageTrack.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
         tile.style.opacity = '0'
       }
-      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')]).filter((img) => !layer.contains(img))
+      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
       for (const img of images) {
         const box = /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture'))
         const src = img.currentSrc
@@ -195,7 +208,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             backfaceVisibility: 'hidden',
             borderRadius: i === 0 ? '.5rem 0 0 .5rem' : i === count - 1 ? '0 .5rem .5rem 0' : '0',
           })
-          layer.append(slice)
+          stageTrack.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
         img.style.opacity = '0'
@@ -207,15 +220,59 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     // round on the sides' radius.
     // Forward by as much as makes its front `zoom` times larger.
     const forward = perspective * (1 - 1 / zoom)
+    // The sides' radius for a strip of half-width `radius`: `sideRadius`, or
+    // filling, as large as takes the sides' far edges (a quarter turn, seen
+    // through the perspective) to the strip's edges.
+    const bendFor = (radius) => {
+      if (!fill) return sideRadius
+      const flat = radius * flatShare
+      const reach = (bend) => ((flat + bend) * perspective) / (perspective - forward + bend)
+      if (reach(sideRadius) >= radius) return sideRadius
+      let low = sideRadius
+      let high = radius * 20
+      if (reach(high) < radius) return high
+      for (let i = 0; i < 40; i++) {
+        const mid = (low + high) / 2
+        if (reach(mid) < radius) low = mid
+        else high = mid
+      }
+      return high
+    }
     function place(x, center, radius) {
       const flat = radius * flatShare
-      const bend = sideRadius
+      const bend = bendFor(radius)
       const distance = x - center
       const side = Math.sign(distance)
       const theta = Math.max(0, Math.abs(distance) - flat) / bend
       const shift = side * (Math.min(Math.abs(distance), flat) + bend * Math.sin(theta)) + center - x
       const depth = forward + bend * (Math.cos(theta) - 1)
       return { theta, transform: `translate3d(${shift}px, 0, ${depth}px) rotateY(${-side * theta}rad)` }
+    }
+
+    // How far from the middle (px, on the screen) a point of the strip shows,
+    // `distance` from the middle on the flat strip: bent on the sides, then
+    // enlarged by the perspective as `place` sets it.
+    function onScreen(distance, radius) {
+      const flat = radius * flatShare
+      const bend = bendFor(radius)
+      const theta = Math.max(0, distance - flat) / bend
+      const lateral = Math.min(distance, flat) + bend * Math.sin(theta)
+      const depth = forward + bend * (Math.cos(theta) - 1)
+      return { theta, offset: (lateral * perspective) / (perspective - depth) }
+    }
+    // The distance from the middle on the flat strip that shows `target` px
+    // from it on the screen - or, past what the sides reach (turned at most
+    // ~70°, still facing the reader), the farthest they show.
+    function startEdgeDistance(target, radius) {
+      let low = 0
+      let high = radius * flatShare + bendFor(radius) * 1.2
+      if (onScreen(high, radius).offset <= target) return high
+      for (let i = 0; i < 30; i++) {
+        const mid = (low + high) / 2
+        if (onScreen(mid, radius).offset < target) low = mid
+        else high = mid
+      }
+      return low
     }
 
     let frame
@@ -232,15 +289,29 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const roomBefore = Math.max(0, view.clientWidth / 2 - columns[0].offsetWidth / 2 - padding)
         row.style.marginInlineStart = `${roomBefore}px`
         row.style.marginInlineEnd = `${Math.max(0, view.clientWidth / 2 - columns.at(-1).offsetWidth / 2 - padding)}px`
-        // Starting at the start: the first item flush with the viewing area's
-        // start, past the room before it - until the reader scrolls (a
-        // right-to-left strip scrolls toward negative positions).
-        if (holdStart) view.scrollLeft = rtl ? -roomBefore : roomBefore
+        // Starting at the start: the first item's start edge where the
+        // cylinder shows it at the viewing area's start - or, on a strip wider
+        // than the cylinder's sides reach, at their visible edge (flush with
+        // the area's edge, it would be past the side, out of sight) - until
+        // the reader scrolls (a right-to-left strip scrolls toward negative
+        // positions).
+        if (holdStart) {
+          const half = view.clientWidth / 2
+          // 8px in from the edge: the projection's rounding never clips its corner.
+          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - padding - 8, half), columns[0].offsetWidth / 2)
+          view.scrollLeft = rtl ? -startLeft : startLeft
+        }
         // The row's flat plane is in front of the turned items: it lets the
         // pointer through to them.
         row.style.pointerEvents = 'none'
         for (const column of columns) column.style.pointerEvents = 'auto'
         build()
+        // The stage over the viewing area (clipped as it is); its track the
+        // row's size, the slices' place in it the row's.
+        const rootRect = stage.parentElement.getBoundingClientRect()
+        const areaRect = view.getBoundingClientRect()
+        Object.assign(stage.style, { left: `${areaRect.left - rootRect.left}px`, top: `${areaRect.top - rootRect.top}px`, width: `${view.clientWidth}px`, height: `${view.clientHeight}px` })
+        Object.assign(stageTrack.style, { width: `${row.offsetWidth}px`, height: `${row.offsetHeight}px` })
         stale = false
       }
       const viewRect = view.getBoundingClientRect()
@@ -262,6 +333,15 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const radius = viewRect.width / 2
       row.style.perspective = `${perspective}px`
       row.style.perspectiveOrigin = `${center}px 50%`
+      // The slices follow the row as the strip scrolls - moved here, in the
+      // same frame as they're bent, not by the browser's scrolling a frame
+      // ahead (a touch swipe's: the cylinder slid sideways, out of shape,
+      // until this caught up).
+      const rowRect = row.getBoundingClientRect()
+      const stageRect = stage.getBoundingClientRect()
+      stageTrack.style.transform = `translate(${rowRect.left - stageRect.left}px, ${rowRect.top - stageRect.top}px)`
+      stageTrack.style.perspective = `${perspective}px`
+      stageTrack.style.perspectiveOrigin = `${center}px 50%`
       for (const { slice, x } of slices) {
         const { theta, transform } = place(x, center, radius)
         // Past the cylinder's sides: out of sight.
@@ -323,7 +403,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     function letGoOf() {
       letGo.forEach((type) => window.removeEventListener(type, letGoOf, true))
       if (Math.abs(view.scrollLeft - pressedAt) >= 1) {
-        release()
+        // A swipe: its glide runs its course first (snapping switched on at
+        // once would cut it short, the strip jumping to a column), then the
+        // strip eases to the nearest column, snapping on once there - and
+        // from then on the browser's (a swipe's glide ending on a column).
+        holdStart = false
+        stopWaiting()
+        afterGlide()
         return
       }
       holdStart = true
@@ -365,9 +451,29 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       settleTimer = setTimeout(snapOn, 700)
       view.scrollTo({ left: nearestColumnLeft(), behavior: reducedMotion() ? 'auto' : 'smooth' })
     }
+    // Still for a moment (no scroll for 120ms): the glide is over.
+    let glideTimer
+    function afterGlide() {
+      const still = () => {
+        view.removeEventListener('scroll', moving)
+        trackLetGo()
+      }
+      function moving() {
+        clearTimeout(glideTimer)
+        glideTimer = setTimeout(still, 120)
+      }
+      view.addEventListener('scroll', moving, { passive: true })
+      moving()
+      stopGlideWait = () => {
+        clearTimeout(glideTimer)
+        view.removeEventListener('scroll', moving)
+      }
+    }
+    let stopGlideWait = () => {}
     function trackPressed() {
       // The start held no longer; the drag is the scrollbar's.
       holdStart = false
+      stopGlideWait()
       stopWaiting()
       clearTimeout(settleTimer)
       view.style.scrollSnapType = ''
@@ -386,6 +492,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     observer.observe(row)
     return () => {
       cancelAnimationFrame(frame)
+      stopGlideWait()
       stopWaiting()
       clearTimeout(settleTimer)
       track?.removeEventListener('pointerdown', trackPressed)
@@ -396,6 +503,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       row.removeEventListener('load', onLoad, true)
       observer.disconnect()
       layer.replaceChildren()
+      stageTrack.replaceChildren()
       for (const img of images) img.style.opacity = ''
       for (const tile of tiles) tile.style.opacity = ''
       for (const column of columnsOf()) {
@@ -405,7 +513,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }
       Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
     }
-  }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth])
+  }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth, fill])
 
   return (
     <Box
@@ -420,18 +528,27 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           left: 0,
           right: 0,
           top: 0,
-          height: `calc(${rowHeight} + ${zoomRoom * 2}px)`,
+          // Filling (a page's strip): the whole strip, its scrollbar's room
+          // too - no other colour around or between its items.
+          ...(fill ? { bottom: 0 } : { height: `calc(${rowHeight} + 2 * ${zoomRoom})` }),
           bgcolor: theme.vars.sys.color.surfaceContainer,
           ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
         },
-      }), { position: 'relative', marginBottom: 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + ${zoomRoom * 2}px)` }, ...(Array.isArray(sx) ? sx : [sx])]}
+      }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
+        marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
     >
+      {/* The cylinder's slices (filled by its effect): over the viewing area,
+          outside its scrolling; under the real items (invisible, there for
+          the pointer and the keyboard). */}
+      <Box ref={stageRef} className="oc-media-strip--cylinder" aria-hidden sx={{ position: 'absolute', overflow: 'hidden', pointerEvents: 'none' }}>
+        <Box ref={trackRef} sx={{ position: 'absolute', left: 0, top: 0 }} />
+      </Box>
       <Scrollbars
         ref={scrollbarsRef}
         autoHide
         autoHeight
-        autoHeightMax={itemHeight + zoomRoom * 2 + 100}
+        autoHeightMax={itemHeight + zoomRoomMax * 2 + 100}
         trackHorizontalProps={{
           style: {
             left: 'calc(var(--oc-pane-padding-inline) / 2)',
@@ -440,11 +557,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           },
         }}
       >
-        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: zoomRoom, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
           <Box ref={rowRef} className="oc-media-strip--row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', gap: `${gap}px`, transformStyle: 'preserve-3d' }}>
             {children}
-            {/* The items' slices on the cylinder (filled by its effect). */}
-            <Box ref={sliceLayerRef} className="oc-media-strip--cylinder" aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', transformStyle: 'preserve-3d' }} />
+            {/* The columns' snap guides (filled by its effect). */}
+            <Box ref={sliceLayerRef} className="oc-media-strip--guides" aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
           </Box>
         </Box>
       </Scrollbars>
