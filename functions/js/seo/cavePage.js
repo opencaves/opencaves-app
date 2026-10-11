@@ -81,9 +81,11 @@ export function cavePageMeta(cave, id, sistema, path = `/map/${id}`) {
     `</main>`,
   ].filter(Boolean).join('\n')
 
-  // Its breadcrumbs: its page under the caves and its area; its place on the map under the map.
+  // Its breadcrumbs: its page under the caves (not its area: a section of
+  // the list, not a page - the app's trail is the same); its place on the
+  // map under the map.
   const trail = path.startsWith('/caves/')
-    ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, ...(area ? [{ name: area, path: `/caves#${slugify(area)}` }] : []), { name: name || label, path }]
+    ? [{ name: 'Home', path: '/' }, { name: 'Caves', path: '/caves' }, { name: name || label, path }]
     : [{ name: 'Home', path: '/' }, { name: 'Map', path: '/map' }, { name: name || label, path }]
   return { title, description, path, canonical, body, ogType: 'place', trail, structuredData }
 }

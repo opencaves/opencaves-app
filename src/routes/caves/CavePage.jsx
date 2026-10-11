@@ -121,7 +121,7 @@ export default function CavePage() {
   return (
     <div className="oc-cave-page">
       <IndexPageHeader
-        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }, ...(area ? [{ label: area.name, to: `/caves#${area.slug}` }] : [])]}
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }]}
         current={label}
         title={label}
         subtitle={[aka.length > 0 && `${tPane('aka')} ${[...new Set(aka)].join(', ')}`, ...nameTranslations].filter(Boolean).join(' · ') || null}
