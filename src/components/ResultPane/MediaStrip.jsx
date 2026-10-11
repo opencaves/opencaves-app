@@ -263,27 +263,60 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const tileImages = [...tile.querySelectorAll('img')]
         const picture = tileImages.find((img) => loaded(img) && img.offsetWidth >= w - 2 && img.offsetHeight >= h - 2)
         if (picture) slicePicture(picture, tile)
-        const seeThrough = Boolean(picture) || tile.classList.contains('oc-media-strip--see-through')
-        for (let sx = 0; sx < w; sx += sliceWidth) {
-          const sw = Math.min(sliceWidth, w - sx)
-          const slice = document.createElement('div')
-          // Over the next one by SLICE_OVERLAP, no seams between slices - not
-          // the last, nor when it's see-through, where an overlap would show a
-          // darker seam.
-          Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${seeThrough || sx + sw >= w ? sw : sw + SLICE_OVERLAP}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
-          const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
-          copy.inert = true
-          // Not what the cylinder set on the real one, when it's a column
-          // itself (turned, or hidden past a side).
-          Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
-          if (picture) {
-            const image = /** @type {HTMLElement} */ (copy.querySelectorAll('img')[tileImages.indexOf(picture)])
+        const seeThrough = tile.classList.contains('oc-media-strip--see-through')
+        const translucentCount = tile.querySelectorAll('.oc-media-strip--translucent').length
+        // Its copies, cut in slices: each clipped to its strip, its width
+        // `widthOf(sx, sw)`, the copy readied by `prepare`.
+        const sliceCopies = (widthOf, prepare) => {
+          for (let sx = 0; sx < w; sx += sliceWidth) {
+            const sw = Math.min(sliceWidth, w - sx)
+            const slice = document.createElement('div')
+            Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${widthOf(sx, sw)}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
+            const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
+            copy.inert = true
+            // Not what the cylinder set on the real one, when it's a column
+            // itself (turned, or hidden past a side).
+            Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
+            prepare(copy)
+            slice.append(copy)
+            stageTrack.append(slice)
+            slices.push({ slice, x: x + sx + sw / 2 })
+          }
+        }
+        // Over the next one by SLICE_OVERLAP, no seams between slices - not
+        // the last.
+        const overlapping = (sx, sw) => (sx + sw >= w ? sw : sw + SLICE_OVERLAP)
+        const exact = (sx, sw) => sw
+        const translucentOf = (copy) => /** @type {HTMLElement[]} */ ([...copy.querySelectorAll('.oc-media-strip--translucent')])
+        if (picture) {
+          // Over its picture: in the copies, that image hidden and the boxes
+          // holding it see-through.
+          const pictureIndex = tileImages.indexOf(picture)
+          const overPicture = (copy) => {
+            const image = /** @type {HTMLElement} */ (copy.querySelectorAll('img')[pictureIndex])
             image.style.visibility = 'hidden'
             for (let e = image.parentElement; e; e = e === copy ? null : e.parentElement) e.style.background = 'transparent'
           }
-          slice.append(copy)
-          stageTrack.append(slice)
-          slices.push({ slice, x: x + sx + sw / 2 })
+          // See-through overlays (a play button's circle) apart, slices
+          // meeting edge to edge - overlapping, they'd be drawn twice there,
+          // a darker line every slice; only their backgrounds, under the rest.
+          if (translucentCount) {
+            sliceCopies(exact, (copy) => {
+              overPicture(copy)
+              copy.style.visibility = 'hidden'
+              for (const element of translucentOf(copy)) Object.assign(element.style, { visibility: 'visible', color: 'transparent' })
+            })
+          }
+          // The rest of its overlays (a play button's triangle, a caption),
+          // overlapping as the picture's slices: no seams.
+          sliceCopies(overlapping, (copy) => {
+            overPicture(copy)
+            for (const element of translucentOf(copy)) element.style.background = 'transparent'
+          })
+        } else {
+          // When it's see-through, slices meeting edge to edge: an overlap
+          // would show a darker seam.
+          sliceCopies(seeThrough ? exact : overlapping, () => {})
         }
         tile.style.opacity = '0'
       }
