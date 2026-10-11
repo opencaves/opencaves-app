@@ -28,6 +28,7 @@ import CoordinateCopyList from '@/components/CoordinateCopyList.jsx'
 import NoMatch from '@/routes/NoMatch.jsx'
 import OfflineSaveHint from '@/components/Offline/OfflineSaveHint.jsx'
 import { teamNames } from '@/utils/explorationTeam.js'
+import { formatPartialDate } from '@/utils/partialDate.js'
 
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -123,7 +124,9 @@ export default function SistemaPage() {
         </Link>
       ),
     },
-    sistema.length > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.length, units, i18n.language) },
+    // exploredLength, or the older records' length (renamed).
+    // With its date, when known: "379,569 m (December 2024)".
+    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) + (sistema.exploredLengthDate ? ` (${formatPartialDate(sistema.exploredLengthDate, i18n.language)})` : '') },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
   // Its location, as the map pane lists a cave's: copied on a click, with
@@ -135,6 +138,7 @@ export default function SistemaPage() {
   return (
     <div className="oc-sistema-page">
       <IndexPageHeader
+        sticky
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.sistemas', { ns: 'app' }), to: '/sistemas' }]}
         current={sistema.name}
         title={
@@ -250,7 +254,7 @@ export default function SistemaPage() {
 
       <IndexSection id="caves" title={t('sistema.cenotes')} count={caves.length} className="oc-sistema-page--cenotes" card>
         {caves.length > 0 ? (
-          <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave') }))} />
+          <IndexLinkList items={caves.map((cave) => ({ key: cave.id, to: `/caves/${cave.id}`, mapTo: `/map/${cave.id}`, noMap: !cave.located, label: cave.name || t('unnamedCave'), entrance: cave.cenoteEntrance ? tPane('cenoteEntrance') : undefined }))} />
         ) : (
           <Typography sx={{ color: 'text.secondary' }}>{t('sistema.noCenotes')}</Typography>
         )}

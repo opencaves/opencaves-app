@@ -845,6 +845,8 @@
   "sistemaEditForm": {
     "parentSistemaSearchPlaceholder": "Search",
     "length": "Total distance explored ({{unit}})",
+    "lengthDate": "Date of that length",
+    "lengthDateHint": "When it was surveyed or reported.",
     "aka": "Also known as",
     "addAka": "Add alternate name",
     "removeAka": "Remove name",
@@ -1627,7 +1629,7 @@
     },
     "modifiedBy": "modified by {{name}}",
     "removedBy": "removed by {{name}}",
-    "changedFields": "changed: {{fields}}",
+    "changedFields": "Changed: {{fields}}",
     "fields": {
       "name": "name",
       "nameTranslations": "name translations",
@@ -1654,7 +1656,9 @@
       "fees": "fees",
       "textSources": "text sources",
       "color": "colour",
+      "exploredLength": "distance explored",
       "length": "distance explored",
+      "exploredLengthDate": "date of the distance explored",
       "maxDepth": "max depth",
       "public": "visibility",
       "explorations": "exploration history",
@@ -1676,7 +1680,7 @@
     "kinds": {
       "bug": "Bug",
       "misleading": "Misleading",
-      "idea": "Idea"
+      "idea": "Idea / comment"
     },
     "kindText": {
       "bug": "Something broke or doesn’t work.",
@@ -1985,17 +1989,6 @@
       "hint": "Type a name"
     }
   },
-  "welcome": {
-    "title": "Welcome to {{name}}!",
-    "intro": "Grab your mask: {{name}} is a map of the underwater caves of the Yucatán and beyond - their cenotes, cave systems, survey maps and photos, made by and for cave divers.",
-    "invite": "Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Create a free account and help us keep the cave data complete and up to date - every diver's notes count.",
-    "beta": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! Create an account and we'll let you know when the beta is over.",
-    "later": "Explore first",
-    "signup": "Create an account",
-    "inviteMember": "Thanks for being part of the crew! Dived somewhere we're missing? Spotted an old depth, a wrong entrance or a map we don't have? Help us keep the cave data complete and up to date - every diver's notes count.",
-    "betaMember": "<strong>We're in beta.</strong> Changes you make aren't permanent yet: all the data can be replaced at any moment. So this is the perfect time to explore the edit tools - go ahead, poke around, you can't break anything for good! We'll let you know when the beta is over.",
-    "start": "Let's dive in"
-  },
   "authPrompt": {
     "close": "Close",
     "notNow": "Not now",
@@ -2045,5 +2038,245 @@
   "yesNoSwitch": {
     "no": "No",
     "yes": "Yes"
+  },
+  "tours": {
+    "menuEntry": "Take the tour",
+    "dialog": {
+      "title": "Take a tour",
+      "text": "Pick a tour: a few steps that point out what's on the screen."
+    },
+    "list": {
+      "discover": {
+        "title": "Discover OpenCaves",
+        "description": "The map, a cave's details and the app's main pages."
+      },
+      "install": {
+        "title": "Install the app",
+        "description": "Add OpenCaves to your home screen or your computer."
+      },
+      "offline": {
+        "title": "Use it offline",
+        "description": "Keep caves, photos and survey maps for the dive site."
+      },
+      "whatsNew": {
+        "title": "What's new",
+        "description": "The latest changes, and how to filter them."
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "done": "Done",
+      "close": "Close the tour"
+    },
+    "progress": "{{current}} of {{total}}",
+    "steps": {
+      "discover": {
+        "search": {
+          "title": "Find a cave",
+          "text": "Type a cave's name, or one of its other names, to find it and open it on the map."
+        },
+        "pins": {
+          "title": "The caves on the map",
+          "text": "Each pin is a cave, in the colour of its cave system. Select one to open its details."
+        },
+        "filterButton": {
+          "title": "The filter button",
+          "text": "The filter button on the search bar opens the filters, to choose which caves the map shows."
+        },
+        "filters": {
+          "title": "Filters",
+          "text": "Choose which caves the map shows: by area, cave type, access and accessibility. Caves whose location isn't confirmed yet are hidden: turn on Show unconfirmed coordinates to see them too."
+        },
+        "caveLayer": {
+          "title": "Map layers",
+          "text": "Show the cave passages traced from survey maps: for every system or only the open cave's, in each system's colour or in one.",
+          "showMe": "Show me"
+        },
+        "quickActions": {
+          "title": "Directions, Save, Share",
+          "text": "Get directions to the cave or its parking, save it to your account (it's then kept on this device for offline use), or share its link."
+        },
+        "media": {
+          "title": "Photos, videos and survey maps",
+          "text": "Browse the cave's photos, videos and its system's survey maps, and open one full screen. Signed in, you can add your own."
+        },
+        "account": {
+          "member": {
+            "title": "Your account",
+            "text": "Your account menu: your profile and saved caves, your settings, offline downloads, and these tours."
+          },
+          "visitor": {
+            "title": "Join in",
+            "text": "Log in or create a free account to save caves, rate them, and add photos, survey maps and corrections."
+          }
+        },
+        "whatsNew": {
+          "title": "Stay informed",
+          "text": "What's new lists every cave, cave system, survey map, photo and video added, changed or removed, newest first.\n\nCome back to see the latest: it's in the menu, What's new.",
+          "tip": "Open the menu, top left, then What's new."
+        },
+        "install": {
+          "chromium": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, click the install icon in the address bar, then Install.",
+            "tip": "Up there: at the right end of the address bar, an icon of a screen with a down arrow.",
+            "imageAlt": "Chrome's address bar: its install icon, circled"
+          },
+          "edge": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, click the App available icon in the address bar, then Install.",
+            "tip": "Up there: at the right end of the address bar, an icon of squares with a plus.",
+            "imageAlt": "Edge's address bar: its App available icon, circled"
+          },
+          "android": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Chrome's menu, tap Add to Home screen or Install app, then confirm.",
+            "tip": "Up there: Chrome's menu is the three dots [[dots]], at the top right.",
+            "imageAlt": "Chrome's menu: Add to Home screen, circled"
+          },
+          "firefoxAndroid": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, open Firefox's menu, tap Add app to Home screen, then confirm.",
+            "tip": "Firefox's menu is the three dots [[dots]]: at the top right, or at the bottom if your address bar is there."
+          },
+          "ios": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, tap Share in Safari, then Add to Home Screen, then Add.",
+            "tip": "Down there: Share is the square with an arrow, in Safari's bar (at the top on an iPad)."
+          },
+          "safari": {
+            "title": "Install the app",
+            "text": "Install OpenCaves: its own icon, ready at the dive site even without a connection, and always up to date (it updates itself).\n\nTo install it, choose File, then Add to Dock, then Add.",
+            "tip": "Up there: the File menu, in the menu bar at the top of the screen."
+          },
+          "firefox": {
+            "title": "Install the app",
+            "text": "Firefox on a computer can't install web apps, apart from recent versions on Windows (an icon in the address bar). To install OpenCaves, which then stays up to date by itself, open it in Chrome or Edge."
+          },
+          "other": {
+            "title": "Install the app",
+            "text": "This browser can't install web apps. To install OpenCaves, which then stays up to date by itself, open it in Chrome or Edge (on a computer or Android), or in Safari (on an iPhone, iPad or Mac)."
+          }
+        },
+        "offline": {
+          "title": "Available offline",
+          "text": "In the menu, turn on Make available offline to download every cave's preview photo, every survey map and the cave passages, on Wi-Fi: no signal needed at the dive site."
+        },
+        "feedback": {
+          "title": "Feedback",
+          "text": "Found a bug, something misleading, or have an idea? Tell us from any page with this tab."
+        },
+        "end": {
+          "title": "You're all set",
+          "text": "Take another tour any time from the menu: Take the tour. Happy diving!"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Already installed",
+          "text": "You're using the installed OpenCaves app: it opens from its own icon and keeps working offline with what you've kept."
+        },
+        "why": {
+          "title": "Install OpenCaves",
+          "text": "Installed, OpenCaves gets its own icon on your home screen or computer, opens in its own window, and is ready at the dive site, even without a connection."
+        },
+        "how": {
+          "chromium": {
+            "title": "How to install",
+            "text": "Click the install icon at the right end of the address bar (a screen with a down arrow), then Install. Or in Chrome's menu: Cast, save and share, then Install page as app."
+          },
+          "android": {
+            "title": "How to install",
+            "text": "In Chrome, open the menu (the three dots [[dots]]), tap Add to Home screen or Install app, then confirm."
+          },
+          "ios": {
+            "title": "How to install",
+            "text": "In Safari, tap Share (the square with an arrow), then Add to Home Screen, then Add."
+          },
+          "safari": {
+            "title": "How to install",
+            "text": "In Safari, choose File, then Add to Dock, then Add."
+          },
+          "other": {
+            "title": "How to install",
+            "text": "This browser can't install web apps. To install OpenCaves, open it in Chrome or Edge (on a computer or Android), or in Safari (on an iPhone, iPad or Mac)."
+          },
+          "firefoxAndroid": {
+            "title": "How to install",
+            "text": "In Firefox, open the menu (the three dots [[dots]]), tap Add app to Home screen, then confirm."
+          },
+          "firefox": {
+            "title": "How to install",
+            "text": "Firefox on a computer can't install web apps, apart from recent versions on Windows (an icon in the address bar). To install OpenCaves, open it in Chrome or Edge."
+          },
+          "edge": {
+            "title": "How to install",
+            "text": "Click the App available icon at the right end of the address bar (squares with a plus), then Install. Or in the menu: Apps, then Install this site as an app."
+          }
+        },
+        "updates": {
+          "title": "Updates",
+          "text": "The app keeps itself up to date: it checks for a new version now and then, and when one is ready, a message offers to refresh."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "Use it offline",
+          "text": "No signal at the dive site? OpenCaves keeps working: the caves' details stay on your device, with the photos and maps you've already viewed. Here's how to keep more."
+        },
+        "previews": {
+          "title": "Make available offline",
+          "text": "In the menu: turn this on to download every cave's preview photo, every survey map and the cave passages, on Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Save a cave",
+            "text": "Saving a cave keeps all of it on this device: its photos, its system's survey maps and the passages around it, downloaded on Wi-Fi."
+          },
+          "visitor": {
+            "title": "Save a cave",
+            "text": "With a free account, saving a cave keeps all of it on this device: its photos, its system's survey maps and the passages around it."
+          }
+        },
+        "savedCaves": {
+          "title": "Your saved caves",
+          "text": "Your account page lists the caves you saved, and whether each one is ready offline."
+        },
+        "storage": {
+          "title": "Offline storage",
+          "text": "How much OpenCaves keeps on this device. Clear the downloaded photos and maps when you need the room: your saved caves stay saved."
+        },
+        "whileOffline": {
+          "title": "While offline",
+          "text": "The map, the caves' details and what you kept work as usual, and a message tells you when you're offline. Changes, photos and maps you add wait on the device and sync once you're back online."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "What's new",
+          "text": "The caves, cave systems, connections, survey maps, photos and videos lately added, modified or removed, newest first."
+        },
+        "kinds": {
+          "title": "What changed",
+          "text": "Show only some kinds of content: pick one or several, and All shows them all again. Each counts its changes."
+        },
+        "changes": {
+          "title": "How it changed",
+          "text": "Added, modified or removed. Your filters stay in the page's address, so you can bookmark or share this view."
+        },
+        "entry": {
+          "title": "An entry",
+          "text": "What changed, and who did it. Open it to go to the cave, the cave system or the map."
+        }
+      }
+    },
+    "prompt": {
+      "title": "Welcome to {{name}}",
+      "text": "New here? Take a short guided tour to see what you can do on OpenCaves.",
+      "hint": "You can start a tour any time from the menu: Take the tour.",
+      "notNow": "Not now",
+      "start": "Take the tour"
+    }
   }
 }

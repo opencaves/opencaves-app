@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +14,12 @@ import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 // floating action button: Add (addTo: a new record's form - the lists) or
 // Edit (editTo: the page's /edit address - one area or system). trail: the
 // breadcrumbs above it, [{ label, to }] from the landing page down to the
-// page's parent; current: the page's own (short) name, ending it.
+// page's parent; current: the page's own (short) name, ending it. sticky:
+// from 600px up, the row stays under the app bar as the page scrolls (phones
+// have the app bar's own: it shows the title once it's scrolled away).
+// Sticky: the row's height, for the anchored sections to clear it.
+const STICKY_HEIGHT_VAR = '--oc-page-title-height'
+const STICKY_FROM = '(min-width: 600px)'
 // On one line: the page's own (last) crumb shrinks to fit, ending with an
 // ellipsis; the others keep their width, a long one (over 10em) cut too.
 const BREADCRUMBS_SX = {
@@ -41,13 +47,34 @@ const BREADCRUMBS_SX = {
  * @param {string} [props.editLabel]
  * @param {{ label: string, to: string }[]} [props.trail]
  * @param {string} [props.current]
+ * @param {boolean} [props.sticky=false] - From 600px up, the heading row stays under the app bar.
  */
-export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current }) {
+export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLabel, editTo, editLabel, trail, current, sticky = false }) {
   const { t: tApp } = useTranslation('app')
   const navigate = useNavigate()
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   // The /edit pages are behind RequireEditor (router.jsx).
   const isEditor = roles.includes('editor')
+  const rowRef = useRef(null)
+
+  // Sticky: its height on the page (main), which the anchored sections'
+  // scroll margin adds (IndexSection) - from 600px up, 0 below.
+  useEffect(() => {
+    const row = rowRef.current
+    const main = row?.closest('main')
+    if (!sticky || !row || !main) return undefined
+    const wide = window.matchMedia(STICKY_FROM)
+    const update = () => main.style.setProperty(STICKY_HEIGHT_VAR, wide.matches ? `${row.offsetHeight}px` : '0px')
+    const observer = new ResizeObserver(update)
+    observer.observe(row)
+    wide.addEventListener('change', update)
+    update()
+    return () => {
+      observer.disconnect()
+      wide.removeEventListener('change', update)
+      main.style.removeProperty(STICKY_HEIGHT_VAR)
+    }
+  }, [sticky])
 
   const crumbs = trail && (
     <Breadcrumbs className="oc-index-page-header--breadcrumbs" aria-label={tApp('breadcrumbs')} sx={BREADCRUMBS_SX}>
@@ -67,7 +94,18 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
   return (
     <>
       {crumbs}
-      <Box className="oc-index-page-header" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+      <Box
+        ref={rowRef}
+        className={['oc-index-page-header', sticky && 'oc-index-page-header--sticky'].filter(Boolean).join(' ')}
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 1,
+          mb: 3,
+          // Under the app bar (64px), on the page's surface, over what scrolls under it.
+          ...(sticky && { position: { sm: 'sticky' }, top: { sm: 64 }, zIndex: { sm: 3 }, py: { sm: 1 }, mt: { sm: -1 }, bgcolor: 'var(--oc-page-surface)' }),
+        }}
+      >
         {backTo && (
           // As tall as the title's first line (1lh in its typography), the
           // arrow centred on it, whatever the title's size or length.
@@ -79,6 +117,9 @@ export default function IndexPageHeader({ title, subtitle, backTo, addTo, addLab
                 component={Link}
                 to={backTo}
                 aria-label={tApp('back')}
+                // The phone's app bar shows it in place of its logo once the
+                // title has scrolled away (AppBar.jsx).
+                data-appbar-back
                 onClick={(event) => {
                   if (window.history.state?.idx > 0) {
                     event.preventDefault()

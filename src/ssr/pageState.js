@@ -17,7 +17,8 @@ import { isTrashed } from '@/utils/trash.js'
 //   /caves/<id>: the cave, its system and the systems that one joined, in
 //     full, their connections, the small reference collections;
 //   /sistemas/<id>: the same for the system, and the systems that joined it
-//     and their caves (their names, for its connections and its caves).
+//     and their caves (their names, for its connections and its caves, and
+//     whether each is an entrance - the list's mark).
 // Every page gets the areas, with those named by caves or systems only under
 // the spelling the whole data gives them (utils/indexData.js picks the first
 // one met, which a part of the caves might not have).
@@ -134,7 +135,7 @@ export function buildPageState(page, { raw, maps = [], assets = [] }) {
     Object.assign(data, pick(all, ['accesses', 'accessibilities', 'colors', 'sources', 'languages']))
     data.sistemas = all.sistemas.filter(({ id }) => ancestors.has(id) || descendants.has(id)).map((sistema) => (ancestors.has(sistema.id) ? sistema : pick(sistema, ['id', 'name', 'public', 'color'])))
     data.connections = all.connections.filter(({ sistemaId, parentSistemaId }) => (ancestors.has(sistemaId) && ancestors.has(parentSistemaId)) || descendants.has(sistemaId))
-    data.caves = page.kind === 'cave' ? [cave] : all.caves.filter(({ sistemaId }) => descendants.has(sistemaId)).map((item) => pick(listCave(item), ['id', 'name', 'sistemaId', 'located']))
+    data.caves = page.kind === 'cave' ? [cave] : all.caves.filter(({ sistemaId }) => descendants.has(sistemaId)).map((item) => ({ ...pick(listCave(item), ['id', 'name', 'sistemaId', 'located']), ...pick(item, ['cenoteEntrance']) }))
   }
 
   // The maps the page shows (MapsSection: its system's and those it joined),

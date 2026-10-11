@@ -1,0 +1,1847 @@
+{
+  "source": "Quintana Roo Speleological Survey, Reported Long Underwater Caves, 1 February 2025",
+  "decided": "2026-10-11",
+  "ops": [
+    {
+      "what": "Cenote C is C2",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "expect": {
+        "name": "Cenote C"
+      },
+      "set": {
+        "name": "Cenote C2"
+      }
+    },
+    {
+      "what": "Cenote C is C5",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpd",
+      "expect": {
+        "name": "Cenote C"
+      },
+      "set": {
+        "name": "Cenote C5"
+      }
+    },
+    {
+      "what": "Crustecea: QRSS's Sistema Crustacea",
+      "type": "update",
+      "id": "-KPZgfv77RJjwaif5cWd",
+      "expect": {
+        "name": "Crustecea"
+      },
+      "set": {
+        "name": "Crustacea"
+      },
+      "addAka": [
+        "Crustecea"
+      ]
+    },
+    {
+      "what": "Tatich: QRSS's Sist. Tatich (Nuhuch Actun, Christian)",
+      "type": "update",
+      "id": "-KPZgfyMtMazy0q2zOdT",
+      "expect": {
+        "name": "Tatich",
+        "exploredLength": 4155.6,
+        "maxDepth": 7.3
+      },
+      "set": {
+        "exploredLength": 4408.3,
+        "maxDepth": 8.8
+      },
+      "addAka": [
+        "Christian"
+      ]
+    },
+    {
+      "what": "Cenote Jeel Kaa Paja Noho: QRSS's Cenote Jeel Kaa Paja Nohoch",
+      "type": "update",
+      "id": "-KPZgfszpIdwkkf98pEF",
+      "expect": {
+        "name": "Cenote Jeel Kaa Paja Noho"
+      },
+      "set": {
+        "name": "Cenote Jeel Kaa Paja Nohoch"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Cenote Luuk Hool: QRSS's Cenote Luuk Hol",
+      "type": "update",
+      "id": "-KPZgftDF3IAbIioC48u",
+      "expect": {
+        "name": "Cenote Luuk Hool",
+        "exploredLength": 114,
+        "maxDepth": 7.9
+      },
+      "set": {
+        "name": "Cenote Luuk Hol",
+        "exploredLength": 872.3,
+        "maxDepth": 12.5
+      },
+      "addAka": [
+        "Cenote Luuk Hool"
+      ]
+    },
+    {
+      "what": "Cenote Chan Chemuyil North: QRSS's Cenote Chan Chemuyil Norte",
+      "type": "update",
+      "id": "-KPZgfs7jzzehuQc2Qv6",
+      "expect": {
+        "name": "Cenote Chan Chemuyil North"
+      },
+      "set": {
+        "name": "Cenote Chan Chemuyil Norte"
+      },
+      "addAka": [
+        "Cenote Chan Chemuyil North"
+      ]
+    },
+    {
+      "what": "Cenote San Martin Balam H: QRSS's Cenote San Martin Balam Ha",
+      "type": "update",
+      "id": "-KPZgftlBQrv4NvutXXp",
+      "expect": {
+        "name": "Cenote San Martin Balam H"
+      },
+      "set": {
+        "name": "Cenote San Martin Balam Ha"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Cenote El Tigre: QRSS's Cenote del Tigre",
+      "type": "update",
+      "id": "-KPZgfsda5emyrGbKgJb",
+      "expect": {
+        "name": "Cenote El Tigre",
+        "exploredLength": 83.2,
+        "maxDepth": 9.8
+      },
+      "set": {
+        "name": "Cenote del Tigre",
+        "exploredLength": 356.9,
+        "maxDepth": 14.3
+      },
+      "addAka": [
+        "Cenote El Tigre"
+      ]
+    },
+    {
+      "what": "Entrada Punta Allen Snapp: QRSS's Entrada Punta Allen Snapper",
+      "type": "update",
+      "id": "-KPZgfvs8uKTVn4HZ-rL",
+      "expect": {
+        "name": "Entrada Punta Allen Snapp",
+        "exploredLength": 290.5
+      },
+      "set": {
+        "name": "Entrada Punta Allen Snapper",
+        "exploredLength": 318.5
+      },
+      "addAka": []
+    },
+    {
+      "what": "Kaape Culche Sum: QRSS's Sistema Kaape Culche Sump",
+      "type": "update",
+      "id": "-KPZgfwSEE_v8xtZrrHc",
+      "expect": {
+        "name": "Kaape Culche Sum"
+      },
+      "set": {
+        "name": "Kaape Culche Sump"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Xuux Two: a system for the cave Xuux Two",
+      "type": "create",
+      "record": {
+        "name": "Xuux Two",
+        "exploredLength": 4045.9,
+        "maxDepth": 20.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2019-05",
+            "team": [
+              "Leal",
+              "Reato"
+            ],
+            "description": "Surveyed length :length[4045.9 m], maximum depth :length[20.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "note": "QRSS (Feb. 2025) counts 3 cenotes in this system."
+      },
+      "attachCave": "-L1s_38irfZBppFLZHSu",
+      "id": "-P3g9q2n9BkFdZyGGLGC"
+    },
+    {
+      "what": "Cenote Jose Cocom: a system for the cave Jose Cocom",
+      "type": "create",
+      "record": {
+        "name": "Cenote Jose Cocom",
+        "exploredLength": 696.6,
+        "maxDepth": 0.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#5873e0",
+        "explorations": [
+          {
+            "date": "2017-01",
+            "team": [
+              "Garcia",
+              "Fito"
+            ],
+            "description": "Surveyed length :length[696.6 m], maximum depth :length[0.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sXBm8wt9x-1VRJKB0",
+      "id": "-P3g9q2n9BkFdZyGGLGD"
+    },
+    {
+      "what": "Cenote Tucan Sink: a system for the cave Tucan Sink",
+      "type": "create",
+      "record": {
+        "name": "Cenote Tucan Sink",
+        "exploredLength": 176.2,
+        "maxDepth": 16.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#d64000",
+        "explorations": [
+          {
+            "date": "2017-05",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb"
+            ],
+            "description": "Surveyed length :length[176.2 m], maximum depth :length[16.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sZ_UkewRgkuyvgcTG",
+      "id": "-P3g9q2n9BkFdZyGGLGE"
+    },
+    {
+      "what": "Entrada Vulcan: a system for the cave Entrada Vulcan",
+      "type": "create",
+      "record": {
+        "name": "Entrada Vulcan",
+        "exploredLength": 154.8,
+        "maxDepth": 16.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#70a36a",
+        "explorations": [
+          {
+            "date": "2017-01",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb"
+            ],
+            "description": "Surveyed length :length[154.8 m], maximum depth :length[16.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sWucPJwANEA8wdzfs",
+      "id": "-P3g9q2n9BkFdZyGGLGF"
+    },
+    {
+      "what": "Cenote Otoch Kitam: a system for the cave Otoch Kitam",
+      "type": "create",
+      "record": {
+        "name": "Cenote Otoch Kitam",
+        "exploredLength": 132.6,
+        "maxDepth": 5.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#001466",
+        "explorations": [
+          {
+            "date": "2017-04",
+            "team": [
+              "N. Casella",
+              "M. Casella",
+              "G. Newmann"
+            ],
+            "description": "Surveyed length :length[132.6 m], maximum depth :length[5.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sXNMn759h3Jx5LK-0",
+      "id": "-P3g9q2n9BkFdZyGGLGG"
+    },
+    {
+      "what": "Cenote Pequena Puerta: a system for the cave Pequena Puerta",
+      "type": "create",
+      "record": {
+        "name": "Cenote Pequena Puerta",
+        "exploredLength": 101.5,
+        "maxDepth": 19.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#33a7ca",
+        "explorations": [
+          {
+            "date": "2016-02",
+            "team": [
+              "O'Farrell",
+              "Hutnan"
+            ],
+            "description": "Surveyed length :length[101.5 m], maximum depth :length[19.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1s_GHlDnHXTp7QG0tY",
+      "id": "-P3g9q2n9BkFdZyGGLGH"
+    },
+    {
+      "what": "Zapote-Camilo: depth none -> 28.0 m (QRSS)",
+      "type": "update",
+      "id": "-P2yXeqfDFvz_hKKoPC_",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 28
+      }
+    },
+    {
+      "what": "Caterpillar: depth 27.1 -> 29.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfrV0M66mUtiS_HP",
+      "expect": {
+        "maxDepth": 27.1
+      },
+      "set": {
+        "maxDepth": 29
+      }
+    },
+    {
+      "what": "Nohoch Pek: depth 18.6 -> 20.3 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfxP3KWuHIiEGnFp",
+      "expect": {
+        "maxDepth": 18.6
+      },
+      "set": {
+        "maxDepth": 20.3
+      }
+    },
+    {
+      "what": "Doggi: depth 14.6 -> 15.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfvKexKsJV6tA2yB",
+      "expect": {
+        "maxDepth": 14.6
+      },
+      "set": {
+        "maxDepth": 15.5
+      }
+    },
+    {
+      "what": "MOAC: depth none -> 16.8 m (QRSS)",
+      "type": "update",
+      "id": "-MA6a5iDdyU3cAArpJS2",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 16.8
+      }
+    },
+    {
+      "what": "Dzonot Took: depth 16.5 -> 18.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfv_XVaCpyMw08xQ",
+      "expect": {
+        "maxDepth": 16.5
+      },
+      "set": {
+        "maxDepth": 18
+      }
+    },
+    {
+      "what": "Ah Kax Ha: depth 26.5 -> 27.1 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfqxaN6zT6Dkag6n",
+      "expect": {
+        "maxDepth": 26.5
+      },
+      "set": {
+        "maxDepth": 27.1
+      }
+    },
+    {
+      "what": "Kachkalak: depth 13.4 -> 15.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwUA7Lx2U5pR9mS",
+      "expect": {
+        "maxDepth": 13.4
+      },
+      "set": {
+        "maxDepth": 15.8
+      }
+    },
+    {
+      "what": "Makal Balam: depth 14.6 -> 19.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwraIPAcm_ce8Gb",
+      "expect": {
+        "maxDepth": 14.6
+      },
+      "set": {
+        "maxDepth": 19.5
+      }
+    },
+    {
+      "what": "Luna Azul: depth 21.6 -> 22.6 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwptpcvba1xXrij",
+      "expect": {
+        "maxDepth": 21.6
+      },
+      "set": {
+        "maxDepth": 22.6
+      }
+    },
+    {
+      "what": "Cenote Don Lucio: depth 8.2 -> 20.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsVKGSESjlHyY_m",
+      "expect": {
+        "maxDepth": 8.2
+      },
+      "set": {
+        "maxDepth": 20.8
+      }
+    },
+    {
+      "what": "Cenote Gypsy Juice: depth 20.1 -> 25.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsm6JFgCCX-BvY-",
+      "expect": {
+        "maxDepth": 20.1
+      },
+      "set": {
+        "maxDepth": 25.9
+      }
+    },
+    {
+      "what": "Eldorado: depth 14 -> 16.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfvjN4IfVawQaHPG",
+      "expect": {
+        "maxDepth": 14
+      },
+      "set": {
+        "maxDepth": 16.5
+      }
+    },
+    {
+      "what": "String of Pearls: depth 16.5 -> 19.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfyA7ZoBBqpyAeoX",
+      "expect": {
+        "maxDepth": 16.5
+      },
+      "set": {
+        "maxDepth": 19.5
+      }
+    },
+    {
+      "what": "Cenote Carita: depth 22.3 -> 22.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfru4wvU1zu1_osa",
+      "expect": {
+        "maxDepth": 22.3
+      },
+      "set": {
+        "maxDepth": 22.9
+      }
+    },
+    {
+      "what": "Ursus: depth 28 -> 34.7 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfyh36PVOebQ635z",
+      "expect": {
+        "maxDepth": 28
+      },
+      "set": {
+        "maxDepth": 34.7
+      }
+    },
+    {
+      "what": "Cenote Dos Ayim: depth 11.3 -> 11.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsYXuUaK_4X3mup",
+      "expect": {
+        "maxDepth": 11.3
+      },
+      "set": {
+        "maxDepth": 11.9
+      }
+    },
+    {
+      "what": "Cenote Polaris: depth 19.2 -> 20.1 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgft_gRaEfwWUd8xc",
+      "expect": {
+        "maxDepth": 19.2
+      },
+      "set": {
+        "maxDepth": 20.1
+      }
+    },
+    {
+      "what": "Kuuchil Wiinik Laab: depth none -> 11.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwZXmsBEg-PQpZW",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 11
+      }
+    },
+    {
+      "what": "Cenote Lilly: depth 19.2 -> 19.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgft7oZ1SbShBgg-a",
+      "expect": {
+        "maxDepth": 19.2
+      },
+      "set": {
+        "maxDepth": 19.8
+      }
+    },
+    {
+      "what": "Actun Tumben: depth none -> 3.4 m (QRSS)",
+      "type": "update",
+      "id": "-L1sWfyHO7qWwyZ6ZWM8",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 3.4
+      }
+    },
+    {
+      "what": "Sac Actun: depth 101.2 -> 119.2 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfxuMwwzBTvKYaMt",
+      "expect": {
+        "maxDepth": 101.2
+      },
+      "set": {
+        "maxDepth": 119.2
+      }
+    },
+    {
+      "what": "Cenote C2: area Akumal (the Czech and Slovak team's 2016 report places C2 north of cenote Nauatilostotl (Sak Kay))",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "expect": {
+        "area": null
+      },
+      "set": {
+        "area": "Akumal"
+      }
+    },
+    {
+      "what": "Cenote Bendiction: area Puerto Morelos (cenotegirl.com: \"La Bendición\", Puerto Morelos, 2020, the team QRSS names)",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpH",
+      "expect": {
+        "area": null
+      },
+      "set": {
+        "area": "Puerto Morelos"
+      }
+    },
+    {
+      "what": "Venado merged into Cenote Venado (the user: one cave)",
+      "type": "merge",
+      "from": "-KPZgfyp2IUp6QWKe3rR",
+      "into": "-KPZgfuSjSXnAxV_9jsR",
+      "expect": {
+        "fromName": "Venado",
+        "intoName": "Cenote Venado"
+      },
+      "set": {
+        "explorations": [
+          {
+            "date": "2000-04",
+            "team": [
+              "Fred Devos"
+            ],
+            "description": "Exploration and survey (Mafia Maps).\n\nSurveyed passage to date: :length[585 ft].",
+            "notes": "Source: map “Sistema Venado”, Fred Devos, 2000-04.",
+            "importedFrom": "maps"
+          },
+          {
+            "date": "2005-01",
+            "team": [
+              "Fred Devos"
+            ]
+          },
+          {
+            "date": "2009-03",
+            "team": [
+              "Robert Schmittner"
+            ]
+          }
+        ],
+        "aka": [
+          "Venado"
+        ]
+      },
+      "deleteConnections": [
+        "-KPZgLxcY39tsC6i6dHF",
+        "-P2r8NCJVGUQlnzhv_bx"
+      ],
+      "fromRecord": {
+        "public": true,
+        "name": "Venado",
+        "color": "#c6a3d1",
+        "maxDepth": 4,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "explorations": [
+          {
+            "date": "2009-03",
+            "team": [
+              "Robert Schmittner"
+            ]
+          }
+        ],
+        "exploredLength": 130.8
+      },
+      "connectionRecords": [
+        {
+          "id": "-KPZgLxcY39tsC6i6dHF",
+          "sistemaId": "-KPZgfuSjSXnAxV_9jsR",
+          "parentSistemaId": "-KPZgfyp2IUp6QWKe3rR"
+        },
+        {
+          "id": "-P2r8NCJVGUQlnzhv_bx",
+          "sistemaId": "-KPZgfyp2IUp6QWKe3rR"
+        }
+      ]
+    },
+    {
+      "what": "Yaxchen Sur merged into Yax Chen Sur (identical: same length, depth and 1999 exploration)",
+      "type": "merge",
+      "from": "-KPZgfzO2rvvzE3T0IqQ",
+      "into": "-KPZgfzGvrIOQvw6j-ix",
+      "expect": {
+        "fromName": "Yaxchen Sur",
+        "intoName": "Yax Chen Sur"
+      },
+      "set": {
+        "explorations": [
+          {
+            "date": "1999-07",
+            "team": [
+              "K. Walten",
+              "Gary Walten"
+            ]
+          }
+        ],
+        "aka": [
+          "Yaxchen Sur"
+        ]
+      },
+      "deleteConnections": [],
+      "fromRecord": {
+        "public": true,
+        "name": "Yaxchen Sur",
+        "color": "#750023",
+        "maxDepth": 7.6,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "explorations": [
+          {
+            "date": "1999-07",
+            "team": [
+              "K. Walten",
+              "Gary Walten"
+            ]
+          }
+        ],
+        "exploredLength": 236.2
+      }
+    },
+    {
+      "what": "X’pu Ha (guidebook, 652.8 m) merged into X-pu Ha (QRSS, 1292 m, its caves and maps)",
+      "type": "merge",
+      "from": "-KPZgfz1hOSJ8uVzVGFD",
+      "into": "-KPZgfywrNDltccYvqVE",
+      "expect": {
+        "fromName": "X’pu Ha",
+        "intoName": "X-pu Ha"
+      },
+      "set": {
+        "direction": "South of Puerto Aventuras, :length[0.5 km] past the Barceló resort, on the east side of highway 307, at the top of the hill.",
+        "textSources": {
+          "direction": {
+            "source": "-KPZg4jqj7O4qkqR0gNl",
+            "checkedAt": "2026-10"
+          }
+        }
+      },
+      "deleteConnections": [],
+      "fromRecord": {
+        "public": true,
+        "area": "Puerto Aventuras",
+        "name": "X’pu Ha",
+        "color": "#c2c097",
+        "maxDepth": 8.8,
+        "source": "-KPZg4jhUW7fp01T2LLK",
+        "textSources": {
+          "direction": {
+            "source": "-KPZg4jqj7O4qkqR0gNl",
+            "checkedAt": "2026-10"
+          }
+        },
+        "direction": "South of Puerto Aventuras, :length[0.5 km] past the Barceló resort, on the east side of highway 307, at the top of the hill.",
+        "exploredLength": 652.8
+      }
+    },
+    {
+      "what": "Cenote C2: QRSS's Cenote C2, 73.5 m, depth 14.3 m (its feet figures were taken as metres before)",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "expect": {
+        "name": "Cenote C2"
+      },
+      "set": {
+        "exploredLength": 73.5,
+        "maxDepth": 14.3,
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[73.5 m], maximum depth :length[14.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      }
+    },
+    {
+      "what": "Cenote C5: QRSS's Cenote C5, 50.6 m, depth 12.8 m (its feet figures were taken as metres before)",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpd",
+      "expect": {
+        "name": "Cenote C5"
+      },
+      "set": {
+        "exploredLength": 50.6,
+        "maxDepth": 12.8,
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[50.6 m], maximum depth :length[12.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      }
+    },
+    {
+      "what": "Muul Three: QRSS \"Sistema Muul 3\", 9630 -> 10052.9 m, depth 19 -> 19.2 m",
+      "type": "update",
+      "id": "-KPZgfxEnX3H9nS5KZcC",
+      "expect": {
+        "exploredLength": 9630,
+        "maxDepth": 19
+      },
+      "set": {
+        "exploredLength": 10052.9,
+        "maxDepth": 19.2
+      }
+    },
+    {
+      "what": "Xunaan Ha: QRSS's Sistema Xunaan Ha, 10111 -> 57343.9 m",
+      "type": "update",
+      "id": "-KPZgfz8Nounlz93hLBC",
+      "expect": {
+        "exploredLength": 10111
+      },
+      "set": {
+        "exploredLength": 57343.9
+      }
+    },
+    {
+      "what": "Pandora: QRSS's Sistema Pandora, 1860.4 -> 18190.8 m",
+      "type": "update",
+      "id": "-KPZgfxah83eq8VwZtvE",
+      "expect": {
+        "exploredLength": 1860.4,
+        "maxDepth": 21.6
+      },
+      "set": {
+        "exploredLength": 18190.8,
+        "maxDepth": 34.7
+      }
+    },
+    {
+      "what": "Cenote Lost and Found: QRSS's Sistema Lost and Found, 427.6 -> 6238.8 m",
+      "type": "update",
+      "id": "-KPZgftBNrwuZCrpHwd-",
+      "expect": {
+        "exploredLength": 427.6,
+        "maxDepth": 21.3
+      },
+      "set": {
+        "exploredLength": 6238.8,
+        "maxDepth": 21.6
+      }
+    },
+    {
+      "what": "Cenote San Pedro: QRSS's Cenote Santa Maria (San Pedro), 511 -> 4628.2 m (QRSS: the old Cenote San Pedro survey, renamed)",
+      "type": "update",
+      "id": "-KPZgftmivRMNCcxAT9r",
+      "expect": {
+        "exploredLength": 511,
+        "maxDepth": 21,
+        "name": "Cenote San Pedro"
+      },
+      "set": {
+        "exploredLength": 4628.2,
+        "maxDepth": 26.2,
+        "name": "Cenote Santa Maria"
+      },
+      "addAka": [
+        "Cenote San Pedro"
+      ]
+    },
+    {
+      "what": "Cenote Godzilla: its rough location in the note",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpE",
+      "expect": {
+        "note": null
+      },
+      "set": {
+        "note": "Location (public sources, not confirmed): in the jungle inland from Playa del Carmen; the cenote Rio Secreto uses to reach its dry cave (InDepth, \"Cenote Yaakun aka Godzilla's Void\")."
+      }
+    },
+    {
+      "what": "Cenote Antares: its rough location in the note",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpG",
+      "expect": {
+        "note": null
+      },
+      "set": {
+        "note": "Location (public sources, not confirmed): on the Riviera Maya coast, by a swampy mangrove stretch; Cenote Dagobah is on a ranch near it (Shearwater, \"Exploring Cenote Antares\")."
+      }
+    },
+    {
+      "what": "Cenote K'aax Nah: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhp-",
+      "record": {
+        "name": {
+          "value": "Cenote K'aax Nah"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhp-",
+        "sistemaColor": "#750023",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Ri"
+    },
+    {
+      "what": "Cenote Dagobah: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhp4",
+      "record": {
+        "name": {
+          "value": "Cenote Dagobah"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhp4",
+        "sistemaColor": "#193bc2",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rj"
+    },
+    {
+      "what": "Cenote Mordor: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhp7",
+      "record": {
+        "name": {
+          "value": "Cenote Mordor"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhp7",
+        "sistemaColor": "#385752",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rk"
+    },
+    {
+      "what": "Cenote Aktun Kalom K'in: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhp9",
+      "record": {
+        "name": {
+          "value": "Cenote Aktun Kalom K'in"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhp9",
+        "sistemaColor": "#2d3557",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rl"
+    },
+    {
+      "what": "Cenote Dexter: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpB",
+      "record": {
+        "name": {
+          "value": "Cenote Dexter"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpB",
+        "sistemaColor": "#fa9408",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rm"
+    },
+    {
+      "what": "Cenote Tatich One: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpC",
+      "record": {
+        "name": {
+          "value": "Cenote Tatich One"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpC",
+        "sistemaColor": "#fa9408",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rn"
+    },
+    {
+      "what": "Cenote Godzilla: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpE",
+      "record": {
+        "name": {
+          "value": "Cenote Godzilla"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpE",
+        "sistemaColor": "#fa9408",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Ro"
+    },
+    {
+      "what": "Cenote Pel Ha: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpF",
+      "record": {
+        "name": {
+          "value": "Cenote Pel Ha"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpF",
+        "sistemaColor": "#001466",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rp"
+    },
+    {
+      "what": "Cenote Antares: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpG",
+      "record": {
+        "name": {
+          "value": "Cenote Antares"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpG",
+        "sistemaColor": "#5873e0",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rq"
+    },
+    {
+      "what": "Cenote Bendiction: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpH",
+      "record": {
+        "name": {
+          "value": "Cenote Bendiction"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpH",
+        "sistemaColor": "#9100c2",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rr"
+    },
+    {
+      "what": "Cenote ZBK: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpI",
+      "record": {
+        "name": {
+          "value": "Cenote ZBK"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpI",
+        "sistemaColor": "#d863ff",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rs"
+    },
+    {
+      "what": "Cenote Mak Chi': its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpJ",
+      "record": {
+        "name": {
+          "value": "Cenote Mak Chi'"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpJ",
+        "sistemaColor": "#001466",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rt"
+    },
+    {
+      "what": "Cenote Sac Playa: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpK",
+      "record": {
+        "name": {
+          "value": "Cenote Sac Playa"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpK",
+        "sistemaColor": "#66424d",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Ru"
+    },
+    {
+      "what": "Cenote Chico Sur: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpL",
+      "record": {
+        "name": {
+          "value": "Cenote Chico Sur"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpL",
+        "sistemaColor": "#33a7ca",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rv"
+    },
+    {
+      "what": "Cenote Kiichpan: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpN",
+      "record": {
+        "name": {
+          "value": "Cenote Kiichpan"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpN",
+        "sistemaColor": "#d64000",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rw"
+    },
+    {
+      "what": "Cenote Casa de Las Tortuga: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpO",
+      "record": {
+        "name": {
+          "value": "Cenote Casa de Las Tortuga"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpO",
+        "sistemaColor": "#76378a",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rx"
+    },
+    {
+      "what": "Cenote Heteron Ha: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpP",
+      "record": {
+        "name": {
+          "value": "Cenote Heteron Ha"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpP",
+        "sistemaColor": "#ff6b21",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Ry"
+    },
+    {
+      "what": "Cenote Medusa: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpR",
+      "record": {
+        "name": {
+          "value": "Cenote Medusa"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpR",
+        "sistemaColor": "#3cb32e",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405Rz"
+    },
+    {
+      "what": "Cenote Rie: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpT",
+      "record": {
+        "name": {
+          "value": "Cenote Rie"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpT",
+        "sistemaColor": "#33a7ca",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S-"
+    },
+    {
+      "what": "Cenote La Guadalupana: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpU",
+      "record": {
+        "name": {
+          "value": "Cenote La Guadalupana"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpU",
+        "sistemaColor": "#fa9408",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S0"
+    },
+    {
+      "what": "Cenote Avispas: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpV",
+      "record": {
+        "name": {
+          "value": "Cenote Avispas"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpV",
+        "sistemaColor": "#fa9408",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S1"
+    },
+    {
+      "what": "Cenote Rushmi: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpW",
+      "record": {
+        "name": {
+          "value": "Cenote Rushmi"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpW",
+        "sistemaColor": "#0057ad",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S2"
+    },
+    {
+      "what": "Cenote Calacchen: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpX",
+      "record": {
+        "name": {
+          "value": "Cenote Calacchen"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpX",
+        "sistemaColor": "#00bfa2",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S3"
+    },
+    {
+      "what": "Cenote Ganesh: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpY",
+      "record": {
+        "name": {
+          "value": "Cenote Ganesh"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpY",
+        "sistemaColor": "#750023",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S4"
+    },
+    {
+      "what": "Cenote Xuux Norte: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpZ",
+      "record": {
+        "name": {
+          "value": "Cenote Xuux Norte"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpZ",
+        "sistemaColor": "#948d00",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S5"
+    },
+    {
+      "what": "Cenote Mateo: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpa",
+      "record": {
+        "name": {
+          "value": "Cenote Mateo"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpa",
+        "sistemaColor": "#76378a",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S6"
+    },
+    {
+      "what": "Cenote C5: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpd",
+      "record": {
+        "name": {
+          "value": "Cenote C5"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpd",
+        "sistemaColor": "#e0afaf",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S7"
+    },
+    {
+      "what": "Cenote No Luck Canyons: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpe",
+      "record": {
+        "name": {
+          "value": "Cenote No Luck Canyons"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpe",
+        "sistemaColor": "#ff85a9",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S8"
+    },
+    {
+      "what": "Cenote Zoots Lik: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpg",
+      "record": {
+        "name": {
+          "value": "Cenote Zoots Lik"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpg",
+        "sistemaColor": "#ff2164",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405S9"
+    },
+    {
+      "what": "Cenote Sueno Aventuras: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhph",
+      "record": {
+        "name": {
+          "value": "Cenote Sueno Aventuras"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhph",
+        "sistemaColor": "#76378a",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SA"
+    },
+    {
+      "what": "Cenote C2: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpj",
+      "record": {
+        "name": {
+          "value": "Cenote C2"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpj",
+        "sistemaColor": "#e0afaf",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SB"
+    },
+    {
+      "what": "Cenote Frangipani: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpk",
+      "record": {
+        "name": {
+          "value": "Cenote Frangipani"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpk",
+        "sistemaColor": "#3cb32e",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SC"
+    },
+    {
+      "what": "Cenote Hushpuppy: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpl",
+      "record": {
+        "name": {
+          "value": "Cenote Hushpuppy"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpl",
+        "sistemaColor": "#2d3557",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SD"
+    },
+    {
+      "what": "Cenote Casa Antigua: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpm",
+      "record": {
+        "name": {
+          "value": "Cenote Casa Antigua"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpm",
+        "sistemaColor": "#3cb32e",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SE"
+    },
+    {
+      "what": "Cenote Na Ichi Ool: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpn",
+      "record": {
+        "name": {
+          "value": "Cenote Na Ichi Ool"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpn",
+        "sistemaColor": "#19ff00",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SF"
+    },
+    {
+      "what": "Cenote Juno: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpo",
+      "record": {
+        "name": {
+          "value": "Cenote Juno"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpo",
+        "sistemaColor": "#193bc2",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SG"
+    },
+    {
+      "what": "Cenote Chi'ibil Aakach: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpp",
+      "record": {
+        "name": {
+          "value": "Cenote Chi'ibil Aakach"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpp",
+        "sistemaColor": "#76378a",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SH"
+    },
+    {
+      "what": "Cenote Cuidad Esmeralda: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpq",
+      "record": {
+        "name": {
+          "value": "Cenote Cuidad Esmeralda"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpq",
+        "sistemaColor": "#ff2164",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SI"
+    },
+    {
+      "what": "Cenote Enzo's Well: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpr",
+      "record": {
+        "name": {
+          "value": "Cenote Enzo's Well"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpr",
+        "sistemaColor": "#16660d",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SJ"
+    },
+    {
+      "what": "Cenote Charco: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhps",
+      "record": {
+        "name": {
+          "value": "Cenote Charco"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhps",
+        "sistemaColor": "#0057ad",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SK"
+    },
+    {
+      "what": "Cenote Xul-In: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpt",
+      "record": {
+        "name": {
+          "value": "Cenote Xul-In"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpt",
+        "sistemaColor": "#3a1347",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SL"
+    },
+    {
+      "what": "Cenote Special K: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpu",
+      "record": {
+        "name": {
+          "value": "Cenote Special K"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpu",
+        "sistemaColor": "#e0afaf",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SM"
+    },
+    {
+      "what": "Cenote Chile Verde: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpv",
+      "record": {
+        "name": {
+          "value": "Cenote Chile Verde"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpv",
+        "sistemaColor": "#3cb32e",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SN"
+    },
+    {
+      "what": "Cenote Stefan's Hope: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpy",
+      "record": {
+        "name": {
+          "value": "Cenote Stefan's Hope"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpy",
+        "sistemaColor": "#9cadf0",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SO"
+    },
+    {
+      "what": "Cenote Casa Antigua West: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhpz",
+      "record": {
+        "name": {
+          "value": "Cenote Casa Antigua West"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhpz",
+        "sistemaColor": "#ff6b21",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SP"
+    },
+    {
+      "what": "Cenote Muyil No Name: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq1",
+      "record": {
+        "name": {
+          "value": "Cenote Muyil No Name"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq1",
+        "sistemaColor": "#e0afaf",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SQ"
+    },
+    {
+      "what": "Cenote Ya'ab Zoots: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq2",
+      "record": {
+        "name": {
+          "value": "Cenote Ya'ab Zoots"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq2",
+        "sistemaColor": "#c6a3d1",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SR"
+    },
+    {
+      "what": "Cenote Kolibri: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq3",
+      "record": {
+        "name": {
+          "value": "Cenote Kolibri"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq3",
+        "sistemaColor": "#66424d",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SS"
+    },
+    {
+      "what": "Cenote Chan Beh: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq4",
+      "record": {
+        "name": {
+          "value": "Cenote Chan Beh"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq4",
+        "sistemaColor": "#0057ad",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405ST"
+    },
+    {
+      "what": "Cueva Pullboy Sump: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq5",
+      "record": {
+        "name": {
+          "value": "Cueva Pullboy Sump"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq5",
+        "sistemaColor": "#76378a",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SU"
+    },
+    {
+      "what": "Cenote Maya Blue Pool: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "sistemaId": "-P3g7oJq8MtXeVt7nhq6",
+      "record": {
+        "name": {
+          "value": "Cenote Maya Blue Pool"
+        },
+        "sistemaId": "-P3g7oJq8MtXeVt7nhq6",
+        "sistemaColor": "#fff700",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      },
+      "id": "-P3gHbSoT2aETDS405SV"
+    },
+    {
+      "what": "Zapote-Camilo: length from QRSS's Sistema Zapote-Camilo, 40169.1 m (none before)",
+      "type": "update",
+      "id": "-P2yXeqfDFvz_hKKoPC_",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 40169.1
+      }
+    },
+    {
+      "what": "MOAC: length from QRSS's Sistema MOAC, 11369.3 m (none before)",
+      "type": "update",
+      "id": "-MA6a5iDdyU3cAArpJS2",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 11369.3
+      }
+    },
+    {
+      "what": "Kuuchil Wiinik Laab: length from QRSS's Sistema Kuuchil Wiinik Laab, 808.3 m (none before)",
+      "type": "update",
+      "id": "-KPZgfwZXmsBEg-PQpZW",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 808.3
+      }
+    },
+    {
+      "what": "Actun Tumben: length from QRSS's Sistema Actun Tumben, 192.0 m (none before)",
+      "type": "update",
+      "id": "-L1sWfyHO7qWwyZ6ZWM8",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 192
+      }
+    },
+    {
+      "what": "Aktun-Hu: length 8656.3 m, as its own text states (exploration 2007)",
+      "type": "update",
+      "id": "-KPZgfr32-S5uVCsT9hQ",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8656.3
+      }
+    },
+    {
+      "what": "Balun Actun: length 8963.3 m, as its own text states (exploration 2010-12)",
+      "type": "update",
+      "id": "-KPZgfrCX7_mTK6MFffc",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8963.3
+      }
+    },
+    {
+      "what": "Esqueleto: length 2814.0 m, as its own text states (exploration 1992-1993)",
+      "type": "update",
+      "id": "-KPZgfvzDEcRyNp9b4ci",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 2814
+      }
+    },
+    {
+      "what": "Naranjal: length 8184.0 m, as its own text states (exploration 1990-1992)",
+      "type": "update",
+      "id": "-KPZgfxGo-R8NnJWSKaX",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8184
+      }
+    },
+    {
+      "what": "Nohoch Nah Chich: length 39484.7 m, as its own text states (exploration ?)",
+      "type": "update",
+      "id": "-KPZgfxMC7X8AcLqXOtq",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 39484.7
+      }
+    },
+    {
+      "what": "Sac Be Ha: length 3303.0 m, as its own text states (exploration 2004-10-16)",
+      "type": "update",
+      "id": "-KPZgfxvQ3Un_REWqrGX",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 3303
+      }
+    },
+    {
+      "what": "Tercer Ojo (del): length 1962.0 m, as its own text states (exploration 2010-11)",
+      "type": "update",
+      "id": "-KPZgfyOA9WRtvFlj4xA",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 1962
+      }
+    },
+    {
+      "what": "Tixik K'una: length 2942.2 m, as its own text states (exploration 2006-03 - 2007-11)",
+      "type": "update",
+      "id": "-KPZgfySFFmEXg_2MfP8",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 2942.2
+      }
+    },
+    {
+      "what": "Alux: length 3814.0 m, as its own text states (exploration 2002-08)",
+      "type": "update",
+      "id": "-L_4G8qOQnGiPrcgqUaD",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 3814
+      }
+    },
+    {
+      "what": "Cenote Bacterias: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "id": "-P3gQePxgnYewXAYXAGf",
+      "sistemaId": "-P3gQePxgnYewXAYXAGe",
+      "record": {
+        "name": {
+          "value": "Cenote Bacterias"
+        },
+        "sistemaId": "-P3gQePxgnYewXAYXAGe",
+        "sistemaColor": "#0057ad",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      }
+    },
+    {
+      "what": "Cenote Xuux: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "id": "-P3gQePypgYfUSGYOfwh",
+      "sistemaId": "-P3gQePypgYfUSGYOfwg",
+      "record": {
+        "name": {
+          "value": "Cenote Xuux"
+        },
+        "sistemaId": "-P3gQePypgYfUSGYOfwg",
+        "sistemaColor": "#385752",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      }
+    }
+  ]
+}

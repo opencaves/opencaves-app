@@ -111,6 +111,96 @@ which each reader sees in their units. A conversion written next to a length
 `--write` it only lists the changes: read them before saving. Re-runnable.
 A sync from the Google Sheet brings the untagged text back: run it again after.
 
+## Rename the systems' explored length
+
+```
+node scripts/rename-sistema-length.js -l           # local emulators: dry run, lists the systems
+node scripts/rename-sistema-length.js -l --write   # saves them
+node scripts/rename-sistema-length.js -p           # production (dry run; add --write to save)
+```
+
+A cave system's total explored length (metres) was stored as `length`; it is
+now `exploredLength`. The script copies each system's `length` to
+`exploredLength` (one already there wins) and removes `length`. The app reads
+`exploredLength`, falling back to `length`, and its edit form saves
+`exploredLength`: run it before or after deploying. Re-runnable. In
+production the audit log doesn't record these Admin SDK writes; the local
+emulators do (author "emulator"), so What's new lists them there until those
+entries are deleted.
+
+## Update systems' lengths from QRSS
+
+```
+node scripts/import-qrss-lengths.js -l           # local emulators: dry run, lists the changes
+node scripts/import-qrss-lengths.js -l --write   # saves them
+node scripts/import-qrss-lengths.js -p           # production (dry run; add --write to save)
+```
+
+Sets the explored length of 42 systems to the Quintana Roo Speleological
+Survey's newer figures (its report of 1 February 2025, which QRSS lets us
+use), listed in `scripts/qrss-lengths-2025-02.json`: the systems QRSS gives as
+longer than OpenCaves had, matched by name on 2026-10-11. A system whose
+length changed since that comparison is skipped and listed. Re-runnable.
+
+## Add the systems from QRSS
+
+```
+node scripts/import-qrss-systems.js -l           # local emulators: dry run, lists the systems
+node scripts/import-qrss-systems.js -l --write   # adds them
+node scripts/import-qrss-systems.js -p           # production (dry run; add --write to add)
+```
+
+Adds the 82 cave systems of QRSS's report of 1 February 2025 that OpenCaves
+didn't have (`scripts/qrss-new-systems-2025-02.json`, mostly explored since
+2016): name, explored length, maximum depth, an exploration entry with the
+reported date and team, the cenote count in a note when QRSS gives one, QRSS
+as the source, a colour. No area, coordinates or caves: QRSS doesn't publish
+them. Fixed ids, so local and production get the same records; a system whose
+id or name exists already is skipped. Re-runnable.
+
+## Apply the corrections from the QRSS comparison
+
+```
+node scripts/apply-qrss-fixes.js -l           # local emulators: dry run, lists the changes
+node scripts/apply-qrss-fixes.js -l --write   # saves them
+node scripts/apply-qrss-fixes.js -p           # production (dry run; add --write to save)
+```
+
+The corrections decided on 2026-10-11 (`scripts/qrss-fixes-2025-02.json`):
+QRSS's spelling for systems found under another name (the old name kept as
+another name), names cut at 25 characters completed, the two "Cenote C" named
+C2 and C5, QRSS's newer length or depth for those systems, a system for each of
+six caves that were in no system (the cave attached to it), and maximum depths
+filled where OpenCaves had none or raised where QRSS's is deeper (matches in
+doubt left out). A change applies only if the record still has the values it
+was decided on. Run it after `import-qrss-systems.js`. Re-runnable.
+
+It also merges three duplicate systems (Venado into Cenote Venado, Yaxchen Sur
+into Yax Chen Sur, the guidebook's X’pu Ha into X-pu Ha): the kept system takes
+the other's explorations and other names, the larger length and deeper depth,
+its caves and maps; the connections naming the removed one are deleted, and the
+removed record is kept in the data file (`fromRecord`, `connectionRecords`) to
+restore it if needed. And it adds a cave, without coordinates, to each new
+system named after its cenote.
+
+## Date the systems' explored lengths
+
+```
+node scripts/date-sistema-lengths.js -l           # local emulators: dry run, lists the dates
+node scripts/date-sistema-lengths.js -l --write   # saves them
+node scripts/date-sistema-lengths.js -p           # production (dry run; add --write to save)
+```
+
+A system's explored length has a date (`exploredLengthDate`, a partial date:
+"2024-12", "2016"), shown with it on the system's page; the edit form sets it
+to the current month when the length changes. This script dates the lengths
+the systems already had (`scripts/sistema-length-dates.json`, 2026-10-11): QRSS's
+report date when the length is QRSS's figure, else the date of an exploration
+whose text states it; the guidebook's lengths stay undated (its editions don't
+date its figures). A system
+gets its date only if it has none and its length is still the one dated. Run it
+after the QRSS scripts above. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```

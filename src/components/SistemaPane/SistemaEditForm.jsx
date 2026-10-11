@@ -34,6 +34,7 @@ import { COORDINATE_DECIMALS } from '@/config/map.js'
 import FormSkeleton from '@/components/Skeletons/FormSkeleton.jsx'
 import { matchesId } from '@/utils/matchesId.js'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
+import { todayPartialDate } from '@/utils/partialDate.js'
 import { SISTEMA_TEXT_FIELDS, textSourcesOf, textSourcesUpdate, withTextChange } from '@/utils/textSources.js'
 import TextSourceField from '@/components/TextSourceField.jsx'
 import CreatableChipsField from '@/components/CreatableChipsField.jsx'
@@ -128,7 +129,7 @@ function ExplorationsField({ label, addLabel, removeLabel, dateLabel, dateHint, 
  * The form's values: the fields as typed (numbers as shown, in the reader's
  * units), plus the system's text sources once loaded.
  *
- * @type {{ name: string, color: string, area: string, description: string, direction: string, textSources?: object, length: string | number, maxDepth: string | number, source: string, explorations: object[], aka: string[], maps: string[], longitude: string, latitude: string, parentSistemaId: string }}
+ * @type {{ name: string, color: string, area: string, description: string, direction: string, textSources?: object, length: string | number, lengthDate: string, maxDepth: string | number, source: string, explorations: object[], aka: string[], maps: string[], longitude: string, latitude: string, parentSistemaId: string }}
  */
 const emptyForm = {
   name: '',
@@ -137,6 +138,7 @@ const emptyForm = {
   description: '',
   direction: '',
   length: '',
+  lengthDate: '',
   maxDepth: '',
   source: '',
   explorations: [],
@@ -209,12 +211,14 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
   const [saving, setSaving] = useState(false)
   const [isNew, setIsNew] = useState(false)
   const [focusedNumberField, setFocusedNumberField] = useState(null)
+  // The length's date set by hand in this form: changing the length then leaves it.
+  const lengthDateEdited = useRef(false)
   // Emptied by the person: "Name is required" (not on a new, untouched form).
   const [nameTouched, setNameTouched] = useState(false)
   const [parentSearch, setParentSearch] = useState('')
   const parentSearchInputRef = useRef(null)
 
-  const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date))
+  const hasInvalidExplorationDate = form.explorations.some((e) => !isValidPartialDate(e.date)) || !isValidPartialDate(form.lengthDate, { allowRange: false })
   // A number, from 0 to its maximum (in the person's units); the error to show, or null.
   function measurementError(name) {
     if (form[name] === '') return null
@@ -250,7 +254,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       description: sistema?.description || '',
       direction: sistema?.direction || '',
       textSources: textSourcesOf(sistema, SISTEMA_TEXT_FIELDS),
-      length: shown(sistema?.length ?? ''),
+      // exploredLength, or the older records' length (renamed).
+      length: shown(sistema?.exploredLength ?? sistema?.length ?? ''),
+      lengthDate: sistema?.exploredLengthDate || '',
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
       explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e, team: teamNames(e.team) })),
@@ -307,7 +313,11 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         // Back to metres; a value left as shown keeps its stored metres exactly.
-        length: form.length === '' ? orDelete() : length === shown(sistema?.length ?? '') ? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        // Saved as exploredLength, the older name (length) removed.
+        exploredLength: form.length === '' ? orDelete() : length === shown(sistema?.exploredLength ?? sistema?.length ?? '') ? sistema.exploredLength ?? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        // Its date goes with it (none without a length).
+        exploredLengthDate: form.length === '' ? orDelete() : orDelete(form.lengthDate),
+        length: orDelete(),
         maxDepth: form.maxDepth === '' ? orDelete() : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
         source: orDelete(form.source),
         explorations: orDelete(trimmedExplorations),
@@ -460,12 +470,17 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
           {/* The area dropdown's size (beside it): aligned. */}
-          <SourceSelect size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
+          <SourceSelect fullWidth size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}
         <Grid size={{ xs: 7, sm: 'auto' }} sx={{ width: { sm: 240 } }}>
-          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('length')} helperText={measurementError('length')} sx={{ '& input': { textAlign: 'right' } }} />
+          <TextField label={t('length', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'length' ? form.length : formatLocalizedNumber(form.length, locale)} onFocus={() => setFocusedNumberField('length')} onChange={(event) => setForm((current) => ({ ...current, length: event.target.value, ...(!lengthDateEdited.current && { lengthDate: todayPartialDate() }) }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('length')} helperText={measurementError('length')} sx={{ '& input': { textAlign: 'right' } }} />
+        </Grid>
+        {/* The length's date: set to this month when the length changes,
+            unless set here already. */}
+        <Grid size={{ xs: 12, sm: 'auto' }} sx={{ width: { sm: 220 }, order: { xs: 3, sm: 0 } }}>
+          <PartialDateField className="oc-sistema-edit-form--length-date" label={t('lengthDate')} description={t('lengthDateHint')} allowRange={false} fullWidth sx={{ width: '100%', '& .MuiFormHelperText-root': { width: 'auto', maxWidth: 'none' } }} value={form.lengthDate} onChange={(event) => { lengthDateEdited.current = true; setForm((current) => ({ ...current, lengthDate: event.target.value })) }} />
         </Grid>
         <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
           <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('maxDepth')} helperText={measurementError('maxDepth')} sx={{ '& input': { textAlign: 'right' } }} />

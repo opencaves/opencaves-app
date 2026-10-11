@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import Markdown from '@/components/Markdown/Markdown.jsx'
 import { teamLabel, teamNames } from '@/utils/explorationTeam.js'
+import { formatPartialDate } from '@/utils/partialDate.js'
 
 // The timeline's geometry: a dot centred on an entry's first line (body2,
 // 20px), the text this far from the section's left.
@@ -16,20 +17,6 @@ const TIMELINE_INSET = 24
 function sortKey(date) {
   if (!date) return '￿'
   return /^\d{4}-\d{4}$/.test(date) ? date.slice(0, 4) : date
-}
-
-// A partial date as the reader writes it: a year, a month and year, a day,
-// or a range of years.
-function formatDate(date, language) {
-  if (!date) return ''
-  const range = /^(\d{4})-(\d{4})$/.exec(date)
-  if (range) return `${range[1]}–${range[2]}`
-  const [year, month, day] = date.split('-').map(Number)
-  if (!month) return String(year)
-  const value = new Date(Date.UTC(year, month - 1, day || 1))
-  /** @type {Intl.DateTimeFormatOptions} */
-  const options = day ? { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' } : { year: 'numeric', month: 'long', timeZone: 'UTC' }
-  return new Intl.DateTimeFormat(language, options).format(value)
 }
 
 /**
@@ -102,7 +89,7 @@ export default function ExplorationHistory({ sistemas, headingProps, showHeading
           <Box component="li" key={index} className="oc-exploration-history--entry">
             {(entry.date || severalSistemas) && (
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                {entry.date && formatDate(entry.date, i18n.language)}
+                {entry.date && formatPartialDate(entry.date, i18n.language)}
                 {severalSistemas && (
                   <>
                     {entry.date && ' · '}

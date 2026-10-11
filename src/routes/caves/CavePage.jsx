@@ -121,7 +121,8 @@ export default function CavePage() {
   return (
     <div className="oc-cave-page">
       <IndexPageHeader
-        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }, ...(area ? [{ label: area.name, to: `/caves#${area.slug}` }] : [])]}
+        sticky
+        trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.caves', { ns: 'app' }), to: '/caves' }]}
         current={label}
         title={label}
         subtitle={[aka.length > 0 && `${tPane('aka')} ${[...new Set(aka)].join(', ')}`, ...nameTranslations].filter(Boolean).join(' · ') || null}
@@ -189,7 +190,7 @@ export default function CavePage() {
       )}
 
       {cave.description && (
-        <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
+        <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
           <Markdown>{cave.description}</Markdown>
           <TextSource record={cave} field="description" />
         </Box>

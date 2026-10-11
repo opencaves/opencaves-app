@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Link, Typography } from '@mui/material'
 import { DASHBOARD_SURFACE_SX } from '@/components/dashboardSurface.js'
@@ -18,7 +18,7 @@ import { TOUCH_TARGET_SX } from '@/components/touchTarget.js'
 // A section with an anchor: clear of the fixed app bar (and a sticky title)
 // when scrolled to; its # shown while the title is hovered or focused.
 const SECTION_ANCHOR_SX = {
-  scrollMarginTop: 'calc(64px + var(--oc-index-search-height, 0px) + 8px)',
+  scrollMarginTop: 'calc(64px + var(--oc-index-search-height, 0px) + var(--oc-page-title-height, 0px) + 8px)',
   '& .oc-index-section--anchor': { ...TOUCH_TARGET_SX, opacity: 0, color: 'text.secondary', fontWeight: 400, transition: 'opacity 150ms' },
   '& h2:hover .oc-index-section--anchor, & .oc-index-section--anchor:focus-visible': { opacity: 1 },
 }
@@ -39,6 +39,9 @@ const SECTION_ANCHOR_SX = {
  */
 export default function IndexSection({ id, title, count, children, className, card = false, cardSx, lazy = false, stickyTitle = false }) {
   const { t } = useTranslation('indexPages')
+  // The anchor link keeps the page's query string (a filtered list,
+  // /caves?q=...): a hash-only link drops it.
+  const { search } = useLocation()
   return (
     <Box component="section" id={id} className={['oc-index-section', className].filter(Boolean).join(' ')} sx={{ mb: card ? 3 : 4, ...(lazy && { contentVisibility: 'auto', containIntrinsicSize: 'auto 480px' }), ...(id && SECTION_ANCHOR_SX) }}>
       <Typography
@@ -78,7 +81,7 @@ export default function IndexSection({ id, title, count, children, className, ca
           </Typography>
         )}
         {id && (
-          <Link component={RouterLink} to={{ hash: id }} className="oc-index-section--anchor" aria-label={t('sectionLink', { name: typeof title === 'string' ? title : id })} underline="none">
+          <Link component={RouterLink} to={{ search, hash: id }} className="oc-index-section--anchor" aria-label={t('sectionLink', { name: typeof title === 'string' ? title : id })} underline="none">
             #
           </Link>
         )}

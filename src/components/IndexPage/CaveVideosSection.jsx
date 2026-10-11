@@ -19,8 +19,8 @@ export default function CaveVideosSection({ cave }) {
   return (
     <IndexSection id="videos" title={t('videosHeader')} count={count || undefined} className="oc-cave-page--videos" card>
       {count === 0 && <EmptySectionText>{t('empty.videos', { ns: 'indexPages' })}</EmptySectionText>}
-      <Box sx={{ containerType: 'inline-size', '--oc-pane-padding-inline': '0px', '--oc-pane-padding-block': '16px', '--oc-video-max-width': '100cqi' }}>
-        <VideoList caveId={cave.id} videos={cave.videos} showTitle={false} showAdd onAddUnauthorized={requireLogin} sx={{ px: 0, pt: 0 }} />
+      <Box sx={{ containerType: 'inline-size', '--oc-pane-padding-inline': '0px', '--oc-pane-padding-block': '16px', '--oc-video-max-width': '50cqi' }}>
+        <VideoList caveId={cave.id} videos={cave.videos} showTitle={false} showAdd showAll start="start" fill onAddUnauthorized={requireLogin} sx={{ px: 0, pt: 0 }} />
       </Box>
     </IndexSection>
   )

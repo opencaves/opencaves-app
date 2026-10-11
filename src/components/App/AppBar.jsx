@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { AppBar as MUIAppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
+import { AppBar as MUIAppBar, Box, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography, Button, useTheme } from '@mui/material'
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded'
 import LoginRounded from '@mui/icons-material/LoginRounded'
 import PersonAddAlt1Rounded from '@mui/icons-material/PersonAddAlt1Rounded'
 import { Grid } from '@mui/material'
 import MenuRounded from '@mui/icons-material/MenuRounded'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import LogoIcon from './LogoIcon.jsx'
 import AppMenu from './AppMenu.jsx'
@@ -65,7 +66,11 @@ export default function AppBar() {
   // The page's own heading (its data-appbar-page-title), e.g. "Cenote X" -
   // not the document title, which also says "Edit" or the site's name.
   const [entityHeadingText, setEntityHeadingText] = useState('')
+  // The page has a back arrow (IndexPageHeader's): shown in the bar, in place
+  // of the logo, with the title.
+  const [pageHasBack, setPageHasBack] = useState(false)
   const { t } = useTranslation('app', { keyPrefix: 'menu' })
+  const { t: tApp } = useTranslation('app')
   const theme = useTheme()
   const isSmall = useSmall(theme.breakpoints.down('md'))
   // Phones only: once the page's heading scrolls under the bar, the bar shows
@@ -83,7 +88,9 @@ export default function AppBar() {
     scrollRoot.addEventListener('scroll', update, { passive: true })
     return () => scrollRoot.removeEventListener('scroll', update)
   }, [location.pathname])
-  const toolbarTitle = isPhone && entityHeadingHidden && entityHeadingText ? entityHeadingText : APP_TITLE
+  const showsPageTitle = isPhone && entityHeadingHidden && Boolean(entityHeadingText)
+  const toolbarTitle = showsPageTitle ? entityHeadingText : APP_TITLE
+  const showsBack = showsPageTitle && pageHasBack
   // The site's pages, on the left; the dashboard (editors) on the right,
   // beside the account button (NavDrawer's order on phones).
   const { navItems, dashboardItem, canAccessDashboard, current } = useNavItems()
@@ -94,6 +101,7 @@ export default function AppBar() {
   useEffect(() => {
     setEntityHeadingHidden(false)
     setEntityHeadingText('')
+    setPageHasBack(false)
     if (!isPhone) return undefined
 
     const scrollRoot = document.querySelector('.oc-layout')
@@ -105,6 +113,7 @@ export default function AppBar() {
       const heading = scrollRoot.querySelector('[data-appbar-page-title]')
       // Also on every change to it: the name arrives once the item loads.
       setEntityHeadingText(heading?.textContent.trim() || '')
+      setPageHasBack(Boolean(scrollRoot.querySelector('[data-appbar-back]')))
       if (heading && heading !== observedHeading) {
         if (observedHeading) intersectionObserver.unobserve(observedHeading)
         observedHeading = heading
@@ -152,7 +161,7 @@ export default function AppBar() {
       >
         <Toolbar sx={APP_BAR_TOOLBAR_SX}>
           {isSmall && (
-            <IconButton color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
+            <IconButton className="oc-app-bar--menu" color="inherit" aria-label={t('drawer.ariaLabel')} onClick={handleDrawerToggle} sx={{ p: 1.5, mr: { xs: 0.5, sm: 2 } }}>
               <MenuRounded />
             </IconButton>
           )}
@@ -160,18 +169,27 @@ export default function AppBar() {
           {/* Same destination as the title link beside it: hidden from
               assistive tech and the tab order instead of a second,
               text-less link. */}
-          <Link to="/" aria-hidden="true" tabIndex={-1} style={{ flexShrink: 0, display: "flex" }}>
-            {/* The logo for a dark background: the light theme's teal bar, as
-                the dark theme's near black one. */}
-            <LogoIcon colorScheme="dark" sx={{ mr: 1, flexShrink: 0 }} />
-          </Link>
+          {/* Its page title scrolled away (phones): the page's back arrow in
+              place of the logo - the page's own, clicked, so it goes where
+              that one does. */}
+          {showsBack ? (
+            <IconButton className="oc-app-bar--back" color="inherit" aria-label={tApp('back')} onClick={() => /** @type {HTMLElement|null} */ (document.querySelector('[data-appbar-back]'))?.click()} sx={{ ml: -1, mr: 0.5, flexShrink: 0 }}>
+              <ArrowBackRounded />
+            </IconButton>
+          ) : (
+            <Link to="/" aria-hidden="true" tabIndex={-1} style={{ flexShrink: 0, display: 'flex' }}>
+              {/* The logo for a dark background: the light theme's teal bar, as
+                  the dark theme's near black one. */}
+              <LogoIcon colorScheme="dark" sx={{ mr: 1, flexShrink: 0 }} />
+            </Link>
+          )}
 
           {/* Shrinks before the bar's buttons do, its title cut with an
-              ellipsis (a long page title, shown here once scrolled). */}
+              ellipsis (a long page title, shown here once scrolled - then
+              a tap takes the page back to its top, not home). */}
           <Button
             variant="text"
-            component={Link}
-            to="/"
+            {...(showsPageTitle ? { onClick: () => document.querySelector('.oc-layout')?.scrollTo({ top: 0, behavior: 'smooth' }) } : { component: Link, to: '/' })}
             color="inherit"
             sx={{
               mr: { xs: 1, sm: 3 },
@@ -211,7 +229,7 @@ export default function AppBar() {
               sat 4 px higher than the buttons on the right). */}
           <Grid container sx={{ flexWrap: 'nowrap', flex: '1 1 auto', minWidth: 'fit-content', alignItems: 'center' }}>
             {!isSmall && (
-              <Grid sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Grid className="oc-app-bar--nav" sx={{ mr: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {barItems.map(({ key, to, icon, onClick }) => (
                   <Button key={key} component={Link} to={to} onClick={onClick} startIcon={icon} aria-current={current(to)} sx={key === 'map' ? [NAV_LINK_SX, MAP_ICON_SX] : NAV_LINK_SX}>
                     {t(`${key}`, { name: APP_NAME })}
@@ -252,7 +270,7 @@ export default function AppBar() {
                 </>
               )}
               {!isLoggedIn && !isSmall && (
-                <>
+                <Box className="oc-app-bar--auth" sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                   {/* MD3's 40dp buttons; the last 12px from the bar's end. */}
                   {/* MD3's text and outlined buttons, in the bar's action color. */}
                   <Button variant="text" component={Link} to="/login" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', color: 'var(--oc-app-bar-action)' }}>
@@ -261,7 +279,7 @@ export default function AppBar() {
                   <Button variant="outlined" component={Link} to="/signup" onClick={captureContinueUrl} sx={{ height: 40, whiteSpace: 'nowrap', ml: 1, mr: { xs: 1, sm: 0 }, color: 'var(--oc-app-bar-action)', borderColor: 'var(--oc-app-bar-outline)' }}>
                     {t('signup')}
                   </Button>
-                </>
+                </Box>
               )}
               {canAccessDashboard && !isSmall && (
                 <Button className="oc-app-bar--dashboard" component={Link} to="/dashboard" startIcon={dashboardItem.icon} aria-current={current('/dashboard')} sx={[NAV_LINK_SX, { mr: 1 }]}>

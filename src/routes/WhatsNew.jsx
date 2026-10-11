@@ -169,7 +169,8 @@ export default function WhatsNew() {
 
   useIndexPageHead({ title: t('title'), description: t('description', { name: APP_NAME }) })
 
-  // Each item as the page shows it: its icon, label, link and secondary line.
+  // Each item as the page shows it: its icon, label, link, secondary line
+  // and, for a modified record, its changed fields (a line of their own).
   const rows = useMemo(() => {
     const sistemaName = (id) => data.sistemasById.get(id)?.name
     // A cave's system beside it, unless named like the cave (a leading
@@ -288,7 +289,8 @@ export default function WhatsNew() {
       {days.length === 0 && !failed && <Typography sx={{ color: 'text.secondary' }}>{t('none')}</Typography>}
 
       {days.map(({ label, rows: dayRows }) => (
-        <Box key={label} component="section" className="oc-whats-new--day" sx={{ mb: 3 }}>
+        // Scrolled to (the guided tour's step) below the app bar.
+        <Box key={label} component="section" className="oc-whats-new--day" sx={{ mb: 3, scrollMarginTop: 'calc(64px + 8px)' }}>
           <Typography component="h2" variant="subtitle1" sx={{ fontWeight: 600, mb: 1, ml: 0.5 }}>
             {label}
           </Typography>
@@ -298,9 +300,10 @@ export default function WhatsNew() {
                 viewer. */}
             {dayRows.map((row) => (
               <Box component="li" key={row.id} className="oc-whats-new--item">
+                {/* A kind's icon at the top of its item; thumbnails stay centred. */}
                 <Box
                   {...(row.to ? { component: RouterLink, to: row.to } : {})}
-                  sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 1.5, py: 1, borderRadius: 2, color: 'inherit', textDecoration: 'none', ...(row.to && { '&:hover, &:focus-visible': { bgcolor: 'action.hover' }, '&:hover .oc-whats-new--label': { textDecoration: 'underline' } }) }}
+                  sx={{ display: 'flex', alignItems: row.thumbnailUrl || row.thumbnails?.length ? 'center' : 'flex-start', gap: 2, px: 1.5, py: 1, borderRadius: 2, color: 'inherit', textDecoration: 'none', ...(row.to && { '&:hover, &:focus-visible': { bgcolor: 'action.hover' }, '&:hover .oc-whats-new--label': { textDecoration: 'underline' } }) }}
                 >
                   {row.thumbnailUrl ? (
                     <Box component="img" src={row.thumbnailUrl} alt="" loading="lazy" sx={{ width: 56, height: 42, objectFit: 'cover', borderRadius: 1, flexShrink: 0, bgcolor: 'action.hover' }} />
@@ -312,7 +315,7 @@ export default function WhatsNew() {
                       ))}
                     </Box>
                   ) : (
-                    <Box sx={{ width: 56, display: 'flex', justifyContent: 'center', color: row.change === 'removed' ? 'text.disabled' : 'primary.main', flexShrink: 0, '& svg': { fontSize: 28 } }}>{row.icon}</Box>
+                    <Box sx={{ width: 56, display: 'flex', justifyContent: 'center', color: row.change === 'removed' ? 'text.disabled' : 'primary.main', flexShrink: 0, '& svg': { fontSize: 34 } }}>{row.icon}</Box>
                   )}
                   <Box sx={{ minWidth: 0 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', columnGap: 1, rowGap: 0.25 }}>
@@ -323,8 +326,14 @@ export default function WhatsNew() {
                       <ChangeChip change={row.change} />
                     </Box>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      {[t(`kinds.${row.kind}`), row.context, row.changed, row.authorName && t(`${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
+                      {[t(`kinds.${row.kind}`), row.context, row.authorName && t(`${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
                     </Typography>
+                    {/* A modified record's changed fields, on a line of their own. */}
+                    {row.changed && (
+                      <Typography variant="body2" className="oc-whats-new--changed" sx={{ color: 'text.secondary' }}>
+                        {row.changed}
+                      </Typography>
+                    )}
                   </Box>
                 </Box>
               </Box>

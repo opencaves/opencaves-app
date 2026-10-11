@@ -40,7 +40,8 @@ export function isValidPartialDate(value, { allowRange = true } = {}) {
 export default function PartialDateField({ value, allowRange = true, description, className, sx, label, ...props }) {
   const { t } = useTranslation('partialDateField')
   const invalid = !isValidPartialDate(value, { allowRange })
-  const formats = t(allowRange ? 'formatsWithRange' : 'formats')
+  // Non-breaking hyphens: a wrapped hint never splits a format (YYYY-MM).
+  const formats = t(allowRange ? 'formatsWithRange' : 'formats').replace(/-/g, '‑')
 
   // The hint says what the date is and how precise it can be; once the value
   // doesn't match, it turns into the error message (error color).

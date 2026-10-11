@@ -111,7 +111,9 @@
  * @property {string} [note]
  * @property {string} [source]
  * @property {GeoPoint} [location]
- * @property {number} [length] - Explored length, in metres.
+ * @property {number} [exploredLength] - Its total explored length, in metres.
+ * @property {string} [exploredLengthDate] - When that length was surveyed or reported: a partial date ("2024-12", "2016").
+ * @property {number} [length] - The older name of exploredLength (records not migrated yet: scripts/rename-sistema-length.js).
  * @property {number} [maxDepth] - In metres.
  * @property {boolean} [public] - False: no page of its own.
  * @property {Exploration[]} [explorations]
