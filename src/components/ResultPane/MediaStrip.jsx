@@ -25,6 +25,22 @@ const CYLINDER = {
 // The flat strip for reduced motion.
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// The strip's columns' scroll positions, in order: where each snap guide (the
+// cylinder's, at a column's flat place) is in the middle of the view. The
+// view's middle is its visible area's (clientWidth, as snapping's): its box
+// is wider by the native scrollbar it hides (17px on Windows), and measuring
+// with that put every middle 8px off snapping's - at the strip's end, its
+// "not past the last column" check then fought snapping, and no scroll back
+// got through.
+function snapPoints(view) {
+  const viewRect = view.getBoundingClientRect()
+  const middle = viewRect.left + view.clientLeft + view.clientWidth / 2
+  return [...view.querySelectorAll('.oc-media-strip--guides > div')].map((guide) => {
+    const rect = guide.getBoundingClientRect()
+    return view.scrollLeft + rect.left + rect.width / 2 - middle
+  }).sort((a, b) => a - b)
+}
+
 /**
  * A horizontal strip of media - the photos, the videos, the survey maps - its
  * columns given as children: it scrolls by the wheel, a swipe or its
@@ -53,7 +69,8 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {number} [props.perspective=900] - Its perspective (px).
  * @param {number} [props.slice=4] - A slice's width (px).
  * @param {boolean} [props.fill=false] - The sides' radius grows with a wide strip, so the cylinder spans its whole width
- *   (with `radius` alone, a wide strip's cylinder takes only its middle); its band behind fills the whole strip.
+ *   (with `radius` alone, a wide strip's cylinder takes only its middle); its band behind fills the whole strip, as
+ *   tall as its zoomed front plus `gap` above and below.
  * @param {import('react').RefObject<any>} [props.scrollbarsRef] - Its Scrollbars, for a caller scrolling it (their `view`).
  * @param {import('react').ReactNode} props.children - Its columns.
  * @param {string} [props.className]
@@ -73,9 +90,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   // Above and below the strip: room for the zoomed cylinder - the items'
   // own height's (a CSS length when they're sized by CSS: smaller on a
   // phone), not the largest's.
+  // A filling strip (a page's): the gap between its items above and below
+  // too, so the zoomed front isn't flush with its band.
   const zoomShare = cylinderOn() ? (zoom - 1) / 2 : 0
-  const zoomRoom = `calc(${rowHeight} * ${zoomShare})`
-  const zoomRoomMax = Math.ceil(itemHeight * zoomShare)
+  const margin = fill ? gap : 0
+  const zoomRoom = `calc(${rowHeight} * ${zoomShare} + ${margin}px)`
+  const zoomRoomMax = Math.ceil(itemHeight * zoomShare) + margin
 
   useEffect(() => {
     const scrollbar = scrollbarsRef.current
@@ -94,14 +114,29 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const progress = rtl ? -scrollLeft : scrollLeft
       if ((wheelDirection < 0 && Math.round(progress) <= 0) || (wheelDirection > 0 && Math.round(progress) >= width)) return
 
-      // Snapping (the cylinder): a native scroll, which the browser takes to
-      // the next column that way; flat, the wheel's own distance (scrollStrip).
+      // Snapping (the cylinder): a column a notch, from the one the last
+      // notches were heading to (quick notches add up, rather than each one
+      // starting again from where the glide is), the browser landing it on
+      // that column's snap point; flat, the wheel's own distance
+      // (scrollStrip). Not a 1px nudge left to snapping: at the strip's end,
+      // Chrome snapped it back where it was.
       if (scrollbar.view.style.scrollSnapType) {
-        scrollbar.view.scrollBy({ left: rtl ? -wheelDirection : wheelDirection, behavior: 'smooth' })
+        const view = scrollbar.view
+        const points = snapPoints(view)
+        if (!points.length) return
+        const nearest = points.reduce((best, point, index) => (Math.abs(point - view.scrollLeft) < Math.abs(points[best] - view.scrollLeft) ? index : best), 0)
+        const from = headingTo ?? nearest
+        headingTo = Math.min(points.length - 1, Math.max(0, from + (rtl ? -wheelDirection : wheelDirection)))
+        clearTimeout(headingTimer)
+        // Once still a moment, from where it is again.
+        headingTimer = setTimeout(() => (headingTo = null), 450)
+        view.scrollTo({ left: points[headingTo], behavior: reducedMotion() ? 'auto' : 'smooth' })
         return
       }
       scrollStrip(scrollbar.view, event)
     }
+    let headingTo = null
+    let headingTimer
 
     container.addEventListener('wheel', onWheel, { passive: false })
     // The cylinder snaps with CSS (scroll-snap, its effect below); flat, the
@@ -109,6 +144,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     const stopSnapping = cylinderOn() ? () => {} : snapOnSettle(scrollbar.view, container)
     return () => {
       container.removeEventListener('wheel', onWheel)
+      clearTimeout(headingTimer)
       stopSnapping()
     }
   }, [rebuildKey, cylinder])
@@ -317,7 +353,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const viewRect = view.getBoundingClientRect()
       // No scrolling past the first or the last column in the middle (the
       // turned slices make the strip scroll further than its own width).
-      const middle = viewRect.left + viewRect.width / 2
+      const middle = viewRect.left + view.clientLeft + view.clientWidth / 2
       const firstMiddle = row.getBoundingClientRect().left + columns[0].offsetLeft + columns[0].offsetWidth / 2
       const lastMiddle = row.getBoundingClientRect().left + columns.at(-1).offsetLeft + columns.at(-1).offsetWidth / 2
       // The leftmost and rightmost: the first and the last, or the other way
@@ -329,8 +365,8 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         view.scrollLeft += past
       }
       const rowLeft = row.getBoundingClientRect().left
-      const center = viewRect.left + viewRect.width / 2 - rowLeft
-      const radius = viewRect.width / 2
+      const center = viewRect.left + view.clientLeft + view.clientWidth / 2 - rowLeft
+      const radius = view.clientWidth / 2
       row.style.perspective = `${perspective}px`
       row.style.perspectiveOrigin = `${center}px 50%`
       // The slices follow the row as the strip scrolls - moved here, in the
@@ -428,7 +464,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     let settleTimer
     function nearestColumnLeft() {
       const viewRect = view.getBoundingClientRect()
-      const middle = viewRect.left + viewRect.width / 2
+      const middle = viewRect.left + view.clientLeft + view.clientWidth / 2
       let best = null
       // The snap guides: each column's flat place (build).
       for (const guide of layer.children) {
@@ -535,7 +571,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
         },
       }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
-        marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
+        marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: fill ? `calc(${rowHeight} + 2 * ${zoomRoom})` : `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
     >
       {/* The cylinder's slices (filled by its effect): over the viewing area,
@@ -553,11 +589,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           style: {
             left: 'calc(var(--oc-pane-padding-inline) / 2)',
             right: 'calc(var(--oc-pane-padding-inline) / 2)',
-            bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
+            // Filling: in its bottom margin (no room of its own under it).
+            bottom: fill ? `${Math.max(0, (margin - SCROLLBAR_TRACK_HEIGHT) / 2)}px` : `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
           },
         }}
       >
-        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: zoomRoom, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: zoomRoom, mb: fill ? 0 : 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
           <Box ref={rowRef} className="oc-media-strip--row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', gap: `${gap}px`, transformStyle: 'preserve-3d' }}>
             {children}
             {/* The columns' snap guides (filled by its effect). */}
