@@ -27,6 +27,11 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
 // A wheel notch's scroll (px; Chrome's is 100, times the display's scaling):
 // what moves the cylinder a column.
 const WHEEL_NOTCH = 100
+// How far a slice reaches over the next one (px). Each slice is drawn on its
+// own, its edges blended with what's behind; half a pixel left that blend
+// showing - the band through a thin line every slice. Two cover it (the next
+// slice draws over the same picture).
+const SLICE_OVERLAP = 2
 
 // The strip's columns' scroll positions, in order: where each snap guide (the
 // cylinder's, at a column's flat place) is in the middle of the view. The
@@ -219,9 +224,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         for (let sx = 0; sx < w; sx += sliceWidth) {
           const sw = Math.min(sliceWidth, w - sx)
           const slice = document.createElement('div')
-          // A hair wider, no seams between slices - exactly its width when
-          // it's see-through, where an overlap would show a darker seam.
-          Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${seeThrough ? sw : sw + 0.5}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
+          // Over the next one by SLICE_OVERLAP, no seams between slices - not
+          // the last, nor when it's see-through, where an overlap would show a
+          // darker seam.
+          Object.assign(slice.style, { position: 'absolute', left: `${x + sx}px`, top: `${y}px`, width: `${seeThrough || sx + sw >= w ? sw : sw + SLICE_OVERLAP}px`, height: `${h}px`, overflow: 'hidden', backfaceVisibility: 'hidden' })
           const copy = /** @type {HTMLElement} */ (tile.cloneNode(true))
           copy.inert = true
           // Not what the cylinder set on the real one, when it's a column
@@ -250,12 +256,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           const sx = i * sliceWidth
           const sw = Math.min(sliceWidth, w - sx)
           const slice = document.createElement('div')
-          // A hair wider: no seams between slices.
+          // Over the next one by SLICE_OVERLAP: no seams between slices (not
+          // the last, its corner rounded).
           Object.assign(slice.style, {
             position: 'absolute',
             left: `${x + sx}px`,
             top: `${y}px`,
-            width: `${sw + 0.5}px`,
+            width: `${i === count - 1 ? sw : sw + SLICE_OVERLAP}px`,
             height: `${h}px`,
             backgroundImage: `url("${src}")`,
             backgroundSize: `${bw}px ${bh}px`,
