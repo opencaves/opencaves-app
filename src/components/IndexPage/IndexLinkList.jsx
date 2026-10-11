@@ -2,6 +2,7 @@ import { memo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, Tooltip } from '@mui/material'
+import ScubaDivingRounded from '@mui/icons-material/ScubaDivingRounded'
 import SistemaArrow from '@/components/SistemaArrow.jsx'
 import { MAP_BODY, MAP_OFF_BODY } from './mapIcons.js'
 import caveSvg from '@/images/map/cave.svg?raw'
@@ -23,7 +24,8 @@ const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
  * from the list (one set of styles, not one per row) - no ripple, no MUI
  * Tooltip per row, which made the page slow to show and to filter; its icons
  * are CSS masks, and one tooltip for the whole list follows the map icon
- * hovered or focused.
+ * hovered or focused (or the entrance mark: hovered, or its row's link
+ * focused).
  *
  * @param {object} props
  * @param {string} [props.className]
@@ -33,17 +35,23 @@ const MAP_OFF_ICON = svgUrl(MAP_OFF_BODY)
  *   second line (a cave's system), on one line (cut with an ellipsis) - a long
  *   name wraps; mapTo: the record on the map, the row's secondary action - a
  *   map icon at its end, shown on hover or focus (always on touch screens);
- *   noMap: the icon disabled (a cave without coordinates isn't on the map).
+ *   noMap: the icon disabled (a cave without coordinates isn't on the map);
+ *   entrance: a cave that's an entrance into its system - a diver icon after
+ *   its name, this text its tooltip and its name for screen readers (part of
+ *   the link's).
  */
 function IndexLinkList({ items, className }) {
   const { t } = useTranslation('indexPages')
   const [tip, setTip] = useState(null)
+  // Whatever has a tooltip: a map icon, an entrance mark - or, focused, a
+  // row's link holding one.
+  const TIPPED = '.oc-index-link-list--map, .oc-index-link-list--entrance'
   const show = (event) => {
-    const el = event.target.closest?.('.oc-index-link-list--map')
+    const el = event.target.closest?.(TIPPED) || (event.type === 'focus' ? event.target.querySelector?.('.oc-index-link-list--entrance') : null)
     setTip(el ? { el, title: el.dataset.tip } : null)
   }
   const hide = (event) => {
-    if (!event.relatedTarget?.closest?.('.oc-index-link-list--map')) setTip(null)
+    if (!event.relatedTarget?.closest?.(TIPPED)) setTip(null)
   }
   return (
     <>
@@ -71,6 +79,8 @@ function IndexLinkList({ items, className }) {
           '& .oc-index-link-list--cave': { flexShrink: 0, alignSelf: 'flex-start', mt: '2px', width: 20, height: 20, bgcolor: theme.vars.palette.text.secondary, mask: `${CAVE_ICON} center / contain no-repeat` },
           '& .oc-index-link-list--text': { minWidth: 0, display: 'flex', flexDirection: 'column' },
           '& .oc-index-link-list--label': { ...theme.typography.body1, color: theme.vars.sys.color.primary, overflowWrap: 'anywhere' },
+          // On the name's first line, as the cave icon.
+          '& .oc-index-link-list--entrance': { flexShrink: 0, alignSelf: 'flex-start', display: 'inline-flex', mt: '2px', color: theme.vars.palette.text.secondary, '& svg': { fontSize: 20 } },
           '& .oc-index-link-list--secondary': { ...theme.typography.body2, color: theme.vars.palette.text.secondary, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
           // The map icon: a 40dp button, its 24dp icon (MD3's icon button).
           '& .oc-index-link-list--map': {
@@ -93,7 +103,7 @@ function IndexLinkList({ items, className }) {
           '@media (hover: none)': { '& .oc-index-link-list--map': { opacity: 1 } },
         })}
       >
-        {items.map(({ key, to, label, cave, color, secondary, mapTo, noMap }) => (
+        {items.map(({ key, to, label, cave, color, secondary, mapTo, noMap, entrance }) => (
           <li key={key}>
             {/* With a system's arrow: on the name's first line, standing on its baseline. */}
             <RouterLink className="oc-index-link-list--link" to={to} style={color ? { alignItems: 'baseline' } : undefined}>
@@ -106,6 +116,11 @@ function IndexLinkList({ items, className }) {
                 <span className="oc-index-link-list--label">{label}</span>
                 {secondary && <span className="oc-index-link-list--secondary">{secondary}</span>}
               </span>
+              {entrance && (
+                <span className="oc-index-link-list--entrance" role="img" aria-label={entrance} data-tip={entrance}>
+                  <ScubaDivingRounded aria-hidden />
+                </span>
+              )}
             </RouterLink>
             {mapTo && noMap && (
               <span className="oc-index-link-list--map" role="img" aria-disabled="true" aria-label={t('notOnMap')} data-tip={t('notOnMap')} />
