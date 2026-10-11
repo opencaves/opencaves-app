@@ -331,6 +331,16 @@ Resend's received email), with a webhook signed with the test secret of
 `functions/js/.secret.local` (`RESEND_WEBHOOK_SECRET=whsec_...`; never
 committed).
 
+## Analytics: whose visits count
+
+Google Tag Manager (and with it Google Analytics) loads only for the real site's visitors (`src/utils/analytics.js`):
+
+- only on `opencaves.org` and `www.opencaves.org` - not the dev server (`localhost`, `127.0.0.1`), the preview channels (`*.web.app`) or Firebase's default domain;
+- never in an automated browser (`navigator.webdriver`: Playwright, the deploy's `check-hydration.js`);
+- never on a device that opted out: open any page with `?no-analytics` (e.g. `https://opencaves.org/?no-analytics`) once on each of your own devices and browsers to keep your visits out; `?analytics` counts them again. The choice is kept in that browser's storage (`oc-no-analytics`), so clearing site data or a private window forgets it.
+
+Visits recorded before this (from 2026-10-11) include the dev server and some automated test runs: filter reports by **Hostname** = `opencaves.org` to leave them out.
+
 ## Apply the Storage CORS config
 
 ```

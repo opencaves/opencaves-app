@@ -13,6 +13,7 @@ import { isPhone, loadIonic } from '@/utils/loadIonic.js'
 // Drags of the page's own pictures never start the "drop to add" process.
 import '@/utils/externalFileDrag.js'
 import { watchFirestoreFailures } from '@/utils/firestoreRecovery.js'
+import { analyticsAllowed, applyAnalyticsOptOut } from '@/utils/analytics.js'
 
 // Ionic is for phones only (see utils/ionic.js), and only the map uses it:
 // fetched right away when the map is the page opened; other pages get it
@@ -94,7 +95,10 @@ if (hydrate) {
 // Google Tag Manager has no bearing on the app being usable - load and
 // initialize it once the browser is idle instead of having it compete with
 // the app's own bundle for bandwidth and parse time during initial load.
+// Only for the real site's visitors (utils/analytics.js): not the dev server,
+// previews, automated browsers or a device that opted out (?no-analytics).
 function initTagManager() {
+  if (!analyticsAllowed()) return
   import('react-gtm-module').then(({ default: TagManager }) => {
     TagManager.initialize({ gtmId: 'GTM-WBL7VM3' })
   })
@@ -107,4 +111,5 @@ function afterLoad(run, delay) {
   if (document.readyState === 'complete') later()
   else window.addEventListener('load', later, { once: true })
 }
+applyAnalyticsOptOut()
 afterLoad(initTagManager, 4000)
