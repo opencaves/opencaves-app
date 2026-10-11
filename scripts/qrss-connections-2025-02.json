@@ -1,0 +1,12 @@
+{
+  "about": "Connections between systems reported on QRSS's news page (https://qrss.caves.org/new.htm) that OpenCaves didn't have, checked 2026-10-11. connectionDate is the month of QRSS's report.",
+  "connections": [
+    { "id": "-P3gZzni0ArCNRfxZZXW", "what": "Ramon -> Naranjal", "sistemaId": "-KPZgfxmKqNvPkZYKVHh", "parentSistemaId": "-KPZgfxGo-R8NnJWSKaX", "connectionDate": "2022-09" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I-", "what": "Regina -> Ox Bel Ha", "sistemaId": "-KPZgfxrb5kBJ3BlPyKs", "parentSistemaId": "-KPZgfxVUsGBh6Jx9z7d", "connectionDate": "2020-07" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I0", "what": "Kiix Pepem -> Sac Pepem", "sistemaId": "-KPZgfwWCAC19yCOZflg", "parentSistemaId": "-KPZgfxxyaiOUL0WtNt8", "connectionDate": "2018-05" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I1", "what": "Borges -> Swan Lake", "sistemaId": "-P2wO0lWi6bVVkqUN16Q", "parentSistemaId": "-KPZgfyGw3nChUfwqTYa", "connectionDate": "2016-12" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I2", "what": "Mul Tun Spring -> K'oox Baal", "sistemaId": "-KPZgfx6HrT4lGgouidJ", "parentSistemaId": "-KPZgfwMz8Euzm1BP2BZ", "connectionDate": "2016-06" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I3", "what": "Cenote Chac Ah (QRSS: Chac Ha) -> Zebra", "sistemaId": "-KPZgfs-Vafz73qw-yN8", "parentSistemaId": "-KPZgfzQMW7GyU9W1IJI", "connectionDate": "2014-04" },
+    { "id": "-P3gZznjJ_Pr5VUcF4I4", "what": "X'cacel Pequeña -> Xunaan Ha", "sistemaId": "-KPZgfz-KSYNPv3D15TD", "parentSistemaId": "-KPZgfz8Nounlz93hLBC", "connectionDate": "2010-07" }
+  ]
+}
