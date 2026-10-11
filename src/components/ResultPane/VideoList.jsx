@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useTheme } from '@mui/material/styles'
 import { Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, TextField, Typography } from '@mui/material'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded'
 import EditRounded from '@mui/icons-material/EditRounded'
@@ -17,6 +19,7 @@ import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
 import { videoSiteName, youtubeThumbnail } from '@/utils/videos.js'
+import { useSmall } from '@/hooks/useSmall.jsx'
 
 // The video sites the player can show: YouTube, Vimeo and Facebook. A link
 // from anywhere else is refused by the Add video form.
@@ -26,6 +29,25 @@ const FACEBOOK_HOSTS = ['facebook.com', 'www.facebook.com', 'm.facebook.com', 'w
 // A video link as pasted from the site (its Share button or the address bar)
 // -> the address of its embedded player, or null when it isn't a video from
 // one of those sites.
+/**
+ * A player's address set to start playing as it opens (the dialog opens on
+ * a tap, so browsers usually let it play with sound; some phones still wait
+ * for the play button).
+ *
+ * @param {string} embedUrl - From {@link getEmbedUrl}.
+ * @returns {string}
+ */
+function autoplayUrl(embedUrl) {
+  const url = new URL(embedUrl)
+  if (url.hostname.includes('facebook.com')) url.searchParams.set('autoplay', 'true')
+  else {
+    url.searchParams.set('autoplay', '1')
+    // YouTube on an iPhone: in the page, not its own full-screen player.
+    url.searchParams.set('playsinline', '1')
+  }
+  return url.href
+}
+
 function getEmbedUrl(value) {
   try {
     const url = new URL(value.trim())
@@ -95,6 +117,58 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
   const [newVideoUrl, setNewVideoUrl] = useState('')
   const [editingIndex, setEditingIndex] = useState(null)
   const [activeVideo, setActiveVideo] = useState(null)
+  // On a phone, the player full screen (a back arrow, as every full-screen
+  // view) - turned sideways too: narrow, or short (a phone in landscape is
+  // wider than the phone breakpoint, but under 500px tall).
+  const isPhone = useSmall('(max-width: 599.95px), (max-height: 499.95px)')
+  // The full-screen player opens out of its card and closes back into it
+  // (MD3's container transform); not for reduced motion.
+  const playerRef = useRef(null)
+  const playerContentRef = useRef(null)
+  const playerClosing = useRef(false)
+  const { motion } = useTheme().sys
+  const transform = isPhone && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  /**
+   * The container transform, one way: the player's frame between its card's
+   * box and the whole screen, its content fading in once it's grown (out
+   * first, going back). MD3's emphasized easing - decelerating in, long;
+   * accelerating out, shorter (the theme's motion tokens). Without the card on
+   * screen, a fade.
+   *
+   * @param {boolean} opening
+   * @returns {Animation[]}
+   */
+  function animatePlayer(opening) {
+    const paper = playerRef.current
+    const content = playerContentRef.current
+    if (!paper || !content) return []
+    // The other way's, if still on them.
+    for (const element of [paper, content]) element.getAnimations().forEach((animation) => animation.cancel())
+    const card = activeVideo?.from?.isConnected ? activeVideo.from.getBoundingClientRect() : null
+    const curve = opening ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
+    const timing = { duration: motion.duration[curve], easing: motion.easing[curve], fill: /** @type {FillMode} */ ('both') }
+    if (!card?.width) return [paper.animate(opening ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }], { ...timing, duration: motion.duration.standardAccelerate })]
+    // Its part on the screen (a card half past the edge, its visible part).
+    const edge = (value) => Math.max(0, value)
+    const cardBox = `inset(${edge(card.top)}px ${edge(window.innerWidth - card.right)}px ${edge(window.innerHeight - card.bottom)}px ${edge(card.left)}px round 8px)`
+    const screenBox = 'inset(0px 0px 0px 0px round 0px)'
+    return [
+      paper.animate(opening ? [{ clipPath: cardBox }, { clipPath: screenBox }] : [{ clipPath: screenBox }, { clipPath: cardBox }], timing),
+      content.animate(opening ? [{ opacity: 0 }, { opacity: 0, offset: 0.35 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0, offset: 0.4 }, { opacity: 0 }], { ...timing, easing: 'linear' }),
+    ]
+  }
+
+  function closePlayer() {
+    if (!transform) return setActiveVideo(null)
+    if (playerClosing.current) return undefined
+    playerClosing.current = true
+    Promise.all(animatePlayer(false).map((animation) => animation.finished.catch(() => {}))).then(() => {
+      playerClosing.current = false
+      setActiveVideo(null)
+    })
+    return undefined
+  }
   const [videoToDelete, setVideoToDelete] = useState(null)
   const videoUrls = (Array.isArray(videos) ? videos : typeof videos === 'string' ? videos.split('|') : []).map((video) => video.trim()).filter(Boolean)
   const canEdit = roles.includes('editor') || roles.includes('admin')
@@ -212,7 +286,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     const embedUrl = getEmbedUrl(video)
     return (
       embedUrl ? (
-        <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
+        <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={(event) => setActiveVideo({ url: embedUrl, index: index + 1, from: event.currentTarget })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
           {/* A still, not the site's player: the players loaded ~1.9MB of
               script per page before anyone pressed play. The player opens in
               the dialog. A YouTube video's thumbnail; other sites' have none,
@@ -224,7 +298,8 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
               {videoSiteName(video)}
             </Typography>
           )}
-          <PlayArrowRounded sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.65)', borderRadius: '50%', fontSize: 48 }} />
+          {/* Its see-through circle: drawn apart on the 3D strip (MediaStrip's oc-media-strip--translucent). */}
+          <PlayArrowRounded className="oc-media-strip--translucent" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.65)', borderRadius: '50%', fontSize: 48 }} />
         </ButtonBase>
       ) : (
         <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center', p: 2 }}>
@@ -320,14 +395,42 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={Boolean(activeVideo)} onClose={() => setActiveVideo(null)} maxWidth="md" fullWidth>
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {activeVideo && t('videoFrameTitle', { index: activeVideo.index })}
-          <IconButton onClick={() => setActiveVideo(null)} aria-label={t('closeVideo')}>
-            <CloseRounded />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent sx={{ p: 0, aspectRatio: '16 / 9', bgcolor: 'common.black' }}>{activeVideo && <Box component="iframe" src={activeVideo.url} title={t('videoFrameTitle', { index: activeVideo.index })} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen sx={{ display: 'block', width: '100%', height: '100%', border: 0 }} />}</DialogContent>
+      {/* No title (videos have none): named for screen readers only. */}
+      <Dialog
+        className="oc-video-list--player"
+        open={Boolean(activeVideo)}
+        onClose={closePlayer}
+        maxWidth="md"
+        fullWidth
+        fullScreen={isPhone}
+        {...(transform && { hideBackdrop: true, transitionDuration: 0 })}
+        slotProps={{
+          paper: { ref: playerRef, 'aria-label': activeVideo ? t('videoFrameTitle', { index: activeVideo.index }) : undefined, sx: isPhone ? { bgcolor: 'common.black' } : undefined },
+          transition: { onEntering: () => transform && animatePlayer(true) },
+        }}
+      >
+        <Box ref={playerContentRef} sx={{ display: 'flex', flexDirection: 'column', height: isPhone ? '100%' : 'auto' }}>
+          {isPhone ? (
+            // Full screen: a back arrow at the start, over black.
+            <Box sx={{ display: 'flex', alignItems: 'center', px: 0.5, minHeight: 64, flexShrink: 0, color: 'common.white' }}>
+              <IconButton className="oc-video-list--player-back" onClick={closePlayer} aria-label={t('back', { ns: 'app' })} sx={{ width: 48, height: 48, color: 'inherit' }}>
+                <ArrowBackRounded />
+              </IconButton>
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
+              <IconButton onClick={closePlayer} aria-label={t('closeVideo')}>
+                <CloseRounded />
+              </IconButton>
+            </Box>
+          )}
+          {/* The video 16:9, in the middle of the screen on a phone. */}
+          <DialogContent sx={{ p: 0, bgcolor: 'common.black', ...(isPhone ? { display: 'flex', alignItems: 'center', flex: 1 } : { aspectRatio: '16 / 9' }) }}>
+            {/* Full screen: as wide as fits both ways (in landscape, the
+                screen's height under the bar sets it), centred. */}
+            {activeVideo && <Box component="iframe" src={autoplayUrl(activeVideo.url)} title={t('videoFrameTitle', { index: activeVideo.index })} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen sx={{ display: 'block', aspectRatio: '16 / 9', border: 0, ...(isPhone ? { width: 'min(100%, calc((100dvh - 64px) * 16 / 9))', height: 'auto', mx: 'auto' } : { width: '100%', height: '100%' }) }} />}
+          </DialogContent>
+        </Box>
       </Dialog>
     </Box>
   )
