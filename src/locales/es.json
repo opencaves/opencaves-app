@@ -846,7 +846,7 @@
     "parentSistemaSearchPlaceholder": "Buscar",
     "length": "Distancia explorada ({{unit}})",
     "lengthDate": "Fecha de esa distancia",
-    "lengthDateHint": "Cuándo se levantó o se publicó. Se pone en el mes actual cuando cambia la distancia.",
+    "lengthDateHint": "Cuándo se levantó o se publicó.",
     "aka": "También conocido como",
     "addAka": "Añadir nombre alternativo",
     "removeAka": "Eliminar nombre",

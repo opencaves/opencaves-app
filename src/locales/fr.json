@@ -845,7 +845,7 @@
     "parentSistemaSearchPlaceholder": "Rechercher",
     "length": "Distance explorée ({{unit}})",
     "lengthDate": "Date de cette distance",
-    "lengthDateHint": "Quand elle a été relevée ou publiée. Mise au mois courant quand la distance change.",
+    "lengthDateHint": "Quand elle a été relevée ou publiée.",
     "aka": "Également connu sous le nom de",
     "addAka": "Ajouter un autre nom",
     "removeAka": "Supprimer ce nom",

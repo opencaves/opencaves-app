@@ -470,7 +470,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         {isSmall && colorField}
         <Grid size={{ xs: 12, sm: 6 }}>
           {/* The area dropdown's size (beside it): aligned. */}
-          <SourceSelect size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
+          <SourceSelect fullWidth size="medium" label={t('source')} helperText={t('sourceHint')} noneLabel={t('none')} sources={sources} value={form.source} onChange={(source) => setForm((f) => ({ ...f, source }))} />
         </Grid>
 
         {/* Wider screens: just wide enough for their labels. */}
@@ -480,7 +480,7 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         {/* The length's date: set to this month when the length changes,
             unless set here already. */}
         <Grid size={{ xs: 12, sm: 'auto' }} sx={{ width: { sm: 220 }, order: { xs: 3, sm: 0 } }}>
-          <PartialDateField className="oc-sistema-edit-form--length-date" label={t('lengthDate')} description={t('lengthDateHint')} allowRange={false} fullWidth value={form.lengthDate} onChange={(event) => { lengthDateEdited.current = true; setForm((current) => ({ ...current, lengthDate: event.target.value })) }} />
+          <PartialDateField className="oc-sistema-edit-form--length-date" label={t('lengthDate')} description={t('lengthDateHint')} allowRange={false} fullWidth sx={{ width: '100%', '& .MuiFormHelperText-root': { width: 'auto', maxWidth: 'none' } }} value={form.lengthDate} onChange={(event) => { lengthDateEdited.current = true; setForm((current) => ({ ...current, lengthDate: event.target.value })) }} />
         </Grid>
         <Grid size={{ xs: 5, sm: 'auto' }} sx={{ width: { sm: 160 } }}>
           <TextField label={t('maxDepth', { unit: lengthUnit(units) })} type="text" inputMode="decimal" fullWidth value={focusedNumberField === 'maxDepth' ? form.maxDepth : formatLocalizedNumber(form.maxDepth, locale)} onFocus={() => setFocusedNumberField('maxDepth')} onChange={(event) => setForm((current) => ({ ...current, maxDepth: event.target.value }))} onBlur={() => setFocusedNumberField(null)} error={!!measurementError('maxDepth')} helperText={measurementError('maxDepth')} sx={{ '& input': { textAlign: 'right' } }} />

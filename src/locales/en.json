@@ -846,7 +846,7 @@
     "parentSistemaSearchPlaceholder": "Search",
     "length": "Total distance explored ({{unit}})",
     "lengthDate": "Date of that length",
-    "lengthDateHint": "When it was surveyed or reported. Set to this month when the length changes.",
+    "lengthDateHint": "When it was surveyed or reported.",
     "aka": "Also known as",
     "addAka": "Add alternate name",
     "removeAka": "Remove name",
