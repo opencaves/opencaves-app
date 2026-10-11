@@ -29,11 +29,22 @@ const PARALLAX = 0.2
 const SWAP = { duration: 450, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-// Every item of a carousel, in a vertical grid (MD3: on a vertically
-// scrolling page, a way to see them all without scrolling sideways): a pane,
-// full screen on phones (two columns there, swapped in - SWAP), with a back
-// arrow and the carousel's title.
-function ShowAllPane({ open, onClose, title, gridMinWidth, gridGap, children }) {
+/**
+ * Every item of a carousel or a strip, in a vertical grid (MD3: on a
+ * vertically scrolling page, a way to see them all without scrolling
+ * sideways): a pane, full screen on phones (two columns there, swapped in -
+ * SWAP), with a back arrow and the list's title. Its children: `<li>`s, each
+ * one's visual marked `.oc-carousel--media`.
+ *
+ * @param {object} props
+ * @param {boolean} props.open
+ * @param {() => void} props.onClose
+ * @param {string} props.title
+ * @param {string} [props.gridMinWidth='200px'] - A column's narrowest.
+ * @param {number | string} [props.gridGap=2]
+ * @param {React.ReactNode} [props.children]
+ */
+export function ShowAllPane({ open, onClose, title, gridMinWidth = '200px', gridGap = 2, children }) {
   const { t } = useTranslation('app')
   const isPhone = useSmall()
   const swap = isPhone && !prefersReducedMotion()

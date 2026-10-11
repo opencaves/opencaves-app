@@ -9,6 +9,7 @@ import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
 import { centerItem } from '@/utils/mediaStrip.js'
 import MediaStrip from './MediaStrip.jsx'
+import StripShowAll from './StripShowAll.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
@@ -75,9 +76,12 @@ const VIDEO_WIDTH = 280
  * @param {boolean} [props.showTitle=true]
  * @param {boolean} [props.showAdd=false] - An Add button even without onChange (it asks to log in).
  * @param {() => void} [props.onAddUnauthorized] - That Add button's click.
+ * @param {'center'|'start'} [props.start='center'] - Where its first video is at first ({@link MediaStrip}'s).
+ * @param {boolean} [props.fill=false] - The strip's cylinder across its whole width ({@link MediaStrip}'s).
+ * @param {boolean} [props.showAll=false] - Show all under the strip ({@link StripShowAll}): every video in a grid.
  * @param {Sx} [props.sx]
  */
-export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, sx }) {
+export default function VideoList({ caveId, videos, onChange, showTitle = true, showAdd = false, onAddUnauthorized, start = 'center', fill = false, showAll = false, sx }) {
   const { t } = useTranslation('resultPane')
   const roles = useSelector((/** @type {RootState} */ state) => state.session.roles)
   const settleWrite = useSettleWrite()
@@ -203,6 +207,35 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     }
   }
 
+  // A video's still: plays in the player dialog, or a link to it.
+  function videoStill(video, index) {
+    const embedUrl = getEmbedUrl(video)
+    return (
+      embedUrl ? (
+        <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
+          {/* A still, not the site's player: the players loaded ~1.9MB of
+              script per page before anyone pressed play. The player opens in
+              the dialog. A YouTube video's thumbnail; other sites' have none,
+              so their name. */}
+          {youtubeThumbnail(video) ? (
+            <Box component="img" src={youtubeThumbnail(video, 'hqdefault')} alt="" loading="lazy" sx={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <Typography component="span" variant="caption" sx={{ position: 'absolute', left: 12, bottom: 8, color: 'common.white', opacity: 0.8 }}>
+              {videoSiteName(video)}
+            </Typography>
+          )}
+          <PlayArrowRounded sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.65)', borderRadius: '50%', fontSize: 48 }} />
+        </ButtonBase>
+      ) : (
+        <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center', p: 2 }}>
+          <Link href={video} target="_blank" rel="noreferrer" sx={{ color: 'common.white', textAlign: 'center' }}>
+            {t('openVideo', { index: index + 1 })}
+          </Link>
+        </Box>
+      )
+    )
+  }
+
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
   }
@@ -215,33 +248,11 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </Typography>
       )}
       {videoUrls.length > 0 && (
-        <MediaStrip className="oc-video-list--strip" itemHeight={videoHeight} height={shownHeight} gap={ASSETS_LIST_CONFIG.spacing} rebuildKey={videoUrls.join(' ')} scrollbarsRef={scrollbarsRef}>
+        <MediaStrip start={start} fill={fill} className="oc-video-list--strip" itemHeight={videoHeight} height={shownHeight} gap={ASSETS_LIST_CONFIG.spacing} rebuildKey={videoUrls.join(' ')} scrollbarsRef={scrollbarsRef}>
                 {videoUrls.map((video, index) => {
-                  const embedUrl = getEmbedUrl(video)
                   return (
                     <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
-                      {embedUrl ? (
-                        <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
-                          {/* A still, not the site's player: the players loaded ~1.9MB of
-                              script per page before anyone pressed play. The player opens in
-                              the dialog. A YouTube video's thumbnail; other sites' have none,
-                              so their name. */}
-                          {youtubeThumbnail(video) ? (
-                            <Box component="img" src={youtubeThumbnail(video, 'hqdefault')} alt="" loading="lazy" sx={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} />
-                          ) : (
-                            <Typography component="span" variant="caption" sx={{ position: 'absolute', left: 12, bottom: 8, color: 'common.white', opacity: 0.8 }}>
-                              {videoSiteName(video)}
-                            </Typography>
-                          )}
-                          <PlayArrowRounded sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', bgcolor: 'rgba(0, 0, 0, 0.65)', borderRadius: '50%', fontSize: 48 }} />
-                        </ButtonBase>
-                      ) : (
-                        <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center', p: 2 }}>
-                          <Link href={video} target="_blank" rel="noreferrer" sx={{ color: 'common.white', textAlign: 'center' }}>
-                            {t('openVideo', { index: index + 1 })}
-                          </Link>
-                        </Box>
-                      )}
+                      {videoStill(video, index)}
                       {canEdit && (
                         <CardOptionsMenu
                           ariaLabel={t('edit.videoOptions')}
@@ -263,6 +274,17 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                   )
                 })}
         </MediaStrip>
+      )}
+      {showAll && videoUrls.length > 0 && (
+        <StripShowAll title={t('videosHeader')} gridMinWidth="260px">
+          {videoUrls.map((video, index) => (
+            <li key={`${video}-${index}`}>
+              <Box className="oc-video-list--item oc-carousel--media" sx={{ position: 'relative', aspectRatio: '16 / 9', overflow: 'hidden', bgcolor: 'common.black' }}>
+                {videoStill(video, index)}
+              </Box>
+            </li>
+          ))}
+        </StripShowAll>
       )}
       {(canEdit || showAdd) && (
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>

@@ -52,12 +52,14 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {number} [props.zoom=1.25] - How much larger its front is than the flat strip.
  * @param {number} [props.perspective=900] - Its perspective (px).
  * @param {number} [props.slice=4] - A slice's width (px).
+ * @param {boolean} [props.fill=false] - The sides' radius grows with a wide strip, so the cylinder spans its whole width
+ *   (with `radius` alone, a wide strip's cylinder takes only its middle).
  * @param {import('react').RefObject<any>} [props.scrollbarsRef] - Its Scrollbars, for a caller scrolling it (their `view`).
  * @param {import('react').ReactNode} props.children - Its columns.
  * @param {string} [props.className]
  * @param {Sx} [props.sx]
  */
-export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, start = 'center', cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
+export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, rebuildKey, start = 'center', cylinder = true, radius: sideRadius = CYLINDER.radius, flat: flatShare = CYLINDER.flat, zoom = CYLINDER.zoom, perspective = CYLINDER.perspective, slice: sliceWidth = CYLINDER.slice, fill = false, scrollbarsRef: callerScrollbarsRef, children, className, sx, ...props }) {
   const ownScrollbarsRef = useRef(null)
   const scrollbarsRef = callerScrollbarsRef ?? ownScrollbarsRef
   const rowRef = useRef(null)
@@ -207,15 +209,44 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     // round on the sides' radius.
     // Forward by as much as makes its front `zoom` times larger.
     const forward = perspective * (1 - 1 / zoom)
+    // The sides' radius for a strip of half-width `radius`: `sideRadius`, or
+    // filling, as large as reaches the strip's edges.
+    const bendFor = (radius) => (fill ? Math.max(sideRadius, radius - radius * flatShare) : sideRadius)
     function place(x, center, radius) {
       const flat = radius * flatShare
-      const bend = sideRadius
+      const bend = bendFor(radius)
       const distance = x - center
       const side = Math.sign(distance)
       const theta = Math.max(0, Math.abs(distance) - flat) / bend
       const shift = side * (Math.min(Math.abs(distance), flat) + bend * Math.sin(theta)) + center - x
       const depth = forward + bend * (Math.cos(theta) - 1)
       return { theta, transform: `translate3d(${shift}px, 0, ${depth}px) rotateY(${-side * theta}rad)` }
+    }
+
+    // How far from the middle (px, on the screen) a point of the strip shows,
+    // `distance` from the middle on the flat strip: bent on the sides, then
+    // enlarged by the perspective as `place` sets it.
+    function onScreen(distance, radius) {
+      const flat = radius * flatShare
+      const bend = bendFor(radius)
+      const theta = Math.max(0, distance - flat) / bend
+      const lateral = Math.min(distance, flat) + bend * Math.sin(theta)
+      const depth = forward + bend * (Math.cos(theta) - 1)
+      return { theta, offset: (lateral * perspective) / (perspective - depth) }
+    }
+    // The distance from the middle on the flat strip that shows `target` px
+    // from it on the screen - or, past what the sides reach (turned at most
+    // ~70°, still facing the reader), the farthest they show.
+    function startEdgeDistance(target, radius) {
+      let low = 0
+      let high = radius * flatShare + bendFor(radius) * 1.2
+      if (onScreen(high, radius).offset <= target) return high
+      for (let i = 0; i < 30; i++) {
+        const mid = (low + high) / 2
+        if (onScreen(mid, radius).offset < target) low = mid
+        else high = mid
+      }
+      return low
     }
 
     let frame
@@ -232,10 +263,18 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         const roomBefore = Math.max(0, view.clientWidth / 2 - columns[0].offsetWidth / 2 - padding)
         row.style.marginInlineStart = `${roomBefore}px`
         row.style.marginInlineEnd = `${Math.max(0, view.clientWidth / 2 - columns.at(-1).offsetWidth / 2 - padding)}px`
-        // Starting at the start: the first item flush with the viewing area's
-        // start, past the room before it - until the reader scrolls (a
-        // right-to-left strip scrolls toward negative positions).
-        if (holdStart) view.scrollLeft = rtl ? -roomBefore : roomBefore
+        // Starting at the start: the first item's start edge where the
+        // cylinder shows it at the viewing area's start - or, on a strip wider
+        // than the cylinder's sides reach, at their visible edge (flush with
+        // the area's edge, it would be past the side, out of sight) - until
+        // the reader scrolls (a right-to-left strip scrolls toward negative
+        // positions).
+        if (holdStart) {
+          const half = view.clientWidth / 2
+          // 8px in from the edge: the projection's rounding never clips its corner.
+          const startLeft = padding + roomBefore - half + Math.max(startEdgeDistance(half - padding - 8, half), columns[0].offsetWidth / 2)
+          view.scrollLeft = rtl ? -startLeft : startLeft
+        }
         // The row's flat plane is in front of the turned items: it lets the
         // pointer through to them.
         row.style.pointerEvents = 'none'
@@ -405,7 +444,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }
       Object.assign(row.style, { marginInlineStart: '', marginInlineEnd: '', pointerEvents: '' })
     }
-  }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth])
+  }, [rebuildKey, start, cylinder, sideRadius, flatShare, zoom, perspective, sliceWidth, fill])
 
   return (
     <Box
