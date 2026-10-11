@@ -384,7 +384,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     function letGoOf() {
       letGo.forEach((type) => window.removeEventListener(type, letGoOf, true))
       if (Math.abs(view.scrollLeft - pressedAt) >= 1) {
-        release()
+        // A swipe: its glide runs its course first (snapping switched on at
+        // once would cut it short, the strip jumping to a column), then the
+        // strip eases to the nearest column, snapping on once there - and
+        // from then on the browser's (a swipe's glide ending on a column).
+        holdStart = false
+        stopWaiting()
+        afterGlide()
         return
       }
       holdStart = true
@@ -426,9 +432,29 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       settleTimer = setTimeout(snapOn, 700)
       view.scrollTo({ left: nearestColumnLeft(), behavior: reducedMotion() ? 'auto' : 'smooth' })
     }
+    // Still for a moment (no scroll for 120ms): the glide is over.
+    let glideTimer
+    function afterGlide() {
+      const still = () => {
+        view.removeEventListener('scroll', moving)
+        trackLetGo()
+      }
+      function moving() {
+        clearTimeout(glideTimer)
+        glideTimer = setTimeout(still, 120)
+      }
+      view.addEventListener('scroll', moving, { passive: true })
+      moving()
+      stopGlideWait = () => {
+        clearTimeout(glideTimer)
+        view.removeEventListener('scroll', moving)
+      }
+    }
+    let stopGlideWait = () => {}
     function trackPressed() {
       // The start held no longer; the drag is the scrollbar's.
       holdStart = false
+      stopGlideWait()
       stopWaiting()
       clearTimeout(settleTimer)
       view.style.scrollSnapType = ''
@@ -447,6 +473,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     observer.observe(row)
     return () => {
       cancelAnimationFrame(frame)
+      stopGlideWait()
       stopWaiting()
       clearTimeout(settleTimer)
       track?.removeEventListener('pointerdown', trackPressed)
