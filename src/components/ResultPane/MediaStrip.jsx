@@ -334,7 +334,47 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       presses.forEach((type) => frameElement.removeEventListener(type, pressed, true))
       letGo.forEach((type) => window.removeEventListener(type, letGoOf, true))
     }
+    // The scrollbar dragged: snapping off while it's held - on, every position
+    // it gives would be pulled to a column, the strip jumping from one to the
+    // next - then, let go, a glide to the nearest column, snapping back on
+    // once there (switched on at once, the browser would jump to it).
+    const track = /** @type {HTMLElement|null} */ (frameElement.querySelector('.oc-scrollbar--track-horizontal'))
+    let settleTimer
+    function nearestColumnLeft() {
+      const viewRect = view.getBoundingClientRect()
+      const middle = viewRect.left + viewRect.width / 2
+      let best = null
+      // The snap guides: each column's flat place (build).
+      for (const guide of layer.children) {
+        const rect = guide.getBoundingClientRect()
+        if (rect.height > 2) continue
+        const offset = rect.left + rect.width / 2 - middle
+        if (best === null || Math.abs(offset) < Math.abs(best)) best = offset
+      }
+      return best === null ? view.scrollLeft : view.scrollLeft + best
+    }
+    function snapOn() {
+      clearTimeout(settleTimer)
+      view.removeEventListener('scrollend', snapOn)
+      view.style.scrollSnapType = 'x mandatory'
+    }
+    function trackLetGo() {
+      window.removeEventListener('pointerup', trackLetGo, true)
+      view.addEventListener('scrollend', snapOn)
+      // No scrollend in some browsers, or no scroll at all (already there).
+      settleTimer = setTimeout(snapOn, 700)
+      view.scrollTo({ left: nearestColumnLeft(), behavior: reducedMotion() ? 'auto' : 'smooth' })
+    }
+    function trackPressed() {
+      // The start held no longer; the drag is the scrollbar's.
+      holdStart = false
+      stopWaiting()
+      clearTimeout(settleTimer)
+      view.style.scrollSnapType = ''
+      window.addEventListener('pointerup', trackLetGo, true)
+    }
     layout()
+    track?.addEventListener('pointerdown', trackPressed)
     if (holdStart) {
       atOnce.forEach((type) => frameElement.addEventListener(type, release, { capture: true, passive: true }))
       presses.forEach((type) => frameElement.addEventListener(type, pressed, { capture: true, passive: true }))
@@ -347,6 +387,10 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     return () => {
       cancelAnimationFrame(frame)
       stopWaiting()
+      clearTimeout(settleTimer)
+      track?.removeEventListener('pointerdown', trackPressed)
+      window.removeEventListener('pointerup', trackLetGo, true)
+      view.removeEventListener('scrollend', snapOn)
       view.style.scrollSnapType = ''
       view.removeEventListener('scroll', schedule)
       row.removeEventListener('load', onLoad, true)
@@ -367,9 +411,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     <Box
       className={`oc-media-strip ${className || ''}`.trim()}
       sx={[(theme) => ({
-        // TRIAL: a band of its own tone behind the cylinder, as tall as the
-        // items in front (zoomed on the cylinder) - lighter than the pane in
-        // dark mode, a faint tint in light mode.
+        // A band of its own tone behind the cylinder, as tall as the items in
+        // front (zoomed on the cylinder) - lighter than the pane in dark mode,
+        // a faint tint in light mode.
         '&::before': {
           content: '""',
           position: 'absolute',
