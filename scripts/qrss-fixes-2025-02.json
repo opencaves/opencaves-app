@@ -1711,6 +1711,105 @@
       "set": {
         "exploredLength": 192.0
       }
+    },
+    {
+      "what": "Aktun-Hu: length 8656.3 m, as its own text states (exploration 2007)",
+      "type": "update",
+      "id": "-KPZgfr32-S5uVCsT9hQ",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8656.3
+      }
+    },
+    {
+      "what": "Balun Actun: length 8963.3 m, as its own text states (exploration 2010-12)",
+      "type": "update",
+      "id": "-KPZgfrCX7_mTK6MFffc",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8963.3
+      }
+    },
+    {
+      "what": "Esqueleto: length 2814.0 m, as its own text states (exploration 1992-1993)",
+      "type": "update",
+      "id": "-KPZgfvzDEcRyNp9b4ci",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 2814.0
+      }
+    },
+    {
+      "what": "Naranjal: length 8184.0 m, as its own text states (exploration 1990-1992)",
+      "type": "update",
+      "id": "-KPZgfxGo-R8NnJWSKaX",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 8184.0
+      }
+    },
+    {
+      "what": "Nohoch Nah Chich: length 39484.7 m, as its own text states (exploration ?)",
+      "type": "update",
+      "id": "-KPZgfxMC7X8AcLqXOtq",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 39484.7
+      }
+    },
+    {
+      "what": "Sac Be Ha: length 3303.0 m, as its own text states (exploration 2004-10-16)",
+      "type": "update",
+      "id": "-KPZgfxvQ3Un_REWqrGX",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 3303.0
+      }
+    },
+    {
+      "what": "Tercer Ojo (del): length 1962.0 m, as its own text states (exploration 2010-11)",
+      "type": "update",
+      "id": "-KPZgfyOA9WRtvFlj4xA",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 1962.0
+      }
+    },
+    {
+      "what": "Tixik K'una: length 2942.2 m, as its own text states (exploration 2006-03 - 2007-11)",
+      "type": "update",
+      "id": "-KPZgfySFFmEXg_2MfP8",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 2942.2
+      }
+    },
+    {
+      "what": "Alux: length 3814.0 m, as its own text states (exploration 2002-08)",
+      "type": "update",
+      "id": "-L_4G8qOQnGiPrcgqUaD",
+      "expect": {
+        "exploredLength": null
+      },
+      "set": {
+        "exploredLength": 3814.0
+      }
     }
   ]
 }
