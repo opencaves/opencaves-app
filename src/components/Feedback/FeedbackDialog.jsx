@@ -76,7 +76,7 @@ function KindCard({ kind, selected, onSelect }) {
 }
 
 /**
- * The Send feedback form (openFeedback): a beta tester tells the OpenCaves
+ * The Send feedback form (openFeedback): a signed-in user tells the OpenCaves
  * team about a bug, something misleading or an idea - its kind, a message
  * (a hint and a placeholder per kind: a bug's steps to reproduce it), the
  * page it's about (the page it was opened from, editable), and the browser

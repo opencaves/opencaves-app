@@ -1875,11 +1875,6 @@
         "title": "Compléter les réseaux",
         "text": "Leur longueur et leur profondeur, l'historique de leur exploration, et leurs connexions.",
         "action": "Parcourir les réseaux"
-      },
-      "feedback": {
-        "title": "Signalez ce qui ne va pas",
-        "text": "Quelque chose de cassé, de trompeur ou de manquant : chaque message parvient à l’équipe d’OpenCaves, qui répond par courriel.",
-        "action": "Envoyer un commentaire"
       }
     },
     "goodToKnow": {
@@ -1895,6 +1890,11 @@
       "admins": {
         "title": "Certaines choses sont réservées aux administrateurs",
         "text": "Supprimer des grottes, des réseaux, des photos ou des cartes, et modifier les listes d'accès, d'accessibilités, de langues et de couleurs."
+      },
+      "feedback": {
+        "title": "Signalez ce qui ne va pas",
+        "text": "Quelque chose de cassé, de trompeur ou de manquant : chaque message parvient à l’équipe d’OpenCaves, qui répond par courriel.",
+        "action": "Envoyer un commentaire"
       },
       "safety": {
         "title": "OpenCaves ne sert pas à planifier une plongée",

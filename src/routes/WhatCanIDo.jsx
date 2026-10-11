@@ -45,13 +45,14 @@ const CONTRIBUTE = [
   { key: 'texts', icon: <EditNoteRounded /> },
   { key: 'media', icon: <AddAPhotoRounded /> },
   { key: 'systems', icon: <SvgIcon component={CaveSystemIcon} inheritViewBox />, to: '/sistemas' },
-  // The Send feedback form (FeedbackDialog: sign-in first for visitors).
-  { key: 'feedback', icon: <FeedbackRounded />, onClick: () => openFeedback() },
 ]
 const GOOD_TO_KNOW = [
   { key: 'public', icon: <PublicRounded /> },
   { key: 'mistakes', icon: <HistoryRounded /> },
   { key: 'admins', icon: <AdminPanelSettingsRounded /> },
+  // The Send feedback form (FeedbackDialog: sign-in first for visitors), its
+  // action under its text.
+  { key: 'feedback', icon: <FeedbackRounded />, onClick: () => openFeedback() },
 ]
 
 // One thing to do: its icon in a tonal circle, a title and a line; a card
@@ -149,9 +150,10 @@ function SectionTitle({ children, sub }) {
 
 /**
  * /what-can-i-do: what OpenCaves' users can do - explore, then, signed up,
- * add and correct caves and their photos, videos and maps, check their facts,
- * send feedback (FeedbackDialog) - as cards under a hero band, then what's
- * good to know. Visitors who aren't signed in are invited to sign up.
+ * add and correct caves and their photos, videos and maps, check their facts
+ * - as cards under a hero band, then what's good to know, sending feedback
+ * among it (FeedbackDialog). Visitors who aren't signed in are invited to
+ * sign up.
  */
 export default function WhatCanIDo() {
   const { t } = useTranslation('whatCanIDo')
@@ -205,7 +207,7 @@ export default function WhatCanIDo() {
       <Box component="section" className="oc-what-can-i-do--good-to-know" sx={(theme) => ({ borderRadius: 4, p: { xs: 2.5, sm: 4 }, bgcolor: theme.vars.sys.color.surfaceContainer })}>
         <SectionTitle>{t('goodToKnow.title')}</SectionTitle>
         <Stack spacing={2} component="ul" sx={{ listStyle: 'none', m: 0, p: 0, mb: 3 }}>
-          {GOOD_TO_KNOW.map(({ key, icon }) => (
+          {GOOD_TO_KNOW.map(({ key, icon, onClick }) => (
             <Box component="li" key={key} sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
               <Box aria-hidden="true" sx={(theme) => ({ color: theme.vars.sys.color.primary, mt: 0.25, '& svg': { fontSize: 26 } })}>
                 {icon}
@@ -215,6 +217,11 @@ export default function WhatCanIDo() {
                 <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                   {t(`goodToKnow.${key}.text`)}
                 </Typography>
+                {onClick && (
+                  <Button size="small" onClick={onClick} className="oc-what-can-i-do--good-to-know-action" sx={{ mt: 0.5, ml: -1, textTransform: 'none', fontWeight: 600 }}>
+                    {t(`goodToKnow.${key}.action`)} →
+                  </Button>
+                )}
               </Box>
             </Box>
           ))}

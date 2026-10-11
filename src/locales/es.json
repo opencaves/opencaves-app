@@ -1876,11 +1876,6 @@
         "title": "Completar los sistemas",
         "text": "Su longitud y profundidad, la historia de su exploración, y sus conexiones.",
         "action": "Ver los sistemas"
-      },
-      "feedback": {
-        "title": "Cuéntanos qué falla",
-        "text": "Algo roto, engañoso o que falta: cada mensaje llega al equipo de OpenCaves, que responde por correo.",
-        "action": "Enviar comentarios"
       }
     },
     "goodToKnow": {
@@ -1896,6 +1891,11 @@
       "admins": {
         "title": "Algunas cosas son para administradores",
         "text": "Borrar cuevas, sistemas, fotos o mapas, y editar las listas de accesos, accesibilidades, idiomas y colores."
+      },
+      "feedback": {
+        "title": "Cuéntanos qué falla",
+        "text": "Algo roto, engañoso o que falta: cada mensaje llega al equipo de OpenCaves, que responde por correo.",
+        "action": "Enviar comentarios"
       },
       "safety": {
         "title": "OpenCaves no sirve para planificar una inmersión",

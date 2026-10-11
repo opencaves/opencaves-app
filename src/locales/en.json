@@ -1876,11 +1876,6 @@
         "title": "Complete the cave systems",
         "text": "Their length and depth, their exploration history, and how they connect.",
         "action": "Browse the systems"
-      },
-      "feedback": {
-        "title": "Tell us what's wrong",
-        "text": "Something broken, misleading or missing: every report reaches the OpenCaves team, who answer by email.",
-        "action": "Send feedback"
       }
     },
     "goodToKnow": {
@@ -1896,6 +1891,11 @@
       "admins": {
         "title": "Some things are for administrators",
         "text": "Deleting caves, systems, photos or maps, and editing the lists of accesses, accessibilities, languages and colours."
+      },
+      "feedback": {
+        "title": "Tell us what's wrong",
+        "text": "Something broken, misleading or missing: every report reaches the OpenCaves team, who answer by email.",
+        "action": "Send feedback"
       },
       "safety": {
         "title": "OpenCaves is not for dive planning",
