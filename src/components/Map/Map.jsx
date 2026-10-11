@@ -575,12 +575,15 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
     }
   }
 
-  function flyToCoordinate(lng, lat) {
-    const center = getCenterLngLat(lng, lat, true)
+  // zoom: a requested one (the guided tour framing a cave system), else
+  // the map's own; exact: on the point itself, not shifted to make room for
+  // the result pane (none open).
+  function flyToCoordinate(lng, lat, zoom, exact = false) {
+    const center = getCenterLngLat(lng, lat, !exact, zoom ?? currentZoomLevel)
 
     mapRef.current?.flyTo({
       center,
-      zoom: embedded ? mapRef.current.getZoom() : currentZoomLevel,
+      zoom: zoom ?? (embedded ? mapRef.current.getZoom() : currentZoomLevel),
       duration: theme.oc.sys.motion.duration.emphasized,
     })
   }
@@ -906,7 +909,7 @@ export default function OCMap({ mapRef: externalMapRef } = {}) {
   // A CoordinateField's own "center the map here" action.
   useEffect(() => {
     if (flyToCoordinateRequest && mapLoaded) {
-      flyToCoordinate(flyToCoordinateRequest.longitude, flyToCoordinateRequest.latitude)
+      flyToCoordinate(flyToCoordinateRequest.longitude, flyToCoordinateRequest.latitude, flyToCoordinateRequest.zoom, flyToCoordinateRequest.exact)
       dispatch(clearFlyToCoordinateRequest())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
