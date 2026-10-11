@@ -19,8 +19,8 @@ export default function StripShowAll({ title, gridMinWidth, children }) {
   const [open, setOpen] = useState(false)
   return (
     <>
-      {/* Clear of the line under the strip (wider screens). */}
-      <Box className="oc-strip-show-all" sx={{ display: 'flex', justifyContent: 'flex-end', mt: { xs: 0.5, sm: 2 }, mb: -1.5, mr: -1 }}>
+      {/* Clear of the strip's band. */}
+      <Box className="oc-strip-show-all" sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1, mb: -1.5, mr: -1 }}>
         <Button size="small" onClick={() => setOpen(true)} aria-label={t('showAll', { title })} aria-haspopup="dialog" sx={{ minHeight: 32, position: 'relative', '&::before': { content: '""', position: 'absolute', inset: '-8px 0' } }}>
           {t('showAllLink')}
         </Button>

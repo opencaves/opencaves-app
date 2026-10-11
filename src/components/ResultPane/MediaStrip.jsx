@@ -53,7 +53,7 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {number} [props.perspective=900] - Its perspective (px).
  * @param {number} [props.slice=4] - A slice's width (px).
  * @param {boolean} [props.fill=false] - The sides' radius grows with a wide strip, so the cylinder spans its whole width
- *   (with `radius` alone, a wide strip's cylinder takes only its middle).
+ *   (with `radius` alone, a wide strip's cylinder takes only its middle); its band behind fills the whole strip.
  * @param {import('react').RefObject<any>} [props.scrollbarsRef] - Its Scrollbars, for a caller scrolling it (their `view`).
  * @param {import('react').ReactNode} props.children - Its columns.
  * @param {string} [props.className]
@@ -69,9 +69,13 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   const stageRef = useRef(null)
   const trackRef = useRef(null)
   const cylinderOn = () => cylinder && !reducedMotion()
-  // Above and below the strip: room for the zoomed cylinder.
-  const zoomRoom = cylinderOn() ? Math.ceil((itemHeight * (zoom - 1)) / 2) : 0
   const rowHeight = typeof height === 'number' ? `${height}px` : height
+  // Above and below the strip: room for the zoomed cylinder - the items'
+  // own height's (a CSS length when they're sized by CSS: smaller on a
+  // phone), not the largest's.
+  const zoomShare = cylinderOn() ? (zoom - 1) / 2 : 0
+  const zoomRoom = `calc(${rowHeight} * ${zoomShare})`
+  const zoomRoomMax = Math.ceil(itemHeight * zoomShare)
 
   useEffect(() => {
     const scrollbar = scrollbarsRef.current
@@ -217,8 +221,23 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     // Forward by as much as makes its front `zoom` times larger.
     const forward = perspective * (1 - 1 / zoom)
     // The sides' radius for a strip of half-width `radius`: `sideRadius`, or
-    // filling, as large as reaches the strip's edges.
-    const bendFor = (radius) => (fill ? Math.max(sideRadius, radius - radius * flatShare) : sideRadius)
+    // filling, as large as takes the sides' far edges (a quarter turn, seen
+    // through the perspective) to the strip's edges.
+    const bendFor = (radius) => {
+      if (!fill) return sideRadius
+      const flat = radius * flatShare
+      const reach = (bend) => ((flat + bend) * perspective) / (perspective - forward + bend)
+      if (reach(sideRadius) >= radius) return sideRadius
+      let low = sideRadius
+      let high = radius * 20
+      if (reach(high) < radius) return high
+      for (let i = 0; i < 40; i++) {
+        const mid = (low + high) / 2
+        if (reach(mid) < radius) low = mid
+        else high = mid
+      }
+      return high
+    }
     function place(x, center, radius) {
       const flat = radius * flatShare
       const bend = bendFor(radius)
@@ -509,11 +528,14 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           left: 0,
           right: 0,
           top: 0,
-          height: `calc(${rowHeight} + ${zoomRoom * 2}px)`,
+          // Filling (a page's strip): the whole strip, its scrollbar's room
+          // too - no other colour around or between its items.
+          ...(fill ? { bottom: 0 } : { height: `calc(${rowHeight} + 2 * ${zoomRoom})` }),
           bgcolor: theme.vars.sys.color.surfaceContainer,
           ...theme.applyStyles('dark', { bgcolor: theme.vars.sys.color.surfaceContainerHighest }),
         },
-      }), { position: 'relative', marginBottom: 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + ${zoomRoom * 2}px)` }, ...(Array.isArray(sx) ? sx : [sx])]}
+      }), { position: 'relative', // What follows overlaps the scrollbar's room - not on a filling strip, whose band covers it.
+        marginBottom: fill ? 0 : 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + 2 * ${zoomRoom})` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
     >
       {/* The cylinder's slices (filled by its effect): over the viewing area,
@@ -526,7 +548,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         ref={scrollbarsRef}
         autoHide
         autoHeight
-        autoHeightMax={itemHeight + zoomRoom * 2 + 100}
+        autoHeightMax={itemHeight + zoomRoomMax * 2 + 100}
         trackHorizontalProps={{
           style: {
             left: 'calc(var(--oc-pane-padding-inline) / 2)',
@@ -535,7 +557,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           },
         }}
       >
-        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+        <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: zoomRoom, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
           <Box ref={rowRef} className="oc-media-strip--row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', gap: `${gap}px`, transformStyle: 'preserve-3d' }}>
             {children}
             {/* The columns' snap guides (filled by its effect). */}
