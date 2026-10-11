@@ -201,6 +201,21 @@ date its figures). A system
 gets its date only if it has none and its length is still the one dated. Run it
 after the QRSS scripts above. Re-runnable.
 
+## Add the connections QRSS reports
+
+```
+node scripts/import-qrss-connections.js -l           # local emulators: dry run, lists the connections
+node scripts/import-qrss-connections.js -l --write   # saves them
+node scripts/import-qrss-connections.js -p           # production (dry run; add --write to save)
+```
+
+The connections between systems that QRSS's news page
+(https://qrss.caves.org/new.htm) reports and OpenCaves didn't have, checked on
+2026-10-11 (`scripts/qrss-connections-2025-02.json`): the smaller system joined
+to the one it became part of, dated with the month of QRSS's report, QRSS as the
+source. Fixed ids; a connection whose smaller system is connected already, or
+whose systems are gone, is skipped and listed. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```
