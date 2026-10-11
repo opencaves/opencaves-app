@@ -110,18 +110,21 @@
       #oc-shell .oc-shell--actions { justify-content: space-around; gap: 0; padding: 23px 41px 0; height: 99px; }
       #oc-shell .oc-shell--actions span { width: 36px; height: 36px; border-radius: 50%; }
     }
-    /* The other pages: the page's surface, the app bar's strip (AppBar.jsx,
-       64px; --oc-app-bar-bg), the loading screen under it - no search bar. */
-    #oc-shell.oc-shell--page { background: #fff; }
+    /* The other pages: the page's surface (M3's surface, the theme's
+       sys.color.surface: keep in step), the app bar's strip (AppBar.jsx, 64px;
+       --oc-app-bar-bg), the loading screen under it - no search bar. */
+    #oc-shell.oc-shell--page { background: #fbf9f7; }
     #oc-shell.oc-shell--page .oc-shell--bar { display: block; height: 64px; background: #145e79; }
     #oc-shell.oc-shell--page .oc-shell--loading { display: flex; top: 64px; }
     #oc-shell.oc-shell--page .oc-shell--search, #oc-shell.oc-shell--page .oc-shell--map { display: none; }
-    #oc-shell.oc-shell--page .oc-shell--logo { fill: #ebebeb; }
-    #oc-shell.oc-shell--page .oc-shell--title { color: #ebebeb; }
+    /* The mark a step darker than the page, in its warm tone (M3's surface
+       container highest). */
+    #oc-shell.oc-shell--page .oc-shell--logo { fill: #dedad8; }
+    #oc-shell.oc-shell--page .oc-shell--title { color: #dedad8; }
     #oc-shell.oc-shell--page .oc-shell--dot { fill: #145e79; }
-    /* Dark: the dark theme's surface and paper (#1c1b1f), its app bar the
-       surface too, the mark just above it (MapState.scss), its primary. */
-    #oc-shell.oc-shell--dark, #oc-shell.oc-shell--dark .oc-shell--bar { background: #1c1b1f; }
+    /* Dark: the dark theme's surface (#141219, sys.color.surface), its app
+       bar the surface too, the mark just above it (MapState.scss), its primary. */
+    #oc-shell.oc-shell--dark, #oc-shell.oc-shell--dark .oc-shell--bar { background: #141219; }
     #oc-shell.oc-shell--dark .oc-shell--search { background: #1c1b1f; border-color: #1c1b1f; }
     #oc-shell.oc-shell--dark .oc-shell--search svg { fill: rgba(255, 255, 255, 0.56); }
     #oc-shell.oc-shell--dark .oc-shell--logo { fill: #302f33; }
