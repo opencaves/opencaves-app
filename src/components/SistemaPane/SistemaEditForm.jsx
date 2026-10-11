@@ -250,7 +250,8 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
       description: sistema?.description || '',
       direction: sistema?.direction || '',
       textSources: textSourcesOf(sistema, SISTEMA_TEXT_FIELDS),
-      length: shown(sistema?.length ?? ''),
+      // exploredLength, or the older records' length (renamed).
+      length: shown(sistema?.exploredLength ?? sistema?.length ?? ''),
       maxDepth: shown(sistema?.maxDepth ?? ''),
       source: sistema?.source || '',
       explorations: (sistema?.explorations || []).map((e) => ({ ...emptyExploration, ...e, team: teamNames(e.team) })),
@@ -307,7 +308,9 @@ export default function SistemaEditForm({ sistemaId, onTitleChange, onDone, onDe
         description: orDelete(form.description),
         direction: orDelete(form.direction),
         // Back to metres; a value left as shown keeps its stored metres exactly.
-        length: form.length === '' ? orDelete() : length === shown(sistema?.length ?? '') ? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        // Saved as exploredLength, the older name (length) removed.
+        exploredLength: form.length === '' ? orDelete() : length === shown(sistema?.exploredLength ?? sistema?.length ?? '') ? sistema.exploredLength ?? sistema.length : Math.round(toMetres(length, units) * 10) / 10,
+        length: orDelete(),
         maxDepth: form.maxDepth === '' ? orDelete() : maxDepth === shown(sistema?.maxDepth ?? '') ? sistema.maxDepth : Math.round(toMetres(maxDepth, units) * 10) / 10,
         source: orDelete(form.source),
         explorations: orDelete(trimmedExplorations),

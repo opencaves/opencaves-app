@@ -1646,6 +1646,7 @@
       "fees": "frais",
       "textSources": "sources des textes",
       "color": "couleur",
+      "exploredLength": "distance explorée",
       "length": "distance explorée",
       "maxDepth": "profondeur max.",
       "public": "visibilité",

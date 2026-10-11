@@ -1647,6 +1647,7 @@
       "fees": "cuotas",
       "textSources": "fuentes de los textos",
       "color": "color",
+      "exploredLength": "distancia explorada",
       "length": "distancia explorada",
       "maxDepth": "profundidad máx.",
       "public": "visibilidad",

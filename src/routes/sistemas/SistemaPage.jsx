@@ -123,7 +123,8 @@ export default function SistemaPage() {
         </Link>
       ),
     },
-    sistema.length > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.length, units, i18n.language) },
+    // exploredLength, or the older records' length (renamed).
+    (sistema.exploredLength ?? sistema.length) > 0 && { key: 'length', label: t('sistema.length'), value: formatMeasure(sistema.exploredLength ?? sistema.length, units, i18n.language) },
     sistema.maxDepth > 0 && { key: 'maxDepth', label: t('sistema.maxDepth'), value: formatMeasure(sistema.maxDepth, units, i18n.language) },
   ].filter(Boolean)
   // Its location, as the map pane lists a cave's: copied on a click, with

@@ -235,11 +235,12 @@ service cloud.firestore {
 
     function isValidSistema(d, k) {
       return k.hasOnly(['name', 'nameTranslations', 'aka', 'area', 'color', 'description', 'direction', 'note', 'source',
-          'location', 'length', 'maxDepth', 'public', 'explorations', 'maps', 'textSources'])
+          'location', 'exploredLength', 'length', 'maxDepth', 'public', 'explorations', 'maps', 'textSources'])
         && text(d, k, 'name', 240) && entries(d, k, 'nameTranslations', 20) && items(d, k, 'aka', 20) && text(d, k, 'area', 240)
         && color(d, k, 'color') && text(d, k, 'description', 10000) && text(d, k, 'direction', 4000) && text(d, k, 'note', 2000)
         && recordId(d, k, 'source') && point(d, k, 'location')
-        && number(d, k, 'length', 0, 1000000) && number(d, k, 'maxDepth', 0, 1000) && flag(d, k, 'public')
+        // length: exploredLength's older name, until every record is migrated.
+        && number(d, k, 'exploredLength', 0, 1000000) && number(d, k, 'length', 0, 1000000) && number(d, k, 'maxDepth', 0, 1000) && flag(d, k, 'public')
         && items(d, k, 'explorations', 80) && items(d, k, 'maps', 60)
         && textSources(d, k, ['description', 'direction'])
     }
