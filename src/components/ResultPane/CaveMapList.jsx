@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DeleteForeverRounded from '@mui/icons-material/DeleteForeverRounded'
@@ -6,8 +6,7 @@ import EditRounded from '@mui/icons-material/EditRounded'
 import MapRounded from '@mui/icons-material/MapRounded'
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded'
 import { Box, Button, ButtonBase, Typography } from '@mui/material'
-import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import MediaStrip from './MediaStrip.jsx'
 import mapsModel from '@/models/MapModel.js'
 import { isTrashed } from '@/utils/trash.js'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
@@ -16,7 +15,6 @@ import ConnectionModel from '@/models/ConnectionModel.js'
 import { compareMapsByDate, getSistemaMapRefs } from '@/utils/sistemaMaps.js'
 import AddMapButton from '@/components/MapsPicker/AddMapButton.jsx'
 import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashMap.jsx'
-import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
 import { useOnline } from '@/hooks/useOnline.jsx'
@@ -120,7 +118,6 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   // With the maps in the trash, to leave out the sistema's references to them
   // (kept, so a restored map comes back), not show them as unknown files.
   const [mapFiles] = mapsModel.useAll({ includeTrashed: true })
-  const scrollbarsRef = useRef(null)
   const navigate = useNavigate()
 
   // Admins: deleting the map itself (to the trash), not only from this sistema.
@@ -137,28 +134,6 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
   const mapWidth = ASSETS_LIST_CONFIG.height * ASSETS_LIST_CONFIG.widthRatio
   const mapHeight = ASSETS_LIST_CONFIG.height
 
-  useEffect(() => {
-    const scrollbar = scrollbarsRef.current
-    const container = scrollbar?.container
-    if (!container) return undefined
-
-    function onWheel(event) {
-      event.preventDefault()
-      const { scrollLeft, scrollWidth, clientWidth } = scrollbar.getValues()
-      const maxScrollLeft = scrollWidth - clientWidth
-      const direction = Math.sign(event.deltaY || event.deltaX)
-      if (!direction || maxScrollLeft <= 0) return
-      scrollStrip(scrollbar.view, event)
-    }
-
-    container.addEventListener('wheel', onWheel, { passive: false })
-    const stopSnapping = snapOnSettle(scrollbar.view, container)
-    return () => {
-      container.removeEventListener('wheel', onWheel)
-      stopSnapping()
-    }
-  }, [selectedMaps.length])
-
   const pendingMapsOf = useCallback((item) => item.kind === 'map' && item.sistemaId === sistemaId, [sistemaId])
 
   return (
@@ -166,11 +141,9 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
       {/* Maps added offline to this system, waiting to upload. */}
       <PendingUploadsStrip filter={pendingMapsOf} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 2 }} />
       {selectedMaps.length > 0 && (
-        <Box className="oc-media-strip" sx={{ height: `calc(var(--oc-pane-padding-block) + ${mapHeight}px)`, mb: 'calc(var(--oc-pane-padding-block) * -1)' }}>
-          <Scrollbars ref={scrollbarsRef} autoHide autoHeight autoHeightMax={mapHeight + 100} trackHorizontalProps={{ style: { left: 'calc(var(--oc-pane-padding-inline) / 2)', right: 'calc(var(--oc-pane-padding-inline) / 2)', bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)` } }}>
-            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ display: 'flex', gap: `${ASSETS_LIST_CONFIG.spacing}px`, px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
+        <MediaStrip className="oc-cave-map-list--strip" itemHeight={mapHeight} gap={ASSETS_LIST_CONFIG.spacing} rebuildKey={selectedMaps.map((map) => map.value).join(' ')}>
               {selectedMaps.map((map, index) => (
-                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item oc-media-strip--item"
+                <Box key={`${map.value}-${index}`} className="oc-cave-map-list--item oc-media-strip--tile oc-media-strip--item"
                   sx={(theme) => ({
                     position: 'relative', width: mapWidth, height: mapHeight, flex: '0 0 auto', borderRadius: '.5rem', overflow: 'hidden',
                     // A thin outline over the picture's edge (not around it: the size stays).
@@ -185,9 +158,7 @@ export default function CaveMapList({ caveId, sistemaId, canAdd = true, onAddUna
                   {canAdd && <CardOptionsMenu ariaLabel={t('mapOptions')} sx={TITLE_BAR_MENU_SX} actions={[{ label: t('editMap'), icon: <EditRounded fontSize="small" />, onClick: () => (mapPath ? navigate(`${mapPath(map.value)}/edit`, { state: { fromPage: true, editFromViewer: true } }) : navigate(`/map/${caveId}/maps/${map.value}/edit`, { state: { from: returnTo } })) }, canTrash && map.file && { label: t('trashMap'), icon: <DeleteForeverRounded fontSize="small" />, onClick: () => requestTrash(map.file), danger: true }].filter(Boolean)} />}
                 </Box>
               ))}
-            </Box>
-          </Scrollbars>
-        </Box>
+        </MediaStrip>
       )}
       <AddMapButton sistemaId={sistemaId} canAdd={canAdd} onAddUnauthorized={onAddUnauthorized} spaced={selectedMaps.length > 0} />
 

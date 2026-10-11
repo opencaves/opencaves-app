@@ -7,12 +7,11 @@ import EditRounded from '@mui/icons-material/EditRounded'
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import AddButton from '@/components/AddButton.jsx'
 import { useTranslation } from 'react-i18next'
-import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, centerItem, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import { centerItem } from '@/utils/mediaStrip.js'
+import MediaStrip from './MediaStrip.jsx'
 import CardOptionsMenu from './CardOptionsMenu.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
 import { useSnackbar } from '@/components/Snackbar/useSnackbar.jsx'
-import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 import CaveModel from '@/models/CaveModel.js'
 import { invalidateData, getData } from '@/services/data-service.jsx'
 import { useSettleWrite } from '@/hooks/useSettleWrite.jsx'
@@ -204,38 +203,6 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
     }
   }
 
-  useEffect(() => {
-    const scrollbar = scrollbarsRef.current
-    const container = scrollbar?.container
-    if (!container) {
-      return undefined
-    }
-
-    function onWheel(event) {
-      event.preventDefault()
-      const { scrollLeft, scrollWidth, clientWidth } = scrollbar.getValues()
-      const maxScrollLeft = scrollWidth - clientWidth
-      const delta = event.deltaY || event.deltaX
-      const direction = Math.sign(delta)
-      if (!direction || maxScrollLeft <= 0) {
-        return
-      }
-
-      if ((direction < 0 && scrollLeft <= 0) || (direction > 0 && scrollLeft >= maxScrollLeft)) {
-        return
-      }
-
-      scrollStrip(scrollbar.view, event)
-    }
-
-    container.addEventListener('wheel', onWheel, { passive: false })
-    const stopSnapping = snapOnSettle(scrollbar.view, container)
-    return () => {
-      container.removeEventListener('wheel', onWheel)
-      stopSnapping()
-    }
-  }, [videoUrls.length])
-
   if (videoUrls.length === 0 && !canEdit && !showAdd) {
     return null
   }
@@ -248,26 +215,11 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
         </Typography>
       )}
       {videoUrls.length > 0 && (
-        <Box className="oc-media-strip" sx={{ height: `calc(var(--oc-pane-padding-block) + ${shownHeight})`, marginBottom: 'calc(var(--oc-pane-padding-block) * -1)' }}>
-          <Scrollbars
-            ref={scrollbarsRef}
-            autoHide
-            autoHeight
-            autoHeightMax={videoHeight + 100}
-            trackHorizontalProps={{
-              style: {
-                left: 'calc(var(--oc-pane-padding-inline) / 2)',
-                right: 'calc(var(--oc-pane-padding-inline) / 2)',
-                bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
-              },
-            }}
-          >
-            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
-              <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: `${ASSETS_LIST_CONFIG.spacing}px` }}>
+        <MediaStrip className="oc-video-list--strip" itemHeight={videoHeight} height={shownHeight} gap={ASSETS_LIST_CONFIG.spacing} rebuildKey={videoUrls.join(' ')} scrollbarsRef={scrollbarsRef}>
                 {videoUrls.map((video, index) => {
                   const embedUrl = getEmbedUrl(video)
                   return (
-                    <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
+                    <Box key={`${video}-${index}`} className="oc-video-list--item oc-media-strip--tile oc-media-strip--item" sx={{ position: 'relative', width: shownWidth, height: shownHeight, flex: '0 0 auto', bgcolor: 'common.black', overflow: 'hidden', borderRadius: '.5rem' }}>
                       {embedUrl ? (
                         <ButtonBase aria-label={t('playVideo', { index: index + 1 })} onClick={() => setActiveVideo({ url: embedUrl, index: index + 1 })} sx={{ display: 'block', position: 'relative', width: '100%', height: '100%', bgcolor: 'common.black' }}>
                           {/* A still, not the site's player: the players loaded ~1.9MB of
@@ -310,10 +262,7 @@ export default function VideoList({ caveId, videos, onChange, showTitle = true, 
                     </Box>
                   )
                 })}
-              </Box>
-            </Box>
-          </Scrollbars>
-        </Box>
+        </MediaStrip>
       )}
       {(canEdit || showAdd) && (
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: showTitle ? 'var(--oc-pane-padding-block)' : videoUrls.length > 0 ? 2 : 0 }}>

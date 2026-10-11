@@ -50,16 +50,20 @@ function glideTo(view, target) {
 }
 
 /**
- * The wheel scrolls the strip sideways, by the wheel's own distance: a mouse
- * wheel's notches glide there, a trackpad's steps (already smooth) and a
- * reader who prefers reduced motion move it at once.
+ * The wheel scrolls the strip sideways, by the wheel's own distance, forward
+ * in the reading direction: a mouse wheel's notches glide there, a trackpad's
+ * steps (already smooth) and a reader who prefers reduced motion move it at
+ * once.
  *
  * @param {HTMLElement} view - The strip's scrolling element.
  * @param {WheelEvent} event
  */
 export function scrollStrip(view, event) {
   const delta = event.deltaY || event.deltaX
-  const pixels = event.deltaMode === 1 ? delta * WHEEL_LINE : event.deltaMode === 2 ? delta * view.clientWidth : delta
+  // Forward is the reading direction: right to left, toward the left, at
+  // negative positions.
+  const rtl = getComputedStyle(view).direction === 'rtl'
+  const pixels = (event.deltaMode === 1 ? delta * WHEEL_LINE : event.deltaMode === 2 ? delta * view.clientWidth : delta) * (rtl ? -1 : 1)
   const notch = event.deltaMode !== 0 || Math.abs(pixels) >= WHEEL_NOTCH
   if (!notch || reducedMotion()) {
     stopGlide(view)
@@ -68,7 +72,7 @@ export function scrollStrip(view, event) {
   }
   const max = view.scrollWidth - view.clientWidth
   const from = glides.get(view)?.target ?? view.scrollLeft
-  glideTo(view, Math.max(0, Math.min(max, from + pixels)))
+  glideTo(view, rtl ? Math.max(-max, Math.min(0, from + pixels)) : Math.max(0, Math.min(max, from + pixels)))
 }
 
 // How long the strip stays still before it's settled.
