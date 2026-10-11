@@ -1,0 +1,158 @@
+// The guided tours' look (tourEngine.js): driver.js's popover as an M3 rich
+// tooltip - the surface container, on-surface text, a title in title small,
+// text buttons in the primary colour, 12px corners, elevation 2 - over a
+// dimming scrim. Colours are the theme's (--mui-*), so both themes follow.
+
+:root {
+  // M3's scrim: black, dimming what isn't the step's element.
+  --oc-tour-scrim: rgb(0 0 0 / 0.5);
+}
+
+.driver-popover.oc-tour-popover {
+  box-sizing: border-box;
+  min-width: 0;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 12px 16px 8px;
+  border-radius: 12px;
+  background-color: var(--mui-sys-color-surfaceContainer);
+  color: var(--mui-palette-text-primary);
+  box-shadow: var(--mui-shadows-3);
+  // The app's typeface (MUI's default theme's).
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  .driver-popover-arrow {
+    border-color: var(--mui-sys-color-surfaceContainer);
+  }
+  // driver.js's arrow: one coloured side (the others transparent).
+  .driver-popover-arrow-side-left {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+  }
+  .driver-popover-arrow-side-right {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  .driver-popover-arrow-side-top {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+  .driver-popover-arrow-side-bottom {
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+
+  // M3's title small; room on its right for the close button.
+  .driver-popover-title {
+    margin: 0 32px 4px 0;
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.00625rem;
+  }
+
+  // M3's body medium, in on-surface-variant.
+  .driver-popover-description {
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.015625rem;
+    color: var(--mui-palette-text-secondary);
+  }
+
+  .driver-popover-close-btn {
+    top: 4px;
+    right: 4px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--mui-palette-text-secondary);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    &:hover {
+      color: var(--mui-palette-text-primary);
+      background-color: var(--mui-palette-action-hover);
+    }
+  }
+
+  .driver-popover-footer {
+    margin-top: 8px;
+    gap: 8px;
+  }
+
+  // M3's label medium, on-surface-variant.
+  .driver-popover-progress-text {
+    font-family: inherit;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: var(--mui-palette-text-secondary);
+    white-space: nowrap;
+  }
+
+  // M3's text buttons: 40dp tall, label large in the primary colour, a
+  // state layer on hover and focus.
+  .driver-popover-footer-btn {
+    min-width: 48px;
+    height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 20px;
+    background-color: transparent;
+    color: var(--mui-sys-color-primary);
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.00625rem;
+    text-align: center;
+    text-shadow: none;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--mui-sys-color-primary) 8%, transparent);
+    }
+    &:active {
+      background-color: color-mix(in srgb, var(--mui-sys-color-primary) 10%, transparent);
+    }
+  }
+
+  .driver-popover-navigation-btns button + button {
+    margin-left: 0;
+  }
+
+  .driver-popover-footer .driver-popover-btn-disabled {
+    opacity: 0.38;
+  }
+
+  // The app's focus ring, on the popover's buttons.
+  .driver-popover-footer-btn:focus-visible,
+  .driver-popover-close-btn:focus-visible {
+    outline: 3px solid var(--oc-focus-ring);
+    outline-offset: 2px;
+  }
+  .driver-popover-footer-btn:focus:not(:focus-visible) {
+    background-color: transparent;
+  }
+}
+
+// No fading in and out for people who asked for less motion (the engine
+// also turns driver.js's own animation off).
+@media (prefers-reduced-motion: reduce) {
+  .driver-fade .driver-overlay,
+  .driver-fade .driver-popover {
+    animation: none;
+  }
+}

@@ -2017,5 +2017,195 @@
   "yesNoSwitch": {
     "no": "No",
     "yes": "Sí"
+  },
+  "tours": {
+    "menuEntry": "Hacer el recorrido",
+    "dialog": {
+      "title": "Recorridos guiados",
+      "text": "Elige un recorrido: unos pasos que te señalan lo que hay en la pantalla."
+    },
+    "list": {
+      "discover": {
+        "title": "Descubre OpenCaves",
+        "description": "El mapa, la ficha de una cueva y las páginas principales."
+      },
+      "install": {
+        "title": "Instalar la aplicación",
+        "description": "Agrega OpenCaves a tu pantalla de inicio o a tu computadora."
+      },
+      "offline": {
+        "title": "Usarla sin conexión",
+        "description": "Guarda cuevas, fotos y topografías para el sitio de buceo."
+      },
+      "whatsNew": {
+        "title": "Novedades",
+        "description": "Los últimos cambios, y cómo filtrarlos."
+      }
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "back": "Atrás",
+      "done": "Listo",
+      "close": "Cerrar el recorrido"
+    },
+    "progress": "{{current}} de {{total}}",
+    "steps": {
+      "discover": {
+        "welcome": {
+          "title": "Bienvenido a OpenCaves",
+          "text": "OpenCaves es un mapa de cuevas para el buceo en cuevas: sus entradas, sistemas, topografías y fotos. Te mostramos lo principal."
+        },
+        "search": {
+          "title": "Encuentra una cueva",
+          "text": "Escribe el nombre de una cueva, o uno de sus otros nombres, para encontrarla y abrirla en el mapa."
+        },
+        "pins": {
+          "title": "Las cuevas en el mapa",
+          "text": "Cada marcador es una cueva, del color de su sistema. Selecciona uno para abrir su ficha."
+        },
+        "filters": {
+          "title": "Filtros",
+          "text": "Muestra solo las cuevas que quieras: según lo segura que sea su ubicación, si son entradas de un sistema, por zona, acceso y accesibilidad."
+        },
+        "caveLayer": {
+          "title": "Capas del mapa",
+          "text": "Muestra las galerías trazadas a partir de las topografías: de todos los sistemas o solo el de la cueva abierta, del color de cada sistema o de uno solo."
+        },
+        "legend": {
+          "title": "Leyenda",
+          "text": "Lo que significan las líneas y símbolos de las galerías: paredes, agua, líneas guía, profundidades, entradas y más. Pliégala con su encabezado."
+        },
+        "cave": {
+          "title": "La ficha de una cueva",
+          "text": "Al abrir una cueva ves lo que se sabe de ella: sus fotos, su ubicación, acceso y tarifas, su sistema y su historia."
+        },
+        "quickActions": {
+          "title": "Cómo llegar, Guardar, Compartir",
+          "text": "Obtén indicaciones hasta la cueva o su estacionamiento, guárdala en tu cuenta (queda entonces en este dispositivo para usarla sin conexión) o comparte su enlace."
+        },
+        "media": {
+          "title": "Fotos, videos y topografías",
+          "text": "Mira las fotos y videos de la cueva y las topografías de su sistema, y abre una en pantalla completa. Con tu cuenta, puedes agregar las tuyas."
+        },
+        "coordinates": {
+          "title": "Ubicación",
+          "text": "La dirección y las coordenadas de la cueva, y las de su estacionamiento y su entrada si se conocen: selecciona una para copiarla, u obtén indicaciones."
+        },
+        "pages": {
+          "bar": {
+            "title": "Las páginas de la aplicación",
+            "text": "Cuevas lista todas las cuevas por zona, Sistemas todos los sistemas, ¿Qué puedo hacer? muestra cómo ayudar, y Novedades los últimos cambios."
+          },
+          "drawer": {
+            "title": "Las páginas de la aplicación",
+            "text": "Este menú lleva al mapa, a Cuevas (todas las cuevas por zona), a Sistemas, a ¿Qué puedo hacer? (cómo ayudar) y a Novedades (los últimos cambios)."
+          }
+        },
+        "account": {
+          "member": {
+            "title": "Tu cuenta",
+            "text": "El menú de tu cuenta: tu perfil y tus cuevas guardadas, tus ajustes, las descargas sin conexión y estos recorridos."
+          },
+          "visitor": {
+            "title": "Participa",
+            "text": "Inicia sesión o crea una cuenta gratuita para guardar cuevas, calificarlas y agregar fotos, topografías y correcciones."
+          }
+        },
+        "feedback": {
+          "title": "Comentarios",
+          "text": "OpenCaves está en beta: cuéntanos de un error, algo engañoso o una idea, desde cualquier página."
+        },
+        "end": {
+          "title": "¡Listo!",
+          "text": "Haz otro recorrido cuando quieras desde el menú: Hacer el recorrido. ¡Buenas inmersiones!"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Ya instalada",
+          "text": "Estás usando la aplicación OpenCaves instalada: se abre desde su propio ícono y funciona sin conexión con lo que guardaste."
+        },
+        "why": {
+          "title": "Instala OpenCaves",
+          "text": "Instalada, OpenCaves tiene su propio ícono en tu pantalla de inicio o tu computadora, se abre en su propia ventana y está lista en el sitio de buceo, incluso sin conexión."
+        },
+        "how": {
+          "chromium": {
+            "title": "Cómo instalarla",
+            "text": "Haz clic en el ícono de instalar al final de la barra de direcciones y luego en Instalar. O busca Instalar en el menú del navegador (Chrome: Transmitir, guardar y compartir; Edge: Aplicaciones)."
+          },
+          "android": {
+            "title": "Cómo instalarla",
+            "text": "En Chrome, abre el menú (los tres puntos), toca Agregar a la pantalla principal o Instalar aplicación, y confirma."
+          },
+          "ios": {
+            "title": "Cómo instalarla",
+            "text": "En Safari, toca Compartir (el cuadrado con una flecha), luego Agregar a inicio y luego Agregar."
+          },
+          "safari": {
+            "title": "Cómo instalarla",
+            "text": "En Safari, elige Archivo, luego Agregar al Dock y luego Agregar."
+          },
+          "other": {
+            "title": "Cómo instalarla",
+            "text": "Este navegador no puede instalar aplicaciones web. Para instalar OpenCaves, ábrela en Chrome o Edge (en computadora o Android), o en Safari (en iPhone, iPad o Mac)."
+          }
+        },
+        "updates": {
+          "title": "Actualizaciones",
+          "text": "La aplicación se mantiene al día: busca una nueva versión de vez en cuando y, cuando hay una lista, un mensaje te ofrece actualizar."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "Usarla sin conexión",
+          "text": "¿Sin señal en el sitio de buceo? OpenCaves sigue funcionando: las fichas de las cuevas se quedan en tu dispositivo, con las fotos y topografías que ya viste. Así puedes guardar más."
+        },
+        "previews": {
+          "title": "Hacer disponible sin conexión",
+          "text": "En el menú: actívalo para descargar la foto de vista previa de cada cueva, todas las topografías y las galerías, con Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Guarda una cueva",
+            "text": "Guardar una cueva la deja completa en este dispositivo: sus fotos, las topografías de su sistema y las galerías de alrededor, descargadas con Wi-Fi."
+          },
+          "visitor": {
+            "title": "Guarda una cueva",
+            "text": "Con una cuenta gratuita, guardar una cueva la deja completa en este dispositivo: sus fotos, las topografías de su sistema y las galerías de alrededor."
+          }
+        },
+        "savedCaves": {
+          "title": "Tus cuevas guardadas",
+          "text": "La página de tu cuenta lista las cuevas que guardaste, y si cada una está lista sin conexión."
+        },
+        "storage": {
+          "title": "Almacenamiento sin conexión",
+          "text": "Lo que OpenCaves guarda en este dispositivo. Borra las fotos y topografías descargadas cuando necesites espacio: tus cuevas guardadas siguen guardadas."
+        },
+        "whileOffline": {
+          "title": "Sin conexión",
+          "text": "El mapa, las fichas de las cuevas y lo que guardaste funcionan como siempre, y un mensaje te avisa cuando estás sin conexión. Los cambios, fotos y topografías que agregues esperan en el dispositivo y se sincronizan al volver la conexión."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "Novedades",
+          "text": "Las cuevas, sistemas, conexiones, topografías, fotos y videos añadidos, modificados o retirados recientemente, los más nuevos primero."
+        },
+        "kinds": {
+          "title": "Qué cambió",
+          "text": "Muestra solo algunos contenidos: elige uno o varios, y Todo los vuelve a mostrar todos. Cada uno cuenta sus cambios."
+        },
+        "changes": {
+          "title": "Cómo cambió",
+          "text": "Añadidos, modificados o retirados. Tus filtros quedan en la dirección de la página: puedes guardar esta vista en favoritos o compartirla."
+        },
+        "entry": {
+          "title": "Una entrada",
+          "text": "Qué cambió, y quién lo hizo. Ábrela para ir a la cueva, al sistema o a la topografía."
+        }
+      }
+    }
   }
 }

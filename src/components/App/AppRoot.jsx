@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { debounce } from 'lodash'
 import AboutDialog from './AboutDialog.jsx'
 import FeedbackDialog from '@/components/Feedback/FeedbackDialog.jsx'
+import ToursDialog from '@/components/Tours/ToursDialog.jsx'
 import AuthPromptDialog from '@/components/auth/AuthPromptDialog.jsx'
 import FeedbackTab from '@/components/Feedback/FeedbackTab.jsx'
 import RouteSeo from '@/components/Seo/RouteSeo.jsx'
@@ -40,6 +41,8 @@ export default function AppRoot() {
       <AboutDialog />
       {/* Send feedback, over any page (openFeedback). */}
       <FeedbackDialog />
+      {/* Take the tour, over any page (openToursDialog). */}
+      <ToursDialog />
       <AuthPromptDialog />
       <FeedbackTab />
       <Outlet />

@@ -2016,5 +2016,195 @@
   "yesNoSwitch": {
     "no": "Non",
     "yes": "Oui"
+  },
+  "tours": {
+    "menuEntry": "Faire la visite",
+    "dialog": {
+      "title": "Visites guidées",
+      "text": "Choisissez une visite : quelques étapes qui vous montrent ce qu'il y a à l'écran."
+    },
+    "list": {
+      "discover": {
+        "title": "Découvrir OpenCaves",
+        "description": "La carte, la fiche d'une grotte et les pages principales."
+      },
+      "install": {
+        "title": "Installer l'application",
+        "description": "Ajoutez OpenCaves à votre écran d'accueil ou à votre ordinateur."
+      },
+      "offline": {
+        "title": "L'utiliser hors ligne",
+        "description": "Gardez grottes, photos et topographies pour le site de plongée."
+      },
+      "whatsNew": {
+        "title": "Nouveautés",
+        "description": "Les derniers changements, et comment les filtrer."
+      }
+    },
+    "buttons": {
+      "next": "Suivant",
+      "back": "Retour",
+      "done": "Terminer",
+      "close": "Fermer la visite"
+    },
+    "progress": "{{current}} sur {{total}}",
+    "steps": {
+      "discover": {
+        "welcome": {
+          "title": "Bienvenue sur OpenCaves",
+          "text": "OpenCaves cartographie les grottes pour la plongée souterraine : leurs entrées, leurs réseaux, leurs topographies et leurs photos. Petit tour du propriétaire."
+        },
+        "search": {
+          "title": "Trouver une grotte",
+          "text": "Tapez le nom d'une grotte, ou l'un de ses autres noms, pour la trouver et l'ouvrir sur la carte."
+        },
+        "pins": {
+          "title": "Les grottes sur la carte",
+          "text": "Chaque repère est une grotte, à la couleur de son réseau. Sélectionnez-en un pour ouvrir sa fiche."
+        },
+        "filters": {
+          "title": "Filtres",
+          "text": "N'affichez que les grottes voulues : selon la fiabilité de leur position, si ce sont des entrées de réseau, par région, accès et accessibilité."
+        },
+        "caveLayer": {
+          "title": "Couches de la carte",
+          "text": "Affichez les galeries tracées d'après les topographies : de tous les réseaux ou seulement celui de la grotte ouverte, à la couleur de chaque réseau ou d'une seule."
+        },
+        "legend": {
+          "title": "Légende",
+          "text": "Ce que veulent dire les traits et symboles des galeries : parois, eau, fils d'Ariane, profondeurs, entrées et plus. Repliez-la par son en-tête."
+        },
+        "cave": {
+          "title": "La fiche d'une grotte",
+          "text": "Ouvrir une grotte montre ce qu'on en sait : ses photos, sa position, son accès et ses tarifs, son réseau et son historique."
+        },
+        "quickActions": {
+          "title": "Itinéraire, Sauvegarder, Partager",
+          "text": "Obtenez l'itinéraire vers la grotte ou son stationnement, sauvegardez-la dans votre compte (elle est alors gardée sur cet appareil pour l'utiliser hors ligne), ou partagez son lien."
+        },
+        "media": {
+          "title": "Photos, vidéos et topographies",
+          "text": "Parcourez les photos et vidéos de la grotte et les topographies de son réseau, et ouvrez-en une en plein écran. Une fois connecté, vous pouvez ajouter les vôtres."
+        },
+        "coordinates": {
+          "title": "Position",
+          "text": "L'adresse et les coordonnées de la grotte, et celles de son stationnement et de son entrée si on les connaît : sélectionnez-en une pour la copier, ou obtenez l'itinéraire."
+        },
+        "pages": {
+          "bar": {
+            "title": "Les pages de l'application",
+            "text": "Grottes liste toutes les grottes par région, Réseaux tous les réseaux, Que puis-je faire ? montre comment aider, et Nouveautés les derniers changements."
+          },
+          "drawer": {
+            "title": "Les pages de l'application",
+            "text": "Ce menu mène à la carte, à Grottes (toutes les grottes par région), à Réseaux, à Que puis-je faire ? (comment aider) et à Nouveautés (les derniers changements)."
+          }
+        },
+        "account": {
+          "member": {
+            "title": "Votre compte",
+            "text": "Le menu de votre compte : votre profil et vos grottes sauvegardées, vos réglages, les téléchargements hors ligne, et ces visites."
+          },
+          "visitor": {
+            "title": "Participez",
+            "text": "Connectez-vous ou créez un compte gratuit pour sauvegarder des grottes, les noter, et ajouter photos, topographies et corrections."
+          }
+        },
+        "feedback": {
+          "title": "Commentaires",
+          "text": "OpenCaves est en bêta : signalez-nous un bogue, une information trompeuse ou une idée, depuis n'importe quelle page."
+        },
+        "end": {
+          "title": "À vous de jouer",
+          "text": "Refaites une visite quand vous voulez depuis le menu : Faire la visite. Bonnes plongées !"
+        }
+      },
+      "install": {
+        "installed": {
+          "title": "Déjà installée",
+          "text": "Vous utilisez l'application OpenCaves installée : elle s'ouvre depuis sa propre icône et fonctionne hors ligne avec ce que vous avez gardé."
+        },
+        "why": {
+          "title": "Installer OpenCaves",
+          "text": "Installée, OpenCaves a sa propre icône sur votre écran d'accueil ou votre ordinateur, s'ouvre dans sa propre fenêtre et reste prête sur le site de plongée, même sans connexion."
+        },
+        "how": {
+          "chromium": {
+            "title": "Comment l'installer",
+            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse, puis sur Installer. Ou cherchez Installer dans le menu du navigateur (Chrome : Caster, enregistrer et partager ; Edge : Applications)."
+          },
+          "android": {
+            "title": "Comment l'installer",
+            "text": "Dans Chrome, ouvrez le menu (les trois points), touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez."
+          },
+          "ios": {
+            "title": "Comment l'installer",
+            "text": "Dans Safari, touchez Partager (le carré avec une flèche), puis Sur l'écran d'accueil, puis Ajouter."
+          },
+          "safari": {
+            "title": "Comment l'installer",
+            "text": "Dans Safari, choisissez Fichier, puis Ajouter au Dock, puis Ajouter."
+          },
+          "other": {
+            "title": "Comment l'installer",
+            "text": "Ce navigateur ne peut pas installer d'applications web. Pour installer OpenCaves, ouvrez-la dans Chrome ou Edge (sur ordinateur ou Android), ou dans Safari (sur iPhone, iPad ou Mac)."
+          }
+        },
+        "updates": {
+          "title": "Mises à jour",
+          "text": "L'application se tient à jour : elle vérifie de temps en temps s'il y a une nouvelle version et, quand il y en a une, un message propose d'actualiser."
+        }
+      },
+      "offline": {
+        "intro": {
+          "title": "L'utiliser hors ligne",
+          "text": "Pas de réseau sur le site de plongée ? OpenCaves continue de fonctionner : les fiches des grottes restent sur votre appareil, avec les photos et topographies déjà consultées. Voici comment en garder plus."
+        },
+        "previews": {
+          "title": "Rendre disponible hors ligne",
+          "text": "Dans le menu : activez cette option pour télécharger la photo d'aperçu de chaque grotte, toutes les topographies et les galeries, en Wi-Fi."
+        },
+        "save": {
+          "member": {
+            "title": "Sauvegarder une grotte",
+            "text": "Sauvegarder une grotte la garde tout entière sur cet appareil : ses photos, les topographies de son réseau et les galeries autour, téléchargées en Wi-Fi."
+          },
+          "visitor": {
+            "title": "Sauvegarder une grotte",
+            "text": "Avec un compte gratuit, sauvegarder une grotte la garde tout entière sur cet appareil : ses photos, les topographies de son réseau et les galeries autour."
+          }
+        },
+        "savedCaves": {
+          "title": "Vos grottes sauvegardées",
+          "text": "La page de votre compte liste les grottes que vous avez sauvegardées, et si chacune est prête hors ligne."
+        },
+        "storage": {
+          "title": "Stockage hors ligne",
+          "text": "Ce qu'OpenCaves garde sur cet appareil. Effacez les photos et topographies téléchargées quand il vous faut de la place : vos grottes sauvegardées le restent."
+        },
+        "whileOffline": {
+          "title": "Hors ligne",
+          "text": "La carte, les fiches des grottes et ce que vous avez gardé fonctionnent comme d'habitude, et un message vous dit quand vous êtes hors ligne. Les changements, photos et topographies que vous ajoutez attendent sur l'appareil et se synchronisent au retour de la connexion."
+        }
+      },
+      "whatsNew": {
+        "page": {
+          "title": "Nouveautés",
+          "text": "Les grottes, réseaux, connexions, topographies, photos et vidéos récemment ajoutés, modifiés ou retirés, les plus récents d'abord."
+        },
+        "kinds": {
+          "title": "Ce qui a changé",
+          "text": "N'affichez que certains contenus : choisissez-en un ou plusieurs, et Tout les réaffiche tous. Chacun compte ses changements."
+        },
+        "changes": {
+          "title": "Comment ça a changé",
+          "text": "Ajouts, modifications ou retraits. Vos filtres restent dans l'adresse de la page : vous pouvez garder cette vue en favori ou la partager."
+        },
+        "entry": {
+          "title": "Une entrée",
+          "text": "Ce qui a changé, et qui l'a fait. Ouvrez-la pour aller à la grotte, au réseau ou à la topographie."
+        }
+      }
+    }
   }
 }
