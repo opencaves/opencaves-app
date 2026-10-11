@@ -313,7 +313,7 @@ export default function WhatsNew() {
                       ))}
                     </Box>
                   ) : (
-                    <Box sx={{ width: 56, display: 'flex', justifyContent: 'center', color: row.change === 'removed' ? 'text.disabled' : 'primary.main', flexShrink: 0, '& svg': { fontSize: 28 } }}>{row.icon}</Box>
+                    <Box sx={{ width: 56, display: 'flex', justifyContent: 'center', color: row.change === 'removed' ? 'text.disabled' : 'primary.main', flexShrink: 0, '& svg': { fontSize: 34 } }}>{row.icon}</Box>
                   )}
                   <Box sx={{ minWidth: 0 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', columnGap: 1, rowGap: 0.25 }}>
