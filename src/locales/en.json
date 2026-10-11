@@ -1647,6 +1647,7 @@
       "fees": "fees",
       "textSources": "text sources",
       "color": "colour",
+      "exploredLength": "distance explored",
       "length": "distance explored",
       "maxDepth": "max depth",
       "public": "visibility",

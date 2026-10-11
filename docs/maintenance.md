@@ -111,6 +111,23 @@ which each reader sees in their units. A conversion written next to a length
 `--write` it only lists the changes: read them before saving. Re-runnable.
 A sync from the Google Sheet brings the untagged text back: run it again after.
 
+## Rename the systems' explored length
+
+```
+node scripts/rename-sistema-length.js -l           # local emulators: dry run, lists the systems
+node scripts/rename-sistema-length.js -l --write   # saves them
+node scripts/rename-sistema-length.js -p           # production (dry run; add --write to save)
+```
+
+A cave system's total explored length (metres) was stored as `length`; it is
+now `exploredLength`. The script copies each system's `length` to
+`exploredLength` (one already there wins) and removes `length`. The app reads
+`exploredLength`, falling back to `length`, and its edit form saves
+`exploredLength`: run it before or after deploying. Re-runnable. In
+production the audit log doesn't record these Admin SDK writes; the local
+emulators do (author "emulator"), so What's new lists them there until those
+entries are deleted.
+
 ## Move the feedback reports' private fields
 
 ```
