@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -47,6 +47,33 @@ const sourcesModel = createCollectionModel('sources')
 const accessesModel = createCollectionModel('accesses')
 const accessibilitiesModel = createCollectionModel('accessibilities')
 const languagesModel = createCollectionModel('languages')
+
+// Each stored field and the form's inputs it's made from: a field is written
+// only when one of its inputs changed (handleSave).
+const FIELD_INPUTS = {
+  name: ['name'],
+  sistemaId: ['sistemaId'],
+  source: ['source'],
+  access: ['access'],
+  accessDetails: ['accessDetails'],
+  accessibility: ['accessibility'],
+  accessibilityDetails: ['accessibilityDetails'],
+  description: ['description'],
+  direction: ['direction'],
+  cenoteEntrance: ['cenoteEntrance'],
+  fees: ['fees'],
+  facilities: ['facilities'],
+  explorationDate: ['explorationDate'],
+  reporter: ['reporter'],
+  note: ['note'],
+  aka: ['aka'],
+  videos: ['videos'],
+  nameTranslations: ['nameTranslations'],
+  location: ['longitude', 'latitude', 'locationValidity'],
+  parking: ['parkingLongitude', 'parkingLatitude', 'parkingValidity'],
+  entrance: ['entranceLongitude', 'entranceLatitude', 'entranceValidity'],
+  keys: ['keyLongitude', 'keyLatitude', 'keyValidity'],
+}
 
 const emptyForm = {
   name: '',
@@ -129,6 +156,8 @@ export default function CaveEdit() {
   // actually clear it instead of just being silently omitted.
   const [originalCave, setOriginalCave] = useState(null)
   const { isDirty, setBaseline, discardChanges, unsavedChangesDialog } = useUnsavedChanges(form, { onSave: handleSave, canSave: !nameMissing && caveCoordinatesInRange(form), within: `/caves/${caveId}/edit` })
+  // The form as loaded or last saved, to write only what changed since.
+  const savedForm = useRef(null)
 
   useEffect(() => {
     let cancelled = false
@@ -182,6 +211,7 @@ export default function CaveEdit() {
       }
       setForm(loaded)
       setBaseline(loaded)
+      savedForm.current = loaded
       setLoading(false)
     }
 
@@ -205,7 +235,7 @@ export default function CaveEdit() {
   }
 
   async function handleSave() {
-    const savedForm = form
+    const formSaved = form
     setSaving(true)
     try {
       const fields = {
@@ -274,9 +304,20 @@ export default function CaveEdit() {
         fields.nameTranslations = nameTranslationsUpdate
       }
 
+      // An existing cave: only the fields the form changed. Not the form's
+      // defaults for fields it doesn't have - a rename would otherwise also
+      // turn an unknown fee into "no fee", and the audit log (What's new)
+      // list fees as changed.
+      if (!isNew && savedForm.current) {
+        for (const [key, inputs] of Object.entries(FIELD_INPUTS)) {
+          if (inputs.every((input) => JSON.stringify(form[input]) === JSON.stringify(savedForm.current[input]))) delete fields[key]
+        }
+      }
+
       // Offline, kept on the device and synced later (useSettleWrite says so).
       const status = await settleWrite(CaveModel.save(caveId, fields), { name: t('caveTitle', { name: form.name || originalCave?.name?.value || caveId }) })
-      setBaseline(savedForm)
+      setBaseline(formSaved)
+      savedForm.current = formSaved
       setIsNew(false)
       // Stays on the form after saving. The saved doc becomes the new
       // baseline for the next save's nameTranslations diff. Awaited once the
