@@ -21,12 +21,7 @@ const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]
 
 // Whether to ask: a device not asked yet. A browser that keeps nothing
 // (private mode, blocked storage) is never asked - better than on every visit.
-// TEMPORARY (development): on the dev server, the prompt opens on every
-// visit (still not over the skipped paths) - remove before merging.
-const ALWAYS_PROMPT_IN_DEV = import.meta.env.DEV
-
 function firstVisit() {
-  if (ALWAYS_PROMPT_IN_DEV) return true
   try {
     return window.localStorage.getItem(SEEN_KEY) === null
   } catch {

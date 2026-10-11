@@ -66,8 +66,9 @@ export function useNavItems() {
  * The phone's navigation drawer, opened from the app bar's menu button or the
  * map search bar's: its header (the logo and title, a link home, and a close
  * button), the site's pages, then the dashboard (editors), then About, each
- * group set apart by a divider, then Take the tour (the guided tours'
- * dialog) and the language. No Home item: the header links there.
+ * group set apart by a divider - Take the tour (the guided tours' dialog)
+ * just over What's new - then the language. No Home item: the header links
+ * there.
  *
  * @param {object} props
  * @param {boolean} props.open
@@ -112,6 +113,18 @@ export default function NavDrawer({ open, onClose, zIndex }) {
             {items.map(({ key, to, icon, onClick }) => (
               <Fragment key={key}>
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}
+                {/* The guided tours (a dialog listing them), over What's new.
+                    The drawer closes on any click in it. */}
+                {key === 'whatsNew' && (
+                  <ListItem disablePadding>
+                    <ListItemButton className="oc-nav-drawer--tours" onClick={openToursDialog}>
+                      <ListItemIcon>
+                        <TourRounded />
+                      </ListItemIcon>
+                      <ListItemText primary={tTours('menuEntry')} />
+                    </ListItemButton>
+                  </ListItem>
+                )}
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={to} onClick={onClick} selected={Boolean(current(to))} aria-current={current(to)}>
                     {/* The Map entry's icon in the app's gold, as in the app bar. */}
@@ -121,16 +134,6 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 </ListItem>
               </Fragment>
             ))}
-            {/* The guided tours (a dialog listing them). The drawer closes
-                on any click in it. */}
-            <ListItem disablePadding>
-              <ListItemButton className="oc-nav-drawer--tours" onClick={openToursDialog}>
-                <ListItemIcon>
-                  <TourRounded />
-                </ListItemIcon>
-                <ListItemText primary={tTours('menuEntry')} />
-              </ListItemButton>
-            </ListItem>
             <ListItem disablePadding>
               <LanguageListItem />
             </ListItem>
