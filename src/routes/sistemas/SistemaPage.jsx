@@ -136,6 +136,7 @@ export default function SistemaPage() {
   return (
     <div className="oc-sistema-page">
       <IndexPageHeader
+        sticky
         trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }, { label: t('menu.sistemas', { ns: 'app' }), to: '/sistemas' }]}
         current={sistema.name}
         title={
