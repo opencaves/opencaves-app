@@ -21,7 +21,12 @@ const SKIPPED_PATHS = /^\/(login|signup|dev)(\/|$)|^\/(caves|sistemas|map)\/[^/]
 
 // Whether to ask: a device not asked yet. A browser that keeps nothing
 // (private mode, blocked storage) is never asked - better than on every visit.
+// TEMPORARY (development): on the dev server, the prompt opens on every
+// visit (still not over the skipped paths) - remove before merging.
+const ALWAYS_PROMPT_IN_DEV = import.meta.env.DEV
+
 function firstVisit() {
+  if (ALWAYS_PROMPT_IN_DEV) return true
   try {
     return window.localStorage.getItem(SEEN_KEY) === null
   } catch {
@@ -86,26 +91,41 @@ export default function TourPrompt() {
     startTour(MAIN_TOUR_ID)
   }
 
+  // M3's dialog with a hero icon: its container (surface container high,
+  // extra-large 28dp corners, 24dp in), the icon and the headline centred
+  // (headline small), the text in body large in the full text colour for
+  // easy reading, the menu's hint a step quieter, the actions at the end.
   return (
-    <Dialog className="oc-tour-prompt" open={open} onClose={() => close(false)} maxWidth="xs" fullWidth aria-labelledby="oc-tour-prompt-title" aria-describedby="oc-tour-prompt-text" slotProps={{ transition: { onExited } }}>
+    <Dialog
+      className="oc-tour-prompt"
+      open={open}
+      onClose={() => close(false)}
+      fullWidth
+      aria-labelledby="oc-tour-prompt-title"
+      aria-describedby="oc-tour-prompt-text"
+      slotProps={{
+        transition: { onExited },
+        paper: { sx: (theme) => ({ maxWidth: 440, borderRadius: '28px', bgcolor: theme.vars.sys.color.surfaceContainerHigh, backgroundImage: 'none' }) },
+      }}
+    >
       {/* The app's rule: an X on every dialog. */}
       <DialogCloseButton onClick={() => close(false)} />
-      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
-        <LogoIcon sx={{ width: 48, height: 48 }} />
+      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
+        <LogoIcon sx={{ width: 56, height: 56 }} />
       </Box>
-      <DialogTitle id="oc-tour-prompt-title" sx={{ textAlign: 'center', pb: 1 }}>
+      <DialogTitle id="oc-tour-prompt-title" sx={{ textAlign: 'center', px: 3, pt: 2, pb: 2, fontSize: '1.5rem', lineHeight: '2rem', fontWeight: 400 }}>
         {t('title', { name: APP_NAME })}
       </DialogTitle>
-      <DialogContent sx={{ textAlign: 'center' }}>
-        <Typography id="oc-tour-prompt-text" color="text.secondary">
+      <DialogContent sx={{ px: 3, pb: 1 }}>
+        <Typography id="oc-tour-prompt-text" sx={{ fontSize: '1rem', lineHeight: 1.5, color: 'text.primary', textAlign: 'center' }}>
           {t('text')}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
+        <Typography sx={{ mt: 2, fontSize: '0.875rem', lineHeight: 1.43, color: 'text.secondary', textAlign: 'center' }}>
           {t('hint')}
         </Typography>
       </DialogContent>
       {/* Side by side; stacked on a narrow phone, the main action on top. */}
-      <DialogActions sx={{ px: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap' } }}>
+      <DialogActions sx={{ px: 3, pt: 3, pb: 3, gap: 1, flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: 'stretch', '& > :not(style) ~ :not(style)': { ml: 0 }, '& .MuiButton-root': { whiteSpace: 'nowrap', minHeight: 40, px: 3, fontSize: '0.875rem', borderRadius: '20px', textTransform: 'none' } }}>
         <Button onClick={() => close(false)} sx={{ color: 'var(--mui-sys-color-primary)' }}>
           {t('notNow')}
         </Button>

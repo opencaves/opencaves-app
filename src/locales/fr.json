@@ -2032,17 +2032,13 @@
     },
     "buttons": {
       "next": "Suivant",
-      "back": "Retour",
+      "back": "Précédent",
       "done": "Terminer",
       "close": "Fermer la visite"
     },
     "progress": "{{current}} sur {{total}}",
     "steps": {
       "discover": {
-        "welcome": {
-          "title": "Bienvenue sur OpenCaves",
-          "text": "OpenCaves cartographie les grottes pour la plongée souterraine : leurs entrées, leurs réseaux, leurs topographies et leurs photos. Petit tour du propriétaire."
-        },
         "search": {
           "title": "Trouver une grotte",
           "text": "Tapez le nom d'une grotte, ou l'un de ses autres noms, pour la trouver et l'ouvrir sur la carte."
@@ -2051,21 +2047,18 @@
           "title": "Les grottes sur la carte",
           "text": "Chaque repère est une grotte, à la couleur de son réseau. Sélectionnez-en un pour ouvrir sa fiche."
         },
+        "filterButton": {
+          "title": "Le bouton des filtres",
+          "text": "Le bouton des filtres de la barre de recherche ouvre les filtres, pour choisir les grottes que la carte affiche."
+        },
         "filters": {
           "title": "Filtres",
-          "text": "N'affichez que les grottes voulues : selon la fiabilité de leur position, si ce sont des entrées de réseau, par région, accès et accessibilité."
+          "text": "Choisissez les grottes que la carte affiche : par zone, type de grotte, accès et accessibilité. Les grottes dont l'emplacement n'est pas encore confirmé sont masquées : activez Afficher les coordonnées non confirmées pour les voir aussi."
         },
         "caveLayer": {
           "title": "Couches de la carte",
-          "text": "Affichez les galeries tracées d'après les topographies : de tous les réseaux ou seulement celui de la grotte ouverte, à la couleur de chaque réseau ou d'une seule."
-        },
-        "legend": {
-          "title": "Légende",
-          "text": "Ce que veulent dire les traits et symboles des galeries : parois, eau, fils d'Ariane, profondeurs, entrées et plus. Repliez-la par son en-tête."
-        },
-        "cave": {
-          "title": "La fiche d'une grotte",
-          "text": "Ouvrir une grotte montre ce qu'on en sait : ses photos, sa position, son accès et ses tarifs, son réseau et son historique."
+          "text": "Affichez les galeries tracées d'après les topographies : de tous les réseaux ou seulement celui de la grotte ouverte, à la couleur de chaque réseau ou d'une seule.",
+          "showMe": "Montrez-moi"
         },
         "quickActions": {
           "title": "Itinéraire, Sauvegarder, Partager",
@@ -2074,20 +2067,6 @@
         "media": {
           "title": "Photos, vidéos et topographies",
           "text": "Parcourez les photos et vidéos de la grotte et les topographies de son réseau, et ouvrez-en une en plein écran. Une fois connecté, vous pouvez ajouter les vôtres."
-        },
-        "coordinates": {
-          "title": "Position",
-          "text": "L'adresse et les coordonnées de la grotte, et celles de son stationnement et de son entrée si on les connaît : sélectionnez-en une pour la copier, ou obtenez l'itinéraire."
-        },
-        "pages": {
-          "bar": {
-            "title": "Les pages de l'application",
-            "text": "Grottes liste toutes les grottes par région, Réseaux tous les réseaux, Que puis-je faire ? montre comment aider, et Nouveautés les derniers changements."
-          },
-          "drawer": {
-            "title": "Les pages de l'application",
-            "text": "Ce menu mène à la carte, à Grottes (toutes les grottes par région), à Réseaux, à Que puis-je faire ? (comment aider) et à Nouveautés (les derniers changements)."
-          }
         },
         "account": {
           "member": {
@@ -2099,9 +2078,61 @@
             "text": "Connectez-vous ou créez un compte gratuit pour sauvegarder des grottes, les noter, et ajouter photos, topographies et corrections."
           }
         },
+        "whatsNew": {
+          "title": "Restez informé",
+          "text": "Les Nouveautés listent chaque grotte, réseau, topographie, photo et vidéo ajoutés, modifiés ou retirés, les plus récents d'abord.\n\nRevenez y voir les dernières : c'est dans le menu, Nouveautés.",
+          "tip": "Ouvrez le menu, en haut à gauche, puis Nouveautés."
+        },
+        "install": {
+          "chromium": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cliquez sur l'icône d'installation dans la barre d'adresse, puis sur Installer.",
+            "tip": "Là-haut : au bout de la barre d'adresse, une icône d'écran avec une flèche vers le bas.",
+            "imageAlt": "La barre d'adresse de Chrome : son icône d'installation, entourée"
+          },
+          "edge": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, cliquez sur l'icône Application disponible dans la barre d'adresse, puis sur Installer.",
+            "tip": "Là-haut : au bout de la barre d'adresse, une icône de carrés avec un plus.",
+            "imageAlt": "La barre d'adresse d'Edge : son icône Application disponible, entourée"
+          },
+          "android": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Chrome, touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez.",
+            "tip": "Là-haut : le menu de Chrome, ce sont les trois points [[dots]] en haut à droite.",
+            "imageAlt": "Le menu de Chrome : Ajouter à l'écran d'accueil, encerclé"
+          },
+          "firefoxAndroid": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, ouvrez le menu de Firefox, touchez Ajouter l'application à l'écran d'accueil, puis confirmez.",
+            "tip": "Le menu de Firefox, ce sont les trois points [[dots]] : en haut à droite, ou en bas si votre barre d'adresse y est."
+          },
+          "ios": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, touchez Partager dans Safari, puis Sur l'écran d'accueil, puis Ajouter.",
+            "tip": "Là-bas : Partager, c'est le carré avec une flèche, dans la barre de Safari (en haut sur iPad)."
+          },
+          "safari": {
+            "title": "Installer l'application",
+            "text": "Installez OpenCaves : son icône, sous la main sur le site de plongée même sans connexion, et toujours à jour (elle se met à jour toute seule).\n\nPour l'installer, choisissez Fichier, puis Ajouter au Dock, puis Ajouter.",
+            "tip": "Là-haut : le menu Fichier, dans la barre des menus en haut de l'écran."
+          },
+          "firefox": {
+            "title": "Installer l'application",
+            "text": "Firefox sur ordinateur ne peut pas installer d'applications web, sauf ses versions récentes sous Windows (une icône dans la barre d'adresse). Pour installer OpenCaves, qui se tient ensuite à jour toute seule, ouvrez-la dans Chrome ou Edge."
+          },
+          "other": {
+            "title": "Installer l'application",
+            "text": "Ce navigateur ne peut pas installer d'applications web. Pour installer OpenCaves, qui se tient ensuite à jour toute seule, ouvrez-la dans Chrome ou Edge (sur ordinateur ou Android), ou dans Safari (sur iPhone, iPad ou Mac)."
+          }
+        },
+        "offline": {
+          "title": "Disponible hors ligne",
+          "text": "Dans le menu, activez Rendre disponible hors ligne pour télécharger la photo d'aperçu de chaque grotte, chaque topographie et les galeries, en Wi-Fi : plus besoin de réseau sur le site de plongée."
+        },
         "feedback": {
           "title": "Commentaires",
-          "text": "OpenCaves est en bêta : signalez-nous un bogue, une information trompeuse ou une idée, depuis n'importe quelle page."
+          "text": "Un bogue, une information trompeuse, une idée ? Dites-le-nous depuis n'importe quelle page avec cet onglet."
         },
         "end": {
           "title": "À vous de jouer",
@@ -2120,11 +2151,11 @@
         "how": {
           "chromium": {
             "title": "Comment l'installer",
-            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse, puis sur Installer. Ou cherchez Installer dans le menu du navigateur (Chrome : Caster, enregistrer et partager ; Edge : Applications)."
+            "text": "Cliquez sur l'icône d'installation au bout de la barre d'adresse (un écran avec une flèche vers le bas), puis sur Installer. Ou dans le menu de Chrome : Caster, enregistrer et partager, puis Installer la page en tant qu'application."
           },
           "android": {
             "title": "Comment l'installer",
-            "text": "Dans Chrome, ouvrez le menu (les trois points), touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez."
+            "text": "Dans Chrome, ouvrez le menu (les trois points [[dots]]), touchez Ajouter à l'écran d'accueil ou Installer l'application, puis confirmez."
           },
           "ios": {
             "title": "Comment l'installer",
@@ -2137,6 +2168,18 @@
           "other": {
             "title": "Comment l'installer",
             "text": "Ce navigateur ne peut pas installer d'applications web. Pour installer OpenCaves, ouvrez-la dans Chrome ou Edge (sur ordinateur ou Android), ou dans Safari (sur iPhone, iPad ou Mac)."
+          },
+          "firefoxAndroid": {
+            "title": "Comment l'installer",
+            "text": "Dans Firefox, ouvrez le menu (les trois points [[dots]]), touchez Ajouter l'application à l'écran d'accueil, puis confirmez."
+          },
+          "firefox": {
+            "title": "Comment l'installer",
+            "text": "Firefox sur ordinateur ne peut pas installer d'applications web, sauf ses versions récentes sous Windows (une icône dans la barre d'adresse). Pour installer OpenCaves, ouvrez-le dans Chrome ou Edge."
+          },
+          "edge": {
+            "title": "Comment l'installer",
+            "text": "Cliquez sur l'icône Application disponible au bout de la barre d'adresse (des carrés avec un plus), puis sur Installer. Ou dans le menu : Applications, puis Installer ce site en tant qu'application."
           }
         },
         "updates": {
@@ -2197,8 +2240,8 @@
     },
     "prompt": {
       "title": "Bienvenue sur {{name}}",
-      "text": "Première fois ici ? Un petit tour guidé vous montre l'essentiel.",
-      "hint": "Les visites restent dans le menu : Faire la visite.",
+      "text": "Nouveau ici ? Faites une courte visite guidée pour découvrir ce que vous pouvez faire sur OpenCaves.",
+      "hint": "Vous pouvez lancer une visite à tout moment depuis le menu : Faire la visite.",
       "notNow": "Pas maintenant",
       "start": "Faire la visite"
     }

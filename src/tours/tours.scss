@@ -1,7 +1,8 @@
 // The guided tours' look (tourEngine.js): driver.js's popover as an M3 rich
-// tooltip - the surface container, on-surface text, a title in title small,
-// text buttons in the primary colour, 12px corners, elevation 2 - over a
-// dimming scrim. Colours are the theme's (--mui-*), so both themes follow.
+// tooltip, sized for reading - the surface container, a title in title
+// medium, its text in body large in the full text colour, text buttons in the
+// primary colour, 16px corners, elevation 3 - over a dimming scrim. Colours
+// are the theme's (--mui-*), so both themes follow.
 
 :root {
   // M3's scrim: black, dimming what isn't the step's element.
@@ -9,12 +10,15 @@
 }
 
 .driver-popover.oc-tour-popover {
+  // The title's words, its text and its tip start on one edge: the title's
+  // line arrow hangs in this indent.
+  --oc-tour-indent: 30px;
   box-sizing: border-box;
   min-width: 0;
   width: max-content;
-  max-width: min(320px, calc(100vw - 32px));
-  padding: 12px 16px 8px;
-  border-radius: 12px;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 16px 20px 12px;
+  border-radius: 16px;
   background-color: var(--mui-sys-color-surfaceContainer);
   color: var(--mui-palette-text-primary);
   box-shadow: var(--mui-shadows-3);
@@ -46,23 +50,88 @@
     border-right-color: transparent;
   }
 
-  // M3's title small; room on its right for the close button.
+  // A title a size up (18px, M3's title medium weight); room on its right
+  // for the close button.
+  // A line arrow before it (tourEngine.js's LINE_ARROW), in the secondary
+  // colour (the app's gold).
   .driver-popover-title {
-    margin: 0 32px 4px 0;
+    position: relative;
+    margin: 0 36px 8px 0;
+    padding-left: var(--oc-tour-indent);
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
   }
 
-  // M3's body medium, in on-surface-variant.
+  // A tip under the text (where to look): a tonal band in the secondary
+  // container's colours; its picture (the browser's control) under its line.
+  .oc-tour-tip {
+    display: block;
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    background-color: var(--mui-sys-color-secondaryContainer);
+    color: var(--mui-sys-color-onSecondaryContainer);
+    font-weight: 500;
+  }
+
+  .oc-tour-tip-image {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+
+  // In the indent, centred on the title's first line.
+  .oc-tour-title-arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 1.5rem;
+    color: var(--mui-palette-secondary-main);
+  }
+
+  // An icon in a step's text (tourEngine.js's INLINE_ICONS: the browser's
+  // menu button), the text's size, in a faint round button like the browser's.
+  .oc-tour-inline-icon {
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.1em;
+    padding: 0.1em;
+    vertical-align: -0.3em;
+    border-radius: 50%;
+    fill: currentColor;
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  .oc-tour-nowrap {
+    white-space: nowrap;
+  }
+
+  // A step's text's paragraphs (tourEngine.js), a little apart.
+  .oc-tour-paragraph {
+    display: block;
+
+    & + .oc-tour-paragraph {
+      margin-top: 12px;
+    }
+  }
+
+  // M3's body large, in the full text colour: easy to read over any page.
   .driver-popover-description {
+    margin-left: var(--oc-tour-indent);
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    letter-spacing: 0.015625rem;
-    color: var(--mui-palette-text-secondary);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.009375rem;
+    color: var(--mui-palette-text-primary);
   }
 
   .driver-popover-close-btn {
@@ -89,15 +158,15 @@
   }
 
   .driver-popover-footer {
-    margin-top: 8px;
+    margin-top: 16px;
     gap: 8px;
   }
 
   // M3's label medium, on-surface-variant.
   .driver-popover-progress-text {
     font-family: inherit;
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
     font-weight: 500;
     color: var(--mui-palette-text-secondary);
     white-space: nowrap;
@@ -108,13 +177,13 @@
   .driver-popover-footer-btn {
     min-width: 48px;
     height: 40px;
-    padding: 0 12px;
+    padding: 0 16px;
     border: 0;
     border-radius: 20px;
     background-color: transparent;
     color: var(--mui-sys-color-primary);
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     line-height: 1.25rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
@@ -155,4 +224,62 @@
   .driver-fade .driver-popover {
     animation: none;
   }
+}
+
+// A step's pointer (tourEngine.js): a large pointing hand outside the popover, in the
+// secondary colour (the app's gold), pointing at what's out of the page - in the room its marker
+// leaves (tourSteps.js's BROWSER_CONTROLS), the popover's own small arrow
+// hidden.
+.driver-popover.oc-tour-popover--pointer-up .driver-popover-arrow,
+.driver-popover.oc-tour-popover--pointer-down .driver-popover-arrow {
+  display: none;
+}
+.oc-tour-pointer {
+  position: absolute;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  pointer-events: none;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--mui-palette-secondary-main);
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.35));
+  }
+}
+.oc-tour-popover--pointer-up .oc-tour-pointer {
+  bottom: calc(100% + 4px);
+  animation: oc-tour-pointer-up 1.2s ease-in-out infinite;
+}
+.oc-tour-popover--pointer-down .oc-tour-pointer {
+  top: calc(100% + 4px);
+  left: calc(50% - 28px);
+  right: auto;
+  animation: oc-tour-pointer-down 1.2s ease-in-out infinite;
+
+  // The hand turned over: its finger pointing down.
+  svg {
+    transform: rotate(180deg);
+  }
+}
+@keyframes oc-tour-pointer-up {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes oc-tour-pointer-down {
+  50% {
+    transform: translateY(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oc-tour-pointer {
+    animation: none !important;
+  }
+}
+
+// A step with a tip: a wider popover, the tip and its picture larger.
+.driver-popover.oc-tour-popover:has(.oc-tour-tip) {
+  max-width: min(480px, calc(100vw - 32px));
 }
