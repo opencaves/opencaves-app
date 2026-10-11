@@ -25,7 +25,10 @@
   // The app's typeface (MUI's default theme's).
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 
+  // Its pointer, larger than driver.js's (5px): a 9px triangle, which
+  // driver.js places by its measured size.
   .driver-popover-arrow {
+    border-width: 9px;
     border-color: var(--mui-sys-color-surfaceContainer);
   }
   // driver.js's arrow: one coloured side (the others transparent).
@@ -72,8 +75,8 @@
     margin-top: 16px;
     padding: 16px 20px;
     border-radius: 12px;
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
     background-color: var(--mui-sys-color-secondaryContainer);
     color: var(--mui-sys-color-onSecondaryContainer);
     font-weight: 500;

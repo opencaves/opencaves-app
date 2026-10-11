@@ -292,7 +292,7 @@ export function runTour(tour, { navigate, t, store }) {
     overlayClickBehavior: () => {},
     stagePadding: STAGE_PADDING,
     stageRadius: STAGE_RADIUS,
-    popoverOffset: 8,
+    popoverOffset: 10,
     // What's pointed at is shown, not used, while the tour runs.
     disableActiveInteraction: true,
     showProgress: true,
