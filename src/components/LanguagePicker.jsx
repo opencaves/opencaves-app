@@ -106,7 +106,8 @@ export function LanguageListItem({ sx }) {
 }
 
 /**
- * A text button for a page's foot: the current language, opening the list.
+ * A text button for a page's foot (and the phone drawer's): the current
+ * language, opening the list.
  *
  * @param {object} props
  * @param {Sx} [props.sx]
