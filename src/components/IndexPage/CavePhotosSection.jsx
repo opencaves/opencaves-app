@@ -44,9 +44,12 @@ export default function CavePhotosSection({ caveId, title }) {
   const { height, gap, itemWidth: width, itemHeight } = PAGE_STRIP
   // One photo a column (a picture: the strip slices its <img>).
   const items = shown.map((photo, index) => (
-    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--picture oc-media-strip--item" sx={{ width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden', bgcolor: 'action.hover' }}>
+    <Box key={photo.id} className="oc-cave-page--photo oc-media-strip--picture oc-media-strip--item" sx={{ width, height: itemHeight, flexShrink: 0, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={RouterLink} to={photoPath(photo.id)} state={{ fromPage: true }} aria-label={t('cave.openPhoto', { n: index + 1 })} sx={{ display: 'block', width: '100%', height: '100%' }}>
-        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        {/* Its tint on the picture, not the box: on the cylinder the box is
+            over the photo's slices (its picture hidden), a tint there would
+            cover them. */}
+        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
     </Box>
   ))

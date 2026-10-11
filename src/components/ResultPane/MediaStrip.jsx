@@ -63,7 +63,11 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   const ownScrollbarsRef = useRef(null)
   const scrollbarsRef = callerScrollbarsRef ?? ownScrollbarsRef
   const rowRef = useRef(null)
+  // The snap guides, in the scrolled row; the slices, on a stage outside the
+  // scrolling (its track moved by the layout, in step with their bending).
   const sliceLayerRef = useRef(null)
+  const stageRef = useRef(null)
+  const trackRef = useRef(null)
   const cylinderOn = () => cylinder && !reducedMotion()
   // Above and below the strip: room for the zoomed cylinder.
   const zoomRoom = cylinderOn() ? Math.ceil((itemHeight * (zoom - 1)) / 2) : 0
@@ -112,7 +116,9 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     const view = scrollbarsRef.current?.view
     const row = rowRef.current
     const layer = sliceLayerRef.current
-    if (!view || !row || !layer || !cylinderOn()) return undefined
+    const stage = stageRef.current
+    const stageTrack = trackRef.current
+    if (!view || !row || !layer || !stage || !stageTrack || !cylinderOn()) return undefined
     const columnsOf = () => [...row.children].filter((column) => column !== layer)
     if (!columnsOf().length) return undefined
 
@@ -132,6 +138,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
     let tiles = []
     function build() {
       layer.replaceChildren()
+      stageTrack.replaceChildren()
       slices = []
       // CSS scroll snapping on each column's middle. Its snap points are the
       // targets' transformed boxes: the turned columns would shift them, so
@@ -143,7 +150,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }
       // A tile (a video, a map, "more photos", "add photos"): each slice a
       // copy of it, clipped to its strip - out of reach, the real one under it.
-      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')]).filter((tile) => !layer.contains(tile))
+      tiles = /** @type {HTMLElement[]} */ ([...row.querySelectorAll('.oc-media-strip--tile')])
       for (const tile of tiles) {
         tile.style.opacity = ''
         const { x, y } = rowOffset(tile)
@@ -162,12 +169,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
           // itself (turned, or hidden past a side).
           Object.assign(copy.style, { position: 'absolute', left: `${-sx}px`, top: '0', width: `${w}px`, height: `${h}px`, margin: '0', opacity: '', transform: 'none', visibility: 'visible', pointerEvents: 'none' })
           slice.append(copy)
-          layer.append(slice)
+          stageTrack.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
         tile.style.opacity = '0'
       }
-      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')]).filter((img) => !layer.contains(img))
+      images = /** @type {HTMLImageElement[]} */ ([...row.querySelectorAll('.oc-media-strip--picture img')])
       for (const img of images) {
         const box = /** @type {HTMLElement} */ (img.closest('.oc-media-strip--picture'))
         const src = img.currentSrc
@@ -197,7 +204,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
             backfaceVisibility: 'hidden',
             borderRadius: i === 0 ? '.5rem 0 0 .5rem' : i === count - 1 ? '0 .5rem .5rem 0' : '0',
           })
-          layer.append(slice)
+          stageTrack.append(slice)
           slices.push({ slice, x: x + sx + sw / 2 })
         }
         img.style.opacity = '0'
@@ -280,6 +287,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         row.style.pointerEvents = 'none'
         for (const column of columns) column.style.pointerEvents = 'auto'
         build()
+        // The stage over the viewing area (clipped as it is); its track the
+        // row's size, the slices' place in it the row's.
+        const rootRect = stage.parentElement.getBoundingClientRect()
+        const areaRect = view.getBoundingClientRect()
+        Object.assign(stage.style, { left: `${areaRect.left - rootRect.left}px`, top: `${areaRect.top - rootRect.top}px`, width: `${view.clientWidth}px`, height: `${view.clientHeight}px` })
+        Object.assign(stageTrack.style, { width: `${row.offsetWidth}px`, height: `${row.offsetHeight}px` })
         stale = false
       }
       const viewRect = view.getBoundingClientRect()
@@ -301,6 +314,15 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       const radius = viewRect.width / 2
       row.style.perspective = `${perspective}px`
       row.style.perspectiveOrigin = `${center}px 50%`
+      // The slices follow the row as the strip scrolls - moved here, in the
+      // same frame as they're bent, not by the browser's scrolling a frame
+      // ahead (a touch swipe's: the cylinder slid sideways, out of shape,
+      // until this caught up).
+      const rowRect = row.getBoundingClientRect()
+      const stageRect = stage.getBoundingClientRect()
+      stageTrack.style.transform = `translate(${rowRect.left - stageRect.left}px, ${rowRect.top - stageRect.top}px)`
+      stageTrack.style.perspective = `${perspective}px`
+      stageTrack.style.perspectiveOrigin = `${center}px 50%`
       for (const { slice, x } of slices) {
         const { theta, transform } = place(x, center, radius)
         // Past the cylinder's sides: out of sight.
@@ -435,6 +457,7 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       row.removeEventListener('load', onLoad, true)
       observer.disconnect()
       layer.replaceChildren()
+      stageTrack.replaceChildren()
       for (const img of images) img.style.opacity = ''
       for (const tile of tiles) tile.style.opacity = ''
       for (const column of columnsOf()) {
@@ -466,6 +489,12 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
       }), { position: 'relative', marginBottom: 'calc(var(--oc-pane-padding-block) * -1)', height: `calc(var(--oc-pane-padding-block) + ${rowHeight} + ${zoomRoom * 2}px)` }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
     >
+      {/* The cylinder's slices (filled by its effect): over the viewing area,
+          outside its scrolling; under the real items (invisible, there for
+          the pointer and the keyboard). */}
+      <Box ref={stageRef} className="oc-media-strip--cylinder" aria-hidden sx={{ position: 'absolute', overflow: 'hidden', pointerEvents: 'none' }}>
+        <Box ref={trackRef} sx={{ position: 'absolute', left: 0, top: 0 }} />
+      </Box>
       <Scrollbars
         ref={scrollbarsRef}
         autoHide
@@ -482,8 +511,8 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
         <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', py: `${zoomRoom}px`, mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
           <Box ref={rowRef} className="oc-media-strip--row" sx={{ position: 'relative', width: 'min-content', display: 'flex', flexWrap: 'nowrap', gap: `${gap}px`, transformStyle: 'preserve-3d' }}>
             {children}
-            {/* The items' slices on the cylinder (filled by its effect). */}
-            <Box ref={sliceLayerRef} className="oc-media-strip--cylinder" aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', transformStyle: 'preserve-3d' }} />
+            {/* The columns' snap guides (filled by its effect). */}
+            <Box ref={sliceLayerRef} className="oc-media-strip--guides" aria-hidden sx={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
           </Box>
         </Box>
       </Scrollbars>
