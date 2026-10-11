@@ -17,6 +17,10 @@ export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
 export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
+// What's new, built by the server (refreshWhatsNew) into one public document
+// the page reads.
+export const WHATS_NEW_COLL_NAME = '_whatsNew'
+export const WHATS_NEW_DOC_ID = 'latest'
 // The beta testers' reports (Send feedback): read by every registered
 // account (Ideas and fixes), managed by admins, emailed to them.
 export const FEEDBACK_COLL_NAME = '_feedback'

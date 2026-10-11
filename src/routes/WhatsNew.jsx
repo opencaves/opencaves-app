@@ -7,7 +7,9 @@ import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import VideoLibraryRounded from '@mui/icons-material/VideoLibraryRounded'
 import CaveAsset from '@/models/CaveAsset.js'
 import MapRounded from '@mui/icons-material/MapRounded'
-import { callable } from '@/config/firebase.js'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { callable, db } from '@/config/firebase.js'
+import { WHATS_NEW_COLLECTION, WHATS_NEW_DOC_ID } from '@/config/collections.js'
 import { APP_NAME } from '@/config/app.js'
 import { useIndexData } from '@/hooks/useIndexData.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
@@ -17,7 +19,6 @@ import CaveIcon from '@/images/map/cave.svg?react'
 import CaveSystemIcon from '@/images/cave-system.svg?react'
 import { youtubeThumbnail } from '@/utils/videos.js'
 import { SISTEMA_DEFAULT_COLOR } from '@/config/map.js'
-import { PAGE_TITLE_SX } from '@/components/pageTitle.js'
 
 const getWhatsNew = callable('getWhatsNew')
 // A cave's or a system's icon in its system's colour, as its map pin (the
@@ -74,27 +75,54 @@ function useFilterParam(name, known) {
   return [picked, setPicked, toggle]
 }
 
-// What's new, built by the server from the audit log as it is now
-// (getWhatsNew): loading until it answers.
+// What's new, built by the server from the audit log (refreshWhatsNew) into
+// one document: the browser's copy shows at once (offline too), the server's
+// newer one replaces it. While that document doesn't exist yet (a new
+// deployment, the emulators), the getWhatsNew callable builds it. Loading
+// until one of them answers.
 function useWhatsNew() {
   const [state, setState] = useState({ items: [], loading: true, failed: false })
   useEffect(() => {
     let active = true
-    getWhatsNew()
-      .then(({ data }) => active && setState({ items: data.items.map((item, index) => ({ change: 'added', ...item, id: `${item.change}-${item.kind}-${item.docId}-${index}`, at: item.at ? new Date(item.at) : null })), loading: false, failed: false }))
-      .catch((error) => {
+    let called = false
+    const show = (items) => active && setState({ items: items.map((item, index) => ({ change: 'added', ...item, id: `${item.change}-${item.kind}-${item.docId}-${index}`, at: item.at ? new Date(item.at) : null })), loading: false, failed: false })
+    // Failed only with nothing to show (an offline first visit): a list shown stays.
+    const fail = (error) => {
+      if (error) console.error(error)
+      if (active) setState((current) => ({ ...current, loading: false, failed: current.items.length === 0 }))
+    }
+    const callFunction = () => {
+      if (called) return
+      called = true
+      getWhatsNew()
+        .then(({ data }) => show(data.items))
+        .catch(fail)
+    }
+    const unsubscribe = onSnapshot(
+      doc(db, WHATS_NEW_COLLECTION, WHATS_NEW_DOC_ID),
+      (snapshot) => {
+        const { fromCache } = snapshot.metadata
+        if (snapshot.exists()) show(snapshot.get('items') || [])
+        else if (!fromCache) callFunction()
+        // Not in the browser's copy, and offline: nothing to show until back online.
+        else if (!navigator.onLine) fail()
+      },
+      (error) => {
         console.error(error)
-        if (active) setState({ items: [], loading: false, failed: true })
-      })
+        callFunction()
+      },
+    )
     return () => {
       active = false
+      unsubscribe()
     }
   }, [])
   return state
 }
 
-// The page while getWhatsNew answers, shaped as it: its header, the filter
-// chips, then a day's entries on a card (a thumbnail, a name, a line under it).
+// The list while its data comes (the page's header is already there), shaped
+// as it: the filter chips, then a day's entries on a card (a thumbnail, a
+// name, a line under it).
 function WhatsNewSkeleton() {
   const { t } = useTranslation('app')
   return (
@@ -103,11 +131,6 @@ function WhatsNewSkeleton() {
         {t('loading')}
       </Box>
       <Box aria-hidden="true">
-        <Box sx={{ mb: 3 }}>
-          <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 140, mb: 3 }} />
-          <Skeleton variant="text" sx={{ ...PAGE_TITLE_SX, width: 'min(100%, 260px)' }} />
-          <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 280 }} />
-        </Box>
         <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mb: 1.5 }}>
           {[58, 72, 108, 104, 70, 74, 74].map((width, i) => (
             <Skeleton key={i} variant="rounded" sx={{ width, height: 32, borderRadius: 4 }} />
@@ -236,11 +259,20 @@ export default function WhatsNew() {
     return groups
   }, [rows, kinds, changes, i18n.language, t])
 
-  if (loading) return <WhatsNewSkeleton />
+  // Drawn at once: only the list waits for its data.
+  const header = <IndexPageHeader trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]} current={t('title')} title={t('title')} subtitle={t('subtitle', { name: APP_NAME })} />
+  if (loading) {
+    return (
+      <div className="oc-whats-new">
+        {header}
+        <WhatsNewSkeleton />
+      </div>
+    )
+  }
 
   return (
     <div className="oc-whats-new">
-      <IndexPageHeader trail={[{ label: t('menu.home', { ns: 'app' }), to: '/' }]} current={t('title')} title={t('title')} subtitle={t('subtitle', { name: APP_NAME })} />
+      {header}
 
       {failed && <Typography color="error">{t('failed')}</Typography>}
 
