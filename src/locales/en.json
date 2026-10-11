@@ -1620,7 +1620,7 @@
     },
     "modifiedBy": "modified by {{name}}",
     "removedBy": "removed by {{name}}",
-    "changedFields": "changed: {{fields}}",
+    "changedFields": "Changed: {{fields}}",
     "fields": {
       "name": "name",
       "nameTranslations": "name translations",

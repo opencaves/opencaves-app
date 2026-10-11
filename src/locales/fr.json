@@ -628,8 +628,8 @@
       "accessibility": "Accessibilité",
       "fees": "Frais",
       "feesHint": "Indique si la visite de cette grotte nécessite de payer un droit d’entrée",
-      "facilities": "Installations",
-      "facilitiesHint": "Indique si des installations comme des toilettes ou des vestiaires sont disponibles sur place",
+      "facilities": "Commodités",
+      "facilitiesHint": "Indique si des commodités comme des toilettes ou des vestiaires sont disponibles sur place",
       "accessDetails": "Détails d'accès",
       "accessibilityDetails": "Détails d'accessibilité",
       "description": "Description",
@@ -1619,7 +1619,7 @@
     },
     "modifiedBy": "modifié par {{name}}",
     "removedBy": "retiré par {{name}}",
-    "changedFields": "modifié : {{fields}}",
+    "changedFields": "Modifié : {{fields}}",
     "fields": {
       "name": "nom",
       "nameTranslations": "traductions du nom",
@@ -1642,7 +1642,7 @@
       "reporter": "signalé par",
       "explorationDate": "date d'exploration",
       "cenoteEntrance": "entrée de cénote",
-      "facilities": "installations",
+      "facilities": "commodités",
       "fees": "frais",
       "textSources": "sources des textes",
       "color": "couleur",
@@ -1915,7 +1915,7 @@
       "title": "Ce que vous y trouverez",
       "caves": {
         "title": "Grottes",
-        "text": "Où se trouve chaque grotte et comment s’y rendre : entrées, accès, tarifs et installations, avec photos, vidéos et descriptions."
+        "text": "Où se trouve chaque grotte et comment s’y rendre : entrées, accès, tarifs et commodités, avec photos, vidéos et descriptions."
       },
       "sistemas": {
         "title": "Réseaux",

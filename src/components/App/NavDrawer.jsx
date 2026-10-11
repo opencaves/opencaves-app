@@ -18,7 +18,7 @@ import { APP_NAME, APP_TITLE } from '@/config/app.js'
 import { openAboutDialog } from '@/utils/aboutDialog.js'
 import LogoIcon from './LogoIcon.jsx'
 import { resetView } from '@/redux/slices/mapSlice.jsx'
-import { LanguageListItem } from '@/components/LanguagePicker.jsx'
+import { LanguageButton } from '@/components/LanguagePicker.jsx'
 import { openToursDialog } from '@/tours/tourList.js'
 
 const DRAWER_WIDTH = 240
@@ -65,10 +65,10 @@ export function useNavItems() {
 /**
  * The phone's navigation drawer, opened from the app bar's menu button or the
  * map search bar's: its header (the logo and title, a link home, and a close
- * button), the site's pages, then the dashboard (editors), then About, each
- * group set apart by a divider - Take the tour (the guided tours' dialog)
- * just over What's new - then the language. No Home item: the header links
- * there.
+ * button), the site's pages - Take the tour (the guided tours' dialog) just
+ * over What's new - then the dashboard (editors), then About last, each group
+ * set apart by a divider, and the language, compact, at its foot. No Home
+ * item: the header links there.
  *
  * @param {object} props
  * @param {boolean} props.open
@@ -134,10 +134,13 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 </ListItem>
               </Fragment>
             ))}
-            <ListItem disablePadding>
-              <LanguageListItem />
-            </ListItem>
           </List>
+        </Box>
+        {/* The language, compact, at the drawer's foot (out of the box that
+            closes the drawer on any click: picking one keeps it open). */}
+        <Box className="oc-nav-drawer--language" sx={{ mt: 'auto', pt: 1, pb: 'calc(8px + env(safe-area-inset-bottom, 0px))', borderTop: 1, borderColor: 'divider', color: 'text.secondary' }}>
+          {/* In line with the rows above: its icon at their icons' edge (16px). */}
+          <LanguageButton sx={{ ml: 0.5, pl: 1.5, '& .MuiButton-startIcon': { ml: 0 } }} />
         </Box>
       </Drawer>
     </nav>
