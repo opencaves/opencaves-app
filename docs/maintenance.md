@@ -74,8 +74,8 @@ The local emulators hold the original data; production (users' tests) is
 refreshed from them. The script makes production identical to local -
 every collection and the `caves/` (photos) and `maps/` (scans) files - except
 its users' data (accounts, `_users/*`: settings and saved caves; the caves'
-ratings and `_caveRatings`), frozen accounts and audit log, which stay
-untouched - except that the local audit log's additions that production
+ratings and `_caveRatings`), frozen accounts, audit log and What's new
+(`_whatsNew`, built from that log), which stay untouched - except that the local audit log's additions that production
 lacks (its "create" entries for caves, systems, connections, maps and photos,
 and the caves' changes that added videos) are copied to it, so the What's new page (`/whats-new`, built from the audit log) lists them
 there too. Local edits and deletions aren't copied: production's What's new
@@ -292,8 +292,14 @@ map is also taken off the sistemas that list it.
 Entries are deleted 12 months after they're written (`expireAt`, a TTL
 policy deployed with the indexes: `firebase deploy --only firestore:indexes`).
 
-The public What's new page (`/whats-new`, the `getWhatsNew` function, cached
-5 minutes) is built from this log: each caves, sistemas, connections and maps
+The public What's new page (`/whats-new`) is built from this log by the
+`refreshWhatsNew` function, every 10 minutes, into one public document
+(`_whatsNew/latest`) the page reads: it shows at once - the browser's copy,
+offline too - and never waits for a function to start (a cold start took
+about 4 s). While that document doesn't exist (right after the first deploy,
+or on the emulators, which don't run scheduled functions), the page calls
+`getWhatsNew` (cached 5 minutes), which builds the list and saves the
+document. The list: each caves, sistemas, connections and maps
 record marked **Added** (its `create` entry, if it's still there and shown),
 **Modified** (its `update` entries and the admins' undos that updated it, one
 item per record, author and UTC day, listing the fields changed - not the

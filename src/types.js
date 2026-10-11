@@ -299,9 +299,10 @@
  */
 
 /**
- * An item of the What's new page, as the getWhatsNew callable sends it (its
- * server-side twin is in functions/js/types.js): a record added, modified or
- * removed, or a cave's photos or videos added (one per cave, author and day).
+ * An item of the What's new page, as the server builds it (the _whatsNew
+ * document's items, or the getWhatsNew callable's; its server-side twin is in
+ * functions/js/types.js): a record added, modified or removed, or a cave's
+ * photos or videos added (one per cave, author and day).
  *
  * @typedef {object} WhatsNewItem
  * @property {'added'|'modified'|'removed'} change - Photos and videos are always added.

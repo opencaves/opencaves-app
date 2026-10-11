@@ -5,6 +5,11 @@ export const USERS_COLLECTION = '_users'
 export const SETTINGS_COLLECTION = '_settings'
 export const CAVE_RATINGS_COLLECTION = '_caveRatings'
 
+// What's new, built by the server (refreshWhatsNew) into one public document
+// the page reads: { items, builtAt }.
+export const WHATS_NEW_COLLECTION = '_whatsNew'
+export const WHATS_NEW_DOC_ID = 'latest'
+
 // Who changed or deleted what (written by the server's audit trigger, read
 // by admins on the Audits page).
 export const AUDIT_LOG_COLLECTION = '_auditLog'
