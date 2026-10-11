@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -6,25 +6,27 @@ import { Alert, Box, Button, ButtonBase, Dialog, DialogActions, DialogContent, D
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import PhotoLibraryRounded from '@mui/icons-material/PhotoLibraryRounded'
 import { Grid } from '@mui/material'
-import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
-import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
+import MediaStrip from './MediaStrip.jsx'
 import Picture from '@/components/Picture.jsx'
 import DialogCloseButton from '@/components/DialogCloseButton.jsx'
 import { deleteById, useCaveAssetsList } from '@/models/CaveAsset.js'
 import { useImage } from '@/hooks/useImage.jsx'
 import { ASSETS_LIST_CONFIG } from '@/config/resultPane.js'
-import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
 
 // The primary's darker tone, its lighter one in dark mode.
 const primaryToneSx = (theme) => ({ color: theme.vars.palette.primary.dark, ...theme.applyStyles('dark', { color: theme.vars.palette.primary.light }) })
 
 /**
+ * A cave's photo strip: its photos and videos in columns (a wide one, then
+ * two stacked), a "more photos" tile at its end, on a
+ * {@link MediaStrip} (its cylinder, its scrolling).
+ *
  * @param {object} props - Also its root's (a Box's).
  * @param {string} props.caveId
  * @param {boolean} [props.editable=false]
- * @param {(id: string) => string} [props.photoPath]
+ * @param {(id: string) => string} [props.photoPath] - A photo's address (a page's gallery); the map's viewer otherwise.
  * @param {Sx} [props.sx]
- * @param {string} [props.className] - A photo's address (a page's gallery); the map's viewer otherwise.
+ * @param {string} [props.className]
  */
 export default function MediaList({ caveId, editable = false, photoPath, sx, className, ...props }) {
   const { t } = useTranslation('resultPane', { keyPrefix: 'edit' })
@@ -36,7 +38,6 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const { height: assetsListHeight, maxLength: assetsListMaxLength } = ASSETS_LIST_CONFIG
-  const scrollbarsRef = useRef(null)
 
   function closeDeleteDialog() {
     if (deleting) return
@@ -65,36 +66,6 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
     const secondCol = i % 3 > 0 ? 1 : 0
     return triplets * 2 + secondCol
   }
-
-  useEffect(() => {
-    const scrollbar = scrollbarsRef.current
-    const container = scrollbar?.container
-    if (!container) return undefined
-
-    function onWheel(event) {
-      event.preventDefault()
-      const { scrollLeft, scrollWidth, clientWidth } = scrollbar.getValues()
-      const width = scrollWidth - clientWidth
-      const delta = event.deltaY || event.deltaX
-      const wheelDirection = Math.sign(delta)
-      if (!wheelDirection || width <= 0) {
-        return
-      }
-
-      if ((wheelDirection < 0 && Math.round(scrollLeft) <= 0) || (wheelDirection > 0 && Math.round(scrollLeft) >= width)) {
-        return
-      }
-
-      scrollStrip(scrollbar.view, event)
-    }
-
-    container.addEventListener('wheel', onWheel, { passive: false })
-    const stopSnapping = snapOnSettle(scrollbar.view, container)
-    return () => {
-      container.removeEventListener('wheel', onWheel)
-      stopSnapping()
-    }
-  }, [mediaList])
 
   useEffect(() => {
     const list = []
@@ -166,35 +137,9 @@ export default function MediaList({ caveId, editable = false, photoPath, sx, cla
   return (
     <>
       {mediaList && !mediaList.empty && (
-        <Box
-          className={`oc-media-list oc-media-strip ${className || ''}`.trim()}
-          sx={{
-            marginBottom: 'calc(var(--oc-pane-padding-block) * -1)',
-            height: `calc((var(--oc-pane-padding-block) * 1) + ${assetsListHeight}px)`,
-            ...sx,
-          }}
-          {...props}
-        >
-          <Scrollbars
-            ref={scrollbarsRef}
-            autoHide
-            autoHeight
-            autoHeightMax={assetsListHeight + 100}
-            trackHorizontalProps={{
-              style: {
-                left: 'calc(var(--oc-pane-padding-inline) / 2)',
-                right: 'calc(var(--oc-pane-padding-inline) / 2)',
-                bottom: `calc((var(--oc-pane-padding-block) - ${SCROLLBAR_TRACK_HEIGHT}px) / 2)`,
-              },
-            }}
-          >
-            <Box onFocus={(event) => centerFocused(event, scrollbarsRef.current?.view)} onKeyDown={leaveOnArrow} sx={{ px: 'var(--oc-pane-padding-inline)', pr: 'var(--oc-pane-padding-inline)', mb: 'var(--oc-pane-padding-block)', width: 'fit-content' }}>
-              <Grid container direction="row" sx={{ width: 'min-content', display: 'flex', flexWrap: 'nowrap' }}>
-                {assetsList}
-              </Grid>
-            </Box>
-          </Scrollbars>
-        </Box>
+        <MediaStrip start="start" className={`oc-media-list ${className || ''}`.trim()} itemHeight={assetsListHeight} rebuildKey={assetsList} sx={sx} {...props}>
+          {assetsList}
+        </MediaStrip>
       )}
       <Dialog className="oc-media-list--delete-dialog" open={Boolean(pictureToDelete)} onClose={closeDeleteDialog}>
         <DialogTitle sx={{ pr: 7 }}>{t('deletePicture')}</DialogTitle>
@@ -238,7 +183,7 @@ function Media({ asset, index, size = 'full', caveId, editable, photoPath, canDe
   return status === 'loading' ? (
     <Skeleton variant="rounded" width={width} height={height} sx={{ borderRadius: '.5rem' }} />
   ) : status === 'success' ? (
-    <Box className="oc-media-strip--item" sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
+    <Box className="oc-media-list--picture oc-media-strip--picture oc-media-strip--item" sx={{ position: 'relative', width, height, borderRadius: '.5rem', overflow: 'hidden' }}>
       <ButtonBase component={Link} to={photoPath ? photoPath(media.id) : editable ? `/map/${caveId}/medias/${media.id}` : `medias/${media.id}`} state={photoPath ? { fromPage: true } : undefined} aria-label={t('openPhoto', { n: (index ?? 0) + 1 })}>
         <Picture sources={media.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width, height, objectFit: 'cover' }} />
       </ButtonBase>
@@ -315,41 +260,48 @@ function MediaListCell({ children, width = 'full', height = ASSETS_LIST_CONFIG.h
   )
 }
 
-function MoreMedias({ width, height, to, state }) {
-  const { t } = useTranslation('resultPane')
-
+// A tile at the strip's end ("more photos"): an icon over a
+// label, on a light tint of the primary colour.
+function StripTile({ icon, label, className, sx, ...props }) {
   return (
     <ButtonBase
-      component={Link}
-      to={to}
-      state={state}
-      className="oc-media-strip--item"
-      sx={{
-        borderRadius: '.5rem',
-        backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 1,
-        width,
-        height,
-        opacity: 0.85,
-        ':hover': {
-          opacity: 1,
+      {...props}
+      className={['oc-media-list--tile', 'oc-media-strip--tile', 'oc-media-strip--see-through', 'oc-media-strip--item', className].filter(Boolean).join(' ')}
+      sx={[
+        {
+          borderRadius: '.5rem',
+          backgroundColor: (theme) => `rgb(${theme.vars.palette.primary.mainChannel} / 0.1)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 1,
+          opacity: 0.85,
+          ':hover': {
+            opacity: 1,
+          },
         },
-      }}
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Grid container sx={{ flexDirection: 'column', alignItems: 'center', rowGap: 0.75 }}>
-        <PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />
+        {icon}
         <Typography
           sx={(theme) => ({
             fontSize: '.875rem',
+            textAlign: 'center',
             ...primaryToneSx(theme),
           })}
         >
-          {t('morePicturesBtn')}
+          {label}
         </Typography>
       </Grid>
     </ButtonBase>
   )
 }
+
+function MoreMedias({ width, height, to, state }) {
+  const { t } = useTranslation('resultPane')
+
+  return <StripTile component={Link} to={to} state={state} className="oc-media-list--more" sx={{ width, height }} icon={<PhotoLibraryRounded fontSize="small" sx={primaryToneSx} />} label={t('morePicturesBtn')} />
+}
+

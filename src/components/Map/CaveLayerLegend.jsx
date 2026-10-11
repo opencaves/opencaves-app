@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, ButtonBase, Collapse, Divider, Paper, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
+import ExpandLessRounded from '@mui/icons-material/ExpandLessRounded'
 import { CAVE_LAYER } from '@/config/map.js'
 import { useUnits } from '@/hooks/useUnits.jsx'
 import { setMapLegendOpen } from '@/redux/slices/preferencesSlice.jsx'
@@ -132,12 +132,15 @@ export default function CaveLayerLegend({ isLarge }) {
         ...(!isLarge && { opacity: 'var(--oc-map-controls-opacity, 1)', visibility: 'var(--oc-map-controls-visibility, visible)' }),
       }}
     >
-      <ButtonBase onClick={toggle} aria-expanded={open} sx={{ width: '100%', justifyContent: 'space-between', gap: 1, px: 1.5, py: 1, borderRadius: 4 }}>
+      {/* The header on the primary fill, as the app's buttons: closed, the
+          legend is that button; open, it heads the list (the box's rounded
+          corners clip it). */}
+      <ButtonBase onClick={toggle} aria-expanded={open} sx={{ width: '100%', justifyContent: 'space-between', gap: 1, px: 1.5, py: 1, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
         <Typography variant="subtitle2" component="h2">
           {t('title')}
         </Typography>
-        {/* Turns with the legend: down to open, up to close. */}
-        <ExpandMoreRounded fontSize="small" sx={{ transform: open ? 'rotate(180deg)' : 'none', transition: `transform ${foldMs}ms ${easing[fold]}` }} />
+        {/* It opens upward: the arrow points up to open, down to close. */}
+        <ExpandLessRounded fontSize="small" sx={{ transform: open ? 'rotate(180deg)' : 'none', transition: `transform ${foldMs}ms ${easing[fold]}` }} />
       </ButtonBase>
       {/* Grows from (and folds into) its title; out of the page once folded. */}
       <Collapse
@@ -148,8 +151,7 @@ export default function CaveLayerLegend({ isLarge }) {
         onExited={() => paperRef.current?.style.removeProperty('width')}
         className="oc-cave-layer-legend--content"
       >
-        <Divider className="oc-cave-layer-legend--divider" sx={{ mx: 1.5, mb: 1 }} />
-        <Box component="ul" sx={{ listStyle: 'none', m: 0, px: 1.5, pb: 1.5, pt: 0, display: 'grid', gap: 0.75 }}>
+        <Box component="ul" sx={{ listStyle: 'none', m: 0, px: 1.5, pb: 1.5, pt: 1.25, display: 'grid', gap: 0.75 }}>
           {items.map(({ key, mark }) => (
             <Box component="li" key={key} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={swatch} aria-hidden="true">

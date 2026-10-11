@@ -155,3 +155,41 @@
     }
   }
 }
+
+// The cave's details (not the search results, nor the edit form) as rounded
+// sections on the tone of its header (M3's surface container high, the
+// account menu's look), 0.5rem apart; the dividers inside a section are
+// bands of that tone, 3px thick.
+.oc-result-pane .oc-current-cave-details-content {
+  --mui-palette-divider: var(--mui-sys-color-surfaceContainerHigh);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  // !important: ResultPane.scss zeroes the read-only details' sides.
+  padding: 0 0.5rem 0.5rem !important;
+  background-color: var(--mui-sys-color-surfaceContainerHigh);
+
+  > .oc-details-section {
+    // M3's large corner (16dp).
+    border-radius: 16px;
+    background-color: var(--oc-result-pane-surface-color, var(--mui-palette-background-paper));
+  }
+
+  .MuiDivider-root:not(.MuiDivider-vertical) {
+    border-bottom-width: 3px;
+  }
+
+  .MuiDivider-vertical {
+    border-right-width: 3px;
+  }
+
+  // The line under the media tabs: under their window (the scroller holding
+  // the tabs, inside the bar's side padding), not the whole bar.
+  .MuiTabs-root {
+    border-bottom: none;
+  }
+
+  .MuiTabs-scroller {
+    border-bottom: 3px solid var(--mui-palette-divider);
+  }
+}

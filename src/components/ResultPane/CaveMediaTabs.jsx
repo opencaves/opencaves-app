@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo } from 'react'
+import { cloneElement, useCallback, useId, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
@@ -46,9 +46,23 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
   function handleTabChange(nextTab) {
     dispatch(setCaveMediaTab({ caveId, tab: nextTab }))
   }
-  const addPicturesButton = <AddMediasButton component={<AddButton startIcon={<AddAPhotoRounded />} />}>{t('addPictures')}</AddMediasButton>
-
   const requireLoginForPhotos = useRequireLogin('photos')
+
+  // Adding photos, a button under the strip at all times (as the videos' and
+  // the maps'): the file picker - in its own provider for a standalone
+  // upload - or, for a visitor, signing in.
+  function addPictures(look) {
+    if (!editable && !isEditor) {
+      return cloneElement(look, { onClick: requireLoginForPhotos })
+    }
+    const button = <AddMediasButton component={look} />
+    return standaloneUpload ? <AddMediasProvider caveId={caveId}>{button}</AddMediasProvider> : button
+  }
+  const addPicturesButton = (
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
+      {addPictures(<AddButton startIcon={<AddAPhotoRounded />}>{t('addPictures')}</AddButton>)}
+    </Box>
+  )
   const requireLoginForVideos = useRequireLogin('videos')
   const requireLoginForMaps = useRequireLogin('maps')
 
@@ -66,17 +80,7 @@ export default function CaveMediaTabs({ caveId, videos, onVideosChange, sistemaI
           <MediaList caveId={caveId} editable={editable} photoPath={photoPath} />
           {/* Photos added offline, waiting to upload. */}
           <PendingUploadsStrip filter={pendingPhotosOf} sx={{ px: editable ? 0 : 'var(--oc-pane-padding-inline)' }} />
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
-            {!editable && !isEditor ? (
-              <AddButton startIcon={<AddAPhotoRounded />} onClick={requireLoginForPhotos}>
-                {t('addPictures')}
-              </AddButton>
-            ) : standaloneUpload ? (
-              <AddMediasProvider caveId={caveId}>{addPicturesButton}</AddMediasProvider>
-            ) : (
-              addPicturesButton
-            )}
-          </Box>
+          {addPicturesButton}
         </Box>
       )}
       <Box role="tabpanel" id={`${tabId}-videos-panel`} aria-labelledby={`${tabId}-videos-tab`} hidden={activeTab !== 'videos'} sx={{ display: activeTab === 'videos' ? 'block' : 'none', pt: 2 }}>

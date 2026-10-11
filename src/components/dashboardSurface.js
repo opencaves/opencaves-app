@@ -1,7 +1,9 @@
-// The dashboard pages' lists, tables and form cards: an opaque surface with
-// rounded corners, standing out on their translucent page.
+// The pages' cards - the dashboard's lists, tables and forms, the index
+// pages' lists, a cave's or a system's sections: paper (white, M3's lowest
+// container; a step lighter than the page in dark mode) with rounded
+// corners, standing out on their page (M3's surface).
 export const DASHBOARD_SURFACE_SX = {
-  bgcolor: 'var(--oc-page-surface)',
+  bgcolor: 'background.paper',
   borderRadius: 2,
 }
 
