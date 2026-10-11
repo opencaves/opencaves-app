@@ -548,6 +548,28 @@
       "set": {
         "maxDepth": 119.2
       }
+    },
+    {
+      "what": "Cenote C2: area Akumal (the Czech and Slovak team's 2016 report places C2 north of cenote Nauatilostotl (Sak Kay))",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "expect": {
+        "area": null
+      },
+      "set": {
+        "area": "Akumal"
+      }
+    },
+    {
+      "what": "Cenote Bendiction: area Puerto Morelos (cenotegirl.com: \"La Bendición\", Puerto Morelos, 2020, the team QRSS names)",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpH",
+      "expect": {
+        "area": null
+      },
+      "set": {
+        "area": "Puerto Morelos"
+      }
     }
   ]
 }
