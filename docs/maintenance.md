@@ -158,6 +158,23 @@ as the source, a colour. No area, coordinates or caves: QRSS doesn't publish
 them. Fixed ids, so local and production get the same records; a system whose
 id or name exists already is skipped. Re-runnable.
 
+## Apply the corrections from the QRSS comparison
+
+```
+node scripts/apply-qrss-fixes.js -l           # local emulators: dry run, lists the changes
+node scripts/apply-qrss-fixes.js -l --write   # saves them
+node scripts/apply-qrss-fixes.js -p           # production (dry run; add --write to save)
+```
+
+The corrections decided on 2026-10-11 (`scripts/qrss-fixes-2025-02.json`):
+QRSS's spelling for systems found under another name (the old name kept as
+another name), names cut at 25 characters completed, the two "Cenote C" named
+C2 and C5, QRSS's newer length or depth for those systems, a system for each of
+six caves that were in no system (the cave attached to it), and maximum depths
+filled where OpenCaves had none or raised where QRSS's is deeper (matches in
+doubt left out). A change applies only if the record still has the values it
+was decided on. Run it after `import-qrss-systems.js`. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```
