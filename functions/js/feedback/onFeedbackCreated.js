@@ -6,7 +6,7 @@ import { RESEND_API_KEY, sendEmail } from '../email/sendEmail.js'
 import { renderEmail } from '../email/layout.js'
 import { teamReplyAddress } from './replyAddress.js'
 
-const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea' }
+const KINDS = { bug: 'Bug', misleading: 'Misleading', idea: 'Idea / comment' }
 const ICONS = { bug: '🐞', misleading: '🤔', idea: '💡' }
 
 /**

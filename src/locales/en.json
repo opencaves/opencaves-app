@@ -1751,7 +1751,7 @@
     "kinds": {
       "bug": "Bug",
       "misleading": "Misleading",
-      "idea": "Idea"
+      "idea": "Idea / comment"
     },
     "kindText": {
       "bug": "Something broke or doesn’t work.",
