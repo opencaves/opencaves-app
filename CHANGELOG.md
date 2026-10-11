@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.0-beta-15](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-14...v1.0.0-beta-15) (2026-10-11)
+
+A guided tour of the app, galleries in 3D on every page, a full-screen video player on phones, and much more cave-system data: newer lengths and 82 new systems from the Quintana Roo Speleological Survey.
+
+
+### Features
+
+* **Guided tours:** Take the tour (in the menus) walks you through the app - finding a cave, the map's filters and layers, a cave's actions and media, your account, What's new, installing the app and using it offline; first-time visitors are offered it.
+* **Galleries in 3D:** a cave's or a system's page shows its photos, videos and survey maps on the same 3D strip as the map's pane, with Show all under each; the strips scroll one item per wheel notch, glide naturally on a touch swipe, and no longer show thin lines between slices.
+* **Video player on phones:** a video opens full screen out of its card, with a back arrow, and starts playing; it stays full screen when the phone is turned.
+* **Cave-system data:** with the Quintana Roo Speleological Survey's permission, 42 systems get their newer surveyed length (339 km more in all), 82 systems are added, depths are filled or updated, names corrected, and duplicate systems merged.
+* **Length dates:** a system's explored length shows when it was surveyed or reported, e.g. "379,569 m (December 2024)".
+* **Sticky titles:** on a cave's or a system's page the title stays in view as you scroll (on phones, in the top bar, with its back arrow).
+* **System pages:** caves that are entrances into the system are marked in its caves list.
+* **What's new:** bigger icons at the top of each item, and the changed fields on a line of their own.
+* **Editing:** a cave's name is edited in place on its page; saving a cave only writes what changed; a system's form hints wrap within their fields.
+* **Map legend:** opens and closes smoothly, stays above the map's markers, and remembers its state in your account.
+* **Look:** surfaces, panes and cards follow Material 3's tones, in light and dark mode; the splash screen and the account page's sections (each with its own link) are refreshed.
+* **Phone menu:** the language picker sits compactly at the bottom.
+
+### Fixes
+
+* **Lists:** a section's # link keeps your search; a cave's breadcrumb no longer shows its area (an area is a section of the cave list).
+* **Feedback:** the Idea kind is now Idea / comment.
+* **Data:** saving a cave no longer turned an unknown fee or facility into "no".
+* **Uploads:** the count and size of files being added are right.
+* **Reliability:** many small fixes found by type checking.
+
 ## [1.0.0-beta-14](https://github.com/opencaves/opencaves-app/compare/v1.0.0-beta-13...v1.0.0-beta-14) (2026-10-10)
 
 Feedback becomes a conversation: the team answers by email and you can answer back, members can follow the ideas and fixes, What's new tells what changed, and the public pages open faster.
