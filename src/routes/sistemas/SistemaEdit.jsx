@@ -54,7 +54,14 @@ export default function SistemaEdit() {
 
   // Back to the system's public page; to the list of systems when it has
   // none (a new system not saved yet, one deleted, one not public).
-  const done = () => navigate(slugs.get(sistemaId) ? `/sistemas/${slugs.get(sistemaId)}` : '/sistemas')
+  // Back: a step back when opened from within the app (the system's page, or
+  // wherever it was opened from) - a link up would stack a new entry, the
+  // system's page's back arrow then returning here; otherwise up to the
+  // system's page, in this entry's place.
+  const done = () => {
+    if (window.history.state?.idx > 0) navigate(-1)
+    else navigate(slugs.get(sistemaId) ? `/sistemas/${slugs.get(sistemaId)}` : '/sistemas', { replace: true })
+  }
 
   return (
     <div className="oc-sistema-edit">
