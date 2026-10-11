@@ -29,17 +29,18 @@ http://ionicframework.com/docs/theming/ */
   --oc-icon-color-secondary: #666666;
   --oc-text-color-secondary: #444;
   --oc-marker-selected-color: #7faef5;
-  // A page's surface (Layout's white page and frame), its translucent form
+  // A page's surface (Layout's page and frame: M3's surface, its cards on
+  // paper - white, the lowest container - above it), its translucent form
   // over a background image (dashboard, admin pages), a bar stuck over the
   // page's content, and the scrollbars' thumb (every scrollbar, the galleries'
   // too: about 2.4:1 against the light surface, 3:1 against the dark one;
   // stronger hovered or dragged).
-  --oc-page-surface: #fff;
+  --oc-page-surface: var(--mui-sys-color-surface);
   // The secondary colour (the app's gold) where it sits on a surface: its main
   // tone is 2:1 on white, this one 4.4:1 (the Map entry's icon, NavDrawer).
   --oc-secondary-on-surface: #8f7700;
-  --oc-page-surface-translucent: rgba(255, 255, 255, 0.9);
-  --oc-page-surface-stuck: rgba(255, 255, 255, 0.94);
+  --oc-page-surface-translucent: color-mix(in srgb, var(--oc-page-surface) 90%, transparent);
+  --oc-page-surface-stuck: color-mix(in srgb, var(--oc-page-surface) 94%, transparent);
   --oc-scrollbar-thumb: rgba(0, 0, 0, 0.32);
   --oc-scrollbar-thumb-active: rgba(0, 0, 0, 0.5);
   // The edge around a cave system's cookie (SistemaCookie).
@@ -88,10 +89,7 @@ http://ionicframework.com/docs/theming/ */
   --oc-surface: #1c1b1f;
   --oc-icon-color-secondary: #989da1;
   --oc-text-color-secondary: #b8b5b1;
-  --oc-page-surface: #1c1b1f;
   --oc-secondary-on-surface: var(--mui-palette-secondary-main);
-  --oc-page-surface-translucent: rgba(28, 27, 31, 0.9);
-  --oc-page-surface-stuck: rgba(28, 27, 31, 0.94);
   --oc-scrollbar-thumb: rgba(255, 255, 255, 0.32);
   --oc-scrollbar-thumb-active: rgba(255, 255, 255, 0.5);
   --oc-sistema-cookie-edge: rgba(255, 255, 255, 0.45);
