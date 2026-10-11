@@ -169,7 +169,8 @@ export default function WhatsNew() {
 
   useIndexPageHead({ title: t('title'), description: t('description', { name: APP_NAME }) })
 
-  // Each item as the page shows it: its icon, label, link and secondary line.
+  // Each item as the page shows it: its icon, label, link, secondary line
+  // and, for a modified record, its changed fields (a line of their own).
   const rows = useMemo(() => {
     const sistemaName = (id) => data.sistemasById.get(id)?.name
     // A cave's system beside it, unless named like the cave (a leading
@@ -323,8 +324,14 @@ export default function WhatsNew() {
                       <ChangeChip change={row.change} />
                     </Box>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      {[t(`kinds.${row.kind}`), row.context, row.changed, row.authorName && t(`${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
+                      {[t(`kinds.${row.kind}`), row.context, row.authorName && t(`${row.change}By`, { name: row.authorName })].filter(Boolean).join(' · ')}
                     </Typography>
+                    {/* A modified record's changed fields, on a line of their own. */}
+                    {row.changed && (
+                      <Typography variant="body2" className="oc-whats-new--changed" sx={{ color: 'text.secondary' }}>
+                        {row.changed}
+                      </Typography>
+                    )}
                   </Box>
                 </Box>
               </Box>
