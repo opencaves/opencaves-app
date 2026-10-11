@@ -128,6 +128,53 @@ production the audit log doesn't record these Admin SDK writes; the local
 emulators do (author "emulator"), so What's new lists them there until those
 entries are deleted.
 
+## Update systems' lengths from QRSS
+
+```
+node scripts/import-qrss-lengths.js -l           # local emulators: dry run, lists the changes
+node scripts/import-qrss-lengths.js -l --write   # saves them
+node scripts/import-qrss-lengths.js -p           # production (dry run; add --write to save)
+```
+
+Sets the explored length of 42 systems to the Quintana Roo Speleological
+Survey's newer figures (its report of 1 February 2025, which QRSS lets us
+use), listed in `scripts/qrss-lengths-2025-02.json`: the systems QRSS gives as
+longer than OpenCaves had, matched by name on 2026-10-11. A system whose
+length changed since that comparison is skipped and listed. Re-runnable.
+
+## Add the systems from QRSS
+
+```
+node scripts/import-qrss-systems.js -l           # local emulators: dry run, lists the systems
+node scripts/import-qrss-systems.js -l --write   # adds them
+node scripts/import-qrss-systems.js -p           # production (dry run; add --write to add)
+```
+
+Adds the 80 cave systems of QRSS's report of 1 February 2025 that OpenCaves
+didn't have (`scripts/qrss-new-systems-2025-02.json`, mostly explored since
+2016): name, explored length, maximum depth, an exploration entry with the
+reported date and team, the cenote count in a note when QRSS gives one, QRSS
+as the source, a colour. No area, coordinates or caves: QRSS doesn't publish
+them. Fixed ids, so local and production get the same records; a system whose
+id or name exists already is skipped. Re-runnable.
+
+## Apply the corrections from the QRSS comparison
+
+```
+node scripts/apply-qrss-fixes.js -l           # local emulators: dry run, lists the changes
+node scripts/apply-qrss-fixes.js -l --write   # saves them
+node scripts/apply-qrss-fixes.js -p           # production (dry run; add --write to save)
+```
+
+The corrections decided on 2026-10-11 (`scripts/qrss-fixes-2025-02.json`):
+QRSS's spelling for systems found under another name (the old name kept as
+another name), names cut at 25 characters completed, the two "Cenote C" named
+C2 and C5, QRSS's newer length or depth for those systems, a system for each of
+six caves that were in no system (the cave attached to it), and maximum depths
+filled where OpenCaves had none or raised where QRSS's is deeper (matches in
+doubt left out). A change applies only if the record still has the values it
+was decided on. Run it after `import-qrss-systems.js`. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```

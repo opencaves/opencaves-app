@@ -1,0 +1,553 @@
+{
+  "source": "Quintana Roo Speleological Survey, Reported Long Underwater Caves, 1 February 2025",
+  "decided": "2026-10-11",
+  "ops": [
+    {
+      "what": "Cenote C is C2",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "expect": {
+        "name": "Cenote C"
+      },
+      "set": {
+        "name": "Cenote C2"
+      }
+    },
+    {
+      "what": "Cenote C is C5",
+      "type": "update",
+      "id": "-P3g7oJq8MtXeVt7nhpd",
+      "expect": {
+        "name": "Cenote C"
+      },
+      "set": {
+        "name": "Cenote C5"
+      }
+    },
+    {
+      "what": "Crustecea: QRSS's Sistema Crustacea",
+      "type": "update",
+      "id": "-KPZgfv77RJjwaif5cWd",
+      "expect": {
+        "name": "Crustecea"
+      },
+      "set": {
+        "name": "Crustacea"
+      },
+      "addAka": [
+        "Crustecea"
+      ]
+    },
+    {
+      "what": "Tatich: QRSS's Sist. Tatich (Nuhuch Actun, Christian)",
+      "type": "update",
+      "id": "-KPZgfyMtMazy0q2zOdT",
+      "expect": {
+        "name": "Tatich",
+        "exploredLength": 4155.6,
+        "maxDepth": 7.3
+      },
+      "set": {
+        "exploredLength": 4408.3,
+        "maxDepth": 8.8
+      },
+      "addAka": [
+        "Christian"
+      ]
+    },
+    {
+      "what": "Cenote Jeel Kaa Paja Noho: QRSS's Cenote Jeel Kaa Paja Nohoch",
+      "type": "update",
+      "id": "-KPZgfszpIdwkkf98pEF",
+      "expect": {
+        "name": "Cenote Jeel Kaa Paja Noho"
+      },
+      "set": {
+        "name": "Cenote Jeel Kaa Paja Nohoch"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Cenote Luuk Hool: QRSS's Cenote Luuk Hol",
+      "type": "update",
+      "id": "-KPZgftDF3IAbIioC48u",
+      "expect": {
+        "name": "Cenote Luuk Hool",
+        "exploredLength": 114,
+        "maxDepth": 7.9
+      },
+      "set": {
+        "name": "Cenote Luuk Hol",
+        "exploredLength": 872.3,
+        "maxDepth": 12.5
+      },
+      "addAka": [
+        "Cenote Luuk Hool"
+      ]
+    },
+    {
+      "what": "Cenote Chan Chemuyil North: QRSS's Cenote Chan Chemuyil Norte",
+      "type": "update",
+      "id": "-KPZgfs7jzzehuQc2Qv6",
+      "expect": {
+        "name": "Cenote Chan Chemuyil North"
+      },
+      "set": {
+        "name": "Cenote Chan Chemuyil Norte"
+      },
+      "addAka": [
+        "Cenote Chan Chemuyil North"
+      ]
+    },
+    {
+      "what": "Cenote San Martin Balam H: QRSS's Cenote San Martin Balam Ha",
+      "type": "update",
+      "id": "-KPZgftlBQrv4NvutXXp",
+      "expect": {
+        "name": "Cenote San Martin Balam H"
+      },
+      "set": {
+        "name": "Cenote San Martin Balam Ha"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Cenote El Tigre: QRSS's Cenote del Tigre",
+      "type": "update",
+      "id": "-KPZgfsda5emyrGbKgJb",
+      "expect": {
+        "name": "Cenote El Tigre",
+        "exploredLength": 83.2,
+        "maxDepth": 9.8
+      },
+      "set": {
+        "name": "Cenote del Tigre",
+        "exploredLength": 356.9,
+        "maxDepth": 14.3
+      },
+      "addAka": [
+        "Cenote El Tigre"
+      ]
+    },
+    {
+      "what": "Entrada Punta Allen Snapp: QRSS's Entrada Punta Allen Snapper",
+      "type": "update",
+      "id": "-KPZgfvs8uKTVn4HZ-rL",
+      "expect": {
+        "name": "Entrada Punta Allen Snapp",
+        "exploredLength": 290.5
+      },
+      "set": {
+        "name": "Entrada Punta Allen Snapper",
+        "exploredLength": 318.5
+      },
+      "addAka": []
+    },
+    {
+      "what": "Kaape Culche Sum: QRSS's Sistema Kaape Culche Sump",
+      "type": "update",
+      "id": "-KPZgfwSEE_v8xtZrrHc",
+      "expect": {
+        "name": "Kaape Culche Sum"
+      },
+      "set": {
+        "name": "Kaape Culche Sump"
+      },
+      "addAka": []
+    },
+    {
+      "what": "Xuux Two: a system for the cave Xuux Two",
+      "type": "create",
+      "record": {
+        "name": "Xuux Two",
+        "exploredLength": 4045.9,
+        "maxDepth": 20.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2019-05",
+            "team": [
+              "Leal",
+              "Reato"
+            ],
+            "description": "Surveyed length :length[4045.9 m], maximum depth :length[20.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "note": "QRSS (Feb. 2025) counts 3 cenotes in this system."
+      },
+      "attachCave": "-L1s_38irfZBppFLZHSu",
+      "id": "-P3g9q2n9BkFdZyGGLGC"
+    },
+    {
+      "what": "Cenote Jose Cocom: a system for the cave Jose Cocom",
+      "type": "create",
+      "record": {
+        "name": "Cenote Jose Cocom",
+        "exploredLength": 696.6,
+        "maxDepth": 0.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#5873e0",
+        "explorations": [
+          {
+            "date": "2017-01",
+            "team": [
+              "Garcia",
+              "Fito"
+            ],
+            "description": "Surveyed length :length[696.6 m], maximum depth :length[0.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sXBm8wt9x-1VRJKB0",
+      "id": "-P3g9q2n9BkFdZyGGLGD"
+    },
+    {
+      "what": "Cenote Tucan Sink: a system for the cave Tucan Sink",
+      "type": "create",
+      "record": {
+        "name": "Cenote Tucan Sink",
+        "exploredLength": 176.2,
+        "maxDepth": 16.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#d64000",
+        "explorations": [
+          {
+            "date": "2017-05",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb"
+            ],
+            "description": "Surveyed length :length[176.2 m], maximum depth :length[16.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sZ_UkewRgkuyvgcTG",
+      "id": "-P3g9q2n9BkFdZyGGLGE"
+    },
+    {
+      "what": "Entrada Vulcan: a system for the cave Entrada Vulcan",
+      "type": "create",
+      "record": {
+        "name": "Entrada Vulcan",
+        "exploredLength": 154.8,
+        "maxDepth": 16.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#70a36a",
+        "explorations": [
+          {
+            "date": "2017-01",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb"
+            ],
+            "description": "Surveyed length :length[154.8 m], maximum depth :length[16.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sWucPJwANEA8wdzfs",
+      "id": "-P3g9q2n9BkFdZyGGLGF"
+    },
+    {
+      "what": "Cenote Otoch Kitam: a system for the cave Otoch Kitam",
+      "type": "create",
+      "record": {
+        "name": "Cenote Otoch Kitam",
+        "exploredLength": 132.6,
+        "maxDepth": 5.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#001466",
+        "explorations": [
+          {
+            "date": "2017-04",
+            "team": [
+              "N. Casella",
+              "M. Casella",
+              "G. Newmann"
+            ],
+            "description": "Surveyed length :length[132.6 m], maximum depth :length[5.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1sXNMn759h3Jx5LK-0",
+      "id": "-P3g9q2n9BkFdZyGGLGG"
+    },
+    {
+      "what": "Cenote Pequena Puerta: a system for the cave Pequena Puerta",
+      "type": "create",
+      "record": {
+        "name": "Cenote Pequena Puerta",
+        "exploredLength": 101.5,
+        "maxDepth": 19.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#33a7ca",
+        "explorations": [
+          {
+            "date": "2016-02",
+            "team": [
+              "O'Farrell",
+              "Hutnan"
+            ],
+            "description": "Surveyed length :length[101.5 m], maximum depth :length[19.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ]
+      },
+      "attachCave": "-L1s_GHlDnHXTp7QG0tY",
+      "id": "-P3g9q2n9BkFdZyGGLGH"
+    },
+    {
+      "what": "Zapote-Camilo: depth none -> 28.0 m (QRSS)",
+      "type": "update",
+      "id": "-P2yXeqfDFvz_hKKoPC_",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 28
+      }
+    },
+    {
+      "what": "Caterpillar: depth 27.1 -> 29.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfrV0M66mUtiS_HP",
+      "expect": {
+        "maxDepth": 27.1
+      },
+      "set": {
+        "maxDepth": 29
+      }
+    },
+    {
+      "what": "Nohoch Pek: depth 18.6 -> 20.3 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfxP3KWuHIiEGnFp",
+      "expect": {
+        "maxDepth": 18.6
+      },
+      "set": {
+        "maxDepth": 20.3
+      }
+    },
+    {
+      "what": "Doggi: depth 14.6 -> 15.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfvKexKsJV6tA2yB",
+      "expect": {
+        "maxDepth": 14.6
+      },
+      "set": {
+        "maxDepth": 15.5
+      }
+    },
+    {
+      "what": "MOAC: depth none -> 16.8 m (QRSS)",
+      "type": "update",
+      "id": "-MA6a5iDdyU3cAArpJS2",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 16.8
+      }
+    },
+    {
+      "what": "Dzonot Took: depth 16.5 -> 18.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfv_XVaCpyMw08xQ",
+      "expect": {
+        "maxDepth": 16.5
+      },
+      "set": {
+        "maxDepth": 18
+      }
+    },
+    {
+      "what": "Ah Kax Ha: depth 26.5 -> 27.1 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfqxaN6zT6Dkag6n",
+      "expect": {
+        "maxDepth": 26.5
+      },
+      "set": {
+        "maxDepth": 27.1
+      }
+    },
+    {
+      "what": "Kachkalak: depth 13.4 -> 15.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwUA7Lx2U5pR9mS",
+      "expect": {
+        "maxDepth": 13.4
+      },
+      "set": {
+        "maxDepth": 15.8
+      }
+    },
+    {
+      "what": "Makal Balam: depth 14.6 -> 19.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwraIPAcm_ce8Gb",
+      "expect": {
+        "maxDepth": 14.6
+      },
+      "set": {
+        "maxDepth": 19.5
+      }
+    },
+    {
+      "what": "Luna Azul: depth 21.6 -> 22.6 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwptpcvba1xXrij",
+      "expect": {
+        "maxDepth": 21.6
+      },
+      "set": {
+        "maxDepth": 22.6
+      }
+    },
+    {
+      "what": "Cenote Don Lucio: depth 8.2 -> 20.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsVKGSESjlHyY_m",
+      "expect": {
+        "maxDepth": 8.2
+      },
+      "set": {
+        "maxDepth": 20.8
+      }
+    },
+    {
+      "what": "Cenote Gypsy Juice: depth 20.1 -> 25.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsm6JFgCCX-BvY-",
+      "expect": {
+        "maxDepth": 20.1
+      },
+      "set": {
+        "maxDepth": 25.9
+      }
+    },
+    {
+      "what": "Eldorado: depth 14 -> 16.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfvjN4IfVawQaHPG",
+      "expect": {
+        "maxDepth": 14
+      },
+      "set": {
+        "maxDepth": 16.5
+      }
+    },
+    {
+      "what": "String of Pearls: depth 16.5 -> 19.5 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfyA7ZoBBqpyAeoX",
+      "expect": {
+        "maxDepth": 16.5
+      },
+      "set": {
+        "maxDepth": 19.5
+      }
+    },
+    {
+      "what": "Cenote Carita: depth 22.3 -> 22.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfru4wvU1zu1_osa",
+      "expect": {
+        "maxDepth": 22.3
+      },
+      "set": {
+        "maxDepth": 22.9
+      }
+    },
+    {
+      "what": "Ursus: depth 28 -> 34.7 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfyh36PVOebQ635z",
+      "expect": {
+        "maxDepth": 28
+      },
+      "set": {
+        "maxDepth": 34.7
+      }
+    },
+    {
+      "what": "Cenote Dos Ayim: depth 11.3 -> 11.9 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfsYXuUaK_4X3mup",
+      "expect": {
+        "maxDepth": 11.3
+      },
+      "set": {
+        "maxDepth": 11.9
+      }
+    },
+    {
+      "what": "Cenote Polaris: depth 19.2 -> 20.1 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgft_gRaEfwWUd8xc",
+      "expect": {
+        "maxDepth": 19.2
+      },
+      "set": {
+        "maxDepth": 20.1
+      }
+    },
+    {
+      "what": "Kuuchil Wiinik Laab: depth none -> 11.0 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfwZXmsBEg-PQpZW",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 11
+      }
+    },
+    {
+      "what": "Cenote Lilly: depth 19.2 -> 19.8 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgft7oZ1SbShBgg-a",
+      "expect": {
+        "maxDepth": 19.2
+      },
+      "set": {
+        "maxDepth": 19.8
+      }
+    },
+    {
+      "what": "Actun Tumben: depth none -> 3.4 m (QRSS)",
+      "type": "update",
+      "id": "-L1sWfyHO7qWwyZ6ZWM8",
+      "expect": {
+        "maxDepth": null
+      },
+      "set": {
+        "maxDepth": 3.4
+      }
+    },
+    {
+      "what": "Sac Actun: depth 101.2 -> 119.2 m (QRSS)",
+      "type": "update",
+      "id": "-KPZgfxuMwwzBTvKYaMt",
+      "expect": {
+        "maxDepth": 101.2
+      },
+      "set": {
+        "maxDepth": 119.2
+      }
+    }
+  ]
+}

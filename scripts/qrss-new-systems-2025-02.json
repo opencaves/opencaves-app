@@ -1,0 +1,1822 @@
+{
+  "source": "Quintana Roo Speleological Survey, Reported Long Underwater Caves, 1 February 2025",
+  "systems": [
+    {
+      "id": "-P3g7oJq8MtXeVt7nhos",
+      "qrssName": "Sistema Veladora",
+      "record": {
+        "name": "Veladora",
+        "exploredLength": 8830.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#0057ad",
+        "explorations": [
+          {
+            "date": "2020-01",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[8830.7 m], maximum depth :length[18.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 18.9,
+        "note": "QRSS (Feb. 2025) counts 7 cenotes in this system (count uncertain)."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhot",
+      "qrssName": "Sistema Muluk Alamo (new rename)",
+      "record": {
+        "name": "Muluk Alamo",
+        "exploredLength": 6246.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#c2c097",
+        "explorations": [
+          {
+            "date": "2024-10",
+            "team": [
+              "Sandoval",
+              "Arias",
+              "Calva"
+            ],
+            "description": "Surveyed length :length[6246.6 m], maximum depth :length[9.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 9.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhou",
+      "qrssName": "Sistema O'ho Tucha",
+      "record": {
+        "name": "O'ho Tucha",
+        "exploredLength": 5968.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#66424d",
+        "explorations": [
+          {
+            "date": "2018-03",
+            "team": [
+              "Vanilla Sky Project, GAM"
+            ],
+            "description": "Surveyed length :length[5968.8 m], maximum depth :length[25 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 25,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhov",
+      "qrssName": "Sistema Exploradora Sump",
+      "record": {
+        "name": "Exploradora Sump",
+        "exploredLength": 5881.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#001466",
+        "explorations": [
+          {
+            "date": "2020-07",
+            "team": [
+              "Fortin",
+              "Fraser",
+              "O'Keefe",
+              "Schmid",
+              "White"
+            ],
+            "description": "Surveyed length :length[5881.9 m], maximum depth :length[17.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 17.4,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhow",
+      "qrssName": "Sistema de los Metates",
+      "record": {
+        "name": "de los Metates",
+        "exploredLength": 5758.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#349428",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "GAM"
+            ],
+            "description": "Surveyed length :length[5758.3 m], maximum depth :length[23.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 23.5,
+        "note": "QRSS (Feb. 2025) counts 4 cenotes in this system (count uncertain)."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhox",
+      "qrssName": "Sistema Tumben Kuxtal",
+      "record": {
+        "name": "Tumben Kuxtal",
+        "exploredLength": 4647.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#16660d",
+        "explorations": [
+          {
+            "date": "2016-06",
+            "team": [
+              "Hardin, Lowe, C., J.  Richards"
+            ],
+            "description": "Surveyed length :length[4647.3 m], maximum depth :length[20.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 20.4,
+        "note": "QRSS (Feb. 2025) counts 4 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhoy",
+      "qrssName": "Sistema Chac Bromelia",
+      "record": {
+        "name": "Chac Bromelia",
+        "exploredLength": 4471.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#19ff00",
+        "explorations": [
+          {
+            "date": "2021-02",
+            "team": [
+              "Martin",
+              "Schmittner"
+            ],
+            "description": "Surveyed length :length[4471.4 m], maximum depth :length[17.7 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 17.7,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhoz",
+      "qrssName": "Sistema Red Pool",
+      "record": {
+        "name": "Red Pool",
+        "exploredLength": 3981.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "GAM"
+            ],
+            "description": "Surveyed length :length[3981.6 m], maximum depth :length[15.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 15.8,
+        "note": "QRSS (Feb. 2025) counts 8 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp-",
+      "qrssName": "Cenote K'aax Nah",
+      "record": {
+        "name": "Cenote K'aax Nah",
+        "exploredLength": 3950.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#750023",
+        "explorations": [
+          {
+            "date": "2022-12",
+            "team": [
+              "Gibb",
+              "Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[3950.4 m], maximum depth :length[22.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 22.2,
+        "note": "QRSS (Feb. 2025) counts 1 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp0",
+      "qrssName": "Sistema Elementos",
+      "record": {
+        "name": "Elementos",
+        "exploredLength": 2991.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#9cadf0",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[2991.9 m], maximum depth :length[20.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 20.4,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp1",
+      "qrssName": "Sistema El Zapotal",
+      "record": {
+        "name": "El Zapotal",
+        "exploredLength": 2951.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#70a36a",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[2951.7 m], maximum depth :length[21.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 21.6,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp2",
+      "qrssName": "Sistema Zukunoob Noh",
+      "record": {
+        "name": "Zukunoob Noh",
+        "exploredLength": 2070.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#16660d",
+        "explorations": [
+          {
+            "date": "2017-07",
+            "team": [
+              "Reato",
+              "Garcia"
+            ],
+            "description": "Surveyed length :length[2070.8 m], maximum depth :length[16.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 16.2,
+        "note": "QRSS (Feb. 2025) counts 4 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp3",
+      "qrssName": "Sistema Gran Zapote",
+      "record": {
+        "name": "Gran Zapote",
+        "exploredLength": 2055.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#385752",
+        "explorations": [
+          {
+            "date": "2017-07",
+            "team": [
+              "Reato",
+              "Leal"
+            ],
+            "description": "Surveyed length :length[2055.9 m], maximum depth :length[11.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp4",
+      "qrssName": "Cenote Dagobah",
+      "record": {
+        "name": "Cenote Dagobah",
+        "exploredLength": 1810.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#193bc2",
+        "explorations": [
+          {
+            "date": "2018-10",
+            "team": [
+              "Gibb",
+              "Rouquette-Cathala",
+              "Nebenhaus"
+            ],
+            "description": "Surveyed length :length[1810.5 m], maximum depth :length[25.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 25.6,
+        "note": "QRSS (Feb. 2025) counts 1 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp5",
+      "qrssName": "Sistema Playa de Ranas",
+      "record": {
+        "name": "Playa de Ranas",
+        "exploredLength": 1536.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#70a36a",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[1536.8 m], maximum depth :length[17.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 17.1,
+        "note": "QRSS (Feb. 2025) counts 2 cenotes in this system."
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp6",
+      "qrssName": "Sistema Burning Wasp",
+      "record": {
+        "name": "Burning Wasp",
+        "exploredLength": 1419.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#a30000",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[1419.1 m], maximum depth :length[18 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 18
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp7",
+      "qrssName": "Cenote Mordor",
+      "record": {
+        "name": "Cenote Mordor",
+        "exploredLength": 1248.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#385752",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "GAM, MCEP"
+            ],
+            "description": "Surveyed length :length[1248.8 m], maximum depth :length[11 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp8",
+      "qrssName": "Sistema Catedral",
+      "record": {
+        "name": "Catedral",
+        "exploredLength": 1212.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#750023",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[1212.5 m], maximum depth :length[15.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 15.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp9",
+      "qrssName": "Cenote Aktun Kalom K'in",
+      "record": {
+        "name": "Cenote Aktun Kalom K'in",
+        "exploredLength": 1105.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#2d3557",
+        "explorations": [
+          {
+            "date": "2024-09",
+            "team": [
+              "Nava",
+              "Alvarez"
+            ],
+            "description": "Surveyed length :length[1105.2 m], maximum depth :length[14.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 14.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpA",
+      "qrssName": "Sistema Chi'i'bal Xuux",
+      "record": {
+        "name": "Chi'i'bal Xuux",
+        "exploredLength": 1050.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#380000",
+        "explorations": [
+          {
+            "date": "2020-08",
+            "team": [
+              "Ardizzoni",
+              "Moro"
+            ],
+            "description": "Surveyed length :length[1050.8 m], maximum depth :length[6.7 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.7
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpB",
+      "qrssName": "Cenote Dexter",
+      "record": {
+        "name": "Cenote Dexter",
+        "exploredLength": 933.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "K. Hietanen"
+            ],
+            "description": "Surveyed length :length[933.6 m], maximum depth :length[31.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 31.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpC",
+      "qrssName": "Cenote Tatich One",
+      "record": {
+        "name": "Cenote Tatich One",
+        "exploredLength": 931.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2020-01",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[931.2 m], maximum depth :length[6.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpD",
+      "qrssName": "Sistema Corona",
+      "record": {
+        "name": "Corona",
+        "exploredLength": 908.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#193bc2",
+        "explorations": [
+          {
+            "date": "2020-05",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb",
+              "White"
+            ],
+            "description": "Surveyed length :length[908.2 m], maximum depth :length[16.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 16.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpE",
+      "qrssName": "Cenote Godzilla",
+      "record": {
+        "name": "Cenote Godzilla",
+        "exploredLength": 894.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2021-07",
+            "team": [
+              "Ternat",
+              "Coffield-Feith",
+              "Bulman",
+              "Widmann"
+            ],
+            "description": "Surveyed length :length[894.6 m], maximum depth :length[97.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 97.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpF",
+      "qrssName": "Cenote Pel Ha",
+      "record": {
+        "name": "Cenote Pel Ha",
+        "exploredLength": 768.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#001466",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Berni, Pye, Sieff, Bogaerts, Schmittner"
+            ],
+            "description": "Surveyed length :length[768.7 m], maximum depth :length[27.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 27.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpG",
+      "qrssName": "Cenote Antares",
+      "record": {
+        "name": "Cenote Antares",
+        "exploredLength": 758.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#5873e0",
+        "explorations": [
+          {
+            "date": "2020-03",
+            "team": [
+              "Gibb",
+              "Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[758.9 m], maximum depth :length[20.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 20.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpH",
+      "qrssName": "Cenote Bendiction",
+      "record": {
+        "name": "Cenote Bendiction",
+        "exploredLength": 753.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#9100c2",
+        "explorations": [
+          {
+            "date": "2020-11",
+            "team": [
+              "Coffield-Feith",
+              "Bulman",
+              "Adame"
+            ],
+            "description": "Surveyed length :length[753.7 m], maximum depth :length[70.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 70.9
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpI",
+      "qrssName": "Cenote ZBK",
+      "record": {
+        "name": "Cenote ZBK",
+        "exploredLength": 752.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#d863ff",
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[752.7 m], maximum depth :length[10 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpJ",
+      "qrssName": "Cenote Mak Chi'",
+      "record": {
+        "name": "Cenote Mak Chi'",
+        "exploredLength": 730.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#001466",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "Berni, Pye, Sieff"
+            ],
+            "description": "Surveyed length :length[730.6 m], maximum depth :length[18 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 18
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpK",
+      "qrssName": "Cenote Sac Playa",
+      "record": {
+        "name": "Cenote Sac Playa",
+        "exploredLength": 709.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#66424d",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[709.9 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpL",
+      "qrssName": "Cenote Chico Sur",
+      "record": {
+        "name": "Cenote Chico Sur",
+        "exploredLength": 705.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#33a7ca",
+        "explorations": [
+          {
+            "date": "2024-03",
+            "team": [
+              "Nava",
+              "Alvarez",
+              "Renghini"
+            ],
+            "description": "Surveyed length :length[705.6 m], maximum depth :length[13 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 13
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpM",
+      "qrssName": "Sistema Chuucho",
+      "record": {
+        "name": "Chuucho",
+        "exploredLength": 690.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#16660d",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "Bogaerts",
+              "Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[690.4 m], maximum depth :length[4.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 4.9
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpN",
+      "qrssName": "Cenote Kiichpan",
+      "record": {
+        "name": "Cenote Kiichpan",
+        "exploredLength": 689.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#d64000",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[689.8 m], maximum depth :length[17.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 17.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpO",
+      "qrssName": "Cenote Casa de Las Tortuga",
+      "record": {
+        "name": "Cenote Casa de Las Tortuga",
+        "exploredLength": 685.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2016-01",
+            "team": [
+              "C., J. Richards"
+            ],
+            "description": "Surveyed length :length[685.5 m], maximum depth :length[23.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 23.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpP",
+      "qrssName": "Cenote Heteron Ha",
+      "record": {
+        "name": "Cenote Heteron Ha",
+        "exploredLength": 639.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff6b21",
+        "explorations": [
+          {
+            "date": "",
+            "team": [
+              "Domingues J.",
+              "Tanaka",
+              "Gusso",
+              "P. Franco",
+              "Gomes"
+            ],
+            "description": "Surveyed length :length[639.8 m], maximum depth :length[16.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 16.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpQ",
+      "qrssName": "Sistema Tres Rios",
+      "record": {
+        "name": "Tres Rios",
+        "exploredLength": 637.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2014-03",
+            "team": [
+              "Quiet Diver Team"
+            ],
+            "description": "Surveyed length :length[637.3 m], maximum depth :length[11.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpR",
+      "qrssName": "Cenote Medusa",
+      "record": {
+        "name": "Cenote Medusa",
+        "exploredLength": 631.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3cb32e",
+        "explorations": [
+          {
+            "date": "2019-09",
+            "team": [
+              "Gibb",
+              "Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[631.9 m], maximum depth :length[19.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 19.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpS",
+      "qrssName": "Sistema Lluvia",
+      "record": {
+        "name": "Lluvia",
+        "exploredLength": 495,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#66424d",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[495 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpT",
+      "qrssName": "Cenote Rie",
+      "record": {
+        "name": "Cenote Rie",
+        "exploredLength": 481.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#33a7ca",
+        "explorations": [
+          {
+            "date": "2019-06",
+            "team": [
+              "Ohama",
+              "Schmittner"
+            ],
+            "description": "Surveyed length :length[481.9 m], maximum depth :length[18.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 18.3
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpU",
+      "qrssName": "Cenote La Guadalupana",
+      "record": {
+        "name": "Cenote La Guadalupana",
+        "exploredLength": 481.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2019-12",
+            "team": [
+              "Loew",
+              "Sabbione",
+              "Solignac"
+            ],
+            "description": "Surveyed length :length[481.1 m], maximum depth :length[21 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 21
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpV",
+      "qrssName": "Cenote Avispas",
+      "record": {
+        "name": "Cenote Avispas",
+        "exploredLength": 460.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fa9408",
+        "explorations": [
+          {
+            "date": "2018-01",
+            "team": [
+              "Pleimer",
+              "Reise",
+              "Weber"
+            ],
+            "description": "Surveyed length :length[460.2 m], maximum depth :length[11.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11.9
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpW",
+      "qrssName": "Cenote Rushmi",
+      "record": {
+        "name": "Cenote Rushmi",
+        "exploredLength": 410.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#0057ad",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[410.5 m], maximum depth :length[11.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11.9
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpX",
+      "qrssName": "Cenote Calacchen",
+      "record": {
+        "name": "Cenote Calacchen",
+        "exploredLength": 403.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#00bfa2",
+        "explorations": [
+          {
+            "date": "2016-09",
+            "team": [
+              "Reato",
+              "Leal"
+            ],
+            "description": "Surveyed length :length[403.7 m], maximum depth :length[6.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpY",
+      "qrssName": "Cenote Ganesh",
+      "record": {
+        "name": "Cenote Ganesh",
+        "exploredLength": 375.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#750023",
+        "explorations": [
+          {
+            "date": "2019-02",
+            "team": [
+              "Jancar",
+              "Motycka"
+            ],
+            "description": "Surveyed length :length[375.5 m], maximum depth :length[3.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 3.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpZ",
+      "qrssName": "Cenote Xuux Norte",
+      "record": {
+        "name": "Cenote Xuux Norte",
+        "exploredLength": 323.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#948d00",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "N. Casella"
+            ],
+            "description": "Surveyed length :length[323.1 m], maximum depth :length[12.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 12.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhp_",
+      "qrssName": "Sistema David",
+      "record": {
+        "name": "David",
+        "exploredLength": 302.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff85a9",
+        "explorations": [
+          {
+            "date": "2022-11",
+            "team": [
+              "V. Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[302.4 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpa",
+      "qrssName": "Cenote Mateo",
+      "record": {
+        "name": "Cenote Mateo",
+        "exploredLength": 292.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2016-09",
+            "team": [
+              "N., M. Casella, M. Lopez"
+            ],
+            "description": "Surveyed length :length[292.6 m], maximum depth :length[16.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 16.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpb",
+      "qrssName": "Sistema Linea Dorada",
+      "record": {
+        "name": "Linea Dorada",
+        "exploredLength": 268.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#70a36a",
+        "explorations": [
+          {
+            "date": "2016-03",
+            "team": [
+              "Privett, Pye"
+            ],
+            "description": "Surveyed length :length[268.8 m], maximum depth :length[9.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 9.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpc",
+      "qrssName": "Sistema Good Guy",
+      "record": {
+        "name": "Good Guy",
+        "exploredLength": 265.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#9cadf0",
+        "explorations": [
+          {
+            "date": "2016-03",
+            "team": [
+              "Privett, Pye"
+            ],
+            "description": "Surveyed length :length[265.2 m], maximum depth :length[11 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpd",
+      "qrssName": "Cenote C",
+      "record": {
+        "name": "Cenote C5",
+        "exploredLength": 241,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#e0afaf",
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[241 m], maximum depth :length[14.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 14.3
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpe",
+      "qrssName": "Cenote No Luck Canyons",
+      "record": {
+        "name": "Cenote No Luck Canyons",
+        "exploredLength": 219.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff85a9",
+        "explorations": [
+          {
+            "date": "2002-09",
+            "team": [
+              "R. Schmittner"
+            ],
+            "description": "Surveyed length :length[219.5 m], maximum depth :length[14.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 14.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpf",
+      "qrssName": "Sistema Muro",
+      "record": {
+        "name": "Muro",
+        "exploredLength": 196.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#74b3a9",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[196.9 m], maximum depth :length[13.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 13.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpg",
+      "qrssName": "Cenote Zoots Lik",
+      "record": {
+        "name": "Cenote Zoots Lik",
+        "exploredLength": 176.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff2164",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "Berni",
+              "Sieff"
+            ],
+            "description": "Surveyed length :length[176.5 m], maximum depth :length[11.9 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 11.9
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhph",
+      "qrssName": "Cenote Sueno Aventuras",
+      "record": {
+        "name": "Cenote Sueno Aventuras",
+        "exploredLength": 169.2,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2018-07",
+            "team": [
+              "V. Rouquette-Cathala"
+            ],
+            "description": "Surveyed length :length[169.2 m], maximum depth :length[13.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 13.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpi",
+      "qrssName": "Sistema Crocodoom",
+      "record": {
+        "name": "Crocodoom",
+        "exploredLength": 168.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#a30000",
+        "explorations": [
+          {
+            "date": "2016-06",
+            "team": [
+              "Hardin, C., J.  Richards"
+            ],
+            "description": "Surveyed length :length[168.6 m], maximum depth :length[21.3 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 21.3
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpj",
+      "qrssName": "Cenote C",
+      "record": {
+        "name": "Cenote C2",
+        "exploredLength": 166,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#e0afaf",
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[166 m], maximum depth :length[12.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 12.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpk",
+      "qrssName": "Cenote Frangipani",
+      "record": {
+        "name": "Cenote Frangipani",
+        "exploredLength": 155.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3cb32e",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[155.1 m], maximum depth :length[6.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpl",
+      "qrssName": "Cenote Hushpuppy",
+      "record": {
+        "name": "Cenote Hushpuppy",
+        "exploredLength": 153.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#2d3557",
+        "explorations": [
+          {
+            "date": "2016-08",
+            "team": [
+              "K. Davidsson"
+            ],
+            "description": "Surveyed length :length[153.5 m], maximum depth :length[19.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 19.2
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpm",
+      "qrssName": "Cenote Casa Antigua",
+      "record": {
+        "name": "Cenote Casa Antigua",
+        "exploredLength": 151.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3cb32e",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[151.5 m], maximum depth :length[8.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 8.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpn",
+      "qrssName": "Cenote Na Ichi Ool",
+      "record": {
+        "name": "Cenote Na Ichi Ool",
+        "exploredLength": 146.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#19ff00",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "B. Pye"
+            ],
+            "description": "Surveyed length :length[146.9 m], maximum depth :length[10.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpo",
+      "qrssName": "Cenote Juno",
+      "record": {
+        "name": "Cenote Juno",
+        "exploredLength": 146.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#193bc2",
+        "explorations": [
+          {
+            "date": "2018-11",
+            "team": [
+              "Gibb",
+              "Rouquette-Cathala",
+              "Nebenhaus"
+            ],
+            "description": "Surveyed length :length[146.3 m], maximum depth :length[16.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 16.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpp",
+      "qrssName": "Cenote Chi'ibil Aakach",
+      "record": {
+        "name": "Cenote Chi'ibil Aakach",
+        "exploredLength": 144.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2020-07",
+            "team": [
+              "Massimo Ardizzoni"
+            ],
+            "description": "Surveyed length :length[144.8 m], maximum depth :length[3.7 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 3.7
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpq",
+      "qrssName": "Cenote Cuidad Esmeralda",
+      "record": {
+        "name": "Cenote Cuidad Esmeralda",
+        "exploredLength": 143.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff2164",
+        "explorations": [
+          {
+            "date": "",
+            "team": [
+              "J. Richards",
+              "01?2010"
+            ],
+            "description": "Surveyed length :length[143.3 m], maximum depth :length[15.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 15.2
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpr",
+      "qrssName": "Cenote Enzo's Well",
+      "record": {
+        "name": "Cenote Enzo's Well",
+        "exploredLength": 132.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#16660d",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "B. Pye"
+            ],
+            "description": "Surveyed length :length[132.9 m], maximum depth :length[8.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 8.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhps",
+      "qrssName": "Cenote Charco",
+      "record": {
+        "name": "Cenote Charco",
+        "exploredLength": 128.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#0057ad",
+        "explorations": [
+          {
+            "date": "2016-06",
+            "team": [
+              "MCEP. CINDAQ"
+            ],
+            "description": "Surveyed length :length[128.9 m], maximum depth :length[5.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 5.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpt",
+      "qrssName": "Cenote Xul-In",
+      "record": {
+        "name": "Cenote Xul-In",
+        "exploredLength": 127.7,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3a1347",
+        "explorations": [
+          {
+            "date": "2016-04",
+            "team": [
+              "Czech and Slovak Speleo. Soc."
+            ],
+            "description": "Surveyed length :length[127.7 m], maximum depth :length[5.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 5.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpu",
+      "qrssName": "Cenote Special K",
+      "record": {
+        "name": "Cenote Special K",
+        "exploredLength": 125.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#e0afaf",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "T. Privett"
+            ],
+            "description": "Surveyed length :length[125.6 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpv",
+      "qrssName": "Cenote Chile Verde",
+      "record": {
+        "name": "Cenote Chile Verde",
+        "exploredLength": 123.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3cb32e",
+        "explorations": [
+          {
+            "date": "2019-09",
+            "team": [
+              "Czech Speleo. Society"
+            ],
+            "description": "Surveyed length :length[123.4 m], maximum depth :length[19.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 19.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpw",
+      "qrssName": "Sistema Pat Ha",
+      "record": {
+        "name": "Pat Ha",
+        "exploredLength": 116.4,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#9100c2",
+        "explorations": [
+          {
+            "date": "2016-05",
+            "team": [
+              "Domingues J.",
+              "Heusner",
+              "Rodrig. da Silva"
+            ],
+            "description": "Surveyed length :length[116.4 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpx",
+      "qrssName": "Sistema Pantera",
+      "record": {
+        "name": "Pantera",
+        "exploredLength": 115.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#3a1347",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[115.5 m], maximum depth :length[14 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 14
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpy",
+      "qrssName": "Cenote Stefan's Hope",
+      "record": {
+        "name": "Cenote Stefan's Hope",
+        "exploredLength": 109.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#9cadf0",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[109.8 m], maximum depth :length[7.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 7.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhpz",
+      "qrssName": "Cenote Casa Antigua West",
+      "record": {
+        "name": "Cenote Casa Antigua West",
+        "exploredLength": 107.3,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#ff6b21",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "Vanilla Sky Project"
+            ],
+            "description": "Surveyed length :length[107.3 m], maximum depth :length[9.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 9.1
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq-",
+      "qrssName": "Sistema Kneedeep",
+      "record": {
+        "name": "Kneedeep",
+        "exploredLength": 69.5,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#750023",
+        "explorations": [
+          {
+            "date": "2018-04",
+            "team": [
+              "B. Pye"
+            ],
+            "description": "Surveyed length :length[69.5 m], maximum depth :length[6.7 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.7
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq0",
+      "qrssName": "Laguna Timote",
+      "record": {
+        "name": "Laguna Timote",
+        "exploredLength": 68.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#20471c",
+        "explorations": [
+          {
+            "date": "2016-03",
+            "team": [
+              "B. Pye"
+            ],
+            "description": "Surveyed length :length[68.9 m], maximum depth :length[10.4 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 10.4
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq1",
+      "qrssName": "Cenote Muyil No Name",
+      "record": {
+        "name": "Cenote Muyil No Name",
+        "exploredLength": 62.6,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#e0afaf",
+        "explorations": [
+          {
+            "date": "2020-11",
+            "team": [
+              "A. Coffield-Feith"
+            ],
+            "description": "Surveyed length :length[62.6 m], maximum depth :length[6.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 6.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq2",
+      "qrssName": "Cenote Ya'ab Zoots",
+      "record": {
+        "name": "Cenote Ya'ab Zoots",
+        "exploredLength": 39.9,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#c6a3d1",
+        "explorations": [
+          {
+            "date": "2019-03",
+            "team": [
+              "K. Hietanen"
+            ],
+            "description": "Surveyed length :length[39.9 m], maximum depth :length[8.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 8.8
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq3",
+      "qrssName": "Cenote Kolibri",
+      "record": {
+        "name": "Cenote Kolibri",
+        "exploredLength": 37.8,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#66424d",
+        "explorations": [
+          {
+            "date": "2020-04",
+            "team": [
+              "VSP 2020 Project"
+            ],
+            "description": "Surveyed length :length[37.8 m], maximum depth :length[8.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 8.2
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq4",
+      "qrssName": "Cenote Chan Beh",
+      "record": {
+        "name": "Cenote Chan Beh",
+        "exploredLength": 33,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#0057ad",
+        "explorations": [
+          {
+            "date": "2022-04",
+            "team": [
+              "Igor Gaponov"
+            ],
+            "description": "Surveyed length :length[33 m], maximum depth :length[9.5 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 9.5
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq5",
+      "qrssName": "Cueva Pullboy Sump",
+      "record": {
+        "name": "Cueva Pullboy Sump",
+        "exploredLength": 14.1,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#76378a",
+        "explorations": [
+          {
+            "date": "2020-03",
+            "team": [
+              "Rouquette-Cathala",
+              "Gibb"
+            ],
+            "description": "Surveyed length :length[14.1 m], maximum depth :length[1.6 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 1.6
+      }
+    },
+    {
+      "id": "-P3g7oJq8MtXeVt7nhq6",
+      "qrssName": "Cenote Maya Blue Pool",
+      "record": {
+        "name": "Cenote Maya Blue Pool",
+        "exploredLength": 12,
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#fff700",
+        "explorations": [
+          {
+            "date": "2020-05",
+            "team": [
+              "Alexanda Coffield-Feith"
+            ],
+            "description": "Surveyed length :length[12 m], maximum depth :length[5.2 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025."
+          }
+        ],
+        "maxDepth": 5.2
+      }
+    }
+  ]
+}
