@@ -142,6 +142,22 @@ use), listed in `scripts/qrss-lengths-2025-02.json`: the systems QRSS gives as
 longer than OpenCaves had, matched by name on 2026-10-11. A system whose
 length changed since that comparison is skipped and listed. Re-runnable.
 
+## Add the systems from QRSS
+
+```
+node scripts/import-qrss-systems.js -l           # local emulators: dry run, lists the systems
+node scripts/import-qrss-systems.js -l --write   # adds them
+node scripts/import-qrss-systems.js -p           # production (dry run; add --write to add)
+```
+
+Adds the 80 cave systems of QRSS's report of 1 February 2025 that OpenCaves
+didn't have (`scripts/qrss-new-systems-2025-02.json`, mostly explored since
+2016): name, explored length, maximum depth, an exploration entry with the
+reported date and team, the cenote count in a note when QRSS gives one, QRSS
+as the source, a colour. No area, coordinates or caves: QRSS doesn't publish
+them. Fixed ids, so local and production get the same records; a system whose
+id or name exists already is skipped. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```
