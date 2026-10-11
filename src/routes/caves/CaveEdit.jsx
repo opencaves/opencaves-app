@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { orDelete } from '@/utils/firestoreFields.js'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { visuallyHidden } from '@mui/utils'
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { deleteField } from 'firebase/firestore'
 import CaveModel from '@/models/CaveModel.js'
@@ -349,20 +350,50 @@ export default function CaveEdit() {
   return (
     <div className="oc-cave-edit">
       <EditPageHeader>
-        {/* Ends edit mode: up to the cave's page (a new cave has none yet: the caves). */}
-        <IconButton component={Link} to={isNew ? '/caves' : '..'} relative="path" aria-label={isNew ? t('backToCaves') : t('backToCave')} sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}>
+        {/* Ends edit mode. Opened from within the app: a step back (the cave's
+            page, or wherever it was opened from), as the pages' own back arrow
+            (IndexPageHeader) - a link up would stack a new entry, the cave's
+            page's back arrow then returning here. Otherwise up to the cave's
+            page (a new cave has none yet: the caves), in this entry's place. */}
+        <IconButton
+          component={Link}
+          to={isNew ? '/caves' : '..'}
+          relative="path"
+          replace
+          onClick={(event) => {
+            if (window.history.state?.idx > 0) {
+              event.preventDefault()
+              navigate(-1)
+            }
+          }}
+          aria-label={isNew ? t('backToCaves') : t('backToCave')}
+          sx={{ ml: { xs: 0, sm: -4 }, mr: -0.5 }}
+        >
           <ArrowBackRounded />
         </IconButton>
-        <Typography component="h1" variant="h5" data-appbar-page-title>
-          {isNew ? t('newCave') : t('caveTitle', { name: form.name || originalCave?.name?.value || caveId })}
+        {/* The title is the name's field, in its place: the field as any
+            other (its filled background, its underline, its label), its text
+            at the title's size. The heading, hidden, follows it - for screen
+            readers and the phone's app bar (data-appbar-page-title). */}
+        <Typography component="h1" variant="h5" data-appbar-page-title sx={visuallyHidden}>
+          {form.name || (isNew ? t('newCave') : t('caveTitle', { name: originalCave?.name?.value || caveId }))}
         </Typography>
+        <TextField
+          className="oc-cave-edit--name"
+          label={t('name')}
+          fullWidth
+          required
+          {...field('name')}
+          onBlur={() => setNameTouched(true)}
+          error={nameTouched && nameMissing}
+          helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined}
+          sx={(theme) => ({ flex: 1, minWidth: 0, '& .MuiInputBase-input': { ...theme.typography.h5 } })}
+        />
       </EditPageHeader>
 
       {/* Each section on its own opaque card (FormSection), on the dashboard's
           translucent page. */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-        {/* The name on the page itself, the sections below on cards. */}
-        <TextField label={t('name')} fullWidth required {...field('name')} onBlur={() => setNameTouched(true)} error={nameTouched && nameMissing} helperText={nameTouched && nameMissing ? tApp('nameRequired') : undefined} />
         <FormSection>
 
         <RepeatableTextField label={t('aka')} values={form.aka} onChange={(aka) => setForm((f) => ({ ...f, aka }))} addLabel={t('addAka')} removeLabel={t('removeAka')} labelProps={sectionHeadingProps} />
