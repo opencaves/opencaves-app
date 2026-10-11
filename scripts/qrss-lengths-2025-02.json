@@ -1,0 +1,384 @@
+{
+  "source": "Quintana Roo Speleological Survey, Reported Long Underwater Caves, 1 February 2025 (https://qrss.caves.org/QRSS%20QRoo%20Long%20Underwater%20Caves.pdf)",
+  "comparedAt": "2026-10-11",
+  "systems": [
+    {
+      "id": "-KPZgfxuMwwzBTvKYaMt",
+      "name": "Sac Actun",
+      "qrssName": "Sistema Sac Actun",
+      "from": 256909,
+      "to": 379568.8,
+      "reported": "12/2024",
+      "by": "Alvarez, Nava, Reato, Picard"
+    },
+    {
+      "id": "-KPZgfxVUsGBh6Jx9z7d",
+      "name": "Ox Bel Ha",
+      "qrssName": "Sistema Ox Bel Ha",
+      "from": 258791.2,
+      "to": 374203.1,
+      "reported": "11/2024",
+      "by": "S. Coffield"
+    },
+    {
+      "id": "-KPZgfwMz8Euzm1BP2BZ",
+      "name": "K'oox Baal",
+      "qrssName": "Sistema K'oox Baal",
+      "from": 77002.8,
+      "to": 103101.9,
+      "reported": "04/2024",
+      "by": "A. Reato"
+    },
+    {
+      "id": "-KPZgfxJVIrxrPs8ynZ2",
+      "name": "Nohoch Kai",
+      "qrssName": "Sistema Nohoch Kai",
+      "from": 9292.4,
+      "to": 33504.6,
+      "reported": "03/2021",
+      "by": "Berni, Sieff, Cope, Schmittner, Gugermeier"
+    },
+    {
+      "id": "-KPZgfxYvFhPbwks67iQ",
+      "name": "Paachil Nah",
+      "qrssName": "Sistema Sac Kai (Paachil Nah)",
+      "from": 5097,
+      "to": 11843.9,
+      "reported": "07/2017",
+      "by": "Czech and Slovak Speleo. Soc."
+    },
+    {
+      "id": "-KPZgfs4Zmm-q3naci_d",
+      "name": "Cenote Chan Ayim",
+      "qrssName": "Cenote Chan Ayim",
+      "from": 4213.6,
+      "to": 9382.2,
+      "reported": "06/2020",
+      "by": "Allende, Berni, Labarthe, Privett, Sieff"
+    },
+    {
+      "id": "-KPZgfxxyaiOUL0WtNt8",
+      "name": "Sac Pepem",
+      "qrssName": "Sistema Sac Pepem",
+      "from": 2060,
+      "to": 7084.8,
+      "reported": "07/2018",
+      "by": "Gibb, Rouquette-Cathala, Nebenhaus"
+    },
+    {
+      "id": "-KPZgfv_XVaCpyMw08xQ",
+      "name": "Dzonot Took",
+      "qrssName": "Sistema Dzonot Took",
+      "from": 4878,
+      "to": 8855.7,
+      "reported": "04/2016",
+      "by": "Vanilla Sky Project"
+    },
+    {
+      "id": "-KPZgfwUA7Lx2U5pR9mS",
+      "name": "Kachkalak",
+      "qrssName": "Sistema Kachkalak",
+      "from": 3238.8,
+      "to": 6851.9,
+      "reported": "02/2021",
+      "by": "Schaad, Martin, Tanaka, Miho"
+    },
+    {
+      "id": "-KPZgfwraIPAcm_ce8Gb",
+      "name": "Makal Balam",
+      "qrssName": "Sistema Manak Balam",
+      "from": 1123,
+      "to": 4410.5,
+      "reported": "03/2021",
+      "by": "Gibb, Rouquette-Cathala, White, Nebenhaus"
+    },
+    {
+      "id": "-KPZgfzL5dddMJNaTGPS",
+      "name": "Yax Tun",
+      "qrssName": "Sistema Yax Tun",
+      "from": 1699.3,
+      "to": 4083.7,
+      "reported": "02/2021",
+      "by": "Martin, O'Farrell, Schmittner, Lauer, Josiak"
+    },
+    {
+      "id": "-KPZgfxjlCS7yg3_43sV",
+      "name": "Aerolito",
+      "qrssName": "Cueva Aerolito (new)",
+      "from": 6103,
+      "to": 8389.2,
+      "reported": "12/2024",
+      "by": "P. Picard"
+    },
+    {
+      "id": "-KPZgfsVKGSESjlHyY_m",
+      "name": "Cenote Don Lucio",
+      "qrssName": "Cenote Don Lucio",
+      "from": 1099.7,
+      "to": 3116.3,
+      "reported": "11/2019",
+      "by": "QDT, Bosma, Gruber"
+    },
+    {
+      "id": "-KPZgfqxaN6zT6Dkag6n",
+      "name": "Ah Kax Ha",
+      "qrssName": "Sistema Ah Kax Ha (Otra Avicola)",
+      "from": 5225,
+      "to": 7096.7,
+      "reported": "02/2021",
+      "by": "Gibb, Rouquette-Cathala, Knudsen"
+    },
+    {
+      "id": "-KPZgfynP1_OZyUsr92C",
+      "name": "Vecan",
+      "qrssName": "Sistema Vecan",
+      "from": 4103.8,
+      "to": 5625.9,
+      "reported": "01/2019",
+      "by": "Rouquette-Cathala, Gibb, Knudsen"
+    },
+    {
+      "id": "-KPZgfyVHJH6vE-O5EcL",
+      "name": "Tortuga",
+      "qrssName": "Sistema Tortuga",
+      "from": 4931.1,
+      "to": 6185.0,
+      "reported": "12/2019",
+      "by": "Marlow, Hoogma, S. and E."
+    },
+    {
+      "id": "-KPZgfsm6JFgCCX-BvY-",
+      "name": "Cenote Gypsy Juice",
+      "qrssName": "Sistema Gypsy Juice",
+      "from": 1247.2,
+      "to": 2485.9,
+      "reported": "01/2020",
+      "by": "Hietanen, Spangberg"
+    },
+    {
+      "id": "-KPZgfw16gd0OIuVBVZB",
+      "name": "Flor de Mayo",
+      "qrssName": "Sistema Flor de Mayo",
+      "from": 1700.2,
+      "to": 2777.9,
+      "reported": "09/2018",
+      "by": "O'Farrell, Schmittner"
+    },
+    {
+      "id": "-KPZgfru4wvU1zu1_osa",
+      "name": "Cenote Carita",
+      "qrssName": "Cenote Carita",
+      "from": 323.7,
+      "to": 1326.5,
+      "reported": "01/2020",
+      "by": "Czech Speleo. Society"
+    },
+    {
+      "id": "-KPZgfvjN4IfVawQaHPG",
+      "name": "Eldorado",
+      "qrssName": "Sistema Eldorado",
+      "from": 727.9,
+      "to": 1528.9,
+      "reported": "02/2021",
+      "by": "Schmittner, Clark"
+    },
+    {
+      "id": "-KPZgfyGw3nChUfwqTYa",
+      "name": "Swan Lake",
+      "qrssName": "Sistema Swan Lake",
+      "from": 1257.9,
+      "to": 2022.6,
+      "reported": "11/2016",
+      "by": "Berni, Pye, Sieff"
+    },
+    {
+      "id": "-KPZgfsYXuUaK_4X3mup",
+      "name": "Cenote Dos Ayim",
+      "qrssName": "Cenote Dos Ayim",
+      "from": 239.3,
+      "to": 954.6,
+      "reported": "09/2016",
+      "by": "Phillips, CINDAQ, MCEP"
+    },
+    {
+      "id": "-KPZgfyTGVmYHh6q8rl9",
+      "name": "Toh Ha",
+      "qrssName": "Sistema Toh Ha",
+      "from": 47071.6,
+      "to": 47746.2,
+      "reported": "12/2018",
+      "by": "Berni, Sieff"
+    },
+    {
+      "id": "-KPZgfuAOievNnY89vzJ",
+      "name": "Cenote Tam Lu'um",
+      "qrssName": "Cenote Tam Lu'um",
+      "from": 556.6,
+      "to": 1229.3,
+      "reported": "12/2020",
+      "by": "Bulman, Coffield-Feith"
+    },
+    {
+      "id": "-KPZgfyA7ZoBBqpyAeoX",
+      "name": "String of Pearls",
+      "qrssName": "Sistema String of Pearls",
+      "from": 705.9,
+      "to": 1340.8,
+      "reported": "02/2017",
+      "by": "H. Gust"
+    },
+    {
+      "id": "-KPZgfvV_d4CzUnfK8ll",
+      "name": "Dos Pisos",
+      "qrssName": "Sistema Dos Pisos (Ka'p'el Nah)",
+      "from": 14175.9,
+      "to": 14756.3,
+      "reported": "11/2019",
+      "by": "Berni, Sieff"
+    },
+    {
+      "id": "-KPZgfwptpcvba1xXrij",
+      "name": "Luna Azul",
+      "qrssName": "Sistema Luna Azul",
+      "from": 3103.5,
+      "to": 3519.8,
+      "reported": "06/2018",
+      "by": "Pytel, Clark"
+    },
+    {
+      "id": "-KPZgfrV0M66mUtiS_HP",
+      "name": "Caterpillar",
+      "qrssName": "Sistema Caterpillar",
+      "from": 27876.4,
+      "to": 28253.0,
+      "reported": "05/2019",
+      "by": "QDT, DRSS"
+    },
+    {
+      "id": "-KPZgfspENq603-XjI9b",
+      "name": "Cenote Hatzutz Actun",
+      "qrssName": "Cenote Hatzutz Actun",
+      "from": 1655.1,
+      "to": 1980.3,
+      "reported": "02/2018",
+      "by": "Berni, Pye, Sieff"
+    },
+    {
+      "id": "-KPZgft_gRaEfwWUd8xc",
+      "name": "Cenote Polaris",
+      "qrssName": "Cenote Polaris",
+      "from": 618.1,
+      "to": 941.7,
+      "reported": "06/2016",
+      "by": "MCEP, CINDAQ"
+    },
+    {
+      "id": "-KPZgft7oZ1SbShBgg-a",
+      "name": "Cenote Lilly",
+      "qrssName": "Cenote Lilly",
+      "from": 437.4,
+      "to": 724.1,
+      "reported": "04/2022",
+      "by": "Cleary, Gaponov"
+    },
+    {
+      "id": "-KPZgfrSQEO7iYNUOret",
+      "name": "Carwash",
+      "qrssName": "Sistema Carwash",
+      "from": 2946,
+      "to": 3232.1,
+      "reported": "09/2016",
+      "by": "B. Phillips"
+    },
+    {
+      "id": "-KPZgfxP3KWuHIiEGnFp",
+      "name": "Nohoch Pek",
+      "qrssName": "Sistema Nohoch Pek",
+      "from": 25161,
+      "to": 25437.0,
+      "reported": "01/2020",
+      "by": "Rouquette-Cathala, QDT, DRSS"
+    },
+    {
+      "id": "-KPZgfrf_IFkaM0YASGn",
+      "name": "Cenote Apocalypse",
+      "qrssName": "Cenote Apocalypse",
+      "from": 626.7,
+      "to": 845.8,
+      "reported": "06/2016",
+      "by": "Phillips, CINDAQ, MCEP"
+    },
+    {
+      "id": "-KPZgfrrYaE8xaVLcpLE",
+      "name": "Cenote Caleta Tankah",
+      "qrssName": "Sistema Caleta Tankah",
+      "from": 416.1,
+      "to": 580.3,
+      "reported": "03/2016",
+      "by": "Privett, Pye"
+    },
+    {
+      "id": "-KPZgfvBiNSyQx69iveN",
+      "name": "Cueva Diablo Sump",
+      "qrssName": "Cueva Diablo Sump (Nelo)",
+      "from": 390.1,
+      "to": 531.3,
+      "reported": "04/2018",
+      "by": "Pye, Privett, Berni, Sieff"
+    },
+    {
+      "id": "-KPZgfv2XlVJF9Fgl8-h",
+      "name": "Choko Pek",
+      "qrssName": "Sistema Choko Pek",
+      "from": 3393,
+      "to": 3468.3,
+      "reported": "02/2021",
+      "by": "H. and M. Spangler, Schmittner"
+    },
+    {
+      "id": "-KPZgfyh36PVOebQ635z",
+      "name": "Ursus",
+      "qrssName": "Cenote Ursus (Xcalak)",
+      "from": 1153.1,
+      "to": 1217.4,
+      "reported": "09/2019",
+      "by": "Gibb, Rouquette-Cathala"
+    },
+    {
+      "id": "-KPZgfqmyJ6-SDHLqqR-",
+      "name": "Abejas",
+      "qrssName": "Sistema Laguna Abejas (Tres Palmas)",
+      "from": 314.6,
+      "to": 368.8,
+      "reported": "03/2016",
+      "by": "Privett, Pye"
+    },
+    {
+      "id": "-KPZgfuPYhimGtlOOFFT",
+      "name": "Cenote Under the Tree",
+      "qrssName": "Cenote Under the Tree",
+      "from": 160.3,
+      "to": 212.1,
+      "reported": "03/2016",
+      "by": "Privett, Pye"
+    },
+    {
+      "id": "-KPZgfyX9WV0ydrqRtSk",
+      "name": "Tres Palos",
+      "qrssName": "Sistema Tres Palos",
+      "from": 387.4,
+      "to": 436.5,
+      "reported": "04/2018",
+      "by": "Privett, Pye"
+    },
+    {
+      "id": "-KPZgfx0u4eVTUCGuwwf",
+      "name": "Mol Balaam East",
+      "qrssName": "Sistema Mol Balaam East",
+      "from": 965,
+      "to": 984.8,
+      "reported": "04/2017",
+      "by": "G. Pytel, B. Phillips"
+    }
+  ]
+}

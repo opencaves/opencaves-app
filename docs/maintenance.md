@@ -128,6 +128,20 @@ production the audit log doesn't record these Admin SDK writes; the local
 emulators do (author "emulator"), so What's new lists them there until those
 entries are deleted.
 
+## Update systems' lengths from QRSS
+
+```
+node scripts/import-qrss-lengths.js -l           # local emulators: dry run, lists the changes
+node scripts/import-qrss-lengths.js -l --write   # saves them
+node scripts/import-qrss-lengths.js -p           # production (dry run; add --write to save)
+```
+
+Sets the explored length of 42 systems to the Quintana Roo Speleological
+Survey's newer figures (its report of 1 February 2025, which QRSS lets us
+use), listed in `scripts/qrss-lengths-2025-02.json`: the systems QRSS gives as
+longer than OpenCaves had, matched by name on 2026-10-11. A system whose
+length changed since that comparison is skipped and listed. Re-runnable.
+
 ## Move the feedback reports' private fields
 
 ```
