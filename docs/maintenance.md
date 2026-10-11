@@ -150,7 +150,7 @@ node scripts/import-qrss-systems.js -l --write   # adds them
 node scripts/import-qrss-systems.js -p           # production (dry run; add --write to add)
 ```
 
-Adds the 80 cave systems of QRSS's report of 1 February 2025 that OpenCaves
+Adds the 82 cave systems of QRSS's report of 1 February 2025 that OpenCaves
 didn't have (`scripts/qrss-new-systems-2025-02.json`, mostly explored since
 2016): name, explored length, maximum depth, an exploration entry with the
 reported date and team, the cenote count in a note when QRSS gives one, QRSS

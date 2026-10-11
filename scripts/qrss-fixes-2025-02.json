@@ -1709,7 +1709,7 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 192.0
+        "exploredLength": 192
       }
     },
     {
@@ -1742,7 +1742,7 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 2814.0
+        "exploredLength": 2814
       }
     },
     {
@@ -1753,7 +1753,7 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 8184.0
+        "exploredLength": 8184
       }
     },
     {
@@ -1775,7 +1775,7 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 3303.0
+        "exploredLength": 3303
       }
     },
     {
@@ -1786,7 +1786,7 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 1962.0
+        "exploredLength": 1962
       }
     },
     {
@@ -1808,7 +1808,39 @@
         "exploredLength": null
       },
       "set": {
-        "exploredLength": 3814.0
+        "exploredLength": 3814
+      }
+    },
+    {
+      "what": "Cenote Bacterias: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "id": "-P3gQePxgnYewXAYXAGf",
+      "sistemaId": "-P3gQePxgnYewXAYXAGe",
+      "record": {
+        "name": {
+          "value": "Cenote Bacterias"
+        },
+        "sistemaId": "-P3gQePxgnYewXAYXAGe",
+        "sistemaColor": "#0057ad",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
+      }
+    },
+    {
+      "what": "Cenote Xuux: its cenote, as a cave (no coordinates)",
+      "type": "createCave",
+      "id": "-P3gQePypgYfUSGYOfwh",
+      "sistemaId": "-P3gQePypgYfUSGYOfwg",
+      "record": {
+        "name": {
+          "value": "Cenote Xuux"
+        },
+        "sistemaId": "-P3gQePypgYfUSGYOfwg",
+        "sistemaColor": "#385752",
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "cenoteEntrance": true,
+        "keys": []
       }
     }
   ]

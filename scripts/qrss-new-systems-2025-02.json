@@ -1817,6 +1817,54 @@
         ],
         "maxDepth": 5.2
       }
+    },
+    {
+      "id": "-P3gQePxgnYewXAYXAGe",
+      "qrssName": "Cenote Bacterias",
+      "record": {
+        "name": "Cenote Bacterias",
+        "exploredLength": 185,
+        "exploredLengthDate": "2020-08",
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#0057ad",
+        "maxDepth": 14.8,
+        "explorations": [
+          {
+            "date": "2020-08",
+            "team": [
+              "Adame",
+              "Coffield-Feith"
+            ],
+            "description": "Surveyed length :length[185 m], maximum depth :length[14.8 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025. Judged a cave of its own (not a same-named OpenCaves record), 2026-10-11."
+          }
+        ]
+      }
+    },
+    {
+      "id": "-P3gQePypgYfUSGYOfwg",
+      "qrssName": "Cenote Xuux",
+      "record": {
+        "name": "Cenote Xuux",
+        "exploredLength": 45.4,
+        "exploredLengthDate": "2016-09",
+        "public": true,
+        "source": "-KPZg4jsKUZe0Tf3lyro",
+        "color": "#385752",
+        "maxDepth": 6.1,
+        "explorations": [
+          {
+            "date": "2016-09",
+            "team": [
+              "Reato",
+              "Leal"
+            ],
+            "description": "Surveyed length :length[45.4 m], maximum depth :length[6.1 m], as reported to the Quintana Roo Speleological Survey (QRSS).",
+            "notes": "Source: QRSS, Reported Long Underwater Caves, 1 February 2025. Judged a cave of its own (not a same-named OpenCaves record), 2026-10-11."
+          }
+        ]
+      }
     }
   ]
 }
