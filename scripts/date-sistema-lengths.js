@@ -2,8 +2,9 @@
 // Dates the systems' explored lengths (exploredLengthDate, a partial date)
 // from scripts/sistema-length-dates.json, worked out on 2026-10-11: QRSS's
 // report date where the length is QRSS's figure (matched by name, the same
-// length), else the date of an exploration whose text states that length,
-// else 2015 for the guidebook's (Gerrard 2015). A system gets its date only if
+// length), else the date of an exploration whose text states that length.
+// The guidebook's lengths stay undated: its editions don't date the figures
+// it gives. A system gets its date only if
 // it has none yet and its length is still the one dated; others are skipped
 // and listed. A dry run (the default) lists the changes; --write saves them.
 // Re-runnable.

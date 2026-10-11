@@ -196,7 +196,8 @@ A system's explored length has a date (`exploredLengthDate`, a partial date:
 to the current month when the length changes. This script dates the lengths
 the systems already had (`scripts/sistema-length-dates.json`, 2026-10-11): QRSS's
 report date when the length is QRSS's figure, else the date of an exploration
-whose text states it, else 2015 for the guidebook's (Gerrard 2015). A system
+whose text states it; the guidebook's lengths stay undated (its editions don't
+date its figures). A system
 gets its date only if it has none and its length is still the one dated. Run it
 after the QRSS scripts above. Re-runnable.
 
