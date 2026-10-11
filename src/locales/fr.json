@@ -1750,7 +1750,7 @@
     "kinds": {
       "bug": "Bogue",
       "misleading": "Trompeur",
-      "idea": "Idée"
+      "idea": "Idée / commentaire"
     },
     "kindText": {
       "bug": "Quelque chose ne marche pas.",
