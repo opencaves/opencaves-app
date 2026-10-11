@@ -1,7 +1,8 @@
 import { onCall } from 'firebase-functions/v2/https'
+import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { logger } from 'firebase-functions/v2'
 import { auth, db } from '../init.js'
-import { CAVES_ASSETS_COLL_NAME, ENFORCE_APP_CHECK, REGION } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, ENFORCE_APP_CHECK, REGION, WHATS_NEW_COLL_NAME, WHATS_NEW_DOC_ID } from '../constants.js'
 import { AUDIT_LOG_COLL_NAME, SERVER_FIELDS } from '../audit/log.js'
 
 // The records the What's new page (/whats-new) lists one by one - added,
@@ -24,6 +25,8 @@ const MEDIA_SHOWN = 4
 // The answer is kept this long, for every visitor: the page is public, and
 // each call reads the audit log and the records.
 const CACHE_MS = 5 * 60 * 1000
+// How often refreshWhatsNew rebuilds the page's document.
+const REFRESH_SCHEDULE = 'every 10 minutes'
 
 // Fields whose change alone isn't a modification: the server's, the trash's
 // (a record moved there is a removal), a cave's stale copy of its system's
@@ -133,8 +136,8 @@ function findRemovals(entries) {
  * What's new, built from the audit log as it is now: the caves, cave systems,
  * connections and maps people added, modified and removed in the app, the
  * photos uploaded and the videos added to caves, newest first - with the date,
- * the author's display name and what changed. Anyone may call it (the page is
- * public).
+ * the author's display name and what changed (public: the page is). Built
+ * by {@link refreshWhatsNew} and {@link getWhatsNew}.
  *
  * - **added**: a record's creation, if it's still there and shown (with its
  *   current name); a cave's photos or videos, one item per cave, author and day.
@@ -147,13 +150,9 @@ function findRemovals(entries) {
  *   creation was undone, and not back since - named from its last values
  *   (a system that wasn't public isn't listed). At most {@link MAX_REMOVED}.
  *
- * Cached {@link CACHE_MS} for everyone.
- *
  * @returns {Promise<{items: WhatsNewItem[]}>}
  */
-export const getWhatsNew = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async () => {
-  if (cached && Date.now() - cached.time < CACHE_MS) return cached.answer
-
+async function buildWhatsNew() {
   const log = db.collection(AUDIT_LOG_COLL_NAME)
   const [events, updates, caveChanges] = await Promise.all([
     log.where('action', 'in', ['create', 'delete', 'undo', 'purge']).orderBy('at', 'desc').limit(ENTRIES_READ).get(),
@@ -246,8 +245,46 @@ export const getWhatsNew = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP
   items.sort((a, b) => (b.at?.getTime() || 0) - (a.at?.getTime() || 0))
   const shown = items.slice(0, MAX_ITEMS)
   const names = await displayNames(shown.map((item) => item.authorId))
-  const answer = { items: shown.map(({ authorId, at: date, ...item }) => ({ ...item, at: date ? date.toISOString() : null, authorName: names.get(authorId) || null })) }
-  cached = { time: Date.now(), answer }
-  logger.debug('[whatsNew] built', { items: answer.items.length })
-  return answer
+  // Plain JSON (no undefined): it's also saved as a Firestore document.
+  return JSON.parse(JSON.stringify({ items: shown.map(({ authorId, at: date, ...item }) => ({ ...item, at: date ? date.toISOString() : null, authorName: names.get(authorId) || null })) }))
+}
+
+// Saves the page's document (_whatsNew/latest), unless it already has these
+// items: no write, so the open pages aren't sent the same list again.
+async function saveWhatsNew(answer) {
+  const ref = db.collection(WHATS_NEW_COLL_NAME).doc(WHATS_NEW_DOC_ID)
+  const current = await ref.get()
+  if (current.exists && JSON.stringify(current.get('items')) === JSON.stringify(answer.items)) return false
+  await ref.set({ items: answer.items, builtAt: new Date() })
+  return true
+}
+
+/**
+ * What's new ({@link buildWhatsNew}), for anyone (the page is public): the
+ * page's fallback while its document (_whatsNew/latest) doesn't exist yet,
+ * which it then saves ({@link saveWhatsNew}). Cached {@link CACHE_MS} for
+ * everyone.
+ *
+ * @returns {Promise<{items: WhatsNewItem[]}>}
+ */
+export const getWhatsNew = onCall({ region: REGION, enforceAppCheck: ENFORCE_APP_CHECK }, async () => {
+  if (!cached || Date.now() - cached.time >= CACHE_MS) {
+    cached = { time: Date.now(), answer: await buildWhatsNew() }
+    logger.debug('[whatsNew] built', { items: cached.answer.items.length })
+  }
+  // A call means the page found no document: save it, from the cache too.
+  await saveWhatsNew(cached.answer).catch((error) => logger.error('[whatsNew] not saved', error))
+  return cached.answer
+})
+
+/**
+ * Rebuilds What's new ({@link buildWhatsNew}) {@link REFRESH_SCHEDULE} into
+ * the document the page reads (_whatsNew/latest, {@link saveWhatsNew}): the
+ * page shows it at once - the browser's copy, offline too - and never waits
+ * for a function to start.
+ */
+export const refreshWhatsNew = onSchedule({ schedule: REFRESH_SCHEDULE, region: REGION }, async () => {
+  const answer = await buildWhatsNew()
+  const saved = await saveWhatsNew(answer)
+  logger.debug('[whatsNew] refreshed', { items: answer.items.length, saved })
 })

@@ -157,6 +157,11 @@ service cloud.firestore {
       allow read: if true
     }
 
+    // What's new, built by the server (refreshWhatsNew): public, written by it only.
+    match /_whatsNew/{document} {
+      allow read: if true
+    }
+
     // Data checks: an edit from the app may only set the fields the app
     // uses, with the right type and a sane size - limits about 4 times the
     // largest values in the data (2026-10). Only the fields an edit sets are

@@ -173,14 +173,10 @@ export default function QuickActions({ cave }) {
     })
   }
 
-  // Driving ends where the car is left: at the cave's parking when it has one,
-  // otherwise at the cave (through its entrance).
+  // Driving ends where the car is left: through the site's entrance (when
+  // the cave has one) to its parking, or to the cave itself without one.
   function openCaveDirections() {
-    if (cave.parking) {
-      openDirections(cave.parking)
-    } else {
-      openDirections(cave.location, cave.entrance)
-    }
+    openDirections(cave.entrance, cave.parking ?? cave.location)
   }
 
   // Comes back to this cave once the account is created / signed in to.
