@@ -5,3 +5,10 @@
     padding-right: var(--oc-pane-padding-inline);
   }
 }
+
+// The cave's header (its name, its rating) on the menus' tone, M3's surface
+// container high (the account menu's panel), over the pane's surface - on
+// the phone's sheet too (ResultPaneSm's header rule, outranked).
+.oc-result-pane .oc-current-cave-details-header.oc-result-pane--header {
+  background-color: var(--mui-sys-color-surfaceContainerHigh);
+}

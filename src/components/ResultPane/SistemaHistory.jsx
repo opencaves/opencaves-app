@@ -66,14 +66,15 @@ export default function Sistema({ sistemaHistory }) {
                 position: 'sticky',
                 top: RESULT_PANE_STICKY_TOP,
                 zIndex: 1,
-                bgcolor: 'background.paper',
+                // The pane's own surface (ResultPaneLg), over the text it hides.
+                bgcolor: 'var(--oc-result-pane-surface-color, var(--mui-palette-background-paper))',
                 // Stuck: the space above it (behind and under the search bar)
                 // filled, so the text scrolling by doesn't show there; and the
                 // header floats like the search bar - its card (inset as the
                 // bar is), rounded and shadowed, behind its content.
                 ...(stuck && {
                   bgcolor: 'transparent',
-                  '&::before': { content: '""', position: 'absolute', left: 0, right: 0, bottom: '100%', height: RESULT_PANE_STICKY_TOP, bgcolor: theme.vars.palette.background.paper },
+                  '&::before': { content: '""', position: 'absolute', left: 0, right: 0, bottom: '100%', height: RESULT_PANE_STICKY_TOP, bgcolor: 'var(--oc-result-pane-surface-color, var(--mui-palette-background-paper))' },
                   '&::after': { content: '""', position: 'absolute', inset: `0 ${SEARCH_BAR_MARGIN}px`, zIndex: -1, borderRadius: SEARCH_BAR_RADIUS, boxShadow: SEARCH_BAR_SHADOW, bgcolor: theme.vars.palette.background.paper },
                 }),
               },
