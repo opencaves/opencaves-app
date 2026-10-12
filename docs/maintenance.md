@@ -298,17 +298,15 @@ committed).
 ## Cave reports and confirmations
 
 Much cave data is old, so each section of a cave - its access, getting there,
-its fees and facilities (shown when it charges fees), its description - says
-how old it is, on the cave's page and in the map's pane: "Confirmed Oct 2026",
-"Last confirmed in 2024" (a confirmation counts for 2 years), or "Not
-confirmed yet". Under it:
-
-- **Still accurate**: an editor (every verified account) stamps the section
-  with this month (the cave's `reviewed` field). It's a cave edit like any
-  other: it shows in the audit log (Audits) and in What's new, and can be
-  undone. Visitors are asked to sign in.
-- **Something changed**: an editor goes to the cave's edit form; anyone else
-  gets the quick reports below.
+its fees and facilities (shown when it charges fees), its description - has a
+**Still accurate** button, on the cave's page and in the map's pane, with how
+old the section is under it: "Confirmed Oct 2026", "Last confirmed in 2024" (a
+confirmation counts for 2 years), or "Not confirmed yet". An editor (every
+verified account) pressing it stamps the section with this month (the cave's
+`reviewed` field). It's a cave edit like any other: it shows in the audit log
+(Audits) and in What's new, and can be undone. Visitors are asked to sign in.
+A change is corrected in the cave's edit form, or reported with **Report a
+change** (below).
 
 The caves list's **Not confirmed recently** filter (`/caves?missing=review`,
 also What can I do?'s "Check what's there") keeps the caves none of whose

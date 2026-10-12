@@ -2368,11 +2368,9 @@
     "confirmed": "{{section}} · confirmation : {{date}}",
     "stale": "{{section}} · dernière confirmation en {{year}}",
     "never": "{{section}} · aucune confirmation pour l'instant",
-    "question": "Toujours exact ?",
     "stillAccurate": "Toujours exact",
+    "stillAccurateQuestion": "Toujours exact ?",
     "stillAccurateLabel": "{{section}} : c'est toujours exact",
-    "somethingChanged": "Quelque chose a changé",
-    "somethingChangedLabel": "{{section}} : quelque chose a changé",
     "saved": "Merci ! Confirmation enregistrée : {{section}}, {{name}}.",
     "saveError": "La confirmation n'a pas pu être enregistrée. Réessayez.",
     "report": {
