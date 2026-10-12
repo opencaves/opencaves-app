@@ -35,7 +35,6 @@ const EXPLORE = [
   { key: 'whatsNew', icon: <NewReleasesRounded />, to: '/whats-new' },
 ]
 const CONTRIBUTE = [
-  { key: 'save', icon: <BookmarkBorderRounded /> },
   { key: 'rate', icon: <StarOutlineRounded /> },
   { key: 'addCave', icon: <AddLocationAltRounded />, to: '/caves' },
   { key: 'coordinates', icon: <EditLocationAltRounded />, to: '/caves?filter=no-coordinates' },

@@ -1870,10 +1870,6 @@
     "contribute": {
       "title": "Contribuir",
       "sub": "Con una cuenta gratuita: regístrate con tu correo, Google o Microsoft.",
-      "save": {
-        "title": "Guardar tus cuevas",
-        "text": "Guarda las cuevas donde quieres bucear, incluso sin conexión."
-      },
       "rate": {
         "title": "Calificar tus inmersiones",
         "text": "Da de 1 a 5 estrellas a las cuevas donde buceaste. Tu calificación es privada; solo se muestra el promedio."
