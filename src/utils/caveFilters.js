@@ -93,8 +93,9 @@ export function caveFacts(cave) {
 
 /**
  * The facts {@link caveFacts} gives that a server-rendered list sends for a
- * cave (src/ssr/pageState.js): those that are true (a missing one reads as
- * false), and its access and accessibility.
+ * cave (src/ssr/pageState.js): those that are true - whether it's an
+ * entrance included (a missing one reads as false) - and its access and
+ * accessibility.
  *
  * @param {Cave} cave
  * @returns {Partial<CaveFacts>}
@@ -102,7 +103,7 @@ export function caveFacts(cave) {
 export function compactCaveFacts(cave) {
   const facts = caveFacts(cave)
   const compact = {}
-  ;['hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasParking'].forEach((key) => facts[key] && (compact[key] = true))
+  ;['cenoteEntrance', 'hasDescription', 'hasDirections', 'feesKnown', 'facilitiesKnown', 'hasParking'].forEach((key) => facts[key] && (compact[key] = true))
   if (facts.access) compact.access = facts.access
   if (facts.accessibility) compact.accessibility = facts.accessibility
   return compact
