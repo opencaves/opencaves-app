@@ -1612,7 +1612,9 @@
       "sistema": "Cave system",
       "location": "Location",
       "photos": "Photos",
-      "openPhoto": "Open photo {{n}}"
+      "openPhoto": "Open photo {{n}}",
+      "noPhoto": "No photo of this cave yet",
+      "dropPhotos": "or drop them here"
     },
     "notOnMap": "Not on the map: no coordinates yet",
     "maps": "Survey maps",

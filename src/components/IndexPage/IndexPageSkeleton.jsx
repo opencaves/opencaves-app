@@ -21,9 +21,9 @@ const cardSx = { ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 } }
  *   area), else under an underlined title, a map icon ending each link (an
  *   area's page)
  * @param {boolean} [props.back=false] - A back arrow before the title (IndexPageHeader's backTo)
- * @param {boolean} [props.onMap=false] - The "On the map" button under the heading (a cave's page)
+ * @param {boolean} [props.cover=false] - The cover and the map tile beside it under the heading (a cave's page)
  */
-export default function IndexPageSkeleton({ item = false, search = false, card = false, back = false, onMap = false }) {
+export default function IndexPageSkeleton({ item = false, search = false, card = false, back = false, cover = false }) {
   return (
     <Box className="oc-index-page-skeleton">
       <Box aria-hidden="true" sx={{ mb: 3 }}>
@@ -35,12 +35,12 @@ export default function IndexPageSkeleton({ item = false, search = false, card =
         </Box>
         <Skeleton variant="text" sx={{ fontSize: '0.875rem', width: 120, ml: back ? { xs: 6, sm: 0 } : 0 }} />
       </Box>
-      {item ? <ItemSkeleton onMap={onMap} /> : <LinksSkeleton search={search} card={card} />}
+      {item ? <ItemSkeleton cover={cover} /> : <LinksSkeleton search={search} card={card} />}
     </Box>
   )
 }
 
-function ItemSkeleton({ onMap }) {
+function ItemSkeleton({ cover }) {
   const { t } = useTranslation('app')
   const ref = useRef(null)
   const height = useFillHeight(ref)
@@ -50,9 +50,13 @@ function ItemSkeleton({ onMap }) {
         {t('loading')}
       </Box>
       <Box aria-hidden="true">
-        {onMap && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
-            <Skeleton variant="rounded" sx={{ width: 150, height: 36, borderRadius: 5 }} />
+        {/* The page's top as CavePage draws it: the cover (16:9, its height
+            capped) and the map tile beside it, a square level with its bottom
+            (4:1; stacked on phones). */}
+        {cover && (
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 1fr' }, gap: { xs: 2, sm: 4 }, mb: { xs: 3, sm: 5 } }}>
+            <Skeleton variant="rounded" sx={{ width: '100%', height: 'auto', aspectRatio: '16 / 9', maxHeight: 480, borderRadius: 3 }} />
+            <Skeleton variant="rounded" sx={{ width: '100%', height: 'auto', aspectRatio: '1 / 1', alignSelf: 'end', borderRadius: 3 }} />
           </Box>
         )}
         {/* The facts: label, value. */}

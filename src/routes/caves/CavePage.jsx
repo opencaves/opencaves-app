@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Link, Tooltip, Typography } from '@mui/material'
+import { Box, Button, ButtonBase, Link, Tooltip, Typography } from '@mui/material'
 import MapRounded from '@mui/icons-material/MapRounded'
 import MyLocationRounded from '@mui/icons-material/MyLocationRounded'
 import { EntranceRounded } from '@/components/icons.jsx'
@@ -21,6 +21,11 @@ import Markdown from '@/components/Markdown/Markdown.jsx'
 import TextSource from '@/components/TextSource.jsx'
 import SectionReview from '@/components/CaveReview/SectionReview.jsx'
 import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
+import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded'
+import AddMediasProvider from '@/components/AddMedias/AddMediasProvider.jsx'
+import { useAddMedias } from '@/components/AddMedias/useAddMedias.jsx'
+import { ACCEPTED_MIME_TYPES } from '@/config/mediaPane.js'
+import { useRequireLogin } from '@/hooks/useRequireLogin.jsx'
 import CaveReportWarnings from '@/components/CaveReview/CaveReportWarnings.jsx'
 import Picture from '@/components/Picture.jsx'
 import Access, { AccessReview } from '@/components/ResultPane/Access.jsx'
@@ -57,6 +62,119 @@ function CaveCover({ cover }) {
     <Box className="oc-cave-page--cover" sx={{ width: '100%', borderRadius: 3, overflow: 'hidden', aspectRatio: '16 / 9', maxHeight: 480, bgcolor: 'action.hover' }}>
       <Picture sources={sources} alt="" fetchPriority="high" loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
     </Box>
+  )
+}
+
+/**
+ * The cover's place when the cave has no photo yet: the same 16:9 panel (the
+ * page keeps its shape), saying so - Add photos, the whole panel a click
+ * target and a drop target for photos: an editor's opens the photo picker,
+ * or takes the files dropped (AddMediasProvider); anyone else is asked to
+ * sign in first.
+ *
+ * @param {object} props
+ * @param {string} props.caveId
+ * @param {boolean} props.isEditor
+ */
+function CaveCoverEmpty({ caveId, isEditor }) {
+  const requireLogin = useRequireLogin('photos')
+  if (!isEditor) return <CoverEmptyPanel onAdd={requireLogin} onFiles={requireLogin} />
+  return (
+    <AddMediasProvider caveId={caveId}>
+      <EditorCoverEmpty />
+    </AddMediasProvider>
+  )
+}
+
+// An editor's: picking or dropping photos adds them to the cave.
+function EditorCoverEmpty() {
+  const { promptForMedias, addMedias } = useAddMedias()
+  return <CoverEmptyPanel onAdd={promptForMedias} onFiles={addMedias} />
+}
+
+/**
+ * The empty cover panel - one big button, in its own style: its message, an
+ * Add photos pill (the button's label, not a button of its own), M3's state
+ * layer on hover and press, and a drop target for image files, highlighted
+ * while some hover over it.
+ *
+ * @param {object} props
+ * @param {() => void} props.onAdd - A click, Enter or Space.
+ * @param {(files: File[]) => void} props.onFiles - Image files dropped on it.
+ */
+function CoverEmptyPanel({ onAdd, onFiles }) {
+  const { t } = useTranslation('indexPages')
+  const { t: tEdit } = useTranslation('resultPane', { keyPrefix: 'edit' })
+  const [dragOver, setDragOver] = useState(false)
+  const hasFiles = (event) => [...(event.dataTransfer?.types || [])].includes('Files')
+  return (
+    <ButtonBase
+      className="oc-cave-page--cover oc-cave-page--cover-empty"
+      data-drag-over={dragOver || undefined}
+      onClick={onAdd}
+      onDragOver={(event) => {
+        if (!hasFiles(event)) return
+        event.preventDefault()
+        setDragOver(true)
+      }}
+      onDragLeave={(event) => {
+        if (!event.currentTarget.contains(/** @type {Node} */ (event.relatedTarget))) setDragOver(false)
+      }}
+      onDrop={(event) => {
+        if (!hasFiles(event)) return
+        event.preventDefault()
+        setDragOver(false)
+        const files = [...event.dataTransfer.files].filter((file) => ACCEPTED_MIME_TYPES.includes(file.type))
+        if (files.length) onFiles(files)
+      }}
+      sx={(theme) => ({
+        width: '100%',
+        aspectRatio: '16 / 9',
+        maxHeight: 480,
+        borderRadius: 3,
+        display: 'grid',
+        placeItems: 'center',
+        textAlign: 'center',
+        p: 3,
+        // A quiet surface, a soft light from above, a fine edge - its edge
+        // the primary colour, dashed, while photos are dragged over it.
+        background: `radial-gradient(120% 90% at 50% 0%, ${theme.vars.sys.color.surfaceContainerLow}, ${theme.vars.sys.color.surfaceContainerHigh})`,
+        border: `1px solid ${theme.vars.sys.color.outlineVariant}`,
+        color: theme.vars.palette.text.primary,
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // M3's state layer: the content colour over it, 8% on hover (and
+        // while photos hover over it), 10% pressed; its pill lifted with it.
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          bgcolor: 'currentColor',
+          opacity: 0,
+          transition: theme.transitions.create('opacity', { duration: theme.transitions.duration.shortest }),
+          pointerEvents: 'none',
+        },
+        '&:hover::before, &[data-drag-over]::before': { opacity: 0.08 },
+        '&:active::before': { opacity: 0.1 },
+        '&:hover .oc-cave-page--add-photos, &.Mui-focusVisible .oc-cave-page--add-photos': { boxShadow: 2 },
+        '&.Mui-focusVisible': { outline: `3px solid ${theme.vars.palette.primary.main}`, outlineOffset: 2 },
+        '&[data-drag-over]': { border: `2px dashed ${theme.vars.palette.primary.main}`, boxShadow: 2 },
+      })}
+    >
+      <Box component="span" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+        <AddAPhotoRounded aria-hidden="true" sx={{ fontSize: { xs: 48, sm: 64 }, color: 'text.disabled' }} />
+        <Typography component="span" sx={{ color: 'text.secondary' }}>{t('cave.noPhoto')}</Typography>
+        {/* The button's label, styled as a filled tonal pill. */}
+        <Box
+          component="span"
+          className="oc-cave-page--add-photos"
+          sx={(theme) => ({ display: 'inline-flex', alignItems: 'center', gap: 1, height: 48, px: 3, borderRadius: 7, ...theme.typography.button, fontSize: '0.9375rem', textTransform: 'none', bgcolor: theme.vars.sys.color.secondaryContainer, color: theme.vars.sys.color.onSecondaryContainer, transition: theme.transitions.create('box-shadow') })}
+        >
+          <AddAPhotoRounded aria-hidden="true" fontSize="small" />
+          {tEdit('addPictures')}
+        </Box>
+        <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>{t('cave.dropPhotos')}</Typography>
+      </Box>
+    </ButtonBase>
   )
 }
 
@@ -155,7 +273,7 @@ export default function CavePage() {
     return ancestry.map(({ id }) => data.sistemasById.get(id)).filter(Boolean)
   }, [cave, data])
 
-  if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back onMap />
+  if (loading || coverLoading || mapsLoading) return <IndexPageSkeleton item back cover />
   // No such cave: the "not found" page, rendered rather than thrown - a
   // thrown error is logged to the console by React and React Router.
   if (!cave) return <NoMatch inLayout />
@@ -203,8 +321,9 @@ export default function CavePage() {
         // (4:1, with room around the photo: it leads the page; stacked on
         // phones, the photo first); without a photo, the map in its place.
         <Box className="oc-cave-page--top" sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 1fr' }, gap: { xs: 2, sm: 4 }, mb: { xs: 3, sm: 5 } }}>
-          <CaveCover cover={cover} />
-          <CaveMapTile cave={cave} location={location} color={sistema?.color} alone={!cover} />
+          {/* No photo yet: the same layout, Add photos in the cover's place. */}
+          {cover ? <CaveCover cover={cover} /> : !coverLoading && <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
+          <CaveMapTile cave={cave} location={location} color={sistema?.color} alone={!cover && coverLoading} />
         </Box>
       ) : (
         <>
@@ -219,9 +338,9 @@ export default function CavePage() {
               </span>
             </Tooltip>
           </Box>
-          {cover && (
+          {(cover || !coverLoading) && (
             <Box sx={{ mb: 3 }}>
-              <CaveCover cover={cover} />
+              {cover ? <CaveCover cover={cover} /> : <CaveCoverEmpty caveId={cave.id} isEditor={isEditor} />}
             </Box>
           )}
         </>
