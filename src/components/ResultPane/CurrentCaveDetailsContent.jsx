@@ -24,7 +24,7 @@ import { CoordinateRow, useCopiedConfirmation } from '@/components/CoordinateCop
 import { slugify } from '@/utils/slug.js'
 import Address from './Address.jsx'
 import QuickActions from './QuickActions.jsx'
-import Access from './Access.jsx'
+import Access, { AccessReview } from './Access.jsx'
 import SistemaHistory from './SistemaHistory.jsx'
 import CaveMediaTabs from './CaveMediaTabs.jsx'
 import './CurrentCaveDetailsContent.scss'
@@ -201,7 +201,12 @@ export default function CurrentCaveDetailsContent({ cave }) {
       )}
 
       <Box component="section" className="oc-details-section">
-        <Access cave={cave} />
+        <Access cave={cave} review={false} />
+      </Box>
+      {/* The Still accurate groups after each section's card, on the pane's
+          ground (not a section: no paper). */}
+      <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
+        <AccessReview cave={cave} />
       </Box>
 
       {cave.description && (
@@ -209,8 +214,12 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <div className="details-container details-text">
             <Markdown>{cave.description}</Markdown>
             <TextSource record={cave} field="description" />
-            <SectionReview cave={cave} section="description" />
           </div>
+        </Box>
+      )}
+      {cave.description && (
+        <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
+          <SectionReview cave={cave} section="description" sx={{ mt: 0 }} />
         </Box>
       )}
 
@@ -222,8 +231,12 @@ export default function CurrentCaveDetailsContent({ cave }) {
           <div className="details-container details-text">
             <Markdown>{cave.direction}</Markdown>
             <TextSource record={cave} field="direction" />
-            <SectionReview cave={cave} section="directions" />
           </div>
+        </Box>
+      )}
+      {cave.direction && (
+        <Box className="oc-details-review" sx={{ px: 2, pb: 0.5 }}>
+          <SectionReview cave={cave} section="directions" sx={{ mt: 0 }} />
         </Box>
       )}
 

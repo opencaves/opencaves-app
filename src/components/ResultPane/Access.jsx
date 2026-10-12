@@ -26,13 +26,15 @@ import './Access.scss'
 /**
  * A cave's access (its page, the map's pane): its access, accessibility,
  * whether it's a cenote entrance and its fees, each an icon over its label,
- * their details below - then how old the access is, and the fees when they
+ * their details below - then, unless its page or pane shows them after its
+ * card ({@link AccessReview}), how old the access is, and the fees when they
  * show ("Still right?", SectionReview).
  *
  * @param {object} props
  * @param {Cave} props.cave
+ * @param {boolean} [props.review=true] - Its Still accurate groups at its end.
  */
-export default function Access({ cave }) {
+export default function Access({ cave, review = true }) {
   const { t } = useTranslation(['resultPane', 'accesses', 'accessibilities'])
   const { accesses, accessibilities } = useCaveData()
 
@@ -164,10 +166,28 @@ export default function Access({ cave }) {
         </div>
       )}
 
-      <div className="details-container oc-access oc-access--review">
-        <SectionReview cave={cave} section="access" sx={{ mt: 0 }} />
-        {cave.fees && <SectionReview cave={cave} section="fees" />}
-      </div>
+      {review && (
+        <div className="details-container oc-access oc-access--review">
+          <AccessReview cave={cave} />
+        </div>
+      )}
+    </>
+  )
+}
+
+/**
+ * The access's Still accurate groups (SectionReview): the access, and the
+ * fees when they show - for a page or pane drawing them after the access's
+ * card, on its ground.
+ *
+ * @param {object} props
+ * @param {Cave} props.cave
+ */
+export function AccessReview({ cave }) {
+  return (
+    <>
+      <SectionReview cave={cave} section="access" sx={{ mt: 0 }} />
+      {cave.fees && <SectionReview cave={cave} section="fees" />}
     </>
   )
 }

@@ -23,7 +23,7 @@ import SectionReview from '@/components/CaveReview/SectionReview.jsx'
 import CaveReportButton from '@/components/CaveReview/CaveReportButton.jsx'
 import CaveReportWarnings from '@/components/CaveReview/CaveReportWarnings.jsx'
 import Picture from '@/components/Picture.jsx'
-import Access from '@/components/ResultPane/Access.jsx'
+import Access, { AccessReview } from '@/components/ResultPane/Access.jsx'
 import ExplorationHistory from '@/components/ResultPane/ExplorationHistory.jsx'
 import IndexPageHeader from '@/components/IndexPage/IndexPageHeader.jsx'
 import IndexSection from '@/components/IndexPage/IndexSection.jsx'
@@ -256,26 +256,31 @@ export default function CavePage() {
       )}
 
       {/* Access's own heading is the section's, above its card. */}
-      <IndexSection id="access" title={tPane('accessHeader')} className="oc-cave-page--access" card>
+      {/* Its Still accurate groups after the card, on the page's ground. */}
+      <IndexSection id="access" title={tPane('accessHeader')} className="oc-cave-page--access" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><AccessReview cave={cave} /></Box>}>
         <Box sx={{ '& h2.h2': { display: 'none' }, '& .details-container': { px: 0 } }}>
-          <Access cave={cave} />
+          <Access cave={cave} review={false} />
         </Box>
       </IndexSection>
 
       {/* How to get there - the map's pane had it, this page didn't. */}
       {cave.direction && (
-        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card>
+        <IndexSection id="getting-there" title={tPane('directionsHeader')} className="oc-cave-page--directions" card after={<Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}><SectionReview cave={cave} section="directions" sx={{ mt: 0 }} /></Box>}>
           <Markdown>{cave.direction}</Markdown>
           <TextSource record={cave} field="direction" />
-          <SectionReview cave={cave} section="directions" sx={{ mt: 2 }} />
         </IndexSection>
       )}
 
       {cave.description && (
-        <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, mb: 3, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
-          <Markdown>{cave.description}</Markdown>
-          <TextSource record={cave} field="description" />
-          <SectionReview cave={cave} section="description" sx={{ mt: 2 }} />
+        <Box sx={{ mb: 3 }}>
+          <Box component="section" id="description" className="oc-cave-page--description" sx={{ scrollMarginTop: 'calc(64px + var(--oc-page-title-height, 0px) + 8px)', ...DASHBOARD_SURFACE_SX, p: { xs: 2, sm: 3 }, '& > :first-child > :first-child': { mt: 0 }, '& > :last-child > :last-child': { mb: 0 } }}>
+            <Markdown>{cave.description}</Markdown>
+            <TextSource record={cave} field="description" />
+          </Box>
+          {/* Its Still accurate group after the card, on the page's ground. */}
+          <Box className="oc-cave-page--review" sx={{ px: { xs: 2, sm: 3 }, pt: 1 }}>
+            <SectionReview cave={cave} section="description" sx={{ mt: 0 }} />
+          </Box>
         </Box>
       )}
 
