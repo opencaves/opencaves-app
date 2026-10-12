@@ -28,7 +28,7 @@ import { useCanTrashMaps, useTrashMapConfirm } from '@/components/MapPane/TrashM
  * details pane's Maps tab), each with its date and who drew it. A map opens
  * in the page's gallery (<pagePath>/maps/:id, MapGallery). On a 3D strip
  * ({@link MediaStrip}, as the map's cave pane), each map a tile: its
- * thumbnail, its name, year and authors over it ({@link MapThumbnail}); then
+ * thumbnail, its name and year over it ({@link MapThumbnail}); then
  * Show all under it ({@link StripShowAll}) opening every one in a grid.
  * Editors get each map's menu (edit; delete for admins, {@link CardOptionsMenu}). Under
  * them, the
@@ -128,7 +128,7 @@ export default function MapsSection({ sistemaId, sistemas, connections, pagePath
 const mapYear = (map) => map.date?.match(/\d{4}/)?.[0]
 
 /**
- * A map's thumbnail filling its item, its name, year and authors over its
+ * A map's thumbnail filling its item, its name and year over its
  * bottom: each line on a dark band fitted to its text (inline, cloned on
  * every line), readable over any drawing. Opaque: at line height 1 a wrapped
  * name's bands overlap, which a see-through band would show as a darker
@@ -138,7 +138,6 @@ const mapYear = (map) => map.date?.match(/\d{4}/)?.[0]
  * @param {CaveMap} props.map
  */
 function MapThumbnail({ map }) {
-  const { t: tMaps } = useTranslation('mapsPicker')
   const year = mapYear(map)
   const thumbnail = map.thumbnailUrl || map.previewUrl || (map.contentType?.startsWith('image/') ? map.url : null)
   return (
@@ -160,11 +159,6 @@ function MapThumbnail({ map }) {
         {year && (
           <Typography component="span" sx={{ fontSize: '0.75rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important' }}>
             {year}
-          </Typography>
-        )}
-        {map.authors?.length > 0 && (
-          <Typography component="span" className="oc-maps-section--cartography" sx={{ fontSize: '0.75rem', letterSpacing: '0.03em', color: 'rgba(255, 255, 255, 0.8) !important', overflowWrap: 'anywhere' }}>
-            {tMaps('cartography', { names: map.authors.join(', ') })}
           </Typography>
         )}
       </Box>
