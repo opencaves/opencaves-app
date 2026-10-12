@@ -451,8 +451,10 @@ browser (user agent), its language, and the account if signed in
 (`src/utils/errorReports.js`). Each error once per browser session (`digest`:
 its message and first stack frame, hashed - the same bug's reports share it),
 at most 10 per session. Anyone can create one, but `firestore.rules` checks
-every field; only admins read and delete them, in the Firebase console
-(Firestore > `_errorReports`, sorted by `createdAt`, grouped by `digest`).
+every field; only admins read and delete them, on the Error reports page
+(`/error-reports`, from the dashboard): the latest 500, live, grouped by
+error, with each report's date and time, page, version, browser and account;
+an error's reports are deleted together.
 
 They're deleted 90 days after they're written, by a TTL policy on `expireAt`
 deployed with the indexes (`firebase deploy --only firestore:indexes`).
