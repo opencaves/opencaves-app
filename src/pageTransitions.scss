@@ -91,6 +91,101 @@ $accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
     300ms $standard both oc-page-from-left;
 }
 
+// Container transform (a photo opened over its page, closed back to it):
+// the thumbnail marked [data-oc-shared] (pageTransitions.js) and the photo
+// gallery share one name - the thumbnail only while no gallery is open, so
+// only one holds it at a time - and the browser morphs one into the other:
+// kept subtle: 350ms growing, 200ms back, on the standard easing (the
+// emphasized ones' fast start read as a jump), the gallery fading in early
+// over the photo (the thumbnail, enlarged, is blurry). The page stays.
+:root:not(:has(.oc-photo-gallery)) [data-oc-shared] {
+  view-transition-name: oc-photo;
+}
+
+:root[data-oc-transition='expand'] .oc-photo-gallery,
+:root[data-oc-transition='collapse'] .oc-photo-gallery {
+  view-transition-name: oc-photo;
+}
+
+// A photo's flat stand-in on a 3D strip (pageTransitions.js): seen only as
+// the transition's snapshot.
+.oc-photo-stand-in {
+  opacity: 0;
+}
+
+:root:active-view-transition .oc-photo-stand-in {
+  opacity: 1;
+}
+
+@keyframes oc-photo-square {
+  from {
+    border-radius: 0.5rem;
+  }
+}
+
+@keyframes oc-photo-round {
+  to {
+    border-radius: 0.5rem;
+  }
+}
+
+:root:is([data-oc-transition='expand'], [data-oc-transition='collapse']) {
+  &::view-transition-old(root),
+  &::view-transition-new(root) {
+    animation: none;
+  }
+
+  // Both snapshots fill the box as it changes shape (the thumbnail cropped
+  // as on the page), clipped to its rounded corners.
+  &::view-transition-old(oc-photo),
+  &::view-transition-new(oc-photo) {
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: normal;
+  }
+
+  &::view-transition-old(oc-photo) {
+    animation: none;
+  }
+
+  // Over the app bar's own snapshot, as the gallery is over the app bar.
+  &::view-transition-group(oc-photo) {
+    z-index: 1;
+  }
+}
+
+:root[data-oc-transition='expand'] {
+  &::view-transition-group(oc-photo) {
+    animation-duration: 350ms;
+    animation-timing-function: $standard;
+  }
+
+  &::view-transition-image-pair(oc-photo) {
+    overflow: clip;
+    animation: 350ms $standard both oc-photo-square;
+  }
+
+  &::view-transition-new(oc-photo) {
+    animation: 150ms $standard both oc-page-fade-in;
+  }
+}
+
+:root[data-oc-transition='collapse'] {
+  &::view-transition-group(oc-photo) {
+    animation-duration: 200ms;
+    animation-timing-function: $standard;
+  }
+
+  &::view-transition-image-pair(oc-photo) {
+    overflow: clip;
+    animation: 200ms $standard both oc-photo-round;
+  }
+
+  &::view-transition-new(oc-photo) {
+    animation: 100ms $standard both oc-page-fade-in;
+  }
+}
+
 // Less motion asked for: pages change at once.
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),

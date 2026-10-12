@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -31,6 +31,7 @@ const MAX_PHOTOS = 12
  * too. Under them,
  * the photos added offline still waiting to upload, and Add pictures
  * (editors; the others are asked to log in) - shown with no photo yet too.
+ * With photos, the gallery's code is loaded once the page is idle.
  */
 export default function CavePhotosSection({ caveId, title }) {
   const { t } = useTranslation('indexPages')
@@ -41,6 +42,19 @@ export default function CavePhotosSection({ caveId, title }) {
   const [list, loading] = useCaveAssetsList(caveId)
   // Editors reorder them in Show all; the first is the cover.
   const [order, reorder] = usePhotoReorder(caveId, list)
+  // The gallery's code loaded once the page is idle: a photo opens at once,
+  // its transition (utils/pageTransitions.js) not waiting on the network.
+  const hasPhotos = !!list?.size
+  useEffect(() => {
+    if (!hasPhotos) return undefined
+    const load = () => import('@/routes/gallery/PhotoGallery.jsx')
+    if (!('requestIdleCallback' in window)) {
+      const timer = setTimeout(load, 2000)
+      return () => clearTimeout(timer)
+    }
+    const id = requestIdleCallback(load, { timeout: 5000 })
+    return () => cancelIdleCallback(id)
+  }, [hasPhotos])
   if (loading || !list) return null
   const byId = new Map(list.docs.map((doc) => [doc.id, doc.data()]))
   const photos = order.map((id) => byId.get(id)).filter(Boolean)
