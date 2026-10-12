@@ -13,6 +13,8 @@ import { createServerStore } from './redux/store.server.jsx'
 import { setServerContext } from './ssr/ssrContext.js'
 import { buildPageState, fullPageData, pageOf } from './ssr/pageState.js'
 import { monthOf } from './utils/caveReview.js'
+import { converter as caveAssetConverter } from './models/CaveAsset.js'
+import { isTrashed } from './utils/trash.js'
 
 // The server's rendering of the public pages - /, /caves, /caves/<id>,
 // /sistemas, /sistemas/<id> - with the app's own components (built by `vite
@@ -26,6 +28,36 @@ import { monthOf } from './utils/caveReview.js'
 
 // The page's address as one of the server-rendered pages, or null.
 export { pageOf }
+
+// An attribute's value, escaped.
+const attribute = (value) => String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+
+/**
+ * A cave's page: its cover photo's <link rel="preload">, as its <picture>
+ * asks for it (CavePage's CaveCover: the same sources, CORS, high priority) -
+ * the page's largest paint, fetched before the page's stylesheets and code
+ * are in. '' for another page, or a cave without a cover.
+ *
+ * @param {{kind: string, id?: string}} page - {@link pageOf}'s.
+ * @param {object} queries - buildPageState's query results.
+ * @param {string} hostname - The request's (the emulators' file addresses on localhost).
+ * @returns {string}
+ */
+export function coverPreload(page, queries, hostname) {
+  if (page.kind !== 'cave') return ''
+  const cover = (queries[`cover:${page.id}`] || []).find(({ data }) => !isTrashed(data))
+  if (!cover) return ''
+  // The photo's addresses depend on the host (ssrContext.js's pageHostname).
+  setServerContext({ hostname })
+  try {
+    const asset = caveAssetConverter.fromFirestore({ id: cover.id, data: () => cover.data })
+    return asset.getSources('coverImage').slice(0, 1)
+      .map(({ srcSet, type, sizes }) => `<link rel="preload" as="image" imagesrcset="${attribute(srcSet)}"${sizes ? ` imagesizes="${attribute(sizes)}"` : ''} type="${attribute(type)}" fetchpriority="high" crossorigin="anonymous">`)
+      .join('')
+  } finally {
+    setServerContext(null)
+  }
+}
 
 // Each page's route module (routeTree.jsx's lazy imports), by its kind
 // (pageOf): the server preloads its code (functions/js/seo/ssr.js, from the
@@ -129,6 +161,8 @@ export async function render({ url, raw, maps, assets, covers, caveReports, titl
   return {
     html,
     styles,
+    // Resource hints for the page's <head> (functions/js/seo/shared.js).
+    preloads: coverPreload(page, queries, hostname),
     status: context.statusCode,
     // How long each part took (ms), for the function's logs.
     timings: { data: Math.round(dataReady - started), render: Math.round(rendered - renderStarted), check: Math.round(checked - rendered), styles: Math.round(performance.now() - checked) },

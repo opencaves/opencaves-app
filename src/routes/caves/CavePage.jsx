@@ -45,7 +45,9 @@ import Address from '@/components/ResultPane/Address.jsx'
 import { nameTranslationLines } from '@/utils/nameTranslations.js'
 
 // The cover photo, under the heading (cover: CavePage's useCoverImage).
-// Its box keeps the photo's 16:9 shape while it downloads.
+// Its box keeps the photo's 16:9 shape while it downloads. The page's
+// largest paint: fetched first (fetchPriority), never lazily - and preloaded
+// by the page the server rendered (entry-server.jsx's coverPreload).
 function CaveCover({ cover }) {
   const sources = useMemo(() => (cover ? cover.data().getSources('coverImage') : null), [cover])
   if (!sources) return null
@@ -53,7 +55,7 @@ function CaveCover({ cover }) {
     // Its column's full width (an aspect-ratio box isn't stretched in a grid),
     // its height capped: a wide screen's photo is cropped, not narrowed.
     <Box className="oc-cave-page--cover" sx={{ width: '100%', borderRadius: 3, overflow: 'hidden', aspectRatio: '16 / 9', maxHeight: 480, bgcolor: 'action.hover' }}>
-      <Picture sources={sources} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      <Picture sources={sources} alt="" fetchPriority="high" loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
     </Box>
   )
 }

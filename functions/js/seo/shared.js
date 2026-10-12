@@ -206,13 +206,14 @@ const scriptJson = (value) => JSON.stringify(value).replace(/[<\u2028\u2029]/g, 
  *
  * @param {string} shell
  * @param {object} page
- * @param {{html: string, styles: string, ssr: object}} rendered
+ * @param {{html: string, styles: string, ssr: object, preloads?: string}} rendered - preloads: its
+ *   own resource hints (a cave's cover photo: src/entry-server.jsx's coverPreload), first.
  * @param {string} links
  * @returns {string}
  */
-export function renderSsrPage(shell, page, { html, styles, ssr }, links) {
+export function renderSsrPage(shell, page, { html, styles, ssr, preloads = '' }, links) {
   const { head } = pageHead(page, { withStructuredData: true })
-  return withHead(shell, `${head}\n  ${links}\n  ${styles}`)
+  return withHead(shell, `${head}\n  ${preloads}\n  ${links}\n  ${styles}`)
     .replace(/<html([^>]*)>/i, (_, attributes) => `<html${attributes} data-oc-ssr>`)
     .replace('<div id="root"></div>', () => `<div id="root">${html}</div>\n  <script>window.__OC_SSR__ = ${scriptJson(ssr)}</script>`)
 }
