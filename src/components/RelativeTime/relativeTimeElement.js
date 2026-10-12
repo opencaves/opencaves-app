@@ -9,7 +9,8 @@
 //
 // Its exact date and time:
 // - for screen readers, visually hidden text after the relative one,
-//   shorter (no weekday), and none once the date itself is shown;
+//   shorter (no weekday); once the date itself is shown, its time alone
+//   ("Jul 14 (6:09 AM)");
 // - for everyone else, a tooltip (part="tooltip", aria-hidden: screen
 //   readers have the text above) on mouse hover (after a short delay,
 //   shorter while tooltips are being browsed) and on keyboard focus (at
@@ -129,6 +130,16 @@ function formatRelativeTime(date, language, now = Date.now()) {
  * @returns {string}
  */
 const formatExactTime = (date, language, dateStyle = 'full') => new Intl.DateTimeFormat(language, { dateStyle, timeStyle: 'short' }).format(date)
+
+/**
+ * The time of day alone ("6:09 AM"): what screen readers lack once the date
+ * itself is shown.
+ *
+ * @param {Date} date
+ * @param {string} language
+ * @returns {string}
+ */
+const formatTimeOfDay = (date, language) => new Intl.DateTimeFormat(language, { timeStyle: 'short' }).format(date)
 
 // Sets `element`'s `name` attribute to `value` (removes it for null), only
 // when it changes: an unchanged write would still fire mutation and
@@ -406,8 +417,8 @@ function createElementClass() {
       setAttribute(this.timeElement, 'lang', language ?? null)
       setAttribute(this.tooltip, 'lang', language ?? null)
       setText(this.relativeText, formatRelativeTime(date, language, now))
-      // No exact text once the date itself is shown.
-      setText(this.exactText, Math.abs(now - time) >= DATE_AFTER ? '' : ` (${formatExactTime(date, language, 'long')})`)
+      // Once the date itself is shown, its time alone.
+      setText(this.exactText, ` (${Math.abs(now - time) >= DATE_AFTER ? formatTimeOfDay(date, language) : formatExactTime(date, language, 'long')})`)
       setText(this.tooltip, formatExactTime(date, language))
       this.positionTooltip()
     }
