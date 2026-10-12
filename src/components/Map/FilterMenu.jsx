@@ -5,7 +5,7 @@ import { Box, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, Li
 import { useTheme } from '@mui/material/styles'
 import Close from '@mui/icons-material/CloseRounded'
 import { toggleFilterMenu, setResultPaneSmOpen } from '@/redux/slices/appSlice.jsx'
-import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
+import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedCoordinates, setShowCenoteEntrances, setShowOtherCenotes, setShowAreas, setShowAccesses, setShowAccessibilities } from '@/redux/slices/searchSlice.jsx'
 import { useSmall } from '@/hooks/useSmall.jsx'
 import './FilterMenu.scss'
 
@@ -222,7 +222,7 @@ export default function MapFilterMenu() {
       }
       return area
     })
-    dispatch(setShowAccesses(newAreas))
+    dispatch(setShowAreas(newAreas))
   }
 
   function handleShowAccessibilities(checked, accessKey) {

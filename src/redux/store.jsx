@@ -24,11 +24,19 @@ const rootMigrations = {
   // The cave layer is off by default now: off again for everyone who had it
   // on only because it used to be on by default.
   1: (state) => (state?.caveLayer ? { ...state, caveLayer: { ...state.caveLayer, visible: false } } : state),
+  // The map's area switches wrote their list into the access filter's: the
+  // access list back to its own (every access shown) where that happened.
+  2: (state) => {
+    const initial = searchReducer(undefined, { type: '@@oc/init' }).showAccesses
+    const keys = new Set(initial.map(({ key }) => key))
+    const accesses = state?.search?.showAccesses
+    return Array.isArray(accesses) && accesses.some(({ key }) => !keys.has(key)) ? { ...state, search: { ...state.search, showAccesses: initial } } : state
+  },
 }
 
 const rootPersistConfig = {
   key: 'root',
-  version: 1,
+  version: 2,
   storage: persistStorage,
   blacklist: ['navigation', 'map', 'app', 'session'],
   migrate: createMigrate(rootMigrations, { debug: false }),
