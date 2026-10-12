@@ -100,12 +100,12 @@ export default function NavDrawer({ open, onClose, zIndex }) {
                 {APP_TITLE}
               </Typography>
             </Box>
-            <IconButton onClick={onClose} aria-label={t('close')} sx={{ p: 1.5 }}>
+            <IconButton className="oc-nav-drawer--close" onClick={onClose} aria-label={t('close')} sx={{ p: 1.5 }}>
               <CloseRounded />
             </IconButton>
           </Box>
           <Divider />
-          <List>
+          <List className="oc-nav-drawer--list">
             {items.map(({ key, to, icon, onClick }) => (
               <Fragment key={key}>
                 {(key === dashboardItem.key || key === aboutItem.key) && <Divider component="li" role="none" sx={{ my: 1 }} />}

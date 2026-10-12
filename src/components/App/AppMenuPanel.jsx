@@ -90,7 +90,7 @@ export default function AppMenuPanel({ onClose, titleId }) {
   return (
     <Box className="oc-app-menu-panel" sx={{ width: 'min(360px, calc(100vw - 16px))', p: 1, pb: 1.5 }}>
       <Box sx={{ position: 'relative', textAlign: 'center', px: 2, pt: 1.5, pb: 2 }}>
-        <IconButton aria-label={t('close')} onClick={onClose} sx={{ position: 'absolute', top: 4, right: 4 }}>
+        <IconButton className="oc-app-menu-panel--close" aria-label={t('close')} onClick={onClose} sx={{ position: 'absolute', top: 4, right: 4 }}>
           <CloseRounded />
         </IconButton>
 

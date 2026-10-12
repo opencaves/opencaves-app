@@ -244,7 +244,7 @@ export default function QuickActions({ cave }) {
                   </QuickActionsItem>
                 )}
                 <QuickActionsItem>
-                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={saveIcon} className="oc-quick-actions--btn" onClick={handleSaveClick}>
+                  <Button aria-label={saveLabel} aria-pressed={saved} color="primary" variant="outlined" startIcon={saveIcon} className="oc-quick-actions--btn oc-quick-actions--save" onClick={handleSaveClick}>
                     {saveLabel}
                   </Button>
                 </QuickActionsItem>
@@ -290,7 +290,7 @@ export default function QuickActions({ cave }) {
             )}
             <Grid size="grow" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container sx={{ justifyContent: 'center' }}>
-                <ButtonLg id="save-btn" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick}>
+                <ButtonLg id="save-btn" className="oc-quick-actions--save" aria-label={saveLabel} aria-pressed={saved} onClick={handleSaveClick}>
                   <Grid container sx={{ flexDirection: 'column' }}>
                     <Grid>
                       <IconLg>
