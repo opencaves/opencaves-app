@@ -9,6 +9,10 @@ import { setShowValidCoordinates, setShowInvalidCoordinates, setShowUnconfirmedC
 import { useSmall } from '@/hooks/useSmall.jsx'
 import { slugify } from '@/utils/slug.js'
 import { MISSING_CRITERIA, caveFacts, caveMisses } from '@/utils/caveFilters.js'
+
+// The criteria the map has its own section for (Coordinates): left out of
+// Needs help - it shows only located caves, their validity in that section.
+const MAP_OWN_CRITERIA = ['coordinates', 'position']
 import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import './FilterMenu.scss'
 
@@ -270,7 +274,7 @@ export default function MapFilterMenu() {
   // covers are read.
   const missingItems = useMemo(() => {
     const facts = mapData.map((cave) => caveFacts(cave))
-    return MISSING_CRITERIA.filter(({ value }) => value !== 'coordinates').map(({ value }) => ({ value, count: value === 'photo' && !covers ? '' : facts.filter((item) => caveMisses(item, value, covers)).length }))
+    return MISSING_CRITERIA.filter(({ value }) => !MAP_OWN_CRITERIA.includes(value)).map(({ value }) => ({ value, count: value === 'photo' && !covers ? '' : facts.filter((item) => caveMisses(item, value, covers)).length }))
   }, [mapData, covers])
 
   return (
