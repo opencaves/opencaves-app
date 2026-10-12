@@ -1870,10 +1870,6 @@
     "contribute": {
       "title": "Contribute",
       "sub": "With a free account: sign up with your email, Google or Microsoft.",
-      "save": {
-        "title": "Save your caves",
-        "text": "Keep the caves you want to dive, even offline."
-      },
       "rate": {
         "title": "Rate your dives",
         "text": "Give the caves you dived 1 to 5 stars. Your rating stays private; only the average shows."

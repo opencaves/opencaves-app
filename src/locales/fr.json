@@ -1869,10 +1869,6 @@
     "contribute": {
       "title": "Contribuer",
       "sub": "Avec un compte gratuit : inscrivez-vous avec votre courriel, Google ou Microsoft.",
-      "save": {
-        "title": "Enregistrer vos grottes",
-        "text": "Gardez les grottes où vous voulez plonger, même hors ligne."
-      },
       "rate": {
         "title": "Noter vos plongées",
         "text": "Donnez de 1 à 5 étoiles aux grottes où vous avez plongé. Votre note reste privée ; seule la moyenne est affichée."
