@@ -17,6 +17,9 @@ export const FROZEN_USERS_COLL_NAME = '_frozenUsers'
 export const RATINGS_COLL_NAME = 'ratings'
 // Each cave's ratings summary (average, count), public.
 export const CAVE_RATINGS_COLL_NAME = '_caveRatings'
+// The errors the app's "Something went wrong" page showed (written by the
+// browser, src/utils/errorReports.js; read by admins).
+export const ERROR_REPORTS_COLL_NAME = '_errorReports'
 // What's new, built by the server (refreshWhatsNew) into one public document
 // the page reads.
 export const WHATS_NEW_COLL_NAME = '_whatsNew'

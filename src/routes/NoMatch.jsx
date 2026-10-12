@@ -12,6 +12,7 @@ import { Button } from '@mui/material'
 import { useOnline } from '@/hooks/useOnline.jsx'
 import { removeShell } from '@/utils/shell.js'
 import { isFirestoreFailure, recoverFromFirestoreFailure } from '@/utils/firestoreRecovery.js'
+import { reportError } from '@/utils/errorReports.js'
 import './NoMatch.scss'
 
 // The catch-all route's page, and every route's errorElement: a page that
@@ -96,6 +97,12 @@ export default function NoMatch({ inLayout = false }) {
   useEffect(() => {
     if (error && !notFound) console.error(error)
   }, [error, notFound])
+
+  // Something went wrong (not a missing page, not offline): a digest of the
+  // error for the team (_errorReports).
+  useEffect(() => {
+    if (kind === 'failed') reportError(error)
+  }, [kind, error])
 
   // Firestore failed inside (its SDK's bug): recovered with a reload; once
   // the automatic steps are spent, the button reloads too - loading the
