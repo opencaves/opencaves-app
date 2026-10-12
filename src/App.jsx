@@ -34,6 +34,7 @@ import '@fontsource/roboto/latin-700.css'
 import './theme/variables.scss'
 
 import './App.scss'
+import './pageTransitions.scss'
 
 // (Not on the server, which renders the public pages: entry-server.jsx.)
 if (typeof document !== 'undefined') {
