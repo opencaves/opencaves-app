@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import Scrollbars from '@/components/Scrollbars/Scrollbars.jsx'
 import { centerFocused, leaveOnArrow, scrollStrip, snapOnSettle } from '@/utils/mediaStrip.js'
 import { SCROLLBAR_TRACK_HEIGHT } from '@/config/app.js'
+import { useHydrated } from '@/hooks/useHydrated.js'
 
 // The strip wrapped around a vertical cylinder, its axis at the middle of
 // the strip's visible area: the items bend away on its surface, out of sight
@@ -22,7 +23,8 @@ const CYLINDER = {
   flat: 0.4,
   radius: 100,
 }
-// The flat strip for reduced motion.
+// The flat strip for reduced motion. Browser only: effects and handlers
+// call it; rendering goes through useHydrated (the server has no window).
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 // A wheel notch's scroll (px; Chrome's is 100, times the display's scaling):
 // what moves the cylinder a column.
@@ -97,13 +99,17 @@ export default function MediaStrip({ itemHeight, height = itemHeight, gap = 0, r
   const stageRef = useRef(null)
   const trackRef = useRef(null)
   const cylinderOn = () => cylinder && !reducedMotion()
+  // While rendering: the server's (and hydration's) cylinder, motion allowed,
+  // then the browser's setting.
+  const hydrated = useHydrated()
+  const renderCylinder = cylinder && !(hydrated && reducedMotion())
   const rowHeight = typeof height === 'number' ? `${height}px` : height
   // Above and below the strip: room for the zoomed cylinder - the items'
   // own height's (a CSS length when they're sized by CSS: smaller on a
   // phone), not the largest's.
   // A filling strip (a page's): the gap between its items above and below
   // too, so the zoomed front isn't flush with its band.
-  const zoomShare = cylinderOn() ? (zoom - 1) / 2 : 0
+  const zoomShare = renderCylinder ? (zoom - 1) / 2 : 0
   const margin = fill ? gap : 0
   const zoomRoom = `calc(${rowHeight} * ${zoomShare} + ${margin}px)`
   const zoomRoomMax = Math.ceil(itemHeight * zoomShare) + margin
