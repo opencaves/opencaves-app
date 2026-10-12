@@ -120,7 +120,7 @@ export default function EditCaveFab() {
       onMouseEnter={() => clearTimeout(closeTimer.current)}
       sx={(theme) => ({
         position: 'absolute',
-        // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, Map.scss:
+        // MD3's FAB-to-edge margin (--oc-map-control-edge-margin, theme/variables.scss:
         // 16dp on phones, 24dp from 600px), as the geolocate control's, so
         // the two align on the same right edge.
         right: 'var(--oc-map-control-edge-margin)',

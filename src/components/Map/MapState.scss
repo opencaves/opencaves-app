@@ -21,9 +21,11 @@
 }
 
 .oc-map-loading {
-  // The satellite map's average tone (green-grey: it's the same map in both
-  // schemes), so the loading page is already most of the way to the map.
-  --oc-map-loading-tone: #3f4f36;
+  // The other pages' splash (index.html's oc-shell--page): their surface,
+  // the mark a step darker in its tone (M3's surface container highest), the
+  // dots in the primary colour.
+  --oc-map-loading-tone: var(--mui-palette-background-default);
+  --oc-map-loading-mark: #dedad8;
   --oc-map-loading-paper: var(--mui-palette-background-paper);
   // MUI's Skeleton colour, and the dividers'.
   --oc-map-loading-bone: rgba(0, 0, 0, 0.11);
@@ -34,6 +36,7 @@
 
   [data-mui-color-scheme='dark'] & {
     --oc-map-loading-bone: rgba(255, 255, 255, 0.13);
+    --oc-map-loading-mark: #302f33;
   }
 
   position: absolute;
@@ -41,17 +44,53 @@
   overflow: hidden;
   background: var(--oc-map-loading-tone);
 
-  // Small, in the middle of the map's visible part.
-  &--spinner {
+  // The splash, in the map's visible part (beside or above the pane).
+  &--splash {
     position: absolute;
-    left: calc(50% - 24px);
-    top: calc(50% - 12px);
-    width: 48px;
-    height: 24px;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    max-width: calc(100% - 6rem);
+  }
+
+  &--logo {
+    width: 35%;
+    margin-bottom: 1rem;
+    fill: var(--oc-map-loading-mark);
+
+    .p1,
+    .p2 {
+      opacity: 0.45;
+    }
+  }
+
+  // The app's name under the mark (not --title: the pane's title bone).
+  &--brand {
+    font: 600 min(6rem, 10vmin) / 1 Hero, Helvetica, Arial, sans-serif;
+    color: var(--oc-map-loading-mark);
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &--spinner {
+    margin-top: 3rem;
+    display: inline-block;
+    position: relative;
+    width: 16.6667%;
+    aspect-ratio: 2;
   }
 
   &--spinner-dot {
-    fill: rgba(255, 255, 255, 0.85);
+    fill: var(--mui-palette-primary-main);
     position: absolute;
     top: 0;
     left: 0;
@@ -108,8 +147,8 @@
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
   }
 
-  &--with-pane &--spinner {
-    left: calc(50% + 200px - 24px);
+  &--with-pane &--splash {
+    left: 400px; // PANE_WIDTH
   }
 
   // The no-photo cover's colour (CoverImage).
@@ -222,9 +261,9 @@
       bottom: calc(var(--oc-map-loading-sheet) + 32px);
     }
 
-    &--with-pane &--spinner {
-      left: calc(50% - 24px);
-      top: calc((100% - var(--oc-map-loading-sheet)) / 2 - 12px);
+    &--with-pane &--splash {
+      left: 0;
+      bottom: var(--oc-map-loading-sheet);
     }
 
     &--pane {

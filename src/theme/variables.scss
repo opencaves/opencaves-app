@@ -26,6 +26,17 @@ http://ionicframework.com/docs/theming/ */
   --oc-map-control-background: var(--mui-palette-background-paper);
   --oc-map-control-hover-background: var(--mui-sys-color-surfaceContainerHigh);
   --oc-map-control-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  // MD3's FAB-to-edge margin: 16dp on phones (compact width), 24dp from
+  // 600px. Every control in the map's right-hand column uses it (the
+  // geolocate button, EditCaveFab, the legend, the account and cave-layer
+  // buttons, and the map's loading screen's: here, not with the map's
+  // styles, so that screen has it before the map has loaded), so they stay
+  // aligned; stacked FABs are 16dp apart.
+  --oc-map-control-edge-margin: 16px;
+
+  @media (min-width: 600px) {
+    --oc-map-control-edge-margin: 24px;
+  }
   --oc-icon-color-secondary: #666666;
   --oc-text-color-secondary: #444;
   --oc-marker-selected-color: #7faef5;
