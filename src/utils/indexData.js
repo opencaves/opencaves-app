@@ -5,7 +5,20 @@ import { slugify } from './slug.js'
 // functions/js/seo/indexData.js (the same pages rendered for search engines):
 // keep the two grouping things the same way.
 
-const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+// Names in alphabetical order, case and accents aside. One collator for
+// every comparison: localeCompare with options builds a new one each call
+// (thousands per sort of the caves).
+const nameCollator = new Intl.Collator('en', { sensitivity: 'base' })
+
+/**
+ * Two records by their name, alphabetically, case and accents aside (for
+ * sort).
+ *
+ * @param {{name: string}} a
+ * @param {{name: string}} b
+ * @returns {number}
+ */
+export const byName = (a, b) => nameCollator.compare(a.name, b.name)
 
 /**
  * Every public sistema's address segment by id - its id, as a cave's
