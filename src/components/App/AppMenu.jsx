@@ -54,7 +54,10 @@ export default function AppMenu({ sx, logoColorScheme, logoSx, avatarSx, classNa
               aria-hidden: the button's name says it. */}
           <Badge
             className="oc-app-menu--badge"
-            badgeContent={newFeedback}
+            // None at 0 (not a hidden "0"): the button's only visible text
+            // would be "0", which its name ("More") doesn't contain - WCAG
+            // 2.5.3, Lighthouse's label-content-name-mismatch.
+            badgeContent={newFeedback || null}
             max={99}
             color="secondary"
             overlap="circular"
