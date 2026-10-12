@@ -46,7 +46,7 @@ export const ROUTE_MODULES = {
  * @param {{id: string, data: CaveMap}[]} options.maps - The maps collection ([{ id, data }]).
  * @param {{id: string, data: object}[]} options.assets - The page's cave's photos ([{ id, data }]).
  * @param {{id: string, data: object}[]} [options.covers] - The cover photos ([{ id, data }]): /caves' No photo filter.
- * @param {CavePopularity|null} [options.popularity] - _cavePopularity/latest's data (null: none): /caves
+ * @param {Popularity|null} [options.popularity] - _popularity/caves' data (null: none): /caves
  *   ranked by usefulness (a Needs help filter).
  * @param {string} options.title - The page's <title> (the server's, functions/js/seo), the app's own title
  *   (App's Helmet) until the page sets it.

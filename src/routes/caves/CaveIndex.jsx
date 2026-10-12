@@ -7,7 +7,7 @@ import { useIndexData } from '@/hooks/useIndexData.jsx'
 import { groupByArea } from '@/utils/indexData.js'
 import { slugify } from '@/utils/slug.js'
 import { rankCaves, sistemaReach } from '@/utils/caveRank.js'
-import { useCavePopularity } from '@/hooks/useCavePopularity.js'
+import { usePopularity } from '@/hooks/usePopularity.js'
 import { MISSING_CRITERIA, TYPE_VALUES, UNKNOWN_VALUE, caveFiltersParams, caveValue, emptyCaveFilters, matchesCaveFilters, noCaveFilters, parseCaveFilters, sameCaveFilterParams, withCaveFilter } from '@/utils/caveFilters.js'
 import { useCoverCaveIds } from '@/models/CaveAsset.js'
 import CaveFilterBar from './CaveFilterBar.jsx'
@@ -89,7 +89,7 @@ export default function CaveIndex() {
   // popularity and their covers (how much each misses) are known - the
   // server's page has them too.
   const ranked = filters.missing.length > 0
-  const { popularity, loading: popularityLoading } = useCavePopularity(ranked)
+  const { popularity, loading: popularityLoading } = usePopularity('caves', ranked)
   const rankPending = ranked && (popularityLoading || (!covers && !coversError))
 
   // Every cave's row, and its search text (its name and other names, its

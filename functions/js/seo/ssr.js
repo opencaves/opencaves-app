@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { logger } from 'firebase-functions/v2'
 import { db } from '../init.js'
-import { CAVE_POPULARITY_COLL_NAME, CAVE_POPULARITY_DOC_ID, CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME } from '../constants.js'
+import { CAVES_ASSETS_COLL_NAME, CAVES_COLL_NAME, POPULARITY_COLL_NAME } from '../constants.js'
 import { renderSsrPage, shellFor } from './shared.js'
 import { groupIndexData } from './indexData.js'
 
@@ -104,10 +104,11 @@ async function readData() {
     // The cover photos (one per cave that has photos): which caves have
     // none, /caves' No photo filter (src/ssr/pageState.js keeps their caveId).
     db.collection(CAVES_ASSETS_COLL_NAME).where('type', '==', 'image').where('isCover', '==', true).get(),
-    // The caves' popularity (refreshCavePopularity): /caves ranked by
-    // usefulness (a Needs help filter). Null when there's none - or it can't
-    // be read: ranked without it, as the browser would.
-    db.collection(CAVE_POPULARITY_COLL_NAME).doc(CAVE_POPULARITY_DOC_ID).get()
+    // The caves' popularity (_popularity/caves, refreshPopularity): /caves
+    // ranked by usefulness (a Needs help filter) - the only page that needs
+    // one. Null when there's none - or it can't be read: ranked without it,
+    // as the browser would.
+    db.collection(POPULARITY_COLL_NAME).doc('caves').get()
       .then((doc) => (doc.exists ? plain(doc.data()) : null))
       .catch((error) => {
         logger.warn("[ssr] the caves' popularity not read", { message: error?.message })

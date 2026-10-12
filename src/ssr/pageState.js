@@ -17,7 +17,7 @@ import { compactCaveFacts } from '@/utils/caveFilters.js'
 //     which caves have a cover photo (the covers query); ranked (a Needs help
 //     filter, utils/caveRank.js), also the systems' lengths, the systems
 //     they joined and the connections between them, and the caves'
-//     popularity (the popularity query: their views and saves);
+//     popularity (the popularity:caves query: their views and saves);
 //   /sistemas: every public system's name, area and colour;
 //   /caves/<id>: the cave, its system and the systems that one joined, in
 //     full, their connections, the small reference collections;
@@ -118,7 +118,7 @@ export function fullPageData(raw) {
  * @param {{id: string, data: object}[]} [sources.covers] - The cover photos outside the trash ([{ id, data }]):
  *   the caves' list's (its No photo filter), sent with their caveId only. Not given (an older server):
  *   the browser reads them.
- * @param {CavePopularity|null} [sources.popularity] - _cavePopularity/latest's data (null: none): the
+ * @param {Popularity|null} [sources.popularity] - _popularity/caves' data (null: none): the
  *   caves' list ranked's, sent with the existing caves' views and saves only. Not given: the browser
  *   reads it.
  * @param {boolean} [sources.ranked=false] - The caves' list is ranked (/caves with a Needs help filter).
@@ -177,11 +177,11 @@ export function buildPageState(page, { raw, maps = [], assets = [], covers, popu
   if (page.kind === 'caves' && covers) {
     queries.covers = covers.filter(({ data: asset }) => !isTrashed(asset)).map(({ id, data: asset }) => ({ id, data: { caveId: asset.caveId } }))
   }
-  // The caves' popularity (useCavePopularity), the existing caves' only.
+  // The caves' popularity (usePopularity), the existing caves' only.
   if (page.kind === 'caves' && ranked && popularity !== undefined) {
     const ids = new Set(all.caves.map(({ id }) => id))
     const counts = (record) => Object.fromEntries(Object.entries(record || {}).filter(([id, count]) => ids.has(id) && count > 0))
-    queries.popularity = popularity ? [{ id: 'latest', data: { views: counts(popularity.views), saves: counts(popularity.saves) } }] : []
+    queries['popularity:caves'] = popularity ? [{ id: 'caves', data: { views: counts(popularity.views), saves: counts(popularity.saves) } }] : []
   }
   if (cave) {
     const images = assets.filter(({ data: asset }) => asset.caveId === cave.id && asset.type === 'image')

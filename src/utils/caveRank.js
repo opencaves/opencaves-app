@@ -7,7 +7,7 @@ import { MISSING_CRITERIA } from './caveFilters.js'
 // order of importance (the user's, 2026-10-12):
 //   1. popularity: its pages' views (Google Analytics, /caves/<id> and
 //      /map/<id>, the last 90 days) plus SAVE_WEIGHT views per account that
-//      saved it (_cavePopularity/latest, refreshCavePopularity);
+//      saved it (_popularity/caves, refreshPopularity);
 //   2. a cenote entrance into its system (cenoteEntrance);
 //   3. open access: open to anyone (OPEN_ACCESSES);
 //   4. part of a major system: the longest explored length (exploredLength,
@@ -77,7 +77,7 @@ export function sistemaReach(sistemasById, links) {
  *
  * @param {CaveFacts & {sistemaId?: string|null}} facts - utils/caveFilters.js' (an index item).
  * @param {object} context
- * @param {CavePopularity|null} [context.popularity] - None: the ranking starts at the entrances.
+ * @param {Popularity|null} [context.popularity] - None: the ranking starts at the entrances.
  * @param {(sistemaId: string|null) => number} context.reachOf - {@link sistemaReach}'s.
  * @param {Set<string>|null} context.covers - The caves with a cover photo.
  * @returns {{popularity: number, entrance: boolean, openAccess: boolean, reach: number, missing: number, confirmed: boolean}}
@@ -106,7 +106,7 @@ function rankKey(signals, positionShown) {
  * @template {CaveFacts & {sistemaId?: string|null}} T
  * @param {T[]} caves - utils/indexData.js' items.
  * @param {object} context - As {@link rankSignals}'s, and:
- * @param {CavePopularity|null} [context.popularity]
+ * @param {Popularity|null} [context.popularity]
  * @param {(sistemaId: string|null) => number} context.reachOf
  * @param {Set<string>|null} context.covers
  * @param {string[]} [context.missing=[]] - The list's Needs help filter (?missing=): position among them,

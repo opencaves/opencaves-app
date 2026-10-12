@@ -124,11 +124,12 @@
  */
 
 /**
- * How popular each cave is (`_cavePopularity/latest`, refreshCavePopularity):
- * public, by cave id.
+ * How popular the records of a kind are (`_popularity/caves`,
+ * `_popularity/sistemas`; refreshPopularity): public, by record id.
  *
- * @typedef {object} CavePopularity
- * @property {Record<string, number>} views - Its pages' views (/caves/<id>, /map/<id>) in Google Analytics, the last 90 days.
- * @property {Record<string, number>} saves - How many accounts saved it.
+ * @typedef {object} Popularity
+ * @property {Record<string, number>} views - Its pages' views in Google Analytics, the last 90 days (a
+ *   cave: /caves/<id> and /map/<id>; a system: /sistemas/<id>).
+ * @property {Record<string, number>} [saves] - Caves: how many accounts saved it.
  * @property {Timestamp} updatedAt
  */

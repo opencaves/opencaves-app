@@ -184,9 +184,10 @@ service cloud.firestore {
       allow read: if true
     }
 
-    // How popular each cave is (page views, saves), built by the server
-    // (refreshCavePopularity): public, written by it only.
-    match /_cavePopularity/{document} {
+    // How popular the caves and the systems are (page views, a cave's
+    // saves), one document per kind, built by the server
+    // (refreshPopularity): public, written by it only.
+    match /_popularity/{kind} {
       allow read: if true
     }
 
