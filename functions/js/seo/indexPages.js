@@ -4,6 +4,7 @@ import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta } from './cavePage.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
 import { decodeSegment, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
+import { answerWarmPing, isWarmPing } from './keepWarm.js'
 
 // The public pages rendered on the server for search engines and a fast
 // first paint: / (the landing page), /caves (every cave by area, each area's
@@ -181,6 +182,13 @@ async function notFoundShell(req) {
  * (ssr.js) - more than the default 256.
  */
 export const indexPages = onRequest({ region: REGION, memory: '512MiB' }, async (req, res) => {
+  // keepPagesWarm's ping: the server build loaded (once per instance, no
+  // read), nothing rendered.
+  if (isWarmPing(req)) {
+    await loadSsr().catch((error) => logger.warn('[indexPages] server build not loaded', { error: error.message }))
+    answerWarmPing(res)
+    return
+  }
   try {
     const data = await loadPageIndex()
     const page = pageFor(req.path, data)
