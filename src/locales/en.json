@@ -1603,7 +1603,7 @@
   "appBarSearch": {
     "placeholder": "Search caves and systems",
     "open": "Search",
-    "close": "Close the search",
+    "clear": "Clear the search",
     "none": "No cave or system matches.",
     "hint": "Type a name",
     "groups": {
