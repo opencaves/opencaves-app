@@ -21,15 +21,31 @@ function OfflinePlaceholder({ className, style }) {
  * worker caches it at its real size; one that couldn't load offline shows a
  * cloud icon instead.
  *
- * @param {import('react').ImgHTMLAttributes<HTMLImageElement> & { sources?: { srcSet?: string, media?: string, type?: string }[] }} props - The
- *   <img>'s, and the <picture>'s `sources`.
+ * With `afterLoad`, its sources are left out until the page has loaded (its
+ * load event): a picture further down doesn't compete with the page's main
+ * image for the network - the same on the server as in the browser's first
+ * render (the page is hydrated).
+ *
+ * @param {import('react').ImgHTMLAttributes<HTMLImageElement> & { sources?: { srcSet?: string, media?: string, type?: string }[], afterLoad?: boolean }} props - The
+ *   <img>'s, the <picture>'s `sources`, and `afterLoad`.
  */
-export default function Picture({ sources, ...props }) {
+export default function Picture({ sources, afterLoad = false, ...props }) {
   const online = useOnline()
   const [missingOffline, setMissingOffline] = useState(false)
+  const [pageLoaded, setPageLoaded] = useState(!afterLoad)
   useEffect(() => {
     if (online) setMissingOffline(false)
   }, [online])
+  useEffect(() => {
+    if (pageLoaded) return undefined
+    if (document.readyState === 'complete') {
+      setPageLoaded(true)
+      return undefined
+    }
+    const loaded = () => setPageLoaded(true)
+    window.addEventListener('load', loaded, { once: true })
+    return () => window.removeEventListener('load', loaded)
+  }, [pageLoaded])
 
   function renderSources() {
     if (sources == null) {
@@ -41,7 +57,8 @@ export default function Picture({ sources, ...props }) {
         return null
       }
 
-      return <source key={`sources-${index}`} srcSet={srcSet} media={media} type={type} />
+      // Not yet (afterLoad): the source without its images.
+      return <source key={`sources-${index}`} srcSet={pageLoaded ? srcSet : undefined} media={media} type={type} />
     })
 
     return mappedSources

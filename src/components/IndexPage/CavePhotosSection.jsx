@@ -55,7 +55,8 @@ export default function CavePhotosSection({ caveId, title }) {
         {/* Its tint on the picture, not the box: on the cylinder the box is
             over the photo's slices (its picture hidden), a tint there would
             cover them. */}
-        <Picture sources={photo.getSources('resultThumbnail')} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
+        {/* Loaded after the page (afterLoad): not competing with the cover. */}
+        <Picture sources={photo.getSources('resultThumbnail')} afterLoad alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', backgroundColor: 'var(--mui-palette-action-hover)' }} />
       </ButtonBase>
       {/* Admins: its menu (cover, delete), as the videos'. */}
       <PhotoItemMenu mediaAsset={photo} variant="card" />
