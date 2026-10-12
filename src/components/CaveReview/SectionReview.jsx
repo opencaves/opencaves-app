@@ -18,11 +18,10 @@ const monthDate = (month) => new Date(Date.UTC(Number(month.slice(0, 4)), Number
  * Under one of a cave's sections (config/caveReview.js' REVIEW_SECTIONS), on
  * its page and in the map's pane: how old its information is - "Confirmed
  * Oct 2026", "Last confirmed in 2024" past two years, "Not confirmed yet" -
- * under its Still accurate button (a check once confirmed, a warning sign
- * until then or past two years; "Still accurate?" while never confirmed): an
- * editor stamps the section with this
- * month (Cave.reviewed, through the audit log like any edit: What's new);
- * anyone else is asked to sign in. (A change is reported from the cave's
+ * under its Still accurate button (a check once confirmed; a warning sign
+ * and "Still accurate?" until then or past two years): an editor stamps the
+ * section with this month (Cave.reviewed, through the audit log like any
+ * edit: What's new); anyone else is asked to sign in. (A change is reported from the cave's
  * Report a change button, CaveReportButton.) The same on the server as in
  * the browser (the page is hydrated): roles only matter on a click.
  *
@@ -75,7 +74,7 @@ export default function SectionReview({ cave, section, sx }) {
   return (
     <Box className={`oc-section-review oc-section-review--${section}`} sx={[{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 1 }, ...(Array.isArray(sx) ? sx : [sx])]}>
       <Button className="oc-section-review--confirm" size="small" startIcon={state === 'recent' ? <CheckRounded /> : <WarningAmberRounded />} onClick={confirm} disabled={saving} aria-label={t('stillAccurateLabel', { section: sectionName })} sx={{ textTransform: 'none', borderRadius: 5, px: 1.25, ml: -1.25 }}>
-        {state === 'never' ? t('stillAccurateQuestion') : t('stillAccurate')}
+        {state === 'recent' ? t('stillAccurate') : t('stillAccurateQuestion')}
       </Button>
       {/* Its age under it, in line with the button's text (the button pulled
           left by its padding, its icon by MUI's -4px: the text 18px in). */}
