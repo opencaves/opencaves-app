@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { logger } from 'firebase-functions/v2'
-import { REGION, APP_TITLE, GITHUB_URL, SITE_URL } from '../constants.js'
+import { REGION, GITHUB_URL, SITE_URL, TITLE_NAME } from '../constants.js'
 import { cavePageMeta } from './cavePage.js'
 import { loadPageIndex, loadSsr, renderWithApp } from './ssr.js'
 import { decodeSegment, plainParagraphs, renderPage, sendHtml, shellFor, truncate } from './shared.js'
@@ -41,7 +41,7 @@ function collectionJsonLd({ name, description, path }, items) {
 
 function cavesPage(data) {
   const page = {
-    title: `Caves of the Yucatán by area / ${APP_TITLE}`,
+    title: `Caves of the Yucatán by area / ${TITLE_NAME}`,
     // The app's (src/locales/en.json indexPages.caves.description), word for word.
     description: 'Every cenote of the Yucatán, Mexico, listed on OpenCaves by area, each with its location, access, pictures and maps.',
     path: '/caves',
@@ -52,7 +52,7 @@ function cavesPage(data) {
 
 function sistemasPage(data) {
   const page = {
-    title: `Cave systems of the Yucatán / ${APP_TITLE}`,
+    title: `Cave systems of the Yucatán / ${TITLE_NAME}`,
     description: 'The underwater cave systems of the Yucatán, Mexico, by area: their length, depth, connections, exploration history and cenotes, on OpenCaves.',
     path: '/sistemas',
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }],
@@ -85,7 +85,7 @@ function sistemaPage(sistema, data) {
   const path = `/sistemas/${sistema.slug}`
   const aka = Array.isArray(sistema.aka) ? sistema.aka.filter(Boolean) : []
   return {
-    title: `${sistema.name} system / ${APP_TITLE}`,
+    title: `${sistema.name} system / ${TITLE_NAME}`,
     description,
     path,
     trail: [{ name: 'Home', path: '/' }, { name: 'Cave systems', path: '/sistemas' }, { name: sistema.name, path }],
@@ -103,19 +103,24 @@ function sistemaPage(sistema, data) {
   }
 }
 
+// The site's other names (WebSite and Organization's alternateName).
+const ALTERNATE_NAMES = ['Open Caves', 'OpenCaves.org']
+
 // The landing page (/), its texts as in the English locale
 // (src/locales/en.json, "home") - keep the two in step.
 function homePage() {
   return {
-    title: `Open data for cave diving / ${APP_TITLE}`,
-    description: 'OpenCaves: caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers.',
+    // The brand first, in its two-word spelling (people search "open caves").
+    title: 'Open Caves: open data for cave diving',
+    description: 'OpenCaves (Open Caves): caves and cave systems for cave divers around the world - locations, access, survey maps, connections and exploration history, open and built by divers. Starting with the cenotes of the Yucatán.',
     path: '/',
-    // The site's name, address and publisher, for search results (schema.org).
+    // The site's name - and its other spellings, so a search for "open caves"
+    // finds it - address and publisher, for search results (schema.org).
     jsonLd: {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'OpenCaves', alternateName: 'Open Caves', url: `${SITE_URL}/`, inLanguage: 'en', description: 'Open data for cave diving: caves, cave systems and survey maps, built by divers.', publisher: { '@id': `${SITE_URL}/#organization` } },
-        { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'OpenCaves', url: `${SITE_URL}/`, logo: `${SITE_URL}/pwa/icons/android-chrome-512x512.png`, sameAs: [GITHUB_URL] },
+        { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'OpenCaves', alternateName: ALTERNATE_NAMES, url: `${SITE_URL}/`, inLanguage: 'en', description: 'Open data for cave diving: caves, cave systems and survey maps, built by divers.', publisher: { '@id': `${SITE_URL}/#organization` } },
+        { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'OpenCaves', alternateName: ALTERNATE_NAMES, url: `${SITE_URL}/`, logo: `${SITE_URL}/pwa/icons/android-chrome-512x512.png`, sameAs: [GITHUB_URL] },
       ],
     },
   }

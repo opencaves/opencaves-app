@@ -1882,7 +1882,9 @@
   },
   "home": {
     "title": "Des données ouvertes pour la plongée souterraine",
-    "description": "OpenCaves : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
+    "headTitle": "Open Caves : des données ouvertes pour la plongée souterraine",
+    "logoAlt": "Open Caves",
+    "description": "OpenCaves (Open Caves) : les grottes et réseaux pour les plongeurs souterrains du monde entier - emplacements, accès, topographies, connexions et historique d’exploration, ouverts et construits par des plongeurs. En commençant par les cénotes du Yucatán.",
     "hero": {
       "title": "Des données ouvertes pour la plongée souterraine",
       "lead": "OpenCaves rassemble ce que les plongeurs souterrains veulent savoir sur les grottes et les réseaux du monde entier : où elles sont, comment y entrer, comment elles se relient, ce que montrent les topographies. Ouvert, et construit par des plongeurs. Tout commence avec les cénotes du Yucatán.",

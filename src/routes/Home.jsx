@@ -104,7 +104,8 @@ export default function Home() {
   const [heroPhoto, ...photos] = useCoverPhotos()
   const { regions } = figures
 
-  useIndexPageHead({ title: t('title'), description: t('description') })
+  // The brand first, in its two-word spelling (people search "open caves").
+  useIndexPageHead({ title: t('headTitle'), description: t('description'), fullTitle: true })
 
   // The map's code, fetched once the page has painted: most visitors go on
   // to the map, which then opens without waiting for it.
@@ -156,8 +157,9 @@ export default function Home() {
           </picture>
         )}
         <Box className="oc-home--hero-shade" aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(110deg, rgba(4, 22, 32, 0.92) 0%, rgba(4, 22, 32, 0.7) 45%, rgba(4, 22, 32, 0.25) 100%)' }} />
-        <Box sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }} aria-hidden="true">
-          <Logo />
+        {/* The logo reads "Open Caves": its name, for screen readers and search engines. */}
+        <Box className="oc-home--logo" role="img" aria-label={t('logoAlt')} sx={{ width: { xs: 140, sm: 180 }, mb: 3, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))', '& svg': { display: 'block', width: '100%', height: 'auto' } }}>
+          <Logo aria-hidden="true" />
         </Box>
         <Typography component="h1" sx={{ typography: { xs: 'h4', sm: 'h3', md: 'h2' }, fontWeight: { xs: 500, md: 500 }, mb: 2, maxWidth: 760, textWrap: 'balance' }}>
           {t('hero.title')}

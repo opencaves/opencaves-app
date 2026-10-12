@@ -1883,7 +1883,9 @@
   },
   "home": {
     "title": "Datos abiertos para el buceo en cuevas",
-    "description": "OpenCaves: cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
+    "headTitle": "Open Caves: datos abiertos para el buceo en cuevas",
+    "logoAlt": "Open Caves",
+    "description": "OpenCaves (Open Caves): cuevas y sistemas de cuevas para buzos de cuevas de todo el mundo - ubicaciones, acceso, topografías, conexiones e historia de exploración, abiertos y hechos por buzos. Empezando por los cenotes de Yucatán.",
     "hero": {
       "title": "Datos abiertos para el buceo en cuevas",
       "lead": "OpenCaves reúne lo que los buzos de cuevas quieren saber sobre las cuevas y los sistemas de cuevas del mundo: dónde están, cómo entrar, cómo se conectan, qué muestran las topografías. Abierto, y hecho por buzos. Empieza con los cenotes de Yucatán.",
