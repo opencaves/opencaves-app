@@ -21,7 +21,7 @@ const initialState = {
   editFieldCoordinates: {}, // { [field]: { longitude, latitude } }
   // A CoordinateField's own "center the map here" action - Map.jsx flies
   // there and clears this once it has.
-  flyToCoordinateRequest: null, // { longitude, latitude, zoom?, exact? } | null (zoom: the map's own when absent; exact: not shifted for the result pane)
+  flyToCoordinateRequest: null, // { longitude, latitude } | null
   // Phone edit form's "place on map" mode (the sheet minimizes so the map
   // shows): the map pans under a fixed center cross and the result is
   // confirmed into the field (via setPickedCoordinate). PlaceOnMapOverlay
